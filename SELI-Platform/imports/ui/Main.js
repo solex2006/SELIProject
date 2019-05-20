@@ -177,7 +177,6 @@ export default class Main extends React.Component {
                                 onChange={this.handleLanguageChange('language')}
                                 input={<Input id="language-native-simple" />}
                               >
-                                <option value="" />
                                 <option value={0}>US</option>
                                 <option value={1}>ES</option>
                               </Select>
