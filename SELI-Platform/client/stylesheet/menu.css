@@ -80,6 +80,12 @@ Note: Beware of modifying this element as it can break the animations - you shou
   text-transform: uppercase;
   color: #FFF;
   margin-top: 7.5vh;
+  transition: 0.5s;
+}
+
+.menu-title:hover {
+  cursor: pointer;
+  background-color: #0D0C0D;
 }
 
 .options-container {

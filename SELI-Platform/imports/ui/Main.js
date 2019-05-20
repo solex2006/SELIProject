@@ -90,6 +90,13 @@ export default class Main extends React.Component {
       });
     }
 
+    showHome(){
+      this.setState({
+        openMenu: false,
+        courseForm: false,
+      });
+    }
+
     componentWillMount(){
 
     }
@@ -103,7 +110,7 @@ export default class Main extends React.Component {
                   outerContainerId={ "outer-container" }
                   width={ '300px' }
                   isOpen={this.state.openMenu}>
-                  <div className="menu-title">{"SELI " + this.state.traductions[this.state.language].title}</div>
+                  <div onClick={() => this.showHome()} className="menu-title">{"SELI " + this.state.traductions[this.state.language].title}</div>
                   <div className="options-container">
                     <ExpansionPanel
                       expanded={this.state.expanded === 'coursesExpansionPanel'}
