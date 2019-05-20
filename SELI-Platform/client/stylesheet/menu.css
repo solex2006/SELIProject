@@ -1,0 +1,126 @@
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #19161D;
+  transition: 0.5s;
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background: #2196f3;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #19161D;
+  font-size: 1.15em;
+  overflow-y: hidden !important;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #000;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+  outline: none;
+  user-select: none;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+#outer-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+.menu-title {
+  width: 100%;
+  height: auto;
+  font-size: 1.2em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #FFF;
+  margin-top: 7.5vh;
+}
+
+.options-container {
+  width: 100%;
+  height: auto;
+  margin-top: 5vh;
+}
+
+.MuiExpansionPanelSummary-root.Mui-expanded {
+  background-color: #19161D !important;
+  color: #FFF;
+}
+
+.MuiExpansionPanelSummary-root {
+  background-color: #19161D !important;
+  color: #FFF !important;
+}
+
+.MuiExpansionPanelDetails-root {
+  padding: 0 !important;
+  background-color: #19161D !important;
+  color: #FFF;
+}
+
+.MuiIconButton-label {
+  color: #FFF;
+}
+
+.sub-menu-option {
+  display: flex;
+  width: 300px;
+  height: auto;
+  text-indent: 2.5vw;
+  transition: 0.5s;
+  padding: 1vh 0;
+  background-color: #19161D;
+  text-decoration: none;
+  color: #FFF;
+}
+
+.sub-menu-option:hover {
+  cursor: pointer;
+  background-color: #0D0C0D;
+}

@@ -1,0 +1,110 @@
+.form-container {
+  width: 100vw;
+  height: auto;
+  animation: fadeIn 1s;
+}
+
+input {
+  outline: none;
+  border: none;
+}
+
+.form-title {
+  color: #2196f3;
+  width: 100vw;
+  height: auto;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 2em;
+  margin-top: 5vh;
+  user-select: none;
+  animation: slideInDown 1s;
+}
+
+.input-container {
+  width: 40vw;
+  position: relative;
+  left: 30vw;
+  display: flex;
+  justify-content: center;
+  margin: 2.5vh 0;
+}
+
+.multiple-input-container {
+  width: 60vw;
+  position: relative;
+  left: 20vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5vh 0;
+}
+
+.multiple-input {
+  width: 15vw;
+  position: relative;
+  margin-right: 2.5vw;
+}
+
+.input-container-image {
+  width: 40vw;
+  position: relative;
+  left: 30vw;
+  display: flex;
+  justify-content: center;
+  margin: 2.5vh 0;
+  align-items: center;
+}
+
+.input-container-select {
+  width: 40vw;
+  position: relative;
+  left: 30vw;
+  display: flex;
+  justify-content: center;
+  margin: 5vh 0;
+}
+
+#select-category {
+  width: 40vw;
+}
+
+#select-tech {
+  width: 15vw;
+}
+
+.MuiSelect-select {
+  padding-right: 0 !important;
+}
+
+.image-preview {
+  width: 360px;
+  height: 211px;
+  background-color: #e0e0e0;
+}
+
+.button-container {
+  height: 5vh;
+}
+
+.added-container {
+  width: 25vw;
+  height: 30vh;
+  background-color: #e0e0e0;
+  margin-left: 2.5vw;
+}
+
+.complete-button-container {
+  width: 40vw;
+  position: relative;
+  left: 30vw;
+  height: 10vh;
+  margin-bottom: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#create-button {
+  font-size: 1.25em;
+}

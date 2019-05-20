@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.main-container {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.main-image-container {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(bg.jpg);
+  opacity: 0.85;
+  animation: fadeInBg 4s;
+}
+
+.main-text-container {
+  width: 100%;
+  padding-top: 15%;
+  height: auto;
+  position: relative;
+  background-color: transparent;
+  left: 2.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5.75em;
+  color: #19161D;
+  user-select: none;
+  animation: bounceInUp 1s;
+}
+
+#main-text-white{
+  font-size: 0.75em;
+  position: relative;
+  top: 3vh;
+  left: -2.5vw;
+}
+
+.main-text-icon {
+  width: 17.5vh;
+  height: 17.5vh;
+  background-image: url(mortarboard-d.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: tada 1.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.75s;
+}
+
+.main-button-container {
+  width: 100%;
+  height: 7vh;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  margin-top: 2.5vh;
+  animation: zoomInDown 2s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.5s;
+  opacity: 1;
+}
+
+.main-button {
+  margin: 0 1vw !important;
+}
+
+.language-container {
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 2.5vh;
+  right: 2.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: slideInDown 1s;
+}
+
+#language-native-simple{
+  width: 20vw;
+}
+
+.MuiTypography-h6 {
+  text-transform: uppercase;
+  text-align: center;
+}

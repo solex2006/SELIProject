@@ -1,0 +1,8 @@
+meteor npm install --save react react-dom
+meteor npm install --save react-router-dom
+meteor remove blaze-html-templates
+meteor add static-html
+meteor npm install -- save @material-ui/core@next
+meteor npm install --save material-ui-icons
+meteor npm install --save @material-ui/icons
+npm install react-burger-menu --save
