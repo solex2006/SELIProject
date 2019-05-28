@@ -1,0 +1,430 @@
+.form-container {
+  max-width: 100vw;
+  height: auto;
+  overflow-y: scroll;
+  padding-bottom: 5vh;
+  padding-top: var(--form-margin-top);
+  transition: 0.5s;
+}
+
+.form-title {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: calc(var(--cross-size) + 4px) 0;
+  text-transform: uppercase;
+  font-size: calc(var(--cross-size) - 2px);
+  color: var(--white);
+  user-select: none;
+  border-bottom: solid 1px var(--primary);
+  background-color: var(--primary);
+  z-index: 210;
+  opacity: 0.95;
+}
+
+.form-subtitle {
+  width: 100%;
+  height: auto;
+  padding: 2.5vh 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  opacity: 0.8;
+  font-size: var(--form-subtitle);
+  z-index: 250;
+  user-select: none;
+  animation: fadeIn 0.5s;
+}
+
+.input-container {
+  width: 40vw;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 30vw;
+  animation: fadeIn 0.5s;
+}
+
+.select-input-container {
+  width: 40vw;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 30vw;
+  margin: 2vh 0;
+  animation: fadeIn 0.5s;
+}
+
+.MuiOutlinedInput-input {
+  padding: 18.5px 0px !important;
+  text-indent: 1vw;
+  animation: fadeIn 0.5s;
+}
+
+.MuiOutlinedInput-multiline {
+  padding: 18.5px 0px !important;
+  text-indent: 2vw;
+}
+
+#select-course-category {
+  width: 40vw !important;
+}
+
+.image-preview {
+  width: 300px;
+  height: 175px;
+  border-radius: 1%;
+  background-color: var(--preview-color);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100px;
+  background-image: url(image-w.svg);
+  animation: fadeIn 0.5s;
+}
+
+.file-preview {
+  width: 150px;
+  height: 150px;
+  border-radius: 1%;
+  background-color: var(--preview-color);
+  margin-top: 2vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 50px;
+  background-image: url(pdf-w.svg);
+  animation: fadeIn 0.5s;
+}
+
+.MuiInputLabel-outlined {
+  background-color: var(--white);
+}
+
+.multiple-inputs-container {
+  width: 60vw;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 20vw;
+  margin-top: 2vh;
+  animation: fadeIn 0.5s;
+}
+
+.multiple-input {
+  width: 15vw;
+}
+
+.mutiple-button {
+  margin: 0 1vw !important;
+}
+
+.input-list {
+  width: 25vw;
+  height: 30vh;
+  max-height: 30vh;
+  background-color: var(--preview-color);
+  border-radius: 1%;
+  animation: fadeIn 0.5s;
+}
+
+.input-list-title {
+  width: 100%;
+  height: auto;
+  font-size: var(--input-list-size);
+  color: var(--primary);
+  text-transform: uppercase;
+  text-align: center;
+  padding: 1vh 0;
+  border-bottom: solid 1px var(--input-list-border);
+  animation: fadeIn 0.5s;
+}
+
+.form-button-container {
+  width: 100%;
+  height: auto;
+  margin: 5vh 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.5s;
+}
+
+.form-button {
+  padding: 0.5vh 2.5vw !important;
+  font-size: 1.25em !important;
+  animation: fadeIn 0.5s;
+  position: relative;
+}
+
+.create-button {
+  animation: fadeIn 0.5s;
+}
+
+.create-input {
+  width: 15vw !important;
+  animation: fadeIn 0.5s;
+}
+
+.form-information {
+  width: 60vw;
+  position: relative;
+  left: 20vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  margin: 2.5vh 0;
+  animation: fadeIn 0.5s;
+}
+
+.form-crud-container {
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1vw;
+  animation: fadeIn 0.5s;
+}
+
+.crud-button {
+  margin-left: 1vw !important;
+  animation: fadeIn 0.5s;
+}
+
+.unit-creator-container {
+  width: 40vw;
+  position: relative;
+  left: 27.5vw;
+  height: auto;
+  background-color: var(--navigation-color);
+  padding: 0 2.5vw;
+  padding-top: 4vh;
+  padding-bottom: 6vh;
+  transition: 0.5s;
+  animation: slideInDown 1s;
+}
+
+.add-button {
+  margin-left: 1vw !important;
+}
+
+.MuiTypography-gutterBottom {
+  margin-bottom: 0 !important;
+  font-size: 1.6em !important;
+}
+
+.MuiTypography-colorTextSecondary {
+  margin: 1vh 0 !important;
+}
+
+.MuiDivider-middle {
+  margin: 1vh 0 !important;
+}
+
+.actions-typography {
+  font-size: 1.2em !important;
+  margin: 2.5vh 0 !important;
+}
+
+.editor-container {
+  width: 50vw;
+  height: auto;
+  position: relative;
+  left: 25vw;
+  margin-top: 2vh;
+  transition: 0.5s;
+  animation: fadeInRight 0.75s;
+}
+
+.ql-editor {
+  height: 30vh !important;
+}
+
+.video-information-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInUp 1s;
+}
+
+.file-information-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5vh;
+  animation: fadeInUp 1s;
+}
+
+.video-information-icon {
+  width: 6vw;
+  height: 6vw;
+  background-image: url(video-g.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 4vw;
+}
+
+.audio-information-icon {
+  width: 6vw;
+  height: 6vw;
+  background-image: url(audio-g.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 4vw;
+}
+
+.pdf-information-icon {
+  width: 6vw;
+  height: 6vw;
+  background-image: url(pdf-g.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 4vw;
+}
+
+.office-information-icon {
+  width: 6vw;
+  height: 6vw;
+  background-image: url(office-g.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 4vw;
+}
+
+.compressed-information-icon {
+  width: 6vw;
+  height: 6vw;
+  background-image: url(compressed-g.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 4vw;
+}
+
+.image-information-icon {
+  width: 6vw;
+  height: 6vw;
+  background-image: url(image-g.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 4vw;
+}
+
+.video-information-text {
+  font-size: var(--step-size);
+  margin-left: 1vw;
+}
+
+.HP5-content-preview-container {
+  width: 800px;
+  height: 500px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5vh;
+}
+
+.size-input {
+  width: 19.5vw !important;
+  margin-left: 0.25vw !important;
+  margin-right: 0.25vw !important;
+}
+
+.MuiDialog-paperWidthSm-995 {
+  max-width: none !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.MuiDialog-paperWidthSm-2505 {
+  max-width: none !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.MuiDialog-paper {
+  max-width: none !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.MuiDialogContent-root-1071 {
+  overflow-x: hidden;
+}
+
+#select-file-type {
+  width: 40vw !important;
+  padding: 18.5px 0 !important;
+  text-indent: 14px !important;
+}
+
+.MuiInputLabel-outlined-927 {
+  background-color: var(--white) !important;
+}
+
+.select-input-label {
+  background-color: var(--white) !important;
+}
+
+.upload-file-button {
+  position: relative !important;
+  margin-top: 2.5vh !important;
+}
+
+.description-input {
+  margin-bottom: 3vh !important;
+}
+
+.add-question-button-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#select-time {
+  width: 40vw !important;
+}
+
+.form-checkbox {
+  margin-right: 0.5vw !important;
+  margin-left: 0.5vw !important;
+}
+
+.form-radio {
+  margin-right: 0.5vw !important;
+  margin-left: 0.5vw !important;
+}
+
+.form-group {
+  margin-top: 1.5vh !important;
+  margin-bottom: 1.5vh !important;
+}
+
+.answer-input {
+  width: 35vw;
+}
+
+.form-label {
+  text-align: center !important;
+}
+
+.answer-control {
+  margin-top: 0.75vh !important;
+}

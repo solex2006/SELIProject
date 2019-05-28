@@ -1,0 +1,22 @@
+.language-container {
+  width: auto;
+  height: auto;
+  position: fixed;
+  z-index: 9999 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: var(--languages-margin);
+  right: var(--languages-margin);
+  transition: 0.5s;
+}
+
+#language-select-title h6{
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--primary);
+}
+
+#select-language {
+  width: 500px;
+}

@@ -1,32 +1,33 @@
 /* Position and sizing of burger button */
 .bm-burger-button {
   position: fixed;
-  width: 36px;
-  height: 30px;
-  left: 36px;
-  top: 36px;
+  width: var(--menu-size);
+  height: calc(var(--menu-size) - 10px);
+  left: var(--menu-size);
+  top: var(--menu-size);
 }
 
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
-  background: #19161D;
+  background: var(--menu-color);
+  outline: none;
   transition: 0.5s;
 }
 
 /* Color/shape of burger icon bars on hover*/
 .bm-burger-bars-hover {
-  background: #2196f3;
+  background: var(--primary);
 }
 
 /* Position and sizing of clickable cross button */
 .bm-cross-button {
-  height: 24px;
-  width: 24px;
+  height: var(--cross-size);
+  width: var(--cross-size);
 }
 
 /* Color/shape of close button cross */
 .bm-cross {
-  background: #bdc3c7;
+  background: var(--white);
 }
 
 /*
@@ -40,19 +41,19 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 /* General sidebar styles */
 .bm-menu {
-  background: #19161D;
-  font-size: 1.15em;
+  background: var(--menu-color);
+  font-size: var(--menu-font-size);
   overflow-y: hidden !important;
 }
 
 /* Morph shape necessary with bubble or elastic */
 .bm-morph-shape {
-  fill: #000;
+  fill: #FFF;
 }
 
 /* Wrapper for item list */
 .bm-item-list {
-  color: #b8b7ad;
+  color: var(--white);
 }
 
 /* Individual item */
@@ -78,14 +79,13 @@ Note: Beware of modifying this element as it can break the animations - you shou
   font-size: 1.2em;
   text-align: center;
   text-transform: uppercase;
-  color: #FFF;
+  color: var(--white);
   margin-top: 7.5vh;
   transition: 0.5s;
 }
 
 .menu-title:hover {
   cursor: pointer;
-  background-color: #0D0C0D;
 }
 
 .options-container {
@@ -95,38 +95,50 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .MuiExpansionPanelSummary-root.Mui-expanded {
-  background-color: #19161D !important;
   color: #FFF;
+  font-family: 'Lato', sans-serif !important;
+  background-color: var(--menu-color) !important;
 }
 
 .MuiExpansionPanelSummary-root {
-  background-color: #19161D !important;
+  background-color: var(--menu-color) !important;
   color: #FFF !important;
 }
 
 .MuiExpansionPanelDetails-root {
   padding: 0 !important;
-  background-color: #19161D !important;
+  background-color: var(--menu-color) !important;
   color: #FFF;
+}
+
+.MuiTypography-body1 {
+  font-size: var(--option-font-size);
 }
 
 .MuiIconButton-label {
   color: #FFF;
 }
 
+.sub-menu-container {
+  background-color: var(--menu-color);
+}
+
 .sub-menu-option {
   display: flex;
   width: 300px;
   height: auto;
-  text-indent: 2.5vw;
+  text-indent: var(--menu-indent);
   transition: 0.5s;
-  padding: 1vh 0;
-  background-color: #19161D;
+  padding: 2vh 0;
+  font-size: var(--sub-option-font-size);
+  background-color: var(--menu-color);
   text-decoration: none;
   color: #FFF;
+  font-family: 'Lato', sans-serif !important;
 }
 
 .sub-menu-option:hover {
   cursor: pointer;
-  background-color: #0D0C0D;
+  background-color: var(--menu-hover);
+  text-indent: calc(var(--menu-indent) + 0.5vw);
 }

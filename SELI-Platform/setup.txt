@@ -5,4 +5,10 @@ meteor add static-html
 meteor npm install -- save @material-ui/core@next
 meteor npm install --save material-ui-icons
 meteor npm install --save @material-ui/icons
-npm install react-burger-menu --save
+meteor npm install react-burger-menu --save
+meteor npm install --save material-ui-pickers @date-io/date-fns
+meteor npm install --save-dev json-loader
+meteor npm install react-scroll-up-button --save
+meteor npm install react-quill --save
+meteor npm install react-files --save
+meteor npm install react-iframe --save

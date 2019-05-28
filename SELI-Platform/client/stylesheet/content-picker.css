@@ -1,0 +1,91 @@
+.content-picker-container {
+  width: 50vw;
+  height: 35vw;
+  position: relative;
+  left: 25vw;
+  top: 5vh;
+}
+
+.content-picker-row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+}
+
+.picker-button {
+  width: 14vw !important;
+  height: 14vw !important;
+  margin: 0.55vw !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: 6vw !important;
+  transition: 0.5s !important;
+  z-index: 1000 !important;
+}
+
+.picker-button:hover {
+  transform: scale(1.035);
+  margin: 0.75vw;
+  z-index: 1001;
+  -webkit-box-shadow: 1px 1px 13px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 1px 1px 13px 0px rgba(0,0,0,0.75);
+  box-shadow: 1px 1px 13px 0px rgba(0,0,0,0.75);
+}
+
+.picker-button span.MuiButton-label {
+  position: absolute !important;
+  top: 1.5vw !important;
+}
+
+#text-and-image-content {
+  background-image: url(text-and-image-w.svg);
+  background-color: var(--color1) !important;
+  animation: slideInLeft 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.25s;
+}
+
+#video-content {
+  background-image: url(video-w.svg);
+  background-color: var(--color2) !important;
+  animation: slideInDown 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.75s;
+  background-size: 5vw !important;
+}
+
+#h5p-content {
+  background-image: url(h5p.png);
+  background-color: var(--color3) !important;
+  background-size: 7vw !important;
+  animation: slideInRight 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 1s;
+}
+
+#animation-content {
+  background-image: url(animation-w.svg);
+  background-color: var(--color4) !important;
+  animation: slideInLeft 0.5s;
+  animation-fill-mode: backwards;
+  background-size: 4.75vw !important;
+  animation-delay: 1s;
+}
+
+#file-content {
+  background-image: url(files-w.svg);
+  background-color: var(--color5) !important;
+  animation: slideInUp 0.5s;
+  background-size: 4.5vw !important;
+  animation-fill-mode: backwards;
+  animation-delay: 0.75s;
+}
+
+#embed-content {
+  background-image: url(embed-w.svg);
+  background-color: var(--color6) !important;
+  animation: slideInRight 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.25s;
+}

@@ -1,0 +1,60 @@
+/* Declare the main variables of seli theme */
+
+:root {
+  /* Colors */
+  --primary: #2196f3;
+  --secondary: #3f51b5;
+  --normal-text: #333333;
+  --white: #FFFFFF;
+
+  /* Menu */
+  --menu-color: #09090C;
+  --menu-size: 36px;
+  --cross-size: 30px;
+  --menu-font-size: 1.25em;
+  --option-font-size: 0.8em;
+  --sub-option-font-size: 0.7em;
+  --menu-hover: #0D0C0D;
+  --menu-indent: 2vw;
+
+  /* Presentation */
+  --presentation-logo-height: 15vh;
+  --presentation-text-height: 12vh;
+  --presentation-buttons-height: 10vh;
+
+  /* Languages */
+  --languages-margin: 34px;
+
+  /* Forms */
+  --form-subtitle: 1.25em;
+  --form-title-background: #D6EAF8;
+  --preview-color: #F2F3F4;
+  --input-list-size: 0.9em;
+  --input-list-border: #D7DBDD;
+  --form-margin-top: 120px;
+
+  /* Scroll */
+  --scroll-up-size: 50px;
+  --scroll-margin: 2.5vw;
+
+  /* Course navigation */
+  --course-navigation-width: 17.5vw;
+  --course-navigation-height: 25vh;
+  --course-navigation-margin: 2.5vw;
+  --navigation-title-size: 0.9em;
+
+  /* Steps */
+  --step-size: 0.85em;
+  --step-key-size: 20px;
+  --key-font-size: 0.75em;
+  --disabled-color: #bdbdbd;
+  --navigation-color:  #eeeeee;
+
+  /* Picker */
+  --color1: #0288d1;
+  --color2: #e53935;
+  --color3: #ffa000;
+  --color4: #03a9f4;
+  --color5: #673ab7;
+  --color6: #009688;
+}

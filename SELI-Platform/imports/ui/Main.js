@@ -1,199 +1,277 @@
 import React, { Component } from 'react';
+import MainMenu from '../components/MainMenu';
+import Presentation from '../components/Presentation';
+import LanguageSelector from '../components/LanguageSelector';
+import CourseNavigationPanel from '../components/CourseNavigationPanel';
 import CourseForm from '../components/CourseForm';
-import { scaleRotate as Menu } from 'react-burger-menu'
-import { MuiThemeProvider, withStyles, createMuiTheme } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import blue from '@material-ui/core/colors/blue';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-  },
-});
+import TutorForm from '../components/TutorForm';
+import RequirementsForm from '../components/RequirementsForm';
+import UnitsEditor from '../components/UnitsEditor';
+import ContentEditor from '../components/ContentEditor';
+import QuizEditor from '../components/QuizEditor';
+import ScrollUpButton from "react-scroll-up-button";
+import forms from '../../lib/forms';
+import steps from '../../lib/steps';
 
 export default class Main extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          open: false,
-          language: 0,
-          traductions: [
+  constructor(props) {
+    super(props);
+    this.state = {
+      language: undefined,
+      forms: forms,
+      steps: steps,
+      courseNavigation: false,
+      units: [],
+    }
+  }
+
+  setLanguage(language){
+
+  }
+
+  setNavigation(form){
+    let steps = this.state.steps;
+    for (var i = 0; i < steps.length; i++) {
+      steps[i].active = false;
+    }
+    if(form === 'CourseForm'){
+      steps[0].active = true;
+      steps[0].enabled = true;
+    }
+    if(form === 'TutorForm'){
+      steps[1].active = true;
+      steps[1].enabled = true;
+      steps[0].done = true;
+      steps[0].active = false;
+    }
+    if(form === 'RequirementsForm'){
+      steps[2].active = true;
+      steps[2].enabled = true;
+      steps[1].done = true;
+      steps[1].active = false;
+    }
+    if(form === 'UnitsEditor'){
+      steps[3].active = true;
+      steps[3].enabled = true;
+      steps[2].done = true;
+      steps[2].active = false;
+    }
+    if(form === 'ContentEditor'){
+      steps[3].active = true;
+      steps[3].enabled = true;
+      steps[2].done = true;
+      steps[2].active = false;
+    }
+  }
+
+  showForm(form){
+    let forms = this.state.forms;
+    forms.show = form;
+    this.setState({
+      forms: forms,
+    },() => {
+      if(form !== 'Presentation'){
+        this.changeControlsColor('white');
+        window.scrollTo(0, 0);
+      }
+      else {
+        this.changeControlsColor('black');
+      }
+      this.showCourseNavigation();
+      this.setNavigation(form);
+    });
+  }
+
+  navigateTo(formId){
+    if(formId == 1){
+      this.showForm("CourseForm");
+    }
+    if(formId  == 2){
+      this.showForm("TutorForm");
+    }
+    if(formId == 3){
+      this.showForm("RequirementsForm");
+    }
+    if(formId == 4){
+      this.showForm("UnitsEditor");
+    }
+  }
+
+  showCourseNavigation() {
+    if(
+      this.state.forms.show === 'CourseForm' || this.state.forms.show === 'TutorForm' ||
+      this.state.forms.show === 'RequirementsForm' || this.state.forms.show === 'UnitsEditor'
+    ){
+      this.setState({
+        courseNavigation: true,
+      });
+    }
+  }
+
+  changeControlsColor(color){
+    let bgMenuBars = document.getElementsByClassName('bm-burger-bars');
+    if(color === 'white'){
+      document.getElementById('language-selector-button').style.color = "#FFF";
+      for (var i = 0; i < bgMenuBars.length; i++) {
+        bgMenuBars[i].style.backgroundColor = "#FFF";
+      }
+    }
+    else {
+      document.getElementById('language-selector-button').style.color = "#09090C";
+      for (var i = 0; i < bgMenuBars.length; i++) {
+        bgMenuBars[i].style.backgroundColor = "#09090C";
+      }
+    }
+  }
+
+  createUnit(unit){
+    let units = this.state.units;
+    if(units.length === 0){
+      unit.selected = true;
+      units.push(unit);
+      this.setState({
+        selectedUnitIndex: 0,
+        selectedUnit: units[0],
+      });
+    }
+    else {
+      unit.selected = false;
+      units.push(unit);
+    }
+    this.setState({
+      units: units,
+    });
+  }
+
+  chooseUnit(unit){
+    let units = this.state.units;
+    let index;
+    for (var i = 0; i < units.length; i++) {
+      if(units[i].key === unit.key){
+        index = i;
+        break;
+      }
+    }
+    for (var i = 0; i < units.length; i++) {
+      units[i].selected = false;
+    }
+    units[index].selected = true;
+    this.setState({
+      units: units,
+      selectedUnit: units[index],
+      selectedUnitIndex: index,
+    },() => {
+      let forms = this.state.forms;
+      forms.show = "UnitsEditor";
+      this.setState({
+        forms: forms,
+      })
+      this.showCourseNavigation();
+      this.setNavigation('UnitsEditor');
+    });
+  }
+
+  componentDidMount(){
+
+  }
+
+  render() {
+    return(
+      <div>
+        <div id="outer-container">
+          <MainMenu
+            showForm={this.showForm.bind(this)}
+          />
+          <main id="page-wrap">
             {
-              languageLabel: 'LANGUAGE (US)',
-              title: 'Platform',
-              login: 'Log in',
-              signup: 'Sign up',
-              dialog: 'Choose the language',
-              select: 'Language',
-              confirmation: 'Ok',
-              menuOption1: 'Courses',
-              subMenuOption1: 'New Course',
-            },
+              this.state.forms.show === 'Presentation' ?
+                <Presentation/>
+              :
+              undefined
+            }
             {
-              languageLabel: 'IDIOMA (ES)',
-              title: 'Plataforma',
-              login: 'Iniciar sesión',
-              signup: 'Registarme',
-              dialog: 'Escoge el idioma',
-              select: 'Idioma',
-              confirmation: 'Listo',
-              menuOption1: 'Cursos',
-              subMenuOption1: 'Nuevo curso',
-            },
-          ],
-          expanded: 'coursesExpansionPanel',
-          openMenu: false,
-          courseForm: false,
-        }
-    }
-
-    handleLanguageChange = name => event => {
-      this.setState({
-        [name]: Number(event.target.value)
-      },() => {
-
-      });
-    };
-
-    handleClickOpen = () => {
-      this.setState({ open: true });
-    };
-
-    handleClose = () => {
-      this.setState({ open: false });
-    };
-
-    handleChange = panel => (event, expanded) => {
-      this.setState({
-        expanded: expanded ? panel : false,
-      });
-    };
-
-    showForm(){
-      this.setState({
-        openMenu: false,
-        courseForm: true,
-      });
-    }
-
-    showHome(){
-      this.setState({
-        openMenu: false,
-        courseForm: false,
-      });
-    }
-
-    componentWillMount(){
-
-    }
-
-    render() {
-        return(
-            <div>
-              <div id="outer-container">
-                <Menu
-                  pageWrapId={ "page-wrap" }
-                  outerContainerId={ "outer-container" }
-                  width={ '300px' }
-                  isOpen={this.state.openMenu}>
-                  <div onClick={() => this.showHome()} className="menu-title">{"SELI " + this.state.traductions[this.state.language].title}</div>
-                  <div className="options-container">
-                    <ExpansionPanel
-                      expanded={this.state.expanded === 'coursesExpansionPanel'}
-                      onChange={this.handleChange('coursesExpansionPanel')}>
-                      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography>{this.state.traductions[this.state.language].menuOption1}</Typography>
-                      </ExpansionPanelSummary>
-                      <ExpansionPanelDetails>
-                        <Typography>
-                          <div className="sub-menu-container">
-                            <div onClick={() => this.showForm()} className="sub-menu-option">{this.state.traductions[this.state.language].subMenuOption1}</div>
-                          </div>
-                        </Typography>
-                      </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                  </div>
-                </Menu>
-                <main id="page-wrap">
-                  <div className="main-container">
-                    {
-                      this.state.courseForm ?
-                        <CourseForm
-                          language={this.state.language}/>
-                      :
-                      <div>
-                        <div className="main-image-container"></div>
-                        <div className="main-text-container">
-                          <div className="main-text-column">
-                            <div id="main-text-white" className="main-text-row">SELI</div>
-                            <div className="main-text-row">{this.state.traductions[this.state.language].title}</div>
-                          </div>
-                          <div className="main-text-icon"></div>
-                        </div>
-                        <div className="main-button-container">
-                          <MuiThemeProvider theme={theme}>
-                            <Button className="main-button" id="log-in-button" variant="contained" color="primary">
-                              {this.state.traductions[this.state.language].login}
-                            </Button>
-                            <Button className="main-button" id="sign-up-button" variant="contained" color="primary">
-                              {this.state.traductions[this.state.language].signup}
-                            </Button>
-                          </MuiThemeProvider>
-                        </div>
-                      </div>
-                    }
-                    <div className="language-container">
-                      <MuiThemeProvider theme={theme}>
-                        <Button  onClick={this.handleClickOpen}>{this.state.traductions[this.state.language].languageLabel}</Button>
-                      </MuiThemeProvider>
-                    </div>
-                    <MuiThemeProvider theme={theme}>
-                      <Dialog
-                        open={this.state.open}
-                        onClose={this.handleClose}
-                      >
-                        <DialogTitle>{this.state.traductions[this.state.language].dialog}</DialogTitle>
-                        <DialogContent>
-                          <form>
-                            <FormControl>
-                              <InputLabel htmlFor="language-native-simple">{this.state.traductions[this.state.language].select}</InputLabel>
-                              <Select
-                                native
-                                value={this.state.language}
-                                onChange={this.handleLanguageChange('language')}
-                                input={<Input id="language-native-simple" />}
-                              >
-                                <option value={0}>US</option>
-                                <option value={1}>ES</option>
-                              </Select>
-                            </FormControl>
-                          </form>
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={this.handleClose} color="primary">
-                            {this.state.traductions[this.state.language].confirmation}
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
-                    </MuiThemeProvider>
-                  </div>
-                </main>
-              </div>
-            </div>
-        );
-    }
+              this.state.courseNavigation ?
+                <CourseNavigationPanel
+                  showForm={this.showForm.bind(this)}
+                  navigateTo={this.navigateTo.bind(this)}
+                  steps={this.state.steps}
+                  units={this.state.units}
+                  selectedUnitIndex={this.state.selectedUnitIndex}
+                  form={this.state.forms.show}
+                  chooseUnit={this.chooseUnit.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.forms.show === 'CourseForm' ?
+                <CourseForm
+                  showForm={this.showForm.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.forms.show === 'TutorForm' ?
+                <TutorForm
+                  showForm={this.showForm.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.forms.show === 'RequirementsForm' ?
+                <RequirementsForm
+                  showForm={this.showForm.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.forms.show === 'UnitsEditor' ?
+                <UnitsEditor
+                  units={this.state.units}
+                  showForm={this.showForm.bind(this)}
+                  createUnit={this.createUnit.bind(this)}
+                  selectedUnitIndex={this.state.selectedUnitIndex}
+                  selectedUnit={this.state.selectedUnit}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.forms.show === 'ContentEditor' ?
+                <ContentEditor
+                  showForm={this.showForm.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.forms.show === 'QuizEditor' ?
+                <QuizEditor
+                  showForm={this.showForm.bind(this)}
+                />
+              :
+              undefined
+            }
+            <LanguageSelector
+              language={this.state.language}
+              setLanguage={this.setLanguage.bind(this)}
+            />
+            <ScrollUpButton
+              id="scroll-up-button"
+              StopPosition={0}
+              ShowAtPosition={50}
+              EasingType='easeOutCubic'
+              AnimationDuration={1000}
+              ContainerClassName='ScrollUpButton__Container'
+              TransitionClassName='ScrollUpButton__Toggled'
+              style={{}}
+              ToggledStyle={{}}/>
+          </main>
+        </div>
+      </div>
+    )
+  }
 }

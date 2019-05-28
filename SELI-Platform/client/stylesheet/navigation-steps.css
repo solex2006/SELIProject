@@ -1,0 +1,75 @@
+.step-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--step-size);
+  margin: 1.25vh 0;
+}
+
+.step-key {
+  width: var(--step-key-size);
+  height: var(--step-key-size);
+  background-color: var(--primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  border-radius: 100%;
+  font-size: var(--key-font-size);
+}
+
+.step-title {
+  margin-left: 0.5vw;
+  user-select: none;
+  max-width: 52.5%;
+  width: 52.5%;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.step-title:hover {
+  text-indent: 0.25vw;
+  cursor: pointer;
+  color: #333;
+}
+
+.step-title-disabled {
+  margin-left: 0.5vw;
+  user-select: none;
+  width: 52.5%;
+  color: var(--disabled-color);
+}
+
+.step-done {
+  width: var(--step-key-size);
+  height: var(--step-key-size);
+  background-image: url(check-g.svg);
+  background-size: calc(var(--step-key-size) - 2px);
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: 0.5s;
+  animation: heartBeat 1s;
+}
+
+.step-undone {
+  width: var(--step-key-size);
+  height: var(--step-key-size);
+}
+
+.step-current {
+  width: var(--step-key-size);
+  height: var(--step-key-size);
+  background-image: url(right.svg);
+  background-size: calc(var(--step-key-size) - 10px);
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: 0.5s;
+  animation: slideInLeft 1s;
+}
+
+.step-blank {
+  width: var(--step-key-size);
+  height: var(--step-key-size);
+}

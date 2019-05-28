@@ -1,0 +1,21 @@
+.course-navigation-container {
+  width: var(--course-navigation-width);
+  height: 100%;
+  position: fixed;
+  top: 0;
+  background-color: var(--navigation-color);
+  padding-top: var(--form-margin-top);
+  z-index: 207;
+  transition: 0.5s;
+  animation: slideInLeft 0.25s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.75s;
+}
+
+.navigation-panel-title {
+  text-align: center;
+  padding: 1vh 0;
+  font-size: var(--navigation-title-size);
+  text-transform: uppercase;
+  position: relative
+}

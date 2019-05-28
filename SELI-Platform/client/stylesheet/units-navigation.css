@@ -1,0 +1,24 @@
+.units-navigation-container {
+  width: var(--course-navigation-width);
+  position: relative;
+  padding-top: 2.5vh;
+  background-color: var(--navigation-color);
+  z-index: 207;
+}
+
+.units-list {
+  overflow-y: scroll;
+  max-height: 50vh;
+  overflow-x: hidden;
+}
+
+.unit-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--step-size);
+  margin: 1.25vh 4px;
+  animation: fadeInLeft 0.5s;
+}
