@@ -16,7 +16,7 @@ export default class NavigationSteps extends React.Component {
   render() {
     return(
       <div>
-        <div className="step-container">
+        <div onClick={() => this.navigateTo(this.props.steps.key)} className="step-container">
           {
             this.props.steps.active ?
               <div className="step-current"></div>
@@ -26,7 +26,7 @@ export default class NavigationSteps extends React.Component {
           <p className="step-key">{this.props.steps.key}</p>
           {
             this.props.steps.enabled ?
-              <p className="step-title" onClick={() => this.navigateTo(this.props.steps.key)}>{this.props.steps.title}</p>
+              <p className="step-title">{this.props.steps.title}</p>
             :
             <p className="step-title-disabled">{this.props.steps.title}</p>
           }
