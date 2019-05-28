@@ -9,6 +9,7 @@ import RequirementsForm from '../components/RequirementsForm';
 import UnitsEditor from '../components/UnitsEditor';
 import ContentEditor from '../components/ContentEditor';
 import QuizEditor from '../components/QuizEditor';
+import LearningActivityEditor from '../components/LearningActivityEditor';
 import ScrollUpButton from "react-scroll-up-button";
 import forms from '../../lib/forms';
 import steps from '../../lib/steps';
@@ -250,6 +251,14 @@ export default class Main extends React.Component {
             {
               this.state.forms.show === 'QuizEditor' ?
                 <QuizEditor
+                  showForm={this.showForm.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.forms.show === 'LearningActivityEditor' ?
+                <LearningActivityEditor
                   showForm={this.showForm.bind(this)}
                 />
               :

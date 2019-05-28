@@ -14,20 +14,20 @@ const theme = createMuiTheme({
   },
 });
 
-export default class VideoForm extends React.Component {
+export default class AnimationForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videoFile: undefined,
-      showVideoInput: true,
+      animationFile: undefined,
+      showAnimationInput: true,
     }
   }
 
   onFilesChange = (files) => {
     console.log(files);
     this.setState({
-      videoFile: files,
-      showVideoInput: false,
+      animationFile: files,
+      showAnimationInput: false,
     });
   }
 
@@ -39,7 +39,7 @@ export default class VideoForm extends React.Component {
     return(
       <div>
         <div className="form-title">Course editor</div>
-        <div className="form-subtitle">Video content</div>
+        <div className="form-subtitle">Animation content</div>
         <MuiThemeProvider theme={theme}>
           <div className="input-container">
             <TextField
@@ -65,22 +65,22 @@ export default class VideoForm extends React.Component {
           <div className="input-container">
             <TextField
               id="outlined-uncontrolled"
-              label="Video URL"
+              label="Animation URL"
               margin="normal"
               variant="outlined"
               fullWidth
               required
             />
           </div>
-          <div className="form-subtitle">Or upload video</div>
+          <div className="form-subtitle">Or upload animation</div>
           <div className="input-container">
             {
-              this.state.showVideoInput ?
+              this.state.showAnimationInput ?
                 <Files
                   className='files-dropzone'
                   onChange={this.onFilesChange}
                   onError={this.onFilesError}
-                  accepts={['video/*']}
+                  accepts={['.html']}
                   multiple
                   maxFiles={1}
                   maxFileSize={100000000000}
@@ -95,9 +95,9 @@ export default class VideoForm extends React.Component {
               <div className="video-information-container">
                 <div className="video-information-icon"></div>
                 <div className="video-information-text">
-                  <p>{this.state.videoFile[0].name}</p>
-                  <p>{this.state.videoFile[0].sizeReadable}</p>
-                  <p>{this.state.videoFile[0].type}</p>
+                  <p>{this.state.animationFile[0].name}</p>
+                  <p>{this.state.animationFile[0].sizeReadable}</p>
+                  <p>{this.state.animationFile[0].type}</p>
                 </div>
               </div>
             }

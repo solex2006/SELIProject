@@ -16,7 +16,7 @@ export default class UnitLink extends React.Component {
   render() {
     return(
       <div>
-        <div className="unit-container">
+        <div onClick={() => this.chooseUnit(this.props.units)} className="unit-container">
           {
             this.props.units.selected ?
               <div className="step-current"></div>
@@ -24,7 +24,7 @@ export default class UnitLink extends React.Component {
             <div className="step-blank"></div>
           }
           <p className="step-key">{this.props.units.key}</p>
-          <p onClick={() => this.chooseUnit(this.props.units)} className="step-title">{this.props.units.name}</p>
+          <p className="step-title">{this.props.units.name}</p>
           <div className="step-undone"></div>
         </div>
       </div>

@@ -169,7 +169,7 @@ export default class CourseForm extends React.Component {
             </div>
             <div className="form-button-container">
               <Button onClick={() => this.saveCourse()} className="form-button" id="upload-button" variant="contained" color="secondary">
-                Save
+                Save course
               </Button>
             </div>
           </MuiThemeProvider>

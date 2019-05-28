@@ -95,7 +95,7 @@ export default class TutorForm extends React.Component {
             </div>
             <div className="form-button-container">
               <Button onClick={() => this.saveRequirements()} className="form-button" id="upload-button" variant="contained" color="secondary">
-                Save
+                Save requirements
               </Button>
             </div>
           </MuiThemeProvider>

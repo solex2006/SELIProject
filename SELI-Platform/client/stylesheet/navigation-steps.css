@@ -6,6 +6,16 @@
   align-items: center;
   font-size: var(--step-size);
   margin: 1.25vh 0;
+  transition: 0.5s;
+}
+
+.step-container:hover {
+  cursor: pointer;
+  filter: brightness(1.25);
+}
+
+.step-container:hover p.step-title {
+  text-indent: 0.25vw;
 }
 
 .step-key {
@@ -18,6 +28,7 @@
   color: var(--white);
   border-radius: 100%;
   font-size: var(--key-font-size);
+  transition: 0.5s;
 }
 
 .step-title {

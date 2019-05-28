@@ -181,6 +181,18 @@ export default class QuestionForm extends React.Component {
               className="answer-control"
             />
           </div>
+          <div className="input-container">
+            <TextField
+              id="outlined-uncontrolled"
+              label="Credit resources"
+              margin="normal"
+              variant="outlined"
+              type="number"
+              fullWidth
+              required
+              inputProps={{ min: "0", max: "150", step: "1" }}
+            />
+          </div>
           <div className="form-button-container">
             <Button className="form-button" id="upload-button" variant="contained" color="secondary">
               Save question

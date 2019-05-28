@@ -70,7 +70,7 @@ export default class UnitContentCreator extends React.Component {
               <Button onClick={() => this.props.showForm('QuizEditor')} className="add-button" color="primary">
                 Add quiz
               </Button>
-              <Button className="add-button" color="primary">
+              <Button onClick={() => this.props.showForm('LearningActivityEditor')} className="add-button" color="primary">
                 Add Learning activity
               </Button>
             </div>

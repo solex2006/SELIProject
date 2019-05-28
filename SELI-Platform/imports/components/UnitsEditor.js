@@ -53,6 +53,19 @@ export default class UnitsEditor extends React.Component {
           <div className="form-title">Course editor</div>
           <div className="form-subtitle">Program</div>
           <MuiThemeProvider theme={theme}>
+            {
+              this.props.units.length > 0 ?
+                <div>
+                  <div className="form-subtitle">Created units</div>
+                  <UnitContentCreator
+                    selectedUnit={this.props.selectedUnit}
+                    index={this.props.selectedUnitIndex}
+                    showForm={this.props.showForm.bind(this)}
+                  />
+                </div>
+              :
+              undefined
+            }
             <div className="input-container">
               <TextField
                 id="unit-name-input"
@@ -71,20 +84,13 @@ export default class UnitsEditor extends React.Component {
             </div>
             {
               this.props.units.length > 0 ?
-                <div>
-                  <div className="form-subtitle">Created units</div>
-                  <UnitContentCreator
-                    selectedUnit={this.props.selectedUnit}
-                    index={this.props.selectedUnitIndex}
-                    showForm={this.props.showForm.bind(this)}
-                  />
-                  <div className="form-button-container">
-                    <Button onClick={() => this.props.showForm("UnitsEditor")} className="form-button" id="upload-button" variant="contained" color="secondary">
-                      Save
-                    </Button>
-                  </div>
+                <div className="form-button-container">
+                  <Button onClick={() => this.props.showForm("UnitsEditor")} className="form-button" id="upload-button" variant="contained" color="secondary">
+                    Save program
+                  </Button>
                 </div>
-              :undefined
+              :
+                undefined
             }
           </MuiThemeProvider>
         </div>

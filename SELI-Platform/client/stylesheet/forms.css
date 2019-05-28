@@ -213,6 +213,7 @@
   padding-bottom: 6vh;
   transition: 0.5s;
   animation: slideInDown 1s;
+  margin-bottom: 5vh;
 }
 
 .add-button {
@@ -357,12 +358,6 @@
   align-items: center !important;
 }
 
-.MuiDialog-paper {
-  max-width: none !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
-
 .MuiDialogContent-root-1071 {
   overflow-x: hidden;
 }
@@ -427,4 +422,14 @@
 
 .answer-control {
   margin-top: 0.75vh !important;
+}
+
+.HP5-content-preview-container {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.MuiDialogContent-root {
+  display: flex !important;
+  justify-content: center !important;
 }

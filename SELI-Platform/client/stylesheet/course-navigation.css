@@ -12,10 +12,23 @@
   animation-delay: 0.75s;
 }
 
+.navigation-separator {
+  width: 100%;
+  height: 2.5vh;
+}
+
+.main-navigation-panel-title {
+  text-align: center;
+  padding: 1vh 0;
+  font-size: var(--main-navigation-title-size);
+  text-transform: uppercase;
+  position: relative;
+}
+
 .navigation-panel-title {
   text-align: center;
   padding: 1vh 0;
   font-size: var(--navigation-title-size);
   text-transform: uppercase;
-  position: relative
+  position: relative;
 }

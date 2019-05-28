@@ -5,6 +5,7 @@ import ContentPicker from '../components/ContentPicker';
 import TextAndImageForm from '../components/TextAndImageForm';
 import VideoForm from '../components/VideoForm';
 import H5PForm from '../components/H5PForm';
+import AnimationForm from '../components/AnimationForm';
 import FileForm from '../components/FileForm';
 import EmbedForm from '../components/EmbedForm';
 /* Theme */
@@ -51,17 +52,6 @@ export default class ContentEditor extends React.Component {
               undefined
             }
             {
-              this.state.content === 'Quiz' ?
-                <div>
-                  <div className="form-subtitle">Quiz editor</div>
-                  <ContentPicker
-                    showContentForm={this.showContentForm.bind(this)}
-                  />
-                </div>
-              :
-              undefined
-            }
-            {
               this.state.content === 'TextAndImage' ?
                 <TextAndImageForm
                   showForm={this.props.showForm.bind(this)}
@@ -80,6 +70,14 @@ export default class ContentEditor extends React.Component {
             {
               this.state.content === 'H5P' ?
                 <H5PForm
+                  showForm={this.props.showForm.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.content === 'Animation' ?
+                <AnimationForm
                   showForm={this.props.showForm.bind(this)}
                 />
               :

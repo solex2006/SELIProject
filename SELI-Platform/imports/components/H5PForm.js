@@ -96,6 +96,8 @@ export default class H5PForm extends React.Component {
             TransitionComponent={Transition}
             keepMounted
             fullWidth
+            maxWidth={false}
+            style={{display: "flex", justifyContent: "center", maxWidth: "none"}}
           >
             <DialogTitle id="language-select-title">H5P Activity preview</DialogTitle>
             <DialogContent>
@@ -119,7 +121,7 @@ export default class H5PForm extends React.Component {
           </Dialog>
           <div className="form-button-container">
             <Button onClick={() => this.props.showForm("UnitsEditor")} className="form-button" id="upload-button" variant="contained" color="secondary">
-              Save
+              Save content
             </Button>
           </div>
         </MuiThemeProvider>
