@@ -15,7 +15,7 @@ export default class TutorForm extends React.Component {
   };
 
   saveRequirements() {
-    this.props.showForm('UnitsEditor');
+    this.props.showForm('UnitsEditor', true);
   }
 
   render() {

@@ -47,6 +47,7 @@ export default class Main extends React.Component {
       messageDuration: 5000,
       course: course,
       category: '',
+      saveTutor: false,
       disabledModalities: [
         false,
         false,
@@ -128,8 +129,10 @@ export default class Main extends React.Component {
       if(courseNavigation){
         this.showCourseNavigation();
         this.setNavigation(form);
+        this.showSaveTutor(true);
       }
       else {
+        this.showSaveTutor(false);
         this.setState({
           courseNavigation: false,
         })
@@ -275,6 +278,12 @@ export default class Main extends React.Component {
     });
   }
 
+  showSaveTutor(show) {
+    this.setState({
+      saveTutor: show,
+    });
+  }
+
   checkLoadedData(){
 
   }
@@ -328,6 +337,7 @@ export default class Main extends React.Component {
                     setCourseCategory={this.setCourseCategory.bind(this)}
                     setModality={this.setModality.bind(this)}
                     removeModality={this.removeModality.bind(this)}
+                    showSaveTutor={this.showSaveTutor.bind(this)}
                   />
                 :
                 undefined
@@ -337,6 +347,7 @@ export default class Main extends React.Component {
                   <TutorList
                     showForm={this.showForm.bind(this)}
                     tutors={this.state.tutors}
+                    saveTutor={this.state.saveTutor}
                   />
                 :
                 undefined
