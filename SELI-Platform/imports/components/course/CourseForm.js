@@ -236,14 +236,14 @@ export default class CourseForm extends React.Component {
           <div className="input-container">
             <TextField
               id="course-time-input"
-              label="Estimated time"
+              label="Estimated course duration"
               margin="normal"
               variant="outlined"
               type="number"
               fullWidth
               required
               InputProps={{
-                endAdornment: <InputAdornment position="end">hours</InputAdornment>,
+                endAdornment: <InputAdornment position="end">minutes</InputAdornment>,
               }}
               inputProps={{ min: "0", max: "150", step: "1" }}
               error={this.state.timeError}
@@ -317,7 +317,7 @@ export default class CourseForm extends React.Component {
             <TextField
               className="multiple-input"
               id="outlined-uncontrolled"
-              label="Course metodology"
+              label="Course methodology"
               margin="normal"
               variant="outlined"
               required
@@ -326,7 +326,7 @@ export default class CourseForm extends React.Component {
               Add
             </Button>
             <div className="input-list">
-              <div className="input-list-title">Metodologies</div>
+              <div className="input-list-title">Methodologies</div>
               <div className="input-list-container"></div>
             </div>
           </div>
