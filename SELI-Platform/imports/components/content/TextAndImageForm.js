@@ -69,7 +69,7 @@ export default class TextAndImageForm extends React.Component {
           />
         </div>
         <div className="form-button-container">
-          <Button onClick={() => this.props.showForm("UnitsEditor")} className="form-button" id="upload-button" variant="contained" color="secondary">
+          <Button onClick={() => this.props.showForm("UnitsEditor", true)} className="form-button" id="upload-button" variant="contained" color="secondary">
             Save content
           </Button>
         </div>

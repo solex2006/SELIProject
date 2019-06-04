@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import UnitLink from '../../map/UnitLink';
 
 export default class UnitsNavigation extends React.Component {
   constructor(props) {

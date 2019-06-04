@@ -53,13 +53,13 @@ export default class UnitContentCreator extends React.Component {
               Content actions
             </Typography>
             <div className="unit-content-buttons-container">
-              <Button onClick={() => this.props.showForm('ContentEditor')} className="add-button" color="primary">
+              <Button onClick={() => this.props.showForm('ContentEditor', true)} className="add-button" color="primary">
                 Add content
               </Button>
-              <Button onClick={() => this.props.showForm('QuizEditor')} className="add-button" color="primary">
+              <Button onClick={() => this.props.showForm('QuizEditor', true)} className="add-button" color="primary">
                 Add quiz
               </Button>
-              <Button onClick={() => this.props.showForm('LearningActivityEditor')} className="add-button" color="primary">
+              <Button onClick={() => this.props.showForm('LearningActivityEditor', true)} className="add-button" color="primary">
                 Add Learning activity
               </Button>
             </div>
