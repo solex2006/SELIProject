@@ -25,6 +25,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 
+import { Tutors } from '../../lib/TutorCollection';
+
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
 }
@@ -33,6 +35,7 @@ export default class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tutors: [],
       language: undefined,
       controlMessage: '',
       open: false,
@@ -109,7 +112,7 @@ export default class Main extends React.Component {
     }
   }
 
-  showForm(form){
+  showForm(form, courseNavigation){
     let forms = this.state.forms;
     forms.show = form;
     this.setState({
@@ -122,23 +125,30 @@ export default class Main extends React.Component {
       else {
         this.changeControlsColor('black');
       }
-      this.showCourseNavigation();
-      this.setNavigation(form);
+      if(courseNavigation){
+        this.showCourseNavigation();
+        this.setNavigation(form);
+      }
+      else {
+        this.setState({
+          courseNavigation: false,
+        })
+      }
     });
   }
 
   navigateTo(formId){
     if(formId == 1){
-      this.showForm("CourseForm");
+      this.showForm("CourseForm", true);
     }
     if(formId  == 2){
-      this.showForm("TutorList");
+      this.showForm("TutorList", true);
     }
     if(formId == 3){
-      this.showForm("RequirementsForm");
+      this.showForm("RequirementsForm", true);
     }
     if(formId == 4){
-      this.showForm("UnitsEditor");
+      this.showForm("UnitsEditor", true);
     }
   }
 
@@ -265,8 +275,17 @@ export default class Main extends React.Component {
     });
   }
 
-  componentDidMount(){
+  checkLoadedData(){
 
+  }
+
+  componentDidMount(){
+    Tracker.autorun(() => {
+        let tutors = Tutors.find().fetch();
+        this.setState({
+          tutors: tutors,
+        }, () => this.checkLoadedData());
+      });
   }
 
   render() {
@@ -317,6 +336,7 @@ export default class Main extends React.Component {
                 this.state.forms.show === 'TutorList' ?
                   <TutorList
                     showForm={this.showForm.bind(this)}
+                    tutors={this.state.tutors}
                   />
                 :
                 undefined

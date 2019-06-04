@@ -43,9 +43,9 @@ export default class MainMenu extends React.Component {
     });
   };
 
-  showForm(form){
+  showForm(form, courseNavigation){
     this.closeMenu();
-    this.props.showForm(form);
+    this.props.showForm(form, courseNavigation);
   }
 
   render() {
@@ -67,7 +67,7 @@ export default class MainMenu extends React.Component {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <div className="sub-menu-container">
-                  <div onClick={() => this.showForm("CourseForm")} className="sub-menu-option">Create course</div>
+                  <div onClick={() => this.showForm("CourseForm", true)} className="sub-menu-option">Create course</div>
                   <div onClick={() => this.showForm()} className="sub-menu-option">Courses list</div>
                 </div>
               </ExpansionPanelDetails>
@@ -81,7 +81,7 @@ export default class MainMenu extends React.Component {
               <ExpansionPanelDetails>
                 <div className="sub-menu-container">
                   <div onClick={() => this.showForm("TutorForm")} className="sub-menu-option">Register tutor</div>
-                  <div onClick={() => this.showForm()} className="sub-menu-option">Tutor list</div>
+                  <div onClick={() => this.showForm("TutorList", false)} className="sub-menu-option">Tutor list</div>
                 </div>
               </ExpansionPanelDetails>
             </ExpansionPanel>

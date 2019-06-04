@@ -43,7 +43,7 @@ export default class CourseForm extends React.Component {
 
   saveCourse(){
     if(this.getData()) {
-      this.props.showForm('TutorList');
+      this.props.showForm('TutorList', true);
     }
   }
 
