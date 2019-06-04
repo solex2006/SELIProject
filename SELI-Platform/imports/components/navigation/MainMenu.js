@@ -80,7 +80,7 @@ export default class MainMenu extends React.Component {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <div className="sub-menu-container">
-                  <div onClick={() => this.showForm("TutorForm")} className="sub-menu-option">Register tutor</div>
+                  <div onClick={() => this.showForm("TutorForm")} className="sub-menu-option">Tutor registration</div>
                   <div onClick={() => this.showForm("TutorList", false)} className="sub-menu-option">Tutor list</div>
                 </div>
               </ExpansionPanelDetails>
