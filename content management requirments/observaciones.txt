@@ -1,0 +1,11 @@
+Requirements
+Incluir un combo box con requerimientos especiales para personas discapcitadas
+Sordos mudos
+Ciegos
+Casi ciegos
+Dislexia
+
+++++++++++++++++++++++++++
+
+Tipo de contenido
+audio (potcast)

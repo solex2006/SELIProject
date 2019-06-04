@@ -79,14 +79,21 @@
   width: 40vw !important;
 }
 
+.centered-image-preview-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .image-preview {
-  width: 300px;
-  height: 175px;
+  width: 150px;
+  height: 150px;
   border-radius: 1%;
   background-color: var(--preview-color);
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 100px;
+  background-size: cover;
   background-image: url(image-w.svg);
   animation: fadeIn 0.5s;
 }
@@ -102,6 +109,7 @@
   background-size: 50px;
   background-image: url(pdf-w.svg);
   animation: fadeIn 0.5s;
+  transition: 0.5s;
 }
 
 .MuiInputLabel-outlined {
@@ -122,6 +130,10 @@
 
 .multiple-input {
   width: 15vw;
+}
+
+#select-course-modality {
+  width: 15vw !important;
 }
 
 .mutiple-button {
@@ -395,6 +407,8 @@
 
 #select-time {
   width: 40vw !important;
+  padding: 18.5px 0 !important;
+  text-indent: 14px !important;
 }
 
 .form-checkbox {
@@ -432,4 +446,11 @@
 .MuiDialogContent-root {
   display: flex !important;
   justify-content: center !important;
+}
+
+.MuiOutlinedInput-inputMultiline {
+  padding-top: 0 !important;
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+  text-indent: 0 !important;
 }

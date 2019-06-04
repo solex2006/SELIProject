@@ -7,7 +7,7 @@ var STEPS = [
     enabled: true,
   },
   {
-    title: "Tutor infomation",
+    title: "Tutor list",
     key: 2,
     done: false,
     active: false,

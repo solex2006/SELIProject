@@ -1,0 +1,93 @@
+.file-upload-input {
+    display: none;
+}
+
+.input-file-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transition: 0.5s;
+  animation: fadeIn 1s;
+}
+
+.upload-file-button {
+  margin-left: 1vw !important;
+  background-color: var(--primary) !important;
+  color: var(--white) !important;
+}
+
+.loading-file-container {
+  width: 40vw;
+  position: relative;
+  height: auto;
+  animation: fadeInDown 1s;
+}
+
+.file-crud-button {
+  color: var(--primary) !important;
+  margin-top: 1vh !important;
+}
+
+.loading-file-progress-text {
+  width: 100%;
+  text-align: center;
+  padding: 0.75vh 0;
+  font-size: 0.9em;
+}
+
+.loading-file-name-text {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1vh 0;
+  margin-top: 2.5vh;
+  font-size: 1em;
+}
+
+.file-name-title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.5vh 0;
+  margin-top: 2.5vh;
+  font-size: 1.1em;
+}
+
+.file-name-text {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1vh 0;
+  font-size: 0.9em;
+  margin-bottom: 1.5vh;
+}
+
+.loading-file-progress-icon {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5vh 0;
+}
+
+.progress-bar-container{
+  width: 95%;
+  position: relative;
+  left: 2.5%;
+  height: 2vh;
+  background-color: var(--navigation-color);
+  border-radius: 1.5vw;
+}
+
+.progress-bar-uploaded {
+  height: 100%;
+  background-color: var(--primary);
+  transition: 0.5s;
+  border-radius: 1.5vw;
+}
+
+.file-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

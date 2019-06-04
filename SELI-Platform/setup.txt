@@ -12,3 +12,7 @@ meteor npm install react-scroll-up-button --save
 meteor npm install react-quill --save
 meteor npm install react-files --save
 meteor npm install react-iframe --save
+meteor add underscore
+meteor add ostrio:files
+meteor add react-meteor-data
+meteor npm install --save react-images debug
