@@ -23,6 +23,7 @@ import ScrollUpButton from "react-scroll-up-button";
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 
 import { Tutors } from '../../lib/TutorCollection';
@@ -44,10 +45,11 @@ export default class Main extends React.Component {
       courseNavigation: false,
       units: [],
       Transition: TransitionRight,
-      messageDuration: 5000,
+      messageDuration: 8500,
       course: course,
       category: '',
       saveTutor: false,
+      showEditForm: false,
       disabledModalities: [
         false,
         false,
@@ -138,6 +140,9 @@ export default class Main extends React.Component {
         })
       }
     });
+    if(form === "TutorList"){
+      this.setEditorForm(false);
+    }
   }
 
   navigateTo(formId){
@@ -242,10 +247,15 @@ export default class Main extends React.Component {
     this.setState({ open: false });
   };
 
-  showControlMessage(message){
+  showControlMessage(message, showAction, actionType){
+    let showTutorListAction = false;
+    if(showAction && actionType === "TutorList"){
+      showTutorListAction = true;
+    }
     this.setState({
       controlMessage: message,
       open: true,
+      showTutorListAction: showTutorListAction,
     }, () => {
 
     });
@@ -281,6 +291,12 @@ export default class Main extends React.Component {
   showSaveTutor(show) {
     this.setState({
       saveTutor: show,
+    });
+  }
+
+  setEditorForm(showEditForm){
+    this.setState({
+      showEditForm: showEditForm,
     });
   }
 
@@ -348,6 +364,9 @@ export default class Main extends React.Component {
                     showForm={this.showForm.bind(this)}
                     tutors={this.state.tutors}
                     saveTutor={this.state.saveTutor}
+                    showControlMessage={this.showControlMessage.bind(this)}
+                    showEditForm={this.state.showEditForm}
+                    setEditorForm={this.setEditorForm.bind(this)}
                   />
                 :
                 undefined
@@ -435,6 +454,9 @@ export default class Main extends React.Component {
             }}
             message={<span id="message-id">{this.state.controlMessage}</span>}
             action={[
+              this.state.showTutorListAction ? <Button onClick={() => this.showForm("TutorList", false)} key="undo" color="secondary" size="small">
+                See list
+              </Button> : undefined ,
               <IconButton
                 key="close"
                 aria-label="Close"

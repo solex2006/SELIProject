@@ -2,8 +2,8 @@
 
 :root {
   /* Colors */
-  --primary: #2196f3;
-  --secondary: #3f51b5;
+  --primary: #0288d1;
+  --secondary: #00897b;
   --normal-text: #333333;
   --white: #FFFFFF;
 
@@ -18,7 +18,7 @@
   --menu-indent: 2vw;
 
   /* Presentation */
-  --presentation-logo-height: 15vh;
+  --presentation-logo-height: 35vh;
   --presentation-text-height: 12vh;
   --presentation-buttons-height: 10vh;
 
@@ -58,4 +58,7 @@
   --color4: #03a9f4;
   --color5: #673ab7;
   --color6: #009688;
+
+  /* Registry */
+  --registry-color: #eceff1;
 }

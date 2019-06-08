@@ -5,8 +5,12 @@ import indigo from '@material-ui/core/colors/indigo';
 
 const theme = createMuiTheme({
   palette: {
-    primary: blue,
-    secondary: indigo,
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#00897b',
+    },
   },
 });
 

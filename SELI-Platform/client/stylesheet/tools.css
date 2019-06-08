@@ -1,0 +1,108 @@
+.list-tools-container {
+  width: 50vw;
+  position: relative;
+  left: 25vw;
+  height: 6vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 4vh;
+  background-color: #fafafa;
+}
+
+.search-container {
+  width: calc(25vw + 5vh);
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.search-icon {
+  width: 7.5vh;
+  height: 100%;
+  background-image: url(search-g.svg);
+  background-repeat: no-repeat;
+  background-size: 3.5vh;
+  background-position: center;
+  background-color: var(--white);
+}
+
+.search-input {
+  width: calc(25vw - 7.5vh);
+  height: 100%;
+  border: none;
+  border-left: solid 2.5px #bdbdbd;
+  text-indent: 1.5vw;
+  transition: 0.25s;
+  background-color: transparent;
+}
+
+.search-input:focus {
+  outline: none;
+  background-color: #eee;
+  border-left: solid 4.5px var(--primary);
+}
+
+.clear-search-button {
+  width: 6vh;
+  height: 6vh;
+  transition: 0.25s;
+  animation: fadeIn 1s;
+  border-left: solid 1px #bdbdbd;
+  background-image: url(close-g.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1.5vh;
+  opacity: 0.75;
+}
+
+.clear-search-button:hover {
+  opacity: 1;
+  cursor: pointer;
+  background-color: #eee;
+}
+
+.order-tool-container {
+  width: auto;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  right: 0;
+}
+
+.order-tool-asc {
+  width: 6vh;
+  height: 6vh;
+  background-color: var(--white);
+  background-position: center;
+  background-image: url(order-g.svg);
+  background-size: 1.5vh;
+  background-repeat: no-repeat;
+  border-left: solid 1px #bdbdbd;
+  transition: 0.5s;
+}
+
+.order-tool-asc:hover {
+  border-left: solid 1px var(--primary);
+  cursor: pointer;
+}
+
+.order-tool-des {
+  width: 6vh;
+  height: 6vh;
+  transform: rotateX(180deg);
+  background-color: var(--white);
+  background-position: center;
+  background-image: url(order-g.svg);
+  background-size: 1.5vh;
+  background-repeat: no-repeat;
+  border-left: solid 1px #bdbdbd;
+  transition: 0.5s;
+}
+
+.order-tool-des:hover {
+  border-left: solid 1px var(--primary);
+  cursor: pointer;
+}

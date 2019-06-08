@@ -16,3 +16,4 @@ meteor add underscore
 meteor add ostrio:files
 meteor add react-meteor-data
 meteor npm install --save react-images debug
+meteor npm install sort-json-array --save

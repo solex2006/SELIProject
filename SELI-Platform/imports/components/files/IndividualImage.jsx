@@ -50,7 +50,8 @@ class IndividualFile extends Component {
     Meteor.call('RemoveFile', this.props.fileId, function (err) {
       if (err)
       console.log(err);
-    })
+    });
+    this.props.removeUrl();
   }
 
   renameFile() {

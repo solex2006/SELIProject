@@ -20,3 +20,7 @@
 #select-language {
   width: 500px;
 }
+
+#language-selector-button {
+  color: #FFF;
+}

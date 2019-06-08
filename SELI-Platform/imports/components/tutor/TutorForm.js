@@ -107,14 +107,20 @@ export default class TutorForm extends React.Component {
     if(this.validateEmptyInputs(simpleInputs)){
       let tutor = {
         name: name,
-        url: this.state.url,
+        imageId: this.state.imageId,
+        imageUrl: this.state.url,
         biography: biography,
         googleLink: googleLink,
         personalWebsite: personalWebsite,
         email: email,
         phoneNumber: phoneNumber,
       }
-      this.saveTutor(tutor);
+      if(this.props.tutorToEdit){
+        this.editTutor(tutor);
+      }
+      else{
+        this.saveTutor(tutor);
+      }
     }
   }
 
@@ -152,18 +158,59 @@ export default class TutorForm extends React.Component {
         {_id: this.state.imageId },
         { $set: {
           meta: {
-            teacher: teacherId,
+            teacherId: teacherId,
           }
         }}
       );
       if(changeImageMeta){
-        this.props.showControlMessage('Teacher registered successfully');
+        this.props.showControlMessage('Teacher registered successfully', true, "TutorList");
         this.resetInputs();
       }
       else {
         this.props.showControlMessage("Could't regiter teacher. Please try again");
       }
     }
+  }
+
+  editTutor(tutor){
+    if(Tutors.update(
+      { _id : this.props.tutorToEdit._id },
+      { $set:
+        {
+          name: tutor.name,
+          imageId: tutor.imageId,
+          imageUrl: tutor.imageUrl,
+          biography: tutor.biography,
+          googleLink: tutor.googleLink,
+          personalWebsite: tutor.personalWebsite,
+          email: tutor.email,
+          phoneNumber: tutor.phoneNumber,
+        }
+      }
+    )) {
+      this.props.showControlMessage("Tutor edited successfully");
+      this.props.openList();
+    }
+    else{
+      this.props.showControlMessage("Could't edit this teacher, please try again");
+    }
+  }
+
+  componentDidMount(){
+    if(this.props.tutorToEdit !== undefined){
+      this.setState({
+        url: this.props.tutorToEdit.imageUrl,
+        imageId: this.props.tutorToEdit.imageId,
+        teacherId: this.props.tutorToEdit._id,
+      });
+    }
+  }
+
+  removeUrl(){
+    this.setState({
+      url: '',
+      imageId: '',
+    });
   }
 
   render() {
@@ -181,12 +228,14 @@ export default class TutorForm extends React.Component {
               fullWidth
               required
               error={this.state.nameError}
+              defaultValue={this.props.tutorToEdit ? this.props.tutorToEdit.name : undefined}
             />
           </div>
           <div className="input-file-container">
             <ImageUpload
               teacherId={this.state.teacherId}
               getImageInformation={this.getImageInformation.bind(this)}
+              removeUrl={this.removeUrl.bind(this)}
             />
           </div>
           <div className="input-container">
@@ -200,6 +249,7 @@ export default class TutorForm extends React.Component {
               multiline
               rows="3"
               error={this.state.biographyError}
+              defaultValue={this.props.tutorToEdit ? this.props.tutorToEdit.biography : undefined}
             />
           </div>
           <div className="input-container">
@@ -211,6 +261,7 @@ export default class TutorForm extends React.Component {
               fullWidth
               required
               error={this.state.googleLinkError}
+              defaultValue={this.props.tutorToEdit ? this.props.tutorToEdit.googleLink : undefined}
             />
           </div>
           <div className="input-container">
@@ -222,6 +273,7 @@ export default class TutorForm extends React.Component {
               fullWidth
               required
               error={this.state.personalWebsiteError}
+              defaultValue={this.props.tutorToEdit ? this.props.tutorToEdit.personalWebsite : undefined}
             />
           </div>
           <div className="input-container">
@@ -233,6 +285,7 @@ export default class TutorForm extends React.Component {
               fullWidth
               required
               error={this.state.emailError}
+              defaultValue={this.props.tutorToEdit ? this.props.tutorToEdit.email : undefined}
             />
           </div>
           <div className="input-container">
@@ -249,13 +302,23 @@ export default class TutorForm extends React.Component {
               }}
               inputProps={{ min: "0", max: "9999999999", step: "1" }}
               error={this.state.phoneNumberError}
+              defaultValue={this.props.tutorToEdit ? this.props.tutorToEdit.phoneNumber : undefined}
             />
           </div>
-          <div className="form-button-container">
-            <Button onClick={() => this.getData()} className="form-button" id="upload-button" variant="contained" color="secondary">
-              Save tutor
-            </Button>
-          </div>
+          {
+            this.props.tutorToEdit ?
+              <div className="form-button-container">
+                <Button onClick={() => this.getData()} className="form-button" id="upload-button" variant="contained" color="secondary">
+                  Edit tutor
+                </Button>
+              </div>
+            :
+            <div className="form-button-container">
+              <Button onClick={() => this.getData()} className="form-button" id="upload-button" variant="contained" color="secondary">
+                Save tutor
+              </Button>
+            </div>
+          }
         </div>
       </div>
     );

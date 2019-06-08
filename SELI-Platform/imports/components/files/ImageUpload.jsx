@@ -38,7 +38,7 @@ class FileUploadComponent extends Component {
           file: file,
           meta: {
             locator: self.props.fileLocator,
-            teacherId: 'creating',
+            teacherId: this.props.teacherId,
             //userId: Meteor.userId() // Optional, used to check on server for file tampering
           },
           streams: 'dynamic',
@@ -135,6 +135,7 @@ class FileUploadComponent extends Component {
             fileId={aFile._id}
             fileSize={aFile.size}
             getImageInformation={this.props.getImageInformation.bind(this)}
+            removeUrl={this.props.removeUrl.bind(this)}
           />
         </div>
       })

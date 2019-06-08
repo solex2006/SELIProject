@@ -1,17 +1,23 @@
 .registry-list-container {
   width: 100%;
   height: auto;
+  margin-top: 2.5vh;
 }
 
 .registry-container {
   width: 50vw;
   position: relative;
   left: 25vw;
+  padding: 1vh 0;
+  background-color: var(--registry-color);
+  margin-bottom: 2vh;
+}
+
+.registry-information-container {
+  width: auto;
   display: flex;
   justify-content: center;
-  background-color: #eee;
-  margin: 1vh 0;
-  padding: 1.5vh 0;
+  margin: 1.5vh 0;
 }
 
 .registry-icon-column {
@@ -23,11 +29,11 @@
 }
 
 .registry-first-letter {
-  width: 4vw;
-  height: 4vw;
+  width: 4.5vw;
+  height: 4.5vw;
   background-color: var(--primary);
   color: var(--white);
-  font-size: 1.3em;
+  font-size: 1.5em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,6 +47,9 @@
 
 .registry-photo-column {
   width: 10vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .registry-image {
@@ -55,6 +64,8 @@
   display: flex;
   text-decoration: none;
   text-transform: uppercase;
+  font-size: 0.85em;
+  margin: 0.5vh 0;
 }
 
 .registry-link-information:link {
@@ -63,4 +74,40 @@
 
 .registry-link-information:visited {
   color: var(--primary);
+}
+
+.crud-button-container {
+  width: 96%;
+  margin-right: 4%;
+  height: auto;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.registry-crud-button {
+  margin-left: 0.5vw !important;
+}
+
+.registry-text-information {
+  display: flex;
+  margin: 0.5vh 0;
+  font-size: 0.85em;
+  align-items: center;
+}
+
+.registry-attribute {
+  margin-right: 0.5vw;
+  font-size: 0.95em;
+  text-transform: uppercase;
+}
+
+.registry-paragraph-information {
+  font-size: 0.85em;
+}
+
+.registry-multiline-text {
+  margin: 0.75vh 0;
+  text-align: justify;
+  padding-right: 0.25vw;
 }

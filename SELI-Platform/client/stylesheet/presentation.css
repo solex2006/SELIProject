@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeIn 0.5s;
 }
 
 .presentation-image {
@@ -12,20 +13,22 @@
   position: absolute;
   background-image: url(presentation.jpg);
   background-position: center;
-  background-size: cover;
+  background-size: 100vw 100vh;
   background-repeat: no-repeat;
   z-index: 5;
-  opacity: 0.85;
 }
 
 .presentation-logo-container {
   width: 100vw;
   height: var(--presentation-logo-height);
-  background-image: url(logo-a.svg);
-  opacity: 0.9;
+  background-image: url(seli-logo-w.svg);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+  margin-top: 1.5vh;
+  animation: zoomIn 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.75s;
 }
 
 .presentation-text-container {
@@ -34,10 +37,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3.5em;
+  font-size: 2.75em;
   user-select: none;
   text-transform: capitalize;
-  filter: brightness(1.25);
+  color: var(--white);
+  animation: fadeInDown 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.5s;
 }
 
 .presentation-buttons-container {
@@ -46,6 +52,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 1.5vh;
+  animation: bounceInLeft 1s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.75s;
 }
 
 .main-button {
