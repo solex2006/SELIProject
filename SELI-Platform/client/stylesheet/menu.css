@@ -74,6 +74,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .menu-title {
+  display: flex;
   width: 100%;
   height: auto;
   font-size: 1.2em;
@@ -82,6 +83,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   color: var(--white);
   margin-top: 7.5vh;
   transition: 0.5s;
+  text-decoration: none;
 }
 
 .menu-title:hover {

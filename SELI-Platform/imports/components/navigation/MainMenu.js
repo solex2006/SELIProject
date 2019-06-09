@@ -57,7 +57,7 @@ export default class MainMenu extends React.Component {
           width={ this.state.menuWidth }
           isOpen={this.state.menuOpen}
           onStateChange={(state) => this.handleMenuStateChange(state)}>
-          <div className="menu-title">SELI CMS</div>
+          <a href="/" className="menu-title">Main menu</a>
           <div className="options-container">
             <ExpansionPanel
               expanded={this.state.expandedCourse === 'coursesExpansionPanel'}

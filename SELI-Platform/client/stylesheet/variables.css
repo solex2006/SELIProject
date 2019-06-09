@@ -18,7 +18,7 @@
   --menu-indent: 2vw;
 
   /* Presentation */
-  --presentation-logo-height: 35vh;
+  --presentation-logo-height: 37.5vh;
   --presentation-text-height: 12vh;
   --presentation-buttons-height: 10vh;
 
@@ -49,7 +49,7 @@
   --step-key-size: 20px;
   --key-font-size: 0.75em;
   --disabled-color: #bdbdbd;
-  --navigation-color:  #eeeeee;
+  --navigation-color:  #e0e0e0;
 
   /* Picker */
   --color1: #0288d1;
