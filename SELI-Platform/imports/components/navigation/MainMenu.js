@@ -19,15 +19,15 @@ export default class MainMenu extends React.Component {
     }
   }
 
-  handleMenuStateChange (state) {
+  handleMenuStateChange(state) {
    this.setState({menuOpen: state.isOpen})
   }
 
-  closeMenu () {
+  closeMenu() {
    this.setState({menuOpen: false})
   }
 
-  toggleMenu () {
+  toggleMenu() {
     this.setState(state => ({menuOpen: !state.menuOpen}))
   }
 

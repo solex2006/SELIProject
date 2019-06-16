@@ -1,0 +1,40 @@
+.lesson-expansion-panel {
+  animation: fadeInDown 0.5s;
+}
+
+.lesson-expansion-panel div.MuiExpansionPanelSummary-root.Mui-expanded {
+  background-color: var(--navigation-color) !important;
+  color: var(--normal-text) !important;
+}
+
+.lesson-expansion-panel div.MuiExpansionPanelSummary-root {
+  background-color: var(--navigation-color) !important;
+  color: var(--normal-text) !important;
+}
+
+.MuiExpansionPanelDetails-root {
+  background-color: var(--navigation-color) !important;
+  color: var(--normal-text) !important;
+}
+
+.expand-more-lesson {
+  fill: var(--primary) !important;
+}
+
+.MuiPaper-elevation1{
+  box-shadow: none !important;
+}
+
+.MuiTypography-displayBlock {
+  font-size: 1em !important;
+}
+
+.MuiExpansionPanelDetails-root {
+  background-color: #AAA !important;
+}
+
+.lesson-detail-container {
+  width: 100%;
+  height: 100%;
+  background-color: var(--navigation-color);
+}

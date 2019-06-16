@@ -214,17 +214,76 @@
 }
 
 .unit-creator-container {
-  width: 40vw;
+  width: 45vw;
   position: relative;
   left: 27.5vw;
   height: auto;
   background-color: var(--navigation-color);
-  padding: 0 2.5vw;
-  padding-top: 4vh;
-  padding-bottom: 6vh;
   transition: 0.5s;
   animation: slideInDown 1s;
   margin-bottom: 5vh;
+  padding-bottom: 2vh;
+}
+
+.unit-information-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+}
+
+.left-subtitle-primary {
+  width: auto;
+  padding: 1.5vh 0;
+  text-indent: 7.5px;
+  font-size: 1.15em;
+}
+
+.left-subtitle {
+  width: auto;
+  padding-top: 1.15vh;
+  text-indent: 20px;
+  font-size: 1.15em;
+  text-transform: uppercase;
+}
+
+.unit-creator-button-container {
+  width: 100%;
+  height: auto;
+}
+
+.unit-creator-button {
+  margin: 0 20px !important;
+}
+
+.add-new-input-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInDown 0.75s;
+}
+
+.add-new-input {
+  width: 60%;
+  position: relative;
+  left: 14px;
+}
+
+.confirm-buttons-container {
+  width: 30%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.confirm-button {
+  margin-left: 0.125vw;
+  margin-right: 0.125vw;
+}
+
+.add-new-input label {
+  background-color: transparent !important;
 }
 
 .add-button {
@@ -452,4 +511,60 @@
   padding-left: 14px !important;
   padding-right: 14px !important;
   text-indent: 0 !important;
+}
+
+.selected-container{
+  width: 40vw;
+  height: auto;
+  position: relative;
+  left: 30vw;
+  margin-top: 5vh;
+  animation: fadeInRight 0.5s;
+  transition: 0.5s;
+}
+
+.selected-row{
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  background-color: #eeeeee;
+}
+
+.tutor-icon {
+  width: 5vw;
+  height: 3vw;
+  background-image: url(tutor-g.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 2.5vw;
+  animation: bounce 1s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.75s;
+}
+
+.tutor-atribute {
+  width: 17vw;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  background-color: #f5f5f5;
+}
+
+.tutor-info {
+  width: 18vw;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#form-list-button {
+  margin-top: 5vh !important;
+  margin-bottom: 2vh !important;
+}
+
+#lesson-creator {
+  margin-top: 2.5vh;
 }

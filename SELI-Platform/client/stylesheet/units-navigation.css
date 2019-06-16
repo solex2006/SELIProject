@@ -2,7 +2,6 @@
   width: var(--course-navigation-width);
   position: relative;
   padding-top: 0.5vh;
-  background-color: var(--navigation-color);
   z-index: 207;
 }
 

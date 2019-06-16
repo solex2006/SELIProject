@@ -193,6 +193,7 @@ export default withTracker((props) => {
     teacherId: props.teacherId,
   };
   const files = TutorFilesCollection.find({ meta: meta }, { sort: { name: 1 } }).fetch();
+  console.log(files);
   let uploaded = false;
   if (files.length) {
     uploaded = true;

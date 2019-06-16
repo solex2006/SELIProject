@@ -1,7 +1,7 @@
 import { FilesCollection } from 'meteor/ostrio:files';
 
 const TutorFilesCollection = new FilesCollection({
-  storagePath: 'assets/app/uploads/TutorFilesCollection',
+  storagePath: 'SELI-Uploads/TutorFilesCollection',
   downloadRoute: '/files/TutorFilesCollection',
   collectionName: 'TutorFilesCollection',
   permissions: 0o755,

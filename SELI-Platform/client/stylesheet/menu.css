@@ -109,7 +109,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .MuiExpansionPanelDetails-root {
   padding: 0 !important;
-  background-color: var(--menu-color) !important;
+  background-color: transparent !important;
   color: #FFF;
 }
 

@@ -9,6 +9,7 @@ export default class UnitsEditor extends React.Component {
     this.state = {
       selectedUnitIndex: undefined,
       selectedUnit: undefined,
+      lessons: [],
     }
   }
 
@@ -25,8 +26,14 @@ export default class UnitsEditor extends React.Component {
     let unit = {
       name: unitName,
       key: this.props.units.length + 1,
+      lessons: [],
     }
     this.props.createUnit(unit);
+  }
+
+  createNewLesson(lesson){
+    let selectedUnit = this.props.selectedUnit;
+    selectedUnit.lessons.push(lesson);
   }
 
   render() {
@@ -43,6 +50,9 @@ export default class UnitsEditor extends React.Component {
                   selectedUnit={this.props.selectedUnit}
                   index={this.props.selectedUnitIndex}
                   showForm={this.props.showForm.bind(this)}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                  createNewLesson={this.createNewLesson.bind(this)}
+                  lessons={this.props.selectedUnit.lessons}
                 />
               </div>
             :

@@ -45,6 +45,11 @@ export default class TutorRegistry extends React.Component {
     }
   }
 
+  select(){
+    window.scrollTo(0, 0);
+    this.props.selectTutor(this.props.tutors);
+  }
+
   render() {
     return(
       <div>
@@ -69,7 +74,7 @@ export default class TutorRegistry extends React.Component {
           {
             this.props.saveTutor ?
               <div className="crud-button-container">
-                <Button className="registry-crud-button" color="primary">
+                <Button onClick={() => this.select()} className="registry-crud-button" color="primary">
                   Choose tutor
                 </Button>
               </div>

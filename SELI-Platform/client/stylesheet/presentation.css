@@ -13,8 +13,9 @@
   position: absolute;
   background-image: url(presentation.jpg);
   background-position: center;
-  background-size: 100vw 100vh;
+  background-size: cover;
   background-repeat: no-repeat;
+  filter: contrast(75%);
   z-index: 5;
 }
 

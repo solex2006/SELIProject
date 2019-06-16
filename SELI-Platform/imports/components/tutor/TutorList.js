@@ -5,6 +5,7 @@ import TutorRegistry from './TutorRegistry';
 import ListTools from '../tools/ListTools';
 
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 export default class TutorList extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class TutorList extends React.Component {
     this.state = {
       showEditForm: false,
       filteredTutors: [],
+      selectedTutor: undefined,
     }
   }
 
@@ -87,6 +89,10 @@ export default class TutorList extends React.Component {
     });
   }
 
+  selectTutor(tutor){
+    this.props.setTutor(tutor);
+  }
+
   render() {
     return(
       <div>
@@ -94,6 +100,26 @@ export default class TutorList extends React.Component {
           !this.props.showEditForm ?
             <div className="form-container">
               <div className="form-title">Course editor</div>
+              {
+                this.props.tutor && this.props.saveTutor ?
+                  <div>
+                    <div className="form-subtitle">Selected tutor</div>
+                    <div className="selected-container">
+                      <div className="selected-row">
+                        <div className="tutor-icon"></div>
+                        <div className="tutor-atribute">Course tutor</div>
+                        <div className="tutor-info">{this.props.tutor.name}</div>
+                      </div>
+                    </div>
+                    <div id="form-list-button" className="form-button-container">
+                      <Button onClick={() => this.saveTutor()} className="form-button" id="upload-button" variant="contained" color="secondary">
+                        Save tutor
+                      </Button>
+                    </div>
+                  </div>
+                :
+                undefined
+              }
               <div className="form-subtitle">Registered tutors</div>
               <ListTools
                 type="tutor"
@@ -113,7 +139,8 @@ export default class TutorList extends React.Component {
                             key={tutors._id}
                             showControlMessage={this.props.showControlMessage.bind(this)}
                             openEditForm={this.openEditForm.bind(this)}
-                            saveTutor={this.props.saveTutor}/>
+                            saveTutor={this.props.saveTutor}
+                            selectTutor={this.selectTutor.bind(this)}/>
                         })
                     }
                   </div>
@@ -127,20 +154,11 @@ export default class TutorList extends React.Component {
                           key={tutors._id}
                           showControlMessage={this.props.showControlMessage.bind(this)}
                           openEditForm={this.openEditForm.bind(this)}
-                          saveTutor={this.props.saveTutor}/>
+                          saveTutor={this.props.saveTutor}
+                          selectTutor={this.selectTutor.bind(this)}/>
                       })
                   }
                 </div>
-              }
-              {
-                this.props.saveTutor ?
-                  <div className="form-button-container">
-                    <Button onClick={() => this.saveTutor()} className="form-button" id="upload-button" variant="contained" color="secondary">
-                      Save tutor
-                    </Button>
-                  </div>
-                :
-                undefined
               }
             </div>
           :

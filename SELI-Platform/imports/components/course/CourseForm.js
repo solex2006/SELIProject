@@ -128,7 +128,7 @@ export default class CourseForm extends React.Component {
     simpleInputs.push(subtitle);
     simpleInputs.push(time);
     simpleInputs.push(description);
-    if(this.validateEmptyInputs(simpleInputs)) {
+    if(/*this.validateEmptyInputs(simpleInputs)*/true) {
       course.title = title;
       course.subtitle = subtitle;
       course.time = time;

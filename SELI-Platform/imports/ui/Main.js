@@ -47,6 +47,7 @@ export default class Main extends React.Component {
       Transition: TransitionRight,
       messageDuration: 8500,
       course: course,
+      tutor: undefined,
       category: '',
       saveTutor: false,
       showEditForm: false,
@@ -300,6 +301,12 @@ export default class Main extends React.Component {
     });
   }
 
+  setTutor(tutor){
+    this.setState({
+      tutor: tutor,
+    });
+  }
+
   checkLoadedData(){
 
   }
@@ -367,6 +374,8 @@ export default class Main extends React.Component {
                     showControlMessage={this.showControlMessage.bind(this)}
                     showEditForm={this.state.showEditForm}
                     setEditorForm={this.setEditorForm.bind(this)}
+                    tutor={this.state.tutor}
+                    setTutor={this.setTutor.bind(this)}
                   />
                 :
                 undefined
@@ -396,6 +405,7 @@ export default class Main extends React.Component {
                     createUnit={this.createUnit.bind(this)}
                     selectedUnitIndex={this.state.selectedUnitIndex}
                     selectedUnit={this.state.selectedUnit}
+                    showControlMessage={this.showControlMessage.bind(this)}
                   />
                 :
                 undefined

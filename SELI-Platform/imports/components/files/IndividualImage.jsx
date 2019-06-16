@@ -85,7 +85,7 @@ class IndividualFile extends Component {
             <p className="file-name-title">Teacher's photo</p>
             <p className="file-name-text">{this.props.fileName}</p>
             <div className="centered-image-preview-container">
-              <div className="image-preview" style={{ backgroundImage: "url(" + this.props.fileUrl + ")" }}></div>
+              <img className="image-preview" style={{ backgroundImage: "url(" + this.props.fileUrl + ")" }}></img>
             </div>
             <div className="file-button-container">
               <Button className="file-crud-button" onClick={this.handleClickOpen}>
