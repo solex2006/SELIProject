@@ -165,7 +165,9 @@ export default class Main extends React.Component {
     let courseNavigation;
     if(
       this.state.forms.show === 'CourseForm' || this.state.forms.show === 'TutorList' ||
-      this.state.forms.show === 'RequirementsForm' || this.state.forms.show === 'UnitsEditor'
+      this.state.forms.show === 'RequirementsForm' || this.state.forms.show === 'UnitsEditor' ||
+      this.state.forms.show === 'ContentEditor' || this.state.forms.show === 'QuizEditor' ||
+      this.state.forms.show === 'LearningActivityEditor'
     ){
       courseNavigation = true;
     }
