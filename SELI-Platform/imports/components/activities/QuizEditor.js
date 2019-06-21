@@ -3,6 +3,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import QuestionForm from './QuestionForm';
 
+import Quiz from '../../map/Quiz.js';
+
 export default class QuizEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -10,6 +12,7 @@ export default class QuizEditor extends React.Component {
       showQuizForm: true,
       showQuestions: false,
       showQuestionForm: false,
+      selectedQuiz: undefined,
     }
   }
 
@@ -19,6 +22,14 @@ export default class QuizEditor extends React.Component {
       showQuestions: true,
       showQuestionForm: false,
     });
+    let lesson = this.props.lesson;
+    let title  = document.getElementById('quiz-title-input').value;
+    let quiz = {};
+    quiz.title = title;
+    quiz.questions = [];
+    quiz.key = lesson.key + lesson.quizes.length;
+    quiz.ordinal = lesson.quizes.length + 1;
+    lesson.quizes.push(quiz);
   }
 
   showQuestionForm() {
@@ -27,6 +38,31 @@ export default class QuizEditor extends React.Component {
       showQuestions: true,
       showQuestionForm: true,
     });
+  }
+
+  addQuestion(question){
+    this.setState({
+      showQuizForm: false,
+      showQuestions: true,
+      showQuestionForm: false,
+    });
+    let quiz = this.state.selectedQuiz;
+    quiz.questions.push(question);
+  }
+
+  showQuizForm(){
+    this.setState({
+      showQuizForm: true,
+      showQuestions: false,
+      showQuestionForm: false,
+    });
+  }
+
+  selectQuiz(quiz){
+    this.setState({
+      selectedQuiz: quiz,
+    });
+    this.showQuestionForm();
   }
 
   render() {
@@ -40,7 +76,7 @@ export default class QuizEditor extends React.Component {
                 <div className="form-subtitle">Quiz</div>
                 <div className="input-container">
                   <TextField
-                    id="outlined-uncontrolled"
+                    id="quiz-title-input"
                     label="Quiz title"
                     margin="normal"
                     variant="outlined"
@@ -81,11 +117,31 @@ export default class QuizEditor extends React.Component {
               <div>
                 <div className="form-subtitle">Questions</div>
                 <div className="added-question-container">
-
+                  {
+                    this.props.lesson.quizes.length ?
+                      <div className="quizes-container">
+                        {
+                          this.props.lesson.quizes.map((quizes) =>
+                            {
+                              return <Quiz
+                                quizes={quizes}
+                                key={quizes.key}
+                                selectQuiz={this.selectQuiz.bind(this)}/>
+                            })
+                        }
+                      </div>
+                    :
+                    undefined
+                  }
                 </div>
-                <div className="add-question-button-container">
-                  <Button onClick={() => this.showQuestionForm()} variant="contained" color="primary">
-                    Add question
+                <div className="add-quiz-button-container">
+                  <Button onClick={() => this.showQuizForm()} variant="contained" color="primary">
+                    Add another quiz
+                  </Button>
+                </div>
+                <div className="form-button-container">
+                  <Button onClick={() => this.props.showForm("UnitsEditor", true)} className="form-button" id="upload-button" variant="contained" color="secondary">
+                    Save quizes
                   </Button>
                 </div>
               </div>
@@ -94,7 +150,9 @@ export default class QuizEditor extends React.Component {
           }
           {
             this.state.showQuestionForm ?
-              <QuestionForm/>
+              <QuestionForm
+                addQuestion={this.addQuestion.bind(this)}
+              />
             :
               undefined
           }

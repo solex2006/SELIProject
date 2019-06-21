@@ -42,6 +42,7 @@ export default class ContentEditor extends React.Component {
             this.state.content === 'TextAndImage' ?
               <TextAndImageForm
                 showForm={this.props.showForm.bind(this)}
+                addContent={this.props.addContent.bind(this)}
               />
             :
               undefined
@@ -50,6 +51,7 @@ export default class ContentEditor extends React.Component {
             this.state.content === 'Video' ?
               <VideoForm
                 showForm={this.props.showForm.bind(this)}
+                addContent={this.props.addContent.bind(this)}
               />
             :
               undefined
@@ -58,6 +60,7 @@ export default class ContentEditor extends React.Component {
             this.state.content === 'H5P' ?
               <H5PForm
                 showForm={this.props.showForm.bind(this)}
+                addContent={this.props.addContent.bind(this)}
               />
             :
               undefined
@@ -66,6 +69,7 @@ export default class ContentEditor extends React.Component {
             this.state.content === 'Animation' ?
               <AnimationForm
                 showForm={this.props.showForm.bind(this)}
+                addContent={this.props.addContent.bind(this)}
               />
             :
               undefined
@@ -74,6 +78,7 @@ export default class ContentEditor extends React.Component {
             this.state.content === 'Files' ?
               <FileForm
                 showForm={this.props.showForm.bind(this)}
+                addContent={this.props.addContent.bind(this)}
               />
             :
               undefined
@@ -82,6 +87,7 @@ export default class ContentEditor extends React.Component {
             this.state.content === 'Embed' ?
               <EmbedForm
                 showForm={this.props.showForm.bind(this)}
+                addContent={this.props.addContent.bind(this)}
               />
             :
               undefined

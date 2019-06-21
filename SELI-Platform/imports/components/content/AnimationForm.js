@@ -24,6 +24,16 @@ export default class AnimationForm extends React.Component {
     console.log('error code ' + error.code + ': ' + error.message)
   }
 
+  saveContent(){
+    this.props.showForm("UnitsEditor", true);
+    let lessonName = document.getElementById('lesson-name-input').value;
+    let content = {
+      lesson: lessonName,
+      type: 'animation',
+    };
+    this.props.addContent(content);
+  }
+
   render() {
     return(
       <div>
@@ -32,7 +42,7 @@ export default class AnimationForm extends React.Component {
 
         <div className="input-container">
           <TextField
-            id="outlined-uncontrolled"
+            id="lesson-name-input"
             label="Lesson name"
             margin="normal"
             variant="outlined"
@@ -92,7 +102,7 @@ export default class AnimationForm extends React.Component {
           }
         </div>
         <div className="form-button-container">
-          <Button onClick={() => this.props.showForm("UnitsEditor", true)} className="form-button" id="upload-button" variant="contained" color="secondary">
+          <Button onClick={() => this.saveContent()} className="form-button" id="upload-button" variant="contained" color="secondary">
             Save content
           </Button>
         </div>

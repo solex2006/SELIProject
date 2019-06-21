@@ -36,6 +36,10 @@ export default class UnitsEditor extends React.Component {
     selectedUnit.lessons.push(lesson);
   }
 
+  updateLesson(lesson){
+    this.props.updateLesson(lesson);
+  }
+
   render() {
     return(
       <div>
@@ -53,6 +57,8 @@ export default class UnitsEditor extends React.Component {
                   showControlMessage={this.props.showControlMessage.bind(this)}
                   createNewLesson={this.createNewLesson.bind(this)}
                   lessons={this.props.selectedUnit.lessons}
+                  selectLesson={this.props.selectLesson.bind(this)}
+                  updateLesson={this.updateLesson.bind(this)}
                 />
               </div>
             :

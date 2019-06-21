@@ -297,9 +297,6 @@ export default class TutorForm extends React.Component {
               type="number"
               fullWidth
               required
-              InputProps={{
-                endAdornment: <InputAdornment position="end">hours</InputAdornment>,
-              }}
               inputProps={{ min: "0", max: "9999999999", step: "1" }}
               error={this.state.phoneNumberError}
               defaultValue={this.props.tutorToEdit ? this.props.tutorToEdit.phoneNumber : undefined}

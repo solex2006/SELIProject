@@ -38,6 +38,17 @@ export default class LearningActivityEditor extends React.Component {
     this.handleClickOpen();
   }
 
+  addLearningActivity(){
+    this.props.showForm("UnitsEditor", true);
+    let name = document.getElementById('learning-activity-name-input').value;
+    let lesson = this.props.lesson;
+    let learningActivity = {
+      name: name,
+      key: lesson.key + lesson.learningActivities.length,
+    };
+    lesson.learningActivities.push(learningActivity);
+  }
+
   render() {
     return(
       <div>
@@ -46,7 +57,7 @@ export default class LearningActivityEditor extends React.Component {
           <div className="form-subtitle">Learning activity</div>
           <div className="input-container">
             <TextField
-              id="outlined-uncontrolled"
+              id="learning-activity-name-input"
               label="Learning activity name"
               margin="normal"
               variant="outlined"
@@ -64,7 +75,7 @@ export default class LearningActivityEditor extends React.Component {
               required
             />
           </div>
-          <div className="form-subtitle">Content</div>
+          <div className="form-subtitle">Activiy content</div>
           <div className="input-container">
             <TextField
               id="url-input"
@@ -110,7 +121,7 @@ export default class LearningActivityEditor extends React.Component {
             </DialogActions>
           </Dialog>
           <div className="form-button-container">
-            <Button onClick={() => this.props.showForm("UnitsEditor", true)} className="form-button" id="upload-button" variant="contained" color="secondary">
+            <Button onClick={() => this.addLearningActivity()} className="form-button" id="upload-button" variant="contained" color="secondary">
               Save learning activity
             </Button>
           </div>

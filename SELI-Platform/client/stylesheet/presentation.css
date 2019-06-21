@@ -15,7 +15,7 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  filter: contrast(75%);
+  filter: contrast(95%);
   z-index: 5;
 }
 
@@ -44,6 +44,7 @@
   color: var(--white);
   animation: fadeInDown 0.5s;
   animation-fill-mode: backwards;
+  background: rgba(158, 158, 158, 0.55);
   animation-delay: 0.5s;
 }
 

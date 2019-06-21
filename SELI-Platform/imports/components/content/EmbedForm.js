@@ -38,6 +38,16 @@ export default class EmbedForm extends React.Component {
     this.handleClickOpen();
   }
 
+  saveContent(){
+    this.props.showForm("UnitsEditor", true);
+    let lessonName = document.getElementById('lesson-name-input').value;
+    let content = {
+      lesson: lessonName,
+      type: 'embed',
+    };
+    this.props.addContent(content);
+  }
+
   render() {
     return(
       <div>
@@ -45,7 +55,7 @@ export default class EmbedForm extends React.Component {
         <div className="form-subtitle">Embed content</div>
         <div className="input-container">
           <TextField
-            id="outlined-uncontrolled"
+            id="lesson-name-input"
             label="Lesson name"
             margin="normal"
             variant="outlined"
@@ -95,7 +105,6 @@ export default class EmbedForm extends React.Component {
                 width="100%"
                 height="100%"
                 id="myId"
-                className="myClassname"
                 display="initial"
                 position="relative"
                 loading="Loading..."
@@ -109,7 +118,7 @@ export default class EmbedForm extends React.Component {
           </DialogActions>
         </Dialog>
         <div className="form-button-container">
-          <Button onClick={() => this.props.showForm("UnitsEditor", true)} className="form-button" id="upload-button" variant="contained" color="secondary">
+          <Button onClick={() => this.saveContent()} className="form-button" id="upload-button" variant="contained" color="secondary">
             Save content
           </Button>
         </div>

@@ -309,6 +309,29 @@ export default class Main extends React.Component {
     });
   }
 
+  selectLesson(lesson){
+    this.setState({
+      selectedLesson: lesson,
+    });
+  }
+
+  addContent(content){
+    let selectedUnit = this.state.selectedUnit;
+    for (var i = 0; i < selectedUnit.lessons.length; i++) {
+      if(selectedUnit.lessons[i].key === this.state.selectedLesson.key){
+        content.key = selectedUnit.key + "-" + this.state.selectedLesson.key + "-" + this.state.selectedLesson.content.length;
+        selectedUnit.lessons[i].content.push(content);
+        break;
+      }
+    }
+  }
+
+  updateLesson(lesson){
+    this.setState({
+      selectLesson: lesson,
+    });
+  }
+
   checkLoadedData(){
 
   }
@@ -408,6 +431,8 @@ export default class Main extends React.Component {
                     selectedUnitIndex={this.state.selectedUnitIndex}
                     selectedUnit={this.state.selectedUnit}
                     showControlMessage={this.showControlMessage.bind(this)}
+                    selectLesson={this.selectLesson.bind(this)}
+                    updateLesson={this.updateLesson.bind(this)}
                   />
                 :
                 undefined
@@ -416,6 +441,7 @@ export default class Main extends React.Component {
                 this.state.forms.show === 'ContentEditor' ?
                   <ContentEditor
                     showForm={this.showForm.bind(this)}
+                    addContent={this.addContent.bind(this)}
                   />
                 :
                 undefined
@@ -424,6 +450,7 @@ export default class Main extends React.Component {
                 this.state.forms.show === 'QuizEditor' ?
                   <QuizEditor
                     showForm={this.showForm.bind(this)}
+                    lesson={this.state.selectedLesson}
                   />
                 :
                 undefined
@@ -432,6 +459,7 @@ export default class Main extends React.Component {
                 this.state.forms.show === 'LearningActivityEditor' ?
                   <LearningActivityEditor
                     showForm={this.showForm.bind(this)}
+                    lesson={this.state.selectedLesson}
                   />
                 :
                 undefined

@@ -1,0 +1,20 @@
+.added-question-container {
+  display: flex;
+  justify-content: center;
+}
+
+.quizes-container {
+  width: 50vw;
+}
+
+.add-quiz-button-container {
+  margin-top: 2.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.question-creator-button {
+  margin: 0 20px !important;
+  margin-bottom: 10px !important;
+}

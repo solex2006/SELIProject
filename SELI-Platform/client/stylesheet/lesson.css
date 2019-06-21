@@ -38,3 +38,15 @@
   height: 100%;
   background-color: var(--navigation-color);
 }
+
+.lesson-content-container {
+  width: calc(100% - 40px);
+  margin-left: 40px;
+  height: auto;
+  margin-bottom: 2.5vh;
+  margin-top: 1.5vh;
+}
+
+.expansion-panel-label {
+  margin-bottom: 2vh;
+}

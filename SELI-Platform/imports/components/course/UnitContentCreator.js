@@ -36,6 +36,9 @@ export default class UnitContentCreator extends React.Component {
         key: lessons.length + this.props.selectedUnit.key,
         name: name,
         ordinal: lessons.length + 1,
+        content: [],
+        quizes: [],
+        learningActivities: [],
       }
       this.setState({
         nameError: false,
@@ -48,6 +51,10 @@ export default class UnitContentCreator extends React.Component {
     this.setState({
       showNewLessonInput: false,
     });
+  }
+
+  updateLesson(){
+    this.props.updateLesson(this.props.lessons);
   }
 
   render() {
@@ -67,7 +74,9 @@ export default class UnitContentCreator extends React.Component {
                       return <Lesson
                         lessons={lessons}
                         key={lessons.key}
-                        showForm={this.props.showForm.bind(this)}/>
+                        showForm={this.props.showForm.bind(this)}
+                        selectLesson={this.props.selectLesson.bind(this)}
+                        updateLesson={this.updateLesson.bind(this)}/>
                     })
                 }
               </div>
