@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import '../imports/api/files';
+import '../imports/api/tutorFiles';
+import '../imports/api/courseFiles';
 import '../lib/TutorCollection';
 
 Meteor.startup(() => {

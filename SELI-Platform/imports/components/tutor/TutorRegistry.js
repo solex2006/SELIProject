@@ -33,7 +33,7 @@ export default class TutorRegistry extends React.Component {
   };
 
   delete(){
-    Meteor.call('RemoveFile', this.props.tutors.imageId, function (err) {
+    Meteor.call('RemoveTutorFile', this.props.tutors.imageId, function (err) {
       if (err)
       console.log(err);
     })

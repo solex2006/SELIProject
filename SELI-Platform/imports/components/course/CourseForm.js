@@ -8,17 +8,20 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import Item from '../../map/Item';
+import TransferList from '../inputs/TransferList';
+import ImageUpload from '../files/ImageUpload';
+import FileUpload from '../files/FileUpload';
+
+import CourseFilesCollection from '../../../lib/CourseFilesCollection.js';
 
 export default class CourseForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       category: this.props.course.category,
-      modality: "",
-      modalities: [
-        {key: 0, label: "Presential"},
-        {key: 1, label: "Distance"},
-      ],
+      parentId: 'creating-course',
+      modalityItems: ['Distance', 'Presential', 'Semipresential'],
+      methodologyItems: ['Cooperative', 'Design thinking', 'Thinking based learning', 'Competitions']
     }
   }
 
@@ -30,14 +33,6 @@ export default class CourseForm extends React.Component {
       this.setState({
         category: this.props.course.category,
       });
-    });
-  };
-
-  handleModalityChange = event => {
-    this.setState({
-      modality: event.target.value,
-    }, () => {
-
     });
   };
 
@@ -140,22 +135,34 @@ export default class CourseForm extends React.Component {
     return false;
   }
 
-  addModality(){
-    if(this.state.modality !== ""){
-      let modalityIndex = this.state.modality;
-      let disabledModalities = this.state.disabledModalities;
-      this.props.setModality(this.state.modalities[modalityIndex]);
-    }
-    else{
-      this.props.showControlMessage('Please select one modality');
-    }
+  removeUrl(){
     this.setState({
-      modality: "",
+      url: '',
+      imageId: '',
     });
   }
 
-  removeModality(key){
-    this.props.removeModality(key);
+  getImageInformation(url, id){
+    this.setState({
+      url: url,
+      imageId: id,
+    });
+  }
+
+  resetFile(){
+    this.setState({
+      parentId: 'creating-course',
+    });
+  }
+
+  componentWillUnmount(){
+    /*let files = CourseFilesCollection.find({ meta: {parentId: "creating-course"} }, { sort: { name: 1 } }).fetch();
+    for (var i = 0; i < files.length; i++) {
+      Meteor.call('RemoveCourseFile', files[i]._id, function (err) {
+        if (err)
+        console.log(err);
+      });
+    }*/
   }
 
   render() {
@@ -222,17 +229,25 @@ export default class CourseForm extends React.Component {
               </Select>
             </FormControl>
           </div>
-          <div className="input-container">
-            <div className="image-preview"></div>
-            <Button className="main-button" id="upload-button" variant="contained" color="primary">
-              Upload course image
-            </Button>
+          <div className="input-file-container">
+            <ImageUpload
+              parentId={this.state.parentId}
+              getImageInformation={this.getImageInformation.bind(this)}
+              removeUrl={this.removeUrl.bind(this)}
+              resetFile={this.resetFile.bind(this)}
+            />
           </div>
-          <div className="input-container">
-            <div className="file-preview"></div>
-            <Button className="main-button" id="upload-button" variant="contained" color="primary">
-              Upload syllabus (.pdf)
-            </Button>
+          <div className="input-file-container">
+            <FileUpload
+              parentId={this.state.parentId + "-file"}
+              getImageInformation={this.getImageInformation.bind(this)}
+              removeUrl={this.removeUrl.bind(this)}
+              resetFile={this.resetFile.bind(this)}
+              accept=".pdf"
+              label="Upload sylabus"
+              uploadedTitle="Course sylabus"
+              icon="pdf-g.svg"
+            />
           </div>
           <div className="input-container">
             <TextField
@@ -265,70 +280,20 @@ export default class CourseForm extends React.Component {
               defaultValue={this.props.course.description}
             />
           </div>
-          <div className="multiple-inputs-container">
-            <FormControl
-              variant="outlined"
-            >
-              <InputLabel
-                ref={ref => {
-                    this.InputLabelRef = ref;
-                }}
-                htmlFor="course-modality"
-              >
-                Course modality*
-              </InputLabel>
-              <Select
-                id="modality-select-input"
-                value={this.state.modality}
-                error={this.state.modalitiesError}
-                onChange={this.handleModalityChange}
-                required
-                defaultValue={this.state.modality}
-                input={
-                  <OutlinedInput
-                    name="course-modality"
-                    id="course-modality"
-                  />
-                }
-              >
-                <MenuItem disabled value="">Modality</MenuItem>
-                {this.props.disabledModalities[0] ? undefined : <MenuItem value={0}>Presential</MenuItem>}
-                {this.props.disabledModalities[1] ? undefined : <MenuItem value={1}>Distance</MenuItem>}
-              </Select>
-            </FormControl>
-            <Button onClick={() => this.addModality()} className="mutiple-button" id="upload-button" variant="contained" color="primary">
-              Add
-            </Button>
-            <div className="input-list">
-              <div className="input-list-title">Modalities</div>
-              <div className="input-list-container">
-                {
-                  this.props.course.modalities.map((modalities) =>
-                    {
-                      return <Item
-                        modalities={modalities}
-                        key={modalities.key}
-                        removeModality={this.removeModality.bind(this)}/>
-                    })
-                }
-              </div>
+          <div className="input-list-container">
+            <p className="list-input-label">Modality</p>
+            <div className="transfer-list-container">
+              <TransferList
+                items={this.state.modalityItems}
+              />
             </div>
           </div>
-          <div className="multiple-inputs-container">
-            <TextField
-              className="multiple-input"
-              id="outlined-uncontrolled"
-              label="Course methodology"
-              margin="normal"
-              variant="outlined"
-              required
-            />
-            <Button className="mutiple-button" id="upload-button" variant="contained" color="primary">
-              Add
-            </Button>
-            <div className="input-list">
-              <div className="input-list-title">Methodologies</div>
-              <div className="input-list-container"></div>
+          <div className="input-list-container">
+            <p className="list-input-label">Methodology</p>
+            <div className="transfer-list-container">
+              <TransferList
+                items={this.state.methodologyItems}
+              />
             </div>
           </div>
           <div className="form-button-container">

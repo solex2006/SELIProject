@@ -1,12 +1,15 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import TransferList from '../inputs/TransferList';
 
 export default class TutorForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      knowledgeItems: ['Math', 'Programing', 'Physics', 'Biology'],
+      technilcaItems: ['Headphones', 'Microphone', 'Movil device'],
+      peopleItems: ['Kids', 'Adults'],
     }
   }
 
@@ -24,55 +27,28 @@ export default class TutorForm extends React.Component {
         <div className="form-container">
           <div className="form-title">Course editor</div>
           <div className="form-subtitle">Requirements</div>
-          <div className="multiple-inputs-container">
-            <TextField
-              className="multiple-input"
-              id="outlined-uncontrolled"
-              label="Knowledge requirement"
-              margin="normal"
-              variant="outlined"
-              required
-            />
-            <Button className="mutiple-button" id="upload-button" variant="contained" color="primary">
-              Add
-            </Button>
-            <div className="input-list">
-              <div className="input-list-title">Knowledge requirements</div>
-              <div className="input-list-container"></div>
+          <div className="input-list-container">
+            <p className="list-input-label">Knowledge requirements</p>
+            <div className="transfer-list-container">
+              <TransferList
+                items={this.state.knowledgeItems}
+              />
             </div>
           </div>
-          <div className="multiple-inputs-container">
-            <TextField
-              className="multiple-input"
-              id="outlined-uncontrolled"
-              label="Technical requirement"
-              margin="normal"
-              variant="outlined"
-              required
-            />
-            <Button className="mutiple-button" id="upload-button" variant="contained" color="primary">
-              Add
-            </Button>
-            <div className="input-list">
-              <div className="input-list-title">Technical requirements</div>
-              <div className="input-list-container"></div>
+          <div className="input-list-container">
+            <p className="list-input-label">Technical requirements</p>
+            <div className="transfer-list-container">
+              <TransferList
+                items={this.state.technilcaItems}
+              />
             </div>
           </div>
-          <div className="multiple-inputs-container">
-            <TextField
-              className="multiple-input"
-              id="outlined-uncontrolled"
-              label="To whom is directed"
-              margin="normal"
-              variant="outlined"
-              required
-            />
-            <Button className="mutiple-button" id="upload-button" variant="contained" color="primary">
-              Add
-            </Button>
-            <div className="input-list">
-              <div className="input-list-title">People that will course</div>
-              <div className="input-list-container"></div>
+          <div className="input-list-container">
+            <p className="list-input-label">People who should take the course</p>
+            <div className="transfer-list-container">
+              <TransferList
+                items={this.state.peopleItems}
+              />
             </div>
           </div>
           <div className="form-button-container">

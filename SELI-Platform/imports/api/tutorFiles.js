@@ -13,7 +13,7 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-    'RemoveFile'(id) {
+    'RemoveTutorFile'(id) {
 
         TutorFilesCollection.remove({_id: id}, function (error) {
             if (error) {

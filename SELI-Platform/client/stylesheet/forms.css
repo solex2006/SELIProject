@@ -449,6 +449,7 @@
 .upload-file-button {
   position: relative !important;
   margin-top: 2.5vh !important;
+  margin-left: 0px !important; 
 }
 
 .description-input {

@@ -4,13 +4,13 @@ import React, { Component } from 'react';
 import TutorFilesCollection from '../../../lib/TutorFilesCollection';
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import { _ } from 'meteor/underscore';
-import IndividualImage from './IndividualImage';
+import IndividualFile from './IndividualFile';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const debug = require('debug')('demo:file');
 
-class ImageUploadComponent extends Component {
+class FileUploadComponent extends Component {
   constructor(props) {
     super(props);
 
@@ -50,7 +50,7 @@ class ImageUploadComponent extends Component {
           }, false);
         }
 
-        if(this.props.parentId === "creating-course"){
+        if(this.props.parentId === "creating-course-file"){
           uploadInstance = CourseFilesCollection.insert({
             file: file,
             meta: {
@@ -80,7 +80,7 @@ class ImageUploadComponent extends Component {
         uploadInstance.on('uploaded', function (error, fileObj) {
           console.log('uploaded: ', fileObj);
           // Remove the filename from the upload box
-          self.refs['imageinput'].value = '';
+          self.refs['fileinput'].value = '';
 
           // Reset our state for the next file
           self.setState({
@@ -146,7 +146,7 @@ class ImageUploadComponent extends Component {
         if(this.props.parentId === 'creating-tutor'){
           link = TutorFilesCollection.findOne({ _id: aFile._id }).link();  //The "view/download" link
         }
-        else if(this.props.parentId === 'creating-course'){
+        else if(this.props.parentId === 'creating-course-file'){
           link = CourseFilesCollection.findOne({ _id: aFile._id }).link();  //The "view/download" link
         }
         else {
@@ -162,7 +162,7 @@ class ImageUploadComponent extends Component {
         console.log(link);
         // Send out components that show details of each file
         return <div key={'file' + key}>
-          <IndividualImage
+          <IndividualFile
             fileName={aFile.name}
             fileUrl={link}
             fileId={aFile._id}
@@ -172,6 +172,8 @@ class ImageUploadComponent extends Component {
             resetFile={this.props.resetFile.bind(this)}
             parent={this.props.parentId}
             collectionName={aFile._collectionName}
+            uploadedTitle={this.props.uploadedTitle}
+            icon={this.props.icon}
           />
         </div>
       })
@@ -183,18 +185,16 @@ class ImageUploadComponent extends Component {
               <div className="input-file-container">
                 <input
                   type="file"
-                  id="imageinput"
+                  id="fileinput"
                   disabled={this.state.inProgress}
                   onChange={this.uploadIt}
-                  ref="imageinput"
+                  ref="fileinput"
                   className="file-upload-input"
-                  accept="image/*"
+                  accept={this.props.accept}
                 />
-                <label htmlFor="imageinput">
+                <label htmlFor="fileinput">
                   <Button className="upload-file-button" variant="contained" component="span">
-                    {this.props.parentId === 'creating-tutor' ? "Upload teacher's photo" : undefined}
-                    {this.props.parentId === 'creating-course' ? "Upload course image" : undefined}
-                    {!(this.props.parentId === 'creating-tutor') && !(this.props.parentId === 'creating-course') ? "Change image" : undefined}
+                    {this.props.label}
                   </Button>
                 </label>
               </div>
@@ -235,7 +235,7 @@ export default withTracker((props) => {
   if(props.parentId === 'creating-tutor'){
     files = TutorFilesCollection.find({ meta: meta }, { sort: { name: 1 } }).fetch();
   }
-  else if(props.parentId === 'creating-course'){
+  else if(props.parentId === 'creating-course-file'){
     files = CourseFilesCollection.find({ meta: meta }, { sort: { name: 1 } }).fetch();
   }
   else{
@@ -263,4 +263,4 @@ export default withTracker((props) => {
     files,
     uploaded,
   };
-})(ImageUploadComponent);
+})(FileUploadComponent);

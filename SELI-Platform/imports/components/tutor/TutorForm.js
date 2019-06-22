@@ -13,7 +13,7 @@ export default class TutorForm extends React.Component {
     this.state = {
       url: '',
       imageId: '',
-      teacherId: 'creating',
+      parentId: 'creating-tutor',
     }
   }
 
@@ -141,7 +141,7 @@ export default class TutorForm extends React.Component {
     this.setState({
       url: '',
       imageId: '',
-      teacherId: 'creating',
+      parentId: 'creating-tutor',
       nameError: false,
       biographyError: false,
       googleLinkError: false,
@@ -152,23 +152,37 @@ export default class TutorForm extends React.Component {
   }
 
   saveTutor(tutor){
-    let teacherId = Tutors.insert(tutor);
-    if(teacherId) {
-      let changeImageMeta = TutorFilesCollection.update(
-        {_id: this.state.imageId },
-        { $set: {
-          meta: {
-            teacherId: teacherId,
-          }
-        }}
-      );
-      if(changeImageMeta){
-        this.props.showControlMessage('Teacher registered successfully', true, "TutorList");
-        this.resetInputs();
+    let parentId = Tutors.insert(tutor);
+    this.setState({
+      parentId: parentId,
+    }, () => {
+      if(parentId) {
+        let changeImageMeta = TutorFilesCollection.update(
+          {_id: this.state.imageId },
+          { $set: {
+            meta: {
+              parentId: parentId,
+            }
+          }}
+        );
+        if(changeImageMeta){
+          this.props.showControlMessage('Teacher registered successfully', true, "TutorList");
+          this.resetInputs();
+        }
+        else {
+          this.props.showControlMessage("Could't regiter teacher. Please try again");
+        }
       }
-      else {
-        this.props.showControlMessage("Could't regiter teacher. Please try again");
-      }
+    });
+  }
+
+  componentWillUnmount(){
+    let files = TutorFilesCollection.find({ meta: {parentId: "creating-tutor"} }, { sort: { name: 1 } }).fetch();
+    for (var i = 0; i < files.length; i++) {
+      Meteor.call('RemoveTutorFile', files[i]._id, function (err) {
+        if (err)
+        console.log(err);
+      });
     }
   }
 
@@ -201,7 +215,7 @@ export default class TutorForm extends React.Component {
       this.setState({
         url: this.props.tutorToEdit.imageUrl,
         imageId: this.props.tutorToEdit.imageId,
-        teacherId: this.props.tutorToEdit._id,
+        parentId: this.props.tutorToEdit._id,
       });
     }
   }
@@ -210,6 +224,12 @@ export default class TutorForm extends React.Component {
     this.setState({
       url: '',
       imageId: '',
+    });
+  }
+
+  resetFile(){
+    this.setState({
+      parentId: 'creating-tutor',
     });
   }
 
@@ -233,9 +253,10 @@ export default class TutorForm extends React.Component {
           </div>
           <div className="input-file-container">
             <ImageUpload
-              teacherId={this.state.teacherId}
+              parentId={this.state.parentId}
               getImageInformation={this.getImageInformation.bind(this)}
               removeUrl={this.removeUrl.bind(this)}
+              resetFile={this.resetFile.bind(this)}
             />
           </div>
           <div className="input-container">

@@ -18,7 +18,7 @@ class IndividualFile extends Component {
     this.state = {
       open: false,
     };
-    this.removeImage = this.removeImage.bind(this);
+    this.removeFile = this.removeFile.bind(this);
     this.renameFile = this.renameFile.bind(this);
   }
 
@@ -37,7 +37,7 @@ class IndividualFile extends Component {
     this.setState({ open: false });
   };
 
-  removeImage() {
+  removeFile() {
     if(this.props.collectionName === 'TutorFilesCollection'){
       Meteor.call('RemoveTutorFile', this.props.fileId, function (err) {
         if (err)
@@ -81,13 +81,13 @@ class IndividualFile extends Component {
     return (
       <div>
         <div className="file-info-container">
-          <p className="file-name-title">
-            {this.props.parent === 'creating-tutor' ? "Teacher's photo" : undefined}
-            {this.props.parent === 'creating-course' ? "Course image" : undefined}
-          </p>
+          <p className="file-name-title">{this.props.uploadedTitle}</p>
           <p className="file-name-text">{this.props.fileName}</p>
           <div className="centered-image-preview-container">
-            <img className="image-preview" style={{ backgroundImage: "url(" + this.props.fileUrl + ")" }}></img>
+            <img className="file-preview" style={{ backgroundImage: "url(" + this.props.icon + ")" }}></img>
+          </div>
+          <div className="file-button-container">
+            <a className="view-file-link" href={this.props.fileUrl} target="_blank">Open</a>
           </div>
           <div className="file-button-container">
             <Button className="file-crud-button" onClick={this.handleClickOpen}>
@@ -106,7 +106,7 @@ class IndividualFile extends Component {
             <Button  onClick={this.handleClose} color="primary">
               No
             </Button>
-            <Button onClick={this.removeImage} color="primary" autoFocus>
+            <Button onClick={this.removeFile} color="primary" autoFocus>
               Yes
             </Button>
           </DialogActions>
