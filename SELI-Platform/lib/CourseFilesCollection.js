@@ -1,7 +1,7 @@
 import { FilesCollection } from 'meteor/ostrio:files';
 
 const CourseFilesCollection = new FilesCollection({
-  storagePath: 'SELI-Uploads/CourseFilesCollection',
+  storagePath: '../../data/courseFiles',
   downloadRoute: '/files/CourseFilesCollection',
   collectionName: 'CourseFilesCollection',
   permissions: 0o755,
@@ -18,7 +18,7 @@ const CourseFilesCollection = new FilesCollection({
     // to check file's "magic-numbers" use `mmmagic` or `file-type` package
     // real extension and mime-type can be checked on client (untrusted side)
     // and on server at `onAfterUpload` hook (trusted side)
-    if (file.size <= 20971520 && /|pdf|jpeg|svg|png|jpe?g/i.test(file.ext)) {
+    if (file.size <= 2097152000) {
       return true;
     }
     return 'Please upload image, with size equal or less than 10MB';

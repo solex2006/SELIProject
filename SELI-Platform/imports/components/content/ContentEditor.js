@@ -4,7 +4,7 @@ import TextAndImageForm from './TextAndImageForm';
 import VideoForm from './VideoForm';
 import H5PForm from './H5PForm';
 import AnimationForm from './AnimationForm';
-import FileForm from '../files/FileForm';
+import FileForm from './FileForm';
 import EmbedForm from './EmbedForm';
 
 export default class ContentEditor extends React.Component {

@@ -8,27 +8,17 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 
+import FileUpload from '../files/FileUpload';
+
 export default class FileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       fileType: "",
       showFileInput: false,
-      file: undefined,
-      validFile: false,
+      parentId: 'creating-course',
       extensions: [],
     }
-  }
-
-  onFilesChange = (files) => {
-    console.log(files);
-    this.setState({
-      file: files
-    }, () => {
-      this.setState({
-        validFile: true,
-      });
-    });
   }
 
   handleChange = event => {
@@ -46,26 +36,34 @@ export default class FileForm extends React.Component {
 
   setFileType(fileType) {
     let extensions;
+    let icon;
     if(fileType === 0){
       extensions = ['audio/*'];
+      icon = 'audio';
     }
     if(fileType === 1){
       extensions = ['.docx', '.pptx', '.xlsx', '.doc', '.xls', '.ppt'];
+      icon = 'office';
     }
     if(fileType === 2){
       extensions = ['.pdf'];
+      icon = 'pdf';
     }
     if(fileType === 3){
       extensions = ['video/*'];
+      icon = 'video';
     }
     if(fileType === 4){
       extensions = ['.zip', '.rar', '.tz', '.7z'];
+      icon = 'compressed';
     }
     if(fileType === 5){
       extensions = ['image/*'];
+      icon = 'image';
     }
     this.setState({
       extensions: extensions,
+      icon: icon,
     });
   }
 
@@ -81,6 +79,25 @@ export default class FileForm extends React.Component {
       type: 'files',
     };
     this.props.addContent(content);
+  }
+  removeUrl(){
+    this.setState({
+      url: '',
+      imageId: '',
+    });
+  }
+
+  getImageInformation(url, id){
+    this.setState({
+      url: url,
+      imageId: id,
+    });
+  }
+
+  resetFile(){
+    this.setState({
+      parentId: 'creating-course',
+    });
   }
 
   render() {
@@ -113,7 +130,7 @@ export default class FileForm extends React.Component {
           <FormControl variant="outlined">
             <InputLabel
               ref={ref => {
-                  this.InputLabelRef = ref;
+                this.InputLabelRef = ref;
               }}
               htmlFor="course-category"
               className="select-input-label"
@@ -145,81 +162,30 @@ export default class FileForm extends React.Component {
           {
             this.state.showFileInput ?
               <div>
-                <div className="form-subtitle">Content</div>
-                <Files
-                  className='files-dropzone'
-                  onChange={this.onFilesChange}
-                  onError={this.onFilesError}
-                  accepts={this.state.extensions}
-                  maxFileSize={100000000000}
-                  minFileSize={0}
-                  clickable
-                >
-                  <Button className="upload-file-button" id="upload-file-button" variant="contained" color="primary">
-                    Choose file
-                  </Button>
-                </Files>
-              </div>
-            :
-              undefined
-          }
-        </div>
-        <div className="input-container">
-          {
-            this.state.validFile ?
-              <div className="file-information-container">
-                {
-                  this.state.fileType === 0 ?
-                    <div className="audio-information-icon"></div>
-                  :
-                    undefined
-                }
-                {
-                  this.state.fileType === 1 ?
-                    <div className="office-information-icon"></div>
-                  :
-                    undefined
-                }
-                {
-                  this.state.fileType === 2 ?
-                    <div className="pdf-information-icon"></div>
-                  :
-                    undefined
-                }
-                {
-                  this.state.fileType === 3 ?
-                    <div className="video-information-icon"></div>
-                  :
-                    undefined
-                }
-                {
-                  this.state.fileType === 4 ?
-                    <div className="compressed-information-icon"></div>
-                  :
-                    undefined
-                }
-                {
-                  this.state.fileType === 5 ?
-                    <div className="image-information-icon"></div>
-                  :
-                    undefined
-                }
-                <div className="video-information-text">
-                  <p>{this.state.file[0].name}</p>
-                  <p>{this.state.file[0].sizeReadable}</p>
-                  <p>{this.state.file[0].type}</p>
+                <div className="input-file-container">
+                  <FileUpload
+                    parentId={this.state.parentId + "-file"}
+                    getImageInformation={this.getImageInformation.bind(this)}
+                    removeUrl={this.removeUrl.bind(this)}
+                    resetFile={this.resetFile.bind(this)}
+                    accept={this.state.extensions}
+                    label="Upload file"
+                    uploadedTitle="Content"
+                    icon={this.state.icon + "-g.svg"}
+                  />
                 </div>
               </div>
             :
-              undefined
+            undefined
           }
         </div>
+
         <div className="form-button-container">
           <Button onClick={() => this.saveContent()} className="form-button" id="upload-button" variant="contained" color="secondary">
             Save content
           </Button>
         </div>
       </div>
-    )
-  }
-}
+        )
+      }
+    }

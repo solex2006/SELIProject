@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Files from 'react-files'
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import FileUpload from '../files/FileUpload';
+
+
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from '../../style/theme.js';
 
 export default class VideoForm extends React.Component {
   constructor(props) {
@@ -9,19 +18,9 @@ export default class VideoForm extends React.Component {
     this.state = {
       videoFile: undefined,
       showVideoInput: true,
+      parentId: 'creating-course',
+      wayToAdd: '',
     }
-  }
-
-  onFilesChange = (files) => {
-    console.log(files);
-    this.setState({
-      videoFile: files,
-      showVideoInput: false,
-    });
-  }
-
-  onFilesError(error, file) {
-    console.log('error code ' + error.code + ': ' + error.message)
   }
 
   saveContent(){
@@ -32,6 +31,32 @@ export default class VideoForm extends React.Component {
       type: 'video',
     };
     this.props.addContent(content);
+  }
+
+  getWayToAdd = event => {
+    this.setState({
+      wayToAdd: event.target.value,
+    });
+  }
+
+  removeUrl(){
+    this.setState({
+      url: '',
+      imageId: '',
+    });
+  }
+
+  getImageInformation(url, id){
+    this.setState({
+      url: url,
+      imageId: id,
+    });
+  }
+
+  resetFile(){
+    this.setState({
+      parentId: 'creating-course',
+    });
   }
 
   render() {
@@ -60,46 +85,60 @@ export default class VideoForm extends React.Component {
           />
         </div>
         <div className="form-subtitle">Content</div>
-        <div className="input-container">
-          <TextField
-            id="outlined-uncontrolled"
-            label="Video URL"
-            margin="normal"
-            variant="outlined"
-            fullWidth
-            required
-          />
-        </div>
-        <div className="form-subtitle">Or upload video</div>
-        <div className="input-container">
-          {
-            this.state.showVideoInput ?
-              <Files
-                className='files-dropzone'
-                onChange={this.onFilesChange}
-                onError={this.onFilesError}
-                accepts={['video/*']}
-                multiple
-                maxFiles={1}
-                maxFileSize={100000000000}
-                minFileSize={0}
-                clickable
-              >
-                <Button className="upload-file-button" id="upload-file-button" variant="contained" color="primary">
-                  Choose file
-                </Button>
-              </Files>
-            :
-            <div className="video-information-container">
-              <div className="video-information-icon"></div>
-              <div className="video-information-text">
-                <p>{this.state.videoFile[0].name}</p>
-                <p>{this.state.videoFile[0].sizeReadable}</p>
-                <p>{this.state.videoFile[0].type}</p>
-              </div>
+        <MuiThemeProvider theme={theme}>
+          <div className="input-container">
+            <FormControl component="fieldset">
+              <FormLabel component="legend" className="radio-label">Select the way to add the video</FormLabel>
+            </FormControl>
+            <RadioGroup aria-label="position" name="position" value={this.state.wayToAdd} onChange={this.getWayToAdd} row>
+              <FormControlLabel
+                value="url"
+                control={<Radio color="primary" />}
+                label="By url"
+                labelPlacement="end"
+              />
+              <FormControlLabel
+                value="upload"
+                control={<Radio color="primary" />}
+                label="By upload"
+                labelPlacement="end"
+              />
+            </RadioGroup>
+          </div>
+        </MuiThemeProvider>
+        <div className=""></div>
+        {
+          this.state.wayToAdd === 'upload' ?
+            <div className="input-file-container">
+              <FileUpload
+                parentId={this.state.parentId + "-file"}
+                getImageInformation={this.getImageInformation.bind(this)}
+                removeUrl={this.removeUrl.bind(this)}
+                resetFile={this.resetFile.bind(this)}
+                accept="video/*"
+                label="Upload video"
+                uploadedTitle="Video content"
+                icon="video-g.svg"
+              />
             </div>
-          }
-        </div>
+          :
+          undefined
+        }
+        {
+          this.state.wayToAdd === 'url' ?
+            <div className="input-container">
+              <TextField
+                id="outlined-uncontrolled"
+                label="Video URL"
+                margin="normal"
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </div>
+          :
+          undefined
+        }
         <div className="form-button-container">
           <Button onClick={() => this.saveContent()} className="form-button" id="upload-button" variant="contained" color="secondary">
             Save content
