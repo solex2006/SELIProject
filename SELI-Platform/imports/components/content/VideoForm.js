@@ -151,6 +151,10 @@ export default class VideoForm extends React.Component {
     });
   }
 
+  handleChange = name => event => {
+    this.showVideoAccesibilityForm();
+  };
+
   render() {
     return(
       <div>
@@ -236,6 +240,7 @@ export default class VideoForm extends React.Component {
                   variant="outlined"
                   fullWidth
                   required
+                  onChange={this.handleChange('name')}
                 />
               </div>
             :
