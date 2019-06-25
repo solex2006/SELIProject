@@ -2,7 +2,6 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import TutorFilesCollection from '../../../lib/TutorFilesCollection';
-import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import { _ } from 'meteor/underscore';
 import IndividualFile from './IndividualFile';
 import Button from '@material-ui/core/Button';
@@ -36,33 +35,19 @@ class FileUploadComponent extends Component {
 
       if (file) {
         let uploadInstance;
-        if(this.props.parentId === "creating-tutor"){
-          uploadInstance = TutorFilesCollection.insert({
-            file: file,
-            meta: {
-              locator: self.props.fileLocator,
-              parentId: this.props.parentId,
-              //userId: Meteor.userId() // Optional, used to check on server for file tampering
-            },
-            streams: 'dynamic',
-            chunkSize: 'dynamic',
-            allowWebWorkers: true // If you see issues with uploads, change this to false
-          }, false);
-        }
 
-        if(this.props.parentId === "creating-course-file"){
-          uploadInstance = CourseFilesCollection.insert({
-            file: file,
-            meta: {
-              locator: self.props.fileLocator,
-              parentId: this.props.parentId,
-              //userId: Meteor.userId() // Optional, used to check on server for file tampering
-            },
-            streams: 'dynamic',
-            chunkSize: 'dynamic',
-            allowWebWorkers: true // If you see issues with uploads, change this to false
-          }, false);
-        }
+        uploadInstance = self.props.collection.insert({
+          file: file,
+          meta: {
+            locator: self.props.fileLocator,
+            parentId: this.props.parentId,
+            //userId: Meteor.userId() // Optional, used to check on server for file tampering
+          },
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true // If you see issues with uploads, change this to false
+        }, false);
+
         self.setState({
           uploading: uploadInstance, // Keep track of this instance to use below
           inProgress: true // Show the progress bar now
@@ -78,9 +63,9 @@ class FileUploadComponent extends Component {
         })
 
         uploadInstance.on('uploaded', function (error, fileObj) {
-          console.log('uploaded: ', fileObj);
+          self.props.showControlMessage("The file has been uploaded successfully")
           // Remove the filename from the upload box
-          self.refs['fileinput'].value = '';
+          self.refs['fileinput' + self.props.type].value = '';
 
           // Reset our state for the next file
           self.setState({
@@ -95,6 +80,7 @@ class FileUploadComponent extends Component {
 
         uploadInstance.on('error', function (error, fileObj) {
           console.log('Error during upload: ' + error)
+          this.props.showControlMessage('There was an error uploading the file, try again later');
         });
 
         uploadInstance.on('progress', function (progress, fileObj) {
@@ -113,7 +99,6 @@ class FileUploadComponent extends Component {
   // This is our progress bar, bootstrap styled
   // Remove this function if not needed
   showUploads() {
-    console.log('**********************************', this.state.uploading);
     if (!_.isEmpty(this.state.uploading)) {
       return (
         <div>
@@ -132,6 +117,10 @@ class FileUploadComponent extends Component {
     }
   }
 
+  componentDidMount(){
+    
+  }
+
   render() {
     debug("Rendering FileUpload", this.props.docsReadyYet);
     if (this.props.files && this.props.docsReadyYet) {
@@ -142,38 +131,29 @@ class FileUploadComponent extends Component {
       // (make sure the subscription only sends files owned by this user)
       let display = fileCursors.map((aFile, key) => {
         // console.log('A file: ', aFile.link(), aFile.get('name'))
-        let link;
-        if(this.props.parentId === 'creating-tutor'){
-          link = TutorFilesCollection.findOne({ _id: aFile._id }).link();  //The "view/download" link
-        }
-        else if(this.props.parentId === 'creating-course-file'){
-          link = CourseFilesCollection.findOne({ _id: aFile._id }).link();  //The "view/download" link
-        }
-        else {
-          let tutorLink = TutorFilesCollection.findOne({ _id: aFile._id }).link();  //The "view/download" link
-          let courseLink = TutorFilesCollection.findOne({ _id: aFile._id }).link();  //The "view/download" link
-          if(tutorLink) {
-            link = tutorLink;
-          }
-          if(courseLink) {
-            link = courseLink;
-          }
-        }
-        console.log(link);
-        // Send out components that show details of each file
+        let link = this.props.collection.findOne({ _id: aFile._id }).link();;
         return <div key={'file' + key}>
           <IndividualFile
             fileName={aFile.name}
             fileUrl={link}
             fileId={aFile._id}
             fileSize={aFile.size}
-            getImageInformation={this.props.getImageInformation.bind(this)}
-            removeUrl={this.props.removeUrl.bind(this)}
-            resetFile={this.props.resetFile.bind(this)}
+            preview={this.props.preview}
+            dowload={this.props.download}
+            open={this.props.open}
+            delete={this.props.delete}
+            showIcon={this.props.showIcon}
             parent={this.props.parentId}
             collectionName={aFile._collectionName}
             uploadedTitle={this.props.uploadedTitle}
             icon={this.props.icon}
+            collection={this.props.collection}
+            removeFunction={this.props.removeFunction}
+            type={this.props.type}
+            showControlMessage={this.props.showControlMessage.bind(this)}
+            getFileInformation={this.props.getFileInformation.bind(this)}
+            removeFileInformation={this.props.removeFileInformation.bind(this)}
+            resetFile={this.props.resetFile.bind(this)}
           />
         </div>
       })
@@ -185,14 +165,14 @@ class FileUploadComponent extends Component {
               <div className="input-file-container">
                 <input
                   type="file"
-                  id="fileinput"
+                  id={"fileinput" + this.props.type}
                   disabled={this.state.inProgress}
                   onChange={this.uploadIt}
-                  ref="fileinput"
+                  ref={"fileinput" + this.props.type}
                   className="file-upload-input"
                   accept={this.props.accept}
                 />
-                <label htmlFor="fileinput">
+                <label htmlFor={"fileinput" + this.props.type}>
                   <Button className="upload-file-button" variant="contained" component="span">
                     {this.props.label}
                   </Button>
@@ -202,7 +182,7 @@ class FileUploadComponent extends Component {
             undefined
           }
           <div>
-              {this.showUploads()}
+            {this.showUploads()}
           </div>
           {display}
         </div>
@@ -231,27 +211,7 @@ export default withTracker((props) => {
   const meta = {
     parentId: props.parentId,
   };
-  let files;
-  if(props.parentId === 'creating-tutor'){
-    files = TutorFilesCollection.find({ meta: meta }, { sort: { name: 1 } }).fetch();
-  }
-  else if(props.parentId === 'creating-course-file'){
-    files = CourseFilesCollection.find({ meta: meta }, { sort: { name: 1 } }).fetch();
-  }
-  else{
-    let tutorFiles = TutorFilesCollection.find({ meta: meta }, { sort: { name: 1 } }).fetch();
-    let courseFiles = CourseFilesCollection.find({ meta: meta }, { sort: { name: 1 } }).fetch();
-    if(tutorFiles.length) {
-      files = tutorFiles;
-    }
-    if(courseFiles.length) {
-      files = courseFiles;
-    }
-    if(!tutorFiles.length && !courseFiles.length){
-      files = CourseFilesCollection.find({ meta: {parentId: 'none'} }, { sort: { name: 1 } }).fetch();
-    }
-  }
-  console.log(files);
+  let files = props.collection.find({ meta: meta }, { sort: { name: 1 } }).fetch();
   let uploaded = false;
   if(files !== undefined){
     if (files.length) {

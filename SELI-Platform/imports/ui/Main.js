@@ -442,6 +442,7 @@ export default class Main extends React.Component {
                   <ContentEditor
                     showForm={this.showForm.bind(this)}
                     addContent={this.addContent.bind(this)}
+                    showControlMessage={this.showControlMessage.bind(this)}
                   />
                 :
                 undefined

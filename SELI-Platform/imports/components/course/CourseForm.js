@@ -135,6 +135,7 @@ export default class CourseForm extends React.Component {
     return false;
   }
 
+  /*--------------------------------------------- hay uq borrar*/
   removeUrl(){
     this.setState({
       url: '',
@@ -146,6 +147,19 @@ export default class CourseForm extends React.Component {
     this.setState({
       url: url,
       imageId: id,
+    });
+  }
+  /*--------------------------------------------- hay uq borrar*/
+
+  getFileInformation(fileInformation){
+    this.setState({
+      fileInformation: fileInformation,
+    });
+  }
+
+  removeFileInformation(){
+    this.setState({
+      fileInformation: [],
     });
   }
 
@@ -230,23 +244,45 @@ export default class CourseForm extends React.Component {
             </FormControl>
           </div>
           <div className="input-file-container">
-            <ImageUpload
-              parentId={this.state.parentId}
-              getImageInformation={this.getImageInformation.bind(this)}
-              removeUrl={this.removeUrl.bind(this)}
+            <FileUpload
+              parentId={this.state.parentId + "-image"}
+              accept="image/*"
+              label="Upload course image"
+              uploadedTitle="Course sylabus"
+              icon=""
+              collection={CourseFilesCollection}
+              removeFunction="RemoveCourseFile"
+              type="image"
+              preview={true}
+              dowload={false}
+              open={false}
+              delete={true}
+              showIcon={false}
+              showControlMessage={this.props.showControlMessage.bind(this)}
               resetFile={this.resetFile.bind(this)}
+              getFileInformation={this.getFileInformation.bind(this)}
+              removeFileInformation={this.removeFileInformation.bind(this)}
             />
           </div>
           <div className="input-file-container">
             <FileUpload
               parentId={this.state.parentId + "-file"}
-              getImageInformation={this.getImageInformation.bind(this)}
-              removeUrl={this.removeUrl.bind(this)}
-              resetFile={this.resetFile.bind(this)}
               accept=".pdf"
               label="Upload sylabus"
               uploadedTitle="Course sylabus"
               icon="pdf-g.svg"
+              collection={CourseFilesCollection}
+              removeFunction="RemoveCourseFile"
+              type="pdf"
+              preview={false}
+              dowload={false}
+              open={true}
+              delete={true}
+              showIcon={true}
+              showControlMessage={this.props.showControlMessage.bind(this)}
+              resetFile={this.resetFile.bind(this)}
+              getFileInformation={this.getFileInformation.bind(this)}
+              removeFileInformation={this.removeFileInformation.bind(this)}
             />
           </div>
           <div className="input-container">

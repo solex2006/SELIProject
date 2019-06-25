@@ -8,6 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import FileUpload from '../files/FileUpload';
 
+import CourseFilesCollection from '../../../lib/CourseFilesCollection.js';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../../style/theme.js';
@@ -39,17 +40,15 @@ export default class VideoForm extends React.Component {
     });
   }
 
-  removeUrl(){
+  getFileInformation(fileInformation){
     this.setState({
-      url: '',
-      imageId: '',
+      fileInformation: fileInformation,
     });
   }
 
-  getImageInformation(url, id){
+  removeFileInformation(){
     this.setState({
-      url: url,
-      imageId: id,
+      fileInformation: [],
     });
   }
 
@@ -112,13 +111,22 @@ export default class VideoForm extends React.Component {
             <div className="input-file-container">
               <FileUpload
                 parentId={this.state.parentId + "-file"}
-                getImageInformation={this.getImageInformation.bind(this)}
-                removeUrl={this.removeUrl.bind(this)}
-                resetFile={this.resetFile.bind(this)}
                 accept="video/*"
                 label="Upload video"
                 uploadedTitle="Video content"
                 icon="video-g.svg"
+                collection={CourseFilesCollection}
+                removeFunction="RemoveCourseFile"
+                type="image"
+                preview={false}
+                dowload={false}
+                open={false}
+                delete={true}
+                showIcon={true}
+                showControlMessage={this.props.showControlMessage.bind(this)}
+                resetFile={this.resetFile.bind(this)}
+                getFileInformation={this.getFileInformation.bind(this)}
+                removeFileInformation={this.removeFileInformation.bind(this)}
               />
             </div>
           :

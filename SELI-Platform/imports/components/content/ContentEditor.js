@@ -52,6 +52,7 @@ export default class ContentEditor extends React.Component {
               <VideoForm
                 showForm={this.props.showForm.bind(this)}
                 addContent={this.props.addContent.bind(this)}
+                showControlMessage={this.props.showControlMessage.bind(this)}
               />
             :
               undefined

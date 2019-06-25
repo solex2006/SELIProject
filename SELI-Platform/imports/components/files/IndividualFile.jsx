@@ -38,43 +38,43 @@ class IndividualFile extends Component {
   };
 
   removeFile() {
-    if(this.props.collectionName === 'TutorFilesCollection'){
-      Meteor.call('RemoveTutorFile', this.props.fileId, function (err) {
-        if (err)
-        console.log(err);
-      });
-    }
-    if(this.props.collectionName === 'CourseFilesCollection'){
-      Meteor.call('RemoveCourseFile', this.props.fileId, function (err) {
-        if (err)
-        console.log(err);
-      });
-    }
-    this.props.removeUrl();
+    Meteor.call(this.props.removeFunction, this.props.fileId, function (err) {
+      if (err) {
+        this.props.showControlMessage('There was an error deleting the file, try again later');
+        return;
+      }
+    });
+    this.props.removeFileInformation();
     this.props.resetFile();
+    this.props.showControlMessage('File deleted successfully');
   }
 
   renameFile() {
-
     let validName = /[^a-zA-Z0-9 \.:\+()\-_%!&]/gi;
     let prompt = window.prompt('New file name?', this.props.fileName);
-
     // Replace any non valid characters, also do this on the server
     if (prompt) {
       prompt = prompt.replace(validName, '-');
       prompt.trim();
     }
 
-    if (!_.isEmpty(prompt)) {
+    if (!_.isEmpty(prompt)){
       Meteor.call('RenameFile', this.props.fileId, prompt, function (err) {
-        if (err)
-        console.log(err);
-      })
+        if (err) {
+          console.log(err);
+          return;
+        }
+      });
     }
   }
 
   componentDidMount(){
-    this.props.getImageInformation(this.props.fileUrl, this.props.fileId);
+    let fileInformation = {
+      url: this.props.fileUrl,
+      id: this.props.fileId,
+      type: this.props.type,
+    }
+    this.props.getFileInformation(fileInformation);
   }
 
   render() {
@@ -83,17 +83,40 @@ class IndividualFile extends Component {
         <div className="file-info-container">
           <p className="file-name-title">{this.props.uploadedTitle}</p>
           <p className="file-name-text">{this.props.fileName}</p>
-          <div className="centered-image-preview-container">
-            <img className="file-preview" style={{ backgroundImage: "url(" + this.props.icon + ")" }}></img>
-          </div>
-          <div className="file-button-container">
-            <a className="view-file-link" href={this.props.fileUrl} target="_blank">Open</a>
-          </div>
-          <div className="file-button-container">
-            <Button className="file-crud-button" onClick={this.handleClickOpen}>
-              Delete
-            </Button>
-          </div>
+          {
+            this.props.preview ?
+              <div className="centered-image-preview-container">
+                <img className="image-preview" style={{ backgroundImage: "url(" + this.props.fileUrl + ")" }}></img>
+              </div>
+            :
+            undefined
+          }
+          {
+            this.props.showIcon ?
+              <div className="centered-image-preview-container">
+                <img className="file-preview" style={{ backgroundImage: "url(" + this.props.icon + ")" }}></img>
+              </div>
+            :
+              undefined
+          }
+          {
+            this.props.open ?
+              <div className="file-button-container">
+                <a className="view-file-link" href={this.props.fileUrl} target="_blank">Open</a>
+              </div>
+            :
+            undefined
+          }
+          {
+            this.props.delete ?
+              <div className="file-button-container">
+                <Button className="file-crud-button" onClick={this.handleClickOpen}>
+                  Delete
+                </Button>
+              </div>
+            :
+            undefined
+          }
         </div>
         <Dialog
           open={this.state.open}

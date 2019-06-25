@@ -9,7 +9,7 @@ export default class TutorForm extends React.Component {
     this.state = {
       knowledgeItems: ['Math', 'Programing', 'Physics', 'Biology'],
       technilcaItems: ['Headphones', 'Microphone', 'Movil device'],
-      peopleItems: ['Kids', 'Adults'],
+      peopleItems: ['Low vision & bind people', 'People with hear impairmet', 'People with intellectual disability', 'People with learning disabilities', 'People with Dyslexia', 'Elders',],
     }
   }
 
