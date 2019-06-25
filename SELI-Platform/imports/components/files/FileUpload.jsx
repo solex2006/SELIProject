@@ -63,7 +63,10 @@ class FileUploadComponent extends Component {
         })
 
         uploadInstance.on('uploaded', function (error, fileObj) {
-          self.props.showControlMessage("The file has been uploaded successfully")
+          self.props.showControlMessage("The file has been uploaded successfully");
+          if(self.props.type === 'video'){
+            self.props.showVideoAccesibilityForm();
+          }
           // Remove the filename from the upload box
           self.refs['fileinput' + self.props.type].value = '';
 
@@ -118,7 +121,7 @@ class FileUploadComponent extends Component {
   }
 
   componentDidMount(){
-    
+
   }
 
   render() {
@@ -154,6 +157,7 @@ class FileUploadComponent extends Component {
             getFileInformation={this.props.getFileInformation.bind(this)}
             removeFileInformation={this.props.removeFileInformation.bind(this)}
             resetFile={this.props.resetFile.bind(this)}
+            showVideoAccesibilityForm={this.props.type === "video" ? this.props.showVideoAccesibilityForm.bind(this) : undefined}
           />
         </div>
       })

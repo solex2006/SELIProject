@@ -245,7 +245,7 @@ export default class CourseForm extends React.Component {
           </div>
           <div className="input-file-container">
             <FileUpload
-              parentId={this.state.parentId + "-image"}
+              parentId={this.state.parentId + "-image-course"}
               accept="image/*"
               label="Upload course image"
               uploadedTitle="Course sylabus"
@@ -266,7 +266,7 @@ export default class CourseForm extends React.Component {
           </div>
           <div className="input-file-container">
             <FileUpload
-              parentId={this.state.parentId + "-file"}
+              parentId={this.state.parentId + "-file-pdf-course"}
               accept=".pdf"
               label="Upload sylabus"
               uploadedTitle="Course sylabus"
