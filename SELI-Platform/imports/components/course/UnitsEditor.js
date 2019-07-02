@@ -40,6 +40,10 @@ export default class UnitsEditor extends React.Component {
     this.props.updateLesson(lesson);
   }
 
+  saveProgram(){
+    this.props.openConfirmationDialog();
+  }
+
   render() {
     return(
       <div>
@@ -83,7 +87,7 @@ export default class UnitsEditor extends React.Component {
           {
             this.props.units.length > 0 ?
               <div className="form-button-container">
-                <Button onClick={() => this.props.showForm("UnitsEditor", true)} className="form-button" id="upload-button" variant="contained" color="secondary">
+                <Button onClick={() => this.saveProgram()} className="form-button" id="upload-button" variant="contained" color="secondary">
                   Save program
                 </Button>
               </div>

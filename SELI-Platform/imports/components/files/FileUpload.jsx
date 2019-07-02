@@ -25,9 +25,8 @@ class FileUploadComponent extends Component {
 
   uploadIt(e) {
     e.preventDefault();
-
     let self = this;
-
+    let uploaded = true;
     if (e.currentTarget.files && e.currentTarget.files[0]) {
       // We upload only one file, in case
       // there was multiple files selected
@@ -65,17 +64,26 @@ class FileUploadComponent extends Component {
         uploadInstance.on('uploaded', function (error, fileObj) {
           self.props.showControlMessage("The file has been uploaded successfully");
           if(self.props.type === 'video'){
-            self.props.showVideoAccesibilityForm();
+            //self.props.showVideoAccesibilityForm();
+          }
+          if(self.props.multifile){
+            let fileInformation = {};
+            fileInformation.fileId = uploadInstance.config.fileId;
+            fileInformation.type = self.props.type;
+            fileInformation.name = uploadInstance.file.name
+            self.props.addFile(fileInformation);
           }
           // Remove the filename from the upload box
           self.refs['fileinput' + self.props.type].value = '';
-
+          if(self.props.multifile){
+            uploaded = false;
+          }
           // Reset our state for the next file
           self.setState({
             uploading: [],
             progress: 0,
             inProgress: false,
-            uploaded: true,
+            uploaded: uploaded,
           })
         })
 
@@ -124,6 +132,17 @@ class FileUploadComponent extends Component {
 
   }
 
+  removeFileInformation(){
+    this.setState({
+      uploading: [],
+      progress: 0,
+      inProgress: false,
+      uploaded: false,
+    }, () => {
+      this.props.removeFileInformation();
+    });
+  }
+
   render() {
     debug("Rendering FileUpload", this.props.docsReadyYet);
     if (this.props.files && this.props.docsReadyYet) {
@@ -134,7 +153,7 @@ class FileUploadComponent extends Component {
       // (make sure the subscription only sends files owned by this user)
       let display = fileCursors.map((aFile, key) => {
         // console.log('A file: ', aFile.link(), aFile.get('name'))
-        let link = this.props.collection.findOne({ _id: aFile._id }).link();;
+        let link = this.props.collection.findOne({ _id: aFile._id }).link();
         return <div key={'file' + key}>
           <IndividualFile
             fileName={aFile.name}
@@ -155,9 +174,8 @@ class FileUploadComponent extends Component {
             type={this.props.type}
             showControlMessage={this.props.showControlMessage.bind(this)}
             getFileInformation={this.props.getFileInformation.bind(this)}
-            removeFileInformation={this.props.removeFileInformation.bind(this)}
+            removeFileInformation={this.removeFileInformation.bind(this)}
             resetFile={this.props.resetFile.bind(this)}
-            showVideoAccesibilityForm={this.props.type === "video" ? this.props.showVideoAccesibilityForm.bind(this) : undefined}
           />
         </div>
       })
@@ -165,7 +183,7 @@ class FileUploadComponent extends Component {
       return (
         <div>
           {
-            !this.props.uploaded ?
+            !this.state.uploaded ?
               <div className="input-file-container">
                 <input
                   type="file"

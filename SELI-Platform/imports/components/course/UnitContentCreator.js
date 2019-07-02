@@ -24,7 +24,7 @@ export default class UnitContentCreator extends React.Component {
 
   createNewLesson(){
     let name = document.getElementById('lesson-name-input').value;
-    if(name === ""){
+    if(/*name === ""*/false){
       this.setState({
         nameError: true,
       });

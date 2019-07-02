@@ -37,7 +37,7 @@
   padding: 0 !important;
   padding-left: 10px !important;
   transition: 0.5s;
-  animation: fadeInLeft 0.5s;
+  animation: fadeInDown 0.5s;
 }
 
 .transfer-list {

@@ -22,7 +22,7 @@ export default function TransferList(props) {
 
   const [checked, setChecked] = React.useState([]);
   const [left, setLeft] = React.useState(props.items);
-  const [right, setRight] = React.useState([]);
+  const [right, setRight] = React.useState(props.added);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -43,23 +43,27 @@ export default function TransferList(props) {
   const handleAllRight = () => {
     setRight(right.concat(left));
     setLeft([]);
+    props.setAll(props.type, 'add');
   };
 
   const handleCheckedRight = () => {
     setRight(right.concat(leftChecked));
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
+    props.setItems(leftChecked, props.type, 'add');
   };
 
   const handleCheckedLeft = () => {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
+    props.setItems(rightChecked, props.type, 'remove');
   };
 
   const handleAllLeft = () => {
     setLeft(left.concat(right));
     setRight([]);
+    props.setAll(props.type, 'remove');
   };
 
   const customList = items => (

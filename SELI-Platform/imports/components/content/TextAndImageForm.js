@@ -1,47 +1,32 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import Editor from '../inputs/Editor';
 
 export default class TextAndImageForm extends React.Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this)
     this.state = {
-       text: '',
-       modules: {
-         toolbar: [
-          [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
-          [{size: []}],
-          ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-          [{'list': 'ordered'}, {'list': 'bullet'},
-           {'indent': '-1'}, {'indent': '+1'}],
-          ['link', 'image', 'video'],
-          ['clean']
-        ],
-       },
-       formats: [
-         'header', 'font', 'size',
-         'bold', 'italic', 'underline', 'strike', 'blockquote',
-         'list', 'bullet', 'indent',
-         'link', 'image', 'color',
-       ],
+
     }
   }
 
-  handleChange(value) {
-    this.setState({ text: value })
-  }
-
-  saveContent(){
-    this.props.showForm("UnitsEditor", true);
+  saveContent(images, text){
     let lessonName = document.getElementById('lesson-name-input').value;
+    let lessonObjective = document.getElementById('lesson-objective-input').value;
     let content = {
       lesson: lessonName,
+      objective: lessonObjective,
+      text: text,
+      images: images,
       type: 'text-and-image',
     };
     this.props.addContent(content);
+    this.props.showForm("UnitsEditor", true);
+  }
+
+  uploadedContent(images, text){
+    this.saveContent(images, text);
   }
 
   render() {
@@ -61,7 +46,7 @@ export default class TextAndImageForm extends React.Component {
         </div>
         <div className="input-container">
           <TextField
-            id="outlined-uncontrolled"
+            id="lesson-objective-input"
             label="Lesson objective"
             margin="normal"
             variant="outlined"
@@ -71,17 +56,11 @@ export default class TextAndImageForm extends React.Component {
         </div>
         <div className="form-subtitle">Content</div>
         <div className="editor-container">
-          <ReactQuill
-            value={this.state.text}
-            onChange={this.handleChange}
-            modules={this.state.modules}
-            formats={this.state.formats}
+          <Editor
+            courseKey={this.props.courseKey}
+            uploadedContent={this.uploadedContent.bind(this)}
+            showControlMessage={this.props.showControlMessage.bind(this)}
           />
-        </div>
-        <div className="form-button-container">
-          <Button onClick={() => this.saveContent()} className="form-button" id="upload-button" variant="contained" color="secondary">
-            Save content
-          </Button>
         </div>
       </div>
     )

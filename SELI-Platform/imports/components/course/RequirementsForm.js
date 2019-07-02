@@ -7,18 +7,74 @@ export default class TutorForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      knowledgeItems: ['Math', 'Programing', 'Physics', 'Biology'],
-      technilcaItems: ['Headphones', 'Microphone', 'Movil device'],
-      peopleItems: ['Cognitive Disabilites', 'Diversity of abilities', 'Hearing disabilities', 'Language disabilities', 'Motor disabilities', 'Visual disabilities', 'Speech disabilities', 'Vestibular disorders'],
+
     }
   }
 
-  handleChange = event => {
-    this.setState({ category: event.target.value });
-  };
-
   saveRequirements() {
+    this.props.saveRequirements();
     this.props.showForm('UnitsEditor', true);
+  }
+
+  setItems(picked, type, action){
+    let items;
+    let added;
+    if(type === 'knowledge'){
+      added = this.props.addedKnowledgeItems;
+      items = this.props.knowledgeItems;
+    }
+    if(type === 'technical'){
+      added = this.props.addedTechnilcaItems;
+      items = this.props.technilcaItems;
+    }
+    if(type === 'people'){
+      added = this.props.addedPeopleItems;
+      items = this.props.peopleItems;
+    }
+    for (var i = 0; i < picked.length; i++) {
+      if(action === 'remove'){
+        this.filterArray(picked[i], added);
+        items.push(picked[i]);
+      }
+      if(action === 'add'){
+        added.push(picked[i]);
+        this.filterArray(picked[i], items);
+      }
+    }
+  }
+
+  setAll(type, action) {
+    let items;
+    let added;
+    if(type === 'knowledge'){
+      added = this.props.addedKnowledgeItems;
+      items = this.props.knowledgeItems;
+    }
+    if(type === 'technical'){
+      added = this.props.addedTechnilcaItems;
+      items = this.props.technilcaItems;
+    }
+    if(type === 'people'){
+      added = this.props.addedPeopleItems;
+      items = this.props.peopleItems;
+    }
+    if(action === 'add'){
+      for (var i = 0; i < items.length; i++) {
+        added.push(items[i]);
+      }
+      items.splice(0);
+    }
+    if(action === 'remove'){
+      for (var i = 0; i < added.length; i++) {
+        items.push(added[i]);
+      }
+      added.splice(0);
+    }
+  }
+
+  filterArray(filterItem, filterList){
+    let removeIndex = filterList.indexOf(filterItem);
+    filterList.splice(removeIndex, 1);
   }
 
   render() {
@@ -31,7 +87,11 @@ export default class TutorForm extends React.Component {
             <p className="list-input-label">Knowledge requirements</p>
             <div className="transfer-list-container">
               <TransferList
-                items={this.state.knowledgeItems}
+                items={this.props.knowledgeItems}
+                added={this.props.addedKnowledgeItems}
+                type="knowledge"
+                setItems={this.setItems.bind(this)}
+                setAll={this.setAll.bind(this)}
               />
             </div>
           </div>
@@ -39,7 +99,11 @@ export default class TutorForm extends React.Component {
             <p className="list-input-label">Technical requirements</p>
             <div className="transfer-list-container">
               <TransferList
-                items={this.state.technilcaItems}
+                items={this.props.technilcaItems}
+                added={this.props.addedTechnilcaItems}
+                type="technical"
+                setItems={this.setItems.bind(this)}
+                setAll={this.setAll.bind(this)}
               />
             </div>
           </div>
@@ -47,7 +111,11 @@ export default class TutorForm extends React.Component {
             <p className="list-input-label">People who should take the course</p>
             <div className="transfer-list-container">
               <TransferList
-                items={this.state.peopleItems}
+                items={this.props.peopleItems}
+                added={this.props.addedPeopleItems}
+                type="people"
+                setItems={this.setItems.bind(this)}
+                setAll={this.setAll.bind(this)}
               />
             </div>
           </div>

@@ -4,11 +4,28 @@ import Button from '@material-ui/core/Button';
 import Files from 'react-files'
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+/* Dialog */
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+/* Trasitions */
+import Slide from '@material-ui/core/Slide';
 
 import FileUpload from '../files/FileUpload';
+import File from '../../map/File';
+
+import CourseFilesCollection from '../../../lib/CourseFilesCollection.js';
+
+function Transition(props) {
+  return <Slide direction="right" {...props} />;
+}
 
 export default class FileForm extends React.Component {
   constructor(props) {
@@ -16,8 +33,10 @@ export default class FileForm extends React.Component {
     this.state = {
       fileType: "",
       showFileInput: false,
-      parentId: 'creating-course',
+      parentId: this.props.courseKey,
       extensions: [],
+      files: [],
+      open: false,
     }
   }
 
@@ -28,7 +47,9 @@ export default class FileForm extends React.Component {
       validFile: false,
     }, () => {
       this.setState({
-        showFileInput: true,
+        selectedFile: true,
+      }, () => {
+        this.checkShowUpload();
       });
       this.setFileType(this.state.fileType);
     });
@@ -64,33 +85,45 @@ export default class FileForm extends React.Component {
     this.setState({
       extensions: extensions,
       icon: icon,
+      type: icon,
     });
-  }
-
-  onFilesError(error) {
-    console.log('error code ' + error.code + ': ' + error.message)
   }
 
   saveContent(){
-    this.props.showForm("UnitsEditor", true);
+    this.handleClickOpenLoading();
+    for (var i = 0; i < this.state.files.length; i++) {
+      this.state.files[i].link = CourseFilesCollection.findOne({ _id: this.state.files[i].fileId }).link();
+    }
     let lessonName = document.getElementById('lesson-name-input').value;
+    let lessonObjetive = document.getElementById('lesson-objective-input').value;
     let content = {
       lesson: lessonName,
+      objective: lessonObjetive,
       type: 'files',
+      files: this.state.files,
     };
     this.props.addContent(content);
+    this.handleCloseLoading();
   }
-  removeUrl(){
+
+  getFileInformation(fileInformation){
     this.setState({
-      url: '',
-      imageId: '',
+      fileInformation: fileInformation,
     });
   }
 
-  getImageInformation(url, id){
+  removeFileInformation(){
     this.setState({
-      url: url,
-      imageId: id,
+      fileInformation: [],
+    });
+    this.setState({
+      showVideoAccesibilityForm: false,
+    });
+  }
+
+  showVideoAccesibilityForm(){
+    this.setState({
+      showVideoAccesibilityForm: true,
     });
   }
 
@@ -99,6 +132,77 @@ export default class FileForm extends React.Component {
       parentId: 'creating-course',
     });
   }
+
+  handleChangeText = fileDescription => event => {
+    let fillFileDescription = false;
+    if(event.target.value.length > 0){
+      fillFileDescription = true;
+    }
+    else {
+      fillFileDescription = false;
+    }
+    this.setState({
+      fillFileDescription: fillFileDescription,
+    }, () => {
+      this.checkShowUpload();
+    });
+  };
+
+  checkShowUpload(){
+    let showFileInput;
+    if(this.state.fillFileDescription && this.state.selectedFile){
+      showFileInput = true;
+    }
+    else {
+      showFileInput = false;
+    }
+    this.setState({
+      showFileInput: showFileInput,
+    });
+  }
+
+  addFile(file){
+    let files = this.state.files;
+    let description = document.getElementById('file-description-input').value;
+    file.description = description;
+    files.push(file);
+    this.setState({
+      files: files,
+    });
+    document.getElementById('file-description-input').value = "";
+    this.setState({
+      showFileInput: false,
+    });
+  }
+
+  deleteFile(_id){
+    Meteor.call('RemoveCourseFile', _id, function (err) {
+      if (err) {
+        this.props.showControlMessage('There was an error deleting the file, try again later');
+        return;
+      }
+    });
+
+    let files = this.state.files;
+    for (var i = 0; i < files.length; i++) {
+      if(files[i].fileId === _id){
+        files.splice(i, 1);
+      }
+    }
+    this.setState({
+      files: files,
+    }, () => {
+      this.props.showControlMessage('File deleted successfully');
+    });
+  }
+
+  handleClickOpenLoading = () => {
+    this.setState({ openLoading: true });
+  };
+
+  handleCloseLoading = () => {
+    this.setState({ openLoading: false }, () => {this.props.showForm("UnitsEditor", true)});
+  };
 
   render() {
     return(
@@ -118,7 +222,7 @@ export default class FileForm extends React.Component {
         </div>
         <div className="input-container">
           <TextField
-            id="outlined-uncontrolled"
+            id="lesson-objective-input"
             label="Lesson objective"
             margin="normal"
             variant="outlined"
@@ -126,11 +230,43 @@ export default class FileForm extends React.Component {
             required
           />
         </div>
+        {
+          this.state.files.length ?
+            <div className="added-files-container">
+              <div className="form-subtitle">Added files</div>
+              {
+                this.state.files.map((files) =>
+                  {
+                    return <File
+                      files={files}
+                      key={files.fileId}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      deleteFile={this.deleteFile.bind(this)}/>
+                  })
+              }
+            </div>
+          :
+            undefined
+        }
+        <div className="input-container">
+          <TextField
+            id="file-description-input"
+            label="File description"
+            margin="normal"
+            variant="outlined"
+            fullWidth
+            required
+            multiline
+            rows="3"
+            onChange={this.handleChangeText('fileDescription')}
+            helperText="Fill this description to upload the file"
+          />
+        </div>
         <div className="select-input-container">
           <FormControl variant="outlined">
             <InputLabel
               ref={ref => {
-                this.InputLabelRef = ref;
+                  this.InputLabelRef = ref;
               }}
               htmlFor="course-category"
               className="select-input-label"
@@ -156,6 +292,7 @@ export default class FileForm extends React.Component {
               <MenuItem value={4}>Compressed</MenuItem>
               <MenuItem value={5}>Image</MenuItem>
             </Select>
+            <FormHelperText>Also select the file type to upload the file</FormHelperText>
           </FormControl>
         </div>
         <div className="input-container">
@@ -164,14 +301,25 @@ export default class FileForm extends React.Component {
               <div>
                 <div className="input-file-container">
                   <FileUpload
-                    parentId={this.state.parentId + "-file"}
-                    getImageInformation={this.getImageInformation.bind(this)}
-                    removeUrl={this.removeUrl.bind(this)}
-                    resetFile={this.resetFile.bind(this)}
+                    parentId={this.state.parentId + "-file" + "-" + this.state.type + "-" + this.state.files.length}
                     accept={this.state.extensions}
                     label="Upload file"
-                    uploadedTitle="Content"
+                    uploadedTitle="File content"
                     icon={this.state.icon + "-g.svg"}
+                    collection={CourseFilesCollection}
+                    removeFunction="RemoveCourseFile"
+                    type={this.state.type}
+                    preview={this.state.preview}
+                    dowload={this.state.download}
+                    open={this.state.open}
+                    delete={true}
+                    showIcon={true}
+                    showControlMessage={this.props.showControlMessage.bind(this)}
+                    resetFile={this.resetFile.bind(this)}
+                    getFileInformation={this.getFileInformation.bind(this)}
+                    removeFileInformation={this.removeFileInformation.bind(this)}
+                    multifile={true}
+                    addFile={this.addFile.bind(this)}
                   />
                 </div>
               </div>
@@ -179,13 +327,31 @@ export default class FileForm extends React.Component {
             undefined
           }
         </div>
-
         <div className="form-button-container">
           <Button onClick={() => this.saveContent()} className="form-button" id="upload-button" variant="contained" color="secondary">
             Save content
           </Button>
         </div>
+        <Dialog
+          open={this.state.openLoading}
+          onClose={this.handleCloseLoading}
+          TransitionComponent={Transition}
+          keepMounted
+          fullWidth
+          maxWidth={false}
+          style={{display: "flex", justifyContent: "center", maxWidth: "none"}}
+        >
+          <DialogTitle id="language-select-title">Uploading content please wait...</DialogTitle>
+          <DialogContent>
+            <div className="loading-file-progress-icon">
+              <CircularProgress
+                value={this.state.progress + "%"}
+                color="primary"
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
-        )
+          )
+        }
       }
-    }

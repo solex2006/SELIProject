@@ -112,7 +112,7 @@ export default class TutorList extends React.Component {
                       </div>
                     </div>
                     <div id="form-list-button" className="form-button-container">
-                      <Button onClick={() => this.saveTutor()} className="form-button" id="upload-button" variant="contained" color="secondary">
+                      <Button onClick={() => this.saveTutor()} className="form-button" variant="contained" color="secondary">
                         Save tutor
                       </Button>
                     </div>

@@ -31,18 +31,30 @@ export default class H5PForm extends React.Component {
   };
 
   showActivityPreview() {
-    let url = document.getElementById('url-input').value;
+    let iFrameText = document.getElementById('url-input').value;
+    this.getSourceUrl(iFrameText);
+  }
+
+  getSourceUrl(iFrameText) {
+    const iFrameTag = '<iframe src="';
+    let url = iFrameText.substring(iFrameTag.length);
+    url = url.split('"');
+    url = url[0];
     this.setState({
       url: url,
+    }, () => {
+      this.handleClickOpen();
     });
-    this.handleClickOpen();
   }
 
   saveContent(){
     this.props.showForm("UnitsEditor", true);
     let lessonName = document.getElementById('lesson-name-input').value;
+    let lessonObjetive = document.getElementById('lesson-objective-input').value;
     let content = {
       lesson: lessonName,
+      objective: lessonObjetive,
+      src: this.state.url,
       type: 'h5p',
     };
     this.props.addContent(content);
@@ -65,7 +77,7 @@ export default class H5PForm extends React.Component {
         </div>
         <div className="input-container">
           <TextField
-            id="outlined-uncontrolled"
+            id="lesson-objective-input"
             label="Lesson objective"
             margin="normal"
             variant="outlined"

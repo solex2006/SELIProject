@@ -43,6 +43,8 @@ export default class ContentEditor extends React.Component {
               <TextAndImageForm
                 showForm={this.props.showForm.bind(this)}
                 addContent={this.props.addContent.bind(this)}
+                courseKey={this.props.courseKey}
+                showControlMessage={this.props.showControlMessage.bind(this)}
               />
             :
               undefined
@@ -52,6 +54,7 @@ export default class ContentEditor extends React.Component {
               <VideoForm
                 showForm={this.props.showForm.bind(this)}
                 addContent={this.props.addContent.bind(this)}
+                courseKey={this.props.courseKey}
                 showControlMessage={this.props.showControlMessage.bind(this)}
               />
             :
@@ -62,6 +65,8 @@ export default class ContentEditor extends React.Component {
               <H5PForm
                 showForm={this.props.showForm.bind(this)}
                 addContent={this.props.addContent.bind(this)}
+                courseKey={this.props.courseKey}
+                showControlMessage={this.props.showControlMessage.bind(this)}
               />
             :
               undefined
@@ -71,6 +76,8 @@ export default class ContentEditor extends React.Component {
               <AnimationForm
                 showForm={this.props.showForm.bind(this)}
                 addContent={this.props.addContent.bind(this)}
+                courseKey={this.props.courseKey}
+                showControlMessage={this.props.showControlMessage.bind(this)}
               />
             :
               undefined
@@ -80,6 +87,8 @@ export default class ContentEditor extends React.Component {
               <FileForm
                 showForm={this.props.showForm.bind(this)}
                 addContent={this.props.addContent.bind(this)}
+                courseKey={this.props.courseKey}
+                showControlMessage={this.props.showControlMessage.bind(this)}
               />
             :
               undefined
@@ -89,6 +98,8 @@ export default class ContentEditor extends React.Component {
               <EmbedForm
                 showForm={this.props.showForm.bind(this)}
                 addContent={this.props.addContent.bind(this)}
+                courseKey={this.props.courseKey}
+                showControlMessage={this.props.showControlMessage.bind(this)}
               />
             :
               undefined

@@ -21,7 +21,7 @@ export default class VideoForm extends React.Component {
     this.state = {
       videoFile: undefined,
       showVideoInput: true,
-      parentId: 'creating-course',
+      parentId: this.props.courseKey,
       showVideoAccesibilityForm: false,
       wayToAdd: '',
       audioDescription: '',
@@ -34,10 +34,19 @@ export default class VideoForm extends React.Component {
   saveContent(){
     this.props.showForm("UnitsEditor", true);
     let lessonName = document.getElementById('lesson-name-input').value;
+    let lessonObjetive = document.getElementById('lesson-objective-input').value;
     let content = {
       lesson: lessonName,
+      objective: lessonObjetive,
       type: 'video',
     };
+    if(this.state.wayToAdd === 'upload'){
+      content.video = this.state.fileInformation;
+    }
+    if(this.state.wayToAdd === 'url'){
+      let url = document.getElementById('video-url-input').value;
+      content.video = url;
+    }
     this.props.addContent(content);
   }
 
@@ -152,7 +161,7 @@ export default class VideoForm extends React.Component {
   }
 
   handleChange = name => event => {
-    this.showVideoAccesibilityForm();
+
   };
 
   render() {
@@ -173,7 +182,7 @@ export default class VideoForm extends React.Component {
           </div>
           <div className="input-container">
             <TextField
-              id="outlined-uncontrolled"
+              id="lesson-objective-input"
               label="Lesson objective"
               margin="normal"
               variant="outlined"
@@ -224,7 +233,6 @@ export default class VideoForm extends React.Component {
                   resetFile={this.resetFile.bind(this)}
                   getFileInformation={this.getFileInformation.bind(this)}
                   removeFileInformation={this.removeFileInformation.bind(this)}
-                  showVideoAccesibilityForm={this.showVideoAccesibilityForm.bind(this)}
                 />
               </div>
             :
@@ -234,7 +242,7 @@ export default class VideoForm extends React.Component {
             this.state.wayToAdd === 'url' ?
               <div className="input-container">
                 <TextField
-                  id="outlined-uncontrolled"
+                  id="video-url-input"
                   label="Video URL"
                   margin="normal"
                   variant="outlined"

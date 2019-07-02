@@ -11,6 +11,8 @@ import LanguageSelector from '../components/navigation/LanguageSelector';
 import Presentation from '../components/navigation/Presentation';
 import CourseNavigationPanel from '../components/navigation/CourseNavigationPanel';
 import CourseForm from '../components/course/CourseForm';
+import CourseList from '../components/course/CourseList';
+import CoursePreview from '../components/course/CoursePreview';
 import TutorForm from '../components/tutor/TutorForm';
 import TutorList from '../components/tutor/TutorList';
 import RequirementsForm from '../components/course/RequirementsForm';
@@ -25,8 +27,14 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
+import { Courses } from '../../lib/CourseCollection';
 import { Tutors } from '../../lib/TutorCollection';
+import CourseFilesCollection from '../../lib/CourseFilesCollection.js';
+import categories from '../../lib/categories';
 
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
@@ -36,6 +44,7 @@ export default class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      courseKey: '',
       tutors: [],
       language: undefined,
       controlMessage: '',
@@ -55,25 +64,32 @@ export default class Main extends React.Component {
         false,
         false,
       ],
+      modalityItems: ['Distance', 'Presential', 'Semipresential'],
+      addedModalityItems: [],
+      methodologyItems: ['Cooperative', 'Design thinking', 'Thinking based learning', 'Competitions'],
+      addedMethodologyItems: [],
+      knowledgeItems: ['Math', 'Programing', 'Physics', 'Biology'],
+      addedKnowledgeItems: [],
+      technilcaItems: ['Headphones', 'Microphone', 'Movil device'],
+      addedTechnilcaItems: [],
+      peopleItems: ['Cognitive Disabilites', 'Diversity of abilities', 'Hearing disabilities', 'Language disabilities', 'Motor disabilities', 'Visual disabilities', 'Speech disabilities', 'Vestibular disorders'],
+      addedPeopleItems: [],
     }
   }
 
   saveCourse(course){
-    let courseData = this.state.course;
-    courseData.title = course.title;
-    courseData.subtitle = course.subtitle;
-    courseData.time = course.time;
-    courseData.description = course.description;
+    let courseCategory = categories.find(c => c.value === this.state.category);
+    course.category = courseCategory;
+    course.modalities = this.state.addedModalityItems;
+    course.methodologies = this.state.addedMethodologyItems;
     this.setState({
-      course: courseData,
-    });
+      course: course,
+    }, () => console.log(course));
   }
 
   setCourseCategory(category){
-    let courseData = this.state.course;
-    courseData.category = category;
     this.setState({
-      course: courseData,
+      category: category,
     });
   }
 
@@ -304,15 +320,34 @@ export default class Main extends React.Component {
   }
 
   setTutor(tutor){
+    let course = this.state.course;
+    course.tutor = tutor;
     this.setState({
       tutor: tutor,
-    });
+      course: course,
+    }, () => console.log(this.state.course));
   }
 
   selectLesson(lesson){
     this.setState({
       selectedLesson: lesson,
     });
+  }
+
+  saveRequirements(){
+    let course = this.state.course;
+    let requirements = {
+      knowledge: undefined,
+      technical: undefined,
+      people: undefined,
+    };
+    requirements.knowledge = this.state.addedKnowledgeItems;
+    requirements.technical = this.state.addedTechnilcaItems;
+    requirements.people = this.state.addedPeopleItems;
+    course.requirements = requirements;
+    this.setState({
+      course: course,
+    }, () => console.log(this.state.course));
   }
 
   addContent(content){
@@ -336,11 +371,63 @@ export default class Main extends React.Component {
 
   }
 
+  setCourseTemporalKey(key) {
+    this.setState({
+      courseKey: key,
+    });
+  }
+
+  saveProgram(){
+    let course = this.state.course;
+    course.units = this.state.units;
+    course.contentKey = this.state.courseKey;
+    CourseFilesCollection.update({
+      _id: course.image.id,
+    }, {
+      $set: {
+        meta: {parentId: this.state.courseKey}
+      }
+    });
+    CourseFilesCollection.update({
+      _id: course.sylabus.id,
+    }, {
+      $set: {
+        meta: {parentId: this.state.courseKey}
+      }
+    });
+    let courseId = Courses.insert({
+      course
+    });
+    if(courseId){
+      this.showControlMessage("Course registered succesfully");
+      this.resetCourse();
+      this.handleCloseDialog();
+      location.reload();
+    }
+  }
+
+  resetCourse(){
+    let newCourse = course;
+    this.setState({
+      course: course,
+    });
+  }
+
+  handleClickOpenDialog = () => {
+    this.setState({ openDialog: true });
+  };
+
+  handleCloseDialog = () => {
+    this.setState({ openDialog: false });
+  };
+
   componentDidMount(){
     Tracker.autorun(() => {
         let tutors = Tutors.find().fetch();
+        let courses = Courses.find().fetch();
         this.setState({
           tutors: tutors,
+          courses: courses,
         }, () => this.checkLoadedData());
       });
   }
@@ -378,7 +465,10 @@ export default class Main extends React.Component {
                 this.state.forms.show === 'CourseForm' ?
                   <CourseForm
                     course={this.state.course}
-                    disabledModalities={this.state.disabledModalities}
+                    modalityItems={this.state.modalityItems}
+                    methodologyItems={this.state.methodologyItems}
+                    addedModalityItems={this.state.addedModalityItems}
+                    addedMethodologyItems={this.state.addedMethodologyItems}
                     showForm={this.showForm.bind(this)}
                     showControlMessage={this.showControlMessage.bind(this)}
                     saveCourse={this.saveCourse.bind(this)}
@@ -386,6 +476,7 @@ export default class Main extends React.Component {
                     setModality={this.setModality.bind(this)}
                     removeModality={this.removeModality.bind(this)}
                     showSaveTutor={this.showSaveTutor.bind(this)}
+                    setCourseTemporalKey={this.setCourseTemporalKey.bind(this)}
                   />
                 :
                 undefined
@@ -406,6 +497,26 @@ export default class Main extends React.Component {
                 undefined
               }
               {
+                this.state.forms.show === 'CoursePreview' ?
+                  <CoursePreview
+                    showForm={this.showForm.bind(this)}
+                    courses={this.state.courses}
+                    showControlMessage={this.showControlMessage.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.forms.show === 'CourseList' ?
+                  <CourseList
+                    showForm={this.showForm.bind(this)}
+                    courses={this.state.courses}
+                    showControlMessage={this.showControlMessage.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
                 this.state.forms.show === 'TutorForm' ?
                   <TutorForm
                     showForm={this.showForm.bind(this)}
@@ -418,6 +529,13 @@ export default class Main extends React.Component {
                 this.state.forms.show === 'RequirementsForm' ?
                   <RequirementsForm
                     showForm={this.showForm.bind(this)}
+                    knowledgeItems={this.state.knowledgeItems}
+                    addedKnowledgeItems={this.state.addedKnowledgeItems}
+                    technilcaItems={this.state.technilcaItems}
+                    addedTechnilcaItems={this.state.addedTechnilcaItems}
+                    peopleItems={this.state.peopleItems}
+                    addedPeopleItems={this.state.addedPeopleItems}
+                    saveRequirements={this.saveRequirements.bind(this)}
                   />
                 :
                 undefined
@@ -433,6 +551,7 @@ export default class Main extends React.Component {
                     showControlMessage={this.showControlMessage.bind(this)}
                     selectLesson={this.selectLesson.bind(this)}
                     updateLesson={this.updateLesson.bind(this)}
+                    openConfirmationDialog={this.handleClickOpenDialog.bind(this)}
                   />
                 :
                 undefined
@@ -443,6 +562,7 @@ export default class Main extends React.Component {
                     showForm={this.showForm.bind(this)}
                     addContent={this.addContent.bind(this)}
                     showControlMessage={this.showControlMessage.bind(this)}
+                    courseKey={this.state.courseKey}
                   />
                 :
                 undefined
@@ -481,6 +601,22 @@ export default class Main extends React.Component {
                 ToggledStyle={{}}/>
             </main>
           </div>
+          <Dialog
+            open={this.state.openDialog}
+            onClose={this.handleCloseDialog}
+            keepMounted
+            TransitionComponent={TransitionRight}
+          >
+            <DialogTitle className="modal-title" id="alert-dialog-title">{"Are you sure you want to save the program?"}</DialogTitle>
+            <DialogActions>
+              <Button  onClick={this.handleCloseDialog} color="primary">
+                No
+              </Button>
+              <Button onClick={() => this.saveProgram()} color="primary" autoFocus>
+                Yes
+              </Button>
+            </DialogActions>
+          </Dialog>
           <Snackbar
             open={this.state.open}
             onClose={this.handleClose}

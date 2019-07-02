@@ -1,0 +1,11 @@
+.fr-view {
+  min-height: 35vh !important;
+  height: auto !important;
+}
+
+.editor-preview-dialog {
+  min-width: 60vw !important;
+  min-height: 60vh !important;
+  width: auto !important;
+  height: auto !important;
+}

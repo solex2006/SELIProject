@@ -111,3 +111,236 @@
   text-align: justify;
   padding-right: 0.25vw;
 }
+
+.courses-list-container {
+  width: 100%;
+  height: auto;
+}
+
+.course-presentation {
+  width: calc(100% - 10vw);
+  background-color: #505763;
+  padding: 2.5vh 5vw;
+  position: relative;
+  padding-bottom: 150px;
+}
+
+.course-presentation-title {
+  color: var(--white);
+  font-size: 2.15em;
+  width: 50%;
+}
+
+.course-presentation-subtitle {
+  color: #e0e0e0;
+  font-size: 1.5em;
+  width: 65%;
+  margin-bottom: 2.5vh;
+}
+
+.course-presentation-description {
+  color: var(--white);
+  font-size: 0.95em;
+  width: 65%;
+  text-align: justify;
+  margin-top: 2.5vh;
+}
+
+.course-presentation-separator {
+  width: 65% !important;
+  background: var(--white) !important;
+}
+
+.course-presentation-image {
+  width: 300px;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: 0vh;
+  right: 5vw;
+}
+
+.course-infomation-container {
+  width: 55%;
+  height: auto;
+  background-color: #fafafa;
+  position: relative;
+  left: 7.5vw;
+  top: -25px;
+  -webkit-box-shadow: 0px 1px 3px 0.25px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 1px 3px 0.25px rgba(0,0,0,0.75);
+  box-shadow: 0px 1px 3px 0.25px rgba(0,0,0,0.75);
+  padding: 2.5vh 0;
+  color: #505763;
+}
+
+.course-information-title {
+  width: 100%;
+  text-align: center;
+  font-size: 1.35em;
+  margin-bottom: 2.5vh;
+}
+
+.course-infomation-row {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5vh;
+}
+
+.course-infomation-column {
+  width: 50%;
+  height: auto;
+}
+
+.course-information-subtitle {
+  width: 100%;
+  text-align: center;
+  font-size: 1em;
+}
+
+.category-icon {
+  width: 1.35em;
+  height: 1.35em;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.category-text {
+  margin-left: 1vw;
+  font-size: 1em;
+}
+
+.duration-icon {
+  width: 1.35em;
+  height: 1.35em;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url(time-gc.svg);
+}
+
+.duration-text {
+  margin-left: 1vw;
+  font-size: 1em;
+}
+
+#category0 {
+  background-image: url(informatics-gc.svg);
+}
+
+#category1 {
+  background-image: url(pedagogy-gc.svg);
+}
+
+#category2 {
+  background-image: url(educational-videogames-gc.svg);
+}
+
+#category3 {
+  background-image: url(personal-development-gc.svg);
+}
+
+#category4 {
+  background-image: url(english-as-second-gc.svg);
+}
+
+#category5 {
+  background-image: url(special-education-gc.svg);
+}
+
+#category6 {
+  background-image: url(computational-thinking-gc.svg);
+}
+
+.course-items-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.course-item-decoration {
+  width: 0.9em;
+  height: 0.9em;
+  background-image: url(check-gc.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.course-item-text {
+  font-size: 0.9em;
+  margin-left: 0.5vw;
+}
+
+#full-width-column {
+  width: auto;
+}
+
+#flex-start-row {
+  justify-content: flex-start;
+}
+
+#margin-column {
+  left: 7.5vw;
+  position: relative;
+}
+
+
+.content-title {
+  width: 100%;
+  text-indent: 5vw;
+  font-size: 2.25em;
+  color: #333;
+  margin-top: 2.5vh;
+}
+
+.course-information-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.course-infomation-button {
+  margin: 1.25vh 0.25vw !important;
+  font-size: 0.8em !important;
+  box-shadow: none !important;
+}
+
+.course-information-content-container {
+  width: 55vw;
+  position: relative;
+  left: 7.5vw;
+  margin-top: 5vh;
+  margin-bottom: 10vh;
+}
+
+.course-information-expansion-panel {
+  color: #505763 !important;
+}
+
+.course-information-expansion-sumary {
+  background-color: #e0e0e0 !important;
+  color: #505763 !important;
+}
+
+.Mui-expanded .course-information-expansion-sumary {
+  background-color: #e0e0e0 !important;
+  color: #505763 !important;
+}
+
+.course-information-expansion-details {
+  background-color: #eeeeee !important;
+  color: var(--primary) !important;
+  padding: 2vh 2.5vw !important;
+}
+
+.course-information-expansion-icon path{
+  color: #505763 !important;
+}

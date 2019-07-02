@@ -118,3 +118,31 @@
   background-size: 7.5vw;
   background-repeat: no-repeat;
 }
+
+.added-files-container {
+  width: 40vw;
+  position: relative;
+  left: 30vw;
+  animation: fadeIn 1s;
+}
+
+.added-file-information-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 5vh;
+  animation: fadeInLeft 0.5s;
+}
+
+.added-file-information-text {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  text-indent: 1vw;
+}
+
+.added-file-buttons {
+  position: absolute;
+  right: 0;
+}

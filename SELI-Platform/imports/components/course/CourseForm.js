@@ -14,14 +14,13 @@ import FileUpload from '../files/FileUpload';
 
 import CourseFilesCollection from '../../../lib/CourseFilesCollection.js';
 
+
 export default class CourseForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       category: this.props.course.category,
       parentId: 'creating-course',
-      modalityItems: ['Distance', 'Presential', 'Semipresential'],
-      methodologyItems: ['Cooperative', 'Design thinking', 'Thinking based learning', 'Competitions']
     }
   }
 
@@ -30,9 +29,6 @@ export default class CourseForm extends React.Component {
       category: event.target.value,
     }, () => {
       this.props.setCourseCategory(this.state.category);
-      this.setState({
-        category: this.props.course.category,
-      });
     });
   };
 
@@ -128,6 +124,8 @@ export default class CourseForm extends React.Component {
       course.subtitle = subtitle;
       course.time = time;
       course.description = description;
+      course.image = this.state.imageInformation;
+      course.sylabus = this.state.fileInformation;
       this.props.saveCourse(course);
       return true;
     }
@@ -135,21 +133,23 @@ export default class CourseForm extends React.Component {
     return false;
   }
 
-  /*--------------------------------------------- hay uq borrar*/
-  removeUrl(){
+  getImageFileInformation(fileInformation){
     this.setState({
-      url: '',
-      imageId: '',
+      imageInformation: fileInformation,
     });
   }
 
-  getImageInformation(url, id){
+  removeImageFileInformation(){
     this.setState({
-      url: url,
-      imageId: id,
+      imageInformation: [],
     });
   }
-  /*--------------------------------------------- hay uq borrar*/
+
+  resetImageFile(){
+    this.setState({
+      parentId: 'creating-course',
+    });
+  }
 
   getFileInformation(fileInformation){
     this.setState({
@@ -169,176 +169,251 @@ export default class CourseForm extends React.Component {
     });
   }
 
+  setItems(picked, type, action){
+    let items;
+    let added;
+    if(type === 'methodology'){
+      added = this.props.addedMethodologyItems;
+      items = this.props.methodologyItems;
+    }
+    if(type === 'modality'){
+      added = this.props.addedModalityItems;
+      items = this.props.modalityItems;
+    }
+    for (var i = 0; i < picked.length; i++) {
+      if(action === 'remove'){
+        this.filterArray(picked[i], added);
+        items.push(picked[i]);
+      }
+      if(action === 'add'){
+        added.push(picked[i]);
+        this.filterArray(picked[i], items);
+      }
+    }
+  }
+
+  setAll(type, action) {
+    let items;
+    let added;
+    if(type === 'methodology'){
+      added = this.props.addedMethodologyItems;
+      items = this.props.methodologyItems;
+    }
+    if(type === 'modality'){
+      added = this.props.addedModalityItems;
+      items = this.props.modalityItems;
+    }
+    if(action === 'add'){
+      for (var i = 0; i < items.length; i++) {
+        added.push(items[i]);
+      }
+      items.splice(0);
+    }
+    if(action === 'remove'){
+      for (var i = 0; i < added.length; i++) {
+        items.push(added[i]);
+      }
+      added.splice(0);
+    }
+  }
+
+  filterArray(filterItem, filterList){
+    let removeIndex = filterList.indexOf(filterItem);
+    filterList.splice(removeIndex, 1);
+  }
+
+  generateCourseCreatorKey(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+  componentDidMount() {
+    this.props.setCourseTemporalKey(this.generateCourseCreatorKey(15));
+  }
+
   componentWillUnmount(){
     /*let files = CourseFilesCollection.find({ meta: {parentId: "creating-course"} }, { sort: { name: 1 } }).fetch();
     for (var i = 0; i < files.length; i++) {
-      Meteor.call('RemoveCourseFile', files[i]._id, function (err) {
-        if (err)
-        console.log(err);
-      });
-    }*/
-  }
+    Meteor.call('RemoveCourseFile', files[i]._id, function (err) {
+    if (err)
+    console.log(err);
+  });
+}*/
+}
 
-  render() {
-    return(
-      <div>
-        <div className="form-container">
-          <div className="form-title">Course editor</div>
-          <div className="form-subtitle">Course information</div>
-          <div className="input-container">
-            <TextField
-              id="course-title-input"
-              label="Course title"
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              required
-              error={this.state.titleError}
-              defaultValue={this.props.course.title}
-            />
-          </div>
-          <div className="input-container">
-            <TextField
-              id="course-subtitle-input"
-              label="Course sub title"
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              required
-              error={this.state.subtitleError}
-              defaultValue={this.props.course.subtitle}
-            />
-          </div>
-          <div className="select-input-container">
-            <FormControl
-              variant="outlined"
-              error={this.state.categoryError}
-            >
-              <InputLabel
-                ref={ref => {
-                    this.InputLabelRef = ref;
-                }}
-                htmlFor="course-category"
-              >
-                Course category *
-              </InputLabel>
-              <Select
-                value={this.state.category}
-                onChange={this.handleCategoryChange}
-                required
-                input={
-                  <OutlinedInput
-                    name="course-category"
-                    id="course-category"
-                  />
-                }
-              >
-                <MenuItem value={0}>Informatics</MenuItem>
-                <MenuItem value={1}>Pedagogy</MenuItem>
-                <MenuItem value={2}>Educaional videogames</MenuItem>
-                <MenuItem value={3}>Personal development</MenuItem>
-                <MenuItem value={4}>English as a second</MenuItem>
-                <MenuItem value={5}>Special education</MenuItem>
-                <MenuItem value={6}>Computational thinking</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div className="input-file-container">
-            <FileUpload
-              parentId={this.state.parentId + "-image-course"}
-              accept="image/*"
-              label="Upload course image"
-              uploadedTitle="Course sylabus"
-              icon=""
-              collection={CourseFilesCollection}
-              removeFunction="RemoveCourseFile"
-              type="image"
-              preview={true}
-              dowload={false}
-              open={false}
-              delete={true}
-              showIcon={false}
-              showControlMessage={this.props.showControlMessage.bind(this)}
-              resetFile={this.resetFile.bind(this)}
-              getFileInformation={this.getFileInformation.bind(this)}
-              removeFileInformation={this.removeFileInformation.bind(this)}
-            />
-          </div>
-          <div className="input-file-container">
-            <FileUpload
-              parentId={this.state.parentId + "-file-pdf-course"}
-              accept=".pdf"
-              label="Upload sylabus"
-              uploadedTitle="Course sylabus"
-              icon="pdf-g.svg"
-              collection={CourseFilesCollection}
-              removeFunction="RemoveCourseFile"
-              type="pdf"
-              preview={false}
-              dowload={false}
-              open={true}
-              delete={true}
-              showIcon={true}
-              showControlMessage={this.props.showControlMessage.bind(this)}
-              resetFile={this.resetFile.bind(this)}
-              getFileInformation={this.getFileInformation.bind(this)}
-              removeFileInformation={this.removeFileInformation.bind(this)}
-            />
-          </div>
-          <div className="input-container">
-            <TextField
-              id="course-time-input"
-              label="Estimated course duration"
-              margin="normal"
-              variant="outlined"
-              type="number"
-              fullWidth
-              required
-              InputProps={{
-                endAdornment: <InputAdornment position="end">minutes</InputAdornment>,
+render() {
+  return(
+    <div>
+      <div className="form-container">
+        <div className="form-title">Course editor</div>
+        <div className="form-subtitle">Course information</div>
+        <div className="input-container">
+          <TextField
+            id="course-title-input"
+            label="Course title"
+            margin="normal"
+            variant="outlined"
+            fullWidth
+            required
+            error={this.state.titleError}
+            defaultValue={this.props.course.title}
+          />
+        </div>
+        <div className="input-container">
+          <TextField
+            id="course-subtitle-input"
+            label="Course sub title"
+            margin="normal"
+            variant="outlined"
+            fullWidth
+            required
+            error={this.state.subtitleError}
+            defaultValue={this.props.course.subtitle}
+          />
+        </div>
+        <div className="select-input-container">
+          <FormControl
+            variant="outlined"
+            error={this.state.categoryError}
+          >
+            <InputLabel
+              ref={ref => {
+                  this.InputLabelRef = ref;
               }}
-              inputProps={{ min: "0", max: "150", step: "1" }}
-              error={this.state.timeError}
-              defaultValue={this.props.course.time}
-            />
-          </div>
-          <div className="input-container">
-            <TextField
-              id="course-description-input"
-              label="Course description"
-              margin="normal"
-              variant="outlined"
-              fullWidth
+              htmlFor="course-category"
+            >
+              Course category *
+            </InputLabel>
+            <Select
+              value={this.state.category}
+              onChange={this.handleCategoryChange}
               required
-              multiline
-              rows="3"
-              error={this.state.descriptionError}
-              defaultValue={this.props.course.description}
+              input={
+                <OutlinedInput
+                  name="course-category"
+                  id="course-category"
+                />
+              }
+            >
+              <MenuItem value={0}>Informatics</MenuItem>
+              <MenuItem value={1}>Pedagogy</MenuItem>
+              <MenuItem value={2}>Educaional videogames</MenuItem>
+              <MenuItem value={3}>Personal development</MenuItem>
+              <MenuItem value={4}>English as a second</MenuItem>
+              <MenuItem value={5}>Special education</MenuItem>
+              <MenuItem value={6}>Computational thinking</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <div className="input-file-container">
+          <FileUpload
+            parentId={this.state.parentId + "-image-course"}
+            accept="image/*"
+            label="Upload course image"
+            uploadedTitle="Course sylabus"
+            icon=""
+            collection={CourseFilesCollection}
+            removeFunction="RemoveCourseFile"
+            type="image"
+            preview={true}
+            dowload={false}
+            open={false}
+            delete={true}
+            showIcon={false}
+            showControlMessage={this.props.showControlMessage.bind(this)}
+            resetFile={this.resetImageFile.bind(this)}
+            getFileInformation={this.getImageFileInformation.bind(this)}
+            removeFileInformation={this.removeImageFileInformation.bind(this)}
+          />
+        </div>
+        <div className="input-file-container">
+          <FileUpload
+            parentId={this.state.parentId + "-file-pdf-course"}
+            accept=".pdf"
+            label="Upload sylabus"
+            uploadedTitle="Course sylabus"
+            icon="pdf-g.svg"
+            collection={CourseFilesCollection}
+            removeFunction="RemoveCourseFile"
+            type="pdf"
+            preview={false}
+            dowload={false}
+            open={true}
+            delete={true}
+            showIcon={true}
+            showControlMessage={this.props.showControlMessage.bind(this)}
+            resetFile={this.resetFile.bind(this)}
+            getFileInformation={this.getFileInformation.bind(this)}
+            removeFileInformation={this.removeFileInformation.bind(this)}
+          />
+        </div>
+        <div className="input-container">
+          <TextField
+            id="course-time-input"
+            label="Estimated course duration"
+            margin="normal"
+            variant="outlined"
+            type="number"
+            fullWidth
+            required
+            InputProps={{
+              endAdornment: <InputAdornment position="end">minutes</InputAdornment>,
+            }}
+            inputProps={{ min: "0", max: "150", step: "1" }}
+            error={this.state.timeError}
+            defaultValue={this.props.course.time}
+          />
+        </div>
+        <div className="input-container">
+          <TextField
+            id="course-description-input"
+            label="Course description"
+            margin="normal"
+            variant="outlined"
+            fullWidth
+            required
+            multiline
+            rows="3"
+            error={this.state.descriptionError}
+            defaultValue={this.props.course.description}
+          />
+        </div>
+        <div className="input-list-container">
+          <p className="list-input-label">Modality</p>
+          <div className="transfer-list-container">
+            <TransferList
+              items={this.props.modalityItems}
+              added={this.props.addedModalityItems}
+              type="modality"
+              setItems={this.setItems.bind(this)}
+              setAll={this.setAll.bind(this)}
             />
-          </div>
-          <div className="input-list-container">
-            <p className="list-input-label">Modality</p>
-            <div className="transfer-list-container">
-              <TransferList
-                items={this.state.modalityItems}
-              />
-            </div>
-          </div>
-          <div className="input-list-container">
-            <p className="list-input-label">Methodology</p>
-            <div className="transfer-list-container">
-              <TransferList
-                items={this.state.methodologyItems}
-              />
-            </div>
-          </div>
-          <div className="form-button-container">
-            <Button onClick={() => this.saveCourse()} className="form-button" id="upload-button" variant="contained" color="secondary">
-              Save course
-            </Button>
           </div>
         </div>
+        <div className="input-list-container">
+          <p className="list-input-label">Methodology</p>
+          <div className="transfer-list-container">
+            <TransferList
+              items={this.props.methodologyItems}
+              added={this.props.addedMethodologyItems}
+              type="methodology"
+              setItems={this.setItems.bind(this)}
+              setAll={this.setAll.bind(this)}
+            />
+          </div>
+        </div>
+        <div className="form-button-container">
+          <Button onClick={() => this.saveCourse()} className="form-button" id="upload-button" variant="contained" color="secondary">
+            Save course
+          </Button>
+        </div>
       </div>
-    );
-  }
-}
+    </div>
+        );
+      }
+    }
