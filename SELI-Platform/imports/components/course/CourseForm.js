@@ -312,7 +312,7 @@ render() {
         </div>
         <div className="input-file-container">
           <FileUpload
-            parentId={this.state.parentId + "-image-course"}
+            parentId={this.props.courseKey + "-image-course"}
             accept="image/*"
             label="Upload course image"
             uploadedTitle="Course sylabus"
@@ -333,7 +333,7 @@ render() {
         </div>
         <div className="input-file-container">
           <FileUpload
-            parentId={this.state.parentId + "-file-pdf-course"}
+            parentId={this.props.courseKey + "-file-pdf-course"}
             accept=".pdf"
             label="Upload sylabus"
             uploadedTitle="Course sylabus"

@@ -477,6 +477,7 @@ export default class Main extends React.Component {
                     removeModality={this.removeModality.bind(this)}
                     showSaveTutor={this.showSaveTutor.bind(this)}
                     setCourseTemporalKey={this.setCourseTemporalKey.bind(this)}
+                    courseKey={this.state.courseKey}
                   />
                 :
                 undefined
