@@ -283,7 +283,7 @@ render() {
             label="Category"
             fullWidth
             required
-            value={this.state.category}
+            value={this.props.category}
             onChange={this.handleChangeCategory('category')}
             SelectProps={{
               MenuProps: {

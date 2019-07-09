@@ -3,6 +3,12 @@ import Table from '../data_display/Table';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormLabel from '@material-ui/core/FormLabel';
 /* Dialog */
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -10,6 +16,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 /* Trasitions */
 import Slide from '@material-ui/core/Slide';
+
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from '../../style/theme.js';
 
 import { Requirements } from '../../../lib/RequirementsCollection'
 
@@ -21,6 +30,7 @@ export default class RequirementsManagement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      requirementType: '',
       category: '',
       headRows: [
         { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
@@ -59,8 +69,9 @@ export default class RequirementsManagement extends React.Component {
 
   validateEmptyInputs(inputs){
     let isValid = true;
+    console.log(inputs);
     for (var i = 0; i < inputs.length; i++) {
-      if(inputs[i] === ""){
+      if(inputs[i] === "" || inputs[i] === undefined){
         this.props.showControlMessage('The fields marked with * are required');
         isValid = false;
       }
@@ -69,18 +80,22 @@ export default class RequirementsManagement extends React.Component {
     return isValid;
   }
 
-  showEmptyInputs(input){
+  showEmptyInputs(inputs){
     let nameError = false;
     let descriptionError = false;
     let categoryError = false;
-    if(input[0] === ""){
+    let typeError = false;
+    if(inputs[0] === ""){
       nameError = true;
     }
-    if(input[1] === ""){
+    if(inputs[1] === ""){
       descriptionError = true;
     }
-    if(!input[2]){
+    if(inputs[2] === undefined){
       categoryError = true;
+    }
+    if(inputs[3] === ""){
+      typeError = true;
     }
     this.setState({
       nameError: nameError,
@@ -94,16 +109,18 @@ export default class RequirementsManagement extends React.Component {
     document.getElementById('requirement-description-input').value = "";
     this.setState({
       category: '',
+      requirementType: '',
     });
   }
 
-  saveCategory(name, description, category){
+  saveRequirement(name, description, category, type){
     if(
       Requirements.insert({
         name: name,
         description: description,
         additionDate: new Date(),
         category: category,
+        type: type,
       })
     ){
       this.props.showControlMessage("Category created succesfully");
@@ -120,9 +137,20 @@ export default class RequirementsManagement extends React.Component {
     let description = document.getElementById('requirement-description-input').value;
     let categories = this.props.categories;
     let category = categories.find(c => c._id === this.state.category);
-    let inputs = [name, description, category];
-    if(this.validateEmptyInputs(inputs)){
-      this.saveCategory(name, description, category);
+    let type = this.state.requirementType;
+    if(type === ""){
+      this.props.showControlMessage("Please select the requirement type");
+      return;
+    }
+    else {
+      if(type === "Technical"){
+        category = {};
+        category.name = type;
+      }
+      let inputs = [name, description, category];
+      if(this.validateEmptyInputs(inputs)){
+        this.saveRequirement(name, description, category, type);
+      }
     }
   }
 
@@ -135,6 +163,12 @@ export default class RequirementsManagement extends React.Component {
       delete: requirements,
     }, () => {
       this.handleClickOpenDelete();
+    });
+  }
+
+  getRequirementType = event => {
+    this.setState({
+      requirementType: event.target.value,
     });
   }
 
@@ -167,56 +201,83 @@ export default class RequirementsManagement extends React.Component {
         >
           <DialogTitle id="language-select-title">Requirement editor</DialogTitle>
           <DialogContent className="form-dialog">
-            <div className="dialog-form-container">
-              <div className="dialog-input-container">
-                <TextField
-                  id="requirement-name-input"
-                  label="Category name"
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  error={this.state.nameError}
-                />
-              </div>
-              <div className="dialog-input-container">
-                <TextField
-                  id="requirement-description-input"
-                  label="Category description"
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  multiline
-                  rows="3"
-                  error={this.state.descriptionError}
-                />
-              </div>
-              <div className="dialog-input-container">
-                <TextField
-                  id="outlined-select-currency"
-                  select
-                  label="Category"
-                  fullWidth
-                  required
-                  value={this.state.category}
-                  onChange={this.handleChangeCategory('category')}
-                  SelectProps={{
-                    MenuProps: {
+            <MuiThemeProvider theme={theme}>
+              <div className="dialog-form-container">
+                <div className="dialog-input-container">
+                  <TextField
+                    id="requirement-name-input"
+                    label="Requirement name"
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    error={this.state.nameError}
+                  />
+                </div>
+                <div className="dialog-input-container">
+                  <TextField
+                    id="requirement-description-input"
+                    label="Requirement description"
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    multiline
+                    rows="3"
+                    error={this.state.descriptionError}
+                  />
+                </div>
+                <div className="dialog-input-container">
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend" className="radio-label">Select the type of requirement</FormLabel>
+                  </FormControl>
+                  <RadioGroup aria-label="position" name="position" value={this.state.requirementType} onChange={this.getRequirementType} row>
+                    <FormControlLabel
+                      value="Knowledge"
+                      control={<Radio color="primary" />}
+                      label="Knowledge"
+                      labelPlacement="end"
+                    />
+                    <FormControlLabel
+                      value="Technical"
+                      control={<Radio color="primary" />}
+                      label="Technical"
+                      labelPlacement="end"
+                    />
+                  </RadioGroup>
+                </div>
+                {
+                  this.state.requirementType === 'Knowledge' ?
+                    <div className="dialog-input-container">
+                      <TextField
+                        id="category-input"
+                        select
+                        label="Category"
+                        fullWidth
+                        required
+                        value={this.state.category}
+                        error={this.state.categoryError}
+                        onChange={this.handleChangeCategory('category')}
+                        SelectProps={{
+                          MenuProps: {
 
-                    },
-                  }}
-                  margin="normal"
-                  variant="outlined"
-                >
-                  {this.props.categories.map(option => (
-                    <MenuItem key={option._id} value={option._id}>
-                      {option.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                          },
+                        }}
+                        margin="normal"
+                        variant="outlined"
+                      >
+                        {this.props.categories.map(option => (
+                          <MenuItem key={option._id} value={option._id}>
+                            {option.name}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
+                  :
+                  undefined
+                }
               </div>
-            </div>
+            </MuiThemeProvider>
           </DialogContent>
           <DialogActions>
             <div className="form-button-container">

@@ -77,9 +77,9 @@ export default class Main extends React.Component {
       addedModalityItems: [],
       methodologyItems: [],
       addedMethodologyItems: [],
-      knowledgeItems: ['Math', 'Programing', 'Physics', 'Biology'],
+      knowledgeItems: [],
       addedKnowledgeItems: [],
-      technilcaItems: ['Headphones', 'Microphone', 'Movil device'],
+      technilcaItems: [],
       addedTechnilcaItems: [],
       peopleItems: [],
       addedPeopleItems: [],
@@ -98,8 +98,19 @@ export default class Main extends React.Component {
   }
 
   setCourseCategory(category){
+    let sameCategoty = true;
+    if(category !== this.state.category){
+      sameCategoty = false;
+    }
     this.setState({
       category: category,
+    }, () => {
+      if(!sameCategoty){
+        this.createKnowledgeItems(this.state.category);
+        this.setState({
+          addedKnowledgeItems: [],
+        });
+      }
     });
   }
 
@@ -487,6 +498,21 @@ export default class Main extends React.Component {
     });
   }
 
+  createTechnicalItems(){
+    let technilcaItems = this.state.technilcaItems;
+    if(technilcaItems.length){
+      technilcaItems.splice(0, technilcaItems.length);
+    }
+    for (var i = 0; i < this.state.requirements.length; i++) {
+      if(this.state.requirements[i].category.name === "Technical"){
+        technilcaItems.push(this.state.requirements[i].name);
+      }
+    }
+    this.setState({
+      technilcaItems: technilcaItems,
+    });
+  }
+
   createPeopleItems(){
     let peopleItems = this.state.peopleItems;
     if(peopleItems.length){
@@ -500,6 +526,21 @@ export default class Main extends React.Component {
     });
   }
 
+  createKnowledgeItems(category){
+    let knowledgeItems = this.state.knowledgeItems;
+    if(knowledgeItems.length){
+      knowledgeItems.splice(0, knowledgeItems.length);
+    }
+    for (var i = 0; i < this.state.requirements.length; i++) {
+      if(this.state.requirements[i].category._id === category){
+        knowledgeItems.push(this.state.requirements[i].name);
+      }
+    }
+    this.setState({
+      knowledgeItems: knowledgeItems,
+    });
+  }
+
   checkLoadedData(){
     if(this.state.modalities.length) {
       this.createModalityItems();
@@ -509,6 +550,9 @@ export default class Main extends React.Component {
     }
     if(this.state.people.length) {
       this.createPeopleItems();
+    }
+    if(this.state.requirements.length) {
+      this.createTechnicalItems();
     }
   }
 
@@ -580,6 +624,7 @@ export default class Main extends React.Component {
                     setCourseTemporalKey={this.setCourseTemporalKey.bind(this)}
                     courseKey={this.state.courseKey}
                     categories={this.state.categories}
+                    category={this.state.category}
                   />
                 :
                 undefined
