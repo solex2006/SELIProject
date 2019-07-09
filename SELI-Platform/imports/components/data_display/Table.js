@@ -43,6 +43,10 @@ function createRequirementData(name, description, additionDate, category, id) {
   return { name, description, additionDate, category, id };
 }
 
+function createPeopleData(name, description, additionDate, id) {
+  return { name, description, additionDate, id };
+}
+
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -248,6 +252,11 @@ function EnhancedTableHead(props) {
           if(props.type === 'requirement'){
             for (var i = 0; i < props.requirements.length; i++) {
               data.push(createRequirementData(props.requirements[i].name, props.requirements[i].description, props.requirements[i].additionDate.toDateString(), props.requirements[i].category.name, props.requirements[i]._id));
+            }
+          }
+          if(props.type === 'people'){
+            for (var i = 0; i < props.people.length; i++) {
+              data.push(createPeopleData(props.people[i].name, props.people[i].description, props.people[i].additionDate.toDateString(), props.people[i]._id));
             }
           }
           rows = data;
@@ -532,6 +541,48 @@ function EnhancedTableHead(props) {
                                   <TableCell align="right">{row.description}</TableCell>
                                   <TableCell align="right">{row.additionDate}</TableCell>
                                   <TableCell align="right">{row.category}</TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          {emptyRows > 0 && (
+                            <TableRow style={{ height: 49 * emptyRows }}>
+                              <TableCell colSpan={6} />
+                            </TableRow>
+                          )}
+                        </TableBody>
+                      :
+                      undefined
+                    }
+                    {
+                      props.type === 'people' ?
+                        <TableBody>
+                          {stableSort(rows, getSorting(order, orderBy))
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
+                              const isItemSelected = isSelected(row.id);
+                              const labelId = `enhanced-table-checkbox-${index}`;
+
+                              return (
+                                <TableRow
+                                  hover
+                                  onClick={event => handleClick(event, row.id)}
+                                  role="checkbox"
+                                  aria-checked={isItemSelected}
+                                  tabIndex={-1}
+                                  key={row.id}
+                                  selected={isItemSelected}
+                                >
+                                  <TableCell padding="checkbox">
+                                    <Checkbox
+                                      checked={isItemSelected}
+                                      inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                  </TableCell>
+                                  <TableCell component="th" id={labelId} scope="row" padding="none">
+                                    {row.name}
+                                  </TableCell>
+                                  <TableCell align="right">{row.description}</TableCell>
+                                  <TableCell align="right">{row.additionDate}</TableCell>
                                 </TableRow>
                               );
                             })}

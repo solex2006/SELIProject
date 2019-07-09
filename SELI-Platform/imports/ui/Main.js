@@ -24,6 +24,7 @@ import CategoriesManagement from '../components/course/CategoriesManagement';
 import ModalitiesManagement from '../components/course/ModalitiesManagement';
 import MethodologiesManagement from '../components/course/MethodologiesManagement';
 import RequirementsManagement from '../components/course/RequirementsManagement';
+import PeopleManagement from '../components/course/PeopleManagement';
 
 import ScrollUpButton from "react-scroll-up-button";
 import Snackbar from '@material-ui/core/Snackbar';
@@ -41,6 +42,7 @@ import { Modalities } from '../../lib/ModalitiesCollection';
 import { Methodologies } from '../../lib/MethodologiesCollection';
 import { Categories } from '../../lib/CategoriesCollection';
 import { Requirements } from '../../lib/RequirementsCollection';
+import { People } from '../../lib/PeopleCollection';
 import CourseFilesCollection from '../../lib/CourseFilesCollection.js';
 
 function TransitionRight(props) {
@@ -73,13 +75,13 @@ export default class Main extends React.Component {
       ],
       modalityItems: [],
       addedModalityItems: [],
-      methodologyItems: ['Cooperative', 'Design thinking', 'Thinking based learning', 'Competitions'],
+      methodologyItems: [],
       addedMethodologyItems: [],
       knowledgeItems: ['Math', 'Programing', 'Physics', 'Biology'],
       addedKnowledgeItems: [],
       technilcaItems: ['Headphones', 'Microphone', 'Movil device'],
       addedTechnilcaItems: [],
-      peopleItems: ['Cognitive Disabilites', 'Diversity of abilities', 'Hearing disabilities', 'Language disabilities', 'Motor disabilities', 'Visual disabilities', 'Speech disabilities', 'Vestibular disorders'],
+      peopleItems: [],
       addedPeopleItems: [],
     }
   }
@@ -453,6 +455,12 @@ export default class Main extends React.Component {
     }
   }
 
+  deletePeople(people){
+    for (var i = 0; i < people.length; i++) {
+      People.remove({_id: people[i]});
+    }
+  }
+
   createModalityItems(){
     let modalityItems = this.state.modalityItems;
     if(modalityItems.length){
@@ -479,12 +487,28 @@ export default class Main extends React.Component {
     });
   }
 
+  createPeopleItems(){
+    let peopleItems = this.state.peopleItems;
+    if(peopleItems.length){
+      peopleItems.splice(0, peopleItems.length);
+    }
+    for (var i = 0; i < this.state.people.length; i++) {
+      peopleItems.push(this.state.people[i].name);
+    }
+    this.setState({
+      peopleItems: peopleItems,
+    });
+  }
+
   checkLoadedData(){
     if(this.state.modalities.length) {
       this.createModalityItems();
     }
     if(this.state.methodologies.length) {
       this.createMethodologyItems();
+    }
+    if(this.state.people.length) {
+      this.createPeopleItems();
     }
   }
 
@@ -496,6 +520,7 @@ export default class Main extends React.Component {
         let methodologies = Methodologies.find().fetch();
         let categories = Categories.find().fetch();
         let requirements = Requirements.find().fetch();
+        let people = People.find().fetch();
         this.setState({
           tutors: tutors,
           courses: courses,
@@ -503,6 +528,7 @@ export default class Main extends React.Component {
           methodologies: methodologies,
           categories: categories,
           requirements: requirements,
+          people: people,
         }, () => this.checkLoadedData());
       });
   }
@@ -703,6 +729,17 @@ export default class Main extends React.Component {
                     requirements={this.state.requirements}
                     showForm={this.showForm.bind(this)}
                     deleteRequirements={this.deleteRequirements.bind(this)}
+                    showControlMessage={this.showControlMessage.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.forms.show === 'PeopleManagement' ?
+                  <PeopleManagement
+                    people={this.state.people}
+                    showForm={this.showForm.bind(this)}
+                    deletePeople={this.deletePeople.bind(this)}
                     showControlMessage={this.showControlMessage.bind(this)}
                   />
                 :

@@ -10,13 +10,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 /* Trasitions */
 import Slide from '@material-ui/core/Slide';
 
-import { Methodologies } from '../../../lib/MethodologiesCollection'
+import { People } from '../../../lib/PeopleCollection'
 
 function Transition(props) {
   return <Slide direction="right" {...props} />;
 }
 
-export default class MethodologiesManagement extends React.Component {
+export default class PeopleManagement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,43 +76,43 @@ export default class MethodologiesManagement extends React.Component {
   }
 
   clearInputs(){
-    document.getElementById('methodology-name-input').value = "";
-    document.getElementById('methodology-description-input').value = "";
+    document.getElementById('people-name-input').value = "";
+    document.getElementById('people-description-input').value = "";
   }
 
-  saveMethodology(name, description){
+  savePeople(name, description){
     if(
-      Methodologies.insert({
+      People.insert({
         name: name,
         description: description,
         additionDate: new Date(),
       })
     ){
-      this.props.showControlMessage("Methodology created succesfully");
+      this.props.showControlMessage("People category created succesfully");
       this.clearInputs();
       this.handleClose();
     }
     else {
-      this.props.showControlMessage("There was an error creating the methodology, try again later");
+      this.props.showControlMessage("There was an error creating this people category, try again later");
     }
   }
 
   getData(){
-    let name = document.getElementById('methodology-name-input').value;
-    let description = document.getElementById('methodology-description-input').value;
+    let name = document.getElementById('people-name-input').value;
+    let description = document.getElementById('people-description-input').value;
     let inputs = [name, description];
     if(this.validateEmptyInputs(inputs)){
-      this.saveMethodology(name, description);
+      this.savePeople(name, description);
     }
   }
 
-  addMethodology(){
+  addPeople(){
     this.getData();
   }
 
-  deleteMethodologies(methodologies){
+  deletePeople(people){
     this.setState({
-      delete: methodologies,
+      delete: people,
     }, () => {
       this.handleClickOpenDelete();
     });
@@ -123,16 +123,16 @@ export default class MethodologiesManagement extends React.Component {
     return(
       <div>
         <div className="form-container">
-          <div className="form-title">Registered methodologies</div>
+          <div className="form-title">Registered people categories</div>
           <div className="courses-table-container">
             <Table
-              methodologies={this.props.methodologies}
-              type="methodology"
+              people={this.props.people}
+              type="people"
               add={this.addFromTable.bind(this)}
-              deleteFunction={this.deleteMethodologies.bind(this)}
+              deleteFunction={this.deletePeople.bind(this)}
               headRows={this.state.headRows}
-              tableToolbarHeader="Methodologies general information"
-              addLabel="add methodology"
+              tableToolbarHeader="People categories general information"
+              addLabel="add people category"
             />
           </div>
         </div>
@@ -145,13 +145,13 @@ export default class MethodologiesManagement extends React.Component {
           maxWidth={false}
           style={{display: "flex", justifyContent: "center", maxWidth: "none"}}
         >
-          <DialogTitle id="language-select-title">Methodology editor</DialogTitle>
+          <DialogTitle id="language-select-title">People category editor</DialogTitle>
           <DialogContent className="form-dialog">
             <div className="dialog-form-container">
               <div className="dialog-input-container">
                 <TextField
-                  id="methodology-name-input"
-                  label="Methodology name"
+                  id="people-name-input"
+                  label="People category name"
                   margin="normal"
                   variant="outlined"
                   fullWidth
@@ -161,8 +161,8 @@ export default class MethodologiesManagement extends React.Component {
               </div>
               <div className="dialog-input-container">
                 <TextField
-                  id="methodology-description-input"
-                  label="Methodology description"
+                  id="people-description-input"
+                  label="People category description"
                   margin="normal"
                   variant="outlined"
                   fullWidth
@@ -176,8 +176,8 @@ export default class MethodologiesManagement extends React.Component {
           </DialogContent>
           <DialogActions>
             <div className="form-button-container">
-              <Button onClick={() => this.addMethodology()} color="secondary">
-                create methodology
+              <Button onClick={() => this.addPeople()} color="secondary">
+                create people category
               </Button>
             </div>
           </DialogActions>
@@ -188,12 +188,12 @@ export default class MethodologiesManagement extends React.Component {
           keepMounted
           TransitionComponent={Transition}
         >
-          <DialogTitle className="modal-title" id="alert-dialog-title">{"Are you sure you want to delete this methodologies?"}</DialogTitle>
+          <DialogTitle className="modal-title" id="alert-dialog-title">{"Are you sure you want to delete this people category?"}</DialogTitle>
           <DialogActions>
             <Button  onClick={this.handleCloseDelete} color="primary">
               No
             </Button>
-            <Button onClick={(event) => { this.props.deleteMethodologies(this.state.delete); this.handleCloseDelete();}} color="primary" autoFocus>
+            <Button onClick={(event) => { this.props.deletePeople(this.state.delete); this.handleCloseDelete();}} color="primary" autoFocus>
               Yes
             </Button>
           </DialogActions>

@@ -165,7 +165,7 @@ export default class RequirementsManagement extends React.Component {
           maxWidth={false}
           style={{display: "flex", justifyContent: "center", maxWidth: "none"}}
         >
-          <DialogTitle id="language-select-title">Modality editor</DialogTitle>
+          <DialogTitle id="language-select-title">Requirement editor</DialogTitle>
           <DialogContent className="form-dialog">
             <div className="dialog-form-container">
               <div className="dialog-input-container">
