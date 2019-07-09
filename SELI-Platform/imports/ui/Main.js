@@ -20,6 +20,10 @@ import UnitsEditor from '../components/course/UnitsEditor';
 import ContentEditor from '../components/content/ContentEditor';
 import QuizEditor from '../components/activities/QuizEditor';
 import LearningActivityEditor from '../components/activities/LearningActivityEditor';
+import CategoriesManagement from '../components/course/CategoriesManagement';
+import ModalitiesManagement from '../components/course/ModalitiesManagement';
+import MethodologiesManagement from '../components/course/MethodologiesManagement';
+import RequirementsManagement from '../components/course/RequirementsManagement';
 
 import ScrollUpButton from "react-scroll-up-button";
 import Snackbar from '@material-ui/core/Snackbar';
@@ -33,8 +37,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { Courses } from '../../lib/CourseCollection';
 import { Tutors } from '../../lib/TutorCollection';
+import { Modalities } from '../../lib/ModalitiesCollection';
+import { Methodologies } from '../../lib/MethodologiesCollection';
+import { Categories } from '../../lib/CategoriesCollection';
+import { Requirements } from '../../lib/RequirementsCollection';
 import CourseFilesCollection from '../../lib/CourseFilesCollection.js';
-import categories from '../../lib/categories';
 
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
@@ -64,7 +71,7 @@ export default class Main extends React.Component {
         false,
         false,
       ],
-      modalityItems: ['Distance', 'Presential', 'Semipresential'],
+      modalityItems: [],
       addedModalityItems: [],
       methodologyItems: ['Cooperative', 'Design thinking', 'Thinking based learning', 'Competitions'],
       addedMethodologyItems: [],
@@ -78,7 +85,8 @@ export default class Main extends React.Component {
   }
 
   saveCourse(course){
-    let courseCategory = categories.find(c => c.value === this.state.category);
+    let categories = this.state.categories;
+    let courseCategory = categories.find(c => c._id === this.state.category);
     course.category = courseCategory;
     course.modalities = this.state.addedModalityItems;
     course.methodologies = this.state.addedMethodologyItems;
@@ -367,10 +375,6 @@ export default class Main extends React.Component {
     });
   }
 
-  checkLoadedData(){
-
-  }
-
   setCourseTemporalKey(key) {
     this.setState({
       courseKey: key,
@@ -421,13 +425,84 @@ export default class Main extends React.Component {
     this.setState({ openDialog: false });
   };
 
+  deleteCourses(courses){
+    console.log(courses);
+  }
+
+  deleteModalities(modalities){
+    for (var i = 0; i < modalities.length; i++) {
+      Modalities.remove({_id: modalities[i]});
+    }
+  }
+
+  deleteMethodologies(methodologies){
+    for (var i = 0; i < methodologies.length; i++) {
+      Methodologies.remove({_id: methodologies[i]});
+    }
+  }
+
+  deleteCategories(categories){
+    for (var i = 0; i < categories.length; i++) {
+      Categories.remove({_id: categories[i]});
+    }
+  }
+
+  deleteRequirements(requirement){
+    for (var i = 0; i < requirement.length; i++) {
+      Requirements.remove({_id: requirement[i]});
+    }
+  }
+
+  createModalityItems(){
+    let modalityItems = this.state.modalityItems;
+    if(modalityItems.length){
+      modalityItems.splice(0, modalityItems.length);
+    }
+    for (var i = 0; i < this.state.modalities.length; i++) {
+      modalityItems.push(this.state.modalities[i].name);
+    }
+    this.setState({
+      modalityItems: modalityItems,
+    });
+  }
+
+  createMethodologyItems(){
+    let methodologyItems = this.state.methodologyItems;
+    if(methodologyItems.length){
+      methodologyItems.splice(0, methodologyItems.length);
+    }
+    for (var i = 0; i < this.state.methodologies.length; i++) {
+      methodologyItems.push(this.state.methodologies[i].name);
+    }
+    this.setState({
+      methodologyItems: methodologyItems,
+    });
+  }
+
+  checkLoadedData(){
+    if(this.state.modalities.length) {
+      this.createModalityItems();
+    }
+    if(this.state.methodologies.length) {
+      this.createMethodologyItems();
+    }
+  }
+
   componentDidMount(){
     Tracker.autorun(() => {
         let tutors = Tutors.find().fetch();
         let courses = Courses.find().fetch();
+        let modalities = Modalities.find().fetch();
+        let methodologies = Methodologies.find().fetch();
+        let categories = Categories.find().fetch();
+        let requirements = Requirements.find().fetch();
         this.setState({
           tutors: tutors,
           courses: courses,
+          modalities: modalities,
+          methodologies: methodologies,
+          categories: categories,
+          requirements: requirements,
         }, () => this.checkLoadedData());
       });
   }
@@ -478,6 +553,7 @@ export default class Main extends React.Component {
                     showSaveTutor={this.showSaveTutor.bind(this)}
                     setCourseTemporalKey={this.setCourseTemporalKey.bind(this)}
                     courseKey={this.state.courseKey}
+                    categories={this.state.categories}
                   />
                 :
                 undefined
@@ -512,6 +588,7 @@ export default class Main extends React.Component {
                   <CourseList
                     showForm={this.showForm.bind(this)}
                     courses={this.state.courses}
+                    deleteCourses={this.deleteCourses.bind(this)}
                     showControlMessage={this.showControlMessage.bind(this)}
                   />
                 :
@@ -582,6 +659,51 @@ export default class Main extends React.Component {
                   <LearningActivityEditor
                     showForm={this.showForm.bind(this)}
                     lesson={this.state.selectedLesson}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.forms.show === 'ModalitiesManagement' ?
+                  <ModalitiesManagement
+                    modalities={this.state.modalities}
+                    showForm={this.showForm.bind(this)}
+                    deleteModalities={this.deleteModalities.bind(this)}
+                    showControlMessage={this.showControlMessage.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.forms.show === 'MethodologiesManagement' ?
+                  <MethodologiesManagement
+                    methodologies={this.state.methodologies}
+                    showForm={this.showForm.bind(this)}
+                    deleteMethodologies={this.deleteMethodologies.bind(this)}
+                    showControlMessage={this.showControlMessage.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.forms.show === 'CategoriesManagement' ?
+                  <CategoriesManagement
+                    categories={this.state.categories}
+                    showForm={this.showForm.bind(this)}
+                    deleteCategories={this.deleteCategories.bind(this)}
+                    showControlMessage={this.showControlMessage.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.forms.show === 'RequirementsManagement' ?
+                  <RequirementsManagement
+                    categories={this.state.categories}
+                    requirements={this.state.requirements}
+                    showForm={this.showForm.bind(this)}
+                    deleteRequirements={this.deleteRequirements.bind(this)}
+                    showControlMessage={this.showControlMessage.bind(this)}
                   />
                 :
                 undefined

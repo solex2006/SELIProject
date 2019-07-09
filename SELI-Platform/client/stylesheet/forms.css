@@ -7,6 +7,13 @@
   transition: 0.5s;
 }
 
+.dialog-form-container {
+  max-width: 100vw;
+  height: auto;
+  overflow: hidden !important;
+  transition: 0.5s;
+}
+
 .form-title {
   width: 100%;
   position: fixed;
@@ -48,6 +55,16 @@
   align-items: center;
   position: relative;
   left: 30vw;
+  animation: fadeIn 0.5s;
+}
+
+.dialog-input-container {
+  width: 40vw;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   animation: fadeIn 0.5s;
 }
 

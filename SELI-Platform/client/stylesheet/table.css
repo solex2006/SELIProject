@@ -3,3 +3,13 @@
   position: relative;
   left: 10vw;
 }
+
+.table-tools-container {
+  display: flex !important;
+  width: 100%;
+}
+
+.add-table-button {
+  font-size: 0.8em !important;
+  width: 12vw;
+}

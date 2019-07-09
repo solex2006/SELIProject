@@ -43,7 +43,29 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-menu {
   background: var(--menu-color);
   font-size: var(--menu-font-size);
-  overflow-y: hidden !important;
+  overflow-y: scroll;
+  overflow-x: hidden !important;
+}
+
+.bm-menu::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.bm-menu::-webkit-scrollbar-track {
+  background: #424242;
+}
+
+/* Handle */
+.bm-menu::-webkit-scrollbar-thumb {
+  background: #212121;
+  transition: 0.5s;
+}
+
+/* Handle on hover */
+.bm-menu::-webkit-scrollbar-thumb:hover {
+  background: #1C2833;
+  cursor: pointer;
 }
 
 /* Morph shape necessary with bubble or elastic */

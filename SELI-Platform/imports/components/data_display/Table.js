@@ -19,11 +19,28 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import Button from '@material-ui/core/Button';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../../style/theme';
 
-function createData(title, courseDuration, numberOfUnits, category, tutor) {
-  return { title, courseDuration, numberOfUnits, category, tutor };
+function createCourseData(title, courseDuration, numberOfUnits, category, tutor, id) {
+  return { title, courseDuration, numberOfUnits, category, tutor, id };
+}
+
+function createModalityData(name, description, additionDate, id) {
+  return { name, description, additionDate, id };
+}
+
+function createMethodologyData(name, description, additionDate, id) {
+  return { name, description, additionDate, id };
+}
+
+function createCategoryData(name, description, additionDate, id) {
+  return { name, description, additionDate, id };
+}
+
+function createRequirementData(name, description, additionDate, category, id) {
+  return { name, description, additionDate, category, id };
 }
 
 function desc(a, b, orderBy) {
@@ -50,14 +67,6 @@ function getSorting(order, orderBy) {
   return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 
-const headRows = [
-  { id: 'title', numeric: false, disablePadding: false, label: 'Course title' },
-  { id: 'courseDuration', numeric: true, disablePadding: false, label: 'Course duration' },
-  { id: 'numberOfUnits', numeric: true, disablePadding: false, label: 'Number of units #' },
-  { id: 'category', numeric: false, disablePadding: false, label: 'Category' },
-  { id: 'tutor', numeric: false, disablePadding: false, label: 'Tutor' },
-];
-
 function EnhancedTableHead(props) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
   const createSortHandler = property => event => {
@@ -73,13 +82,13 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'Select all desserts' }}
+            inputProps={{ 'aria-label': 'Select all courses' }}
           />
         </TableCell>
-        {headRows.map(row => (
+        {props.headRows.map(row => (
           <TableCell
             key={row.id}
-            align={row.numeric ? 'right' : 'left'}
+            align={row.numeric ? 'right' : 'right'}
             padding={row.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === row.id ? order : false}
           >
@@ -132,10 +141,6 @@ function EnhancedTableHead(props) {
       },
     }));
 
-    function deleteCourses(){
-      console.log('yes');
-    }
-
     const EnhancedTableToolbar = props => {
       const classes = useToolbarStyles();
       const { numSelected } = props;
@@ -153,7 +158,7 @@ function EnhancedTableHead(props) {
               </Typography>
             ) : (
               <Typography variant="h6" id="tableTitle">
-                Nutrition
+                {props.tableToolbarHeader}
               </Typography>
             )}
           </div>
@@ -161,16 +166,21 @@ function EnhancedTableHead(props) {
           <div className={classes.actions}>
             {numSelected > 0 ? (
               <Tooltip title="Delete">
-                <IconButton onClick={() => deleteCourses()} aria-label="Delete">
+                <IconButton onClick={() => props.deleteFunction(props.selected)} aria-label="Delete">
                   <DeleteIcon />
                 </IconButton>
               </Tooltip>
             ) : (
-              <Tooltip title="Filter list">
-                <IconButton aria-label="Filter list">
-                  <FilterListIcon />
-                </IconButton>
-              </Tooltip>
+              <div className="table-tools-container">
+                <Button onClick={() => props.add()} className="add-table-button" color="primary">
+                  {props.addLabel}
+                </Button>
+                <Tooltip title="Filter list">
+                  <IconButton aria-label="Filter list">
+                    <FilterListIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
             )}
           </div>
         </Toolbar>
@@ -191,7 +201,7 @@ function EnhancedTableHead(props) {
           marginBottom: theme.spacing(2),
         },
         table: {
-          minWidth: 750,
+          minWidth: 500,
         },
         tableWrapper: {
           overflowX: 'auto',
@@ -207,16 +217,38 @@ function EnhancedTableHead(props) {
         const [dense, setDense] = React.useState(false);
         const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-        let rows = [
+        const headRows = props.headRows;
 
-        ];
+        let rows = [];
 
         buildData();
 
         function buildData(){
           let data = [];
-          for (var i = 0; i < props.courses.length; i++) {
-            data.push(createData(props.courses[i].course.title, props.courses[i].course.time, props.courses[i].course.units.length, props.courses[i].course.category.label, props.courses[i].course.tutor.name));
+          if(props.type === 'course'){
+            for (var i = 0; i < props.courses.length; i++) {
+              data.push(createCourseData(props.courses[i].course.title, props.courses[i].course.time, props.courses[i].course.units.length, props.courses[i].course.category.label, props.courses[i].course.tutor.name, props.courses[i]._id));
+            }
+          }
+          if(props.type === 'modality'){
+            for (var i = 0; i < props.modalities.length; i++) {
+              data.push(createModalityData(props.modalities[i].name, props.modalities[i].description, props.modalities[i].additionDate.toDateString(), props.modalities[i]._id));
+            }
+          }
+          if(props.type === 'methodology'){
+            for (var i = 0; i < props.methodologies.length; i++) {
+              data.push(createMethodologyData(props.methodologies[i].name, props.methodologies[i].description, props.methodologies[i].additionDate.toDateString(), props.methodologies[i]._id));
+            }
+          }
+          if(props.type === 'category'){
+            for (var i = 0; i < props.categories.length; i++) {
+              data.push(createCategoryData(props.categories[i].name, props.categories[i].description, props.categories[i].additionDate.toDateString(), props.categories[i]._id));
+            }
+          }
+          if(props.type === 'requirement'){
+            for (var i = 0; i < props.requirements.length; i++) {
+              data.push(createRequirementData(props.requirements[i].name, props.requirements[i].description, props.requirements[i].additionDate.toDateString(), props.requirements[i].category.name, props.requirements[i]._id));
+            }
           }
           rows = data;
         }
@@ -229,19 +261,19 @@ function EnhancedTableHead(props) {
 
         function handleSelectAllClick(event) {
           if (event.target.checked) {
-            const newSelecteds = rows.map(n => n.title);
+            const newSelecteds = rows.map(n => n.id);
             setSelected(newSelecteds);
             return;
           }
           setSelected([]);
         }
 
-        function handleClick(event, title) {
-          const selectedIndex = selected.indexOf(title);
+        function handleClick(event, id) {
+          const selectedIndex = selected.indexOf(id);
           let newSelected = [];
 
           if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, title);
+            newSelected = newSelected.concat(selected, id);
           } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
           } else if (selectedIndex === selected.length - 1) {
@@ -268,16 +300,22 @@ function EnhancedTableHead(props) {
           setDense(event.target.checked);
         }
 
-        const isSelected = title => selected.indexOf(title) !== -1;
+        const isSelected = id => selected.indexOf(id) !== -1;
 
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
 
         return (
           <MuiThemeProvider theme={theme}>
             <div className={classes.root}>
               <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar
+                  numSelected={selected.length}
+                  selected={selected}
+                  deleteFunction={props.deleteFunction.bind(this)}
+                  tableToolbarHeader={props.tableToolbarHeader}
+                  addLabel={props.addLabel}
+                  add={props.add.bind(this)}
+                />
                 <div className={classes.tableWrapper}>
                   <Table
                     className={classes.table}
@@ -291,46 +329,221 @@ function EnhancedTableHead(props) {
                       onSelectAllClick={handleSelectAllClick}
                       onRequestSort={handleRequestSort}
                       rowCount={rows.length}
+                      headRows={headRows}
                     />
-                    <TableBody>
-                      {stableSort(rows, getSorting(order, orderBy))
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row, index) => {
-                          const isItemSelected = isSelected(row.title);
-                            const labelId = `enhanced-table-checkbox-${index}`;
+                    {
+                      props.type === 'course' ?
+                        <TableBody>
+                          {stableSort(rows, getSorting(order, orderBy))
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
+                              const isItemSelected = isSelected(row.id);
+                              const labelId = `enhanced-table-checkbox-${index}`;
 
-                          return (
-                            <TableRow
-                              hover
-                              onClick={event => handleClick(event, row.title)}
-                              role="checkbox"
-                              aria-checked={isItemSelected}
-                              tabIndex={-1}
-                              key={row.title}
-                              selected={isItemSelected}
-                            >
-                              <TableCell padding="checkbox">
-                                <Checkbox
-                                  checked={isItemSelected}
-                                  inputProps={{ 'aria-labelledby': labelId }}
-                                />
-                              </TableCell>
-                              <TableCell component="th" id={labelId} scope="row" padding="none">
-                                {row.title}
-                              </TableCell>
-                              <TableCell align="right">{row.courseDuration}</TableCell>
-                              <TableCell align="right">{row.numberOfUnits}</TableCell>
-                              <TableCell align="right">{row.category}</TableCell>
-                              <TableCell align="right">{row.tutor}</TableCell>
+                              return (
+                                <TableRow
+                                  hover
+                                  onClick={event => handleClick(event, row.id)}
+                                  role="checkbox"
+                                  aria-checked={isItemSelected}
+                                  tabIndex={-1}
+                                  key={row.id}
+                                  selected={isItemSelected}
+                                >
+                                  <TableCell padding="checkbox">
+                                    <Checkbox
+                                      checked={isItemSelected}
+                                      inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                  </TableCell>
+                                  <TableCell component="th" id={labelId} scope="row" padding="none">
+                                    {row.title}
+                                  </TableCell>
+                                  <TableCell align="right">{row.courseDuration}</TableCell>
+                                  <TableCell align="right">{row.numberOfUnits}</TableCell>
+                                  <TableCell align="right">{row.category}</TableCell>
+                                  <TableCell align="right">{row.tutor}</TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          {emptyRows > 0 && (
+                            <TableRow style={{ height: 49 * emptyRows }}>
+                              <TableCell colSpan={6} />
                             </TableRow>
-                          );
-                        })}
-                      {emptyRows > 0 && (
-                        <TableRow style={{ height: 49 * emptyRows }}>
-                          <TableCell colSpan={6} />
-                        </TableRow>
-                      )}
-                    </TableBody>
+                          )}
+                        </TableBody>
+                      :
+                      undefined
+                    }
+                    {
+                      props.type === 'modality' ?
+                        <TableBody>
+                          {stableSort(rows, getSorting(order, orderBy))
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
+                              const isItemSelected = isSelected(row.id);
+                              const labelId = `enhanced-table-checkbox-${index}`;
+
+                              return (
+                                <TableRow
+                                  hover
+                                  onClick={event => handleClick(event, row.id)}
+                                  role="checkbox"
+                                  aria-checked={isItemSelected}
+                                  tabIndex={-1}
+                                  key={row.id}
+                                  selected={isItemSelected}
+                                >
+                                  <TableCell padding="checkbox">
+                                    <Checkbox
+                                      checked={isItemSelected}
+                                      inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                  </TableCell>
+                                  <TableCell component="th" id={labelId} scope="row" padding="none">
+                                    {row.name}
+                                  </TableCell>
+                                  <TableCell align="right">{row.description}</TableCell>
+                                  <TableCell align="right">{row.additionDate}</TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          {emptyRows > 0 && (
+                            <TableRow style={{ height: 49 * emptyRows }}>
+                              <TableCell colSpan={6} />
+                            </TableRow>
+                          )}
+                        </TableBody>
+                      :
+                      undefined
+                    }
+                    {
+                      props.type === 'category' ?
+                        <TableBody>
+                          {stableSort(rows, getSorting(order, orderBy))
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
+                              const isItemSelected = isSelected(row.id);
+                              const labelId = `enhanced-table-checkbox-${index}`;
+
+                              return (
+                                <TableRow
+                                  hover
+                                  onClick={event => handleClick(event, row.id)}
+                                  role="checkbox"
+                                  aria-checked={isItemSelected}
+                                  tabIndex={-1}
+                                  key={row.id}
+                                  selected={isItemSelected}
+                                >
+                                  <TableCell padding="checkbox">
+                                    <Checkbox
+                                      checked={isItemSelected}
+                                      inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                  </TableCell>
+                                  <TableCell component="th" id={labelId} scope="row" padding="none">
+                                    {row.name}
+                                  </TableCell>
+                                  <TableCell align="right">{row.description}</TableCell>
+                                  <TableCell align="right">{row.additionDate}</TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          {emptyRows > 0 && (
+                            <TableRow style={{ height: 49 * emptyRows }}>
+                              <TableCell colSpan={6} />
+                            </TableRow>
+                          )}
+                        </TableBody>
+                      :
+                      undefined
+                    }
+                    {
+                      props.type === 'methodology' ?
+                        <TableBody>
+                          {stableSort(rows, getSorting(order, orderBy))
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
+                              const isItemSelected = isSelected(row.id);
+                              const labelId = `enhanced-table-checkbox-${index}`;
+
+                              return (
+                                <TableRow
+                                  hover
+                                  onClick={event => handleClick(event, row.id)}
+                                  role="checkbox"
+                                  aria-checked={isItemSelected}
+                                  tabIndex={-1}
+                                  key={row.id}
+                                  selected={isItemSelected}
+                                >
+                                  <TableCell padding="checkbox">
+                                    <Checkbox
+                                      checked={isItemSelected}
+                                      inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                  </TableCell>
+                                  <TableCell component="th" id={labelId} scope="row" padding="none">
+                                    {row.name}
+                                  </TableCell>
+                                  <TableCell align="right">{row.description}</TableCell>
+                                  <TableCell align="right">{row.additionDate}</TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          {emptyRows > 0 && (
+                            <TableRow style={{ height: 49 * emptyRows }}>
+                              <TableCell colSpan={6} />
+                            </TableRow>
+                          )}
+                        </TableBody>
+                      :
+                      undefined
+                    }
+                    {
+                      props.type === 'requirement' ?
+                        <TableBody>
+                          {stableSort(rows, getSorting(order, orderBy))
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
+                              const isItemSelected = isSelected(row.id);
+                              const labelId = `enhanced-table-checkbox-${index}`;
+
+                              return (
+                                <TableRow
+                                  hover
+                                  onClick={event => handleClick(event, row.id)}
+                                  role="checkbox"
+                                  aria-checked={isItemSelected}
+                                  tabIndex={-1}
+                                  key={row.id}
+                                  selected={isItemSelected}
+                                >
+                                  <TableCell padding="checkbox">
+                                    <Checkbox
+                                      checked={isItemSelected}
+                                      inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                  </TableCell>
+                                  <TableCell component="th" id={labelId} scope="row" padding="none">
+                                    {row.name}
+                                  </TableCell>
+                                  <TableCell align="right">{row.description}</TableCell>
+                                  <TableCell align="right">{row.additionDate}</TableCell>
+                                  <TableCell align="right">{row.category}</TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          {emptyRows > 0 && (
+                            <TableRow style={{ height: 49 * emptyRows }}>
+                              <TableCell colSpan={6} />
+                            </TableRow>
+                          )}
+                        </TableBody>
+                      :
+                      undefined
+                    }
                   </Table>
                 </div>
                 <TablePagination

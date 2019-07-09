@@ -24,7 +24,7 @@ export default class CourseForm extends React.Component {
     }
   }
 
-  handleCategoryChange = event => {
+  handleChangeCategory = name => event => {
     this.setState({
       category: event.target.value,
     }, () => {
@@ -276,39 +276,29 @@ render() {
             defaultValue={this.props.course.subtitle}
           />
         </div>
-        <div className="select-input-container">
-          <FormControl
+        <div className="input-container">
+          <TextField
+            id="outlined-select-currency"
+            select
+            label="Category"
+            fullWidth
+            required
+            value={this.state.category}
+            onChange={this.handleChangeCategory('category')}
+            SelectProps={{
+              MenuProps: {
+
+              },
+            }}
+            margin="normal"
             variant="outlined"
-            error={this.state.categoryError}
           >
-            <InputLabel
-              ref={ref => {
-                  this.InputLabelRef = ref;
-              }}
-              htmlFor="course-category"
-            >
-              Course category *
-            </InputLabel>
-            <Select
-              value={this.state.category}
-              onChange={this.handleCategoryChange}
-              required
-              input={
-                <OutlinedInput
-                  name="course-category"
-                  id="course-category"
-                />
-              }
-            >
-              <MenuItem value={0}>Informatics</MenuItem>
-              <MenuItem value={1}>Pedagogy</MenuItem>
-              <MenuItem value={2}>Educaional videogames</MenuItem>
-              <MenuItem value={3}>Personal development</MenuItem>
-              <MenuItem value={4}>English as a second</MenuItem>
-              <MenuItem value={5}>Special education</MenuItem>
-              <MenuItem value={6}>Computational thinking</MenuItem>
-            </Select>
-          </FormControl>
+            {this.props.categories.map(option => (
+              <MenuItem key={option._id} value={option._id}>
+                {option.name}
+              </MenuItem>
+            ))}
+          </TextField>
         </div>
         <div className="input-file-container">
           <FileUpload
