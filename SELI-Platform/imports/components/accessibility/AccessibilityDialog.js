@@ -49,7 +49,7 @@ export default class AccessibilityDialog extends React.Component {
             keepMounted
             maxWidth={false}
             disableBackdropClick={true}
-            disableEscapeKeyDown={false}
+            disableEscapeKeyDown={true}
           >
             <DialogTitle id="language-select-title">Content accessibility</DialogTitle>
             <DialogContent className="accessibility-form-container">
@@ -64,7 +64,7 @@ export default class AccessibilityDialog extends React.Component {
               }
             </DialogContent>
             <DialogActions className="accessibility-dialog-buttons">
-              <Button color="primary">
+              <Button onClick={this.handleClose} color="primary">
                 Done
               </Button>
             </DialogActions>
