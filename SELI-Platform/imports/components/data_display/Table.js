@@ -162,7 +162,7 @@ function EnhancedTableHead(props) {
               </Typography>
             ) : (
               <Typography variant="h6" id="tableTitle">
-                {props.tableToolbarHeader}
+                {props.tableToolbarHeader.toUpperCase()}
               </Typography>
             )}
           </div>
@@ -215,7 +215,7 @@ function EnhancedTableHead(props) {
       export default function EnhancedTable(props) {
         const classes = useStyles();
         const [order, setOrder] = React.useState('asc');
-        const [orderBy, setOrderBy] = React.useState('courseDuration');
+        const [orderBy, setOrderBy] = React.useState();
         const [selected, setSelected] = React.useState([]);
         const [page, setPage] = React.useState(0);
         const [dense, setDense] = React.useState(false);
@@ -224,6 +224,8 @@ function EnhancedTableHead(props) {
         const headRows = props.headRows;
 
         let rows = [];
+
+        props.setSelectedFunction(() => setSelected([]));
 
         buildData();
 
@@ -391,7 +393,7 @@ function EnhancedTableHead(props) {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
                               const isItemSelected = isSelected(row.id);
-                              const labelId = `enhanced-table-checkbox-${index}`;
+                                  const labelId = `enhanced-table-checkbox-${index}`;
 
                               return (
                                 <TableRow
@@ -433,7 +435,7 @@ function EnhancedTableHead(props) {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
                               const isItemSelected = isSelected(row.id);
-                              const labelId = `enhanced-table-checkbox-${index}`;
+                                      const labelId = `enhanced-table-checkbox-${index}`;
 
                               return (
                                 <TableRow
@@ -475,7 +477,7 @@ function EnhancedTableHead(props) {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
                               const isItemSelected = isSelected(row.id);
-                              const labelId = `enhanced-table-checkbox-${index}`;
+                                          const labelId = `enhanced-table-checkbox-${index}`;
 
                               return (
                                 <TableRow
@@ -517,7 +519,7 @@ function EnhancedTableHead(props) {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
                               const isItemSelected = isSelected(row.id);
-                              const labelId = `enhanced-table-checkbox-${index}`;
+                                              const labelId = `enhanced-table-checkbox-${index}`;
 
                               return (
                                 <TableRow
@@ -560,7 +562,7 @@ function EnhancedTableHead(props) {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
                               const isItemSelected = isSelected(row.id);
-                              const labelId = `enhanced-table-checkbox-${index}`;
+                                                  const labelId = `enhanced-table-checkbox-${index}`;
 
                               return (
                                 <TableRow
@@ -619,5 +621,5 @@ function EnhancedTableHead(props) {
               />
             </div>
           </MuiThemeProvider>
-              );
-            }
+                                  );
+                                }

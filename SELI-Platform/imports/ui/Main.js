@@ -25,6 +25,7 @@ import ModalitiesManagement from '../components/course/ModalitiesManagement';
 import MethodologiesManagement from '../components/course/MethodologiesManagement';
 import RequirementsManagement from '../components/course/RequirementsManagement';
 import PeopleManagement from '../components/course/PeopleManagement';
+import AccessibilityDialog from '../components/accessibility/AccessibilityDialog';
 
 import ScrollUpButton from "react-scroll-up-button";
 import Snackbar from '@material-ui/core/Snackbar';
@@ -556,6 +557,20 @@ export default class Main extends React.Component {
     }
   }
 
+  showAccesibilityForm(type){
+    this.setState({
+      showAccesibilityForm: true,
+      contentType: type,
+    });
+  }
+
+  hideAccesibilityForm(){
+    this.setState({
+      showAccesibilityForm: false,
+      contentType: '',
+    });
+  }
+
   componentDidMount(){
     Tracker.autorun(() => {
         let tutors = Tutors.find().fetch();
@@ -625,6 +640,7 @@ export default class Main extends React.Component {
                     courseKey={this.state.courseKey}
                     categories={this.state.categories}
                     category={this.state.category}
+                    showAccesibilityForm={this.showAccesibilityForm.bind(this)}
                   />
                 :
                 undefined
@@ -712,6 +728,7 @@ export default class Main extends React.Component {
                     addContent={this.addContent.bind(this)}
                     showControlMessage={this.showControlMessage.bind(this)}
                     courseKey={this.state.courseKey}
+                    showAccesibilityForm={this.showAccesibilityForm.bind(this)}
                   />
                 :
                 undefined
@@ -849,6 +866,18 @@ export default class Main extends React.Component {
               </IconButton>
             ]}
           />
+          {
+            this.state.showAccesibilityForm ?
+              <AccessibilityDialog
+                open={true}
+                contentType={this.state.contentType}
+                parentId={this.state.courseKey}
+                showControlMessage={this.showControlMessage.bind(this)}
+                hideAccesibilityForm={this.hideAccesibilityForm.bind(this)}
+              />
+            :
+            undefined
+          }
         </MuiThemeProvider>
       </div>
     )

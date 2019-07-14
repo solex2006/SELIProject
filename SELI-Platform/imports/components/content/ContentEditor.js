@@ -45,6 +45,7 @@ export default class ContentEditor extends React.Component {
                 addContent={this.props.addContent.bind(this)}
                 courseKey={this.props.courseKey}
                 showControlMessage={this.props.showControlMessage.bind(this)}
+                showAccesibilityForm={this.props.showAccesibilityForm.bind(this)}
               />
             :
               undefined
@@ -56,6 +57,7 @@ export default class ContentEditor extends React.Component {
                 addContent={this.props.addContent.bind(this)}
                 courseKey={this.props.courseKey}
                 showControlMessage={this.props.showControlMessage.bind(this)}
+                showAccesibilityForm={this.props.showAccesibilityForm.bind(this)}
               />
             :
               undefined
@@ -67,6 +69,7 @@ export default class ContentEditor extends React.Component {
                 addContent={this.props.addContent.bind(this)}
                 courseKey={this.props.courseKey}
                 showControlMessage={this.props.showControlMessage.bind(this)}
+                showAccesibilityForm={this.props.showAccesibilityForm.bind(this)}
               />
             :
               undefined
@@ -78,6 +81,7 @@ export default class ContentEditor extends React.Component {
                 addContent={this.props.addContent.bind(this)}
                 courseKey={this.props.courseKey}
                 showControlMessage={this.props.showControlMessage.bind(this)}
+                showAccesibilityForm={this.props.showAccesibilityForm.bind(this)}
               />
             :
               undefined
@@ -89,6 +93,7 @@ export default class ContentEditor extends React.Component {
                 addContent={this.props.addContent.bind(this)}
                 courseKey={this.props.courseKey}
                 showControlMessage={this.props.showControlMessage.bind(this)}
+                showAccesibilityForm={this.props.showAccesibilityForm.bind(this)}
               />
             :
               undefined
@@ -100,6 +105,7 @@ export default class ContentEditor extends React.Component {
                 addContent={this.props.addContent.bind(this)}
                 courseKey={this.props.courseKey}
                 showControlMessage={this.props.showControlMessage.bind(this)}
+                showAccesibilityForm={this.props.showAccesibilityForm.bind(this)}
               />
             :
               undefined

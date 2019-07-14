@@ -118,6 +118,7 @@ export default class CategoriesManagement extends React.Component {
     });
   }
 
+  setSelected(){}
 
   render() {
     return(
@@ -133,6 +134,7 @@ export default class CategoriesManagement extends React.Component {
               headRows={this.state.headRows}
               tableToolbarHeader="Categories general information"
               addLabel="add category"
+              setSelectedFunction={selected => this.setSelected = selected}
             />
           </div>
         </div>
@@ -193,7 +195,7 @@ export default class CategoriesManagement extends React.Component {
             <Button  onClick={this.handleCloseDelete} color="primary">
               No
             </Button>
-            <Button onClick={(event) => { this.props.deleteCategories(this.state.delete); this.handleCloseDelete();}} color="primary" autoFocus>
+            <Button onClick={(event) => { this.props.deleteCategories(this.state.delete); this.handleCloseDelete(); this.setSelected();}} color="primary" autoFocus>
               Yes
             </Button>
           </DialogActions>

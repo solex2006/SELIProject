@@ -58,7 +58,29 @@ class FileUploadComponent extends Component {
         })
 
         uploadInstance.on('end', function (error, fileObj) {
-          console.log('On end File Object: ', fileObj);
+          if((self.props.type === "video") && self.props.accessibilitySettings){
+            self.props.showAccesibilityForm(self.props.type);
+          }
+        })
+
+        uploadInstance.on('abort', function (fileObj) {
+          console.log(uploadInstance);
+          console.log(fileObj);
+          Meteor.call(self.props.removeFunction, uploadInstance.config.fileId, function (err) {
+            if (err) {
+              this.props.showControlMessage('There was an error deleting the file, try again later');
+              return;
+            }
+          });
+          self.props.removeFileInformation();
+          self.props.resetFile();
+          self.props.showControlMessage('Upload canceled');
+          self.setState({
+            uploading: [],
+            progress: 0,
+            inProgress: false,
+            uploaded: false,
+          });
         })
 
         uploadInstance.on('uploaded', function (error, fileObj) {
@@ -95,7 +117,7 @@ class FileUploadComponent extends Component {
         });
 
         uploadInstance.on('progress', function (progress, fileObj) {
-          console.log('Upload Percentage: ' + progress)
+          //console.log('Upload Percentage: ' + progress)
           // Update our progress bar
           self.setState({
             progress: progress
@@ -105,6 +127,11 @@ class FileUploadComponent extends Component {
         uploadInstance.start(); // Must manually start the upload
       }
     }
+  }
+
+  cancelUpload(){
+    let uploading = this.state.uploading;
+    uploading.abort();
   }
 
   // This is our progress bar, bootstrap styled
@@ -121,6 +148,11 @@ class FileUploadComponent extends Component {
                 value={this.state.progress + "%"}
                 color="primary"
               />
+            </div>
+            <div className="file-button-container">
+              <Button onClick={() => this.cancelUpload()} color="secondary" variant="contained">
+                Cancel upload
+              </Button>
             </div>
           </div>
         </div>
@@ -234,6 +266,8 @@ export default withTracker((props) => {
     parentId: props.parentId,
   };
   let files = props.collection.find({ meta: meta }, { sort: { name: 1 } }).fetch();
+  //console.log(meta);
+  //console.log(files);
   let uploaded = false;
   if(files !== undefined){
     if (files.length) {

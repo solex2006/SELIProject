@@ -172,6 +172,7 @@ export default class RequirementsManagement extends React.Component {
     });
   }
 
+  setSelected(){}
 
   render() {
     return(
@@ -187,6 +188,7 @@ export default class RequirementsManagement extends React.Component {
               headRows={this.state.headRows}
               tableToolbarHeader="Requirements general information"
               addLabel="add requirement"
+              setSelectedFunction={selected => this.setSelected = selected}
             />
           </div>
         </div>
@@ -298,7 +300,7 @@ export default class RequirementsManagement extends React.Component {
             <Button  onClick={this.handleCloseDelete} color="primary">
               No
             </Button>
-            <Button onClick={(event) => { this.props.deleteRequirements(this.state.delete); this.handleCloseDelete();}} color="primary" autoFocus>
+            <Button onClick={(event) => { this.props.deleteRequirements(this.state.delete); this.handleCloseDelete(); this.setSelected();}} color="primary" autoFocus>
               Yes
             </Button>
           </DialogActions>

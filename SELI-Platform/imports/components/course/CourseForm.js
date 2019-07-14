@@ -302,10 +302,33 @@ render() {
         </div>
         <div className="input-file-container">
           <FileUpload
+            parentId={this.state.parentId + "-file"}
+            accept="video/*"
+            label="Upload video"
+            uploadedTitle="Video content"
+            icon="video-g.svg"
+            collection={CourseFilesCollection}
+            removeFunction="RemoveCourseFile"
+            type="video"
+            preview={false}
+            dowload={false}
+            open={false}
+            delete={true}
+            showIcon={true}
+            accessibilitySettings={true}
+            showControlMessage={this.props.showControlMessage.bind(this)}
+            resetFile={this.resetFile.bind(this)}
+            getFileInformation={this.getFileInformation.bind(this)}
+            removeFileInformation={this.removeFileInformation.bind(this)}
+            showAccesibilityForm={this.props.showAccesibilityForm.bind(this)}
+          />
+        </div>
+        <div className="input-file-container">
+          <FileUpload
             parentId={this.props.courseKey + "-image-course"}
             accept="image/*"
             label="Upload course image"
-            uploadedTitle="Course sylabus"
+            uploadedTitle="Course image"
             icon=""
             collection={CourseFilesCollection}
             removeFunction="RemoveCourseFile"

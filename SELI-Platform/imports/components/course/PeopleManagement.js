@@ -118,6 +118,7 @@ export default class PeopleManagement extends React.Component {
     });
   }
 
+  setSelected(){}
 
   render() {
     return(
@@ -133,6 +134,7 @@ export default class PeopleManagement extends React.Component {
               headRows={this.state.headRows}
               tableToolbarHeader="People categories general information"
               addLabel="add people category"
+              setSelectedFunction={selected => this.setSelected = selected}
             />
           </div>
         </div>
@@ -193,7 +195,7 @@ export default class PeopleManagement extends React.Component {
             <Button  onClick={this.handleCloseDelete} color="primary">
               No
             </Button>
-            <Button onClick={(event) => { this.props.deletePeople(this.state.delete); this.handleCloseDelete();}} color="primary" autoFocus>
+            <Button onClick={(event) => { this.props.deletePeople(this.state.delete); this.handleCloseDelete(); this.setSelected();}} color="primary" autoFocus>
               Yes
             </Button>
           </DialogActions>

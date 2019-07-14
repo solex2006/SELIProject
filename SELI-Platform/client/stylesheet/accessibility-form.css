@@ -1,0 +1,106 @@
+.accessibility-form-container {
+  width: 40vw;
+  min-height: auto;
+  position: relative;
+  max-height: 90vh;
+}
+
+.accessibility-input-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  animation: fadeIn 1s;
+}
+
+#pure-decoration-input {
+  margin-bottom: 2.5vh;
+}
+
+.accessibility-header-container {
+  width: 40vw;
+  height: 95px;
+  position: fixed;
+  background-color: var(--white);
+  z-index: 454;
+  margin-top: -12px;
+}
+
+.accessibility-header-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accessibility-body-container {
+  position: relative;
+  top: calc(100px + 1vh);
+  min-height: 70vh;
+}
+
+.accessibility-subtitle {
+  width: 30%;
+  text-align: center;
+  font-size: 0.9em;
+  color: #333;
+  text-transform: uppercase;
+}
+
+.accessibility-percentage-container {
+  width: auto;
+  margin: 0 2.5vw;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+.accessibility-percentage-label {
+  width: auto;
+  font-size: 0.85em;
+}
+
+.accessibility-progress {
+  margin-left: 1vw;
+  width: 80px;
+  height: 80px;
+  z-index: 205;
+}
+
+.accessibility-percentage-value {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  background-color: #f5f5f5;
+  border-radius: 100%;
+  z-index: 200;
+  font-size: 0.8em;
+}
+
+.subtitle-divider {
+  margin: 1.5vh 0 !important;
+}
+
+.accessibility-dialog-buttons {
+  padding: 0 8px !important;
+  position: relative !important;
+  bottom: 8px !important;
+  right: 8px !important;
+}
+
+.accessibility-question-form-control {
+  width: 100% !important;
+}
+
+.dialog-input-file-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -2.5vh;
+  margin-bottom: 2.5vh;
+}

@@ -20,6 +20,8 @@ export default class CourseList extends React.Component {
       this.props.showForm("CourseForm", true);
   }
 
+  setSelected(){}
+
   render() {
     return(
       <div>
@@ -34,6 +36,7 @@ export default class CourseList extends React.Component {
               deleteFunction={this.props.deleteCourses.bind(this)}
               headRows={this.state.headRows}
               addLabel="create course"
+              setSelectedFunction={selected => this.setSelected = selected}
             />
           </div>
         </div>

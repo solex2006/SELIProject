@@ -229,10 +229,12 @@ export default class VideoForm extends React.Component {
                   open={false}
                   delete={true}
                   showIcon={true}
+                  accessibilitySettings={true}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                   resetFile={this.resetFile.bind(this)}
                   getFileInformation={this.getFileInformation.bind(this)}
                   removeFileInformation={this.removeFileInformation.bind(this)}
+                  showAccesibilityForm={this.props.showAccesibilityForm.bind(this)}
                 />
               </div>
             :
