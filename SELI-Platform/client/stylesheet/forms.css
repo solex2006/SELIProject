@@ -3,7 +3,8 @@
   height: auto;
   overflow-y: scroll;
   padding-bottom: 5vh;
-  padding-top: var(--form-margin-top);
+  position: relative;
+  padding-top: var(--app-bar-height);
   transition: 0.5s;
 }
 
@@ -16,35 +17,37 @@
 
 .form-title {
   width: 100%;
-  position: fixed;
-  top: 0;
+  font-size: 1.3em;
+  padding: 1vh 0;
   height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: calc(var(--cross-size) + 4px) 0;
   text-transform: uppercase;
-  font-size: calc(var(--cross-size) - 2px);
   color: var(--white);
   user-select: none;
-  border-bottom: solid 1px var(--primary);
-  background-color: var(--primary);
+  background-color: var(--secondary);
   z-index: 210;
 }
 
 .form-subtitle {
   width: 100%;
   height: auto;
-  padding: 2.5vh 0;
+  padding: 1.25vh 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-transform: capitalize;
+  text-transform: uppercase;
   opacity: 0.8;
   font-size: var(--form-subtitle);
   z-index: 250;
   user-select: none;
+  background-color: #f5f5f5;
   animation: fadeIn 0.5s;
+}
+
+.form-separator {
+  height: 2.5vh;
 }
 
 .input-container {

@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import ImageUpload from '../files/ImageUpload';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 import { Tutors } from '../../../lib/TutorCollection';
 import TutorFilesCollection from '../../../lib/TutorFilesCollection';
@@ -237,8 +238,12 @@ export default class TutorForm extends React.Component {
     return(
       <div>
         <div className="form-container">
-          <div className="form-title">Course editor</div>
+          <div className="form-title">
+            Tutor registration
+          </div>
           <div className="form-subtitle">Tutor information</div>
+          <Divider/>
+          <div className="form-separator"></div>
           <div className="input-container">
             <TextField
               id="teacher-name-input"

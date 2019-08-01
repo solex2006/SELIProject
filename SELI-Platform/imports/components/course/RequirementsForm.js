@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import TransferList from '../inputs/TransferList';
+import Divider from '@material-ui/core/Divider';
 
 export default class TutorForm extends React.Component {
   constructor(props) {
@@ -12,8 +13,7 @@ export default class TutorForm extends React.Component {
   }
 
   saveRequirements() {
-    this.props.saveRequirements();
-    this.props.showForm('UnitsEditor', true);
+
   }
 
   setItems(picked, type, action){
@@ -80,51 +80,45 @@ export default class TutorForm extends React.Component {
   render() {
     return(
       <div>
-        <div className="form-container">
-          <div className="form-title">Course editor</div>
-          <div className="form-subtitle">Requirements</div>
-          <div className="input-list-container">
-            <p className="list-input-label">Knowledge requirements</p>
-            <div className="transfer-list-container">
-              <TransferList
-                items={this.props.knowledgeItems}
-                added={this.props.addedKnowledgeItems}
-                type="knowledge"
-                setItems={this.setItems.bind(this)}
-                setAll={this.setAll.bind(this)}
-              />
-            </div>
-          </div>
-          <div className="input-list-container">
-            <p className="list-input-label">Technical requirements</p>
-            <div className="transfer-list-container">
-              <TransferList
-                items={this.props.technilcaItems}
-                added={this.props.addedTechnilcaItems}
-                type="technical"
-                setItems={this.setItems.bind(this)}
-                setAll={this.setAll.bind(this)}
-              />
-            </div>
-          </div>
-          <div className="input-list-container">
-            <p className="list-input-label">People who should take the course</p>
-            <div className="transfer-list-container">
-              <TransferList
-                items={this.props.peopleItems}
-                added={this.props.addedPeopleItems}
-                type="people"
-                setItems={this.setItems.bind(this)}
-                setAll={this.setAll.bind(this)}
-              />
-            </div>
-          </div>
-          <div className="form-button-container">
-            <Button onClick={() => this.saveRequirements()} className="form-button" id="upload-button" variant="contained" color="secondary">
-              Save requirements
-            </Button>
+        <Divider light={true}/>
+        <div className="input-list-container">
+          <p className="list-input-label">Knowledge requirements</p>
+          <div className="transfer-list-container">
+            <TransferList
+              items={this.props.knowledgeItems}
+              added={this.props.addedKnowledgeItems}
+              type="knowledge"
+              setItems={this.setItems.bind(this)}
+              setAll={this.setAll.bind(this)}
+            />
           </div>
         </div>
+        <div className="input-list-container">
+          <p className="list-input-label">Technical requirements</p>
+          <div className="transfer-list-container">
+            <TransferList
+              items={this.props.technilcaItems}
+              added={this.props.addedTechnilcaItems}
+              type="technical"
+              setItems={this.setItems.bind(this)}
+              setAll={this.setAll.bind(this)}
+            />
+          </div>
+        </div>
+        <div className="input-list-container">
+          <p className="list-input-label">People who should take the course</p>
+          <div className="transfer-list-container">
+            <TransferList
+              items={this.props.peopleItems}
+              added={this.props.addedPeopleItems}
+              type="people"
+              setItems={this.setItems.bind(this)}
+              setAll={this.setAll.bind(this)}
+            />
+          </div>
+        </div>
+        <div className="form-separator"></div>
+        <div className="form-separator"></div>
       </div>
     );
   }

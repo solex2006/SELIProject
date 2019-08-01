@@ -12,10 +12,10 @@
   color: var(--normal-text) !important;
 }
 
-.MuiExpansionPanelDetails-root {
+/*.MuiExpansionPanelDetails-root {
   background-color: var(--navigation-color) !important;
   color: var(--normal-text) !important;
-}
+}*/
 
 .expand-more-lesson {
   fill: var(--primary) !important;
@@ -29,9 +29,9 @@
   font-size: 1em !important;
 }
 
-.MuiExpansionPanelDetails-root {
+/*.MuiExpansionPanelDetails-root {
   background-color: #AAA !important;
-}
+}*/
 
 .lesson-detail-container {
   width: 100%;

@@ -7,9 +7,14 @@
   --normal-text: #333333;
   --white: #FFFFFF;
 
+ /* AppBar */
+  --app-bar-height: 65px;
+  --app-bar-color: #202020;
+  --bar-font-color: #FFFFFF;
+
   /* Menu */
   --menu-color: #09090C;
-  --menu-size: 36px;
+  --menu-size: 40px;
   --cross-size: 30px;
   --menu-font-size: 1.25em;
   --option-font-size: 0.8em;
@@ -18,20 +23,17 @@
   --menu-indent: 2vw;
 
   /* Presentation */
-  --presentation-logo-height: 25vh;
-  --presentation-text-height: 12vh;
-  --presentation-buttons-height: 10vh;
+  --slider-progress-size: 15px;
 
   /* Languages */
   --languages-margin: 34px;
 
   /* Forms */
-  --form-subtitle: 1.25em;
+  --form-subtitle: 1.0em;
   --form-title-background: #D6EAF8;
   --preview-color: #F2F3F4;
   --input-list-size: 0.9em;
   --input-list-border: #D7DBDD;
-  --form-margin-top: 120px;
 
   /* Scroll */
   --scroll-up-size: 50px;
@@ -61,4 +63,8 @@
 
   /* Registry */
   --registry-color: #eceff1;
+
+  /* Authoring Tool */
+  --course-tool-menu-size: 250px;
+
 }

@@ -18,7 +18,7 @@ export default class TutorList extends React.Component {
   }
 
   saveTutor(){
-    this.props.showForm('RequirementsForm', true);
+    this.props.showComponent('RequirementsForm');
   }
 
   openEditForm(tutorToEdit){
@@ -99,7 +99,12 @@ export default class TutorList extends React.Component {
         {
           !this.props.showEditForm ?
             <div className="form-container">
-              <div className="form-title">Course editor</div>
+              {
+                !this.props.saveTutor ?
+                  <div className="form-title">Tutor list</div>
+                :
+                undefined
+              }
               {
                 this.props.tutor && this.props.saveTutor ?
                   <div>
@@ -163,7 +168,7 @@ export default class TutorList extends React.Component {
             </div>
           :
           <TutorForm
-            showForm={this.props.showForm.bind(this)}
+            showComponent={this.props.showComponent.bind(this)}
             showControlMessage={this.props.showControlMessage.bind(this)}
             tutorToEdit={this.state.tutorToEdit}
             openList={this.openList.bind(this)}

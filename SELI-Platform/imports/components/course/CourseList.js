@@ -17,7 +17,7 @@ export default class CourseList extends React.Component {
   }
 
   addFromTable(){
-      this.props.showForm("CourseForm", true);
+      this.props.showComponent("createCourse");
   }
 
   setSelected(){}

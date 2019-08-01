@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
+
 import { scaleRotate as Menu } from 'react-burger-menu';
 
-/* Sub-options */
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import administrationOptions from '../../../lib/administrationOptions';
+import toCamelCase from '../../../lib/toCamelCase';
+
+import { MdMenu } from "react-icons/md";
+
 export default class MainMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       menuWidth: '305px',
-      expandedCourse: 'coursesExpansionPanel',
-      expandedTutor: 'tutorExpansionPanel',
-      expandedCategoriesAndRequirements: 'categoriesAndRequirementsExpansionPanel',
-      expandedModalitiesAndMethodologies: 'modalitiesAndMethodologiesExpansionPanel',
-      menuOpen: false
+      menuOpen: false,
+      redirect: false,
+      options: administrationOptions,
     }
   }
 
@@ -33,33 +37,15 @@ export default class MainMenu extends React.Component {
     this.setState(state => ({menuOpen: !state.menuOpen}))
   }
 
-  handleCourseChange = panel => (event, expanded) => {
+  handleChange = panel => (event, expanded) => {
     this.setState({
-      expandedCourse: expanded ? panel : false,
+      expanded: expanded ? panel : false,
     });
   };
 
-  handleTutorChange = panel => (event, expanded) => {
-    this.setState({
-      expandedTutor: expanded ? panel : false,
-    });
-  };
-
-  handleMAMChange = panel => (event, expanded) => {
-    this.setState({
-      expandedTutor: expanded ? panel : false,
-    });
-  };
-
-  handleCARChange = panel => (event, expanded) => {
-    this.setState({
-      expandedTutor: expanded ? panel : false,
-    });
-  };
-
-  showForm(form, courseNavigation){
+  showComponent(option){
     this.closeMenu();
-    this.props.showForm(form, courseNavigation);
+    this.props.showComponent(toCamelCase(option));
   }
 
   render() {
@@ -69,64 +55,46 @@ export default class MainMenu extends React.Component {
           pageWrapId={ "page-wrap" }
           outerContainerId={ "outer-container" }
           width={ this.state.menuWidth }
-          isOpen={this.state.menuOpen}
+          isOpen={ this.state.menuOpen }
+          customBurgerIcon={
+            <MdMenu
+              color={ "#FFFFFF" }
+              size={ "1.75em" }
+            />
+          }
           onStateChange={(state) => this.handleMenuStateChange(state)}>
-          <a href="/" className="menu-title">Main menu</a>
+          <div onClick={() => this.showComponent("")} className="menu-title">Main menu</div>
           <div className="options-container">
-            <ExpansionPanel
-              expanded={this.state.expandedCourse === 'coursesExpansionPanel'}
-              onChange={this.handleCourseChange('coursesExpansionPanel')}>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Course administration</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <div className="sub-menu-container">
-                  <div onClick={() => this.showForm("CourseForm", true)} className="sub-menu-option">Create course</div>
-                  <div onClick={() => this.showForm("CourseList", false)} className="sub-menu-option">Courses list</div>
-                  <div onClick={() => this.showForm("CoursePreview", false)} className="sub-menu-option">Course previews</div>
-                </div>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel
-              expanded={this.state.expandedTutor === 'tutorExpansionPanel'}
-              onChange={this.handleTutorChange('tutorExpansionPanel')}>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Tutor administration</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <div className="sub-menu-container">
-                  <div onClick={() => this.showForm("TutorForm")} className="sub-menu-option">Tutor registration</div>
-                  <div onClick={() => this.showForm("TutorList", false)} className="sub-menu-option">Tutor list</div>
-                </div>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel
-              expanded={this.state.expandedModalitiesAndMethodologies === 'modalitiesAndMethodologiesExpansionPanel'}
-              onChange={this.handleMAMChange('modalitiesAndMethodologiesExpansionPanel')}>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Modalities & methodologies</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <div className="sub-menu-container">
-                  <div onClick={() => this.showForm("ModalitiesManagement")} className="sub-menu-option">Modalities management</div>
-                  <div onClick={() => this.showForm("MethodologiesManagement")} className="sub-menu-option">Methodologies management</div>
-                </div>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel
-              expanded={this.state.expandedCategoriesAndRequirements === 'categoriesAndRequirementsExpansionPanel'}
-              onChange={this.handleCARChange('categoriesAndRequirementsExpansionPanel')}>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Categories & requirements</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <div className="sub-menu-container">
-                  <div onClick={() => this.showForm("CategoriesManagement")} className="sub-menu-option">Categories management</div>
-                  <div onClick={() => this.showForm("RequirementsManagement")} className="sub-menu-option">Requirements management</div>
-                  <div onClick={() => this.showForm("PeopleManagement")} className="sub-menu-option">People categories</div>
-                </div>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
+            {
+              this.state.options.map(options => {
+                return(
+                  <ExpansionPanel
+                    className="menu-expansion-panel"
+                    defaultExpanded={ true }
+                    onChange={this.handleChange(options.label)}>
+                    <ExpansionPanelSummary
+                      className="menu-expansion-summary"
+                      expandIcon={
+                        <ExpandMoreIcon className="menu-expand-more-icon"/>
+                      }
+                    >
+                      <Typography className="menu-option">{options.label}</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                      <div className="sub-menu-container">
+                        {
+                          options.suboptions.map(suboptions => {
+                            return(
+                              <div onClick={() => this.showComponent(suboptions.label)} className="sub-menu-option">{suboptions.label}</div>
+                            )
+                          })
+                        }
+                      </div>
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
+                )
+              })
+            }
             <div className="options-padding" style={{height: '5vh'}}></div>
           </div>
         </Menu>

@@ -45,7 +45,7 @@ export default class LanguageSelector extends React.Component {
     return(
       <div>
         <div className="language-container">
-          <Button id="language-selector-button" onClick={this.handleClickOpen}>Language US</Button>
+          <Button id="language-selector-button" onClick={this.handleClickOpen}>Language (US)</Button>
           <Dialog
             open={this.state.open}
             onClose={this.handleClose}

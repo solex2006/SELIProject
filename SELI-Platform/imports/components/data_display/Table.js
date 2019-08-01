@@ -79,7 +79,7 @@ function EnhancedTableHead(props) {
 
   return (
 
-    <TableHead>
+    <TableHead className="table-head">
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
@@ -151,7 +151,7 @@ function EnhancedTableHead(props) {
 
       return (
         <Toolbar
-          className={clsx(classes.root, {
+          className={clsx("toolbar", {
             [classes.highlight]: numSelected > 0,
           })}
         >
@@ -617,7 +617,7 @@ function EnhancedTableHead(props) {
               </Paper>
               <FormControlLabel
                 control={<Switch checked={dense} onChange={handleChangeDense} />}
-                label="No padding"
+                label=""
               />
             </div>
           </MuiThemeProvider>

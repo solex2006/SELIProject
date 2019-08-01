@@ -1,22 +1,11 @@
 /* Position and sizing of burger button */
 .bm-burger-button {
-  position: fixed;
+  position: relative;
   width: var(--menu-size);
-  height: calc(var(--menu-size) - 10px);
-  left: var(--menu-size);
-  top: var(--menu-size);
-}
-
-/* Color/shape of burger icon bars */
-.bm-burger-bars {
-  background: var(--white);
-  outline: none;
-  transition: 0.5s;
-}
-
-/* Color/shape of burger icon bars on hover*/
-.bm-burger-bars-hover {
-  background: var(--primary);
+  height: var(--menu-size);
+  margin-left: 1vw;
+  position: fixed;
+  top: calc( ( var(--app-bar-height) - var(--menu-size) ) / 2 );
 }
 
 /* Position and sizing of clickable cross button */
@@ -118,33 +107,36 @@ Note: Beware of modifying this element as it can break the animations - you shou
   margin-top: 5vh;
 }
 
-.MuiExpansionPanelSummary-root.Mui-expanded {
-  color: #FFF;
+.menu-expansion-panel {
+  color: #FFF !important;
   font-family: 'Lato', sans-serif !important;
   background-color: var(--menu-color) !important;
 }
 
-.MuiExpansionPanelSummary-root {
+.menu-expansion-summary {
+  padding: 0 !important;
   background-color: var(--menu-color) !important;
-  color: #FFF !important;
+  color: #FFF;
 }
 
 .MuiExpansionPanelDetails-root {
   padding: 0 !important;
-  background-color: transparent !important;
-  color: #FFF;
 }
 
-.MuiTypography-body1 {
-  font-size: var(--option-font-size);
-}
-
-.MuiIconButton-label {
-  color: #FFF;
+.menu-option {
+  text-indent: 1vw !important;
 }
 
 .sub-menu-container {
   background-color: var(--menu-color);
+}
+
+.menu-expand-more-icon {
+  fill: var(--white) !important;
+}
+
+.MuiIconButton-edgeEnd {
+  margin-right: 0 !important;
 }
 
 .sub-menu-option {

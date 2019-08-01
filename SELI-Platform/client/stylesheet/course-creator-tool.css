@@ -1,0 +1,156 @@
+.course-creator-container {
+  width: 100%;
+  height: auto;
+  animation: fadeIn 1s;
+}
+
+.course-creator-units-container {
+  width: 90%;
+  height: 27.5px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.25vh 5%;
+  background-color: #424242;
+  color: var(--white);
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+
+.course-creator-unit-container {
+  width: auto;
+  height: 100%;
+  padding: 0.5vh 1vw;
+  transition: 0.5s;
+  cursor: pointer;
+  border-radius: 2vw;
+  user-select: none;
+}
+
+.course-creator-unit-container:hover {
+  background-color: #212121;
+}
+
+.course-creator-unit-lesson-item-container {
+  display: flex;
+}
+
+.menu-item-buttons-container {
+  text-transform: uppercase !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+}
+
+.course-creator-unit-lesson-item-text {
+  width: 80% !important;
+  margin-right: 1vw;
+}
+
+.MuiMenuItem-root {
+  min-height: auto !important;
+}
+
+.MuiList-padding {
+  padding: 4px 0px !important;
+}
+
+.MuiMenuItem-gutters {
+  padding-right: 4px !important;
+}
+
+.course-creator-work-area {
+  width: 100%;
+  min-height: calc(
+    100vh -
+    (
+      1.3em
+      + 2vh
+      + var(--app-bar-height)
+      + 30px
+      + 4.5vh
+      + 25px
+    )
+    - calc(45px + 2.5vh)
+  );
+  background-color: #e0e0e0;
+  overflow-x: hidden;
+  display: flex;
+  position: relative;
+}
+
+.course-creator-drop-area {
+  width: calc(100vw - var(--course-tool-menu-size));
+  overflow-y: scroll;
+}
+
+.course-creator-menu-area {
+  width: var(--course-tool-menu-size);
+  background-color: #bdbdbd;
+}
+
+.new-tool-button {
+  max-height: 100% !important;
+  padding: 0 1vw !important;
+}
+
+.bottom-navigation-container {
+  bottom: 0px !important;
+  position: absolute !important;
+  width: var(--course-tool-menu-size) !important;
+  background-color: transparent !important;
+}
+
+.bottom-menu-option {
+  border-top: solid 0.5px !important;
+}
+
+.course-creator-menu-row {
+  width: 100%;
+  height: calc(var(--course-tool-menu-size) / 3);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.course-creator-menu-option {
+  width: calc(var(--course-tool-menu-size) / 3);
+  height: 100%;
+  opacity: 0.9;
+  transition: 0.5s;
+}
+
+.course-creator-menu-option:hover {
+  cursor: grab;
+  opacity: 1;
+  background-color: #B6B6B6;
+}
+
+.course-creator-menu-option:hover .course-creator-menu-icon {
+  fill: var(--primary);
+}
+
+.course-creator-menu-option:hover .course-creator-menu-text{
+  color: var(--primary);
+}
+
+.course-creator-menu-icon {
+  fill: #333;
+  transition: 0.5s;
+}
+
+.course-creator-menu-option-row {
+  width: 100%;
+  height: calc((var(--course-tool-menu-size) / 3) - 1.8em);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.course-creator-menu-text {
+  font-size: 0.8em;
+  text-align: center;
+  width: 100%;
+  user-select: none;
+  transition: 0.5s;
+}

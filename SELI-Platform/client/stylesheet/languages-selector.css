@@ -1,13 +1,10 @@
 .language-container {
   width: auto;
   height: auto;
-  position: fixed;
   z-index: 9999 !important;
   display: flex;
   justify-content: center;
   align-items: center;
-  top: var(--languages-margin);
-  right: var(--languages-margin);
   transition: 0.5s;
 }
 
@@ -22,5 +19,7 @@
 }
 
 #language-selector-button {
-  color: #FFF;
+  color: #FFF !important;
+  font-size: 0.8em !important;
+  margin: 0 0.5vw !important;
 }

@@ -24,14 +24,18 @@
     "react-draft-wysiwyg": "^1.13.2",
     "react-files": "^2.4.8",
     "react-froala-wysiwyg": "^3.0.0",
+    "react-icons": "^3.7.0",
+    "react-id-swiper": "^2.3.2",
     "react-iframe": "^1.8.0",
     "react-images": "^0.5.19",
     "react-quill": "^1.3.3",
+    "react-reveal": "^1.2.2",
     "react-router-dom": "^5.0.0",
     "react-scroll-up": "^1.3.3",
     "react-scroll-up-button": "^1.6.4",
     "save": "^2.4.0",
-    "sort-json-array": "^0.1.7"
+    "sort-json-array": "^0.1.7",
+    "swiper": "^4.5.0"
   },
   "meteor": {
     "mainModule": {

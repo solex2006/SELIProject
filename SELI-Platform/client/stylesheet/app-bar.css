@@ -1,0 +1,41 @@
+.app-bar-container {
+  max-width: 100vw;
+  min-width: 100vw;
+  height: var(--app-bar-height);
+  background: var(--app-bar-color);
+  display: flex;
+  align-items: center;
+  position: fixed;
+  z-index: 5;
+}
+
+.bar-title {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: var(--bar-font-color);
+  padding: 0 calc(var(--menu-size) + 2vw);
+  font-size: 1.25em;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+}
+
+.bar-button-container {
+  width: auto;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  padding: 0 1vw;
+}
+
+.bar-button {
+  margin: 0 0.25vw !important;
+}
+
+.no-text-button {
+  padding: calc(var(--app-bar-height) / 2.95) !important;
+  border-radius: 100% !important;
+}
