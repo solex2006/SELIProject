@@ -63,7 +63,9 @@ function getStepContent(step, props) {
       );
     case 2:
       return (
-        <CourseCreatorTool/>
+        <CourseCreatorTool
+          showControlMessage={props.showControlMessage.bind(this)}
+        />
       );
     default:
       return 'Unknown step';
@@ -103,6 +105,9 @@ export default function HorizontalNonLinearStepper(props) {
   }
 
   function handleBack() {
+    if (activeStep === 0) {
+      setActiveStep(steps.length)
+    }
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   }
 
@@ -145,7 +150,7 @@ export default function HorizontalNonLinearStepper(props) {
           <div>
             <Typography className={classes.instructions}>{getStepContent(activeStep, props)}</Typography>
             <div className="stepper-button-container">
-              <Button color="primary" disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+              <Button color="primary" onClick={handleBack} className={classes.button}>
                 Back
               </Button>
               <Button
@@ -163,7 +168,7 @@ export default function HorizontalNonLinearStepper(props) {
                   </Typography>
                 ) : (
                   <Button variant="contained" color="secondary" onClick={handleComplete}>
-                    {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Complete Step'}
+                    {completedSteps() === totalSteps() - 1 ? 'Publish course' : 'Complete Step'}
                   </Button>
                 ))}
             </div>

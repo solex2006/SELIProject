@@ -1,5 +1,5 @@
 import React from 'react';
-import Stepper from '../inputs/Stepper';
+import Stepper from '../navigation/Stepper';
 
 export default class CourseForm extends React.Component {
   constructor(props) {

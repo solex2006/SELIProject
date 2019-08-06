@@ -69,3 +69,7 @@ body {
   background: #555;
   cursor: pointer;
 }
+
+th {
+  font-weight: normal !important;
+}

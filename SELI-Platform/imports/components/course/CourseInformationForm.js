@@ -18,7 +18,6 @@ import CourseFilesCollection from '../../../lib/CourseFilesCollection.js';
 
 export default class CourseInformationForm extends React.Component {
   constructor(props) {
-    console.log(props);
     super(props);
     this.state = {
       category: this.props.course.category,

@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Unit(props) {
+  console.log(props);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 

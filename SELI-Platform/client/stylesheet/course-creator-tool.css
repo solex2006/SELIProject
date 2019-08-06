@@ -82,11 +82,12 @@
 .course-creator-drop-area {
   width: calc(100vw - var(--course-tool-menu-size));
   overflow-y: scroll;
+  background-color: var(--white);
 }
 
 .course-creator-menu-area {
   width: var(--course-tool-menu-size);
-  background-color: #bdbdbd;
+  background-color: #e0e0e0;
 }
 
 .new-tool-button {
@@ -123,7 +124,7 @@
 .course-creator-menu-option:hover {
   cursor: grab;
   opacity: 1;
-  background-color: #B6B6B6;
+  background-color: #cfd8dc;
 }
 
 .course-creator-menu-option:hover .course-creator-menu-icon {
@@ -148,9 +149,27 @@
 }
 
 .course-creator-menu-text {
-  font-size: 0.8em;
+  font-size: 0.75em;
   text-align: center;
   width: 100%;
   user-select: none;
   transition: 0.5s;
+}
+
+.h5p-logo {
+  width: 100%;
+  height: calc((var(--course-tool-menu-size) / 3) - 1.8em);
+  background-image: url(H5P_Logo-g3.svg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-position: calc(100% / 2) calc(((var(--course-tool-menu-size) / 3) - 1.8em) / 12);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.course-creator-drop-container {
+  width: 100%;
+  height: 20vh;
+  background-color: #333;
 }
