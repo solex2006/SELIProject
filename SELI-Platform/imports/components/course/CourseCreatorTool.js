@@ -4,12 +4,15 @@ import Button from '@material-ui/core/Button';
 import Unit from './Unit';
 
 import BottomMenu from '../navigation/BottomMenu';
+import ContentMenuItem from './ContentMenuItem';
 import ContentItem from './ContentItem';
 
 import { Container, Draggable } from 'react-smooth-dnd';
 import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
+import { createContentItems1, createContentItems2, createContentItems3, createContentItems4 } from '../../../lib/contentMenuItemsCreator';
 
 import TextField from '@material-ui/core/TextField';
+import Divider from '@material-ui/core/Divider';
 /* Dialog */
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -17,10 +20,18 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 /* Trasitions */
 import Slide from '@material-ui/core/Slide';
+import Grow from '@material-ui/core/Grow';
 
-function Transition(props) {
+/* Forms */
+import TextForm from '../content/TextForm';
+
+function SlideTransition(props) {
   return <Slide direction="right" {...props} />;
 }
+
+const GrowTransition = React.forwardRef(function Transition(props, ref) {
+  return <Grow ref={ref} {...props} />;
+});
 
 export default class CourseCreatorTool extends React.Component {
   constructor(props) {
@@ -61,6 +72,14 @@ export default class CourseCreatorTool extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
+  };
+
+  contentHandleClickOpen = () => {
+    this.setState({ contentOpen: true });
+  };
+
+  contentHandleClose = () => {
+    this.setState({ contentOpen: false });
   };
 
   validateInputs(){
@@ -113,7 +132,45 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   openDialog(e){
+    if(e.removedIndex === null){
+      let type = e.payload.type;
+      this.setState({
+        contentTypeAdded: type,
+      }, () => {
+        this.contentHandleClickOpen();
+      });
+    }
     this.setState({ addedItems: applyDrag(this.state.addedItems, e) })
+  }
+
+  getTextAttributes(){
+
+  }
+
+  createContent(){
+    let addedItems = this.state.addedItems;
+    if (this.state.contentTypeAdded === 'text') {
+      let textContent = this.getTextAttributes();
+      addedItems[addedItems.length - 1].attributes = textContent;
+      this.setState({
+        addedItems: addedItems,
+      });
+    }
+    this.contentHandleClose();
+    this.resetMenuItems();
+  }
+
+  resetMenuItems(){
+    let contentItems1 = createContentItems1();
+    let contentItems2 = createContentItems2();
+    let contentItems3 = createContentItems3();
+    let contentItems4 = createContentItems4();
+    this.setState({
+      contentItems1: contentItems1,
+      contentItems2: contentItems2,
+      contentItems3: contentItems3,
+      contentItems4: contentItems4,
+    })
   }
 
   setMenu(option){
@@ -148,9 +205,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.addedItems.map((p, i) => {
                     return (
                       <Draggable key={i}>
-                        <div className="added-content">
-                          {p.type !== undefined ? p.type : ""}
-                        </div>
+                        <ContentItem item={p}/>
                       </Draggable>
                     );
                   })
@@ -163,7 +218,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentItems1.map((p,i) => {
                     return (
                       <Draggable key={i}>
-                        <ContentItem type={p.type}/>
+                        <ContentMenuItem type={p.type}/>
                       </Draggable>
                     );
                   })
@@ -174,7 +229,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentItems2.map((p,i) => {
                     return (
                       <Draggable key={i}>
-                        <ContentItem type={p.type}/>
+                        <ContentMenuItem type={p.type}/>
                       </Draggable>
                     );
                   })
@@ -185,7 +240,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentItems3.map((p,i) => {
                     return (
                       <Draggable key={i}>
-                        <ContentItem type={p.type}/>
+                        <ContentMenuItem type={p.type}/>
                       </Draggable>
                     );
                   })
@@ -196,7 +251,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentItems4.map((p,i) => {
                     return (
                       <Draggable key={i}>
-                        <ContentItem type={p.type}/>
+                        <ContentMenuItem type={p.type}/>
                       </Draggable>
                     );
                   })
@@ -208,7 +263,7 @@ export default class CourseCreatorTool extends React.Component {
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
-          TransitionComponent={Transition}
+          TransitionComponent={SlideTransition}
           keepMounted
           fullWidth
           maxWidth={false}
@@ -250,6 +305,37 @@ export default class CourseCreatorTool extends React.Component {
                 create unit
               </Button>
             </div>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.contentOpen}
+          onClose={this.contentHandleClose}
+          TransitionComponent={GrowTransition}
+          keepMounted
+          fullWidth
+          maxWidth={false}
+          style={{display: "flex", justifyContent: "center", maxWidth: "none"}}
+        >
+          <DialogTitle className="sign-title">Content editor</DialogTitle>
+          <Divider/>
+          <DialogContent>
+            {
+              this.state.contentTypeAdded === 'text' ?
+                <TextForm
+                  getTextAttributesFuction={textAttributes => this.getTextAttributes = textAttributes}
+                />
+              :
+              this.state.contentTypeAdded
+            }
+          </DialogContent>
+          <Divider/>
+          <DialogActions>
+            <Button color="secondary">
+              cancel
+            </Button>
+            <Button onClick={() => this.createContent()} color="secondary">
+              create content
+            </Button>
           </DialogActions>
         </Dialog>
       </div>

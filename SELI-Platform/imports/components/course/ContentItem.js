@@ -1,16 +1,7 @@
 import React from 'react';
-
-import { GoTextSize } from "react-icons/go";
-import { IoMdImages } from "react-icons/io";
-import { MdVideocam } from "react-icons/md";
-import { FaItunesNote } from "react-icons/fa";
-import { IoIosLink } from "react-icons/io";
-import { FaRegFilePdf } from "react-icons/fa";
-import { GoPackage } from "react-icons/go";
-import { MdCode } from "react-icons/md";
-import { DiUnitySmall } from "react-icons/di";
-import { FaRegQuestionCircle } from "react-icons/fa";
-import { FaPuzzlePiece } from "react-icons/fa";
+import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 export default class ContentItem extends React.Component {
   constructor(props) {
@@ -23,138 +14,46 @@ export default class ContentItem extends React.Component {
 
   render() {
     return(
-      <div>
+      <div className="">
         {
-          this.props.type === "text" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <GoTextSize className="course-creator-menu-icon" size={"1.45em"}/>
-              </div>
-              <p className="course-creator-menu-text">Text</p>
+          this.props.item.attributes !== undefined ?
+            <div>
+              {
+                this.props.item.type === 'text' ?
+                  <div>
+                    {
+                      this.props.item.attributes.type === 'title' ?
+                        <div className="text-title" style={{textAlign: this.props.item.attributes.alignment}}>
+                          <Divider light={true}/>
+                          {this.props.item.attributes.content}
+                          <Divider light={true}/>
+                        </div>
+                      :
+                      undefined
+                    }
+                    {
+                      this.props.item.attributes.type === 'subtitle' ?
+                        <div className="text-subtitle" style={{textAlign: this.props.item.attributes.alignment}}>
+                          {this.props.item.attributes.content}
+                        </div>
+                      :
+                      undefined
+                    }
+                    {
+                      this.props.item.attributes.type === 'section' ?
+                        <div className="text-section" style={{textAlign: this.props.item.attributes.alignment}}>
+                          {this.props.item.attributes.content}
+                        </div>
+                      :
+                      undefined
+                    }
+                  </div>
+                :
+                undefined
+              }
             </div>
           :
-            undefined
-        }
-        {
-          this.props.type === "image" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <IoMdImages className="course-creator-menu-icon" size={"1.45em"}/>
-              </div>
-              <p className="course-creator-menu-text">Image</p>
-            </div>
-          :
-            undefined
-        }
-        {
-          this.props.type === "video" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <MdVideocam className="course-creator-menu-icon" size={"1.45em"}/>
-              </div>
-              <p className="course-creator-menu-text">Video</p>
-            </div>
-          :
-            undefined
-        }
-        {
-          this.props.type === "audio" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <FaItunesNote className="course-creator-menu-icon" size={"1.45em"}/>
-              </div>
-              <p className="course-creator-menu-text">Audio</p>
-            </div>
-          :
-            undefined
-        }
-        {
-          this.props.type === "link" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <IoIosLink className="course-creator-menu-icon" size={"1.45em"}/>
-              </div>
-              <p className="course-creator-menu-text">Link</p>
-            </div>
-          :
-            undefined
-        }
-        {
-          this.props.type === "unity" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <DiUnitySmall className="course-creator-menu-icon" size={"1.45em"}/>
-              </div>
-              <p className="course-creator-menu-text">Unity</p>
-            </div>
-          :
-            undefined
-        }
-        {
-          this.props.type === "embebed" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <MdCode className="course-creator-menu-icon" size={"1.45em"}/>
-              </div>
-              <p className="course-creator-menu-text">Embebed</p>
-            </div>
-          :
-            undefined
-        }
-        {
-          this.props.type === "pdf" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <FaRegFilePdf className="course-creator-menu-icon" size={"1.45em"}/>
-              </div>
-              <p className="course-creator-menu-text">Pdf</p>
-            </div>
-          :
-            undefined
-        }
-        {
-          this.props.type === "compressed" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <GoPackage className="course-creator-menu-icon" size={"1.45em"}/>
-              </div>
-              <p className="course-creator-menu-text">Compressed</p>
-            </div>
-          :
-            undefined
-        }
-        {
-          this.props.type === "h5p" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <div className="h5p-logo"></div>
-              </div>
-              <p className="course-creator-menu-text">H5P</p>
-            </div>
-          :
-            undefined
-        }
-        {
-          this.props.type === "quiz" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <FaRegQuestionCircle className="course-creator-menu-icon" size={"1.45em"}/>
-              </div>
-              <p className="course-creator-menu-text">Quiz</p>
-            </div>
-          :
-            undefined
-        }
-        {
-          this.props.type === "activity" ?
-            <div className="course-creator-menu-option">
-              <div className="course-creator-menu-option-row">
-                <FaPuzzlePiece className="course-creator-menu-icon" size={"1.45em"}/>
-              </div>
-              <p className="course-creator-menu-text">Activity</p>
-            </div>
-          :
-            undefined
+          this.props.item.type
         }
       </div>
     );
