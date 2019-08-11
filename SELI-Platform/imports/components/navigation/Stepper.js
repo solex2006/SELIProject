@@ -131,8 +131,8 @@ export default function HorizontalNonLinearStepper(props) {
     <div className={classes.root}>
       <Stepper className="form-stepper" nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
-          <Step key={label}>
-            <StepButton onClick={handleStep(index)} completed={completed[index]}>
+          <Step className="form-step" key={label}>
+            <StepButton className="form-step--button" onClick={handleStep(index)} completed={completed[index]}>
               {label}
             </StepButton>
           </Step>
@@ -163,7 +163,7 @@ export default function HorizontalNonLinearStepper(props) {
               </Button>
               {activeStep !== steps.length &&
                 (completed[activeStep] ? (
-                  <Typography variant="caption" className={classes.completed}>
+                  <Typography className="completed-step-label" variant="caption">
                     Step: {steps[activeStep]} already completed
                   </Typography>
                 ) : (

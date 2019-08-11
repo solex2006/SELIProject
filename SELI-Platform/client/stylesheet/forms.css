@@ -2,10 +2,13 @@
   max-width: 100vw;
   height: auto;
   overflow-y: scroll;
-  padding-bottom: 5vh;
   position: relative;
   padding-top: var(--app-bar-height);
   transition: 0.5s;
+}
+
+#course-form-container {
+  overflow-y: hidden;
 }
 
 .dialog-form-container {
@@ -105,9 +108,30 @@
   align-items: center;
 }
 
+.centered-video-preview-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centered-audio-preview-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-preview {
+  width: 300px;
+  height: 200px;
+  border-radius: 1%;
+  animation: fadeIn 0.5s;
+}
+
 .image-preview {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   border-radius: 1%;
   background-color: var(--preview-color);
   background-position: center;
@@ -115,6 +139,12 @@
   background-size: cover;
   background-image: url(image-w.svg);
   animation: fadeIn 0.5s;
+}
+
+.audio-preview {
+  width: 350px !important;
+  border-radius: 1%;
+  background-color: var(--preview-color);
 }
 
 .file-preview {

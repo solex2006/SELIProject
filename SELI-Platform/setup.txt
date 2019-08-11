@@ -22,3 +22,6 @@ meteor npm install react-id-swiper@latest swiper@latest
 meteor npm install react-icons --save
 meteor npm i react-reveal --save
 meteor npm i react-smooth-dnd --save
+meteor npm i re-resizable --save
+meteor npm i react-spinners --save
+meteor npm install react-player --save

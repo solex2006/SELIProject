@@ -12,7 +12,7 @@ export default class CourseForm extends React.Component {
   render() {
     return(
       <div>
-        <div className="form-container">
+        <div id="course-form-container" className="form-container">
           <div className="form-title">
             Create Course
           </div>

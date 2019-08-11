@@ -24,6 +24,10 @@ import Grow from '@material-ui/core/Grow';
 
 /* Forms */
 import TextForm from '../content/TextForm';
+import ImageForm from '../content/ImageForm';
+import VideoForm from '../content/VideoForm';
+import AudioForm from '../content/AudioForm';
+import LinkForm from '../content/LinkForm';
 
 function SlideTransition(props) {
   return <Slide direction="right" {...props} />;
@@ -132,10 +136,11 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   openDialog(e){
+    let type = e.payload.type;
     if(e.removedIndex === null){
-      let type = e.payload.type;
       this.setState({
         contentTypeAdded: type,
+        addedIndex: e.addedIndex,
       }, () => {
         this.contentHandleClickOpen();
       });
@@ -143,18 +148,53 @@ export default class CourseCreatorTool extends React.Component {
     this.setState({ addedItems: applyDrag(this.state.addedItems, e) })
   }
 
-  getTextAttributes(){
-
-  }
+  resetInputButton(){}
+  generateImageSalt(){}
+  generateVideoSalt(){}
+  generateAudioSalt(){}
+  getTextAttributes(){}
+  getImageAttributes(){}
+  getVideoAttributes(){}
+  getAudioAttributes(){}
+  getLinkAttributes(){}
 
   createContent(){
     let addedItems = this.state.addedItems;
     if (this.state.contentTypeAdded === 'text') {
       let textContent = this.getTextAttributes();
-      addedItems[addedItems.length - 1].attributes = textContent;
+      addedItems[this.state.addedIndex].attributes = textContent;
       this.setState({
         addedItems: addedItems,
       });
+    }
+    else if (this.state.contentTypeAdded === 'image') {
+      let imageContent = this.getImageAttributes();
+      addedItems[this.state.addedIndex].attributes = imageContent;
+      let size = {
+        width: 500,
+        height: 300,
+      }
+      addedItems[this.state.addedIndex].attributes.size = size;
+      this.setState({
+        addedItems: addedItems,
+      });
+      this.resetInputButton();
+    }
+    else if (this.state.contentTypeAdded === 'video') {
+      let videoContent = this.getVideoAttributes();
+      addedItems[this.state.addedIndex].attributes = videoContent;
+      this.setState({
+        addedItems: addedItems,
+      });
+      this.resetInputButton();
+    }
+    else if (this.state.contentTypeAdded === 'audio') {
+      let audioContent = this.getAudioAttributes();
+      addedItems[this.state.addedIndex].attributes = audioContent;
+      this.setState({
+        addedItems: addedItems,
+      });
+      this.resetInputButton();
     }
     this.contentHandleClose();
     this.resetMenuItems();
@@ -173,6 +213,27 @@ export default class CourseCreatorTool extends React.Component {
     })
   }
 
+  cancelContentCreation(){
+    let addedItems = this.state.addedItems;
+    addedItems.splice(this.state.addedIndex, 1);
+    this.setState({
+      addedItems:addedItems,
+    });
+    if (this.state.contentTypeAdded === 'image') {
+      this.generateImageSalt();
+      this.resetInputButton();
+    }
+    if (this.state.contentTypeAdded === 'video') {
+      this.generateVideoSalt();
+      this.resetInputButton();
+    }
+    if (this.state.contentTypeAdded === 'audio') {
+      this.generateAudioSalt();
+      this.resetInputButton();
+    }
+    this.contentHandleClose();
+  }
+
   setMenu(option){
 
   }
@@ -185,22 +246,9 @@ export default class CourseCreatorTool extends React.Component {
     return(
       <div>
         <div className="course-creator-container">
-          <div className="course-creator-units-container">
-            {
-              this.state.units.map(units => {
-                return(
-                  <Unit
-                    unit={units}
-                    key={units.ordinal}
-                  />
-                )
-              })
-            }
-            <Button onClick={() => this.handleClickOpen()} className="new-tool-button" color="secondary">New unit</Button>
-          </div>
           <div className="course-creator-work-area">
             <div className="course-creator-drop-area">
-              <Container style={{width: "100%", height: "100%"}} onDragEnter={() => console.log("yes")} groupName="1" getChildPayload={i => this.state.addedItems[i]} onDrop={e => this.openDialog(e)}>
+              <Container dragBeginDelay={500} dragClass="drag-class" nonDragAreaSelector="resizable-item" style={{width: "100%", height: "100%"}} groupName="1" getChildPayload={i => this.state.addedItems[i]} onDrop={e => this.openDialog(e)}>
                 {
                   this.state.addedItems.map((p, i) => {
                     return (
@@ -261,79 +309,76 @@ export default class CourseCreatorTool extends React.Component {
           </div>
         </div>
         <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          TransitionComponent={SlideTransition}
-          keepMounted
-          fullWidth
-          maxWidth={false}
-          style={{display: "flex", justifyContent: "center", maxWidth: "none"}}
-        >
-          <DialogTitle id="language-select-title">Unit editor</DialogTitle>
-          <DialogContent className="form-dialog">
-            <div className="dialog-form-container">
-              <div className="dialog-input-container">
-                <TextField
-                  id="unit-name-input"
-                  label="Unit name"
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  autoComplete={"off"}
-                  error={this.state.inputs[0].error}
-                />
-              </div>
-              <div className="dialog-input-container">
-                <TextField
-                  id="unit-description-input"
-                  label="Unit description"
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  multiline
-                  rows="3"
-                  error={this.state.inputs[1].error}
-                />
-              </div>
-            </div>
-          </DialogContent>
-          <DialogActions>
-            <div className="form-button-container">
-              <Button onClick={() => this.addUnit()} color="secondary">
-                create unit
-              </Button>
-            </div>
-          </DialogActions>
-        </Dialog>
-        <Dialog
           open={this.state.contentOpen}
           onClose={this.contentHandleClose}
           TransitionComponent={GrowTransition}
+          disableBackdropClick={true}
+          disableEscapeKeyDown={true}
           keepMounted
           fullWidth
           maxWidth={false}
           style={{display: "flex", justifyContent: "center", maxWidth: "none"}}
         >
-          <DialogTitle className="sign-title">Content editor</DialogTitle>
+          <DialogTitle className="content-editor-title">Content editor</DialogTitle>
           <Divider/>
           <DialogContent>
             {
               this.state.contentTypeAdded === 'text' ?
                 <TextForm
-                  getTextAttributesFuction={textAttributes => this.getTextAttributes = textAttributes}
+                  getTextAttributesFunction={textAttributes => this.getTextAttributes = textAttributes}
                 />
               :
-              this.state.contentTypeAdded
+              undefined
+            }
+            {
+              this.state.contentTypeAdded === 'image' ?
+                <ImageForm
+                  generateImageSaltFunction={imageSalt => this.generateImageSalt = imageSalt}
+                  getImageAttributesFunction={imageAttributes => this.getImageAttributes = imageAttributes}
+                  resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.contentTypeAdded === 'video' ?
+                <VideoForm
+                  generateVideoSaltFunction={videoSalt => this.generateVideoSalt = videoSalt}
+                  getVideoAttributesFunction={videoAttributes => this.getVideoAttributes = videoAttributes}
+                  resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.contentTypeAdded === 'audio' ?
+                <AudioForm
+                  generateAudioSaltFunction={audioSalt => this.generateAudioSalt = audioSalt}
+                  getAudioAttributesFunction={audioAttributes => this.getAudioAttributes = audioAttributes}
+                  resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.contentTypeAdded === 'link' ?
+                <LinkForm
+                  getLinkAttributesFunction={linkAttributes => this.getLinkAttributes = linkAttributes}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
             }
           </DialogContent>
           <Divider/>
           <DialogActions>
-            <Button color="secondary">
+            <Button onClick={() => this.cancelContentCreation()} color="primary">
               cancel
             </Button>
-            <Button onClick={() => this.createContent()} color="secondary">
+            <Button onClick={() => this.createContent()} color="primary">
               create content
             </Button>
           </DialogActions>

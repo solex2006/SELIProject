@@ -1,7 +1,11 @@
 import React from 'react';
 import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+import TextItem from './items/TextItem';
+import ImageItem from './items/ImageItem';
+import VideoItem from './items/VideoItem';
+import AudioItem from './items/AudioItem';
 
 export default class ContentItem extends React.Component {
   constructor(props) {
@@ -11,51 +15,52 @@ export default class ContentItem extends React.Component {
     }
   }
 
+  componentDidMount(){
+
+  }
 
   render() {
     return(
       <div className="">
         {
           this.props.item.attributes !== undefined ?
-            <div>
+            <div className="content-item">
               {
                 this.props.item.type === 'text' ?
-                  <div>
-                    {
-                      this.props.item.attributes.type === 'title' ?
-                        <div className="text-title" style={{textAlign: this.props.item.attributes.alignment}}>
-                          <Divider light={true}/>
-                          {this.props.item.attributes.content}
-                          <Divider light={true}/>
-                        </div>
-                      :
-                      undefined
-                    }
-                    {
-                      this.props.item.attributes.type === 'subtitle' ?
-                        <div className="text-subtitle" style={{textAlign: this.props.item.attributes.alignment}}>
-                          {this.props.item.attributes.content}
-                        </div>
-                      :
-                      undefined
-                    }
-                    {
-                      this.props.item.attributes.type === 'section' ?
-                        <div className="text-section" style={{textAlign: this.props.item.attributes.alignment}}>
-                          {this.props.item.attributes.content}
-                        </div>
-                      :
-                      undefined
-                    }
-                  </div>
+                  <TextItem item = {this.props.item}/>
+                :
+                undefined
+              }
+              {
+                this.props.item.type === 'image' ?
+                  <ImageItem item = {this.props.item}/>
+                :
+                undefined
+              }
+              {
+                this.props.item.type === 'video' ?
+                  <VideoItem item = {this.props.item}/>
+                :
+                undefined
+              }
+              {
+                this.props.item.type === 'audio' ?
+                  <AudioItem item = {this.props.item}/>
                 :
                 undefined
               }
             </div>
           :
-          this.props.item.type
+          <div className="content-preview-container">
+            {
+                "Creating " + this.props.item.type + " content"
+            }
+            <div className="linear-creating-container">
+              <LinearProgress valueBuffer={95} color="secondary" />
+            </div>
+          </div>
         }
       </div>
-    );
+      );
+    }
   }
-}

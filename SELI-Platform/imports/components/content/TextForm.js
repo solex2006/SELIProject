@@ -16,8 +16,8 @@ export default class TextForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      textType: '',
-      alignment: 'left'
+      textType: 'title',
+      alignment: 'center'
     }
   }
 
@@ -34,6 +34,14 @@ export default class TextForm extends React.Component {
     }
   }
 
+  clearInputs(){
+    document.getElementById('text-input').value = "";
+    this.setState({
+      textType: 'title',
+      alignment: 'center'
+    });
+  }
+
   getTextAttributes(){
     let type = this.state.textType;
     let content = document.getElementById('text-input').value;
@@ -43,11 +51,12 @@ export default class TextForm extends React.Component {
       content: content,
       alignment: alignment,
     };
+    this.clearInputs();
     return textContent;
   }
 
   componentDidMount(){
-    this.props.getTextAttributesFuction(() => this.getTextAttributes([]));
+    this.props.getTextAttributesFunction(() => this.getTextAttributes());
   }
 
   render() {
@@ -55,25 +64,28 @@ export default class TextForm extends React.Component {
       <div className="simple-content-form-container">
         <div className="content-input-container">
           <FormControl className="content-form-control" component="fieldset">
-            <FormLabel className="content-question-label" component="legend">Type</FormLabel>
-            <RadioGroup className="content-radio-group" aria-label="position" name="textType" value={this.state.textType} onChange={this.handleChange} row>
+            <FormLabel className="content-form-label-center" component="legend">Type</FormLabel>
+            <RadioGroup className="content-radio-group-center" aria-label="position" name="textType" value={this.state.textType} onChange={this.handleChange} row>
               <FormControlLabel
                 value="title"
                 control={<Radio color="primary" />}
                 label="Title"
-                labelPlacement="start"
+                labelPlacement="end"
+                className="radio-input"
               />
               <FormControlLabel
                 value="subtitle"
                 control={<Radio color="primary" />}
                 label="Subtitle"
-                labelPlacement="start"
+                labelPlacement="end"
+                className="radio-input"
               />
               <FormControlLabel
                 value="section"
                 control={<Radio color="primary" />}
                 label="Text section"
-                labelPlacement="start"
+                labelPlacement="end"
+                className="radio-input"
               />
             </RadioGroup>
           </FormControl>
@@ -132,26 +144,41 @@ export default class TextForm extends React.Component {
                 undefined
               }
               <FormControl className="content-form-control" component="fieldset">
-                <FormLabel className="content-question-label" component="legend">Alignment</FormLabel>
-                <RadioGroup className="content-radio-group" aria-label="position" name="alignment" value={this.state.alignment} onChange={this.handleChange} row>
+                <FormLabel className="content-form-label-center" component="legend">Alignment</FormLabel>
+                <RadioGroup className="content-radio-group-center" aria-label="position" name="alignment" value={this.state.alignment} onChange={this.handleChange} row>
                   <FormControlLabel
                     value="left"
                     control={<Radio color="primary" />}
                     label="Left"
-                    labelPlacement="start"
+                    labelPlacement="end"
+                    className="radio-input"
                   />
                   <FormControlLabel
                     value="center"
                     control={<Radio color="primary" />}
                     label="Center"
-                    labelPlacement="start"
+                    labelPlacement="end"
+                    className="radio-input"
                   />
                   <FormControlLabel
                     value="right"
                     control={<Radio color="primary" />}
                     label="Right"
-                    labelPlacement="start"
+                    labelPlacement="end"
+                    className="radio-input"
                   />
+                  {
+                    this.state.textType === "section" ?
+                      <FormControlLabel
+                        value="justify"
+                        control={<Radio color="primary" />}
+                        label="Justified"
+                        labelPlacement="end"
+                        className="radio-input"
+                      />
+                    :
+                    undefined
+                  }
                 </RadioGroup>
               </FormControl>
             </div>

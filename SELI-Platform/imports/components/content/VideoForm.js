@@ -1,455 +1,358 @@
-import React, { Component } from 'react';
-import TextField from '@material-ui/core/TextField';
+import React from 'react';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import Checkbox from '@material-ui/core/Checkbox';
+import MenuItem from '@material-ui/core/MenuItem';
 import FormLabel from '@material-ui/core/FormLabel';
-import FileUpload from '../files/FileUpload';
-
+import Divider from '@material-ui/core/Divider';
+import GalleryFileUpload from '../files/GalleryFileUpload';
+import Library from '../tools/Library';
 import CourseFilesCollection from '../../../lib/CourseFilesCollection.js';
-
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import theme from '../../style/theme.js';
+import VideoPreview from '../files/previews/VideoPreview';
+import ReactPlayer from 'react-player'
 
 export default class VideoForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videoFile: undefined,
-      showVideoInput: true,
-      parentId: this.props.courseKey,
-      showVideoAccesibilityForm: false,
-      wayToAdd: '',
-      audioDescription: '',
-      languageSign: '',
-      videoTrasnciption: true,
-      wayToAddTrascription: '',
+      alignment: 'flex-start',
+      description: false,
+      addToGallery: false,
+      source: 'upload',
+      hideSource: false,
     }
   }
 
-  saveContent(){
-    this.props.showForm("UnitsEditor", true);
-    let lessonName = document.getElementById('lesson-name-input').value;
-    let lessonObjetive = document.getElementById('lesson-objective-input').value;
-    let content = {
-      lesson: lessonName,
-      objective: lessonObjetive,
-      type: 'video',
+  handleChange = event => {
+    if (event.target.name === 'alignment') {
+      this.setState({
+        alignment: event.target.value,
+      });
+    }
+    else if (event.target.name === 'source') {
+      this.setState({
+        source: event.target.value,
+        validUrl: false,
+        showHelperText: false,
+      });
+    }
+    else {
+      this.setState({
+        description: event.target.checked,
+      });
+    }
+  }
+
+  addToGalleryHandleChange = event => {
+    this.setState({
+      addToGallery: event.target.checked,
+    });
+  }
+
+  clearInputs(){
+    if(this.state.description){
+      document.getElementById('description-input').value = "";
+    }
+    this.setState({
+      alignment: 'flex-start',
+      description: false,
+      source: 'upload',
+    });
+  }
+
+  getVideoAttributes(){
+    let video;
+    let source;
+    if (this.state.source === 'url') {
+      video = {
+          id: this.state.url,
+          url: this.state.url,
+          type: 'video',
+      };
+      source = "external";
+    }
+    else {
+      video = this.state.video;
+      source = "upload";
+    }
+    let description = '';
+    if(this.state.description){
+      description = document.getElementById('description-input').value;
+    }
+    let alignment = this.state.alignment;
+    let videoContent = {
+      video: video,
+      description: description,
+      alignment: alignment,
+      source: source,
     };
-    if(this.state.wayToAdd === 'upload'){
-      content.video = this.state.fileInformation;
-    }
-    if(this.state.wayToAdd === 'url'){
-      let url = document.getElementById('video-url-input').value;
-      content.video = url;
-    }
-    this.props.addContent(content);
-  }
-
-  getWayToAdd = event => {
-    this.setState({
-      wayToAdd: event.target.value,
-    });
-  }
-
-  getAudioDescription = event => {
-    this.setState({
-      audioDescription: event.target.value,
-    }, () => this.showAudioDesctiptionUpload());
-  }
-
-  showAudioDesctiptionUpload() {
-    let showUpload = false;
-    if(this.state.audioDescription === "No"){
-      showUpload = true;
-    }
-    this.setState({
-      showAudioDesctiptionUpload: showUpload,
-    });
-  }
-
-  getLanguageSign = event => {
-    this.setState({
-      languageSign: event.target.value,
-    }, () => this.showLanguagueSignUpload());
-  }
-
-  showLanguagueSignUpload() {
-    let showUpload = false;
-    if(this.state.languageSign === "No"){
-      showUpload = true;
-    }
-    this.setState({
-      showLanguagueSignUpload: showUpload,
-    });
-  }
-
-  showAudioDesctiptionUpload() {
-    let showUpload = false;
-    if(this.state.audioDescription === "No"){
-      showUpload = true;
-    }
-    this.setState({
-      showAudioDesctiptionUpload: showUpload,
-    });
-  }
-
-  getVideoTrasnciption = event => {
-    this.setState({
-      videoTrasnciption: event.target.value,
-    }, () => this.showVideoTrasnciptionWayToAdd());
-  }
-
-  showVideoTrasnciptionWayToAdd(){
-    let showUpload = false;
-    if(this.state.videoTrasnciption === "No"){
-      showUpload = true;
-    }
-    this.setState({
-      videoTrasnciption: showUpload,
-    });
-  }
-
-  getWayToAddTrasnciption = event => {
-    this.setState({
-      wayToAddTrascription: event.target.value,
-    }, () => this.showVideoTrasnciptionUpload());
-  }
-
-  showVideoTrasnciptionUpload() {
-    let showUpload = false;
-    let showInput = true;
-    if(this.state.wayToAddTrascription === "No"){
-      showUpload = true;
-      showInput = false;
-    }
-    this.setState({
-      showVideoTrasnciptionUpload: showUpload,
-      showVideoTrasnciptionInput: showInput,
-    });
+    this.clearInputs();
+    this.generateVideoSalt();
+    return videoContent;
   }
 
   getFileInformation(fileInformation){
-    this.setState({
-      fileInformation: fileInformation,
-    });
+    if(fileInformation){
+      this.setState({
+        uploaded: true,
+        video: fileInformation,
+      });
+    }
   }
 
   removeFileInformation(){
     this.setState({
-      fileInformation: [],
-    });
-    this.setState({
-      showVideoAccesibilityForm: false,
+      uploaded: false,
+      fileInformation: undefined,
     });
   }
 
-  resetFile(){
+  generateVideoSalt(){
     this.setState({
-      parentId: 'creating-course',
+      videoSalt: Math.random(),
     });
   }
 
-  showVideoAccesibilityForm(){
+  pickFile(file){
+    let fileInformation = {
+      url: file.link,
+      id: file.id,
+      type: "video",
+    }
     this.setState({
-      showVideoAccesibilityForm: true,
+      video: fileInformation,
+      showPreview: false,
+    }, () => {
+      this.setState({
+        showPreview: true,
+      });
     });
   }
 
-  handleChange = name => event => {
+  setSourceRadioGroup(set){
+    this.setState({
+      hideSource: set,
+    });
+  }
 
-  };
+  ignoreFile(){
+    this.setState({
+      fileInformation: undefined,
+      showPreview: false,
+      showHelperText: false,
+    })
+  }
+
+  resetInputButton(){}
+
+  urlHandleChange = name => event => {
+    this.setState({
+      showHelperText: false,
+      url: event.target.value,
+      validUrl: false,
+    })
+  }
+
+  validateUrl(){
+    let url = document.getElementById('url-input').value;
+    let isValid = ReactPlayer.canPlay(url);
+    let helperColor = '';
+    let showHelperText = true;
+    let urlMessage = '';
+    if (isValid) {
+      urlMessage = "The player can reproduce this type of source";
+      helperColor = "#4caf50";
+    }
+    else {
+      urlMessage = "The player can't reproduce this type of source";
+      helperColor = "#f44336";
+    }
+    this.setState({
+      showHelperText: showHelperText,
+      urlMessage: urlMessage,
+      helperColor: helperColor,
+      validUrl: isValid,
+      url: url,
+    });
+  }
+
+  componentDidMount(){
+    this.props.getVideoAttributesFunction(() => this.getVideoAttributes());
+    this.props.resetInputButtonFunction(() => this.resetInputButton());
+    this.props.generateVideoSaltFunction(() => this.generateVideoSalt());
+    this.generateVideoSalt();
+  }
 
   render() {
     return(
-      <div>
-        <MuiThemeProvider theme={theme}>
-          <div className="form-title">Course editor</div>
-          <div className="form-subtitle">Video content</div>
-          <div className="input-container">
-            <TextField
-              id="lesson-name-input"
-              label="Lesson name"
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              required
-            />
-          </div>
-          <div className="input-container">
-            <TextField
-              id="lesson-objective-input"
-              label="Lesson objective"
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              required
-            />
-          </div>
-          <div className="form-subtitle">Content</div>
-          <div className="input-container">
-            <FormControl component="fieldset">
-              <FormLabel component="legend" className="radio-label">Select the way to add the video</FormLabel>
-            </FormControl>
-            <RadioGroup aria-label="position" name="position" value={this.state.wayToAdd} onChange={this.getWayToAdd} row>
-              <FormControlLabel
-                value="url"
-                control={<Radio color="primary" />}
-                label="By url"
-                labelPlacement="end"
-              />
-              <FormControlLabel
-                value="upload"
-                control={<Radio color="primary" />}
-                label="By upload"
-                labelPlacement="end"
-              />
-            </RadioGroup>
-          </div>
-
-          <div className=""></div>
-          {
-            this.state.wayToAdd === 'upload' ?
-              <div className="input-file-container">
-                <FileUpload
-                  parentId={this.state.parentId + "-file"}
-                  accept="video/*"
-                  label="Upload video"
-                  uploadedTitle="Video content"
-                  icon="video-g.svg"
-                  collection={CourseFilesCollection}
-                  removeFunction="RemoveCourseFile"
-                  type="video"
-                  preview={false}
-                  dowload={false}
-                  open={false}
-                  delete={true}
-                  showIcon={true}
-                  accessibilitySettings={true}
+      <div className="gallery-content-form-container">
+        <div className="gallery-content-row">
+          <div className="button-preview-column">
+            {
+              this.state.showPreview ?
+                <VideoPreview
+                  id={this.state.video.id}
+                  link={this.state.video.url}
                   showControlMessage={this.props.showControlMessage.bind(this)}
-                  resetFile={this.resetFile.bind(this)}
-                  getFileInformation={this.getFileInformation.bind(this)}
-                  removeFileInformation={this.removeFileInformation.bind(this)}
-                  showAccesibilityForm={this.props.showAccesibilityForm.bind(this)}
+                  resetInputButton={this.resetInputButton.bind(this)}
+                  generateSalt={this.generateVideoSalt.bind(this)}
                 />
-              </div>
-            :
-            undefined
-          }
-          {
-            this.state.wayToAdd === 'url' ?
-              <div className="input-container">
-                <TextField
-                  id="video-url-input"
-                  label="Video URL"
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  onChange={this.handleChange('name')}
-                />
-              </div>
-            :
-            undefined
-          }
-          {
-            this.state.showVideoAccesibilityForm ?
+              :
               <div>
-                <div className="form-subtitle">Accesibility items</div>
-                <div className="input-container">
-                  <FormControl component="fieldset">
-                    <FormLabel component="legend" className="radio-label">The uploaded video has video trasncription?</FormLabel>
-                  </FormControl>
-                  <RadioGroup aria-label="position" name="position" value={this.state.videoTrasnciption} onChange={this.getVideoTrasnciption} row>
-                    <FormControlLabel
-                      value="Yes"
-                      control={<Radio color="primary" />}
-                      label="Yes"
-                      labelPlacement="end"
-                    />
-                    <FormControlLabel
-                      value="No"
-                      control={<Radio color="primary" />}
-                      label="No"
-                      labelPlacement="end"
-                    />
-                  </RadioGroup>
-                </div>
                 {
-                  !this.state.videoTrasnciption ?
-                    <div>
-                      <div className="input-container">
-                        <FormControl component="fieldset">
-                          <FormLabel component="legend" className="radio-label">Select the way to upload the video trasncription</FormLabel>
-                        </FormControl>
-                        <RadioGroup aria-label="position" name="position" value={this.state.wayToAddTrascription} onChange={this.getWayToAddTrasnciption} row>
-                          <FormControlLabel
-                            value="Yes"
-                            control={<Radio color="primary" />}
-                            label="By text"
-                            labelPlacement="end"
-                          />
-                          <FormControlLabel
-                            value="No"
-                            control={<Radio color="primary" />}
-                            label="By upload"
-                            labelPlacement="end"
-                          />
-                        </RadioGroup>
-                      </div>
-                      {
-                        this.state.showVideoTrasnciptionUpload ?
-                          <div className="input-file-container">
-                            <FileUpload
-                              parentId={this.state.parentId + "-pdf-accssebility"}
-                              accept=".pdf"
-                              label="Upload video trasnciption (.pdf)"
-                              uploadedTitle="Video transcription"
-                              icon="pdf-g.svg"
-                              collection={CourseFilesCollection}
-                              removeFunction="RemoveCourseFile"
-                              type="file"
-                              preview={false}
-                              dowload={false}
-                              open={true}
-                              delete={true}
-                              showIcon={true}
-                              showControlMessage={this.props.showControlMessage.bind(this)}
-                              resetFile={this.resetFile.bind(this)}
-                              getFileInformation={this.getFileInformation.bind(this)}
-                              removeFileInformation={this.removeFileInformation.bind(this)}
-                            />
-                          </div>
-                        :
-                        undefined
-                      }
-                      {
-                        this.state.showVideoTrasnciptionInput ?
-                          <div className="input-container">
-                            <TextField
-                              id="teacher-biography-input"
-                              label="Video description"
-                              margin="normal"
-                              variant="outlined"
-                              fullWidth
-                              required
-                              multiline
-                              rows="6"
-                              error={this.state.biographyError}
-                            />
-                          </div>
-                        :
-                        undefined
-                      }
-                    </div>
+                  this.state.source === 'upload' ?
+                    <GalleryFileUpload
+                      parentId={"my-images" + this.state.videoSalt}
+                      removeFunction="RemoveCourseFile"
+                      collection={CourseFilesCollection}
+                      accept="video/*"
+                      label="Upload a video"
+                      type={"video"}
+                      setSourceRadioGroup={this.setSourceRadioGroup.bind(this)}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      getFileInformation={this.getFileInformation.bind(this)}
+                      removeFileInformation={this.removeFileInformation.bind(this)}
+                      resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
+                      generateSalt={this.generateVideoSalt.bind(this)}
+                      ignoreFile={this.ignoreFile.bind(this)}
+                    />
                   :
-                    undefined
+                  undefined
                 }
-                <div className="input-container">
-                  <FormControl component="fieldset">
-                    <FormLabel component="legend" className="radio-label">The uploaded video has audio description?</FormLabel>
-                  </FormControl>
-                  <RadioGroup aria-label="position" name="position" value={this.state.audioDescription} onChange={this.getAudioDescription} row>
-                    <FormControlLabel
-                      value="Yes"
-                      control={<Radio color="primary" />}
-                      label="Yes"
-                      labelPlacement="end"
-                    />
-                    <FormControlLabel
-                      value="No"
-                      control={<Radio color="primary" />}
-                      label="No"
-                      labelPlacement="end"
-                    />
-                  </RadioGroup>
-                </div>
                 {
-                  this.state.showAudioDesctiptionUpload ?
-                    <div className="input-file-container">
-                      <FileUpload
-                        parentId={this.state.parentId + "-audio-accssebility"}
-                        accept="audio/*"
-                        label="Upload audio description"
-                        uploadedTitle="Video audio description"
-                        icon="audio-g.svg"
-                        collection={CourseFilesCollection}
-                        removeFunction="RemoveCourseFile"
-                        type="audio"
-                        preview={false}
-                        dowload={false}
-                        open={false}
-                        delete={true}
-                        showIcon={true}
-                        showControlMessage={this.props.showControlMessage.bind(this)}
-                        resetFile={this.resetFile.bind(this)}
-                        getFileInformation={this.getFileInformation.bind(this)}
-                        removeFileInformation={this.removeFileInformation.bind(this)}
+                  this.state.source === 'url' ?
+                    <div className="url-input-container">
+                      <TextField
+                        id="url-input"
+                        label="Url"
+                        margin="normal"
+                        variant="outlined"
+                        required
+                        onChange={this.urlHandleChange()}
+                        className="url-input"
+                        helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
                       />
+                      <Button onClick={() => this.validateUrl()} className="url-check-button" color="primary">Test source</Button>
                     </div>
                   :
                   undefined
                 }
-                <div className="input-container">
-                  <FormControl component="fieldset">
-                    <FormLabel component="legend" className="radio-label">The uploaded video has sign language interprete embebed?</FormLabel>
-                  </FormControl>
-                  <RadioGroup aria-label="position" name="position" value={this.state.languageSign} onChange={this.getLanguageSign} row>
-                    <FormControlLabel
-                      value="Yes"
-                      control={<Radio color="primary" />}
-                      label="Yes"
-                      labelPlacement="end"
-                    />
-                    <FormControlLabel
-                      value="No"
-                      control={<Radio color="primary" />}
-                      label="No"
-                      labelPlacement="end"
-                    />
-                  </RadioGroup>
-                </div>
                 {
-                  this.state.showLanguagueSignUpload ?
-                    <div className="input-file-container">
-                      <FileUpload
-                        parentId={this.state.parentId + "-video-accssebility"}
-                        accept="video/*"
-                        label="Upload language sign video"
-                        uploadedTitle="Video content (Language sign)"
-                        icon="video-g.svg"
-                        collection={CourseFilesCollection}
-                        removeFunction="RemoveCourseFile"
-                        type="video-accssebility"
-                        preview={false}
-                        dowload={false}
-                        open={false}
-                        delete={true}
-                        showIcon={true}
-                        showControlMessage={this.props.showControlMessage.bind(this)}
-                        resetFile={this.resetFile.bind(this)}
-                        getFileInformation={this.getFileInformation.bind(this)}
-                        removeFileInformation={this.removeFileInformation.bind(this)}
-                      />
-                    </div>
+                  this.state.validUrl ?
+                    <FormControl className="content-form-control" component="fieldset">
+                      <FormGroup className="center-form-group" aria-label="position" name="description" value={this.state.addToGallery} onChange={this.addToGalleryHandleChange} row>
+                        <FormControlLabel
+                          value="description"
+                          control={<Checkbox color="primary" checked={this.state.addToGallery}/>}
+                          label="Add to video gallery"
+                          labelPlacement="end"
+                        />
+                      </FormGroup>
+                    </FormControl>
+                  :
+                  undefined
+                }
+                {
+                  !this.state.hideSource ?
+                    <FormControl id="video-source-form-control" className="content-form-control" component="fieldset">
+                      <FormLabel className="content-form-label-center" component="legend">Source</FormLabel>
+                      <RadioGroup className="content-radio-group-center" aria-label="position" name="source" value={this.state.source} onChange={this.handleChange} row>
+                        <FormControlLabel
+                          value="upload"
+                          control={<Radio color="primary" />}
+                          label="Upload"
+                          labelPlacement="end"
+                          className="radio-input"
+                        />
+                        <FormControlLabel
+                          value="url"
+                          control={<Radio color="primary" />}
+                          label="Url"
+                          labelPlacement="end"
+                          className="radio-input"
+                        />
+                      </RadioGroup>
+                    </FormControl>
                   :
                   undefined
                 }
               </div>
-            :
-            undefined
-          }
-          <div className="form-button-container">
-            <Button onClick={() => this.saveContent()} className="form-button" id="upload-button" variant="contained" color="secondary">
-              Save content
-            </Button>
+            }
           </div>
-        </MuiThemeProvider>
+          <div className="gallery-input-column">
+            <div className="gallery-center-container">
+              <FormControl className="content-form-control" component="fieldset">
+                <FormLabel className="content-form-label-center" component="legend">Video alignment</FormLabel>
+                <RadioGroup className="content-radio-group-center" aria-label="position" name="alignment" value={this.state.alignment} onChange={this.handleChange} row>
+                  <FormControlLabel
+                    value="flex-start"
+                    control={<Radio color="primary" />}
+                    label="Left"
+                    labelPlacement="end"
+                    className="radio-input"
+                  />
+                  <FormControlLabel
+                    value="center"
+                    control={<Radio color="primary" />}
+                    label="Center"
+                    labelPlacement="end"
+                    className="radio-input"
+                  />
+                  <FormControlLabel
+                    value="flex-end"
+                    control={<Radio color="primary" />}
+                    label="Right"
+                    labelPlacement="end"
+                    className="radio-input"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <FormControl className="content-form-control" component="fieldset">
+                <FormGroup className="center-form-group" aria-label="position" name="description" value={this.state.description} onChange={this.handleChange} row>
+                  <FormControlLabel
+                    value="description"
+                    control={<Checkbox color="primary" checked={this.state.description}/>}
+                    label="Add text description"
+                    labelPlacement="end"
+                  />
+                </FormGroup>
+              </FormControl>
+              {
+                this.state.description ?
+                  <TextField
+                    id="description-input"
+                    label="Description"
+                    margin="normal"
+                    variant="outlined"
+                    required
+                    multiline
+                    rows="1"
+                    className="gallery-content-input"
+                  />
+                :
+                undefined
+              }
+            </div>
+          </div>
+        </div>
+        <Divider light={true}/>
+        <p className="gallery-subtitle">Video gallery</p>
+        <div id="gallery-content-row-overflow" className="gallery-content-row">
+          <Library
+            user={"my-user"}
+            type={"video"}
+            pickFile={this.pickFile.bind(this)}
+            showControlMessage={this.props.showControlMessage.bind(this)}
+            resetInputButton={this.resetInputButton.bind(this)}
+          />
+        </div>
       </div>
-    )
+    );
   }
 }
