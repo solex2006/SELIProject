@@ -11,6 +11,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormLabel from '@material-ui/core/FormLabel';
 import Divider from '@material-ui/core/Divider';
+import Link from '@material-ui/core/Link';
 
 export default class LinkForm extends React.Component {
   constructor(props) {
@@ -18,6 +19,9 @@ export default class LinkForm extends React.Component {
     this.state = {
       linkType: 'normal',
       alignment: 'center',
+      links: [],
+      chars: [],
+      renderChars: [],
     }
   }
 
@@ -65,16 +69,26 @@ export default class LinkForm extends React.Component {
     let start = area.selectionStart;
     let end = area.selectionEnd;
     if (start === end) {
+      let links = this.state.links;
+      let url = document.getElementById('link-input').value;
+      let link = {
+        position: start,
+        url: 'www.youtube.com',
+      }
+      links.push(link);
       this.setState({
-        selection: false,
-        linkPosition: start,
+        links: links,
+      }, () => {
+        let chars = this.state.text.split('');
+        this.setState({
+          chars: chars,
+        }, () => {
+          this.buildText();
+        });
       });
     }
     else {
-      this.setState({
-        selection: true,
-        linkPosition: {start: start, end: end},
-      });
+      this.props.showControlMessage("Link can't be text selection, it must be a cursor position");
     }
   }
 
@@ -88,7 +102,30 @@ export default class LinkForm extends React.Component {
     document.getElementById('text-input').value = "";
     this.setState({
       text: "",
+      links: [],
+      chars: [],
+      renderChars: [],
     });
+  }
+
+  buildText(){
+    let chars = this.state.chars;
+    let links = this.state.links;
+    var sortJsonArray = require('sort-json-array');
+    sortJsonArray(links, 'position','asc');
+    let addedLinks = 0;
+    for (var i = 0; i < links.length; i++) {
+      chars = this.insertInto(chars, links[i].position + addedLinks);
+      addedLinks++;
+    }
+    this.setState({
+      renderChars: chars,
+    });
+  }
+
+  insertInto(array, position){
+    array.splice(position, 0, "<LINK>");
+    return array;
   }
 
   componentDidMount(){
@@ -156,7 +193,24 @@ export default class LinkForm extends React.Component {
                       <p className="preview-subtitle">Preview</p>
                       <div style={{textAlign: this.state.alignment}} className="link-preview-container">
                         {
-                          this.state.text
+                          this.state.renderChars.map(char => {
+                            if (char === "<LINK>") {
+                              return (
+                                <Link
+                                  component="button"
+                                  className="link-button"
+                                  onClick={() => {
+                                    alert("I'm a button.");
+                                  }}
+                                >
+                                  Link
+                                </Link>
+                              )
+                            }
+                            else {
+                              return (char)
+                            }
+                          })
                         }
                       </div>
                     </div>

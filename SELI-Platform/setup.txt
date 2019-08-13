@@ -25,3 +25,4 @@ meteor npm i react-smooth-dnd --save
 meteor npm i re-resizable --save
 meteor npm i react-spinners --save
 meteor npm install react-player --save
+meteor npm install @material-ui/lab

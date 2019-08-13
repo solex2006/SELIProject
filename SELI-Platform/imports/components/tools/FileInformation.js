@@ -12,6 +12,8 @@ import Avatar from '@material-ui/core/Avatar';
 import CollectionsIcon from '@material-ui/icons/Collections';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import ArchiveIcon from '@material-ui/icons/Archive';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -86,6 +88,22 @@ export default function FileInformation(props) {
                   props.type === 'audio' ?
                     <Avatar className="audio-avatar" aria-label="information">
                       <LibraryMusicIcon/>
+                    </Avatar>
+                  :
+                  undefined
+                }
+                {
+                  props.type === 'pdf' ?
+                    <Avatar className="pdf-avatar" aria-label="information">
+                      <PictureAsPdfIcon/>
+                    </Avatar>
+                  :
+                  undefined
+                }
+                {
+                  props.type === 'compressed' ?
+                    <Avatar className="compressed-avatar" aria-label="information">
+                      <ArchiveIcon/>
                     </Avatar>
                   :
                   undefined

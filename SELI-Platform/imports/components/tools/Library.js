@@ -6,12 +6,16 @@ import BounceLoader from 'react-spinners/BounceLoader';
 import LibraryImage from './LibraryImage';
 import LibraryVideo from './LibraryVideo';
 import LibraryAudio from './LibraryAudio';
+import LibraryPdf from './LibraryPdf';
+import LibraryCompressed from './LibraryCompressed';
 
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 
 import { IoMdImages } from "react-icons/io";
 import { MdVideocam } from "react-icons/md";
 import { FaItunesNote } from "react-icons/fa";
+import { FaRegFilePdf } from "react-icons/fa";
+import { GoPackage } from "react-icons/go";
 
 export default class Library extends React.Component {
   constructor(props) {
@@ -52,7 +56,7 @@ export default class Library extends React.Component {
 
   searchUserFiles(){
     Tracker.autorun(() => {
-      let files = CourseFilesCollection.find({isImage: this.props.type === 'image', isVideo: this.props.type === 'video', isAudio: this.props.type === 'audio', 'meta.userId': this.props.user}).fetch();
+      let files = CourseFilesCollection.find({isImage: this.props.type === 'image', isVideo: this.props.type === 'video', isAudio: this.props.type === 'audio', isPDF: this.props.type === 'pdf', 'meta.userId': this.props.user}).fetch();
       this.setState({
         files: files,
       }, () => {
@@ -123,6 +127,28 @@ export default class Library extends React.Component {
                         :
                         undefined
                       }
+                      {
+                        this.props.type === 'pdf' ?
+                          <LibraryPdf file={file}
+                            pickFile={this.props.pickFile.bind(this)}
+                            type={this.props.type}
+                            showControlMessage={this.props.showControlMessage.bind(this)}
+                            resetInputButton={this.props.resetInputButton.bind(this)}
+                          />
+                        :
+                        undefined
+                      }
+                      {
+                        this.props.type === 'compressed' ?
+                          <LibraryCompressed file={file}
+                            pickFile={this.props.pickFile.bind(this)}
+                            type={this.props.type}
+                            showControlMessage={this.props.showControlMessage.bind(this)}
+                            resetInputButton={this.props.resetInputButton.bind(this)}
+                          />
+                        :
+                        undefined
+                      }
                     </div>
                   )
                 })
@@ -152,6 +178,24 @@ export default class Library extends React.Component {
               this.props.type === 'video' ?
                 <div className="empty-result-message">
                   <MdVideocam size="1.5em" color="#9e9e9e"/>
+                  <p className="result-library-text">{"No " + this.props.type + " files founded"}</p>
+                </div>
+              :
+              undefined
+            }
+            {
+              this.props.type === 'pdf' ?
+                <div className="empty-result-message">
+                  <FaRegFilePdf size="1.5em" color="#9e9e9e"/>
+                  <p className="result-library-text">{"No " + this.props.type + " files founded"}</p>
+                </div>
+              :
+              undefined
+            }
+            {
+              this.props.type === 'compressed' ?
+                <div className="empty-result-message">
+                  <GoPackage size="1.5em" color="#9e9e9e"/>
                   <p className="result-library-text">{"No " + this.props.type + " files founded"}</p>
                 </div>
               :

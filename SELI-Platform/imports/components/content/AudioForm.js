@@ -88,7 +88,7 @@ export default class AudioForm extends React.Component {
   pickFile(file){
     let fileInformation = {
       url: file.link,
-      id: file.id,
+      id: file._id,
       type: "audio",
     }
     this.setState({

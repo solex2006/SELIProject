@@ -221,7 +221,8 @@
 }
 
 .gallery-content-input {
-  width: 100% !important;
+  width: 85% !important;
+  margin: 0 7.5% !important;
   animation: fadeIn 1s;
 }
 
@@ -450,4 +451,62 @@
   font-size: 0.8em;
   max-height: 10vh;
   margin: 2vh 0;
+  overflow-y: scroll;
+}
+
+.link-button {
+  padding: 0 0 !important;
+  font-size: 0.8em !important;
+  margin: 0 4px !important;
+}
+
+
+/* Pdf */
+
+.pdf-item-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.pdf-item {
+  width: 650px;
+  height: 20vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.file-dial-container {
+  width: auto !important;
+  height: 100% !important;
+  flex-direction: row-reverse !important;
+  align-items: center;
+  margin-right: 1.5vw;
+}
+
+.MuiSpeedDial-actions.MuiSpeedDial-directionRight {
+  padding: 0 1.5vw !important;
+}
+
+.item-instruction-column {
+  width: calc(100% - 650px);
+}
+
+.pdf-item-instruction {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  padding: 1.5vh 30px;
+  font-size: 1.1em;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #757575;
+  text-align: justify;
+}
+
+.instruction-title {
+  width: 90%;
+  margin: 0 5%;
+  text-transform: uppercase;
 }

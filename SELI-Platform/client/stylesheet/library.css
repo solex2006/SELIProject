@@ -46,6 +46,16 @@
   padding-top: 2vh;
 }
 
+.file-card {
+  width: 23vw !important;
+  height: 30vh !important;
+  position: relative;
+  margin-left: 0.165vw;
+  margin-right: 0.165vw;
+  overflow: hidden;
+  padding-top: 2vh;
+}
+
 .card-media-image {
   width: 23vw;
   height: calc(30vh - 3em) !important;
@@ -70,6 +80,42 @@
   cursor: pointer;
   background-image: url(audio-track.svg);
   transition: 0.5s;
+}
+
+.card-media-pdf {
+  width: 23vw;
+  height: calc(22.5vh - 3em) !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffebee;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-media-compressed {
+  width: 23vw;
+  height: calc(22.5vh - 3em) !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  background-color: #d1c4e9;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-media-text {
+  width: 20vw;
+  padding: 0 1.5vw;
+  height: 7.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8em;
+  text-align: center;
+  letter-spacing: 0.75px;
+  word-break: break-all;
+  background-color: #fafafa;
 }
 
 .card-media-audio:hover {
@@ -104,6 +150,7 @@
 
 .file-information-card {
   width: 21vw;
+  word-break: break-all;
 }
 
 .image-avatar {
@@ -116,6 +163,14 @@
 
 .audio-avatar {
   background-color: #3f51b5 !important;
+}
+
+.pdf-avatar {
+  background-color: #ff9800 !important;
+}
+
+.compressed-avatar {
+  background-color: #4caf50 !important;
 }
 
 .file-information-card-header {

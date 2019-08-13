@@ -88,11 +88,12 @@ export default class ImageForm extends React.Component {
   pickFile(file){
     let fileInformation = {
       url: file.link,
-      id: file.id,
+      id: file._id,
       type: "image",
     }
     this.setState({
       image: fileInformation,
+      showPreview: false,
     }, () => {
       this.setState({
         showPreview: true,

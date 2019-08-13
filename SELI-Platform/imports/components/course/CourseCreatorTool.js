@@ -28,6 +28,8 @@ import ImageForm from '../content/ImageForm';
 import VideoForm from '../content/VideoForm';
 import AudioForm from '../content/AudioForm';
 import LinkForm from '../content/LinkForm';
+import PdfForm from '../content/PdfForm';
+import CompressedForm from '../content/CompressedForm';
 
 function SlideTransition(props) {
   return <Slide direction="right" {...props} />;
@@ -152,11 +154,15 @@ export default class CourseCreatorTool extends React.Component {
   generateImageSalt(){}
   generateVideoSalt(){}
   generateAudioSalt(){}
+  generatePdfSalt(){}
+  generateCompressedSalt(){}
   getTextAttributes(){}
   getImageAttributes(){}
   getVideoAttributes(){}
   getAudioAttributes(){}
   getLinkAttributes(){}
+  getPdfAttributes(){}
+  getCompressedAttributes(){}
 
   createContent(){
     let addedItems = this.state.addedItems;
@@ -196,6 +202,22 @@ export default class CourseCreatorTool extends React.Component {
       });
       this.resetInputButton();
     }
+    else if (this.state.contentTypeAdded === 'pdf') {
+      let pdfContent = this.getPdfAttributes();
+      addedItems[this.state.addedIndex].attributes = pdfContent;
+      this.setState({
+        addedItems: addedItems,
+      });
+      this.resetInputButton();
+    }
+    else if (this.state.contentTypeAdded === 'compressed') {
+      let compressedContent = this.getCompressedAttributes();
+      addedItems[this.state.addedIndex].attributes = compressedContent;
+      this.setState({
+        addedItems: addedItems,
+      });
+      this.resetInputButton();
+    }
     this.contentHandleClose();
     this.resetMenuItems();
   }
@@ -229,6 +251,14 @@ export default class CourseCreatorTool extends React.Component {
     }
     if (this.state.contentTypeAdded === 'audio') {
       this.generateAudioSalt();
+      this.resetInputButton();
+    }
+    if (this.state.contentTypeAdded === 'pdf') {
+      this.generatePdfSalt();
+      this.resetInputButton();
+    }
+    if (this.state.contentTypeAdded === 'compressed') {
+      this.generateCompressedSalt();
       this.resetInputButton();
     }
     this.contentHandleClose();
@@ -367,6 +397,28 @@ export default class CourseCreatorTool extends React.Component {
               this.state.contentTypeAdded === 'link' ?
                 <LinkForm
                   getLinkAttributesFunction={linkAttributes => this.getLinkAttributes = linkAttributes}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.contentTypeAdded === 'pdf' ?
+                <PdfForm
+                  generatePdfSaltFunction={pdfSalt => this.generatePdfSalt = pdfSalt}
+                  getPdfAttributesFunction={pdfAttributes => this.getPdfAttributes = pdfAttributes}
+                  resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.contentTypeAdded === 'compressed' ?
+                <CompressedForm
+                  generateCompressedSaltFunction={compressedSalt => this.generateCompressedSalt = compressedSalt}
+                  getCompressedAttributesFunction={compressedAttributes => this.getCompressedAttributes = compressedAttributes}
+                  resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :

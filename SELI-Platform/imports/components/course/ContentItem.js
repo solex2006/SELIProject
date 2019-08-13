@@ -6,6 +6,8 @@ import TextItem from './items/TextItem';
 import ImageItem from './items/ImageItem';
 import VideoItem from './items/VideoItem';
 import AudioItem from './items/AudioItem';
+import PdfItem from './items/PdfItem';
+import CompressedItem from './items/CompressedItem';
 
 export default class ContentItem extends React.Component {
   constructor(props) {
@@ -46,6 +48,18 @@ export default class ContentItem extends React.Component {
               {
                 this.props.item.type === 'audio' ?
                   <AudioItem item = {this.props.item}/>
+                :
+                undefined
+              }
+              {
+                this.props.item.type === 'pdf' ?
+                  <PdfItem item = {this.props.item}/>
+                :
+                undefined
+              }
+              {
+                this.props.item.type === 'compressed' ?
+                  <CompressedItem item = {this.props.item}/>
                 :
                 undefined
               }
