@@ -510,3 +510,64 @@
   margin: 0 5%;
   text-transform: uppercase;
 }
+
+/* Link */
+
+.link-item-container-html {
+  width: 90%;
+  padding: 2.5vh 5%;
+}
+
+.link-item-container {
+  width: 90%;
+  padding: 2.5vh 5%;
+}
+
+
+/* H5P */
+.h5P-item-container {
+  width: 100%;
+  height: auto;
+}
+
+.h5P-item-container-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
+.h5P-item-container-logo {
+  width: 20vw;
+  height: 20vh;
+  background-position: center;
+  background-image: url(H5P_Logo-g3.svg);
+  background-repeat: no-repeat;
+  background-size: 15vw;
+}
+
+.h5P-item-container-activity {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5vh;
+}
+
+.h5p-iframe {
+
+}
+
+.h5p-instruction-title {
+  width: 90%;
+  height: auto;
+  padding: 1.5vh 5%;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.h5P-item-container-instruction {
+  width: 90%;
+  padding: 1.5vh 5%;
+}

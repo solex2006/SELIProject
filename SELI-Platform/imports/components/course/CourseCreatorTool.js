@@ -30,6 +30,7 @@ import AudioForm from '../content/AudioForm';
 import LinkForm from '../content/LinkForm';
 import PdfForm from '../content/PdfForm';
 import CompressedForm from '../content/CompressedForm';
+import H5PForm from '../content/H5PForm';
 
 function SlideTransition(props) {
   return <Slide direction="right" {...props} />;
@@ -163,6 +164,7 @@ export default class CourseCreatorTool extends React.Component {
   getLinkAttributes(){}
   getPdfAttributes(){}
   getCompressedAttributes(){}
+  getH5pAttributes(){}
 
   createContent(){
     let addedItems = this.state.addedItems;
@@ -217,6 +219,20 @@ export default class CourseCreatorTool extends React.Component {
         addedItems: addedItems,
       });
       this.resetInputButton();
+    }
+    else if (this.state.contentTypeAdded === 'link') {
+      let linkContent = this.getLinkAttributes();
+      addedItems[this.state.addedIndex].attributes = linkContent;
+      this.setState({
+        addedItems: addedItems,
+      });
+    }
+    else if (this.state.contentTypeAdded === 'h5p') {
+      let h5pContent = this.getH5pAttributes();
+      addedItems[this.state.addedIndex].attributes = h5pContent;
+      this.setState({
+        addedItems: addedItems,
+      });
     }
     this.contentHandleClose();
     this.resetMenuItems();
@@ -419,6 +435,15 @@ export default class CourseCreatorTool extends React.Component {
                   generateCompressedSaltFunction={compressedSalt => this.generateCompressedSalt = compressedSalt}
                   getCompressedAttributesFunction={compressedAttributes => this.getCompressedAttributes = compressedAttributes}
                   resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.contentTypeAdded === 'h5p' ?
+                <H5PForm
+                  getH5pAttributesFunction={h5pAttributes => this.getH5pAttributes = h5pAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :

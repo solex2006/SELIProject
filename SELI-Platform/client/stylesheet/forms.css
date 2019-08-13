@@ -358,16 +358,6 @@
   margin: 2.5vh 0 !important;
 }
 
-.editor-container {
-  width: 50vw;
-  height: auto;
-  position: relative;
-  left: 25vw;
-  margin-top: 2vh;
-  transition: 0.5s;
-  animation: fadeInRight 0.75s;
-}
-
 .ql-editor {
   height: 30vh !important;
 }

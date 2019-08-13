@@ -12,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormLabel from '@material-ui/core/FormLabel';
 import Divider from '@material-ui/core/Divider';
 import Link from '@material-ui/core/Link';
+import Editor from '../inputs/editor/Editor';
 
 export default class LinkForm extends React.Component {
   constructor(props) {
@@ -19,9 +20,6 @@ export default class LinkForm extends React.Component {
     this.state = {
       linkType: 'normal',
       alignment: 'center',
-      links: [],
-      chars: [],
-      renderChars: [],
     }
   }
 
@@ -44,52 +42,37 @@ export default class LinkForm extends React.Component {
   }
 
   clearInputs(){
-    document.getElementById('text-input').value = "";
+    document.getElementById('description-input').value = "";
+    document.getElementById('link-input').value = "";
     this.setState({
       linkType: 'normal',
-      alignment: 'center'
+      alignment: 'center',
     });
   }
 
   getLinkAttributes(){
     let type = this.state.linkType;
-    let content = document.getElementById('text-input').value;
-    let alignment = this.state.alignment;
-    let linkContent = {
-      type: type,
-      content: content,
-      alignment: alignment,
-    };
-    this.clearInputs();
-    return linkContent;
-  }
-
-  insertLink(){
-    let area = document.getElementById('text-input');
-    let start = area.selectionStart;
-    let end = area.selectionEnd;
-    if (start === end) {
-      let links = this.state.links;
-      let url = document.getElementById('link-input').value;
-      let link = {
-        position: start,
-        url: 'www.youtube.com',
-      }
-      links.push(link);
-      this.setState({
-        links: links,
-      }, () => {
-        let chars = this.state.text.split('');
-        this.setState({
-          chars: chars,
-        }, () => {
-          this.buildText();
-        });
-      });
+    let linkContent = {};
+    if (type === 'normal') {
+      let content = document.getElementById('description-input').value;
+      let link = document.getElementById('link-input').value;
+      let alignment = this.state.alignment;
+      linkContent = {
+        type: type,
+        content: content,
+        link: link,
+        alignment: alignment,
+      };
+      this.clearInputs();
     }
     else {
-      this.props.showControlMessage("Link can't be text selection, it must be a cursor position");
+      let content = this.state.innerHTML;
+      linkContent = {
+        type: type,
+        content: content,
+      };
     }
+    return linkContent;
   }
 
   textHandleChange = name => event => {
@@ -98,34 +81,10 @@ export default class LinkForm extends React.Component {
     });
   }
 
-  clean(){
-    document.getElementById('text-input').value = "";
+  getInnerHtml(innerHTML){
     this.setState({
-      text: "",
-      links: [],
-      chars: [],
-      renderChars: [],
+      innerHTML: innerHTML,
     });
-  }
-
-  buildText(){
-    let chars = this.state.chars;
-    let links = this.state.links;
-    var sortJsonArray = require('sort-json-array');
-    sortJsonArray(links, 'position','asc');
-    let addedLinks = 0;
-    for (var i = 0; i < links.length; i++) {
-      chars = this.insertInto(chars, links[i].position + addedLinks);
-      addedLinks++;
-    }
-    this.setState({
-      renderChars: chars,
-    });
-  }
-
-  insertInto(array, position){
-    array.splice(position, 0, "<LINK>");
-    return array;
   }
 
   componentDidMount(){
@@ -159,103 +118,79 @@ export default class LinkForm extends React.Component {
         {
           this.state.linkType !== '' ?
             <div>
-              <div className="content-input-container">
-                <TextField
-                  id="link-input"
-                  label="Link"
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  className="content-input"
-                />
-              </div>
               {
-                this.state.linkType === 'text' ?
-                  <div className="insert-link-input-container">
+                this.state.linkType === 'normal' ?
+                  <div className="content-input-container">
                     <TextField
-                      id="text-input"
-                      label="Text"
+                      id="link-input"
+                      label="Link"
                       margin="normal"
                       variant="outlined"
+                      fullWidth
                       required
-                      multiline
-                      rows="2"
-                      className="insert-link-content-input"
-                      defaultValue={this.state.text}
-                      onChange={this.textHandleChange()}
+                      className="content-input"
                     />
-                    <div className="insert-link-action-container">
-                      <Button onClick={() => this.clean()} className="insert-link-button" color="primary">Clean</Button>
-                      <Button onClick={() => this.insertLink()} className="insert-link-button" color="primary">Insert link</Button>
-                    </div>
-                    <div className="insert-link-preview">
-                      <p className="preview-subtitle">Preview</p>
-                      <div style={{textAlign: this.state.alignment}} className="link-preview-container">
-                        {
-                          this.state.renderChars.map(char => {
-                            if (char === "<LINK>") {
-                              return (
-                                <Link
-                                  component="button"
-                                  className="link-button"
-                                  onClick={() => {
-                                    alert("I'm a button.");
-                                  }}
-                                >
-                                  Link
-                                </Link>
-                              )
-                            }
-                            else {
-                              return (char)
-                            }
-                          })
-                        }
-                      </div>
-                    </div>
                   </div>
                 :
                 undefined
               }
-              <FormControl className="content-form-control" component="fieldset">
-                <FormLabel className="content-form-label-center" component="legend">Alignment</FormLabel>
-                <RadioGroup className="content-radio-group-center" aria-label="position" name="alignment" value={this.state.alignment} onChange={this.handleChange} row>
-                  <FormControlLabel
-                    value="left"
-                    control={<Radio color="primary" />}
-                    label="Left"
-                    labelPlacement="end"
-                    className="radio-input"
-                  />
-                  <FormControlLabel
-                    value="center"
-                    control={<Radio color="primary" />}
-                    label="Center"
-                    labelPlacement="end"
-                    className="radio-input"
-                  />
-                  <FormControlLabel
-                    value="right"
-                    control={<Radio color="primary" />}
-                    label="Right"
-                    labelPlacement="end"
-                    className="radio-input"
-                  />
-                  {
-                    this.state.linkType === "text" ?
+
+              {
+                this.state.linkType === 'text' ?
+                  <div className="editor-block">
+                    <Editor
+                      areaHeight="20vh"
+                      buttonLabels={false}
+                      addLinks={true}
+                      getInnerHtml={this.getInnerHtml.bind(this)}
+                    />
+                  </div>
+                :
+                undefined
+              }
+              {
+                this.state.linkType === 'normal' ?
+                  <FormControl className="content-form-control" component="fieldset">
+                    <FormLabel className="content-form-label-center" component="legend">Alignment</FormLabel>
+                    <RadioGroup className="content-radio-group-center" aria-label="position" name="alignment" value={this.state.alignment} onChange={this.handleChange} row>
                       <FormControlLabel
-                        value="justify"
+                        value="left"
                         control={<Radio color="primary" />}
-                        label="Justified"
+                        label="Left"
                         labelPlacement="end"
                         className="radio-input"
                       />
-                    :
-                    undefined
-                  }
-                </RadioGroup>
-              </FormControl>
+                      <FormControlLabel
+                        value="center"
+                        control={<Radio color="primary" />}
+                        label="Center"
+                        labelPlacement="end"
+                        className="radio-input"
+                      />
+                      <FormControlLabel
+                        value="right"
+                        control={<Radio color="primary" />}
+                        label="Right"
+                        labelPlacement="end"
+                        className="radio-input"
+                      />
+                      {
+                        this.state.linkType === "text" ?
+                          <FormControlLabel
+                            value="justify"
+                            control={<Radio color="primary" />}
+                            label="Justified"
+                            labelPlacement="end"
+                            className="radio-input"
+                          />
+                        :
+                        undefined
+                      }
+                    </RadioGroup>
+                  </FormControl>
+                :
+                undefined
+              }
               {
                 this.state.linkType === 'normal' ?
                   <div>
@@ -279,7 +214,7 @@ export default class LinkForm extends React.Component {
                           required
                           multiline
                           rows="3"
-                          className="gallery-content-input"
+                          fullWidth
                         />
                       :
                       undefined

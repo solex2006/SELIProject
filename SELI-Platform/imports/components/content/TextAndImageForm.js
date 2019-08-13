@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Editor from '../inputs/Editor';
 
 export default class TextAndImageForm extends React.Component {
   constructor(props) {
@@ -55,13 +54,6 @@ export default class TextAndImageForm extends React.Component {
           />
         </div>
         <div className="form-subtitle">Content</div>
-        <div className="editor-container">
-          <Editor
-            courseKey={this.props.courseKey}
-            uploadedContent={this.uploadedContent.bind(this)}
-            showControlMessage={this.props.showControlMessage.bind(this)}
-          />
-        </div>
       </div>
     )
   }

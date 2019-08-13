@@ -8,6 +8,8 @@ import VideoItem from './items/VideoItem';
 import AudioItem from './items/AudioItem';
 import PdfItem from './items/PdfItem';
 import CompressedItem from './items/CompressedItem';
+import LinkItem from './items/LinkItem';
+import H5PItem from './items/H5PItem';
 
 export default class ContentItem extends React.Component {
   constructor(props) {
@@ -60,6 +62,18 @@ export default class ContentItem extends React.Component {
               {
                 this.props.item.type === 'compressed' ?
                   <CompressedItem item = {this.props.item}/>
+                :
+                undefined
+              }
+              {
+                this.props.item.type === 'link' ?
+                  <LinkItem item = {this.props.item}/>
+                :
+                undefined
+              }
+              {
+                this.props.item.type === 'h5p' ?
+                  <H5PItem item = {this.props.item}/>
                 :
                 undefined
               }
