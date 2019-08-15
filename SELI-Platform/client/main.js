@@ -13,8 +13,6 @@ import { Tracker } from 'meteor/tracker';
 import Main from '../imports/ui/Main';
 import TutorForm from '../imports/components/tutor/TutorForm';
 
-import Main2 from '../imports/ui/Main2';
-
 const history = createBrowserHistory();
 
 window.browserHistory = history;
@@ -31,7 +29,6 @@ Meteor.startup(() => {
       <Switch>
         <Route exact path="/" component={Main} history={history}/>
         <Route exact path="/tutorRegistration" component={TutorForm}/>
-        <Route exact path="/2" component={Main2}/>
       </Switch>
     </Router>, document.getElementById('render-target')
   );

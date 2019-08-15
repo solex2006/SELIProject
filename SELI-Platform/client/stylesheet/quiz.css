@@ -1,20 +1,41 @@
-.added-question-container {
-  display: flex;
-  justify-content: center;
+.quiz-form {
+  width: 65vw;
+  animation: fadeIn 0.5s
 }
 
-.quizes-container {
-  width: 50vw;
-}
-
-.add-quiz-button-container {
-  margin-top: 2.5vh;
+.question-input-container{
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
-.question-creator-button {
-  margin: 0 20px !important;
-  margin-bottom: 10px !important;
+.question-form{
+  animation: fadeInDown 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.5s;
+}
+
+.question-input {
+  width: 30vw !important;
+  margin: 1.5vh 0 !important;
+  margin-right: 1vw !important;
+}
+
+.close-icon {
+  margin-left: 0.25vw !important;
+}
+
+.answer-input {
+  width: 30vw !important;
+  margin: 1.5vh 0 !important;
+}
+
+.question-form-button-container {
+  width: 100%;
+  height: auto;
+  padding: 2.5vh 0;
+  display: flex;
+  justify-content: flex-end;
+  animation: fadeIn 1s;
 }

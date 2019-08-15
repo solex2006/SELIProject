@@ -1,5 +1,6 @@
 import React from 'react';
 import { Resizable } from "re-resizable";
+import MenuItem from './MenuItem';
 
 export default class ImageItem extends React.Component {
   constructor(props) {
@@ -49,60 +50,53 @@ export default class ImageItem extends React.Component {
 
   render() {
     return(
-      <div className="">
+      <div className="content-box">
         {
           this.props.item.attributes !== undefined ?
-            <div className="content-item">
-              {
-                this.props.item.type === 'image' ?
-                  <div>
-                    <div id={this.props.item.attributes.image.id+"container"+this.props.item.id} className="image-item-container" style={{justifyContent: this.props.item.attributes.alignment}}>
-                      {
-                        this.props.item.attributes.description !== "" && this.props.item.attributes.alignment === "flex-end" ?
-                          <div id={this.props.item.attributes.image.id+"description"+this.props.item.id} className="image-item-description">
-                            {this.props.item.attributes.description}
-                          </div>
-                        :
-                        undefined
-                      }
-                      <Resizable
-                        size={{
-                          width: this.props.item.attributes.size.width,
-                          height: this.props.item.attributes.size.height,
-                        }}
-                        className="resizable-item"
-                        onResize={(e, direction, ref, d) => {
-                          this.changeImageSize();
-                        }}
-                        onResizeStop={(e, direction, ref, d) => {
-                          this.setImageSize(e, direction, ref, d);
-                        }}
-                      >
-                        <img
-                          id={ this.props.item.attributes.image.id+this.props.item.id }
-                          className="image-item"
-                          style={{
-                            backgroundImage: "url(" + this.props.item.attributes.image.url + ")",
-                            backgroundSize: this.props.item.attributes.size.width + "px",
-                          }}></img>
-                      </Resizable>
-                      {
-                        this.props.item.attributes.description !== "" && this.props.item.attributes.alignment === "flex-start" ?
-                          <div id={this.props.item.attributes.image.id+"description"+this.props.item.id} className="image-item-description">
-                            {this.props.item.attributes.description}
-                          </div>
-                        :
-                        undefined
-                      }
+            <div className="image-content-item">
+              <div id={this.props.item.attributes.image.id+"container"+this.props.item.id} className="image-item-container" style={{justifyContent: this.props.item.attributes.alignment}}>
+                {
+                  this.props.item.attributes.description !== "" && this.props.item.attributes.alignment === "flex-end" ?
+                    <div id={this.props.item.attributes.image.id+"description"+this.props.item.id} className="image-item-description">
+                      {this.props.item.attributes.description}
                     </div>
-                    {
-                      this.props.item.attributes.description !== "" && this.props.item.attributes.alignment === "center" ?
-                        <div id={this.props.item.attributes.image.id+"description"+this.props.item.id} className="image-item-description-full">
-                          {this.props.item.attributes.description}
-                        </div>
-                      :
-                      undefined
-                    }
+                  :
+                  undefined
+                }
+                <Resizable
+                  size={{
+                    width: this.props.item.attributes.size.width,
+                    height: this.props.item.attributes.size.height,
+                  }}
+                  className="resizable-item"
+                  onResize={(e, direction, ref, d) => {
+                    this.changeImageSize();
+                  }}
+                  onResizeStop={(e, direction, ref, d) => {
+                    this.setImageSize(e, direction, ref, d);
+                  }}
+                >
+                  <img
+                    id={ this.props.item.attributes.image.id+this.props.item.id }
+                    className="image-item"
+                    style={{
+                      backgroundImage: "url(" + this.props.item.attributes.image.url + ")",
+                      backgroundSize: this.props.item.attributes.size.width + "px",
+                    }}></img>
+                </Resizable>
+                {
+                  this.props.item.attributes.description !== "" && this.props.item.attributes.alignment === "flex-start" ?
+                    <div id={this.props.item.attributes.image.id+"description"+this.props.item.id} className="image-item-description">
+                      {this.props.item.attributes.description}
+                    </div>
+                  :
+                  undefined
+                }
+              </div>
+              {
+                this.props.item.attributes.description !== "" && this.props.item.attributes.alignment === "center" ?
+                  <div id={this.props.item.attributes.image.id+"description"+this.props.item.id} className="image-item-description-full">
+                    {this.props.item.attributes.description}
                   </div>
                 :
                 undefined
@@ -111,6 +105,12 @@ export default class ImageItem extends React.Component {
           :
           undefined
         }
+        <div className="menu-content-item">
+          <MenuItem
+            item={this.props.item}
+            removeItem={this.props.removeItem.bind(this)}
+          />
+        </div>
       </div>
       );
     }

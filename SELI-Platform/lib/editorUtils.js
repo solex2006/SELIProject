@@ -25,7 +25,7 @@ export const changeAligment = (command) => {
 
 export const link = (url, word) => {
   var editor = editorIframe.document;
-  editor.execCommand("InsertHTML", false, "<a href=" + url + ">" + word + "</a>");
+  editor.execCommand("InsertHTML", false, '<a style="font-family: Lato" href=" + url + ">' + word + '</a>');
   editor.body.focus();
 }
 

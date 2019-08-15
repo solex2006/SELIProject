@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Help from '../tools/Help';
+import Link from '@material-ui/core/Link';
 
 export default class H5PForm extends React.Component {
   constructor(props) {
@@ -50,7 +52,7 @@ export default class H5PForm extends React.Component {
 
   render() {
     return(
-      <div>
+      <div className="h5p-content-form">
         <TextField
           id="url-input"
           label="H5P URL"
@@ -59,6 +61,25 @@ export default class H5PForm extends React.Component {
           fullWidth
           required
         />
+        <div className="center-button-container">
+          <Button color="primary">Check Url</Button>
+          <Help
+            text="To create H5P content follow the next steps:"
+          />
+        </div>
+        <div className="advice-link-container">
+          <p className="advice-link-text">You can find some examples and demos</p>
+          <Link
+            className="advice-link"
+            component="button"
+            variant="body2"
+            onClick={() => {
+              window.open('https://h5p.org/content-types-and-applications', '_blank');
+            }}
+          >
+            Here
+          </Link>
+        </div>
         <TextField
           id="instruction-input"
           label="Instruction"

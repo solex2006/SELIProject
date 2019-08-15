@@ -26,3 +26,4 @@ meteor npm i re-resizable --save
 meteor npm i react-spinners --save
 meteor npm install react-player --save
 meteor npm install @material-ui/lab
+meteor npm install --save react-swipeable-views react-swipeable-views-utils

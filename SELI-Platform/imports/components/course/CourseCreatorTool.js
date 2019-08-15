@@ -31,6 +31,7 @@ import LinkForm from '../content/LinkForm';
 import PdfForm from '../content/PdfForm';
 import CompressedForm from '../content/CompressedForm';
 import H5PForm from '../content/H5PForm';
+import QuizForm from '../content/QuizForm';
 
 function SlideTransition(props) {
   return <Slide direction="right" {...props} />;
@@ -165,6 +166,7 @@ export default class CourseCreatorTool extends React.Component {
   getPdfAttributes(){}
   getCompressedAttributes(){}
   getH5pAttributes(){}
+  getQuizAttributes(){}
 
   createContent(){
     let addedItems = this.state.addedItems;
@@ -234,6 +236,13 @@ export default class CourseCreatorTool extends React.Component {
         addedItems: addedItems,
       });
     }
+    else if (this.state.contentTypeAdded === 'quiz') {
+      let quizContent = this.getQuizAttributes();
+      addedItems[this.state.addedIndex].attributes = quizContent;
+      this.setState({
+        addedItems: addedItems,
+      });
+    }
     this.contentHandleClose();
     this.resetMenuItems();
   }
@@ -284,6 +293,15 @@ export default class CourseCreatorTool extends React.Component {
 
   }
 
+  removeItem(item){
+    let addedItems = this.state.addedItems;
+    let removeIndex = addedItems.indexOf(item);
+    addedItems.splice(removeIndex, 1);
+    this.setState({
+      addedItems: addedItems,
+    });
+  }
+
   componentDidMount(){
 
   }
@@ -299,7 +317,10 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.addedItems.map((p, i) => {
                     return (
                       <Draggable key={i}>
-                        <ContentItem item={p}/>
+                        <ContentItem
+                          item={p}
+                          removeItem={this.removeItem.bind(this)}
+                        />
                       </Draggable>
                     );
                   })
@@ -444,6 +465,15 @@ export default class CourseCreatorTool extends React.Component {
               this.state.contentTypeAdded === 'h5p' ?
                 <H5PForm
                   getH5pAttributesFunction={h5pAttributes => this.getH5pAttributes = h5pAttributes}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.contentTypeAdded === 'quiz' ?
+                <QuizForm
+                  getQuizAttributesFunction={quizAttributes => this.getQuizAttributes = quizAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :

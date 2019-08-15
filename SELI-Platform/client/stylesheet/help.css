@@ -1,0 +1,30 @@
+.help-container {
+  width: auto;
+  height: auto;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
+.help-text {
+  width: 100%;
+  text-align: center;
+  letter-spacing: 1px;
+  padding: 1.5vh 0 !important;
+  color: var(--primary);
+}
+
+.help-active-step-label {
+  width: 100% !important;
+  text-align: center !important;
+  letter-spacing: 0.5px !important;
+  font-size: 0.8em !important;
+  padding: 2vh 0 !important;
+}
+
+.helper-image {
+  width: 350px;
+  height: 350px;
+  background-position: center;
+  background-size: 350px;
+  background-repeat: no-repeat;
+}

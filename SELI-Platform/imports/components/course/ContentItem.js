@@ -31,49 +31,73 @@ export default class ContentItem extends React.Component {
             <div className="content-item">
               {
                 this.props.item.type === 'text' ?
-                  <TextItem item = {this.props.item}/>
+                  <TextItem
+                    item={this.props.item}
+                    removeItem={this.props.removeItem.bind(this)}
+                  />
                 :
                 undefined
               }
               {
                 this.props.item.type === 'image' ?
-                  <ImageItem item = {this.props.item}/>
+                  <ImageItem
+                    item={this.props.item}
+                    removeItem={this.props.removeItem.bind(this)}
+                  />
                 :
                 undefined
               }
               {
                 this.props.item.type === 'video' ?
-                  <VideoItem item = {this.props.item}/>
+                  <VideoItem
+                    item={this.props.item}
+                    removeItem={this.props.removeItem.bind(this)}
+                  />
                 :
                 undefined
               }
               {
                 this.props.item.type === 'audio' ?
-                  <AudioItem item = {this.props.item}/>
+                  <AudioItem
+                    item={this.props.item}
+                    removeItem={this.props.removeItem.bind(this)}
+                  />
                 :
                 undefined
               }
               {
                 this.props.item.type === 'pdf' ?
-                  <PdfItem item = {this.props.item}/>
+                  <PdfItem
+                    item={this.props.item}
+                    removeItem={this.props.removeItem.bind(this)}
+                  />
                 :
                 undefined
               }
               {
                 this.props.item.type === 'compressed' ?
-                  <CompressedItem item = {this.props.item}/>
+                  <CompressedItem
+                    item={this.props.item}
+                    removeItem={this.props.removeItem.bind(this)}
+                  />
                 :
                 undefined
               }
               {
                 this.props.item.type === 'link' ?
-                  <LinkItem item = {this.props.item}/>
+                  <LinkItem
+                    item={this.props.item}
+                    removeItem={this.props.removeItem.bind(this)}
+                  />
                 :
                 undefined
               }
               {
                 this.props.item.type === 'h5p' ?
-                  <H5PItem item = {this.props.item}/>
+                  <H5PItem
+                    item={this.props.item}
+                    removeItem={this.props.removeItem.bind(this)}
+                  />
                 :
                 undefined
               }

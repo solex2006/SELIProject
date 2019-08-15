@@ -21,7 +21,8 @@ export default class AudioForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alignment: 'flex-start'
+      alignment: 'flex-start',
+      description: false,
     }
   }
 
@@ -44,7 +45,8 @@ export default class AudioForm extends React.Component {
     }
     this.setState({
       description: false,
-      alignment: 'flex-start'
+      alignment: 'flex-start',
+      audio: undefined,
     });
   }
 
@@ -75,7 +77,7 @@ export default class AudioForm extends React.Component {
 
   removeFileInformation(){
     this.setState({
-      fileInformation: undefined,
+      audio: undefined,
     });
   }
 

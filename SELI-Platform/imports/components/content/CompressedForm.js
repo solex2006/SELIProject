@@ -27,6 +27,9 @@ export default class CompressedForm extends React.Component {
 
   clearInputs(){
     document.getElementById('instruction-input').value = "";
+    this.setState({
+      compressed: undefined,
+    });
   }
 
   getCompressedAttributes(){
@@ -51,7 +54,7 @@ export default class CompressedForm extends React.Component {
 
   removeFileInformation(){
     this.setState({
-      fileInformation: undefined,
+      compressed: undefined,
     });
   }
 

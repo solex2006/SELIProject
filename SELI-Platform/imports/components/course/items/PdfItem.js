@@ -6,6 +6,7 @@ import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
 import StarRateIcon from '@material-ui/icons/StarRate';
 import PrintIcon from '@material-ui/icons/Print';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import MenuItem from './MenuItem';
 
 export default class PdfItem extends React.Component {
   constructor(props) {
@@ -23,39 +24,36 @@ export default class PdfItem extends React.Component {
 
   render() {
     return(
-      <div className="">
+      <div className="content-box">
         {
           this.props.item.attributes !== undefined ?
-            <div className="content-item">
-              {
-                this.props.item.type === 'pdf' ?
-                  <div>
-                    <div id={this.props.item.attributes.pdf.id+"container"+this.props.item.id} className="pdf-item-container" style={{justifyContent: this.props.item.attributes.alignment}}>
-
-                      <div id={ this.props.item.attributes.pdf.id+this.props.item.id } className="pdf-item">
-                        <FileDial
-                          type={this.props.item.type}
-                          color={'primary'}
-                          actions={this.state.actions}
-                          icon={<PictureAsPdfIcon/>}
-                        />
-                      </div>
-                      <div className="item-instruction-column">
-                        <p className="instruction-title">Instructions:</p>
-                        <div id={this.props.item.attributes.pdf.id+"instruction"+this.props.item.id} className="pdf-item-instruction">
-                          {this.props.item.attributes.instruction}
-                        </div>
-                      </div>
-                    </div>
-
+            <div className="file-content-item">
+              <div id={this.props.item.attributes.pdf.id+"container"+this.props.item.id} className="pdf-item-container" style={{justifyContent: this.props.item.attributes.alignment}}>
+                <div id={ this.props.item.attributes.pdf.id+this.props.item.id } className="pdf-item">
+                  <FileDial
+                    type={this.props.item.type}
+                    color={'primary'}
+                    actions={this.state.actions}
+                    icon={<PictureAsPdfIcon/>}
+                  />
+                </div>
+                <div className="item-instruction-column">
+                  <p className="instruction-title">Instructions:</p>
+                  <div id={this.props.item.attributes.pdf.id+"instruction"+this.props.item.id} className="pdf-item-instruction">
+                    {this.props.item.attributes.instruction}
                   </div>
-                :
-                undefined
-              }
+                </div>
+              </div>
             </div>
           :
           undefined
         }
+        <div className="menu-content-item">
+          <MenuItem
+            item={this.props.item}
+            removeItem={this.props.removeItem.bind(this)}
+          />
+        </div>
       </div>
     );
   }

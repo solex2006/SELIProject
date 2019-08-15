@@ -91,7 +91,7 @@
 
 .course-creator-menu-area {
   width: var(--course-tool-menu-size);
-  background-color: #e0e0e0;
+  background-color: #eeeeee;
   height: calc(
     100vh -
     (
@@ -199,7 +199,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-position: calc(100% / 2) calc(((var(--course-tool-menu-size) / 3) - 1.8em) / 12);
+  background-position: calc(100% / 2) calc(((var(--course-tool-menu-size) / 3) - 1.8em) / 8);
   background-repeat: no-repeat;
   background-size: contain;
 }

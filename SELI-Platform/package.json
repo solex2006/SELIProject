@@ -38,6 +38,8 @@
     "react-scroll-up-button": "^1.6.4",
     "react-smooth-dnd": "^0.11.0",
     "react-spinners": "^0.5.13",
+    "react-swipeable-views": "^0.13.3",
+    "react-swipeable-views-utils": "^0.13.3",
     "save": "^2.4.0",
     "sort-json-array": "^0.1.7",
     "swiper": "^4.5.0"

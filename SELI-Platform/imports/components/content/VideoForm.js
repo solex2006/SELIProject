@@ -63,6 +63,7 @@ export default class VideoForm extends React.Component {
       alignment: 'flex-start',
       description: false,
       source: 'upload',
+      video: undefined,
     });
   }
 
@@ -109,7 +110,7 @@ export default class VideoForm extends React.Component {
   removeFileInformation(){
     this.setState({
       uploaded: false,
-      fileInformation: undefined,
+      video: undefined,
     });
   }
 

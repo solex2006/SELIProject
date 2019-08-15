@@ -27,6 +27,9 @@ export default class PdfForm extends React.Component {
 
   clearInputs(){
     document.getElementById('instruction-input').value = "";
+    this.setState({
+      pdf: undefined,
+    });
   }
 
   getPdfAttributes(){
@@ -51,7 +54,7 @@ export default class PdfForm extends React.Component {
 
   removeFileInformation(){
     this.setState({
-      fileInformation: undefined,
+      pdf: undefined,
     });
   }
 
