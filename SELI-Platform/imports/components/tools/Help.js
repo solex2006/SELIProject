@@ -6,6 +6,7 @@ import HelpIcon from '@material-ui/icons/Help';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import ImageHelpStepper from './ImageHelpStepper';
+import TextHelpStepper from './TextHelpStepper';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -49,7 +50,18 @@ export default function Help(props) {
       >
         <div className="help-container">
           <p className="help-text">{props.text}</p>
-          <ImageHelpStepper/>
+          {
+            props.helper === 'hp5Helper' ?
+              <ImageHelpStepper/>
+            :
+            undefined
+          }
+          {
+            props.helper === 'textHelper'?
+              <TextHelpStepper/>
+            :
+            undefined
+          }
         </div>
       </Popover>
     </div>

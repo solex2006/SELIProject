@@ -22,28 +22,25 @@ export default class TextItem extends React.Component {
         <div className="text-content-item">
           {
             this.props.item.attributes.type === 'title' ?
-              <div>
-                <div className="text-item-title" style={{textAlign: this.props.item.attributes.alignment}}>
+              <h2 style={{textAlign: this.props.item.attributes.alignment}}>
                   {this.props.item.attributes.content}
-                </div>
-                <Divider light={true}/>
-              </div>
+              </h2>
             :
             undefined
           }
           {
             this.props.item.attributes.type === 'section' ?
-              <div className="text-item-section" style={{textAlign: this.props.item.attributes.alignment}}>
+              <p  style={{textAlign: this.props.item.attributes.alignment}}>
                 {this.props.item.attributes.content}
-              </div>
+              </p>
             :
             undefined
           }
           {
             this.props.item.attributes.type === 'subtitle' ?
-              <div className="text-item-subtitle" style={{textAlign: this.props.item.attributes.alignment}}>
+              <h3 style={{textAlign: this.props.item.attributes.alignment}}>
                 {this.props.item.attributes.content}
-              </div>
+              </h3>
             :
             undefined
           }

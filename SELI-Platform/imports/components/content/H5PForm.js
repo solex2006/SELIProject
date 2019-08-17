@@ -64,6 +64,7 @@ export default class H5PForm extends React.Component {
         <div className="center-button-container">
           <Button color="primary">Check Url</Button>
           <Help
+            helper="hp5Helper"
             text="To create H5P content follow the next steps:"
           />
         </div>
