@@ -10,7 +10,8 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormLabel from '@material-ui/core/FormLabel';
-import Divider from '@material-ui/core/Divider';
+import Tooltip from '@material-ui/core/Tooltip';
+import Help from '../tools/Help';
 
 export default class TextForm extends React.Component {
   constructor(props) {
@@ -143,8 +144,11 @@ export default class TextForm extends React.Component {
                 :
                 undefined
               }
+
               <FormControl className="content-form-control" component="fieldset">
-                <FormLabel className="content-form-label-center" component="legend">Alignment</FormLabel>
+                <FormLabel className="content-form-label-center" component="legend">Alignment 
+                  <Help helper="textHelper" text="Structure and style to maximise readability and scanning:" />
+                </FormLabel>
                 <RadioGroup className="content-radio-group-center" aria-label="position" name="alignment" value={this.state.alignment} onChange={this.handleChange} row>
                   <FormControlLabel
                     value="left"
