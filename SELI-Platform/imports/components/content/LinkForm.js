@@ -174,18 +174,13 @@ export default class LinkForm extends React.Component {
                         labelPlacement="end"
                         className="radio-input"
                       />
-                      {
-                        this.state.linkType === "text" ?
-                          <FormControlLabel
-                            value="justify"
-                            control={<Radio color="primary" />}
-                            label="Justified"
-                            labelPlacement="end"
-                            className="radio-input"
-                          />
-                        :
-                        undefined
-                      }
+                      <FormControlLabel
+                        value="justify"
+                        control={<Radio color="primary" />}
+                        label="Justified"
+                        labelPlacement="end"
+                        className="radio-input"
+                      />
                     </RadioGroup>
                   </FormControl>
                 :

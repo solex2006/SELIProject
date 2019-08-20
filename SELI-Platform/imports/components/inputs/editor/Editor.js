@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { initEditor, changeStyle, changeAligment, link, removeFormat, getInnerHtml } from '../../../../lib/editorUtils';
+import { initEditor, changeStyle, changeAligment, link, insertHTML, removeFormat, getInnerHtml } from '../../../../lib/editorUtils';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
@@ -59,10 +59,26 @@ export default class Editor extends React.Component {
       self.checkLastNodeAligment(win.getSelection());
       self.getInnerHtml();
     }, false);
+    editor.addEventListener("paste", function(event) {
+      self.pasteWithNoStyle(event);
+    }, false);
+    editor.addEventListener("keyup", function(event) {
+      if (event.keyCode === 13) {
+        removeFormat();
+      }
+    });
   }
 
   getInnerHtml(){
     this.props.getInnerHtml(getInnerHtml());
+  }
+
+  pasteWithNoStyle(event){
+    var sanitizeHtml = require('sanitize-html');
+    let pasteHtml = event.clipboardData.getData('text/html');
+    pasteHtml = sanitizeHtml(pasteHtml);
+    event.preventDefault();
+    insertHTML(pasteHtml);
   }
 
   isRangeSelection(){

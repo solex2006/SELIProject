@@ -5,58 +5,12 @@
   border-top: solid 1px #e0e0e0;
 }
 
-.course-creator-units-container {
-  width: calc(100% - var(--course-tool-menu-size));
-  height: 27.5px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  color: var(--white);
-  font-size: 0.9em;
-  text-transform: uppercase;
-  background-color: #fafafa;
-  position: relative;
-}
-
-.course-creator-unit-container {
-  width: auto;
-  height: 100%;
-  padding: 0.5vh 1vw;
-  transition: 0.5s;
-  cursor: pointer;
-  border-radius: 2vw;
-  user-select: none;
-  color: #333;
-  margin: 0 1vw;
-}
-
-.course-creator-unit-container:hover {
-  background-color: var(--primary);
-  color: var(--white);
-}
-
-.course-creator-unit-lesson-item-container {
-  display: flex;
-}
-
-.menu-item-buttons-container {
-  text-transform: uppercase !important;
-  display: flex !important;
-  justify-content: flex-end !important;
-  align-items: center !important;
-}
-
-.course-creator-unit-lesson-item-text {
-  width: 80% !important;
-  margin-right: 1vw;
-}
-
 .MuiMenuItem-root {
   min-height: auto !important;
 }
 
 .MuiList-padding {
-  padding: 4px 0px !important;
+
 }
 
 .MuiMenuItem-gutters {
@@ -65,7 +19,6 @@
 
 .course-creator-work-area {
   width: 100%;
-  background-color: #e0e0e0;
   overflow-x: hidden;
   display: flex;
   position: relative;
@@ -73,12 +26,9 @@
     100vh -
     (
       var(--app-bar-height) +
-      1.3em +
-      3vh +
-      4.5vh +
-      30px +
-      27.5px +
-      2.25vh
+      var(--form-title-height) +
+      var(--stepper-height) +
+      2px;
     )
   );
 }
@@ -87,32 +37,25 @@
   width: calc(100vw - var(--course-tool-menu-size));
   overflow-y: scroll;
   background-color: var(--white);
+  background-repeat: no-repeat;
+  background-size: 500px;
+  background-position: center;
 }
 
 .course-creator-menu-area {
   width: var(--course-tool-menu-size);
-  background-color: #eeeeee;
   height: calc(
     100vh -
     (
       var(--app-bar-height) +
-      1.3em +
-      3vh +
-      4.5vh +
-      30px +
-      1.5vh
+      var(--form-title-height) +
+      var(--stepper-height) +
+      2px;
     )
   );
   position: fixed;
   right: 0;
-  top: calc(
-    var(--app-bar-height) +
-    1.3em +
-    3vh +
-    4.5vh +
-    30px +
-    0.7vh
-  );
+  background-color: #f5f5f5;
 }
 
 .unit-actions-button-container {
@@ -208,4 +151,37 @@
   margin-left: 1vw !important;
   font-size: 0.8em !important;
   padding: 0.5vh 0.5vw !important;
+}
+
+.course-creator-menu-container {
+  width: 100%;
+  background-color: #e0e0e0 !important;
+  height: auto !important;
+}
+
+.course-creator-tab {
+  padding-top: 2.5vh !important;
+  padding-bottom: 2.5vh !important;
+}
+
+.course-creator-menu-actions-container {
+
+}
+
+.course-creator-menu-action {
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.course-creator-menu-action-text {
+  text-align: center !important;
+  text-transform: uppercase;
+  letter-spacing: 1px !important;
+  color: #616161;
+}
+
+.course-creator-menu-action-text .MuiListItemText-primary {
+  font-size: 0.85em !important;
 }

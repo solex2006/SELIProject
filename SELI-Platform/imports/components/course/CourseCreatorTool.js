@@ -1,18 +1,27 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-
-import Unit from './Unit';
+import TextField from '@material-ui/core/TextField';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
+import WatchLaterIcon from '@material-ui/icons/WatchLater';
 
 import BottomMenu from '../navigation/BottomMenu';
 import ContentMenuItem from './ContentMenuItem';
 import ContentItem from './ContentItem';
+import SortItem from './items/SortItem';
+import AudienceMenu from './AudienceMenu';
+import CourseCreatorMenu from './CourseCreatorMenu';
 
 import { Container, Draggable } from 'react-smooth-dnd';
 import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
 import { createContentItems1, createContentItems2, createContentItems3, createContentItems4 } from '../../../lib/contentMenuItemsCreator';
 
-import TextField from '@material-ui/core/TextField';
-import Divider from '@material-ui/core/Divider';
 /* Dialog */
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -22,7 +31,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import Grow from '@material-ui/core/Grow';
 
-/* Forms */
+/* Content Forms */
 import TextForm from '../content/TextForm';
 import ImageForm from '../content/ImageForm';
 import VideoForm from '../content/VideoForm';
@@ -32,6 +41,11 @@ import PdfForm from '../content/PdfForm';
 import CompressedForm from '../content/CompressedForm';
 import H5PForm from '../content/H5PForm';
 import QuizForm from '../content/QuizForm';
+import ActivityForm from '../content/ActivityForm';
+import EmbebedForm from '../content/EmbebedForm';
+
+/* Accessibility Forms */
+import VideoAccessibilityForm from '../accessibility/VideoAccessibilityForm';
 
 function SlideTransition(props) {
   return <Slide direction="right" {...props} />;
@@ -71,6 +85,14 @@ export default class CourseCreatorTool extends React.Component {
       ],
       units: [],
       addedItems: [],
+      audienceOptions: [
+        {label: 'All disabilities', selected: true},
+        {label: 'Cognitive', selected: true},
+        {label: 'Hearing', selected: true},
+        {label: 'Visual', selected: true},
+      ],
+      menuTab: 0,
+      sortMode: false,
     }
   }
 
@@ -83,11 +105,11 @@ export default class CourseCreatorTool extends React.Component {
   };
 
   contentHandleClickOpen = () => {
-    this.setState({ contentOpen: true });
+    this.setState({ showAccesibilityForm: false, showAccesibilityOptions: false, contentOpen: true });
   };
 
   contentHandleClose = () => {
-    this.setState({ contentOpen: false });
+    this.setState({ contentOpen: false, });
   };
 
   validateInputs(){
@@ -167,6 +189,8 @@ export default class CourseCreatorTool extends React.Component {
   getCompressedAttributes(){}
   getH5pAttributes(){}
   getQuizAttributes(){}
+  getActivityAttributes(){}
+  getEmbebedAttributes(){}
 
   createContent(){
     let addedItems = this.state.addedItems;
@@ -243,7 +267,24 @@ export default class CourseCreatorTool extends React.Component {
         addedItems: addedItems,
       });
     }
-    this.contentHandleClose();
+    else if (this.state.contentTypeAdded === 'activity') {
+      let activityContent = this.getActivityAttributes();
+      addedItems[this.state.addedIndex].attributes = activityContent;
+      this.setState({
+        addedItems: addedItems,
+      });
+    }
+    else if (this.state.contentTypeAdded === 'embebed') {
+      let embebedContent = this.getEmbebedAttributes();
+      addedItems[this.state.addedIndex].attributes = embebedContent;
+      this.setState({
+        addedItems: addedItems,
+      });
+    }
+    this.setState({
+      showAccesibilityOptions: true,
+    });
+    //this.contentHandleClose();
     this.resetMenuItems();
   }
 
@@ -264,7 +305,7 @@ export default class CourseCreatorTool extends React.Component {
     let addedItems = this.state.addedItems;
     addedItems.splice(this.state.addedIndex, 1);
     this.setState({
-      addedItems:addedItems,
+      addedItems: addedItems,
     });
     if (this.state.contentTypeAdded === 'image') {
       this.generateImageSalt();
@@ -302,6 +343,50 @@ export default class CourseCreatorTool extends React.Component {
     });
   }
 
+  setAudienceOption(index){
+    let options = this.state.audienceOptions;
+    if (index === 0) {
+      options[index].selected ? options.map(option => option.selected = false) : options.map(option => option.selected = true)
+    }
+    else {
+      options[index].selected = !options[index].selected;
+      let allSelected = true;
+      for (var i = 1; i < options.length; i++) {
+        if (!options[i].selected) {
+          allSelected = false;
+        }
+      }
+      allSelected ? options[0].selected = true : options[0].selected = false;
+    }
+    this.setState({
+      audienceOptions: options,
+    });
+  }
+
+  setMenuTab(tab){
+    this.setState({
+      menuTab: tab,
+    });
+  }
+
+  showAccesibilityForm(){
+    this.setState({
+      showAccesibilityForm: true,
+      showAccesibilityOptions: false,
+    })
+  }
+
+  toggleSortMode(){
+    if (this.state.addedItems.length) {
+      this.setState({
+        sortMode: !this.state.sortMode,
+      });
+    }
+    else {
+      this.props.showControlMessage("First add some content please");
+    }
+  }
+
   componentDidMount(){
 
   }
@@ -311,67 +396,110 @@ export default class CourseCreatorTool extends React.Component {
       <div>
         <div className="course-creator-container">
           <div className="course-creator-work-area">
-            <div className="course-creator-drop-area">
-              <Container dragBeginDelay={500} dragClass="drag-class" nonDragAreaSelector="resizable-item" style={{width: "100%", height: "100%"}} groupName="1" getChildPayload={i => this.state.addedItems[i]} onDrop={e => this.openDialog(e)}>
-                {
-                  this.state.addedItems.map((p, i) => {
-                    return (
-                      <Draggable key={i}>
-                        <ContentItem
-                          item={p}
-                          removeItem={this.removeItem.bind(this)}
-                        />
-                      </Draggable>
-                    );
-                  })
-                }
-              </Container>
+            <div style={!this.state.addedItems.length ? {backgroundImage: "url(drop.svg)"}:{backgroundImage: "url()"}} className="course-creator-drop-area">
+              {
+                !this.state.sortMode ?
+                  <Container lockAxis="y" dragBeginDelay={500} dragClass="drag-class" style={{width: "100%", height: "100%"}} groupName="1" getChildPayload={i => this.state.addedItems[i]} onDrop={e => this.openDialog(e)}>
+                    {
+                      this.state.addedItems.map((p, i) => {
+                        return (
+                          <Draggable key={i}>
+                            <ContentItem
+                              item={p}
+                              removeItem={this.removeItem.bind(this)}
+                            />
+                          </Draggable>
+                        );
+                      })
+                    }
+                  </Container>
+                :
+                <Container lockAxis="y" dragBeginDelay={0} dragClass="drag-class" style={{width: "100%", height: "100%"}} groupName="1" getChildPayload={i => this.state.addedItems[i]} onDrop={e => this.openDialog(e)}>
+                  {
+                    this.state.addedItems.map((p, i) => {
+                      return (
+                        <Draggable key={i}>
+                          <SortItem
+                            item={p}
+                            removeItem={this.removeItem.bind(this)}
+                            index={i}
+                          />
+                        </Draggable>
+                      );
+                    })
+                  }
+                </Container>
+              }
             </div>
             <div className="course-creator-menu-area">
-              <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems1[i]} onDrop={e => this.setState({ contentItems1: applyDrag(this.state.contentItems1, e) })}>
-                {
-                  this.state.contentItems1.map((p,i) => {
-                    return (
-                      <Draggable key={i}>
-                        <ContentMenuItem type={p.type}/>
-                      </Draggable>
-                    );
-                  })
-                }
-              </Container>
-              <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems2[i]} onDrop={e => this.setState({ contentItems2: applyDrag(this.state.contentItems2, e) })}>
-                {
-                  this.state.contentItems2.map((p,i) => {
-                    return (
-                      <Draggable key={i}>
-                        <ContentMenuItem type={p.type}/>
-                      </Draggable>
-                    );
-                  })
-                }
-              </Container>
-              <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems3[i]} onDrop={e => this.setState({ contentItems3: applyDrag(this.state.contentItems3, e) })}>
-                {
-                  this.state.contentItems3.map((p,i) => {
-                    return (
-                      <Draggable key={i}>
-                        <ContentMenuItem type={p.type}/>
-                      </Draggable>
-                    );
-                  })
-                }
-              </Container>
-              <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems4[i]} onDrop={e => this.setState({ contentItems4: applyDrag(this.state.contentItems4, e) })}>
-                {
-                  this.state.contentItems4.map((p,i) => {
-                    return (
-                      <Draggable key={i}>
-                        <ContentMenuItem type={p.type}/>
-                      </Draggable>
-                    );
-                  })
-                }
-              </Container>
+              <CourseCreatorMenu
+                setMenuTab={this.setMenuTab.bind(this)}
+              />
+              {
+                this.state.menuTab === 0 ?
+                  <div>
+                    <AudienceMenu
+                      options={this.state.audienceOptions}
+                      setOption={this.setAudienceOption.bind(this)}
+                    />
+                    <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems1[i]} onDrop={e => this.setState({ contentItems1: applyDrag(this.state.contentItems1, e) })}>
+                      {
+                        this.state.contentItems1.map((p,i) => {
+                          return (
+                            <Draggable key={i}>
+                              <ContentMenuItem type={p.type}/>
+                            </Draggable>
+                          );
+                        })
+                      }
+                    </Container>
+                    <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems2[i]} onDrop={e => this.setState({ contentItems2: applyDrag(this.state.contentItems2, e) })}>
+                      {
+                        this.state.contentItems2.map((p,i) => {
+                          return (
+                            <Draggable key={i}>
+                              <ContentMenuItem type={p.type}/>
+                            </Draggable>
+                          );
+                        })
+                      }
+                    </Container>
+                    <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems3[i]} onDrop={e => this.setState({ contentItems3: applyDrag(this.state.contentItems3, e) })}>
+                      {
+                        this.state.contentItems3.map((p,i) => {
+                          return (
+                            <Draggable key={i}>
+                              <ContentMenuItem type={p.type}/>
+                            </Draggable>
+                          );
+                        })
+                      }
+                    </Container>
+                    <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems4[i]} onDrop={e => this.setState({ contentItems4: applyDrag(this.state.contentItems4, e) })}>
+                      {
+                        this.state.contentItems4.map((p,i) => {
+                          return (
+                            <Draggable key={i}>
+                              <ContentMenuItem type={p.type}/>
+                            </Draggable>
+                          );
+                        })
+                      }
+                    </Container>
+                    <div className="course-creator-menu-actions-container">
+                      <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
+                        <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
+                          <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={"Sort mode"}/>
+                        </ListItem>
+                        <ListItem className="course-creator-menu-action" button>
+                          <ListItemText className="course-creator-menu-action-text" primary="Preview"/>
+                        </ListItem>
+                      </List>
+                    </div>
+                  </div>
+                :
+                  undefined
+              }
             </div>
           </div>
         </div>
@@ -390,7 +518,7 @@ export default class CourseCreatorTool extends React.Component {
           <Divider/>
           <DialogContent>
             {
-              this.state.contentTypeAdded === 'text' ?
+              this.state.contentTypeAdded === 'text' && !this.state.showAccesibilityOptions ?
                 <TextForm
                   getTextAttributesFunction={textAttributes => this.getTextAttributes = textAttributes}
                 />
@@ -398,7 +526,7 @@ export default class CourseCreatorTool extends React.Component {
               undefined
             }
             {
-              this.state.contentTypeAdded === 'image' ?
+              this.state.contentTypeAdded === 'image' && !this.state.showAccesibilityOptions ?
                 <ImageForm
                   generateImageSaltFunction={imageSalt => this.generateImageSalt = imageSalt}
                   getImageAttributesFunction={imageAttributes => this.getImageAttributes = imageAttributes}
@@ -409,7 +537,7 @@ export default class CourseCreatorTool extends React.Component {
               undefined
             }
             {
-              this.state.contentTypeAdded === 'video' ?
+              this.state.contentTypeAdded === 'video' && !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm ?
                 <VideoForm
                   generateVideoSaltFunction={videoSalt => this.generateVideoSalt = videoSalt}
                   getVideoAttributesFunction={videoAttributes => this.getVideoAttributes = videoAttributes}
@@ -420,7 +548,7 @@ export default class CourseCreatorTool extends React.Component {
               undefined
             }
             {
-              this.state.contentTypeAdded === 'audio' ?
+              this.state.contentTypeAdded === 'audio' && !this.state.showAccesibilityOptions ?
                 <AudioForm
                   generateAudioSaltFunction={audioSalt => this.generateAudioSalt = audioSalt}
                   getAudioAttributesFunction={audioAttributes => this.getAudioAttributes = audioAttributes}
@@ -431,7 +559,7 @@ export default class CourseCreatorTool extends React.Component {
               undefined
             }
             {
-              this.state.contentTypeAdded === 'link' ?
+              this.state.contentTypeAdded === 'link' && !this.state.showAccesibilityOptions ?
                 <LinkForm
                   getLinkAttributesFunction={linkAttributes => this.getLinkAttributes = linkAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
@@ -440,7 +568,7 @@ export default class CourseCreatorTool extends React.Component {
               undefined
             }
             {
-              this.state.contentTypeAdded === 'pdf' ?
+              this.state.contentTypeAdded === 'pdf' && !this.state.showAccesibilityOptions ?
                 <PdfForm
                   generatePdfSaltFunction={pdfSalt => this.generatePdfSalt = pdfSalt}
                   getPdfAttributesFunction={pdfAttributes => this.getPdfAttributes = pdfAttributes}
@@ -451,7 +579,7 @@ export default class CourseCreatorTool extends React.Component {
               undefined
             }
             {
-              this.state.contentTypeAdded === 'compressed' ?
+              this.state.contentTypeAdded === 'compressed' && !this.state.showAccesibilityOptions ?
                 <CompressedForm
                   generateCompressedSaltFunction={compressedSalt => this.generateCompressedSalt = compressedSalt}
                   getCompressedAttributesFunction={compressedAttributes => this.getCompressedAttributes = compressedAttributes}
@@ -462,7 +590,7 @@ export default class CourseCreatorTool extends React.Component {
               undefined
             }
             {
-              this.state.contentTypeAdded === 'h5p' ?
+              this.state.contentTypeAdded === 'h5p' && !this.state.showAccesibilityOptions ?
                 <H5PForm
                   getH5pAttributesFunction={h5pAttributes => this.getH5pAttributes = h5pAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
@@ -471,7 +599,7 @@ export default class CourseCreatorTool extends React.Component {
               undefined
             }
             {
-              this.state.contentTypeAdded === 'quiz' ?
+              this.state.contentTypeAdded === 'quiz' && !this.state.showAccesibilityOptions ?
                 <QuizForm
                   getQuizAttributesFunction={quizAttributes => this.getQuizAttributes = quizAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
@@ -479,16 +607,86 @@ export default class CourseCreatorTool extends React.Component {
               :
               undefined
             }
+            {
+              this.state.contentTypeAdded === 'activity' && !this.state.showAccesibilityOptions ?
+                <ActivityForm
+                  getActivityAttributesFunction={activityAttributes => this.getActivityAttributes = activityAttributes}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.contentTypeAdded === 'embebed' && !this.state.showAccesibilityOptions ?
+                <EmbebedForm
+                  getEmbebedAttributesFunction={embebedAttributes => this.getEmbebedAttributes = embebedAttributes}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.showAccesibilityOptions ?
+                <div className="configure-accessibility-actions">
+                  <List>
+                    <ListItem onClick={() => this.showAccesibilityForm()} button>
+                      <ListItemAvatar>
+                        <Avatar className="primary-avatar">
+                          <AccessibilityNewIcon className="configure-accessibility-icon"/>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={`Configure accessibility`} secondary="We recommend to configure the accessibility of your content and making it accessible to most audiences."/>
+                    </ListItem>
+                    <ListItem onClick={() => this.contentHandleClose()} button>
+                      <ListItemAvatar>
+                        <Avatar className="secondary-avatar">
+                          <WatchLaterIcon className="configure-accessibility-icon"/>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={`Configure accessibility later`} secondary="You can configure the accessibility of your content later, but this will be reflected with a red alert in your content."/>
+                    </ListItem>
+                  </List>
+                </div>
+              :
+              undefined
+            }
+            {
+              this.state.showAccesibilityForm && this.state.contentTypeAdded === 'video' ?
+                <VideoAccessibilityForm
+                  parentId={"accessibility-video-123"}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
+            }
           </DialogContent>
           <Divider/>
-          <DialogActions>
-            <Button onClick={() => this.cancelContentCreation()} color="primary">
-              cancel
-            </Button>
-            <Button onClick={() => this.createContent()} color="primary">
-              create content
-            </Button>
-          </DialogActions>
+          {
+            !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm ?
+              <DialogActions>
+                <Button onClick={() => this.cancelContentCreation()} color="primary">
+                  cancel
+                </Button>
+                <Button onClick={() => this.createContent()} color="primary">
+                  create content
+                </Button>
+              </DialogActions>
+            :
+            undefined
+          }
+          {
+            this.state.showAccesibilityForm ?
+              <DialogActions>
+                <Button onClick={() => this.contentHandleClose()} color="primary">
+                  cancel
+                </Button>
+                <Button onClick={() => this.contentHandleClose()}  color="primary">
+                  set accessibility
+                </Button>
+              </DialogActions>
+            :
+            undefined
+          }
         </Dialog>
       </div>
       );

@@ -11,6 +11,12 @@ export const initEditor = () => {
   document.getElementById("editor-iframe").contentDocument.body.style.wordBreak = "break-all";
 }
 
+export const insertHTML = (html) => {
+  var editor = editorIframe.document;
+  editor.execCommand("InsertHTML", false, html);
+  editor.body.focus();
+}
+
 export const changeStyle = (command) => {
   var editor = editorIframe.document;
   editor.execCommand(command, false, null);
@@ -25,7 +31,7 @@ export const changeAligment = (command) => {
 
 export const link = (url, word) => {
   var editor = editorIframe.document;
-  editor.execCommand("InsertHTML", false, '<a style="font-family: Lato" href=" + url + ">' + word + '</a>');
+  editor.execCommand("InsertHTML", false, '<a style="font-family: Lato" target="_blank" href=' + url + '>' + word + '</a>');
   editor.body.focus();
 }
 

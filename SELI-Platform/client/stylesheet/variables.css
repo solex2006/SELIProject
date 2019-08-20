@@ -34,6 +34,7 @@
   --preview-color: #F2F3F4;
   --input-list-size: 0.9em;
   --input-list-border: #D7DBDD;
+  --form-title-height: 45px;
 
   /* Scroll */
   --scroll-up-size: 50px;
@@ -67,5 +68,8 @@
   /* Authoring Tool */
   --course-tool-menu-size: 250px;
   --menu-item-width: 40px;
+
+  /* Stepper */
+  --stepper-height: 55px;
 
 }

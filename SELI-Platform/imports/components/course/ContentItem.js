@@ -10,6 +10,9 @@ import PdfItem from './items/PdfItem';
 import CompressedItem from './items/CompressedItem';
 import LinkItem from './items/LinkItem';
 import H5PItem from './items/H5PItem';
+import QuizItem from './items/QuizItem';
+import ActivityItem from './items/ActivityItem';
+import EmbebedItem from './items/EmbebedItem';
 
 export default class ContentItem extends React.Component {
   constructor(props) {
@@ -95,6 +98,33 @@ export default class ContentItem extends React.Component {
               {
                 this.props.item.type === 'h5p' ?
                   <H5PItem
+                    item={this.props.item}
+                    removeItem={this.props.removeItem.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.props.item.type === 'quiz' ?
+                  <QuizItem
+                    item={this.props.item}
+                    removeItem={this.props.removeItem.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.props.item.type === 'activity' ?
+                  <ActivityItem
+                    item={this.props.item}
+                    removeItem={this.props.removeItem.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.props.item.type === 'embebed' ?
+                  <EmbebedItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                   />

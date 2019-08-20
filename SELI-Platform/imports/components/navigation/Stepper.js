@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-  return ['Course information', 'Requirements', 'Program'];
+  return ['Information', 'Requirements', 'Program'];
 }
 
 function getStepContent(step, props) {
@@ -128,52 +128,56 @@ export default function HorizontalNonLinearStepper(props) {
   }
 
   return (
-    <div className={classes.root}>
-      <Stepper className="form-stepper" nonLinear activeStep={activeStep}>
-        {steps.map((label, index) => (
-          <Step className="form-step" key={label}>
-            <StepButton className="form-step--button" onClick={handleStep(index)} completed={completed[index]}>
-              {label}
-            </StepButton>
-          </Step>
-        ))}
-      </Stepper>
-      <div>
-        {allStepsCompleted() ? (
-          <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset}>Reset</Button>
-          </div>
-        ) : (
-          <div>
-            <Typography className={classes.instructions}>{getStepContent(activeStep, props)}</Typography>
-            <div className="stepper-button-container">
-              <Button color="primary" onClick={handleBack} className={classes.button}>
-                Back
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-              >
-                Next
-              </Button>
-              {activeStep !== steps.length &&
-                (completed[activeStep] ? (
-                  <Typography className="completed-step-label" variant="caption">
-                    Step: {steps[activeStep]} already completed
-                  </Typography>
-                ) : (
-                  <Button variant="contained" color="secondary" onClick={handleComplete}>
-                    {completedSteps() === totalSteps() - 1 ? 'Publish course' : 'Complete Step'}
-                  </Button>
-                ))}
+    <div>
+      <div className="stepper-container">
+        <Stepper className="form-stepper" nonLinear activeStep={activeStep}>
+          {steps.map((label, index) => (
+            <Step className="form-step" key={label}>
+              <StepButton className="form-step--button" onClick={handleStep(index)} completed={completed[index]}>
+                {label}
+              </StepButton>
+            </Step>
+          ))}
+        </Stepper>
+        <div>
+          {allStepsCompleted() ? (
+            <div>
+              <Typography className={classes.instructions}>
+                All steps completed - you&apos;re finished
+              </Typography>
+              <Button onClick={handleReset}>Reset</Button>
             </div>
-          </div>
-        )}
+          ) : (
+            <div>
+              <div className="stepper-button-container">
+                <Button color="primary" onClick={handleBack} className={classes.button}>
+                  Back
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleNext}
+                  className={classes.button}
+                >
+                  Next
+                </Button>
+                {activeStep !== steps.length &&
+                  (completed[activeStep] ? (
+                    <Typography className="completed-step-label" variant="caption">
+                      Step: {steps[activeStep]} already completed
+                    </Typography>
+                  ) : (
+                    <Button variant="contained" color="secondary" onClick={handleComplete}>
+                      {completedSteps() === totalSteps() - 1 ? 'Publish course' : 'Complete Step'}
+                    </Button>
+                  ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="step-content">
+        {getStepContent(activeStep, props)}
       </div>
     </div>
   );

@@ -20,10 +20,13 @@ export default class QuizForm extends React.Component {
         {
           index: 1,
           correctAnswers: [false, false, false, false],
+          questionText: '',
+          answersText: ['', '', '', ''],
         },
       ],
       timeLimits: ['5', '10', '20', '30', '60', '90', '120'],
       timeLimit: '60',
+      awardPoints: false,
     }
   }
 
@@ -49,11 +52,29 @@ export default class QuizForm extends React.Component {
     }
   };
 
+  textHandleChange = (name, array) => event => {
+    let questions = this.state.questions;
+    if (name === 'question') {
+      questions[array].questionText = event.target.value;
+    }
+    else {
+      let indexArray = array;
+      indexArray = indexArray.split(",");
+      questions[indexArray[1]].answersText[indexArray[0]] = event.target.value;
+    }
+    this.setState({
+      questions: questions,
+    }, () => console.log(this.state.questions));
+    this.forceUpdate();
+  };
+
   addQuestion(){
     let questions = this.state.questions;
     questions.push({
       index: questions.length + 1,
       correctAnswers: [false, false, false, false],
+      questionText: '',
+      answersText: ['', '', '', ''],
     });
     this.setState({
       questions: questions,
@@ -65,10 +86,7 @@ export default class QuizForm extends React.Component {
 
   removeQuestion(index){
     let questions = this.state.questions;
-    if (questions.length === 1) {
-      this.props.showControlMessage("Quiz must have 1 question at least")
-    }
-    else {
+
       questions.splice(index, 1);
       for (var i = index; i < questions.length; i++) {
         questions[i].index = questions[i].index - 1;
@@ -76,7 +94,36 @@ export default class QuizForm extends React.Component {
       this.setState({
         questions: questions,
       });
-    }
+
+  }
+
+  clearInputs(){
+    document.getElementById('quiz-input').value = "";
+    document.getElementById('credit-input').value = "";
+    this.setState({
+      questions: [
+        {
+          index: 1,
+          correctAnswers: [false, false, false, false],
+          questionText: '',
+          answersText: ['', '', '', ''],
+          awardPoints: false,
+        },
+      ],
+      timeLimit: '60',
+    });
+  }
+
+  getQuizAttributes(){
+    let quiz = {};
+    quiz.title = document.getElementById('quiz-input').value;
+    quiz.creditResources = document.getElementById('credit-input').value;
+    quiz.timeLimit = this.state.timeLimit;
+    quiz.awardPoints = this.state.awardPoints;
+    quiz.questions = this.state.questions;
+    quiz.expanded = true;
+    this.clearInputs();
+    return quiz;
   }
 
   componentDidMount(){
@@ -130,7 +177,7 @@ export default class QuizForm extends React.Component {
               <Switch
                 checked={this.state.awardPoints}
                 onChange={this.handleChange('awardPoints')}
-                value="checkedB"
+                value="awardPoints"
                 color="primary"
               />
             }
@@ -141,15 +188,17 @@ export default class QuizForm extends React.Component {
         {
           this.state.questions.map((question, index) => {
             return(
-              <div id={"question-" + question.index} className="question-form">
+              <div key={index} id={"question-" + question.index} className="question-form">
                 <div className="question-input-container">
                   <TextField
-                    id="credit-input"
+                    id={"question-input"+index}
                     label={"Question " + question.index}
                     margin="normal"
                     variant="outlined"
                     required
                     fullWidth
+                    onChange={this.textHandleChange('question', index)}
+                    value={this.state.questions[index].questionText}
                   />
                   <IconButton
                     className="close-icon"
@@ -170,6 +219,8 @@ export default class QuizForm extends React.Component {
                     variant="outlined"
                     required
                     className="answer-input"
+                    onChange={this.textHandleChange('answer', "0," + index)}
+                    value={this.state.questions[index].answersText[0]}
                   />
                   <Checkbox
                     checked={this.state.questions[index].correctAnswers[0]}
@@ -186,6 +237,8 @@ export default class QuizForm extends React.Component {
                     variant="outlined"
                     required
                     className="answer-input"
+                    onChange={this.textHandleChange('answer', "1," + index)}
+                    value={this.state.questions[index].answersText[1]}
                   />
                   <Checkbox
                     checked={this.state.questions[index].correctAnswers[1]}
@@ -204,6 +257,8 @@ export default class QuizForm extends React.Component {
                     variant="outlined"
                     required
                     className="answer-input"
+                    onChange={this.textHandleChange('answer', "2," + index)}
+                    value={this.state.questions[index].answersText[2]}
                   />
                   <Checkbox
                     checked={this.state.questions[index].correctAnswers[2]}
@@ -220,6 +275,8 @@ export default class QuizForm extends React.Component {
                     variant="outlined"
                     required
                     className="answer-input"
+                    onChange={this.textHandleChange('answer', "3," + index)}
+                    value={this.state.questions[index].answersText[3]}
                   />
                   <Checkbox
                     checked={this.state.questions[index].correctAnswers[3]}

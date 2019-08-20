@@ -6,7 +6,7 @@
 }
 
 .accessibility-input-container {
-  width: 100%;
+  width: 40vw;
   display: flex;
   justify-content: center;
   animation: fadeIn 1s;
@@ -22,7 +22,7 @@
   position: fixed;
   background-color: var(--white);
   z-index: 454;
-  margin-top: -12px;
+  margin-top: -8px;
 }
 
 .accessibility-header-row {

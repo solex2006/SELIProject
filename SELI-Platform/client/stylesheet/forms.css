@@ -20,8 +20,8 @@
 
 .form-title {
   width: 100%;
+  height: var(--form-title-height) !important;
   font-size: 1.3em;
-  padding: 1vh 0;
   height: auto;
   display: flex;
   justify-content: center;

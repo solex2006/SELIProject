@@ -1,20 +1,27 @@
+.stepper-container {
+  width: 100%;
+  height: var(--stepper-height);
+  position: relative;
+  align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .form-stepper {
-  padding: 1.5vh 5% !important;
-  margin-top: 1.5vh !important;
-  height: 30px !important;
   width: 60vw;
+  background-color: transparent !important;
+}
+
+.step-content {
+  width: 100%;
 }
 
 .stepper-button-container {
   width: 25vw !important;
-  margin-top: 1vh;
-  height: 30px;
+  height: 100%;
   display: flex !important;
   justify-content: center !important;
-  position: absolute !important;
-  top: calc(var(--app-bar-height) + 1.3em + 3vh) !important;
-  right: 0;
-  padding: 1.5vh 1.5% !important;
   border-left: solid 2px #f5f5f5;
   align-items: center;
 }
@@ -27,6 +34,8 @@
   text-transform: uppercase !important;
   font-size: 0.75em !important;
   letter-spacing: 2px !important;
+  padding: 0 !important;
+  height: var(--stepper-height) !important;
 }
 
 .completed-step-label {

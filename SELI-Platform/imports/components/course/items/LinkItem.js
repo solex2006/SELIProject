@@ -36,6 +36,7 @@ export default class LinkItem extends React.Component {
                         onClick={() => {
                           window.open(this.props.item.attributes.link,'_blank');;
                         }}
+                        className="link-item-url"
                       >
                         {this.props.item.attributes.link}
                       </Link>

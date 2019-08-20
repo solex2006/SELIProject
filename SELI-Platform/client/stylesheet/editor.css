@@ -22,7 +22,8 @@
   height: auto;
   color: var(--primary);
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  margin: 1.5vh 0;
 }
 
 .editor-block {
@@ -31,12 +32,12 @@
 }
 
 .editor-button {
-
+  padding: 0.5vh 0 !important;
+  width: 1vw;
 }
 
 .editor-area {
   width: 100%;
-  background-color: #fafafa;
 }
 
 .editor-iframe {
@@ -44,8 +45,8 @@
   height: 100%;
   border: solid 1px #bdbdbd;
   outline: none;
-  padding-top: 18.5px;
-  padding-bottom: 18.5px;
+  padding-top: 8.5px;
+  padding-bottom: 8.5px;
   padding-left: 14px;
   border-radius: 4px;
   font-family: sans-serif;
@@ -53,12 +54,12 @@
 }
 
 .editor-icon {
-  font-size: 1.0em !important;
+  font-size: 1.15em !important;
 }
 
 .editor-link-form-container {
   width: 25vw;
-  padding: 1.5vh 2.5vw;
+  padding: 1.5vh 1.5vw;
 }
 
 .editor-form-button-container {
@@ -73,9 +74,10 @@
 .editor-form-title {
   width: 100%;
   height: auto;
-  padding: 0.5vh 0;
+  padding: 2.5vh 0;
   text-transform: uppercase;
-  font-size: 0.95em;
+  font-size: 1.15em;
   text-align: center;
+  letter-spacing: 1px;
   color: var(--primary)
 }

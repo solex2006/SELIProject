@@ -186,8 +186,6 @@
   animation: fadeIn 1s;
 }
 
-
-
 .drag-class {
   background-color: rgba(0, 137, 123, 0.45);
   transition: 0.5s;
@@ -327,4 +325,21 @@
 
 .h5p-content-form {
   width: 30vw;
+}
+
+.activity-form-container {
+  width: 30vw;
+}
+
+.selected-file-types-chips-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.chip {
+  margin: 1vh 0.25vw !important;
+  animation: zoomIn 0.5s;
 }

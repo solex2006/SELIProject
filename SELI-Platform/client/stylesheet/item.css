@@ -39,6 +39,11 @@
   justify-content: center;
   align-items: center;
   background-color: #eeeeee;
+  transition: 0.5s;
+}
+
+.menu-content-item:hover {
+  background-color: #e0e0e0;
 }
 
 .content-box {
@@ -131,23 +136,59 @@
 }
 
 .image-item-description-full {
-  width: 90%;
+  width: 95%;
   display: flex;
   align-items: center;
-  padding: 1.5vh 5%;
+  padding: 1.5vh 2.5%;
   font-size: 0.85em;
   letter-spacing: 0.5px;
   color: #757575;
   text-align: justify;
+  word-break: break-all;
   transition: 0.5s;
 }
 
 .resizable-item {
-  border: solid 1.5px var(--primary);
+  border: solid 1px var(--primary);
   display: flex;
   justify-content: center;
   align-items: center;
-  border-style:  dashed;
+}
+
+.bottom-right-resize {
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary);
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
+
+.top-right-resize {
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary);
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
+
+.bottom-left-resize {
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary);
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
+
+.top-left-resize {
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary);
+  position: absolute;
+  left: 5px;
+  top: 5px;
 }
 
 /* Video */
@@ -227,10 +268,19 @@
 }
 
 .link-item-container {
-  width: 90%;
-  padding: 2.5vh 5%;
+  width: 95%;
+  padding: 2.5vh 2.5%;
 }
 
+.link-item-url {
+  font-size: 1.35em !important;
+}
+
+.link-description-item-section {
+  color: #616161;
+  font-size: 1em;
+  word-break: break-all;
+}
 
 /* Pdf compressed */
 
@@ -311,13 +361,15 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 2.5vh;
+  margin: 2.5vh 0;
+  position: relative;
 }
 
 .h5p-instruction-title {
   width: 95%;
   height: auto;
-  padding: 0.5vh 2.5%;
+  padding: 0vh 2.5%;
+  padding-top: 2vh;
   font-size: 1.2em;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -326,4 +378,167 @@
 .h5P-item-container-instruction {
   width: 95%;
   padding: 1.5vh 2.5%;
+  color: #616161;
+  padding-bottom: 2.5vh;
+}
+
+.iframe-item-container {
+
+}
+
+.loading-iframe-container {
+  width: 100%;
+  height: 100%;
+  z-index: 80;
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: var(--white);
+}
+
+.loading-iframe-text {
+  width: 100%;
+  text-align: center;
+  padding: 2.5vh 0;
+  text-transform: uppercase;
+  font-size: 1.4em;
+  letter-spacing: 0.5px;
+}
+/* Quiz */
+
+.quiz-content-item {
+  width: calc(100% - var(--menu-item-width));
+  height: auto;
+}
+
+.quiz-container {
+  width: 95%;
+  padding: 0 2.5%;
+  height: auto;
+  background-color: #fafafa;
+}
+
+.item-quiz-panel {
+  background-color: transparent !important;
+}
+
+.item-quiz-expansion-summary-text-container {
+  position: relative;
+  left: 2.5%;
+  width: 100%;
+  text-align: center;
+}
+
+.quiz-panel-title {
+  font-size: 1.85em !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  color: var(--primary) !important;
+}
+
+.quiz-panel-subtitle {
+  font-size: 1.25em !important;
+  color: #616161 !important;
+}
+
+.item-quiz-detail-container {
+  position: relative;
+  left: 5vw;
+  padding: 2.5vh 0;
+}
+
+.item-quiz-detail {
+  background-color: #ffffff !important;
+  -webkit-box-shadow: 0px 0px 1px 0px rgba(189,189,189,0.75);
+  -moz-box-shadow: 0px 0px 1px 0px rgba(189,189,189,0.75);
+  box-shadow: 0px 0px 1px 0px rgba(189,189,189,0.75);
+}
+
+.item-quiz-text-detail {
+  font-size: 0.85em !important;
+}
+
+/* Activity */
+
+.activity-content-item {
+  width: calc(100% - var(--menu-item-width));
+  height: auto;
+}
+
+.activity-item-container {
+  width: 100%;
+  height: auto;
+}
+
+.activity-item-container-activity {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 2.5vh 0;
+}
+
+.activity-instruction-title {
+  width: 95%;
+  height: auto;
+  padding: 0vh 2.5%;
+  padding-top: 2vh;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.activity-item-container-instruction {
+  width: 95%;
+  padding: 1.5vh 2.5%;
+  color: #616161;
+  padding-bottom: 2.5vh;
+}
+
+.file-type-text-detail {
+  font-size: 0.7em !important;
+}
+
+.activity-detail-container {
+  position: relative;
+  left: 2.5%;
+}
+
+.activity-container {
+  width: 95%;
+  padding: 0 2.5%;
+  height: auto;
+  background-color: #fafafa;
+}
+
+.activity-panel-title {
+  font-size: 1.85em !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  color: var(--secondary) !important;
+}
+
+/* Activity */
+
+.embebed-content-item {
+  width: calc(100% - var(--menu-item-width));
+  height: auto;
+}
+
+.embebed-item-container {
+  width: 95%;
+  padding: 2.5vh 2.5%;
+}
+
+.embebed-description-item-section {
+  color: #616161;
+  font-size: 1em;
+  word-break: break-all;
+}
+
+.embebed-item-container-activity {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 2.5vh 0;
+  position: relative;
 }

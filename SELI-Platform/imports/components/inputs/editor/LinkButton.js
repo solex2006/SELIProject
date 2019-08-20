@@ -35,6 +35,7 @@ export default function LinkButton(props) {
     let text = document.getElementById('text-input').value;
     if (text === '' && url !== '') {
       link(url, url);
+      handleClose();
     }
     else if (url === '' || text === '') {
       handleClose();
@@ -88,7 +89,7 @@ export default function LinkButton(props) {
             fullWidth
           />
           <div className="editor-form-button-container">
-            <Button variant="contained" onClick={insertLink}>Insert</Button>
+            <Button color="primary" variant="contained" onClick={insertLink}>Insert</Button>
           </div>
         </div>
       </Popover>

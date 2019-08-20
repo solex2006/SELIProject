@@ -56,12 +56,12 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #e0e0e0;
+  background: #bdbdbd;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #9e9e9e;
   transition: 0.5s;
 }
 
@@ -98,4 +98,22 @@ th {
 
 .advice-link-text {
   font-size: 0.85em;
+}
+
+.menu-item {
+  padding-right: 1vw !important;
+  display: flex;
+}
+
+.menu-item-text {
+  width: 8vw !important;
+}
+
+.menu-icon-check {
+  fill: #4caf50 !important;
+  animation: zoomIn 0.5s;
+}
+
+.menu-icon {
+  fill: #616161;
 }
