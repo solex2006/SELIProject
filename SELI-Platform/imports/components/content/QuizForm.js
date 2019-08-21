@@ -64,7 +64,7 @@ export default class QuizForm extends React.Component {
     }
     this.setState({
       questions: questions,
-    }, () => console.log(this.state.questions));
+    });
     this.forceUpdate();
   };
 

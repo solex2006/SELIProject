@@ -70,6 +70,9 @@
   --menu-item-width: 40px;
 
   /* Stepper */
-  --stepper-height: 55px;
+  --form-stepper-height: 67.5px;
 
+  /* Forms */
+
+  --file-column-width: 550px;
 }

@@ -150,15 +150,18 @@
 }
 
 .gallery-upload-icon {
-  fill: var(--primary);
   font-size: 6em;
   opacity: 0.75;
 }
 
 .gallery-upload-button{
   display: grid !important;
-  padding: 0.5vh 3.5vw !important;
-  background-color: #fafafa !important;
+  padding: 4vh 5vw !important;
+  border-radius: 0 !important;
+  background-color: #ffffff !important;
+  letter-spacing: 1px;
+  color: #9e9e9e !important;
+  font-size: 1em !important;
 }
 
 .content-radio-group-center {
@@ -170,6 +173,9 @@
 
 .content-form-label-center {
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   animation: fadeIn 1s;
 }
 
@@ -329,17 +335,4 @@
 
 .activity-form-container {
   width: 30vw;
-}
-
-.selected-file-types-chips-container {
-  width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.chip {
-  margin: 1vh 0.25vw !important;
-  animation: zoomIn 0.5s;
 }

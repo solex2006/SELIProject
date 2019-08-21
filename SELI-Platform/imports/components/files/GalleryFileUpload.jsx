@@ -99,21 +99,8 @@ class GalleryFileUpload extends Component {
 
         uploadInstance.on('uploaded', function (error, fileObj) {
           self.props.showControlMessage("The file has been uploaded successfully");
-          if(self.props.type === 'video'){
-            //self.props.showVideoAccesibilityForm();
-          }
-          if(self.props.multifile){
-            let fileInformation = {};
-            fileInformation.fileId = uploadInstance.config.fileId;
-            fileInformation.type = self.props.type;
-            fileInformation.name = uploadInstance.file.name
-            self.props.addFile(fileInformation);
-          }
           // Remove the filename from the upload box
           self.clearUploadInput();
-          if(self.props.multifile){
-            uploaded = false;
-          }
           // Reset our state for the next file
           self.setState({
             uploading: [],

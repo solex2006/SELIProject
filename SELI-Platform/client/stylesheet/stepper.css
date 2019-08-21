@@ -8,10 +8,10 @@
   justify-content: center;
 }
 
-.form-stepper {
+/*.form-stepper {
   width: 60vw;
   background-color: transparent !important;
-}
+}*/
 
 .step-content {
   width: 100%;
@@ -26,17 +26,17 @@
   align-items: center;
 }
 
-.form-step {
+/*.form-step {
   width: 15vw !important;
-}
+}*/
 
-.form-step--button {
+/*.form-step--button {
   text-transform: uppercase !important;
   font-size: 0.75em !important;
   letter-spacing: 2px !important;
   padding: 0 !important;
   height: var(--stepper-height) !important;
-}
+}*/
 
 .completed-step-label {
   width: 140px !important;

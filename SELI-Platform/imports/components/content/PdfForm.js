@@ -60,7 +60,7 @@ export default class PdfForm extends React.Component {
 
   generatePdfSalt(){
     this.setState({
-      imageSalt: Math.random(),
+      pdfSalt: Math.random(),
     });
   }
 
@@ -114,7 +114,7 @@ export default class PdfForm extends React.Component {
                 />
               :
               <GalleryFileUpload
-                parentId={"my-images" + this.state.imageSalt}
+                parentId={"my-images" + this.state.pdfSalt}
                 removeFunction="RemoveCourseFile"
                 collection={CourseFilesCollection}
                 accept=".pdf"

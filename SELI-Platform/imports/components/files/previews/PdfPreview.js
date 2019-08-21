@@ -11,7 +11,7 @@ export default class PdfPreview extends React.Component {
   }
 
   componentDidMount(){
-
+    
   }
 
   delete(){

@@ -146,7 +146,7 @@ export default class TextForm extends React.Component {
               }
 
               <FormControl className="content-form-control" component="fieldset">
-                <FormLabel className="content-form-label-center" component="legend">Alignment 
+                <FormLabel className="content-form-label-center" component="legend">Alignment
                   <Help helper="textHelper" text="Structure and style to maximise readability and scanning:" />
                 </FormLabel>
                 <RadioGroup className="content-radio-group-center" aria-label="position" name="alignment" value={this.state.alignment} onChange={this.handleChange} row>

@@ -26,8 +26,7 @@
     100vh -
     (
       var(--app-bar-height) +
-      var(--form-title-height) +
-      var(--stepper-height) +
+      var(--form-stepper-height) +
       2px;
     )
   );
@@ -48,8 +47,7 @@
     100vh -
     (
       var(--app-bar-height) +
-      var(--form-title-height) +
-      var(--stepper-height) +
+      var(--form-stepper-height) +
       2px;
     )
   );
@@ -180,8 +178,90 @@
   text-transform: uppercase;
   letter-spacing: 1px !important;
   color: #616161;
+  font-size: 0.9em !important;
 }
 
 .course-creator-menu-action-text .MuiListItemText-primary {
   font-size: 0.85em !important;
+}
+
+.course-creator-units-container {
+  width: 100%;
+  max-height: 450px;
+  overflow-y: scroll;
+}
+
+.course-creator-unit-list-item {
+  width: 100%;
+  padding-top: 1vh !important;
+  padding-bottom: 1vh !important;
+}
+
+.course-creator-unit-list-text {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.course-creator-unit-list-text .MuiListItemText-primary {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  font-size: 0.8em !important;
+}
+
+.course-creator-unit-list-text .MuiTypography-colorTextSecondary {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin: 0 0 !important;
+  font-size: 0.75em !important;
+}
+
+.course-creator-unit-lesson-text {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.course-creator-lesson-list-text .MuiListItemText-primary {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  font-size: 0.8em !important;
+}
+
+.course-creator-lesson-list-text .MuiTypography-colorTextSecondary {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin: 0 0 !important;
+  font-size: 0.75em !important;
+}
+
+.course-creator-lessons-container {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.course-creator-navigation-actions {
+  width: 100%;
+}
+
+.course-creator-navigation-button {
+  letter-spacing: 1px !important;
+  border-radius: 0 !important;
+}
+
+.course-creator-unit-action {
+  font-size: 0.75em !important;
+  letter-spacing: 1px !important;
+  border-radius: 0 !important;
+}
+
+.course-creator-lesson-list-icon {
+  padding: 0px !important;
+  fill: #757575 !important;
+}
+
+.course-creator-lesson-list-button {
+  padding: 6px !important;
 }

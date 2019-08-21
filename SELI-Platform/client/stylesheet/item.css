@@ -78,6 +78,7 @@
   font-size: 1.5em;
   letter-spacing: 2px;
   color: #333;
+  font-weight: 100 !important;
   text-transform: uppercase;
   transition: 0.5s;
   border-bottom: solid 1px #e0e0e0;

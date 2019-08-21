@@ -17,6 +17,7 @@ import ContentItem from './ContentItem';
 import SortItem from './items/SortItem';
 import AudienceMenu from './AudienceMenu';
 import CourseCreatorMenu from './CourseCreatorMenu';
+import Unit from './Unit';
 
 import { Container, Draggable } from 'react-smooth-dnd';
 import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
@@ -93,6 +94,38 @@ export default class CourseCreatorTool extends React.Component {
       ],
       menuTab: 0,
       sortMode: false,
+      units: [
+        {
+          name: "Introduction",
+          lessons: [
+            {
+              name: "What is C#",
+            },
+            {
+              name: "History of C#",
+            },
+          ],
+        },
+        {
+          name: "Environment",
+          lessons: [
+            {
+              name: "Install VS",
+            },
+          ],
+        },
+        {
+          name: "Basic programing",
+          lessons: [
+            {
+              name: "Name space",
+            },
+            {
+              name: "Control sentences",
+            },
+          ],
+        },
+      ],
     }
   }
 
@@ -499,6 +532,25 @@ export default class CourseCreatorTool extends React.Component {
                   </div>
                 :
                   undefined
+              }
+              {
+                this.state.menuTab === 1 ?
+                  <div>
+                    <div className="course-creator-navigation-actions">
+                      <Button className="course-creator-navigation-button" fullWidth color="primary">Add unit</Button>
+                    </div>
+                    <div className="course-creator-units-container">
+                      {
+                        this.state.units.map((unit, index) => {
+                          return(
+                            <Unit unit={unit} index={index + 1}/>
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                :
+                undefined
               }
             </div>
           </div>

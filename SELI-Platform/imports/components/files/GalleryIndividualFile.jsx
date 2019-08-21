@@ -25,6 +25,7 @@ class GalleryIndividualFile extends Component {
     let fileInformation = {
       url: this.props.fileUrl,
       id: this.props.fileId,
+      name: this.props.fileName,
       type: this.props.type,
     }
     this.props.getFileInformation(fileInformation);

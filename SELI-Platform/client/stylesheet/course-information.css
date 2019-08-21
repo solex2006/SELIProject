@@ -1,0 +1,121 @@
+.course-information-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+  animation: fadeIn 1s;
+}
+
+.form-file-column {
+  width: var(--file-column-width);
+  height: 100%;
+  background-color: #fafafa;
+}
+
+.form-input-column {
+  width: calc(100vw - var(--file-column-width) - 12vw);
+  max-height: calc(100% - 5vh);
+  overflow-y: scroll;
+  padding: 2.5vh 6vw;
+}
+
+.row-input {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.button-input {
+  width: 100%;
+}
+
+.form-small-button {
+  margin-top: 8px !important;
+  font-size: 0.85em !important;
+  border-radius: 0 !important;
+  letter-spacing: 1px !important;
+  margin-left: 1vw !important;
+  margin-right: 1vw !important;
+}
+
+.chips-container {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.chip {
+  background-color: var(--primary) !important;
+  font-size: 0.7em !important;
+  margin: 0 0.25vw !important;
+  animation: zoomIn 0.5s;
+  display: flex;
+}
+
+.form-message{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #bdbdbd;
+  height: 46px;
+  animation: fadeIn 1s;
+}
+
+.form-message-icon {
+  margin-left: 1vw !important;
+}
+
+.form-image-icon {
+  width: 100% !important;
+  font-size: 3em !important;
+  margin-bottom: 1vh !important;
+}
+
+.form-image-button {
+  height: 60% !important;
+  display: grid !important;
+  border-radius: 0 !important;
+  font-size: 1.5em !important;
+  letter-spacing: 1px !important;
+}
+
+.form-file-button {
+  height: 40% !important;
+  display: grid !important;
+  border-radius: 0 !important;
+  font-size: 1.5em !important;
+  letter-spacing: 1px !important;
+}
+
+.MuiDialog-paperScrollPaper {
+  max-height: 90vh;
+}
+
+.form-dialog {
+  width: auto;
+}
+
+.form-dialog-center-text {
+  text-align: center;
+}
+
+.form-dialog-title {
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.form-library-container {
+  max-width: 70vw;
+}
+
+.form-file-preview {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30vh !important;
+}

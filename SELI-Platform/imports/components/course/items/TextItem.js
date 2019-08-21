@@ -13,7 +13,7 @@ export default class TextItem extends React.Component {
 
 
   componentDidMount(){
-    
+
   }
 
   render() {
@@ -22,7 +22,7 @@ export default class TextItem extends React.Component {
         <div className="text-content-item">
           {
             this.props.item.attributes.type === 'title' ?
-              <h2 style={{textAlign: this.props.item.attributes.alignment}}>
+              <h2 className="text-item-title" style={{textAlign: this.props.item.attributes.alignment}}>
                   {this.props.item.attributes.content}
               </h2>
             :
@@ -30,7 +30,7 @@ export default class TextItem extends React.Component {
           }
           {
             this.props.item.attributes.type === 'section' ?
-              <p  style={{textAlign: this.props.item.attributes.alignment}}>
+              <p className="text-item-section"  style={{textAlign: this.props.item.attributes.alignment}}>
                 {this.props.item.attributes.content}
               </p>
             :
@@ -38,7 +38,7 @@ export default class TextItem extends React.Component {
           }
           {
             this.props.item.attributes.type === 'subtitle' ?
-              <h3 style={{textAlign: this.props.item.attributes.alignment}}>
+              <h3 className="text-item-subtitle" style={{textAlign: this.props.item.attributes.alignment}}>
                 {this.props.item.attributes.content}
               </h3>
             :
