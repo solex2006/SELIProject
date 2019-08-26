@@ -1,7 +1,7 @@
 import { FilesCollection } from 'meteor/ostrio:files';
 
 const CourseFilesCollection = new FilesCollection({
-  storagePath: '../../data/courseFiles',
+  storagePath: '../../data/CourseFiles',
   downloadRoute: '/files/CourseFilesCollection',
   collectionName: 'CourseFilesCollection',
   permissions: 0o755,

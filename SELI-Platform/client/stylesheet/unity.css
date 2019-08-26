@@ -1,0 +1,25 @@
+.unity-form {
+  width: var(--unity-form);
+  height: auto;
+  background-color: #f0f0f0;
+}
+
+.normal-text {
+  font-size: 0.9em;
+  letter-spacing: 1px;
+}
+
+.text-button {
+  background-color: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  letter-spacing: 1px !important;
+  margin-left: 0.25vw !important;
+  font-size: 0.9em !important;
+}
+
+.padding-input {
+  width: 90% !important;
+  position: relative;
+  left: 5%;
+}

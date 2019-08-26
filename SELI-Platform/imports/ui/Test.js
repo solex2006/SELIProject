@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import FormStepper from '../components/navigation/FormStepper';
 import AppBar from '../components/navigation/AppBar';
 import CourseInformation from '../components/course/CourseInformation';
+import CourseRequirements from '../components/course/CourseRequirements';
 import CourseCreatorTool from '../components/course/CourseCreatorTool';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
@@ -22,15 +23,17 @@ export default class Test extends React.Component {
       ],
       courseForms: [
         <CourseInformation showControlMessage={this.showControlMessage.bind(this)}/>,
-        "2",
+        <CourseRequirements showControlMessage={this.showControlMessage.bind(this)}/>,
         <CourseCreatorTool showControlMessage={this.showControlMessage.bind(this)}/>,
-      ]
+      ],
     }
   }
 
   showControlMessage(){
 
   }
+
+  getUnityAttributes(){}
 
   render() {
     return(
@@ -44,7 +47,7 @@ export default class Test extends React.Component {
             forms={this.state.courseForms}
           />
         </MuiThemeProvider>
-        </div>
+      </div>
     )
   }
 }

@@ -97,6 +97,12 @@ export default class CourseInformation extends React.Component {
     }, () => console.log(this.state.courseInformation));
   }
 
+  keyController(event) {
+    if (event.which == 13 || event.keyCode == 13) {
+        this.addKeyWord();
+    }
+  }
+
   openGallery(fileType){
     this.setState({
       fileType: fileType
@@ -238,6 +244,7 @@ export default class CourseInformation extends React.Component {
               variant="outlined"
               required
               className="button-input"
+              onKeyPress={() => this.keyController(event)}
             />
             <Button onClick={() => this.addKeyWord()} className="form-small-button" color="primary">Add keyword</Button>
             <Help

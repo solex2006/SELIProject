@@ -1,0 +1,77 @@
+.text-form-container {
+  width: 40vw;
+  height: auto;
+}
+
+.form-selector-list {
+  background-color: #fafafa !important;
+  padding: 0 !important;
+}
+
+.form-selector-list-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none !important;
+}
+
+.form-selector-list-text .MuiListItemText-primary {
+  font-size: 1em !important;
+  letter-spacing: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+
+.form-selector-options-title {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 2vh 0;
+  text-align: center;
+}
+
+.form-selector-list-text .MuiListItemText-secondary {
+  font-size: 1em !important;
+  letter-spacing: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  margin-left: 14px !important;
+  pointer-events: none !important;
+}
+
+.form-selector-menu-item {
+  letter-spacing: 1px !important;
+  font-size: 0.9em !important;
+  padding: 0 !important;
+}
+
+.form-selector-list-icon {
+  user-select: none !important;
+  pointer-events: none !important;
+}
+
+.form-selector-list-item .MuiListItemIcon-root {
+  pointer-events: none;
+}
+
+.form-selector-options-list {
+  width: 15vw !important;
+}
+
+.form-label {
+  margin-right: 1vw;
+  margin-left: 0.5vw;
+}
+
+.margin-center-row {
+  padding-top: 16px;
+  padding-bottom: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.35s;
+}
+
+.full-width-input {
+  animation: fadeIn 0.35s;
+}

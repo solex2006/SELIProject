@@ -449,7 +449,7 @@ export default class Main extends React.Component {
                 undefined
               }
               {
-                this.state.component === 'peopleManagement' ?
+                this.state.component === 'peopleCategories' ?
                   <PeopleManagement
                     people={this.state.people}
                     deletePeople={this.deletePeople.bind(this)}

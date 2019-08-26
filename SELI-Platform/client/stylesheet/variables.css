@@ -73,6 +73,15 @@
   --form-stepper-height: 67.5px;
 
   /* Forms */
-
   --file-column-width: 550px;
+  --list-height: 60vh;
+  --progress-size: 4.25vw;
+  --unity-form: 40vw;
+  --preview-action-container: 60px;
+  --preview-text: 1.25em;
+
+  /* Cards */
+  --card-width: 15vw;
+  --card-height: 19vh;
+  --card-buttons: 40px;
 }

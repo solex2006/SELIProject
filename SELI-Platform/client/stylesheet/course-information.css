@@ -43,13 +43,14 @@
   margin-bottom: 8px;
   width: 100%;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
 .chip {
   background-color: var(--primary) !important;
   font-size: 0.7em !important;
-  margin: 0 0.25vw !important;
+  margin: 0.5vh 0.25vw !important;
   animation: zoomIn 0.5s;
   display: flex;
 }

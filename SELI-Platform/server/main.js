@@ -8,6 +8,7 @@ import '../lib/MethodologiesCollection';
 import '../lib/CategoriesCollection';
 import '../lib/RequirementsCollection';
 import '../lib/PeopleCollection';
+import '../lib/extract';
 
 Meteor.startup(() => {
   // code to run on server at startup
