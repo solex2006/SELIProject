@@ -44,6 +44,7 @@ import H5PForm from '../content/H5PForm';
 import QuizForm from '../content/QuizForm';
 import ActivityForm from '../content/ActivityForm';
 import EmbebedForm from '../content/EmbebedForm';
+import UnityForm from '../content/UnityForm';
 
 /* Accessibility Forms */
 import VideoAccessibilityForm from '../accessibility/VideoAccessibilityForm';
@@ -224,6 +225,7 @@ export default class CourseCreatorTool extends React.Component {
   getQuizAttributes(){}
   getActivityAttributes(){}
   getEmbebedAttributes(){}
+  getUnityAttributes(){}
 
   createContent(){
     let addedItems = this.state.addedItems;
@@ -310,6 +312,13 @@ export default class CourseCreatorTool extends React.Component {
     else if (this.state.contentTypeAdded === 'embebed') {
       let embebedContent = this.getEmbebedAttributes();
       addedItems[this.state.addedIndex].attributes = embebedContent;
+      this.setState({
+        addedItems: addedItems,
+      });
+    }
+    else if (this.state.contentTypeAdded === 'unity') {
+      let unityContent = this.getUnityAttributes();
+      addedItems[this.state.addedIndex].attributes = unityContent;
       this.setState({
         addedItems: addedItems,
       });
@@ -672,6 +681,15 @@ export default class CourseCreatorTool extends React.Component {
               this.state.contentTypeAdded === 'embebed' && !this.state.showAccesibilityOptions ?
                 <EmbebedForm
                   getEmbebedAttributesFunction={embebedAttributes => this.getEmbebedAttributes = embebedAttributes}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
+                />
+              :
+              undefined
+            }
+            {
+              this.state.contentTypeAdded === 'unity' && !this.state.showAccesibilityOptions ?
+                <UnityForm
+                  getUnityAttributesFunction={unityAttributes => this.getUnityAttributes = unityAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :

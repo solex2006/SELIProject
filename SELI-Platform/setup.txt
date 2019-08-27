@@ -29,3 +29,5 @@ meteor npm install @material-ui/lab
 meteor npm install --save react-swipeable-views react-swipeable-views-utils
 meteor npm install sanitize-html -- save
 meteor npm install react-iframe-comm --save
+meteor npm install react-unity-webgl --save
+meteor npm install --save unrar.js

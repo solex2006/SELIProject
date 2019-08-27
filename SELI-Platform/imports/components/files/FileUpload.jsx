@@ -1,51 +1,53 @@
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
-import TutorFilesCollection from '../../../lib/TutorFilesCollection';
+import PropTypes from 'prop-types';
+import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import { _ } from 'meteor/underscore';
-import IndividualFile from './IndividualFile';
-import Button from '@material-ui/core/Button';
+
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
+import { IoMdCloudUpload } from "react-icons/io";
+
+import IndividualUnity from './IndividualUnity';
+import Loading from '../tools/Loading';
 
 const debug = require('debug')('demo:file');
 
-class FileUploadComponent extends Component {
+class UnityUpload extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       uploading: [],
       progress: 0,
-      inProgress: false,
-      uploaded: false,
+      inProgress: false
     };
-
     this.uploadIt = this.uploadIt.bind(this);
   }
 
   uploadIt(e) {
     e.preventDefault();
     let self = this;
-    let uploaded = true;
     if (e.currentTarget.files && e.currentTarget.files[0]) {
       // We upload only one file, in case
       // there was multiple files selected
       var file = e.currentTarget.files[0];
-
       if (file) {
-        let uploadInstance;
-
-        uploadInstance = self.props.collection.insert({
+        let uploadInstance = CourseFilesCollection.insert({
           file: file,
           meta: {
             locator: self.props.fileLocator,
-            parentId: this.props.parentId,
+            dateAdded: new Date(),
+            isFavorite: false,
+            usedInCourse: false,
+            userId: "MyUser",
             //userId: Meteor.userId() // Optional, used to check on server for file tampering
           },
           streams: 'dynamic',
           chunkSize: 'dynamic',
           allowWebWorkers: true // If you see issues with uploads, change this to false
-        }, false);
+        }, false)
 
         self.setState({
           uploading: uploadInstance, // Keep track of this instance to use below
@@ -54,70 +56,31 @@ class FileUploadComponent extends Component {
 
         // These are the event functions, don't need most of them, it shows where we are in the process
         uploadInstance.on('start', function () {
-          console.log('Starting');
+          //console.log('Starting');
         })
 
         uploadInstance.on('end', function (error, fileObj) {
-          if((self.props.type === "video") && self.props.accessibilitySettings){
-            self.props.showAccesibilityForm(self.props.type);
-          }
-        })
-
-        uploadInstance.on('abort', function (fileObj) {
-          console.log(uploadInstance);
-          console.log(fileObj);
-          Meteor.call(self.props.removeFunction, uploadInstance.config.fileId, function (err) {
-            if (err) {
-              this.props.showControlMessage('There was an error deleting the file, try again later');
-              return;
-            }
-          });
-          self.props.removeFileInformation();
-          self.props.resetFile();
-          self.props.showControlMessage('Upload canceled');
-          self.setState({
-            uploading: [],
-            progress: 0,
-            inProgress: false,
-            uploaded: false,
-          });
+          //console.log('On end File Object: ', fileObj);
         })
 
         uploadInstance.on('uploaded', function (error, fileObj) {
-          self.props.showControlMessage("The file has been uploaded successfully");
-          if(self.props.type === 'video'){
-            //self.props.showVideoAccesibilityForm();
-          }
-          if(self.props.multifile){
-            let fileInformation = {};
-            fileInformation.fileId = uploadInstance.config.fileId;
-            fileInformation.type = self.props.type;
-            fileInformation.name = uploadInstance.file.name
-            self.props.addFile(fileInformation);
-          }
-          // Remove the filename from the upload box
-          self.refs['fileinput' + self.props.type].value = '';
-          if(self.props.multifile){
-            uploaded = false;
-          }
           // Reset our state for the next file
           self.setState({
             uploading: [],
             progress: 0,
-            inProgress: false,
-            uploaded: uploaded,
-          })
+            inProgress: false
+          }, () => {
+            // Remove the filename from the upload box
+            self.refs['fileinput' + self.props.type].value = '';
+          });
+          self.getFileInformation(fileObj);
         })
-
-
 
         uploadInstance.on('error', function (error, fileObj) {
           console.log('Error during upload: ' + error)
-          this.props.showControlMessage('There was an error uploading the file, try again later');
         });
 
         uploadInstance.on('progress', function (progress, fileObj) {
-          //console.log('Upload Percentage: ' + progress)
           // Update our progress bar
           self.setState({
             progress: progress
@@ -129,9 +92,31 @@ class FileUploadComponent extends Component {
     }
   }
 
+  getFileInformation(file){
+    Tracker.autorun(() => {
+      let uploadedFile = CourseFilesCollection.findOne({_id: file._id});
+      this.setState({
+        uploadedFile: uploadedFile,
+      }, () => {
+        if (this.state.uploadedFile !== undefined) {
+          file.link = this.state.uploadedFile.link();
+          this.props.getFileInformation(file);
+        }
+      });
+    });
+  }
+
   cancelUpload(){
     let uploading = this.state.uploading;
     uploading.abort();
+    this.setState({
+      uploading: [],
+      progress: 0,
+      inProgress: false
+    }, () => {
+      // Remove the filename from the upload box
+      this.refs['fileinput' + this.props.type].value = '';
+    });
   }
 
   // This is our progress bar, bootstrap styled
@@ -140,19 +125,30 @@ class FileUploadComponent extends Component {
     if (!_.isEmpty(this.state.uploading)) {
       return (
         <div>
-          <div className="loading-file-container">
-            <p className="loading-file-name-text">{this.state.uploading.file.name}</p>
-            <p className="loading-file-progress-text">{"Progress: " + this.state.progress + " % complete"}</p>
-            <div className="loading-file-progress-icon">
-              <CircularProgress
-                value={this.state.progress + "%"}
-                color="primary"
-              />
-            </div>
-            <div className="file-button-container">
-              <Button onClick={() => this.cancelUpload()} color="secondary" variant="contained">
-                Cancel upload
-              </Button>
+          <div className="uploading-file-container">
+            <div className="uploading-file-column">
+              <div className="uploading-file-row">
+                <p className="uploading-file-text">{"Uploading " + this.props.type + ", please wait..."}</p>
+                <div className="uploading-file-progress-container">
+                  <CircularProgress
+                    value={this.state.progress}
+                    color="primary"
+                    variant="static"
+                    size={getComputedStyle(document.documentElement).getPropertyValue('--progress-size')}
+                    thickness={5}
+                  />
+                  <p className="uploading-file-progress-text">
+                    {this.state.progress + "%"}
+                  </p>
+                </div>
+              </div>
+              <div className="uploading-file-row">
+                <div className="uploading-file-actions">
+                  <Button className="uploading-file-button" onClick={() => this.cancelUpload()} color="secondary" variant="contained">
+                    Cancel upload
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -160,95 +156,42 @@ class FileUploadComponent extends Component {
     }
   }
 
-  componentDidMount(){
-
-  }
-
-  removeFileInformation(){
-    this.setState({
-      uploading: [],
-      progress: 0,
-      inProgress: false,
-      uploaded: false,
-    }, () => {
-      this.props.removeFileInformation();
-    });
-  }
-
   render() {
-    debug("Rendering FileUpload", this.props.docsReadyYet);
+    debug("Rendering FileUpload",this.props.docsReadyYet);
     if (this.props.files && this.props.docsReadyYet) {
-
-      let fileCursors = this.props.files;
-
-      // Run through each file that the user has stored
-      // (make sure the subscription only sends files owned by this user)
-      let display = fileCursors.map((aFile, key) => {
-        // console.log('A file: ', aFile.link(), aFile.get('name'))
-        let link = this.props.collection.findOne({ _id: aFile._id }).link();
-        return <div key={'file' + key}>
-          <IndividualFile
-            fileName={aFile.name}
-            fileUrl={link}
-            fileId={aFile._id}
-            fileSize={aFile.size}
-            preview={this.props.preview}
-            dowload={this.props.download}
-            open={this.props.open}
-            delete={this.props.delete}
-            showIcon={this.props.showIcon}
-            parent={this.props.parentId}
-            collectionName={aFile._collectionName}
-            uploadedTitle={this.props.uploadedTitle}
-            icon={this.props.icon}
-            collection={this.props.collection}
-            removeFunction={this.props.removeFunction}
-            type={this.props.type}
-            showControlMessage={this.props.showControlMessage.bind(this)}
-            getFileInformation={this.props.getFileInformation.bind(this)}
-            removeFileInformation={this.removeFileInformation.bind(this)}
-            resetFile={this.props.resetFile.bind(this)}
-          />
-        </div>
-      })
-
       return (
         <div>
           {
-            !this.state.uploaded ?
-              <div className="input-file-container">
+            !this.state.inProgress ?
+              <div className="upload-container">
                 <input
                   type="file"
                   id={"fileinput" + this.props.type}
-                  disabled={this.state.inProgress}
                   onChange={this.uploadIt}
                   ref={"fileinput" + this.props.type}
                   className="file-upload-input"
                   accept={this.props.accept}
                 />
                 <label htmlFor={"fileinput" + this.props.type}>
-                  <Button className="upload-file-button" variant="contained" component="span">
-                    {this.props.label}
+                  <Button className="upload-button" variant="contained" component="span">
+                    <div className="center-row">
+                      <IoMdCloudUpload className="upload-icon"/>
+                    </div>
+                    {`Upload ${this.props.type}`}
                   </Button>
                 </label>
               </div>
             :
             undefined
           }
-          <div>
-            {this.showUploads()}
-          </div>
-          {display}
+          {this.showUploads()}
         </div>
-      )
+      );
     }
     else {
       return (
         <div>
-          <CircularProgress
-            value={this.state.progress + "%"}
-            color="primary"
-          />
+          <Loading message="Loading file uploader..."/>
         </div>
       );
     }
@@ -259,24 +202,12 @@ class FileUploadComponent extends Component {
 // This is the HOC - included in this file just for convenience, but usually kept
 // in a separate file to provide separation of concerns.
 //
-export default withTracker((props) => {
+export default withTracker( ( props ) => {
   const filesHandle = Meteor.subscribe('files.all');
   const docsReadyYet = filesHandle.ready();
-  const meta = {
-    parentId: props.parentId,
-  };
-  let files = props.collection.find({ meta: meta }, { sort: { name: 1 } }).fetch();
-  //console.log(meta);
-  //console.log(files);
-  let uploaded = false;
-  if(files !== undefined){
-    if (files.length) {
-      uploaded = true;
-    }
-  }
+  const files = CourseFilesCollection.find({}, {sort: {name: 1}}).fetch();
   return {
     docsReadyYet,
     files,
-    uploaded,
   };
-})(FileUploadComponent);
+})(UnityUpload);

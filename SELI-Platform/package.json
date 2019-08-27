@@ -41,10 +41,13 @@
     "react-spinners": "^0.5.13",
     "react-swipeable-views": "^0.13.3",
     "react-swipeable-views-utils": "^0.13.3",
+    "react-unity-webgl": "^7.1.7",
     "sanitize-html": "^1.20.1",
     "save": "^2.4.0",
     "sort-json-array": "^0.1.7",
-    "swiper": "^4.5.0"
+    "swiper": "^4.5.0",
+    "unrar-js": "^0.2.3",
+    "unrar.js": "^0.2.5"
   },
   "meteor": {
     "mainModule": {

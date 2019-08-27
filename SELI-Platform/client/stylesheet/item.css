@@ -92,6 +92,7 @@
   letter-spacing: 1px;
   color: #424242;
   transition: 0.5s;
+  font-weight: 100 !important;
 }
 
 .text-item-section {

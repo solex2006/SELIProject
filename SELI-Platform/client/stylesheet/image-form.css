@@ -1,0 +1,8 @@
+.image-form {
+  width: 40vw;
+  height: auto;
+}
+
+.MuiDialog-paperScrollPaper {
+  max-height: 95vh !important;
+}

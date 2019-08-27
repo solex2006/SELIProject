@@ -13,7 +13,9 @@ export default class TextItem extends React.Component {
 
 
   componentDidMount(){
-
+    if (this.props.item.attributes.type === 'section') {
+      document.getElementById(this.props.item.id + "section").innerHTML = this.props.item.attributes.content;
+    }
   }
 
   render() {
@@ -30,9 +32,9 @@ export default class TextItem extends React.Component {
           }
           {
             this.props.item.attributes.type === 'section' ?
-              <p className="text-item-section"  style={{textAlign: this.props.item.attributes.alignment}}>
-                {this.props.item.attributes.content}
-              </p>
+              <div id={this.props.item.id + "section"} className="text-item-section">
+
+              </div>
             :
             undefined
           }

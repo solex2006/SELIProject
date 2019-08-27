@@ -14,6 +14,7 @@ import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import ArchiveIcon from '@material-ui/icons/Archive';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -46,9 +47,11 @@ export default function FileInformation(props) {
 
   return (
     <div>
-      <IconButton onClick={handleClick} aria-label="settings">
-        <MoreVertIcon />
-      </IconButton>
+      <Tooltip title="File information">
+        <IconButton className="card-button" onClick={handleClick} aria-label="settings">
+          <MoreVertIcon className="card-icon"/>
+        </IconButton>
+      </Tooltip>
       <Popover
         id={id}
         open={open}
@@ -69,7 +72,7 @@ export default function FileInformation(props) {
             avatar={
               <div>
                 {
-                  props.type === 'image' ?
+                  props.file.isImage ?
                     <Avatar className="image-avatar" aria-label="information">
                       <CollectionsIcon/>
                     </Avatar>

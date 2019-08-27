@@ -1,0 +1,29 @@
+.upload-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-file-container {
+  width: 100%;
+  height: 27.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.5s;
+}
+
+.upload-button {
+  padding: 4vh 2vw !important;
+  display: grid !important;
+  color: #9e9e9e !important;
+  border-radius: 0 !important;
+  letter-spacing: 1px !important;
+  font-size: 1.25em !important;
+  background-color: var(--white) !important;
+}
+
+.upload-icon {
+  font-size: 3.75em !important;
+}
