@@ -22,8 +22,8 @@
 }
 
 .helper-image {
-  width: 350px;
-  height: 350px;
+  max-width: 350px;
+  max-height: 350px;
   background-position: center;
   background-size: 350px;
   background-repeat: no-repeat;
