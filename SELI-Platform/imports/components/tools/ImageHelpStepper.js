@@ -277,7 +277,7 @@ export default function ImageHelpStepper(props) {
         return shortAltTxtSteps;
       case 'shortAltHelper_cplx':
         return shortAltCplxSteps;
-      case 'longAltHeslper_cplx':
+      case 'longAltHelper_cplx':
         return longAltCplxSteps;
       default:
         return [];

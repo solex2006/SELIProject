@@ -11,10 +11,17 @@ import Help from './Help';
 import Decision from './DecisionHelpStepper';
 
 const useStyles = makeStyles(theme => ({
-   iconButton:{
+  iconButton:{
     verticalAlign:'baseline',
     padding: 0,
-  }
+  },
+  acessibValid:{
+    color: '#00897b'
+  },
+  accessibError:{
+    color: '#e53935'
+  },
+
 }));
 
 /*
@@ -30,17 +37,17 @@ export default function AccessibilityHelp(props) {
     
     return(
       <React.Fragment>
-        <FormHelperText role="note" id={props.name+"-input-helper-text"} error={props.err} component="span">
+        <FormHelperText role="note" id={props.idName+"-input-helper-text"} error={props.err} component="span">
             {
               !props.error?
               <AccessibilityIcon 
                 aria-label={props.error? "Accessibility fault" : "Passed accessibility validation"}
-                className={props.error? "accessib-error" : "accessib-valid"}
+                className={props.error? "accessibError" : "accessibValid"}
               />
               :undefined 
-            }
+            }   
             <InfoIcon aria-label="Accessibilit tip"/>
-            {props.tip}
+            <span className={props.error? "accessibError" : "accessibValid"}>{props.tip}</span>
             <br/>
             {
               props.step !== undefined?
