@@ -15,8 +15,11 @@ import PauseIcon from '@material-ui/icons/Pause';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import FileInformation from './FileInformation';
+
+import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 
 export default class LibraryVideo extends React.Component {
   constructor(props) {
@@ -30,8 +33,8 @@ export default class LibraryVideo extends React.Component {
 
   }
 
-  useImage(){
-    this.props.pickFile(this.props.file);
+  useVideo(){
+    this.props.getFileInformation(this.props.file);
   }
 
   delete(){
@@ -42,11 +45,19 @@ export default class LibraryVideo extends React.Component {
       }
     });
     this.props.showControlMessage('File deleted successfully');
-    this.props.resetInputButton();
   }
 
   addToFavorites(){
-    console.log('fav');
+    let meta = this.props.file.meta;
+    meta.isFavorite = !meta.isFavorite;
+    CourseFilesCollection.update(
+      { _id: this.props.file._id },
+      { $set:
+        {
+          meta: meta,
+        }
+      }
+    );
   }
 
   play(){
@@ -65,33 +76,41 @@ export default class LibraryVideo extends React.Component {
 
   render() {
     return(
-      <Card className="image-card">
+      <Card className="video-card">
         <CardMedia
           component="video"
           src={this.props.file.link}
           title={this.props.file.name}
-          className="card-media-image"
-          onClick={() => this.useImage()}
+          className="card-media-video"
+          onClick={() => this.useVideo()}
           id={this.props.file._id}
         />
         <CardActions className="card-actions-bottom-container" disableSpacing>
           {
             this.state.playing ?
-              <IconButton onClick={() => this.pause()} aria-label="add to favorites">
-                <PauseIcon />
-              </IconButton>
+              <Tooltip title="Pause">
+                <IconButton className="card-button" onClick={() => this.pause()} aria-label="add to favorites">
+                  <PauseIcon className="card-icon"/>
+                </IconButton>
+              </Tooltip>
             :
-            <IconButton onClick={() => this.play()} aria-label="add to favorites">
-              <PlayArrowIcon />
-            </IconButton>
+            <Tooltip title="Play">
+              <IconButton className="card-button" onClick={() => this.play()} aria-label="add to favorites">
+                <PlayArrowIcon className="card-icon"/>
+              </IconButton>
+            </Tooltip>
           }
-          <IconButton onClick={() => this.addToFavorites()} aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton onClick={() => this.delete()} aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-          <FileInformation type={this.props.type} file={this.props.file}/>
+          <Tooltip title="Add to favorites">
+            <IconButton color={this.props.file.meta.isFavorite ? `primary` : undefined} className="card-button" onClick={() => this.addToFavorites()} aria-label="add to favorites">
+              <FavoriteIcon className="card-icon"/>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <IconButton className="card-button" onClick={() => this.delete()} aria-label="delete">
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+          <FileInformation type={this.props.file.type} file={this.props.file}/>
         </CardActions>
       </Card>
       );

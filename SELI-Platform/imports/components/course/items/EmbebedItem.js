@@ -11,8 +11,6 @@ export default class EmbebedItem extends React.Component {
     }
   }
 
-
-
   componentDidMount(){
 
   }
@@ -20,29 +18,29 @@ export default class EmbebedItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        {
-          this.props.item.attributes !== undefined ?
-            <div className="embebed-content-item">
-              <div style={{textAlign: this.props.item.attributes.alignment}} className="embebed-item-container">
-                <div className="embebed-description-item-section">
-                  {this.props.item.attributes.content}
-                </div>
+        <div style={{flexDirection: this.props.item.attributes.alignment}} className="embebed-content-item">
+          {
+            this.props.item.attributes.description ?
+              <div
+                className="embebed-description-item-section"
+                dangerouslySetInnerHTML={{__html: this.props.item.attributes.content}}
+              >
               </div>
-              <div className="embebed-item-container-activity">
-                <Iframe
-                  url={this.props.item.attributes.url}
-                  id="myId"
-                  className="embebed-iframe"
-                  display="initial"
-                  position="relative"
-                  width={this.props.item.attributes.size.width}
-                  height={this.props.item.attributes.size.height}
-                />
-              </div>
-            </div>
-          :
-          undefined
-        }
+            :
+            undefined
+          }
+          <div className="embebed-item-container-activity">
+            <Iframe
+              url={this.props.item.attributes.url}
+              id={this.props.item.id}
+              className="embebed-iframe"
+              display="initial"
+              position="relative"
+              width={this.props.item.attributes.size.width}
+              height={this.props.item.attributes.size.height}
+            />
+          </div>
+        </div>
         <div className="menu-content-item">
           <MenuItem
             item={this.props.item}

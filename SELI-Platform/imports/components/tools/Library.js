@@ -28,7 +28,7 @@ import { MdVideocam } from "react-icons/md";
 import { FaItunesNote } from "react-icons/fa";
 import { FaRegFilePdf } from "react-icons/fa";
 import { GoPackage } from "react-icons/go";
-import FilterListIcon from '@material-ui/icons/FilterList';
+import SortIcon from '@material-ui/icons/Sort';
 import SearchIcon from '@material-ui/icons/Search';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
@@ -72,6 +72,9 @@ export default class Library extends React.Component {
     for (var i = 0; i < files.length; i++) {
       let link = CourseFilesCollection.findOne({_id: files[i]._id}).link();
       files[i].link = link;
+      if (this.props.type === 'compressed') {
+        files[i].isCompressed = true;
+      }
     }
     this.setState({
       files: files,
@@ -112,7 +115,6 @@ export default class Library extends React.Component {
   }
 
   handleClickListItem(event) {
-    console.log(event.target);
     this.setState({
       anchorEl: event.target
     });
@@ -131,6 +133,16 @@ export default class Library extends React.Component {
     });
   }
 
+  sortByAttribute(attribute){
+    var sortJsonArray = require('sort-json-array');
+  }
+
+  changeSortWay(attribute){
+    this.setState({
+      sortWay: !this.state.sortWay,
+    });
+  }
+
   render() {
     return(
       <div className="library-tool-container">
@@ -142,7 +154,7 @@ export default class Library extends React.Component {
             {
               this.state.results ?
                 <Paper className="library-results-header">
-                  <Tooltip title="back">
+                  <Tooltip title="Back">
                     <IconButton onClick={() => this.props.hideLibrary()} color="primary" size="medium" aria-label="filter list">
                       <ArrowBackIcon />
                     </IconButton>
@@ -152,7 +164,7 @@ export default class Library extends React.Component {
                     inputProps={{ 'aria-label': 'search in library' }}
                     className="library-search-input"
                   />
-                  <Tooltip title="search">
+                  <Tooltip title="Search">
                     <IconButton aria-label="search">
                       <SearchIcon />
                     </IconButton>
@@ -164,7 +176,7 @@ export default class Library extends React.Component {
                   </Tooltip>
                   <Tooltip title="Filter">
                     <IconButton color="primary" onClick={() => this.handleClickListItem(event)} size="medium" aria-label="filter list">
-                      <FilterListIcon style={{pointerEvents: "none"}} />
+                      <SortIcon style={{pointerEvents: "none"}} />
                     </IconButton>
                   </Tooltip>
                   <Popover
@@ -216,10 +228,53 @@ export default class Library extends React.Component {
                     {
                       this.state.files.map((file, index) => {
                         return(
-                          <LibraryImage
-                            file={file}
-                            getFileInformation={this.props.getFileInformation.bind(this)}
-                          />
+                          <div>
+                            {
+                              this.props.type === "image" ?
+                                <LibraryImage
+                                  file={file}
+                                  getFileInformation={this.props.getFileInformation.bind(this)}
+                                />
+                              :
+                              undefined
+                            }
+                            {
+                              this.props.type === "video" ?
+                                <LibraryVideo
+                                  file={file}
+                                  getFileInformation={this.props.getFileInformation.bind(this)}
+                                />
+                              :
+                              undefined
+                            }
+                            {
+                              this.props.type === "audio" ?
+                                <LibraryAudio
+                                  file={file}
+                                  getFileInformation={this.props.getFileInformation.bind(this)}
+                                />
+                              :
+                              undefined
+                            }
+                            {
+                              this.props.type === "pdf" ?
+                                <LibraryPdf
+                                  file={file}
+                                  getFileInformation={this.props.getFileInformation.bind(this)}
+                                />
+                              :
+                              undefined
+                            }
+                            {
+                              this.props.type === "compressed" ?
+                                <LibraryCompressed
+                                  file={file}
+                                  getFileInformation={this.props.getFileInformation.bind(this)}
+                                />
+                              :
+                              undefined
+                            }
+                          </div>
                         )
                       })
                     }

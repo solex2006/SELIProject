@@ -81,7 +81,13 @@
   --preview-text: 1.25em;
 
   /* Cards */
-  --card-width: 15vw;
-  --card-height: 19vh;
+  --image-card-width: 15vw;
+  --image-card-height: 19vh;
+  --video-card-width: 30vw;
+  --video-card-height: 38vh;
+  --audio-card-height: 15vh;
+  --audio-card-width: 20vw;
+  --pdf-card-width: 65vw;
+  --pdf-card-height: 12vh;
   --card-buttons: 40px;
 }

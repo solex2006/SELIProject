@@ -43,7 +43,6 @@ export default class LibraryImage extends React.Component {
       }
     });
     this.props.showControlMessage('File deleted successfully');
-    this.props.resetInputButton();
   }
 
   addToFavorites(){

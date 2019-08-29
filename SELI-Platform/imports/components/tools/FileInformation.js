@@ -80,7 +80,7 @@ export default function FileInformation(props) {
                   undefined
                 }
                 {
-                  props.type === 'video' ?
+                  props.file.isVideo ?
                     <Avatar className="video-avatar" aria-label="information">
                       <VideoLibraryIcon/>
                     </Avatar>
@@ -88,7 +88,7 @@ export default function FileInformation(props) {
                   undefined
                 }
                 {
-                  props.type === 'audio' ?
+                  props.file.isAudio ?
                     <Avatar className="audio-avatar" aria-label="information">
                       <LibraryMusicIcon/>
                     </Avatar>
@@ -96,7 +96,7 @@ export default function FileInformation(props) {
                   undefined
                 }
                 {
-                  props.type === 'pdf' ?
+                  props.file.isPDF ?
                     <Avatar className="pdf-avatar" aria-label="information">
                       <PictureAsPdfIcon/>
                     </Avatar>
@@ -104,7 +104,7 @@ export default function FileInformation(props) {
                   undefined
                 }
                 {
-                  props.type === 'compressed' ?
+                  props.type.siCompressed ?
                     <Avatar className="compressed-avatar" aria-label="information">
                       <ArchiveIcon/>
                     </Avatar>

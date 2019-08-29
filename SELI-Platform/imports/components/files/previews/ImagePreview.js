@@ -15,7 +15,6 @@ export default class ImagePreview extends React.Component {
   }
 
   componentDidMount(){
-    console.log(this.props.file);
     let file = this.props.file;
     this.setState({
       nameWithoutExtension: true,

@@ -16,47 +16,30 @@ export default class VideoItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        {
-          this.props.item.attributes !== undefined ?
-            <div className="video-content-item">
-              <div id={this.props.item.attributes.video.id+"container"+this.props.item.id} className="video-item-container" style={{justifyContent: this.props.item.attributes.alignment}}>
-                {
-                  this.props.item.attributes.description !== "" && this.props.item.attributes.alignment === "flex-end" ?
-                    <div id={this.props.item.attributes.video.id+"description"+this.props.item.id} className="video-item-description">
-                      {this.props.item.attributes.description}
-                    </div>
-                  :
-                  undefined
-                }
-                {
-                  this.props.item.attributes.source === 'upload' ?
-                    <video id={ this.props.item.attributes.video.id + this.props.item.id } className="video-item" controls>
-                      <source src={this.props.item.attributes.video.url}></source>
-                    </video>
-                  :
-                  undefined
-                }
-                {
-                  this.props.item.attributes.description !== "" && this.props.item.attributes.alignment === "flex-start" ?
-                    <div id={this.props.item.attributes.video.id+"description"+this.props.item.id} className="video-item-description">
-                      {this.props.item.attributes.description}
-                    </div>
-                  :
-                  undefined
-                }
-              </div>
-              {
-                this.props.item.attributes.description !== "" && this.props.item.attributes.alignment === "center" ?
-                  <div id={this.props.item.attributes.video.id+"description"+this.props.item.id} className="video-item-description-full">
-                    {this.props.item.attributes.description}
-                  </div>
-                :
+        <div className="image-content-item">
+          <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
+            <video id={ this.props.item.attributes.video.id + this.props.item.id } className="video-item" controls>
+              <source src={this.props.item.attributes.video.link}></source>
+            </video>
+            {
+              this.props.item.attributes.description !== "" ?
+                <div
+                  id={this.props.item.attributes.video._id+"description"+this.props.item.id}
+                  style={{width: this.props.item.attributes.descriptionWidth}}
+                  className={
+                    this.props.item.attributes.alignment === "row" || this.props.item.attributes.alignment === "row-reverse" ?
+                      "image-item-description"
+                    :
+                    "image-item-description-full"
+                  }
+                  dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
+                >
+                </div>
+              :
                 undefined
-              }
-            </div>
-          :
-          undefined
-        }
+            }
+          </div>
+        </div>
         <div className="menu-content-item">
           <MenuItem
             item={this.props.item}

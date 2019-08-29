@@ -21,16 +21,34 @@ export default class Test extends React.Component {
         {label: 'Requirements', save: 'Save course requirements', edit: 'Edit course requirements', icon: <PlaylistAddCheckIcon color="primary"/>},
         {label: 'Program', save: 'Save course program', edit: 'Edit course program', icon: <SchoolIcon color="primary"/>},
       ],
-      courseForms: [
-        <CourseInformation showControlMessage={this.showControlMessage.bind(this)}/>,
-        <CourseRequirements showControlMessage={this.showControlMessage.bind(this)}/>,
-        <CourseCreatorTool showControlMessage={this.showControlMessage.bind(this)}/>,
-      ],
+      courseInformation: {
+        title: '',
+        subtitle: '',
+        description: '',
+        keyWords: [],
+        image: undefined,
+        sylabus: undefined,
+        duration: '',
+        modalities: [],
+        methodologies: [],
+      },
+      requirementsList: [],
+      buildedItems: false,
     }
   }
 
   showControlMessage(){
 
+  }
+
+  componentDidMount() {
+    this.setState({
+      courseForms: [
+        <CourseInformation courseInformation={this.state.courseInformation} showControlMessage={this.showControlMessage.bind(this)}/>,
+        <CourseRequirements requirementsList={this.state.requirementsList} buildedItems={this.state.buildedItems} showControlMessage={this.showControlMessage.bind(this)}/>,
+        <CourseCreatorTool showControlMessage={this.showControlMessage.bind(this)}/>,
+      ],
+    })
   }
 
   getUnityAttributes(){}
@@ -40,12 +58,17 @@ export default class Test extends React.Component {
       <div>
         <MuiThemeProvider theme={theme}>
           <AppBar/>
-          <FormStepper
-            title="Create course"
-            color="primary"
-            steps={this.state.courseSteps}
-            forms={this.state.courseForms}
-          />
+          {
+            this.state.courseForms !== undefined ?
+              <FormStepper
+                title="Create course"
+                color="primary"
+                steps={this.state.courseSteps}
+                forms={this.state.courseForms}
+              />
+            :
+            undefined
+          }
         </MuiThemeProvider>
       </div>
     )

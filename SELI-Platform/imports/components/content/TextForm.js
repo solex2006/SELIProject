@@ -13,6 +13,9 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
+import TitleIcon from '@material-ui/icons/Title';
+import TextFieldsIcon from '@material-ui/icons/TextFields';
+import SubjectIcon from '@material-ui/icons/Subject';
 import Grid from '@material-ui/core/Grid';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
@@ -25,9 +28,9 @@ export default class TextForm extends React.Component {
       textType: 'title',
       alignment: 'center',
       options: [
-        {label: 'Title', value: 'title'},
-        {label: 'Subtitle', value: 'subtitle'},
-        {label: 'Text section', value: 'section'},
+        {label: 'Title', value: 'title', icon: <TitleIcon/>},
+        {label: 'Subtitle', value: 'subtitle', icon: <TextFieldsIcon/>},
+        {label: 'Text section', value: 'section', icon: <SubjectIcon/>},
       ],
       selectedIndex: 0,
     }
@@ -127,6 +130,9 @@ export default class TextForm extends React.Component {
             {this.state.options.map((option, index) => {
               return (
                 <ListItem className="form-selector-options-list-item" onClick={() => this.handleMenuItemClick(event, index)} key={option.label} button>
+                  <ListItemIcon>
+                    {option.icon}
+                  </ListItemIcon>
                   <ListItemText id={option.label} primary={`${option.label}`} />
                   <ListItemSecondaryAction>
                     <Checkbox

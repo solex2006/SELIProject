@@ -14,8 +14,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { FaRegFilePdf } from "react-icons/fa";
+import Tooltip from '@material-ui/core/Tooltip';
 
 import FileInformation from './FileInformation';
+
+import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 
 export default class LibraryPdf extends React.Component {
   constructor(props) {
@@ -29,8 +32,8 @@ export default class LibraryPdf extends React.Component {
 
   }
 
-  useImage(){
-    this.props.pickFile(this.props.file);
+  useFile(){
+    this.props.getFileInformation(this.props.file);
   }
 
   delete(){
@@ -41,11 +44,19 @@ export default class LibraryPdf extends React.Component {
       }
     });
     this.props.showControlMessage('File deleted successfully');
-    this.props.resetInputButton();
   }
 
   addToFavorites(){
-    console.log('fav');
+    let meta = this.props.file.meta;
+    meta.isFavorite = !meta.isFavorite;
+    CourseFilesCollection.update(
+      { _id: this.props.file._id },
+      { $set:
+        {
+          meta: meta,
+        }
+      }
+    );
   }
 
   render() {
@@ -54,19 +65,23 @@ export default class LibraryPdf extends React.Component {
         <CardMedia
           title={this.props.file.name}
           className="card-media-pdf"
-          onClick={() => this.useImage()}
+          onClick={() => this.useFile()}
         >
-          <FaRegFilePdf size="3.5em"/>
+          <FaRegFilePdf id="library-pdf-icon" className="library-file-icon"/>
+          <div onClick={() => this.useFile()} className="card-media-pdf-text">{this.props.file.name}</div>
         </CardMedia>
-        <div onClick={() => this.useImage()} className="card-media-text">{this.props.file.name}</div>
         <CardActions className="card-actions-bottom-container" disableSpacing>
-          <IconButton onClick={() => this.addToFavorites()} aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton onClick={() => this.delete()} aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-          <FileInformation type={this.props.type} file={this.props.file}/>
+          <Tooltip title="Add to favorites">
+            <IconButton color={this.props.file.meta.isFavorite ? `primary` : undefined} className="card-button" onClick={() => this.addToFavorites()} aria-label="add to favorites">
+              <FavoriteIcon className="card-icon"/>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete file">
+            <IconButton className="card-button" onClick={() => this.delete()} aria-label="delete">
+              <DeleteIcon className="card-icon"/>
+            </IconButton>
+          </Tooltip>
+          <FileInformation type={this.props.file.type} file={this.props.file}/>
         </CardActions>
       </Card>
       );

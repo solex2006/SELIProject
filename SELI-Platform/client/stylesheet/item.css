@@ -110,12 +110,15 @@
 .image-content-item {
   width: calc(100% - var(--menu-item-width));
   height: auto;
+  display: flex;
 }
 
 .image-item-container {
   width: 95%;
   padding: 1.5vh 2.5%;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .image-item {
@@ -127,25 +130,21 @@
 
 .image-item-description {
   width: calc(100% - 500px);
-  display: flex;
-  align-items: center;
-  padding: 1.5vh 30px;
+  padding: 1.5vh 15px;
   font-size: 0.85em;
   letter-spacing: 0.5px;
   color: #757575;
-  text-align: justify;
   word-break: break-all;
+  position: relative;
+  height: auto;
 }
 
 .image-item-description-full {
   width: 95%;
-  display: flex;
-  align-items: center;
   padding: 1.5vh 2.5%;
   font-size: 0.85em;
   letter-spacing: 0.5px;
   color: #757575;
-  text-align: justify;
   word-break: break-all;
   transition: 0.5s;
 }
@@ -203,6 +202,7 @@
   width: 95%;
   padding: 1.5vh 2.5%;
   display: flex;
+  justify-content: center;
 }
 
 .video-item {
@@ -323,19 +323,16 @@
 
 .pdf-item-instruction {
   width: 90%;
-  display: flex;
-  align-items: center;
-  padding: 1.5vh 30px;
-  font-size: 1.1em;
-  font-weight: 500;
+  padding: 1vh 30px;
+  font-size: 1em;
   letter-spacing: 1px;
   color: #757575;
-  text-align: justify;
+  margin-bottom: 1vh;
 }
 
 .instruction-title {
   width: 90%;
-  margin: 0 5%;
+  margin: 2.5vh 5%;
   text-transform: uppercase;
 }
 
@@ -524,17 +521,16 @@
 .embebed-content-item {
   width: calc(100% - var(--menu-item-width));
   height: auto;
-}
-
-.embebed-item-container {
-  width: 95%;
-  padding: 2.5vh 2.5%;
+  display: flex;
 }
 
 .embebed-description-item-section {
   color: #616161;
   font-size: 1em;
   word-break: break-all;
+  padding: 1vh 2.5%;
+  padding-top: 2vh;
+  width: 95%;
 }
 
 .embebed-item-container-activity {

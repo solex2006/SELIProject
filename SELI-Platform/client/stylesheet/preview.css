@@ -31,12 +31,12 @@
 .file-preview-name {
   width: 100%;
   text-align: center;
-  height: var(--preview-text);
+  height: auto;
   letter-spacing: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc((var(--preview-text) - 0.15em));
+  font-size: calc((var(--preview-text) - 0.35em));
   word-break: break-all;
 }
 
@@ -77,6 +77,42 @@
 #image-preview-information {
   width: calc(80% - var(--preview-action-container));
   background-color: #f5f5f5;
+}
+
+#pdf-preview-information {
+  width: calc(50% - var(--preview-action-container));
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pdf-file-preview-icon {
+  font-size: 3em;
+  margin-bottom: 3vh;
+  border-radius: 100%;
+  color: var(--white);
+  padding: 10px;
+  background-color: #e57373;
+}
+
+#compressed-preview-information {
+  width: calc(50% - var(--preview-action-container));
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.compressed-file-preview-icon {
+  font-size: 3em;
+  margin-bottom: 3vh;
+  border-radius: 100%;
+  color: var(--white);
+  padding: 10px;
+  background-color: #7e57c2;
 }
 
 .file-image-preview {

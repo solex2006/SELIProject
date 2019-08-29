@@ -42,13 +42,14 @@ export default class CourseRequirements extends React.Component {
       },
       audienceAllowed: [],
       technicalRequirements: [],
-      lists: [],
+      lists: this.props.requirementsList,
       loading: true,
       request: {
         name: '',
         description: '',
         type: '',
       },
+      buildedItems: this.props.buildedItems,
     }
   }
 
@@ -70,40 +71,48 @@ export default class CourseRequirements extends React.Component {
   }
 
   buildItems() {
-    let audienceAllowed = this.state.audienceAllowed;
-    let technicalRequirements = this.state.technicalRequirements;
-    let lists = this.state.lists;
-    if (audienceAllowed.length && technicalRequirements.length) {
-      audienceAllowed.map(audience => {audience.selected = false});
-      technicalRequirements.map(requirement => {requirement.selected = false});
-      lists.push(
-        {
-          id: 1,
-          name: "Audiences",
-          label: "Select the audience that will be allowed to take your course",
-          options: audienceAllowed,
-          help: {helper: "audienceHelper", text: "Audiences are:"},
-          icon: <PeopleIcon/>,
-        },
-        {
-          id: 2,
-          name: "Technical requirements",
-          label: "Select the technical requirements that will be nedded to take your course",
-          options: technicalRequirements,
-          help: {helper: "technicalRequirementsHelper", text: "Technical Requirements are:"},
-          icon: <DevicesIcon/>,
-        }
-      );
-      this.setState({
-        audienceAllowed: audienceAllowed,
-        technicalRequirements: technicalRequirements,
-        lists: lists,
-        loading: false,
-      });
+    if (!this.state.lists.length) {
+      let audienceAllowed = this.state.audienceAllowed;
+      let technicalRequirements = this.state.technicalRequirements;
+      let lists = this.state.lists;
+      if (audienceAllowed.length && technicalRequirements.length) {
+        audienceAllowed.map(audience => {audience.selected = false});
+        technicalRequirements.map(requirement => {requirement.selected = false});
+        lists.push(
+          {
+            id: 1,
+            name: "Audiences",
+            label: "This course will support the following disabilities:",
+            options: audienceAllowed,
+            help: {helper: "audienceHelper", text: "Audiences are:"},
+            icon: <PeopleIcon/>,
+          },
+          {
+            id: 2,
+            name: "Technical requirements",
+            label: "This course will need the following technical requirements:",
+            options: technicalRequirements,
+            help: {helper: "technicalRequirementsHelper", text: "Technical Requirements are:"},
+            icon: <DevicesIcon/>,
+          }
+        );
+        this.setState({
+          audienceAllowed: audienceAllowed,
+          technicalRequirements: technicalRequirements,
+          lists: lists,
+          loading: false,
+          buildedItems: true,
+        });
+      }
+      else {
+        this.setState({
+          loading: true,
+        })
+      }
     }
     else {
       this.setState({
-        loading: true,
+        loading: false,
       })
     }
   }
@@ -121,7 +130,7 @@ export default class CourseRequirements extends React.Component {
     }
     this.setState({
       request: request,
-    }, () => console.log(this.state.request));
+    });
   };
 
   componentDidMount() {

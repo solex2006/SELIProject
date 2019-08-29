@@ -9,7 +9,7 @@
 .form-file-column {
   width: var(--file-column-width);
   height: 100%;
-  background-color: #fafafa;
+  background-color: #fcfcfc;
 }
 
 .form-input-column {
@@ -76,7 +76,7 @@
 }
 
 .form-image-button {
-  height: 60% !important;
+  height: calc((100vh - var(--form-stepper-height) - var(--app-bar-height))* 0.6)  !important;
   display: grid !important;
   border-radius: 0 !important;
   font-size: 1.5em !important;
@@ -84,7 +84,7 @@
 }
 
 .form-file-button {
-  height: 40% !important;
+  height: calc((100vh - var(--form-stepper-height) - var(--app-bar-height))* 0.4)  !important;
   display: grid !important;
   border-radius: 0 !important;
   font-size: 1.5em !important;
@@ -97,6 +97,14 @@
 
 .form-dialog {
   width: auto;
+}
+
+.file-form-dialog {
+  max-width: 67.5vw;
+}
+
+.form-preview-container {
+  width: 40vw;
 }
 
 .form-dialog-center-text {
@@ -119,4 +127,71 @@
   align-items: center;
   justify-content: center;
   height: 30vh !important;
+}
+
+.form-file-selected-container {
+  position: relative;
+}
+
+.form-file-selected-image-container {
+  width: 100%;
+  height: calc((100vh - var(--form-stepper-height) - var(--app-bar-height))* 0.6)  !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  animation: fadeInLeft 0.5s;
+  background-color: #fafafa;
+  transition: 0.5s;
+}
+
+.form-file-selected-file-container {
+  width: 100%;
+  height: calc((100vh - var(--form-stepper-height) - var(--app-bar-height))* 0.4)  !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  animation: fadeInUp 0.5s;
+  color: #616161 !important;
+  background-color: #f5f5f5;
+  transition: 0.5s;
+}
+
+.form-file-selected-file-title {
+  letter-spacing: 1px;
+  font-size: 1.75em;
+  text-transform: uppercase;
+}
+
+.form-file-selected-file-subtitle {
+  word-break: break-all;
+  letter-spacing: 1px;
+  font-size: 1.15em;
+}
+
+.file-selected-icon {
+  border-radius: 100% !important;
+  font-size: 1.75em;
+  padding: 2.5vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  background-color: var(--secondary);
+  color: var(--white);
+  opacity: 0.9;
+}
+
+.form-file-selected-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: auto;
+  height: auto;
+  animation: zoomIn 0.25s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.5s;
+}
+
+.form-file-selected-button {
+  background-color: var(--white) !important;
+  color: #616161;
 }

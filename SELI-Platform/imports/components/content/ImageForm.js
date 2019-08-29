@@ -1,10 +1,8 @@
 import React from 'react';
 import FileUpload from '../files/FileUpload';
 import ImagePreview from '../files//previews/ImagePreview';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
-import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
-import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
+import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
+import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
 import Grid from '@material-ui/core/Grid';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
@@ -20,7 +18,7 @@ export default class ImageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alignment: 'flex-start',
+      alignment: 'row',
       description: true,
       showLibrary: false,
     }
@@ -39,26 +37,32 @@ export default class ImageForm extends React.Component {
   }
 
   clearInputs(){
-
     this.setState({
-
+      file: undefined,
+      showPreview: false,
+      showGallery: false,
+      description: false,
     });
   }
 
   getImageAttributes(){
-    let image = this.state.image;
-    let description = '';
-    if(this.state.description){
-      description = document.getElementById('description-input').value;
-    }
+    let image = this.state.file;
     let alignment = this.state.alignment;
+    let description = '';
+    let descriptionWidth = "calc(100% - 500px)";
+    if (this.state.description) {
+      description = this.state.innerHTML;
+    }
+    if (this.state.alignment !== "row" && this.state.alignment !== "row-reverse") {
+      descriptionWidth = "100%";
+    }
     let imageContent = {
       image: image,
       description: description,
       alignment: alignment,
+      descriptionWidth: descriptionWidth,
     };
     this.clearInputs();
-    this.generateImageSalt();
     return imageContent;
   }
 
@@ -95,8 +99,6 @@ export default class ImageForm extends React.Component {
     })
   }
 
-  resetInputButton(){}
-
   componentDidMount(){
     this.props.getImageAttributesFunction(() => this.getImageAttributes());
   }
@@ -129,45 +131,54 @@ export default class ImageForm extends React.Component {
                 <p className="normal-text">Pick one from your</p>
                 <Button onClick={() => this.showLibrary()} color="primary" className="text-button">Library</Button>
               </div>
-              <div className="margin-center-row">
-                <p className="form-label">Image alignment:</p>
-                <Grid item>
-                  <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
-                    <ToggleButton key={1} value="flex-start" onClick={() => this.alignmentHandleChange("left")}>
-                      <Tooltip title="Left alignment">
-                        <FormatAlignLeftIcon className="toggle-button-icon"/>
-                      </Tooltip>
-                    </ToggleButton>
-                    <ToggleButton key={2} value="center" onClick={() => this.alignmentHandleChange("center")}>
-                      <Tooltip title="Center alignment">
-                        <FormatAlignCenterIcon className="toggle-button-icon"/>
-                      </Tooltip>
-                    </ToggleButton>
-                    <ToggleButton key={3} value="flex-end" onClick={() => this.alignmentHandleChange("right")}>
-                      <Tooltip title="Right alignment">
-                        <FormatAlignRightIcon className="toggle-button-icon"/>
-                      </Tooltip>
-                    </ToggleButton>
-                  </ToggleButtonGroup>
-                </Grid>
-              </div>
               <FormGroup className="content-radio-group-center" row>
                 <FormControlLabel
+                  className="form-label"
                   control={
                     <Checkbox color="primary" checked={this.state.description} onChange={() => this.handleChange('description')} value={this.state.description} />
                   }
-                  label="Text description"
+                  label="Add text description to the image"
                 />
               </FormGroup>
               {
                 this.state.description ?
-                  <div className="editor-block">
-                    <Editor
-                      areaHeight="20vh"
-                      buttonLabels={false}
-                      addLinks={false}
-                      getInnerHtml={this.getInnerHtml.bind(this)}
-                    />
+                  <div>
+                    <div className="margin-center-row">
+                      <p className="form-label">Image position:</p>
+                      <Grid item>
+                        <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
+                          <ToggleButton key={1} value="row" onClick={() => this.alignmentHandleChange("row")}>
+                            <Tooltip title="Left side">
+                              <VerticalSplitIcon className="toggle-button-icon"/>
+                            </Tooltip>
+                          </ToggleButton>
+                          <ToggleButton key={2} value="row-reverse" onClick={() => this.alignmentHandleChange("row-reverse")}>
+                            <Tooltip style={{transform: "rotate(180deg)"}} title="Right side">
+                              <VerticalSplitIcon className="toggle-button-icon"/>
+                            </Tooltip>
+                          </ToggleButton>
+                          <ToggleButton key={3} value="column-reverse" onClick={() => this.alignmentHandleChange("column-reverse")}>
+                            <Tooltip title="Up">
+                              <HorizontalSplitIcon className="toggle-button-icon"/>
+                            </Tooltip>
+                          </ToggleButton>
+                          <ToggleButton key={4} value="column" onClick={() => this.alignmentHandleChange("column")}>
+                            <Tooltip title="Down">
+                              <HorizontalSplitIcon style={{transform: "rotate(180deg)"}} className="toggle-button-icon"/>
+                            </Tooltip>
+                          </ToggleButton>
+                        </ToggleButtonGroup>
+                      </Grid>
+                    </div>
+                    <p className="form-editor-label">Write the description of the image below:</p>
+                    <div className="editor-block">
+                      <Editor
+                        areaHeight="20vh"
+                        buttonLabels={false}
+                        addLinks={true}
+                        getInnerHtml={this.getInnerHtml.bind(this)}
+                      />
+                    </div>
                   </div>
                 :
                 undefined

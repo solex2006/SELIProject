@@ -14,29 +14,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
-import GalleryFileUpload from '../files/GalleryFileUpload';
+import FileUpload from '../files/FileUpload';
 import ImagePreview from '../files/previews/ImagePreview';
 import PdfPreview from '../files/previews/PdfPreview';
 import Library from '../tools/Library';
 import Help from '../tools/Help';
+import FormPreview from '../files/previews/FormPreview';
 
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
+import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldValidations';
 
 export default class CourseInformation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      courseInformation: {
-        title: '',
-        subtitle: '',
-        description: '',
-        keyWords: [],
-        image: undefined,
-        sylabus: undefined,
-        duration: '',
-        modalities: [],
-        methodologies: [],
-      },
+      courseInformation: this.props.courseInformation,
     }
   }
 
@@ -74,17 +66,36 @@ export default class CourseInformation extends React.Component {
     }
     this.setState({
       courseInformation: courseInformation,
-    }, () => console.log(this.state.courseInformation));
+    });
   };
 
   addKeyWord(){
     let keyWord = document.getElementById('keyWord-input').value;
     if(keyWord !== '') {
       let courseInformation = this.state.courseInformation;
-      courseInformation.keyWords.push(keyWord);
-      this.setState({
-        courseInformation: courseInformation,
-      }, () => console.log(this.state.courseInformation));
+      keyWord = keyWord.trim().split(/\s+/);
+      if (keyWord.length <= 3) {
+        let finalKeyWord = '';
+        keyWord[0] = keyWord[0].charAt(0).toUpperCase() + keyWord[0].slice(1);
+        for (var i = 0; i < keyWord.length; i++) {
+          finalKeyWord = finalKeyWord + keyWord[i];
+          if (i < 2) {
+            finalKeyWord = finalKeyWord + " ";
+          }
+        }
+        courseInformation.keyWords.push(finalKeyWord);
+        this.setState({
+          courseInformation: courseInformation,
+        }, () => console.log(this.state.courseInformation));
+      }
+      else {
+        // Validation
+        console.log("No more that 3");
+      }
+    }
+    else {
+      // Validation
+      console.log("Empty");
     }
     document.getElementById('keyWord-input').value = "";
   }
@@ -94,102 +105,95 @@ export default class CourseInformation extends React.Component {
     courseInformation.keyWords.splice(index, 1);
     this.setState({
       courseInformation: courseInformation,
-    }, () => console.log(this.state.courseInformation));
+    });
   }
 
   keyController(event) {
     if (event.which == 13 || event.keyCode == 13) {
-        this.addKeyWord();
+      this.addKeyWord();
+    }
+    else {
+      validateOnlyLetters(event);
     }
   }
 
-  openGallery(fileType){
+  openFileSelector(fileType, accept){
     this.setState({
-      fileType: fileType
+      fileType: fileType,
+      accept: accept,
     }, () => {this.handleClickOpen()});
   }
 
-  getFileInformation(fileInformation){
-    let courseInformation = this.state.courseInformation;
-    if(this.state.fileType === "image"){
-      courseInformation.image = fileInformation;
-    }
-    if(this.state.fileType === "pdf"){
-      courseInformation.sylabus = fileInformation;
-    }
+  getFileInformation(file){
+    this.state.fileType === "image" ?
     this.setState({
-      courseInformation: courseInformation,
+      image: file,
       showPreview: true,
-    });
-  }
-
-  removeFileInformation(){
-    let courseInformation = this.state.courseInformation;
-    if(this.state.fileType === "image"){
-      courseInformation.image = undefined;
-    }
-    if(this.state.fileType === "pdf"){
-      courseInformation.sylabus = undefined;
-    }
+      showLibrary: false,
+    })
+    :
     this.setState({
-      courseInformation: courseInformation,
-      showPreview: false,
-    });
-  }
-
-  generateImageSalt(){
-    this.setState({
-      imageSalt: Math.random(),
-    });
-  }
-
-  generatePdfSalt(){
-    this.setState({
-      pdfSalt: Math.random(),
-    });
-  }
-
-  pickFile(file){
-    let fileInformation = {
-      url: file.link,
-      id: file._id,
-    }
-    let courseInformation = this.state.courseInformation;
-    if(this.state.fileType === "image"){
-      fileInformation.type = "image";
-      courseInformation.image = fileInformation;
-    }
-    if(this.state.fileType === "pdf"){
-      fileInformation.type = "pdf";
-      fileInformation.name = file.name;
-      courseInformation.sylabus = fileInformation;
-    }
-    this.setState({
-      courseInformation: courseInformation,
+      sylabus: file,
       showPreview: true,
-    });
+      showLibrary: false,
+    })
   }
 
-  ignoreFile(){
-    let courseInformation = this.state.courseInformation;
-    if(this.state.fileType === "image"){
-      courseInformation.image = undefined;
-    }
-    if(this.state.fileType === "pdf"){
-      courseInformation.sylabus = undefined;
-    }
+  unPickFile(){
+    this.state.fileType === "image" ?
     this.setState({
-      courseInformation: courseInformation,
       showPreview: false,
-    });
+      image: undefined,
+    })
+    :
+    this.setState({
+      showPreview: false,
+      sylabus: undefined,
+    })
   }
 
-  resetInputButton(){}
+  showLibrary(){
+    this.setState({
+      showLibrary: true,
+    })
+  }
+
+  hideLibrary(){
+    this.setState({
+      showLibrary: false,
+    })
+  }
+
+  selectFile(fileType) {
+    let courseInformation = this.state.courseInformation;
+    if (fileType === "image") {
+      courseInformation.image = this.state.image;
+      this.setState({
+        showPreview: false,
+        courseInformation: courseInformation,
+      });
+    }
+    else {
+      courseInformation.sylabus = this.state.sylabus
+      this.setState({
+        showPreview: false,
+        courseInformation: courseInformation,
+      })
+    }
+    this.handleClose();
+  }
+
+  changeFile(type) {
+    if (type === "image") {
+      this.openFileSelector("image", "image/*")
+    }
+    else {
+      this.openFileSelector("pdf", ".pdf")
+    }
+  }
 
   componentDidMount() {
-    this.generateImageSalt();
-    this.generatePdfSalt();
-    //this.props.setCourseTemporalKey(this.generateCourseCreatorKey(15));
+
   }
 
   componentWillUnmount(){
@@ -200,8 +204,28 @@ export default class CourseInformation extends React.Component {
     return(
       <div className="course-information-container">
         <div className="form-file-column">
-          <Button onClick={() => this.openGallery("image")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>Select the course image</Button>
-          <Button onClick={() => this.openGallery("pdf")} className="form-file-button" fullWidth color="secondary"><PictureAsPdfSharpIcon className="form-image-icon"/>Select the course sylabus</Button>
+          {
+            this.state.courseInformation.image !== undefined ?
+              <FormPreview
+                file={this.state.courseInformation.image}
+                type="image"
+                unPickFile={this.unPickFile.bind(this)}
+                changeFile={this.changeFile.bind(this)}
+              />
+            :
+            <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>Select the course image</Button>
+          }
+          {
+            this.state.courseInformation.sylabus !== undefined ?
+              <FormPreview
+                file={this.state.courseInformation.sylabus}
+                type="pdf"
+                unPickFile={this.unPickFile.bind(this)}
+                changeFile={this.changeFile.bind(this)}
+              />
+            :
+            <Button onClick={() => this.openFileSelector("pdf", ".pdf")} className="form-file-button" fullWidth color="secondary"><PictureAsPdfSharpIcon className="form-image-icon"/>Select the course sylabus</Button>
+          }
         </div>
         <div className="form-input-column">
           <TextField
@@ -285,6 +309,7 @@ export default class CourseInformation extends React.Component {
             inputProps={{ min: "5", max: "300", step: "1" }}
             value={this.state.courseInformation.duration}
             onChange={this.handleChange('duration')}
+            onKeyPress={() => validateOnlyNumbers(event)}
           />
         </div>
         <Dialog
@@ -298,125 +323,63 @@ export default class CourseInformation extends React.Component {
         >
           <DialogTitle className="form-dialog-title" id="alert-dialog-title">{this.state.fileType === "image" ? "Choose or upload the course image" : "Choose or upload the course sylabus"}</DialogTitle>
           <DialogContent>
-            {
-              this.state.fileType === "image" ?
+            <div className="file-form-dialog">
+              {
+                this.state.showLibrary ?
+                  <Library
+                    user={"MyUser"}
+                    type={this.state.fileType}
+                    getFileInformation={this.getFileInformation.bind(this)}
+                    hideLibrary={this.hideLibrary.bind(this)}
+                  />
+                :
                 <div>
-                  <div className="form-file-preview">
-                    {
-                      this.state.showPreview && this.state.courseInformation.image !== undefined ?
-                        <ImagePreview
-                          id={this.state.courseInformation.image.id}
-                          link={this.state.courseInformation.image.url}
-                          showControlMessage={this.props.showControlMessage.bind(this)}
-                          resetInputButton={this.resetInputButton.bind(this)}
-                          generateSalt={this.generateImageSalt.bind(this)}
-                        />
-                      :
-                      <GalleryFileUpload
-                        parentId={"my-images" + this.state.imageSalt}
-                        removeFunction="RemoveCourseFile"
-                        collection={CourseFilesCollection}
-                        accept="image/*"
-                        label="Upload an image"
-                        type={"image"}
-                        showControlMessage={this.props.showControlMessage.bind(this)}
+                  {
+                    this.state.showPreview ?
+                      <div className="form-preview-container">
+                        {
+                          this.state.fileType === "image" ?
+                            <ImagePreview
+                              file={this.state.image}
+                              unPickFile={this.unPickFile.bind(this)}
+                            />
+                          :
+                          <PdfPreview
+                            file={this.state.sylabus}
+                            unPickFile={this.unPickFile.bind(this)}
+                          />
+                        }
+                      </div>
+                    :
+                    <div className="form-file-container">
+                      <FileUpload
+                        type={this.state.fileType}
+                        accept={this.state.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
-                        removeFileInformation={this.removeFileInformation.bind(this)}
-                        resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
-                        generateSalt={this.generateImageSalt.bind(this)}
-                        ignoreFile={this.ignoreFile.bind(this)}
                       />
-                    }
+                    </div>
+                  }
+                  <div className="center-row">
+                    <p className="normal-text">Or</p>
                   </div>
-                  <DialogContentText className="form-dialog-center-text" id="alert-dialog-description">
-                    Or pick one from your
-                  </DialogContentText>
-                  <p className="gallery-subtitle">Image gallery</p>
-                  <div className="form-library-container">
-                    <Library
-                      user={"my-user"}
-                      type={"image"}
-                      pickFile={this.pickFile.bind(this)}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
-                      resetInputButton={this.resetInputButton.bind(this)}
-                    />
+                  <div className="center-row">
+                    <p className="normal-text">Pick one from your</p>
+                    <Button onClick={() => this.showLibrary()} color="primary" className="text-button">Library</Button>
                   </div>
                 </div>
-              :
-                undefined
-            }
-            {
-              this.state.fileType === "pdf" ?
-                <div>
-                  <div className="form-file-preview">
-                    {
-                      this.state.showPreview && this.state.courseInformation.sylabus !== undefined ?
-                        <PdfPreview
-                          id={this.state.courseInformation.sylabus.id}
-                          link={this.state.courseInformation.sylabus.url}
-                          name={this.state.courseInformation.sylabus.name}
-                          showControlMessage={this.props.showControlMessage.bind(this)}
-                          resetInputButton={this.resetInputButton.bind(this)}
-                          generateSalt={this.generatePdfSalt.bind(this)}
-                        />
-                      :
-                      <GalleryFileUpload
-                        parentId={"my-image" + this.state.pdfSalt}
-                        removeFunction="RemoveCourseFile"
-                        collection={CourseFilesCollection}
-                        accept=".pdf"
-                        label="Upload a pdf"
-                        type={"pdf"}
-                        showControlMessage={this.props.showControlMessage.bind(this)}
-                        getFileInformation={this.getFileInformation.bind(this)}
-                        removeFileInformation={this.removeFileInformation.bind(this)}
-                        resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
-                        generateSalt={this.generatePdfSalt.bind(this)}
-                        ignoreFile={this.ignoreFile.bind(this)}
-                      />
-                    }
-                  </div>
-                  <DialogContentText className="form-dialog-center-text" id="alert-dialog-description">
-                    Or pick one from your
-                  </DialogContentText>
-                  <p className="gallery-subtitle">Pdf library</p>
-                  <div className="form-library-container">
-                    <Library
-                      user={"my-user"}
-                      type={"pdf"}
-                      pickFile={this.pickFile.bind(this)}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
-                      resetInputButton={this.resetInputButton.bind(this)}
-                    />
-                  </div>
-                </div>
-              :
-                undefined
-            }
+              }
+            </div>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            {
-              this.state.fileType === "image" ?
-                <Button disabled={this.state.courseInformation.image === undefined} onClick={this.handleClose} color="primary" autoFocus>
-                  {"Use image"}
-                </Button>
-              :
-                undefined
-            }
-            {
-              this.state.fileType === "pdf" ?
-                <Button disabled={this.state.courseInformation.sylabus === undefined} onClick={this.handleClose} color="primary" autoFocus>
-                  {"Use sylabus"}
-                </Button>
-              :
-                undefined
-            }
+            <Button onClick={() => this.selectFile(this.state.fileType)} disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} color="primary">
+              Select
+            </Button>
           </DialogActions>
         </Dialog>
       </div>
-    );
+      );
+    }
   }
-}

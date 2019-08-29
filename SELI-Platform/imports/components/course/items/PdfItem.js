@@ -25,29 +25,27 @@ export default class PdfItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        {
-          this.props.item.attributes !== undefined ?
-            <div className="file-content-item">
-              <div id={this.props.item.attributes.pdf.id+"container"+this.props.item.id} className="pdf-item-container" style={{justifyContent: this.props.item.attributes.alignment}}>
-                <div id={ this.props.item.attributes.pdf.id+this.props.item.id } className="pdf-item">
-                  <FileDial
-                    type={this.props.item.type}
-                    color={'primary'}
-                    actions={this.state.actions}
-                    icon={<PictureAsPdfIcon/>}
-                  />
-                </div>
-                <div className="item-instruction-column">
-                  <p className="instruction-title">Instructions:</p>
-                  <div id={this.props.item.attributes.pdf.id+"instruction"+this.props.item.id} className="pdf-item-instruction">
-                    {this.props.item.attributes.instruction}
-                  </div>
-                </div>
+        <div className="file-content-item">
+          <div id={this.props.item.attributes.pdf.id+"container"+this.props.item.id} className="pdf-item-container" style={{justifyContent: this.props.item.attributes.alignment}}>
+            <div id={ this.props.item.attributes.pdf.id+this.props.item.id } className="pdf-item">
+              <FileDial
+                type={this.props.item.type}
+                color={'primary'}
+                actions={this.state.actions}
+                icon={<PictureAsPdfIcon/>}
+              />
+            </div>
+            <div className="item-instruction-column">
+              <p className="instruction-title">Instructions:</p>
+              <div
+                id={this.props.item.attributes.pdf.id + "instruction" + this.props.item.id}
+                className="pdf-item-instruction"
+                dangerouslySetInnerHTML={{__html: this.props.item.attributes.instruction}}
+              >
               </div>
             </div>
-          :
-          undefined
-        }
+          </div>
+        </div>
         <div className="menu-content-item">
           <MenuItem
             item={this.props.item}

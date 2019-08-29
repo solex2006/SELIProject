@@ -5,6 +5,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import { DiUnitySmall } from "react-icons/di";
+import { Link } from 'react-router-dom';
 
 export default class UnityPreview extends React.Component {
   constructor(props) {

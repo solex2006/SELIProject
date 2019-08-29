@@ -61,10 +61,19 @@
 .form-label {
   margin-right: 1vw;
   margin-left: 0.5vw;
+  font-size: 0.9em;
+  letter-spacing: 1px;
+}
+
+.form-label .MuiFormControlLabel-label {
+  margin-right: 1vw;
+  margin-left: 0.5vw;
+  font-size: 0.9em;
+  letter-spacing: 1px;
 }
 
 .margin-center-row {
-  padding-top: 16px;
+  padding-top: 8px;
   padding-bottom: 4px;
   display: flex;
   justify-content: center;
@@ -74,4 +83,8 @@
 
 .full-width-input {
   animation: fadeIn 0.35s;
+}
+
+.MuiToggleButton-root:last-child {
+  padding-left: 8px !important;
 }
