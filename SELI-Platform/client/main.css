@@ -117,3 +117,10 @@ th {
 .menu-icon {
   fill: #616161;
 }
+
+.accessibError{
+  color: #e53935;
+}
+.accessibValid{
+  color: #4caf50;
+}
