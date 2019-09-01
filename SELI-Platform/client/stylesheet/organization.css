@@ -1,0 +1,90 @@
+.organization-form {
+  width: auto;
+}
+
+.course-organization-options-container {
+  width: 45vw;
+}
+
+.button-row {
+  height: 10vh;
+  display: flex;
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
+
+.row-list-button {
+  height: auto !important;
+  border-radius: 0px !important;
+  letter-spacing: 1px !important;
+  transition: 0.5s;
+}
+
+.row-list-selected-button {
+  height: auto !important;
+  border-radius: 0px !important;
+  background-color: #f5f5f5 !important;
+  border-bottom: solid 1px #757575 !important;
+  letter-spacing: 1px !important;
+  transition: 0.5s;
+}
+
+.avatar {
+  margin-right: 0.5vw;
+}
+
+#orange-avatar {
+  background-color: #ff9800;
+}
+
+#blue-avatar {
+  background-color: #2196f3;
+}
+
+#teal-avatar {
+  background-color: #009688;
+}
+
+.course-organization-container {
+  width: 30vw;
+}
+
+.course-organization-units-container {
+  width: 30vw;
+}
+
+.text-field-button {
+  font-size: 0.8em !important;
+  letter-spacing: 1px !important;
+}
+
+.MuiOutlinedInput-adornedEnd {
+  /*padding-right: 0px !important;*/
+}
+
+.warning-container {
+  width: 100%;
+  padding: 2.5vh 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff8e1;
+  animation: zoomIn 1s;
+}
+
+.warning-icon {
+  fill: #ffc107 !important;
+  margin: 0 1vw !important;
+  font-size: 2em;
+}
+
+.warning-text {
+  font-size: 1em !important;
+  letter-spacing: 1px;
+  margin-left: 1vw;
+  padding-right: 1vw;
+}
+
+.adorned-no-padding {
+  margin-right: 0 !important;
+}

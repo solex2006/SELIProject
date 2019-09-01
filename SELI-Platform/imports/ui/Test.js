@@ -31,9 +31,26 @@ export default class Test extends React.Component {
         duration: '',
         modalities: [],
         methodologies: [],
+        organization: {label: "Organization by units and lessons", unit: "Unit", subunit: "Lesson"},
+        program: [
+          {
+            name: "Introduction",
+            lessons: [{name: "Enviroment", _id:2, items: []}, {name: "Instalation", _id:1, items: []}]
+          },
+          {
+            name: "Syntaxis",
+            lessons: [{name: "Variables", _id:3, items: []}, {name: "Control sentences", _id:4, items: []}, {name: "Function declaration", _id:5, items: []}]
+          },
+          {
+            name: "Functions",
+            lessons: [{name: "Statics", _id:6, items: []}, {name: "Return", _id:7, items: []}, {name: "Calling", _id:8, items: []}]
+          }
+        ],
       },
       requirementsList: [],
       buildedItems: false,
+      expandedNodes: [],
+      selected: [0, 0],
     }
   }
 
@@ -46,7 +63,7 @@ export default class Test extends React.Component {
       courseForms: [
         <CourseInformation courseInformation={this.state.courseInformation} showControlMessage={this.showControlMessage.bind(this)}/>,
         <CourseRequirements requirementsList={this.state.requirementsList} buildedItems={this.state.buildedItems} showControlMessage={this.showControlMessage.bind(this)}/>,
-        <CourseCreatorTool showControlMessage={this.showControlMessage.bind(this)}/>,
+        <CourseCreatorTool courseInformation={this.state.courseInformation} showControlMessage={this.showControlMessage.bind(this)} expandedNodes={this.state.expandedNodes} selected={this.state.selected}/>,
       ],
     })
   }

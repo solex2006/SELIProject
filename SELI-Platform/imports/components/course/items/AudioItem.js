@@ -20,7 +20,7 @@ export default class AudioItem extends React.Component {
             {
               this.props.item.attributes.description !== "" ?
                 <div
-                  id={this.props.item.attributes.video._id+"description"+this.props.item.id}
+                  id={this.props.item.attributes.audio._id+"description"+this.props.item.id}
                   style={{width: this.props.item.attributes.descriptionWidth}}
                   className={
                     this.props.item.attributes.alignment === "row" || this.props.item.attributes.alignment === "row-reverse" ?

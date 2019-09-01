@@ -45,6 +45,8 @@ import QuizForm from '../content/QuizForm';
 import ActivityForm from '../content/ActivityForm';
 import EmbebedForm from '../content/EmbebedForm';
 import UnityForm from '../content/UnityForm';
+import CourseOrganization from './CourseOrganization';
+import NavigationTool from './NavigationTool';
 
 /* Accessibility Forms */
 import VideoAccessibilityForm from '../accessibility/VideoAccessibilityForm';
@@ -85,7 +87,6 @@ export default class CourseCreatorTool extends React.Component {
         { id: 'unit-name-input', value: '', error: false },
         { id: 'unit-description-input', value: '', error: false },
       ],
-      units: [],
       addedItems: [],
       audienceOptions: [
         {label: 'All disabilities', selected: true},
@@ -95,38 +96,8 @@ export default class CourseCreatorTool extends React.Component {
       ],
       menuTab: 0,
       sortMode: false,
-      units: [
-        {
-          name: "Introduction",
-          lessons: [
-            {
-              name: "What is C#",
-            },
-            {
-              name: "History of C#",
-            },
-          ],
-        },
-        {
-          name: "Environment",
-          lessons: [
-            {
-              name: "Install VS",
-            },
-          ],
-        },
-        {
-          name: "Basic programing",
-          lessons: [
-            {
-              name: "Name space",
-            },
-            {
-              name: "Control sentences",
-            },
-          ],
-        },
-      ],
+      correctOrganization: false,
+      courseInformation: this.props.courseInformation,
     }
   }
 
@@ -146,74 +117,22 @@ export default class CourseCreatorTool extends React.Component {
     this.setState({ contentOpen: false, });
   };
 
-  validateInputs(){
-    let validInputs = true;
-    let inputs = this.state.inputs;
-    for (var i = 0; i < inputs.length; i++){
-      inputs[i].value = document.getElementById(inputs[i].id).value;
-      if (inputs[i].value === "") {
-        this.props.showControlMessage("Fields marked with * are required");
-        validInputs = false;
-        inputs[i].error = true;
-      }
-      else{
-        inputs[i].error = false;
-      }
-    }
-    this.setState({
-      inputs: inputs,
-    });
-    return  validInputs;
-  }
-
-  addUnit(){
-    if(this.validateInputs()){
-      let units = this.state.units;
-      let unit = {};
-      unit.name = this.state.inputs[0].value;
-      unit.description = this.state.inputs[1].value;
-      unit.ordinal = parseInt(this.state.units.length + 1);
-      unit.lessons = [];
-      units.push(unit);
-      this.setState({
-        units: units,
-      });
-      this.clearInputs();
-      this.props.showControlMessage("New unit added");
-      this.handleClose();
-    }
-  }
-
-  clearInputs(){
-    let inputs = this.state.inputs;
-    for (var i = 0; i < inputs.length; i++){
-      inputs[i].value = "";
-      document.getElementById(inputs[i].id).value = "";
-    }
-    this.setState({
-      inputs: inputs,
-    });
-  }
-
   openDialog(e){
     let type = e.payload.type;
+    let courseInformation = this.state.courseInformation;
     if(e.removedIndex === null){
       this.setState({
         contentTypeAdded: type,
         addedIndex: e.addedIndex,
+        showCourseOrganization: false,
       }, () => {
         this.contentHandleClickOpen();
       });
     }
-    this.setState({ addedItems: applyDrag(this.state.addedItems, e) })
+    courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = applyDrag(courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items, e);
+    this.setState({ addedItems: applyDrag(this.state.addedItems, e) });
   }
 
-  resetInputButton(){}
-  generateImageSalt(){}
-  generateVideoSalt(){}
-  generateAudioSalt(){}
-  generatePdfSalt(){}
-  generateCompressedSalt(){}
   getTextAttributes(){}
   getImageAttributes(){}
   getVideoAttributes(){}
@@ -247,7 +166,6 @@ export default class CourseCreatorTool extends React.Component {
       this.setState({
         addedItems: addedItems,
       });
-      this.resetInputButton();
     }
     else if (this.state.contentTypeAdded === 'video') {
       let videoContent = this.getVideoAttributes();
@@ -255,7 +173,6 @@ export default class CourseCreatorTool extends React.Component {
       this.setState({
         addedItems: addedItems,
       });
-      this.resetInputButton();
     }
     else if (this.state.contentTypeAdded === 'audio') {
       let audioContent = this.getAudioAttributes();
@@ -263,7 +180,6 @@ export default class CourseCreatorTool extends React.Component {
       this.setState({
         addedItems: addedItems,
       });
-      this.resetInputButton();
     }
     else if (this.state.contentTypeAdded === 'pdf') {
       let pdfContent = this.getPdfAttributes();
@@ -271,7 +187,6 @@ export default class CourseCreatorTool extends React.Component {
       this.setState({
         addedItems: addedItems,
       });
-      this.resetInputButton();
     }
     else if (this.state.contentTypeAdded === 'compressed') {
       let compressedContent = this.getCompressedAttributes();
@@ -279,7 +194,6 @@ export default class CourseCreatorTool extends React.Component {
       this.setState({
         addedItems: addedItems,
       });
-      this.resetInputButton();
     }
     else if (this.state.contentTypeAdded === 'link') {
       let linkContent = this.getLinkAttributes();
@@ -326,7 +240,6 @@ export default class CourseCreatorTool extends React.Component {
     this.setState({
       showAccesibilityOptions: true,
     });
-    //this.contentHandleClose();
     this.resetMenuItems();
   }
 
@@ -344,32 +257,12 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   cancelContentCreation(){
-    let addedItems = this.state.addedItems;
-    addedItems.splice(this.state.addedIndex, 1);
+    let courseInformation = this.state.courseInformation;
+    this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.splice(this.state.addedIndex, 1);
     this.setState({
       addedItems: addedItems,
+      contentTypeAdded: '',
     });
-    if (this.state.contentTypeAdded === 'image') {
-      this.generateImageSalt();
-      this.resetInputButton();
-    }
-    if (this.state.contentTypeAdded === 'video') {
-      this.generateVideoSalt();
-      this.resetInputButton();
-    }
-    if (this.state.contentTypeAdded === 'audio') {
-      this.generateAudioSalt();
-      this.resetInputButton();
-    }
-    if (this.state.contentTypeAdded === 'pdf') {
-      this.generatePdfSalt();
-      this.resetInputButton();
-    }
-    if (this.state.contentTypeAdded === 'compressed') {
-      this.generateCompressedSalt();
-      this.resetInputButton();
-    }
-    this.contentHandleClose();
   }
 
   setMenu(option){
@@ -377,11 +270,11 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   removeItem(item){
-    let addedItems = this.state.addedItems;
-    let removeIndex = addedItems.indexOf(item);
-    addedItems.splice(removeIndex, 1);
+    let courseInformation = this.state.courseInformation;
+    let removeIndex = this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.indexOf(item);
+    this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.splice(removeIndex, 1);
     this.setState({
-      addedItems: addedItems,
+      deleted: true,
     });
   }
 
@@ -429,8 +322,45 @@ export default class CourseCreatorTool extends React.Component {
     }
   }
 
-  componentDidMount(){
+  manageOrganization() {
+    this.setState({
+      showCourseOrganization: true,
+      contentOpen: true,
+    });
+  }
 
+  setOrganization() {
+    this.contentHandleClose()
+    this.setState({
+      showCourseOrganization: false,
+    });
+  }
+
+  setCorrectOrganization(value) {
+    this.setState({
+      correctOrganization: value,
+    })
+  }
+
+  componentDidMount(){
+    if (this.props.courseInformation.organization === '') {
+      this.setState({
+        showCourseOrganization: true,
+        contentOpen: true,
+        correctOrganization: true,
+      })
+    }
+    else {
+      this.setState({
+        showCourseOrganization: false,
+        contentOpen: false,
+      })
+    }
+  }
+
+  reRender(){
+    this.forceUpdate();
+    this.setState({ state: this.state });
   }
 
   render() {
@@ -438,12 +368,12 @@ export default class CourseCreatorTool extends React.Component {
       <div>
         <div className="course-creator-container">
           <div className="course-creator-work-area">
-            <div style={!this.state.addedItems.length ? {backgroundImage: "url(drop.svg)"}:{backgroundImage: "url()"}} className="course-creator-drop-area">
+            <div style={!this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ? {backgroundImage: "url(drop.svg)"}:{backgroundImage: "url()"}} className="course-creator-drop-area">
               {
                 !this.state.sortMode ?
                   <Container lockAxis="y" dragBeginDelay={500} dragClass="drag-class" style={{width: "100%", height: "100%"}} groupName="1" getChildPayload={i => this.state.addedItems[i]} onDrop={e => this.openDialog(e)}>
                     {
-                      this.state.addedItems.map((p, i) => {
+                      this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
                         return (
                           <Draggable key={i}>
                             <ContentItem
@@ -458,7 +388,7 @@ export default class CourseCreatorTool extends React.Component {
                 :
                 <Container lockAxis="y" dragBeginDelay={0} dragClass="drag-class" style={{width: "100%", height: "100%"}} groupName="1" getChildPayload={i => this.state.addedItems[i]} onDrop={e => this.openDialog(e)}>
                   {
-                    this.state.addedItems.map((p, i) => {
+                    this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
                       return (
                         <Draggable key={i}>
                           <SortItem
@@ -545,18 +475,17 @@ export default class CourseCreatorTool extends React.Component {
               {
                 this.state.menuTab === 1 ?
                   <div>
+                    <p className="form-message">{this.props.courseInformation.organization.label}</p>
                     <div className="course-creator-navigation-actions">
-                      <Button className="course-creator-navigation-button" fullWidth color="primary">Add unit</Button>
+                      <Button onClick={() => this.manageOrganization()} className="course-creator-navigation-button" fullWidth color="primary">Organization</Button>
                     </div>
-                    <div className="course-creator-units-container">
-                      {
-                        this.state.units.map((unit, index) => {
-                          return(
-                            <Unit unit={unit} index={index + 1}/>
-                          )
-                        })
-                      }
-                    </div>
+                    <NavigationTool
+                      program={this.props.courseInformation.program}
+                      hasSubunits={this.props.courseInformation.organization.subunit}
+                      selected={this.props.selected}
+                      expandedNodes={this.props.expandedNodes}
+                      reRender={this.reRender.bind(this)}
+                    />
                   </div>
                 :
                 undefined
@@ -589,9 +518,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'image' && !this.state.showAccesibilityOptions ?
                 <ImageForm
-                  generateImageSaltFunction={imageSalt => this.generateImageSalt = imageSalt}
                   getImageAttributesFunction={imageAttributes => this.getImageAttributes = imageAttributes}
-                  resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -600,9 +527,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'video' && !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm ?
                 <VideoForm
-                  generateVideoSaltFunction={videoSalt => this.generateVideoSalt = videoSalt}
                   getVideoAttributesFunction={videoAttributes => this.getVideoAttributes = videoAttributes}
-                  resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -611,9 +536,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'audio' && !this.state.showAccesibilityOptions ?
                 <AudioForm
-                  generateAudioSaltFunction={audioSalt => this.generateAudioSalt = audioSalt}
                   getAudioAttributesFunction={audioAttributes => this.getAudioAttributes = audioAttributes}
-                  resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -631,9 +554,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'pdf' && !this.state.showAccesibilityOptions ?
                 <PdfForm
-                  generatePdfSaltFunction={pdfSalt => this.generatePdfSalt = pdfSalt}
                   getPdfAttributesFunction={pdfAttributes => this.getPdfAttributes = pdfAttributes}
-                  resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -642,9 +563,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'compressed' && !this.state.showAccesibilityOptions ?
                 <CompressedForm
-                  generateCompressedSaltFunction={compressedSalt => this.generateCompressedSalt = compressedSalt}
                   getCompressedAttributesFunction={compressedAttributes => this.getCompressedAttributes = compressedAttributes}
-                  resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -729,12 +648,21 @@ export default class CourseCreatorTool extends React.Component {
               :
               undefined
             }
+            {
+              this.state.showCourseOrganization ?
+                <CourseOrganization
+                  courseInformation={this.props.courseInformation}
+                  setCorrectOrganization={this.setCorrectOrganization.bind(this)}
+                />
+              :
+              undefined
+            }
           </DialogContent>
           <Divider/>
           {
-            !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm ?
+            !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm && !this.state.showCourseOrganization ?
               <DialogActions>
-                <Button onClick={() => this.cancelContentCreation()} color="primary">
+                <Button onClick={() => {this.contentHandleClose(); this.cancelContentCreation();}} color="primary">
                   cancel
                 </Button>
                 <Button onClick={() => this.createContent()} color="primary">
@@ -752,6 +680,16 @@ export default class CourseCreatorTool extends React.Component {
                 </Button>
                 <Button onClick={() => this.contentHandleClose()}  color="primary">
                   set accessibility
+                </Button>
+              </DialogActions>
+            :
+            undefined
+          }
+          {
+            this.state.showCourseOrganization ?
+              <DialogActions>
+                <Button disabled={this.state.correctOrganization} onClick={() => this.setOrganization()}  color="primary">
+                  Done
                 </Button>
               </DialogActions>
             :

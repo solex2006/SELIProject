@@ -159,6 +159,8 @@
 .course-creator-tab {
   padding-top: 2.5vh !important;
   padding-bottom: 2.5vh !important;
+  border-bottom: solid 1px #333 !important;
+  transition: 0.5s;
 }
 
 .course-creator-menu-actions-container {
@@ -190,10 +192,29 @@
   overflow-y: scroll;
 }
 
+.course-creator-unit-container {
+  transition: 0.5s;
+  border-left: solid 3px #e0e0e0;
+}
+
+.course-creator-unit-container:hover {
+  background-color: #f5f5f5;
+}
+
+.course-creator-selected-unit-container {
+  border-left: solid 3px var(--primary);
+  transition: 0.5s;
+}
+
+.course-creator-selected-unit-container:hover {
+  background-color: #f5f5f5;
+}
+
 .course-creator-unit-list-item {
   width: 100%;
-  padding-top: 1vh !important;
-  padding-bottom: 1vh !important;
+  padding-top: 1.5vh !important;
+  padding-bottom: 1.5vh !important;
+  animation: fadeInDown 0.5s;
 }
 
 .course-creator-unit-list-text {
@@ -211,7 +232,14 @@
 
 .course-creator-unit-list-text .MuiTypography-colorTextSecondary {
   padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  padding-bottom: 4px !important;
+  margin: 0 0 !important;
+  font-size: 0.75em !important;
+}
+
+.course-creator-lesson-list-text .MuiTypography-colorTextSecondary {
+  padding-top: 0 !important;
+  padding-bottom: 4px !important;
   margin: 0 0 !important;
   font-size: 0.75em !important;
 }
@@ -227,6 +255,7 @@
   padding-top: 0 !important;
   padding-bottom: 0 !important;
   font-size: 0.8em !important;
+  padding-left: 1vw !important;
 }
 
 .course-creator-lesson-list-text .MuiTypography-colorTextSecondary {
@@ -234,6 +263,7 @@
   padding-bottom: 0 !important;
   margin: 0 0 !important;
   font-size: 0.75em !important;
+  padding-left: 1vw !important;
 }
 
 .course-creator-lessons-container {
@@ -243,6 +273,10 @@
 
 .course-creator-navigation-actions {
   width: 100%;
+}
+
+.course-creator-lesson-container {
+
 }
 
 .course-creator-navigation-button {
@@ -263,4 +297,15 @@
 
 .course-creator-lesson-list-button {
   padding: 6px !important;
+}
+
+.course-creator-lesson-list-message {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 1vh 0;
 }

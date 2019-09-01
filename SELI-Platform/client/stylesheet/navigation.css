@@ -1,0 +1,26 @@
+.parent-node {
+  align-items: center;
+  transition: 0.5s;
+}
+
+.child-node {
+  align-items: center;
+  transition: 0.5s;
+}
+
+.parent-node .MuiTreeItem-content .MuiTypography-body1 {
+  letter-spacing: 0.5px !important;
+  font-size: 0.90em !important;
+}
+
+.child-node .MuiTreeItem-content .MuiTypography-body1 {
+  letter-spacing: 0.5px !important;
+  font-size: 0.825em !important;
+}
+
+.MuiBottomNavigationAction-root.Mui-selected {
+  border-bottom: solid 1px var(--primary) !important;
+  padding-top: 6px;
+  filter: drop-shadow(1px 2px 3px #757575);
+  transition: 0.5s;
+}

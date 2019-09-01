@@ -32,38 +32,35 @@ const useStyles = makeStyles(theme => ({
 
 export default function Unit(props) {
   const classes = useStyles();
-  const [openList, setOpenList] = React.useState(false);
+  const [openList, setOpenList] = React.useState(true);
 
   function handleClickList() {
     setOpenList(!openList);
   }
 
-
-
   return(
-    <div className="course-creator-unit-container">
+    <div className={props.unitIndex === props.index ? "course-creator-selected-unit-container" : "course-creator-unit-container"}>
       <ListItem className="course-creator-unit-list-item" button>
-        <ListItemText className="course-creator-unit-list-text" primary={props.unit.name} secondary={'Unit N ' + props.index}/>
-        <IconButton className="course-creator-lesson-list-button" edge="end" aria-label="delete">
+        <ListItemText className="course-creator-unit-list-text" primary={props.unit.name} secondary={'Unit N ' + (parseInt(props.index) + parseInt(1))}/>
+        <IconButton onClick={() => props.setUnitToEdit(props.index, props.unit.name)} className="course-creator-lesson-list-button" edge="end" aria-label="delete">
           <EditIcon className="course-creator-lesson-list-icon" fontSize="small"/>
         </IconButton>
-        <IconButton className="course-creator-lesson-list-button" edge="end" aria-label="delete">
+        <IconButton onClick={() => props.deleteUnit(props.index)} className="course-creator-lesson-list-button" edge="end" aria-label="delete">
           <DeleteIcon className="course-creator-lesson-list-icon" fontSize="small"/>
         </IconButton>
-        {openList ? <ExpandLess className="course-creator-lesson-list-icon" style={{animation: "fadeIn 0.25s"}} onClick={handleClickList}/> : <ExpandMore className="course-creator-lesson-list-icon" style={{animation: "fadeIn 0.25s"}} onClick={handleClickList}/>}
+        {openList ? <ExpandLess className="course-creator-lesson-list-icon" style={{animation: "fadeIn 0.25s", marginLeft: "0.25vw"}} onClick={handleClickList}/> : <ExpandMore className="course-creator-lesson-list-icon" style={{animation: "fadeIn 0.25s", marginLeft: "0.25vw"}} onClick={handleClickList}/>}
       </ListItem>
       <Collapse className="course-creator-lessons-container" in={openList} timeout="auto" unmountOnExit>
-        <Button className="course-creator-unit-action" fullWidth>Add lesson</Button>
         <List className="course-creator-lesson-container" component="div" disablePadding>
           {
             props.unit.lessons.map((lesson, index) => {
               return (
-                <ListItem className="course-creator-unit-list-item" button className={classes.nested}>
+                <ListItem className="course-creator-unit-list-item" button>
                   <ListItemText className="course-creator-lesson-list-text" primary={lesson.name} secondary={"Lesson N " + parseInt(index + 1)}/>
-                  <IconButton className="course-creator-lesson-list-button" edge="end" aria-label="delete">
+                  <IconButton onClick={() => props.setSubunitToEdit(props.index, index, lesson.name)} className="course-creator-lesson-list-button" edge="end" aria-label="delete">
                     <EditIcon className="course-creator-lesson-list-icon" fontSize="small"/>
                   </IconButton>
-                  <IconButton className="course-creator-lesson-list-button" edge="end" aria-label="delete">
+                  <IconButton onClick={() => props.deleteSubunit(props.index, index)}  className="course-creator-lesson-list-button" edge="end" aria-label="delete">
                     <DeleteIcon className="course-creator-lesson-list-icon" fontSize="small"/>
                   </IconButton>
                 </ListItem>
@@ -71,6 +68,7 @@ export default function Unit(props) {
             })
           }
         </List>
+        <Button onClick={() => props.setUnitIndex(props.index)} className="course-creator-unit-action" fullWidth>Add lesson</Button>
       </Collapse>
     </div>
   );
