@@ -50,6 +50,7 @@ export default class NavigationTool extends React.Component {
       update: true,
     }, () => {
       this.props.reRender();
+      this.props.turnOffSortMode();
     });
   }
 

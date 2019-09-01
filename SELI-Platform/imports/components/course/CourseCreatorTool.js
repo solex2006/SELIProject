@@ -21,7 +21,7 @@ import Unit from './Unit';
 
 import { Container, Draggable } from 'react-smooth-dnd';
 import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
-import { createContentItems1, createContentItems2, createContentItems3, createContentItems4 } from '../../../lib/contentMenuItemsCreator';
+import { createContentItems } from '../../../lib/contentMenuItemsCreator';
 
 /* Dialog */
 import Dialog from '@material-ui/core/Dialog';
@@ -63,31 +63,20 @@ export default class CourseCreatorTool extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      contentItems1: [
+      contentItems: [
         { id: 1, type: "text" },
         { id: 2, type: "image" },
-        { id: 3, type: "video" }
-      ],
-      contentItems2: [
+        { id: 3, type: "video" },
         { id: 4, type: "audio" },
         { id: 5, type: "link" },
-        { id: 6, type: "unity" }
-      ],
-      contentItems3: [
+        { id: 6, type: "unity" },
         { id: 7, type: "embebed" },
         { id: 8, type: "pdf" },
-        { id: 9, type: "compressed" }
-      ],
-      contentItems4: [
+        { id: 9, type: "compressed" },
         { id: 10, type: "h5p" },
         { id: 11, type: "quiz" },
         { id: 12, type: "activity" }
       ],
-      inputs: [
-        { id: 'unit-name-input', value: '', error: false },
-        { id: 'unit-description-input', value: '', error: false },
-      ],
-      addedItems: [],
       audienceOptions: [
         {label: 'All disabilities', selected: true},
         {label: 'Cognitive', selected: true},
@@ -120,17 +109,21 @@ export default class CourseCreatorTool extends React.Component {
   openDialog(e){
     let type = e.payload.type;
     let courseInformation = this.state.courseInformation;
-    if(e.removedIndex === null){
-      this.setState({
-        contentTypeAdded: type,
-        addedIndex: e.addedIndex,
-        showCourseOrganization: false,
-      }, () => {
-        this.contentHandleClickOpen();
-      });
+    this.setState({
+      contentTypeAdded: type,
+      addedId: e.payload.id,
+      showCourseOrganization: false,
+    });
+    if(e.addedIndex !== null && e.removedIndex !== null) {
+
+    }
+    else {
+      this.contentHandleClickOpen();
     }
     courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = applyDrag(courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items, e);
-    this.setState({ addedItems: applyDrag(this.state.addedItems, e) });
+    this.setState({
+      contentaAdded: true,
+    });
   }
 
   getTextAttributes(){}
@@ -147,95 +140,66 @@ export default class CourseCreatorTool extends React.Component {
   getUnityAttributes(){}
 
   createContent(){
-    let addedItems = this.state.addedItems;
+    let courseInformation = this.state.courseInformation;
+    let index;
+    for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
+      if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
+        index = i;
+        break;
+      }
+    }
     if (this.state.contentTypeAdded === 'text') {
       let textContent = this.getTextAttributes();
-      addedItems[this.state.addedIndex].attributes = textContent;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = textContent;
     }
     else if (this.state.contentTypeAdded === 'image') {
       let imageContent = this.getImageAttributes();
-      addedItems[this.state.addedIndex].attributes = imageContent;
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = imageContent;
       let size = {
         width: 500,
         height: 300,
       }
-      addedItems[this.state.addedIndex].attributes.size = size;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.size = size;
     }
     else if (this.state.contentTypeAdded === 'video') {
       let videoContent = this.getVideoAttributes();
-      addedItems[this.state.addedIndex].attributes = videoContent;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = videoContent;
     }
     else if (this.state.contentTypeAdded === 'audio') {
       let audioContent = this.getAudioAttributes();
-      addedItems[this.state.addedIndex].attributes = audioContent;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = audioContent;
     }
     else if (this.state.contentTypeAdded === 'pdf') {
       let pdfContent = this.getPdfAttributes();
-      addedItems[this.state.addedIndex].attributes = pdfContent;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = pdfContent;
     }
     else if (this.state.contentTypeAdded === 'compressed') {
       let compressedContent = this.getCompressedAttributes();
-      addedItems[this.state.addedIndex].attributes = compressedContent;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = compressedContent;
     }
     else if (this.state.contentTypeAdded === 'link') {
       let linkContent = this.getLinkAttributes();
-      addedItems[this.state.addedIndex].attributes = linkContent;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = linkContent;
     }
     else if (this.state.contentTypeAdded === 'h5p') {
       let h5pContent = this.getH5pAttributes();
-      addedItems[this.state.addedIndex].attributes = h5pContent;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = h5pContent;
     }
     else if (this.state.contentTypeAdded === 'quiz') {
       let quizContent = this.getQuizAttributes();
-      addedItems[this.state.addedIndex].attributes = quizContent;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = quizContent;
     }
     else if (this.state.contentTypeAdded === 'activity') {
       let activityContent = this.getActivityAttributes();
-      addedItems[this.state.addedIndex].attributes = activityContent;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = activityContent
     }
     else if (this.state.contentTypeAdded === 'embebed') {
       let embebedContent = this.getEmbebedAttributes();
-      addedItems[this.state.addedIndex].attributes = embebedContent;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = embebedContent;
     }
     else if (this.state.contentTypeAdded === 'unity') {
       let unityContent = this.getUnityAttributes();
-      addedItems[this.state.addedIndex].attributes = unityContent;
-      this.setState({
-        addedItems: addedItems,
-      });
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = unityContent;
     }
     this.setState({
       showAccesibilityOptions: true,
@@ -244,29 +208,25 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   resetMenuItems(){
-    let contentItems1 = createContentItems1();
-    let contentItems2 = createContentItems2();
-    let contentItems3 = createContentItems3();
-    let contentItems4 = createContentItems4();
+    let contentItems = createContentItems();
     this.setState({
-      contentItems1: contentItems1,
-      contentItems2: contentItems2,
-      contentItems3: contentItems3,
-      contentItems4: contentItems4,
-    })
+      contentItems: contentItems,
+    });
   }
 
   cancelContentCreation(){
     let courseInformation = this.state.courseInformation;
-    this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.splice(this.state.addedIndex, 1);
+    let index;
+    for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
+      if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
+        index = i;
+        break;
+      }
+    }
+    this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.splice(index, 1);
     this.setState({
-      addedItems: addedItems,
       contentTypeAdded: '',
     });
-  }
-
-  setMenu(option){
-
   }
 
   removeItem(item){
@@ -312,7 +272,7 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   toggleSortMode(){
-    if (this.state.addedItems.length) {
+    if (this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length) {
       this.setState({
         sortMode: !this.state.sortMode,
       });
@@ -320,6 +280,13 @@ export default class CourseCreatorTool extends React.Component {
     else {
       this.props.showControlMessage("First add some content please");
     }
+    this.reRender();
+  }
+
+  turnOffSortMode() {
+    this.setState({
+      sortMode: false,
+    });
   }
 
   manageOrganization() {
@@ -368,10 +335,23 @@ export default class CourseCreatorTool extends React.Component {
       <div>
         <div className="course-creator-container">
           <div className="course-creator-work-area">
-            <div style={!this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ? {backgroundImage: "url(drop.svg)"}:{backgroundImage: "url()"}} className="course-creator-drop-area">
+            <div
+              style={
+                !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
+                  {backgroundImage: "url(drop.svg)", animation: "bounce 1s 2"}
+                :
+                {backgroundImage: "url()"}} className="course-creator-drop-area"
+            >
               {
                 !this.state.sortMode ?
-                  <Container lockAxis="y" dragBeginDelay={500} dragClass="drag-class" style={{width: "100%", height: "100%"}} groupName="1" getChildPayload={i => this.state.addedItems[i]} onDrop={e => this.openDialog(e)}>
+                  <Container
+                    lockAxis="y"
+                    dragBeginDelay={500}
+                    dragClass="drag-class"
+                    style={{width: "100%", height: "100%"}}
+                    groupName="1"
+                    getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
+                    onDrop={e => this.openDialog(e)}>
                     {
                       this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
                         return (
@@ -386,7 +366,15 @@ export default class CourseCreatorTool extends React.Component {
                     }
                   </Container>
                 :
-                <Container lockAxis="y" dragBeginDelay={0} dragClass="drag-class" style={{width: "100%", height: "100%"}} groupName="1" getChildPayload={i => this.state.addedItems[i]} onDrop={e => this.openDialog(e)}>
+                <Container
+                  lockAxis="y"
+                  dragBeginDelay={0}
+                  dragClass="drag-class"
+                  style={{width: "100%", height: "100%"}}
+                  groupName="1"
+                  getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
+                  onDrop={e => this.openDialog(e)}
+                >
                   {
                     this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
                       return (
@@ -414,42 +402,15 @@ export default class CourseCreatorTool extends React.Component {
                       options={this.state.audienceOptions}
                       setOption={this.setAudienceOption.bind(this)}
                     />
-                    <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems1[i]} onDrop={e => this.setState({ contentItems1: applyDrag(this.state.contentItems1, e) })}>
+                    <Container
+                      orientation="horizontal"
+                      groupName="1"
+                      behaviour="copy"
+                      getChildPayload={i => this.state.contentItems[i]}
+                      onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
+                    >
                       {
-                        this.state.contentItems1.map((p,i) => {
-                          return (
-                            <Draggable key={i}>
-                              <ContentMenuItem type={p.type}/>
-                            </Draggable>
-                          );
-                        })
-                      }
-                    </Container>
-                    <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems2[i]} onDrop={e => this.setState({ contentItems2: applyDrag(this.state.contentItems2, e) })}>
-                      {
-                        this.state.contentItems2.map((p,i) => {
-                          return (
-                            <Draggable key={i}>
-                              <ContentMenuItem type={p.type}/>
-                            </Draggable>
-                          );
-                        })
-                      }
-                    </Container>
-                    <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems3[i]} onDrop={e => this.setState({ contentItems3: applyDrag(this.state.contentItems3, e) })}>
-                      {
-                        this.state.contentItems3.map((p,i) => {
-                          return (
-                            <Draggable key={i}>
-                              <ContentMenuItem type={p.type}/>
-                            </Draggable>
-                          );
-                        })
-                      }
-                    </Container>
-                    <Container orientation="horizontal" groupName="1" behaviour="copy" getChildPayload={i => this.state.contentItems4[i]} onDrop={e => this.setState({ contentItems4: applyDrag(this.state.contentItems4, e) })}>
-                      {
-                        this.state.contentItems4.map((p,i) => {
+                        this.state.contentItems.map((p,i) => {
                           return (
                             <Draggable key={i}>
                               <ContentMenuItem type={p.type}/>
@@ -485,6 +446,7 @@ export default class CourseCreatorTool extends React.Component {
                       selected={this.props.selected}
                       expandedNodes={this.props.expandedNodes}
                       reRender={this.reRender.bind(this)}
+                      turnOffSortMode={this.turnOffSortMode.bind(this)}
                     />
                   </div>
                 :

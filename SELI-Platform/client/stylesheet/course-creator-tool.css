@@ -309,3 +309,9 @@
   letter-spacing: 1px;
   padding: 1vh 0;
 }
+
+.smooth-dnd-container.horizontal {
+  display: flex !important;
+  flex-wrap: wrap;
+  height: auto;
+}
