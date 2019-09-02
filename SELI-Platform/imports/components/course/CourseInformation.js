@@ -13,6 +13,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import FileUpload from '../files/FileUpload';
 import ImagePreview from '../files/previews/ImagePreview';
@@ -268,12 +269,8 @@ export default class CourseInformation extends React.Component {
               variant="outlined"
               required
               className="button-input"
+              helperText="Press enter to add a key word"
               onKeyPress={() => this.keyController(event)}
-            />
-            <Button onClick={() => this.addKeyWord()} className="form-small-button" color="primary">Add keyword</Button>
-            <Help
-              helper="keyWordHelper"
-              text="Key words are used for this:"
             />
           </div>
           {
@@ -293,8 +290,14 @@ export default class CourseInformation extends React.Component {
                 })}
               </div>
             :
-            <p className="form-message">No key words added <ErrorIcon className="form-message-icon"/></p>
+            undefined
           }
+          <p className="form-message">What are key words
+            <Help
+              helper="keyWordHelper"
+              text="Key words are used for this:"
+            />
+          </p>
           <TextField
             id="duration-input"
             label="Estimated course duration"

@@ -10,7 +10,7 @@ import ImageHelpStepper from './ImageHelpStepper';
 const useStyles = makeStyles(theme => ({
    iconButton:{
     verticalAlign:'baseline',
-    padding: 0,
+    padding: '5px',
   }
 }));
 
@@ -31,16 +31,16 @@ export default function Help(props) {
 
   return (
     <React.Fragment>
-   { 
-     // <IconButton aria-describedby={id} variant="contained" onClick={handleClick}>
-     //       <HelpIcon/>
-     //     </IconButton>
-       }
+      {
+        // <IconButton aria-describedby={id} variant="contained" onClick={handleClick}>
+        //       <HelpIcon/>
+        //     </IconButton>
+      }
 
-       <Button color={props.color !== undefined || "" ? props.color : "primary"} aria-describedby={id} onClick={handleClick} className={classes.iconButton}>
+      <IconButton aria-describedby={id} onClick={handleClick} className={classes.iconButton}>
         <HelpIcon/>
         {props.buttonLabel}
-      </Button>
+      </IconButton>
 
       <Popover
         id={id}

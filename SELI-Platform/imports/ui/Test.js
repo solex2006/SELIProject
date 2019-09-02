@@ -31,9 +31,15 @@ export default class Test extends React.Component {
         duration: '',
         modalities: [],
         methodologies: [],
+        organization: '',
+        program: [
+          
+        ],
       },
       requirementsList: [],
       buildedItems: false,
+      expandedNodes: [],
+      selected: [0, 0],
     }
   }
 
@@ -46,7 +52,7 @@ export default class Test extends React.Component {
       courseForms: [
         <CourseInformation courseInformation={this.state.courseInformation} showControlMessage={this.showControlMessage.bind(this)}/>,
         <CourseRequirements requirementsList={this.state.requirementsList} buildedItems={this.state.buildedItems} showControlMessage={this.showControlMessage.bind(this)}/>,
-        <CourseCreatorTool showControlMessage={this.showControlMessage.bind(this)}/>,
+        <CourseCreatorTool courseInformation={this.state.courseInformation} showControlMessage={this.showControlMessage.bind(this)} expandedNodes={this.state.expandedNodes} selected={this.state.selected}/>,
       ],
     })
   }

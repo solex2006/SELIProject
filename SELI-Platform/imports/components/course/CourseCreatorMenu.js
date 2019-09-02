@@ -17,9 +17,8 @@ export default function CourseCreatorMenu(props) {
 
   return (
     <BottomNavigation
-      value={value}
+      value={props.menuTab}
       onChange={(event, newValue) => {
-        setValue(newValue);
         props.setMenuTab(newValue);
       }}
       showLabels
