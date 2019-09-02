@@ -124,3 +124,209 @@ th {
 .accessibValid{
   color: #4caf50;
 }
+ /*TODO move this blocks to the right file */
+ /* BEGIN style for images*/
+ figure{
+    color: #333; /* TODO: test purpose only*/
+    font-size: 13px;
+    text-align: center;
+    padding: 5px;
+ }
+
+ figure.caption-left{
+  display: flex;
+  /*align-items: center;*/
+ }
+
+ figure.caption-rigth{
+  display: flex;
+  /*align-items: center;*/
+ }
+
+ figure.caption-bottom, figure.caption-bottom>img{
+    display: inline-block;
+ }
+
+
+ figure.caption-top, figure.caption-top>img{
+    display: inline-block;
+ }
+ 
+figure.group
+{
+    display: inline-table;
+    -webkit-box-sizing: border-box ;
+    -moz-box-sizing: border-box ;
+    box-sizing: border-box ;
+}
+figure.group, figure.group>figcaption {
+    padding: 10px 12px 12px;
+    display: table-caption;
+    caption-side: bottom;
+    -webkit-box-sizing: border-box ;
+    -moz-box-sizing: border-box ;
+    box-sizing: border-box ;
+}
+
+figure.group.caption-bottom, figure.group.caption-bottom>figcaption {
+    display: table-caption;
+    caption-side: bottom;
+}
+ /* END style for images*/
+
+ /* BEGIN style for Image Caption Editor*/
+
+.ImgCaptionEditor-root {
+  background: #fff;
+  border: 1px solid #ddd;
+  
+  padding: 0px;
+  max-height: 300px;
+  width: 100%;
+}
+
+
+.ImgCaptionEditor-controls {
+  margin: 0 5px 0 5px;
+  user-select: none;
+}
+
+.ImgCaptionEditor-styleButton{
+  color: #999;
+  cursor: pointer;
+  display: inline-block;
+  padding: 2px;
+  /* min-width: 24px;
+  min-height: 24px; */
+  border: none!important;
+  /* background: white; */
+  margin-right: 16px
+}
+
+.ImgCaptionEditor-activeButton {
+  color: #5890ff;
+}
+
+.ImgCaptionEditor-editor {
+  /* border-top: 1px solid #ddd; */
+  border-color: rgba(0, 0, 0, 0.23);
+  cursor: text;
+  font-size: 16px;
+  /* height: 200px; */
+
+  top: -5px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 1px 0 0;
+  padding: 0;
+  /* position: absolute; */
+  transition: padding-left 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,border-color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,border-width 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+}
+
+.ImgCaptionEditor-label{
+  width: fit-content;
+  user-select: none;
+  border: none;
+
+  /*root*/
+  transform-origin: top left;
+  display: block;
+  /*animated*/
+  transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  /*outlined*/
+  z-index: 1;
+  transform: translate(14px, 20px) scale(1);
+  pointer-events: none;
+}
+
+.ImgCaptionEditor-labelShrink {
+    transform: translate(14px, -10px) scale(0.75);
+    background-color: var(--white);
+}
+
+.ImgCaptionEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+  display: none;
+}
+
+.public-DraftEditorPlaceholder-root {
+  margin-top: 0px;
+  margin-left: 14px;
+  user-select: none;
+}
+
+.ImgCaptionEditor-editor .public-DraftEditor-content {
+}
+
+.ImgCaptionEditor-editor .public-DraftEditor-content{
+  min-height: 50px;
+  max-height: 100px;
+  height: 100px;
+  padding: 0px 0px !important;
+  text-indent: 2vw;
+  /* margin: 0 -15px -15px; */
+  overflow-y: auto;
+ 
+  /* border-width: thin; */
+  /* border-style: ridge; */
+  /* width: 100%;
+   */
+}
+
+.ImgCaptionEditor-focused{
+  border-width: 2px;
+  border-color: #3f51b5;
+
+  top: -5px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 1px 0 0;
+  padding: 0;
+  /* position: absolute; */
+  transition: padding-left 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,border-color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,border-width 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+.ImgCaptionEditor-labelFocused,
+.ImgCaptionEditor-labelFocused span
+{
+  color: #3f51b5;
+}
+
+.ImgCaptionEditor-error{
+  border-color: #f44336;
+}
+
+.ImgCaptionEditor-labelError,
+.ImgCaptionEditor-labelError span
+{
+  color: #f44336;
+}
+
+.ImgCaptionEditor-editor blockquote {
+  display:inline-block;;
+  max-width: 80%;
+  border:solid 1em #ccc;
+  margin:0;
+  padding:1em;
+  position:relative;
+}
+.ImgCaptionEditor-editor blockquote:before {
+  background-color: white;
+  bottom: -1em;
+  content: "";
+  left: 2em;
+  position: absolute;
+  right: 2em;
+  top: -1em;
+}
+
+.hide{
+  display: none!important;
+}
+

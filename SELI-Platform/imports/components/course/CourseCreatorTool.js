@@ -32,6 +32,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import Grow from '@material-ui/core/Grow';
 
+import TabVertical from '../tools/VerticalTab';
+
 /* Content Forms */
 import TextForm from '../content/TextForm';
 import ImageForm from '../content/ImageForm';
@@ -588,7 +590,8 @@ export default class CourseCreatorTool extends React.Component {
             }
             {
               this.state.contentTypeAdded === 'image' && !this.state.showAccesibilityOptions ?
-                <ImageForm
+                <TabVertical
+                  contentTypeAdded={this.state.contentTypeAdded}
                   generateImageSaltFunction={imageSalt => this.generateImageSalt = imageSalt}
                   getImageAttributesFunction={imageAttributes => this.getImageAttributes = imageAttributes}
                   resetInputButtonFunction={resetInputButton => this.resetInputButton = resetInputButton}
