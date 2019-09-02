@@ -31,3 +31,4 @@ meteor npm install sanitize-html -- save
 meteor npm install react-iframe-comm --save
 meteor npm install react-unity-webgl --save
 meteor npm install --save unrar.js
+meteor npm install --save react-contextmenu

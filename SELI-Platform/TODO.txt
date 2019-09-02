@@ -1,0 +1,7 @@
+BUGS:
+- No se realiza focus despues de que se abre para nueva unidad
+
+POR HACER:
+- Validar cada form de A.T.
+- Accesibilidad!!!
+- Grabacion de audio

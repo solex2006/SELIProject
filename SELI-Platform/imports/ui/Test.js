@@ -31,20 +31,9 @@ export default class Test extends React.Component {
         duration: '',
         modalities: [],
         methodologies: [],
-        organization: {label: "Organization by units and lessons", unit: "Unit", subunit: "Lesson"},
+        organization: '',
         program: [
-          {
-            name: "Introduction",
-            lessons: [{name: "Enviroment", _id:2, items: []}, {name: "Instalation", _id:1, items: []}]
-          },
-          {
-            name: "Syntaxis",
-            lessons: [{name: "Variables", _id:3, items: []}, {name: "Control sentences", _id:4, items: []}, {name: "Function declaration", _id:5, items: []}]
-          },
-          {
-            name: "Functions",
-            lessons: [{name: "Statics", _id:6, items: []}, {name: "Return", _id:7, items: []}, {name: "Calling", _id:8, items: []}]
-          }
+          
         ],
       },
       requirementsList: [],

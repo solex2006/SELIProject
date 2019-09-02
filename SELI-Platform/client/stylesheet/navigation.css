@@ -1,11 +1,21 @@
 .parent-node {
   align-items: center;
   transition: 0.5s;
+  user-select: none;
+}
+
+.parent-node-add {
+  color: #616161;
+}
+
+.child-node-add {
+  color: #757575;
 }
 
 .child-node {
   align-items: center;
   transition: 0.5s;
+  user-select: none;
 }
 
 .parent-node .MuiTreeItem-content .MuiTypography-body1 {
@@ -23,4 +33,68 @@
   padding-top: 6px;
   filter: drop-shadow(1px 2px 3px #757575);
   transition: 0.5s;
+}
+
+.navigation-snackbar {
+  top: calc(var(--form-stepper-height) + var(--app-bar-height) + 16px) !important;
+}
+
+.navigation-snackbar .MuiSnackbarContent-root {
+  background-color: var(--white) !important;
+  color: #333 !important;
+  opacity: 0.75 !important;
+}
+
+.navigation-message-container {
+  letter-spacing: 1px !important;
+  font-size: 0.9em !important
+}
+
+.snackbar-message-title {
+  color: var(--primary);
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.snackbar-row {
+  display: flex;
+  align-items: center;
+}
+
+.snackbar-icon {
+  fill: #424242 !important;
+  margin-right: 1vw;
+}
+
+.navigation-dialog-title {
+  text-align: center !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+}
+
+.navigation-content {
+  width: 550px;
+}
+
+.navigation-label {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9em !important;
+  color: #616161;
+  letter-spacing: 1px;
+}
+
+.navigation-action-button {
+  letter-spacing: 1px;
+}
+
+.navigation-options-list {
+  width: 150px;
+}
+
+.right-click-menu {
+
 }

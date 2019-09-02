@@ -315,3 +315,6 @@
   flex-wrap: wrap;
   height: auto;
 }
+.menu-options-container {
+  animation: fadeInRight 0.25s;
+}

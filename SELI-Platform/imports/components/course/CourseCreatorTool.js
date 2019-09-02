@@ -51,8 +51,15 @@ import NavigationTool from './NavigationTool';
 /* Accessibility Forms */
 import VideoAccessibilityForm from '../accessibility/VideoAccessibilityForm';
 
-function SlideTransition(props) {
-  return <Slide direction="right" {...props} />;
+/* Snackbar */
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import InfoIcon from '@material-ui/icons/Info';
+
+
+function TransitionRight(props) {
+  return <Slide {...props} direction="right" />;
 }
 
 const GrowTransition = React.forwardRef(function Transition(props, ref) {
@@ -120,86 +127,56 @@ export default class CourseCreatorTool extends React.Component {
     else {
       this.contentHandleClickOpen();
     }
-    courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = applyDrag(courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items, e);
+    if (courseInformation.organization.subunit) {
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = applyDrag(courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items, e);
+    }
+    else {
+      courseInformation.program[this.props.selected[0]].items = applyDrag(courseInformation.program[this.props.selected[0]].items, e);
+    }
     this.setState({
       contentaAdded: true,
     });
   }
 
-  getTextAttributes(){}
-  getImageAttributes(){}
-  getVideoAttributes(){}
-  getAudioAttributes(){}
-  getLinkAttributes(){}
-  getPdfAttributes(){}
-  getCompressedAttributes(){}
-  getH5pAttributes(){}
-  getQuizAttributes(){}
-  getActivityAttributes(){}
-  getEmbebedAttributes(){}
-  getUnityAttributes(){}
+  getItemAttributes(){}
 
   createContent(){
     let courseInformation = this.state.courseInformation;
     let index;
-    for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
-      if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
-        index = i;
-        break;
+    if (courseInformation.organization.subunit) {
+      for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
+        if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
+          index = i;
+          break;
+        }
       }
     }
-    if (this.state.contentTypeAdded === 'text') {
-      let textContent = this.getTextAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = textContent;
+    else {
+      for (var i = 0; i < courseInformation.program[this.props.selected[0]].items.length; i++) {
+        if (courseInformation.program[this.props.selected[0]].items[i].id === this.state.addedId) {
+          index = i;
+          break;
+        }
+      }
     }
-    else if (this.state.contentTypeAdded === 'image') {
-      let imageContent = this.getImageAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = imageContent;
+    let itemContent = this.getItemAttributes();
+    if (courseInformation.organization.subunit) {
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = itemContent;
+    }
+    else {
+      courseInformation.program[this.props.selected[0]].items[index].attributes = itemContent;
+    }
+    if (this.state.contentTypeAdded === 'image') {
       let size = {
         width: 500,
         height: 300,
       }
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.size = size;
-    }
-    else if (this.state.contentTypeAdded === 'video') {
-      let videoContent = this.getVideoAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = videoContent;
-    }
-    else if (this.state.contentTypeAdded === 'audio') {
-      let audioContent = this.getAudioAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = audioContent;
-    }
-    else if (this.state.contentTypeAdded === 'pdf') {
-      let pdfContent = this.getPdfAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = pdfContent;
-    }
-    else if (this.state.contentTypeAdded === 'compressed') {
-      let compressedContent = this.getCompressedAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = compressedContent;
-    }
-    else if (this.state.contentTypeAdded === 'link') {
-      let linkContent = this.getLinkAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = linkContent;
-    }
-    else if (this.state.contentTypeAdded === 'h5p') {
-      let h5pContent = this.getH5pAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = h5pContent;
-    }
-    else if (this.state.contentTypeAdded === 'quiz') {
-      let quizContent = this.getQuizAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = quizContent;
-    }
-    else if (this.state.contentTypeAdded === 'activity') {
-      let activityContent = this.getActivityAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = activityContent
-    }
-    else if (this.state.contentTypeAdded === 'embebed') {
-      let embebedContent = this.getEmbebedAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = embebedContent;
-    }
-    else if (this.state.contentTypeAdded === 'unity') {
-      let unityContent = this.getUnityAttributes();
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = unityContent;
+      if (courseInformation.organization.subunit) {
+        courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.size = size;
+      }
+      else {
+        courseInformation.program[this.props.selected[0]].items[index].attributes.size = size;
+      }
     }
     this.setState({
       showAccesibilityOptions: true,
@@ -217,13 +194,24 @@ export default class CourseCreatorTool extends React.Component {
   cancelContentCreation(){
     let courseInformation = this.state.courseInformation;
     let index;
-    for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
-      if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
-        index = i;
-        break;
+    if (courseInformation.organization.subunit) {
+      for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
+        if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
+          index = i;
+          break;
+        }
       }
+      this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.splice(index, 1);
     }
-    this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.splice(index, 1);
+    else {
+      for (var i = 0; i < courseInformation.program[this.props.selected[0]].items.length; i++) {
+        if (courseInformation.program[this.props.selected[0]].items[i].id === this.state.addedId) {
+          index = i;
+          break;
+        }
+      }
+      this.props.courseInformation.program[this.props.selected[0]].items.splice(index, 1);
+    }
     this.setState({
       contentTypeAdded: '',
     });
@@ -231,8 +219,14 @@ export default class CourseCreatorTool extends React.Component {
 
   removeItem(item){
     let courseInformation = this.state.courseInformation;
-    let removeIndex = this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.indexOf(item);
-    this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.splice(removeIndex, 1);
+    if (courseInformation.organization.subunit) {
+      let removeIndex = this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.indexOf(item);
+      this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.splice(removeIndex, 1);
+    }
+    else {
+      let removeIndex = this.props.courseInformation.program[this.props.selected[0]].items.indexOf(item);
+      this.props.courseInformation.program[this.props.selected[0]].items.splice(removeIndex, 1);
+    }
     this.setState({
       deleted: true,
     });
@@ -272,13 +266,25 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   toggleSortMode(){
-    if (this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length) {
-      this.setState({
-        sortMode: !this.state.sortMode,
-      });
+    if (this.props.courseInformation.organization.subunit) {
+      if (this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length) {
+        this.setState({
+          sortMode: !this.state.sortMode,
+        });
+      }
+      else {
+        this.props.showControlMessage("First add some content please");
+      }
     }
     else {
-      this.props.showControlMessage("First add some content please");
+      if (this.props.courseInformation.program[this.props.selected[0]].items.length) {
+        this.setState({
+          sortMode: !this.state.sortMode,
+        });
+      }
+      else {
+        this.props.showControlMessage("First add some content please");
+      }
     }
     this.reRender();
   }
@@ -303,10 +309,13 @@ export default class CourseCreatorTool extends React.Component {
     });
   }
 
-  setCorrectOrganization(value) {
+  validateOrganization(value) {
     this.setState({
       correctOrganization: value,
-    })
+    }, () => {
+      !this.state.correctOrganization ? this.showCreatorToolMessage('navigation') : undefined
+      this.state.correctOrganization ? this.handleCloseSnackbar() : undefined
+    });
   }
 
   componentDidMount(){
@@ -321,7 +330,8 @@ export default class CourseCreatorTool extends React.Component {
       this.setState({
         showCourseOrganization: false,
         contentOpen: false,
-      })
+      });
+      this.showCreatorToolMessage("navigation");
     }
   }
 
@@ -330,130 +340,340 @@ export default class CourseCreatorTool extends React.Component {
     this.setState({ state: this.state });
   }
 
+  handleSnackbar = () => {
+    this.setState({ openSnackbar: true });
+  };
+
+  handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ openSnackbar: false });
+  };
+
+  showCreatorToolMessage(type) {
+    this.setState({
+      snackbarType: type,
+    }, () => {
+      this.handleSnackbar();
+    });
+  }
+
+
   render() {
     return(
       <div>
         <div className="course-creator-container">
-          <div className="course-creator-work-area">
-            <div
-              style={
-                !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
-                  {backgroundImage: "url(drop.svg)", animation: "bounce 1s 2"}
-                :
-                {backgroundImage: "url()"}} className="course-creator-drop-area"
-            >
-              {
-                !this.state.sortMode ?
-                  <Container
-                    lockAxis="y"
-                    dragBeginDelay={500}
-                    dragClass="drag-class"
-                    style={{width: "100%", height: "100%"}}
-                    groupName="1"
-                    getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
-                    onDrop={e => this.openDialog(e)}>
-                    {
-                      this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
-                        return (
-                          <Draggable key={i}>
-                            <ContentItem
-                              item={p}
-                              removeItem={this.removeItem.bind(this)}
-                            />
-                          </Draggable>
-                        );
-                      })
-                    }
-                  </Container>
-                :
-                <Container
-                  lockAxis="y"
-                  dragBeginDelay={0}
-                  dragClass="drag-class"
-                  style={{width: "100%", height: "100%"}}
-                  groupName="1"
-                  getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
-                  onDrop={e => this.openDialog(e)}
+          {
+            this.props.courseInformation.organization.subunit ?
+              <div className="course-creator-work-area">
+                <div
+                  style={
+                    !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
+                      {backgroundImage: "url(drop.svg)", animation: "bounce 1s 2"}
+                    :
+                    {backgroundImage: "url()"}} className="course-creator-drop-area"
                 >
                   {
-                    this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
-                      return (
-                        <Draggable key={i}>
-                          <SortItem
-                            item={p}
-                            removeItem={this.removeItem.bind(this)}
-                            index={i}
-                          />
-                        </Draggable>
-                      );
-                    })
-                  }
-                </Container>
-              }
-            </div>
-            <div className="course-creator-menu-area">
-              <CourseCreatorMenu
-                setMenuTab={this.setMenuTab.bind(this)}
-              />
-              {
-                this.state.menuTab === 0 ?
-                  <div>
-                    <AudienceMenu
-                      options={this.state.audienceOptions}
-                      setOption={this.setAudienceOption.bind(this)}
-                    />
+                    !this.state.sortMode ?
+                      <Container
+                        lockAxis="y"
+                        dragBeginDelay={500}
+                        dragClass="drag-class"
+                        style={{width: "100%", height: "100%"}}
+                        groupName="1"
+                        getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
+                        onDrop={e => this.openDialog(e)}>
+                        {
+                          this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
+                            return (
+                              <Draggable key={i}>
+                                <ContentItem
+                                  item={p}
+                                  removeItem={this.removeItem.bind(this)}
+                                />
+                              </Draggable>
+                            );
+                          })
+                        }
+                      </Container>
+                    :
                     <Container
-                      orientation="horizontal"
+                      lockAxis="y"
+                      dragBeginDelay={0}
+                      dragClass="drag-class"
+                      style={{width: "100%", height: "100%"}}
                       groupName="1"
-                      behaviour="copy"
-                      getChildPayload={i => this.state.contentItems[i]}
-                      onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
+                      getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
+                      onDrop={e => this.openDialog(e)}
                     >
                       {
-                        this.state.contentItems.map((p,i) => {
+                        this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
                           return (
                             <Draggable key={i}>
-                              <ContentMenuItem type={p.type}/>
+                              <SortItem
+                                item={p}
+                                removeItem={this.removeItem.bind(this)}
+                                index={i}
+                              />
                             </Draggable>
                           );
                         })
                       }
                     </Container>
-                    <div className="course-creator-menu-actions-container">
-                      <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
-                        <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
-                          <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={"Sort mode"}/>
-                        </ListItem>
-                        <ListItem className="course-creator-menu-action" button>
-                          <ListItemText className="course-creator-menu-action-text" primary="Preview"/>
-                        </ListItem>
-                      </List>
-                    </div>
-                  </div>
-                :
-                  undefined
-              }
-              {
-                this.state.menuTab === 1 ?
-                  <div>
-                    <p className="form-message">{this.props.courseInformation.organization.label}</p>
-                    <div className="course-creator-navigation-actions">
-                      <Button onClick={() => this.manageOrganization()} className="course-creator-navigation-button" fullWidth color="primary">Organization</Button>
-                    </div>
-                    <NavigationTool
-                      program={this.props.courseInformation.program}
-                      hasSubunits={this.props.courseInformation.organization.subunit}
-                      selected={this.props.selected}
-                      expandedNodes={this.props.expandedNodes}
-                      reRender={this.reRender.bind(this)}
-                      turnOffSortMode={this.turnOffSortMode.bind(this)}
-                    />
-                  </div>
-                :
-                undefined
-              }
-            </div>
-          </div>
+                  }
+                </div>
+                <div className="course-creator-menu-area">
+                  <CourseCreatorMenu
+                    setMenuTab={this.setMenuTab.bind(this)}
+                    menuTab={this.state.menuTab}
+                  />
+                  {
+                    this.state.menuTab === 0 ?
+                      <div>
+                        <AudienceMenu
+                          options={this.state.audienceOptions}
+                          setOption={this.setAudienceOption.bind(this)}
+                        />
+                        <Container
+                          orientation="horizontal"
+                          groupName="1"
+                          behaviour="copy"
+                          getChildPayload={i => this.state.contentItems[i]}
+                          onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
+                        >
+                          {
+                            this.state.contentItems.map((p,i) => {
+                              return (
+                                <Draggable key={i}>
+                                  <ContentMenuItem type={p.type}/>
+                                </Draggable>
+                              );
+                            })
+                          }
+                        </Container>
+                        <div className="course-creator-menu-actions-container">
+                          <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
+                            <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
+                              <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={"Sort mode"}/>
+                            </ListItem>
+                            <ListItem className="course-creator-menu-action" button>
+                              <ListItemText className="course-creator-menu-action-text" primary="Preview"/>
+                            </ListItem>
+                          </List>
+                        </div>
+                      </div>
+                    :
+                    undefined
+                  }
+                  {
+                    this.state.menuTab === 1 ?
+                      <div>
+                        <div className="button-row">
+                          {
+                            this.props.courseInformation.organization.unit === "Unit" ?
+                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
+                                <Avatar id="orange-avatar" className="avatar">U</Avatar>
+                                By Units & Lessons
+                              </Button>
+                            :
+                            undefined
+                          }
+                          {
+                            this.props.courseInformation.organization.unit === "Topic" ?
+                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
+                                <Avatar id="blue-avatar" className="avatar">T</Avatar>
+                                By Topics
+                              </Button>
+                            :
+                            undefined
+                          }
+                          {
+                            this.props.courseInformation.organization.unit === "Season" ?
+                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Season" ? "row-list-selected-button" : "row-list-button"}>
+                                <Avatar id="teal-avatar" className="avatar">D</Avatar>
+                                By Dates
+                              </Button>
+                            :
+                            undefined
+                          }
+                        </div>
+                        <NavigationTool
+                          program={this.props.courseInformation.program}
+                          organization={this.props.courseInformation.organization}
+                          hasSubunits={this.props.courseInformation.organization.subunit}
+                          selected={this.props.selected}
+                          expandedNodes={this.props.expandedNodes}
+                          reRender={this.reRender.bind(this)}
+                          turnOffSortMode={this.turnOffSortMode.bind(this)}
+                          setMenuTab={this.setMenuTab.bind(this)}
+                          showCreatorToolMessage={this.showCreatorToolMessage.bind(this)}
+                          dialog={true}
+                        />
+                      </div>
+                    :
+                    undefined
+                  }
+                </div>
+              </div>
+            :
+            undefined
+          }
+          {
+            !this.props.courseInformation.organization.subunit && this.props.courseInformation.organization ?
+              <div className="course-creator-work-area">
+                <div
+                  style={
+                    !this.props.courseInformation.program[this.props.selected[0]].items.length ?
+                      {backgroundImage: "url(drop.svg)", animation: "bounce 1s 2"}
+                    :
+                    {backgroundImage: "url()"}} className="course-creator-drop-area"
+                >
+                  {
+                    !this.state.sortMode ?
+                      <Container
+                        lockAxis="y"
+                        dragBeginDelay={500}
+                        dragClass="drag-class"
+                        style={{width: "100%", height: "100%"}}
+                        groupName="1"
+                        getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].items[i]}
+                        onDrop={e => this.openDialog(e)}>
+                        {
+                          this.props.courseInformation.program[this.props.selected[0]].items.map((p, i) => {
+                            return (
+                              <Draggable key={i}>
+                                <ContentItem
+                                  item={p}
+                                  removeItem={this.removeItem.bind(this)}
+                                />
+                              </Draggable>
+                            );
+                          })
+                        }
+                      </Container>
+                    :
+                    <Container
+                      lockAxis="y"
+                      dragBeginDelay={0}
+                      dragClass="drag-class"
+                      style={{width: "100%", height: "100%"}}
+                      groupName="1"
+                      getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].items[i]}
+                      onDrop={e => this.openDialog(e)}
+                    >
+                      {
+                        this.props.courseInformation.program[this.props.selected[0]].items.map((p, i) => {
+                          return (
+                            <Draggable key={i}>
+                              <SortItem
+                                item={p}
+                                removeItem={this.removeItem.bind(this)}
+                                index={i}
+                              />
+                            </Draggable>
+                          );
+                        })
+                      }
+                    </Container>
+                  }
+                </div>
+                <div className="course-creator-menu-area">
+                  <CourseCreatorMenu
+                    setMenuTab={this.setMenuTab.bind(this)}
+                    menuTab={this.state.menuTab}
+                  />
+                  {
+                    this.state.menuTab === 0 ?
+                      <div>
+                        <AudienceMenu
+                          options={this.state.audienceOptions}
+                          setOption={this.setAudienceOption.bind(this)}
+                        />
+                        <Container
+                          orientation="horizontal"
+                          groupName="1"
+                          behaviour="copy"
+                          getChildPayload={i => this.state.contentItems[i]}
+                          onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
+                        >
+                          {
+                            this.state.contentItems.map((p,i) => {
+                              return (
+                                <Draggable key={i}>
+                                  <ContentMenuItem type={p.type}/>
+                                </Draggable>
+                              );
+                            })
+                          }
+                        </Container>
+                        <div className="course-creator-menu-actions-container">
+                          <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
+                            <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
+                              <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={"Sort mode"}/>
+                            </ListItem>
+                            <ListItem className="course-creator-menu-action" button>
+                              <ListItemText className="course-creator-menu-action-text" primary="Preview"/>
+                            </ListItem>
+                          </List>
+                        </div>
+                      </div>
+                    :
+                    undefined
+                  }
+                  {
+                    this.state.menuTab === 1 ?
+                      <div>
+                        <div className="button-row">
+                          {
+                            this.props.courseInformation.organization.unit === "Unit" ?
+                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
+                                <Avatar id="orange-avatar" className="avatar">U</Avatar>
+                                By Units & Lessons
+                              </Button>
+                            :
+                            undefined
+                          }
+                          {
+                            this.props.courseInformation.organization.unit === "Topic" ?
+                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
+                                <Avatar id="blue-avatar" className="avatar">T</Avatar>
+                                By Topics
+                              </Button>
+                            :
+                            undefined
+                          }
+                          {
+                            this.props.courseInformation.organization.unit === "Season" ?
+                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Season" ? "row-list-selected-button" : "row-list-button"}>
+                                <Avatar id="teal-avatar" className="avatar">D</Avatar>
+                                By Dates
+                              </Button>
+                            :
+                            undefined
+                          }
+                        </div>
+                        <NavigationTool
+                          program={this.props.courseInformation.program}
+                          organization={this.props.courseInformation.organization}
+                          hasSubunits={this.props.courseInformation.organization.subunit}
+                          selected={this.props.selected}
+                          expandedNodes={this.props.expandedNodes}
+                          reRender={this.reRender.bind(this)}
+                          turnOffSortMode={this.turnOffSortMode.bind(this)}
+                          setMenuTab={this.setMenuTab.bind(this)}
+                          showCreatorToolMessage={this.showCreatorToolMessage.bind(this)}
+                          dialog={true}
+                        />
+                      </div>
+                    :
+                    undefined
+                  }
+                </div>
+              </div>
+            :
+            undefined
+          }
         </div>
         <Dialog
           open={this.state.contentOpen}
@@ -472,7 +692,8 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'text' && !this.state.showAccesibilityOptions ?
                 <TextForm
-                  getTextAttributesFunction={textAttributes => this.getTextAttributes = textAttributes}
+                  getTextAttributesFunction={textAttributes => this.getItemAttributes = textAttributes}
+                  showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
               undefined
@@ -480,7 +701,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'image' && !this.state.showAccesibilityOptions ?
                 <ImageForm
-                  getImageAttributesFunction={imageAttributes => this.getImageAttributes = imageAttributes}
+                  getImageAttributesFunction={imageAttributes => this.getItemAttributes = imageAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -489,7 +710,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'video' && !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm ?
                 <VideoForm
-                  getVideoAttributesFunction={videoAttributes => this.getVideoAttributes = videoAttributes}
+                  getVideoAttributesFunction={videoAttributes => this.getItemAttributes = videoAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -498,7 +719,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'audio' && !this.state.showAccesibilityOptions ?
                 <AudioForm
-                  getAudioAttributesFunction={audioAttributes => this.getAudioAttributes = audioAttributes}
+                  getAudioAttributesFunction={audioAttributes => this.getItemAttributes = audioAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -507,7 +728,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'link' && !this.state.showAccesibilityOptions ?
                 <LinkForm
-                  getLinkAttributesFunction={linkAttributes => this.getLinkAttributes = linkAttributes}
+                  getLinkAttributesFunction={linkAttributes => this.getItemAttributes = linkAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -516,7 +737,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'pdf' && !this.state.showAccesibilityOptions ?
                 <PdfForm
-                  getPdfAttributesFunction={pdfAttributes => this.getPdfAttributes = pdfAttributes}
+                  getPdfAttributesFunction={pdfAttributes => this.getItemAttributes = pdfAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -525,7 +746,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'compressed' && !this.state.showAccesibilityOptions ?
                 <CompressedForm
-                  getCompressedAttributesFunction={compressedAttributes => this.getCompressedAttributes = compressedAttributes}
+                  getCompressedAttributesFunction={compressedAttributes => this.getItemAttributes = compressedAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -534,7 +755,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'h5p' && !this.state.showAccesibilityOptions ?
                 <H5PForm
-                  getH5pAttributesFunction={h5pAttributes => this.getH5pAttributes = h5pAttributes}
+                  getH5pAttributesFunction={h5pAttributes => this.getItemAttributes = h5pAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -543,7 +764,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'quiz' && !this.state.showAccesibilityOptions ?
                 <QuizForm
-                  getQuizAttributesFunction={quizAttributes => this.getQuizAttributes = quizAttributes}
+                  getQuizAttributesFunction={quizAttributes => this.getItemAttributes = quizAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -552,7 +773,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'activity' && !this.state.showAccesibilityOptions ?
                 <ActivityForm
-                  getActivityAttributesFunction={activityAttributes => this.getActivityAttributes = activityAttributes}
+                  getActivityAttributesFunction={activityAttributes => this.getItemAttributes = activityAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -561,7 +782,7 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'embebed' && !this.state.showAccesibilityOptions ?
                 <EmbebedForm
-                  getEmbebedAttributesFunction={embebedAttributes => this.getEmbebedAttributes = embebedAttributes}
+                  getEmbebedAttributesFunction={embebedAttributes => this.getItemAttributes = embebedAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
@@ -570,14 +791,14 @@ export default class CourseCreatorTool extends React.Component {
             {
               this.state.contentTypeAdded === 'unity' && !this.state.showAccesibilityOptions ?
                 <UnityForm
-                  getUnityAttributesFunction={unityAttributes => this.getUnityAttributes = unityAttributes}
+                  getUnityAttributesFunction={unityAttributes => this.getItemAttributes = unityAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
               :
               undefined
             }
             {
-              this.state.showAccesibilityOptions ?
+              this.state.showAccesibilityOptions && !this.state.showCourseOrganization?
                 <div className="configure-accessibility-actions">
                   <List>
                     <ListItem onClick={() => this.showAccesibilityForm()} button>
@@ -614,7 +835,9 @@ export default class CourseCreatorTool extends React.Component {
               this.state.showCourseOrganization ?
                 <CourseOrganization
                   courseInformation={this.props.courseInformation}
-                  setCorrectOrganization={this.setCorrectOrganization.bind(this)}
+                  validateOrganization={this.validateOrganization.bind(this)}
+                  reRender={this.reRender.bind(this)}
+                  selected={this.props.selected}
                 />
               :
               undefined
@@ -651,13 +874,71 @@ export default class CourseCreatorTool extends React.Component {
             this.state.showCourseOrganization ?
               <DialogActions>
                 <Button disabled={this.state.correctOrganization} onClick={() => this.setOrganization()}  color="primary">
-                  Done
+                  Start
                 </Button>
               </DialogActions>
             :
             undefined
           }
         </Dialog>
+        <Snackbar
+          className="navigation-snackbar"
+          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+          key={"navigation-tool-snackbar"}
+          open={this.state.openSnackbar}
+          onClose={this.handleCloseSnackbar}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          TransitionComponent={TransitionRight}
+          message={
+            <div>
+              {
+                this.state.snackbarType === "navigation" ?
+                  <div>
+                    {
+                      this.props.courseInformation.program.length ?
+                        <div>
+                          {
+                            this.props.courseInformation.organization.subunit ?
+                              <div className="snackbar-row">
+                                <InfoIcon className="snackbar-icon"/>
+                                <div className="navigation-message-container">
+                                  <p className="snackbar-message-title">EDITING</p>
+                                  <p>{`${this.props.courseInformation.organization.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}`}</p>
+                                  <p>{`${this.props.courseInformation.organization.subunit}: ${this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}</p>
+                                </div>
+                              </div>
+                            :
+                            <div className="snackbar-row">
+                              <InfoIcon className="snackbar-icon"/>
+                              <div className="navigation-message-container">
+                                <p className="snackbar-message-title">EDITING</p>
+                                <p>{`${this.props.courseInformation.organization.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}`}</p>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      :
+                      undefined
+                    }
+                  </div>
+                :
+                undefined
+              }
+            </div>
+          }
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={this.handleCloseSnackbar}
+            >
+              <CloseIcon />
+            </IconButton>
+          ]}
+        />
       </div>
       );
     }

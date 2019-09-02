@@ -22,6 +22,7 @@
     "re-resizable": "^5.0.1",
     "react": "^16.8.6",
     "react-burger-menu": "^2.6.10",
+    "react-contextmenu": "^2.11.0",
     "react-dom": "^16.8.6",
     "react-draft-wysiwyg": "^1.13.2",
     "react-files": "^2.4.8",
