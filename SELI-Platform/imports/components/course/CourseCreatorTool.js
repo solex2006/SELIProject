@@ -723,7 +723,8 @@ export default class CourseCreatorTool extends React.Component {
             }
             {
               this.state.contentTypeAdded === 'audio' && !this.state.showAccesibilityOptions ?
-                <AudioForm
+                <TabVertical
+                  contentTypeAdded={this.state.contentTypeAdded}
                   getAudioAttributesFunction={audioAttributes => this.getItemAttributes = audioAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />

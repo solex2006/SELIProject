@@ -1,37 +1,19 @@
 import React, {useState, useEffect} from 'react';
 //Semantic layout
 import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 // form componenets
-import Button from '@material-ui/core/Button';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import InputLabel from '@material-ui/core/InputLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
-import Checkbox from '@material-ui/core/Checkbox';
-import TextField from '@material-ui/core/TextField';
+//a11y components
+import A11YLongDescription from './a11yLongDescription';
+import A11YShortDescription from './a11yShortDescription';
 import EditorA11Y from '../tools/a11yEditor';
-import Editor from '../inputs/editor/Editor';
-// feedback
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import HelpIcon from '@material-ui/icons/Help';
-import PublishIcon from '@material-ui/icons/Publish';
-import AccessibilityIcon from '@material-ui/icons/Accessibility';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
-import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
-import Help from '../tools/Help';
 
 export default function ImageAccessibility(props) {
-
-	//const editor = React.useRef(null);
-	
 
 	//data variable
 	const [imagePurpose, setImagePurpose] = React.useState('deco');
@@ -87,12 +69,24 @@ export default function ImageAccessibility(props) {
 	function handleLongDescriptionOnChange (value){
 		setLongDescription(value);
 		setLongDescriptionError(value === '');
-	};
+	}
+
+	function handleLongDescriptionPosition(value = 'bottom'){
+		value = value === ''? 'bottom' : value;
+		setLongDescriptionPosition(value);
+	}
 
 	function LongDescriptionHasError(value ='')
 	{
 		let err = value === '';
 		setLongDescriptionError(err);
+		return err;
+	}
+
+	function ShortDescriptionHasError(value ='')
+	{
+		let err = value === '';
+		setShortDescriptionError(err);
 		return err;
 	}
 	function getImagePurposeLabel(purpose =''){
@@ -160,7 +154,6 @@ export default function ImageAccessibility(props) {
 	}
 
 	return (
-
 		<React.Fragment>
 			<section id='image-decoration' className='accessib-form'>
 				<header><h3>Function of image</h3></header>
@@ -217,65 +210,42 @@ export default function ImageAccessibility(props) {
 				<header><h3>Text alternatives to image content</h3></header>
 				<Grid container spacing={1} direction='column' justify='flex-start'>
 					<Grid item id='short-description-container' role='grid'>
-						<TextField id='short-description-input'
-							name='shortDescription'
-							label="Short description"
-							aria-describedby='short-description-input-helper-text'
-							placeholder="Content identification"
-							maxLength='100'
-							margin='normal'
-							multiline
-							fullWidth
-							required
-							rows='2'
-							wrap='hard'
-							variant='outlined'    
-							value={shortDescription} 
-							onChange={handleShortDescriptionOnChange}
+						<A11YShortDescription 
+							handleOnChange={handleShortDescriptionOnChange}
+							handleError={ShortDescriptionHasError}
 							error={shortDescriptionError}
-						/>
-						<AccessibilityHelp id='short-description-input' name='image-shortDescription' error={shortDescriptionError} tip={shortDescriptionTip}  step={'shortAltHelper_'+imagePurpose} />
-					</Grid>
-					<Grid  item id='long-description-container' role='grid' style={{'display' : displayAltLong}}>
-						<EditorA11Y id='long-description-input'
-							name='longDescription'
-							label='Transcription'
-							aria-describedby='long-description-exp'
-							placeholder="Video transcription"
-							value={longDescription} 
-							onChange={handleLongDescriptionOnChange}
-							error={longDescriptionError}
+							value={shortDescription}
+							name="image"
+							label="Short Description"
+							//ariaLabelledBy
+							//ariaDescribedBy
+							//editorData
+							placeholder="Content identification"
 							required={true}
-							handleError={LongDescriptionHasError}
+							tip={shortDescriptionTip} 
+							step={'shortAltHelper_'+imagePurpose}
 						/>
-						<AccessibilityHelp id='long-description-input' name='image-longDescription' error={longDescriptionError} step={'longAltHelper_'+imagePurpose} stepLabel='' tip={longDescriptionTip} />
-
-						<Grid item  id='long-description-position-container' role='grid'>
-							<span id='long-description-position-label'>Text position relative to image </span>
-							<ToggleButtonGroup 
-								name='longDescriptionPosition'
-								id='long-description-position'
-								aria-labelledby='long-description-position-label' 
-								value={longDescriptionPosition} 
-								exclusive
-								size='small' 
-							>
-								<ToggleButton 
-									key={1} 
-									value='bottom' 
-									onClick={() => setLongDescriptionPosition('bottom')}>
-									<Tooltip title='Bottom'><HorizontalSplitIcon className='toggle-button-icon'/>
-									</Tooltip>
-								</ToggleButton>
-								<ToggleButton 
-									key={2} 
-									value='top' 
-									onClick={() => setLongDescriptionPosition('top')}>
-									<Tooltip title='Top'><HorizontalSplitIcon style={{transform: 'rotate(180deg)'}} className='toggle-button-icon'/>
-									</Tooltip>
-								</ToggleButton>
-							</ToggleButtonGroup>
-						</Grid>
+					</Grid>
+					<Grid  item style={{'display' : displayAltLong}}>
+						<A11YLongDescription
+							handleOnChange={handleLongDescriptionOnChange}
+							handleError={LongDescriptionHasError}
+							error={longDescriptionError}
+							value={longDescription}
+							name="image"
+							label="Long Description"
+							//ariaLabelledBy
+							//ariaDescribedBy
+							//editorData
+							placeholder="Caption"
+							required={true}
+							tip={longDescriptionTip} 
+							step={'longAltHelper_'+imagePurpose}
+							stepLabel=''
+							position={longDescriptionPosition}
+							handlePosition={handleLongDescriptionPosition}
+							positionLabel='Text position relative to image'
+						/>
 					</Grid>
 				</Grid>
 			</section>

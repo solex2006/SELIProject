@@ -21,6 +21,7 @@ import UnityForm from '../content/UnityForm';
 /* a11y content forms */
 import ImageA11yForm from '../accessibility/ImageAccessibilityForm';
 import VideoA11yForm from '../accessibility/VideoAccessibilityForm';
+import AudioA11yForm from '../accessibility/AudioAccessibilityForm';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -106,12 +107,12 @@ export default function VerticalTabs(props) {
         <Tab label="Sign Language" {...a11yProps(4, props.contentTypeAdded)} />}
         {props.contentTypeAdded === 'video'&&
         <Tab label="Others" {...a11yProps(5, props.contentTypeAdded)} />}
+        {props.contentTypeAdded === 'audio'&&
+        <Tab label="Text Alternatives" {...a11yProps(1)} />}
         {
           //   <Tab label="A11y Text" {...a11yProps(1)} />
           // props.contentTypeAdded === 'text'&&
           
-          // props.contentTypeAdded === 'audio'&&
-          //   <Tab label="A11y audio" {...a11yProps(1)} />
 
           // props.contentTypeAdded === 'link'&&
           //   <Tab label="A11y link" {...a11yProps(1)} />
@@ -266,11 +267,17 @@ export default function VerticalTabs(props) {
               <ImageA11yForm />
             </TabPanel>
           </React.Fragment>}
+      
+			{props.contentTypeAdded === 'audio'&&
+				<React.Fragment>
+					<TabPanel value={value} index={1}>
+						<AudioA11yForm />
+					</TabPanel>
+				</React.Fragment>}
        
       {
-        // props.contentTypeAdded === 'text'&&
         // props.contentTypeAdded === 'video'&&
-        // props.contentTypeAdded === 'audio'&&
+        // props.contentTypeAdded === 'text'&&
         // props.contentTypeAdded === 'link'&&
         // props.contentTypeAdded === 'pdf'&&
         // props.contentTypeAdded === 'compressed'&&
