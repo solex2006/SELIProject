@@ -45,7 +45,7 @@ export default function a11yLongDescription(props){
 				<AccessibilityHelp 
 					id={'long-description-help-container-'+props.name} 
 					name={'longDescriptionHelpContainer'+props.name} 
-					error={props.longDescriptionError} 
+					error={props.error} 
 					tip={props.tip} 
 					step={props.step}
 					stepLabel={props.stepLabel}

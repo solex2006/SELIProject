@@ -130,59 +130,36 @@ export default class AudioForm extends React.Component {
               <div className="center-row">
                 <p className="normal-text">Pick one from your</p>
                 <Button onClick={() => this.showLibrary()} color="primary" className="text-button">Library</Button>
-              </div>
-              <FormGroup className="content-radio-group-center" row>
-                <FormControlLabel
-                  className="form-label"
-                  control={
-                    <Checkbox color="primary" checked={this.state.description} onChange={() => this.handleChange('description')} value={this.state.description} />
-                  }
-                  label="Add text description to the audio"
-                />
-              </FormGroup>
-              {
-                this.state.description ?
-                  <div>
-                    <div className="margin-center-row">
-                      <p className="form-label">Audio position:</p>
-                      <Grid item>
-                        <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
-                          <ToggleButton key={1} value="row" onClick={() => this.alignmentHandleChange("row")}>
-                            <Tooltip title="Left side">
-                              <VerticalSplitIcon className="toggle-button-icon"/>
-                            </Tooltip>
-                          </ToggleButton>
-                          <ToggleButton key={2} value="row-reverse" onClick={() => this.alignmentHandleChange("row-reverse")}>
-                            <Tooltip style={{transform: "rotate(180deg)"}} title="Right side">
-                              <VerticalSplitIcon className="toggle-button-icon"/>
-                            </Tooltip>
-                          </ToggleButton>
-                          <ToggleButton key={3} value="column-reverse" onClick={() => this.alignmentHandleChange("column-reverse")}>
-                            <Tooltip title="Up">
-                              <HorizontalSplitIcon className="toggle-button-icon"/>
-                            </Tooltip>
-                          </ToggleButton>
-                          <ToggleButton key={4} value="column" onClick={() => this.alignmentHandleChange("column")}>
-                            <Tooltip title="Down">
-                              <HorizontalSplitIcon style={{transform: "rotate(180deg)"}} className="toggle-button-icon"/>
-                            </Tooltip>
-                          </ToggleButton>
-                        </ToggleButtonGroup>
-                      </Grid>
-                    </div>
-                    <p className="form-editor-label">Write the description of the audio below:</p>
-                    <div className="editor-block">
-                      <Editor
-                        areaHeight="20vh"
-                        buttonLabels={false}
-                        addLinks={true}
-                        getInnerHtml={this.getInnerHtml.bind(this)}
-                      />
-                    </div>
+                <Grid>  
+                  <div className="margin-center-row">
+                    <p className="form-label">Audio position:</p>
+                    <Grid item>
+                      <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
+                        <ToggleButton key={1} value="row" onClick={() => this.alignmentHandleChange("row")}>
+                          <Tooltip title="Left side">
+                            <VerticalSplitIcon className="toggle-button-icon"/>
+                          </Tooltip>
+                        </ToggleButton>
+                        <ToggleButton key={2} value="row-reverse" onClick={() => this.alignmentHandleChange("row-reverse")}>
+                          <Tooltip style={{transform: "rotate(180deg)"}} title="Right side">
+                            <VerticalSplitIcon className="toggle-button-icon"/>
+                          </Tooltip>
+                        </ToggleButton>
+                        <ToggleButton key={3} value="column-reverse" onClick={() => this.alignmentHandleChange("column-reverse")}>
+                          <Tooltip title="Up">
+                            <HorizontalSplitIcon className="toggle-button-icon"/>
+                          </Tooltip>
+                        </ToggleButton>
+                        <ToggleButton key={4} value="column" onClick={() => this.alignmentHandleChange("column")}>
+                          <Tooltip title="Down">
+                            <HorizontalSplitIcon style={{transform: "rotate(180deg)"}} className="toggle-button-icon"/>
+                          </Tooltip>
+                        </ToggleButton>
+                      </ToggleButtonGroup>
+                    </Grid>
                   </div>
-                :
-                undefined
-              }
+                </Grid>  
+              </div>
             </div>
           :
           <Library

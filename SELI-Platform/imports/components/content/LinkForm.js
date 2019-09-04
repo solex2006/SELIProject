@@ -12,7 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormLabel from '@material-ui/core/FormLabel';
 import Divider from '@material-ui/core/Divider';
 import Link from '@material-ui/core/Link';
-import Editor from '../inputs/editor/Editor';
+import LinkA11Y from '../accessibility/LinkAccessibilityForm';
 
 export default class LinkForm extends React.Component {
   constructor(props) {
@@ -48,7 +48,7 @@ export default class LinkForm extends React.Component {
     return(
       <div className="link-content-form-container">
         <div className="editor-block">
-          <Editor
+          <LinkA11Y
             areaHeight="20vh"
             buttonLabels={false}
             addLinks={true}

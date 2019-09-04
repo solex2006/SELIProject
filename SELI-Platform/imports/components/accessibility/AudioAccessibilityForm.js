@@ -37,7 +37,6 @@ export default function AudioA11Y(props) {
 	return (
 		<React.Fragment>
 			<section id='audio-text-alternatives'  className="form accessib-form">
-				<header><h3>Text alternatives to audio content</h3></header>
 				<A11YLongDescription
 					handleOnChange={handleLongDescriptionOnChange}
 					handleerror={LongDescriptionHasError}
