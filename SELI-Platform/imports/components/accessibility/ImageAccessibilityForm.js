@@ -212,7 +212,7 @@ export default function ImageAccessibility(props) {
 					<Grid item id='short-description-container' role='grid'>
 						<A11YShortDescription 
 							handleOnChange={handleShortDescriptionOnChange}
-							handleError={ShortDescriptionHasError}
+							handleerror={ShortDescriptionHasError}
 							error={shortDescriptionError}
 							value={shortDescription}
 							name="image"
@@ -229,7 +229,7 @@ export default function ImageAccessibility(props) {
 					<Grid  item style={{'display' : displayAltLong}}>
 						<A11YLongDescription
 							handleOnChange={handleLongDescriptionOnChange}
-							handleError={LongDescriptionHasError}
+							handleerror={LongDescriptionHasError}
 							error={longDescriptionError}
 							value={longDescription}
 							name="image"

@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 //////////////////////////////////////////////////////////////////////////////////////////
 // props {                                                                   			//
 // 	handleOnChange (fn) [optional],                                                     //
-// 	handleError (fn) [optional],                                                        //
+// 	handleerror (fn) [optional],                                                        //
 // 	handlePosition (fn)																	//
 // 	error (bool) [optional], 															//
 // 	value (string)                                                           			//
@@ -41,7 +41,7 @@ export default function a11yShortDescription(props){
 					value={props.value} 
 					onChange={props.handleOnChange}
 					error={props.error}
-					handleError={props.handleError}
+					handleError={props.handleerror}
 				/>
 				<AccessibilityHelp 
 					id={'short-description-help-container-'+props.name} 

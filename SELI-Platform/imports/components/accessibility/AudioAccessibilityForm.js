@@ -40,7 +40,7 @@ export default function AudioA11Y(props) {
 				<header><h3>Text alternatives to audio content</h3></header>
 				<A11YLongDescription
 					handleOnChange={handleLongDescriptionOnChange}
-					handleError={LongDescriptionHasError}
+					handleerror={LongDescriptionHasError}
 					error={longDescriptionError}
 					value={longDescription}
 					name="audioOnly"

@@ -11,7 +11,7 @@ import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
 //////////////////////////////////////////////////////////////////////////////////////////
 // props {                                                                   			//
 // 	handleOnChange (fn) [optional],                                                     //
-// 	handleError (fn) [optional],                                                        //
+// 	handleerror (fn) [optional],                                                        //
 // 	handlePosition (fn)																	//
 // 	error (bool) [optional], 															//
 // 	value (string)                                                           			//
@@ -40,7 +40,7 @@ export default function a11yLongDescription(props){
 					onChange={props.handleOnChange}
 					error={props.error}
 					required={props.required}
-					handleError={props.handleError}
+					handleerror={props.handleerror}
 				/>
 				<AccessibilityHelp 
 					id={'long-description-help-container-'+props.name} 

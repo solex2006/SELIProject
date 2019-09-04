@@ -13,13 +13,12 @@
  */
 
 /* Intent of Success Criterion B.2.3.1:
-The intent of this success criterion is to ensure that authors can add alternative content for non-text content and modify that alternative content in the future.
+	The intent of this success criterion is to ensure that authors can add alternative content for non-text content and modify that alternative content in the future.
 
-If the type of alternative content (e.g. alternative text) is not typically displayed on screen by user agents, then WYSIWYG editing-views may not display it. This is acceptable as long as another mechanism is provided for modifying that alternative content (e.g. an "Image Properties" dialog).
+	If the type of alternative content (e.g. alternative text) is not typically displayed on screen by user agents, then WYSIWYG editing-views may not display it. This is acceptable as long as another mechanism is provided for modifying that alternative content (e.g. an "Image Properties" dialog).
 
-Examples of Success Criterion B.2.3.1:
-Properties dialog: In a WYSIWYG editing-view, alternative content is not displayed, since the editing-view is designed to mimic typical user agents. However, the alternative content can be accessed and edited via a properties editor that displays the properties for the content that currently has focus.
-
+	Examples of Success Criterion B.2.3.1:
+	Properties dialog: In a WYSIWYG editing-view, alternative content is not displayed, since the editing-view is designed to mimic typical user agents. However, the alternative content can be accessed and edited via a properties editor that displays the properties for the content that currently has focus.
  */
 import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
@@ -47,7 +46,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 ///////////////////////////////////////////////////////////////////////////////
 // props {                                                                   //
 // 	onChange (fn),                                                           //
-// 	handleError (fn),                                                        //
+// 	handleerror (fn),                                                        //
 // 	error (bool),                                                            //
 // 	editorData (string): name to retrieve data from localStorage             //
 // 	id (string): id of component                                             //
@@ -89,8 +88,8 @@ export default function ImageCaptionEditor(props) {
 		localStorage.setItem('editorData', JSON.stringify(raw));
 
 		let err = validationError;
-		if(props.handleError !== undefined){
-			err = props.handleError(currentContent.getPlainText('\u0001'));
+		if(props.handleerror !== undefined){
+			err = props.handleerror(currentContent.getPlainText('\u0001'));
 		}
 
 		//const txt = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
