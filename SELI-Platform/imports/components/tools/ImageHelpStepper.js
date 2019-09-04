@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
-
 const hP5Steps = [
 	{
 		longdesc: '',
@@ -222,17 +221,16 @@ const longAltCplxSteps = [
 	},
 ];
 
-//steps for long description of Images
-const linkTextSteps = [
-	{ //link to external resource (pdf or other site)
+//steps for link text 
+const linkTextSteps =[
+	{ 
 		label: 'Click here',
 		imgPath: 'link-click-here.png',
-		longdesc: 'Think about restructuring your sentence to remove "click here" or "link" and then surround the meaningful part with the link.',
+		longdesc: 'You could restructure your sentence to remove ‘click here’ or ‘link’ and then surround the meaningful part with the link'  
 	},
-	{
-		label: 'Read More',
-		imgPath:'link-read-more.png',
-		longdesc: '"Read more" can be fixed by including what we will be reading more about.',
+	{ 
+		label: 'Read more',
+		imgPath: 'link-read-more.png',
 	},
 ];
 
@@ -340,11 +338,11 @@ export default function ImageHelpStepper(props) {
 	return (
 		<div className={classes.root}>
 			<Paper square elevation={0}>
-				<Typography className='"help-active-step-label'>{getLabel()}</Typography>
+				<Typography className='help-active-step-label'>{getLabel()}</Typography>
 			</Paper>
 			<figure>
 				<img
-					className='"helper-image'
+					className='helper-image'
 					src={getImage()}
 					alt={getLabel()}
 				/>
@@ -354,17 +352,17 @@ export default function ImageHelpStepper(props) {
 			</figure>
 			<MobileStepper
 				steps={getLength()}
-				position='"static'
-				variant='"text'
+				position='static'
+				variant='text'
 				activeStep={activeStep}
 				nextButton={
-					<Button size='"small' onClick={handleNext} disabled={activeStep === getLength() - 1}>
+					<Button size='small' onClick={handleNext} disabled={activeStep === getLength() - 1}>
 						Next
 						{theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
 					</Button>
 				}
 				backButton={
-					<Button size='"small' onClick={handleBack} disabled={activeStep === 0}>
+					<Button size='small' onClick={handleBack} disabled={activeStep === 0}>
 						{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
 						Back
 					</Button>

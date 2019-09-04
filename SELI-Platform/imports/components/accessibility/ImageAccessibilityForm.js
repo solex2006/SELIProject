@@ -61,9 +61,10 @@ export default function ImageAccessibility(props) {
 		setLongDescriptionTip(getLongDescriptionTip(value));
 	};
 
-	const handleShortDescriptionOnChange = event =>{
-		setShortDescription(event.target.value);
-		setShortDescriptionError(event.target.value === '');
+	const handleShortDescriptionOnChange = (event) =>{
+		let value = event.target.value;
+		setShortDescription(value);
+		setShortDescriptionError(value === '');
 	};
 
 	function handleLongDescriptionOnChange (value){
@@ -212,7 +213,6 @@ export default function ImageAccessibility(props) {
 					<Grid item id='short-description-container' role='grid'>
 						<A11YShortDescription 
 							handleOnChange={handleShortDescriptionOnChange}
-							handleerror={ShortDescriptionHasError}
 							error={shortDescriptionError}
 							value={shortDescription}
 							name="image"

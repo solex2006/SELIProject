@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 // upload componenets
-import CourseFilesCollection from '../../../lib/CourseFilesCollection';
-import FileUpload from '../files/FileUpload';
+// import CourseFilesCollection from '../../../lib/CourseFilesCollection';
+// import FileUpload from '../files/FileUpload';
 //a11y componentes
 import EditorA11Y from '../tools/a11yEditor';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
@@ -23,10 +23,15 @@ export default function AudioA11Y(props) {
 		setLongDescriptionError(value === '');
 	}
 
-	function LongDescriptionHasError(value =''){
+		function LongDescriptionHasError(value =''){
 		let err = value === '';
 		setLongDescriptionError(err);
 		return err;
+	}
+
+
+	function longDescriptionIsValid(value){
+		return value === '';
 	}
 
 	function handleLongDescriptionPosition(value = 'bottom'){
@@ -52,27 +57,7 @@ export default function AudioA11Y(props) {
 					tip={
 						<React.Fragment>
 							{longDescriptionTip}
-							<FileUpload size='small'
-								parentId={props.parentId + 'transciption-accessibility-pdf-file'}
-								accept=".pdf"
-								label="Alternativaly, you can upload transcription as pdf file."
-								uploadedTitle="Transciption (pdf)"
-								icon="pdf-g.svg"
-								collection={CourseFilesCollection}
-								removeFunction='RemoveCourseFile'
-								type='accessibility-pdf-trasncription'
-								preview={false}
-								dowload={false}
-								open={true}
-								delete={true}
-								showIcon={true}
-								accessibilitySettings={false}
-								//showControlMessage={props.showControlMessage.bind(this)}
-								// resetFile={resetTranscriptionFile.bind(this)}
-								// getFileInformation={getTranscriptionFileInfo.bind(this)}
-								// removeFileInformation={removeTranscriptionFile.bind(this)}
-								// showAccesibilityForm={undefined}
-							/>
+							
 						</React.Fragment>
 					} 
 					position={longDescriptionPosition}

@@ -38,7 +38,7 @@ export default function a11yShortDescription(props){
 					wrap='hard'
 					variant='outlined'    
 					value={props.value} 
-					onChange={(event) => {props.handleOnChange(event)}}
+					onChange={(event) => {props.handleOnChange(event);}}
 					error={props.error}
 				/>
 				<AccessibilityHelp 

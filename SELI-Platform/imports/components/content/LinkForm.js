@@ -1,17 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormLabel from '@material-ui/core/FormLabel';
-import Divider from '@material-ui/core/Divider';
-import Link from '@material-ui/core/Link';
 import LinkA11Y from '../accessibility/LinkAccessibilityForm';
 
 export default class LinkForm extends React.Component {
@@ -49,10 +36,6 @@ export default class LinkForm extends React.Component {
       <div className="link-content-form-container">
         <div className="editor-block">
           <LinkA11Y
-            areaHeight="20vh"
-            buttonLabels={false}
-            addLinks={true}
-            getInnerHtml={this.getInnerHtml.bind(this)}
           />
         </div>
       </div>
