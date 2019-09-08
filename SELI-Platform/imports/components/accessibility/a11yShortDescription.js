@@ -23,11 +23,11 @@ export default function a11yShortDescription(props){
 
 	return(
 		<React.Fragment>
-			<Grid  item id={'short-description-input-container-'+props.name} role='grid'>
-				<TextField id={'short-description-input'+props.name}
-					name={'shortDescription'+props.name}
+			<Grid  item id={'short-description-input-container'} role='grid'>
+				<TextField id={'short-description-input'}
+					name={props.name}
 					label={props.label}
-					aria-describedby={props.ariaDescribedBy}
+					aria-describedby='short-description-help-container'
 					placeholder={props.placeholder}
 					maxLength='100'
 					margin='normal'
@@ -42,8 +42,8 @@ export default function a11yShortDescription(props){
 					error={props.error}
 				/>
 				<AccessibilityHelp 
-					id={'short-description-help-container-'+props.name} 
-					name={'shortDescriptionHelpContainer'+props.name} 
+					id={'short-description-help-container'} 
+					name={'shortDescriptionHelpContainer'} 
 					error={props.error} 
 					tip={props.tip} 
 					step={props.step}

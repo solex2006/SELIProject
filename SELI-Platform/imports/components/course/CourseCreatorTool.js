@@ -714,7 +714,8 @@ export default class CourseCreatorTool extends React.Component {
             }
             {
               this.state.contentTypeAdded === 'video' && !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm ?
-                <VideoForm
+                <TabVertical
+                  contentTypeAdded={this.state.contentTypeAdded}
                   getVideoAttributesFunction={videoAttributes => this.getItemAttributes = videoAttributes}
                   showControlMessage={this.props.showControlMessage.bind(this)}
                 />
