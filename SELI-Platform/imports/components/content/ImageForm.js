@@ -1,17 +1,9 @@
 import React from 'react';
 import FileUpload from '../files/FileUpload';
 import ImagePreview from '../files//previews/ImagePreview';
-import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
-import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
+
 import Grid from '@material-ui/core/Grid';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import Editor from '../inputs/editor/Editor';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
 import Library from '../tools/Library';
 import Switch from '@material-ui/core/Switch';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
@@ -25,18 +17,6 @@ export default class ImageForm extends React.Component {
       description: true,
       showLibrary: false,
     }
-  }
-
-  alignmentHandleChange = (value) => {
-    this.setState({
-      alignment: value,
-    });
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      description: !this.state.description,
-    });
   }
 
   clearInputs(){
