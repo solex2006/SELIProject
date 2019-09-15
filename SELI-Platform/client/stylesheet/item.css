@@ -84,17 +84,6 @@
   border-bottom: solid 1px #e0e0e0;
 }
 
-.text-item-subtitle {
-  width: 95%;
-  padding: 1.5vh 2.5%;
-  height: auto;
-  font-size: 1em;
-  letter-spacing: 1px;
-  color: #424242;
-  transition: 0.5s;
-  font-weight: 100 !important;
-}
-
 .text-item-section {
   width: 95%;
   padding: 2.5vh 2.5%;
@@ -539,4 +528,10 @@
   justify-content: center;
   margin: 2.5vh 0;
   position: relative;
+}
+
+
+.course-creator-item-video-card-preview-player {
+  width: 480px !important;
+  height: 270px !important;
 }

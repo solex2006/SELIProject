@@ -102,8 +102,37 @@
   letter-spacing: 1px !important;
 }
 
+.form-request-information {
+  height: calc((100vh - var(--form-stepper-height) - var(--app-bar-height))* 0.4)  !important;
+  width: 90%;
+  padding: 0 5%;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 0 !important;
+  letter-spacing: 1px !important;
+  color: #616161;
+  animation: fadeInUp 1s;
+}
+
+.form-information-primary-text {
+  font-size: 0.95em;
+  text-align: center;
+}
+
+.form-information-secondary-text {
+  font-size: 0.85em;
+  text-align: center;
+}
+
+.form-information-icon {
+  font-size: 1.85em !important;
+  padding: 1vw !important;
+}
+
 .MuiDialog-paperScrollPaper {
-  max-height: 90vh;
+  max-height: 100vh;
 }
 
 .form-dialog {
@@ -176,8 +205,11 @@
 
 .form-file-selected-file-subtitle {
   word-break: break-all;
+  text-align: center;
   letter-spacing: 1px;
   font-size: 1.15em;
+  width: 90%;
+  padding: 0 5%;
 }
 
 .file-selected-icon {
@@ -219,4 +251,39 @@
 
 .form-input-button:hover {
   color: var(--primary);
+}
+
+.media-player-loading-container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.media-player-buffer-modal .MuiPaper-rounded{
+  background-color: transparent !important;
+  width: 220px !important;
+  height: 220px !important;
+  padding: 1vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50% !important;
+  pointer-events: none;
+  user-select: none;
+}
+
+.form-multiple-input {
+  width: 15vw !important;
+  margin-right: 8px !important;
+}
+
+.form-multiple-input-row {
+  display: flex;
 }

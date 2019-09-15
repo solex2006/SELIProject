@@ -1,6 +1,7 @@
 import React from 'react';
-import LanguageSelector from './LanguageSelector';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -8,7 +9,15 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import Grow from '@material-ui/core/Grow';
-import { MdSearch } from "react-icons/md";
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import SchoolIcon from '@material-ui/icons/School';
+import HelpIcon from '@material-ui/icons/Help';
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
+
+import LanguageSelector from './LanguageSelector';
 
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
@@ -22,6 +31,7 @@ export default class AppBar extends React.Component {
     super(props);
     this.state = {
       open: false,
+      showSearchBar: false,
     }
   }
 
@@ -59,17 +69,20 @@ export default class AppBar extends React.Component {
     this.setState({ open: false });
   };
 
+  toggleSearchBar = () => {
+    this.setState({
+      showSearchBar: !this.state.showSearchBar,
+    });
+  }
+
   render() {
     return(
       <div>
         <div className="app-bar-container">
           <p className="bar-title">SELI Project</p>
           <div className="bar-button-container">
-            <Button className="no-text-button">
-              <MdSearch
-                color={ "#FFFFFF" }
-                size={ "1.75em" }
-              />
+            <Button onClick={() => this.toggleSearchBar()} className="no-text-button">
+              <SearchIcon className="app-bar-search-icon"/>
             </Button>
             <Button onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
               sign in
@@ -82,6 +95,30 @@ export default class AppBar extends React.Component {
             />
           </div>
         </div>
+        <Slide direction="down" in={this.state.showSearchBar} mountOnEnter unmountOnExit>
+          <div className="app-bar-search-container">
+            <IconButton className="app-bar-search-icon-button" aria-label="menu">
+              <HelpIcon className="app-bar-search-icon"/>
+            </IconButton>
+            <Paper elevation={15} className="app-bar-search-paper">
+              <IconButton className="app-bar-search-icon-button" aria-label="menu">
+                <SchoolIcon className="app-bar-search-icon"/>
+              </IconButton>
+              <Divider className="app-bar-search-divider" orientation="vertical" />
+              <InputBase
+                fullWidth
+                className="app-bar-search-input-base"
+                placeholder="What do you want to learn about?"
+                inputProps={{ 'aria-label': 'what do you want to learn about' }}
+                autoFocus={true}
+              />
+            </Paper>
+            <Button className="app-bar-search-button">Search courses</Button>
+            <IconButton onClick={() => this.toggleSearchBar()} className="app-bar-search-icon-button" aria-label="menu">
+              <CloseIcon className="app-bar-search-icon"/>
+            </IconButton>
+          </div>
+        </Slide>
         <Dialog
           open={this.state.open}
           TransitionComponent={Transition}

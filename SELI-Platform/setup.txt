@@ -32,3 +32,13 @@ meteor npm install react-iframe-comm --save
 meteor npm install react-unity-webgl --save
 meteor npm install --save unrar.js
 meteor npm install --save react-contextmenu
+meteor npm install --save react-mic
+meteor npm install react-stopwatch --save
+meteor npm install --save react react-live-clock
+meteor npm i @monaco-editor/react --save
+meteor npm i color-thief --save
+meteor npm i react-full-screen --save
+meteor npm install --save @material-ui/core
+meteor npm install email-deep-validator --save
+meteor add accounts-base
+meteor add accounts-password

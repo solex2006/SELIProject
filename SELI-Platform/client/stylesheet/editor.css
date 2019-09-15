@@ -42,7 +42,9 @@
 }
 
 .editor-iframe {
-  width: 100%;
+  width: 90%;
+  position: relative;
+  left: 5%;
   height: 100%;
   border: solid 1px #bdbdbd;
   outline: none;
@@ -81,4 +83,27 @@
   text-align: center;
   letter-spacing: 1px;
   color: var(--primary)
+}
+
+.last-child-button {
+  padding-left: 8px !important;
+}
+
+.editor-label {
+  padding: 0 3.5vh !important;
+  text-align: center;
+  font-size: 1.3em;
+  color: #333;
+  letter-spacing: 2px;
+}
+
+.editor-link-button {
+  height: 40px !important;
+  width: 40px !important;
+  border: solid 1px #e0e0e0 !important;
+}
+
+.editor-icon-link {
+  color: #757575 !important;
+  fill: #757575 !important;
 }

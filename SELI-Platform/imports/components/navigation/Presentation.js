@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import SchoolIcon from '@material-ui/icons/School';
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 
 import Swiper from 'react-id-swiper';
 import 'react-id-swiper/lib/styles/css/swiper.css';
@@ -8,6 +15,7 @@ import 'react-id-swiper/lib/styles/css/swiper.css';
 import Rotate from 'react-reveal/Rotate';
 import Zoom from 'react-reveal/Zoom';
 
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 export default class Presentation extends React.Component {
   constructor(props) {
@@ -16,7 +24,7 @@ export default class Presentation extends React.Component {
       params: {
         loop: true,
         autoplay: {
-          delay: 7500,
+          delay: 12000,
           disableOnInteraction: false
         },
         speed: 2000,
@@ -41,18 +49,109 @@ export default class Presentation extends React.Component {
     }
   }
 
+  redirect = url => {
+    var win = window.open(url, '_blank');
+    win.focus();
+  }
+
   render() {
     return(
       <div>
         <div className="absolute-container">
           <div className="slider-container">
             <Swiper {...this.state.params}>
-              <div id="dashboard-1" className="dashboard"></div>
-              <div id="dashboard-2" className="dashboard"></div>
-              <div id="dashboard-3" className="dashboard"></div>
-              <div id="dashboard-4" className="dashboard"></div>
-              <div id="dashboard-5" className="dashboard"></div>
-              <div id="dashboard-6" className="dashboard"></div>
+              <div id="dashboard-1" className="dashboard">
+                <div className="dashboard-center-container">
+                  <p className="dashboard-text-large">
+                    Smart Ecosystem for Learning and Inclusion
+                  </p>
+                  <p className="dashboard-text-medium">
+                    Learning platform
+                  </p>
+                  <p className="dashboard-paragraph">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  </p>
+                  <Button
+                    className="dashboard-link-button"
+                    onClick={() => this.redirect('http://seliproject.org/description')}
+                  >
+                    <MoreHorizIcon className="dashboard-link-icon"/> Learn more
+                  </Button>
+                </div>
+              </div>
+              <div id="dashboard-2" className="dashboard">
+                <div className="dashboard-center-container">
+                  <p className="dashboard-text-large">
+                    We're here to teach you!
+                  </p>
+                  <p className="dashboard-text-medium">
+                    Join our classroom and learn about whatever you want!
+                  </p>
+                  <Paper elevation={15} className="dashboard-paper">
+                    <IconButton className="dashboard-icon-button" aria-label="menu">
+                      <MenuIcon className="dashboard-icon"/>
+                    </IconButton>
+                    <InputBase
+                      fullWidth
+                      className="dashboard-input-base"
+                      placeholder="What do you want to learn about?"
+                      inputProps={{ 'aria-label': 'what do you want to learn about' }}
+                    />
+                    <IconButton className="dashboard-icon-button" aria-label="search">
+                      <SearchIcon />
+                    </IconButton>
+                    <Divider orientation="vertical" />
+                    <IconButton className="dashboard-icon-button" aria-label="directions">
+                      <SchoolIcon className="dashboard-icon"/>
+                    </IconButton>
+                  </Paper>
+                </div>
+              </div>
+              <div id="dashboard-3" className="dashboard">
+                <div className="dashboard-center-container">
+                  <p className="dashboard-text-large">
+                    Thinking on accessibility!
+                  </p>
+                  <AccessibilityNewIcon className="dashboard-large-icon"/>
+                  <p className="dashboard-paragraph">
+                    Course designed for students, young people, the unemployed, the disabled, the elderly, migrants, and people living in remote areas in Europe and the LAC.
+                  </p>
+                  <Button
+                    className="dashboard-link-button-black"
+                    onClick={() => this.redirect('http://seliproject.org/project-overview')}
+                  >
+                    <MoreHorizIcon className="dashboard-link-icon"/> Learn more
+                  </Button>
+                </div>
+              </div>
+              <div id="dashboard-4" className="dashboard">
+                <div className="dashboard-center-container">
+                  <p className="dashboard-text-large">
+                    Instructional design!
+                  </p>
+                  <p className="dashboard-paragraph">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  </p>
+                  <Button
+                    className="dashboard-link-button"
+                    onClick={() => this.redirect('http://seliproject.org/project-structure')}
+                  >
+                    <MoreHorizIcon className="dashboard-link-icon"/> Learn more
+                  </Button>
+                  <p className="dashboard-text-large">
+                    Teach on SELI!
+                  </p>
+                  <p className="dashboard-text-medium">
+                    Create and design your own courses!
+                  </p>
+                  <Button
+                    className="dashboard-link-button"
+                    onClick={() => this.redirect('/tutorRegistration')}
+                  >
+                    <MoreHorizIcon className="dashboard-link-icon"/> Become a tutor
+                  </Button>
+                </div>
+              </div>
             </Swiper>
           </div>
           <Rotate top left cascade>

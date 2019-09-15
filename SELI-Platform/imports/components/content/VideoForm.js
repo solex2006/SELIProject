@@ -1,139 +1,107 @@
 import React from 'react';
 import FileUpload from '../files/FileUpload';
-import VideoPreview from '../files//previews/VideoPreview';
-import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
-import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
-import Grid from '@material-ui/core/Grid';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import VideoPreview from '../files/previews/VideoPreview';
 import Editor from '../inputs/editor/Editor';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Library from '../tools/Library';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import HttpIcon from '@material-ui/icons/Http';
-import Divider from '@material-ui/core/Divider';
-import ReactPlayer from 'react-player'
+import ReactPlayer from 'react-player';
 import TextField from '@material-ui/core/TextField';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Popover from '@material-ui/core/Popover';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import Switch from '@material-ui/core/Switch';
+import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
+import Fab from '@material-ui/core/Fab'
 
 export default class VideoForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alignment: 'row',
-      description: true,
-      alignment: 'row',
       showLibrary: false,
-      addToGallery: false,
-      options: [
-        {label: 'Upload', value: 'upload', icon: <CloudUploadIcon/>},
-        {label: 'Url', value: 'url', icon: <HttpIcon/>},
-      ],
-      selectedIndex: 0,
+      attributes: {
+        video: undefined,
+        source: 'upload',
+        title: '',
+        externalLink: '',
+        hasDescription: true,
+        description: '',
+      }
     }
   }
 
-  handleChange = (event) => {
-    this.setState({
-      description: !this.state.description,
-    });
-  }
-
-  handleClickListItem(event) {
-    this.setState({
-      anchorEl: event.target
-    });
-  }
-
-  handleMenuItemClick(event, index) {
-    this.setState({
-      anchorEl: null,
-      selectedIndex: index,
-    });
-    if (index === 1) {
-      this.setState({
-        showPreview: false,
-        file: undefined,
-      });
+  handleChange = name => event => {
+    let attributes = this.state.attributes;
+    if (name === "description") {
+      attributes.hasDescription = !attributes.hasDescription;
     }
-  }
-
-  alignmentHandleChange = (value) => {
+    if (name === "title") {
+      attributes.title = event.target.value;
+    }
+    if (name === "externalLink") {
+      attributes.externalLink = event.target.value;
+    }
     this.setState({
-      alignment: value,
-    });
-  }
-
-  handleClose() {
-    this.setState({
-      anchorEl: null,
-    });
+      attributes: attributes,
+    }, () => console.log(this.state.attributes));
   }
 
   getInnerHtml(innerHTML){
+    let attributes = this.state.attributes;
+    attributes.description = innerHTML;
     this.setState({
-      innerHTML: innerHTML,
-    });
-  }
-
-  clearInputs(){
-    this.setState({
-      alignment: 'row',
-      description: true,
-      alignment: 'row',
-      showLibrary: false,
-      addToGallery: false,
-      selectedIndex: 0,
+      attributes: attributes,
     });
   }
 
   getVideoAttributes(){
-    let video = this.state.file;
-    let source = this.state.options[this.state.selectedIndex].value;
-    let alignment = this.state.alignment;
-    let description = '';
-    if (this.state.description) {
-      description = this.state.innerHTML;
+    let videoContent = this.state.attributes;
+    if (this.validateContent(videoContent) ) {
+      return videoContent;
     }
-    let videoContent = {
-      video: video,
-      description: description,
-      alignment: alignment,
-      source: source,
-    };
-    this.clearInputs();
-    return videoContent;
+    else {
+      return undefined;
+    }
+  }
+
+  validateContent(content) {
+    if (content.title === '') {
+      console.log("required");
+      return false;
+    }
+    if (content.video === undefined) {
+      console.log("upload or url");
+      return false;
+    }
+    if (content.hasDescription && content.description === '') {
+      console.log("enter a description or turn off");
+      return false;
+    }
+    return true;
   }
 
   getFileInformation(file){
+    let attributes = this.state.attributes;
+    attributes.video = file;
     this.setState({
-      file: file,
+      attributes: attributes,
       showPreview: true,
       showGallery: false,
     });
   }
 
   unPickFile(){
+    let attributes = this.state.attributes;
+    attributes.video = undefined;
     this.setState({
       showPreview: false,
-      file: undefined,
+      attributes: attributes,
     })
-  }
-
-  getInnerHtml(innerHTML){
-    this.setState({
-      innerHTML: innerHTML,
-    });
   }
 
   showLibrary(){
@@ -157,16 +125,23 @@ export default class VideoForm extends React.Component {
   }
 
   validateUrl(){
+    let attributes = this.state.attributes;
     let url = document.getElementById('url-input').value;
     let isValid = ReactPlayer.canPlay(url);
     let helperColor = '';
     let showHelperText = true;
     let urlMessage = '';
     if (isValid) {
+      let video = {
+        name: 'External video',
+        link: url,
+      };
+      attributes.video = video;
       urlMessage = "The player can reproduce this type of source";
       helperColor = "#4caf50";
     }
     else {
+      attributes.video = video;
       urlMessage = "The player can't reproduce this type of source";
       helperColor = "#f44336";
     }
@@ -176,6 +151,15 @@ export default class VideoForm extends React.Component {
       helperColor: helperColor,
       validUrl: isValid,
       url: url,
+      attributes: attributes,
+    });
+  }
+
+  selectType(value){
+    let attributes = this.state.attributes;
+    attributes.source = value;
+    this.setState({
+      attributes: attributes,
     });
   }
 
@@ -187,150 +171,121 @@ export default class VideoForm extends React.Component {
     return(
       <div>
         {
+          this.state.attributes.source === "upload" && !this.state.showGallery ?
+            <div className="media-gallery-tab-button-container">
+              <Fab onClick={() => this.showLibrary()}>
+                <FolderSpecialIcon/>
+              </Fab>
+              <p className="media-fab-text">Open library</p>
+            </div>
+          :
+          undefined
+        }
+        {
           !this.state.showGallery ?
-            <div className="video-form">
-              <List className="form-selector-list" component="nav" aria-label="Device settings">
-                <ListItem
-                  className="form-selector-list-item"
-                  button
-                  aria-haspopup="true"
-                  aria-controls="lock-menu"
-                  aria-label="Text type"
-                  onClick={() => this.handleClickListItem(event)}
+            <div id="dialog-max-height" className="dialog-form-container-large">
+              <Paper square>
+                <Tabs
+                  color="primary"
+                  value={this.state.attributes.source}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  className="form-tabs-container"
+                  variant="fullWidth"
+                  centered={true}
                 >
-                  <ListItemText className="form-selector-list-text" primary="Select the source of the video: " secondary={this.state.options[this.state.selectedIndex].label} />
-                  <ListItemIcon>
-                    <KeyboardArrowDownIcon className="form-selector-list-icon"/>
-                  </ListItemIcon>
-                </ListItem>
-              </List>
-              <Popover
-                open={Boolean(this.state.anchorEl)}
-                anchorEl={this.state.anchorEl}
-                onClose={() => this.handleClose()}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center',
-                }}
-                className="form-selector-container"
-              >
-                <List dense className="form-selector-options-list">
-                  {this.state.options.map((option, index) => {
-                    return (
-                      <ListItem className="form-selector-options-list-item" onClick={() => this.handleMenuItemClick(event, index)} key={option.label} button>
-                        <ListItemIcon>
-                          {option.icon}
-                        </ListItemIcon>
-                        <ListItemText id={option.label} primary={`${option.label}`} />
-                        <ListItemSecondaryAction>
-                          <Checkbox
-                            edge="end"
-                            onClick={() => this.handleMenuItemClick(event, index)}
-                            checked={this.state.selectedIndex === index}
-                            inputProps={{ 'aria-labelledby': option.label }}
-                            color="primary"
-                          />
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    );
-                  })}
-                </List>
-              </Popover>
-              {
-                !this.state.showPreview ?
-                  <div className="form-file-container">
-                    {
-                      this.state.selectedIndex === 0 ?
-                        <FileUpload
-                          type="video"
-                          accept={'video/*'}
-                          getFileInformation={this.getFileInformation.bind(this)}
-                        />
-                      :
-                      <div className="url-input-container">
-                        <TextField
-                          id="url-input"
-                          label="Url"
-                          margin="normal"
-                          variant="outlined"
-                          required
-                          onChange={this.urlHandleChange()}
-                          className="url-input"
-                          helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
-                        />
-                        <Button onClick={() => this.validateUrl()} className="url-check-button" color="primary">Test source</Button>
+                  <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label="By upload" icon={<CloudUploadIcon />} />
+                  <Tab value={'url'} onClick={() => {this.selectType('url'); this.unPickFile()}} className="form-tab" label="By Url" icon={<HttpIcon />} />
+                </Tabs>
+              </Paper>
+              <div className="dialog-columns-container">
+                <div className="course-creator-file-form-column">
+                  {
+                    !this.state.showPreview ?
+                      <div className="form-file-container">
+                        {
+                          this.state.attributes.source === "upload" ?
+                            <FileUpload
+                              type="video"
+                              accept={'video/*'}
+                              label={'Click the button to upload a video'}
+                              getFileInformation={this.getFileInformation.bind(this)}
+                            />
+                          :
+                          <div>
+                            {
+                              this.state.validUrl ?
+                                <ReactPlayer className="course-creator-preview-player" url={this.state.url}/>
+                              :
+                                undefined
+                            }
+                            <div className="url-input-container">
+                              <TextField
+                                id="url-input"
+                                label="Url"
+                                margin="normal"
+                                variant="outlined"
+                                value={this.state.url}
+                                required
+                                onChange={this.urlHandleChange()}
+                                className="url-input"
+                                helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
+                              />
+                            </div>
+                            <div className="margin-center-row">
+                              <Button onClick={() => this.validateUrl()} className="url-check-button" color="primary">Test source</Button>
+                            </div>
+                          </div>
+                        }
                       </div>
-                    }
-                  </div>
-                :
-                <VideoPreview
-                  file={this.state.file}
-                  unPickFile={this.unPickFile.bind(this)}
-                />
-              }
-              <div className="center-row">
-                <p className="normal-text">Or</p>
-              </div>
-              <div className="center-row">
-                <p className="normal-text">Pick one from your</p>
-                <Button onClick={() => this.showLibrary()} color="primary" className="text-button">Library</Button>
-              </div>
-              <FormGroup className="content-radio-group-center" row>
-                <FormControlLabel
-                  className="form-label"
-                  control={
-                    <Checkbox color="primary" checked={this.state.description} onChange={() => this.handleChange('description')} value={this.state.description} />
+                    :
+                    <VideoPreview
+                      file={this.state.attributes.video}
+                      unPickFile={this.unPickFile.bind(this)}
+                    />
                   }
-                  label="Add text description to the video"
-                />
-              </FormGroup>
-              {
-                this.state.description ?
-                  <div>
+                </div>
+                <div className="course-creator-form-column">
+                  <div className="course-creator-input-container">
+                    <TextField
+                      id="title-input"
+                      label="Video title"
+                      margin="normal"
+                      variant="outlined"
+                      value={this.state.attributes.title}
+                      onChange={this.handleChange('title')}
+                      required
+                      className="form-padding-dialog-input"
+                    />
+                    <TextField
+                      id="link-input"
+                      label="External link"
+                      value={this.state.attributes.externalLink}
+                      onChange={this.handleChange('externalLink')}
+                      margin="normal"
+                      variant="outlined"
+                      className="form-padding-dialog-input"
+                    />
                     <div className="margin-center-row">
-                      <p className="form-label">Video position:</p>
-                      <Grid item>
-                        <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
-                          <ToggleButton key={1} value="row" onClick={() => this.alignmentHandleChange("row")}>
-                            <Tooltip title="Left side">
-                              <VerticalSplitIcon className="toggle-button-icon"/>
-                            </Tooltip>
-                          </ToggleButton>
-                          <ToggleButton key={2} value="row-reverse" onClick={() => this.alignmentHandleChange("row-reverse")}>
-                            <Tooltip style={{transform: "rotate(180deg)"}} title="Right side">
-                              <VerticalSplitIcon className="toggle-button-icon"/>
-                            </Tooltip>
-                          </ToggleButton>
-                          <ToggleButton key={3} value="column-reverse" onClick={() => this.alignmentHandleChange("column-reverse")}>
-                            <Tooltip title="Up">
-                              <HorizontalSplitIcon className="toggle-button-icon"/>
-                            </Tooltip>
-                          </ToggleButton>
-                          <ToggleButton key={4} value="column" onClick={() => this.alignmentHandleChange("column")}>
-                            <Tooltip title="Down">
-                              <HorizontalSplitIcon style={{transform: "rotate(180deg)"}} className="toggle-button-icon"/>
-                            </Tooltip>
-                          </ToggleButton>
-                        </ToggleButtonGroup>
-                      </Grid>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={<Switch size="small" onChange={this.handleChange('description')} checked={this.state.attributes.hasDescription}/>}
+                          label={<p className="form-label">Video with text description</p>}
+                        />
+                      </FormGroup>
                     </div>
-                    <p className="form-editor-label">Write the description of the video below:</p>
-                    <div className="editor-block">
+                    <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
                       <Editor
-                        areaHeight="20vh"
+                        areaHeight='20vh'
+                        innerHTML={this.state.attributes.description}
                         buttonLabels={false}
                         addLinks={true}
                         getInnerHtml={this.getInnerHtml.bind(this)}
                       />
                     </div>
                   </div>
-                :
-                undefined
-              }
+                </div>
+              </div>
             </div>
           :
           <Library

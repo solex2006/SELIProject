@@ -1,7 +1,33 @@
-BUGS:
-- No se realiza focus despues de que se abre para nueva unidad
-
+TODO
 POR HACER:
+- Snackbar GENERAL PARA TODOS
+PRINCIPAL
+- Menu para cada tipo de usuario (Profeshor, student, adminPaposte)
+- Formularios de sign (2)
+- Busquedas
+- Presentacion de cursos (Selectionar cuadritos)
+- Presentacion de cursos (Suscripcion)
+- Acabar el footer
+- Lista de cursos por usuario
+- Registro de tutores
+- Lista de tutores
+- Solicitudes
+- Poner bn los requisitos y las disabilities
+AUTHORING TOOL
+- Save course bien (Resolver problema de cuando el json es muy grande y no guarda)
 - Validar cada form de A.T.
 - Accesibilidad!!!
-- Grabacion de audio
+- Request de los requisitos
+- Educational design
+TEACHER
+- Generar el certificado
+STUDENT
+- Cada item (12)
+- Storytelling (TODITOOOO)
+- chat
+- Libreria
+- Accesibilidad ???
+- Comments node and general
+- Unity
+
+Create branch for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -7,12 +7,11 @@ import Grid from '@material-ui/core/Grid';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Editor from '../inputs/editor/Editor';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Library from '../tools/Library';
+import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
+import Fab from '@material-ui/core/Fab'
 
 export default class CompressedForm extends React.Component {
   constructor(props) {
@@ -83,13 +82,20 @@ export default class CompressedForm extends React.Component {
       <div>
         {
           !this.state.showGallery ?
-            <div className="image-form">
+          <div id="dialog-max-height" className="dialog-form-container">
+            <div className="media-gallery-button-container">
+              <Fab onClick={() => this.showLibrary()}>
+                <FolderSpecialIcon/>
+              </Fab>
+              <p className="media-fab-text">Open library</p>
+            </div>
               {
                 !this.state.showPreview ?
                   <div className="form-file-container">
                     <FileUpload
                       type="compressed"
                       accept={['.zip', '.rar', '.tz', '.7z']}
+                      label={'Click the button to upload a compressed file'}
                       getFileInformation={this.getFileInformation.bind(this)}
                     />
                   </div>
@@ -99,18 +105,11 @@ export default class CompressedForm extends React.Component {
                   unPickFile={this.unPickFile.bind(this)}
                 />
               }
-              <div className="center-row">
-                <p className="normal-text">Or</p>
-              </div>
-              <div className="center-row">
-                <p className="normal-text">Pick one from your</p>
-                <Button onClick={() => this.showLibrary()} color="primary" className="text-button">Library</Button>
-              </div>
               <div>
                 <p className="form-editor-label">Write the instructions that the student must follow below:</p>
                 <div className="editor-block">
                   <Editor
-                    areaHeight="20vh"
+                    areaHeight="25vh"
                     buttonLabels={false}
                     addLinks={true}
                     getInnerHtml={this.getInnerHtml.bind(this)}

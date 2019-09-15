@@ -1,0 +1,58 @@
+.user-card-container {
+  width: auto;
+  padding: 1.5vh 1vw;
+}
+
+.user-card-header {
+  width: auto;
+  padding: 1.5vh 0;
+}
+
+.user-card-header-text {
+  letter-spacing: 1px;
+  color: #616161;
+  padding: 0.25vh 0;
+  text-align: justify;
+  animation: fadeInDown 1s;
+  word-break: break-all;
+}
+
+.user-card-link {
+  letter-spacing: 1px;
+  color: #616161;
+  text-align: justify;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  animation: fadeInUp 1s;
+}
+
+.user-card-link-text {
+  letter-spacing: 1px;
+  color: var(--primary);
+  padding: 0.25vh 0;
+  text-align: justify;
+  padding-left: 0.25vw;
+}
+
+.user-card-body {
+  padding: 1.5vh 0;
+}
+
+.user-card-image {
+  padding-bottom: 1.5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-card-profile-image {
+  width: 40vh;
+  height: 40vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: 0.75vh;
+  animation: fadeIn 1s;
+}

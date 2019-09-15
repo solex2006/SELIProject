@@ -1,0 +1,28 @@
+.audio-record-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 200px;
+}
+
+.recorder-actions {
+  margin-top: 2.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.recorder-button {
+  margin: 0 0.5vw !important;
+  animation: zoomIn 0.5s;
+}
+
+
+.stopwatch-label {
+  margin-right: 1vw;
+  font-size: 1.35em;
+  letter-spacing: 2px;
+  color: #757575;
+}

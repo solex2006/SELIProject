@@ -318,3 +318,11 @@
 .menu-options-container {
   animation: fadeInRight 0.25s;
 }
+
+.dialog .MuiPaper-root {
+  max-height: 100vh !important;
+}
+
+.MuiFab-extended {
+  width: 48px !important;
+}

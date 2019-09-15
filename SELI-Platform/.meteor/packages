@@ -23,3 +23,5 @@ underscore
 ostrio:files
 react-meteor-data
 meteortoys:allthings
+accounts-base
+accounts-password

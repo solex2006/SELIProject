@@ -17,7 +17,7 @@ export default class ActivityForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activityType: 'storytelling',
+      activityType: 'storyboard',
       restrictFileType: false,
       fileTypes: [
         {
@@ -67,7 +67,7 @@ export default class ActivityForm extends React.Component {
   clearInputs(){
     document.getElementById('instruction-input').value = "";
     this.setState({
-      activityType: 'storytelling',
+      activityType: 'storyboard',
     });
   }
 
@@ -154,15 +154,17 @@ export default class ActivityForm extends React.Component {
           required
           multiline
           rows={3}
+          className="form-dialog-input"
+          autoFocus={true}
         />
         <div className="content-input-container">
           <FormControl className="content-form-control" component="fieldset">
             <FormLabel className="content-form-label-center" component="legend">Activity type</FormLabel>
             <RadioGroup className="content-radio-group-center" aria-label="activity-type" name="activityType" value={this.state.activityType} onChange={this.handleChange('activityType')} row>
               <FormControlLabel
-                value="storytelling"
+                value="storyboard"
                 control={<Radio color="primary" />}
-                label="Storytelling"
+                label="Storyboard"
                 labelPlacement="end"
                 className="radio-input"
               />

@@ -52,7 +52,7 @@ export default class H5PForm extends React.Component {
 
   render() {
     return(
-      <div className="h5p-content-form">
+      <div className="dialog-form-container">
         <TextField
           id="url-input"
           label="H5P URL"
@@ -60,6 +60,8 @@ export default class H5PForm extends React.Component {
           variant="outlined"
           fullWidth
           required
+          className="form-dialog-input"
+          autoFocus={true}
         />
         <div className="center-button-container">
           <Button color="primary">Check Url</Button>
@@ -90,6 +92,7 @@ export default class H5PForm extends React.Component {
           multiline
           rows="3"
           fullWidth
+          className="form-dialog-input"
         />
       </div>
     )

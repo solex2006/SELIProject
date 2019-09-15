@@ -18,6 +18,14 @@
   text-align: center !important;
 }
 
+.helper-signin-input input {
+  text-align: center !important;
+}
+
+.helper-signin-input {
+  margin-bottom: 8px;
+}
+
 .sign-buttons-container {
   width: 100%;
   display: flex;
@@ -35,4 +43,29 @@
   justify-content: center !important;
   padding-bottom: 2vh !important;
   background-color: #fafafa;
+}
+
+.helper-progress {
+  margin-top: 1vh !important;
+}
+
+.form-helper-container {
+  margin-top: 1vh !important;
+  animation: fadeInLeft 0.5s;
+}
+
+.MuiFormHelperText-contained {
+  display: contents !important;
+}
+
+.success-helper-text {
+  color: #4caf50 !important;
+}
+
+.error-helper-text {
+  color: #f44336 !important;
+}
+
+.MuiDialog-paperScrollPaper {
+  max-height: calc(100% - 10px) !important;
 }

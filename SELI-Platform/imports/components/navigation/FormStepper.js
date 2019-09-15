@@ -107,73 +107,76 @@ export default function FormStepper(props) {
           <h1 style={{color: getComputedStyle(document.documentElement).getPropertyValue('--' + props.color)}} className="form-stepper-title">{props.title}</h1>
           <p className="form-stepper-active-step">{"Step " + parseInt(activeStep + 1) + " of " + steps.length + ": " + steps[activeStep].label}</p>
         </div>
-        <div className="form-stepper-navigation-actions">
-          <Tooltip title="Previous step">
-            <IconButton className="form-stepper-navigation-button" onClick={handleBack} edge="end" aria-label="back">
-              <NavigateBeforeIcon className="form-stepper-navigation-icon"/>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Next step">
-            <IconButton className="form-stepper-navigation-button" onClick={handleNext} edge="end" aria-label="next">
-              <NavigateNextIcon className="form-stepper-navigation-icon"/>
-            </IconButton>
-          </Tooltip>
-        </div>
-        <Button className="form-stepper-selector-button" color={props.color} aria-describedby={id} onClick={handleClick}>
-          Select step
-          <KeyboardArrowDownIcon className="form-stepper-selector-button-icon"/>
-        </Button>
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        >
-          <Stepper className="form-stepper" orientation="vertical" nonLinear activeStep={activeStep}>
-            {steps.map((step, index) => (
-              <Step completed={true} className="form-step" key={step.label}>
-                <StepButton icon={step.icon} className="form-step-button" onClick={handleStep(index)} completed={completed[index]}>
-                  {step.label}
-                </StepButton>
-              </Step>
-            ))}
-          </Stepper>
-        </Popover>
-        <div className="form-stepper-actions">
-          {activeStep !== steps.length &&
-            (completed[activeStep] ? (
-              <div className="form-step-completed-step-container">
-                <div className="form-step-completed-information">
-                  <p className="form-step-completed-text">Step {activeStep + 1} already completed</p> <DoneIcon className="form-stepper-done-icon"/>
-                </div>
-                <div className="form-step-completed-actions">
-                  <Button className="form-stepper-restart-button" color={props.color}>
-                    Restart step
-                  </Button>
-                  <Button className="form-stepper-edit-button" color={props.color} onClick={handleComplete}>
-                    {steps[activeStep].edit}
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <Button className="form-stepper-complete-button" color={props.color} onClick={handleComplete}>
-                {completedSteps() === totalSteps() - 1 ? 'Publish course' : steps[activeStep].save}
+        {
+          props.steps.length > 1 ?
+            <div className="form-stepper-navigation-actions">
+              <Tooltip title="Previous step">
+                <IconButton className="form-stepper-navigation-button" onClick={handleBack} edge="end" aria-label="back">
+                  <NavigateBeforeIcon className="form-stepper-navigation-icon"/>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Next step">
+                <IconButton className="form-stepper-navigation-button" onClick={handleNext} edge="end" aria-label="next">
+                  <NavigateNextIcon className="form-stepper-navigation-icon"/>
+                </IconButton>
+              </Tooltip>
+            </div>
+          :
+          undefined
+        }
+        {
+          props.steps.length > 1 ?
+            <div>
+              <Button className="form-stepper-selector-button" color={props.color} aria-describedby={id} onClick={handleClick}>
+                Select step
+                <KeyboardArrowDownIcon className="form-stepper-selector-button-icon"/>
               </Button>
-            ))}
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+              >
+                <Stepper className="form-stepper" orientation="vertical" nonLinear activeStep={activeStep}>
+                  {steps.map((step, index) => (
+                    <Step completed={true} className="form-step" key={step.label}>
+                      <StepButton icon={step.icon} className="form-step-button" onClick={handleStep(index)} completed={completed[index]}>
+                        {step.label}
+                      </StepButton>
+                    </Step>
+                  ))}
+                </Stepper>
+              </Popover>
+            </div>
+          :
+          undefined
+        }
+        <div className="form-stepper-actions">
+          {
+            props.saveLabel !== undefined ?
+              <Button className="form-stepper-complete-button" color={props.color}>
+                {props.saveLabel}
+              </Button>
+            :
+            undefined
+          }
+          <Button id="form-stepper-final-button" className="form-stepper-complete-button" color={props.color} onClick={() => props.finalAction()}>
+            {props.finalLabel}
+          </Button>
         </div>
       </div>
       <div>
         {allStepsCompleted() ? (
           <Dialog onClose={handleCloseDialog} aria-labelledby="simple-dialog-title" open={openDialog}>
-            <DialogTitle id="simple-dialog-title">Information</DialogTitle>
+            {props.finalMessage}
           </Dialog>
         ) : (
           <div className="form-stepper-content">

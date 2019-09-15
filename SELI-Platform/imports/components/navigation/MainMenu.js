@@ -20,7 +20,6 @@ export default class MainMenu extends React.Component {
     this.state = {
       menuWidth: '305px',
       menuOpen: false,
-      redirect: false,
       options: administrationOptions,
     }
   }
@@ -45,7 +44,6 @@ export default class MainMenu extends React.Component {
 
   showComponent(option){
     this.closeMenu();
-    this.props.showComponent(toCamelCase(option));
   }
 
   render() {

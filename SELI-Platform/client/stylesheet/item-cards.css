@@ -1,0 +1,85 @@
+.course-item-video-card {
+  width: 100% !important;
+}
+
+.course-item-video-card-media-action-area {
+  display: flex !important;
+  padding: 1vh 0;
+}
+
+.course-item-video-card-media {
+  width: 50% !important;
+}
+
+.course-item-video-card-media-actions-container {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  padding-right: 1vw;
+}
+
+.course-item-video-card-media-content {
+  padding: 1.5vh 5% !important;
+  width: 50%;
+}
+
+.course-item-video-card-media-button {
+
+}
+
+.course-item-video-card-media-fab {
+  background-color: var(--white) !important;
+  color: #333 !important;
+}
+
+.course-item-audio-card {
+  width: 25vw !important;
+  max-width: 35vw !important;
+}
+
+.course-item-audio-card-details {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 120px !important;
+}
+
+.course-item-audio-card-description {
+  width: 30vw;
+  font-size: 0.85em;
+  color: #333333;
+  letter-spacing: 0.1px;
+  margin-left: 2.5vw;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.course-item-audio-card-controls {
+  margin-bottom: 0.5vh !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  padding: 0 1vw !important;
+}
+
+.course-item-audio-card-image {
+  width: 120px !important;
+  height: 120px !important;
+  background-color: #333;
+  position: absolute !important;
+  right: 0 !important;
+}
+
+.course-item-card-title {
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  color: #616161 !important;
+  display: flex;
+  align-items: center;
+}
+
+.course-item-card-subtitle {
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  margin-left: 0.5vw !important;
+}

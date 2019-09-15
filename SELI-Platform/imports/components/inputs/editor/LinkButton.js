@@ -52,8 +52,8 @@ export default function LinkButton(props) {
 
   return (
     <div>
-      <Button color="primary" variant={variant} className="editor-button" onClick={handleClick} id="linkButton">
-        <FaLink className="editor-icon"/>
+      <Button variant={variant} className="editor-link-button" onClick={handleClick} id="linkButton">
+        <FaLink className="editor-icon-link"/>
         {props.buttonLabels ? "Link" : undefined}
       </Button>
       <Popover
@@ -71,7 +71,7 @@ export default function LinkButton(props) {
         }}
       >
         <div className="editor-link-form-container">
-          <p className="editor-form-title">Link editor</p>
+          <p className="editor-form-title">Insert link</p>
           <Divider light={true}/>
           <TextField
             id="url-input"

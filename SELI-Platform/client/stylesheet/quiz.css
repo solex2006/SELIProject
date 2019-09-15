@@ -1,6 +1,7 @@
 .quiz-form {
-  width: 65vw;
-  animation: fadeIn 0.5s
+  width: 950px;
+  animation: fadeIn 0.5s;
+  padding: 1.5vh 2.5%;
 }
 
 .question-input-container{

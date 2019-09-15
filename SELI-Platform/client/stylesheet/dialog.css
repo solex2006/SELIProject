@@ -1,0 +1,173 @@
+.dialog {
+  padding: 0 !important;
+  overflow-y: hidden !important;
+}
+
+.dialog-title {
+  width: 100%;
+  padding: 0 !important;
+}
+
+.dialog-toolbar-icon {
+  color: var(--white) !important;
+}
+
+.dialog-app-bar {
+  background-color: var(--app-bar-color) !important;
+}
+
+.dialog-tool-bar {
+  color: var(--white) !important;
+  padding-left: 1vw !important;
+}
+
+.dialog-label-title {
+  color: var(--white) !important;
+  text-transform: uppercase;
+  font-weight: 100;
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  padding-left: 1vw;
+  user-select: none;
+}
+
+.dialog-content-dense {
+  padding: 0 !important;
+}
+
+#close-icon {
+  position: absolute;
+  right: 0;
+}
+
+.dialog-actions-container {
+  margin-top: 38px;
+  width: 100%;
+  height: 46px;
+  background-color: #eeeeee;
+  position: relative;
+}
+
+.dialog-fab {
+  position: absolute !important;
+  right: 1vw !important;
+  top: -28px !important;
+}
+
+.media-gallery-button-container {
+  height: 56px;
+  position: fixed !important;
+  width: auto;
+  margin-top: 10px;
+  margin-left: 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+  animation: fadeInDown 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.25s;
+}
+
+.media-gallery-tab-button-container {
+  height: 56px;
+  position: fixed !important;
+  width: auto;
+  margin-top: 82px;
+  margin-left: 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+  animation: fadeInDown 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.25s;
+}
+
+.media-fab-text {
+  margin-left: 0.5vw;
+  letter-spacing: 1px;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  user-select: none;
+  pointer-events: none;
+  border-radius: 10px;
+  padding: 1px 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.dialog-form-container {
+  width: 650px;
+}
+
+.form-tabs-container {
+  position: relative;
+}
+
+.form-dialog-input {
+  width: 90% !important;
+  position: relative;
+  left: 5%;
+}
+
+.inputs-block {
+  margin-top: 2.5vh;
+}
+
+.size-text-input {
+  width: 180px !important;
+  margin: 0 5% !important;
+}
+
+.configure-accessibility-actions {
+  width: 650px;
+}
+
+#dialog-max-height{
+  position: relative;
+  padding-bottom: 16px;
+}
+
+.scroll-media-input-container {
+  height: calc(70vh - 200px);
+}
+
+.url-input {
+  width: 90%;
+}
+
+.course-creator-preview-player {
+  width: 100% !important;
+  height: 30vh !important;
+  animation: fadeInDown 0.5s;
+}
+
+.success-dialog-title .MuiTypography-root{
+  text-align: center !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  animation: fadeInDown 0.5s;
+}
+
+.success-dialog-content-text {
+  text-align: justify;
+  animation: fadeIn 0.75s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.5s;
+}
+
+.success-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-dialog-icon {
+  margin-top: 2.5vh !important;
+  font-size: 3.75em !important;
+  color: #4caf50 !important;
+  animation: tada 1.25s;
+  animation-fill-mode: backwards;
+  animation-delay: 1s;
+}

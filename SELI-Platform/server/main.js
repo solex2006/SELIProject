@@ -9,6 +9,8 @@ import '../lib/CategoriesCollection';
 import '../lib/RequirementsCollection';
 import '../lib/PeopleCollection';
 import '../lib/extract';
+import '../lib/validateSignUp';
+import '../lib/usersUtil';
 
 Meteor.startup(() => {
   // code to run on server at startup

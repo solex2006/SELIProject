@@ -8,7 +8,7 @@
   transition: 0.5s;
 }
 
-#language-select-title h6{
+#language-select-title {
   text-transform: uppercase;
   text-align: center;
   color: var(--primary);

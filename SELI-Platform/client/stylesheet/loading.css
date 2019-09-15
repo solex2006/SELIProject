@@ -1,6 +1,6 @@
 .loading-container {
   width: 100%;
-  height: 100%;
+  margin: 2.5vh 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,6 +18,7 @@
 .uploading-file-container {
   width: 100%;
   height: auto;
+  padding: 3.5vh 0;
 }
 
 .uploading-file-column {

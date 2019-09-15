@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import { initEditor, changeStyle, changeAligment, link, insertHTML, removeFormat, getInnerHtml } from '../../../../lib/editorUtils';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
+import FormatAlignJustifyIcon from '@material-ui/icons/FormatAlignJustify';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
-import { FaBold } from "react-icons/fa";
-import { FaItalic } from "react-icons/fa";
-import { FaUnderline } from "react-icons/fa";
-import { FaAlignCenter } from "react-icons/fa";
-import { FaAlignRight } from "react-icons/fa";
-import { FaAlignLeft } from "react-icons/fa";
-import { FaAlignJustify } from "react-icons/fa";
 import LinkButton from './LinkButton';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
+import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
+import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
+import Grid from '@material-ui/core/Grid';
+import Tooltip from '@material-ui/core/Tooltip';
+
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../../../style/theme.js';
 
@@ -20,7 +22,8 @@ export default class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      alignment: 'left',
+      formats: [],
     }
   }
 
@@ -36,13 +39,20 @@ export default class Editor extends React.Component {
     }
   }
 
-  setActiveAligment(){
-
+  setActiveAligment(alignment){
+    this.setState({
+      alignment: alignment,
+    })
   }
 
   componentDidMount(){
     initEditor();
     this.initClickEvent();
+    this.props.innerHTML !== '' ? insertHTML(this.props.innerHTML) : this.clearEditor();
+  }
+
+  clearEditor() {
+
   }
 
   initClickEvent(){
@@ -188,48 +198,67 @@ export default class Editor extends React.Component {
       <div>
         <MuiThemeProvider theme={theme}>
           <div className="editor-container">
+            <p className="editor-label">TEXT EDITOR</p>
             <div className="editor-tools">
-              <Button color="primary" variant="outlined" className="editor-button" onClick={() => {changeAligment('justifyLeft'); this.setActiveAligment()}} id="underlineButton">
-                <FaAlignLeft className="editor-icon"/>
-                {this.props.buttonLabels ? "Left" : undefined}
-              </Button>
-              <Button color="primary" variant="outlined" className="editor-button" onClick={() => {changeAligment('justifyCenter'); this.setActiveAligment()}} id="underlineButton">
-                <FaAlignCenter className="editor-icon"/>
-                {this.props.buttonLabels ? "Center" : undefined}
-              </Button>
-              <Button color="primary" variant="outlined" className="editor-button" onClick={() => {changeAligment('justifyRight'); this.setActiveAligment()}} id="underlineButton">
-                <FaAlignRight className="editor-icon"/>
-                {this.props.buttonLabels ? "Right" : undefined}
-              </Button>
-              <Button color="primary" variant="outlined" className="editor-button" onClick={() => {changeAligment('justifyFull'); this.setActiveAligment()}} id="underlineButton">
-                <FaAlignJustify className="editor-icon"/>
-                {this.props.buttonLabels ? "Justify" : undefined}
-              </Button>
-              <Button color="primary" variant={this.state.boldSelected} className="editor-button" onClick={() => {changeStyle('bold'); this.setActiveStyle('bold', this.state.boldSelected)}} id="boldButton">
-                <FaBold className="editor-icon"/>
-                {this.props.buttonLabels ? "Bold" : undefined}
-              </Button>
-              <Button color="primary" variant={this.state.italicSelected} className="editor-button" onClick={() => {changeStyle('italic'); this.setActiveStyle('italic', this.state.italicSelected)}} id="boldButton">
-                <FaItalic className="editor-icon"/>
-                {this.props.buttonLabels ? "Italic" : undefined}
-              </Button>
-              <Button color="primary" variant={this.state.underlinedSelected} className="editor-button" onClick={() => {changeStyle('underline'); this.setActiveStyle('underlined', this.state.underlinedSelected)}} id="underlineButton">
-                <FaUnderline className="editor-icon"/>
-                {this.props.buttonLabels ? "Underlined" : undefined}
-              </Button>
+              <Grid item>
+                <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
+                  <ToggleButton key={1} value="left" onClick={() => {changeAligment('justifyLeft'); this.setActiveAligment("left")}}>
+                    <Tooltip title="Left alignment">
+                      <FormatAlignLeftIcon className="toggle-button-icon"/>
+                    </Tooltip>
+                  </ToggleButton>
+                  <ToggleButton key={2} value="center" onClick={() => {changeAligment('justifyCenter'); this.setActiveAligment("center")}}>
+                    <Tooltip title="Center alignment">
+                      <FormatAlignCenterIcon className="toggle-button-icon"/>
+                    </Tooltip>
+                  </ToggleButton>
+                  <ToggleButton key={3} value="right" onClick={() => {changeAligment('justifyRight'); this.setActiveAligment("right")}}>
+                    <Tooltip title="Right alignment">
+                      <FormatAlignRightIcon className="toggle-button-icon"/>
+                    </Tooltip>
+                  </ToggleButton>
+                  <ToggleButton className="last-child-button" key={4} value="justify" onClick={() => {changeAligment('justifyFull'); this.setActiveAligment("justify")}}>
+                    <Tooltip title="Justify">
+                      <FormatAlignJustifyIcon className="toggle-button-icon"/>
+                    </Tooltip>
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Grid>
+              <Grid style={{marginLeft: "1vw"}}>
+                <ToggleButtonGroup size="small">
+                  <ToggleButton color="primary" selected={this.state.boldSelected} onClick={() => {changeStyle('bold'); this.setActiveStyle('bold', this.state.boldSelected)}} value="bold">
+                    <FormatBoldIcon />
+                  </ToggleButton>
+                  <ToggleButton selected={this.state.italicSelected} onClick={() => {changeStyle('italic'); this.setActiveStyle('italic', this.state.italicSelected)}} value="italic">
+                    <FormatItalicIcon />
+                  </ToggleButton>
+                  <ToggleButton selected={this.state.underlinedSelected} onClick={() => {changeStyle('underline'); this.setActiveStyle('underlined', this.state.underlinedSelected)}} value="underlined">
+                    <FormatUnderlinedIcon />
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Grid>
               {
                 this.props.addLinks ?
-                  <LinkButton buttonLabels={this.props.buttonLabels}/>
+                  <Grid style={{marginLeft: "1vw"}}>
+                    <ToggleButtonGroup size="small">
+                      <LinkButton buttonLabels={this.props.buttonLabels}/>
+                    </ToggleButtonGroup>
+                  </Grid>
                 :
                 undefined
               }
             </div>
             <div className="editor-area" style={{height: this.props.areaHeight}}>
-              <iframe id="editor-iframe" className="editor-iframe" name="editorIframe"></iframe>
+              <iframe
+                id="editor-iframe"
+                className="editor-iframe"
+                name="editorIframe"
+              >
+              </iframe>
             </div>
           </div>
         </MuiThemeProvider>
       </div>
-    )
+      )
+    }
   }
-}

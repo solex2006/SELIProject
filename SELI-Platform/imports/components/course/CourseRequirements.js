@@ -43,6 +43,7 @@ export default class CourseRequirements extends React.Component {
       audienceAllowed: [],
       technicalRequirements: [],
       lists: this.props.requirementsList,
+      courseInformation: this.props.courseInformation,
       loading: true,
       request: {
         name: '',
@@ -63,8 +64,25 @@ export default class CourseRequirements extends React.Component {
 
   selectOption(index, select) {
     let lists = this.state.lists;
+    let courseInformation = this.state.courseInformation;
     let listIndex = lists.findIndex(list => list.name === select);
     lists[listIndex].options[index].selected = !lists[listIndex].options[index].selected;
+    let requirements = [];
+    let support = [];
+    for (var i = 0; i < lists.length; i++) {
+      for (var j = 0; j < lists[i].options.length; j++) {
+        if (lists[i].options[j].selected) {
+          if (lists[i].name === "Audiences") {
+            support.push({_id: lists[i].options[j]._id, name: lists[i].options[j].name, description: lists[i].options[j].description});
+          }
+          else {
+            requirements.push({_id: lists[i].options[j]._id, name: lists[i].options[j].name, description: lists[i].options[j].description});
+          }
+        }
+      }
+    }
+    courseInformation.requirements = requirements;
+    courseInformation.support = support;
     this.setState({
       lists: lists,
     });

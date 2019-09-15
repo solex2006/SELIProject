@@ -1,9 +1,9 @@
 .organization-form {
-  width: auto;
+  width: 700px;
 }
 
 .course-organization-options-container {
-  width: 45vw;
+
 }
 
 .button-row {
@@ -11,6 +11,7 @@
   display: flex;
   margin-top: 2px;
   margin-bottom: 8px;
+  padding: 0 1%;
 }
 
 .row-list-button {

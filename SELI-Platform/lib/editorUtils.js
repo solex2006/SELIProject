@@ -5,6 +5,8 @@ export const initEditor = () => {
   range.setStart(editor.body, 0);
   range.setEnd(editor.body, 0);
   editor.body.focus();
+  editor.execCommand('selectAll');
+  editor.execCommand('delete', false, null);
   document.getElementById("editor-iframe").contentDocument.body.style.fontFamily = "Lato";
   document.getElementById("editor-iframe").contentDocument.body.style.overflowX = "hidden";
   document.getElementById("editor-iframe").contentDocument.body.style.overflowY = "scroll";

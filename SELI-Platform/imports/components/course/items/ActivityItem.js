@@ -53,7 +53,7 @@ export default class ActivityItem extends React.Component {
                         <div className="item-quiz-expansion-summary-text-container">
                           <Typography className="activity-panel-title">Activity</Typography>
                           <Typography className="quiz-panel-subtitle">
-                            { this.props.item.attributes.type === 'storytelling' ? "Storytelling activity" : undefined }
+                            { this.props.item.attributes.type === 'storyboard' ? "Storytelling activity" : undefined }
                             { this.props.item.attributes.type === 'upload' ? "Upload file activity" : undefined }
                             { this.props.item.attributes.type === 'text' ? "Text section activity" : undefined }
                           </Typography>

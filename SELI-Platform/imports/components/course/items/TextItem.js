@@ -1,7 +1,7 @@
 import React from 'react';
 import MenuItem from './MenuItem';
 import Divider from '@material-ui/core/Divider';
-
+import Code  from '../../tools/Code';
 export default class TextItem extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +11,7 @@ export default class TextItem extends React.Component {
   }
 
   componentDidMount(){
-
+    
   }
 
   render() {
@@ -20,7 +20,7 @@ export default class TextItem extends React.Component {
         <div className="text-content-item">
           {
             this.props.item.attributes.type === 'title' ?
-              <h2 className="text-item-title" style={{textAlign: this.props.item.attributes.alignment}}>
+              <h2 className="text-item-title" style={{textAlign: this.props.item.attributes.alignment, fontSize: this.props.item.attributes.size}}>
                 {this.props.item.attributes.content}
               </h2>
             :
@@ -35,10 +35,12 @@ export default class TextItem extends React.Component {
             undefined
           }
           {
-            this.props.item.attributes.type === 'subtitle' ?
-              <h3 className="text-item-subtitle" style={{textAlign: this.props.item.attributes.alignment}}>
-                {this.props.item.attributes.content}
-              </h3>
+            this.props.item.attributes.type === 'code' ?
+              <Code
+                theme={this.props.item.attributes.theme}
+                language={this.props.item.attributes.language}
+                code={this.props.item.attributes.content}
+              />
             :
             undefined
           }

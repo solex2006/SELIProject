@@ -1,0 +1,73 @@
+.video-form {
+  width: 40vw;
+  height: auto;
+}
+
+.dialog-form-container-large {
+  width: calc(85vw - 150px);
+}
+
+.dialog-columns-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.course-creator-form-column {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.course-creator-file-form-column {
+  width: 50%;
+  height: 100%;
+  position: relative;
+}
+
+.form-padding-dialog-input {
+  width: 90%;
+  position: relative;
+  left: 5%;
+}
+
+.course-creator-input-container {
+  width: 100%;
+}
+
+.course-creator-collection-actions-container {
+  width: 50%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 68px;
+  margin-left: 1vw;
+  z-index: 200;
+  animation: fadeInUp 0.5s;
+  animation-fill-mode: backwards;
+    animation-delay: 0.25s
+}
+
+.course-creator-collection-selector-container {
+  width: 50%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-left: 1vw;
+}
+
+.course-creator-collection-button {
+  padding: 0 !important;
+  width: 15% !important;
+  min-width: 15% !important;
+  border-radius: 0 !important;
+}

@@ -33,3 +33,54 @@
   text-transform: uppercase;
   position: relative;
 }
+
+/**/
+
+.course-presentation-organization-container {
+  width: calc(600px - 5vh) ;
+  max-height: 70vh;
+  overflow-y: scroll;
+  padding-left: 2.5vh;
+  padding-right: 2.5vh;
+  padding-bottom: 2.5vh;
+}
+
+.course-navigation-list {
+  background-color: var(--white) !important;
+  transition: 0.5s;
+}
+
+.course-navigation-sublist {
+  transition: 0.5s;
+}
+
+.course-navigation-list .Mui-selected {
+  border-left: solid 2px var(--primary) !important;
+  background-color: #eeeeee !important;
+}
+
+.course-navigation-list-subheader {
+  text-align: center !important;
+  font-size: 0.9em !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase;
+}
+
+.course-navigation-sublist-item {
+  padding-left: 32px !important;
+}
+
+.course-navigation-sublist .Mui-selected {
+  border-left: solid 2px var(--primary) !important;
+  background-color: #eeeeee !important;
+}
+
+.course-navigation-list-item-text .MuiListItemText-primary {
+  font-size: 0.85em !important;
+  letter-spacing: 0.5px !important;
+}
+
+.course-navigation-sublist-item-text .MuiListItemText-primary {
+  font-size: 0.85em !important;
+  letter-spacing: 0.5px !important;
+}

@@ -1,16 +1,10 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
+import Switch from '@material-ui/core/Switch';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormLabel from '@material-ui/core/FormLabel';
-import Divider from '@material-ui/core/Divider';
 import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
 import Grid from '@material-ui/core/Grid';
 import ToggleButton from '@material-ui/lab/ToggleButton';
@@ -87,7 +81,7 @@ export default class EmbebedForm extends React.Component {
 
   render() {
     return(
-      <div className="link-content-form-container">
+      <div className="dialog-form-container">
         <TextField
           id="url-input"
           label="Url"
@@ -95,51 +89,40 @@ export default class EmbebedForm extends React.Component {
           variant="outlined"
           fullWidth
           required
-          className="content-input"
+          className="form-dialog-input"
+          autoFocus={true}
         />
-        <FormGroup className="content-radio-group-center" row>
-          <FormControlLabel
-            control={
-              <Checkbox color="primary" checked={this.state.description} onChange={() => this.handleChange('description')} value={this.state.description} />
-            }
-            label="Text description"
+        <div className="margin-center-row">
+          <FormGroup>
+            <FormControlLabel
+              control={<Switch size="small" onChange={() => this.handleChange('description')} checked={this.state.description}/>}
+              label={<p className="form-label">Add a text description</p>}
+            />
+          </FormGroup>
+          <p className="form-label">Text position:</p>
+          <Grid item>
+            <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
+              <ToggleButton disabled={!this.state.description} key={1} value="column" onClick={() => this.alignmentHandleChange("column")}>
+                <Tooltip title="Up">
+                  <HorizontalSplitIcon className="toggle-button-icon"/>
+                </Tooltip>
+              </ToggleButton>
+              <ToggleButton disabled={!this.state.description} key={2} value="column-reverse" onClick={() => this.alignmentHandleChange("column-reverse")}>
+                <Tooltip title="Down">
+                  <HorizontalSplitIcon style={{transform: "rotate(180deg)"}} className="toggle-button-icon"/>
+                </Tooltip>
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Grid>
+        </div>
+        <div style={this.state.description ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
+          <Editor
+            areaHeight="20vh"
+            buttonLabels={false}
+            addLinks={true}
+            getInnerHtml={this.getInnerHtml.bind(this)}
           />
-        </FormGroup>
-        {
-          this.state.description ?
-            <div className="margin-center-row">
-              <p className="form-label">Text position:</p>
-              <Grid item>
-                <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
-                  <ToggleButton key={1} value="column" onClick={() => this.alignmentHandleChange("column")}>
-                    <Tooltip title="Up">
-                      <HorizontalSplitIcon className="toggle-button-icon"/>
-                    </Tooltip>
-                  </ToggleButton>
-                  <ToggleButton key={2} value="column-reverse" onClick={() => this.alignmentHandleChange("column-reverse")}>
-                    <Tooltip title="Down">
-                      <HorizontalSplitIcon style={{transform: "rotate(180deg)"}} className="toggle-button-icon"/>
-                    </Tooltip>
-                  </ToggleButton>
-                </ToggleButtonGroup>
-              </Grid>
-            </div>
-          :
-            undefined
-        }
-        {
-          this.state.description ?
-            <div className="editor-block">
-              <Editor
-                areaHeight="20vh"
-                buttonLabels={false}
-                addLinks={true}
-                getInnerHtml={this.getInnerHtml.bind(this)}
-              />
-            </div>
-          :
-          undefined
-        }
+        </div>
       </div>
     );
   }

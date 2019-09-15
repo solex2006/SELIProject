@@ -41,16 +41,6 @@ export default class CourseInformation extends React.Component {
     this.setState({ open: false });
   };
 
-  generateCourseCreatorKey(length) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
-
   handleChange = name => event => {
     let courseInformation = this.state.courseInformation;
     if (name === 'title') {
@@ -359,6 +349,7 @@ export default class CourseInformation extends React.Component {
                         type={this.state.fileType}
                         accept={this.state.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
+                        label={this.state.fileType === 'image' ? 'Click the button to upload an image' : 'Click the button to upload a pdf'}
                       />
                     </div>
                   }

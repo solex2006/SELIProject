@@ -17,7 +17,6 @@ import ContentItem from './ContentItem';
 import SortItem from './items/SortItem';
 import AudienceMenu from './AudienceMenu';
 import CourseCreatorMenu from './CourseCreatorMenu';
-import Unit from './Unit';
 
 import { Container, Draggable } from 'react-smooth-dnd';
 import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
@@ -47,6 +46,14 @@ import EmbebedForm from '../content/EmbebedForm';
 import UnityForm from '../content/UnityForm';
 import CourseOrganization from './CourseOrganization';
 import NavigationTool from './NavigationTool';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppsIcon from '@material-ui/icons/Apps';
+import Fab from '@material-ui/core/Fab';
+import DoneIcon from '@material-ui/icons/Done';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 /* Accessibility Forms */
 import VideoAccessibilityForm from '../accessibility/VideoAccessibilityForm';
@@ -120,6 +127,7 @@ export default class CourseCreatorTool extends React.Component {
       contentTypeAdded: type,
       addedId: e.payload.id,
       showCourseOrganization: false,
+      showContentEditor: true,
     });
     if(e.addedIndex !== null && e.removedIndex !== null) {
 
@@ -160,28 +168,32 @@ export default class CourseCreatorTool extends React.Component {
       }
     }
     let itemContent = this.getItemAttributes();
-    if (courseInformation.organization.subunit) {
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = itemContent;
-    }
-    else {
-      courseInformation.program[this.props.selected[0]].items[index].attributes = itemContent;
-    }
-    if (this.state.contentTypeAdded === 'image') {
-      let size = {
-        width: 500,
-        height: 300,
-      }
+    if (itemContent !== undefined) {
       if (courseInformation.organization.subunit) {
-        courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.size = size;
+        courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = itemContent;
       }
       else {
-        courseInformation.program[this.props.selected[0]].items[index].attributes.size = size;
+        courseInformation.program[this.props.selected[0]].items[index].attributes = itemContent;
       }
+      if (this.state.contentTypeAdded === 'image') {
+        let size = {
+          width: 500,
+          height: 300,
+        }
+        if (courseInformation.organization.subunit) {
+          courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.size = size;
+        }
+        else {
+          courseInformation.program[this.props.selected[0]].items[index].attributes.size = size;
+        }
+      }
+      this.setState({
+        showAccesibilityOptions: true,
+        showCourseOrganization: false,
+        showContentEditor: false,
+      });
+      this.resetMenuItems();
     }
-    this.setState({
-      showAccesibilityOptions: true,
-    });
-    this.resetMenuItems();
   }
 
   resetMenuItems(){
@@ -370,7 +382,7 @@ export default class CourseCreatorTool extends React.Component {
                 <div
                   style={
                     !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
-                      {backgroundImage: "url(drop.svg)", animation: "bounce 1s 2"}
+                      {backgroundImage: "url(drop.svg)", animation: "bounce 1s 1"}
                     :
                     {backgroundImage: "url()"}} className="course-creator-drop-area"
                 >
@@ -525,7 +537,7 @@ export default class CourseCreatorTool extends React.Component {
                 <div
                   style={
                     !this.props.courseInformation.program[this.props.selected[0]].items.length ?
-                      {backgroundImage: "url(drop.svg)", animation: "bounce 1s 2"}
+                      {backgroundImage: "url(drop.svg)", animation: "bounce 1s 1"}
                     :
                     {backgroundImage: "url()"}} className="course-creator-drop-area"
                 >
@@ -678,207 +690,197 @@ export default class CourseCreatorTool extends React.Component {
         <Dialog
           open={this.state.contentOpen}
           onClose={this.contentHandleClose}
-          TransitionComponent={GrowTransition}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          className="dialog"
           disableBackdropClick={true}
           disableEscapeKeyDown={true}
           keepMounted
-          fullWidth
           maxWidth={false}
-          style={{display: "flex", justifyContent: "center", maxWidth: "none"}}
         >
-          <DialogTitle className="content-editor-title">Content editor</DialogTitle>
-          <Divider/>
-          <DialogContent>
-            {
-              this.state.contentTypeAdded === 'text' && !this.state.showAccesibilityOptions ?
-                <TextForm
-                  getTextAttributesFunction={textAttributes => this.getItemAttributes = textAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.contentTypeAdded === 'image' && !this.state.showAccesibilityOptions ?
-                <ImageForm
-                  getImageAttributesFunction={imageAttributes => this.getItemAttributes = imageAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.contentTypeAdded === 'video' && !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm ?
-                <VideoForm
-                  getVideoAttributesFunction={videoAttributes => this.getItemAttributes = videoAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.contentTypeAdded === 'audio' && !this.state.showAccesibilityOptions ?
-                <AudioForm
-                  getAudioAttributesFunction={audioAttributes => this.getItemAttributes = audioAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.contentTypeAdded === 'link' && !this.state.showAccesibilityOptions ?
-                <LinkForm
-                  getLinkAttributesFunction={linkAttributes => this.getItemAttributes = linkAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.contentTypeAdded === 'pdf' && !this.state.showAccesibilityOptions ?
-                <PdfForm
-                  getPdfAttributesFunction={pdfAttributes => this.getItemAttributes = pdfAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.contentTypeAdded === 'compressed' && !this.state.showAccesibilityOptions ?
-                <CompressedForm
-                  getCompressedAttributesFunction={compressedAttributes => this.getItemAttributes = compressedAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.contentTypeAdded === 'h5p' && !this.state.showAccesibilityOptions ?
-                <H5PForm
-                  getH5pAttributesFunction={h5pAttributes => this.getItemAttributes = h5pAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.contentTypeAdded === 'quiz' && !this.state.showAccesibilityOptions ?
-                <QuizForm
-                  getQuizAttributesFunction={quizAttributes => this.getItemAttributes = quizAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.contentTypeAdded === 'activity' && !this.state.showAccesibilityOptions ?
-                <ActivityForm
-                  getActivityAttributesFunction={activityAttributes => this.getItemAttributes = activityAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.contentTypeAdded === 'embebed' && !this.state.showAccesibilityOptions ?
-                <EmbebedForm
-                  getEmbebedAttributesFunction={embebedAttributes => this.getItemAttributes = embebedAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.contentTypeAdded === 'unity' && !this.state.showAccesibilityOptions ?
-                <UnityForm
-                  getUnityAttributesFunction={unityAttributes => this.getItemAttributes = unityAttributes}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.showAccesibilityOptions && !this.state.showCourseOrganization?
-                <div className="configure-accessibility-actions">
-                  <List>
-                    <ListItem onClick={() => this.showAccesibilityForm()} button>
-                      <ListItemAvatar>
-                        <Avatar className="primary-avatar">
-                          <AccessibilityNewIcon className="configure-accessibility-icon"/>
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={`Configure accessibility`} secondary="We recommend to configure the accessibility of your content and making it accessible to most audiences."/>
-                    </ListItem>
-                    <ListItem onClick={() => this.contentHandleClose()} button>
-                      <ListItemAvatar>
-                        <Avatar className="secondary-avatar">
-                          <WatchLaterIcon className="configure-accessibility-icon"/>
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={`Configure accessibility later`} secondary="You can configure the accessibility of your content later, but this will be reflected with a red alert in your content."/>
-                    </ListItem>
-                  </List>
-                </div>
-              :
-              undefined
-            }
-            {
-              this.state.showAccesibilityForm && this.state.contentTypeAdded === 'video' ?
-                <VideoAccessibilityForm
-                  parentId={"accessibility-video-123"}
-                  showControlMessage={this.props.showControlMessage.bind(this)}
-                />
-              :
-              undefined
-            }
-            {
-              this.state.showCourseOrganization ?
+          <DialogTitle className="dialog-title">
+            <AppBar className="dialog-app-bar" color="primary" position="static">
+              <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
+                <AppsIcon/>
+                <h4 className="dialog-label-title">{ this.state.contentaAdded !== undefined ? `Content editor - ${this.state.contentTypeAdded}` : 'Course organization'}</h4>
+                <IconButton
+                  id="close-icon"
+                  edge="end"
+                  className="dialog-toolbar-icon"
+                  onClick={() => {this.contentHandleClose(); this.cancelContentCreation();}}
+                >
+                  <CloseIcon/>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </DialogTitle>
+          {
+            this.state.showCourseOrganization ?
+              <div>
                 <CourseOrganization
                   courseInformation={this.props.courseInformation}
                   validateOrganization={this.validateOrganization.bind(this)}
                   reRender={this.reRender.bind(this)}
                   selected={this.props.selected}
                 />
-              :
+                <div className="dialog-actions-container">
+                  <Tooltip title="Done">
+                    <Fab disabled={this.state.correctOrganization} onClick={() => this.setOrganization()} aria-label={`Start creating course`} className="dialog-fab" color="primary">
+                      <AssignmentTurnedInIcon/>
+                    </Fab>
+                  </Tooltip>
+                </div>
+              </div>
+            :
               undefined
-            }
-          </DialogContent>
-          <Divider/>
+          }
           {
-            !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm && !this.state.showCourseOrganization ?
-              <DialogActions>
-                <Button onClick={() => {this.contentHandleClose(); this.cancelContentCreation();}} color="primary">
-                  cancel
-                </Button>
-                <Button onClick={() => this.createContent()} color="primary">
-                  create content
-                </Button>
-              </DialogActions>
+            this.state.showContentEditor ?
+              <div>
+                {
+                  this.state.contentTypeAdded === 'text' && !this.state.showAccesibilityOptions ?
+                    <TextForm
+                      getTextAttributesFunction={textAttributes => this.getItemAttributes = textAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      reRender={this.reRender.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                {
+                  this.state.contentTypeAdded === 'image' && !this.state.showAccesibilityOptions ?
+                    <ImageForm
+                      getImageAttributesFunction={imageAttributes => this.getItemAttributes = imageAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                {
+                  this.state.contentTypeAdded === 'video' && !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm ?
+                    <VideoForm
+                      getVideoAttributesFunction={videoAttributes => this.getItemAttributes = videoAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                {
+                  this.state.contentTypeAdded === 'audio' && !this.state.showAccesibilityOptions ?
+                    <AudioForm
+                      getAudioAttributesFunction={audioAttributes => this.getItemAttributes = audioAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                {
+                  this.state.contentTypeAdded === 'link' && !this.state.showAccesibilityOptions ?
+                    <LinkForm
+                      getLinkAttributesFunction={linkAttributes => this.getItemAttributes = linkAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                {
+                  this.state.contentTypeAdded === 'pdf' && !this.state.showAccesibilityOptions ?
+                    <PdfForm
+                      getPdfAttributesFunction={pdfAttributes => this.getItemAttributes = pdfAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                {
+                  this.state.contentTypeAdded === 'compressed' && !this.state.showAccesibilityOptions ?
+                    <CompressedForm
+                      getCompressedAttributesFunction={compressedAttributes => this.getItemAttributes = compressedAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                {
+                  this.state.contentTypeAdded === 'h5p' && !this.state.showAccesibilityOptions ?
+                    <H5PForm
+                      getH5pAttributesFunction={h5pAttributes => this.getItemAttributes = h5pAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                {
+                  this.state.contentTypeAdded === 'quiz' && !this.state.showAccesibilityOptions ?
+                    <QuizForm
+                      getQuizAttributesFunction={quizAttributes => this.getItemAttributes = quizAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                {
+                  this.state.contentTypeAdded === 'activity' && !this.state.showAccesibilityOptions ?
+                    <ActivityForm
+                      getActivityAttributesFunction={activityAttributes => this.getItemAttributes = activityAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                {
+                  this.state.contentTypeAdded === 'embebed' && !this.state.showAccesibilityOptions ?
+                    <EmbebedForm
+                      getEmbebedAttributesFunction={embebedAttributes => this.getItemAttributes = embebedAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                {
+                  this.state.contentTypeAdded === 'unity' && !this.state.showAccesibilityOptions ?
+                    <UnityForm
+                      getUnityAttributesFunction={unityAttributes => this.getItemAttributes = unityAttributes}
+                      showControlMessage={this.props.showControlMessage.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+                <div className="dialog-actions-container">
+                  <Tooltip title="Create content">
+                    <Fab onClick={() => this.createContent()} aria-label={`Create content`} className="dialog-fab" color="primary">
+                      <DoneIcon/>
+                    </Fab>
+                  </Tooltip>
+                </div>
+              </div>
             :
             undefined
           }
           {
-            this.state.showAccesibilityForm ?
-              <DialogActions>
-                <Button onClick={() => this.contentHandleClose()} color="primary">
-                  cancel
-                </Button>
-                <Button onClick={() => this.contentHandleClose()}  color="primary">
-                  set accessibility
-                </Button>
-              </DialogActions>
+            this.state.showAccesibilityOptions ?
+              <div className="configure-accessibility-actions">
+                <List>
+                  <ListItem onClick={() => this.showAccesibilityForm()} button>
+                    <ListItemAvatar>
+                      <Avatar className="primary-avatar">
+                        <AccessibilityNewIcon className="configure-accessibility-icon"/>
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={`Configure accessibility`} secondary="We recommend to configure the accessibility of your content and making it accessible to most audiences."/>
+                  </ListItem>
+                  <ListItem onClick={() => this.contentHandleClose()} button>
+                    <ListItemAvatar>
+                      <Avatar className="secondary-avatar">
+                        <WatchLaterIcon className="configure-accessibility-icon"/>
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={`Configure accessibility later`} secondary="You can configure the accessibility of your content later, but this will be reflected with a red alert in your content."/>
+                  </ListItem>
+                </List>
+              </div>
             :
-            undefined
-          }
-          {
-            this.state.showCourseOrganization ?
-              <DialogActions>
-                <Button disabled={this.state.correctOrganization} onClick={() => this.setOrganization()}  color="primary">
-                  Start
-                </Button>
-              </DialogActions>
-            :
-            undefined
+              undefined
           }
         </Dialog>
         <Snackbar

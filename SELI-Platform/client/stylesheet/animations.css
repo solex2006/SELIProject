@@ -1363,6 +1363,16 @@
   }
 }
 
+@-webkit-keyframes fadeInSearchBar {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.975;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

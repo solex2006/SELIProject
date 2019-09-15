@@ -198,7 +198,7 @@ export default class CourseOrganization extends React.Component {
                         label={`${this.state.selectedOrganization.unit} name`}
                         margin="normal"
                         variant="outlined"
-                        className="form-adorned-input"
+                        className="form-dialog-input"
                         fullWidth
                         required
                         disabled={this.state.addedUnit || this.state.addSubunit}
@@ -212,7 +212,7 @@ export default class CourseOrganization extends React.Component {
                             label={`${this.state.selectedOrganization.unit} name`}
                             margin="normal"
                             variant="outlined"
-                            className="form-adorned-input"
+                            className="form-dialog-input"
                             fullWidth
                             required
                             disabled={this.state.addedSubunit}
@@ -229,7 +229,7 @@ export default class CourseOrganization extends React.Component {
                     label={`${this.state.selectedOrganization.unit} name`}
                     margin="normal"
                     variant="outlined"
-                    className="form-adorned-input"
+                    className="form-dialog-input"
                     fullWidth
                     required
                     disabled={this.state.addedUnit}

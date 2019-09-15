@@ -7,7 +7,8 @@ import { _ } from 'meteor/underscore';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
-import { IoMdCloudUpload } from "react-icons/io";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Fab from '@material-ui/core/Fab';
 
 import IndividualUnity from './IndividualUnity';
 import Loading from '../tools/Loading';
@@ -188,13 +189,11 @@ class UnityUpload extends Component {
                   className="file-upload-input"
                   accept={this.props.accept}
                 />
-                <label htmlFor={"fileinput" + this.props.type}>
-                  <Button className="upload-button" variant="contained" component="span">
-                    <div className="center-row">
-                      <IoMdCloudUpload className="upload-icon"/>
-                    </div>
-                    Upload unity webgl
-                  </Button>
+                <label className="upload-button-container" htmlFor={"fileinput" + this.props.type}>
+                  <Fab color="secondary" className="upload-button" variant="contained" component="span">
+                    <CloudUploadIcon className="upload-icon"/>
+                  </Fab>
+                  <p className="upload-label">Upload unity webgl project</p>
                 </label>
               </div>
             :

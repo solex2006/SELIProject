@@ -1,0 +1,65 @@
+.courses-dashboard-container {
+  width: 100vw;
+  height: calc(100vh - var(--app-bar-height));
+  overflow-y: scroll;
+  position: relative;
+  top: var(--app-bar-height);
+}
+
+.dashboard-loading-container {
+  width: 100vw;
+  height: calc(100vh - var(--app-bar-height));
+  overflow-y: scroll;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.courses-dashboard-result {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 20px;
+}
+
+.course-card {
+  max-width: 345px !important;
+  margin: 2vh 0.25vw !important;
+}
+
+.course-card-media {
+  padding-top: 56.25%; /* 16:9 */
+}
+
+.course-card-avatar {
+  transition: 1s;
+}
+
+.course-card-header span {
+  text-overflow: ellipsis;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  width: 80% !important;
+}
+
+.course-card-header {
+  max-width: 345px !important;
+}
+
+.course-card-header .MuiCardHeader-content{
+  max-width: 280px !important;
+}
+
+.course-card-content p {
+  display: block !important;
+  display: -webkit-box !important;
+  max-width: 100% !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  text-align: justify !important;
+}
