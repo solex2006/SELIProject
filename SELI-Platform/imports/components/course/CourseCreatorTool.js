@@ -707,6 +707,7 @@ export default class CourseCreatorTool extends React.Component {
                   id="close-icon"
                   edge="end"
                   className="dialog-toolbar-icon"
+                  disabled={this.state.showCourseOrganization}
                   onClick={() => {this.contentHandleClose(); this.cancelContentCreation();}}
                 >
                   <CloseIcon/>

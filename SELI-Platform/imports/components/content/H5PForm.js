@@ -3,12 +3,17 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Help from '../tools/Help';
 import Link from '@material-ui/core/Link';
+import Editor from '../inputs/editor/Editor';
 
 export default class H5PForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      attributes: {
+        instruction: '',
+        link: '',
+        size: '',
+      },
     }
   }
 
@@ -30,20 +35,37 @@ export default class H5PForm extends React.Component {
     return url;
   }
 
-  clearInputs() {
-    document.getElementById('instruction-input').value = "";
-    document.getElementById('url-input').value = "";
+  getInnerHtml(innerHTML){
+    let attributes = this.state.attributes;
+    attributes.instruction = innerHTML;
+    this.setState({
+      attributes: attributes,
+    });
   }
 
   getH5pAttributes(){
-    let type = this.state.linkType;
-    let h5pContent = {
-      instruction: document.getElementById('instruction-input').value,
-      link: this.getSourceUrl(document.getElementById('url-input').value),
-      size: this.getSize(document.getElementById('url-input').value),
-    };
-    this.clearInputs();
-    return h5pContent;
+    let h5pContent = this.state.attributes;
+    if (this.validateContent(h5pContent) ) {
+      return h5pContent;
+    }
+    else {
+      return undefined;
+    }
+  }
+
+  validateContent = (content) => {
+    return true;
+  }
+
+  handleChange = name => event => {
+    let attributes = this.state.attributes;
+    if (name === "link") {
+      attributes.link = this.getSourceUrl(event.target.value);
+      attributes.size = this.getSize(event.target.value);
+    }
+    this.setState({
+      attributes: attributes,
+    }, () => console.log(this.state.attributes));
   }
 
   componentDidMount(){
@@ -62,6 +84,8 @@ export default class H5PForm extends React.Component {
           required
           className="form-dialog-input"
           autoFocus={true}
+          value={this.state.attributes.link}
+          onChange={this.handleChange('link')}
         />
         <div className="center-button-container">
           <Button color="primary">Check Url</Button>
@@ -83,17 +107,15 @@ export default class H5PForm extends React.Component {
             Here
           </Link>
         </div>
-        <TextField
-          id="instruction-input"
-          label="Instruction"
-          margin="normal"
-          variant="outlined"
-          required
-          multiline
-          rows="3"
-          fullWidth
-          className="form-dialog-input"
-        />
+        <div className="editor-block">
+          <Editor
+            areaHeight='20vh'
+            innerHTML={this.state.attributes.instruction}
+            buttonLabels={false}
+            addLinks={true}
+            getInnerHtml={this.getInnerHtml.bind(this)}
+          />
+        </div>
       </div>
     )
   }

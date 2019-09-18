@@ -17,7 +17,7 @@ export default function CodeEditor(props) {
         onChange={handleEditorChange}
         language={props.language}
         value={code}
-        theme={props.theme}
+        theme={'light'}
       />
     </div>
   );

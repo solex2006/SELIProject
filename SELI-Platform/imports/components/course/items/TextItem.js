@@ -11,7 +11,7 @@ export default class TextItem extends React.Component {
   }
 
   componentDidMount(){
-    
+
   }
 
   render() {

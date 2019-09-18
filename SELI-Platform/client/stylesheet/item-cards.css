@@ -41,7 +41,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  height: 120px !important;
+  height: auto !important;
 }
 
 .course-item-audio-card-description {
@@ -82,4 +82,17 @@
   text-transform: uppercase !important;
   letter-spacing: 1px !important;
   margin-left: 0.5vw !important;
+}
+
+.course-item-card-title {
+  text-overflow: ellipsis !important;
+}
+
+.course-item-audio-card-content {
+  width: calc(80% - 120px) !important;
+}
+
+.course-item-audio-card-image {
+  position: absolute !important;
+  top: 0 !important;
 }

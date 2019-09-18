@@ -42,7 +42,7 @@ export default class SignInForm extends React.Component {
 
   SignIn = () => {
     console.log(this.state.userInformation);
-    Meteor.loginWithPassword({user: this.state.userInformation.username}, this.state.userInformation.password, (error) => {
+    Meteor.loginWithPassword({username: this.state.userInformation.username}, this.state.userInformation.password, (error) => {
       if (error) {
         console.log(error);
       }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import FormStepper from '../components/navigation/FormStepper';
-import MessageCard from '../../imports/components/tools/MessageCard';
 import MainMenu from '../components/navigation/MainMenu';
 import AppBar from '../components/navigation/AppBar';
 import CourseInformation from '../components/course/CourseInformation';
@@ -132,12 +131,6 @@ export default class Test extends React.Component {
                   finalLabel="Publish course"
                   saveLabel="Save course"
                   finalAction={this.saveCourse.bind(this)}
-                  finalMessage={
-                    <MessageCard
-                      title="Course published successfully!"
-                      icon={<DoneAllIcon className="message-card-icon"/>}
-                    />
-                  }
                 />
               :
               undefined

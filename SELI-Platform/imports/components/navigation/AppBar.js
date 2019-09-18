@@ -18,6 +18,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 
 import LanguageSelector from './LanguageSelector';
+import UserMenu from './UserMenu';
 
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
@@ -84,12 +85,22 @@ export default class AppBar extends React.Component {
             <Button onClick={() => this.toggleSearchBar()} className="no-text-button">
               <SearchIcon className="app-bar-search-icon"/>
             </Button>
-            <Button onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
-              sign in
-            </Button>
-            <Button onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
-              sign up
-            </Button>
+            {
+              this.props.user === undefined ?
+                <div>
+                  <Button onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
+                    sign in
+                  </Button>
+                  <Button onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
+                    sign up
+                  </Button>
+                </div>
+              :
+              <UserMenu
+                user={this.props.user}
+                logOut={this.props.logOut.bind(this)}
+              />
+            }
             <LanguageSelector
               setLanguage={this.setLanguage.bind(this)}
             />
@@ -97,9 +108,6 @@ export default class AppBar extends React.Component {
         </div>
         <Slide direction="down" in={this.state.showSearchBar} mountOnEnter unmountOnExit>
           <div className="app-bar-search-container">
-            <IconButton className="app-bar-search-icon-button" aria-label="menu">
-              <HelpIcon className="app-bar-search-icon"/>
-            </IconButton>
             <Paper elevation={15} className="app-bar-search-paper">
               <IconButton className="app-bar-search-icon-button" aria-label="menu">
                 <SchoolIcon className="app-bar-search-icon"/>

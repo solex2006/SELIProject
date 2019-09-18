@@ -42,3 +42,4 @@ meteor npm install --save @material-ui/core
 meteor npm install email-deep-validator --save
 meteor add accounts-base
 meteor add accounts-password
+meteor npm install --save bcrypt

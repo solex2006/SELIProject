@@ -23,7 +23,7 @@ export default class EmbebedItem extends React.Component {
             this.props.item.attributes.description ?
               <div
                 className="embebed-description-item-section"
-                dangerouslySetInnerHTML={{__html: this.props.item.attributes.content}}
+                dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
               >
               </div>
             :

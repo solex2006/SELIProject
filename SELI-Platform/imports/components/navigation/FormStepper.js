@@ -14,15 +14,12 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Divider from '@material-ui/core/Divider';
 import DoneIcon from '@material-ui/icons/Done';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import InfoIcon from '@material-ui/icons/Info';
 
 export default function FormStepper(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [openDialog, setOpenDialog] = React.useState(false);
   const steps = props.steps;
 
   function getStepContent(step) {
@@ -69,7 +66,7 @@ export default function FormStepper(props) {
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
     if(allStepsCompleted()) {
-      handleClickOpen();
+
     }
     else {
       handleNext();
@@ -88,14 +85,6 @@ export default function FormStepper(props) {
   function handleClose() {
     setAnchorEl(null);
   }
-
-  function handleClickOpen() {
-    setOpenDialog(true);
-  }
-
-  const handleCloseDialog = value => {
-    setOpenDialog(false);
-  };
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -162,7 +151,7 @@ export default function FormStepper(props) {
         <div className="form-stepper-actions">
           {
             props.saveLabel !== undefined ?
-              <Button className="form-stepper-complete-button" color={props.color}>
+              <Button onClick={() => props.saveAction()} className="form-stepper-complete-button" color={props.color}>
                 {props.saveLabel}
               </Button>
             :
@@ -175,9 +164,9 @@ export default function FormStepper(props) {
       </div>
       <div>
         {allStepsCompleted() ? (
-          <Dialog onClose={handleCloseDialog} aria-labelledby="simple-dialog-title" open={openDialog}>
-            {props.finalMessage}
-          </Dialog>
+          <div className="form-stepper-all-completed-container">
+
+          </div>
         ) : (
           <div className="form-stepper-content">
             {getStepContent(activeStep)}

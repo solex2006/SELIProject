@@ -326,3 +326,7 @@
 .MuiFab-extended {
   width: 48px !important;
 }
+
+.navigation-snackbar {
+  z-index: 1300 !important;
+}

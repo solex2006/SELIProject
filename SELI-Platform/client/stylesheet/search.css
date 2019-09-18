@@ -14,7 +14,7 @@
 }
 
 .app-bar-search-paper {
-  width: calc(70% - 200px) !important;
+  width: calc(80% - 50px) !important;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -7,10 +7,17 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import administrationOptions from '../../../lib/administrationOptions';
-import toCamelCase from '../../../lib/toCamelCase';
+import tutorProfile from '../../../lib/tutorProfile';
+
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaGlobe } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
 
 import { MdMenu } from "react-icons/md";
 
@@ -20,7 +27,7 @@ export default class MainMenu extends React.Component {
     this.state = {
       menuWidth: '305px',
       menuOpen: false,
-      options: administrationOptions,
+      options: [],
     }
   }
 
@@ -42,8 +49,22 @@ export default class MainMenu extends React.Component {
     });
   };
 
-  showComponent(option){
+  showComponent(component){
     this.closeMenu();
+    this.props.showComponent(component);
+  }
+
+  componentDidMount(){
+    if (this.props.user.profile.type === 'tutor') {
+      this.setState({
+        options: tutorProfile,
+      })
+    }
+  }
+
+  redirect = url => {
+    var win = window.open(url, '_blank');
+    win.focus();
   }
 
   render() {
@@ -52,7 +73,6 @@ export default class MainMenu extends React.Component {
         <Menu
           pageWrapId={ "page-wrap" }
           outerContainerId={ "outer-container" }
-          width={ this.state.menuWidth }
           isOpen={ this.state.menuOpen }
           customBurgerIcon={
             <MdMenu
@@ -61,7 +81,8 @@ export default class MainMenu extends React.Component {
             />
           }
           onStateChange={(state) => this.handleMenuStateChange(state)}>
-          <div onClick={() => this.showComponent("")} className="menu-title">Main menu</div>
+          <div onClick={() => this.showComponent("home")} className="menu-title">SELI LEARNING PLATFORM</div>
+          <Divider className="user-menu-profile-divider" light={true}/>
           <div className="options-container">
             {
               this.state.options.map(options => {
@@ -83,7 +104,7 @@ export default class MainMenu extends React.Component {
                         {
                           options.suboptions.map(suboptions => {
                             return(
-                              <div onClick={() => this.showComponent(suboptions.label)} className="sub-menu-option">{suboptions.label}</div>
+                              <div onClick={() => this.showComponent(suboptions.component)} className="sub-menu-option">{suboptions.label}</div>
                             )
                           })
                         }
@@ -93,6 +114,14 @@ export default class MainMenu extends React.Component {
                 )
               })
             }
+            <div className="main-menu-social-container">
+              <IconButton onClick={() => this.redirect('http://seliproject.org/')} className="social-icon-button">
+                <FaGlobe/>
+              </IconButton>
+              <IconButton onClick={() => this.redirect('https://www.facebook.com/SELIProject/?ref=br_rs')} className="social-icon-button">
+                <FaFacebookSquare/>
+              </IconButton>
+            </div>
             <div className="options-padding" style={{height: '5vh'}}></div>
           </div>
         </Menu>

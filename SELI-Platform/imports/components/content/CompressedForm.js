@@ -18,46 +18,59 @@ export default class CompressedForm extends React.Component {
     super(props);
     this.state = {
       showLibrary: false,
+      attributes: {
+        compressed: undefined,
+        instruction: '',
+      }
     }
   }
 
-  clearInputs(){
-    this.setState({
-      file: undefined,
-      showPreview: false,
-      showGallery: false,
-    });
+  validateContent = (content) => {
+    if (content.compressed === undefined) {
+      console.log("upload or url");
+      return false;
+    }
+    if (content.instruction === '') {
+      console.log("enter a instruction");
+      return false;
+    }
+    return true;
   }
 
   getCompressedAttributes(){
-    let compressed = this.state.file;
-    let instruction = this.state.innerHTML;
-    let compressedContent = {
-      compressed: compressed,
-      instruction: instruction,
-    };
-    this.clearInputs();
-    return compressedContent;
+    let compressedContent = this.state.attributes;
+    if (this.validateContent(compressedContent)) {
+      return compressedContent;
+    }
+    else {
+      return undefined;
+    }
   }
 
   getFileInformation(file){
+    let attributes = this.state.attributes;
+    attributes.compressed = file;
     this.setState({
-      file: file,
+      attributes: attributes,
       showPreview: true,
       showGallery: false,
     });
   }
 
   unPickFile(){
+    let attributes = this.state.attributes;
+    attributes.compressed = undefined;
     this.setState({
       showPreview: false,
-      file: undefined,
-    })
+      attributes: attributes,
+    });
   }
 
   getInnerHtml(innerHTML){
+    let attributes = this.state.attributes;
+    attributes.instruction = innerHTML;
     this.setState({
-      innerHTML: innerHTML,
+      attributes: attributes,
     });
   }
 
@@ -82,13 +95,13 @@ export default class CompressedForm extends React.Component {
       <div>
         {
           !this.state.showGallery ?
-          <div id="dialog-max-height" className="dialog-form-container">
-            <div className="media-gallery-button-container">
-              <Fab onClick={() => this.showLibrary()}>
-                <FolderSpecialIcon/>
-              </Fab>
-              <p className="media-fab-text">Open library</p>
-            </div>
+            <div id="dialog-max-height" className="dialog-form-container">
+              <div className="media-gallery-button-container">
+                <Fab onClick={() => this.showLibrary()}>
+                  <FolderSpecialIcon/>
+                </Fab>
+                <p className="media-fab-text">Open library</p>
+              </div>
               {
                 !this.state.showPreview ?
                   <div className="form-file-container">
@@ -101,7 +114,7 @@ export default class CompressedForm extends React.Component {
                   </div>
                 :
                 <CompressedPreview
-                  file={this.state.file}
+                  file={this.state.attributes.compressed}
                   unPickFile={this.unPickFile.bind(this)}
                 />
               }
@@ -111,6 +124,7 @@ export default class CompressedForm extends React.Component {
                   <Editor
                     areaHeight="25vh"
                     buttonLabels={false}
+                    innerHTML={this.state.attributes.instruction}
                     addLinks={true}
                     getInnerHtml={this.getInnerHtml.bind(this)}
                   />

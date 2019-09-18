@@ -1,29 +1,51 @@
 import React from 'react';
-import LinkA11Y from '../accessibility/LinkAccessibilityForm';
+import Editor from '../inputs/editor/Editor';
+import TextField from '@material-ui/core/TextField';
 
 export default class LinkForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      attributes: {
+        url: '',
+        description: '',
+      }
     }
   }
 
-  clearInputs(){
-
+  handleChange = name => event => {
+    let attributes = this.state.attributes;
+    if (name === "url") {
+      attributes.url = event.target.value;
+    }
+    this.setState({
+      attributes: attributes,
+    }, () => console.log(this.state.attributes));
   }
 
   getLinkAttributes(){
-    let content = this.state.innerHTML;
-    let linkContent = {
-      content: content,
-    };
-    return linkContent;
+    let linkContent = this.state.attributes;
+    if (this.validateContent(linkContent) ) {
+      return linkContent;
+    }
+    else {
+      return undefined;
+    }
+  }
+
+  validateContent = (content) => {
+    if (content.url === '' || content.description === '') {
+      console.log("required");
+      return false;
+    }
+    return true;
   }
 
   getInnerHtml(innerHTML){
+    let attributes = this.state.attributes;
+    attributes.description = innerHTML;
     this.setState({
-      innerHTML: innerHTML,
+      attributes: attributes,
     });
   }
 
@@ -34,8 +56,27 @@ export default class LinkForm extends React.Component {
   render() {
     return(
       <div className="link-content-form-container">
+        <TextField
+          id="title-input"
+          label="Url"
+          placeholder="https://"
+          margin="normal"
+          variant="outlined"
+          value={this.state.attributes.url}
+          onChange={this.handleChange('url')}
+          required
+          className="form-padding-dialog-input"
+        />
+        <div className="padding-center-row">
+          <p className="form-message">Text describing where the link is going: </p>
+        </div>
         <div className="editor-block">
-          <LinkA11Y
+          <Editor
+            areaHeight='20vh'
+            innerHTML={this.state.attributes.description}
+            buttonLabels={false}
+            addLinks={false}
+            getInnerHtml={this.getInnerHtml.bind(this)}
           />
         </div>
       </div>

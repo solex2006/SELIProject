@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 
-import AppBar from '../../components/navigation/AppBar';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import theme from '../../style/theme';
 import Loading from '../../components/tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
 import Table from '../tutor/Table';
 
 import SchoolIcon from '@material-ui/icons/School';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+import UnarchiveIcon from '@material-ui/icons/Unarchive';
 import TabIcon from '@material-ui/icons/Tab';
 
 export default class CoursesList extends React.Component {
@@ -22,12 +18,12 @@ export default class CoursesList extends React.Component {
   }
 
   componentDidMount() {
-    this.getMyCourses('mateo1309');
+    this.getMyCourses(this.props.user.username);
   }
 
   getMyCourses = (user) => {
     Tracker.autorun(() => {
-      let myCourses = Courses.find({createdBy: user}).fetch();
+      let myCourses = Courses.find({createdBy: user, published: true}).fetch();
       this.setState({
         myCourses: myCourses,
       }, () => {
@@ -42,11 +38,7 @@ export default class CoursesList extends React.Component {
     console.log(_id);
   }
 
-  edit = (_id) => {
-
-  }
-
-  delete = (_id) => {
+  unpublish = (_id) => {
 
   }
 
@@ -61,8 +53,7 @@ export default class CoursesList extends React.Component {
     ];
     let menuOptions = [
       {label: "Course preview", icon: <TabIcon/>, action: this.preview.bind(this)},
-      {label: "Delete course" , icon: <DeleteIcon/>, action: this.delete.bind(this)},
-      {label: "Edit course" , icon: <EditIcon/>, action: this.edit.bind(this)},
+      {label: "Unpublish course" , icon: <UnarchiveIcon/>, action: this.unpublish.bind(this)},
     ];
     myCourses.map(course => {
       tableData.push({title: course.title, organization: course.organization.label, duration: `${course.duration} hours`, creationDate: course.creationDate.toDateString(), _id: course._id})
@@ -80,30 +71,26 @@ export default class CoursesList extends React.Component {
 
   render() {
     return(
-      <div>
-        <MuiThemeProvider theme={theme}>
-          <AppBar/>
-          <div className="management-container">
-            {
-              this.state.loading ?
-                <div className="loading-course-container">
-                  <Loading message="Loading my courses..."/>
-                </div>
-              :
-              <div className="management-result-container">
-                <p className="management-title">My courses <SchoolIcon className="management-title-icon"/></p>
-                <div className="management-table-container">
-                  <Table
-                    labels={{pagination: 'Courses per page:', plural: 'courses'}}
-                    headRows={this.state.headRows}
-                    menuOptions={this.state.menuOptions}
-                    tableData={this.state.tableData}
-                  />
-                </div>
-              </div>
-            }
+      <div className="management-container">
+        {
+          this.state.loading ?
+            <div className="loading-course-container">
+              <Loading message="Loading my courses..."/>
+            </div>
+          :
+          <div className="management-result-container">
+            <p className="management-title">My published courses <SchoolIcon className="management-title-icon"/></p>
+            <div className="management-table-container">
+              <Table
+                labels={{pagination: 'Courses per page:', plural: 'courses'}}
+                headRows={this.state.headRows}
+                menuOptions={this.state.menuOptions}
+                tableData={this.state.tableData}
+                delete={false}
+              />
+            </div>
           </div>
-        </MuiThemeProvider>
+        }
       </div>
     )
   }

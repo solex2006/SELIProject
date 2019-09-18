@@ -62,8 +62,11 @@ export default class ActivityItem extends React.Component {
                       <ExpansionPanelDetails className="item-quiz-detail">
                         <div className="item-quiz-detail-container">
                           <p className="activity-instruction-title">Instructions:</p>
-                          <div className="activity-item-container-instruction">
-                            {this.props.item.attributes.instruction}
+                          <div
+                            className="activity-item-container-instruction"
+                            dangerouslySetInnerHTML={{__html: this.props.item.attributes.instruction}}
+                          >
+
                           </div>
                           {
                             this.props.item.attributes.type === 'upload' ?

@@ -23,15 +23,21 @@ import Fab from '@material-ui/core/Fab';
 import MicIcon from '@material-ui/icons/Mic';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import AudioRecorder from '../tools/AudioRecorder';
+import TextField from '@material-ui/core/TextField';
 
 export default class AudioForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alignment: 'row',
-      description: true,
       showLibrary: false,
-      audioType: 'upload',
+      attributes: {
+        audio: undefined,
+        source: 'upload',
+        title: '',
+        externalLink: '',
+        hasDescription: true,
+        description: '',
+      },
     }
   }
 
@@ -41,61 +47,73 @@ export default class AudioForm extends React.Component {
     });
   }
 
-  handleChange = (event) => {
+  handleChange = name => event => {
+    let attributes = this.state.attributes;
+    if (name === "hasDescription") {
+      attributes.hasDescription = !attributes.hasDescription;
+    }
+    if (name === "title") {
+      attributes.title = event.target.value;
+    }
+    if (name === "externalLink") {
+      attributes.externalLink = event.target.value;
+    }
     this.setState({
-      description: !this.state.description,
-    });
+      attributes: attributes,
+    }, () => console.log(this.state.attributes));
   }
 
-  clearInputs(){
+  getInnerHtml(innerHTML){
+    let attributes = this.state.attributes;
+    attributes.description = innerHTML;
     this.setState({
-      file: undefined,
-      showPreview: false,
-      showGallery: false,
-      description: false,
+      attributes: attributes,
     });
   }
 
   getAudioAttributes(){
-    let audio = this.state.file;
-    let alignment = this.state.alignment;
-    let description = '';
-    let descriptionWidth = "calc(100% - 500px)";
-    if (this.state.description) {
-      description = this.state.innerHTML;
+    let audioContent = this.state.attributes;
+    if (this.validateContent(audioContent) ) {
+      return audioContent;
     }
-    if (this.state.alignment !== "row" && this.state.alignment !== "row-reverse") {
-      descriptionWidth = "100%";
+    else {
+      return undefined;
     }
-    let imageContent = {
-      audio: audio,
-      description: description,
-      alignment: alignment,
-      descriptionWidth: descriptionWidth,
-    };
-    this.clearInputs();
-    return imageContent;
+  }
+
+  validateContent = (content) => {
+    if (content.title === '') {
+      console.log("required");
+      return false;
+    }
+    if (content.audio === undefined) {
+      console.log("upload or url");
+      return false;
+    }
+    if (content.hasDescription && content.description === '') {
+      console.log("enter a description or turn off");
+      return false;
+    }
+    return true;
   }
 
   getFileInformation(file){
+    let attributes = this.state.attributes;
+    attributes.audio = file;
     this.setState({
-      file: file,
+      attributes: attributes,
       showPreview: true,
       showGallery: false,
     });
   }
 
   unPickFile(){
+    let attributes = this.state.attributes;
+    attributes.audio = undefined;
     this.setState({
       showPreview: false,
-      file: undefined,
+      attributes: attributes,
     })
-  }
-
-  getInnerHtml(innerHTML){
-    this.setState({
-      innerHTML: innerHTML,
-    });
   }
 
   showLibrary(){
@@ -115,8 +133,10 @@ export default class AudioForm extends React.Component {
   }
 
   selectType(value){
+    let attributes = this.state.attributes;
+    attributes.source = value;
     this.setState({
-      audioType: value,
+      attributes: attributes,
     });
   }
 
@@ -124,7 +144,7 @@ export default class AudioForm extends React.Component {
     return(
       <div>
         {
-          this.state.audioType === "upload" && !this.state.showGallery ?
+          this.state.attributes.source === "upload" && !this.state.showGallery ?
             <div className="media-gallery-tab-button-container">
               <Fab onClick={() => this.showLibrary()}>
                 <FolderSpecialIcon/>
@@ -136,11 +156,11 @@ export default class AudioForm extends React.Component {
         }
         {
           !this.state.showGallery ?
-            <div id="dialog-max-height" className="dialog-form-container">
+            <div id="dialog-max-height" className="dialog-form-container-large">
               <Paper square>
                 <Tabs
                   color="primary"
-                  value={this.state.audioType}
+                  value={this.state.attributes.source}
                   indicatorColor="primary"
                   textColor="primary"
                   className="form-tabs-container"
@@ -151,69 +171,72 @@ export default class AudioForm extends React.Component {
                   <Tab value={'record'} onClick={() => {this.selectType('record'); this.unPickFile()}} className="form-tab" label="Record audio" icon={<MicIcon />} />
                 </Tabs>
               </Paper>
-              {
-                !this.state.showPreview ?
-                  <div className="form-file-container">
-                    {
-                      this.state.audioType === 'upload' ?
-                        <FileUpload
-                          type="audio"
-                          accept={'audio/*'}
-                          label={'Click the button to upload an audio'}
-                          getFileInformation={this.getFileInformation.bind(this)}
+              <div className="dialog-columns-container">
+                <div className="course-creator-file-form-column">
+                  {
+                    !this.state.showPreview ?
+                      <div className="form-file-container">
+                        {
+                          this.state.attributes.source === 'upload' ?
+                            <FileUpload
+                              type="audio"
+                              accept={'audio/*'}
+                              label={'Click the button to upload an audio'}
+                              getFileInformation={this.getFileInformation.bind(this)}
+                            />
+                          :
+                          <AudioRecorder
+                            getFileInformation={this.getFileInformation.bind(this)}
+                          />
+                        }
+                      </div>
+                    :
+                    <AudioPreview
+                      file={this.state.attributes.audio}
+                      unPickFile={this.unPickFile.bind(this)}
+                    />
+                  }
+                </div>
+                <div className="course-creator-form-column">
+                  <div className="course-creator-input-container">
+                    <TextField
+                      id="title-input"
+                      label="Audio title"
+                      margin="normal"
+                      variant="outlined"
+                      value={this.state.attributes.title}
+                      onChange={this.handleChange('title')}
+                      required
+                      className="form-padding-dialog-input"
+                    />
+                    <TextField
+                      id="link-input"
+                      label="External link"
+                      value={this.state.attributes.externalLink}
+                      onChange={this.handleChange('externalLink')}
+                      margin="normal"
+                      variant="outlined"
+                      className="form-padding-dialog-input"
+                    />
+                    <div className="margin-center-row">
+                      <FormGroup>
+                        <FormControlLabel
+                          control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
+                          label={<p className="form-label">Audio with text description</p>}
                         />
-                      :
-                      <AudioRecorder
-                        getFileInformation={this.getFileInformation.bind(this)}
+                      </FormGroup>
+                    </div>
+                    <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
+                      <Editor
+                        areaHeight='20vh'
+                        buttonLabels={false}
+                        innerHTML={this.state.attributes.description}
+                        addLinks={true}
+                        getInnerHtml={this.getInnerHtml.bind(this)}
                       />
-                    }
+                    </div>
                   </div>
-                :
-                <AudioPreview
-                  file={this.state.file}
-                  unPickFile={this.unPickFile.bind(this)}
-                />
-              }
-              <div className="margin-center-row">
-                <FormGroup>
-                  <FormControlLabel
-                    control={<Switch size="small" onChange={() => this.handleChange('description')} checked={this.state.description}/>}
-                    label={<p className="form-label">Audio with text description</p>}
-                  />
-                </FormGroup>
-                <p className="form-label">Audio position:</p>
-                <Grid item>
-                  <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
-                    <ToggleButton disabled={!this.state.description} key={1} value="row" onClick={() => this.alignmentHandleChange("row")}>
-                      <Tooltip title="Left side">
-                        <VerticalSplitIcon className="toggle-button-icon"/>
-                      </Tooltip>
-                    </ToggleButton>
-                    <ToggleButton disabled={!this.state.description} key={2} value="row-reverse" onClick={() => this.alignmentHandleChange("row-reverse")}>
-                      <Tooltip style={{transform: "rotate(180deg)"}} title="Right side">
-                        <VerticalSplitIcon className="toggle-button-icon"/>
-                      </Tooltip>
-                    </ToggleButton>
-                    <ToggleButton disabled={!this.state.description} key={3} value="column-reverse" onClick={() => this.alignmentHandleChange("column-reverse")}>
-                      <Tooltip title="Up">
-                        <HorizontalSplitIcon className="toggle-button-icon"/>
-                      </Tooltip>
-                    </ToggleButton>
-                    <ToggleButton disabled={!this.state.description} key={4} value="column" onClick={() => this.alignmentHandleChange("column")}>
-                      <Tooltip title="Down">
-                        <HorizontalSplitIcon style={{transform: "rotate(180deg)"}} className="toggle-button-icon"/>
-                      </Tooltip>
-                    </ToggleButton>
-                  </ToggleButtonGroup>
-                </Grid>
-              </div>
-              <div style={this.state.description ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
-                <Editor
-                  areaHeight={'10vh'}
-                  buttonLabels={false}
-                  addLinks={true}
-                  getInnerHtml={this.getInnerHtml.bind(this)}
-                />
+                </div>
               </div>
             </div>
           :

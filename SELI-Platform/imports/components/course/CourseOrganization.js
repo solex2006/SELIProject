@@ -209,7 +209,7 @@ export default class CourseOrganization extends React.Component {
                         this.state.addSubunit ?
                           <TextField
                             id="subunit-input"
-                            label={`${this.state.selectedOrganization.unit} name`}
+                            label={`${this.state.selectedOrganization.subunit} name`}
                             margin="normal"
                             variant="outlined"
                             className="form-dialog-input"

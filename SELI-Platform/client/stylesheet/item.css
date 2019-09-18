@@ -251,6 +251,12 @@
 .link-content-item {
   width: calc(100% - var(--menu-item-width));
   height: auto;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.link-content-item:hover {
+  color: var(--primary);
 }
 
 .link-item-container-html {
@@ -534,4 +540,8 @@
 .course-creator-item-video-card-preview-player {
   width: 480px !important;
   height: 270px !important;
+}
+
+.course-item-audio-card {
+  width: 500px !important;
 }

@@ -18,46 +18,59 @@ export default class PdfForm extends React.Component {
     super(props);
     this.state = {
       showLibrary: false,
+      attributes: {
+        pdf: undefined,
+        instruction: '',
+      }
     }
   }
 
-  clearInputs(){
-    this.setState({
-      file: undefined,
-      showPreview: false,
-      showGallery: false,
-    });
+  validateContent = (content) => {
+    if (content.pdf === undefined) {
+      console.log("upload or url");
+      return false;
+    }
+    if (content.instruction === '') {
+      console.log("enter a instruction");
+      return false;
+    }
+    return true;
   }
 
   getPdfAttributes(){
-    let pdf = this.state.file;
-    let instruction = this.state.innerHTML;
-    let pdfContent = {
-      pdf: pdf,
-      instruction: instruction,
-    };
-    this.clearInputs();
-    return pdfContent;
+    let pdfContent = this.state.attributes;
+    if (this.validateContent(pdfContent) ) {
+      return pdfContent;
+    }
+    else {
+      return undefined;
+    }
   }
 
   getFileInformation(file){
+    let attributes = this.state.attributes;
+    attributes.pdf = file;
     this.setState({
-      file: file,
+      attributes: attributes,
       showPreview: true,
       showGallery: false,
     });
   }
 
   unPickFile(){
+    let attributes = this.state.attributes;
+    attributes.pdf = undefined;
     this.setState({
       showPreview: false,
-      file: undefined,
-    })
+      attributes: attributes,
+    });
   }
 
   getInnerHtml(innerHTML){
+    let attributes = this.state.attributes;
+    attributes.instruction = innerHTML;
     this.setState({
-      innerHTML: innerHTML,
+      attributes: attributes,
     });
   }
 
@@ -101,7 +114,7 @@ export default class PdfForm extends React.Component {
                   </div>
                 :
                 <PdfPreview
-                  file={this.state.file}
+                  file={this.state.attributes.pdf}
                   unPickFile={this.unPickFile.bind(this)}
                 />
               }
@@ -111,6 +124,7 @@ export default class PdfForm extends React.Component {
                   <Editor
                     areaHeight="25vh"
                     buttonLabels={false}
+                    innerHTML={this.state.attributes.instruction}
                     addLinks={true}
                     getInnerHtml={this.getInnerHtml.bind(this)}
                   />

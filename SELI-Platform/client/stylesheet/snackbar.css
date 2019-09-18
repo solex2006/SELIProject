@@ -1,0 +1,5 @@
+.control-snackbar .MuiSnackbarContent-root{
+  background-color: var(--app-bar-color) !important;
+  color: var(--white) !important;
+  letter-spacing: 1px !important;
+}

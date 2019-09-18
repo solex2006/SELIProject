@@ -26,14 +26,16 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-menu-wrap {
   position: fixed;
   height: 100%;
+  width: 350px !important;
 }
 
 /* General sidebar styles */
 .bm-menu {
-  background: var(--menu-color);
+  background: var(--app-bar-color);
   font-size: var(--menu-font-size);
   overflow-y: scroll;
   overflow-x: hidden !important;
+  width: auto;
 }
 
 .bm-menu::-webkit-scrollbar {
@@ -86,15 +88,25 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .menu-title {
   display: flex;
-  width: 100%;
+  letter-spacing: 2px;
   height: auto;
   font-size: 1.2em;
   text-align: center;
   text-transform: uppercase;
   color: var(--white);
-  margin-top: 7.5vh;
+  margin-top: 5vh;
+  margin-bottom: 3.5vh;
   transition: 0.5s;
   text-decoration: none;
+  padding: 0 5vw;
+}
+
+.primary-color-text {
+  color: var(--primary);
+}
+
+.secondary-color-text {
+  color: var(--secondary);
 }
 
 .menu-title:hover {
@@ -104,19 +116,25 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .options-container {
   width: 100%;
   height: auto;
-  margin-top: 5vh;
+  margin-top: 2.5vh;
 }
 
 .menu-expansion-panel {
   color: #FFF !important;
   font-family: 'Lato', sans-serif !important;
-  background-color: var(--menu-color) !important;
+  background: var(--app-bar-color) !important;
+  letter-spacing: 1px !important;
+}
+
+.bm-item-list {
+  height: auto !important;
 }
 
 .menu-expansion-summary {
   padding: 0 !important;
-  background-color: var(--menu-color) !important;
+  background: var(--app-bar-color) !important;
   color: #FFF;
+  letter-spacing: 1px !important;
 }
 
 .MuiExpansionPanelDetails-root {
@@ -125,10 +143,11 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .menu-option {
   text-indent: 1vw !important;
+  letter-spacing: 1px !important;
 }
 
 .sub-menu-container {
-  background-color: var(--menu-color);
+  background: var(--app-bar-color) !important;
 }
 
 .menu-expand-more-icon {
@@ -141,13 +160,14 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .sub-menu-option {
   display: flex;
-  width: 300px;
+  width: 350px;
   height: auto;
   text-indent: var(--menu-indent);
   transition: 0.5s;
   padding: 2vh 0;
+  letter-spacing: 1px !important;
   font-size: var(--sub-option-font-size);
-  background-color: var(--menu-color);
+  background: var(--app-bar-color);
   text-decoration: none;
   color: #FFF;
   font-family: 'Lato', sans-serif !important;
@@ -155,6 +175,20 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .sub-menu-option:hover {
   cursor: pointer;
-  background-color: var(--menu-hover);
+  color: var(--primary);
+  background: var(--menu-hover);
   text-indent: calc(var(--menu-indent) + 0.5vw);
+}
+
+.main-menu-social-container {
+  width: calc(350px - 5vw);
+  height: auto;
+  padding: 1.5vh 2.5vw;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.social-icon-button {
+  color: var(--white) !important;
 }

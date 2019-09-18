@@ -60,14 +60,19 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'Select all desserts' }}
-          />
-        </TableCell>
+        {
+          props.delete ?
+            <TableCell padding="checkbox">
+              <Checkbox
+                indeterminate={numSelected > 0 && numSelected < rowCount}
+                checked={numSelected === rowCount}
+                onChange={onSelectAllClick}
+                inputProps={{ 'aria-label': 'Select all desserts' }}
+              />
+            </TableCell>
+          :
+            undefined
+        }
         {props.headRows.map(row => (
           <TableCell
             key={row.id}
@@ -296,6 +301,7 @@ export default function EnhancedTable(props) {
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
               headRows={props.headRows}
+              delete={props.delete}
             />
             <TableBody>
               {stableSort(rows, getSorting(order, orderBy))
@@ -312,13 +318,18 @@ export default function EnhancedTable(props) {
                       key={row._id}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          onClick={event => handleClick(event, row._id)}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
-                      </TableCell>
+                      {
+                        props.delete ?
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              checked={isItemSelected}
+                              onClick={event => handleClick(event, row._id)}
+                              inputProps={{ 'aria-labelledby': labelId }}
+                            />
+                          </TableCell>
+                        :
+                          undefined
+                      }
                       {props.headRows.map((cell, index) => {
                         return(
                           <TableCell align={cell.numeric ? "right" : "left"} component="th" id={labelId} scope="row" padding="none">

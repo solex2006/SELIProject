@@ -7,6 +7,10 @@
   height: 200px;
 }
 
+.audio-record-container canvas {
+  width: 90% !important;
+}
+
 .recorder-actions {
   margin-top: 2.5vh;
   display: flex;

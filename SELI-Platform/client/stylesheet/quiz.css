@@ -1,11 +1,16 @@
 .quiz-form {
-  width: 950px;
   animation: fadeIn 0.5s;
   padding: 1.5vh 2.5%;
 }
 
-.question-input-container{
+.quiz-header-container {
+  padding-top: 1.75vh;
   width: 100%;
+}
+
+.quiz-input-container{
+  width: 95%;
+  padding: 0 2.5%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -17,10 +22,20 @@
   animation-delay: 0.5s;
 }
 
-.question-input {
-  width: 30vw !important;
-  margin: 1.5vh 0 !important;
-  margin-right: 1vw !important;
+.quiz-input {
+  width: 49% !important;
+  margin: 0.5vh 0.5% !important;
+}
+
+.quiz-form-control {
+  width: 49% !important;
+  margin: 0.5vh 0.5% !important;
+}
+
+.quiz-form-control .MuiFormControlLabel-root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .close-icon {
@@ -39,4 +54,47 @@
   display: flex;
   justify-content: flex-end;
   animation: fadeIn 1s;
+}
+
+.large-form-fab {
+  width: auto !important;
+}
+
+.form-dialog-question-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1.5vh;
+}
+
+.form-dialog-question-button {
+  width: 5% !important;
+  min-width: 5px !important;
+  margin: 0 2px !important;
+}
+
+.form-dialog-question-button-container-text {
+  font-size: 0.85em;
+  letter-spacing: 1px;
+  color: #616161;
+  margin-right: 1vw;
+}
+
+.form-dialog-selected-question-input-container {
+  width: 95%;
+  padding: 0vh 2.5%;
+}
+
+.form-dialog-question-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.answer-input {
+  margin: 2px !important;
+}
+
+.answer-input .MuiOutlinedInput-adornedEnd{
+  padding-right: 2px !important;
 }

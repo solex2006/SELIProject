@@ -26,8 +26,8 @@ export default class PdfItem extends React.Component {
     return(
       <div className="content-box">
         <div className="file-content-item">
-          <div id={this.props.item.attributes.pdf.id+"container"+this.props.item.id} className="pdf-item-container" style={{justifyContent: this.props.item.attributes.alignment}}>
-            <div id={ this.props.item.attributes.pdf.id+this.props.item.id } className="pdf-item">
+          <div className="pdf-item-container">
+            <div className="pdf-item">
               <FileDial
                 type={this.props.item.type}
                 color={'primary'}
@@ -38,7 +38,6 @@ export default class PdfItem extends React.Component {
             <div className="item-instruction-column">
               <p className="instruction-title">Instructions:</p>
               <div
-                id={this.props.item.attributes.pdf.id + "instruction" + this.props.item.id}
                 className="pdf-item-instruction"
                 dangerouslySetInnerHTML={{__html: this.props.item.attributes.instruction}}
               >

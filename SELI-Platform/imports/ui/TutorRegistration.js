@@ -4,7 +4,6 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
 import FormStepper from '../components/navigation/FormStepper';
-import MessageCard from '../../imports/components/tools/MessageCard';
 import MainMenu from '../components/navigation/MainMenu';
 import AppBar from '../components/navigation/AppBar';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -119,12 +118,10 @@ export default class Test extends React.Component {
   }
 
   createTutor = (information) => {
-    console.log(information.password);
     Accounts.createUser({
       username: information.username,
       password: information.password,
       email: information.email,
-      password: 'string',
       profile: {
         fullname: information.fullname,
         biography: information.biography,
@@ -142,7 +139,7 @@ export default class Test extends React.Component {
         this.handleError(error);
       }
       else {
-        //Meteor.logout();
+        Meteor.logout();
         this.requestSent();
       }
     });
@@ -190,12 +187,6 @@ export default class Test extends React.Component {
                   finalLabel="Send request"
                   saveLabel={undefined}
                   finalAction={this.registerTutor.bind(this)}
-                  finalMessage={
-                    <MessageCard
-                      title="Course published successfully!"
-                      icon={<DoneAllIcon className="message-card-icon"/>}
-                    />
-                  }
                 />
               :
               undefined

@@ -37,7 +37,7 @@ export default class VideoForm extends React.Component {
 
   handleChange = name => event => {
     let attributes = this.state.attributes;
-    if (name === "description") {
+    if (name === "hasDescription") {
       attributes.hasDescription = !attributes.hasDescription;
     }
     if (name === "title") {
@@ -69,7 +69,7 @@ export default class VideoForm extends React.Component {
     }
   }
 
-  validateContent(content) {
+  validateContent = (content) => {
     if (content.title === '') {
       console.log("required");
       return false;
@@ -101,7 +101,7 @@ export default class VideoForm extends React.Component {
     this.setState({
       showPreview: false,
       attributes: attributes,
-    })
+    });
   }
 
   showLibrary(){
@@ -269,7 +269,7 @@ export default class VideoForm extends React.Component {
                     <div className="margin-center-row">
                       <FormGroup>
                         <FormControlLabel
-                          control={<Switch size="small" onChange={this.handleChange('description')} checked={this.state.attributes.hasDescription}/>}
+                          control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
                           label={<p className="form-label">Video with text description</p>}
                         />
                       </FormGroup>

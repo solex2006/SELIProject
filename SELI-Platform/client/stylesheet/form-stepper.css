@@ -1,8 +1,8 @@
 .form-stepper-container {
   width: 100vw;
-  position: fixed;
+  position: relative;
   top: var(--app-bar-height);
-  height: 100vh;
+  height: calc(100vh - var(--app-bar-height));
 }
 
 .form-stepper-navigation {

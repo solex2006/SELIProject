@@ -2,7 +2,8 @@
   width: 100vw;
   height: calc(100vh - var(--app-bar-height));
   top: var(--app-bar-height);
-  position: absolute;
+  position: relative;
+  overflow-x: hidden;
 }
 
 .management-result-container {

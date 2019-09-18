@@ -1,0 +1,81 @@
+.user-menu-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.5vw;
+  cursor: pointer;
+  margin-right: 0.5vw;
+}
+
+.user-menu-username {
+  color: var(--white);
+  letter-spacing: 1px;
+  margin-left: 1vw;
+  font-size: 0.85em;
+  margin-right: 1vw;
+}
+
+.user-menu-side-container {
+  width: auto;
+}
+
+.user-menu-options-container {
+  padding: 0 80px;
+  height: 100vh;
+  background-color: var(--app-bar-color) !important;
+}
+
+.user-menu-profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  padding: 3.5vh 0;
+}
+
+.user-menu-profile-avatar {
+  width: 95px !important;
+  height: 95px !important;
+  margin: 1.5vh 0 !important;
+}
+
+.user-menu-profile-type {
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 1vh 0;
+}
+
+.user-menu-profile-username {
+  font-size: 1.6em;
+  text-transform: uppercase;
+}
+
+.user-menu-profile-divider {
+  background: var(--white) !important;
+}
+
+.user-menu-option {
+  font-size: 1em;
+  letter-spacing: 2px;
+  transition: 0.5s;
+  padding: 1.5vh 0;
+  color: var(--white);
+  font-weight: 100;
+}
+
+.user-menu-option:hover {
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 100;
+}
+
+.user-menu-option-button {
+  margin-top: 5vh !important;
+  letter-spacing: 1px !important;
+}
+
+.user-menu-badge-icon {
+  color: var(--white) !important;
+}

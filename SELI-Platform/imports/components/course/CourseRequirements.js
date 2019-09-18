@@ -96,6 +96,28 @@ export default class CourseRequirements extends React.Component {
       if (audienceAllowed.length && technicalRequirements.length) {
         audienceAllowed.map(audience => {audience.selected = false});
         technicalRequirements.map(requirement => {requirement.selected = false});
+        if (this.props.courseInformation.support.length) {
+          let support = this.props.courseInformation.support;
+          for (var i = 0; i < audienceAllowed.length; i++) {
+            for (var j = 0; j < support.length; j++) {
+              if (support[j]._id === audienceAllowed[i]._id) {
+                audienceAllowed[i].selected = true;
+                break;
+              }
+            }
+          }
+        }
+        if (this.props.courseInformation.requirements.length) {
+          let requirements = this.props.courseInformation.requirements;
+          for (var i = 0; i < technicalRequirements.length; i++) {
+            for (var j = 0; j < requirements.length; j++) {
+              if (requirements[j]._id === technicalRequirements[i]._id) {
+                technicalRequirements[i].selected = true;
+                break;
+              }
+            }
+          }
+        }
         lists.push(
           {
             id: 1,

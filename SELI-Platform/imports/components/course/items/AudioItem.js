@@ -19,6 +19,11 @@ export default class AudioItem extends React.Component {
     }
   }
 
+  openExternalLink = () => {
+    var win = window.open(this.props.item.attributes.externalLink, '_blank');
+    win.focus();
+  }
+
   render() {
     return(
       <div className="content-box">
@@ -27,17 +32,17 @@ export default class AudioItem extends React.Component {
             <Card raised className="course-item-audio-card">
               <div className="course-item-audio-card-details">
                 <CardContent className="course-item-audio-card-content">
-                  <Typography component="h5" variant="h5">
-                    Audio file
+                  <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
+                    {` ${this.props.item.attributes.title}`}
                   </Typography>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    Title
+                  <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
+                    {this.props.item.attributes.source === 'upload' ? `Audio file` : `Recorded file`}
                   </Typography>
                 </CardContent>
                 <CardMedia
                   className="course-item-audio-card-image"
                   image="/audio-gra.svg"
-                  title="Live from space album cover"
+                  title={this.props.item.attributes.title}
                 />
               </div>
               <div className="course-item-audio-card-controls">
@@ -47,9 +52,14 @@ export default class AudioItem extends React.Component {
                 <IconButton className="course-item-audio-card-icon-button" aria-label="add to favorites">
                   <FolderSpecialIcon className="course-item-audio-card-icon"/>
                 </IconButton>
-                <Button className="course-item-video-card-media-button" size="small" color="primary">
-                  Learn More
-                </Button>
+                {
+                  this.props.item.attributes.externalLink !== '' ?
+                    <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
+                      Learn More
+                    </Button>
+                  :
+                    undefined
+                }
               </div>
             </Card>
             {

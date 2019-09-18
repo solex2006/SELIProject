@@ -12,13 +12,19 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormLabel from '@material-ui/core/FormLabel';
 import Divider from '@material-ui/core/Divider';
 import FileTypeSelector from '../tools/FileTypeSelector';
+import LocalActivityIcon from '@material-ui/icons/LocalActivity';
+import BackupIcon from '@material-ui/icons/Backup';
+import SubjectIcon from '@material-ui/icons/Subject';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Paper from '@material-ui/core/Paper';
+import Editor from '../inputs/editor/Editor';
+import Help from '../tools/Help';
 
 export default class ActivityForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activityType: 'storyboard',
-      restrictFileType: false,
       fileTypes: [
         {
           label: 'Pdf',
@@ -53,37 +59,50 @@ export default class ActivityForm extends React.Component {
           selected: false,
         },
       ],
+      attributes: {
+        type: 'storyboard',
+        instruction: '',
+        expanded: true,
+      }
     }
   }
 
-  handleChange = name => event => {
-    if (name === 'activityType') {
-      this.setState({
-        activityType: event.target.value,
-      });
-    }
-  }
-
-  clearInputs(){
-    document.getElementById('instruction-input').value = "";
+  selectType(value){
+    let attributes = this.state.attributes;
+    attributes.type = value;
     this.setState({
-      activityType: 'storyboard',
+      attributes: attributes,
+    });
+  }
+
+  getInnerHtml(innerHTML){
+    let attributes = this.state.attributes;
+    attributes.instruction = innerHTML;
+    this.setState({
+      attributes: attributes,
     });
   }
 
   getActivityAttributes(){
-    let type = this.state.activityType;
-    let instruction = document.getElementById('instruction-input').value;
-    let activityContent = {
-      type: type,
-      instruction: instruction,
-      expanded: true,
-    };
-    if (type === 'upload') {
+    let activityContent = this.state.attributes;
+    activityContent.expanded = true;
+    if (activityContent.type === 'upload') {
       activityContent.fileTypes = this.getFileTypes();
     }
-    this.clearInputs();
-    return activityContent;
+    if (this.validateContent(activityContent) ) {
+      return activityContent;
+    }
+    else {
+      return undefined;
+    }
+  }
+
+  validateContent = (content) => {
+    if (content.instruction === '') {
+      console.log("enter a description or turn off");
+      return false;
+    }
+    return true;
   }
 
   getFileTypes(){
@@ -144,56 +163,77 @@ export default class ActivityForm extends React.Component {
 
   render() {
     return(
-      <div className="activity-form-container">
-        <TextField
-          id="instruction-input"
-          label="Instruction"
-          margin="normal"
-          variant="outlined"
-          fullWidth
-          required
-          multiline
-          rows={3}
-          className="form-dialog-input"
-          autoFocus={true}
-        />
-        <div className="content-input-container">
-          <FormControl className="content-form-control" component="fieldset">
-            <FormLabel className="content-form-label-center" component="legend">Activity type</FormLabel>
-            <RadioGroup className="content-radio-group-center" aria-label="activity-type" name="activityType" value={this.state.activityType} onChange={this.handleChange('activityType')} row>
-              <FormControlLabel
-                value="storyboard"
-                control={<Radio color="primary" />}
-                label="Storyboard"
-                labelPlacement="end"
-                className="radio-input"
-              />
-              <FormControlLabel
-                value="upload"
-                control={<Radio color="primary" />}
-                label="Upload a file"
-                labelPlacement="end"
-                className="radio-input"
-              />
-              <FormControlLabel
-                value="text"
-                control={<Radio color="primary" />}
-                label="Text section"
-                labelPlacement="end"
-                className="radio-input"
-              />
-            </RadioGroup>
-          </FormControl>
-        </div>
+      <div className="dialog-form-container">
+        <Paper square>
+          <Tabs
+            color="primary"
+            value={this.state.attributes.type}
+            indicatorColor="primary"
+            textColor="primary"
+            className="form-tabs-container"
+            variant="fullWidth"
+            centered={true}
+          >
+            <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label="Storyboard" icon={<LocalActivityIcon />} />
+            <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label="Upload" icon={<BackupIcon />} />
+            <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label="Text section" icon={<SubjectIcon />} />
+          </Tabs>
+        </Paper>
         {
-          this.state.activityType === 'upload' ?
-            <FileTypeSelector
-              fileTypes={this.state.fileTypes}
-              pickFileType={this.pickFileType.bind(this)}
-            />
+          this.state.attributes.type === 'storyboard' ?
+            <div className="form-activity-input-contained">
+              <div className="center-row">
+                <Help
+                  helper="storyboard"
+                  text="What is a storyboard activity?"
+                />
+              </div>
+            </div>
           :
           undefined
         }
+        {
+          this.state.attributes.type === 'upload' ?
+            <div className="form-activity-input-contained">
+              <div className="center-row">
+                <Help
+                  helper="storyboard"
+                  text="What is an upload activity?"
+                />
+              </div>
+              <FileTypeSelector
+                fileTypes={this.state.fileTypes}
+                pickFileType={this.pickFileType.bind(this)}
+              />
+            </div>
+          :
+          undefined
+        }
+        {
+          this.state.attributes.type === 'section' ?
+            <div className="form-activity-input-contained">
+              <div className="center-row">
+                <Help
+                  helper="storyboard"
+                  text="What is a text section activity?"
+                />
+              </div>
+            </div>
+          :
+          undefined
+        }
+        <div className="center-row">
+          <p className="form-message">Write the instruction that the student must follow</p>
+        </div>
+        <div className="editor-block">
+          <Editor
+            areaHeight='20vh'
+            innerHTML={this.state.attributes.instruction}
+            buttonLabels={false}
+            addLinks={true}
+            getInnerHtml={this.getInnerHtml.bind(this)}
+          />
+        </div>
       </div>
     );
   }

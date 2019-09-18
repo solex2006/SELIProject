@@ -16,63 +16,65 @@ export default class EmbebedForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alignment: 'column',
-      description: true,
+      attributes: {
+        url: '',
+        description: '',
+        hasDescription: true,
+        alignment: 'column',
+      }
     }
   }
 
-  handleChange = (event) => {
+  handleChange = name => event => {
+    let attributes = this.state.attributes;
+    if (name === "url") {
+      attributes.url = event.target.value;
+    }
+    else if (name === "alignment") {
+      attributes.alignment = event.target.value;
+    }
+    else if (name === "hasDescription") {
+      attributes.hasDescription = !attributes.hasDescription;
+    }
     this.setState({
-      description: !this.state.description,
-    }, () => {
-      if (this.state.description) {
-        this.setState({
-          alignment: 'column',
-        });
-      }
-    });
+      attributes: attributes,
+    }, () => console.log(this.state.attributes));
   }
 
-  alignmentHandleChange = (value) => {
-    this.setState({
-      alignment: value,
-    });
+  getEmbebedAttributes(){
+    let emebedContent = this.state.attributes;
+    let size = {width: "100%", height: this.vhToPixels(100)};
+    emebedContent.size = size;
+    if (this.validateContent(emebedContent)) {
+      return emebedContent;
+    }
+    else {
+      return undefined;
+    }
   }
 
-  clearInputs(){
-    document.getElementById('url-input').value = "";
+  validateContent = (content) => {
+    if (content.url === '' || content.description === '') {
+      console.log("required");
+      return false;
+    }
+    if (content.hasDescription && content.description === '') {
+      console.log("enter a description or turn off");
+      return false;
+    }
+    return true;
+  }
+
+  getInnerHtml(innerHTML){
+    let attributes = this.state.attributes;
+    attributes.description = innerHTML;
     this.setState({
-      alignment: 'column',
+      attributes: attributes,
     });
   }
 
   vhToPixels (vh) {
     return Math.round(window.innerHeight / (100 / vh)) + 'px';
-  }
-
-  getInnerHtml(innerHTML){
-    this.setState({
-      innerHTML: innerHTML,
-    });
-  }
-
-  getEmbebedAttributes(){
-    let type = this.state.linkType;
-    let emebebedContent = {};
-    let content = this.state.innerHTML;
-    let url = document.getElementById('url-input').value;
-    let alignment = this.state.alignment;
-    let size = {width: "100%", height: this.vhToPixels(100)};
-    let description = this.state.description;
-    emebebedContent = {
-      content: content,
-      url: url,
-      alignment: alignment,
-      size: size,
-      description: description,
-    };
-    this.clearInputs();
-    return emebebedContent;
   }
 
   componentDidMount(){
@@ -87,27 +89,30 @@ export default class EmbebedForm extends React.Component {
           label="Url"
           margin="normal"
           variant="outlined"
+          placeholder="https://"
           fullWidth
           required
           className="form-dialog-input"
+          value={this.state.attributes.url}
+          onChange={this.handleChange('url')}
           autoFocus={true}
         />
         <div className="margin-center-row">
           <FormGroup>
             <FormControlLabel
-              control={<Switch size="small" onChange={() => this.handleChange('description')} checked={this.state.description}/>}
+              control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
               label={<p className="form-label">Add a text description</p>}
             />
           </FormGroup>
           <p className="form-label">Text position:</p>
           <Grid item>
-            <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
-              <ToggleButton disabled={!this.state.description} key={1} value="column" onClick={() => this.alignmentHandleChange("column")}>
+            <ToggleButtonGroup onChange={this.handleChange('alignment')} size="small" value={this.state.attributes.alignment} exclusive>
+              <ToggleButton className="toggle-button" disabled={!this.state.attributes.hasDescription} key={1} value="column">
                 <Tooltip title="Up">
                   <HorizontalSplitIcon className="toggle-button-icon"/>
                 </Tooltip>
               </ToggleButton>
-              <ToggleButton disabled={!this.state.description} key={2} value="column-reverse" onClick={() => this.alignmentHandleChange("column-reverse")}>
+              <ToggleButton className="toggle-button" disabled={!this.state.attributes.hasDescription} key={2} value="column-reverse">
                 <Tooltip title="Down">
                   <HorizontalSplitIcon style={{transform: "rotate(180deg)"}} className="toggle-button-icon"/>
                 </Tooltip>
@@ -115,11 +120,12 @@ export default class EmbebedForm extends React.Component {
             </ToggleButtonGroup>
           </Grid>
         </div>
-        <div style={this.state.description ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
+        <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
           <Editor
             areaHeight="20vh"
             buttonLabels={false}
-            addLinks={true}
+            innerHTML={this.state.attributes.description}
+            addLinks={false}
             getInnerHtml={this.getInnerHtml.bind(this)}
           />
         </div>

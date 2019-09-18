@@ -153,7 +153,7 @@
   text-align: justify;
   animation: fadeIn 0.75s;
   animation-fill-mode: backwards;
-  animation-delay: 0.5s;
+  animation-delay: 0.15s;
 }
 
 .success-dialog-content {
@@ -167,6 +167,15 @@
   margin-top: 2.5vh !important;
   font-size: 3.75em !important;
   color: #4caf50 !important;
+  animation: tada 1.25s;
+  animation-fill-mode: backwards;
+  animation-delay: 1s;
+}
+
+.warning-dialog-icon {
+  margin-top: 2.5vh !important;
+  font-size: 3.75em !important;
+  color: #ffc107 !important;
   animation: tada 1.25s;
   animation-fill-mode: backwards;
   animation-delay: 1s;

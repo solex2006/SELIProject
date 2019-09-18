@@ -88,3 +88,12 @@
 .MuiToggleButton-root:last-child {
   padding-left: 8px !important;
 }
+
+.toggle-button .MuiToggleButton-label {
+  pointer-events: none !important;
+}
+
+.form-activity-input-contained {
+  padding: 3vh 0;
+  margin-top: 1.5vh;
+}

@@ -22,7 +22,7 @@ export default class VideoItem extends React.Component {
     }
   }
 
-  openExternalLink() {
+  openExternalLink = () => {
     var win = window.open(this.props.item.attributes.externalLink, '_blank');
     win.focus();
   }
