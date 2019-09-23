@@ -19,7 +19,7 @@ export default class CoursesDashboard extends React.Component {
 
   componentDidMount() {
     Tracker.autorun(() => {
-      let courses = Courses.find().fetch();
+      let courses = Courses.find({published: true}).fetch();
       this.setState({
         courses: courses,
       }, () => {

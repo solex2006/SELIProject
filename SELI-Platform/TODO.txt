@@ -14,8 +14,7 @@ PRINCIPAL
 - Solicitudes
 - Poner bn los requisitos y las disabilities
 AUTHORING TOOL
-- Save course bien (Resolver problema de cuando el json es muy grande y no guarda)
-- Validar cada form de A.T.
+- (Resolver problema de cuando el json es muy grande y no guarda)
 - Accesibilidad!!!
 - Request de los requisitos
 - Educational design
@@ -31,3 +30,6 @@ STUDENT
 - Unity
 
 Create branch for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+LINE CLAMP en firefox

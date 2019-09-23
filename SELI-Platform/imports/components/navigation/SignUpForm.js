@@ -4,6 +4,9 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+
 import {noSpecialCharacters} from '../../../lib/textFieldValidations';
 
 export default class SignUpForm extends React.Component {
@@ -61,19 +64,48 @@ export default class SignUpForm extends React.Component {
       }, () => {
         console.log('required');
       });
-      return;
+      return false;
     }
     if (!this.state.validEmail) {
       console.log('valid mail');
-      return;
+      return false;
     }
     if (!this.state.equalPasswords) {
       console.log('passwords');
-      return;
+      return false;
     }
-    else {
-      //Validate
+    return true;
+  }
+
+  signUp = () => {
+    if (this.validateSignUp()) {
+      this.createStudent(this.state.userInformation)
     }
+  }
+
+  createStudent = (information) => {
+    Accounts.createUser({
+      username: information.username,
+      password: information.password,
+      email: information.email,
+      profile: {
+        fullname: information.fullname,
+        courses: [],
+        type: 'student',
+      }
+    }, (error) => {
+      if (error) {
+        this.handleError(error);
+      }
+      else {
+        Meteor.logout();
+        this.requestSent();
+      }
+    });
+  }
+
+  handleError = (error) => {
+    console.log(error);
   }
 
   validateEmail = ()  => {
@@ -263,7 +295,7 @@ export default class SignUpForm extends React.Component {
             Teach on SELI
           </Button>
           <Button
-            onClick={() => this.validateSignUp()}
+            onClick={() => this.signUp()}
             className="sign-button"
             color="secondary"
             variant="contained"

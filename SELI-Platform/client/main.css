@@ -10,6 +10,10 @@ body {
   overflow-x: hidden;
 }
 
+main {
+  height: 100vh;
+}
+
 .center-container {
   width: auto;
   height: auto;
@@ -151,7 +155,7 @@ th {
  figure.caption-top, figure.caption-top>img{
     display: inline-block;
  }
- 
+
 figure.group
 {
     display: inline-table;
@@ -179,7 +183,7 @@ figure.group.caption-bottom, figure.group.caption-bottom>figcaption {
 .ImgCaptionEditor-root {
   background: #fff;
   border: 1px solid #ddd;
-  
+
   padding: 0px;
   max-height: 300px;
   width: 100%;
@@ -269,7 +273,7 @@ figure.group.caption-bottom, figure.group.caption-bottom>figcaption {
   text-indent: 2vw;
   /* margin: 0 -15px -15px; */
   overflow-y: auto;
- 
+
   /* border-width: thin; */
   /* border-style: ridge; */
   /* width: 100%;
@@ -329,4 +333,3 @@ figure.group.caption-bottom, figure.group.caption-bottom>figcaption {
 .hide{
   display: none!important;
 }
-

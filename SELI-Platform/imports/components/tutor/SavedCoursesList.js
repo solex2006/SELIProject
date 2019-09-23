@@ -54,10 +54,22 @@ export default class CoursesList extends React.Component {
     this.handleClickOpen();
     this.setState({
       dialogConfirmationTitle: 'Delete courses',
+      dialogConfirmationContentText: 'Are you sure you want to delete this course? You will lose all the information of the course, except the images, videos, audios and all the files that you have uploaded to your library.',
+      confirmAction: () => this.delete(),
+      coursesToDelete: coursesToDelete,
+    });
+  }
+
+  deleteSelected = (courses) => {
+    let coursesToDelete = [];
+    courses.map(course => {coursesToDelete.push(course)});
+    this.handleClickOpen();
+    this.setState({
+      dialogConfirmationTitle: 'Delete courses',
       dialogConfirmationContentText: 'Are you sure you want to delete this course(s)? You will lose all the information of the course, except the images, videos, audios and all the files that you have uploaded to your library.',
       confirmAction: () => this.delete(),
       coursesToDelete: coursesToDelete,
-    })
+    });
   }
 
   delete = () => {
@@ -65,7 +77,8 @@ export default class CoursesList extends React.Component {
       Courses.remove({_id: course});
     });
     this.handleClose();
-    this.props.handleControlMessage(true, 'Course deleted successfully!', false, '', '');
+    this.setSelected();
+    this.props.handleControlMessage(true, 'Course(s) deleted successfully!', false, '', '');
   }
 
   createTableData = (myCourses) => {
@@ -101,6 +114,8 @@ export default class CoursesList extends React.Component {
     this.setState({ open: false, coursesToDelete:[] });
   };
 
+  setSelected(){}
+
   render() {
     return(
       <div className="management-container">
@@ -119,6 +134,8 @@ export default class CoursesList extends React.Component {
                 menuOptions={this.state.menuOptions}
                 tableData={this.state.tableData}
                 delete={true}
+                deleteSelected={this.deleteSelected.bind(this)}
+                setSelectedFunction={selected => this.setSelected = selected}
               />
             </div>
             <Dialog

@@ -14,3 +14,46 @@
   justify-content: center;
   align-items: center;
 }
+
+.course-content-container {
+  width: calc(100% - 130px);
+  padding: 5vh 65px;
+}
+
+.course-content-breadcrumbs-container {
+  padding-bottom: 4vh;
+}
+
+.course-content-breadcrumbs-paper .MuiBreadcrumbs-separator{
+  margin-top: 2px !important;
+}
+
+.course-content-breadcrumb-text {
+  letter-spacing: 1px !important;
+  transition: 0.5s !important;
+  cursor: pointer;
+  font-size: 0.9em !important;
+}
+
+.course-content-breadcrumb-text:hover {
+  color: var(--primary) !important;
+}
+
+#course-content-breadcrumb-actual {
+  color: #212121 !important;
+}
+
+.course-content-footer-actions {
+  width: calc(100% - 10vw);
+  padding: 5vh 5vw;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.course-content-footer-button {
+  letter-spacing: 2px !important;
+  font-size: 1.5em !important;
+  border-radius: 0 !important;
+  background-color: #fafafa !important;
+  color: #333 !important;
+}

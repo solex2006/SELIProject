@@ -27,3 +27,21 @@ Meteor.methods({
     return updated;
   }
 });
+
+Meteor.methods({
+  'UsersnameExists'(username){
+    let exist = false;
+    var users = Meteor.users.find({}).fetch();
+    users.map(user => {
+      user.username === username ? exist = true : undefined
+    })
+    return exist;
+  }
+});
+
+Meteor.methods({
+  'GetUserById'(_id){
+    let user = Meteor.users.find({_id: _id}).fetch();
+    return user;
+  }
+});

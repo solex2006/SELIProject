@@ -12,6 +12,8 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import tutorProfile from '../../../lib/tutorProfile';
+import administratorProfile from '../../../lib/administratorProfile';
+import studentProfile from '../../../lib/studentProfile';
 
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaGlobe } from "react-icons/fa";
@@ -58,7 +60,17 @@ export default class MainMenu extends React.Component {
     if (this.props.user.profile.type === 'tutor') {
       this.setState({
         options: tutorProfile,
-      })
+      });
+    }
+    if (this.props.user.profile.type === 'administrator') {
+      this.setState({
+        options: administratorProfile,
+      });
+    }
+    if (this.props.user.profile.type === 'student') {
+      this.setState({
+        options: studentProfile,
+      });
     }
   }
 

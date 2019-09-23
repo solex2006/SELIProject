@@ -6,10 +6,7 @@ import MainMenu from '../components/navigation/MainMenu';
 import AppBar from '../components/navigation/AppBar';
 
 import Presentation from '../components/navigation/Presentation';
-import PublishedCoursesList from '../components/tutor/PublishedCoursesList';
-import SavedCoursesList from '../components/tutor/SavedCoursesList';
-import CreateCourse from '../components/tutor/CreateCourse';
-import EditCourse from '../components/tutor/EditCourse';
+import TutorRequestList from '../components/administrator/TutorRequestList';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -20,7 +17,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
-export default class Test extends React.Component {
+export default class Tutor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,8 +26,8 @@ export default class Test extends React.Component {
   }
 
   componentDidMount(){
-    Meteor.logout();
-    Meteor.loginWithPassword({username: "mateo1309"}, "1234", (error) => {
+    /*Meteor.logout();
+    Meteor.loginWithPassword({username: "mateom"}, "1234", (error) => {
       if (error) {
         console.log(error);
       }
@@ -39,7 +36,10 @@ export default class Test extends React.Component {
           user: Meteor.user(),
         })
       }
-    })
+    })*/
+    /*Meteor.call("SendVerificationEmail", Meteor.userId(), (error, response) =>  {
+      console.log(response);
+    });*/
   }
 
   logOut = () => {
@@ -59,10 +59,13 @@ export default class Test extends React.Component {
     });
   }
 
-  handleControlMessage = (show, message, showAction, action, actionMessage) => {
+  handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
     if (show) {
       if (action === 'savedList') {
         action = () => this.showComponent('saved');
+      }
+      else if (action === 'preview') {
+        action = () => this.showPreview();
       }
       this.setState({
         showControlMessage: show,
@@ -70,6 +73,7 @@ export default class Test extends React.Component {
         controlAction: action,
         controlActionMessage: actionMessage,
         showControlAction: showAction,
+        course: action === 'preview' ? course : undefined
       });
     }
     else {
@@ -119,37 +123,9 @@ export default class Test extends React.Component {
                 undefined
               }
               {
-                this.state.component === 'published' ?
-                  <PublishedCoursesList
+                this.state.component === 'requests' ?
+                  <TutorRequestList
                     user={this.state.user}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'saved' ?
-                  <SavedCoursesList
-                    user={this.state.user}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                    editCourse={this.editCourse.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'create' ?
-                  <CreateCourse
-                    user={this.state.user}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'edit' ?
-                  <EditCourse
-                    user={this.state.user}
-                    courseToEdit={this.state.courseToEdit}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :

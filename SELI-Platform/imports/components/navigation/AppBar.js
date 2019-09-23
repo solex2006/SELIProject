@@ -82,9 +82,21 @@ export default class AppBar extends React.Component {
         <div className="app-bar-container">
           <p className="bar-title">SELI Project</p>
           <div className="bar-button-container">
-            <Button onClick={() => this.toggleSearchBar()} className="no-text-button">
-              <SearchIcon className="app-bar-search-icon"/>
-            </Button>
+            {
+              this.props.user !== undefined ?
+                <div>
+                  {
+                    this.props.user.profile.type === 'student' ?
+                      <Button onClick={() => this.toggleSearchBar()} className="no-text-button">
+                        <SearchIcon className="app-bar-search-icon"/>
+                      </Button>
+                    :
+                    undefined
+                  }
+                </div>
+              :
+              undefined
+            }
             {
               this.props.user === undefined ?
                 <div>
@@ -98,6 +110,7 @@ export default class AppBar extends React.Component {
               :
               <UserMenu
                 user={this.props.user}
+                showComponent={this.props.showComponent.bind(this)}
                 logOut={this.props.logOut.bind(this)}
               />
             }

@@ -121,11 +121,11 @@ export default class CoursePresentation extends React.Component {
             <p className="course-presentation-subtitle-text">{this.props.course.subtitle}</p>
           </Zoom>
         </div>
-        <Zoom delay={500} duration={3000} bottom>
+        <Fade delay={500} duration={1000} left>
           <div className="course-presentation-description">
             {this.props.course.description}
           </div>
-        </Zoom>
+        </Fade>
         <div className="course-other-information-container">
           <Fade left>
             <Paper
@@ -200,7 +200,7 @@ export default class CoursePresentation extends React.Component {
                     }}
                   />
                 </IconButton>
-                <p className="course-card-small-text">{`Click to see all ${this.props.course.organization.unit.toLowerCase()}s ${this.props.course.organization.subunit ? `and ${this.props.course.organization.subunit.toLowerCase()}` : undefined}`}</p>
+                <p className="course-card-small-text">{`Click to see all ${this.props.course.organization.unit.toLowerCase()}s ${this.props.course.organization.subunit ? `and ${this.props.course.organization.subunit.toLowerCase()}` : ''}`}</p>
               </div>
             </Paper>
           </Fade>

@@ -156,7 +156,7 @@ const EnhancedTableToolbar = props => {
           <div>
             <Tooltip title="Delete">
               <IconButton aria-label="Delete">
-                <DeleteIcon />
+                <DeleteIcon onClick={() => props.deleteSelected()}/>
               </IconButton>
             </Tooltip>
           </div>
@@ -216,6 +216,10 @@ export default function EnhancedTable(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [rowId, setRowId] = React.useState(undefined);
+
+  if (props.delete) {
+    props.setSelectedFunction(() => setSelected([]));
+  }
 
   function handleRequestSort(event, property) {
     const isDesc = orderBy === property && order === 'desc';
@@ -277,6 +281,10 @@ export default function EnhancedTable(props) {
     setAnchorEl(null);
   }
 
+  function deleteSelected() {
+    props.deleteSelected(selected);
+  }
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -285,7 +293,8 @@ export default function EnhancedTable(props) {
           labels={props.labels}
           data={props.tableData}
           refresh={props.refresh}
-          refreshAction={props.refresh ? props.refreshAction:undefined}
+          refreshAction={props.refresh ? props.refreshAction : undefined}
+          deleteSelected={() => deleteSelected()}
         />
         <div className={classes.tableWrapper}>
           <Table

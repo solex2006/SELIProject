@@ -61,12 +61,40 @@ export default class CreateCourse extends React.Component {
   }
 
   publishCourse() {
-    let user = Meteor.user();
-    let courseInformation = this.state.courseInformation;
-    courseInformation.creationDate = new Date();
-    courseInformation.createdBy = user.username;
-    courseInformation.published = true;
-    let course = Courses.insert(courseInformation);
+    if (this.validatePublishCourse()) {
+      if (this.state.saved) {
+        Courses.update(
+          { _id: this.state.saved },
+          { $set:
+            {
+              title: courseInformation.title,
+              subtitle: courseInformation.subtitle,
+              description: courseInformation.description,
+              keyWords: courseInformation.keyWords,
+              image: courseInformation.image,
+              sylabus: courseInformation.sylabus,
+              duration: courseInformation.duration,
+              requirements: courseInformation.requirement,
+              support: courseInformation.support,
+              organization: courseInformation.organization,
+              program: courseInformation.program,
+              published: true,
+              creationDate: new Date(),
+              classroom: [],
+            }
+          }
+        );
+      }
+      else {
+        let user = Meteor.user();
+        let courseInformation = this.state.courseInformation;
+        courseInformation.creationDate = new Date();
+        courseInformation.createdBy = user.username;
+        courseInformation.published = true;
+        courseInformation.classroom = [];
+        let course = Courses.insert(courseInformation);
+      }
+    }
   }
 
   saveCourse() {
@@ -103,6 +131,58 @@ export default class CreateCourse extends React.Component {
       }
       this.props.handleControlMessage(true, 'Course saved successfully!', true, 'savedList', 'See list');
     }
+  }
+
+  validatePublishCourse = () => {
+    let courseInformation = this.state.courseInformation;
+    if (
+      courseInformation.title === '' ||
+      courseInformation.subtitle === '' ||
+      courseInformation.description === '' ||
+      courseInformation.duration === ''
+    ) {
+      this.props.handleControlMessage(true, 'Fields marked with an asterisk (*) are required (Step 1 Course information)', false, '', '');
+      return false;
+    }
+    if (!courseInformation.keyWords.length) {
+      this.props.handleControlMessage(true, 'Add one or more keywords so users can search your courses (Step 1 Course information)', false, '', '');
+      return false;
+    }
+    if (!courseInformation.requirements.length) {
+      this.props.handleControlMessage(true, 'Select the technical requirements that your course will require (Step 2)', false, '', '');
+      return false;
+    }
+    if (!courseInformation.support.length) {
+      this.props.handleControlMessage(true, 'Select what the audience(s) that your course will support (Step 2)', false, '', '');
+      return false;
+    }
+    if (courseInformation.organization === '') {
+      this.props.handleControlMessage(true, 'Chose the organization of the course to save it (Step 3 Program)', false, '', '');
+      return false;
+    }
+    let emptyContent = false;
+    if (courseInformation.organization.subunit) {
+      courseInformation.program.map(unit => {
+        unit.lessons.map(lesson => {
+          if (!lesson.items.length) {
+            this.props.handleControlMessage(true, `You are missing to add content to ${courseInformation.organization.unit.toLowerCase()}: ${unit.name} - ${courseInformation.organization.subunit.toLowerCase()}: ${lesson.name}`, false, '', '');
+            emptyContent = true;
+          }
+        })
+      })
+    }
+    if (!courseInformation.organization.subunit) {
+      courseInformation.program.map(unit => {
+        if (!unit.items.length) {
+          this.props.handleControlMessage(true, `You are missing to add content to ${courseInformation.organization.unit.toLowerCase()}: ${unit.name}`, false, '', '');
+          emptyContent = true;
+        }
+      })
+    }
+    if (emptyContent) {
+      return false;
+    }
+    return true;
   }
 
   validateSaveCourse = () => {

@@ -19,7 +19,7 @@
 .course-presentation-title-text {
   width: 100%;
   padding: 2.5vh 0;
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.4);
   color: #333;
   letter-spacing: 1px;
   font-size: 5vh;
@@ -33,10 +33,10 @@
   width: 100%;
   padding: 1vh 0;
   padding-bottom: 2.5vh;
-  background-color: rgba(255, 255, 255, 0.75);
-  color: #333;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #212121;
   letter-spacing: 1px;
-  font-size: 2.5vh;
+  font-size: 2.75vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -178,7 +178,6 @@
   text-align: justify;
   letter-spacing: 1px;
   font-size: 0.95em;
-  text-transform: full-width;
   color: #616161;
 }
 
@@ -287,4 +286,12 @@
   bottom: 0;
   text-align: center;
   letter-spacing: 1px;
+}
+
+.no-app-bar-container {
+  width: 100vw;
+  max-height: calc(100vh);
+  height: calc(100vh);
+  overflow-y: scroll;
+  position: relative;
 }

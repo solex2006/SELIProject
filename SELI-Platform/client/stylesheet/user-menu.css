@@ -40,6 +40,13 @@
   margin: 1.5vh 0 !important;
 }
 
+.user-menu-profile-avatar-default {
+  width: 95px !important;
+  height: 95px !important;
+  margin: 1.5vh 0 !important;
+  background-color: var(--white) !important;
+}
+
 .user-menu-profile-type {
   font-size: 0.9em;
   letter-spacing: 1px;

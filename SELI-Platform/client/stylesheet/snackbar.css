@@ -3,3 +3,29 @@
   color: var(--white) !important;
   letter-spacing: 1px !important;
 }
+
+.loading-snackbar .MuiSnackbarContent-root{
+  background-color: var(--app-bar-color) !important;
+  color: var(--white) !important;
+  letter-spacing: 1px !important;
+}
+
+.loading-snackbar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important;
+}
+
+.loading-snackbar-text {
+  margin-right: 0.75vw;
+  letter-spacing: 1px;
+}
+
+.loading-snackbar .MuiSnackbarContent-message {
+  width: 100% !important;
+}
+
+.loading-snackbar {
+  z-index: 1501 !important;
+}

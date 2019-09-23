@@ -157,7 +157,7 @@ export default function FormStepper(props) {
             :
             undefined
           }
-          <Button id="form-stepper-final-button" className="form-stepper-complete-button" color={props.color} onClick={() => props.finalAction()}>
+          <Button onClick={() => props.finalAction()} id="form-stepper-final-button" className="form-stepper-complete-button" color={props.color}>
             {props.finalLabel}
           </Button>
         </div>

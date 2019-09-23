@@ -1,4 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+import { Meteor } from 'meteor/meteor';
+
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -6,16 +10,20 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
+import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import SchoolIcon from '@material-ui/icons/School';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Fade from 'react-reveal/Fade';
+import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 
 var ColorThief = require('color-thief');
 
@@ -23,12 +31,27 @@ export default class CourseCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      label: '',
+      subscribed: false,
     }
   }
 
   componentDidMount() {
     this.getImageColors();
+    this.getKeyWords();
+    this.checkSubscriptions();
+  }
+
+  getKeyWords = () => {
+    let keyWords = this.props.course.keyWords;
+    let label = '';
+    keyWords.map((keyWord, index) => {
+      label = label + keyWord;
+      index + 1 === keyWords.length ? undefined : label = label + ", "
+    })
+    this.setState({
+      label: label,
+    });
   }
 
   getImageColors() {
@@ -72,47 +95,97 @@ export default class CourseCard extends React.Component {
     return (yiq >= 128) ? '#212121' : '#FFFFFF';
   }
 
+  componentWillReceiveProps() {
+    this.checkSubscriptions();
+  }
+
+  checkSubscriptions = () => {
+    let subscribed = false;
+    for (var i = 0; i < this.props.course.classroom.length; i++) {
+      if (this.props.course.classroom[i] === Meteor.userId()) {
+        subscribed = true;
+      }
+    }
+    this.setState({
+      subscribed: subscribed,
+    });
+  }
+
   render() {
     return (
-      <Fade force top delay={this.props.index * 100}>
+      <Fade force top delay={this.props.index * 350}>
         <Card className="course-card">
-          <CardHeader
-            avatar={
-              <Avatar
-                style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
-                aria-label="recipe"
-                className="course-card-avatar"
+          <CardActionArea>
+            <CardHeader
+              avatar={
+                <Avatar
+                  style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
+                  aria-label="recipe"
+                  className="course-card-avatar"
+                >
+                  {this.props.course.title.charAt(0).toUpperCase()}
+                </Avatar>
+              }
+              className="course-card-header"
+              title={this.props.course.title}
+              subheader={this.props.course.subtitle}
+            />
+            <CardMedia
+              className="course-card-media"
+              image={this.props.course.image.link}
+              title={this.state.label}
+            />
+            <CardContent className="course-card-content">
+              <Typography className="course-card-description" variant="body2" color="textSecondary" component="p">
+                {this.props.course.description}
+              </Typography>
+              <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
+                {`Author: ${this.props.course.createdBy}`}
+              </Typography>
+            </CardContent>
+            <CardActions className="course-card-actions" disableSpacing>
+              <Link className="button-link"
+                target="_blank"
+                to={{
+                  pathname: "/coursePreview",
+                  hash: this.props.course._id,
+                  state: { fromDashboard: true }
+                }}
               >
-                {this.props.course.title.charAt(0).toUpperCase()}
-              </Avatar>
-            }
-            action={
-              <IconButton aria-label="settings" className="course-card-icon-button">
-                <MoreVertIcon className="course-card-icon" />
-              </IconButton>
-            }
-            className="course-card-header"
-            title={this.props.course.title}
-            subheader={this.props.course.subtitle}
-          />
-          <CardMedia
-            className="course-card-media"
-            image={this.props.course.image.link}
-            title="Paella dish"
-          />
-          <CardContent className="course-card-content">
-            <Typography className="course-card-description" variant="body2" color="textSecondary" component="p">
-              {this.props.course.description}
-            </Typography>
-          </CardContent>
-          <CardActions className="course-card-actions" disableSpacing>
-            <IconButton className="course-card-icon-button" aria-label="add to favorites">
-              <FavoriteIcon className="course-card-icon"/>
-            </IconButton>
-            <IconButton className="course-card-icon-button" aria-label="share">
-              <ShareIcon className="course-card-icon"/>
-            </IconButton>
-          </CardActions>
+                <Button
+                  className="course-card-button"
+                  aria-label="see preview"
+                  variant="outlined"
+                >
+                  Course preview
+                </Button>
+              </Link>
+              {
+                !this.state.subscribed ?
+                  <Tooltip title="Subscribe (Join course classroom)">
+                    <IconButton
+                      disabled={this.props.disabled}
+                      onClick={() => this.props.subscribe(this.props.course._id)}
+                      className="course-card-icon-button"
+                      aria-label="join course"
+                    >
+                      <SchoolIcon className="course-card-icon"/>
+                    </IconButton>
+                  </Tooltip>
+                :
+                <Tooltip title="Unsubscribe (Leave course classroom)">
+                  <IconButton
+                    className="course-card-icon-button"
+                    disabled={this.props.disabled}
+                    onClick={() => this.props.unsubscribe(this.props.course._id)}
+                    aria-label="left course"
+                  >
+                    <UnsubscribeIcon className="course-card-icon"/>
+                  </IconButton>
+                </Tooltip>
+              }
+            </CardActions>
+          </CardActionArea>
         </Card>
       </Fade>
     );

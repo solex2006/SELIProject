@@ -7,6 +7,15 @@ import Table from '../tutor/Table';
 import SchoolIcon from '@material-ui/icons/School';
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
 import TabIcon from '@material-ui/icons/Tab';
+import WarningIcon from '@material-ui/icons/Warning';
+
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 export default class CoursesList extends React.Component {
   constructor(props) {
@@ -39,7 +48,16 @@ export default class CoursesList extends React.Component {
   }
 
   unpublish = (_id) => {
-
+    Courses.update(
+      { _id: this.state.courseToUnpublish },
+      { $set:
+        {
+          published: false,
+        }
+      }
+    );
+    this.handleClose();
+    this.props.handleControlMessage(true, 'Course unpublished, you can find it in your saved courses!', true, 'savedList', 'See list');
   }
 
   createTableData = (myCourses) => {
@@ -53,7 +71,7 @@ export default class CoursesList extends React.Component {
     ];
     let menuOptions = [
       {label: "Course preview", icon: <TabIcon/>, action: this.preview.bind(this)},
-      {label: "Unpublish course" , icon: <UnarchiveIcon/>, action: this.unpublish.bind(this)},
+      {label: "Unpublish course" , icon: <UnarchiveIcon/>, action: this.showUnpublishConfirmation.bind(this)},
     ];
     myCourses.map(course => {
       tableData.push({title: course.title, organization: course.organization.label, duration: `${course.duration} hours`, creationDate: course.creationDate.toDateString(), _id: course._id})
@@ -68,6 +86,24 @@ export default class CoursesList extends React.Component {
       })
     });
   }
+
+  showUnpublishConfirmation = (_id) => {
+    this.handleClickOpen();
+    this.setState({
+      dialogConfirmationTitle: 'Unpublish course',
+      dialogConfirmationContentText: `Are you sure you want to unpublish this course? All your suscriptors won't be able to access the course content`,
+      courseToUnpublish: _id,
+      confirmAction: () => this.unpublish(),
+    });
+  }
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   render() {
     return(
@@ -91,6 +127,28 @@ export default class CoursesList extends React.Component {
             </div>
           </div>
         }
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+        >
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.dialogConfirmationTitle}</DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+              {this.state.dialogConfirmationContentText}
+            </DialogContentText>
+            <WarningIcon className="warning-dialog-icon"/>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+              Cancel
+            </Button>
+            <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
   }

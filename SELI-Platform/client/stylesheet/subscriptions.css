@@ -1,0 +1,134 @@
+.subscriptions-dashboard-container {
+  position: relative;
+  top: var(--app-bar-height);
+}
+
+.subscriptions-dashboard-result {
+  position: relative;
+  top: calc(5vh + 1.4em);
+  padding-bottom: 10vh;
+}
+
+.subscription-card-media {
+  width: 35vw !important;
+  height: var(--subscription-card-height) !important;
+}
+
+.subscription-card {
+  margin-bottom: 1vh !important;
+  max-height: 50vh !important;
+  padding: 0.5vh 5vw !important;
+}
+
+.maintenance-subscription-card {
+  position: relative;
+  margin-bottom: 1vh !important;
+  max-height: 50vh !important;
+  padding: 0.5vh 5vw !important;
+}
+
+.subscription-card-area {
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+.subscription-card-header {
+  padding: 0 !important;
+  padding-left: 1vw !important;
+  position: absolute !important;
+  top: 1.5vh !important;
+}
+
+.subscription-card-header .MuiCardHeader-title {
+  font-size: 1.25em !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+}
+
+.subscription-card-header .MuiCardHeader-subheader {
+  padding: 0 !important;
+  font-size: 1.15em !important;
+  letter-spacing: 1px !important;
+}
+
+.subscription-card-column {
+  height: var(--subscription-card-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.subscription-card-content {
+  width: 53vw !important;
+  padding: 0 1vw !important
+}
+
+.subscription-card-progress-container {
+  position: relative;
+}
+
+.subscription-linear-progress {
+  height: 3.5vh !important;
+}
+
+.subscription-linear-progress-text {
+  position: absolute;
+  font-size: 2vh;
+  top: 0.5vh;
+  width: 53vw;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.subscription-card-actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  position: absolute;
+  bottom: 1vh;
+}
+
+.subscription-card-button {
+  margin: 0 0.5vw !important;
+  letter-spacing: 1px !important;
+}
+
+.subscription-card-maintenance-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 55vw;
+}
+
+.subscription-card-maintenance-text {
+  font-size: 1.5em;
+  letter-spacing: 1px;
+  color: #616161;
+  width: 100%;
+  text-align: center;
+  padding-left: 1vw;
+}
+
+.subscription-card-maintenance-icon {
+  font-size: 5vw !important;
+  color: #333;
+  border-radius: 50%;
+}
+
+.maintenance-subscribed-hover {
+  position: absolute;
+  width: 100%;
+  height: var(--subscription-card-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.maintenance-subscription-card .subscription-card-area:hover .maintenance-subscribed-hover{
+  opacity: 1;
+}

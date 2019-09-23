@@ -55,6 +55,11 @@ export default function UserMenu(props) {
     setState({ ...state, [side]: open });
   };
 
+  function handleAccountManagement() {
+    props.showComponent('account');
+    closeDrawer();
+  }
+
   const sideList = side => (
     <div
       className="user-menu-side-container"
@@ -62,16 +67,25 @@ export default function UserMenu(props) {
     >
       <div className="user-menu-options-container">
         <div className="user-menu-profile-container">
-          <Avatar
-            className="user-menu-profile-avatar"
-            alt={props.user.username}
-            src={props.user.profile.profileImage.link}
-          />
+          {
+            props.user.profile.profileImage !== undefined ?
+              <Avatar
+                className="user-menu-profile-avatar"
+                alt={props.user.username}
+                src={props.user.profile.profileImage.link}
+              />
+            :
+            <Avatar
+              className="user-menu-profile-avatar"
+              alt={props.user.username}
+              src='user.svg'
+            />
+          }
           <p className="user-menu-profile-type">{props.user.profile.type}</p>
           <p className="user-menu-profile-username">{props.user.username}</p>
         </div>
         <Divider className="user-menu-profile-divider" light={true}/>
-        <p className="user-menu-option">
+        <p onClick={() => handleAccountManagement()} className="user-menu-option">
           Account management
         </p>
         <Button onClick={() => {props.logOut(); toggleDrawer(side, false)}} color="primary" fullWidth variant="outlined" className="user-menu-option-button">
@@ -95,11 +109,20 @@ export default function UserMenu(props) {
   return (
     <div>
       <div onClick={toggleDrawer('right', true)} className="user-menu-container">
-        <Avatar
-          className="user-menu-button-avatar"
-          alt={props.user.username}
-          src={props.user.profile.profileImage.link}
-        />
+        {
+          props.user.profile.profileImage !== undefined ?
+            <Avatar
+              className="user-menu-button-avatar"
+              alt={props.user.username}
+              src={props.user.profile.profileImage.link}
+            />
+          :
+          <Avatar
+            className="user-menu-button-avatar"
+            alt={props.user.username}
+            src='user.svg'
+          />
+        }
         <p className="user-menu-username">{props.user.username}</p>
         <Badge className="user-menu-badge" overlap="circle" badgeContent={5} color="primary">
           <MailIcon className="user-menu-badge-icon" />

@@ -57,6 +57,11 @@ export default class TutorInformation extends React.Component {
     }
     else if (name === 'password') {
       tutorInformation.password = event.target.value;
+      this.setState({
+        tutorInformation: tutorInformation,
+      }, () => {
+        this.state.passwordToConfirm !== '' ? this.confirmPassword() : undefined
+      })
     }
     else if (name === "confirmPassword") {
       this.setState({

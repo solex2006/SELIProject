@@ -540,6 +540,7 @@
 .course-creator-item-video-card-preview-player {
   width: 480px !important;
   height: 270px !important;
+  padding: 1.5vh 0 !important;
 }
 
 .course-item-audio-card {

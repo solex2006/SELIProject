@@ -11,6 +11,8 @@ import '../lib/PeopleCollection';
 import '../lib/extract';
 import '../lib/validateSignUp';
 import '../lib/usersUtil';
+import '../lib/sendVerificationEmail';
+import '../lib/changeAccountInformation';
 
 Meteor.startup(() => {
   // code to run on server at startup
