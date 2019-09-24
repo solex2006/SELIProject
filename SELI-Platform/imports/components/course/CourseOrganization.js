@@ -16,7 +16,6 @@ export default class CourseOrganization extends React.Component {
     this.state = {
       units: {label: "Organization by units and lessons", unit: "Unit", subunit: "Lesson"},
       topics: {label: "Organization by topics", unit: "Topic", subunit: false},
-      dates: {label: "Organization by dates", unit: "Season", subunit: false},
       selectedOrganization: '',
       unitIndex: 0,
       step: 0,
@@ -174,10 +173,6 @@ export default class CourseOrganization extends React.Component {
             <Button onClick={() => this.setOrganization(this.state.topics)} fullWidth className={this.state.selectedOrganization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
               <Avatar id="blue-avatar" className="avatar">T</Avatar>
               By Topics
-            </Button>
-            <Button onClick={() => this.setOrganization(this.state.dates)} fullWidth className={this.state.selectedOrganization.unit === "Season" ? "row-list-selected-button" : "row-list-button"}>
-              <Avatar id="teal-avatar" className="avatar">D</Avatar>
-              By Dates
             </Button>
           </div>
           {

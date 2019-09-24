@@ -21,14 +21,7 @@
   overflow-x: hidden;
   display: flex;
   position: relative;
-  height: calc(
-    100vh -
-    (
-      var(--app-bar-height) +
-      var(--form-stepper-height) +
-      2px
-    )
-  );
+  height: calc(100vh - var(--app-bar-height) - var(--form-stepper-height));
 }
 
 .course-creator-drop-area {
