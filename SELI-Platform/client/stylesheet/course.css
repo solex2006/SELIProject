@@ -57,3 +57,26 @@
   background-color: #fafafa !important;
   color: #333 !important;
 }
+
+.course-dial {
+  position: fixed !important;
+  bottom: 2.5vh !important;
+  right: 1vw !important;
+}
+
+.course-dial .MuiFab-primary {
+  width: 80px !important;
+  height: 80px !important;
+  background-image: linear-gradient(to right bottom, #00897b, #008c94, #008dad, #008cc2, #0288d1) !important;
+  background-color: transparent !important;
+}
+
+.MuiSpeedDial-directionUp {
+  align-items: center !important;
+}
+
+.course-dial-icon {
+  font-size: 40px !important;
+  animation: fadeIn 0.5s !important;
+  transition: 0.5s !important;
+}

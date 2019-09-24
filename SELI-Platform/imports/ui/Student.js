@@ -9,6 +9,7 @@ import Presentation from '../components/navigation/Presentation';
 import CoursesDashboard from '../components/student/CoursesDashboard';
 import SubscribedCourses from '../components/student/SubscribedCourses';
 import Course from '../components/student/Course';
+import CourseDial from '../components/student/CourseDial';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 import LoadingSnackbar from '../components/tools/LoadingSnackbar';
 import AccountManagement from '../components/user/AccountManagement';
@@ -37,11 +38,12 @@ export default class Student extends React.Component {
     this.state = {
       component: 'home',
       activeCourse: undefined,
+      selected: [-1, -1],
     }
   }
 
   componentDidMount(){
-    /*this.setState({
+    this.setState({
       chekingSesion: true,
     }, () => {
       checkUserType(Meteor.userId(), 'student');
@@ -51,8 +53,8 @@ export default class Student extends React.Component {
           chekingSesion: false,
         });
       });
-    });*/
-    Meteor.logout();
+    });
+    /*Meteor.logout();
     Meteor.loginWithPassword({username: "mateom11"}, "1234", (error) => {
       if (error) {
         console.log(error);
@@ -62,12 +64,13 @@ export default class Student extends React.Component {
           user: Meteor.user(),
         })
       }
-    });
+    });*/
   }
 
   logOut = () => {
-    Meteor.logout();
-    location.replace('/');
+    Meteor.logout((error) => {
+      location.replace('/')
+    })
   }
 
   setLanguage = () => {
@@ -140,9 +143,13 @@ export default class Student extends React.Component {
       }}
       , () => {
         var user = Meteor.users.findOne({_id: Meteor.userId()});
+        var toComplete = this.toComplete(course);
+        var toResolve = this.toResolve(course);
         user.profile.courses.push({
           courseId: course._id,
           progress: 0,
+          toComplete: toComplete,
+          toResolve: toResolve,
         });
         Meteor.users.update(
           { _id: Meteor.userId() },
@@ -199,6 +206,7 @@ export default class Student extends React.Component {
     this.setState({
       activeCourse: course,
       showLoadingMessage: true,
+      selected: [-1, -1],
       loadingMessage: 'Starting course, please wait',
     }, () => {
       let course = Courses.find({_id: this.state.activeCourse.information._id}).fetch();
@@ -215,6 +223,55 @@ export default class Student extends React.Component {
         this.getSubscribedCourses();
       }
     });
+  }
+
+  toComplete = (course) => {
+    let toComplete = [];
+    if (course.organization.subunit) {
+      course.program.map(unit => {
+        unit.lessons.map(subunit => {
+          toComplete.push(false);
+        })
+      })
+    }
+    else {
+      course.program.map(unit => {
+        toComplete.push(false);
+      })
+    }
+    return toComplete;
+  }
+
+  toResolve = (course) => {
+    let toResolve = [];
+    if (course.organization.subunit) {
+      course.program.map(unit => {
+        unit.lessons.map(subunit => {
+          subunit.items.map(content => {
+            if (content.type === 'quiz' || content.type === 'activity') {
+              toResolve.push(false);
+            }
+          })
+        })
+      })
+    }
+    else {
+      course.program.map(unit => {
+        unit.items.map(content => {
+          if (content.type === 'quiz' || content.type === 'activity') {
+            toResolve.push(false);
+          }
+        })
+      })
+    }
+    return toResolve;
+  }
+
+  closeCourse = () => {
+    this.setState({
+      activeCourse: undefined,
+      selected: [-1, -1],
+    })
   }
 
   render() {
@@ -248,6 +305,7 @@ export default class Student extends React.Component {
                 this.state.component === 'course' ?
                   <Course
                     user={this.state.user}
+                    selected={this.state.selected}
                     activeCourse={this.state.activeCourse}
                     showComponent={this.showComponent.bind(this)}
                     handleControlMessage={this.handleControlMessage.bind(this)}
@@ -276,6 +334,7 @@ export default class Student extends React.Component {
                     getSubscribedCourses={subscribedCourses => this.getSubscribedCourses = subscribedCourses}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                     handleClickCourse={this.handleClickCourse.bind(this)}
+                    showComponent={this.showComponent.bind(this)}
                   />
                 :
                 undefined
@@ -318,6 +377,15 @@ export default class Student extends React.Component {
               <Loading message='Loading user...'/>
             </DialogContent>
           </Dialog>
+          {
+            this.state.activeCourse !== undefined && this.state.component !== 'course' ?
+              <CourseDial
+                showComponent={this.showComponent.bind(this)}
+                closeCourse={this.closeCourse.bind(this)}
+              />
+            :
+            undefined
+          }
         </MuiThemeProvider>
       </div>
       );

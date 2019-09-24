@@ -3,6 +3,8 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+import ControlSnackbar from '../tools/ControlSnackbar'
+
 export default class SignInForm extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +34,7 @@ export default class SignInForm extends React.Component {
       this.setState({
         showError: true,
       }, () => {
-        console.log('required');
+        this.handleControlMessage(true, "The fields marked with * are required", false, "", "");
       });
     }
     else {
@@ -43,7 +45,7 @@ export default class SignInForm extends React.Component {
   SignIn = () => {
     Meteor.loginWithPassword({username: this.state.userInformation.username}, this.state.userInformation.password, (error) => {
       if (error) {
-        console.log(error);
+        this.handleControlMessage(true, error.reason, false, "", "");
       }
       else {
         this.setState({
@@ -51,6 +53,9 @@ export default class SignInForm extends React.Component {
         }, () => {
           if (this.state.user.profile.type === 'tutor') {
             location.replace("/tutor");
+          }
+          else if (this.state.user.profile.type === 'student') {
+            location.replace("/student");
           }
         })
       }
@@ -63,6 +68,27 @@ export default class SignInForm extends React.Component {
     }
     else {
       return false;
+    }
+  }
+
+  handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
+    if (show) {
+      if (action === 'subscribed') {
+        action = () => this.showComponent('subscribed');
+      }
+      this.setState({
+        showControlMessage: show,
+        controlMessage: message,
+        controlAction: action,
+        controlActionMessage: actionMessage,
+        showControlAction: showAction,
+        course: action === 'preview' ? course : undefined
+      });
+    }
+    else {
+      this.setState({
+        showControlMessage: show,
+      });
     }
   }
 
@@ -98,6 +124,14 @@ export default class SignInForm extends React.Component {
         <div className="sign-buttons-container">
           <Button onClick={() => this.validateSignIn()} className="sign-button" color="primary" variant="contained">Sign in</Button>
         </div>
+        <ControlSnackbar
+          showControlMessage={this.state.showControlMessage}
+          showControlAction={this.state.showControlAction}
+          controlMessage={this.state.controlMessage}
+          controlAction={this.state.controlAction}
+          controlActionMessage={this.state.controlActionMessage}
+          handleControlMessage={this.handleControlMessage.bind(this)}
+        />
       </div>
     );
   }

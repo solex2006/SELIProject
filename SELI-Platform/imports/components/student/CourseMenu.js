@@ -76,7 +76,7 @@ export default function CourseMenu(props) {
         <div className="course-menu-subtitle-container">{new Date().toDateString()} <Clock className="menu-clock" format={'HH:mm:ss'} ticking={true}/></div>
         <div className="course-menu-progress-container">
           <div className="course-menu-progress-bar">
-            <LinearProgress className="course-menu-linear-progress" color="primary" variant="buffer" value={10} valueBuffer={95} />
+            <LinearProgress className="course-menu-linear-progress" color="primary" variant="buffer" value={props.progress} valueBuffer={100} />
           </div>
           <Paper
             elevation={12}
@@ -88,7 +88,7 @@ export default function CourseMenu(props) {
       </div>
       <div className="course-menu-subheader">
         <p className="course-menu-subheader-title">{`Course: ${props.course.title}`}</p>
-        <p className="course-menu-subheader-subtitle">Completed: 10%</p>
+        <p className="course-menu-subheader-subtitle">Completed: {props.progress}%</p>
       </div>
       <div className="course-menu-navigation-container">
         <CourseNavigation

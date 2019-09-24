@@ -250,7 +250,7 @@ export default class Test extends React.Component {
             }
             <div className="course-content-footer-actions">
               <p className="course-content-footer-text"></p>
-              <Button variant="contained" className="course-content-footer-button">
+              <Button disabled={this.props.toComplete[this.props.selected[0]]} onClick={() => this.props.completeUnit(this.props.selected[0])} variant="contained" className="course-content-footer-button">
                 {`Complete ${this.props.course.organization.unit}`}
               </Button>
             </div>

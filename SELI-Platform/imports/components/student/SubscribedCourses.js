@@ -9,6 +9,7 @@ import CourseSubscription from '../../components/course/CourseSubscription';
 
 import WarningIcon from '@material-ui/icons/Warning';
 import SchoolIcon from '@material-ui/icons/School';
+import InfoIcon from '@material-ui/icons/Info';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -33,6 +34,7 @@ export default class SubscribedCourses extends React.Component {
   getSubscribedCourses = () => {
     this.setState({
       courses: [],
+      loading: true,
     }, () => {
       let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
       this.buildCourses(user[0].profile.courses);
@@ -58,6 +60,7 @@ export default class SubscribedCourses extends React.Component {
       });
       this.setState({
         courses: courses,
+        loading: false,
       });
     });
   }
@@ -97,24 +100,37 @@ export default class SubscribedCourses extends React.Component {
         <p className="management-title">My subscriptions<SchoolIcon className="management-title-icon"/></p>
         <Divider/>
         {
-          !this.state.courses.length ?
+          this.state.loading ?
             <div className="dashboard-loading-container">
               <Loading message="Loading courses..."/>
             </div>
           :
-          <div className="subscriptions-dashboard-result">
+          <div>
             {
-              this.state.courses.map((course, index) => {
-                return (
-                  <CourseSubscription
-                    course={course.information}
-                    progress={course.progress}
-                    disabled={this.props.disabled}
-                    unsubscribe={this.unsubscribe.bind(this)}
-                    handleClickCourse={this.handleClickCourse.bind(this)}
-                  />
-                )
-              })
+              this.state.courses.length ?
+                <div className="subscriptions-dashboard-result">
+                  {
+                    this.state.courses.map((course, index) => {
+                      return (
+                        <CourseSubscription
+                          course={course.information}
+                          progress={course.progress}
+                          disabled={this.props.disabled}
+                          unsubscribe={this.unsubscribe.bind(this)}
+                          handleClickCourse={this.handleClickCourse.bind(this)}
+                        />
+                      )
+                    })
+                  }
+                </div>
+              :
+              <div className="empty-dashboard">
+                <div className="empty-dashboard-row">
+                  <p className="empty-dashboard-text">You aren't subscribed to any of our courses yet</p>
+                  <InfoIcon className="empty-dashboard-icon"/>
+                </div>
+                <Button onClick={() => this.props.showComponent('courses')} variant="contained" color="primary" className="empty-dashboard-button">Check out our courses</Button>
+              </div>
             }
           </div>
         }

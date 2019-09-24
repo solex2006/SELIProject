@@ -491,13 +491,6 @@ export default class TutorInformation extends React.Component {
                       />
                     </div>
                   }
-                  <div className="center-row">
-                    <p className="normal-text">Or</p>
-                  </div>
-                  <div className="center-row">
-                    <p className="normal-text">Pick one from your</p>
-                    <Button onClick={() => this.showLibrary()} color="primary" className="text-button">Library</Button>
-                  </div>
                 </div>
               }
             </div>

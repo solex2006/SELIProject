@@ -63,8 +63,9 @@ export default class Tutor extends React.Component {
   }
 
   logOut = () => {
-    Meteor.logout();
-    location.replace('/');
+    Meteor.logout((error) => {
+      location.replace('/')
+    })
   }
 
   setLanguage = () => {
