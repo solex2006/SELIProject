@@ -3,7 +3,7 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-import ControlSnackbar from '../tools/ControlSnackbar'
+import ControlSnackbar from '../tools/ControlSnackbar';
 
 export default class SignInForm extends React.Component {
   constructor(props) {

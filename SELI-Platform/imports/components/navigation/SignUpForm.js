@@ -7,6 +7,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
+import ControlSnackbar from '../tools/ControlSnackbar';
+
 import {noSpecialCharacters} from '../../../lib/textFieldValidations';
 
 export default class SignUpForm extends React.Component {
@@ -99,13 +101,35 @@ export default class SignUpForm extends React.Component {
       }
       else {
         Meteor.logout();
-        this.requestSent();
+        this.handleControlMessage(true, "User created, now you can sign in");
+        this.props.handleClickOpen('in');
       }
     });
   }
 
+  handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
+    if (show) {
+      if (action === 'subscribed') {
+        action = () => this.showComponent('subscribed');
+      }
+      this.setState({
+        showControlMessage: show,
+        controlMessage: message,
+        controlAction: action,
+        controlActionMessage: actionMessage,
+        showControlAction: showAction,
+        course: action === 'preview' ? course : undefined
+      });
+    }
+    else {
+      this.setState({
+        showControlMessage: show,
+      });
+    }
+  }
+
   handleError = (error) => {
-    console.log(error);
+    this.handleControlMessage(true, error.reason);
   }
 
   validateEmail = ()  => {
@@ -303,6 +327,14 @@ export default class SignUpForm extends React.Component {
             Sign up
           </Button>
         </div>
+        <ControlSnackbar
+          showControlMessage={this.state.showControlMessage}
+          showControlAction={this.state.showControlAction}
+          controlMessage={this.state.controlMessage}
+          controlAction={this.state.controlAction}
+          controlActionMessage={this.state.controlActionMessage}
+          handleControlMessage={this.handleControlMessage.bind(this)}
+        />
       </div>
     );
   }

@@ -161,7 +161,9 @@ export default class AppBar extends React.Component {
               }
               {
                 this.state.action === "up" ?
-                  <SignUpForm/>
+                  <SignUpForm
+                    handleClickOpen={this.handleClickOpen.bind(this)}
+                  />
                 :
                 undefined
               }
