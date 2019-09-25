@@ -61,6 +61,8 @@ export default class CreateCourse extends React.Component {
   }
 
   publishCourse() {
+    let courseInformation = this.state.courseInformation;
+    let course;
     if (this.validatePublishCourse()) {
       if (this.state.saved) {
         Courses.update(
@@ -84,16 +86,17 @@ export default class CreateCourse extends React.Component {
             }
           }
         );
+        course = this.state.saved;
       }
       else {
         let user = Meteor.user();
-        let courseInformation = this.state.courseInformation;
         courseInformation.creationDate = new Date();
         courseInformation.createdBy = user.username;
         courseInformation.published = true;
         courseInformation.classroom = [];
-        let course = Courses.insert(courseInformation);
+        course = Courses.insert(courseInformation);
       }
+      this.props.handleControlMessage(true, 'Course published successfully!', true, 'preview', 'See preview', course);
     }
   }
 
@@ -142,6 +145,14 @@ export default class CreateCourse extends React.Component {
       courseInformation.duration === ''
     ) {
       this.props.handleControlMessage(true, 'Fields marked with an asterisk (*) are required (Step 1 Course information)', false, '', '');
+      return false;
+    }
+    if (!courseInformation.image === undefined) {
+      this.props.handleControlMessage(true, 'Upload the course image (Step 1 Course information)', false, '', '');
+      return false;
+    }
+    if (!courseInformation.sylabus === undefined) {
+      this.props.handleControlMessage(true, 'Upload the course syllabus (Step 1 Course information)', false, '', '');
       return false;
     }
     if (!courseInformation.keyWords.length) {

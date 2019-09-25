@@ -42,6 +42,11 @@ export default class SignUpForm extends React.Component {
     }
     if (name === "password") {
       userInformation.password = event.target.value;
+      this.setState({
+        userInformation: userInformation,
+      }, () => {
+        this.state.passwordToConfirm !== '' ? this.confirmPassword() : undefined
+      })
     }
     if (name === "confirmPassword") {
       this.setState({
@@ -64,16 +69,16 @@ export default class SignUpForm extends React.Component {
       this.setState({
         showError: true,
       }, () => {
-        console.log('required');
+        this.handleControlMessage(true, "All fields marked with * are required");
       });
       return false;
     }
     if (!this.state.validEmail) {
-      console.log('valid mail');
+      this.handleControlMessage(true, "Validate your email");
       return false;
     }
     if (!this.state.equalPasswords) {
-      console.log('passwords');
+      this.handleControlMessage(true, "Passwords doesn't match");
       return false;
     }
     return true;
@@ -191,6 +196,27 @@ export default class SignUpForm extends React.Component {
   redirect = url => {
     var win = window.open(url, '_blank');
     win.focus();
+  }
+
+  handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
+    if (show) {
+      if (action === 'subscribed') {
+        action = () => this.showComponent('subscribed');
+      }
+      this.setState({
+        showControlMessage: show,
+        controlMessage: message,
+        controlAction: action,
+        controlActionMessage: actionMessage,
+        showControlAction: showAction,
+        course: action === 'preview' ? course : undefined
+      });
+    }
+    else {
+      this.setState({
+        showControlMessage: show,
+      });
+    }
   }
 
   render() {

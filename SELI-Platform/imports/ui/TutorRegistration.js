@@ -6,6 +6,8 @@ import { Accounts } from 'meteor/accounts-base';
 import FormStepper from '../components/navigation/FormStepper';
 import MainMenu from '../components/navigation/MainMenu';
 import AppBar from '../components/navigation/AppBar';
+import ControlSnackbar from '../components/tools/ControlSnackbar';
+
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
 
@@ -47,8 +49,25 @@ export default class Test extends React.Component {
     }
   }
 
-  showControlMessage(){
-
+  handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
+    if (show) {
+      if (action === 'subscribed') {
+        action = () => this.showComponent('subscribed');
+      }
+      this.setState({
+        showControlMessage: show,
+        controlMessage: message,
+        controlAction: action,
+        controlActionMessage: actionMessage,
+        showControlAction: showAction,
+        course: action === 'preview' ? course : undefined
+      });
+    }
+    else {
+      this.setState({
+        showControlMessage: show,
+      });
+    }
   }
 
   handleClickOpen = () => {
@@ -66,7 +85,6 @@ export default class Test extends React.Component {
         <TutorInformation
           showErrorFunction={showError => this.showError = showError}
           tutorInformation={this.state.tutorInformation}
-          showControlMessage={this.showControlMessage.bind(this)}
           handleEmail={this.handleEmail.bind(this)}
           handlePassword={this.handlePassword.bind(this)}
         />,
@@ -87,30 +105,30 @@ export default class Test extends React.Component {
       this.state.tutorInformation.password === ''
     ) {
       this.showError();
-      console.log("required *");
+      this.handleControlMessage(true, "All fields marked with * are required");
       return false;
     }
     else if (this.state.tutorInformation.image === undefined) {
-      console.log("upload your image");
+      this.handleControlMessage(true, "Upload your profile photo");
       return false;
     }
     else if (!this.state.emailValidated) {
-      console.log("validate your mail");
+      this.handleControlMessage(true, "Validate your email");
       return false;
     }
     else if (!this.state.equalPasswords) {
-      console.log("Same password");
+      this.handleControlMessage(true, "Passwords doesn't match");
       return false;
     }
     else if (this.state.tutorInformation.phoneNumber !== "") {
       if (this.state.tutorInformation.countryCode === "") {
-        console.log("Phone");
+        this.handleControlMessage(true, "Add your country code");
         return false;
       }
     }
     else if (this.state.tutorInformation.countryCode !== "") {
       if (this.state.tutorInformation.phoneNumber === "") {
-        console.log("Phone");
+        this.handleControlMessage(true, "Add your phone number");
         return false;
       }
     }
@@ -156,7 +174,7 @@ export default class Test extends React.Component {
   }
 
   handleError = (error) => {
-    console.log(error);
+    this.handleControlMessage(true, error.reason);
   }
 
   handleEmail = (value) => {
@@ -212,6 +230,14 @@ export default class Test extends React.Component {
                 </Button>
               </DialogActions>
             </Dialog>
+            <ControlSnackbar
+              showControlMessage={this.state.showControlMessage}
+              showControlAction={this.state.showControlAction}
+              controlMessage={this.state.controlMessage}
+              controlAction={this.state.controlAction}
+              controlActionMessage={this.state.controlActionMessage}
+              handleControlMessage={this.handleControlMessage.bind(this)}
+            />
           </MuiThemeProvider>
         }
       </div>

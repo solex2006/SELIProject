@@ -44,7 +44,8 @@ export default class CoursesList extends React.Component {
   }
 
   preview = (_id) => {
-    console.log(_id);
+    const url = `/coursePreview#${_id}`;
+    window.open(url, "_blank");
   }
 
   unpublish = (_id) => {

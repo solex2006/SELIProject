@@ -92,7 +92,7 @@ export default class Tutor extends React.Component {
         controlAction: action,
         controlActionMessage: actionMessage,
         showControlAction: showAction,
-        course: action === 'preview' ? course : undefined
+        course: course,
       });
     }
     else {
@@ -100,6 +100,11 @@ export default class Tutor extends React.Component {
         showControlMessage: show,
       });
     }
+  }
+
+  showPreview = () => {
+    const url = `/coursePreview#${this.state.course}`;
+    window.open(url, "_blank");
   }
 
   editCourse = (course) => {
