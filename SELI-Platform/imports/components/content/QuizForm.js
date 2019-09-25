@@ -123,15 +123,15 @@ export default class QuizForm extends React.Component {
 
   validateContent = (content) => {
     if (!this.validateQuestion(content.questions[this.state.questionSelected])) {
-      console.log('complete your last');
+      this.props.handleControlMessage(true, "Complete the last question that you have added");
       return false;
     }
     else if (content.quizTitle === '' || content.creditResources === '') {
-      console.log('required');
+      this.props.handleControlMessage(true, "The title of the quiz and the credit resources are required fields");
       return false;
     }
     else if ((this.state.addedQuestions + 1) < 2) {
-      console.log('at least 2');
+      this.props.handleControlMessage(true, "Every quiz must have at least 2 questions");
       return false;
     }
     return true;
@@ -152,17 +152,17 @@ export default class QuizForm extends React.Component {
 
   validateQuestion = (question) => {
     if (question.questionTitle === '') {
-      console.log('required');
+      this.props.handleControlMessage(true, "The question title is a required fields");
       return false;
     }
     for (var i = 0; i < question.answersText.length; i++) {
       if (question.answersText[i] === '') {
-        console.log('required');
+        this.props.handleControlMessage(true, `Please add the answer of the question ${i + 1}`);
         return false;
       }
     }
     if (!question.correctAnswers[0] && !question.correctAnswers[1] && !question.correctAnswers[2] && !question.correctAnswers[3]) {
-      console.log('chose 1 correct');
+      this.props.handleControlMessage(true, "Select one correct answer");
       return false;
     }
     return true;
@@ -177,7 +177,7 @@ export default class QuizForm extends React.Component {
     }
     this.setState({
       addedQuestions: addedQuestions,
-    }, () => console.log(this.state.addedQuestions));
+    });
   }
 
   deleteQuestion = () => {
@@ -213,7 +213,7 @@ export default class QuizForm extends React.Component {
         this.getAddedQuestions();
         this.setState({
           questionSelected: index,
-        }, () => console.log(this.state.questionSelected));
+        });
       }
     }
   }

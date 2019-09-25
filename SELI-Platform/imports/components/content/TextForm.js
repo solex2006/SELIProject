@@ -35,7 +35,7 @@ export default class TextForm extends React.Component {
       language: codeLanguages[16],
       attributes: {
         type: 'title',
-        size: '',
+        size: '1.5em',
         alignment: 'center',
         language: '',
         content: '',
@@ -55,19 +55,19 @@ export default class TextForm extends React.Component {
 
   validateContent = (content) => {
     if (content.content === '') {
-      console.log("required");
+      this.props.handleControlMessage(true, "Add the text content");
       return false;
     }
     if (content.type === 'title' && content.size === '') {
-      console.log("size requiered");
+      this.props.handleControlMessage(true, "Select the size of the text");
       return false;
     }
     if (content.type === 'title' && content.alignment === '') {
-      console.log("alignment requiered");
+      this.props.handleControlMessage(true, "Alignment is a requiered field");
       return false;
     }
     if (content.type === 'code' && content.language === '') {
-      console.log("language requiered");
+      this.props.handleControlMessage(true, "Pick the language");
       return false;
     }
     return true;
@@ -127,7 +127,7 @@ export default class TextForm extends React.Component {
     }
     this.setState({
       attributes: attributes,
-    }, () => console.log(this.state.attributes));
+    });
   }
 
   render() {

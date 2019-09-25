@@ -48,11 +48,11 @@ export default class ImageForm extends React.Component {
 
   validateContent = (content) => {
     if (content.image === undefined) {
-      console.log("upload or url");
+      this.props.handleControlMessage(true, "Upload or add the url of the image source");
       return false;
     }
     if (content.hasDescription && content.description === '') {
-      console.log("enter a description or turn off");
+      this.props.handleControlMessage(true, "Enter the description of the image or turn this feature off");
       return false;
     }
     return true;
@@ -110,8 +110,6 @@ export default class ImageForm extends React.Component {
     }
     this.setState({
       attributes: attributes,
-    }, () => {
-      console.log(this.state.attributes);
     });
   }
 

@@ -60,7 +60,7 @@ export default class AudioForm extends React.Component {
     }
     this.setState({
       attributes: attributes,
-    }, () => console.log(this.state.attributes));
+    });
   }
 
   getInnerHtml(innerHTML){
@@ -83,15 +83,15 @@ export default class AudioForm extends React.Component {
 
   validateContent = (content) => {
     if (content.title === '') {
-      console.log("required");
+      this.props.handleControlMessage(true, "The title of the audio content is required");
       return false;
     }
     if (content.audio === undefined) {
-      console.log("upload or url");
+      this.props.handleControlMessage(true, "Upload or record the audio source");
       return false;
     }
     if (content.hasDescription && content.description === '') {
-      console.log("enter a description or turn off");
+      this.props.handleControlMessage(true, "Enter the description of the audio file or turn this feature off");
       return false;
     }
     return true;

@@ -285,7 +285,7 @@ export default class CourseCreatorTool extends React.Component {
         });
       }
       else {
-        this.props.showControlMessage("First add some content please");
+        this.props.handleControlMessage(true, "First add some content please");
       }
     }
     else {
@@ -295,7 +295,7 @@ export default class CourseCreatorTool extends React.Component {
         });
       }
       else {
-        this.props.showControlMessage("First add some content please");
+        this.props.handleControlMessage(true, "First add some content please");
       }
     }
     this.reRender();
@@ -742,8 +742,8 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'text' && !this.state.showAccesibilityOptions ?
                     <TextForm
                       getTextAttributesFunction={textAttributes => this.getItemAttributes = textAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
                       reRender={this.reRender.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined
@@ -752,7 +752,8 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'image' && !this.state.showAccesibilityOptions ?
                     <ImageForm
                       getImageAttributesFunction={imageAttributes => this.getItemAttributes = imageAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
+
                     />
                   :
                   undefined
@@ -761,7 +762,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'video' && !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm ?
                     <VideoForm
                       getVideoAttributesFunction={videoAttributes => this.getItemAttributes = videoAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined
@@ -770,7 +771,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'audio' && !this.state.showAccesibilityOptions ?
                     <AudioForm
                       getAudioAttributesFunction={audioAttributes => this.getItemAttributes = audioAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined
@@ -779,7 +780,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'link' && !this.state.showAccesibilityOptions ?
                     <LinkForm
                       getLinkAttributesFunction={linkAttributes => this.getItemAttributes = linkAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined
@@ -788,7 +789,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'pdf' && !this.state.showAccesibilityOptions ?
                     <PdfForm
                       getPdfAttributesFunction={pdfAttributes => this.getItemAttributes = pdfAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined
@@ -797,7 +798,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'compressed' && !this.state.showAccesibilityOptions ?
                     <CompressedForm
                       getCompressedAttributesFunction={compressedAttributes => this.getItemAttributes = compressedAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined
@@ -806,7 +807,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'h5p' && !this.state.showAccesibilityOptions ?
                     <H5PForm
                       getH5pAttributesFunction={h5pAttributes => this.getItemAttributes = h5pAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined
@@ -815,7 +816,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'quiz' && !this.state.showAccesibilityOptions ?
                     <QuizForm
                       getQuizAttributesFunction={quizAttributes => this.getItemAttributes = quizAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined
@@ -824,7 +825,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'activity' && !this.state.showAccesibilityOptions ?
                     <ActivityForm
                       getActivityAttributesFunction={activityAttributes => this.getItemAttributes = activityAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined
@@ -833,7 +834,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'embebed' && !this.state.showAccesibilityOptions ?
                     <EmbebedForm
                       getEmbebedAttributesFunction={embebedAttributes => this.getItemAttributes = embebedAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined
@@ -842,7 +843,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'unity' && !this.state.showAccesibilityOptions ?
                     <UnityForm
                       getUnityAttributesFunction={unityAttributes => this.getItemAttributes = unityAttributes}
-                      showControlMessage={this.props.showControlMessage.bind(this)}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined

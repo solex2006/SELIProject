@@ -48,7 +48,7 @@ export default class VideoForm extends React.Component {
     }
     this.setState({
       attributes: attributes,
-    }, () => console.log(this.state.attributes));
+    });
   }
 
   getInnerHtml(innerHTML){
@@ -71,15 +71,15 @@ export default class VideoForm extends React.Component {
 
   validateContent = (content) => {
     if (content.title === '') {
-      console.log("required");
+      this.props.handleControlMessage(true, "The title of the video content is required");
       return false;
     }
     if (content.video === undefined) {
-      console.log("upload or url");
+      this.props.handleControlMessage(true, "Upload or add the url of the video source");
       return false;
     }
     if (content.hasDescription && content.description === '') {
-      console.log("enter a description or turn off");
+      this.props.handleControlMessage(true, "Enter the description of the audio file or turn this feature off");
       return false;
     }
     return true;

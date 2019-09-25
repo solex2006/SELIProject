@@ -53,9 +53,22 @@ export default class CreateCourse extends React.Component {
   componentDidMount() {
     this.setState({
       courseForms: [
-        <CourseInformation courseInformation={this.state.courseInformation} showControlMessage={this.showControlMessage.bind(this)}/>,
-        <CourseRequirements courseInformation={this.state.courseInformation} requirementsList={this.state.requirementsList} buildedItems={this.state.buildedItems} showControlMessage={this.showControlMessage.bind(this)}/>,
-        <CourseCreatorTool courseInformation={this.state.courseInformation} showControlMessage={this.showControlMessage.bind(this)} expandedNodes={this.state.expandedNodes} selected={this.state.selected}/>,
+        <CourseInformation
+          courseInformation={this.state.courseInformation}
+          handleControlMessage={this.props.handleControlMessage.bind(this)}
+        />,
+        <CourseRequirements
+          courseInformation={this.state.courseInformation}
+          requirementsList={this.state.requirementsList}
+          buildedItems={this.state.buildedItems}
+          handleControlMessage={this.props.handleControlMessage.bind(this)}
+        />,
+        <CourseCreatorTool
+          courseInformation={this.state.courseInformation}
+          expandedNodes={this.state.expandedNodes}
+          selected={this.state.selected}
+          handleControlMessage={this.props.handleControlMessage.bind(this)}
+        />,
       ],
     });
   }

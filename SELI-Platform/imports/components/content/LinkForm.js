@@ -20,7 +20,7 @@ export default class LinkForm extends React.Component {
     }
     this.setState({
       attributes: attributes,
-    }, () => console.log(this.state.attributes));
+    });
   }
 
   getLinkAttributes(){
@@ -35,7 +35,7 @@ export default class LinkForm extends React.Component {
 
   validateContent = (content) => {
     if (content.url === '' || content.description === '') {
-      console.log("required");
+      this.props.handleControlMessage(true, "The url and the description are required fileds");
       return false;
     }
     return true;

@@ -99,7 +99,7 @@ export default class ActivityForm extends React.Component {
 
   validateContent = (content) => {
     if (content.instruction === '') {
-      console.log("enter a description or turn off");
+      this.props.handleControlMessage(true, "Add the instruction that the student must follow");
       return false;
     }
     return true;

@@ -50,7 +50,7 @@ export default class UnityForm extends React.Component {
         showPreview: false,
         file: undefined,
       })
-      console.log('Error on server');
+      this.props.handleControlMessage(true, "Error on server");
     }
   }
 
@@ -67,17 +67,17 @@ export default class UnityForm extends React.Component {
       Meteor.call("RemoveCourseFile", file._id, function (err) {});
     }
     if (!file.decompressResult.extracted) {
-      console.log("Bad rar file try compressing with RAR4");
+      this.props.handleControlMessage(true, "Bad rar file try compressing with RAR4");
     }
     else if (file.decompressResult.extracted) {
       if (!(file.decompressResult.buildJSON.founded || file.decompressResult.loaderJs.founded)) {
-        console.log("No Folder.json and UnityLoader.js founded");
+        this.props.handleControlMessage(true, "No Folder.json and UnityLoader.js founded");
       }
       else if (!file.decompressResult.buildJSON.founded) {
-        console.log("No Folder.json founded");
+        this.props.handleControlMessage(true, "No Folder.json founded");
       }
       else if (!file.decompressResult.loaderJs.founded) {
-        console.log("No UnityLoader.js founded");
+        this.props.handleControlMessage(true, "No UnityLoader.js founded");
       }
     }
     if (file.decompressResult.buildJSON.founded && file.decompressResult.loaderJs.founded && file.decompressResult.extracted) {

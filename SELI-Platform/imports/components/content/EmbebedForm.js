@@ -38,7 +38,7 @@ export default class EmbebedForm extends React.Component {
     }
     this.setState({
       attributes: attributes,
-    }, () => console.log(this.state.attributes));
+    });
   }
 
   getEmbebedAttributes(){
@@ -55,11 +55,11 @@ export default class EmbebedForm extends React.Component {
 
   validateContent = (content) => {
     if (content.url === '' || content.description === '') {
-      console.log("required");
+      this.props.handleControlMessage(true, "The url and the description are required fields");
       return false;
     }
     if (content.hasDescription && content.description === '') {
-      console.log("enter a description or turn off");
+      this.props.handleControlMessage(true, "Enter the description of the embebed content or turn this feature off");
       return false;
     }
     return true;
@@ -98,12 +98,6 @@ export default class EmbebedForm extends React.Component {
           autoFocus={true}
         />
         <div className="margin-center-row">
-          <FormGroup>
-            <FormControlLabel
-              control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
-              label={<p className="form-label">Add a text description</p>}
-            />
-          </FormGroup>
           <p className="form-label">Text position:</p>
           <Grid item>
             <ToggleButtonGroup onChange={this.handleChange('alignment')} size="small" value={this.state.attributes.alignment} exclusive>

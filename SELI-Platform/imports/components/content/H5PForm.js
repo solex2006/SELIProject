@@ -54,6 +54,10 @@ export default class H5PForm extends React.Component {
   }
 
   validateContent = (content) => {
+    if (this.state.link === '') {
+      this.props.handleControlMessage(true, "Enter the h5p url");
+      return false;
+    }
     return true;
   }
 
@@ -65,7 +69,7 @@ export default class H5PForm extends React.Component {
     }
     this.setState({
       attributes: attributes,
-    }, () => console.log(this.state.attributes));
+    });
   }
 
   componentDidMount(){

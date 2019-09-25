@@ -27,11 +27,11 @@ export default class CompressedForm extends React.Component {
 
   validateContent = (content) => {
     if (content.compressed === undefined) {
-      console.log("upload or url");
+      this.props.handleControlMessage(true, "Upload or add the url of the compressed source");
       return false;
     }
     if (content.instruction === '') {
-      console.log("enter a instruction");
+      this.props.handleControlMessage(true, "Add the instruction that the student must follow with the files");
       return false;
     }
     return true;
