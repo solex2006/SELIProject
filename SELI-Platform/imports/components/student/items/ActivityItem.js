@@ -6,13 +6,22 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import FileUpload from '../../files/FileUpload';
 
 export default class ActivityItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       expanded: 'activity-panel',
+      dialogText: '',
     }
   }
 
@@ -26,6 +35,46 @@ export default class ActivityItem extends React.Component {
 
   componentDidMount(){
 
+  }
+
+  doActivity = () => {
+    this.handleClickOpen();
+    let dialogText;
+    let confirmAction;
+    if (this.props.item.attributes.type === 'upload') {
+      dialogText = `To complete this activity, upload the required file`,
+      confirmAction = () => this.sendFile();
+    }
+    this.setState({
+      dialogText: dialogText,
+      confirmAction: confirmAction,
+    });
+  }
+
+  sendFile = () => {
+    console.log('yes');
+  }
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  getFileInformation = () => {
+    this.setState({
+      file: file,
+      showPreview: true,
+    });
+  }
+
+  unPickFile(){
+    this.setState({
+      showPreview: false,
+      file: undefined,
+    });
   }
 
   render() {
@@ -68,7 +117,7 @@ export default class ActivityItem extends React.Component {
                             this.props.item.attributes.type === 'upload' ?
                               <div className="activity-detail-container">
                                 <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                                  Accepted file types:
+                                  Accepted file type:
                                 </Typography>
                                 {
                                   this.props.item.attributes.fileTypes.map (fileType => {
@@ -97,8 +146,8 @@ export default class ActivityItem extends React.Component {
                         <Button size="medium">
                           Set reminder
                         </Button>
-                        <Button size="medium" color="primary">
-                          Start
+                        <Button onClick={() => this.doActivity()} size="medium" color="primary">
+                          Do activity
                         </Button>
                       </ExpansionPanelActions>
                     </ExpansionPanel>
@@ -109,6 +158,47 @@ export default class ActivityItem extends React.Component {
           :
           undefined
         }
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+        >
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">Do activity</DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+              {this.state.dialogText}
+            </DialogContentText>
+            {
+              this.props.item.attributes.type === 'upload' ?
+                <div>
+                  {
+                    !this.state.showPreview ?
+                      <FileUpload
+                        type={this.props.item.attributes.fileTypes[0].label.toLowerCase()}
+                        accept={this.props.item.attributes.fileTypes[0].accept}
+                        getFileInformation={this.getFileInformation.bind(this)}
+                        label="Click the button to upload your file"
+                      />
+                    :
+                    <div>
+                      File info
+                    </div>
+                  }
+                </div>
+              :
+              undefined
+            }
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+              Cancel
+            </Button>
+            <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
+              Deliver activity
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
       );
     }

@@ -64,7 +64,7 @@ export default class CreateCourse extends React.Component {
         support: this.props.courseToEdit.support,
         organization: this.props.courseToEdit.organization,
         program: this.props.courseToEdit.program,
-        classroom: [],
+        classroom: this.props.courseToEdit.classroom,
       },
       saved: this.props.courseToEdit._id,
     }, () => {
@@ -178,6 +178,14 @@ export default class CreateCourse extends React.Component {
       courseInformation.duration === ''
     ) {
       this.props.handleControlMessage(true, 'Fields marked with an asterisk (*) are required (Step 1 Course information)', false, '', '');
+      return false;
+    }
+    if (!courseInformation.image === undefined) {
+      this.props.handleControlMessage(true, 'Upload the course image (Step 1 Course information)', false, '', '');
+      return false;
+    }
+    if (!courseInformation.sylabus === undefined) {
+      this.props.handleControlMessage(true, 'Upload the course syllabus (Step 1 Course information)', false, '', '');
       return false;
     }
     if (!courseInformation.keyWords.length) {

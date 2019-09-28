@@ -55,11 +55,36 @@ export default class Course extends React.Component {
     });
   }
 
+  calculateProgress = (toComplete, toResolve) => {
+    let total = toComplete.length + toResolve.length;
+    let unitPercentage  = parseFloat(100/total);
+    let progress = 0;
+    toComplete.map(completed => completed ? progress += unitPercentage : undefined);
+    toResolve.map(resolved => resolved ? progress += unitPercentage : undefined);
+    progress = progress.toFixed(2);
+    if (progress === 99.99) {
+      progress = 100;
+    }
+    return progress;
+  }
+
   completeUnit = (index) => {
     let toComplete = this.state.toComplete;
+    let toResolve = this.state.toResolve;
     toComplete[index] = true;
+    let progress = this.calculateProgress(toComplete, toResolve);
     this.setState({
       toComplete: toComplete,
+      progress: progress,
+    }, () => {
+      Meteor.call(
+        "CompleteSection", Meteor.userId(),
+        this.state.toComplete,
+        this.state.course._id,
+        progress,
+        (error, response) =>  {
+
+      });
     });
     index + 1 < toComplete.length ?
     this.navigateTo('unit', [(index + 1), undefined]) : undefined

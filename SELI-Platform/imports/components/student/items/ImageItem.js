@@ -23,7 +23,8 @@ export default class ImageItem extends React.Component {
               className="image-item"
               style={{
                   backgroundImage: `url(${this.props.item.attributes.image.link})`,
-                  backgroundSize: `${this.props.item.attributes.size.width}px`,
+                  width: `${this.props.item.attributes.size.width}px`,
+                  height: `${this.props.item.attributes.size.height}px`,
               }}></div>
             {
               this.props.item.attributes.description !== "" ?

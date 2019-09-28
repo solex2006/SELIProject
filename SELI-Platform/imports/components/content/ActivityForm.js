@@ -110,34 +110,42 @@ export default class ActivityForm extends React.Component {
     let selected = [
       {
         label: 'Pdf',
+        accept: '.pdf',
         selected: false,
       },
       {
         label: 'Word',
+        accept: ['.doc', '.docx'],
         selected: false,
       },
       {
         label: 'Excel',
+        accept: ['.xls', '.xlsx'],
         selected: false,
       },
       {
         label: 'Power point',
+        accept: ['.ppt', '.pptx'],
         selected: false,
       },
       {
         label: 'Image',
+        accept: ['image/*'],
         selected: false,
       },
       {
         label: 'Video',
+        accept: ['video/*'],
         selected: false,
       },
       {
         label: 'Audio',
+        accept: ['audio/*'],
         selected: false,
       },
       {
         label: 'Compressed',
+        accept: ['.zip', '.rar', '.tz', '.7z'],
         selected: false,
       },
     ];
@@ -155,7 +163,8 @@ export default class ActivityForm extends React.Component {
 
   pickFileType(index) {
     let fileTypes = this.state.fileTypes;
-    fileTypes[index].selected = !fileTypes[index].selected;
+    fileTypes.map(fileType => {fileType.selected = false})
+    fileTypes[index].selected = true;
     this.setState({
       fileTypes: fileTypes,
     });

@@ -18,7 +18,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
-export default class Test extends React.Component {
+export default class CourseContent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -250,7 +250,12 @@ export default class Test extends React.Component {
             }
             <div className="course-content-footer-actions">
               <p className="course-content-footer-text"></p>
-              <Button disabled={this.props.toComplete[this.props.selected[0]]} onClick={() => this.props.completeUnit(this.props.selected[0])} variant="contained" className="course-content-footer-button">
+              <Button
+                disabled={this.props.toComplete[this.props.selected[0]]}
+                onClick={() => this.props.completeUnit(this.props.selected[0])}
+                variant="contained"
+                className="course-content-footer-button"
+              >
                 {`Complete ${this.props.course.organization.unit}`}
               </Button>
             </div>

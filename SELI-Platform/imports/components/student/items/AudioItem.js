@@ -25,11 +25,11 @@ export default class AudioItem extends React.Component {
             <Card raised className="course-item-audio-card">
               <div className="course-item-audio-card-details">
                 <CardContent className="course-item-audio-card-content">
-                  <Typography component="h5" variant="h5">
-                    Audio file
+                  <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
+                    {` ${this.props.item.attributes.title}`}
                   </Typography>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    Title
+                  <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
+                    {this.props.item.attributes.source === 'upload' ? `Audio file` : `Recorded file`}
                   </Typography>
                 </CardContent>
                 <CardMedia

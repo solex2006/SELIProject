@@ -78,18 +78,18 @@ export default class CourseCreatorTool extends React.Component {
     super(props);
     this.state = {
       contentItems: [
-        { id: 1, type: "text" },
-        { id: 2, type: "image" },
-        { id: 3, type: "video" },
-        { id: 4, type: "audio" },
-        { id: 5, type: "link" },
-        { id: 6, type: "unity" },
-        { id: 7, type: "embebed" },
-        { id: 8, type: "pdf" },
-        { id: 9, type: "compressed" },
-        { id: 10, type: "h5p" },
-        { id: 11, type: "quiz" },
-        { id: 12, type: "activity" }
+        { id: Math.random(), type: "text" },
+        { id: Math.random(), type: "image" },
+        { id: Math.random(), type: "video" },
+        { id: Math.random(), type: "audio" },
+        { id: Math.random(), type: "link" },
+        { id: Math.random(), type: "unity" },
+        { id: Math.random(), type: "embebed" },
+        { id: Math.random(), type: "pdf" },
+        { id: Math.random(), type: "compressed" },
+        { id: Math.random(), type: "h5p" },
+        { id: Math.random(), type: "quiz" },
+        { id: Math.random(), type: "activity" }
       ],
       audienceOptions: [
         {label: 'All disabilities', selected: true},
@@ -151,24 +151,24 @@ export default class CourseCreatorTool extends React.Component {
   createContent(){
     let courseInformation = this.state.courseInformation;
     let index;
-    if (courseInformation.organization.subunit) {
-      for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
-        if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
-          index = i;
-          break;
-        }
-      }
-    }
-    else {
-      for (var i = 0; i < courseInformation.program[this.props.selected[0]].items.length; i++) {
-        if (courseInformation.program[this.props.selected[0]].items[i].id === this.state.addedId) {
-          index = i;
-          break;
-        }
-      }
-    }
     let itemContent = this.getItemAttributes();
     if (itemContent !== undefined) {
+      if (courseInformation.organization.subunit) {
+        for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
+          if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
+            index = i;
+            break;
+          }
+        }
+      }
+      else {
+        for (var i = 0; i < courseInformation.program[this.props.selected[0]].items.length; i++) {
+          if (courseInformation.program[this.props.selected[0]].items[i].id === this.state.addedId) {
+            index = i;
+            break;
+          }
+        }
+      }
       if (courseInformation.organization.subunit) {
         courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = itemContent;
       }
@@ -194,6 +194,9 @@ export default class CourseCreatorTool extends React.Component {
       });
       this.resetMenuItems();
     }
+    else {
+      console.log('no deberia');
+    }
   }
 
   resetMenuItems(){
@@ -205,6 +208,7 @@ export default class CourseCreatorTool extends React.Component {
 
   cancelContentCreation(){
     let courseInformation = this.state.courseInformation;
+    console.log(courseInformation.program);
     let index;
     if (courseInformation.organization.subunit) {
       for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
@@ -226,6 +230,8 @@ export default class CourseCreatorTool extends React.Component {
     }
     this.setState({
       contentTypeAdded: '',
+    }, () => {
+      console.log(courseInformation.program);
     });
   }
 

@@ -72,7 +72,7 @@ export default class ActivityItem extends React.Component {
                             this.props.item.attributes.type === 'upload' ?
                               <div className="activity-detail-container">
                                 <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                                  Accepted file types:
+                                  Accepted file type:
                                 </Typography>
                                 {
                                   this.props.item.attributes.fileTypes.map (fileType => {
@@ -102,7 +102,7 @@ export default class ActivityItem extends React.Component {
                           Set reminder
                         </Button>
                         <Button size="medium" color="primary">
-                          Start
+                          Do activity
                         </Button>
                       </ExpansionPanelActions>
                     </ExpansionPanel>
