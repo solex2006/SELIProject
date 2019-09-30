@@ -16,6 +16,7 @@ import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import SubtitlesIcon from '@material-ui/icons/Subtitles';
+import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 
 import Slide from '@material-ui/core/Slide';
 import Zoom from '@material-ui/core/Zoom';
@@ -30,13 +31,12 @@ export default class Course extends React.Component {
     super(props);
     this.state = {
       showControls: false,
-      /*url: `https://www.youtube.com/watch?v=2M6v3KNpJQY`,*/
-      url: "http://localhost:3000/files/CourseFilesCollection/CourseFilesCollection/TXu9p7dgHbmfAWcY2/original/TXu9p7dgHbmfAWcY2.mp4",
+      url: this.props.url,
       playing: false,
       fullScreen: false,
       muted: false,
       playedSeconds: 0,
-      volume: 0.7,
+      volume: 0.8,
       timeLabel: "00:00"
     }
   }
@@ -79,10 +79,6 @@ export default class Course extends React.Component {
       isBuffering: false,
     })
   }
-
-  /*keyController = () => {
-    console.log('space');
-  }*/
 
   handleProgress = state => {
     this.toTimeLabel(state.playedSeconds);
@@ -136,21 +132,121 @@ export default class Course extends React.Component {
 
   render() {
     return(
-      <div>
-        <MuiThemeProvider theme={theme}>
-          <AppBar/>
-          <Fullscreen
-            enabled={this.state.fullScreen}
-            onChange={fullScreen => this.setState({fullScreen})}
-          >
-            <div
-              onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
-              className={this.state.fullScreen ? "media-player-container-full" : "media-player-container"}
+      <div style={{width: '100%'}}>
+        {
+          this.props.mediaType === 'video' ?
+            <Fullscreen
+              enabled={this.state.fullScreen}
+              onChange={fullScreen => this.setState({fullScreen})}
             >
+              <div
+                onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
+                className={this.state.fullScreen ? "media-player-container-full" : "media-player-container"}
+              >
+                <ReactPlayer
+                  ref={this.ref}
+                  url={this.state.url}
+                  className="video-media-player"
+                  controls={false}
+                  playing={this.state.playing}
+                  onProgress={this.handleProgress}
+                  muted={this.state.muted}
+                  volume={this.state.volume}
+                  onSeek={e => this.handleSeek}
+                  onDuration={this.handleDuration}
+                  onBuffer={this.handleBuffer}
+                  onBufferEnd={this.handleBufferEnd}
+                />
+                <Slide direction="up" in={this.state.showControls} mountOnEnter unmountOnExit>
+                  <Paper
+                    square
+                    elevation={15}
+                    className="media-player-controllers-container"
+                  >
+                    <IconButton onClick={this.handlePlayPause} className="media-player-icon-button">
+                      {
+                        !this.state.playing ?
+                          <PlayArrowIcon className="media-player-icon"/>
+                        :
+                        <PauseIcon className="media-player-icon"/>
+                      }
+                    </IconButton>
+                    <Typography className="media-player-medium-label" variant="overline" display="block" gutterBottom>
+                      {this.state.timeLabel}
+                    </Typography>
+                    <Slider
+                      step={1 / (this.state.duration)}
+                      min={0}
+                      max={this.state.duration}
+                      valueLabelDisplay="off"
+                      value={this.state.playedSeconds}
+                      color="secondary"
+                      onChange={(event, newValue) => this.handleSeekChange(event, newValue)}
+                      className="media-player-slider"
+                    />
+                    <IconButton
+                      onClick={this.handleToggleMute}
+                      className="media-player-icon-button"
+                    >
+                      {
+                        !this.state.muted && this.state.volume !== 0 ?
+                          <VolumeUpIcon className="media-player-icon"/>
+                        :
+                        <VolumeOffIcon className="media-player-icon"/>
+                      }
+                    </IconButton>
+                    <Slider
+                      step={0.1}
+                      min={0}
+                      max={1}
+                      value={this.state.volume}
+                      onChange={(event, newValue) => this.handleVolumeChange(event, newValue)}
+                      color="secondary"
+                      valueLabelDisplay="auto"
+                      className="media-player-slider-small"
+                    />
+                    <IconButton className="media-player-icon-button">
+                      <SubtitlesIcon className="media-player-icon"/>
+                    </IconButton>
+                    <IconButton
+                      onClick={this.handleToggleFullscreen}
+                      className="media-player-icon-button"
+                    >
+                      {
+                        !this.state.fullScreen ?
+                          <FullscreenIcon className="media-player-icon"/>
+                        :
+                        <FullscreenExitIcon className="media-player-icon"/>
+                      }
+                    </IconButton>
+                  </Paper>
+                </Slide>
+              </div>
+              {
+                this.state.isBuffering ?
+                  <div className="media-player-loading-container">
+                    <ScaleLoader
+                      color={getComputedStyle(document.documentElement).getPropertyValue('--secondary')}
+                      width={12}
+                      radius={2}
+                      margin="5px"
+                      height={100}
+                    />
+                  </div>
+                :
+                undefined
+              }
+            </Fullscreen>
+          :
+          undefined
+        }
+        {
+          this.props.mediaType === 'audio' ?
+            <div className="audio-media-container">
               <ReactPlayer
                 ref={this.ref}
                 url={this.state.url}
-                className="react-media-player"
+                className="audio-media-player"
                 controls={false}
                 playing={this.state.playing}
                 onProgress={this.handleProgress}
@@ -161,88 +257,44 @@ export default class Course extends React.Component {
                 onBuffer={this.handleBuffer}
                 onBufferEnd={this.handleBufferEnd}
               />
-              <Slide direction="up" in={this.state.showControls} mountOnEnter unmountOnExit>
-                <Paper
-                  square
-                  elevation={15}
-                  className="media-player-controllers-container"
-                >
-                  <IconButton onClick={this.handlePlayPause} className="media-player-icon-button">
+              <Paper
+                square
+                elevation={15}
+                className="audio-media-player-paper"
+              >
+                <LibraryMusicIcon className="audio-media-player-icon-big"/>
+                <div className="audio-media-player-controls">
+                  <p className="audio-media-player-text">{this.props.mediaTitle}</p>
+                  <IconButton color="primary" onClick={this.handlePlayPause} className="audio-media-player-icon-button">
                     {
                       !this.state.playing ?
-                        <PlayArrowIcon className="media-player-icon"/>
+                        <PlayArrowIcon className="audio-media-player-icon"/>
                       :
-                      <PauseIcon className="media-player-icon"/>
+                      <PauseIcon className="audio-media-player-icon"/>
                     }
                   </IconButton>
-                  <Typography className="media-player-medium-label" variant="overline" display="block" gutterBottom>
-                    {this.state.timeLabel}
-                  </Typography>
-                  <Slider
-                    step={1 / (this.state.duration)}
-                    min={0}
-                    max={this.state.duration}
-                    valueLabelDisplay="off"
-                    value={this.state.playedSeconds}
-                    color="secondary"
-                    onChange={(event, newValue) => this.handleSeekChange(event, newValue)}
-                    className="media-player-slider"
-                  />
-                  <IconButton
-                    onClick={this.handleToggleMute}
-                    className="media-player-icon-button"
-                  >
-                    {
-                      !this.state.muted && this.state.volume !== 0 ?
-                        <VolumeUpIcon className="media-player-icon"/>
-                      :
-                      <VolumeOffIcon className="media-player-icon"/>
-                    }
-                  </IconButton>
-                  <Slider
-                    step={0.1}
-                    min={0}
-                    max={1}
-                    value={this.state.volume}
-                    onChange={(event, newValue) => this.handleVolumeChange(event, newValue)}
-                    color="secondary"
-                    valueLabelDisplay="auto"
-                    className="media-player-slider-small"
-                  />
-                  <IconButton className="media-player-icon-button">
-                    <SubtitlesIcon className="media-player-icon"/>
-                  </IconButton>
-                  <IconButton
-                    onClick={this.handleToggleFullscreen}
-                    className="media-player-icon-button"
-                  >
-                    {
-                      !this.state.fullScreen ?
-                        <FullscreenIcon className="media-player-icon"/>
-                      :
-                      <FullscreenExitIcon className="media-player-icon"/>
-                    }
-                  </IconButton>
-                </Paper>
-              </Slide>
-            </div>
-            {
-              this.state.isBuffering ?
-                <div className="media-player-loading-container">
-                  <ScaleLoader
-                    color={getComputedStyle(document.documentElement).getPropertyValue('--secondary')}
-                    width={12}
-                    radius={2}
-                    margin="5px"
-                    height={100}
-                  />
+                  <div className="audio-media-player-row">
+                    <Typography className="audio-media-player-medium-label" variant="overline" display="block" gutterBottom>
+                      {this.state.timeLabel}
+                    </Typography>
+                    <Slider
+                      step={1 / (this.state.duration)}
+                      min={0}
+                      max={this.state.duration}
+                      valueLabelDisplay="off"
+                      value={this.state.playedSeconds}
+                      color="primary"
+                      onChange={(event, newValue) => this.handleSeekChange(event, newValue)}
+                      className="audio-media-player-slider"
+                    />
+                  </div>
                 </div>
-              :
-              undefined
-            }
-          </Fullscreen>
-        </MuiThemeProvider>
-      </div>
-          )
+              </Paper>
+            </div>
+          :
+          undefined
         }
-      }
+      </div>
+    )
+  }
+}

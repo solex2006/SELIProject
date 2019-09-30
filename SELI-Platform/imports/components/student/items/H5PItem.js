@@ -1,17 +1,27 @@
 import React from 'react';
 import Divider from '@material-ui/core/Divider';
-import Link from '@material-ui/core/Link';
-import Iframe from 'react-iframe';
+import IframeComm from "react-iframe-comm";
+import Loading from '../../tools/Loading';
 
 export default class H5PItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      loading: true,
+      attributes: {
+        src: this.props.item.attributes.link,
+        width: this.props.item.attributes.size.width,
+        height: this.props.item.attributes.size.height,
+        frameBorder: 0,
+      }
     }
   }
 
-
+  onReady = () => {
+    this.setState({
+      loading: false,
+    })
+  }
 
   componentDidMount(){
 
@@ -31,15 +41,18 @@ export default class H5PItem extends React.Component {
                   </div>
                   <Divider light={true}/>
                   <div className="h5P-item-container-activity">
-                    <Iframe
-                      url={this.props.item.attributes.link}
-                      id="myId"
-                      className="h5p-iframe"
-                      display="initial"
-                      position="relative"
-                      width={this.props.item.attributes.size.width}
-                      height={this.props.item.attributes.size.height}
+                    <IframeComm
+                      attributes={this.state.attributes}
+                      handleReady={() => this.onReady()}
                     />
+                    {
+                      this.state.loading ?
+                        <div className="embebed-loading-container">
+                          <Loading message="Loading h5p content..."/>
+                        </div>
+                      :
+                      undefined
+                    }
                   </div>
                 </div>
               </div>

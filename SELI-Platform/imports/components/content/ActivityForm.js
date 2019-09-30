@@ -149,12 +149,14 @@ export default class ActivityForm extends React.Component {
         selected: false,
       },
     ];
+    let index;
     for (var i = 0; i < fileTypes.length; i++) {
       if (fileTypes[i].selected) {
-        selected[i].selected = true;
+        index = i;
+        break;
       }
     }
-    return selected;
+    return selected[index];
   }
 
   componentDidMount(){

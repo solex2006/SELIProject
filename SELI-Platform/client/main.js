@@ -10,7 +10,6 @@ import {
 import { createBrowserHistory } from 'history';
 import { Tracker } from 'meteor/tracker';
 
-import Main from '../imports/ui/Main';
 import Home from '../imports/ui/Home';
 import Tutor from '../imports/ui/Tutor';
 import Student from '../imports/ui/Student';

@@ -1,15 +1,8 @@
 TODO
-POR HACER:
-- Snackbar GENERAL PARA TODOS
 PRINCIPAL
 - Menu para cada tipo de usuario (Profeshor, student, adminPaposte)
-- Formularios de sign (2)
 - Busquedas
-- Presentacion de cursos (Selectionar cuadritos)
-- Presentacion de cursos (Suscripcion)
 - Acabar el footer
-- Lista de cursos por usuario
-- Registro de tutores
 - Lista de tutores
 - Solicitudes
 - Poner bn los requisitos y las disabilities
@@ -25,12 +18,10 @@ STUDENT
 - Storytelling (TODITOOOO)
 - chat
 - Libreria
-- Accesibilidad ???
 - Comments node and general
 - Unity
 
-Create branch for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
+Cambiar la imagen en el course preview
+Se muestra el snack bar cuando se añade una pregunta
 LINE CLAMP en firefox
-CREATE COURSE SIN SAVE!!!!!
+Corregir bugsaso cuando se desuscribe y se modifica!!!!!

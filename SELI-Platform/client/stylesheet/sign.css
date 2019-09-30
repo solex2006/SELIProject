@@ -67,5 +67,5 @@
 }
 
 .MuiDialog-paperScrollPaper {
-  max-height: calc(100% - 10px) !important;
+  max-height: calc(100% - 1px) !important;
 }

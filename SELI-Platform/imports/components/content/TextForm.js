@@ -20,7 +20,6 @@ import CodeIcon from '@material-ui/icons/Code';
 import MenuItem from '@material-ui/core/MenuItem';
 import CodeEditor from '../tools/CodeEditor';
 import codeLanguages from '../../../lib/codeLanguages';
-import codeThemes from '../../../lib/codeThemes';
 
 export default class TextForm extends React.Component {
   constructor(props) {

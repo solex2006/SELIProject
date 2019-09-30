@@ -195,7 +195,7 @@ export default class Editor extends React.Component {
 
   render() {
     return(
-      <div>
+      <div style={{width: '100%', paddingBottom: '2.5vh'}}>
         <MuiThemeProvider theme={theme}>
           <div className="editor-container">
             <p className="editor-label">TEXT EDITOR</p>

@@ -29,7 +29,8 @@
 }
 
 .file-preview-name {
-  width: 100%;
+  width: 90%;
+  padding: 1vh 5%;
   text-align: center;
   height: auto;
   letter-spacing: 1px;
@@ -106,6 +107,15 @@
   align-items: center;
 }
 
+#attachment-preview-information {
+  width: calc(400px - var(--preview-action-container));
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .compressed-file-preview-icon {
   font-size: 3em;
   margin-bottom: 3vh;
@@ -113,6 +123,15 @@
   color: var(--white);
   padding: 10px;
   background-color: #7e57c2;
+}
+
+.attachment-file-preview-icon {
+  font-size: 1.5em;
+  margin-bottom: 3vh;
+  border-radius: 100%;
+  color: var(--white);
+  padding: 10px;
+  background-color: #ff9800;
 }
 
 .file-image-preview {

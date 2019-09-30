@@ -305,9 +305,11 @@ export default class AccountManagement extends React.Component {
       this.props.handleControlMessage(true, 'Fields marked with an asterisk (*) are required', false, '', '');
       return false;
     }
-    else if (this.state.userInformation.profile.profileImage === undefined) {
-      this.props.handleControlMessage(true, 'Select your profile photo', false, '', '');
-      return false;
+    if (this.props.user.profile.type === 'tutor') {
+      if (this.state.userInformation.profile.profileImage === undefined) {
+        this.props.handleControlMessage(true, 'Select your profile photo', false, '', '');
+        return false;
+      }
     }
     else if (!this.state.emailValidated) {
       this.props.handleControlMessage(true, 'The email must be valid', false, '', '');

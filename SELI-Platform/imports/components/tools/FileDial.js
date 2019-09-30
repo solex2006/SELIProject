@@ -64,7 +64,7 @@ export default function FileDial(props) {
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
-            onClick={handleClick}
+            onClick={action.action}
             tooltipPlacement="bottom"
           />
         ))}

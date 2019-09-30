@@ -67,73 +67,115 @@ export default class CourseContent extends React.Component {
                     <div>
                       {
                         item.type === "text" ?
-                          <TextItem item={item}/>
+                          <TextItem
+                            item={item}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          />
                         :
                         undefined
                       }
                       {
                         item.type === "image" ?
-                          <ImageItem item={item}/>
+                          <ImageItem
+                            item={item}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          />
                         :
                         undefined
                       }
                       {
                         item.type === "video" ?
-                          <VideoItem item={item}/>
+                          <VideoItem
+                            item={item}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          />
                         :
                         undefined
                       }
                       {
                         item.type === "audio" ?
-                          <AudioItem item={item}/>
+                          <AudioItem
+                            item={item}
+                            openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          />
                         :
                         undefined
                       }
                       {
                         item.type === "link" ?
-                          <LinkItem item={item}/>
+                          <LinkItem
+                            item={item}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          />
                         :
                         undefined
                       }
                       {
                         item.type === "unity" ?
-                          <UnityItem item={item}/>
+                          <UnityItem
+                            item={item}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          />
                         :
                         undefined
                       }
                       {
                         item.type === "embebed" ?
-                          <EmbebedItem item={item}/>
+                          <EmbebedItem
+                            item={item}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          />
                         :
                         undefined
                       }
                       {
                         item.type === "pdf" ?
-                          <PdfItem item={item}/>
+                          <PdfItem
+                            item={item}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          />
                         :
                         undefined
                       }
                       {
                         item.type === "compressed" ?
-                          <CompressedItem item={item}/>
+                          <CompressedItem
+                            item={item}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          />
                         :
                         undefined
                       }
                       {
                         item.type === "h5p" ?
-                          <H5PItem item={item}/>
+                          <H5PItem
+                            item={item}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          />
                         :
                         undefined
                       }
                       {
                         item.type === "quiz" ?
-                          <QuizItem item={item}/>
+                          <QuizItem
+                            item={item}
+                            toResolve={this.props.toResolve}
+                            course={this.props.course._id}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            completeActivity={this.props.completeActivity.bind(this)}
+                          />
                         :
                         undefined
                       }
                       {
                         item.type === "activity" ?
-                          <ActivityItem item={item}/>
+                          <ActivityItem
+                            item={item}
+                            toResolve={this.props.toResolve}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            completeActivity={this.props.completeActivity.bind(this)}
+                          />
                         :
                         undefined
                       }
@@ -174,73 +216,115 @@ export default class CourseContent extends React.Component {
                   <div>
                     {
                       item.type === "text" ?
-                        <TextItem item={item}/>
+                        <TextItem
+                          item={item}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        />
                       :
                       undefined
                     }
                     {
                       item.type === "image" ?
-                        <ImageItem item={item}/>
+                        <ImageItem
+                          item={item}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        />
                       :
                       undefined
                     }
                     {
                       item.type === "video" ?
-                        <VideoItem item={item}/>
+                        <VideoItem
+                          item={item}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        />
                       :
                       undefined
                     }
                     {
                       item.type === "audio" ?
-                        <AudioItem item={item}/>
+                        <AudioItem
+                          item={item}
+                          openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        />
                       :
                       undefined
                     }
                     {
                       item.type === "link" ?
-                        <LinkItem item={item}/>
+                        <LinkItem
+                          item={item}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        />
                       :
                       undefined
                     }
                     {
                       item.type === "unity" ?
-                        <UnityItem item={item}/>
+                        <UnityItem
+                          item={item}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        />
                       :
                       undefined
                     }
                     {
                       item.type === "embebed" ?
-                        <EmbebedItem item={item}/>
+                        <EmbebedItem
+                          item={item}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        />
                       :
                       undefined
                     }
                     {
                       item.type === "pdf" ?
-                        <PdfItem item={item}/>
+                        <PdfItem
+                          item={item}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        />
                       :
                       undefined
                     }
                     {
                       item.type === "compressed" ?
-                        <CompressedItem item={item}/>
+                        <CompressedItem
+                          item={item}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        />
                       :
                       undefined
                     }
                     {
                       item.type === "h5p" ?
-                        <H5PItem item={item}/>
+                        <H5PItem
+                          item={item}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        />
                       :
                       undefined
                     }
                     {
                       item.type === "quiz" ?
-                        <QuizItem item={item}/>
+                        <QuizItem
+                          item={item}
+                          toResolve={this.props.toResolve}
+                          course={this.props.course._id}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          completeActivity={this.props.completeActivity.bind(this)}
+                        />
                       :
                       undefined
                     }
                     {
                       item.type === "activity" ?
-                        <ActivityItem item={item}/>
+                        <ActivityItem
+                          item={item}
+                          toResolve={this.props.toResolve}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          completeActivity={this.props.completeActivity.bind(this)}
+                        />
                       :
                       undefined
                     }

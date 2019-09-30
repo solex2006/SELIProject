@@ -2,7 +2,6 @@
   width: 100vw;
   height: calc(100vh - var(--app-bar-height));
   position: relative;
-  top: var(--app-bar-height);
   overflow-y: hidden;
 }
 
@@ -28,17 +27,17 @@
   opacity: 0.95;
 }
 
-.react-media-player {
+.video-media-player {
   width: 100vw !important;
   height: calc(100vh - var(--app-bar-height)) !important;
 }
 
-.react-media-player div iframe {
+.video-media-player div iframe {
   width: 100vw;
   height: calc(100vh - var(--app-bar-height));
 }
 
-.react-media-player div {
+.video-media-player div {
   width: 100vw;
   height: calc(100vh - var(--app-bar-height));
 }
@@ -46,6 +45,10 @@
 .media-player-icon-button {
   color: var(--white) !important;
   position: relative;
+}
+
+.media-dialog-content {
+  padding: 0 !important;
 }
 
 .media-player-icon {
@@ -80,4 +83,78 @@
 
 .media-player-slider-small {
   width: 7.5vw !important;
+}
+
+.audio-media-player {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.audio-media-player div iframe {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.audio-media-player div {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.audio-media-container {
+  width: 100%;
+  height: 100%;
+  background-color: #eeeeee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.audio-media-player-paper {
+  width: 50vw !important;
+  height: 50vh !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInLeft 0.5s;
+}
+
+.audio-media-player-icon-big {
+  font-size: 5vw !important;
+  padding: 2.5vh 2.5vw !important;
+}
+
+.audio-media-player-controls {
+  width: 30vw;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.audio-media-player-slider {
+  width: 50% !important;
+  margin-left: 1vw;
+}
+
+.audio-media-player-text {
+  letter-spacing: 1px;
+  font-size: 1.25em;
+}
+
+.audio-media-player-icon-button {
+  margin-top: 2.5vh !important;
+}
+
+.audio-media-player-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.audio-media-player-medium-label {
+  letter-spacing: 2px;
+  font-size: 0.85em;
+  margin-right: 0.5vw;
 }

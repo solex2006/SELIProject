@@ -1,17 +1,30 @@
 import React from 'react';
 import Divider from '@material-ui/core/Divider';
-import Iframe from 'react-iframe';
+import IframeComm from "react-iframe-comm";
+import Loading from '../../tools/Loading';
 
 export default class EmbebedItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      loading: true,
+      attributes: {
+        src: this.props.item.attributes.url,
+        width: this.props.item.attributes.size.width,
+        height: this.props.item.attributes.size.height,
+        frameBorder: 0,
+      }
     }
   }
 
   componentDidMount(){
 
+  }
+
+  onReady = () => {
+    this.setState({
+      loading: false,
+    })
   }
 
   render() {
@@ -22,22 +35,25 @@ export default class EmbebedItem extends React.Component {
             this.props.item.attributes.description ?
               <div
                 className="embebed-description-item-section"
-                dangerouslySetInnerHTML={{__html: this.props.item.attributes.content}}
+                dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
               >
               </div>
             :
             undefined
           }
           <div className="embebed-item-container-activity">
-            <Iframe
-              url={this.props.item.attributes.url}
-              id={this.props.item.id}
-              className="embebed-iframe"
-              display="initial"
-              position="relative"
-              width={this.props.item.attributes.size.width}
-              height={this.props.item.attributes.size.height}
+            <IframeComm
+              attributes={this.state.attributes}
+              handleReady={() => this.onReady()}
             />
+            {
+              this.state.loading ?
+                <div className="embebed-loading-container">
+                  <Loading message="Loading embebed content..."/>
+                </div>
+              :
+              undefined
+            }
           </div>
         </div>
       </div>

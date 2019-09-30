@@ -24,7 +24,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
-import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
@@ -54,17 +53,6 @@ export default class Student extends React.Component {
         });
       });
     });
-    /*Meteor.logout();
-    Meteor.loginWithPassword({username: "mateom11"}, "1234", (error) => {
-      if (error) {
-        console.log(error);
-      }
-      else {
-        this.setState({
-          user: Meteor.user(),
-        })
-      }
-    });*/
   }
 
   logOut = () => {
@@ -191,6 +179,9 @@ export default class Student extends React.Component {
               unsubscribed: true,
               showLoadingMessage: false,
             }, () => {
+              if (this.state.activeCourse !== undefined) {
+                this.state.activeCourse.courseId === course._id ? this.closeCourse() : undefined
+              }
               this.handleControlMessage(true, 'Course removed from your subscriptions', false, '', '', undefined);
               this.state.component === 'subscribed' ? this.getSubscribedCourses() : undefined
             });
@@ -249,7 +240,7 @@ export default class Student extends React.Component {
         unit.lessons.map(subunit => {
           subunit.items.map(content => {
             if (content.type === 'quiz' || content.type === 'activity') {
-              toResolve.push(false);
+              toResolve.push({resolved: false, _id: content.id});
             }
           })
         })
@@ -259,7 +250,7 @@ export default class Student extends React.Component {
       course.program.map(unit => {
         unit.items.map(content => {
           if (content.type === 'quiz' || content.type === 'activity') {
-            toResolve.push(false);
+            toResolve.push({resolved: false, _id: content.id});
           }
         })
       })
@@ -305,6 +296,7 @@ export default class Student extends React.Component {
                 this.state.component === 'course' ?
                   <Course
                     user={this.state.user}
+                    reRender={this.forceUpdate.bind(this)}
                     selected={this.state.selected}
                     activeCourse={this.state.activeCourse}
                     showComponent={this.showComponent.bind(this)}

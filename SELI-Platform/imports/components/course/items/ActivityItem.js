@@ -55,7 +55,7 @@ export default class ActivityItem extends React.Component {
                           <Typography className="quiz-panel-subtitle">
                             { this.props.item.attributes.type === 'storyboard' ? "Storytelling activity" : undefined }
                             { this.props.item.attributes.type === 'upload' ? "Upload file activity" : undefined }
-                            { this.props.item.attributes.type === 'text' ? "Text section activity" : undefined }
+                            { this.props.item.attributes.type === 'section' ? "Text section activity" : undefined }
                           </Typography>
                         </div>
                       </ExpansionPanelSummary>
@@ -74,22 +74,9 @@ export default class ActivityItem extends React.Component {
                                 <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                                   Accepted file type:
                                 </Typography>
-                                {
-                                  this.props.item.attributes.fileTypes.map (fileType => {
-                                    return(
-                                      <div>
-                                        {
-                                          fileType.selected ?
-                                            <Typography className="file-type-text-detail" variant="overline" display="block" gutterBottom>
-                                              {fileType.label}
-                                            </Typography>
-                                          :
-                                          undefined
-                                        }
-                                      </div>
-                                    )
-                                  })
-                                }
+                                <Typography className="file-type-text-detail" variant="overline" display="block" gutterBottom>
+                                  {this.props.item.attributes.fileTypes.label}
+                                </Typography>
                               </div>
                             :
                             undefined

@@ -120,6 +120,7 @@ export default class CreateCourse extends React.Component {
       if (!this.state.saved) {
         courseInformation.createdBy = user.username;
         courseInformation.published = false;
+        courseInformation.classroom = [];
         let course = Courses.insert(courseInformation);
         this.setState({
           saved: course,

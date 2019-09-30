@@ -5,16 +5,21 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
+
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import AttachmentPreview from '../../files/previews/AttachmentPreview';
 import FileUpload from '../../files/FileUpload';
+import Editor from '../../inputs/editor/Editor';
 
 export default class ActivityItem extends React.Component {
   constructor(props) {
@@ -22,10 +27,13 @@ export default class ActivityItem extends React.Component {
     this.state = {
       expanded: 'activity-panel',
       dialogText: '',
+      additionalNotes: '',
+      resolved: false,
+      textSection: '',
     }
   }
 
-  handleChange = panel => (event, isExpanded) => {
+  handleChangePanel = panel => (event, isExpanded) => {
     this.setState({
       expanded: isExpanded ? panel : false
     });
@@ -34,7 +42,13 @@ export default class ActivityItem extends React.Component {
   }
 
   componentDidMount(){
+    this.checkResolved();
+  }
 
+  checkResolved = () => {
+    this.props.toResolve.map(activity => {
+      (activity._id === this.props.item.id && activity.resolved) ? this.setState({resolved: true}) : undefined
+    })
   }
 
   doActivity = () => {
@@ -45,6 +59,10 @@ export default class ActivityItem extends React.Component {
       dialogText = `To complete this activity, upload the required file`,
       confirmAction = () => this.sendFile();
     }
+    if (this.props.item.attributes.type === 'section') {
+      dialogText = `To complete this activity, write about what is requested in the instructions`,
+      confirmAction = () => this.sendSection();
+    }
     this.setState({
       dialogText: dialogText,
       confirmAction: confirmAction,
@@ -52,7 +70,28 @@ export default class ActivityItem extends React.Component {
   }
 
   sendFile = () => {
-    console.log('yes');
+    if (this.validateUploadActivity()) {
+      let activity = {
+        file: this.state.file,
+        additionalNotes: this.state.additionalNotes,
+        type: 'upload',
+        public: false,
+      }
+      this.props.completeActivity(this.props.item.id, activity, "Activity");
+      this.handleClose();
+    }
+  }
+
+  sendSection = () => {
+    if (this.validateSectionActivity()) {
+      let activity = {
+        textSection: this.state.textSection,
+        type: 'section',
+        public: false,
+      }
+      this.props.completeActivity(this.props.item.id, activity, "Activity");
+      this.handleClose();
+    }
   }
 
   handleClickOpen = () => {
@@ -63,7 +102,7 @@ export default class ActivityItem extends React.Component {
     this.setState({ open: false });
   };
 
-  getFileInformation = () => {
+  getFileInformation = (file) => {
     this.setState({
       file: file,
       showPreview: true,
@@ -75,6 +114,40 @@ export default class ActivityItem extends React.Component {
       showPreview: false,
       file: undefined,
     });
+  }
+
+  handleChange = name => event => {
+    if (name === 'additionalNotes') {
+      this.setState({
+        additionalNotes: event.target.value,
+      });
+    }
+  }
+
+  validateUploadActivity = () => {
+    if (this.state.file === undefined) {
+      this.props.handleControlMessage(true, "Upload a file to complete the activity")
+      return false;
+    }
+    return true;
+  }
+
+  validateSectionActivity = () => {
+    if (this.state.textSection === '') {
+      this.props.handleControlMessage(true, "Complete your text section to end this activity")
+      return false;
+    }
+    return true;
+  }
+
+  getInnerHtml(innerHTML){
+    this.setState({
+      textSection: innerHTML,
+    });
+  }
+
+  componentWillReceiveProps() {
+    this.checkResolved();
   }
 
   render() {
@@ -89,7 +162,7 @@ export default class ActivityItem extends React.Component {
                     <ExpansionPanel
                       defaultExpanded
                       expanded={this.props.item.attributes.expanded}
-                      onChange={this.handleChange('activity-panel')}
+                      onChange={this.handleChangePanel('activity-panel')}
                       className="item-quiz-panel"
                     >
                       <ExpansionPanelSummary
@@ -103,7 +176,7 @@ export default class ActivityItem extends React.Component {
                           <Typography className="quiz-panel-subtitle">
                             { this.props.item.attributes.type === 'storyboard' ? "Storytelling activity" : undefined }
                             { this.props.item.attributes.type === 'upload' ? "Upload file activity" : undefined }
-                            { this.props.item.attributes.type === 'text' ? "Text section activity" : undefined }
+                            { this.props.item.attributes.type === 'section' ? "Text section activity" : undefined }
                           </Typography>
                         </div>
                       </ExpansionPanelSummary>
@@ -119,22 +192,9 @@ export default class ActivityItem extends React.Component {
                                 <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                                   Accepted file type:
                                 </Typography>
-                                {
-                                  this.props.item.attributes.fileTypes.map (fileType => {
-                                    return(
-                                      <div>
-                                        {
-                                          fileType.selected ?
-                                            <Typography className="file-type-text-detail" variant="overline" display="block" gutterBottom>
-                                              {fileType.label}
-                                            </Typography>
-                                          :
-                                          undefined
-                                        }
-                                      </div>
-                                    )
-                                  })
-                                }
+                                <Typography className="file-type-text-detail" variant="overline" display="block" gutterBottom>
+                                  {this.props.item.attributes.fileTypes.label}
+                                </Typography>
                               </div>
                             :
                             undefined
@@ -143,12 +203,24 @@ export default class ActivityItem extends React.Component {
                       </ExpansionPanelDetails>
                       <Divider />
                       <ExpansionPanelActions className="quiz-item-actions">
-                        <Button size="medium">
-                          Set reminder
-                        </Button>
-                        <Button onClick={() => this.doActivity()} size="medium" color="primary">
-                          Do activity
-                        </Button>
+                        {
+                          !this.state.resolved ?
+                            <div>
+                              <Button size="medium">
+                                Set reminder
+                              </Button>
+                              <Button onClick={() => this.doActivity()} size="medium" color="primary">
+                                Do activity
+                              </Button>
+                            </div>
+                          :
+                          <div className="align-items-center">
+                            <Button size="medium">
+                              Activity done
+                            </Button>
+                            <CheckCircleIcon className="done-icon"/>
+                          </div>
+                        }
                       </ExpansionPanelActions>
                     </ExpansionPanel>
                   </div>
@@ -171,21 +243,45 @@ export default class ActivityItem extends React.Component {
             </DialogContentText>
             {
               this.props.item.attributes.type === 'upload' ?
-                <div>
+                <div style={{width: '100%'}}>
                   {
                     !this.state.showPreview ?
                       <FileUpload
-                        type={this.props.item.attributes.fileTypes[0].label.toLowerCase()}
-                        accept={this.props.item.attributes.fileTypes[0].accept}
+                        type={this.props.item.attributes.fileTypes.label.toLowerCase()}
+                        accept={this.props.item.attributes.fileTypes.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
                         label="Click the button to upload your file"
                       />
                     :
-                    <div>
-                      File info
-                    </div>
+                    <AttachmentPreview
+                      file={this.state.file}
+                      unPickFile={this.unPickFile.bind(this)}
+                    />
                   }
+                  <TextField
+                    id="biography-input"
+                    label="Additional notes"
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    multiline
+                    rows={3}
+                    value={this.state.additionalNotes}
+                    onChange={this.handleChange('additionalNotes')}
+                  />
                 </div>
+              :
+              undefined
+            }
+            {
+              this.props.item.attributes.type === 'section' ?
+                <Editor
+                  areaHeight='20vh'
+                  innerHTML={this.state.textSection}
+                  buttonLabels={false}
+                  addLinks={true}
+                  getInnerHtml={this.getInnerHtml.bind(this)}
+                />
               :
               undefined
             }

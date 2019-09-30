@@ -9,10 +9,19 @@ export default class CompressedItem extends React.Component {
     super(props);
     this.state = {
       actions: [
-        { icon: <CloudDownloadIcon />, name: 'Download' },
-        { icon: <StarRateIcon />, name: 'Add to my library' },
+        { icon: <CloudDownloadIcon />, name: 'Download', action: () => this.download() },
+        { icon: <StarRateIcon />, name: 'Add to my library', action: () => this.addToFavorites() },
       ],
     }
+  }
+
+  addToFavorites = () => {
+    console.log('yes');
+  }
+
+  download = () => {
+    var win = window.open(this.props.item.attributes.compressed.link, '_blank');
+    win.focus();
   }
 
   render() {
