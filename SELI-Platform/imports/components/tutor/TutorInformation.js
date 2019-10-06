@@ -485,6 +485,7 @@ export default class TutorInformation extends React.Component {
                     <div className="form-file-container">
                       <FileUpload
                         type={this.state.fileType}
+                        user={"guest"}
                         accept={this.state.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
                         label="Click the button to upload your photo"

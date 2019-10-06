@@ -28,9 +28,9 @@ import TextField from '@material-ui/core/TextField';
 
 import Help from '../tools/Help';
 
-import { People } from '../../../lib/PeopleCollection';
+import { Audiences } from '../../../lib/AudiencesCollection';
 import { Requirements } from '../../../lib/RequirementsCollection';
-
+import { Feedback } from '../../../lib/FeedbackCollection';
 
 export default class CourseRequirements extends React.Component {
   constructor(props) {
@@ -83,77 +83,67 @@ export default class CourseRequirements extends React.Component {
     }
     courseInformation.requirements = requirements;
     courseInformation.support = support;
+    console.log(courseInformation);
     this.setState({
       lists: lists,
     });
   }
 
   buildItems() {
-    if (!this.state.lists.length) {
-      let audienceAllowed = this.state.audienceAllowed;
-      let technicalRequirements = this.state.technicalRequirements;
-      let lists = this.state.lists;
-      if (audienceAllowed.length && technicalRequirements.length) {
-        audienceAllowed.map(audience => {audience.selected = false});
-        technicalRequirements.map(requirement => {requirement.selected = false});
-        if (this.props.courseInformation.support.length) {
-          let support = this.props.courseInformation.support;
-          for (var i = 0; i < audienceAllowed.length; i++) {
-            for (var j = 0; j < support.length; j++) {
-              if (support[j]._id === audienceAllowed[i]._id) {
-                audienceAllowed[i].selected = true;
-                break;
-              }
+    let audienceAllowed = this.state.audienceAllowed;
+    let technicalRequirements = this.state.technicalRequirements;
+    let lists = this.state.lists;
+    lists = [];
+    if (audienceAllowed.length && technicalRequirements.length) {
+      audienceAllowed.map(audience => {audience.selected = false});
+      technicalRequirements.map(requirement => {requirement.selected = false});
+      if (this.props.courseInformation.support.length) {
+        let support = this.props.courseInformation.support;
+        for (var i = 0; i < audienceAllowed.length; i++) {
+          for (var j = 0; j < support.length; j++) {
+            if (support[j]._id === audienceAllowed[i]._id) {
+              audienceAllowed[i].selected = true;
+              break;
             }
           }
         }
-        if (this.props.courseInformation.requirements.length) {
-          let requirements = this.props.courseInformation.requirements;
-          for (var i = 0; i < technicalRequirements.length; i++) {
-            for (var j = 0; j < requirements.length; j++) {
-              if (requirements[j]._id === technicalRequirements[i]._id) {
-                technicalRequirements[i].selected = true;
-                break;
-              }
+      }
+      if (this.props.courseInformation.requirements.length) {
+        let requirements = this.props.courseInformation.requirements;
+        for (var i = 0; i < technicalRequirements.length; i++) {
+          for (var j = 0; j < requirements.length; j++) {
+            if (requirements[j]._id === technicalRequirements[i]._id) {
+              technicalRequirements[i].selected = true;
+              break;
             }
           }
         }
-        lists.push(
-          {
-            id: 1,
-            name: "Audiences",
-            label: "This course will support the following disabilities:",
-            options: audienceAllowed,
-            help: {helper: "audienceHelper", text: "Audiences are:"},
-            icon: <PeopleIcon/>,
-          },
-          {
-            id: 2,
-            name: "Technical requirements",
-            label: "This course will need the following technical requirements:",
-            options: technicalRequirements,
-            help: {helper: "technicalRequirementsHelper", text: "Technical Requirements are:"},
-            icon: <DevicesIcon/>,
-          }
-        );
-        this.setState({
-          audienceAllowed: audienceAllowed,
-          technicalRequirements: technicalRequirements,
-          lists: lists,
-          loading: false,
-          buildedItems: true,
-        });
       }
-      else {
-        this.setState({
-          loading: true,
-        })
-      }
-    }
-    else {
+      lists.push(
+        {
+          id: 1,
+          name: "Audiences",
+          label: "This course will support the following disabilities:",
+          options: audienceAllowed,
+          help: {helper: "audienceHelper", text: "Audiences are:"},
+          icon: <PeopleIcon/>,
+        },
+        {
+          id: 2,
+          name: "Technical requirements",
+          label: "This course will need the following technical requirements:",
+          options: technicalRequirements,
+          help: {helper: "technicalRequirementsHelper", text: "Technical Requirements are:"},
+          icon: <DevicesIcon/>,
+        }
+      );
       this.setState({
+        audienceAllowed: audienceAllowed,
+        technicalRequirements: technicalRequirements,
+        lists: lists,
         loading: false,
-      })
+        buildedItems: true,
+      });
     }
   }
 
@@ -166,7 +156,7 @@ export default class CourseRequirements extends React.Component {
       request.description = event.target.value;
     }
     else if (name === 'type') {
-      request.description = event.target.value;
+      request.type = event.target.value;
     }
     this.setState({
       request: request,
@@ -174,14 +164,56 @@ export default class CourseRequirements extends React.Component {
   };
 
   componentDidMount() {
-    Tracker.autorun(() => {
-      let audiences = People.find().fetch();
-      let requirements = Requirements.find({type: "Technical"}).fetch();
-      this.setState({
-        audienceAllowed: audiences,
-        technicalRequirements: requirements,
-      }, () => this.buildItems());
-    });
+    this.setState({
+      loading: true,
+    }, () => {
+      Tracker.autorun(() => {
+        let audiences = Audiences.find().fetch();
+        let requirements = Requirements.find({type: "technical"}).fetch();
+        this.setState({
+          audienceAllowed: audiences,
+          technicalRequirements: requirements,
+        }, () => {
+          this.setState({
+            loading: false,
+          })
+          this.buildItems();
+        });
+      });
+    })
+  }
+
+  validateRequest = () => {
+    let request = this.state.request;
+    if (request.type === '' || request.name === '' || request.description === '') {
+      this.props.handleControlMessage(true, "Fields marked with * are required");
+      return false;
+    }
+    return true;
+  }
+
+  sendRequest = () => {
+    if (this.validateRequest()) {
+      Feedback.insert({
+        type: this.state.request.type,
+        name: this.state.request.name,
+        description: this.state.request.description,
+        date: new Date(),
+        from: Meteor.user().username,
+        userId: Meteor.userId(),
+        answered: false,
+      }, () => {
+        this.handleClose();
+        this.props.handleControlMessage(true, "Request sent, we will answer you soon");
+        this.setState({
+          request: {
+            name: '',
+            description: '',
+            type: '',
+          },
+        })
+      })
+    }
   }
 
   componentWillUnmount(){
@@ -258,7 +290,7 @@ export default class CourseRequirements extends React.Component {
           <DialogContent>
             <div>
               <FormControl className="content-form-control" component="fieldset">
-                <RadioGroup className="content-radio-group-center" aria-label="position" name="type" value={this.state.alignment} onChange={this.handleChange} row>
+                <RadioGroup className="content-radio-group-center" aria-label="position" name="type" value={this.state.request.type} onChange={this.handleChange('type')} row>
                   <FormLabel className="form-radio-label" component="legend">Requirement type*</FormLabel>
                   <FormControlLabel
                     value="technical"
@@ -284,7 +316,7 @@ export default class CourseRequirements extends React.Component {
                 fullWidth
                 required
                 value={this.state.request.name}
-                onChange={this.handleChange('title')}
+                onChange={this.handleChange('name')}
               />
               <TextField
                 id="description-input"
@@ -304,7 +336,7 @@ export default class CourseRequirements extends React.Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.sendRequest} color="primary">
               Send
             </Button>
           </DialogActions>

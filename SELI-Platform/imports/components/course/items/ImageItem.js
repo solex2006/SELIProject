@@ -85,7 +85,7 @@ export default class ImageItem extends React.Component {
                 }}></div>
             </Resizable>
             {
-              this.props.item.attributes.description !== "" ?
+              this.props.item.attributes.hasDescription ?
                 <div
                   id={this.props.item.attributes.image._id+"description"+this.props.item.id}
                   style={{width: this.props.item.attributes.descriptionWidth}}
@@ -107,6 +107,7 @@ export default class ImageItem extends React.Component {
           <MenuItem
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
+            editItem={this.props.editItem.bind(this)}
           />
         </div>
       </div>

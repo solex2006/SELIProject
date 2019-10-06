@@ -66,7 +66,7 @@ export default class AudioItem extends React.Component {
               </div>
             </Card>
             {
-              this.props.item.attributes.description !== "" ?
+              this.props.item.attributes.hasDescription ?
                 <div
                   className="course-item-audio-card-description"
                   dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}

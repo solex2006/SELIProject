@@ -42,7 +42,12 @@
 .navigation-snackbar .MuiSnackbarContent-root {
   background-color: var(--white) !important;
   color: #333 !important;
-  opacity: 0.75 !important;
+  opacity: 0.75;
+  transition: 0.5s !important;
+}
+
+.navigation-snackbar:hover .MuiSnackbarContent-root {
+  opacity: 1;
 }
 
 .navigation-message-container {

@@ -9,9 +9,10 @@ import Loading from '../../components/tools/Loading';
 import Table from '../data_display/Table';
 import UserCard from './UserCard';
 
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import TabIcon from '@material-ui/icons/Tab';
+import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -23,11 +24,11 @@ import Button from '@material-ui/core/Button';
 
 import { Courses } from '../../../lib/CourseCollection';
 
-export default class TutorRequestList extends React.Component {
+export default class TutorsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tutorRequests: [],
+      tutors: [],
       loading: true,
       open: false,
       dialog: {
@@ -45,21 +46,37 @@ export default class TutorRequestList extends React.Component {
   };
 
   componentDidMount() {
-    this.getRequests();
+    this.getTutors();
   }
 
-  getRequests = () => {
+  showDeleteConfirmation = (_id) => {
+    let tutorsToDelete = [];
+    tutorsToDelete.push(_id);
+    this.setState({
+      dialog: {
+        title: 'Delete tutors(s)',
+        dialogConfirmationContentText: "Are you sure you want to delete this tutors(s)? Remeber that there could be some courses that use this information. It's better if you edit the information",
+        action: 'delete',
+        confirmActionLabel: 'Delete'
+      },
+      open: true,
+      confirmAction: () => this.delete(),
+      tutorsToDelete: tutorsToDelete,
+    });
+  }
+
+  getTutors = () => {
     this.setState({
       loading: true,
     }, () => {
       Tracker.autorun(() => {
-        Meteor.call("GetTutorRequests", (error, response) =>  {
+        Meteor.call("GetTutors", (error, response) =>  {
           this.setState({
-            tutorRequests: response,
+            tutors: response,
           }, () => {
             let results = true;
-            if (this.state.tutorRequests.length) {
-              this.createTableData(this.state.tutorRequests);
+            if (this.state.tutors.length) {
+              this.createTableData(this.state.tutors);
             }
             else {
               results = false;
@@ -74,23 +91,9 @@ export default class TutorRequestList extends React.Component {
     })
   }
 
-  approveRequest = (_id) => {
-    let tutorRequests = this.state.tutorRequests;
-    const index = tutorRequests.findIndex(tutor => tutor._id === _id);
-    this.setState({
-      selected: index,
-      dialog: {
-        title: "Approve request",
-        action: "approve",
-      }
-    }, () => {
-      this.handleClickOpen();
-    })
-  }
-
   fullInformation = (_id) => {
-    let tutorRequests = this.state.tutorRequests;
-    const index = tutorRequests.findIndex(tutor => tutor._id === _id);
+    let tutors = this.state.tutors;
+    const index = tutors.findIndex(tutor => tutor._id === _id);
     this.setState({
       selected: index,
       dialog: {
@@ -102,7 +105,7 @@ export default class TutorRequestList extends React.Component {
     })
   }
 
-  createTableData = (tutorRequests) => {
+  createTableData = (tutors) => {
     let tableData = [];
     let headRows = [
       { id: 'fullname', numeric: false, disablePadding: true, label: 'Full Name' },
@@ -112,9 +115,9 @@ export default class TutorRequestList extends React.Component {
     ];
     let menuOptions = [
       {label: "See full information", icon: <TabIcon/>, action: this.fullInformation.bind(this)},
-      {label: "Approve request" , icon: <ThumbUpAltIcon/>, action: this.approveRequest.bind(this)},
+      {label: "Delete" , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
     ];
-    tutorRequests.map(tutor => {
+    tutors.map(tutor => {
       tableData.push({fullname: tutor.profile.fullname, username: tutor.username, email: tutor.emails[0].address, _id: tutor._id})
     })
     this.setState({
@@ -128,21 +131,39 @@ export default class TutorRequestList extends React.Component {
     });
   }
 
-  activateAccount = () => {
-    Meteor.call("ActivateAccount", this.state.tutorRequests[this.state.selected]._id, (error, response) =>  {
-      if (response) {
-        this.setState({
-          activated: response,
-        }, () => {
-          this.handleClose();
-          this.getRequests();
-        })
-      }
-      else {
-        console.log(error);
-      }
+  deleteSelected = (tutors) => {
+    let tutorsToDelete = [];
+    tutors.map(tutor => {tutorsToDelete.push(tutor)});
+    this.setState({
+      dialog: {
+        title: 'Delete tutor(s)',
+        dialogConfirmationContentText: 'Are you sure you want to delete this tutor(s)? Remeber that there could be some courses that use this information.',
+        action: 'delete',
+        confirmActionLabel: 'Delete tutor(s)'
+      },
+      open: true,
+      confirmAction: () => this.delete(),
+      tutorsToDelete: tutorsToDelete,
     });
   }
+
+  delete = () => {
+    this.state.tutorsToDelete.map((tutor, index) => {
+      Meteor.call("DeleteUser", tutor, (error, response) =>  {
+        if (error) {
+          console.log(error);
+        }
+        else {
+          this.handleClose();
+          this.setSelected();
+          this.getTutors();
+          this.props.handleControlMessage(true, 'Tutor(s) deleted successfully!', false, '', '');
+        }
+      });
+    });
+  }
+
+  setSelected(){}
 
   render() {
     return(
@@ -150,22 +171,25 @@ export default class TutorRequestList extends React.Component {
         {
           this.state.loading ?
             <div className="loading-course-container">
-              <Loading message="Loading requests..."/>
+              <Loading message="Loading tutors..."/>
             </div>
           :
           <React.Fragment>
             {
               this.state.results ?
                 <div className="management-result-container">
-                  <p className="management-title">Tutor requests <PersonAddIcon className="management-title-icon"/></p>
+                  <p className="management-title">Registered tutors <AccountCircleIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
                     <Table
-                      labels={{title:'You have', pagination: 'Requests per page:', plural: 'requests'}}
+                      labels={{title:'There are', pagination: 'Tutors per page:', plural: 'tutors'}}
                       headRows={this.state.headRows}
                       menuOptions={this.state.menuOptions}
                       tableData={this.state.tableData}
+                      delete={true}
+                      deleteSelected={this.deleteSelected.bind(this)}
+                      setSelectedFunction={selected => this.setSelected = selected}
                       refresh={true}
-                      refreshAction={this.getRequests.bind(this)}
+                      refreshAction={this.getTutors.bind(this)}
                     />
                   </div>
                 </div>
@@ -185,18 +209,18 @@ export default class TutorRequestList extends React.Component {
             {
               this.state.dialog.action === "information" ?
                 <UserCard
-                  user={this.state.tutorRequests[this.state.selected]}
+                  user={this.state.tutors[this.state.selected]}
                 />
               :
               undefined
             }
             {
-              this.state.dialog.action === "approve" ?
+              this.state.dialog.action === "delete" ?
                 <div>
-                  <DialogContentText style={{padding: "0 1vw"}}>Are you sure you want to approve this request?</DialogContentText>
+                  <DialogContentText style={{padding: "0 1vw"}}>{this.state.dialog.dialogConfirmationContentText}</DialogContentText>
                   <DialogActions>
-                    <Button onClick={() => this.activateAccount()} color="primary">Yes</Button>
-                    <Button onClick={() => this.handleClose()} color="primary">No</Button>
+                    <Button onClick={() => this.handleClose()} color="primary">Cancel</Button>
+                    <Button onClick={() => this.state.confirmAction()} color="primary">{this.state.dialog.confirmActionLabel}</Button>
                   </DialogActions>
                 </div>
               :

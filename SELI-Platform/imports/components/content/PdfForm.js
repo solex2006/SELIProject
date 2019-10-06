@@ -90,6 +90,20 @@ export default class PdfForm extends React.Component {
     this.props.getPdfAttributesFunction(() => this.getPdfAttributes());
   }
 
+  componentWillMount(){
+    if (this.props.contentToEdit !== undefined) {
+      this.setState({
+        attributes: this.props.contentToEdit.attributes,
+      }, () => {
+        if (this.state.attributes.pdf !== undefined) {
+          this.setState({
+            showPreview: true,
+          })
+        }
+      })
+    }
+  }
+
   render() {
     return(
       <div>
@@ -107,6 +121,7 @@ export default class PdfForm extends React.Component {
                   <div className="form-file-container">
                     <FileUpload
                       type="pdf"
+                      user={Meteor.userId()}
                       accept={'.pdf'}
                       label={'Click the button to upload a pdf'}
                       getFileInformation={this.getFileInformation.bind(this)}
@@ -133,7 +148,7 @@ export default class PdfForm extends React.Component {
             </div>
           :
           <Library
-            user={"MyUser"}
+            user={Meteor.userId()}
             type={"pdf"}
             getFileInformation={this.getFileInformation.bind(this)}
             hideLibrary={this.hideLibrary.bind(this)}

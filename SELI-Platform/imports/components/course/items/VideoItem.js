@@ -56,11 +56,16 @@ export default class VideoItem extends React.Component {
                     {this.props.item.attributes.source === 'upload' ? `Video file` : `External video`}
                   </Typography>
                 </Typography>
-                <div
-                  className="course-item-video-card-media-description"
-                  dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
-                >
-                </div>
+                {
+                  this.props.item.attributes.hasDescription ?
+                  <div
+                    className="course-item-video-card-media-description"
+                    dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
+                  >
+                  </div>
+                  :
+                  undefined
+                }
               </CardContent>
             </CardActionArea>
             <CardActions className="course-item-video-card-media-actions-container">
@@ -89,6 +94,7 @@ export default class VideoItem extends React.Component {
           <MenuItem
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
+            editItem={this.props.editItem.bind(this)}
           />
         </div>
       </div>

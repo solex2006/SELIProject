@@ -76,6 +76,14 @@ export default class H5PForm extends React.Component {
     this.props.getH5pAttributesFunction(() => this.getH5pAttributes());
   }
 
+  componentWillMount(){
+    if (this.props.contentToEdit !== undefined) {
+      this.setState({
+        attributes: this.props.contentToEdit.attributes,
+      })
+    }
+  }
+
   render() {
     return(
       <div className="dialog-form-container">

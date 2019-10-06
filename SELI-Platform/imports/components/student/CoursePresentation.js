@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
+import Fab from '@material-ui/core/Fab';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import TimerIcon from '@material-ui/icons/Timer';
 import BookIcon from '@material-ui/icons/Book';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Dialog from '@material-ui/core/Dialog';
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
@@ -112,17 +114,28 @@ export default class CoursePresentation extends React.Component {
   render() {
     return(
       <div className="course-presentation-container">
-        <div
-          style={{backgroundImage: `url(${this.props.course.image.link})`}}
-          className="course-presentation-title-container"
-        >
-          <Zoom delay={500} top cascade>
-            <p className="course-presentation-title-text">{this.props.course.title}</p>
-            <p className="course-presentation-subtitle-text">{this.props.course.subtitle}</p>
-          </Zoom>
+        <div className="course-presentation-hero-container">
+          <div className="course-presentation-hero-column">
+            <Fade duration={2000} cascade>
+              <h1 className="course-presentation-hero-title">{this.props.course.title}</h1>
+            </Fade>
+            <Fade delay={1000}>
+              <h4 className="course-presentation-hero-subtitle">{this.props.course.subtitle}</h4>
+              <p className="course-presentation-hero-normal">{`Created by: ${this.props.course.createdBy}`}</p>
+            </Fade>
+          </div>
+          <div className="course-presentation-hero-column">
+            <Paper
+              id="course-presentation-hero-media-image"
+              className="course-presentation-hero-media-paper"
+              elevation={10}
+              style={{backgroundImage: `url(${this.props.course.image.link})`}}
+            ></Paper>
+            <Paper id="course-presentation-hero-media-color" className="course-presentation-hero-media-paper" elevation={12}></Paper>
+          </div>
         </div>
-        <Fade delay={500} duration={1000} left>
-          <div className="course-presentation-description">
+        <Fade left>
+          <div id="course-presentation-description" className="course-presentation-description">
             {this.props.course.description}
           </div>
         </Fade>
@@ -157,8 +170,8 @@ export default class CoursePresentation extends React.Component {
               elevation={12}
               className="course-card-information"
               style={{
-                backgroundColor: this.state.palette[1].bgColor,
-                color: this.state.palette[1].textColor,
+                backgroundColor: this.state.palette[0].bgColor,
+                color: this.state.palette[0].textColor,
               }}
               onClick={() => this.handleClickOpenSylabus()}
             >
@@ -170,7 +183,7 @@ export default class CoursePresentation extends React.Component {
                   <BookIcon
                     className="course-card-presentation-icon"
                     style={{
-                      color: this.state.palette[1].textColor,
+                      color: this.state.palette[0].textColor,
                     }}
                   />
                 </IconButton>
@@ -183,8 +196,8 @@ export default class CoursePresentation extends React.Component {
               elevation={12}
               className="course-card-information"
               style={{
-                backgroundColor: this.state.palette[2].bgColor,
-                color: this.state.palette[2].textColor,
+                backgroundColor: this.state.palette[0].bgColor,
+                color: this.state.palette[0].textColor,
               }}
               onClick={() => this.handleClickOpenOrganization()}
             >
@@ -196,7 +209,7 @@ export default class CoursePresentation extends React.Component {
                   <AssignmentIcon
                     className="course-card-presentation-icon"
                     style={{
-                      color: this.state.palette[2].textColor,
+                      color: this.state.palette[0].textColor,
                     }}
                   />
                 </IconButton>
@@ -277,6 +290,6 @@ export default class CoursePresentation extends React.Component {
           </div>
         </Dialog>
       </div>
-            )
-          }
-        }
+    )
+  }
+}

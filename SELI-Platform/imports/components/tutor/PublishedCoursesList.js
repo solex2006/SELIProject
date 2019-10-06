@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 
 import Loading from '../../components/tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
-import Table from '../tutor/Table';
+import Table from '../data_display/Table';
 
 import SchoolIcon from '@material-ui/icons/School';
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
 import TabIcon from '@material-ui/icons/Tab';
 import WarningIcon from '@material-ui/icons/Warning';
+import InfoIcon from '@material-ui/icons/Info';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -17,12 +18,11 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-export default class CoursesList extends React.Component {
+export default class PublishedCoursesList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       myCourses: [],
-      loading: true,
     }
   }
 
@@ -31,14 +31,26 @@ export default class CoursesList extends React.Component {
   }
 
   getMyCourses = (user) => {
-    Tracker.autorun(() => {
-      let myCourses = Courses.find({createdBy: user, published: true}).fetch();
-      this.setState({
-        myCourses: myCourses,
-      }, () => {
-        if (this.state.myCourses.length) {
-          this.createTableData(this.state.myCourses);
-        }
+    this.setState({
+      loading: true,
+    }, () => {
+      Tracker.autorun(() => {
+        let myCourses = Courses.find({createdBy: user, published: true}).fetch();
+        this.setState({
+          myCourses: myCourses,
+        }, () => {
+          let results = true;
+          if (this.state.myCourses.length) {
+            this.createTableData(this.state.myCourses);
+          }
+          else {
+            results = false;
+          }
+          this.setState({
+            loading: false,
+            results: results,
+          })
+        });
       });
     });
   }
@@ -115,18 +127,31 @@ export default class CoursesList extends React.Component {
               <Loading message="Loading my courses..."/>
             </div>
           :
-          <div className="management-result-container">
-            <p className="management-title">My published courses <SchoolIcon className="management-title-icon"/></p>
-            <div className="management-table-container">
-              <Table
-                labels={{pagination: 'Courses per page:', plural: 'courses'}}
-                headRows={this.state.headRows}
-                menuOptions={this.state.menuOptions}
-                tableData={this.state.tableData}
-                delete={false}
-              />
-            </div>
-          </div>
+          <React.Fragment>
+            {
+              this.state.results ?
+                <div className="management-result-container">
+                  <p className="management-title">My published courses <SchoolIcon className="management-title-icon"/></p>
+                  <div className="management-table-container">
+                    <Table
+                      labels={{pagination: 'Courses per page:', plural: 'courses'}}
+                      headRows={this.state.headRows}
+                      menuOptions={this.state.menuOptions}
+                      tableData={this.state.tableData}
+                      delete={false}
+                    />
+                  </div>
+                </div>
+              :
+              <div className="empty-dashboard">
+                <div className="empty-dashboard-row">
+                  <p className="empty-dashboard-text">You don't have any course published yet</p>
+                  <InfoIcon className="empty-dashboard-icon"/>
+                </div>
+                <Button onClick={() => this.props.showComponent('create')} variant="contained" color="secondary" className="empty-dashboard-button">Create a course</Button>
+              </div>
+            }
+          </React.Fragment>
         }
         <Dialog
           open={this.state.open}

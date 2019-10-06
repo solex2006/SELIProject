@@ -1,0 +1,36 @@
+.comments-result-container {
+  width: 450px;
+  height: auto;
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+
+.comment-container {
+  display: flex;
+  align-items: center;
+  padding: 2.5vh 0;
+}
+
+.comment-container-information {
+  padding: 0.5vh 1.25vw;
+}
+
+.comment-text-primary {
+  font-size: 0.95em;
+  letter-spacing: 1px;
+  text-align: justify;
+  margin-top: 0.75vh;
+}
+
+.comment-text-secondary {
+  font-size: 0.8em;
+  letter-spacing: 1px;
+  margin-top: 0.5vh;
+  color: #616161;
+}
+
+.comments-result-icon {
+  margin-top: 0.5vh !important;
+  color: #616161 !important;
+  font-size: 2.05em !important;
+}

@@ -117,6 +117,20 @@ export default class ImageForm extends React.Component {
     this.props.getImageAttributesFunction(() => this.getImageAttributes());
   }
 
+  componentWillMount(){
+    if (this.props.contentToEdit !== undefined) {
+      this.setState({
+        attributes: this.props.contentToEdit.attributes,
+      }, () => {
+        if (this.state.attributes.image !== undefined) {
+          this.setState({
+            showPreview: true,
+          })
+        }
+      })
+    }
+  }
+
   render() {
     return(
       <div>
@@ -134,6 +148,7 @@ export default class ImageForm extends React.Component {
                   <div className="form-file-container">
                     <FileUpload
                       type='image'
+                      user={Meteor.userId()}
                       accept={'image/*'}
                       label={'Click the button to upload an image'}
                       getFileInformation={this.getFileInformation.bind(this)}
@@ -192,7 +207,7 @@ export default class ImageForm extends React.Component {
             </div>
           :
           <Library
-            user={"MyUser"}
+            user={Meteor.userId()}
             type={"image"}
             getFileInformation={this.getFileInformation.bind(this)}
             hideLibrary={this.hideLibrary.bind(this)}

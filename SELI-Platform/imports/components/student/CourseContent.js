@@ -16,7 +16,12 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
+
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 export default class CourseContent extends React.Component {
   constructor(props) {
@@ -87,6 +92,7 @@ export default class CourseContent extends React.Component {
                         item.type === "video" ?
                           <VideoItem
                             item={item}
+                            openMediaPlayer={this.props.openMediaPlayer.bind(this)}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                           />
                         :
@@ -236,6 +242,7 @@ export default class CourseContent extends React.Component {
                       item.type === "video" ?
                         <VideoItem
                           item={item}
+                          openMediaPlayer={this.props.openMediaPlayer.bind(this)}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                         />
                       :
@@ -333,15 +340,59 @@ export default class CourseContent extends React.Component {
               })
             }
             <div className="course-content-footer-actions">
-              <p className="course-content-footer-text"></p>
+              {
+                this.props.toComplete[this.props.selected[0]] ?
+                  <Button
+                    className="course-content-footer-button-small"
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => this.props.leaveComment()}
+                  >
+                    Leave a comment
+                  </Button>
+                :
+                undefined
+              }
+              <div className="course-content-footer-row">
+                <Tooltip title={`Previous ${this.props.course.organization.unit}`}>
+                  <Fab
+                    disabled={this.props.selected[0] === 0}
+                    size="small"
+                    className="course-content-footer-fab"
+                    onClick={() => this.props.handlePreviousUnit()}
+                  >
+                    <NavigateBeforeIcon/>
+                  </Fab>
+                </Tooltip>
+                <Tooltip title={`Next ${this.props.course.organization.unit}`}>
+                  <Fab
+                    disabled={this.props.selected[0] === this.props.course.program.length - 1}
+                    size="small"
+                    className="course-content-footer-fab"
+                    onClick={() => this.props.handleNextUnit()}
+                  >
+                    <NavigateNextIcon/>
+                  </Fab>
+                </Tooltip>
+              </div>
               <Button
                 disabled={this.props.toComplete[this.props.selected[0]]}
                 onClick={() => this.props.completeUnit(this.props.selected[0])}
                 variant="contained"
                 className="course-content-footer-button"
               >
-                {`Complete ${this.props.course.organization.unit}`}
+                {
+                  this.props.toComplete[this.props.selected[0]] ?
+                  `${this.props.course.organization.unit} completed` :
+                  `Complete ${this.props.course.organization.unit}`
+                }
               </Button>
+              {
+                this.props.toComplete[this.props.selected[0]] ?
+                  <CheckCircleIcon className="success-dialog-icon-small"/>
+                :
+                undefined
+              }
             </div>
           </div>
         }

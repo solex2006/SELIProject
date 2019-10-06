@@ -24,6 +24,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import CourseFiles from '../../lib/CourseFilesCollection';
+
 export default class TutorRegistration extends React.Component {
   constructor(props) {
     super(props);
@@ -155,6 +157,12 @@ export default class TutorRegistration extends React.Component {
         this.handleError(error);
       }
       else {
+        CourseFiles.update(
+          { _id: information.image._id},
+          { $set: {
+            'meta.userId': Meteor.userId(),
+          }}
+        )
         Meteor.logout();
         this.requestSent();
       }

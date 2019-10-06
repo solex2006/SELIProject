@@ -38,6 +38,16 @@ export default class CourseInformation extends React.Component {
   };
 
   handleClose = () => {
+    if (this.state.courseInformation.image !== undefined) {
+      this.setState({
+        image: this.state.courseInformation.image,
+      });
+    }
+    if (this.state.courseInformation.sylabus !== undefined) {
+      this.setState({
+        sylabus: this.state.courseInformation.sylabus,
+      });
+    }
     this.setState({ open: false });
   };
 
@@ -77,16 +87,14 @@ export default class CourseInformation extends React.Component {
         courseInformation.keyWords.push(finalKeyWord);
         this.setState({
           courseInformation: courseInformation,
-        }, () => console.log(this.state.courseInformation));
+        });
       }
       else {
-        // Validation
-        console.log("No more that 3");
+        this.props.handleControlMessage(true, "Maximun 3 key words separated by space");
       }
     }
     else {
-      // Validation
-      console.log("Empty");
+      this.props.handleControlMessage(true, "Can't add an empty key word");
     }
     document.getElementById('keyWord-input').value = "";
   }
@@ -110,8 +118,19 @@ export default class CourseInformation extends React.Component {
 
   openFileSelector(fileType, accept){
     this.setState({
+      showLibrary: false,
       fileType: fileType,
       accept: accept,
+      showPreview: false,
+    }, () => {this.handleClickOpen()});
+  }
+
+  openFileSelectorEdit(fileType, accept){
+    this.setState({
+      showLibrary: false,
+      fileType: fileType,
+      accept: accept,
+      showPreview: true,
     }, () => {this.handleClickOpen()});
   }
 
@@ -176,10 +195,10 @@ export default class CourseInformation extends React.Component {
 
   changeFile(type) {
     if (type === "image") {
-      this.openFileSelector("image", "image/*")
+      this.openFileSelectorEdit("image", "image/*");
     }
     else {
-      this.openFileSelector("pdf", ".pdf")
+      this.openFileSelectorEdit("pdf", ".pdf");
     }
   }
 
@@ -320,7 +339,7 @@ export default class CourseInformation extends React.Component {
               {
                 this.state.showLibrary ?
                   <Library
-                    user={"MyUser"}
+                    user={Meteor.userId()}
                     type={this.state.fileType}
                     getFileInformation={this.getFileInformation.bind(this)}
                     hideLibrary={this.hideLibrary.bind(this)}
@@ -347,6 +366,7 @@ export default class CourseInformation extends React.Component {
                     <div className="form-file-container">
                       <FileUpload
                         type={this.state.fileType}
+                        user={Meteor.userId()}
                         accept={this.state.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
                         label={this.state.fileType === 'image' ? 'Click the button to upload an image' : 'Click the button to upload a pdf'}

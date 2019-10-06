@@ -44,6 +44,9 @@ export default class Home extends React.Component {
               else if (this.state.user.profile.type === 'student') {
                 location.replace("/student");
               }
+              else if (this.state.user.profile.type === 'administrator') {
+                location.replace("/administrator");
+              }
             });
           }
           else {

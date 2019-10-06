@@ -31,6 +31,10 @@ export default class SubscribedCourses extends React.Component {
     this.getSubscribedCourses();
   }
 
+  componentWillReceiveProps() {
+    this.getSubscribedCourses();
+  }
+
   getSubscribedCourses = () => {
     this.setState({
       courses: [],

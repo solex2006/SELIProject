@@ -29,7 +29,7 @@ export default class ImageItem extends React.Component {
             >
             </div>
             {
-              this.props.item.attributes.description !== "" ?
+              this.props.item.attributes.hasDescription ?
                 <div
                   id={this.props.item.attributes.image._id+"description"+this.props.item.id}
                   style={{width: this.props.item.attributes.descriptionWidth}}

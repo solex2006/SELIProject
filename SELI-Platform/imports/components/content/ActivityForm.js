@@ -163,6 +163,18 @@ export default class ActivityForm extends React.Component {
     this.props.getActivityAttributesFunction(() => this.getActivityAttributes());
   }
 
+  componentWillMount(){
+    if (this.props.contentToEdit !== undefined) {
+      this.setState({
+        attributes: this.props.contentToEdit.attributes,
+      }, () => {
+        let fileTypes = this.state.fileTypes;
+        let index = fileTypes.findIndex( type => type.label === this.state.attributes.fileTypes.label );
+        this.pickFileType(index);
+      })
+    }
+  }
+
   pickFileType(index) {
     let fileTypes = this.state.fileTypes;
     fileTypes.map(fileType => {fileType.selected = false})

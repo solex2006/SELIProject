@@ -10,7 +10,10 @@ export default class LinkItem extends React.Component {
     }
   }
 
-
+  openExternalLink = () => {
+    var win = window.open(this.props.item.attributes.url, '_blank');
+    win.focus();
+  }
 
   componentDidMount(){
 
@@ -19,10 +22,10 @@ export default class LinkItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        <div className="link-content-item">
+        <div onClick={() => this.openExternalLink()} className="link-content-item">
           <div
             className="link-item-container-html"
-            dangerouslySetInnerHTML={{__html: this.props.item.attributes.content}}
+            dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
           >
           </div>
         </div>

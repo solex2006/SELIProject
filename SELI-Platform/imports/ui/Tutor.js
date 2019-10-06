@@ -49,17 +49,6 @@ export default class Tutor extends React.Component {
         });
       });
     });
-    /*Meteor.logout();
-    Meteor.loginWithPassword({username: "mateo1309"}, "1234", (error) => {
-      if (error) {
-        console.log(error);
-      }
-      else {
-        this.setState({
-          user: Meteor.user(),
-        })
-      }
-    });*/
   }
 
   logOut = () => {
@@ -150,6 +139,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'published' ?
                   <PublishedCoursesList
                     user={this.state.user}
+                    showComponent={this.showComponent.bind(this)}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
@@ -160,6 +150,7 @@ export default class Tutor extends React.Component {
                   <SavedCoursesList
                     user={this.state.user}
                     handleControlMessage={this.handleControlMessage.bind(this)}
+                    showComponent={this.showComponent.bind(this)}
                     editCourse={this.editCourse.bind(this)}
                   />
                 :

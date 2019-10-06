@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 import Loading from '../tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
 import { Activities } from '../../../lib/ActivitiesCollection';
+import { Comments } from '../../../lib/CommentsCollection';
 
 import CourseMenu from './CourseMenu';
 import CoursePresentation from './CoursePresentation';
 import CourseContent from './CourseContent';
 import MediaPlayer from './MediaPlayer';
+import CommentDialog from '../student/comments/CommentDialog';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -104,11 +106,21 @@ export default class Course extends React.Component {
         this.state.course._id,
         progress,
         (error, response) =>  {
-
+          if (!error) {
+            this.props.handleControlMessage(true, "Topic completed, you can leave your comments about what you think about this part of the course");
+          }
       });
     });
-    index + 1 < toComplete.length ?
-    this.navigateTo('unit', [(index + 1), undefined]) : undefined
+  }
+
+  handleNextUnit = () => {
+    let index = this.state.selected[0];
+    this.navigateTo('unit', [(index + 1), undefined])
+  }
+
+  handlePreviousUnit = () => {
+    let index = this.state.selected[0];
+    this.navigateTo('unit', [(index - 1), undefined])
   }
 
   completeActivity = (id, activity, label) => {
@@ -151,12 +163,34 @@ export default class Course extends React.Component {
     this.setState({ openMedia: false });
   }
 
+  handleCloseComment = () => {
+    this.setState({ openComment: false });
+  }
+
   openMediaPlayer = (media, mediaType, mediaTitle) => {
     this.setState({
       media: media,
       mediaType: mediaType,
       mediaTitle: mediaTitle,
       openMedia: true,
+    })
+  }
+
+  leaveComment = () => {
+    this.setState({
+      openComment: true,
+    });
+  }
+
+  sendComment = (comment) => {
+    Comments.insert({
+      comment: comment,
+      user: this.props.user.username,
+      course: this.state.course._id,
+      show: true,
+      date: new Date(),
+    }, () => {
+      this.props.handleControlMessage(true, "Comment successfully sent");
     })
   }
 
@@ -186,10 +220,13 @@ export default class Course extends React.Component {
               course={this.state.course}
               showComponent={this.props.showComponent.bind(this)}
               handleControlMessage={this.props.handleControlMessage.bind(this)}
+              handlePreviousUnit={this.handlePreviousUnit.bind(this)}
+              handleNextUnit={this.handleNextUnit.bind(this)}
               completeActivity={this.completeActivity.bind(this)}
               navigateTo={this.navigateTo.bind(this)}
               completeUnit={this.completeUnit.bind(this)}
               openMediaPlayer={this.openMediaPlayer.bind(this)}
+              leaveComment={this.leaveComment.bind(this)}
               selected={this.state.selected}
               toComplete={this.state.toComplete}
               toResolve={this.state.toResolve}
@@ -226,6 +263,12 @@ export default class Course extends React.Component {
             />
           </DialogContent>
         </Dialog>
+        <CommentDialog
+          open={this.state.openComment}
+          handleClose={this.handleCloseComment.bind(this)}
+          sendComment={this.sendComment.bind(this)}
+          handleControlMessage={this.props.handleControlMessage.bind(this)}
+        />
       </div>
     )
   }

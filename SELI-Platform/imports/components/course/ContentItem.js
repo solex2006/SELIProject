@@ -37,6 +37,7 @@ export default class ContentItem extends React.Component {
                   <TextItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
                   />
                 :
                 undefined
@@ -46,6 +47,7 @@ export default class ContentItem extends React.Component {
                   <ImageItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
                   />
                 :
                 undefined
@@ -55,6 +57,7 @@ export default class ContentItem extends React.Component {
                   <VideoItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
                   />
                 :
                 undefined
@@ -64,6 +67,7 @@ export default class ContentItem extends React.Component {
                   <AudioItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
                   />
                 :
                 undefined
@@ -73,6 +77,7 @@ export default class ContentItem extends React.Component {
                   <PdfItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
                   />
                 :
                 undefined
@@ -82,6 +87,7 @@ export default class ContentItem extends React.Component {
                   <CompressedItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
                   />
                 :
                 undefined
@@ -91,6 +97,7 @@ export default class ContentItem extends React.Component {
                   <LinkItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
                   />
                 :
                 undefined
@@ -100,6 +107,7 @@ export default class ContentItem extends React.Component {
                   <H5PItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
                   />
                 :
                 undefined
@@ -109,6 +117,7 @@ export default class ContentItem extends React.Component {
                   <QuizItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
                   />
                 :
                 undefined
@@ -118,6 +127,7 @@ export default class ContentItem extends React.Component {
                   <ActivityItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
                   />
                 :
                 undefined
@@ -127,6 +137,7 @@ export default class ContentItem extends React.Component {
                   <EmbebedItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
                   />
                 :
                 undefined

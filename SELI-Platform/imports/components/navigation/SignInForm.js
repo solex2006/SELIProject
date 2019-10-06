@@ -57,6 +57,9 @@ export default class SignInForm extends React.Component {
           else if (this.state.user.profile.type === 'student') {
             location.replace("/student");
           }
+          else if (this.state.user.profile.type === 'administrator') {
+            location.replace("/administrator");
+          }
         })
       }
     })

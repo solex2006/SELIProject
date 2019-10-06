@@ -9,7 +9,14 @@ Meteor.methods({
 
 Meteor.methods({
   'GetTutorRequests'(){
-    var users = Meteor.users.find({'profile.verified': false}).fetch();
+    var users = Meteor.users.find({'profile.verified': false, 'profile.type': 'tutor'}).fetch();
+    return users;
+  }
+});
+
+Meteor.methods({
+  'GetTutors'(){
+    var users = Meteor.users.find({'profile.type': 'tutor'}).fetch();
     return users;
   }
 });
@@ -43,6 +50,12 @@ Meteor.methods({
   'GetUserById'(_id){
     let user = Meteor.users.find({_id: _id}).fetch();
     return user;
+  }
+});
+
+Meteor.methods({
+  'DeleteUser'(_id){
+    Meteor.users.remove({_id: _id});
   }
 });
 

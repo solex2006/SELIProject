@@ -100,6 +100,7 @@ export default class UnityForm extends React.Component {
             <div className="form-file-container">
               <UnityUpload
                 type="unity"
+                user={Meteor.userId()}
                 accept={['.rar']}
                 getFileInformation={this.getFileInformation.bind(this)}
               />

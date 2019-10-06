@@ -132,6 +132,20 @@ export default class AudioForm extends React.Component {
     this.props.getAudioAttributesFunction(() => this.getAudioAttributes());
   }
 
+  componentWillMount(){
+    if (this.props.contentToEdit !== undefined) {
+      this.setState({
+        attributes: this.props.contentToEdit.attributes,
+      }, () => {
+        if (this.state.attributes.audio !== undefined) {
+          this.setState({
+            showPreview: true,
+          })
+        }
+      })
+    }
+  }
+
   selectType(value){
     let attributes = this.state.attributes;
     attributes.source = value;
@@ -181,6 +195,7 @@ export default class AudioForm extends React.Component {
                             <FileUpload
                               type="audio"
                               accept={'audio/*'}
+                              user={Meteor.userId()}
                               label={'Click the button to upload an audio'}
                               getFileInformation={this.getFileInformation.bind(this)}
                             />
@@ -241,7 +256,7 @@ export default class AudioForm extends React.Component {
             </div>
           :
           <Library
-            user={"MyUser"}
+            user={Meteor.userId()}
             type={"audio"}
             getFileInformation={this.getFileInformation.bind(this)}
             hideLibrary={this.hideLibrary.bind(this)}

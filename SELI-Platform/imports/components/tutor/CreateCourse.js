@@ -12,6 +12,13 @@ import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import SchoolIcon from '@material-ui/icons/School';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 import {Courses} from '../../../lib/CourseCollection';
 
 export default class CreateCourse extends React.Component {
@@ -68,6 +75,7 @@ export default class CreateCourse extends React.Component {
           expandedNodes={this.state.expandedNodes}
           selected={this.state.selected}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
+          handlePreview={this.handlePreview.bind(this)}
         />,
       ],
     });
@@ -89,7 +97,7 @@ export default class CreateCourse extends React.Component {
               image: courseInformation.image,
               sylabus: courseInformation.sylabus,
               duration: courseInformation.duration,
-              requirements: courseInformation.requirement,
+              requirements: courseInformation.requirements,
               support: courseInformation.support,
               organization: courseInformation.organization,
               program: courseInformation.program,
@@ -113,15 +121,16 @@ export default class CreateCourse extends React.Component {
     }
   }
 
-  saveCourse() {
+  saveCourse(showPreview) {
     if (this.validateSaveCourse()) {
       let user = Meteor.user();
       let courseInformation = this.state.courseInformation;
+      let course;
       if (!this.state.saved) {
         courseInformation.createdBy = user.username;
         courseInformation.published = false;
         courseInformation.classroom = [];
-        let course = Courses.insert(courseInformation);
+        course = Courses.insert(courseInformation);
         this.setState({
           saved: course,
         });
@@ -138,13 +147,17 @@ export default class CreateCourse extends React.Component {
               image: courseInformation.image,
               sylabus: courseInformation.sylabus,
               duration: courseInformation.duration,
-              requirements: courseInformation.requirement,
+              requirements: courseInformation.requirements,
               support: courseInformation.support,
               organization: courseInformation.organization,
               program: courseInformation.program,
             }
           }
         );
+      }
+      if (showPreview) {
+        const url = `/coursePreview#${course}`;
+        window.open(url, "_blank");
       }
       this.props.handleControlMessage(true, 'Course saved successfully!', true, 'savedList', 'See list');
     }
@@ -223,6 +236,33 @@ export default class CreateCourse extends React.Component {
     return true;
   }
 
+  handlePreview = () => {
+    this.setState({
+      open: true,
+    })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false });
+  }
+
+  validatePreviewCourse = () => {
+
+  }
+
+  confirmPreview = () => {
+    if (this.validatePublishCourse()) {
+      if (this.state.saved) {
+        const url = `/coursePreview#${this.state.saved}`;
+        window.open(url, "_blank");
+      }
+      else {
+        this.saveCourse(true);
+      }
+      this.handleClose();
+    }
+  }
+
   render() {
     return(
       <div>
@@ -241,6 +281,28 @@ export default class CreateCourse extends React.Component {
           :
           undefined
         }
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+        >
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">Course preview</DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+              If your want to see the preview of this course you have to save it.
+            </DialogContentText>
+            <InfoIcon className="warning-dialog-icon"/>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+              Cancel
+            </Button>
+            <Button onClick={() => this.confirmPreview()} color="primary" autoFocus>
+              Save and open preview
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
   }

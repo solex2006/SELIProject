@@ -152,7 +152,7 @@ export default class QuizForm extends React.Component {
 
   validateQuestion = (question) => {
     if (question.questionTitle === '') {
-      this.props.handleControlMessage(true, "The question title is a required fields");
+      this.props.handleControlMessage(true, "The question title is a required field");
       return false;
     }
     for (var i = 0; i < question.answersText.length; i++) {
@@ -175,6 +175,19 @@ export default class QuizForm extends React.Component {
         addedQuestions++;
       }
     }
+    this.setState({
+      addedQuestions: addedQuestions,
+    });
+  }
+
+  getAddedQuestionsEdit = () => {
+    let addedQuestions = 0;
+    for (var i = 0; i < this.state.attributes.questions.length; i++) {
+      if (this.validateQuestion(this.state.attributes.questions[i])) {
+        addedQuestions++;
+      }
+    }
+    addedQuestions--;
     this.setState({
       addedQuestions: addedQuestions,
     });
@@ -220,6 +233,28 @@ export default class QuizForm extends React.Component {
 
   componentDidMount(){
     this.props.getQuizAttributesFunction(() => this.getQuizAttributes());
+  }
+
+  componentWillMount(){
+    if (this.props.contentToEdit !== undefined) {
+      this.setState({
+        attributes: this.props.contentToEdit.attributes,
+      }, () => {
+        let attributes = this.state.attributes;
+        for (var i = attributes.questions.length; i < 10; i++) {
+          attributes.questions.push({
+            correctAnswers: [false, false, false, false],
+            questionTitle: '',
+            answersText: ['', '', '', ''],
+          });
+        }
+        this.setState({
+          attributes: attributes,
+        }, () => {
+          this.getAddedQuestionsEdit();
+        });
+      })
+    }
   }
 
   render() {

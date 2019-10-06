@@ -51,6 +51,10 @@ export default class Editor extends React.Component {
     this.props.innerHTML !== '' ? insertHTML(this.props.innerHTML) : this.clearEditor();
   }
 
+  componentWillReceiveProps() {
+    
+  }
+
   clearEditor() {
 
   }

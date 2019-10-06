@@ -63,7 +63,7 @@ export default class AudioItem extends React.Component {
               </div>
             </Card>
             {
-              this.props.item.attributes.description !== "" ?
+              this.props.item.attributes.hasDescription ?
                 <div
                   className="course-item-audio-card-description"
                   dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
@@ -78,6 +78,7 @@ export default class AudioItem extends React.Component {
           <MenuItem
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
+            editItem={this.props.editItem.bind(this)}
           />
         </div>
       </div>

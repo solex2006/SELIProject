@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { ControlledEditor } from "@monaco-editor/react";
 
 export default function CodeEditor(props) {
-  const [code, setCode] = React.useState('//Write your code here...')
+  const [code, setCode] = React.useState(props.content)
   const handleEditorChange = (ev, value) => {
     setCode(value);
     props.getCode(value);

@@ -167,6 +167,29 @@ export default class VideoForm extends React.Component {
     this.props.getVideoAttributesFunction(() => this.getVideoAttributes());
   }
 
+  componentWillMount(){
+    if (this.props.contentToEdit !== undefined) {
+      this.setState({
+        attributes: this.props.contentToEdit.attributes,
+      }, () => {
+        if (this.state.attributes.video !== undefined && this.state.attributes.source === 'upload') {
+          this.setState({
+            showPreview: true,
+          })
+        }
+        else {
+          this.setState({
+            validUrl: true,
+            url: this.state.attributes.video.link,
+            helperColor: "#4caf50",
+            urlMessage: "The player can reproduce this type of source",
+            showHelperText: true,
+          })
+        }
+      })
+    }
+  }
+
   render() {
     return(
       <div>
@@ -207,6 +230,7 @@ export default class VideoForm extends React.Component {
                           this.state.attributes.source === "upload" ?
                             <FileUpload
                               type="video"
+                              user={Meteor.userId()}
                               accept={'video/*'}
                               label={'Click the button to upload a video'}
                               getFileInformation={this.getFileInformation.bind(this)}
@@ -226,6 +250,7 @@ export default class VideoForm extends React.Component {
                                 margin="normal"
                                 variant="outlined"
                                 value={this.state.url}
+                                autoFocus={true}
                                 required
                                 onChange={this.urlHandleChange()}
                                 className="url-input"
@@ -289,7 +314,7 @@ export default class VideoForm extends React.Component {
             </div>
           :
           <Library
-            user={"MyUser"}
+            user={Meteor.userId()}
             type={"video"}
             getFileInformation={this.getFileInformation.bind(this)}
             hideLibrary={this.hideLibrary.bind(this)}

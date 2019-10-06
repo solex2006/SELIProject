@@ -53,6 +53,14 @@ export default class LinkForm extends React.Component {
     this.props.getLinkAttributesFunction(() => this.getLinkAttributes());
   }
 
+  componentWillMount(){
+    if (this.props.contentToEdit !== undefined) {
+      this.setState({
+        attributes: this.props.contentToEdit.attributes,
+      })
+    }
+  }
+
   render() {
     return(
       <div className="link-content-form-container">

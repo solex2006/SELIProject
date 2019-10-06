@@ -11,6 +11,7 @@ import { createBrowserHistory } from 'history';
 import { Tracker } from 'meteor/tracker';
 
 import Home from '../imports/ui/Home';
+import Test from '../imports/ui/Test';
 import Tutor from '../imports/ui/Tutor';
 import Student from '../imports/ui/Student';
 import Administrator from '../imports/ui/Administrator';
@@ -49,6 +50,7 @@ Meteor.startup(() => {
         <Route exact path="/media" component={MediaPlayer} history={history}/>
         <Route exact path="/dashboard" component={CoursesDashboard} history={history}/>
         <Route exact path="/tutorRequests" component={TutorRequestList} history={history}/>
+        <Route exact path="/test" component={Test} history={history}/>
       </Switch>
     </Router>, document.getElementById('render-target')
   );

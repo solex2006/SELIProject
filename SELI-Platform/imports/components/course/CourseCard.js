@@ -24,6 +24,18 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Fade from 'react-reveal/Fade';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
+import CommentIcon from '@material-ui/icons/Comment';
+
+import Loading from '../tools/Loading';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import Comment from '../../components/student/comments/Comment';
+
+import {Comments} from '../../../lib/CommentsCollection';
 
 var ColorThief = require('color-thief');
 
@@ -111,83 +123,169 @@ export default class CourseCard extends React.Component {
     });
   }
 
+  handleClose = () => {
+    this.setState({
+      open: false,
+    });
+  }
+
+  showComments = () => {
+    this.setState({
+      open: true,
+      loading: true,
+    }, () => {
+      Tracker.autorun(() => {
+        let comments = Comments.find({course: this.props.course._id}).fetch();
+        if (comments.length) {
+          this.setState({
+            commentResults: true,
+            comments: comments,
+            loading: false,
+          });
+        }
+        else {
+          this.setState({
+            commentResults: false,
+            loading: false,
+          });
+        }
+      });
+    })
+  }
+
   render() {
     return (
-      <Fade force top delay={this.props.index * 350}>
-        <Card className="course-card">
-          <CardActionArea>
-            <CardHeader
-              avatar={
-                <Avatar
-                  style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
-                  aria-label="recipe"
-                  className="course-card-avatar"
+      <div>
+        <Fade force top delay={this.props.index * 350}>
+          <Card className="course-card">
+            <CardActionArea>
+              <CardHeader
+                avatar={
+                  <Avatar
+                    style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
+                    aria-label="recipe"
+                    className="course-card-avatar"
+                  >
+                    {this.props.course.title.charAt(0).toUpperCase()}
+                  </Avatar>
+                }
+                className="course-card-header"
+                title={this.props.course.title}
+                subheader={this.props.course.subtitle}
+              />
+              <CardMedia
+                className="course-card-media"
+                image={this.props.course.image.link}
+                title={this.state.label}
+              />
+              <CardContent className="course-card-content">
+                <Typography className="course-card-description" variant="body2" color="textSecondary" component="p">
+                  {this.props.course.description}
+                </Typography>
+                <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
+                  {`Author: ${this.props.course.createdBy}`}
+                </Typography>
+              </CardContent>
+              <CardActions className="course-card-actions" disableSpacing>
+                <Link className="button-link"
+                  target="_blank"
+                  to={{
+                    pathname: "/coursePreview",
+                    hash: this.props.course._id,
+                    state: { fromDashboard: true }
+                  }}
                 >
-                  {this.props.course.title.charAt(0).toUpperCase()}
-                </Avatar>
-              }
-              className="course-card-header"
-              title={this.props.course.title}
-              subheader={this.props.course.subtitle}
-            />
-            <CardMedia
-              className="course-card-media"
-              image={this.props.course.image.link}
-              title={this.state.label}
-            />
-            <CardContent className="course-card-content">
-              <Typography className="course-card-description" variant="body2" color="textSecondary" component="p">
-                {this.props.course.description}
-              </Typography>
-              <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
-                {`Author: ${this.props.course.createdBy}`}
-              </Typography>
-            </CardContent>
-            <CardActions className="course-card-actions" disableSpacing>
-              <Link className="button-link"
-                target="_blank"
-                to={{
-                  pathname: "/coursePreview",
-                  hash: this.props.course._id,
-                  state: { fromDashboard: true }
-                }}
-              >
-                <Button
-                  className="course-card-button"
-                  aria-label="see preview"
-                  variant="outlined"
-                >
-                  Course preview
-                </Button>
-              </Link>
-              {
-                !this.state.subscribed ?
-                  <Tooltip title="Subscribe (Join course classroom)">
+                  <Button
+                    className="course-card-button"
+                    aria-label="see preview"
+                    variant="outlined"
+                  >
+                    Course preview
+                  </Button>
+                </Link>
+                {
+                  !this.state.subscribed ?
+                    <Tooltip title="Subscribe (Join course classroom)">
+                      <IconButton
+                        disabled={this.props.disabled}
+                        onClick={() => this.props.subscribe(this.props.course._id)}
+                        className="course-card-icon-button"
+                        aria-label="join course"
+                      >
+                        <SchoolIcon className="course-card-icon"/>
+                      </IconButton>
+                    </Tooltip>
+                  :
+                  <Tooltip title="Unsubscribe (Leave course classroom)">
                     <IconButton
-                      disabled={this.props.disabled}
-                      onClick={() => this.props.subscribe(this.props.course._id)}
                       className="course-card-icon-button"
-                      aria-label="join course"
+                      disabled={this.props.disabled}
+                      onClick={() => this.props.unsubscribe(this.props.course._id)}
+                      aria-label="left course"
                     >
-                      <SchoolIcon className="course-card-icon"/>
+                      <UnsubscribeIcon className="course-card-icon"/>
                     </IconButton>
                   </Tooltip>
-                :
-                <Tooltip title="Unsubscribe (Leave course classroom)">
+                }
+                <Tooltip title="Course comments">
                   <IconButton
                     className="course-card-icon-button"
-                    disabled={this.props.disabled}
-                    onClick={() => this.props.unsubscribe(this.props.course._id)}
+                    onClick={() => this.showComments()}
                     aria-label="left course"
                   >
-                    <UnsubscribeIcon className="course-card-icon"/>
+                    <CommentIcon className="course-card-icon"/>
                   </IconButton>
                 </Tooltip>
-              }
-            </CardActions>
-          </CardActionArea>
-        </Card>
-      </Fade>
+              </CardActions>
+            </CardActionArea>
+          </Card>
+        </Fade>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+          className="comments-dialog"
+        >
+          <DialogTitle className="comment-dialog-title">
+            Comments
+          </DialogTitle>
+          <DialogContent className="comments-dialog-content">
+            {
+              this.state.loading ?
+                <Loading message="Loading comments..."/>
+              :
+              <div>
+                {
+                  this.state.commentResults ?
+                    <div className="comments-result-container">
+                      {
+                        this.state.comments.map((comment, index) => {
+                          return(
+                            <Comment
+                              comment={comment}
+                            />
+                          )
+                        })
+                      }
+                    </div>
+                  :
+                  <div className="comments-result-container">
+                    <div className="center-row">
+                      <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                        This course has no comments yet
+                      </DialogContentText>
+                    </div>
+                    <div className="center-row">
+                      <CommentIcon className="comments-result-icon"></CommentIcon>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </DialogContent>
+        </Dialog>
+      </div>
     );
   }
 }

@@ -55,11 +55,16 @@ export default class VideoItem extends React.Component {
                     {this.props.item.attributes.source === 'upload' ? `Video file` : `External video`}
                   </Typography>
                 </Typography>
-                <div
-                  className="course-item-video-card-media-description"
-                  dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
-                >
-                </div>
+                {
+                  this.props.item.attributes.hasDescription ?
+                  <div
+                    className="course-item-video-card-media-description"
+                    dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
+                  >
+                  </div>
+                  :
+                  undefined
+                }
               </CardContent>
             </CardActionArea>
             <CardActions className="course-item-video-card-media-actions-container">
@@ -72,7 +77,7 @@ export default class VideoItem extends React.Component {
                   undefined
               }
               <Tooltip title="Open media player">
-                <Fab className="course-item-video-card-media-fab" size="small">
+                <Fab onClick={() => this.props.openMediaPlayer(this.props.item.attributes.video, this.props.item.type, this.props.item.attributes.title)} className="course-item-video-card-media-fab" size="small">
                   <PlayArrowIcon/>
                 </Fab>
               </Tooltip>

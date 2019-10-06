@@ -22,7 +22,3 @@ export const checkUserType = (userId, type) => {
     });
   }
 }
-
-signIn = (user) => {
-
-}

@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 
 import Loading from '../../components/tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
-import Table from '../tutor/Table';
+import Table from '../data_display/Table';
 
 import SchoolIcon from '@material-ui/icons/School';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WarningIcon from '@material-ui/icons/Warning';
+import InfoIcon from '@material-ui/icons/Info';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -30,14 +31,26 @@ export default class CoursesList extends React.Component {
   }
 
   getMyCourses = (user) => {
-    Tracker.autorun(() => {
-      let myCourses = Courses.find({createdBy: user, published: false}).fetch();
-      this.setState({
-        myCourses: myCourses,
-      }, () => {
-        if (this.state.myCourses.length) {
-          this.createTableData(this.state.myCourses);
-        }
+    this.setState({
+      loading: true,
+    }, () => {
+      Tracker.autorun(() => {
+        let myCourses = Courses.find({createdBy: user, published: false}).fetch();
+        this.setState({
+          myCourses: myCourses,
+        }, () => {
+          let results = true;
+          if (this.state.myCourses.length) {
+            this.createTableData(this.state.myCourses);
+          }
+          else {
+            results = false;
+          }
+          this.setState({
+            loading: false,
+            results: results,
+          })
+        });
       });
     });
   }
@@ -125,44 +138,57 @@ export default class CoursesList extends React.Component {
               <Loading message="Loading my courses..."/>
             </div>
           :
-          <div className="management-result-container">
-            <p className="management-title">My saved courses <SchoolIcon className="management-title-icon"/></p>
-            <div className="management-table-container">
-              <Table
-                labels={{pagination: 'Courses per page:', plural: 'courses'}}
-                headRows={this.state.headRows}
-                menuOptions={this.state.menuOptions}
-                tableData={this.state.tableData}
-                delete={true}
-                deleteSelected={this.deleteSelected.bind(this)}
-                setSelectedFunction={selected => this.setSelected = selected}
-              />
-            </div>
-            <Dialog
-              open={this.state.open}
-              onClose={this.handleClose}
-              aria-labelledby="alert-dialog-confirmation"
-              aria-describedby="alert-dialog-confirmation"
-            >
-              <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.dialogConfirmationTitle}</DialogTitle>
-              <DialogContent className="success-dialog-content">
-                <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                  {this.state.dialogConfirmationContentText}
-                </DialogContentText>
-                <WarningIcon className="warning-dialog-icon"/>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                  Cancel
-                </Button>
-                <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
-                  Confirm
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </div>
+          <React.Fragment>
+            {
+              this.state.results ?
+                <div className="management-result-container">
+                  <p className="management-title">My saved courses <SchoolIcon className="management-title-icon"/></p>
+                  <div className="management-table-container">
+                    <Table
+                      labels={{pagination: 'Courses per page:', plural: 'courses'}}
+                      headRows={this.state.headRows}
+                      menuOptions={this.state.menuOptions}
+                      tableData={this.state.tableData}
+                      delete={true}
+                      deleteSelected={this.deleteSelected.bind(this)}
+                      setSelectedFunction={selected => this.setSelected = selected}
+                    />
+                  </div>
+                </div>
+              :
+              <div className="empty-dashboard">
+                <div className="empty-dashboard-row">
+                  <p className="empty-dashboard-text">You don't have any course saved yet</p>
+                  <InfoIcon className="empty-dashboard-icon"/>
+                </div>
+                <Button onClick={() => this.props.showComponent('create')} variant="contained" color="secondary" className="empty-dashboard-button">Create a course</Button>
+              </div>
+            }
+          </React.Fragment>
         }
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+        >
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.dialogConfirmationTitle}</DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+              {this.state.dialogConfirmationContentText}
+            </DialogContentText>
+            <WarningIcon className="warning-dialog-icon"/>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+              Cancel
+            </Button>
+            <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
-    )
+      )
+    }
   }
-}

@@ -43,7 +43,7 @@ class UnityUpload extends Component {
             dateAdded: new Date(),
             isFavorite: false,
             usedInCourse: false,
-            userId: "MyUser",
+            userId: self.props.user,
             //userId: Meteor.userId() // Optional, used to check on server for file tampering
           },
           streams: 'dynamic',

@@ -27,8 +27,10 @@ export default class H5PItem extends React.Component {
               <div>
                 <div className="h5P-item-container">
                   <p className="h5p-instruction-title">Instructions:</p>
-                  <div className="h5P-item-container-instruction">
-                    {this.props.item.attributes.instruction}
+                  <div
+                    className="h5P-item-container-instruction"
+                    dangerouslySetInnerHTML={{__html: this.props.item.attributes.instruction}}
+                  >
                   </div>
                   <Divider light={true}/>
                   <div className="h5P-item-container-activity">
@@ -52,6 +54,7 @@ export default class H5PItem extends React.Component {
           <MenuItem
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
+            editItem={this.props.editItem.bind(this)}
           />
         </div>
       </div>

@@ -1,27 +1,21 @@
 TODO
 PRINCIPAL
-- Menu para cada tipo de usuario (Profeshor, student, adminPaposte)
 - Busquedas
 - Acabar el footer
-- Lista de tutores
 - Solicitudes
-- Poner bn los requisitos y las disabilities
 AUTHORING TOOL
 - (Resolver problema de cuando el json es muy grande y no guarda)
 - Accesibilidad!!!
-- Request de los requisitos
 - Educational design
 TEACHER
 - Generar el certificado
 STUDENT
-- Cada item (12)
 - Storytelling (TODITOOOO)
 - chat
 - Libreria
-- Comments node and general
 - Unity
 
-Cambiar la imagen en el course preview
 Se muestra el snack bar cuando se añade una pregunta
 LINE CLAMP en firefox
 Corregir bugsaso cuando se desuscribe y se modifica!!!!!
+Mejorar el formulario de quiz

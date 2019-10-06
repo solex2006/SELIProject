@@ -248,6 +248,7 @@ export default class ActivityItem extends React.Component {
                     !this.state.showPreview ?
                       <FileUpload
                         type={this.props.item.attributes.fileTypes.label.toLowerCase()}
+                        user={Meteor.userId()}
                         accept={this.props.item.attributes.fileTypes.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
                         label="Click the button to upload your file"

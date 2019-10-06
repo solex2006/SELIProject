@@ -10,12 +10,11 @@ import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
-import IndividualUnity from './IndividualUnity';
 import Loading from '../tools/Loading';
 
 const debug = require('debug')('demo:file');
 
-class UnityUpload extends Component {
+class FileUpload extends Component {
   constructor(props) {
     super(props);
 
@@ -42,7 +41,7 @@ class UnityUpload extends Component {
             dateAdded: new Date(),
             isFavorite: false,
             usedInCourse: false,
-            userId: "MyUser",
+            userId: self.props.user,
             //userId: Meteor.userId() // Optional, used to check on server for file tampering
           },
           streams: 'dynamic',
@@ -209,4 +208,4 @@ export default withTracker( ( props ) => {
     docsReadyYet,
     files,
   };
-})(UnityUpload);
+})(FileUpload);

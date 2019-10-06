@@ -81,6 +81,14 @@ export default class EmbebedForm extends React.Component {
     this.props.getEmbebedAttributesFunction(() => this.getEmbebedAttributes());
   }
 
+  componentWillMount(){
+    if (this.props.contentToEdit !== undefined) {
+      this.setState({
+        attributes: this.props.contentToEdit.attributes,
+      })
+    }
+  }
+
   render() {
     return(
       <div className="dialog-form-container">

@@ -74,6 +74,11 @@ export default class TextForm extends React.Component {
 
   componentDidMount(){
     this.props.getTextAttributesFunction(() => this.getTextAttributes());
+    if (this.props.contentToEdit !== undefined) {
+      this.setState({
+        attributes: this.props.contentToEdit.attributes
+      })
+    }
   }
 
   getInnerHtml(innerHTML){
@@ -197,6 +202,7 @@ export default class TextForm extends React.Component {
                   className="form-dialog-input"
                   onChange={this.handleChange('content')}
                   autoFocus={true}
+                  value={this.state.attributes.content}
                 />
               </div>
             :
@@ -209,6 +215,7 @@ export default class TextForm extends React.Component {
                   areaHeight="20vh"
                   buttonLabels={false}
                   addLinks={false}
+                  innerHTML={this.state.attributes.content}
                   getInnerHtml={this.getInnerHtml.bind(this)}
                 />
               </div>
@@ -237,6 +244,7 @@ export default class TextForm extends React.Component {
                 <CodeEditor
                   getCode={this.getCode.bind(this)}
                   language={this.state.language}
+                  content={this.state.attributes.content}
                 />
               </div>
             :

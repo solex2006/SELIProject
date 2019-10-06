@@ -26,6 +26,7 @@ export default class CompressedForm extends React.Component {
   }
 
   validateContent = (content) => {
+    console.log(content);
     if (content.compressed === undefined) {
       this.props.handleControlMessage(true, "Upload or add the url of the compressed source");
       return false;
@@ -90,6 +91,20 @@ export default class CompressedForm extends React.Component {
     this.props.getCompressedAttributesFunction(() => this.getCompressedAttributes());
   }
 
+  componentWillMount(){
+    if (this.props.contentToEdit !== undefined) {
+      this.setState({
+        attributes: this.props.contentToEdit.attributes,
+      }, () => {
+        if (this.state.attributes.compressed !== undefined) {
+          this.setState({
+            showPreview: true,
+          })
+        }
+      })
+    }
+  }
+
   render() {
     return(
       <div>
@@ -107,6 +122,7 @@ export default class CompressedForm extends React.Component {
                   <div className="form-file-container">
                     <FileUpload
                       type="compressed"
+                      user={Meteor.userId()}
                       accept={['.zip', '.rar', '.tz', '.7z']}
                       label={'Click the button to upload a compressed file'}
                       getFileInformation={this.getFileInformation.bind(this)}
@@ -133,7 +149,7 @@ export default class CompressedForm extends React.Component {
             </div>
           :
           <Library
-            user={"MyUser"}
+            user={Meteor.userId()}
             type={"compressed"}
             getFileInformation={this.getFileInformation.bind(this)}
             hideLibrary={this.hideLibrary.bind(this)}

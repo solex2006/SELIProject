@@ -51,6 +51,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
 import Fab from '@material-ui/core/Fab';
 import DoneIcon from '@material-ui/icons/Done';
+import EditIcon from '@material-ui/icons/Edit';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -117,7 +118,7 @@ export default class CourseCreatorTool extends React.Component {
   };
 
   contentHandleClose = () => {
-    this.setState({ contentOpen: false, });
+    this.setState({ contentOpen: false, contentToEdit: undefined, contentTypeAdded: ''});
   };
 
   openDialog(e){
@@ -195,7 +196,42 @@ export default class CourseCreatorTool extends React.Component {
       this.resetMenuItems();
     }
     else {
-      console.log('no deberia');
+
+    }
+  }
+
+  finishEditContent(){
+    let courseInformation = this.state.courseInformation;
+    let index;
+    let itemContent = this.getItemAttributes();
+    if (itemContent !== undefined) {
+      if (courseInformation.organization.subunit) {
+        for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
+          if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.contentToEdit.id) {
+            index = i;
+            break;
+          }
+        }
+      }
+      else {
+        for (var i = 0; i < courseInformation.program[this.props.selected[0]].items.length; i++) {
+          if (courseInformation.program[this.props.selected[0]].items[i].id === this.state.contentToEdit.id) {
+            index = i;
+            break;
+          }
+        }
+      }
+      if (courseInformation.organization.subunit) {
+        courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = itemContent;
+      }
+      else {
+        courseInformation.program[this.props.selected[0]].items[index].attributes = itemContent;
+      }
+      this.contentHandleClose();
+      this.resetMenuItems();
+    }
+    else {
+
     }
   }
 
@@ -208,7 +244,6 @@ export default class CourseCreatorTool extends React.Component {
 
   cancelContentCreation(){
     let courseInformation = this.state.courseInformation;
-    console.log(courseInformation.program);
     let index;
     if (courseInformation.organization.subunit) {
       for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
@@ -230,8 +265,6 @@ export default class CourseCreatorTool extends React.Component {
     }
     this.setState({
       contentTypeAdded: '',
-    }, () => {
-      console.log(courseInformation.program);
     });
   }
 
@@ -247,6 +280,17 @@ export default class CourseCreatorTool extends React.Component {
     }
     this.setState({
       deleted: true,
+    });
+  }
+
+  editItem(item){
+    this.setState({
+      contentTypeAdded: item.type,
+      showAccesibilityOptions: false,
+      showCourseOrganization: false,
+      showContentEditor: true,
+      contentOpen: true,
+      contentToEdit: item,
     });
   }
 
@@ -409,6 +453,7 @@ export default class CourseCreatorTool extends React.Component {
                                 <ContentItem
                                   item={p}
                                   removeItem={this.removeItem.bind(this)}
+                                  editItem={this.editItem.bind(this)}
                                 />
                               </Draggable>
                             );
@@ -475,7 +520,7 @@ export default class CourseCreatorTool extends React.Component {
                             <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
                               <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={"Sort mode"}/>
                             </ListItem>
-                            <ListItem className="course-creator-menu-action" button>
+                            <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
                               <ListItemText className="course-creator-menu-action-text" primary="Preview"/>
                             </ListItem>
                           </List>
@@ -564,6 +609,7 @@ export default class CourseCreatorTool extends React.Component {
                                 <ContentItem
                                   item={p}
                                   removeItem={this.removeItem.bind(this)}
+                                  editItem={this.editItem.bind(this)}
                                 />
                               </Draggable>
                             );
@@ -630,7 +676,7 @@ export default class CourseCreatorTool extends React.Component {
                             <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
                               <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={"Sort mode"}/>
                             </ListItem>
-                            <ListItem className="course-creator-menu-action" button>
+                            <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
                               <ListItemText className="course-creator-menu-action-text" primary="Preview"/>
                             </ListItem>
                           </List>
@@ -714,7 +760,12 @@ export default class CourseCreatorTool extends React.Component {
                   edge="end"
                   className="dialog-toolbar-icon"
                   disabled={this.state.showCourseOrganization}
-                  onClick={() => {this.contentHandleClose(); this.cancelContentCreation();}}
+                  onClick={() => {
+                    this.contentHandleClose();
+                    if (this.state.contentToEdit === undefined) {
+                      this.cancelContentCreation();
+                    }
+                  }}
                 >
                   <CloseIcon/>
                 </IconButton>
@@ -749,6 +800,7 @@ export default class CourseCreatorTool extends React.Component {
                     <TextForm
                       getTextAttributesFunction={textAttributes => this.getItemAttributes = textAttributes}
                       reRender={this.reRender.bind(this)}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
@@ -758,6 +810,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'image' && !this.state.showAccesibilityOptions ?
                     <ImageForm
                       getImageAttributesFunction={imageAttributes => this.getItemAttributes = imageAttributes}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
 
                     />
@@ -768,6 +821,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'video' && !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm ?
                     <VideoForm
                       getVideoAttributesFunction={videoAttributes => this.getItemAttributes = videoAttributes}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
@@ -777,6 +831,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'audio' && !this.state.showAccesibilityOptions ?
                     <AudioForm
                       getAudioAttributesFunction={audioAttributes => this.getItemAttributes = audioAttributes}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
@@ -786,6 +841,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'link' && !this.state.showAccesibilityOptions ?
                     <LinkForm
                       getLinkAttributesFunction={linkAttributes => this.getItemAttributes = linkAttributes}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
@@ -795,6 +851,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'pdf' && !this.state.showAccesibilityOptions ?
                     <PdfForm
                       getPdfAttributesFunction={pdfAttributes => this.getItemAttributes = pdfAttributes}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
@@ -804,6 +861,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'compressed' && !this.state.showAccesibilityOptions ?
                     <CompressedForm
                       getCompressedAttributesFunction={compressedAttributes => this.getItemAttributes = compressedAttributes}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
@@ -813,6 +871,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'h5p' && !this.state.showAccesibilityOptions ?
                     <H5PForm
                       getH5pAttributesFunction={h5pAttributes => this.getItemAttributes = h5pAttributes}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
@@ -822,6 +881,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'quiz' && !this.state.showAccesibilityOptions ?
                     <QuizForm
                       getQuizAttributesFunction={quizAttributes => this.getItemAttributes = quizAttributes}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
@@ -831,6 +891,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'activity' && !this.state.showAccesibilityOptions ?
                     <ActivityForm
                       getActivityAttributesFunction={activityAttributes => this.getItemAttributes = activityAttributes}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
@@ -840,6 +901,7 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'embebed' && !this.state.showAccesibilityOptions ?
                     <EmbebedForm
                       getEmbebedAttributesFunction={embebedAttributes => this.getItemAttributes = embebedAttributes}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
@@ -849,18 +911,30 @@ export default class CourseCreatorTool extends React.Component {
                   this.state.contentTypeAdded === 'unity' && !this.state.showAccesibilityOptions ?
                     <UnityForm
                       getUnityAttributesFunction={unityAttributes => this.getItemAttributes = unityAttributes}
+                      contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                     />
                   :
                   undefined
                 }
-                <div className="dialog-actions-container">
-                  <Tooltip title="Create content">
-                    <Fab onClick={() => this.createContent()} aria-label={`Create content`} className="dialog-fab" color="primary">
-                      <DoneIcon/>
-                    </Fab>
-                  </Tooltip>
-                </div>
+                {
+                  this.state.contentToEdit === undefined ?
+                    <div className="dialog-actions-container">
+                      <Tooltip title="Create content">
+                        <Fab onClick={() => this.createContent()} aria-label={`Create content`} className="dialog-fab" color="primary">
+                          <DoneIcon/>
+                        </Fab>
+                      </Tooltip>
+                    </div>
+                  :
+                  <div className="dialog-actions-container">
+                    <Tooltip title="Edit content">
+                      <Fab onClick={() => this.finishEditContent()} aria-label={`Create content`} className="dialog-fab" color="primary">
+                        <EditIcon/>
+                      </Fab>
+                    </Tooltip>
+                  </div>
+                }
               </div>
             :
             undefined

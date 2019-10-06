@@ -77,6 +77,11 @@ export default function MenuItem(props) {
     props.removeItem(props.item);
   }
 
+  function editItem() {
+    handleClose();
+    props.editItem(props.item);
+  }
+
   return (
     <div>
       <IconButton
@@ -121,7 +126,7 @@ export default function MenuItem(props) {
             </ListItemIcon>
             <ListItemText primary="Delete" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={editItem}>
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>

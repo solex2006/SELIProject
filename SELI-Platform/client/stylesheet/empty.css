@@ -37,7 +37,16 @@
 .empty-dashboard-button {
   margin: 2.5vh 0 !important;
   letter-spacing: 1px !important;
+  padding-left: 2vw !important;
+  padding-right: 2vw !important;
   border-radius: 0 !important;
   font-size: 1.65em !important;
   animation: fadeInUp 1s;
+}
+
+.empty-dashboard-title-row {
+  height: calc(100vh - var(--app-bar-height) - 17.5vh - 1.85em);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

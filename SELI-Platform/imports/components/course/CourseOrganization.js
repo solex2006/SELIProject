@@ -3,8 +3,6 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import Help from '../tools/Help';
-import Unit from './Unit';
-import Topic from './Topic';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import InputAdornment from '@material-ui/core/InputAdornment';

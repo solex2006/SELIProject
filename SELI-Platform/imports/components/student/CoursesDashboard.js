@@ -8,6 +8,7 @@ import { Courses } from '../../../lib/CourseCollection';
 import CourseCard from '../../components/course/CourseCard';
 
 import WarningIcon from '@material-ui/icons/Warning';
+import InfoIcon from '@material-ui/icons/Info';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -65,8 +66,9 @@ export default class CoursesDashboard extends React.Component {
         <Divider/>
         {
           !this.state.courses.length ?
-            <div className="dashboard-loading-container">
-              <Loading message="Loading courses..."/>
+            <div className="empty-dashboard-title-row">
+              <p className="empty-dashboard-text">We are creating awesome courses for you, please wait!</p>
+              <InfoIcon className="empty-dashboard-icon"/>
             </div>
           :
           <div className="courses-dashboard-result">

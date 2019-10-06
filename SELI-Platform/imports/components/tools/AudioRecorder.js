@@ -81,7 +81,7 @@ export default class AudioRecorder extends React.Component {
         dateAdded: new Date(),
         isFavorite: false,
         usedInCourse: false,
-        userId: "MyUser",
+        userId: Meteor.userId(),
         //userId: Meteor.userId() // Optional, used to check on server for file tampering
       },
       streams: 'dynamic',

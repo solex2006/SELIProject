@@ -227,3 +227,31 @@
   letter-spacing: 1px !important;
   margin: 5vh 1vw !important;
 }
+
+.comment-dialog-text-text {
+  letter-spacing: 2px !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+}
+
+.comments-dialog {
+  overflow-y: hidden;
+}
+
+.comments-dialog-content {
+  padding-right: 0 !important;
+  padding-bottom: 2.5vh !important;
+}
+
+.comment-dialog-title {
+  text-align: center !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  background-color: #f5f5f5;
+}
+
+.management-dialog-form-content {
+  display: flex !important;
+  width: 30vw !important;
+  flex-direction: column !important;
+}
