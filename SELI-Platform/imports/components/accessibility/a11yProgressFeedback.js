@@ -4,22 +4,22 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import { makeStyles } from '@material-ui/styles';
 
-	
+
 //props{
 //	a11yFields: {name: string, is_a11y: boolean}
 //}
 export default function A11YProgressFeedback(props){
-	
+
 	const a11yCOLOR = {
-		fail : '#ff9800', 
-		poor: '#ffc107', 
-		average: '#ffeb3b', 
-		good: '#9ccc65', 
+		fail : '#ff9800',
+		poor: '#ffc107',
+		average: '#ffeb3b',
+		good: '#9ccc65',
 		valid: '#66bb6a',
 	};
 	const [progressColor, setProgressColor] = React.useState({color: a11yCOLOR.fail});
 	const [progressText, setProgressText] = React.useState('0');
-	const [progressPercent, setProgressPercent] = React.useState(0); 
+	const [progressPercent, setProgressPercent] = React.useState(0);
 
 	useEffect(() => {
 		updateProgress();
@@ -32,7 +32,7 @@ export default function A11YProgressFeedback(props){
 		let a11yPercentage = a11y * 100 / max;
 		setProgressPercent(a11yPercentage);
 		setProgressText(a11y + '/' + max);
-
+		props.getAccessibilityPercetage(a11yPercentage)
 		if (a11yPercentage < 20){
 			setProgressColor({color: a11yCOLOR.fail});
 		}

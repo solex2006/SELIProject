@@ -17,6 +17,7 @@ import ContentItem from './ContentItem';
 import SortItem from './items/SortItem';
 import AudienceMenu from './AudienceMenu';
 import CourseCreatorMenu from './CourseCreatorMenu';
+import VerticalTab from '../tools/VerticalTab';
 
 import { Container, Draggable } from 'react-smooth-dnd';
 import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
@@ -118,7 +119,7 @@ export default class CourseCreatorTool extends React.Component {
   };
 
   contentHandleClose = () => {
-    this.setState({ contentOpen: false, contentToEdit: undefined, contentTypeAdded: ''});
+    this.setState({ contentOpen: false, contentToEdit: undefined, contentTypeAdded: '', showAccesibilityForm: false});
   };
 
   openDialog(e){
@@ -188,10 +189,19 @@ export default class CourseCreatorTool extends React.Component {
           courseInformation.program[this.props.selected[0]].items[index].attributes.size = size;
         }
       }
+      let showAccesibilityOptions = false;
+      if (this.state.contentTypeAdded === "audio" || this.state.contentTypeAdded === "image" || this.state.contentTypeAdded === "video") {
+        showAccesibilityOptions = true;
+      }
+      else {
+
+      }
       this.setState({
-        showAccesibilityOptions: true,
+        showAccesibilityOptions: showAccesibilityOptions,
         showCourseOrganization: false,
         showContentEditor: false,
+        contentOpen: showAccesibilityOptions,
+        contentToConfigureAccessibility: itemContent,
       });
       this.resetMenuItems();
     }
@@ -421,6 +431,68 @@ export default class CourseCreatorTool extends React.Component {
     });
   }
 
+  getAccessibilityPercetage = (value) => {
+    let courseInformation = this.state.courseInformation;
+    let index;
+    if (courseInformation.organization.subunit) {
+      for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
+        if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
+          index = i;
+          break;
+        }
+      }
+    }
+    else {
+      for (var i = 0; i < courseInformation.program[this.props.selected[0]].items.length; i++) {
+        if (courseInformation.program[this.props.selected[0]].items[i].id === this.state.addedId) {
+          index = i;
+          break;
+        }
+      }
+    }
+    if (courseInformation.organization.subunit) {
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.percentage = value;
+    }
+    else {
+      courseInformation.program[this.props.selected[0]].items[index].attributes.accessibility.percentage = value;
+    }
+    this.setState({
+      courseInformation: courseInformation,
+    }, () => {
+      console.log(this.state.courseInformation.program);
+    });
+  }
+
+  handleDecorative = (_id) => {
+    let courseInformation = this.state.courseInformation;
+    let index;
+    if (courseInformation.organization.subunit) {
+      for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
+        if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === _id) {
+          index = i;
+          break;
+        }
+      }
+    }
+    else {
+      for (var i = 0; i < courseInformation.program[this.props.selected[0]].items.length; i++) {
+        if (courseInformation.program[this.props.selected[0]].items[i].id === _id) {
+          index = i;
+          break;
+        }
+      }
+    }
+    if (courseInformation.organization.subunit) {
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.pureDecorative = !courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.pureDecorative;
+    }
+    else {
+      courseInformation.program[this.props.selected[0]].items[index].attributes.accessibility.pureDecorative = !courseInformation.program[this.props.selected[0]].items[index].attributes.accessibility.pureDecorative;
+    }
+    this.setState({
+      courseInformation: courseInformation,
+    });
+  }
+
 
   render() {
     return(
@@ -454,6 +526,7 @@ export default class CourseCreatorTool extends React.Component {
                                   item={p}
                                   removeItem={this.removeItem.bind(this)}
                                   editItem={this.editItem.bind(this)}
+                                  handleDecorative={this.handleDecorative.bind(this)}
                                 />
                               </Draggable>
                             );
@@ -610,6 +683,7 @@ export default class CourseCreatorTool extends React.Component {
                                   item={p}
                                   removeItem={this.removeItem.bind(this)}
                                   editItem={this.editItem.bind(this)}
+                                  handleDecorative={this.handleDecorative.bind(this)}
                                 />
                               </Draggable>
                             );
@@ -759,7 +833,7 @@ export default class CourseCreatorTool extends React.Component {
                   id="close-icon"
                   edge="end"
                   className="dialog-toolbar-icon"
-                  disabled={this.state.showCourseOrganization}
+                  disabled={this.state.showCourseOrganization || this.state.showAccesibilityOptions || this.state.showAccesibilityForm}
                   onClick={() => {
                     this.contentHandleClose();
                     if (this.state.contentToEdit === undefined) {
@@ -790,7 +864,7 @@ export default class CourseCreatorTool extends React.Component {
                 </div>
               </div>
             :
-              undefined
+            undefined
           }
           {
             this.state.showContentEditor ?
@@ -940,7 +1014,7 @@ export default class CourseCreatorTool extends React.Component {
             undefined
           }
           {
-            this.state.showAccesibilityOptions ?
+            this.state.showAccesibilityOptions && (this.state.contentTypeAdded === 'image' || this.state.contentTypeAdded === 'audio' || this.state.contentTypeAdded === 'video') ?
               <div className="configure-accessibility-actions">
                 <List>
                   <ListItem onClick={() => this.showAccesibilityForm()} button>
@@ -962,7 +1036,26 @@ export default class CourseCreatorTool extends React.Component {
                 </List>
               </div>
             :
-              undefined
+            undefined
+          }
+          {
+            this.state.showAccesibilityForm ?
+              <React.Fragment>
+                <VerticalTab
+                  contentTypeAdded={this.state.contentTypeAdded}
+                  item={this.state.contentToConfigureAccessibility}
+                  getAccessibilityPercetage={this.getAccessibilityPercetage.bind(this)}
+                />
+                <div className="dialog-actions-container">
+                  <Tooltip title="Set accessibility configuration">
+                    <Fab onClick={() => this.contentHandleClose()} aria-label={`set accessibility configuration`} className="dialog-fab" color="primary">
+                      <AccessibilityNewIcon/>
+                    </Fab>
+                  </Tooltip>
+                </div>
+              </React.Fragment>
+            :
+            undefined
           }
         </Dialog>
         <Snackbar
@@ -1024,6 +1117,6 @@ export default class CourseCreatorTool extends React.Component {
           ]}
         />
       </div>
-      );
-    }
-  }
+                          );
+                        }
+                      }

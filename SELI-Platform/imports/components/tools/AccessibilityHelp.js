@@ -31,33 +31,51 @@ const useStyles = makeStyles(theme => ({
  */
 export default function AccessibilityHelp(props) {
 	const classes = useStyles();
-	
+
 	return(
 		<React.Fragment>
 			<FormHelperText role='note' id={props.id+'-helper-text'} error={props.error} component='span'>
-				{
-					!props.error?
-						<AccessibilityIcon 
-							aria-label={props.error? 'Accessibility fault' : 'Passed accessibility validation'}
-							className={props.error? 'accessibError' : 'accessibValid'}
-						/>
-						:undefined 
-				}   
-				<InfoIcon aria-label='Accessibilit tip'/>
-				<span className={props.error? 'accessibError' : 'accessibValid'}>{props.tip}</span>
+				<div className="accessibility-form-helper-text">
+					{
+						!props.error ?
+							<AccessibilityIcon
+								aria-label={props.error ? 'Accessibility fault' : 'Passed accessibility validation'}
+								className={props.error ? 'accessibError' : 'accessibValid'}
+							/>
+						:
+						undefined
+					}
+					<InfoIcon aria-label='Accessibilit tip'/>
+					<span className={props.error? 'accessibError' : 'accessibValid'}>
+						{props.tip}
+					</span>
+				</div>
 				<br/>
-				{
-					props.step !== undefined?
-						<Help helper={props.step} aria-label='Accessibilit tip' text={props.stepLabel} color='primary' buttonLabel='Mais detalhes'/>
+				<div className="accessibility-form-helper-row">
+					{
+						props.step !== undefined ?
+							<Help helper={props.step}
+								aria-label='Accessibilit tip'
+								text={props.stepLabel}
+								color='primary'
+								buttonLabel='More details'
+							/>
 						:
 						undefined
-				}
-				{
-					props.guide !== undefined?
-						<Decision caller={props.name} buttonLabel='Help me decide' useStyle={classes.iconButton} ariaLabel='Accessibilit help' color='secondary'/> 
+					}
+					{
+						props.guide !== undefined ?
+							<Decision
+								caller={props.name}
+								buttonLabel='Help me decide'
+								useStyle={classes.iconButton}
+								ariaLabel='Accessibilit help'
+								color='secondary'
+							/>
 						:
 						undefined
-				}
+					}
+				</div>
 			</FormHelperText>
 		</React.Fragment>
 	);

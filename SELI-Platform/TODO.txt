@@ -3,9 +3,10 @@ PRINCIPAL
 - Busquedas
 - Acabar el footer
 - Solicitudes
+- Poner el nombre del course en vez del id
 AUTHORING TOOL
 - (Resolver problema de cuando el json es muy grande y no guarda)
-- Accesibilidad!!!
+- Accesibilidad ya solo el edit
 - Educational design
 TEACHER
 - Generar el certificado

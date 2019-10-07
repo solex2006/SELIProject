@@ -9,11 +9,6 @@ import Button from '@material-ui/core/Button';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 
-import ItemFeedback from '../../accessibility/ItemFeedback';
-
-
-import MenuItem from './MenuItem';
-
 export default class AudioItem extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +18,7 @@ export default class AudioItem extends React.Component {
   }
 
   openExternalLink = () => {
-    var win = window.open(this.props.item.attributes.externalLink, '_blank');
+    var win = window.open(this.props.item.externalLink, '_blank');
     win.focus();
   }
 
@@ -36,16 +31,16 @@ export default class AudioItem extends React.Component {
               <div className="course-item-audio-card-details">
                 <CardContent className="course-item-audio-card-content">
                   <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
-                    {` ${this.props.item.attributes.title}`}
+                    {` ${this.props.item.title}`}
                   </Typography>
                   <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
-                    {this.props.item.attributes.source === 'upload' ? `Audio file` : `Recorded file`}
+                    {this.props.item.source === 'upload' ? `Audio file` : `Recorded file`}
                   </Typography>
                 </CardContent>
                 <CardMedia
                   className="course-item-audio-card-image"
                   image="/audio-gra.svg"
-                  title={this.props.item.attributes.title}
+                  title={this.props.item.title}
                 />
               </div>
               <div className="course-item-audio-card-controls">
@@ -56,7 +51,7 @@ export default class AudioItem extends React.Component {
                   <FolderSpecialIcon className="course-item-audio-card-icon"/>
                 </IconButton>
                 {
-                  this.props.item.attributes.externalLink !== '' ?
+                  this.props.item.externalLink !== '' ?
                     <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
                       Learn More
                     </Button>
@@ -66,10 +61,10 @@ export default class AudioItem extends React.Component {
               </div>
             </Card>
             {
-              this.props.item.attributes.hasDescription ?
+              this.props.item.hasDescription ?
                 <div
                   className="course-item-audio-card-description"
-                  dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
+                  dangerouslySetInnerHTML={{__html: this.props.item.description}}
                 >
                 </div>
               :
@@ -77,17 +72,6 @@ export default class AudioItem extends React.Component {
             }
           </div>
         </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-          />
-        </div>
-        <ItemFeedback
-          accessibility={this.props.item.attributes.accessibility}
-        />
       </div>
       );
     }

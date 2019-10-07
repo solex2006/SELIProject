@@ -12,6 +12,7 @@ import CreateCourse from '../components/tutor/CreateCourse';
 import EditCourse from '../components/tutor/EditCourse';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 import AccountManagement from '../components/user/AccountManagement';
+import Help from '../components/user/Help';
 import Loading from '../components/tools/Loading';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -182,6 +183,15 @@ export default class Tutor extends React.Component {
                     handleControlMessage={this.handleControlMessage.bind(this)}
                     showErrorFunction={showError => this.showError = showError}
                     reRender={this.forceUpdate.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.component === 'help' ?
+                  <Help
+                    user={this.state.user}
+                    handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
                 undefined

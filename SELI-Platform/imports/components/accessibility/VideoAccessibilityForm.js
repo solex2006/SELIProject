@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 // form componenets
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';  
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
@@ -22,18 +22,18 @@ import { makeStyles } from  '@material-ui/core/styles';
 
 export function VideoTextAltA11Y(props){
 	const {
-		handleInputOnChange, 
+		handleInputOnChange,
 		handleLongDescriptionPosition,
 		dataField,
 		shortDescriptionTip,
 		longDescriptionTip,
-	} = props.data;	
+	} = props.data;
 
 	return(
 		<section id='video-text-alternatives'>
-			<Grid container spacing={1} direction='column' justify='flex-start'>
+			<Grid container spacing={1} direction='column' justify='flex-end'>
 				<Grid item id='short-description-container' role='grid'>
-					<A11YShortDescription 
+					<A11YShortDescription
 						handleOnChange={React.useCallback(handleInputOnChange)}
 						error={dataField.shortDescriptionError}
 						value={dataField.shortDescription}
@@ -44,7 +44,7 @@ export function VideoTextAltA11Y(props){
 						//editorData
 						placeholder="Content identification"
 						required={true}
-						tip={shortDescriptionTip} 
+						tip={shortDescriptionTip}
 					/>
 				</Grid>
 				<Grid  item id='long-description-container' role='grid'>
@@ -59,32 +59,32 @@ export function VideoTextAltA11Y(props){
 						tip={
 							<React.Fragment>
 								{longDescriptionTip}
-								<FileUpload size='small'
-									parentId={props.parentId + 'transciption-accessibility-pdf-file'}
-									accept=".pdf"
-									label="Alternativaly, you can upload transcription as pdf file."
-									uploadedTitle="Transciption (pdf)"
-									icon="pdf-g.svg"
-									collection={CourseFilesCollection}
-									removeFunction='RemoveCourseFile'
-									type='accessibility-pdf-trasncription'
-									preview={false}
-									dowload={false}
-									open={true}
-									delete={true}
-									showIcon={true}
-									accessibilitySettings={false}
-									//showControlMessage={props.showControlMessage.bind(this)}
-									// resetFile={resetTranscriptionFile.bind(this)}
-									// getFileInformation={getTranscriptionFileInfo.bind(this)}
-									// removeFileInformation={removeTranscriptionFile.bind(this)}
-									// showAccesibilityForm={undefined}
-								/>
 							</React.Fragment>
-						} 
+						}
 						position={dataField.longDescriptionPosition}
 						handlePosition={React.useCallback(handleLongDescriptionPosition)}
 						textPositionLabel='Text position relative to video'
+					/>
+					<FileUpload size='small'
+						parentId={props.parentId + 'transciption-accessibility-pdf-file'}
+						accept=".pdf"
+						label="Alternativaly, you can upload transcription as pdf file."
+						uploadedTitle="Transciption (pdf)"
+						icon="pdf-g.svg"
+						collection={CourseFilesCollection}
+						removeFunction='RemoveCourseFile'
+						type='accessibility-pdf-trasncription'
+						preview={false}
+						dowload={false}
+						open={true}
+						delete={true}
+						showIcon={true}
+						accessibilitySettings={false}
+						//showControlMessage={props.showControlMessage.bind(this)}
+						// resetFile={resetTranscriptionFile.bind(this)}
+						// getFileInformation={getTranscriptionFileInfo.bind(this)}
+						// removeFileInformation={removeTranscriptionFile.bind(this)}
+						// showAccesibilityForm={undefined}
 					/>
 				</Grid>
 			</Grid>
@@ -94,7 +94,7 @@ export function VideoTextAltA11Y(props){
 
 export function VideoMediaAltA11Y(props){
 	return(
-		<Grid container spacing={1} direction='column' justify='flex-start'>
+		<Grid container spacing={1} direction='column' justify='flex-end'>
 			<VideoMediaCaptionsAltA11Y data={props.data}/>
 			<VideoMediaSignLanguageA11Y data={props.data}/>
 			<VideoMediaAudioDescriptioA11Y data={props.data}/>
@@ -104,22 +104,22 @@ export function VideoMediaAltA11Y(props){
 
 export function VideoMediaCaptionsAltA11Y(props){
 	const {
-		handleRadioButtonOnChange, 
+		handleRadioButtonOnChange,
 		dataField,
 		captionsTip,
-	} = props.data;	
+	} = props.data;
 
 	return(
 		<Grid item id='captions-container' role='grid'>
 			<FormControl component='fieldset'>
 				<FormLabel component='legend' id='captions-radiogroup-label'>Did this content has captions embebed?</FormLabel>
-				<RadioGroup 
+				<RadioGroup
 					id='captions-radiogroup'
-					aria-labelledby='captions-radiogroup-label' 
+					aria-labelledby='captions-radiogroup-label'
 					aria-describedby='captions-exp'
-					name='captionsEmbebed' 
+					name='captionsEmbebed'
 					row
-					value={dataField.captionsEmbebed}  
+					value={dataField.captionsEmbebed}
 					onChange={React.useCallback(handleRadioButtonOnChange)}
 				>
 					<FormControlLabel
@@ -128,7 +128,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 						label='Yes'
 						value='yes'
 						control={<Radio color='primary' />}
-						labelPlacement='start'
+						labelPlacement='end'
 					/>
 					<FormControlLabel
 						id='captions-no'
@@ -136,7 +136,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 						label='No'
 						value='no'
 						control={<Radio color='secondary' />}
-						labelPlacement='start'
+						labelPlacement='end'
 						role='radio'
 					/>
 				</RadioGroup>
@@ -148,26 +148,26 @@ export function VideoMediaCaptionsAltA11Y(props){
 
 export function VideoMediaAudioDescriptioA11Y(props){
 	const {
-		handleRadioButtonOnChange, 
+		handleRadioButtonOnChange,
 		dataField,
 		disabled_necAudioDesc,
 		disabled_uploadAudioDesc,
 		audioDescriptionTip,
 		audioDescriptionRequiredTip,
-	} = props.data;	
+	} = props.data;
 
 	return(
-		<Grid container spacing={1} direction='column' id='audioDescr-container' role='grid' justify='flex-start'>
+		<Grid container spacing={1} direction='column' id='audioDescr-container' role='grid' justify='flex-end'>
 			<Grid item>
 				<FormControl component='fieldset' >
 					<FormLabel component='legend' id='audioDescr-radiogroup-label'>Did this content has audiodescription embebed?</FormLabel>
-					<RadioGroup 
+					<RadioGroup
 						id='audioDescr-radiogroup'
 						aria-describedby='audioDescr-exp'
-						aria-labelledby='audioDescr-radiogroup-label' 
-						name='audioDescription' 
+						aria-labelledby='audioDescr-radiogroup-label'
+						name='audioDescription'
 						row
-						value={dataField.audioDescription} 
+						value={dataField.audioDescription}
 						onChange={React.useCallback(handleRadioButtonOnChange)}
 					>
 						<FormControlLabel
@@ -176,7 +176,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 							label='Yes'
 							value='yes'
 							control={<Radio color='primary' />}
-							labelPlacement='start'
+							labelPlacement='end'
 							role='radio'
 						/>
 						<FormControlLabel
@@ -185,7 +185,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 							label='No'
 							value='no'
 							control={<Radio color='secondary' />}
-							labelPlacement='start'
+							labelPlacement='end'
 							role='radio'
 						/>
 					</RadioGroup>
@@ -195,21 +195,21 @@ export function VideoMediaAudioDescriptioA11Y(props){
 			<Grid item>
 				<FormControl component='fieldset' disabled={disabled_necAudioDesc}>
 					<FormLabel component='legend' id='audioDescr-necessary-label'>This content requires audiodescription?</FormLabel>
-					<RadioGroup 
+					<RadioGroup
 						id='audioDescr-necessary-radiogroup'
 						aria-describedby='audioDescr-necessary-exp'
-						aria-labelledby='audioDescr-necessary-radiogroup-label' 
-						name='audioDescriptionRequired' 
-						value={dataField.audioDescriptionRequired} 
+						aria-labelledby='audioDescr-necessary-radiogroup-label'
+						name='audioDescriptionRequired'
+						value={dataField.audioDescriptionRequired}
 						onChange={React.useCallback(handleRadioButtonOnChange)}
-						row>
+					row>
 						<FormControlLabel
 							id='audioDescr-necessary-yes'
 							name='audioDescriptionRequired'
 							label='Yes'
 							value='yes'
 							control={<Radio color='primary' />}
-							labelPlacement='start'
+							labelPlacement='end'
 						/>
 						<FormControlLabel
 							id='audioDescr-necessary-no'
@@ -217,14 +217,14 @@ export function VideoMediaAudioDescriptioA11Y(props){
 							label='No'
 							value='no'
 							control={<Radio color='secondary' />}
-							labelPlacement='start'
+							labelPlacement='end'
 						/>
 					</RadioGroup>
 					<AccessibilityHelp idName='audioDescr-necessary-radiogroup' error={dataField.audioDescriptionError} tip={audioDescriptionRequiredTip} />
 				</FormControl>
 			</Grid>
 			<Grid item>
-				<FileUpload 
+				<FileUpload
 					disabled={disabled_uploadAudioDesc}
 					size='small'
 					parentId={props.parentId + 'audioDescription-accessibility-file'}
@@ -254,23 +254,23 @@ export function VideoMediaAudioDescriptioA11Y(props){
 
 export function VideoMediaSignLanguageA11Y(props){
 	const {
-		handleRadioButtonOnChange, 
-		dataField,	
+		handleRadioButtonOnChange,
+		dataField,
 		signLanguageTip,
-	} = props.data;	
+	} = props.data;
 
 	return(
 		<Grid item id='signLang-container' role='grid'>
 			<FormControl component='fieldset' >
 				<FormLabel component='legend' id='signLang-label'>Did this content has sign language embebed?</FormLabel>
-				<RadioGroup 
+				<RadioGroup
 					id='signLang-radiogroup'
 					aria-describedby='signLang-exp'
-					aria-labelledby='signLang-radiogroup-label' 
-					name='signLanguage' 
+					aria-labelledby='signLang-radiogroup-label'
+					name='signLanguage'
 					row
-					value={dataField.signLanguage} 
-					onChange={handleRadioButtonOnChange} 
+					value={dataField.signLanguage}
+					onChange={handleRadioButtonOnChange}
 					aria-describedby='signLang-exp'
 					row>
 					<FormControlLabel
@@ -279,7 +279,7 @@ export function VideoMediaSignLanguageA11Y(props){
 						label='Yes'
 						value='yes'
 						control={<Radio color='primary' />}
-						labelPlacement='start'
+						labelPlacement='end'
 					/>
 					<FormControlLabel
 						name='signLanguage'
@@ -287,30 +287,30 @@ export function VideoMediaSignLanguageA11Y(props){
 						label='No'
 						value='no'
 						control={<Radio color='secondary' />}
-						labelPlacement='start'
+						labelPlacement='end'
 					/>
 				</RadioGroup>
 				<AccessibilityHelp idName='signLang-radiogroup' error={dataField.signLanguageError} tip={signLanguageTip} />
-			</FormControl>	
+			</FormControl>
 		</Grid>
 	);
 }
 
 export function VideoOthersA11Y(props){
 	const {
-		handleRadioButtonOnChange, 
+		handleRadioButtonOnChange,
 		dataField,
 		seizuresTip,
-	} = props.data;	
+	} = props.data;
 
-	return(		
+	return(
 		<FormControl component='fieldset' >
 			<FormLabel component='legend' id='seizures-label'>Did this content could provoke photosensitive seizures?</FormLabel>
 			<RadioGroup id='seizures-radiogroup'
 				aria-describedby='seizures-exp'
-				name='seizures' 
-				value={dataField.seizures} 
-				onChange={handleRadioButtonOnChange} 
+				name='seizures'
+				value={dataField.seizures}
+				onChange={handleRadioButtonOnChange}
 				row>
 				<FormControlLabel
 					name='seizures'
@@ -318,7 +318,7 @@ export function VideoOthersA11Y(props){
 					label='Yes'
 					value='no'
 					control={<Radio color='primary' />}
-					labelPlacement='start'
+					labelPlacement='end'
 				/>
 				<FormControlLabel
 					name='seizures'
@@ -326,24 +326,24 @@ export function VideoOthersA11Y(props){
 					label='No'
 					value='yes'
 					control={<Radio color='secondary' />}
-					labelPlacement='start'
+					labelPlacement='end'
 				/>
 			</RadioGroup>
 			<AccessibilityHelp idName='seizures-radiogroup' error={dataField.seizuresError} tip={
 				<React.Fragment>
 					{seizuresTip}
 				</React.Fragment>
-			} 
+			}
 			/>
 		</FormControl>
 	);
 }
 
 export default function VideoA11Y(props){
-	
+
 	const {
-		handleInputOnChange, 
-		handleRadioButtonOnChange, 
+		handleInputOnChange,
+		handleRadioButtonOnChange,
 		handleLongDescriptionPosition,
 		dataField,
 		shortDescriptionTip,
@@ -356,7 +356,7 @@ export default function VideoA11Y(props){
 		disabled_necAudioDesc,
 		disabled_uploadAudioDesc,
 		isA11Y,
-	} = useDataField();	
+	} = useDataField();
 	/*
 		function getTranscriptionFileInfo(fileInformation){
 			// setState({
@@ -404,18 +404,18 @@ export default function VideoA11Y(props){
 	*/
 	return(
 		<aside role='dialog'> {/* NOTE: this role indicates a modal. Change it if necessary*/}
-			<header className='accessibility-header-row'>  
+			<header className='accessibility-header-row'>
 				<h2 className='accessibility-subtitle'>Accessibility settings for video content</h2>
 				<A11YProgressFeedback a11yFields={isA11Y}/>
 			</header>
-			
+
 			<section id='video-text-alternatives'>
 				<header>
 					<h3>Text alternatives to video content</h3>
 				</header>
-				<VideoTextAltA11Y data={{	
+				<VideoTextAltA11Y data={{
 					handleInputOnChange,
-					handleLongDescriptionPosition, 
+					handleLongDescriptionPosition,
 					dataField,
 					shortDescriptionTip,
 					longDescriptionTip,
@@ -456,7 +456,7 @@ export const useDataField = () => {
 	const [dataField, setDataField] = React.useState({
 		signLanguage: 'no',
 		seizures: 'no',
-		captionsEmbebed: 'no', 
+		captionsEmbebed: 'no',
 		audioDescription: 'no',
 		audioDescriptionRequired:'yes',
 		hasAudioDescriptionFile: false,
@@ -475,7 +475,7 @@ export const useDataField = () => {
 	});
 
 	//feedback variables
-	const [shortDescriptionTip, setShortDescriptionTip] = React.useState('Provide descriptive identification of the content');   
+	const [shortDescriptionTip, setShortDescriptionTip] = React.useState('Provide descriptive identification of the content');
 	const [longDescriptionTip, setLongDescriptionTip] = React.useState('Create a document that provide a textual version of the audio and video content that can be accessed by anyone. They should include spoken dialogue, and should also describe important sound effects and visual details.');
 	const [seizuresTip, setSeizuresTip] = React.useState(
 		<React.Fragment>No content should flash more than 3 times per second, unless the flashes are in low contrast or have little red, otherwise they may cause epileptic seizures. <Link href={'https://www.trace.umd.edu/peat'}alt='Test your content in PEAT'>Test your content in PEAT</Link> to evaluate for epilepsy risk.
@@ -486,7 +486,7 @@ export const useDataField = () => {
 	const [audioDescriptionTip, setAudioDescriptionTip] = React.useState('Audio description provides information about significant visual details that cannot be understood from the main soundtrack alone. During natural pauses in dialogue or critical sound elements, important actions, characters, scene changes, and on-screen text are described.');
 
 	const [audioDescriptionRequiredTip, setAudioDescriptionRequiredTip] = React.useState('Audio description is not necessary when there is one person speaking against an unchanging background because there is no time-based visual information in the video that is important to the understanding of the content.');
-	
+
 	const a11yInitial = [
 		{name: 'seizures', is_a11y: false},
 		{name: 'longDescription', is_a11y: false},
@@ -517,7 +517,7 @@ export const useDataField = () => {
 		if(name === 'longDescription'){
 			errValue = (value === '' && !dataField.hasTranscriptionFile);
 		}
-		
+
 		if(name === 'shortDescription'){
 			errValue = value === '';
 		}
@@ -536,7 +536,7 @@ export const useDataField = () => {
 		let data = {
 			[name]: value,
 		};
-				
+
 		if(name === 'audioDescription')
 		{
 			let errValue = value === 'yes' ? false : ((dataField.audioDescriptionRequired === 'yes') && !dataField.hasAudioDescriptionFile);
@@ -567,7 +567,7 @@ export const useDataField = () => {
 			let errField = name + 'Error';
 			let errValue = value === 'no' ? true : false;
 
-			data = {...data,	
+			data = {...data,
 				[errField]: errValue,
 			};
 
@@ -576,7 +576,7 @@ export const useDataField = () => {
 			setIsA11Y(arr);
 		}
 
-		setDataField( dataField => ({ ...dataField, 
+		setDataField( dataField => ({ ...dataField,
 			...data
 		}));
 	}
@@ -592,8 +592,8 @@ export const useDataField = () => {
 
 
 	return  {
-		handleInputOnChange: handleInputOnChange, 
-		handleRadioButtonOnChange:handleRadioButtonOnChange, 
+		handleInputOnChange: handleInputOnChange,
+		handleRadioButtonOnChange:handleRadioButtonOnChange,
 		handleLongDescriptionPosition:handleLongDescriptionPosition,
 		dataField,
 		shortDescriptionTip,

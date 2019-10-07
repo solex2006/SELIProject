@@ -10,7 +10,10 @@ import TutorRequestList from '../components/administrator/TutorRequestList';
 import AudienceRequestList from '../components/administrator/AudienceRequestList';
 import RequirementsRequestList from '../components/administrator/RequirementsRequestList';
 import TutorsList from '../components/administrator/TutorsList';
+import StudentsList from '../components/administrator/StudentsList';
 import CoursesList from '../components/administrator/CoursesList';
+import BugsList from '../components/administrator/BugsList';
+import CommentsList from '../components/administrator/CommentsList';
 import AudiencesList from '../components/administrator/AudiencesList';
 import RequirementsList from '../components/administrator/RequirementsList';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
@@ -130,6 +133,15 @@ export default class Tutor extends React.Component {
                 undefined
               }
               {
+                this.state.component === 'bugs' ?
+                  <BugsList
+                    user={this.state.user}
+                    handleControlMessage={this.handleControlMessage.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
                 this.state.component === 'tutorRequests' ?
                   <TutorRequestList
                     user={this.state.user}
@@ -166,6 +178,15 @@ export default class Tutor extends React.Component {
                 undefined
               }
               {
+                this.state.component === 'students' ?
+                  <StudentsList
+                    user={this.state.user}
+                    handleControlMessage={this.handleControlMessage.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
                 this.state.component === 'courses' ?
                   <CoursesList
                     user={this.state.user}
@@ -186,6 +207,15 @@ export default class Tutor extends React.Component {
               {
                 this.state.component === 'requirements' ?
                   <RequirementsList
+                    user={this.state.user}
+                    handleControlMessage={this.handleControlMessage.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.component === 'comments' ?
+                  <CommentsList
                     user={this.state.user}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />

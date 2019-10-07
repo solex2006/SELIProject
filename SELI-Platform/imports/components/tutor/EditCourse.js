@@ -261,7 +261,7 @@ export default class CreateCourse extends React.Component {
   }
 
   confirmPreview = () => {
-    if (this.validateSaveCourse()) {
+    if (this.validatePublishCourse()) {
       this.saveCourse()
       this.handleClose();
       const url = `/coursePreview#${this.state.saved}`;

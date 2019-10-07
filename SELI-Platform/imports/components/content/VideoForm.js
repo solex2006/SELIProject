@@ -31,6 +31,10 @@ export default class VideoForm extends React.Component {
         externalLink: '',
         hasDescription: true,
         description: '',
+        accessibility: {
+          pureDecorative: false,
+          percentage: 0,
+        }
       }
     }
   }

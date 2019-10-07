@@ -22,6 +22,13 @@ Meteor.methods({
 });
 
 Meteor.methods({
+  'GetStudents'(){
+    var users = Meteor.users.find({'profile.type': 'student'}).fetch();
+    return users;
+  }
+});
+
+Meteor.methods({
   'ActivateAccount'(_id){
     var updated = Meteor.users.update(
       {_id: _id},

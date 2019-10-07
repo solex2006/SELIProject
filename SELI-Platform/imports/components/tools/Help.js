@@ -37,10 +37,12 @@ export default function Help(props) {
         //     </IconButton>
       }
 
-      <IconButton aria-describedby={id} onClick={handleClick} className={classes.iconButton}>
+      <Button aria-describedby={id} onClick={handleClick} className="help-icon-button">
         <HelpIcon/>
-        {props.buttonLabel}
-      </IconButton>
+        <p className="help-label-medium">
+          {props.buttonLabel}
+        </p>
+      </Button>
 
       <Popover
         id={id}

@@ -60,9 +60,9 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 const inDevelopment = function() {
 	return process.env.NODE_ENV === "development";
 };
-//TODO: dinamically create buttons; editor for image caption, for longdescription, text 
+//TODO: dinamically create buttons; editor for image caption, for longdescription, text
 export default function ImageCaptionEditor(props) {
-	
+
 	const  {
 		handleKeyCommand: handleKeyCommand,
 		onTab: onTab,
@@ -71,7 +71,7 @@ export default function ImageCaptionEditor(props) {
 		toogleInlineStyle: toogleInlineStyle,
 		toggleBlockType: toggleBlockType,
 		renderContentAsRawJs:renderContentAsRawJs,
-		editor, 
+		editor,
 		editorState,
 		alignment,
 		blockTypes,
@@ -85,139 +85,139 @@ export default function ImageCaptionEditor(props) {
 	return (
 		<Grid item>
 			<Grid container direction='column' justify='flex-start' alignments='flex-start'spacing={0} className="a11yEditor-root">
-				<Grid item  xl={3} id="editor-control-block-types" value={blockTypes} className='"a11yEditor-controls"'>
+				<Grid item  xl={3} id="editor-control-block-types" value={blockTypes} className='a11yEditor-controls'>
 					<ToggleButton
-						value='paragraph' 
-						key="paragraph" 
-						aria-label="Paragraph" 
+						value='paragraph'
+						key="paragraph"
+						aria-label="Paragraph"
 						onClick={(e) => {
 							e.preventDefault();
 							React.useCallback(toggleBlockType('paragraph'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "paragraph"? "a11yEditor-activeButton" : "")}>
 						P
-					</ToggleButton>	 
-					<ToggleButton 
-						value='header-one' 
-						key='header-one'  
-						aria-label="Header One" 
+					</ToggleButton>
+					<ToggleButton
+						value='header-one'
+						key='header-one'
+						aria-label="Header One"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toggleBlockType('header-one'));}} 
+							React.useCallback(toggleBlockType('header-one'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-one"? "a11yEditor-activeButton" : "")}>
 						H1
-					</ToggleButton>	 
-					<ToggleButton 
-						value='header-two' 
-						key='header-two'  
-						aria-label="Header two" 
+					</ToggleButton>
+					<ToggleButton
+						value='header-two'
+						key='header-two'
+						aria-label="Header two"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toggleBlockType('header-two'));}} 
+							React.useCallback(toggleBlockType('header-two'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-two"? "a11yEditor-activeButton" : "")}>
 						H2
-					</ToggleButton>	 
-					<ToggleButton 
-						value='header-three' 
-						key='header-three'  
-						aria-label="Header three" 
+					</ToggleButton>
+					<ToggleButton
+						value='header-three'
+						key='header-three'
+						aria-label="Header three"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toggleBlockType('header-three'));}} 
+							React.useCallback(toggleBlockType('header-three'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-three"? "a11yEditor-activeButton" : "")}>
 						H3
-					</ToggleButton>	 
-					<ToggleButton 
-						value='header-four' 
-						key='header-four'  
-						aria-label="Header four" 
+					</ToggleButton>
+					<ToggleButton
+						value='header-four'
+						key='header-four'
+						aria-label="Header four"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toggleBlockType('header-four'));}} 
+							React.useCallback(toggleBlockType('header-four'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-four"? "a11yEditor-activeButton" : "")}>
 						H4
-					</ToggleButton>	 
-					<ToggleButton 
-						value='header-five' 
-						key='header-five'  
-						aria-label="Header five" 
+					</ToggleButton>
+					<ToggleButton
+						value='header-five'
+						key='header-five'
+						aria-label="Header five"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toggleBlockType('header-five'));}} 
+							React.useCallback(toggleBlockType('header-five'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-five"? "a11yEditor-activeButton" : "")}>
 						H5
-					</ToggleButton>	 
-					<ToggleButton 
-						value='header-six' 
-						key='header-six'  
-						aria-label="Header six" 
+					</ToggleButton>
+					<ToggleButton
+						value='header-six'
+						key='header-six'
+						aria-label="Header six"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toggleBlockType('header-six'));}} 
+							React.useCallback(toggleBlockType('header-six'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-six"? "a11yEditor-activeButton" : "")}>
 						H6
-					</ToggleButton>	 
-					<ToggleButton 
-						value='unordered-list-item' 
-						key='unordered-list-item'  
-						aria-label="Unordered List" 
+					</ToggleButton>
+					<ToggleButton
+						value='unordered-list-item'
+						key='unordered-list-item'
+						aria-label="Unordered List"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toggleBlockType('unordered-list-item'));}} 
+							React.useCallback(toggleBlockType('unordered-list-item'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "unordered-list-item"? "a11yEditor-activeButton" : "")}>
 						UL
-					</ToggleButton>	 
-					<ToggleButton 
-						value='ordered-list-item' 
-						key='ordered-list-item'  
-						aria-label="Ordered List" 
+					</ToggleButton>
+					<ToggleButton
+						value='ordered-list-item'
+						key='ordered-list-item'
+						aria-label="Ordered List"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toggleBlockType('ordered-list-item'));}} 
+							React.useCallback(toggleBlockType('ordered-list-item'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "ordered-list-item"? "a11yEditor-activeButton" : "")}>
 						OL
-					</ToggleButton>	 
-					<ToggleButton 
-						value='blockquote' 
-						key='blockquote'  
-						aria-label="Quote" 
+					</ToggleButton>
+					<ToggleButton
+						value='blockquote'
+						key='blockquote'
+						aria-label="Quote"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toggleBlockType('blockquote'));}} 
+							React.useCallback(toggleBlockType('blockquote'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "blockquote"? "a11yEditor-activeButton" : "")}>
 						Quote
-					</ToggleButton>	 
+					</ToggleButton>
 				</Grid>
 				<Grid item  xl={3} id="editor-control-inline-styles" value={textSyles} className="a11yEditor-controls">
-					<ToggleButton 
-						value='BOLD' 
-						key="BOLD" 
-						aria-label="Bold" 
+					<ToggleButton
+						value='BOLD'
+						key="BOLD"
+						aria-label="Bold"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toogleInlineStyle('BOLD'));}} 
+							React.useCallback(toogleInlineStyle('BOLD'));}}
 						className={"a11yEditor-styleButton "+( editorState.getCurrentInlineStyle().has('BOLD')? 'a11yEditor-activeButton' : '')}>
 						B
-					</ToggleButton>	 
-					<ToggleButton 
-						value='ITALIC' 
-						key="ITALIC" 
-						aria-label="Italic" 
+					</ToggleButton>
+					<ToggleButton
+						value='ITALIC'
+						key="ITALIC"
+						aria-label="Italic"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toogleInlineStyle('ITALIC'));}} 
+							React.useCallback(toogleInlineStyle('ITALIC'));}}
 						className={"a11yEditor-styleButton "+( editorState.getCurrentInlineStyle().has('ITALIC')? 'a11yEditor-activeButton' : '')}>
 						I
-					</ToggleButton>	 
-					<ToggleButton 
-						value='UNDERLINE' 
-						key="UNDERLINE" 
-						aria-label="Underline" 
+					</ToggleButton>
+					<ToggleButton
+						value='UNDERLINE'
+						key="UNDERLINE"
+						aria-label="Underline"
 						onClick={(e)=>{
 							e.preventDefault();
-							React.useCallback(toogleInlineStyle('UNDERLINE'));}} 
+							React.useCallback(toogleInlineStyle('UNDERLINE'));}}
 						className={"a11yEditor-styleButton "+( editorState.getCurrentInlineStyle().has('UNDERLINE')? 'a11yEditor-activeButton' : '')}>
 						U
-					</ToggleButton>	 
+					</ToggleButton>
 				</Grid>
 				<Grid item  xl={3} className={classNameEditor}>
 					<label className={classNameLabel} data-shrink="false" htmlFor={props.id + "-Editor"}>
@@ -241,14 +241,15 @@ export default function ImageCaptionEditor(props) {
 						placeholder={props.placeholder}
 						ref={editor}
 						error={props.error}
+						className="a11yEditor"
 					/>
 				</Grid>
-			</Grid> 
+			</Grid>
 
 			<div className = { inDevelopment ? '' : 'hide' } >
 				<details>
 					<summary>
-						<mark>DEVELOPMENT PURPOSE: output as semantic html (accessibility)</mark>
+						<mark style={{margin: "1.5vh 0"}}>DEVELOPMENT PURPOSE: output as semantic html (accessibility)</mark>
 					</summary>
 					<Grid container spacing={1} direction="row" justify="flex-start" >
 						<Grid item lg>
@@ -261,30 +262,30 @@ export default function ImageCaptionEditor(props) {
 								{renderContentAsRawJs()}
 							</pre>
 						</Grid>
-					</Grid>	
-				</details> 
-			</div>	  
+					</Grid>
+				</details>
+			</div>
 		</Grid>
 	);
 }
 
 const useEditor =(props) => {
 	const [editorState, setEditorState] = React.useState(EditorState.createEmpty());
-	
+
 	const editor = React.useRef(null);
 	//menu buttons
 	const [alignment, setAlignment] = React.useState('left'); //todo
 	const [blockTypes, setBlockTypes] = React.useState('paragraph');
 	const [textSyles, setTextStyles] = React.useState(() => []);
-	
+
 	//output parse
 	const [outputHtml, setOutputHtml] = React.useState('');
 	const [outputRaw, setOutputRaw] = React.useState('');
-	
+
 	//initial
 	const initialRaw = () => { localStorage.getItem(props.editorData) || ''; }; //a function to only read localstorage at first render
 	const [inputRaw, setInputRaw] = React.useState(initialRaw);
-	
+
 	const [classNameEditor, setClassNameEditor] = React.useState('a11yEditor-editor');
 	const [classNameLabel, setClassNameLabel] = React.useState('a11yEditor-label');
 	const [classNameAsterisk, setClassNameAsterisk] = React.useState('a11yEditor-asterisk');
@@ -303,7 +304,7 @@ const useEditor =(props) => {
 		//const txt = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
 		if (props.onChange !== undefined)
 			props.onChange({target : {name: props.name, value: currentContent.getPlainText('\u0001')}});
-		
+
 
 	}, [editorState]);
 
@@ -417,7 +418,7 @@ const useEditor =(props) => {
 		toogleInlineStyle: toogleInlineStyle,
 		toggleBlockType: toggleBlockType,
 		renderContentAsRawJs:renderContentAsRawJs,
-		editor, 
+		editor,
 		editorState,
 		alignment,
 		blockTypes,
@@ -459,15 +460,15 @@ function StyleButton(props) {
 		className += ' RichEditor-activeButton';
 	}
 	return (
-		<ToggleButton 
-			value={props.style}  
+		<ToggleButton
+			value={props.style}
 			onClick={onStToggle}
 			key={props.style}
 			className={className}
 			aria-label={props.label}
 			tabIndex={0}
 		>
-			{props.label}	
+			{props.label}
 		</ToggleButton>
 	);
 }

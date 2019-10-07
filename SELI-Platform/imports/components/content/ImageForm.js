@@ -31,7 +31,11 @@ export default class ImageForm extends React.Component {
         hasDescription: true,
         description: '',
         descriptionWidth: 'calc(100% - 500px)',
-        alignment: 'row'
+        alignment: 'row',
+        accessibility: {
+          pureDecorative: false,
+          percentage: 0,
+        }
       }
     }
   }

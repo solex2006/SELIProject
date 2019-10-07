@@ -15,9 +15,9 @@ import AccessibilityHelp from '../tools/AccessibilityHelp';
 
 export default function ImageAccessibility(props) {
 	const  {
-		handleInputOnChange, 
-		handleImagePurposeOnChange, 
-		handleLongDescriptionPosition, 
+		handleInputOnChange,
+		handleImagePurposeOnChange,
+		handleLongDescriptionPosition,
 		dataField,
 		shortDescriptionTip,
 		longDescriptionTip,
@@ -31,23 +31,29 @@ export default function ImageAccessibility(props) {
 	return (
 		<React.Fragment>
 			<section id='image-decoration' className='accessib-form'>
-				<header><h3>Function of image</h3></header>
+				<header>
+					<h3 className="accessibility-form-title">Function of image</h3>
+				</header>
 				<FormControl component='fieldset'>
-					<FormLabel component='legend' id='image-purpose-label'>Image could be configured based on the purpose of the image</FormLabel>
-					<RadioGroup name='imagePurpose' 
+					<FormLabel component='legend' id='image-purpose-label' className="accessibility-form-label">
+						Image could be configured based on the purpose of the image
+					</FormLabel>
+					<RadioGroup
+						name='imagePurpose'
 						id='image-purpose'
-						aria-labelledby='image-purpose-label' 
+						aria-labelledby='image-purpose-label'
 						aria-describedby='image-purpose-exp'
-						value={dataField.imagePurpose}  
-						onChange={React.useCallback(handleImagePurposeOnChange)} 
-						row>
+						value={dataField.imagePurpose}
+						onChange={React.useCallback(handleImagePurposeOnChange)}
+						column
+					>
 						<FormControlLabel
 							name='imagePurpose'
 							id='image-purpose-info'
 							label='Informative'
 							value='info'
 							control={<Radio color='primary' />}
-							labelPlacement='start'
+							labelPlacement='end'
 						/>
 						<FormControlLabel
 							name='imagePurpose'
@@ -55,7 +61,7 @@ export default function ImageAccessibility(props) {
 							label='Decorative'
 							value='deco'
 							control={<Radio color='primary' />}
-							labelPlacement='start'
+							labelPlacement='end'
 						/>
 						<FormControlLabel
 							name='imagePurpose'
@@ -63,7 +69,7 @@ export default function ImageAccessibility(props) {
 							label="Image of text"
 							value='txt'
 							control={<Radio color='primary' />}
-							labelPlacement='start'
+							labelPlacement='end'
 						/>
 						<FormControlLabel
 							name='imagePurpose'
@@ -71,21 +77,31 @@ export default function ImageAccessibility(props) {
 							label="Complex images"
 							value='cplx'
 							control={<Radio color='primary' />}
-							labelPlacement='start'
+							labelPlacement='end'
 						/>
 					</RadioGroup>
-					<AccessibilityHelp id='image-purpose' name='imagePurpose' error={false} tip={imagePurposeTip} step={'imagePurposeHelper_'+dataField.imagePurpose} stepLabel={imagePurposeLabel} guide=''/>
+					<AccessibilityHelp
+						id='image-purpose'
+						name='imagePurpose'
+						error={false}
+						tip={imagePurposeTip}
+						step={'imagePurposeHelper_' + dataField.imagePurpose}
+						stepLabel={imagePurposeLabel}
+						guide=''
+					/>
 				</FormControl>
 			</section>
 
 
-			<section id='image-text-alternatives'  className="form accessib-form" 
+			<section id='image-text-alternatives'  className="form accessib-form"
 				style={{'display':displayAltGroup}}
 			>
-				<header><h3>Text alternatives to image content</h3></header>
-				<Grid container spacing={1} direction='column' justify='flex-start'>
+				<header>
+					<h3 className="accessibility-form-title">Text alternatives to image content</h3>
+				</header>
+				<Grid container spacing={1} direction='column' justify='flex-end'>
 					<Grid item id='short-description-container' role='grid'>
-						<A11YShortDescription 
+						<A11YShortDescription
 							handleOnChange={React.useCallback(handleInputOnChange)}
 							error={dataField.shortDescriptionError}
 							value={dataField.shortDescription}
@@ -96,7 +112,7 @@ export default function ImageAccessibility(props) {
 							//editorData
 							placeholder="Content identification"
 							required={true}
-							tip={shortDescriptionTip} 
+							tip={shortDescriptionTip}
 							step={'shortAltHelper_'+dataField.imagePurpose}
 						/>
 					</Grid>
@@ -112,7 +128,7 @@ export default function ImageAccessibility(props) {
 							//editorData
 							placeholder="Caption"
 							required={true}
-							tip={longDescriptionTip} 
+							tip={longDescriptionTip}
 							step={'longAltHelper_'+dataField.imagePurpose}
 							stepLabel=''
 							position={dataField.longDescriptionPosition}
@@ -127,12 +143,12 @@ export default function ImageAccessibility(props) {
 }
 
 export const useImageDataField = () => {
-	
+
 	//feedback
 	const [shortDescriptionTip, setShortDescriptionTip] = React.useState(getShortDescriptionTip('info'));
 	const [longDescriptionTip, setLongDescriptionTip] = React.useState(getLongDescriptionTip('info'));
 	const [imagePurposeTip, setImagePurposeTip] = React.useState(getImagePurposeTip('info'));
-	const [imagePurposeLabel, setImagePurposeLabel] = React.useState(getImagePurposeLabel('info'));	
+	const [imagePurposeLabel, setImagePurposeLabel] = React.useState(getImagePurposeLabel('info'));
 	//layout states
 	const [displayAltGroup, setDisplayAltGroup] = React.useState('none');
 	const [displayAltLong, setDisplayAltLong] = React.useState('none');
@@ -171,58 +187,58 @@ export const useImageDataField = () => {
 
 	useEffect(() => {
 		setDisplayAltGroup(toogleShort ? 'none' : 'initial');
-		
+
 	}, [toogleShort]);
 
 	useEffect(() => {
-		setDisplayAltLong(toogleLong ? 'none' : 'initial');	
+		setDisplayAltLong(toogleLong ? 'none' : 'initial');
 	}, [toogleLong]);
-	
+
 	useEffect(() => {
-		setDataField(dataField => ({...dataField, 
+		setDataField(dataField => ({...dataField,
 			shortDescription: '',
-		}));		
+		}));
 	}, [displayAltGroup]);
 
 	useEffect(() => {
-		setDataField(dataField => ({...dataField, 
+		setDataField(dataField => ({...dataField,
 			shortDescription: '',
 			longDescription: '',
 		}));
 	}, [displayAltLong]);
 
 
-	const handleImagePurposeOnChange = event => {	
+	const handleImagePurposeOnChange = event => {
 		const { name, value } = event.target;
 
 		let data = {
 			[name]: value,
 		};
 		setDataField( dataField => ({ ...dataField, ...data }));
-		
+
 		let shortToogle = (value === 'deco');
 		let longToogle = (toogleShort || value === 'info' || value === 'txt');
-		
+
 		if(toogleShort != shortToogle)
 			setToogleShort(shortToogle);
-		
+
 		if(toogleLong != longToogle)
 			setToogleLong(longToogle);
 
 		updateAccessibilityProgress(shortToogle, longToogle);
 
 		// let arr = [...isA11Y];
-		
+
 
 		// if(toogleShort && displayAltGroup === 'initial'){
-		// 	data = {...data, 
+		// 	data = {...data,
 		// 		shortDescription: ''
 		// 	};
 		// 	arr = arr.filter(a => ( a.name !== 'shortDescription'));
 		// }
 
 		// if(toogleLong){
-		// 	data = {...data, 
+		// 	data = {...data,
 		// 		longDescription: ''
 		// 	};
 		// 	arr = arr.filter(a => ( a.name !== 'longDescription'));
@@ -235,16 +251,16 @@ export const useImageDataField = () => {
 	function updateAccessibilityProgress(shortToogle, longToogle)
 	{
 		if(shortToogle) //hide shortDescription === hideLongDescription
-		{	
+		{
 			setIsA11Y([]);
 		}
 		else if(!longToogle)
-		{	
+		{
 			setIsA11Y([
 				{name: 'shortDescription', is_a11y: false},
 				{name: 'longDescription', is_a11y: false},
 			]);
-		}			
+		}
 		else
 		{
 			setIsA11Y([
@@ -331,7 +347,7 @@ export const useImageDataField = () => {
 			return;
 		}
 	}
-	
+
 	function getLongDescriptionTip(purpose =''){
 		if(purpose === '')
 			purpose = dataField.imagePurpose;
@@ -345,9 +361,9 @@ export const useImageDataField = () => {
 	}
 
 	return  {
-		handleInputOnChange: handleInputOnChange, 
-		handleImagePurposeOnChange:handleImagePurposeOnChange, 
-		handleLongDescriptionPosition:handleLongDescriptionPosition, 
+		handleInputOnChange: handleInputOnChange,
+		handleImagePurposeOnChange:handleImagePurposeOnChange,
+		handleLongDescriptionPosition:handleLongDescriptionPosition,
 		dataField,
 		shortDescriptionTip,
 		longDescriptionTip,

@@ -28,3 +28,8 @@
   background-size: 350px;
   background-repeat: no-repeat;
 }
+
+.help-icon-button {
+  min-width: 0 !important;
+  padding: 4px 4px !important;
+}

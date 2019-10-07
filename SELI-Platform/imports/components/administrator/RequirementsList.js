@@ -177,6 +177,7 @@ export default class RequirementsList extends React.Component {
         name: this.state.requirement.name,
         description: this.state.requirement.description,
         additionDate: new Date(),
+        type: 'technical'
       }, () => {
         this.handleClose();
         this.props.handleControlMessage(true, "Requirement added successfully");

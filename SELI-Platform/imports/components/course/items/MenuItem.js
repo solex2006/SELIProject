@@ -41,21 +41,11 @@ const useStyles = makeStyles(theme => ({
 export default function MenuItem(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [checked, setChecked] = React.useState([1]);
   const [openList, setOpenList] = React.useState(true);
 
-  const handleToggle = value => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
+  function handleDecorative() {
+    props.handleDecorative(props.item.id);
+  }
 
   function handleClickList() {
     setOpenList(!openList);
@@ -132,43 +122,50 @@ export default function MenuItem(props) {
             </ListItemIcon>
             <ListItemText primary="Edit" />
           </ListItem>
-          <ListItem button onClick={handleClickList}>
-            <ListItemIcon>
-              <AccessibilityNewIcon />
-            </ListItemIcon>
-            <ListItemText primary="Accessibility" />
-            {openList ? <ExpandLess style={{animation: "fadeIn 0.25s"}}/> : <ExpandMore style={{animation: "fadeIn 0.25s"}}/>}
-          </ListItem>
-          <Collapse in={openList} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem disabled={true} button className={classes.nested}>
-                <ListItemIcon>
-                  <BuildIcon />
-                </ListItemIcon>
-                <ListItemText primary="Auto repair" />
-              </ListItem>
-              <ListItem onClick={handleToggle(0)} button className={classes.nested}>
-                <ListItemIcon>
-                  <CameraIcon />
-                </ListItemIcon>
-                <ListItemText primary="Decorative" />
-              </ListItem>
-              <ListItemSecondaryAction>
-                <Checkbox
-                  edge="end"
-                  onChange={handleToggle(0)}
-                  checked={checked.indexOf(0) !== -1}
-                />
-              </ListItemSecondaryAction>
-              <Divider light={true}/>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Settings" />
-              </ListItem>
-            </List>
-          </Collapse>
+          {
+            props.item.type === "audio" || props.item.type === "image" || props.item.type === "video" ?
+              <React.Fragment>
+                <ListItem button onClick={handleClickList}>
+                  <ListItemIcon>
+                    <AccessibilityNewIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Accessibility" />
+                  {openList ? <ExpandLess style={{animation: "fadeIn 0.25s"}}/> : <ExpandMore style={{animation: "fadeIn 0.25s"}}/>}
+                </ListItem>
+                <Collapse in={openList} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    <ListItem disabled={true} button className={classes.nested}>
+                      <ListItemIcon>
+                        <BuildIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Auto repair" />
+                    </ListItem>
+                    <ListItem onClick={() => handleDecorative()} button className={classes.nested}>
+                      <ListItemIcon>
+                        <CameraIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Decorative" />
+                    </ListItem>
+                    <ListItemSecondaryAction>
+                      <Checkbox
+                        edge="end"
+                        onClick={() => handleDecorative()}
+                        checked={props.item.attributes.accessibility.pureDecorative}
+                      />
+                    </ListItemSecondaryAction>
+                    <Divider light={true}/>
+                    <ListItem button className={classes.nested}>
+                      <ListItemIcon>
+                        <SettingsIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Settings" />
+                    </ListItem>
+                  </List>
+                </Collapse>
+              </React.Fragment>
+            :
+            undefined
+          }
         </List>
       </Popover>
     </div>

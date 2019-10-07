@@ -37,6 +37,10 @@ export default class AudioForm extends React.Component {
         externalLink: '',
         hasDescription: true,
         description: '',
+        accessibility: {
+          pureDecorative: false,
+          percentage: 0,
+        }
       },
     }
   }

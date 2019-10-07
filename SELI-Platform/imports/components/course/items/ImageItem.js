@@ -1,6 +1,7 @@
 import React from 'react';
 import { Resizable } from "re-resizable";
 import MenuItem from './MenuItem';
+import ItemFeedback from '../../accessibility/ItemFeedback';
 
 export default class ImageItem extends React.Component {
   constructor(props) {
@@ -108,8 +109,12 @@ export default class ImageItem extends React.Component {
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
             editItem={this.props.editItem.bind(this)}
+            handleDecorative={this.props.handleDecorative.bind(this)}
           />
         </div>
+        <ItemFeedback
+          accessibility={this.props.item.attributes.accessibility}
+        />
       </div>
       );
     }

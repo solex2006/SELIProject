@@ -1,5 +1,4 @@
 import React from 'react';
-import MenuItem from './MenuItem';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -14,9 +13,6 @@ import ReactPlayer from 'react-player';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 
-import ItemFeedback from '../../accessibility/ItemFeedback';
-
-
 export default class VideoItem extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +22,7 @@ export default class VideoItem extends React.Component {
   }
 
   openExternalLink = () => {
-    var win = window.open(this.props.item.attributes.externalLink, '_blank');
+    var win = window.open(this.props.item.externalLink, '_blank');
     win.focus();
   }
 
@@ -41,29 +37,29 @@ export default class VideoItem extends React.Component {
           <Card className="course-item-video-card">
             <CardActionArea className="course-item-video-card-media-action-area">
               {
-                this.props.item.attributes.source === 'upload' ?
+                this.props.item.source === 'upload' ?
                   <CardMedia
                     className="course-item-video-card-media"
-                    src={this.props.item.attributes.video.link}
+                    src={this.props.item.video.link}
                     component="video"
-                    video={this.props.item.attributes.video.link}
-                    title={this.props.item.attributes.video.name}
+                    video={this.props.item.video.link}
+                    title={this.props.item.video.name}
                   />
                 :
-                <ReactPlayer className="course-creator-item-video-card-preview-player" url={this.props.item.attributes.video.link}/>
+                <ReactPlayer className="course-creator-item-video-card-preview-player" url={this.props.item.video.link}/>
               }
               <CardContent className="course-item-video-card-media-content">
                 <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
-                  {` ${this.props.item.attributes.title}`}
+                  {` ${this.props.item.title}`}
                   <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
-                    {this.props.item.attributes.source === 'upload' ? `Video file` : `External video`}
+                    {this.props.item.source === 'upload' ? `Video file` : `External video`}
                   </Typography>
                 </Typography>
                 {
-                  this.props.item.attributes.hasDescription ?
+                  this.props.item.hasDescription ?
                   <div
                     className="course-item-video-card-media-description"
-                    dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
+                    dangerouslySetInnerHTML={{__html: this.props.item.description}}
                   >
                   </div>
                   :
@@ -73,7 +69,7 @@ export default class VideoItem extends React.Component {
             </CardActionArea>
             <CardActions className="course-item-video-card-media-actions-container">
               {
-                this.props.item.attributes.externalLink !== '' ?
+                this.props.item.externalLink !== '' ?
                   <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
                     Learn More
                   </Button>
@@ -93,17 +89,6 @@ export default class VideoItem extends React.Component {
             </CardActions>
           </Card>
         </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-          />
-        </div>
-        <ItemFeedback
-          accessibility={this.props.item.attributes.accessibility}
-        />
       </div>
       );
     }

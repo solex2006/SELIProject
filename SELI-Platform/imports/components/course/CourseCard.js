@@ -135,7 +135,7 @@ export default class CourseCard extends React.Component {
       loading: true,
     }, () => {
       Tracker.autorun(() => {
-        let comments = Comments.find({course: this.props.course._id}).fetch();
+        let comments = Comments.find({course: this.props.course._id, show: true}).fetch();
         if (comments.length) {
           this.setState({
             commentResults: true,

@@ -1,0 +1,26 @@
+.item-accessibility-feedback-fab {
+  position: absolute !important;
+  right: calc(var(--menu-item-width) + 0.25vw) !important;
+  top: 0.25vw !important;
+  opacity: 0.75;
+  transition: 0.5s !important;
+}
+
+.item-accessibility-feedback-fab:hover {
+  opacity: 1;
+}
+
+.accessibility-feedback-color-icon {
+  color: var(--white) !important;
+}
+
+.accessibility-feedback-label {
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5vh 0.5vw;
+  padding-right: 1vw;
+  text-transform: uppercase;
+  font-size: 0.85em;
+}
