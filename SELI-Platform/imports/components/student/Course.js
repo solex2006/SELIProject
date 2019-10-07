@@ -40,6 +40,7 @@ export default class Course extends React.Component {
       coursePresentation: true,
       selected: this.props.selected,
       media: '',
+      certificateCreated: false,
     }
   }
 
@@ -88,6 +89,7 @@ export default class Course extends React.Component {
     if (progress === 99.99) {
       progress = 100;
     }
+    parseInt(progress) === 100 ? this.createCertificate() : undefined
     return progress;
   }
 
@@ -194,6 +196,44 @@ export default class Course extends React.Component {
     })
   }
 
+  //certificate creation
+  createCertificate(){
+    console.log("creating certificate");
+    let idStudent = this.props.user._id;
+    let student = this.props.user.profile.fullname;
+    let tutor = this.props.activeCourse.information.createdBy;
+    let date = "01-01-2019";
+    let course = this.props.activeCourse.information.title;
+    let description = this.props.activeCourse.information.description;
+    let duration = this.props.activeCourse.information.duration;
+    let certificateNumber = Math.floor(Math.random()*(1000-500))+500;
+    let certificateInfo = {
+        idStudent: idStudent,
+        name: student,
+        tutor: tutor,
+        date: date,
+        course: course,
+        description: description,
+        duration: duration,
+        certificateNumber: certificateNumber.toString(),
+    };
+    console.log(certificateInfo);
+    this.sendCertificate(certificateInfo);
+  }
+
+  sendCertificate(certificateInfo){
+    fetch('https://www.seliblockcert.tk/datos', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(certificateInfo)
+    }).then(res=>res.json())
+      .then(res => console.log(res));
+
+    }
+
   render() {
     return(
       <div className="course-container">
@@ -231,6 +271,20 @@ export default class Course extends React.Component {
               toComplete={this.state.toComplete}
               toResolve={this.state.toResolve}
             />
+          :
+          undefined
+        }
+        {
+        this.state.certificateCreated ?
+        <div>
+        <DialogTitle className="success-dialog-title" id="alert-dialog-title">Certificate sucessfylly generated</DialogTitle>
+        <DialogContent className="success-dialog-content">
+            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+              Please go to my certificates.
+            </DialogContentText>
+            <InfoIcon className="warning-dialog-icon"/>
+          </DialogContent>
+          </div>
           :
           undefined
         }

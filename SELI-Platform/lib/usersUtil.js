@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 
 Meteor.methods({
   'GetUsers'(){
@@ -95,5 +96,36 @@ Meteor.methods({
         profile: user.profile,
       }}
     )
+  }
+});
+
+Meteor.methods({
+  'CheckForAdmin'(){
+    let usernameVar="seliadmin";
+    let user = Meteor.users.find({username: usernameVar}).fetch();
+    user = user[0];
+
+    if (!user){
+      try{
+        let result = Accounts.createUser({
+          username: usernameVar,
+          password: "seli2019",
+          email: "seliadmin@mail.com",
+          profile: {
+            fullname: "seli administrator",
+            courses: [],
+            type: "administrator",
+            certificates: [],
+          }
+        });
+        if(result){
+          return result;
+          }
+      }
+      catch(err){
+          return err;
+      }
+    
+    }
   }
 });

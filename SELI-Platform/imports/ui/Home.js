@@ -28,6 +28,14 @@ export default class Home extends React.Component {
   };
 
   componentDidMount() {
+    Meteor.call('CheckForAdmin', function(error, response) {
+      if (error) {
+          console.log('CheckForAdmin: Error: ', error);
+      }
+      if (response) {
+          console.log('CheckForAdmin: Response: ', response);
+      }
+  });
     if (Meteor.userId()) {
       this.setState({
         chekingSesion: true,

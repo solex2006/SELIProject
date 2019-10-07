@@ -99,6 +99,7 @@ export default class SignUpForm extends React.Component {
         fullname: information.fullname,
         courses: [],
         type: 'student',
+        certificates: [],
       }
     }, (error) => {
       if (error) {
@@ -145,6 +146,7 @@ export default class SignUpForm extends React.Component {
       }, () => {
         Meteor.call("ValidateEmail", this.state.userInformation.email, (error, response) =>  {
           let message;
+          response=true;
           response ? message = "Valid email" : message = "Invalid email";
           this.setState({
             emailResult: true,
