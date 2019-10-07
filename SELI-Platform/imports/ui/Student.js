@@ -219,9 +219,12 @@ export default class Student extends React.Component {
   toComplete = (course) => {
     let toComplete = [];
     if (course.organization.subunit) {
-      course.program.map(unit => {
+      let parentIndex = 0;
+      course.program.map((unit, index) => {
+        toComplete.push({subunits: []})
+        parentIndex = index;
         unit.lessons.map(subunit => {
-          toComplete.push(false);
+          toComplete[parentIndex].subunits.push(false);
         })
       })
     }

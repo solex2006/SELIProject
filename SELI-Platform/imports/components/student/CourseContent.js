@@ -190,10 +190,59 @@ export default class CourseContent extends React.Component {
                 })
               }
               <div className="course-content-footer-actions">
-                <p className="course-content-footer-text"></p>
-                <Button variant="contained" className="course-content-footer-button">
-                  {`Complete ${this.props.course.organization.subunit}`}
+                {
+                  this.props.toComplete[this.props.selected[1]].subunits[this.props.selected[0]] ?
+                    <Button
+                      className="course-content-footer-button-small"
+                      color="primary"
+                      variant="outlined"
+                      onClick={() => this.props.leaveComment()}
+                    >
+                      Leave a comment
+                    </Button>
+                  :
+                  undefined
+                }
+                <div className="course-content-footer-row">
+                  <Tooltip title={`Previous ${this.props.course.organization.unit}`}>
+                    <Fab
+                      disabled={this.props.selected[0] === 0 && this.props.selected[1] === 0}
+                      size="small"
+                      className="course-content-footer-fab"
+                      onClick={() => this.props.handlePreviousSubunit()}
+                    >
+                      <NavigateBeforeIcon/>
+                    </Fab>
+                  </Tooltip>
+                  <Tooltip title={`Next ${this.props.course.organization.unit}`}>
+                    <Fab
+                      disabled={this.props.selected[1] === this.props.course.program.length - 1 && this.props.course.program[this.props.selected[1]].lessons.length - 1 === this.props.selected[0]}
+                      size="small"
+                      className="course-content-footer-fab"
+                      onClick={() => this.props.handleNextSubunit()}
+                    >
+                      <NavigateNextIcon/>
+                    </Fab>
+                  </Tooltip>
+                </div>
+                <Button
+                  disabled={this.props.toComplete[this.props.selected[1]].subunits[this.props.selected[0]]}
+                  onClick={() => this.props.completeSubunit(this.props.selected[1], this.props.selected[0])}
+                  variant="contained"
+                  className="course-content-footer-button"
+                >
+                  {
+                    this.props.toComplete[this.props.selected[1]].subunits[this.props.selected[0]] ?
+                    `${this.props.course.organization.subunit} completed` :
+                    `Complete ${this.props.course.organization.subunit}`
+                  }
                 </Button>
+                {
+                  this.props.toComplete[this.props.selected[1]].subunits[this.props.selected[0]] ?
+                    <CheckCircleIcon className="success-dialog-icon-small"/>
+                  :
+                  undefined
+                }
               </div>
             </div>
           :

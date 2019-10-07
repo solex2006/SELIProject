@@ -80,10 +80,29 @@ export default class Course extends React.Component {
   }
 
   calculateProgress = (toComplete, toResolve) => {
-    let total = toComplete.length + toResolve.length;
+    let total;
+    if (this.state.course.organization.subunit) {
+      let totalSubunits = 0;
+      for (var i = 0; i < toComplete.length; i++) {
+        for (var j = 0; j < toComplete[i].subunits.length; j++) {
+          totalSubunits++;
+        }
+      }
+      total = totalSubunits + toResolve.length;
+    }
+    else {
+      total = toComplete.length + toResolve.length;
+    }
     let unitPercentage  = parseFloat(100/total);
     let progress = 0;
-    toComplete.map(completed => completed ? progress += unitPercentage : undefined);
+    if (this.state.course.organization.subunit) {
+      toComplete.map(completed => {
+        completed.subunits.map(subunit => subunit ? progress += unitPercentage : undefined)
+      });
+    }
+    else {
+      toComplete.map(completed => completed ? progress += unitPercentage : undefined);
+    }
     toResolve.map(activity => activity.resolved ? progress += unitPercentage : undefined);
     progress = progress.toFixed(2);
     if (progress === 99.99) {
@@ -115,6 +134,28 @@ export default class Course extends React.Component {
     });
   }
 
+  completeSubunit = (parent, child) => {
+    let toComplete = this.state.toComplete;
+    let toResolve = this.state.toResolve;
+    toComplete[parent].subunits[child] = true;
+    let progress = this.calculateProgress(toComplete, toResolve);
+    this.setState({
+      toComplete: toComplete,
+      progress: progress,
+    }, () => {
+      Meteor.call(
+        "CompleteSection", Meteor.userId(),
+        this.state.toComplete,
+        this.state.course._id,
+        progress,
+        (error, response) =>  {
+          if (!error) {
+            this.props.handleControlMessage(true, "Topic completed, you can leave your comments about what you think about this part of the course");
+          }
+      });
+    });
+  }
+
   handleNextUnit = () => {
     let index = this.state.selected[0];
     this.navigateTo('unit', [(index + 1), undefined])
@@ -123,6 +164,28 @@ export default class Course extends React.Component {
   handlePreviousUnit = () => {
     let index = this.state.selected[0];
     this.navigateTo('unit', [(index - 1), undefined])
+  }
+
+  handleNextSubunit = () => {
+    let parent = this.state.selected[1];
+    let child = this.state.selected[0];
+    if (child + 1 === this.state.course.program[this.state.selected[1]].lessons.length) {
+      this.navigateTo('unit', [0, parent + 1])
+    }
+    else {
+      this.navigateTo('unit', [child + 1, parent])
+    }
+  }
+
+  handlePreviousSubunit = () => {
+    let parent = this.state.selected[1];
+    let child = this.state.selected[0];
+    if (child === 0) {
+      this.navigateTo('unit', [this.state.course.program[parent - 1].lessons.length - 1, parent - 1])
+    }
+    else {
+      this.navigateTo('unit', [child - 1, parent])
+    }
   }
 
   completeActivity = (id, activity, label) => {
@@ -198,7 +261,6 @@ export default class Course extends React.Component {
 
   //certificate creation
   createCertificate(){
-    console.log("creating certificate");
     let idStudent = this.props.user._id;
     let student = this.props.user.profile.fullname;
     let tutor = this.props.activeCourse.information.createdBy;
@@ -217,7 +279,6 @@ export default class Course extends React.Component {
         duration: duration,
         certificateNumber: certificateNumber.toString(),
     };
-    console.log(certificateInfo);
     this.sendCertificate(certificateInfo);
   }
 
@@ -229,7 +290,7 @@ export default class Course extends React.Component {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(certificateInfo)
-    }).then(res=>res.json())
+    }).then(res => res.json())
       .then(res => console.log(res));
 
     }
@@ -262,9 +323,12 @@ export default class Course extends React.Component {
               handleControlMessage={this.props.handleControlMessage.bind(this)}
               handlePreviousUnit={this.handlePreviousUnit.bind(this)}
               handleNextUnit={this.handleNextUnit.bind(this)}
+              handlePreviousSubunit={this.handlePreviousSubunit.bind(this)}
+              handleNextSubunit={this.handleNextSubunit.bind(this)}
               completeActivity={this.completeActivity.bind(this)}
               navigateTo={this.navigateTo.bind(this)}
               completeUnit={this.completeUnit.bind(this)}
+              completeSubunit={this.completeSubunit.bind(this)}
               openMediaPlayer={this.openMediaPlayer.bind(this)}
               leaveComment={this.leaveComment.bind(this)}
               selected={this.state.selected}
@@ -275,16 +339,16 @@ export default class Course extends React.Component {
           undefined
         }
         {
-        this.state.certificateCreated ?
-        <div>
-        <DialogTitle className="success-dialog-title" id="alert-dialog-title">Certificate sucessfylly generated</DialogTitle>
-        <DialogContent className="success-dialog-content">
-            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-              Please go to my certificates.
-            </DialogContentText>
-            <InfoIcon className="warning-dialog-icon"/>
-          </DialogContent>
-          </div>
+          this.state.certificateCreated ?
+            <div>
+              <DialogTitle className="success-dialog-title" id="alert-dialog-title">Certificate sucessfylly generated</DialogTitle>
+              <DialogContent className="success-dialog-content">
+                <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                  Please go to my certificates.
+                </DialogContentText>
+                <InfoIcon className="warning-dialog-icon"/>
+              </DialogContent>
+            </div>
           :
           undefined
         }
