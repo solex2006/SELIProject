@@ -45,3 +45,4 @@ meteor add accounts-password
 meteor npm install --save bcrypt
 meteor npm install --save moment moment-duration-format
 meteor npm install --save react-timer-machine
+meteor add simple:rest
