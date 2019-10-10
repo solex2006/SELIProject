@@ -458,8 +458,6 @@ export default class CourseCreatorTool extends React.Component {
     }
     this.setState({
       courseInformation: courseInformation,
-    }, () => {
-      console.log(this.state.courseInformation.program);
     });
   }
 
@@ -493,6 +491,38 @@ export default class CourseCreatorTool extends React.Component {
     });
   }
 
+  setContentAccessibilityData = (data) => {
+    if (!this.state.configuringAccessibility) {
+      let courseInformation = this.state.courseInformation;
+      let index;
+      if (courseInformation.organization.subunit) {
+        for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
+          if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
+            index = i;
+            break;
+          }
+        }
+      }
+      else {
+        for (var i = 0; i < courseInformation.program[this.props.selected[0]].items.length; i++) {
+          if (courseInformation.program[this.props.selected[0]].items[i].id === this.state.addedId) {
+            index = i;
+            break;
+          }
+        }
+      }
+      if (courseInformation.organization.subunit) {
+        courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.dataField = data;
+      }
+      else {
+        courseInformation.program[this.props.selected[0]].items[index].attributes.accessibility.dataField = data;
+      }
+      this.setState({
+        courseInformation: courseInformation,
+      }, () => console.log(this.state.courseInformation.program));
+    }
+
+  }
 
   render() {
     return(
@@ -1045,6 +1075,7 @@ export default class CourseCreatorTool extends React.Component {
                   contentTypeAdded={this.state.contentTypeAdded}
                   item={this.state.contentToConfigureAccessibility}
                   getAccessibilityPercetage={this.getAccessibilityPercetage.bind(this)}
+                  setContentAccessibilityData={this.setContentAccessibilityData.bind(this)}
                 />
                 <div className="dialog-actions-container">
                   <Tooltip title="Set accessibility configuration">

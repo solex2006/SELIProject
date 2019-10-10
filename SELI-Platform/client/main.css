@@ -337,3 +337,7 @@ figure.group.caption-bottom, figure.group.caption-bottom>figcaption {
 .hide{
   display: none!important;
 }
+
+.MeteorToys-background-overlay1 {
+  display: none !important;
+}

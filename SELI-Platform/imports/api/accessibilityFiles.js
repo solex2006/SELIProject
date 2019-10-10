@@ -1,4 +1,4 @@
-import TutorFilesCollection from '../../lib/TutorFilesCollection';
+import AccessibilityFilesCollection from '../../lib/AccessibilityFilesCollection';
 import { Meteor } from 'meteor/meteor';
 
 if (Meteor.isClient) {
@@ -7,15 +7,15 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.publish('files.all', function () {
-    return TutorFilesCollection.find().cursor;
+    return CourseFilesCollection.find().cursor;
   });
 }
 
 Meteor.methods({
 
-  'RemoveTutorFile'(id) {
+  'RemoveAccessibilityCourseFile'(id) {
 
-    TutorFilesCollection.remove({_id: id}, function (error) {
+    AccessibilityFilesCollection.remove({_id: id}, function (error) {
       if (error) {
         console.error("File wasn't removed, error: " + error.reason)
       } else {

@@ -46,3 +46,5 @@ meteor npm install --save bcrypt
 meteor npm install --save moment moment-duration-format
 meteor npm install --save react-timer-machine
 meteor add simple:rest
+meteor npm i react-flow-chart-updated --save
+meteor npm i @mrblenny/react-flow-chart --save

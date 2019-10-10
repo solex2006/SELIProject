@@ -74,7 +74,7 @@ function TabPanel(props) {
 		let indexPanel = 0;
 
 		const data = useData(props.contentTypeAdded);
-
+		//props.setContentAccessibilityData(data);
 		return (
 			<div className={classes.root}>
 				<Tabs
@@ -223,19 +223,22 @@ function TabPanel(props) {
 						props.contentTypeAdded === 'image' &&
 						<React.Fragment>
 							<TabPanel value={value} index={indexPanel++}>
-								<ImageA11yForm data={{
-									handleInputOnChange:data.handleInputOnChange,
-									handleImagePurposeOnChange:data.handleImagePurposeOnChange,
-									handleLongDescriptionPosition:data.handleLongDescriptionPosition,
-									dataField:data.dataField,
-									shortDescriptionTip:data.shortDescriptionTip,
-									longDescriptionTip:data.longDescriptionTip,
-									imagePurposeTip:data.imagePurposeTip,
-									imagePurposeLabel:data.imagePurposeLabel,
-									displayAltGroup:data.displayAltGroup,
-									displayAltLong:data.displayAltLong,
-									isA11Y:data.isA11Y,
-								}}/>
+								<ImageA11yForm
+									data={{
+										handleInputOnChange:data.handleInputOnChange,
+										handleImagePurposeOnChange:data.handleImagePurposeOnChange,
+										handleLongDescriptionPosition:data.handleLongDescriptionPosition,
+										dataField:data.dataField,
+										shortDescriptionTip:data.shortDescriptionTip,
+										longDescriptionTip:data.longDescriptionTip,
+										imagePurposeTip:data.imagePurposeTip,
+										imagePurposeLabel:data.imagePurposeLabel,
+										displayAltGroup:data.displayAltGroup,
+										displayAltLong:data.displayAltLong,
+										isA11Y:data.isA11Y,
+									}}
+									item={props.item}
+								/>
 							</TabPanel>
 						</React.Fragment>
 					}

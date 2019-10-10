@@ -142,7 +142,7 @@ export default function ImageAccessibility(props) {
 	);
 }
 
-export const useImageDataField = () => {
+export const useImageDataField = (props) => {
 
 	//feedback
 	const [shortDescriptionTip, setShortDescriptionTip] = React.useState(getShortDescriptionTip('info'));
@@ -272,7 +272,6 @@ export const useImageDataField = () => {
 	function handleInputOnChange ({ target: { name, value } }){
 
 		let errValue = value === '';
-
 		setDataField(dataField => ({ ...dataField,
 			[name] : value,
 			[name+'Error'] : errValue,
