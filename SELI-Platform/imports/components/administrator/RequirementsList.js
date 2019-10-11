@@ -285,7 +285,7 @@ export default class RequirementsList extends React.Component {
                   <p className="empty-dashboard-text">You don't have any requirement created yet</p>
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
-                <Button onClick={() => this.showAddDialog()} variant="contained" color="primary" className="empty-dashboard-button">Create an requirement</Button>
+                <Button onClick={() => this.showAddDialog()} variant="contained" color="primary" className="empty-dashboard-button">Create a requirement</Button>
               </div>
             }
           </React.Fragment>

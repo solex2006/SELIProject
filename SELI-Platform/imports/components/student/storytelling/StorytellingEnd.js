@@ -30,12 +30,18 @@ export default class StorytellingEnd extends React.Component {
             :
             <div className="storytelling-selected-empty-container"></div>
           }
-          <p className="storytelling-item-name">{`${this.props.node.name}`}</p>
+          <p
+            className="storytelling-item-name"
+            onClick={() => this.props.selectNode(this.props.index)}
+          >
+            {`${this.props.node.name}`}
+          </p>
           <Paper
             elevation={8}
             className="storytelling-item-node-end"
             onClick={() => this.props.selectNode(this.props.index)}
           ></Paper>
+          <div className="storytelling-selected-empty-container"></div>
           <div className="storytelling-selected-empty-container"></div>
         </div>
       </div>

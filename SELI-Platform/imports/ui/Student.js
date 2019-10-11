@@ -8,6 +8,7 @@ import AppBar from '../components/navigation/AppBar';
 import Presentation from '../components/navigation/Presentation';
 import CoursesDashboard from '../components/student/CoursesDashboard';
 import SubscribedCourses from '../components/student/SubscribedCourses';
+import StorytellingTool from '../components/student/storytelling/StorytellingTool';
 import Course from '../components/student/Course';
 import CourseDial from '../components/student/CourseDial';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
@@ -75,6 +76,9 @@ export default class Student extends React.Component {
     if (show) {
       if (action === 'subscribed') {
         action = () => this.showComponent('subscribed');
+      }
+      if (action === 'stories') {
+        action = () => this.showComponent('storytellingList');
       }
       this.setState({
         showControlMessage: show,
@@ -330,6 +334,15 @@ export default class Student extends React.Component {
                     handleControlMessage={this.handleControlMessage.bind(this)}
                     handleClickCourse={this.handleClickCourse.bind(this)}
                     showComponent={this.showComponent.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.component === 'storytelling' ?
+                  <StorytellingTool
+                    user={this.state.user}
+                    handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
                 undefined

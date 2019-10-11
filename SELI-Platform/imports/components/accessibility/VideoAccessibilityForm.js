@@ -9,7 +9,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
-import FileUpload from '../files/FileUpload';
+import AccessibilityFileUpload from '../files/AccessibilityFileUpload';
 import Link from '@material-ui/core/Link';
 //a11y
 import AccessibilityHelp from '../tools/AccessibilityHelp';
@@ -28,6 +28,10 @@ export function VideoTextAltA11Y(props){
 		shortDescriptionTip,
 		longDescriptionTip,
 	} = props.data;
+
+	function getFileInformation() {
+		console.log('yes');
+	}
 
 	return(
 		<section id='video-text-alternatives'>
@@ -65,26 +69,12 @@ export function VideoTextAltA11Y(props){
 						handlePosition={React.useCallback(handleLongDescriptionPosition)}
 						textPositionLabel='Text position relative to video'
 					/>
-					<FileUpload size='small'
-						parentId={props.parentId + 'transciption-accessibility-pdf-file'}
-						accept=".pdf"
-						label="Alternativaly, you can upload transcription as pdf file."
-						uploadedTitle="Transciption (pdf)"
-						icon="pdf-g.svg"
-						collection={CourseFilesCollection}
-						removeFunction='RemoveCourseFile'
-						type='accessibility-pdf-trasncription'
-						preview={false}
-						dowload={false}
-						open={true}
-						delete={true}
-						showIcon={true}
-						accessibilitySettings={false}
-						//showControlMessage={props.showControlMessage.bind(this)}
-						// resetFile={resetTranscriptionFile.bind(this)}
-						// getFileInformation={getTranscriptionFileInfo.bind(this)}
-						// removeFileInformation={removeTranscriptionFile.bind(this)}
-						// showAccesibilityForm={undefined}
+					<AccessibilityFileUpload size='small'
+						type='pdf'
+						user={Meteor.userId()}
+						accept={'.pdf'}
+						label={'Alternativaly, you can upload transcription as pdf file.'}
+						getFileInformation={getFileInformation.bind(this)}
 					/>
 				</Grid>
 			</Grid>
@@ -156,6 +146,10 @@ export function VideoMediaAudioDescriptioA11Y(props){
 		audioDescriptionRequiredTip,
 	} = props.data;
 
+	function getFileInformation() {
+		console.log('yes');
+	}
+
 	return(
 		<Grid container spacing={1} direction='column' id='audioDescr-container' role='grid' justify='flex-end'>
 			<Grid item>
@@ -224,28 +218,12 @@ export function VideoMediaAudioDescriptioA11Y(props){
 				</FormControl>
 			</Grid>
 			<Grid item>
-				<FileUpload
-					disabled={disabled_uploadAudioDesc}
-					size='small'
-					parentId={props.parentId + 'audioDescription-accessibility-file'}
-					accept="audio/*"
-					label="Upload an audiodescription"
-					uploadedTitle="Audio Description"
-					icon="audio-g.svg"
-					collection={CourseFilesCollection}
-					removeFunction='RemoveCourseFile'
-					type='accessibility-audio'
-					preview={false}
-					dowload={false}
-					open={true}
-					delete={true}
-					showIcon={true}
-					accessibilitySettings={false}
-					//showControlMessage={props.showControlMessage.bind(this)}
-					// resetFile={resetAudioDescriptionFile.bind(this)}
-					// getFileInformation={getAudioDescriptionFileInfo.bind(this)}
-					// removeFileInformation={removeAudioDescriptionFile.bind(this)}
-					// showAccesibilityForm={undefined}
+				<AccessibilityFileUpload
+					type='audio'
+					user={Meteor.userId()}
+					accept={'audio/*'}
+					label={'Click the button to upload an audio description'}
+					getFileInformation={getFileInformation.bind(this)}
 				/>
 			</Grid>
 		</Grid>

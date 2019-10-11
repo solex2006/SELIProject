@@ -13,6 +13,19 @@ var OPTIONS = [
     ],
   },
   {
+    label: "Storytelling",
+    suboptions: [
+      {
+        label: "My stories",
+        component: 'storytellingList',
+      },
+      {
+        label: "Create story",
+        component: 'storytelling',
+      },
+    ],
+  },
+  {
     label: "Certificates",
     suboptions: [
       {

@@ -143,14 +143,25 @@ export default class CoursesList extends React.Component {
 
   delete = () => {
     this.state.coursesToDelete.map((course, index) => {
-
+      Courses.remove({_id: course}, () => {
+        this.props.handleControlMessage(true, "Course(s) deleted successfully");
+        this.handleClose();
+        this.setSelected();
+      })
     });
   }
 
   setSelected(){}
 
-  showPreview = () => {
-
+  showPreview = (_id) => {
+    let course = this.state.courses.find( course => course._id === _id );
+    if (course.published) {
+      const url = `/coursePreview#${_id}`;
+      window.open(url, "_blank");
+    }
+    else {
+      this.props.handleControlMessage(true, "You can't see the preview of an unpublished course")
+    }
   }
 
   render() {
