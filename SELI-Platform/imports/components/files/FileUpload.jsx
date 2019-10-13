@@ -100,7 +100,7 @@ class FileUpload extends Component {
       }, () => {
         if (this.state.uploadedFile !== undefined) {
           file.link = this.state.uploadedFile.link();
-          this.props.getFileInformation(file);
+          this.props.getFileInformation({_id: file._id, name: file.name, link: file.link});
         }
       });
     });

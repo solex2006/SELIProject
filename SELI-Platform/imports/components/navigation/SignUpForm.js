@@ -196,8 +196,7 @@ export default class SignUpForm extends React.Component {
   }
 
   redirect = url => {
-    var win = window.open(url, '_blank');
-    win.focus();
+    location.replace(url);
   }
 
   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {

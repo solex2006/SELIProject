@@ -145,7 +145,7 @@ export default class CoursesList extends React.Component {
                   <p className="management-title">My saved courses <SchoolIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
                     <Table
-                      labels={{pagination: 'Courses per page:', plural: 'courses'}}
+                      labels={{title:'You have', pagination: 'Courses per page:', plural: 'courses'}}
                       headRows={this.state.headRows}
                       menuOptions={this.state.menuOptions}
                       tableData={this.state.tableData}

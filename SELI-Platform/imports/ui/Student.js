@@ -9,6 +9,7 @@ import Presentation from '../components/navigation/Presentation';
 import CoursesDashboard from '../components/student/CoursesDashboard';
 import SubscribedCourses from '../components/student/SubscribedCourses';
 import StorytellingTool from '../components/student/storytelling/StorytellingTool';
+import Stories from '../components/student/Stories';
 import Course from '../components/student/Course';
 import CourseDial from '../components/student/CourseDial';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
@@ -78,7 +79,7 @@ export default class Student extends React.Component {
         action = () => this.showComponent('subscribed');
       }
       if (action === 'stories') {
-        action = () => this.showComponent('storytellingList');
+        action = () => this.showComponent('stories');
       }
       this.setState({
         showControlMessage: show,
@@ -101,6 +102,14 @@ export default class Student extends React.Component {
       courseToEdit: course,
     }, () => {
       this.showComponent('edit');
+    });
+  }
+
+  editStory = (story) => {
+    this.setState({
+      storyToEdit: story,
+    }, () => {
+      this.showComponent('storytellingEdit');
     });
   }
 
@@ -342,6 +351,28 @@ export default class Student extends React.Component {
                 this.state.component === 'storytelling' ?
                   <StorytellingTool
                     user={this.state.user}
+                    storyToEdit={undefined}
+                    handleControlMessage={this.handleControlMessage.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.component === 'storytellingEdit' ?
+                  <StorytellingTool
+                    user={this.state.user}
+                    storyToEdit={this.state.storyToEdit}
+                    handleControlMessage={this.handleControlMessage.bind(this)}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.component === 'stories' ?
+                  <Stories
+                    user={this.state.user}
+                    showComponent={this.showComponent.bind(this)}
+                    editStory={this.editStory.bind(this)}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :

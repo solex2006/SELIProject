@@ -20,3 +20,4 @@ Se muestra el snack bar cuando se añade una pregunta
 LINE CLAMP en firefox
 Corregir bugsaso cuando se desuscribe y se modifica!!!!!
 Mejorar el formulario de quiz
+singular label para todas las tablas
