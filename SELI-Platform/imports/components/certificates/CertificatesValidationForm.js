@@ -65,23 +65,23 @@ export default class CertificatesValidationForm extends React.Component {
 
   validateCertificate(certificateInfo){
       
-    fetch('https://www.seliblockcert.tk/datos', {
+    fetch('http://201.159.223.92/datos', {
     method: 'post',
     headers: {
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(certificateInfo)
-    }).then(res=>res.json())
+    }).then(res => res.json())
       .then(res => {
-        console.log(res)
-        if(res === true){
+        if(res.validation === "true"){
           setTimeout(()=>{
           this.setState({
             certificateShown : true,
             certificateNotValid : false,
             loading: false,
             hash: certificateInfo.certificateHash});
+            console.log(this.state)
           }, 1000);
         }else{
           this.setState({
@@ -94,15 +94,6 @@ export default class CertificatesValidationForm extends React.Component {
 
     //this.onCertificateLoad();
 
-  }
-
-  onCertificateLoad(){
-    setTimeout(()=>{this.setState(
-        {certificateShown : true,
-        certificateNotValid : false,
-        loading: false,});
-    }, 4000);
-    console.log("seconds later");
   }
 
   componentWillUnmount(){
@@ -118,9 +109,9 @@ export default class CertificatesValidationForm extends React.Component {
       <div>
         <div className="form-container">
           <div className="form-title">
-            Certificate Management
+            Certificate Validation
           </div>
-          <div className="form-subtitle">Certificate information</div>
+          <div className="form-subtitle">Please write the hash number of the certificate you want</div>
           <Divider/>
           <div className="form-separator"></div>
 
@@ -154,12 +145,18 @@ export default class CertificatesValidationForm extends React.Component {
                     <h2 className="input-container">Your certificate is valid!</h2>
                     <div className="form-separator"></div>
                     <div className="embeb-certificate-container">
-                        <iframe src={"https://www.seliblockcert.tk/vows/"+this.state.hash} alt="Certificate" padding-left="100px" height="800" width="1400"/>
+                        <iframe src={"http://201.159.223.92/vows/"+this.state.hash} alt="Certificate" padding-left="100px" height="800" width="1400"/>
                     </div>
                 </div>)
                 :
                 (!this.state.certificateShown && this.state.certificateNotValid)?
-                  (<div></div>)
+                    (<div>
+                      <h2 className="input-container">Sorry your certificate is not valid!</h2>
+                      <div className="form-separator"></div>
+                      <div className="exclamation-mark-container">
+                          <img src="exclamation-mark.png" height="20%" width="20%"></img>
+                      </div>
+                  </div>)
                   :
                   (<p></p>)
          } 

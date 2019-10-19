@@ -24,7 +24,7 @@ if (Meteor.isServer) {
         // to parse it manually
         //console.log(parseInt(content.certificateNumber,10));
         //console.log(content.certificateHash);
-        return [ content.certificateNumber, content.certificateHash ];
+        return [ content.idStudent, content.certificateHash ];
       } 
     }
     

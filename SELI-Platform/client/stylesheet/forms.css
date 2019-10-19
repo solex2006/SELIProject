@@ -74,6 +74,15 @@
   animation: fadeIn 0.5s;
 }
 
+.exclamation-mark-container {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 25px;
+  animation: fadeIn 0.5s;
+}
+
 .dialog-input-container {
   width: 40vw;
   height: auto;
