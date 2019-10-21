@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import DoneIcon from '@material-ui/icons/Done';
 
 import Slide from '@material-ui/core/Slide';
 
@@ -41,6 +42,9 @@ export default class Course extends React.Component {
       selected: this.props.selected,
       media: '',
       certificateCreated: false,
+      certificateError: false,
+      certificateDialogOpen: false,
+      certificateErrorDialogOpen: false,
     }
   }
 
@@ -264,11 +268,11 @@ export default class Course extends React.Component {
     let idStudent = this.props.user._id;
     let student = this.props.user.profile.fullname;
     let tutor = this.props.activeCourse.information.createdBy;
-    let date = "01-01-2019";
+    let today = new Date();
+    let date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
     let course = this.props.activeCourse.information.title;
     let description = this.props.activeCourse.information.description;
     let duration = this.props.activeCourse.information.duration;
-    let certificateNumber = Math.floor(Math.random()*(1000-500))+500;
     let certificateInfo = {
         idStudent: idStudent,
         name: student,
@@ -277,13 +281,12 @@ export default class Course extends React.Component {
         course: course,
         description: description,
         duration: duration,
-        certificateNumber: certificateNumber.toString(),
     };
     this.sendCertificate(certificateInfo);
   }
 
   sendCertificate(certificateInfo){
-    fetch('https://www.seliblockcert.tk/datos', {
+    fetch('http://201.159.223.92/datos', {
     method: 'post',
     headers: {
       'Accept': 'application/json, text/plain, */*',
@@ -291,9 +294,31 @@ export default class Course extends React.Component {
     },
     body: JSON.stringify(certificateInfo)
     }).then(res => res.json())
-      .then(res => console.log(res));
+      .then(res => {
+        console.log(res);
+        if(res === "se genero el certificado con exito en 201.159.223.92"){
+            this.setState({
+              certificateCreated: true,
+              certificateError: false,
+              certificateDialogOpen: true,
+            });
+        }else{
+          this.setState({
+            certificateCreated: false,
+            certificateError: true,
+            certificateErrorDialogOpen: true,
+          });
+        }
+      });
 
     }
+
+    handleClose = () => {
+      this.setState({ 
+        certificateDialogOpen: false, 
+        certificateErrorDialogOpen: false,
+       });
+    };
 
   render() {
     return(
@@ -341,13 +366,49 @@ export default class Course extends React.Component {
         {
           this.state.certificateCreated ?
             <div>
+              <Dialog
+              open={this.state.certificateDialogOpen}
+              onClose={this.handleClose}
+              aria-labelledby="alert-dialog-confirmation"
+              aria-describedby="alert-dialog-confirmation"
+            >
               <DialogTitle className="success-dialog-title" id="alert-dialog-title">Certificate sucessfylly generated</DialogTitle>
               <DialogContent className="success-dialog-content">
                 <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
                   Please go to my certificates.
                 </DialogContentText>
+                <DoneIcon className="warning-dialog-icon"/>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+            </div>
+          :
+          this.state.certificateError ?
+            <div>
+              <Dialog
+              open={this.state.certificateErrorDialogOpen}
+              onClose={this.handleClose}
+              aria-labelledby="alert-dialog-confirmation"
+              aria-describedby="alert-dialog-confirmation"
+            >
+              <DialogTitle className="success-dialog-title" id="alert-dialog-title">Certificate couldn't be generated</DialogTitle>
+              <DialogContent className="success-dialog-content">
+                <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                  Please contact the administrator.
+                </DialogContentText>
                 <InfoIcon className="warning-dialog-icon"/>
               </DialogContent>
+              <DialogActions>
+                <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+              
             </div>
           :
           undefined

@@ -17,7 +17,7 @@ var OPTIONS = [
     suboptions: [
       {
         label: "My stories",
-        component: 'storytellingList',
+        component: 'stories',
       },
       {
         label: "Create story",

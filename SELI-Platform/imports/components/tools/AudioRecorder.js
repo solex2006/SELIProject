@@ -82,6 +82,7 @@ export default class AudioRecorder extends React.Component {
         isFavorite: false,
         usedInCourse: false,
         userId: Meteor.userId(),
+        recorded: true,
         //userId: Meteor.userId() // Optional, used to check on server for file tampering
       },
       streams: 'dynamic',
@@ -120,8 +121,7 @@ export default class AudioRecorder extends React.Component {
         if (this.state.audio !== undefined) {
           let file = this.state.audio;
           file.link = this.state.audio.link();
-          console.log(file);
-          this.props.getFileInformation(file);
+          this.props.getFileInformation({_id: file._id, name: file.name, link: file.link});
         }
       });
     });

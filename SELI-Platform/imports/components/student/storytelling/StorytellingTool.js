@@ -12,6 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import WarningIcon from '@material-ui/icons/Warning';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -27,6 +28,7 @@ import Switch from '@material-ui/core/Switch';
 import StorytellingStart from './StorytellingStart';
 import StorytellingScene from './StorytellingScene';
 import StorytellingEnd from './StorytellingEnd';
+import StorytellingPlayer from './StorytellingPlayer';
 
 import { Activities } from '../../../../lib/ActivitiesCollection';
 
@@ -54,6 +56,7 @@ export default class StorytellingTool extends React.Component {
         ],
         isPublic: true,
       },
+      saved: undefined,
       selectedNode: 0,
     }
   }
@@ -238,24 +241,46 @@ export default class StorytellingTool extends React.Component {
   }
 
   saveStory = () => {
-    if (this.state.story.name !== "") {
-      Activities.insert({
-        activity: {
-          data: this.state.story.nodes,
-          type: "storytelling",
-          public: this.state.story.isPublic,
-          activityId: this.state.story.activityId,
-          date: this.state.story.creationDate,
-          user: this.state.story.user,
-          course: this.state.story.courseId,
-        }
-      }, () => {
-        this.handleControlMessage(true, "Story saved successfully", true, "storytellingList", "See list");
-        this.handleClose();
-      })
+    if (this.state.saved) {
+      if (this.state.story.name !== "") {
+        Activities.update(
+          { _id: this.state.saved},
+          { $set: {
+            'activity.name': this.state.story.name,
+            'activity.data': this.state.story.nodes,
+            'activity.public': this.state.story.isPublic,
+          }}
+          , () => {
+            this.props.handleControlMessage(true, "Story saved successfully", true, "stories", "See list");
+            this.handleClose();
+          }
+        )
+      }
+      else {
+        this.handleControlMessage(true, "Add the name of the story");
+      }
     }
     else {
-      this.handleControlMessage(true, "Add the name of the story");
+      if (this.state.story.name !== "") {
+        Activities.insert({
+          activity: {
+            name: this.state.story.name,
+            data: this.state.story.nodes,
+            type: "storytelling",
+            public: this.state.story.isPublic,
+            activityId: this.state.story.activityId,
+            date: this.state.story.creationDate,
+            user: this.state.story.user,
+            course: this.state.story.courseId,
+          }
+        }, () => {
+          this.props.handleControlMessage(true, "Story saved successfully", true, "stories", "See list");
+          this.handleClose();
+        })
+      }
+      else {
+        this.handleControlMessage(true, "Add the name of the story");
+      }
     }
   }
 
@@ -267,195 +292,242 @@ export default class StorytellingTool extends React.Component {
 
   }
 
-  componentDidMount() {
+  showPreview = () => {
+    if (this.validateStory()) {
+      this.setState({
+        showPreview: true,
+      });
+    }
+  }
 
+  handleReturn = () => {
+    this.setState({
+      showPreview: false,
+    });
+  }
+
+  componentDidMount() {
+    if (this.props.storyToEdit !== undefined) {
+      this.setState({
+        story: {
+          name: this.props.storyToEdit.activity.name,
+          published: this.props.storyToEdit.activity.published,
+          activityId: this.props.storyToEdit.activity.activityId,
+          courseId: this.props.storyToEdit.activity.courseId,
+          user: this.props.storyToEdit.activity.user,
+          creationDate: this.props.storyToEdit.activity.date,
+          nodes: this.props.storyToEdit.activity.data,
+          isPublic: this.props.storyToEdit.activity.public,
+        },
+        saved: this.props.storyToEdit._id,
+      })
+    }
   }
 
   render() {
     return(
       <div>
-        <div className="storytelling-tool-container">
-          <div className="storytelling-work-area">
-            <h2 className="storytelling-work-area-title">Story flow</h2>
-            {
-              this.state.story.nodes.length >= 2 ?
-                <Button color="primary" className="storytelling-work-preview-button">Story preview</Button>
-              :
-              undefined
-            }
-            {
-              this.state.story.nodes.map((node, index) => {
-                return(
-                  <React.Fragment>
-                    {
-                      node.type === 'start' ?
-                        <StorytellingStart
-                          node={node}
-                          nodes={this.state.story.nodes}
-                          index={index}
-                          selectedNode={this.state.selectedNode}
-                          addSingleNode={this.addSingleNode.bind(this)}
-                          selectNode={this.selectNode.bind(this)}
-                        />
-                      :
-                        undefined
-                    }
-                    {
-                      node.type === 'scene' ?
-                        <StorytellingScene
-                          node={node}
-                          nodes={this.state.story.nodes}
-                          index={index}
-                          selectedNode={this.state.selectedNode}
-                          addSingleNode={this.addSingleNode.bind(this)}
-                          addEndNode={this.addEndNode.bind(this)}
-                          selectNode={this.selectNode.bind(this)}
-                        />
-                      :
-                        undefined
-                    }
-                    {
-                      node.type === 'end' ?
-                        <StorytellingEnd
-                          node={node}
-                          nodes={this.state.story.nodes}
-                          index={index}
-                          selectedNode={this.state.selectedNode}
-                          selectNode={this.selectNode.bind(this)}
-                        />
-                      :
-                        undefined
-                    }
-                  </React.Fragment>
-                )
-              })
-            }
-          </div>
-          <div className="storytelling-menu-container">
-            <div className="storytelling-menu-header">
-              <h3 className="storytelling-menu-title">
-                <React.Fragment>
-                  {
-                    this.state.story.nodes[this.state.selectedNode].type === 'start' ?
-                        "Beginning of the story"
-                    :
-                      undefined
-                  }
-                  {
-                    this.state.story.nodes[this.state.selectedNode].type === 'scene' ?
+        {
+          !this.state.showPreview ?
+            <div className="storytelling-tool-container">
+              <div className="storytelling-work-area">
+                <h2 className="storytelling-work-area-title">Story flow</h2>
+                {
+                  this.state.story.nodes.length >= 2 ?
+                    <Button
+                      color="primary"
+                      className="storytelling-work-preview-button"
+                      onClick={() => this.showPreview()}
+                    >
+                      Story preview
+                    </Button>
+                  :
+                  undefined
+                }
+                {
+                  this.state.story.nodes.map((node, index) => {
+                    return(
                       <React.Fragment>
-                        {`Scene ${this.state.story.nodes[this.state.selectedNode].ordinal}`}
+                        {
+                          node.type === 'start' ?
+                            <StorytellingStart
+                              node={node}
+                              nodes={this.state.story.nodes}
+                              index={index}
+                              selectedNode={this.state.selectedNode}
+                              addSingleNode={this.addSingleNode.bind(this)}
+                              selectNode={this.selectNode.bind(this)}
+                            />
+                          :
+                          undefined
+                        }
+                        {
+                          node.type === 'scene' ?
+                            <StorytellingScene
+                              node={node}
+                              nodes={this.state.story.nodes}
+                              index={index}
+                              selectedNode={this.state.selectedNode}
+                              addSingleNode={this.addSingleNode.bind(this)}
+                              addEndNode={this.addEndNode.bind(this)}
+                              selectNode={this.selectNode.bind(this)}
+                            />
+                          :
+                          undefined
+                        }
+                        {
+                          node.type === 'end' ?
+                            <StorytellingEnd
+                              node={node}
+                              nodes={this.state.story.nodes}
+                              index={index}
+                              selectedNode={this.state.selectedNode}
+                              selectNode={this.selectNode.bind(this)}
+                            />
+                          :
+                          undefined
+                        }
                       </React.Fragment>
-                    :
-                      undefined
-                  }
-                  {
-                    this.state.story.nodes[this.state.selectedNode].type === 'end' ?
-                      <React.Fragment>
-                        {"End of the story"}
-                      </React.Fragment>
-                    :
-                      undefined
-                  }
-                </React.Fragment>
-              </h3>
-              <div className="center-row">
-                <Button
-                  className="storytelling-media-button"
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => this.handleSaveStory()}
-                >
-                  Save story
-                </Button>
-                <Button
-                  className="storytelling-media-button"
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => this.handlePublishStory()}
-                >
-                  Publish story
-                </Button>
+                    )
+                  })
+                }
               </div>
-              <FormGroup style={{marginTop: "1.5vh"}}>
-                <FormControlLabel
-                  control={<Switch size="small" onChange={this.handleChange('public')} checked={this.state.story.isPublic}/>}
-                  label={<p className="form-label">Make this story public</p>}
-                />
-              </FormGroup>
-            </div>
-            <div className="storytelling-menu-body">
-              <TextField
-                id="node-name-input"
-                label="Name"
-                margin="normal"
-                variant="outlined"
-                fullWidth
-                autoComplete={"off"}
-                required
-                value={this.state.story.nodes[this.state.selectedNode].name}
-                onChange={this.handleChange('name')}
-                error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
-                helperText="This is the name of the scene ex: Introduction, just scene 1 or whatever you want."
-              />
-              <TextField
-                id="node-description-input"
-                label="Description"
-                margin="normal"
-                variant="outlined"
-                fullWidth
-                multiline
-                rows={3}
-                value={this.state.story.nodes[this.state.selectedNode].description}
-                onChange={this.handleChange('description')}
-                error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
-                helperText="This is the description of the scene, is not required but it could help in accessibility for other students (you could write the transcription of the voice recorded)."
-              />
-              <Divider light/>
-              {
-                this.state.story.nodes[this.state.selectedNode].audio !== undefined ?
+              <div className="storytelling-menu-container">
+                <div className="storytelling-menu-header">
+                  <h3 className="storytelling-menu-title">
+                    <React.Fragment>
+                      {
+                        this.state.story.nodes[this.state.selectedNode].type === 'start' ?
+                          "Beginning of the story"
+                        :
+                        undefined
+                      }
+                      {
+                        this.state.story.nodes[this.state.selectedNode].type === 'scene' ?
+                          <React.Fragment>
+                            {`Scene ${this.state.story.nodes[this.state.selectedNode].ordinal}`}
+                          </React.Fragment>
+                        :
+                        undefined
+                      }
+                      {
+                        this.state.story.nodes[this.state.selectedNode].type === 'end' ?
+                          <React.Fragment>
+                            {"End of the story"}
+                          </React.Fragment>
+                        :
+                        undefined
+                      }
+                    </React.Fragment>
+                  </h3>
+                  <div className="center-row">
+                    <Button
+                      className="storytelling-media-button"
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => this.handleSaveStory()}
+                    >
+                      Save story
+                    </Button>
+                    <Button
+                      className="storytelling-media-button"
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => this.handlePublishStory()}
+                    >
+                      Publish story
+                    </Button>
+                  </div>
+                  <FormGroup style={{marginTop: "1.5vh"}}>
+                    <FormControlLabel
+                      control={<Switch size="small" onChange={this.handleChange('public')} checked={this.state.story.isPublic}/>}
+                      label={<p className="form-label">Make this story public</p>}
+                    />
+                  </FormGroup>
+                </div>
+                <div className="storytelling-menu-body">
+                  <TextField
+                    id="node-name-input"
+                    label="Name"
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    autoComplete={"off"}
+                    required
+                    value={this.state.story.nodes[this.state.selectedNode].name}
+                    onChange={this.handleChange('name')}
+                    error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
+                    helperText="This is the name of the scene ex: Introduction, just scene 1 or whatever you want."
+                  />
+                  <TextField
+                    id="node-description-input"
+                    label="Description"
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    multiline
+                    rows={3}
+                    value={this.state.story.nodes[this.state.selectedNode].description}
+                    onChange={this.handleChange('description')}
+                    error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                    helperText="This is the description of the scene, is not required but it could help in accessibility for other students (you could write the transcription of the voice recorded)."
+                  />
+                  <Divider light/>
+                  {
+                    this.state.story.nodes[this.state.selectedNode].audio !== undefined ?
 
-                  <AudioPreview
-                    file={this.state.story.nodes[this.state.selectedNode].audio}
-                    unPickAudioFile={this.unPickAudioFile.bind(this)}
-                  />
-                :
-                <AudioRecorder
-                  getFileInformation={this.getAudioFileInformation.bind(this)}
-                />
-              }
-              {
-                this.state.story.nodes[this.state.selectedNode].image !== undefined ?
-                  <ImagePreview
-                    file={this.state.story.nodes[this.state.selectedNode].image}
-                    unPickImageFile={this.unPickImageFile.bind(this)}
-                  />
-                :
-                <FileUpload
-                  type='image'
-                  user={Meteor.userId()}
-                  accept={'image/*'}
-                  label={'Click the button to upload an image'}
-                  getFileInformation={this.getImageFileInformation.bind(this)}
-                />
-              }
+                      <AudioPreview
+                        file={this.state.story.nodes[this.state.selectedNode].audio}
+                        unPickAudioFile={this.unPickAudioFile.bind(this)}
+                      />
+                    :
+                    <AudioRecorder
+                      getFileInformation={this.getAudioFileInformation.bind(this)}
+                    />
+                  }
+                  {
+                    this.state.story.nodes[this.state.selectedNode].image !== undefined ?
+                      <ImagePreview
+                        file={this.state.story.nodes[this.state.selectedNode].image}
+                        unPickImageFile={this.unPickImageFile.bind(this)}
+                      />
+                    :
+                    <FileUpload
+                      type='image'
+                      user={Meteor.userId()}
+                      accept={'image/*'}
+                      label={'Click the button to upload an image'}
+                      getFileInformation={this.getImageFileInformation.bind(this)}
+                    />
+                  }
+                </div>
+                {
+                  this.state.story.nodes[this.state.selectedNode].type !== 'start' ?
+                    <Tooltip title="Delete this scene">
+                      <Fab
+                        color="secondary"
+                        className="storytelling-delete-button"
+                        onClick={() => this.openDialog('delete')}
+                      >
+                        <DeleteIcon/>
+                      </Fab>
+                    </Tooltip>
+                  :
+                  undefined
+                }
+              </div>
             </div>
-            {
-              this.state.story.nodes[this.state.selectedNode].type !== 'start' ?
-                <Tooltip title="Delete this scene">
-                  <Fab
-                    color="secondary"
-                    className="storytelling-delete-button"
-                    onClick={() => this.openDialog('delete')}
-                  >
-                    <DeleteIcon/>
-                  </Fab>
-                </Tooltip>
-              :
-                undefined
-            }
-          </div>
-        </div>
+          :
+          <React.Fragment>
+            <StorytellingPlayer
+              story={this.state.story}
+            />
+            <Button color="primary" onClick={() => this.handleReturn()} className="storytelling-return-button">
+              <ArrowBackIcon className="storytelling-return-icon"/>
+              Return
+            </Button>
+          </React.Fragment>
+        }
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
