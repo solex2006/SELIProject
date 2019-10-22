@@ -68,6 +68,18 @@ Meteor.methods({
 });
 
 Meteor.methods({
+  'UpdateCourses'(_id, courses){
+    Meteor.users.update(
+      { _id: _id },
+      { $set: {
+        'profile.courses': courses,
+      }}
+    )
+    return true;
+  }
+});
+
+Meteor.methods({
   'CompleteSection'(_id, toComplete, courseId, progress){
     let user = Meteor.users.find({_id: _id}).fetch();
     user = user[0];
@@ -125,7 +137,7 @@ Meteor.methods({
       catch(err){
           return err;
       }
-    
+
     }
   }
 });

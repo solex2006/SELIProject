@@ -168,3 +168,8 @@
   max-height: 70vh;
   overflow-y: scroll;
 }
+
+.course-menu-stories-button {
+  width: 100% !important;
+  letter-spacing: 2px !important;
+}

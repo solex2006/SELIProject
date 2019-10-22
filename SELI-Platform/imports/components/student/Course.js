@@ -16,9 +16,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -45,6 +48,7 @@ export default class Course extends React.Component {
       certificateError: false,
       certificateDialogOpen: false,
       certificateErrorDialogOpen: false,
+      stories: [],
     }
   }
 
@@ -126,7 +130,8 @@ export default class Course extends React.Component {
       progress: progress,
     }, () => {
       Meteor.call(
-        "CompleteSection", Meteor.userId(),
+        "CompleteSection",
+        Meteor.userId(),
         this.state.toComplete,
         this.state.course._id,
         progress,
@@ -134,7 +139,8 @@ export default class Course extends React.Component {
           if (!error) {
             this.props.handleControlMessage(true, "Topic completed, you can leave your comments about what you think about this part of the course");
           }
-      });
+        }
+      );
     });
   }
 
@@ -148,15 +154,16 @@ export default class Course extends React.Component {
       progress: progress,
     }, () => {
       Meteor.call(
-        "CompleteSection", Meteor.userId(),
+        "CompleteSection",
+        Meteor.userId(),
         this.state.toComplete,
         this.state.course._id,
-        progress,
-        (error, response) =>  {
+        progress, (error, response) =>  {
           if (!error) {
             this.props.handleControlMessage(true, "Topic completed, you can leave your comments about what you think about this part of the course");
           }
-      });
+        }
+      );
     });
   }
 
@@ -207,11 +214,12 @@ export default class Course extends React.Component {
       progress: progress,
     }, () => {
       Meteor.call(
-        "CompleteActivity", Meteor.userId(),
+        "CompleteActivity",
+        Meteor.userId(),
         this.state.toResolve,
         this.state.course._id,
         progress,
-        (error, response) =>  {
+        (error, response) => {
           if (!error) {
             activity.activityId = id;
             activity.date = new Date();
@@ -222,13 +230,14 @@ export default class Course extends React.Component {
             }, () => {
               this.props.handleControlMessage(true, `${label} successfully done`);
               this.props.reRender();
-            });
-          }
+            }
+          );
+        }
       });
     });
   }
 
-  handleClose = () => {
+  handleCloseMedia = () => {
     this.setState({ openMedia: false });
   }
 
@@ -274,51 +283,97 @@ export default class Course extends React.Component {
     let description = this.props.activeCourse.information.description;
     let duration = this.props.activeCourse.information.duration;
     let certificateInfo = {
-        idStudent: idStudent,
-        name: student,
-        tutor: tutor,
-        date: date,
-        course: course,
-        description: description,
-        duration: duration,
+      idStudent: idStudent,
+      name: student,
+      tutor: tutor,
+      date: date,
+      course: course,
+      description: description,
+      duration: duration,
     };
     this.sendCertificate(certificateInfo);
   }
 
   sendCertificate(certificateInfo){
     fetch('http://201.159.223.92/datos', {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(certificateInfo)
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(certificateInfo)
     }).then(res => res.json())
-      .then(res => {
-        console.log(res);
-        if(res === "se genero el certificado con exito en 201.159.223.92"){
-            this.setState({
-              certificateCreated: true,
-              certificateError: false,
-              certificateDialogOpen: true,
-            });
-        }else{
-          this.setState({
-            certificateCreated: false,
-            certificateError: true,
-            certificateErrorDialogOpen: true,
-          });
-        }
+    .then(res => {
+      console.log(res);
+      if(res === "se genero el certificado con exito en 201.159.223.92"){
+        this.setState({
+          certificateCreated: true,
+          certificateError: false,
+          certificateDialogOpen: true,
+        });
+      }else{
+        this.setState({
+          certificateCreated: false,
+          certificateError: true,
+          certificateErrorDialogOpen: true,
+        });
+      }
+    });
+
+  }
+
+  handleClose = () => {
+    this.setState({
+      certificateDialogOpen: false,
+      certificateErrorDialogOpen: false,
+    });
+  };
+
+  handleCloseStories = () => {
+    this.setState({
+      openStories: false,
+    });
+  };
+
+  showCourseStories = () => {
+    this.setState({
+      loadingStories: true,
+    }, () => {
+      Tracker.autorun(() => {
+        let stories = Activities.find({'activity.type': 'storytelling', 'activity.courseId': this.state.course._id}).fetch();
+        this.buildStories(stories);
       });
+    });
+  }
 
+  buildStories = (stories) => {
+    if (stories.length) {
+      let users = [];
+      stories.map(story => {
+        let user = Meteor.users.find({_id: story.activity.user}).fetch();
+        story.userInformation = user[0];
+      })
+      this.setState({
+        stories: stories,
+        results: true,
+        loadingStories: false,
+        openStories: true,
+      })
     }
+    else {
+      this.setState({
+        results: false,
+        loadingStories: false,
+      }, () => {
+        this.props.handleControlMessage(true, "This course doesn't have stories yet")
+      })
+    }
+  }
 
-    handleClose = () => {
-      this.setState({ 
-        certificateDialogOpen: false, 
-        certificateErrorDialogOpen: false,
-       });
-    };
+  openStory = (_id) => {
+    const url = `/story#${_id}`;
+    window.open(url, "_blank");
+  }
 
   render() {
     return(
@@ -329,6 +384,7 @@ export default class Course extends React.Component {
           navigateTo={this.navigateTo.bind(this)}
           selected={this.state.selected}
           showPresentation={this.showPresentation.bind(this)}
+          showCourseStories={this.showCourseStories.bind(this)}
         />
         {
           this.state.coursePresentation ?
@@ -367,55 +423,55 @@ export default class Course extends React.Component {
           this.state.certificateCreated ?
             <div>
               <Dialog
-              open={this.state.certificateDialogOpen}
-              onClose={this.handleClose}
-              aria-labelledby="alert-dialog-confirmation"
-              aria-describedby="alert-dialog-confirmation"
-            >
-              <DialogTitle className="success-dialog-title" id="alert-dialog-title">Certificate sucessfylly generated</DialogTitle>
-              <DialogContent className="success-dialog-content">
-                <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                  Please go to my certificates.
-                </DialogContentText>
-                <DoneIcon className="warning-dialog-icon"/>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                  Close
-                </Button>
-              </DialogActions>
-            </Dialog>
+                open={this.state.certificateDialogOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-confirmation"
+                aria-describedby="alert-dialog-confirmation"
+              >
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">Certificate sucessfylly generated</DialogTitle>
+                <DialogContent className="success-dialog-content">
+                  <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                    Please go to my certificates.
+                  </DialogContentText>
+                  <DoneIcon className="warning-dialog-icon"/>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+                    Close
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </div>
           :
           this.state.certificateError ?
             <div>
               <Dialog
-              open={this.state.certificateErrorDialogOpen}
-              onClose={this.handleClose}
-              aria-labelledby="alert-dialog-confirmation"
-              aria-describedby="alert-dialog-confirmation"
-            >
-              <DialogTitle className="success-dialog-title" id="alert-dialog-title">Certificate couldn't be generated</DialogTitle>
-              <DialogContent className="success-dialog-content">
-                <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                  Please contact the administrator.
-                </DialogContentText>
-                <InfoIcon className="warning-dialog-icon"/>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                  Close
-                </Button>
-              </DialogActions>
-            </Dialog>
-              
+                open={this.state.certificateErrorDialogOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-confirmation"
+                aria-describedby="alert-dialog-confirmation"
+              >
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">Certificate couldn't be generated</DialogTitle>
+                <DialogContent className="success-dialog-content">
+                  <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                    Please contact the administrator.
+                  </DialogContentText>
+                  <InfoIcon className="warning-dialog-icon"/>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+                    Close
+                  </Button>
+                </DialogActions>
+              </Dialog>
+
             </div>
           :
           undefined
         }
         <Dialog
           open={this.state.openMedia}
-          onClose={this.handleClose}
+          onClose={this.handleCloseMedia}
           TransitionComponent={Transition}
           fullScreen
           aria-labelledby="alert-dialog-confirmation"
@@ -425,7 +481,7 @@ export default class Course extends React.Component {
         >
           <AppBar position="static" className="course-dialog-app-bar">
             <Toolbar style={{position: 'relative'}}>
-              <IconButton edge="start" color="inherit" onClick={this.handleClose} aria-label="close">
+              <IconButton edge="start" color="inherit" onClick={this.handleCloseMedia} aria-label="close">
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h6">
@@ -442,8 +498,43 @@ export default class Course extends React.Component {
             />
           </DialogContent>
         </Dialog>
+        <Dialog
+          open={this.state.openStories}
+          onClose={this.handleCloseStories}
+          TransitionComponent={Transition}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+          className="media-dialog"
+        >
+          <AppBar position="static" className="course-dialog-app-bar">
+            <Toolbar style={{position: 'relative'}}>
+              <IconButton edge="start" color="inherit" onClick={this.handleCloseStories} aria-label="close">
+                <CloseIcon />
+              </IconButton>
+              <Typography className="course-dialog-title" variant="h6">
+                Course stories
+              </Typography>
+              <p className="app-tooltip">Press Esc to return to course content</p>
+            </Toolbar>
+          </AppBar>
+          <DialogContent className="stories-dialog-content">
+            {
+              this.state.stories.map(story => {
+                return(
+                  <Paper elevation={5} className="story-item-container">
+                    <LibraryBooksIcon className="story-item-icon"/>
+                    <p className="story-item-text-primary">{story.activity.name}</p>
+                    <p className="story-item-text-secondary">{`By: ${story.userInformation.username}`}</p>
+                    <Button onClick={() => this.openStory(story._id)} className="story-item-button" color="primary">Open</Button>
+                  </Paper>
+                )
+              })
+            }
+          </DialogContent>
+        </Dialog>
         <CommentDialog
           open={this.state.openComment}
+          title="LEAVE YOUR COMMENT ABOUT THE EXPERIENCE WITH THIS COURSE"
           handleClose={this.handleCloseComment.bind(this)}
           sendComment={this.sendComment.bind(this)}
           handleControlMessage={this.props.handleControlMessage.bind(this)}

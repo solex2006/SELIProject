@@ -105,7 +105,7 @@ export default class Stories extends React.Component {
       { id: 'actions', numeric: true, disablePadding: false, label: 'Actions' },
     ];
     let menuOptions = [
-      {label: "Edit", icon: <EditIcon/>, action: this.edit.bind(this)},
+      {label: "Open on editor", icon: <EditIcon/>, action: this.edit.bind(this)},
       {label: "Delete" , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
     ];
     myStories.map(story => {

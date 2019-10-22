@@ -61,6 +61,11 @@ export default function CourseMenu(props) {
     closeDrawer();
   }
 
+  function showCourseStories() {
+    props.showCourseStories();
+    closeDrawer();
+  }
+
   const sideList = side => (
     <div
       className="course-menu-options-container"
@@ -100,6 +105,7 @@ export default function CourseMenu(props) {
           closeDrawer={closeDrawer.bind(this)}
         />
       </div>
+      <Button onClick={() => showCourseStories()} className="course-menu-stories-button">Course stories</Button>
     </div>
   );
 

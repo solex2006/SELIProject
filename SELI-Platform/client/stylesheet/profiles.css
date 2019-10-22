@@ -1,0 +1,66 @@
+.student-profile-container {
+  padding: 1vh 0.5vw;
+  display: flex;
+  align-items: center;
+  transition: 0.35s;
+}
+
+.student-profile-container:hover {
+  cursor: pointer;
+  margin-left: 0.15vw;
+}
+
+.student-profile-information-container {
+  padding: 2vh 1vw !important;
+  margin-left: 1vw !important;
+  display: flex;
+}
+
+.student-profile-information-text-primary {
+  letter-spacing: 1px;
+  font-size: 1.05em;
+  color: #333;
+  padding-bottom: 1vh;
+  text-decoration: underline;
+}
+
+.student-profile-information-text-secondary {
+  letter-spacing: 1px;
+  font-size: 0.9em;
+  color: #616161;
+}
+
+.student-profile-actions-container {
+  width: auto;
+  padding-left: 2.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.student-profile-actions-icon {
+  margin-left: 0.5vw !important;
+}
+
+.student-profile-button {
+  margin: 0.5vh 0.25vw !important;
+}
+
+.student-profile-avatar {
+  width: 3vw !important;
+  height: 3vw !important;
+  font-size: 1.25vw !important;
+}
+
+.confirmation-popover-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2vh 2.5vw;
+}
+
+.student-confirmation-button {
+  margin: 0 0.5vw !important;
+  margin-top: 1vh !important;
+}
