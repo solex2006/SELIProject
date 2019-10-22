@@ -48,7 +48,7 @@ export default class CommentDialog extends React.Component {
         >
           <DialogContent className="success-dialog-content">
             <DialogTitle className="comment-dialog-text-text">
-              Leave your comment about the experience with this course
+              {this.props.title}
             </DialogTitle>
             <TextField
               label="Your comment"

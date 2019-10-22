@@ -11,6 +11,8 @@ import SubscribedCourses from '../components/student/SubscribedCourses';
 import StorytellingTool from '../components/student/storytelling/StorytellingTool';
 import Stories from '../components/student/Stories';
 import Course from '../components/student/Course';
+import CertificatesValidationForm from '../components/certificates/CertificatesValidationForm';
+
 import CourseDial from '../components/student/CourseDial';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 import LoadingSnackbar from '../components/tools/LoadingSnackbar';
@@ -164,6 +166,10 @@ export default class Student extends React.Component {
               showLoadingMessage: false,
             } , () => {
               this.handleControlMessage(true, 'Added to subscribed courses', true, 'subscribed', 'see list', undefined);
+              let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
+              this.setState({
+                user: user[0],
+              });
             });
           }
         )
@@ -198,6 +204,10 @@ export default class Student extends React.Component {
               }
               this.handleControlMessage(true, 'Course removed from your subscriptions', false, '', '', undefined);
               this.state.component === 'subscribed' ? this.getSubscribedCourses() : undefined
+              let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
+              this.setState({
+                user: user[0],
+              });
             });
           }
         )
