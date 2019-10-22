@@ -13,6 +13,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WarningIcon from '@material-ui/icons/Warning';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import SchoolIcon from '@material-ui/icons/School';
+import EditIcon from '@material-ui/icons/Edit';
+import LanguageIcon from '@material-ui/icons/Language';
 
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -31,6 +34,7 @@ import StorytellingEnd from './StorytellingEnd';
 import StorytellingPlayer from './StorytellingPlayer';
 
 import { Activities } from '../../../../lib/ActivitiesCollection';
+import { Courses } from '../../../../lib/CourseCollection';
 
 export default class StorytellingTool extends React.Component {
   constructor(props) {
@@ -58,6 +62,8 @@ export default class StorytellingTool extends React.Component {
       },
       saved: undefined,
       selectedNode: 0,
+      courses: [],
+      activities: [],
     }
   }
 
@@ -284,8 +290,13 @@ export default class StorytellingTool extends React.Component {
     }
   }
 
-  handlPublishStory = () => {
-
+  handlePublishStory = () => {
+    if (this.validateStory()) {
+      this.setState({
+        action: "publish",
+        open: true,
+      })
+    }
   }
 
   publishStory = () => {
@@ -304,6 +315,173 @@ export default class StorytellingTool extends React.Component {
     this.setState({
       showPreview: false,
     });
+  }
+
+  handlePublishOnCourse = () => {
+    let courses = [];
+    this.props.user.profile.courses.map(course => {
+      courses.push(course.courseId)
+    });
+    courses = Courses.find({_id: {$in: courses}}).fetch();
+    this.setState({
+      action: "publishOnCourse",
+      open: true,
+      courses: courses,
+    })
+  }
+
+  handlePublishAsActivity = () => {
+    let courses = [];
+    let activities = [];
+    this.props.user.profile.courses.map(course => {
+      courses.push(course.courseId)
+    });
+    courses = Courses.find({_id: {$in: courses}}).fetch();
+    courses.map(course => {
+      if (course.organization.subunit) {
+        course.program.map(unit => {
+          unit.lessons.map(subunit => {
+            subunit.items.map(item => {
+              if (item.type === "activity" && item.attributes.type === "storyboard") {
+                for (var i = 0; i < this.props.user.profile.courses.length; i++) {
+                  for (var j = 0; j < this.props.user.profile.courses[i].toResolve.length; j++) {
+                    if (this.props.user.profile.courses[i].toResolve[j]._id === item.id && !this.props.user.profile.courses[i].toResolve[j].resolved) {
+                        activities.push({
+                          course: course.title,
+                          source: `${unit.name} - ${subunit.name}`,
+                          courseId: course._id,
+                          activityId: item.id,
+                        });
+                    }
+                  }
+                }
+              }
+            })
+          })
+        })
+      }
+      else {
+        course.program.map(unit => {
+          unit.items.map(item => {
+            if (item.type === "activity" && item.attributes.type === "storyboard") {
+              for (var i = 0; i < this.props.user.profile.courses.length; i++) {
+                for (var j = 0; j < this.props.user.profile.courses[i].toResolve.length; j++) {
+                  if (this.props.user.profile.courses[i].toResolve[j]._id === item.id && !this.props.user.profile.courses[i].toResolve[j].resolved) {
+                      activities.push({
+                        course: course.title,
+                        source: unit.name,
+                        courseId: course._id,
+                        activityId: item.id,
+                      });
+                  }
+                }
+              }
+            }
+          })
+        })
+      }
+      this.setState({
+        activities: activities,
+        courses: courses,
+        action: "publishAsActivity",
+        open: true,
+      })
+    })
+  }
+
+  publishOnCourse = (course) => {
+    Activities.update(
+      { _id: this.state.saved},
+      { $set: {
+        'activity.name': this.state.story.name,
+        'activity.data': this.state.story.nodes,
+        'activity.public': this.state.story.isPublic,
+        'activity.courseId': course,
+      }}
+      , () => {
+        this.props.handleControlMessage(true, "Story published successfully");
+        this.handleClose();
+      }
+    )
+  }
+
+  publishAsActivity = (course, activity) => {
+    Activities.update(
+      { _id: this.state.saved},
+      { $set: {
+        'activity.name': this.state.story.name,
+        'activity.data': this.state.story.nodes,
+        'activity.public': this.state.story.isPublic,
+        'activity.courseId': course,
+        'activity.activityId': activity,
+      }}
+      , () => {
+        this.completeActivity(activity, "Story successfully sent!", course);
+      }
+    )
+  }
+
+  completeActivity = (id, label, courseId) => {
+    let courses = this.state.courses;
+    let courseIndex = courses.findIndex(course => course._id === courseId);
+    let toComplete = this.props.user.profile.courses[courseIndex].toComplete;
+    let toResolve = this.props.user.profile.courses[courseIndex].toResolve;
+    for (var i = 0; i < toResolve.length; i++) {
+      if (toResolve[i]._id === id) {
+        toResolve[i].resolved = true;
+        break;
+      }
+    }
+    let progress = this.calculateProgress(toComplete, toResolve, courses[courseIndex].organization.subunit);
+    this.setState({
+      toResolve: toResolve,
+      progress: progress,
+    }, () => {
+      Meteor.call(
+        "CompleteActivity", Meteor.userId(),
+        this.state.toResolve,
+        courseId,
+        progress,
+        (error, response) =>  {
+          if (!error) {
+            this.props.handleControlMessage(true, `${label}`);
+            this.handleClose();
+          }
+      });
+    });
+  }
+
+  calculateProgress = (toComplete, toResolve, hasSubunit) => {
+    let total;
+    if (hasSubunit) {
+      let totalSubunits = 0;
+      for (var i = 0; i < toComplete.length; i++) {
+        for (var j = 0; j < toComplete[i].subunits.length; j++) {
+          totalSubunits++;
+        }
+      }
+      total = totalSubunits + toResolve.length;
+    }
+    else {
+      total = toComplete.length + toResolve.length;
+    }
+    let unitPercentage  = parseFloat(100/total);
+    let progress = 0;
+    if (hasSubunit) {
+      toComplete.map(completed => {
+        completed.subunits.map(subunit => subunit ? progress += unitPercentage : undefined)
+      });
+    }
+    else {
+      toComplete.map(completed => completed ? progress += unitPercentage : undefined);
+    }
+    toResolve.map(activity => activity.resolved ? progress += unitPercentage : undefined);
+    progress = progress.toFixed(2);
+    if (progress === 99.99) {
+      progress = 100;
+    }
+    parseInt(progress) === 100 ? this.createCertificate() : undefined
+    return progress;
   }
 
   componentDidMount() {
@@ -521,6 +699,8 @@ export default class StorytellingTool extends React.Component {
           <React.Fragment>
             <StorytellingPlayer
               story={this.state.story}
+              comments={false}
+              link={false}
             />
             <Button color="primary" onClick={() => this.handleReturn()} className="storytelling-return-button">
               <ArrowBackIcon className="storytelling-return-icon"/>
@@ -594,6 +774,115 @@ export default class StorytellingTool extends React.Component {
               </React.Fragment>
             :
               undefined
+          }
+          {
+            this.state.action === "publish" ?
+              <React.Fragment>
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                  {"Publish story"}
+                </DialogTitle>
+                <div className="center-row">
+                  <Button
+                    className="storytelling-publish-button"
+                    color="primary"
+                    onClick={() => this.handlePublishOnCourse()}
+                  >
+                    <p className="storytelling-publish-button-text">Publish on a course</p>
+                    <SchoolIcon className="storytelling-publish-icon"/>
+                  </Button>
+                  <Button
+                    className="storytelling-publish-button"
+                    color="primary"
+                    onClick={() => this.handlePublishAsActivity()}
+                  >
+                    <p className="storytelling-publish-button-text">Send as activity</p>
+                    <EditIcon className="storytelling-publish-icon"/>
+                  </Button>
+                  <Button
+                    className="storytelling-publish-button"
+                    color="primary"
+                    onClick={() => this.publishOnSocialNetwork()}
+                  >
+                    <p className="storytelling-publish-button-text">Publish on social network</p>
+                    <LanguageIcon className="storytelling-publish-icon"/>
+                  </Button>
+                </div>
+                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
+                  {"Select how you want to publish your story"}
+                </DialogContentText>
+              </React.Fragment>
+            :
+            undefined
+          }
+          {
+            this.state.action === "publishOnCourse" ?
+              <React.Fragment>
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                  {"Publish on course"}
+                </DialogTitle>
+                {
+                  this.state.courses.map(course => {
+                    return(
+                      <Button
+                        color="primary"
+                        className="storytelling-course-publish-button"
+                        onClick={() => this.publishOnCourse(course._id)}
+                      >
+                        {`- ${course.title}`}
+                      </Button>
+                    )
+                  })
+                }
+                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
+                  {"Select the course you want to publish your story"}
+                </DialogContentText>
+                <DialogActions>
+                  <Button onClick={() => this.handlePublishStory()} color="primary" autoFocus>
+                    Back
+                  </Button>
+                </DialogActions>
+              </React.Fragment>
+            :
+            undefined
+          }
+          {
+            this.state.action === "publishAsActivity" ?
+              <React.Fragment>
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                  {"Send as activity"}
+                </DialogTitle>
+                {
+                  this.state.activities.map(activity => {
+                    return(
+                      <Button
+                        color="primary"
+                        className="storytelling-course-activity-publish-button"
+                        onClick={() => this.publishAsActivity(activity.courseId, activity.activityId)}
+                      >
+                        {`- ${activity.course} at: ${activity.source} | Storytelling activity`}
+                      </Button>
+                    )
+                  })
+                }
+                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
+                  {"Select the course you want to publish your story"}
+                </DialogContentText>
+                <DialogActions>
+                  <Button onClick={() => this.handlePublishStory()} color="primary" autoFocus>
+                    Back
+                  </Button>
+                </DialogActions>
+              </React.Fragment>
+            :
+            undefined
+          }
+          {
+            this.state.action === "publishOnSocialNetwork" ?
+              <React.Fragment>
+
+              </React.Fragment>
+            :
+            undefined
           }
         </Dialog>
       </div>

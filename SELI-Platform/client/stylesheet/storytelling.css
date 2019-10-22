@@ -7,6 +7,14 @@
   display: flex;
 }
 
+.storytelling-tool-link-container {
+  width: 100vw;
+  height: calc(100vh - var(--app-bar-height));
+  max-height: calc(100vh - var(--app-bar-height));
+  position: relative;
+  display: flex;
+}
+
 .storytelling-work-area {
   width: calc(100vw - 400px);
   max-height: calc(100vh - var(--app-bar-height) - 5vh - 2.5em);
@@ -245,6 +253,11 @@
   margin: 0 0.25vw !important;
 }
 
+.storytelling-player-button {
+  margin: 0 0.25vw !important;
+  background-color: var(--white) !important;
+}
+
 .storytelling-tool-audio-player {
   width: 0 !important;
   height: 0 !important;
@@ -268,10 +281,100 @@
   position: fixed;
   bottom: 2.5vh;
   left: 2.5vw;
-  font-size: 1.5em !important;
+  font-size: 1.25em !important;
   letter-spacing: 1px !important;
 }
 
 .storytelling-return-icon {
   margin-right: 1vw !important;
+}
+
+.storytelling-publish-button {
+  max-width: 25vw !important;
+  width: 25vw !important;
+  padding: 7.5vh 2.5vw !important;
+  margin: 2.5vh 1vw !important;
+}
+
+.storytelling-publish-button span{
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.storytelling-publish-button-text {
+  font-size: 2.5vh !important;
+}
+
+.storytelling-publish-icon {
+  font-size: 3em !important;
+  margin-top: 1.5vh !important;
+}
+
+.dialog-center-subtitle {
+  width: calc(100% - 4vw) !important;
+  font-size: 1.2em !important;
+  color: #333 !important;
+  letter-spacing: 1px !important;
+  text-align: center !important;
+  margin: 1.5vh 2vw !important;
+  animation: fadeIn 1s;
+}
+
+.storytelling-course-publish-button {
+  font-size: 0.95em !important;
+  letter-spacing: 1px !important;
+}
+
+.storytelling-course-activity-publish-button {
+  font-size: 0.8em !important;
+  text-align: justify !important;
+  margin-left: 1vw !important;
+  margin-right: 1vw !important;
+}
+
+.story-item-container {
+  display: flex !important;
+  position: relative !important;
+  align-items: center !important;
+  width: 40vw !important;
+  padding: 1.5vh 1vw !important;
+  transition: 0.5s !important;
+  animation: fadeInLeft 0.5s !important;
+}
+
+.story-item-container:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.story-item-icon {
+  margin-right: 0.5vw !important;
+}
+
+.story-item-text-primary {
+  letter-spacing: 1px;
+  font-size: 0.95em;
+  margin-left: 0.5vw;
+  color: #333;
+}
+
+.story-item-text-secondary {
+  letter-spacing: 1px;
+  font-size: 0.85em;
+  color: #616161;
+  margin-left: 1vw;
+}
+
+.story-item-button {
+  position: absolute !important;
+  letter-spacing: 1px !important;
+  right: 1vw !important;
+}
+
+.storytelling-link-container {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
 }

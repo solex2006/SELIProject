@@ -255,3 +255,29 @@
   width: 30vw !important;
   flex-direction: column !important;
 }
+
+.classroom-dialog-title {
+  width: 100%;
+  text-indent: 2.5vw;
+  font-size: 1.2em !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase;
+  height: 1.75em !important;
+  color: #333;
+}
+
+.classroom-management-students-container {
+  width: 100%;
+  height: calc(100vh - var(--app-bar-height) - 1.75em - 2vh);
+  max-height: calc(100vh - var(--app-bar-height) - 1.75em - 2vh);
+  overflow-y: scroll;
+  padding-left: 1vw;
+}
+
+.classroom-dialog-content {
+  flex-direction: column !important;
+  padding-left: 0vw !important;
+  padding-right: 0 !important;
+  overflow-x: hidden;
+  background-color: #f5f5f5 !important;
+}

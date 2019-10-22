@@ -91,7 +91,7 @@ export default class StorytellingPlayer extends React.Component {
   }
 
   handleEnd = () => {
-    console.log('yes');
+
   }
 
   handleReplay = () => {
@@ -101,13 +101,13 @@ export default class StorytellingPlayer extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.story);
+
   }
 
   render() {
     return(
       <div>
-        <div className="storytelling-tool-container">
+        <div className={this.props.link ? "storytelling-tool-link-container" : "storytelling-tool-container"}>
           <ReactPlayer
             className="storytelling-tool-audio-player"
             url={this.props.story.nodes[this.state.scenePlaying].audio.link}
@@ -124,6 +124,18 @@ export default class StorytellingPlayer extends React.Component {
             </div>
           </Slide>
           <div className="storytelling-player-actions">
+            {
+              this.props.comments ?
+                <Button
+                  variant="outlined"
+                  className="storytelling-player-button"
+                  onClick={() => this.props.showCommentDialog()}
+                >
+                  Leave a comment
+                </Button>
+              :
+              undefined
+            }
             <Fab
               className="storytelling-player-fab"
               onClick={() => this.handlePlay()}
