@@ -18,6 +18,7 @@ import ControlSnackbar from '../components/tools/ControlSnackbar';
 import LoadingSnackbar from '../components/tools/LoadingSnackbar';
 import AccountManagement from '../components/user/AccountManagement';
 import Loading from '../components/tools/Loading';
+import MyCertificates from '../components/student/MyCertificates';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
@@ -390,10 +391,13 @@ export default class Student extends React.Component {
               }
               {
                 this.state.component === 'certificates' ?
-                  <CertificatesValidationForm
+                  <MyCertificates
                     user={this.state.user}
-                    showComponent={this.showComponent.bind(this)}
+                    disabled={this.state.showLoadingMessage}
+                    getSubscribedCourses={subscribedCourses => this.getSubscribedCourses = subscribedCourses}
                     handleControlMessage={this.handleControlMessage.bind(this)}
+                    handleClickCourse={this.handleClickCourse.bind(this)}
+                    showComponent={this.showComponent.bind(this)}
                   />
                 :
                 undefined
