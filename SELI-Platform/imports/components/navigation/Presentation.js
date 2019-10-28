@@ -69,7 +69,7 @@ export default class Presentation extends React.Component {
                     Learning platform
                   </p>
                   <p className="dashboard-paragraph">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    The SELI learning platform provides the opportunity to create courses for various types of audiences, taking into consideration accessibility standards, interaction between students and stimulating the creativity of tutors and students.
                   </p>
                   <Button
                     className="dashboard-link-button"
