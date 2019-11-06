@@ -69,8 +69,8 @@ export default class Stories extends React.Component {
     storiesToDelete.push(_id);
     this.handleClickOpen();
     this.setState({
-      dialogConfirmationTitle: 'Delete stories',
-      dialogConfirmationContentText: 'Are you sure you want to delete this story? You will lose all the information of the story, except the images, videos, audios and all the files that you have uploaded to your library.',
+      dialogConfirmationTitle: this.props.language.deleteStories,
+      dialogConfirmationContentText: this.props.language.deleteStoriesWarning,
       confirmAction: () => this.delete(),
       storiesToDelete: storiesToDelete,
     });
@@ -81,8 +81,8 @@ export default class Stories extends React.Component {
     stories.map(story => {storiesToDelete.push(story)});
     this.handleClickOpen();
     this.setState({
-      dialogConfirmationTitle: 'Delete stories',
-      dialogConfirmationContentText: 'Are you sure you want to delete this story/stories?.',
+      dialogConfirmationTitle: this.props.language.deleteStories,
+      dialogConfirmationContentText: this.props.language.sureDeleteStory,
       confirmAction: () => this.delete(),
       storiesToDelete: storiesToDelete,
     });
@@ -94,19 +94,19 @@ export default class Stories extends React.Component {
     });
     this.handleClose();
     this.setSelected();
-    this.props.handleControlMessage(true, 'Story/stories deleted successfully!', false, '', '');
+    this.props.handleControlMessage(true, this.props.language.storyDeletedSuccess, false, '', '');
   }
 
   createTableData = (myStories) => {
     let tableData = [];
     let headRows = [
-      { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
-      { id: 'date', numeric: true, disablePadding: false, label: 'Date created' },
-      { id: 'actions', numeric: true, disablePadding: false, label: 'Actions' },
+      { id: 'name', numeric: false, disablePadding: true, label: this.props.language.name },
+      { id: 'date', numeric: true, disablePadding: false, label: this.props.language.dateCreated },
+      { id: 'actions', numeric: true, disablePadding: false, label: this.props.language.actions },
     ];
     let menuOptions = [
-      {label: "Open on editor", icon: <EditIcon/>, action: this.edit.bind(this)},
-      {label: "Delete" , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
+      {label: this.props.language.openInEditor, icon: <EditIcon/>, action: this.edit.bind(this)},
+      {label: this.props.language.delete , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
     ];
     myStories.map(story => {
       tableData.push({name: story.activity.name, date: story.activity.date.toDateString(), _id: story._id})
@@ -138,17 +138,17 @@ export default class Stories extends React.Component {
         {
           this.state.loading ?
             <div className="loading-course-container">
-              <Loading message="Loading my stories..."/>
+              <Loading message={this.props.language.loadingMyStories}/>
             </div>
           :
           <React.Fragment>
             {
               this.state.results ?
                 <div className="management-result-container">
-                  <p className="management-title">My stories <CollectionsBookmarkIcon className="management-title-icon"/></p>
+                  <p className="management-title">{this.props.language.myStories}<CollectionsBookmarkIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
                     <Table
-                      labels={{title:'You have', pagination: 'Stories per page:', plural: 'stories'}}
+                      labels={{title:this.props.language.youHave, pagination: `${this.props.language.stories} ${this.props.language.perPage.toLowerCase()}`, plural: this.props.language.stories}}
                       headRows={this.state.headRows}
                       menuOptions={this.state.menuOptions}
                       tableData={this.state.tableData}
@@ -161,10 +161,10 @@ export default class Stories extends React.Component {
               :
               <div className="empty-dashboard">
                 <div className="empty-dashboard-row">
-                  <p className="empty-dashboard-text">You don't have any story yet</p>
+                  <p className="empty-dashboard-text">{this.props.language.notHaveStoriesYet}</p>
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
-                <Button onClick={() => this.props.showComponent('storytelling')} variant="contained" color="secondary" className="empty-dashboard-button">Create a story</Button>
+                <Button onClick={() => this.props.showComponent('storytelling')} variant="contained" color="secondary" className="empty-dashboard-button">{this.props.language.createAStory}</Button>
               </div>
             }
           </React.Fragment>
@@ -184,10 +184,10 @@ export default class Stories extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-              Cancel
+              {this.props.language.cancel}
             </Button>
             <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
-              Confirm
+              {this.props.language.confirm}
             </Button>
           </DialogActions>
         </Dialog>

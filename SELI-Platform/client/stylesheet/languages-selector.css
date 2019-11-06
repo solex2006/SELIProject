@@ -8,18 +8,50 @@
   transition: 0.5s;
 }
 
-#language-select-title {
+.language-selector-title {
   text-transform: uppercase;
   text-align: center;
   color: var(--primary);
-}
-
-#select-language {
-  width: 500px;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-bottom: 1vh;
 }
 
 #language-selector-button {
   color: #FFF !important;
   font-size: 0.8em !important;
   margin: 0 0.5vw !important;
+}
+
+.select-language-input {
+  color: var(--white) !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  padding-right: 16px !important;
+}
+
+.select-language-input svg {
+  display: none;
+}
+
+.language-selector-icon {
+  color: var(--white) !important;
+  padding-left: 0.25vw !important;
+  padding-right: 0.25vw !important;
+}
+
+.language-selector-menu-item {
+  letter-spacing: 1px !important;
+  padding: 0 1vw !important;
+  transition: 0.5s !important;
+}
+
+.language-selector-menu-item:hover {
+  cursor: pointer;
+  text-indent: 0.25vw !important;
+}
+
+.language-selector-menu .MuiPaper-rounded{
+  background-color: var(--app-bar-color) !important;
+  color: var(--white) !important;
 }

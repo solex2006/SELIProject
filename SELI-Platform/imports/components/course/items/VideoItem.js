@@ -80,16 +80,6 @@ export default class VideoItem extends React.Component {
                 :
                   undefined
               }
-              <Tooltip title="Open media player">
-                <Fab className="course-item-video-card-media-fab" size="small">
-                  <PlayArrowIcon/>
-                </Fab>
-              </Tooltip>
-              <Tooltip title="Add to library">
-                <Fab className="course-item-video-card-media-fab" size="small">
-                  <FolderSpecialIcon/>
-                </Fab>
-              </Tooltip>
             </CardActions>
           </Card>
         </div>

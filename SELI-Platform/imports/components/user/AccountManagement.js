@@ -203,11 +203,11 @@ export default class AccountManagement extends React.Component {
       this.state.userInformation.emails[0].address !== '' ?
         this.setState({
           validatingEmail: true,
-          emailHelperMessage: 'Validating email, please wait'
+          emailHelperMessage: this.props.language.validatingEmail,
         }, () => {
           Meteor.call("ValidateEmail", this.state.userInformation.emails[0].address, (error, response) =>  {
             let message;
-            response ? message = "Valid email" : message = "Invalid email";
+            response ? message = this.props.language.validEmail : message = this.props.language.invalidEmail;
             this.setState({
               emailResult: true,
               validEmail: response,
@@ -227,7 +227,7 @@ export default class AccountManagement extends React.Component {
         validatingEmail: false,
       })
     } else {
-      this.props.handleControlMessage(true, 'Validating email, please wait...', false, '', '');
+      this.props.handleControlMessage(true, this.props.language.validatingEmail, false, '', '');
     }
   }
 
@@ -244,7 +244,7 @@ export default class AccountManagement extends React.Component {
         passwordResult: false,
       }, () => {
         let message;
-        this.state.equalPasswords ? message = "Passwords match" : message = "Passwords doesn't match";
+        this.state.equalPasswords ? message = this.props.language.passwordsMatch : message = this.props.language.passwordsNotMatch;
         this.state.equalPasswords ? this.handlePassword(true) : this.handlePassword(false);
         this.setState({
           passwordHelperMessage: message,
@@ -276,11 +276,21 @@ export default class AccountManagement extends React.Component {
         } else {
           userInformation.username = this.state.username;
           this.props.reRender();
-          this.props.handleControlMessage(true, 'Information updated successfully!', false, '', '');
+          this.props.handleControlMessage(true, this.props.language.informationUpdated, false, '', '');
           if (this.state.newPassword) {
             Meteor.loginWithPassword({username: this.state.username}, this.state.userInformation.password, (error) => {
               if (error) {
-                console.log(error);
+                let errorLabel = '';
+                if (error.reason === 'Username already exists.') {
+                  errorLabel = this.props.language.userAlreadyExists;
+                }
+                else if (error.reason === 'Email already exists.') {
+                  errorLabel = this.props.language.emailAlreadyExists;
+                }
+                else {
+                  errorLabel = this.props.language.unknownError;
+                }
+                this.props.handleControlMessage(true, errorLabel);
               }
               else {
                 this.setState({
@@ -302,32 +312,32 @@ export default class AccountManagement extends React.Component {
       this.state.userInformation.emails[0].address === ''
     ) {
       this.showError();
-      this.props.handleControlMessage(true, 'Fields marked with an asterisk (*) are required', false, '', '');
+      this.props.handleControlMessage(true, this.props.language.fieldsMarkedWith, false, '', '');
       return false;
     }
     if (this.props.user.profile.type === 'tutor') {
       if (this.state.userInformation.profile.profileImage === undefined) {
-        this.props.handleControlMessage(true, 'Select your profile photo', false, '', '');
+        this.props.handleControlMessage(true, this.props.language.uploadYourProfilePhoto, false, '', '');
         return false;
       }
     }
     else if (!this.state.emailValidated) {
-      this.props.handleControlMessage(true, 'The email must be valid', false, '', '');
+      this.props.handleControlMessage(true, this.props.language.validEmail, false, '', '');
       return false;
     }
     else if (!this.state.equalPasswords) {
-      this.props.handleControlMessage(true, "Passwords doesn't match", false, '', '');
+      this.props.handleControlMessage(true, this.props.language.passwordsNotMatch, false, '', '');
       return false;
     }
     else if (this.state.userInformation.profile.phoneNumber !== "") {
       if (this.state.userInformation.profile.countryCode === "") {
-        this.props.handleControlMessage(true, 'Enter your country code', false, '', '');
+        this.props.handleControlMessage(true, this.props.language.addCountryCode, false, '', '');
         return false;
       }
     }
     else if (this.state.userInformation.profile.countryCode !== "") {
       if (this.state.userInformation.profile.phoneNumber === "") {
-        this.props.handleControlMessage(true, 'Enter your country phone number', false, '', '');
+        this.props.handleControlMessage(true, this.props.language.addPhoneNumber, false, '', '');
         return false;
       }
     }
@@ -343,8 +353,8 @@ export default class AccountManagement extends React.Component {
       <div className="account-management-container">
         <div className="account-management-file-column">
           <div className="account-management-information">
-            <p className="account-management-primary-text">{`Account management`}</p>
-            <p className="account-management-secondary-text">{`${this.state.userInformation.profile.type}`}</p>
+            <p className="account-management-primary-text">{this.props.language.accountManagement}</p>
+            <p className="account-management-secondary-text">{this.props.language[this.props.user.profile.type]}</p>
           </div>
           {
             this.state.userInformation.profile.profileImage !== undefined ?
@@ -363,10 +373,10 @@ export default class AccountManagement extends React.Component {
           }
         </div>
         <div className="form-input-column">
-          <p className="account-management-secondary-text">User information: </p>
+          <p className="account-management-secondary-text">{this.props.language.userInformation}</p>
           <TextField
             id="name-input"
-            label="Full name"
+            label={this.props.language.fullname}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -378,7 +388,7 @@ export default class AccountManagement extends React.Component {
           />
           <TextField
             id="username-input"
-            label="Username"
+            label={this.props.language.username}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -388,11 +398,11 @@ export default class AccountManagement extends React.Component {
             onChange={this.handleChange('username')}
             onKeyPress={() => this.keyController(event, 'username')}
             error={this.state.showError && this.state.username === ''}
-            helperText='We recommend not changing your username so often, every 5 months could be fine'
+            helperText={this.props.language.usernameHelper}
           />
           <TextField
             id="email-input"
-            label="Email"
+            label={this.props.language.email}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -434,10 +444,10 @@ export default class AccountManagement extends React.Component {
               </div>
             }
           />
-          <p className="account-management-secondary-text">Change your password: </p>
+          <p className="account-management-secondary-text">{this.props.language.changeYourPassword}</p>
           <TextField
             id="password-input"
-            label="New password"
+            label={this.props.language.newPassword}
             margin="normal"
             variant="outlined"
             type="password"
@@ -449,7 +459,7 @@ export default class AccountManagement extends React.Component {
           />
           <TextField
             id="confirm-password-input"
-            label="Confirm new password"
+            label={this.props.language.confirmNewPassword}
             margin="normal"
             variant="outlined"
             type="password"
@@ -480,10 +490,10 @@ export default class AccountManagement extends React.Component {
           {
             this.props.user.profile.type === 'tutor' ?
               <div>
-                <p className="account-management-secondary-text">Tutor basic information: </p>
+                <p className="account-management-secondary-text">{this.props.language.tutorBasicInformation}</p>
                 <TextField
                   id="biography-input"
-                  label="Biography"
+                  label={this.props.language.biography}
                   margin="normal"
                   variant="outlined"
                   fullWidth
@@ -496,7 +506,7 @@ export default class AccountManagement extends React.Component {
                 />
                 <TextField
                   id="website-input"
-                  label="Personal website"
+                  label={this.props.language.personalWebsite}
                   margin="normal"
                   variant="outlined"
                   fullWidth
@@ -505,7 +515,7 @@ export default class AccountManagement extends React.Component {
                 />
                 <TextField
                   id="google-link-input"
-                  label="Google link"
+                  label={this.props.language.googleLink}
                   margin="normal"
                   variant="outlined"
                   fullWidth
@@ -515,7 +525,7 @@ export default class AccountManagement extends React.Component {
                 <div className="form-multiple-input-row">
                   <TextField
                     id="country-code-input"
-                    label="Country code"
+                    label={this.props.language.countryCode}
                     margin="normal"
                     variant="outlined"
                     className="form-multiple-input"
@@ -529,7 +539,7 @@ export default class AccountManagement extends React.Component {
                   />
                   <TextField
                     id="phone-number-input"
-                    label="Phone number"
+                    label={this.props.language.phoneNumber}
                     margin="normal"
                     variant="outlined"
                     fullWidth
@@ -544,7 +554,7 @@ export default class AccountManagement extends React.Component {
               undefined
           }
           <div className="account-management-actions-container">
-            <Button onClick={() => this.changeAccountInformation()} className="large-button" variant="outlined" size="large" color="primary">Save changes</Button>
+            <Button onClick={() => this.changeAccountInformation()} className="large-button" variant="outlined" size="large" color="primary">{this.props.language.saveChanges}</Button>
           </div>
         </div>
         <Dialog
@@ -584,16 +594,16 @@ export default class AccountManagement extends React.Component {
                         user={Meteor.userId()}
                         accept={this.state.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
-                        label="Click the button to upload your photo"
+                        label={this.props.language.uploadYourProfilePhoto}
                       />
                     </div>
                   }
                   <div className="center-row">
-                    <p className="normal-text">Or</p>
+                    <p className="normal-text">{this.props.language.or}</p>
                   </div>
                   <div className="center-row">
-                    <p className="normal-text">Pick one from your</p>
-                    <Button onClick={() => this.showLibrary()} color="primary" className="text-button">Library</Button>
+                    <p className="normal-text">{this.props.language.pickOneFrom}</p>
+                    <Button onClick={() => this.showLibrary()} color="primary" className="text-button">{this.props.language.library}</Button>
                   </div>
                 </div>
               }
@@ -601,10 +611,10 @@ export default class AccountManagement extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-              Cancel
+              {this.props.language.cancel}
             </Button>
             <Button onClick={() => this.selectFile(this.state.fileType)} disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} color="primary">
-              Change
+              {this.props.language.change}
             </Button>
           </DialogActions>
         </Dialog>

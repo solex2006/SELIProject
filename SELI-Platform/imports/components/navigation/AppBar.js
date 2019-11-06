@@ -40,20 +40,16 @@ export default class AppBar extends React.Component {
 
   }
 
-  setLanguage(){
-
-  }
-
   handleClickOpen = (action) => {
     let dialogTitle = "";
     let color = "";
     if(action === "in"){
-      dialogTitle = "Sign in to SELI";
+      dialogTitle = this.props.language.signInToSeli;
       color = getComputedStyle(document.documentElement)
       .getPropertyValue('--primary');
     }
     if(action === "up"){
-      dialogTitle = "Sign up to SELI";
+      dialogTitle = `${this.props.language.signUpToSeli} (${this.props.language.studentAccount})`;
       color = getComputedStyle(document.documentElement)
       .getPropertyValue('--secondary');
     }
@@ -80,7 +76,7 @@ export default class AppBar extends React.Component {
     return(
       <div>
         <div className="app-bar-container">
-          <p className="bar-title">SELI Project</p>
+          <p className="bar-title">{this.props.language.seliProject}</p>
           <div className="bar-button-container">
             {
               this.props.user !== undefined ?
@@ -100,41 +96,40 @@ export default class AppBar extends React.Component {
             {
               this.props.user === undefined ?
                 <div>
-                  <Button onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
-                    sign in
+                  <Button variant="outlined" onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
+                    {this.props.language.signIn}
                   </Button>
-                  <Button onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
-                    sign up
+                  <Button variant="outlined" onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
+                    {this.props.language.signUp}
                   </Button>
                 </div>
               :
               <UserMenu
+                language={this.props.language}
                 user={this.props.user}
                 showComponent={this.props.showComponent.bind(this)}
                 logOut={this.props.logOut.bind(this)}
               />
             }
             <LanguageSelector
-              setLanguage={this.setLanguage.bind(this)}
+              language={this.props.language}
+              setLanguage={this.props.setLanguage.bind(this)}
             />
           </div>
         </div>
         <Slide direction="down" in={this.state.showSearchBar} mountOnEnter unmountOnExit>
           <div className="app-bar-search-container">
             <Paper elevation={15} className="app-bar-search-paper">
-              <IconButton className="app-bar-search-icon-button" aria-label="menu">
-                <SchoolIcon className="app-bar-search-icon"/>
-              </IconButton>
               <Divider className="app-bar-search-divider" orientation="vertical" />
               <InputBase
                 fullWidth
                 className="app-bar-search-input-base"
-                placeholder="What do you want to learn about?"
-                inputProps={{ 'aria-label': 'what do you want to learn about' }}
+                placeholder={this.props.language.learnAbout}
+                inputProps={{ 'aria-label': this.props.language.learnAbout}}
                 autoFocus={true}
               />
             </Paper>
-            <Button className="app-bar-search-button">Search courses</Button>
+            <Button className="app-bar-search-button">{this.props.language.searchCourses}</Button>
             <IconButton onClick={() => this.toggleSearchBar()} className="app-bar-search-icon-button" aria-label="menu">
               <CloseIcon className="app-bar-search-icon"/>
             </IconButton>
@@ -155,7 +150,10 @@ export default class AppBar extends React.Component {
             <div className="sign-form">
               {
                 this.state.action === "in" ?
-                  <SignInForm/>
+                  <SignInForm
+                    language={this.props.language}
+                    history={this.props.history}
+                  />
                 :
                 undefined
               }
@@ -163,6 +161,8 @@ export default class AppBar extends React.Component {
                 this.state.action === "up" ?
                   <SignUpForm
                     handleClickOpen={this.handleClickOpen.bind(this)}
+                    history={this.props.history}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -174,10 +174,10 @@ export default class AppBar extends React.Component {
             this.state.action === "in" ?
               <DialogActions className="sign-actions">
                 <DialogContentText>
-                  Don't have an account?
+                  {this.props.language.dontHaveAccount}
                 </DialogContentText>
                 <Button onClick={() => this.handleClickOpen("up")} color="secondary">
-                  Sign up SELI
+                  {`${this.props.language.signUp} SELI`}
                 </Button>
               </DialogActions>
             :
@@ -187,10 +187,10 @@ export default class AppBar extends React.Component {
             this.state.action === "up" ?
               <DialogActions className="sign-actions">
                 <DialogContentText>
-                  Already have an account?
+                  {this.props.language.alreadyHaveAccount}
                 </DialogContentText>
                 <Button onClick={() => this.handleClickOpen("in")} color="primary">
-                  Sign in SELI
+                  {`${this.props.language.signIn} SELI`}
                 </Button>
               </DialogActions>
             :

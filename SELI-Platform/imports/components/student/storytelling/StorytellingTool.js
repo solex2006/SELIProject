@@ -50,7 +50,7 @@ export default class StorytellingTool extends React.Component {
         nodes: [
           {
             type: 'start',
-            name: 'Start',
+            name: `${this.props.language.start}`,
             description: '',
             image: undefined,
             audio: undefined,
@@ -96,7 +96,7 @@ export default class StorytellingTool extends React.Component {
     let newNode = Math.random();
     story.nodes.push({
       type: 'scene',
-      name: `New scene ${story.nodes.length}`,
+      name: `${this.props.language.newScene} ${story.nodes.length}`,
       description: '',
       image: undefined,
       audio: undefined,
@@ -114,7 +114,7 @@ export default class StorytellingTool extends React.Component {
     let newNode = Math.random();
     story.nodes.push({
       type: 'end',
-      name: 'End',
+      name: `${this.props.language.end}`,
       description: '',
       image: undefined,
       audio: undefined,
@@ -145,7 +145,7 @@ export default class StorytellingTool extends React.Component {
     let selectedNode = this.state.selectedNode;
     if (story.nodes.length === 3) {
       if (story.nodes[2].type === "end" && story.nodes[1].type === "scene") {
-        this.props.handleControlMessage(true, "Your story must have: start, 1 scene, end")
+        this.props.handleControlMessage(true, this.props.language.storyMustHave)
         this.handleClose();
         return false;
       }
@@ -197,12 +197,12 @@ export default class StorytellingTool extends React.Component {
   validateStory = () => {
     let story = this.state.story;
     if (story.nodes.length < 3) {
-      this.props.handleControlMessage(true, "Your story must have at least: start, 1 scene, and the end");
+      this.props.handleControlMessage(true, this.props.language.storyMustHave);
       return false;
     }
     for (var i = 0; i < story.nodes.length; i++) {
       if (story.nodes[i].name === "") {
-        this.props.handleControlMessage(true, "All the scenes of the story must have a name");
+        this.props.handleControlMessage(true, this.props.language.allScenesMust);
         this.setState({
           selectedNode: i,
           showError: true,
@@ -210,14 +210,14 @@ export default class StorytellingTool extends React.Component {
         return false;
       }
       if (story.nodes[i].audio === undefined) {
-        this.props.handleControlMessage(true, "All the scenes of the story must have an audio record");
+        this.props.handleControlMessage(true, this.props.allScenesAudio);
         this.setState({
           selectedNode: i,
         });
         return false;
       }
       if (story.nodes[i].image === undefined) {
-        this.props.handleControlMessage(true, "All the scenes of the story must have an image");
+        this.props.handleControlMessage(true, this.props.allScenesImage);
         this.setState({
           selectedNode: i,
         });
@@ -257,13 +257,13 @@ export default class StorytellingTool extends React.Component {
             'activity.public': this.state.story.isPublic,
           }}
           , () => {
-            this.props.handleControlMessage(true, "Story saved successfully", true, "stories", "See list");
+            this.props.handleControlMessage(true, this.props.language.storySaved, true, "stories", this.props.language.seeList);
             this.handleClose();
           }
         )
       }
       else {
-        this.handleControlMessage(true, "Add the name of the story");
+        this.handleControlMessage(true, this.props.language.storyNameText);
       }
     }
     else {
@@ -280,12 +280,12 @@ export default class StorytellingTool extends React.Component {
             course: this.state.story.courseId,
           }
         }, () => {
-          this.props.handleControlMessage(true, "Story saved successfully", true, "stories", "See list");
+          this.props.handleControlMessage(true, this.props.language.storySaved, true, "stories", this.props.language.seeList);
           this.handleClose();
         })
       }
       else {
-        this.handleControlMessage(true, "Add the name of the story");
+        this.handleControlMessage(true, this.props.language.storyNameText);
       }
     }
   }
@@ -399,7 +399,7 @@ export default class StorytellingTool extends React.Component {
         'activity.courseId': course,
       }}
       , () => {
-        this.props.handleControlMessage(true, "Story published successfully");
+        this.props.handleControlMessage(true, this.props.language.storyPublished);
         this.handleClose();
       }
     )
@@ -416,7 +416,7 @@ export default class StorytellingTool extends React.Component {
         'activity.activityId': activity,
       }}
       , () => {
-        this.completeActivity(activity, "Story successfully sent!", course);
+        this.completeActivity(activity, this.props.language.storySent, course);
       }
     )
   }
@@ -509,7 +509,7 @@ export default class StorytellingTool extends React.Component {
           !this.state.showPreview ?
             <div className="storytelling-tool-container">
               <div className="storytelling-work-area">
-                <h2 className="storytelling-work-area-title">Story flow</h2>
+                <h2 className="storytelling-work-area-title">{this.props.language.storyFlow}</h2>
                 {
                   this.state.story.nodes.length >= 2 ?
                     <Button
@@ -517,7 +517,7 @@ export default class StorytellingTool extends React.Component {
                       className="storytelling-work-preview-button"
                       onClick={() => this.showPreview()}
                     >
-                      Story preview
+                      {this.props.language.storyPreview}
                     </Button>
                   :
                   undefined
@@ -576,14 +576,14 @@ export default class StorytellingTool extends React.Component {
                     <React.Fragment>
                       {
                         this.state.story.nodes[this.state.selectedNode].type === 'start' ?
-                          "Beginning of the story"
+                          this.props.language.beginningOfTheStory
                         :
                         undefined
                       }
                       {
                         this.state.story.nodes[this.state.selectedNode].type === 'scene' ?
                           <React.Fragment>
-                            {`Scene ${this.state.story.nodes[this.state.selectedNode].ordinal}`}
+                            {`${this.props.language.scene} ${this.state.story.nodes[this.state.selectedNode].ordinal}`}
                           </React.Fragment>
                         :
                         undefined
@@ -591,7 +591,7 @@ export default class StorytellingTool extends React.Component {
                       {
                         this.state.story.nodes[this.state.selectedNode].type === 'end' ?
                           <React.Fragment>
-                            {"End of the story"}
+                            {this.props.language.endOfStory}
                           </React.Fragment>
                         :
                         undefined
@@ -605,7 +605,7 @@ export default class StorytellingTool extends React.Component {
                       color="primary"
                       onClick={() => this.handleSaveStory()}
                     >
-                      Save story
+                      {this.props.language.saveStory}
                     </Button>
                     <Button
                       className="storytelling-media-button"
@@ -613,20 +613,20 @@ export default class StorytellingTool extends React.Component {
                       color="primary"
                       onClick={() => this.handlePublishStory()}
                     >
-                      Publish story
+                      {this.props.language.publishStory}
                     </Button>
                   </div>
                   <FormGroup style={{marginTop: "1.5vh"}}>
                     <FormControlLabel
                       control={<Switch size="small" onChange={this.handleChange('public')} checked={this.state.story.isPublic}/>}
-                      label={<p className="form-label">Make this story public</p>}
+                      label={<p className="form-label">{this.props.language.makeStoryPublic}</p>}
                     />
                   </FormGroup>
                 </div>
                 <div className="storytelling-menu-body">
                   <TextField
                     id="node-name-input"
-                    label="Name"
+                    label={this.props.language.name}
                     margin="normal"
                     variant="outlined"
                     fullWidth
@@ -635,11 +635,11 @@ export default class StorytellingTool extends React.Component {
                     value={this.state.story.nodes[this.state.selectedNode].name}
                     onChange={this.handleChange('name')}
                     error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
-                    helperText="This is the name of the scene ex: Introduction, just scene 1 or whatever you want."
+                    helperText={this.props.language.sceneNameHelper}
                   />
                   <TextField
                     id="node-description-input"
-                    label="Description"
+                    label={this.props.language.description}
                     margin="normal"
                     variant="outlined"
                     fullWidth
@@ -648,7 +648,7 @@ export default class StorytellingTool extends React.Component {
                     value={this.state.story.nodes[this.state.selectedNode].description}
                     onChange={this.handleChange('description')}
                     error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
-                    helperText="This is the description of the scene, is not required but it could help in accessibility for other students (you could write the transcription of the voice recorded)."
+                    helperText={this.props.language.sceneDescriptionHelper}
                   />
                   <Divider light/>
                   {
@@ -674,7 +674,7 @@ export default class StorytellingTool extends React.Component {
                       type='image'
                       user={Meteor.userId()}
                       accept={'image/*'}
-                      label={'Click the button to upload an image'}
+                      label={this.props.language.uploadImageButtonLabel}
                       getFileInformation={this.getImageFileInformation.bind(this)}
                     />
                   }
@@ -704,7 +704,7 @@ export default class StorytellingTool extends React.Component {
             />
             <Button color="primary" onClick={() => this.handleReturn()} className="storytelling-return-button">
               <ArrowBackIcon className="storytelling-return-icon"/>
-              Return
+              {this.props.language.return}
             </Button>
           </React.Fragment>
         }
@@ -718,20 +718,20 @@ export default class StorytellingTool extends React.Component {
             this.state.action === "delete" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {"Delete node"}
+                  {this.props.language.deleteNode}
                 </DialogTitle>
                 <DialogContent className="success-dialog-content">
                   <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                    {"Are you sure you want to delete this node of the story?"}
+                    {this.props.language.sureDeleteNode}
                   </DialogContentText>
                   <WarningIcon className="warning-dialog-icon"/>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                    Cancel
+                    {this.props.language.cancel}
                   </Button>
                   <Button onClick={() => this.deleteNode()} color="primary" autoFocus>
-                    Confirm
+                    {this.props.language.confirm}
                   </Button>
                 </DialogActions>
               </React.Fragment>
@@ -742,13 +742,13 @@ export default class StorytellingTool extends React.Component {
             this.state.action === "save" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {"Save story"}
+                  {this.props.language.saveStory}
                 </DialogTitle>
                 <DialogContent className="success-dialog-content">
                   <TextField
                     id="story-name-input"
-                    label="Story name"
-                    placeholder="My story"
+                    label={this.props.language.storyName}
+                    placeholder={this.props.language.myStory}
                     margin="normal"
                     variant="outlined"
                     fullWidth
@@ -756,19 +756,19 @@ export default class StorytellingTool extends React.Component {
                     required
                     value={this.state.story.name}
                     onChange={this.handleChange('storyName')}
-                    helperText="We know sometimes inspiration and names comes and the end"
+                    helperText={this.props.language.weKnowInspiration}
                   />
                   <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                    {"Add the name of the story to save it"}
+                    {this.props.language.addTheNameStory}
                   </DialogContentText>
                   <WarningIcon className="warning-dialog-icon"/>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                    Cancel
+                    {this.props.language.cancel}
                   </Button>
                   <Button onClick={() => this.saveStory()} color="primary" autoFocus>
-                    Save
+                    {this.props.language.save}
                   </Button>
                 </DialogActions>
               </React.Fragment>
@@ -779,7 +779,7 @@ export default class StorytellingTool extends React.Component {
             this.state.action === "publish" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {"Publish story"}
+                  {this.props.language.publishStory}
                 </DialogTitle>
                 <div className="center-row">
                   <Button
@@ -787,7 +787,7 @@ export default class StorytellingTool extends React.Component {
                     color="primary"
                     onClick={() => this.handlePublishOnCourse()}
                   >
-                    <p className="storytelling-publish-button-text">Publish on a course</p>
+                    <p className="storytelling-publish-button-text">{this.props.language.publishOnACourse}</p>
                     <SchoolIcon className="storytelling-publish-icon"/>
                   </Button>
                   <Button
@@ -795,7 +795,7 @@ export default class StorytellingTool extends React.Component {
                     color="primary"
                     onClick={() => this.handlePublishAsActivity()}
                   >
-                    <p className="storytelling-publish-button-text">Send as activity</p>
+                    <p className="storytelling-publish-button-text">{this.props.language.sendAsActivity}</p>
                     <EditIcon className="storytelling-publish-icon"/>
                   </Button>
                   <Button
@@ -803,12 +803,12 @@ export default class StorytellingTool extends React.Component {
                     color="primary"
                     onClick={() => this.publishOnSocialNetwork()}
                   >
-                    <p className="storytelling-publish-button-text">Publish on social network</p>
+                    <p className="storytelling-publish-button-text">{this.props.language.publishOnSocialNetwork}</p>
                     <LanguageIcon className="storytelling-publish-icon"/>
                   </Button>
                 </div>
                 <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {"Select how you want to publish your story"}
+                  {this.props.language.publishStoryText}
                 </DialogContentText>
               </React.Fragment>
             :
@@ -818,7 +818,7 @@ export default class StorytellingTool extends React.Component {
             this.state.action === "publishOnCourse" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {"Publish on course"}
+                  {this.props.language.publishOnCourse}
                 </DialogTitle>
                 {
                   this.state.courses.map(course => {
@@ -834,11 +834,11 @@ export default class StorytellingTool extends React.Component {
                   })
                 }
                 <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {"Select the course you want to publish your story"}
+                  {this.props.language.publishStoryCourseText}
                 </DialogContentText>
                 <DialogActions>
                   <Button onClick={() => this.handlePublishStory()} color="primary" autoFocus>
-                    Back
+                    {this.props.language.back}
                   </Button>
                 </DialogActions>
               </React.Fragment>
@@ -849,7 +849,7 @@ export default class StorytellingTool extends React.Component {
             this.state.action === "publishAsActivity" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {"Send as activity"}
+                  {this.props.language.sendAsActivity}
                 </DialogTitle>
                 {
                   this.state.activities.map(activity => {
@@ -865,11 +865,11 @@ export default class StorytellingTool extends React.Component {
                   })
                 }
                 <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {"Select the course you want to publish your story"}
+                  {this.props.language.publishStoryActivityText}
                 </DialogContentText>
                 <DialogActions>
                   <Button onClick={() => this.handlePublishStory()} color="primary" autoFocus>
-                    Back
+                    {this.props.language.back}
                   </Button>
                 </DialogActions>
               </React.Fragment>

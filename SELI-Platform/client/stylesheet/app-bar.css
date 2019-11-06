@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   position: fixed;
-  z-index: 5;
+  z-index: 15;
 }
 
 .bar-title {
@@ -33,6 +33,7 @@
 
 .bar-button {
   margin: 0 0.25vw !important;
+  letter-spacing: 1px !important;
 }
 
 .no-text-button {

@@ -17,6 +17,7 @@ import CourseDial from '../components/student/CourseDial';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 import LoadingSnackbar from '../components/tools/LoadingSnackbar';
 import AccountManagement from '../components/user/AccountManagement';
+import Help from '../components/user/Help';
 import Loading from '../components/tools/Loading';
 import MyCertificates from '../components/student/MyCertificates';
 
@@ -36,6 +37,9 @@ import {checkUserType} from '../../lib/userSesions';
 
 import { Courses } from '../../lib/CourseCollection';
 
+import english from '../../lib/translation/english';
+import portuguese from '../../lib/translation/portuguese';
+
 export default class Student extends React.Component {
   constructor(props) {
     super(props);
@@ -47,14 +51,20 @@ export default class Student extends React.Component {
   }
 
   componentDidMount(){
+    Session.set({language: Session.get('language') ? Session.get('language') : english});
+    this.setState({
+      language: Session.get('language') ? Session.get('language') : english,
+    });
     this.setState({
       chekingSesion: true,
     }, () => {
-      checkUserType(Meteor.userId(), 'student');
+      checkUserType(Meteor.userId(), 'student', this.props.history);
       Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
         this.setState({
           user: response[0],
           chekingSesion: false,
+        }, () => {
+          this.setLanguage(this.state.user.profile.configuration.language);
         });
       });
     });
@@ -62,12 +72,24 @@ export default class Student extends React.Component {
 
   logOut = () => {
     Meteor.logout((error) => {
-      location.replace('/')
+      this.props.history.push('/');
     })
   }
 
-  setLanguage = () => {
-
+  setLanguage = (option) => {
+    let language = this.state.language;
+    if (option === 'Portuguese (PT)') {
+      Session.set({language: portuguese});
+      language = portuguese;
+    }
+    else if (option === 'English (US)') {
+      Session.set({language: english});
+      language = english;
+    }
+    this.setState({
+      language: language,
+    });
+    Meteor.call("ChangeLanguague", Meteor.userId(), option, (error, response) =>  {});
   }
 
   showComponent = (component) => {
@@ -296,158 +318,188 @@ export default class Student extends React.Component {
     return(
       <div>
         <MuiThemeProvider theme={theme}>
-          <div id="outer-container">
-            {
-              this.state.user !== undefined ?
-                <MainMenu
-                  user={this.state.user}
-                  showComponent={this.showComponent.bind(this)}
-                />
-              :
-              undefined
-            }
-            <main id="page-wrap">
-              <AppBar
-                setLanguage={this.setLanguage.bind(this)}
-                user={this.state.user}
-                logOut={this.logOut.bind(this)}
-                showComponent={this.showComponent.bind(this)}
-              />
-              {
-                this.state.component === 'home' ?
-                  <Presentation/>
-                :
-                undefined
-              }
-              {
-                this.state.component === 'course' ?
-                  <Course
-                    user={this.state.user}
-                    reRender={this.forceUpdate.bind(this)}
-                    selected={this.state.selected}
-                    activeCourse={this.state.activeCourse}
-                    showComponent={this.showComponent.bind(this)}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'courses' ?
-                  <CoursesDashboard
-                    user={this.state.user}
-                    subscribe={this.subscribe.bind(this)}
-                    unsubscribe={this.unsubscribe.bind(this)}
-                    disabled={this.state.showLoadingMessage}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'subscribed' ?
-                  <SubscribedCourses
-                    user={this.state.user}
-                    unsubscribe={this.unsubscribe.bind(this)}
-                    disabled={this.state.showLoadingMessage}
-                    getSubscribedCourses={subscribedCourses => this.getSubscribedCourses = subscribedCourses}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                    handleClickCourse={this.handleClickCourse.bind(this)}
-                    showComponent={this.showComponent.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'storytelling' ?
-                  <StorytellingTool
-                    user={this.state.user}
-                    storyToEdit={undefined}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'storytellingEdit' ?
-                  <StorytellingTool
-                    user={this.state.user}
-                    storyToEdit={this.state.storyToEdit}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'stories' ?
-                  <Stories
-                    user={this.state.user}
-                    showComponent={this.showComponent.bind(this)}
-                    editStory={this.editStory.bind(this)}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'certificates' ?
-                  <MyCertificates
-                    user={this.state.user}
-                    disabled={this.state.showLoadingMessage}
-                    getSubscribedCourses={subscribedCourses => this.getSubscribedCourses = subscribedCourses}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                    handleClickCourse={this.handleClickCourse.bind(this)}
-                    showComponent={this.showComponent.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'account' ?
-                  <AccountManagement
-                    user={this.state.user}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                    showErrorFunction={showError => this.showError = showError}
-                    reRender={this.forceUpdate.bind(this)}
-                  />
-                :
-                undefined
-              }
-            </main>
-          </div>
-          <ControlSnackbar
-            showControlMessage={this.state.showControlMessage}
-            showControlAction={this.state.showControlAction}
-            controlMessage={this.state.controlMessage}
-            controlAction={this.state.controlAction}
-            controlActionMessage={this.state.controlActionMessage}
-            handleControlMessage={this.handleControlMessage.bind(this)}
-          />
-          <LoadingSnackbar
-            showLoadingMessage={this.state.showLoadingMessage}
-            loadingMessage={this.state.loadingMessage}
-          />
-          <Dialog
-            open={this.state.chekingSesion}
-            onClose={this.handleClose}
-            aria-labelledby="alert-dialog-confirmation"
-            aria-describedby="alert-dialog-confirmation"
-            disableBackdropClick={true}
-            disableEscapeKeyDown={true}
-          >
-            <DialogTitle className="success-dialog-title" id="alert-dialog-title">Checking sesion please wait</DialogTitle>
-            <DialogContent className="success-dialog-content">
-              <Loading message='Loading user...'/>
-            </DialogContent>
-          </Dialog>
           {
-            this.state.activeCourse !== undefined && this.state.component !== 'course' ?
-              <CourseDial
-                showComponent={this.showComponent.bind(this)}
-                closeCourse={this.closeCourse.bind(this)}
-              />
+            this.state.language && Session.get('language') ?
+              <React.Fragment>
+                <div id="outer-container">
+                  {
+                    this.state.user !== undefined ?
+                      <MainMenu
+                        user={this.state.user}
+                        language={this.state.language}
+                        showComponent={this.showComponent.bind(this)}
+                      />
+                    :
+                    undefined
+                  }
+                  <main id="page-wrap">
+                    <AppBar
+                      history={this.props.history}
+                      language={this.state.language}
+                      setLanguage={this.setLanguage.bind(this)}
+                      user={this.state.user}
+                      logOut={this.logOut.bind(this)}
+                      showComponent={this.showComponent.bind(this)}
+                    />
+                    {
+                      this.state.component === 'home' ?
+                        <Presentation
+                          language={this.state.language}
+                          history={this.props.history}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'course' ?
+                        <Course
+                          user={this.state.user}
+                          reRender={this.forceUpdate.bind(this)}
+                          selected={this.state.selected}
+                          activeCourse={this.state.activeCourse}
+                          showComponent={this.showComponent.bind(this)}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'courses' ?
+                        <CoursesDashboard
+                          user={this.state.user}
+                          language={this.state.language}
+                          subscribe={this.subscribe.bind(this)}
+                          unsubscribe={this.unsubscribe.bind(this)}
+                          disabled={this.state.showLoadingMessage}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'subscribed' ?
+                        <SubscribedCourses
+                          user={this.state.user}
+                          language={this.state.language}
+                          unsubscribe={this.unsubscribe.bind(this)}
+                          disabled={this.state.showLoadingMessage}
+                          getSubscribedCourses={subscribedCourses => this.getSubscribedCourses = subscribedCourses}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                          handleClickCourse={this.handleClickCourse.bind(this)}
+                          showComponent={this.showComponent.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'storytelling' ?
+                        <StorytellingTool
+                          user={this.state.user}
+                          language={this.state.language}
+                          storyToEdit={undefined}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'storytellingEdit' ?
+                        <StorytellingTool
+                          user={this.state.user}
+                          language={this.state.language}
+                          storyToEdit={this.state.storyToEdit}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'stories' ?
+                        <Stories
+                          user={this.state.user}
+                          language={this.state.language}
+                          showComponent={this.showComponent.bind(this)}
+                          editStory={this.editStory.bind(this)}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'certificates' ?
+                        <MyCertificates
+                          user={this.state.user}
+                          language={this.state.language}
+                          disabled={this.state.showLoadingMessage}
+                          getSubscribedCourses={subscribedCourses => this.getSubscribedCourses = subscribedCourses}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                          handleClickCourse={this.handleClickCourse.bind(this)}
+                          showComponent={this.showComponent.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'account' ?
+                        <AccountManagement
+                          user={this.state.user}
+                          language={this.state.language}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                          showErrorFunction={showError => this.showError = showError}
+                          reRender={this.forceUpdate.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'help' ?
+                        <Help
+                          user={this.state.user}
+                          language={this.state.language}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                  </main>
+                </div>
+                <ControlSnackbar
+                  showControlMessage={this.state.showControlMessage}
+                  showControlAction={this.state.showControlAction}
+                  controlMessage={this.state.controlMessage}
+                  controlAction={this.state.controlAction}
+                  controlActionMessage={this.state.controlActionMessage}
+                  handleControlMessage={this.handleControlMessage.bind(this)}
+                />
+                <LoadingSnackbar
+                  showLoadingMessage={this.state.showLoadingMessage}
+                  loadingMessage={this.state.loadingMessage}
+                />
+                <Dialog
+                  open={this.state.chekingSesion}
+                  onClose={this.handleClose}
+                  aria-labelledby="alert-dialog-confirmation"
+                  aria-describedby="alert-dialog-confirmation"
+                  disableBackdropClick={true}
+                  disableEscapeKeyDown={true}
+                >
+                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.checkingSession}</DialogTitle>
+                  <DialogContent className="success-dialog-content">
+                    <Loading message={this.state.language.loadingUser}/>
+                  </DialogContent>
+                </Dialog>
+                {
+                  this.state.activeCourse !== undefined && this.state.component !== 'course' ?
+                    <CourseDial
+                      showComponent={this.showComponent.bind(this)}
+                      closeCourse={this.closeCourse.bind(this)}
+                    />
+                  :
+                  undefined
+                }
+              </React.Fragment>
             :
-            undefined
+              undefined
           }
         </MuiThemeProvider>
       </div>

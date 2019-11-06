@@ -2,10 +2,11 @@
   text-transform: uppercase !important;
   text-align: center !important;
   background-color: #f5f5f5;
+  letter-spacing: 1px !important;
 }
 
 .sign-form {
-  width: 350px;
+  width: auto;
   height: auto;
   padding: 1vw;
 }

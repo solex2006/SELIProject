@@ -84,14 +84,6 @@ export default class ActivityItem extends React.Component {
                         </div>
                       </ExpansionPanelDetails>
                       <Divider />
-                      <ExpansionPanelActions className="quiz-item-actions">
-                        <Button size="medium">
-                          Set reminder
-                        </Button>
-                        <Button size="medium" color="primary">
-                          Do activity
-                        </Button>
-                      </ExpansionPanelActions>
                     </ExpansionPanel>
                   </div>
                 </div>

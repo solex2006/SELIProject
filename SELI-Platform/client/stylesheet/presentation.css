@@ -140,6 +140,7 @@
 .slider-container {
   width: 100vw;
   height: auto;
+  position: relative;
 }
 
 .swiper-container-horizontal > .swiper-pagination-progressbar, .swiper-container-vertical > .swiper-pagination-progressbar.swiper-pagination-progressbar-opposite {
@@ -205,4 +206,12 @@
   position: absolute;
   bottom: 0;
   text-align: center;
+}
+
+.control-slider-fab {
+  position: absolute !important;
+  right: 1.5vw !important;
+  top: 2vh !important;
+  z-index: 10 !important;
+  transition: 0.5s !important;
 }

@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -30,7 +31,6 @@ window.browserHistory = history;
 Tracker.autorun(() => {
 
 });
-
 
 
 Meteor.startup(() => {

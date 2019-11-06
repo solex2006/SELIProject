@@ -80,7 +80,7 @@ export default class SubscribedCourses extends React.Component {
   unsubscribe = (courseId) => {
     this.handleClickOpen();
     this.setState({
-      dialogConfirmationTitle: 'Unsubscribe course',
+      dialogConfirmationTitle: this.props.language.unsubscribeCourse,
       dialogConfirmationContentText: `Are you sure you want to leave this classroom? All your progress on this course will be errased.`,
       courseToUnsubscribe: courseId,
       confirmAction: () => this.confirmUnsubscribe(),
@@ -101,12 +101,12 @@ export default class SubscribedCourses extends React.Component {
   render() {
     return(
       <div className="subscriptions-dashboard-container">
-        <p className="management-title">My subscriptions<SchoolIcon className="management-title-icon"/></p>
+        <p className="management-title">{this.props.language.mySubscriptions}<SchoolIcon className="management-title-icon"/></p>
         <Divider/>
         {
           this.state.loading ?
             <div className="dashboard-loading-container">
-              <Loading message="Loading courses..."/>
+              <Loading message={this.props.language.loadingCourses}/>
             </div>
           :
           <div>
@@ -130,10 +130,10 @@ export default class SubscribedCourses extends React.Component {
               :
               <div className="empty-dashboard">
                 <div className="empty-dashboard-row">
-                  <p className="empty-dashboard-text">You aren't subscribed to any of our courses yet</p>
+                  <p className="empty-dashboard-text">{this.props.language.youAreNotSubscribed}</p>
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
-                <Button onClick={() => this.props.showComponent('courses')} variant="contained" color="primary" className="empty-dashboard-button">Check out our courses</Button>
+                <Button onClick={() => this.props.showComponent('courses')} variant="contained" color="primary" className="empty-dashboard-button">{this.props.language.checkOutCourses}</Button>
               </div>
             }
           </div>
@@ -153,10 +153,10 @@ export default class SubscribedCourses extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-              Cancel
+              {this.props.language.cancel}
             </Button>
             <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
-              Confirm
+              {this.props.language.confirm}
             </Button>
           </DialogActions>
         </Dialog>

@@ -859,20 +859,25 @@ export default class CourseCreatorTool extends React.Component {
               <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
                 <AppsIcon/>
                 <h4 className="dialog-label-title">{ this.state.contentaAdded !== undefined ? `Content editor - ${this.state.contentTypeAdded}` : 'Course organization'}</h4>
-                <IconButton
-                  id="close-icon"
-                  edge="end"
-                  className="dialog-toolbar-icon"
-                  disabled={this.state.showCourseOrganization || this.state.showAccesibilityOptions || this.state.showAccesibilityForm}
-                  onClick={() => {
-                    this.contentHandleClose();
-                    if (this.state.contentToEdit === undefined) {
-                      this.cancelContentCreation();
-                    }
-                  }}
-                >
-                  <CloseIcon/>
-                </IconButton>
+                {
+                  this.state.showCourseOrganization || this.state.showAccesibilityOptions || this.state.showAccesibilityForm ?
+                    undefined
+                  :
+                  <IconButton
+                    id="close-icon"
+                    edge="end"
+                    className="dialog-toolbar-icon"
+                    disabled={this.state.showCourseOrganization || this.state.showAccesibilityOptions || this.state.showAccesibilityForm}
+                    onClick={() => {
+                      this.contentHandleClose();
+                      if (this.state.contentToEdit === undefined) {
+                        this.cancelContentCreation();
+                      }
+                    }}
+                  >
+                    <CloseIcon/>
+                  </IconButton>
+                }
               </Toolbar>
             </AppBar>
           </DialogTitle>
@@ -1148,6 +1153,6 @@ export default class CourseCreatorTool extends React.Component {
           ]}
         />
       </div>
-                          );
-                        }
-                      }
+    );
+  }
+}
