@@ -35,11 +35,15 @@ import Button from '@material-ui/core/Button';
 
 import {checkUserType} from '../../lib/userSesions';
 
+import english from '../../lib/translation/english';
+import portuguese from '../../lib/translation/portuguese';
+
 export default class Tutor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       component: 'home',
+      language: english,
     }
   }
 
@@ -114,6 +118,7 @@ export default class Tutor extends React.Component {
               this.state.user !== undefined ?
                 <MainMenu
                   user={this.state.user}
+                  language={this.state.language}
                   showComponent={this.showComponent.bind(this)}
                 />
               :
@@ -122,13 +127,16 @@ export default class Tutor extends React.Component {
             <main id="page-wrap">
               <AppBar
                 setLanguage={this.setLanguage.bind(this)}
+                language={this.state.language}
                 user={this.state.user}
                 logOut={this.logOut.bind(this)}
                 showComponent={this.showComponent.bind(this)}
               />
               {
                 this.state.component === 'home' ?
-                  <Presentation/>
+                  <Presentation
+                    language={this.state.language}
+                  />
                 :
                 undefined
               }
@@ -136,6 +144,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'bugs' ?
                   <BugsList
                     user={this.state.user}
+                    language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
@@ -145,6 +154,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'tutorRequests' ?
                   <TutorRequestList
                     user={this.state.user}
+                    language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
@@ -154,6 +164,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'audienceRequests' ?
                   <AudienceRequestList
                     user={this.state.user}
+                    language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
@@ -163,6 +174,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'requirementRequests' ?
                   <RequirementsRequestList
                     user={this.state.user}
+                    language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
@@ -172,6 +184,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'tutors' ?
                   <TutorsList
                     user={this.state.user}
+                    language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
@@ -181,6 +194,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'students' ?
                   <StudentsList
                     user={this.state.user}
+                    language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
@@ -190,6 +204,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'courses' ?
                   <CoursesList
                     user={this.state.user}
+                    language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
@@ -199,6 +214,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'audiences' ?
                   <AudiencesList
                     user={this.state.user}
+                    language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
@@ -208,6 +224,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'requirements' ?
                   <RequirementsList
                     user={this.state.user}
+                    language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
@@ -217,6 +234,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'comments' ?
                   <CommentsList
                     user={this.state.user}
+                    language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                   />
                 :
@@ -226,6 +244,7 @@ export default class Tutor extends React.Component {
                 this.state.component === 'account' ?
                   <AccountManagement
                     user={this.state.user}
+                    language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
                     showErrorFunction={showError => this.showError = showError}
                     reRender={this.forceUpdate.bind(this)}

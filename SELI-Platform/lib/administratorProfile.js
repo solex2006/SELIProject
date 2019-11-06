@@ -1,74 +1,74 @@
 var OPTIONS = [
   {
-    label: "Requests - feedback",
+    label: ["Requests - feedback"],
     suboptions: [
       {
-        label: "Tutor requests",
+        label: ["Tutor requests"],
         component: 'tutorRequests',
       },
       {
-        label: "Audience requests",
+        label: ["Audience requests"],
         component: 'audienceRequests',
       },
       {
-        label: "Requirements requests",
+        label: ["Requirements requests"],
         component: 'requirementRequests',
       },
       {
-        label: "Bug reports",
+        label: ["Bug reports"],
         component: 'bugs',
       },
     ],
   },
   {
-    label: "Students administration",
+    label: ["Students administration"],
     suboptions: [
       {
-        label: "Registered students",
+        label: ["Registered students"],
         component: 'students',
       },
     ],
   },
   {
-    label: "Certificates administration",
+    label: ["Certificates administration"],
     suboptions: [
       {
-        label: "Registered certificates",
+        label: ["Registered certificates"],
         component: 'certificates',
       },
     ],
   },
   {
-    label: "Tutors administration",
+    label: ["Tutors administration"],
     suboptions: [
       {
-        label: "Registered tutors",
+        label: ["Registered tutors"],
         component: 'tutors',
       },
     ],
   },
   {
-    label: "Courses administration",
+    label: ["Courses administration"],
     suboptions: [
       {
-        label: "Courses",
+        label: ["Courses"],
         component: 'courses',
       },
       {
-        label: "Audiences",
+        label: ["Audiences"],
         component: 'audiences',
       },
       {
-        label: "Requirements",
+        label: ["Requirements"],
         component: 'requirements',
       },
     ],
   },
   {
-    label: "Comments administration",
+    label: ["Comments administration"],
     suboptions: [
       {
-        label: "Comments list",
+        label: ["Comments list"],
         component: 'comments',
       },
     ],
