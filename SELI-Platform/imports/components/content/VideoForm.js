@@ -125,6 +125,8 @@ export default class VideoForm extends React.Component {
       showHelperText: false,
       url: event.target.value,
       validUrl: false,
+    }, () => {
+      this.validateUrl()
     })
   }
 
@@ -145,7 +147,7 @@ export default class VideoForm extends React.Component {
       helperColor = "#4caf50";
     }
     else {
-      attributes.video = video;
+      attributes.video = undefined;
       urlMessage = "The player can't reproduce this type of source";
       helperColor = "#f44336";
     }

@@ -47,7 +47,7 @@ export default class Tutor extends React.Component {
     this.setState({
       chekingSesion: true,
     }, () => {
-      checkUserType(Meteor.userId(), 'administrator');
+      checkUserType(Meteor.userId(), 'administrator', this.props.history);
       Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
         this.setState({
           user: response[0],
@@ -59,7 +59,7 @@ export default class Tutor extends React.Component {
 
   logOut = () => {
     Meteor.logout((error) => {
-      location.replace('/')
+      this.props.history.push('/');
     })
   }
 

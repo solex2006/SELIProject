@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
 import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -8,6 +10,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import SchoolIcon from '@material-ui/icons/School';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
 
 import Swiper from 'react-id-swiper';
 import 'react-id-swiper/lib/styles/css/swiper.css';
@@ -21,11 +25,12 @@ export default class Presentation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      playing: true,
       params: {
         loop: true,
         autoplay: {
-          delay: 12000,
-          disableOnInteraction: false
+          delay: 8000,
+          disableOnInteraction: true,
         },
         speed: 2000,
         spaceBetween: 1000,
@@ -49,9 +54,34 @@ export default class Presentation extends React.Component {
     }
   }
 
-  redirect = url => {
-    var win = window.open(url, '_blank');
-    win.focus();
+  handleAutoplay = () => {
+    let playing = this.state.playing;
+    if (playing) {
+      this.state.swiper.autoplay.stop();
+    }
+    else {
+      this.state.swiper.autoplay.start();
+    }
+    playing = !playing;
+    this.setState({
+      playing: playing,
+    });
+  }
+
+  redirect = (url, external) => {
+    if (external) {
+      var win = window.open(url, '_blank');
+      win.focus();
+    }
+    else {
+      this.props.history.push(url);
+    }
+  }
+
+  updateSwiper = (swiper) => {
+    this.setState({
+      swiper: swiper,
+    });
   }
 
   render() {
@@ -59,115 +89,119 @@ export default class Presentation extends React.Component {
       <div>
         <div className="absolute-container">
           <div className="slider-container">
-            <Swiper {...this.state.params}>
+            <Swiper getSwiper={(swiper) => this.updateSwiper(swiper)} {...this.state.params}>
               <div id="dashboard-1" className="dashboard">
                 <div className="dashboard-center-container">
                   <p className="dashboard-text-large">
-                    Smart Ecosystem for Learning and Inclusion
+                    {this.props.language.seliFullText}
                   </p>
                   <p className="dashboard-text-medium">
-                    Learning platform
+                    {this.props.language.learningPlatform}
                   </p>
                   <p className="dashboard-paragraph">
-                    The SELI learning platform provides the opportunity to create courses for various types of audiences, taking into consideration accessibility standards, interaction between students and stimulating the creativity of tutors and students.
+                    {this.props.language.seliPresentation}
                   </p>
                   <Button
                     className="dashboard-link-button"
-                    onClick={() => this.redirect('http://seliproject.org/description')}
+                    onClick={() => this.redirect('http://seliproject.org/description', true)}
                   >
-                    <MoreHorizIcon className="dashboard-link-icon"/> Learn more
+                    <MoreHorizIcon className="dashboard-link-icon"/> {this.props.language.learnMore}
                   </Button>
                 </div>
               </div>
               <div id="dashboard-2" className="dashboard">
                 <div className="dashboard-center-container">
                   <p className="dashboard-text-large">
-                    We're here to teach you!
+                    {this.props.language.hereToTeachYou}
                   </p>
                   <p className="dashboard-text-medium">
-                    Join our classroom and learn about whatever you want!
+                    {this.props.language.joinOurClassroom}
                   </p>
                   <Paper elevation={15} className="dashboard-paper">
-                    <IconButton className="dashboard-icon-button" aria-label="menu">
-                      <MenuIcon className="dashboard-icon"/>
-                    </IconButton>
                     <InputBase
                       fullWidth
                       className="dashboard-input-base"
-                      placeholder="What do you want to learn about?"
+                      placeholder={this.props.language.learnAbout}
                       inputProps={{ 'aria-label': 'what do you want to learn about' }}
                     />
                     <IconButton className="dashboard-icon-button" aria-label="search">
                       <SearchIcon />
                     </IconButton>
                     <Divider orientation="vertical" />
-                    <IconButton className="dashboard-icon-button" aria-label="directions">
-                      <SchoolIcon className="dashboard-icon"/>
-                    </IconButton>
                   </Paper>
                 </div>
               </div>
               <div id="dashboard-3" className="dashboard">
                 <div className="dashboard-center-container">
                   <p className="dashboard-text-large">
-                    Thinking on accessibility!
+                    {this.props.language.thinkingOnAccessibility}
                   </p>
                   <AccessibilityNewIcon className="dashboard-large-icon"/>
                   <p className="dashboard-paragraph">
-                    Course designed for students, young people, the unemployed, the disabled, the elderly, migrants, and people living in remote areas in Europe and the LAC.
+                    {this.props.language.accessibilityPresentation}
                   </p>
                   <Button
                     className="dashboard-link-button-black"
-                    onClick={() => this.redirect('http://seliproject.org/project-overview')}
+                    onClick={() => this.redirect('http://seliproject.org/project-overview', true)}
                   >
-                    <MoreHorizIcon className="dashboard-link-icon"/> Learn more
+                    <MoreHorizIcon className="dashboard-link-icon"/> {this.props.language.learnMore}
                   </Button>
                 </div>
               </div>
               <div id="dashboard-4" className="dashboard">
                 <div className="dashboard-center-container">
                   <p className="dashboard-text-large">
-                    Instructional design!
+                    {this.props.language.instructionalDesign}
                   </p>
                   <p className="dashboard-paragraph">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    {this.props.language.instructionalDesignPresentation}
                   </p>
                   <Button
                     className="dashboard-link-button"
-                    onClick={() => this.redirect('http://seliproject.org/project-structure')}
+                    onClick={() => this.redirect('http://seliproject.org/project-structure', true)}
                   >
-                    <MoreHorizIcon className="dashboard-link-icon"/> Learn more
+                    <MoreHorizIcon className="dashboard-link-icon"/> {this.props.language.learnMore}
                   </Button>
                   <p className="dashboard-text-large">
-                    Teach on SELI!
+                    {this.props.language.teachOnSeli}
                   </p>
                   <p className="dashboard-text-medium">
-                    Create and design your own courses!
+                    {this.props.language.teachOnSeliText}
                   </p>
                   <Button
                     className="dashboard-link-button"
-                    onClick={() => this.redirect('/tutorRegistration')}
+                    onClick={() => this.redirect('/tutorRegistration', false)}
                   >
-                    <MoreHorizIcon className="dashboard-link-icon"/> Become a tutor
+                    <MoreHorizIcon className="dashboard-link-icon"/> {this.props.language.becomeATutor}
                   </Button>
                 </div>
               </div>
             </Swiper>
+            <Tooltip title={this.state.playing ? this.props.language.stopSlider : this.props.language.resumeSlider} placement="left">
+              <Fab onClick={() => this.handleAutoplay()} className="control-slider-fab" color="primary" size="small">
+                {
+                  this.state.playing ?
+                    <PauseIcon/>
+                  :
+                  <PlayArrowIcon/>
+                }
+              </Fab>
+            </Tooltip>
           </div>
           <Rotate top left cascade>
             <div className="about-presentation-container">
-              <p className="h1-primary-title">What is SELI?</p>
+              <p className="h1-primary-title">{this.props.language.whatIsSeli}</p>
               <Divider />
             </div>
           </Rotate>
           <Zoom>
             <div className="justified-text">
-              The concept of the project approaches the topic of digital exclusion and the inaccessibility of education for disadvantaged groups as forming a set of challenges that offer the potential for improving the digital competences of teachers in the LAC and EU regions, and can lead to the extensive participation of citizens who have relatively poor access to innovative technologies involved in education, training and inclusion through ICT. Project activities are related to fostering more efficient ICT solutions for better education and inclusion.
+              {this.props.language.whatIsSeliText}
             </div>
           </Zoom>
           <div className="sponsors-section"></div>
           <div className="copyright-section">
-            <p className="copyright-text">Made by SELI Team 2019</p>
+            <p className="copyright-text">{this.props.language.madeBySeliTeam}</p>
           </div>
         </div>
       </div>

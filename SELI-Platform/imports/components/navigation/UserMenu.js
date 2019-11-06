@@ -81,15 +81,15 @@ export default function UserMenu(props) {
               src='user.svg'
             />
           }
-          <p className="user-menu-profile-type">{props.user.profile.type}</p>
+          <p className="user-menu-profile-type">{props.language[props.user.profile.type]}</p>
           <p className="user-menu-profile-username">{props.user.username}</p>
         </div>
         <Divider className="user-menu-profile-divider" light={true}/>
         <p onClick={() => handleAccountManagement()} className="user-menu-option">
-          Account management
+          {props.language.accountManagement}
         </p>
         <Button onClick={() => {props.logOut(); toggleDrawer(side, false)}} color="primary" fullWidth variant="outlined" className="user-menu-option-button">
-          Log out
+          {props.language.logOut}
         </Button>
       </div>
     </div>

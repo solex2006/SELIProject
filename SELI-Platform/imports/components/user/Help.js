@@ -26,7 +26,7 @@ export default class AccountManagement extends React.Component {
 
   validateSendMessage = () => {
     if (this.state.message.title === '' || this.state.message.description === '') {
-      this.props.handleControlMessage(true, "Fields marked with * are required");
+      this.props.handleControlMessage(true, this.props.language.fieldsMarkedWith);
       return false;
     }
     return true;
@@ -42,7 +42,7 @@ export default class AccountManagement extends React.Component {
         title: this.state.message.title,
         description: this.state.message.description,
       }, () => {
-        this.props.handleControlMessage(true, "Thanks the information sent is very valuable, we appreciate your help");
+        this.props.handleControlMessage(true, this.props.language.thanksForInformation);
         this.setState({
           message: {
             title: '',
@@ -72,7 +72,7 @@ export default class AccountManagement extends React.Component {
       <div className="account-management-container">
         <div className="account-management-file-column">
           <div className="account-management-information">
-            <p className="account-management-primary-text">{`User help`}</p>
+            <p className="account-management-primary-text">{this.props.language.userHelp}</p>
           </div>
           <Avatar
             className="account-management-avatar"
@@ -84,7 +84,7 @@ export default class AccountManagement extends React.Component {
           <TextField
             id="subject-select-currency"
             select
-            label="Subject"
+            label={this.props.language.subject}
             value={this.state.message.subject}
             onChange={this.handleChange('subject')}
             fullWidth
@@ -93,16 +93,16 @@ export default class AccountManagement extends React.Component {
             variant="outlined"
           >
             <MenuItem value="report">
-              Report a bug or error
+              {this.props.language.reportABug}
             </MenuItem>
             <MenuItem disabled value="ask">
-              Ask something
+              {this.props.language.askSomething}
             </MenuItem>
           </TextField>
-          <p className="account-management-secondary-text">Fill the following fields: </p>
+          <p className="account-management-secondary-text">{this.props.language.fillTheFollowingFields}</p>
           <TextField
             id="title-input"
-            label="Title"
+            label={this.props.language.title}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -114,7 +114,7 @@ export default class AccountManagement extends React.Component {
           />
           <TextField
             id="description-input"
-            label="Description"
+            label={this.props.language.description}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -126,7 +126,7 @@ export default class AccountManagement extends React.Component {
             error={this.state.showError && this.state.message.description === ''}
           />
           <div className="account-management-actions-container">
-            <Button onClick={() => this.sendMessage()} className="large-button" variant="outlined" size="large" color="primary">Send message</Button>
+            <Button onClick={() => this.sendMessage()} className="large-button" variant="outlined" size="large" color="primary">{this.props.language.sendMessage}</Button>
           </div>
         </div>
       </div>

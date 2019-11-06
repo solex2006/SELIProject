@@ -1,6 +1,7 @@
 import React from 'react';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -69,16 +70,16 @@ export default class SignUpForm extends React.Component {
       this.setState({
         showError: true,
       }, () => {
-        this.handleControlMessage(true, "All fields marked with * are required");
+        this.handleControlMessage(true, this.props.language.fieldsMarkedWith);
       });
       return false;
     }
     if (!this.state.validEmail) {
-      this.handleControlMessage(true, "Validate your email");
+      this.handleControlMessage(true, this.props.language.validateYourMail);
       return false;
     }
     if (!this.state.equalPasswords) {
-      this.handleControlMessage(true, "Passwords doesn't match");
+      this.handleControlMessage(true, this.props.language.passwordsNotMatch);
       return false;
     }
     return true;
@@ -100,14 +101,16 @@ export default class SignUpForm extends React.Component {
         courses: [],
         type: 'student',
         certificates: [],
-      }
+        configuration: {
+          language: 'English (US)',
+        },
+      },
     }, (error) => {
       if (error) {
         this.handleError(error);
       }
       else {
         Meteor.logout();
-        this.handleControlMessage(true, "User created, now you can sign in");
         this.props.handleClickOpen('in');
       }
     });
@@ -135,19 +138,29 @@ export default class SignUpForm extends React.Component {
   }
 
   handleError = (error) => {
-    this.handleControlMessage(true, error.reason);
+    let errorLabel = '';
+    if (error.reason === 'Username already exists.') {
+      errorLabel = this.props.language.userAlreadyExists;
+    }
+    else if (error.reason === 'Email already exists.') {
+      errorLabel = this.props.language.emailAlreadyExists;
+    }
+    else {
+      errorLabel = this.props.language.unknownError;
+    }
+    this.handleControlMessage(true, errorLabel);
   }
 
   validateEmail = ()  => {
     this.state.userInformation.email !== '' ?
       this.setState({
         validatingEmail: true,
-        emailHelperMessage: 'Validating email, please wait'
+        emailHelperMessage: this.props.language.validatingEmail
       }, () => {
         Meteor.call("ValidateEmail", this.state.userInformation.email, (error, response) =>  {
           let message;
           response=true;
-          response ? message = "Valid email" : message = "Invalid email";
+          response ? message = this.props.language.validEmail : message = this.props.language.invalidEmail;
           this.setState({
             emailResult: true,
             validEmail: response,
@@ -173,7 +186,7 @@ export default class SignUpForm extends React.Component {
         passwordResult: false,
       }, () => {
         let message;
-        this.state.equalPasswords ? message = "Passwords match" : message = "Passwords doesn't match";
+        this.state.equalPasswords ? message = this.props.language.passwordsMatch : message = this.props.language.passwordsNotMatch;
         this.setState({
           passwordHelperMessage: message,
           passwordResult: true,
@@ -196,7 +209,12 @@ export default class SignUpForm extends React.Component {
   }
 
   redirect = url => {
-    location.replace(url);
+    this.props.history.push({
+      pathname: url,
+      state: {
+        language: this.props.language,
+      }
+    });
   }
 
   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
@@ -226,7 +244,7 @@ export default class SignUpForm extends React.Component {
         <TextField
           id="fullname-input"
           className="signin-input"
-          label="Full name"
+          label={this.props.language.fullname}
           margin="normal"
           variant="outlined"
           fullWidth
@@ -240,7 +258,7 @@ export default class SignUpForm extends React.Component {
         <TextField
           id="username-input"
           className="signin-input"
-          label="Username"
+          label={this.props.language.username}
           margin="normal"
           variant="outlined"
           fullWidth
@@ -254,7 +272,7 @@ export default class SignUpForm extends React.Component {
         <TextField
           id="email-input"
           className="helper-signin-input"
-          label="Email"
+          label={this.props.language.email}
           margin="normal"
           variant="outlined"
           fullWidth
@@ -299,7 +317,7 @@ export default class SignUpForm extends React.Component {
         <TextField
           id="password-input"
           className="signin-input"
-          label="Password"
+          label={this.props.language.password}
           margin="normal"
           variant="outlined"
           type="password"
@@ -311,7 +329,7 @@ export default class SignUpForm extends React.Component {
         <TextField
           id="-confirm-password-input"
           className="helper-signin-input"
-          label="Confirm password"
+          label={this.props.language.confirmPassword}
           margin="normal"
           variant="outlined"
           type="password"
@@ -339,20 +357,25 @@ export default class SignUpForm extends React.Component {
           }
         />
         <div className="sign-buttons-container">
-          <Button
-            onClick={() => this.redirect('/tutorRegistration')}
-            className="sign-button"
-          >
-            Teach on SELI
-          </Button>
-          <Button
-            onClick={() => this.signUp()}
-            className="sign-button"
-            color="secondary"
-            variant="contained"
-          >
-            Sign up
-          </Button>
+          <Tooltip title={this.props.language.clickIfYouFiledForm}>
+            <Button
+              onClick={() => this.signUp()}
+              className="sign-button"
+              color="secondary"
+              variant="contained"
+            >
+              {this.props.language.signUp}
+            </Button>
+          </Tooltip>
+          <Tooltip title={this.props.language.hereYouCanOpenTeacherForm}>
+            <Button
+              onClick={() => this.redirect('/tutorRegistration')}
+              className="sign-button"
+              variant="outlined"
+            >
+              {this.props.language.teachOnSeli}
+            </Button>
+          </Tooltip>
         </div>
         <ControlSnackbar
           showControlMessage={this.state.showControlMessage}

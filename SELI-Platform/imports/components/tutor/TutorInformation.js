@@ -199,11 +199,11 @@ export default class TutorInformation extends React.Component {
       this.state.tutorInformation.email !== '' ?
         this.setState({
           validatingEmail: true,
-          emailHelperMessage: 'Validating email, please wait'
+          emailHelperMessage: this.props.language.validatingEmail,
         }, () => {
           Meteor.call("ValidateEmail", this.state.tutorInformation.email, (error, response) =>  {
             let message;
-            response ? message = "Valid email" : message = "Invalid email";
+            response ? message = this.props.language.validEmail : message = this.props.language.invalidEmail;
             this.setState({
               emailResult: true,
               validEmail: response,
@@ -223,7 +223,7 @@ export default class TutorInformation extends React.Component {
         validatingEmail: false,
       })
     } else {
-      console.log('validating email pls wait');
+      this.props.handleControlMessage(true, this.props.language.validatingEmail);
     }
   }
 
@@ -234,7 +234,7 @@ export default class TutorInformation extends React.Component {
         passwordResult: false,
       }, () => {
         let message;
-        this.state.equalPasswords ? message = "Passwords match" : message = "Passwords doesn't match";
+        this.state.equalPasswords ? message = this.props.language.passwordsMatch : message = this.props.language.passwordsNotMatch;
         this.state.equalPasswords ? this.props.handlePassword(true) : this.props.handlePassword(false);
         this.setState({
           passwordHelperMessage: message,
@@ -274,18 +274,18 @@ export default class TutorInformation extends React.Component {
                 changeFile={this.changeFile.bind(this)}
               />
             :
-            <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="secondary"><ImageSharpIcon className="form-image-icon"/>Select your profile photo</Button>
+            <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="secondary"><ImageSharpIcon className="form-image-icon"/>{this.props.language.selectYourProfilePhoto}</Button>
           }
           <div className="form-request-information">
-            <p className="form-information-primary-text">Once you have completed the form and submitted the request, you will receive an email the moment your account has been activated.</p>
+            <p className="form-information-primary-text">{this.props.language.correctEmailAdvice1}</p>
             <EmailIcon className="form-information-icon"/>
-            <p className="form-information-secondary-text">Make sure you enter your email correctly.</p>
+            <p className="form-information-secondary-text">{this.props.language.correctEmailAdvice2}</p>
           </div>
         </div>
         <div className="form-input-column">
           <TextField
             id="name-input"
-            label="Full name"
+            label={this.props.language.fullname}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -297,7 +297,7 @@ export default class TutorInformation extends React.Component {
           />
           <TextField
             id="username-input"
-            label="Username"
+            label={this.props.language.username}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -310,7 +310,7 @@ export default class TutorInformation extends React.Component {
           />
           <TextField
             id="password-input"
-            label="Password"
+            label={this.props.language.password}
             margin="normal"
             variant="outlined"
             type="password"
@@ -321,7 +321,7 @@ export default class TutorInformation extends React.Component {
           />
           <TextField
             id="confirm-password-input"
-            label="Confirm password"
+            label={this.props.language.confirmPassword}
             margin="normal"
             variant="outlined"
             type="password"
@@ -350,7 +350,7 @@ export default class TutorInformation extends React.Component {
           />
           <TextField
             id="biography-input"
-            label="Biography"
+            label={this.props.language.biography}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -363,7 +363,7 @@ export default class TutorInformation extends React.Component {
           />
           <TextField
             id="email-input"
-            label="Email"
+            label={this.props.language.email}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -407,7 +407,7 @@ export default class TutorInformation extends React.Component {
           />
           <TextField
             id="website-input"
-            label="Personal website"
+            label={this.props.language.personalWebsite}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -416,7 +416,7 @@ export default class TutorInformation extends React.Component {
           />
           <TextField
             id="google-link-input"
-            label="Google link"
+            label={this.props.language.googleLink}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -425,8 +425,7 @@ export default class TutorInformation extends React.Component {
           />
           <div className="form-multiple-input-row">
             <TextField
-              id="country-code-input"
-              label="Country code"
+              label={this.props.language.countryCode}
               margin="normal"
               variant="outlined"
               className="form-multiple-input"
@@ -440,11 +439,11 @@ export default class TutorInformation extends React.Component {
             />
             <TextField
               id="phone-number-input"
-              label="Phone number"
+              label={this.props.language.phoneNumber}
               margin="normal"
               variant="outlined"
               fullWidth
-              inputProps={{ min: "1000000000", max: "9999999999", step: "1", maxLength: "10" }}
+              inputProps={{ min: "1000000000", max: "9999999999", step: "1", maxLength: "20" }}
               value={this.state.tutorInformation.phoneNumber}
               onChange={this.handleChange('phoneNumber')}
               onKeyPress={() => validateOnlyNumbers(event)}
@@ -460,7 +459,14 @@ export default class TutorInformation extends React.Component {
           keepMounted
           maxWidth={false}
         >
-          <DialogTitle className="form-dialog-title" id="alert-dialog-title">{this.state.fileType === "image" ? "Choose or upload the course image" : "Choose or upload the course sylabus"}</DialogTitle>
+          <DialogTitle className="form-dialog-title" id="alert-dialog-title">
+            {
+              this.state.fileType === "image" ?
+                this.props.language.chooseOrUploadImage
+              :
+              this.props.language.chooseOrUploadSyllabus
+            }
+          </DialogTitle>
           <DialogContent>
             <div className="file-form-dialog">
               {
@@ -488,7 +494,7 @@ export default class TutorInformation extends React.Component {
                         user={"guest"}
                         accept={this.state.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
-                        label="Click the button to upload your photo"
+                        label={this.props.language.uploadImageButtonLabel}
                       />
                     </div>
                   }
@@ -498,10 +504,10 @@ export default class TutorInformation extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-              Cancel
+              {this.props.language.cancel}
             </Button>
             <Button onClick={() => this.selectFile(this.state.fileType)} disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} color="primary">
-              Select
+              {this.props.language.select}
             </Button>
           </DialogActions>
         </Dialog>

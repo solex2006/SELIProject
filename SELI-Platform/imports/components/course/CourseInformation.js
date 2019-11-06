@@ -65,6 +65,9 @@ export default class CourseInformation extends React.Component {
     else if (name === 'duration') {
       courseInformation.duration = event.target.value;
     }
+    else if (name === 'language') {
+      courseInformation.language = event.target.value;
+    }
     this.setState({
       courseInformation: courseInformation,
     });
@@ -270,6 +273,23 @@ export default class CourseInformation extends React.Component {
             value={this.state.courseInformation.description}
             onChange={this.handleChange('description')}
           />
+          <TextField
+            id="subject-select-currency"
+            select
+            label="Language"
+            value={this.state.courseInformation.language}
+            onChange={this.handleChange('language')}
+            fullWidth
+            helperText="Select the language in which your course will be"
+            margin="normal"
+            variant="outlined"
+          >
+            <MenuItem value={0}>English (US)</MenuItem>
+            <MenuItem value={1}>Spanish (ES)</MenuItem>
+            <MenuItem value={2}>Portuguese (PT)</MenuItem>
+            <MenuItem value={3}>Polish (PL)</MenuItem>
+            <MenuItem value={2}>Turkish (TR)</MenuItem>
+          </TextField>
           <div className="row-input">
             <TextField
               id="keyWord-input"
@@ -318,7 +338,7 @@ export default class CourseInformation extends React.Component {
             InputProps={{
               endAdornment: <InputAdornment position="end">hours</InputAdornment>,
             }}
-            inputProps={{ min: "5", max: "300", step: "1" }}
+            inputProps={{ min: "0", max: "999", step: "1" }}
             value={this.state.courseInformation.duration}
             onChange={this.handleChange('duration')}
             onKeyPress={() => validateOnlyNumbers(event)}

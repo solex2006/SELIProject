@@ -23,7 +23,7 @@ export default function ItemFeedBack(props) {
     none : '#ef5350',
 		fail : '#ff9800',
 		poor: '#ffc107',
-		average: '#ffeb3b',
+		average: '#fbc02d',
 		good: '#9ccc65',
 		valid: '#66bb6a',
 	};

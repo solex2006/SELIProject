@@ -26,13 +26,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import CourseFiles from '../../lib/CourseFilesCollection';
 
+import english from '../../lib/translation/english';
+import portuguese from '../../lib/translation/portuguese';
+
 export default class TutorRegistration extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tutorSteps: [
-        {label: 'Information', icon: <InfoIcon className="step-icon"/>},
-      ],
       tutorInformation: {
         fullname: '',
         username: '',
@@ -76,20 +76,34 @@ export default class TutorRegistration extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
-    location.replace("/");
+    this.props.history.push({
+      pathname: "/",
+      state: {
+        language: this.state.language,
+      }
+    });
   };
 
   componentDidMount() {
+    Session.set({language: Session.get('language') ? Session.get('language') : english});
     this.setState({
-      tutorForms: [
-        <TutorInformation
-          showErrorFunction={showError => this.showError = showError}
-          tutorInformation={this.state.tutorInformation}
-          handleEmail={this.handleEmail.bind(this)}
-          handlePassword={this.handlePassword.bind(this)}
-        />,
-      ],
-    })
+      language: Session.get('language') ? Session.get('language') : english,
+    }, () => {
+      this.setState({
+        tutorSteps: [
+          {label: this.state.language.information , icon: <InfoIcon className="step-icon"/>},
+        ],
+        tutorForms: [
+          <TutorInformation
+            showErrorFunction={showError => this.showError = showError}
+            tutorInformation={this.state.tutorInformation}
+            handleEmail={this.handleEmail.bind(this)}
+            handlePassword={this.handlePassword.bind(this)}
+            language={this.state.language}
+          />,
+        ],
+      })
+    });
   }
 
   showError = () => {
@@ -105,30 +119,30 @@ export default class TutorRegistration extends React.Component {
       this.state.tutorInformation.password === ''
     ) {
       this.showError();
-      this.handleControlMessage(true, "All fields marked with * are required");
+      this.handleControlMessage(true, this.state.language.fieldsMarkedWith);
       return false;
     }
     else if (this.state.tutorInformation.image === undefined) {
-      this.handleControlMessage(true, "Upload your profile photo");
+      this.handleControlMessage(true, this.state.language.uploadYourProfilePhoto);
       return false;
     }
     else if (!this.state.emailValidated) {
-      this.handleControlMessage(true, "Validate your email");
+      this.handleControlMessage(true, this.state.language.validateYourMail);
       return false;
     }
     else if (!this.state.equalPasswords) {
-      this.handleControlMessage(true, "Passwords doesn't match");
+      this.handleControlMessage(true, this.state.language.passwordsNotMatch);
       return false;
     }
     else if (this.state.tutorInformation.phoneNumber !== "") {
       if (this.state.tutorInformation.countryCode === "") {
-        this.handleControlMessage(true, "Add your country code");
+        this.handleControlMessage(true, this.state.language.addCountryCode);
         return false;
       }
     }
     else if (this.state.tutorInformation.countryCode !== "") {
       if (this.state.tutorInformation.phoneNumber === "") {
-        this.handleControlMessage(true, "Add your phone number");
+        this.handleControlMessage(true, this.state.language.addPhoneNumber);
         return false;
       }
     }
@@ -151,7 +165,10 @@ export default class TutorRegistration extends React.Component {
         verified: false,
         courses: [],
         type: 'tutor',
-      }
+        configuration: {
+          language: 'English (US)',
+        },
+      },
     }, (error) => {
       if (error) {
         this.handleError(error);
@@ -180,7 +197,17 @@ export default class TutorRegistration extends React.Component {
   }
 
   handleError = (error) => {
-    this.handleControlMessage(true, error.reason);
+    let errorLabel = '';
+    if (error.reason === 'Username already exists.') {
+      errorLabel = this.state.language.userAlreadyExists;
+    }
+    else if (error.reason === 'Email already exists.') {
+      errorLabel = this.state.language.emailAlreadyExists;
+    }
+    else {
+      errorLabel = this.state.language.unknownError;
+    }
+    this.handleControlMessage(true, errorLabel);
   }
 
   handleEmail = (value) => {
@@ -195,55 +222,98 @@ export default class TutorRegistration extends React.Component {
     });
   }
 
+  setLanguage = (option) => {
+    let language = this.state.language;
+    if (option === 'Portuguese (PT)') {
+      Session.set({language: portuguese});
+      language = portuguese;
+    }
+    else if (option === 'English (US)') {
+      Session.set({language: english});
+      language = english;
+    }
+    this.setState({
+      language: language,
+    }, () => {
+      this.setState({
+        tutorForms: [
+          <TutorInformation
+            showErrorFunction={showError => this.showError = showError}
+            tutorInformation={this.state.tutorInformation}
+            handleEmail={this.handleEmail.bind(this)}
+            handlePassword={this.handlePassword.bind(this)}
+            language={this.state.language}
+          />,
+        ],
+        tutorSteps: [
+          {label: this.state.language.information, icon: <InfoIcon className="step-icon"/>},
+        ],
+      })
+    });
+  }
+
   render() {
     return(
       <div>
         {
           <MuiThemeProvider theme={theme}>
-            <AppBar/>
             {
-              this.state.tutorForms !== undefined ?
-                <FormStepper
-                  title="Tutor registration"
-                  color="secondary"
-                  steps={this.state.tutorSteps}
-                  forms={this.state.tutorForms}
-                  finalLabel="Send request"
-                  saveLabel={undefined}
-                  finalAction={this.registerTutor.bind(this)}
-                />
+              this.state.language && Session.get('language') ?
+                <React.Fragment>
+                  <AppBar
+                    history={this.props.history}
+                    language={this.state.language}
+                    setLanguage={this.setLanguage.bind(this)}
+                  />
+                  {
+                    this.state.tutorForms !== undefined && this.state.tutorSteps !== undefined ?
+                      <FormStepper
+                        title={this.state.language.tutorRegistration}
+                        color="secondary"
+                        steps={this.state.tutorSteps}
+                        forms={this.state.tutorForms}
+                        finalLabel={this.state.language.sendRequest}
+                        saveLabel={undefined}
+                        language={this.state.language}
+                        finalAction={this.registerTutor.bind(this)}
+                      />
+                    :
+                    undefined
+                  }
+                  <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    aria-labelledby="alert-dialog-success"
+                    aria-describedby="alert-dialog-success"
+                    disableBackdropClick={true}
+                    disableEscapeKeyDown={true}
+                  >
+                    <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.resquestSuccessfullySent}</DialogTitle>
+                    <DialogContent className="success-dialog-content">
+                      <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                        {/*We have just received your information successfully, we will review the request information as soon as possible and you will receive an email the moment your account is fully active.*/}
+                        {this.state.language.accountSuccessfully}
+                      </DialogContentText>
+                      <CheckCircleIcon className="success-dialog-icon"/>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+                        {this.state.language.gotIt}
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                  <ControlSnackbar
+                    showControlMessage={this.state.showControlMessage}
+                    showControlAction={this.state.showControlAction}
+                    controlMessage={this.state.controlMessage}
+                    controlAction={this.state.controlAction}
+                    controlActionMessage={this.state.controlActionMessage}
+                    handleControlMessage={this.handleControlMessage.bind(this)}
+                  />
+                </React.Fragment>
               :
               undefined
             }
-            <Dialog
-              open={this.state.open}
-              onClose={this.handleClose}
-              aria-labelledby="alert-dialog-success"
-              aria-describedby="alert-dialog-success"
-              disableBackdropClick={true}
-              disableEscapeKeyDown={true}
-            >
-              <DialogTitle className="success-dialog-title" id="alert-dialog-title">{"Your request has been successfully sent!"}</DialogTitle>
-              <DialogContent className="success-dialog-content">
-                <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                  We have just received your information successfully, we will review the request information as soon as possible and you will receive an email the moment your account is fully active.
-                </DialogContentText>
-                <CheckCircleIcon className="success-dialog-icon"/>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                  Got it
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <ControlSnackbar
-              showControlMessage={this.state.showControlMessage}
-              showControlAction={this.state.showControlAction}
-              controlMessage={this.state.controlMessage}
-              controlAction={this.state.controlAction}
-              controlActionMessage={this.state.controlActionMessage}
-              handleControlMessage={this.handleControlMessage.bind(this)}
-            />
           </MuiThemeProvider>
         }
       </div>

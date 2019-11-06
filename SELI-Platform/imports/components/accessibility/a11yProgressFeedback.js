@@ -13,7 +13,7 @@ export default function A11YProgressFeedback(props){
 	const a11yCOLOR = {
 		fail : '#ff9800',
 		poor: '#ffc107',
-		average: '#ffeb3b',
+		average: '#fbc02d',
 		good: '#9ccc65',
 		valid: '#66bb6a',
 	};

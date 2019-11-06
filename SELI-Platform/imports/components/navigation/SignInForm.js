@@ -34,7 +34,7 @@ export default class SignInForm extends React.Component {
       this.setState({
         showError: true,
       }, () => {
-        this.handleControlMessage(true, "The fields marked with * are required", false, "", "");
+        this.handleControlMessage(true, this.props.language.fieldsMarkedWith, false, "", "");
       });
     }
     else {
@@ -45,20 +45,30 @@ export default class SignInForm extends React.Component {
   SignIn = () => {
     Meteor.loginWithPassword(this.state.userInformation.username, this.state.userInformation.password, (error) => {
       if (error) {
-        this.handleControlMessage(true, error.reason, false, "", "");
+        let errorLabel = '';
+        if (error.reason.toUpperCase() === 'USER NOT FOUND') {
+          errorLabel = this.props.language.userNotFound;
+        }
+        else if (error.reason.toUpperCase() === 'INCORRECT PASSWORD') {
+          errorLabel = this.props.language.incorrectPassword;
+        }
+        else {
+          errorLabel = this.props.language.unknownError;
+        }
+        this.handleControlMessage(true, errorLabel, false, "", "");
       }
       else {
         this.setState({
           user: Meteor.user(),
         }, () => {
           if (this.state.user.profile.type === 'tutor') {
-            location.replace("/tutor");
+            this.props.history.push("/tutor");
           }
           else if (this.state.user.profile.type === 'student') {
-            location.replace("/student");
+            this.props.history.push("/student");
           }
           else if (this.state.user.profile.type === 'administrator') {
-            location.replace("/administrator");
+            this.props.history.push("/administrator");
           }
         })
       }
@@ -95,13 +105,17 @@ export default class SignInForm extends React.Component {
     }
   }
 
+  componentDidMount() {
+
+  }
+
   render() {
     return(
       <div className="sign-form-container">
         <TextField
           id="username-input"
           className="signin-input"
-          label="Username or email"
+          label={`${this.props.language.username} ${this.props.language.or.toLowerCase()} ${this.props.language.email.toLowerCase()}`}
           margin="normal"
           variant="outlined"
           fullWidth
@@ -114,7 +128,7 @@ export default class SignInForm extends React.Component {
         <TextField
           id="password-input"
           className="signin-input"
-          label="Password"
+          label={`${this.props.language.password}`}
           margin="normal"
           variant="outlined"
           type="password"
@@ -125,7 +139,7 @@ export default class SignInForm extends React.Component {
           error={this.state.showError && this.state.userInformation.password === ''}
         />
         <div className="sign-buttons-container">
-          <Button onClick={() => this.validateSignIn()} className="sign-button" color="primary" variant="contained">Sign in</Button>
+          <Button onClick={() => this.validateSignIn()} className="sign-button" color="primary" variant="contained">{this.props.language ? `${this.props.language.signIn}` : ''}</Button>
         </div>
         <ControlSnackbar
           showControlMessage={this.state.showControlMessage}

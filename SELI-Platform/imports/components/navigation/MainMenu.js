@@ -93,7 +93,7 @@ export default class MainMenu extends React.Component {
             />
           }
           onStateChange={(state) => this.handleMenuStateChange(state)}>
-          <div onClick={() => this.showComponent("home")} className="menu-title">SELI LEARNING PLATFORM</div>
+          <div onClick={() => this.showComponent("home")} className="menu-title">{this.props.language.seliLearningPlatform}</div>
           <Divider className="user-menu-profile-divider" light={true}/>
           <div className="options-container">
             {
@@ -102,21 +102,21 @@ export default class MainMenu extends React.Component {
                   <ExpansionPanel
                     className="menu-expansion-panel"
                     defaultExpanded={ true }
-                    onChange={this.handleChange(options.label)}>
+                    onChange={this.handleChange(options.label[this.props.language.languageIndex])}>
                     <ExpansionPanelSummary
                       className="menu-expansion-summary"
                       expandIcon={
                         <ExpandMoreIcon className="menu-expand-more-icon"/>
                       }
                     >
-                      <Typography className="menu-option">{options.label}</Typography>
+                      <Typography className="menu-option">{options.label[this.props.language.languageIndex]}</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                       <div className="sub-menu-container">
                         {
                           options.suboptions.map(suboptions => {
                             return(
-                              <div onClick={() => this.showComponent(suboptions.component)} className="sub-menu-option">{suboptions.label}</div>
+                              <div onClick={() => this.showComponent(suboptions.component)} className="sub-menu-option">{suboptions.label[this.props.language.languageIndex]}</div>
                             )
                           })
                         }

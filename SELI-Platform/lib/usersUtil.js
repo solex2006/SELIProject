@@ -44,6 +44,20 @@ Meteor.methods({
 });
 
 Meteor.methods({
+  'ChangeLanguague'(_id, language){
+    var updated = Meteor.users.update(
+      {_id: _id},
+      {
+        $set: {
+          'profile.configuration.language': language
+        }
+      }
+    )
+    return updated;
+  }
+});
+
+Meteor.methods({
   'UsersnameExists'(username){
     let exist = false;
     var users = Meteor.users.find({}).fetch();

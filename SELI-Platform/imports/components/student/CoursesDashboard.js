@@ -45,8 +45,8 @@ export default class CoursesDashboard extends React.Component {
   unsubscribe = (courseId) => {
     this.handleClickOpen();
     this.setState({
-      dialogConfirmationTitle: 'Unsubscribe course',
-      dialogConfirmationContentText: `Are you sure you want to leave this classroom? All your progress on this course will be errased.`,
+      dialogConfirmationTitle: this.props.language.unsubscribeCourse,
+      dialogConfirmationContentText: this.props.language.sureLeaveClassroom,
       courseToUnsubscribe: courseId,
       confirmAction: () => this.confirmUnsubscribe(),
     });
@@ -61,13 +61,13 @@ export default class CoursesDashboard extends React.Component {
     return(
       <div className="courses-dashboard-container">
         <div className="courses-dashboard-title-container">
-          <p className="courses-dashboard-title-text">SELI courses</p>
+          <p className="courses-dashboard-title-text">{this.props.language.seliCourses}</p>
         </div>
         <Divider/>
         {
           !this.state.courses.length ?
             <div className="empty-dashboard-title-row">
-              <p className="empty-dashboard-text">We are creating awesome courses for you, please wait!</p>
+              <p className="empty-dashboard-text">{this.props.language.weAreCreatingCourses}</p>
               <InfoIcon className="empty-dashboard-icon"/>
             </div>
           :
@@ -78,6 +78,7 @@ export default class CoursesDashboard extends React.Component {
                   <CourseCard
                     course={course}
                     index={index}
+                    language={this.props.language}
                     disabled={this.props.disabled}
                     subscribe={this.props.subscribe.bind(this)}
                     unsubscribe={this.unsubscribe.bind(this)}

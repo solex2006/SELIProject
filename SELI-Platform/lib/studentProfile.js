@@ -1,48 +1,114 @@
 var OPTIONS = [
   {
-    label: "My courses",
+    label: [
+      "My courses",
+      "",
+      "Meus cursos",
+      "",
+      "",
+    ],
     suboptions: [
       {
-        label: "Suscribed courses",
+        label: [
+          "Suscribed courses",
+          "",
+          "Cursos inscritos",
+          "",
+          "",
+        ],
         component: 'subscribed',
       },
       {
-        label: "SELI courses",
+        label: [
+          "SELI courses",
+          "",
+          "Cursos SELI",
+          "",
+          ""
+        ],
         component: 'courses',
       },
     ],
   },
   {
-    label: "Storytelling",
+    label: [
+      "Storytelling",
+      "",
+      "Narrativa",
+      "",
+      "",
+    ],
     suboptions: [
       {
-        label: "My stories",
+        label: [
+          "My stories",
+          "",
+          "Minhas histórias",
+          "",
+          "",
+        ],
         component: 'stories',
       },
       {
-        label: "Create story",
+        label: [
+          "Create story",
+          "",
+          "Criar história",
+          "",
+          "",
+        ],
         component: 'storytelling',
       },
     ],
   },
   {
-    label: "Certificates",
+    label: [
+      "Certificates",
+      "",
+      "Certificados",
+      "",
+      "",
+    ],
     suboptions: [
       {
-        label: "My certificates",
+        label: [
+          "My certificates",
+          "",
+          "Meus certificados",
+          "",
+          "",
+        ],
         component: 'certificates',
       },
     ],
   },
   {
-    label: "Support",
+    label: [
+      "Support",
+      "",
+      "Suporte",
+      "",
+      "",
+    ],
     suboptions: [
       {
-        label: "Help",
+        label: [
+          "Help",
+          "",
+          "Ajuda",
+          "",
+          "",
+        ],
         component: 'help',
       },
       {
-        label: "Documentation",
+        label: [
+          "Documentation",
+          "",
+          "Documentação",
+          "",
+          "",
+        ],
         component: 'documentation',
       },
     ],

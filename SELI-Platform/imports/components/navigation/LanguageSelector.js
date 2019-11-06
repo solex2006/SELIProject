@@ -1,85 +1,91 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import MenuItem from '@material-ui/core/MenuItem';
-/* Dialog */
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-/* Trasitions */
-import Slide from '@material-ui/core/Slide';
+import Menu from '@material-ui/core/Menu';
 
-function Transition(props) {
-  return <Slide direction="left" {...props} />;
-}
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: 'auto',
+    color: 'var(--white)',
+    backgroundColor: 'var(--app-bar-color)'
+  },
+}));
 
-export default class LanguageSelector extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      language: 0,
-    }
-  }
+export default function LanguageSelector(props) {
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(Session.get('language').languageIndex);
 
-  handleLanguageChange = name => event => {
-    this.setState({
-      [name]: Number(event.target.value)
-    },() => {
-      this.props.setLanguage(this.state.language);
-    });
+  const labels = [
+    `${props.language.language} (US)`,
+    `${props.language.language} (ES)`,
+    `${props.language.language} (PT)`,
+    `${props.language.language} (PL)`,
+    `${props.language.language} (TR)`,
+  ];
+
+  const options = [
+    'English (US)',
+    'Spanish (ES)',
+    'Portuguese (PT)',
+    'Polish (PL)',
+    'Turkish (TR)'
+  ];
+
+  const languages = [
+    `${props.language.english } (US)`,
+    `${props.language.spanish } (ES)`,
+    `${props.language.portuguese} (PT)`,
+    `${props.language.polish} (PL)`,
+    `${props.language.turkish } (TR)`,
+  ];
+
+  const handleClickListItem = event => {
+    setAnchorEl(event.currentTarget);
   };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  const handleMenuItemClick = (event, index, option) => {
+    setSelectedIndex(index);
+    setAnchorEl(null);
+    props.setLanguage(option);
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
-  render() {
-    return(
-      <div>
-        <div className="language-container">
-          <Button id="language-selector-button" onClick={this.handleClickOpen}>Language (US)</Button>
-          <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
-            TransitionComponent={Transition}
-            keepMounted
+  return (
+    <div className={classes.root}>
+      <Button id="language-selector-button" onClick={handleClickListItem}>
+        {labels[props.language.languageIndex]}
+        <ArrowDropDownIcon className="language-selector-icon"/>
+      </Button>
+      <Menu
+        id="lock-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        className="language-selector-menu"
+      >
+        <p className="language-selector-title">{props.language.selectYourLanguage}</p>
+        <Divider/>
+        {options.map((option, index) => (
+          <MenuItem
+            className="language-selector-menu-item"
+            key={option}
+            selected={index === selectedIndex}
+            onClick={event => handleMenuItemClick(event, index, option)}
+            disabled={option !== 'English (US)' && option !== 'Portuguese (PT)'}
           >
-            <DialogTitle id="language-select-title">Choose your language</DialogTitle>
-            <DialogContent>
-              <form>
-                <FormControl>
-                  <InputLabel htmlFor="language-native-simple">Language</InputLabel>
-                  <Select
-                    value={this.state.language}
-                    onChange={this.handleLanguageChange('language')}
-                    inputProps={{
-                        name: 'language',
-                        id: 'language-select',
-                    }}
-                  >
-                    <MenuItem value={0}>US</MenuItem>
-                    <MenuItem value={1}>ES</MenuItem>
-                    <MenuItem value={2}>FR</MenuItem>
-                  </Select>
-                </FormControl>
-              </form>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
-                Ok
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-      </div>
-        )
-      }
-    }
+            {languages[index]}
+          </MenuItem>
+        ))}
+      </Menu>
+    </div>
+  );
+}

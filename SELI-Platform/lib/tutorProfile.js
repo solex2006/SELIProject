@@ -1,31 +1,72 @@
 var OPTIONS = [
   {
-    label: "My courses",
+    label: [
+      "My courses",
+      "",
+      "Meus cursos",
+      "",
+      "",
+    ],
     suboptions: [
       {
-        label: "Create course",
+        label: [
+          "Create course",
+          "",
+          "Crie um curso",
+          "",
+          "",
+        ],
         component: 'create',
       },
       {
-        label: "Published courses",
+        label: [
+          "Published courses",
+          "",
+          "Cursos publicados",
+          "",
+          "",
+        ],
         component: 'published',
       },
       {
-        label: "Saved courses",
+        label: [
+          "Saved courses",
+          "",
+          "Cursos salvos",
+          "",
+          "",
+        ],
         component: 'saved',
       },
     ],
   },
   {
-    label: "Support",
+    label: [
+      "Support",
+      "",
+      "Suporte",
+      "",
+      "",
+    ],
     suboptions: [
       {
-        label: "Help",
+        label: [
+          "Help",
+          "",
+          "Ajuda",
+          "",
+          "",
+        ],
         component: 'help',
       },
       {
-        label: "Documentation",
-        component: 'documentation',
+        label: [
+          "Documentation",
+          "",
+          "Documentação",
+          "",
+          "",
+        ],
       },
     ],
   },

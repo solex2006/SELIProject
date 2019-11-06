@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
 
 import MainMenu from '../components/navigation/MainMenu';
 import AppBar from '../components/navigation/AppBar';
@@ -30,6 +31,9 @@ import Button from '@material-ui/core/Button';
 
 import {checkUserType} from '../../lib/userSesions';
 
+import english from '../../lib/translation/english';
+import portuguese from '../../lib/translation/portuguese';
+
 export default class Tutor extends React.Component {
   constructor(props) {
     super(props);
@@ -39,14 +43,28 @@ export default class Tutor extends React.Component {
   }
 
   componentDidMount(){
+    Session.set({language: Session.get('language') ? Session.get('language') : english});
+    this.setState({
+      language: Session.get('language') ? Session.get('language') : english,
+    });
     this.setState({
       chekingSesion: true,
     }, () => {
-      checkUserType(Meteor.userId(), 'tutor');
+      checkUserType(Meteor.userId(), 'tutor', this.props.history);
       Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
+        let language = {};
+        if (response[0].profile.configuration.language === 'us') {
+          language = english;
+        }
+        else if (response[0].profile.configuration.language === 'pt') {
+          language = portuguese;
+        }
         this.setState({
+          language: language,
           user: response[0],
           chekingSesion: false,
+        }, () => {
+          this.setLanguage(this.state.user.profile.configuration.language);
         });
       });
     });
@@ -54,12 +72,24 @@ export default class Tutor extends React.Component {
 
   logOut = () => {
     Meteor.logout((error) => {
-      location.replace('/')
+      this.props.history.push('/');
     })
   }
 
-  setLanguage = () => {
-
+  setLanguage = (option) => {
+    let language = this.state.language;
+    if (option === 'Portuguese (PT)') {
+      Session.set({language: portuguese});
+      language = portuguese;
+    }
+    else if (option === 'English (US)') {
+      Session.set({language: english});
+      language = english;
+    }
+    this.setState({
+      language: language,
+    });
+    Meteor.call("ChangeLanguague", Meteor.userId(), option, (error, response) =>  {});
   }
 
   showComponent = (component) => {
@@ -113,112 +143,131 @@ export default class Tutor extends React.Component {
     return(
       <div>
         <MuiThemeProvider theme={theme}>
-          <div id="outer-container">
-            {
-              this.state.user !== undefined ?
-                <MainMenu
-                  user={this.state.user}
-                  showComponent={this.showComponent.bind(this)}
+          {
+            this.state.language && Session.get('language') ?
+              <React.Fragment>
+                <div id="outer-container">
+                  {
+                    this.state.user !== undefined ?
+                      <MainMenu
+                        user={this.state.user}
+                        language={this.state.language}
+                        showComponent={this.showComponent.bind(this)}
+                      />
+                    :
+                    undefined
+                  }
+                  <main id="page-wrap">
+                    <AppBar
+                      history={this.props.history}
+                      language={this.state.language}
+                      setLanguage={this.setLanguage.bind(this)}
+                      user={this.state.user}
+                      logOut={this.logOut.bind(this)}
+                      showComponent={this.showComponent.bind(this)}
+                    />
+                    {
+                      this.state.component === 'home' ?
+                        <Presentation
+                          language={this.state.language}
+                          history={this.props.history}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'published' ?
+                        <PublishedCoursesList
+                          user={this.state.user}
+                          language={this.state.language}
+                          showComponent={this.showComponent.bind(this)}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'saved' ?
+                        <SavedCoursesList
+                          user={this.state.user}
+                          language={this.state.language}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                          showComponent={this.showComponent.bind(this)}
+                          editCourse={this.editCourse.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'create' ?
+                        <CreateCourse
+                          language={this.state.language}
+                          user={this.state.user}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'edit' ?
+                        <EditCourse
+                          language={this.state.language}
+                          user={this.state.user}
+                          courseToEdit={this.state.courseToEdit}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'account' ?
+                        <AccountManagement
+                          language={this.state.language}
+                          user={this.state.user}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                          showErrorFunction={showError => this.showError = showError}
+                          reRender={this.forceUpdate.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'help' ?
+                        <Help
+                          language={this.state.language}
+                          user={this.state.user}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                  </main>
+                </div>
+                <ControlSnackbar
+                  showControlMessage={this.state.showControlMessage}
+                  showControlAction={this.state.showControlAction}
+                  controlMessage={this.state.controlMessage}
+                  controlAction={this.state.controlAction}
+                  controlActionMessage={this.state.controlActionMessage}
+                  handleControlMessage={this.handleControlMessage.bind(this)}
                 />
-              :
-              undefined
-            }
-            <main id="page-wrap">
-              <AppBar
-                setLanguage={this.setLanguage.bind(this)}
-                user={this.state.user}
-                logOut={this.logOut.bind(this)}
-                showComponent={this.showComponent.bind(this)}
-              />
-              {
-                this.state.component === 'home' ?
-                  <Presentation/>
-                :
-                undefined
-              }
-              {
-                this.state.component === 'published' ?
-                  <PublishedCoursesList
-                    user={this.state.user}
-                    showComponent={this.showComponent.bind(this)}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'saved' ?
-                  <SavedCoursesList
-                    user={this.state.user}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                    showComponent={this.showComponent.bind(this)}
-                    editCourse={this.editCourse.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'create' ?
-                  <CreateCourse
-                    user={this.state.user}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'edit' ?
-                  <EditCourse
-                    user={this.state.user}
-                    courseToEdit={this.state.courseToEdit}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'account' ?
-                  <AccountManagement
-                    user={this.state.user}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                    showErrorFunction={showError => this.showError = showError}
-                    reRender={this.forceUpdate.bind(this)}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.component === 'help' ?
-                  <Help
-                    user={this.state.user}
-                    handleControlMessage={this.handleControlMessage.bind(this)}
-                  />
-                :
-                undefined
-              }
-            </main>
-          </div>
-          <ControlSnackbar
-            showControlMessage={this.state.showControlMessage}
-            showControlAction={this.state.showControlAction}
-            controlMessage={this.state.controlMessage}
-            controlAction={this.state.controlAction}
-            controlActionMessage={this.state.controlActionMessage}
-            handleControlMessage={this.handleControlMessage.bind(this)}
-          />
-          <Dialog
-            open={this.state.chekingSesion}
-            onClose={this.handleClose}
-            aria-labelledby="alert-dialog-confirmation"
-            aria-describedby="alert-dialog-confirmation"
-            disableBackdropClick={true}
-            disableEscapeKeyDown={true}
-          >
-            <DialogTitle className="success-dialog-title" id="alert-dialog-title">Checking sesion please wait</DialogTitle>
-            <DialogContent className="success-dialog-content">
-              <Loading message='Loading user...'/>
-            </DialogContent>
-          </Dialog>
+                <Dialog
+                  open={this.state.chekingSesion}
+                  onClose={this.handleClose}
+                  aria-labelledby="alert-dialog-confirmation"
+                  aria-describedby="alert-dialog-confirmation"
+                  disableBackdropClick={true}
+                  disableEscapeKeyDown={true}
+                >
+                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.checkingSession}</DialogTitle>
+                  <DialogContent className="success-dialog-content">
+                    <Loading message={this.state.language.loadingUser}/>
+                  </DialogContent>
+                </Dialog>
+              </React.Fragment>
+            :
+            undefined
+          }
         </MuiThemeProvider>
       </div>
       );
