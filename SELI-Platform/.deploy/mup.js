@@ -38,7 +38,7 @@ module.exports = {
     docker: {
       // change to 'abernix/meteord:base' if your app is using Meteor 1.4 - 1.5
       image: 'abernix/meteord:node-8.11.3-base',
-      // image: 'abernix/meteord:node-8.11.3-base',
+      // image: 'abernix/meteord:node-8.15.1-base',
     },
 
     // Show progress bar while uploading bundle to server
