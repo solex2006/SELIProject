@@ -14,7 +14,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 
 import Swiper from 'react-id-swiper';
-import 'react-id-swiper/lib/styles/css/swiper.css';
+import 'swiper/css/swiper.css';
 
 import Rotate from 'react-reveal/Rotate';
 import Zoom from 'react-reveal/Zoom';

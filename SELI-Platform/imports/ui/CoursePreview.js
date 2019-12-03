@@ -70,8 +70,22 @@ export default class CoursePreview extends React.Component {
     location.replace('/');
   }
 
-  setLanguage = () => {
-
+  setLanguage = (option) => {
+    let language = this.state.language;
+    if (option === 'Portuguese (PT)') {
+      Session.set({language: portuguese});
+      language = portuguese;
+    }
+    else if (option === 'English (US)') {
+      Session.set({language: english});
+      language = english;
+    } else if (option === 'Turkish (TR)') {
+      Session.set({language: turkish});
+      language = turkish;
+    }
+    this.setState({
+      language: language,
+    });
   }
 
   showComponent = (component) => {

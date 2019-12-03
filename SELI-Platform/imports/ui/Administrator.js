@@ -37,6 +37,7 @@ import {checkUserType} from '../../lib/userSesions';
 
 import english from '../../lib/translation/english';
 import portuguese from '../../lib/translation/portuguese';
+import turkish from '../../lib/translation/turkish';
 
 export default class Tutor extends React.Component {
   constructor(props) {
@@ -67,8 +68,22 @@ export default class Tutor extends React.Component {
     })
   }
 
-  setLanguage = () => {
-
+  setLanguage = (option) => {
+    let language = this.state.language;
+    if (option === 'Portuguese (PT)') {
+      Session.set({language: portuguese});
+      language = portuguese;
+    }
+    else if (option === 'English (US)') {
+      Session.set({language: english});
+      language = english;
+    } else if (option === 'Turkish (TR)') {
+      Session.set({language: turkish});
+      language = turkish;
+    }
+    this.setState({
+      language: language,
+    });
   }
 
   showComponent = (component) => {

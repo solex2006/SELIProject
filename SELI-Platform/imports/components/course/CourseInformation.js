@@ -288,7 +288,7 @@ export default class CourseInformation extends React.Component {
             <MenuItem value={1}>Spanish (ES)</MenuItem>
             <MenuItem value={2}>Portuguese (PT)</MenuItem>
             <MenuItem value={3}>Polish (PL)</MenuItem>
-            <MenuItem value={2}>Turkish (TR)</MenuItem>
+            <MenuItem value={4}>Turkish (TR)</MenuItem>
           </TextField>
           <div className="row-input">
             <TextField

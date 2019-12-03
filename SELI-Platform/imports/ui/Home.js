@@ -17,6 +17,7 @@ import {checkUserType} from '../../lib/userSesions';
 
 import english from '../../lib/translation/english';
 import portuguese from '../../lib/translation/portuguese';
+import turkish from '../../lib/translation/turkish';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -83,6 +84,9 @@ export default class Home extends React.Component {
     else if (option === 'English (US)') {
       Session.set({language: english});
       language = english;
+    } else if (option === 'Turkish (TR)') {
+      Session.set({language: turkish});
+      language = turkish;
     }
     this.setState({
       language: language,
