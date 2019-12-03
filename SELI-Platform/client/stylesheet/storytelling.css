@@ -378,3 +378,15 @@
   max-height: 100vh;
   overflow: hidden;
 }
+
+.storytelling-share-btn-group .storytelling-share-btn {
+  padding: 10px 24px;
+  cursor: pointer;
+  float: left;
+}
+
+.storytelling-share-btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}

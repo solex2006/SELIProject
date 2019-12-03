@@ -48,3 +48,4 @@ meteor npm install --save react-timer-machine
 meteor add simple:rest
 meteor npm i react-flow-chart-updated --save
 meteor npm i @mrblenny/react-flow-chart --save
+meteor npm install --save react-share

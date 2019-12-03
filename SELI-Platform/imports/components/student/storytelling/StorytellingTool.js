@@ -36,6 +36,16 @@ import StorytellingPlayer from './StorytellingPlayer';
 import { Activities } from '../../../../lib/ActivitiesCollection';
 import { Courses } from '../../../../lib/CourseCollection';
 
+import { 
+  FacebookShareButton, FacebookIcon,
+  LinkedinShareButton, LinkedinIcon,
+  TwitterShareButton, TwitterIcon
+} from "react-share";
+
+import { Link } from "react-router-dom";
+
+  
+
 export default class StorytellingTool extends React.Component {
   constructor(props) {
     super(props);
@@ -389,6 +399,16 @@ export default class StorytellingTool extends React.Component {
     })
   }
 
+  handlePublishOnSocialNetwork = () => {
+    const shareUrl = `${window.origin}/story#${this.state.saved}`
+    this.setState({
+      shareUrl: shareUrl,
+      title: this.props.language.publishOnSocialNetwork,
+      action: 'publishOnSocialNetwork',
+      open: true,
+    })
+  }
+
   publishOnCourse = (course) => {
     Activities.update(
       { _id: this.state.saved},
@@ -419,6 +439,10 @@ export default class StorytellingTool extends React.Component {
         this.completeActivity(activity, this.props.language.storySent, course);
       }
     )
+  }
+
+  publishOnSocialNetwork = (course) => {
+    
   }
 
   completeActivity = (id, label, courseId) => {
@@ -801,7 +825,7 @@ export default class StorytellingTool extends React.Component {
                   <Button
                     className="storytelling-publish-button"
                     color="primary"
-                    onClick={() => this.publishOnSocialNetwork()}
+                    onClick={() => this.handlePublishOnSocialNetwork()}
                   >
                     <p className="storytelling-publish-button-text">{this.props.language.publishOnSocialNetwork}</p>
                     <LanguageIcon className="storytelling-publish-icon"/>
@@ -879,7 +903,52 @@ export default class StorytellingTool extends React.Component {
           {
             this.state.action === "publishOnSocialNetwork" ?
               <React.Fragment>
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                  {this.props.language.publishOnSocialNetwork}
+                </DialogTitle>
+                <div class="storytelling-share-btn-group">
+                  <div class="storytelling-share-btn">
+                    <FacebookShareButton
+                      url={this.state.shareUrl}
+                      quote={this.state.title}>
+                      <FacebookIcon
+                        size={64}
+                        round />
+                    </FacebookShareButton>
+                  </div>
 
+                  <div class="storytelling-share-btn">
+                    <TwitterShareButton
+                      url={this.state.shareUrl}
+                      title={this.state.title}>
+                      <TwitterIcon
+                        size={64}
+                        round />
+                    </TwitterShareButton>  
+                  </div>
+                  <div class="storytelling-share-btn">
+                    <LinkedinShareButton
+                      url={this.state.shareUrl}
+                      windowWidth={750}
+                      windowHeight={600}>
+                      <LinkedinIcon
+                        size={64}
+                        round />
+                    </LinkedinShareButton>  
+                  </div>
+                </div>
+                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
+                  {
+                    <Link
+                      to={`/story#${this.state.saved}`}
+                    >{this.state.shareUrl}</Link>
+                  }
+                </DialogContentText>
+                <DialogActions>
+                  <Button onClick={() => this.handlePublishStory()} color="primary" autoFocus>
+                    {this.props.language.back}
+                  </Button>
+                </DialogActions>
               </React.Fragment>
             :
             undefined
