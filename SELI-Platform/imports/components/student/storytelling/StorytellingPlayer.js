@@ -8,7 +8,6 @@ import Popover from '@material-ui/core/Popover';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
@@ -74,6 +73,8 @@ export default class StorytellingPlayer extends React.Component {
         scenePlaying: this.state.scenePlaying + 1,
       });
     }
+    console.log("AAAAAAAAAAAAAAAAAA")
+    console.log(this.state)
   }
 
   handleAutoPlay = () => {

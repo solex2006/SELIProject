@@ -62,8 +62,8 @@ export default class StorytellingTool extends React.Component {
             type: 'start',
             name: `${this.props.language.start}`,
             description: '',
-            image: undefined,
-            audio: undefined,
+            image: '',
+            audio: '', //change for allow save without end the story
             ordinal: 0,
             _id: 1,
           },
@@ -108,11 +108,13 @@ export default class StorytellingTool extends React.Component {
       type: 'scene',
       name: `${this.props.language.newScene} ${story.nodes.length}`,
       description: '',
-      image: undefined,
-      audio: undefined,
+      image: '',   //cambio andres
+      audio: '',
       ordinal: story.nodes.length,
       _id: newNode,
     });
+    console.log("esto se guarda en la base de datos....")
+    console.log(story.nodes)    
     this.setState({
       story: story,
       selectedNode: story.nodes.length - 1,
@@ -126,8 +128,8 @@ export default class StorytellingTool extends React.Component {
       type: 'end',
       name: `${this.props.language.end}`,
       description: '',
-      image: undefined,
-      audio: undefined,
+      image: '',
+      audio: '',
       ordinal: story.nodes.length,
       _id: newNode,
     });
@@ -198,7 +200,7 @@ export default class StorytellingTool extends React.Component {
 
   unPickImageFile(){
     let story = this.state.story;
-    story.nodes[this.state.selectedNode].image = undefined;
+    story.nodes[this.state.selectedNode].image = '';
     this.setState({
       story: story,
     });
@@ -604,6 +606,8 @@ export default class StorytellingTool extends React.Component {
                         :
                         undefined
                       }
+
+                      
                       {
                         this.state.story.nodes[this.state.selectedNode].type === 'scene' ?
                           <React.Fragment>
@@ -620,6 +624,16 @@ export default class StorytellingTool extends React.Component {
                         :
                         undefined
                       }
+
+
+
+
+
+
+
+
+
+
                     </React.Fragment>
                   </h3>
                   <div className="center-row">
@@ -647,6 +661,10 @@ export default class StorytellingTool extends React.Component {
                     />
                   </FormGroup>
                 </div>
+                {console.log("..................................................")}
+              {console.log(this.state.selectedNode)}
+              { this.state.story.nodes[this.state.selectedNode].name !=='End'  ? 
+  
                 <div className="storytelling-menu-body">
                   <TextField
                     id="node-name-input"
@@ -676,7 +694,7 @@ export default class StorytellingTool extends React.Component {
                   />
                   <Divider light/>
                   {
-                    this.state.story.nodes[this.state.selectedNode].audio !== undefined ?
+                    this.state.story.nodes[this.state.selectedNode].audio !== '' ?
 
                       <AudioPreview
                         file={this.state.story.nodes[this.state.selectedNode].audio}
@@ -688,7 +706,7 @@ export default class StorytellingTool extends React.Component {
                     />
                   }
                   {
-                    this.state.story.nodes[this.state.selectedNode].image !== undefined ?
+                    this.state.story.nodes[this.state.selectedNode].image !== '' ?
                       <ImagePreview
                         file={this.state.story.nodes[this.state.selectedNode].image}
                         unPickImageFile={this.unPickImageFile.bind(this)}
@@ -703,7 +721,32 @@ export default class StorytellingTool extends React.Component {
                     />
                   }
                 </div>
-                {
+                :
+                this.state.story.nodes[this.state.selectedNode].image !== '' ?
+                      <ImagePreview
+                        file={this.state.story.nodes[this.state.selectedNode].image}
+                        unPickImageFile={this.unPickImageFile.bind(this)}
+                      />
+                    :
+                    <FileUpload
+                      type='image'
+                      user={Meteor.userId()}
+                      accept={'image/*'}
+                      label={this.props.language.uploadImageButtonLabel}
+                      getFileInformation={this.getImageFileInformation.bind(this)}
+                    />
+
+                }
+
+
+
+
+
+
+
+
+
+                { 
                   this.state.story.nodes[this.state.selectedNode].type !== 'start' ?
                     <Tooltip title="Delete this scene">
                       <Fab

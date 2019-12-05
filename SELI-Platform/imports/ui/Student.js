@@ -34,9 +34,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
 import {checkUserType} from '../../lib/userSesions';
-
 import { Courses } from '../../lib/CourseCollection';
-
 import english from '../../lib/translation/english';
 import portuguese from '../../lib/translation/portuguese';
 import turkish from '../../lib/translation/turkish';
