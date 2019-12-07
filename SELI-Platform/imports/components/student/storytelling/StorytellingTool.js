@@ -261,7 +261,7 @@ export default class StorytellingTool extends React.Component {
   }
 
   saveStory = () => {
-    console.log("esto se va a guradar.........al final")
+    console.log("esto se va a guradar......al final")
     console.log(this.state)
    
     
