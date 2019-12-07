@@ -180,11 +180,13 @@ export default class StorytellingTool extends React.Component {
     this.setState({
       story: story,
     });
+    console.log("Audio informacion..............")
+    console.log(file)
   }
 
   unPickAudioFile(){
     let story = this.state.story;
-    story.nodes[this.state.selectedNode].audio = undefined;
+    story.nodes[this.state.selectedNode].audio = '';
     this.setState({
       story: story,
     });
@@ -259,6 +261,31 @@ export default class StorytellingTool extends React.Component {
   }
 
   saveStory = () => {
+    console.log("esto se va a guradar.........al final")
+    console.log(this.state)
+   
+    
+    
+    var selector=true
+    this.state.story.nodes.map((elemento)=>{
+      console.log("cada elemento")
+      var audio0={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"http://localhost:3000/files/CourseFilesCollection/CourseFilesCollection/6yZ4yQxDRdj42gpbi/original/6yZ4yQxDRdj42gpbi.wav"}
+      var audio1={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"http://localhost:3000/files/CourseFilesCollection/CourseFilesCollection/2nNz6gkwL6AXZGQNC/original/2nNz6gkwL6AXZGQNC.wav"}
+      console.log("selector")
+      console.log(selector)
+      elemento.audio==='' ? 
+          selector===true ?
+          elemento.audio=audio0
+          :
+          elemento.audio=audio1
+
+      :
+      console.log("lleno")
+      selector= !selector
+    })
+    console.log("state modificado")
+    console.log(this.state)
+
     if (this.state.saved) {
       if (this.state.story.name !== "") {
         Activities.update(
@@ -693,9 +720,11 @@ export default class StorytellingTool extends React.Component {
                     helperText={this.props.language.sceneDescriptionHelper}
                   />
                   <Divider light/>
+                 { console.log(this.state.story.nodes[this.state.selectedNode].audio)}
                   {
+                    
                     this.state.story.nodes[this.state.selectedNode].audio !== '' ?
-
+                      
                       <AudioPreview
                         file={this.state.story.nodes[this.state.selectedNode].audio}
                         unPickAudioFile={this.unPickAudioFile.bind(this)}
@@ -830,6 +859,7 @@ export default class StorytellingTool extends React.Component {
                   </DialogContentText>
                   <WarningIcon className="warning-dialog-icon"/>
                 </DialogContent>
+
                 <DialogActions>
                   <Button onClick={() => this.handleClose()} color="primary" autoFocus>
                     {this.props.language.cancel}
@@ -838,6 +868,7 @@ export default class StorytellingTool extends React.Component {
                     {this.props.language.save}
                   </Button>
                 </DialogActions>
+
               </React.Fragment>
             :
               undefined

@@ -17,7 +17,6 @@ const debug = require('debug')('demo:file');
 class FileUpload extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       uploading: [],
       progress: 0,

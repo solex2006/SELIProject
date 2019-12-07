@@ -22,7 +22,11 @@ export default class AudioPreview extends React.Component {
     return(
       <div className="storytelling-media-preview-container">
         <audio controls className="audio-file-preview" controlsList="nodownload">
+        
+          {console.log(this.props)}
           <source src={this.props.file.link}></source>
+
+      
         </audio>
         <Button
           className="storytelling-media-button"

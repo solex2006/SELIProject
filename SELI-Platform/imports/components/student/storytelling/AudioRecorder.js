@@ -121,6 +121,7 @@ export default class AudioRecorder extends React.Component {
           let file = this.state.audio;
           file.link = this.state.audio.link();
           this.props.getFileInformation({_id: file._id, name: file.name, link: file.link});
+          
         }
       });
     });
