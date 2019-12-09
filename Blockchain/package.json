@@ -1,0 +1,59 @@
+{
+  "name": "Forevermore",
+  "version": "1.0.0",
+  "description": "Marriage Vows on the Blockchain",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js -p $PORT",
+    "heroku-postbuild": "next build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onggunhao/forevermore.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onggunhao/forevermore/issues"
+  },
+  "homepage": "https://github.com/onggunhao/forevermore#readme",
+  "dependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "@progress/kendo-drawing": "^1.5.12",
+    "@progress/kendo-react-pdf": "^3.4.1",
+    "@zeit/next-css": "^0.2.0",
+    "axios": "^0.19.0",
+    "express": "^4.16.3",
+    "fs": "0.0.1-security",
+    "fs-extra": "^6.0.1",
+    "ganache-cli": "^6.1.0",
+    "jspdf": "^1.5.3",
+    "mocha": "^5.2.0",
+    "mongodb": "^3.3.3",
+    "mongoose": "^5.7.7",
+    "mongose": "0.0.2-security",
+    "next": "^5.0.0",
+    "next-routes": "^1.4.2",
+    "nprogress": "^0.2.0",
+    "react": "^16.4.0",
+    "react-datepicker": "^1.4.1",
+    "react-dom": "^16.4.0",
+    "react-ga": "^2.5.3",
+    "react-share": "^2.2.0",
+    "react-to-pdf": "0.0.8",
+    "semantic-ui-calendar-react": "^0.4.6",
+    "semantic-ui-react": "^0.81.1",
+    "solc": "^0.4.24",
+    "truffle-hdwallet-provider": "0.0.5",
+    "web3": "^1.2.1",
+    "write-json-file": "^4.2.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
