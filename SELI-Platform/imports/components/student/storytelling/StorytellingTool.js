@@ -101,10 +101,30 @@ export default class StorytellingTool extends React.Component {
     })
   }
 
+  // addSingleNode = (index) => {
+  //   let story = this.state.story;
+  //   let newNode = Math.random();
+  //   story.nodes.push({
+  //     type: 'scene',
+  //     name: `${this.props.language.newScene} ${story.nodes.length}`,
+  //     description: '',
+  //     image: '',   //cambio andres
+  //     audio: '',
+  //     ordinal: story.nodes.length,
+  //     _id: newNode,
+  //   });
+  //   console.log("esto se guarda en la base de datos....")
+  //   console.log(story.nodes)    
+  //   this.setState({
+  //     story: story,
+  //     selectedNode: story.nodes.length - 1,
+  //   });
+  // }
+
   addSingleNode = (index) => {
     let story = this.state.story;
     let newNode = Math.random();
-    story.nodes.push({
+    const node = {
       type: 'scene',
       name: `${this.props.language.newScene} ${story.nodes.length}`,
       description: '',
@@ -112,7 +132,8 @@ export default class StorytellingTool extends React.Component {
       audio: '',
       ordinal: story.nodes.length,
       _id: newNode,
-    });
+    };
+    story.nodes.splice(index + 1, 0, node);
     console.log("esto se guarda en la base de datos....")
     console.log(story.nodes)    
     this.setState({
@@ -537,6 +558,45 @@ export default class StorytellingTool extends React.Component {
     return progress;
   }
 
+  arrayMoveMutate = (array, from, to) => {
+    const startIndex = to < 0 ? array.length + to : to;
+    const item = array.splice(from, 1)[0];
+    array.splice(startIndex, 0, item);
+  };
+
+  changeNodeOrdinal(index, newIndex) {
+    console.log('changeNodeOrdinal ' + index + '  ' +  newIndex);
+
+    let story = this.state.story;
+    const fromNode = story.nodes[index];
+    const toNode = story.nodes[newIndex];
+    // change ordinals
+    fromNode.ordinal = newIndex;
+    toNode.ordinal = index;
+
+    let selectedNode = this.state.selectedNode;
+    if (selectedNode === index) {
+      selectedNode = newIndex;
+    } else if (selectedNode === newIndex) {
+      selectedNode = index;
+    }
+    
+    this.arrayMoveMutate(story.nodes, index, newIndex);
+
+    this.setState({
+      story: story,
+      selectedNode: selectedNode
+    });    
+  }
+
+  moveNodeUp(index) {
+    this.changeNodeOrdinal(index, index - 1);
+  }
+ 
+  moveNodeDown(index) {
+    this.changeNodeOrdinal(index, index + 1);
+  }
+
   componentDidMount() {
     if (this.props.storyToEdit !== undefined) {
       this.setState({
@@ -602,6 +662,8 @@ export default class StorytellingTool extends React.Component {
                               addSingleNode={this.addSingleNode.bind(this)}
                               addEndNode={this.addEndNode.bind(this)}
                               selectNode={this.selectNode.bind(this)}
+                              moveNodeUp={this.moveNodeUp.bind(this)}
+                              moveNodeDown={this.moveNodeDown.bind(this)}
                             />
                           :
                           undefined
@@ -651,15 +713,6 @@ export default class StorytellingTool extends React.Component {
                         :
                         undefined
                       }
-
-
-
-
-
-
-
-
-
 
                     </React.Fragment>
                   </h3>
@@ -766,14 +819,6 @@ export default class StorytellingTool extends React.Component {
                     />
 
                 }
-
-
-
-
-
-
-
-
 
                 { 
                   this.state.story.nodes[this.state.selectedNode].type !== 'start' ?

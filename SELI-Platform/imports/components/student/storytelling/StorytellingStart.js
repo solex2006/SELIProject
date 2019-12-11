@@ -52,7 +52,6 @@ export default class StorytellingStart extends React.Component {
                 className="storytelling-item-fab"
                 size="small"
                 onClick={() => this.props.addSingleNode(this.props.index)}
-                disabled={this.props.index !== this.props.nodes.length - 1}
               >
                 <AddIcon className="storytelling-item-fab-icon" fontSize="small"/>
               </Fab>
