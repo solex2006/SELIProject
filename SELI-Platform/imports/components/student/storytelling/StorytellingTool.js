@@ -269,8 +269,8 @@ export default class StorytellingTool extends React.Component {
     var selector=true
     this.state.story.nodes.map((elemento)=>{
       console.log("cada elemento")
-      var audio0={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"http://localhost:3000/files/CourseFilesCollection/CourseFilesCollection/6yZ4yQxDRdj42gpbi/original/6yZ4yQxDRdj42gpbi.wav"}
-      var audio1={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"http://localhost:3000/files/CourseFilesCollection/CourseFilesCollection/2nNz6gkwL6AXZGQNC/original/2nNz6gkwL6AXZGQNC.wav"}
+      var audio0={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"https://seli.uazuay.edu.ec/audio1.wav"}
+      var audio1={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"https://seli.uazuay.edu.ec/audio2.wav"}
       console.log("selector")
       console.log(selector)
       elemento.audio==='' ? 

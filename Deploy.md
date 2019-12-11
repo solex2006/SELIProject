@@ -4,6 +4,7 @@
 
 ```
 cd SELI-Platform
+sudo npm install
 mkdir .deploy
 cd .deploy
 ```
@@ -12,7 +13,7 @@ cd .deploy
 
 run: ```mup init```
 
-In mup.js file:
+In "mup.js" file:
 
 - Configurations can be found in: http://meteor-up.com/docs.html 
 - If node version gives problems. For meteor v1.8.1, use abernix/meteor:node-8.15.1-base.
