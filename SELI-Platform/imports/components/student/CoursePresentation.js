@@ -125,13 +125,15 @@ export default class CoursePresentation extends React.Component {
             </Fade>
           </div>
           <div className="course-presentation-hero-column">
-            <Paper
+           {/* <Paper
               id="course-presentation-hero-media-image"
               className="course-presentation-hero-media-paper"
               elevation={10}
               style={{backgroundImage: `url(${this.props.course.image.link})`}}
-            ></Paper>
-            <Paper id="course-presentation-hero-media-color" className="course-presentation-hero-media-paper" elevation={12}></Paper>
+            ></Paper>*/}
+            <Paper id="course-presentation-hero-media-color" 
+		className="course-presentation-hero-media-paper" elevation={12}
+		style={{backgroundImage: `url(${this.props.course.image.link})`}}></Paper>
           </div>
         </div>
         <Fade left>

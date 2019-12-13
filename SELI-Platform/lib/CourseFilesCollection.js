@@ -1,8 +1,8 @@
 import { FilesCollection } from 'meteor/ostrio:files';
 
 const CourseFilesCollection = new FilesCollection({
-  storagePath: '/home/udadmin/SELI/SELIProject/SELI-Platform/public',
-  downloadRoute: '/home/udadmin/SELI/SELIProject/SELI-Platform/public',
+  storagePath: '../../data/CourseFiles',
+  downloadRoute: '/files/CourseFilesCollection',
   collectionName: 'CourseFilesCollection',
   permissions: 0o755,
   allowClientCode: false,
