@@ -72,6 +72,15 @@ export default class AppBar extends React.Component {
     });
   }
 
+  redirect = url => {
+    this.props.history.push({
+      pathname: url,
+      state: {
+        language: this.props.language,
+      }
+    });
+  }
+
   render() {
     return(
       <div>
@@ -144,7 +153,7 @@ export default class AppBar extends React.Component {
           aria-describedby="alert-dialog-slide-description"
           className="sign-container"
         >
-          <DialogTitle id="alert-dialog-slide-title" className="sign-title" style={{color: this.state.color}}>{this.state.dialogTitle}</DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title" className="sign-title" style={{color: this.state.color}}>{this.state.dialogTitle}</DialogTitle>
           <Divider/>
           <DialogContent className="sign-content">
             <div className="sign-form">
@@ -191,6 +200,17 @@ export default class AppBar extends React.Component {
                 </DialogContentText>
                 <Button onClick={() => this.handleClickOpen("in")} color="primary">
                   {`${this.props.language.signIn} SELI`}
+                </Button>
+              </DialogActions>
+            :
+            undefined
+          }
+          <Divider light={true}/>
+          {
+            this.state.action === "in" ?
+              <DialogActions className="sign-actions">
+                <Button onClick={() => this.redirect('/RetrievePasswd')}>
+                  {`${this.props.language.forgotPasswdAccount}`}
                 </Button>
               </DialogActions>
             :

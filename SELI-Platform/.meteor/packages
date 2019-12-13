@@ -27,3 +27,4 @@ accounts-base
 accounts-password
 simple:rest
 session
+pauldowman:dotenv

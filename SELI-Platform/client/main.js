@@ -16,6 +16,7 @@ import Tutor from '../imports/ui/Tutor';
 import Student from '../imports/ui/Student';
 import Administrator from '../imports/ui/Administrator';
 import TutorRegistration from '../imports/ui/TutorRegistration';
+import RetrievePasswd from '../imports/ui/RetrievePasswd';
 import CoursePreview from '../imports/ui/CoursePreview';
 import Story from '../imports/ui/Story';
 import UnityWebgl from '../imports/ui/UnityWebgl';
@@ -42,6 +43,7 @@ Meteor.startup(() => {
         <Route exact path="/student" component={Student} history={history}/>
         <Route exact path="/administrator" component={Administrator} history={history}/>
         <Route exact path="/tutorRegistration" component={TutorRegistration} history={history}/>
+        <Route exact path="/RetrievePasswd" component={RetrievePasswd} history={history}/>
         <Route exact path="/unityWebgl" component={UnityWebgl} history={history}/>
         <Route exact path="/coursePreview" component={CoursePreview} history={history}/>
         <Route exact path="/story" component={Story} history={history}/>

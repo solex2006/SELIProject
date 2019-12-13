@@ -13,8 +13,20 @@ import '../lib/sendVerificationEmail';
 import '../lib/changeAccountInformation';
 
 if (Meteor.isServer) {
-
+  
   Meteor.startup(() => {
+    let smtp_domain = process.env.SMTP_DOMAIN;
+    let smtp_port = process.env.SMTP_PORT;
+    let smtp_user = process.env.SMTP_USER;
+    let smtp_user_password = process.env.SMTP_USER_PASSWORD;
+    smtp_user = smtp_user.replace("@", "%40");
+
+    process.env.MAIL_URL=`smtp://${smtp_user}:${smtp_user_password}@${smtp_domain}:${smtp_port}`;
+    
+    Accounts.emailTemplates.from=smtp_user;
+    Accounts.urls.resetPassword = (token) => {
+      return Meteor.absoluteUrl(`RetrievePasswd/#/reset-password/${token}`);
+    }; 
 
     options={
       url: "certificate-result",
