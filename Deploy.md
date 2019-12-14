@@ -1,17 +1,19 @@
 # Deploy
 
-## Create .deploy folder
+
+## Before Deployment
+
+run: 
 
 ```
 cd SELI-Platform
 sudo npm install
 mkdir .deploy
 cd .deploy
+mup init
 ```
 
-## Before Deployment
-
-run: ```mup init```
+### Configuring mup.js
 
 In "mup.js" file:
 
@@ -22,8 +24,23 @@ In "mup.js" file:
 
 Visit https://www.sslforfree.com/ for free certificate.
 
-- Use "public" folder to storage files generated in the link above.
+- Use "public" folder to store files generated in the link above.
 - Store generated certificates in ".deploy" folder and configure ssl code lines in "mup.js" file.
+
+### Mail Server
+
+In ".deploy/settings.json" fill the variables according with the parameters of your mail server, in this way:
+
+```
+{
+  "private": {
+    "SMTP_DOMAIN": "smtp.example.com",
+    "SMTP_PORT": "25",
+    "SMTP_USER" : "smtp.user@example.com",
+    "SMTP_USER_PASSWORD": "****"
+  }
+}
+```
 
 ## Deployment
 
