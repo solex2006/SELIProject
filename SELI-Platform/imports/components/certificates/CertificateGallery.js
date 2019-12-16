@@ -30,15 +30,15 @@ let classes = makeStyles(theme => ({
   let tileData = [
     {
      hash: "0x90Abdd096e1A56050242AF3f7a665856515fD144",
-     url: 'http://201.159.223.92/vows/0x90Abdd096e1A56050242AF3f7a665856515fD144',
+     url: 'https://201.159.223.92/vows/0x90Abdd096e1A56050242AF3f7a665856515fD144',
     },
     {
       hash: "0x90Abdd096e1A56050242AF3f7a665856515fD144",
-     url: 'http://201.159.223.92/vows/0x90Abdd096e1A56050242AF3f7a665856515fD144',
+     url: 'https://201.159.223.92/vows/0x90Abdd096e1A56050242AF3f7a665856515fD144',
     },
     {
       hash: "0x90Abdd096e1A56050242AF3f7a665856515fD144",
-     url: 'http://201.159.223.92/vows/0x90Abdd096e1A56050242AF3f7a665856515fD144',
+     url: 'https://201.159.223.92/vows/0x90Abdd096e1A56050242AF3f7a665856515fD144',
     },
  ];
 
