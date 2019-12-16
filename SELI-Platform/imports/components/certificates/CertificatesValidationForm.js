@@ -65,7 +65,7 @@ export default class CertificatesValidationForm extends React.Component {
 
   validateCertificate(certificateInfo){
       
-    fetch('http://201.159.223.92/datos', {
+    fetch('https://201.159.223.92/datos', {
     method: 'post',
     headers: {
       'Accept': 'application/json, text/plain, */*',
