@@ -36,6 +36,10 @@ import StorytellingPlayer from './StorytellingPlayer';
 import { Activities } from '../../../../lib/ActivitiesCollection';
 import { Courses } from '../../../../lib/CourseCollection';
 
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
 import { 
   FacebookShareButton, FacebookIcon,
   LinkedinShareButton, LinkedinIcon,
@@ -74,6 +78,7 @@ export default class StorytellingTool extends React.Component {
       selectedNode: 0,
       courses: [],
       activities: [],
+      audioType: 'record'
     }
   }
 
@@ -101,41 +106,22 @@ export default class StorytellingTool extends React.Component {
     })
   }
 
-  // addSingleNode = (index) => {
-  //   let story = this.state.story;
-  //   let newNode = Math.random();
-  //   story.nodes.push({
-  //     type: 'scene',
-  //     name: `${this.props.language.newScene} ${story.nodes.length}`,
-  //     description: '',
-  //     image: '',   //cambio andres
-  //     audio: '',
-  //     ordinal: story.nodes.length,
-  //     _id: newNode,
-  //   });
-  //   console.log("esto se guarda en la base de datos....")
-  //   console.log(story.nodes)    
-  //   this.setState({
-  //     story: story,
-  //     selectedNode: story.nodes.length - 1,
-  //   });
-  // }
 
   addSingleNode = (index) => {
     let story = this.state.story;
     let newNode = Math.random();
+    const image = story.nodes[index].image
     const node = {
       type: 'scene',
       name: `${this.props.language.newScene} ${story.nodes.length}`,
       description: '',
-      image: '',   //cambio andres
+      image: image,
       audio: '',
-      ordinal: story.nodes.length,
+      ordinal: index + 1,
       _id: newNode,
     };
     story.nodes.splice(index + 1, 0, node);
-    console.log("esto se guarda en la base de datos....")
-    console.log(story.nodes)    
+ 
     this.setState({
       story: story,
       selectedNode: story.nodes.length - 1,
@@ -282,30 +268,30 @@ export default class StorytellingTool extends React.Component {
   }
 
   saveStory = () => {
-    console.log("esto se va a guradar......al final")
-    console.log(this.state)
+    // console.log("esto se va a guradar......al final")
+    // console.log(this.state)
    
     
     
-    var selector=true
-    this.state.story.nodes.map((elemento)=>{
-      console.log("cada elemento")
-      var audio0={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"https://seli.uazuay.edu.ec/audio1.wav"}
-      var audio1={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"https://seli.uazuay.edu.ec/audio2.wav"}
-      console.log("selector")
-      console.log(selector)
-      elemento.audio==='' ? 
-          selector===true ?
-          elemento.audio=audio0
-          :
-          elemento.audio=audio1
+    // var selector=true
+    // this.state.story.nodes.map((elemento)=>{
+    //   console.log("cada elemento")
+    //   var audio0={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"https://seli.uazuay.edu.ec/audio1.wav"}
+    //   var audio1={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"https://seli.uazuay.edu.ec/audio2.wav"}
+    //   console.log("selector")
+    //   console.log(selector)
+    //   elemento.audio==='' ? 
+    //       selector===true ?
+    //       elemento.audio=audio0
+    //       :
+    //       elemento.audio=audio1
 
-      :
-      console.log("lleno")
-      selector= !selector
-    })
-    console.log("state modificado")
-    console.log(this.state)
+    //   :
+    //   console.log("lleno")
+    //   selector= !selector
+    // })
+    // console.log("state modificado")
+    // console.log(this.state)
 
     if (this.state.saved) {
       if (this.state.story.name !== "") {
@@ -615,6 +601,12 @@ export default class StorytellingTool extends React.Component {
     }
   }
 
+  selectAudioType = (newValue) => {
+    this.setState({
+      audioType: newValue
+    })
+  };
+
   render() {
     return(
       <div>
@@ -773,9 +765,7 @@ export default class StorytellingTool extends React.Component {
                     helperText={this.props.language.sceneDescriptionHelper}
                   />
                   <Divider light/>
-                 { console.log(this.state.story.nodes[this.state.selectedNode].audio)}
                   {
-                    
                     this.state.story.nodes[this.state.selectedNode].audio !== '' ?
                       
                       <AudioPreview
@@ -783,10 +773,40 @@ export default class StorytellingTool extends React.Component {
                         unPickAudioFile={this.unPickAudioFile.bind(this)}
                       />
                     :
-                    <AudioRecorder
-                      getFileInformation={this.getAudioFileInformation.bind(this)}
-                    />
+                      <Tabs
+                        color="primary"
+                        value={this.state.audioType}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        className="form-tabs-container"
+                        variant="fullWidth"
+                        centered={true}
+                      >
+                      <Tab value={'record'} onClick={() => this.selectAudioType('record')} className="form-tab" label="Record" />
+                      <Tab value={'upload'} onClick={() => this.selectAudioType('upload')} className="form-tab" label="Upload" />
+                      </Tabs>
                   }
+                  {
+                    this.state.audioType === 'record' ?
+                      <AudioRecorder
+                        getFileInformation={this.getAudioFileInformation.bind(this)}
+                      />
+                      : 
+                        undefined
+                  }
+                    {
+                    this.state.audioType === 'upload' ?
+                      <FileUpload
+                        type='audio'
+                        user={Meteor.userId()}
+                        accept={'audio/*'}
+                        label={this.props.language.uploadAudioButtonLabel}
+                        getFileInformation={this.getAudioFileInformation.bind(this)}
+                      /> 
+                      : 
+                        undefined                    
+                  }
+               
                   {
                     this.state.story.nodes[this.state.selectedNode].image !== '' ?
                       <ImagePreview

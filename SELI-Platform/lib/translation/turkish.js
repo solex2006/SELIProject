@@ -39,6 +39,19 @@ var TURKISH = {
   selectYourProfilePhoto: "Profil fotoğrafınızı seçin",
   correctEmailAdvice1: "Formu doldurduktan ve isteği gönderdikten sonra, hesabınız etkinleştirildiği anda bir e-posta alacaksınız.",
   correctEmailAdvice2: "E-posta adresinizi doğru girdiğinizden emin olun.",
+  forgotPasswdAccount: "Forgot your Password?",
+  retrievingPasswd: "Reseting Password",
+  sendEmail: "Send Email",
+  enterEmailtoSent: "Your password will be sent to the email address you register.",
+  sendingEmail: 'Sending Email',
+  newPasswd: 'New Password',
+  verifyingEmail: 'Check your inbox where you would find the verification link.',
+  typeNewPasswd: 'Type your new password.',
+  rPasswd: 'Reset Password',
+  passwdChanged: 'Your password has been changed.',
+  dbUpdated: 'Our data base is updated',
+  dataBeingValidated: 'We will review the request information as soon as possible and you will receive an email with a validation link to finalize your reigstration',
+  emailValidated: 'Your email was validated',
   biography: "Biyografi",
   personalWebsite: "Kişisel web sitesi",
   googleLink: "Google bağlantısı",
@@ -469,6 +482,7 @@ var TURKISH = {
   tutorBasicInformation: 'Tutor basic information:',
   change: 'Change',
   thanksForInformation: 'Thanks the information sent is very valuable, we appreciate your help',
+  uploadAudioButtonLabel: "Ses dosyası yüklemek için düğmeye basınız",
 }
 
 export default TURKISH;

@@ -129,19 +129,32 @@ export default class TutorRequestList extends React.Component {
   }
 
   activateAccount = () => {
-    Meteor.call("ActivateAccount", this.state.tutorRequests[this.state.selected]._id, (error, response) =>  {
-      if (response) {
-        this.setState({
-          activated: response,
-        }, () => {
-          this.handleClose();
-          this.getRequests();
-        })
+    Meteor.call('sendVEmail',
+      this.state.tutorRequests[this.state.selected]._id,
+      this.state.tutorRequests[this.state.selected].emails[this.state.selected].address,
+      (error) => {
+        if (error) {
+          console.log(error);
+        }
+        else {
+          Meteor.call("ActivateAccount", 
+          this.state.tutorRequests[this.state.selected]._id, 
+          (error, response) =>  {
+          if (response) {
+            this.setState({
+              activated: response,
+            }, () => {
+              this.handleClose();
+              this.getRequests();
+            })
+          }
+          else {
+            console.log(error);
+          }
+        });
+        }
       }
-      else {
-        console.log(error);
-      }
-    });
+    ); 
   }
 
   render() {

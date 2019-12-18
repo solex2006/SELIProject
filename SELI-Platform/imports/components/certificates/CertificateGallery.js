@@ -67,7 +67,7 @@ export default class CertificateGallery extends React.Component {
         <GridList className={classes.gridList} cols={1}>
             {this.state.certificates.map(link => (
             <GridListTile key={link}>
-                <iframe src={"http://201.159.223.92/vows/"+link} alt="Certificate" class="myCertificate"/>
+                <iframe src={"https://201.159.223.92/vows/"+link} alt="Certificate" class="myCertificate"/>
             </GridListTile>
             ))}
         </GridList>

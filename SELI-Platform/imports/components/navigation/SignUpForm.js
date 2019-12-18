@@ -110,8 +110,19 @@ export default class SignUpForm extends React.Component {
         this.handleError(error);
       }
       else {
+        Meteor.call('sendVEmail',
+          Meteor.userId(),
+          this.state.userInformation.email,
+          (error) => {
+            if (error) {
+              this.handleError(error);
+            }
+            else {
+              this.props.handleClickOpenRequest();
+            }
+          }
+        );
         Meteor.logout();
-        this.props.handleClickOpen('in');
       }
     });
   }

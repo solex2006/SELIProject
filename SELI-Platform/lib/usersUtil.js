@@ -155,3 +155,13 @@ Meteor.methods({
     }
   }
 });
+
+Meteor.methods({
+  'sendVEmail'(userId, email){
+    this.unblock();
+    Accounts.sendVerificationEmail(
+      userId,
+      email
+    )
+  }
+});

@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
 import FormStepper from '../components/navigation/FormStepperAux';
-import { handleNext } from '../components/navigation/FormStepper';
 import MainMenu from '../components/navigation/MainMenu';
 import AppBar from '../components/navigation/AppBar';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
@@ -267,7 +266,7 @@ export default class RetrievePasswd extends React.Component {
             {
               this.state.language && Session.get('language') ?
 
-                this.props.location.hash ? 
+                Session.get("resetToken") ? 
                 
                   <React.Fragment>
                     <AppBar
@@ -351,7 +350,7 @@ export default class RetrievePasswd extends React.Component {
                       disableBackdropClick={true}
                       disableEscapeKeyDown={true}
                     >
-                      <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.emailSent}</DialogTitle>
+                      <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.resquestSuccessfullySent}</DialogTitle>
                       <DialogContent className="success-dialog-content">
                         <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
                           {this.state.language.verifyingEmail}

@@ -39,6 +39,19 @@ var PORTUGUESE = {
   selectYourProfilePhoto: "Selecione sua foto de perfil",
   correctEmailAdvice1: "Após completar o formulário e submeter o requerimento, você receberá um email no momento em que sua conta for ativada.",
   correctEmailAdvice2: "Certifique-se de digitar seu email corretamente.",
+  forgotPasswdAccount: "Forgot your Password?",
+  retrievingPasswd: "Reseting Password",
+  sendEmail: "Send Email",
+  enterEmailtoSent: "Your password will be sent to the email address you register.",
+  sendingEmail: 'Sending Email',
+  newPasswd: 'New Password',
+  verifyingEmail: 'Check your inbox where you would find the verification link.',
+  typeNewPasswd: 'Type your new password.',
+  rPasswd: 'Reset Password',
+  passwdChanged: 'Your password has been changed.',
+  dbUpdated: 'Our data base is updated',
+  dataBeingValidated: 'We will review the request information as soon as possible and you will receive an email with a validation link to finalize your reigstration',
+  emailValidated: 'Your email was validated',
   biography: "Biografia",
   personalWebsite: "Website pessoal",
   googleLink: "Link do Google",
@@ -469,6 +482,7 @@ var PORTUGUESE = {
   tutorBasicInformation: 'Informações básicas do tutor:',
   change: 'Alterar',
   thanksForInformation: 'Obrigado, as informações enviadas são muito valiosas, agradecemos sua ajuda',
+  uploadAudioButtonLabel: "Click the button to upload an audio file",
 }
 
 export default PORTUGUESE;

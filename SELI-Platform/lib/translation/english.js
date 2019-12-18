@@ -45,12 +45,13 @@ var ENGLISH = {
   enterEmailtoSent: "Your password will be sent to the email address you register.",
   sendingEmail: 'Sending Email',
   newPasswd: 'New Password',
-  emailSent: 'Your email has been sent.',
   verifyingEmail: 'Check your inbox where you would find the verification link.',
   typeNewPasswd: 'Type your new password.',
   rPasswd: 'Reset Password',
   passwdChanged: 'Your password has been changed.',
   dbUpdated: 'Our data base is updated',
+  dataBeingValidated: 'We will review the request information as soon as possible and you will receive an email with a validation link to finalize your reigstration',
+  emailValidated: 'Your email was validated',
   biography: "Biography",
   personalWebsite: "Personal website",
   googleLink: "Google link",
@@ -481,6 +482,7 @@ var ENGLISH = {
   tutorBasicInformation: 'Tutor basic information:',
   change: 'Change',
   thanksForInformation: 'Thanks the information sent is very valuable, we appreciate your help',
+  uploadAudioButtonLabel: "Click the button to upload an audio file",
 }
 
 export default ENGLISH;

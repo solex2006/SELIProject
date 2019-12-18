@@ -295,8 +295,7 @@ export default class TutorRegistration extends React.Component {
                     <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.resquestSuccessfullySent}</DialogTitle>
                     <DialogContent className="success-dialog-content">
                       <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                        {/*We have just received your information successfully, we will review the request information as soon as possible and you will receive an email the moment your account is fully active.*/}
-                        {this.state.language.accountSuccessfully}
+                        {this.state.language.dataBeingValidated}
                       </DialogContentText>
                       <CheckCircleIcon className="success-dialog-icon"/>
                     </DialogContent>
