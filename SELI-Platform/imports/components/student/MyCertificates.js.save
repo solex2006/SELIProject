@@ -87,7 +87,7 @@ export default class MyCertificates extends React.Component {
       <div className="subscriptions-dashboard-container">
         <p className="management-title">My certificates<SchoolIcon className="management-title-icon"/></p>
         <Divider/>
-	{console.log("Sdfdsf")}
+	{console.log(this.state.loading)}
         {
           this.state.loading ?
             <div className="dashboard-loading-container">
