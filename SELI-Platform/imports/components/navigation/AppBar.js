@@ -16,6 +16,8 @@ import SchoolIcon from '@material-ui/icons/School';
 import HelpIcon from '@material-ui/icons/Help';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ControlSnackbar from '../../components/tools/ControlSnackbar';
 
 import LanguageSelector from './LanguageSelector';
 import UserMenu from './UserMenu';
@@ -27,17 +29,27 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Grow ref={ref} {...props} />;
 });
 
+Session.set("verifyPass",false);
+
 export default class AppBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
+      openDialog: false,
+      openRequest: false,
       showSearchBar: false,
     }
   }
 
   componentDidMount(){
-
+    console.log(Accounts._verifyEmailToken)
+    if(Accounts._verifyEmailToken){
+      Session.set("verifyToken",Accounts._verifyEmailToken)
+      Session.set("verifyPass",true);
+      this.validatingEmail(Session.get("verifyToken"));
+    }
+    return Session.get("verifyPass");
   }
 
   handleClickOpen = (action) => {
@@ -65,6 +77,16 @@ export default class AppBar extends React.Component {
   handleClose = () => {
     this.setState({ open: false });
   };
+  
+  handleCloseDialog = () => {
+    this.setState({ openDialog: false });
+    this.handleClickOpen("in");
+  };
+
+  handleCloseRequest = () => {
+    this.setState({ openRequest: false });
+    this.handleClose();
+  };
 
   toggleSearchBar = () => {
     this.setState({
@@ -80,6 +102,28 @@ export default class AppBar extends React.Component {
       }
     });
   }
+
+  validatingEmail = (token) => {
+    Accounts.verifyEmail(
+      token,
+      (error) => {
+        if (error) {
+          this.handleError(error);
+        }
+        else {
+          this.handleClickOpenDialog();
+        }
+      }
+    );
+  }
+
+  handleClickOpenDialog = () => {
+    this.setState({ openDialog: true });
+  };
+
+  handleClickOpenRequest = () => {
+    this.setState({ openRequest: true });
+  };
 
   render() {
     return(
@@ -169,7 +213,8 @@ export default class AppBar extends React.Component {
               {
                 this.state.action === "up" ?
                   <SignUpForm
-                    handleClickOpen={this.handleClickOpen.bind(this)}
+                    handleClickOpenRequest={this.handleClickOpenRequest.bind(this)}
+                    //handleClickOpen={this.handleClickOpen.bind(this)}
                     history={this.props.history}
                     language={this.props.language}
                   />
@@ -216,6 +261,48 @@ export default class AppBar extends React.Component {
             :
             undefined
           }
+        </Dialog>
+        <Dialog
+          open={this.state.openDialog}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-success"
+          aria-describedby="alert-dialog-success"
+          disableBackdropClick={true}
+          disableEscapeKeyDown={true}
+        >
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.emailValidated}</DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+              {this.props.language.accountSuccessfully}
+            </DialogContentText>
+            <CheckCircleIcon className="success-dialog-icon"/>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleCloseDialog()} color="primary" autoFocus>
+              {this.props.language.ok}
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openRequest}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-success"
+          aria-describedby="alert-dialog-success"
+          disableBackdropClick={true}
+          disableEscapeKeyDown={true}
+        >
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.resquestSuccessfullySent}</DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+              {this.props.language.verifyingEmail}
+            </DialogContentText>
+            <CheckCircleIcon className="success-dialog-icon"/>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleCloseRequest()} color="primary" autoFocus>
+              {this.props.language.ok}
+            </Button>
+          </DialogActions>
         </Dialog>
       </div>
     );
