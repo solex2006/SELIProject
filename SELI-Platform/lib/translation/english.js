@@ -481,6 +481,7 @@ var ENGLISH = {
   tutorBasicInformation: 'Tutor basic information:',
   change: 'Change',
   thanksForInformation: 'Thanks the information sent is very valuable, we appreciate your help',
+  uploadAudioButtonLabel: "Click the button to upload an audio file",
 }
 
 export default ENGLISH;

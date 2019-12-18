@@ -6,14 +6,14 @@
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
-    "debug": "meteor run --inspect-brk=9229"
+    "debug": "meteor run --inspect-brk=9229 --settings ./.deploy/settings.json"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.4",
     "@date-io/date-fns": "^1.3.13",
-    "@material-ui/core": "^4.7.2",
+    "@material-ui/core": "^4.8.0",
     "@material-ui/icons": "^3.0.2",
-    "@material-ui/lab": "^4.0.0-alpha.35",
+    "@material-ui/lab": "^4.0.0-alpha.36",
     "@monaco-editor/react": "^1.2.3",
     "@mrblenny/react-flow-chart": "0.0.7",
     "bcrypt": "^3.0.7",

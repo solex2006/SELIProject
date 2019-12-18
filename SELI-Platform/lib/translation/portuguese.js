@@ -469,6 +469,7 @@ var PORTUGUESE = {
   tutorBasicInformation: 'Informações básicas do tutor:',
   change: 'Alterar',
   thanksForInformation: 'Obrigado, as informações enviadas são muito valiosas, agradecemos sua ajuda',
+  uploadAudioButtonLabel: "Click the button to upload an audio file",
 }
 
 export default PORTUGUESE;
