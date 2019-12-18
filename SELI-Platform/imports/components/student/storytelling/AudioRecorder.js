@@ -63,7 +63,7 @@ export default class AudioRecorder extends React.Component {
     xhr.onload = function()
     {
         blob = xhr.response;//xhr.response is now a blob object
-        var file = new File([blob], `audio-recorded-${new Date().toDateString()}.wav`, {type: 'audio/wav'});
+        var file = new File([blob], `audio-recorded-${(new Date()).getTime()}.wav`, {type: 'audio/wav'});
         self.saveAudio(file);
     }
     xhr.send();

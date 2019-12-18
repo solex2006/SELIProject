@@ -482,6 +482,7 @@ var TURKISH = {
   tutorBasicInformation: 'Tutor basic information:',
   change: 'Change',
   thanksForInformation: 'Thanks the information sent is very valuable, we appreciate your help',
+  uploadAudioButtonLabel: "Ses dosyası yüklemek için düğmeye basınız",
 }
 
 export default TURKISH;
