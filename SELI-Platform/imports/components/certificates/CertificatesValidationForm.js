@@ -145,7 +145,7 @@ export default class CertificatesValidationForm extends React.Component {
                     <h2 className="input-container">Your certificate is valid!</h2>
                     <div className="form-separator"></div>
                     <div className="embeb-certificate-container">
-                        <iframe src={"http://201.159.223.92/vows/"+this.state.hash} alt="Certificate" padding-left="100px" height="800" width="1400"/>
+                        <iframe src={"httpa://201.159.223.92/vows/"+this.state.hash} alt="Certificate" padding-left="100px" height="800" width="1400"/>
                     </div>
                 </div>)
                 :

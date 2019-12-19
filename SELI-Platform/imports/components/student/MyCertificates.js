@@ -87,7 +87,7 @@ export default class MyCertificates extends React.Component {
       <div className="subscriptions-dashboard-container">
         <p className="management-title">My certificates<SchoolIcon className="management-title-icon"/></p>
         <Divider/>
-	{console.log("Sdfdsf")}
+	{console.log("despues de divider")}
         {
           this.state.loading ?
             <div className="dashboard-loading-container">
@@ -99,13 +99,13 @@ export default class MyCertificates extends React.Component {
               this.state.courses.length ?
                 <div className="subscriptions-dashboard-result">
                   {
-                    this.state.courses.map((course, index) => {
-                      return (
+                //    this.state.courses.map((course, index) => {
+                  //    return (
                         <CertificateGallery
 
                         />
-                      )
-                    })
+                    //  )
+                   // })
                   }
                 </div>
               :

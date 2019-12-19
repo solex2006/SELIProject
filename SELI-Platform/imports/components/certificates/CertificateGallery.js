@@ -27,20 +27,7 @@ let classes = makeStyles(theme => ({
     },
   }));
 
-  let tileData = [
-    {
-     hash: "0x90Abdd096e1A56050242AF3f7a665856515fD144",
-     url: 'https://201.159.223.92/vows/0x90Abdd096e1A56050242AF3f7a665856515fD144',
-    },
-    {
-      hash: "0x90Abdd096e1A56050242AF3f7a665856515fD144",
-     url: 'https://201.159.223.92/vows/0x90Abdd096e1A56050242AF3f7a665856515fD144',
-    },
-    {
-      hash: "0x90Abdd096e1A56050242AF3f7a665856515fD144",
-     url: 'https://201.159.223.92/vows/0x90Abdd096e1A56050242AF3f7a665856515fD144',
-    },
- ];
+  
 
 export default class CertificateGallery extends React.Component {
 
@@ -64,7 +51,7 @@ export default class CertificateGallery extends React.Component {
   render() {
     return (
         <div className={classes.root}>
-        <GridList className={classes.gridList} cols={1}>
+        <GridList cellHeight={700} className={classes.gridList}  cols={2}>
             {this.state.certificates.map(link => (
             <GridListTile key={link}>
                 <iframe src={"https://201.159.223.92/vows/"+link} alt="Certificate" class="myCertificate"/>
