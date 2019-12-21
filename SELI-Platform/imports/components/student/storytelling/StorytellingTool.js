@@ -78,12 +78,19 @@ export default class StorytellingTool extends React.Component {
       selectedNode: 0,
       courses: [],
       activities: [],
-      audioType: 'record'
+      audioType: 'record',
+      stateconsulta: false,
+      isyes:false,
+      isno:false,
+      show: true
     }
   }
 
   handleClose = () => {
     this.setState({ open: false });
+  }
+  handleClosepublish = () => {
+    this.setState({ openpublish: false });
   }
 
   handleChange = name => event => {
@@ -345,9 +352,9 @@ export default class StorytellingTool extends React.Component {
     }
   }
 
-  publishStory = () => {
+  
 
-  }
+
 
   showPreview = () => {
     if (this.validateStory()) {
@@ -441,7 +448,7 @@ export default class StorytellingTool extends React.Component {
       shareUrl: shareUrl,
       title: this.props.language.publishOnSocialNetwork,
       action: 'publishOnSocialNetwork',
-      open: true,
+      openpublish: true,
     })
   }
 
@@ -459,6 +466,10 @@ export default class StorytellingTool extends React.Component {
         this.handleClose();
       }
     )
+    this.setState({
+      action: 'publishOnCourse',
+      openpublish: true,
+    })
   }
 
   publishAsActivity = (course, activity) => {
@@ -477,9 +488,23 @@ export default class StorytellingTool extends React.Component {
     )
   }
 
-  publishOnSocialNetwork = (course) => {
-    
+  handleyes = () => {
+    this.setState({
+      isyes: true,
+      show: false,
+      openpublish: true,
+      open: false,
+      action: "boxpubshow"
+    })
+    ;
   }
+  
+  handleno = () => {
+    this.setState({
+      isno: true,
+      show: false,
+      action:"nopublish"
+  })}
 
   completeActivity = (id, label, courseId) => {
     let courses = this.state.courses;
@@ -717,6 +742,8 @@ export default class StorytellingTool extends React.Component {
                     >
                       {this.props.language.saveStory}
                     </Button>
+
+
                     <Button
                       className="storytelling-media-button"
                       variant="outlined"
@@ -725,6 +752,7 @@ export default class StorytellingTool extends React.Component {
                     >
                       {this.props.language.publishStory}
                     </Button>
+                    
                   </div>
                   <FormGroup style={{marginTop: "1.5vh"}}>
                     <FormControlLabel
@@ -869,6 +897,17 @@ export default class StorytellingTool extends React.Component {
             </Button>
           </React.Fragment>
         }
+
+
+
+
+
+
+
+
+
+
+
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -940,8 +979,42 @@ export default class StorytellingTool extends React.Component {
           }
           {
             this.state.action === "publish" ?
-              <React.Fragment>
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+               // this.state.show=== true ?
+                      <React.Fragment>
+                        <div className="sign-actions">
+                        <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                            {this.props.language.questionpublishstory}
+                          </DialogTitle>
+                          <div className="center-row">
+                          <Button variant="contained"  color="secondary" className="bar-button"
+                          onClick={() => this.handleyes()}>
+                          {this.props.language.yes}
+                          </Button>	
+                          <Button variant="contained"  color="primary" className="bar-button"
+                          onClick={() => this.handleClose()}>
+                          {this.props.language.no}
+                          </Button>	                 
+                          </div>
+                          </div>
+                      </React.Fragment>
+                      :
+                      undefined
+               // :
+               // undefined
+          }          
+        </Dialog>
+        {/* despues del publish */}
+
+        <Dialog
+          open={this.state.openpublish} ///true for show
+          onClose={this.handleClosepublish}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+        >
+          {
+            this.state.action === "boxpubshow" ?
+                  <React.Fragment>
+                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                   {this.props.language.publishStory}
                 </DialogTitle>
                 <div className="center-row">
@@ -973,6 +1046,61 @@ export default class StorytellingTool extends React.Component {
                 <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
                   {this.props.language.publishStoryText}
                 </DialogContentText>
+              </React.Fragment> 
+              :
+              undefined
+      
+          }
+           {
+            this.state.action === "publishOnSocialNetwork" ?
+              <React.Fragment>
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                  {this.props.language.publishOnSocialNetwork}
+                </DialogTitle>
+                <div class="storytelling-share-btn-group">
+                  <div class="storytelling-share-btn">
+                    {console.log(this.state.shareUrl)}
+                    <FacebookShareButton
+                      url={this.state.shareUrl}
+                      quote={this.state.title}>
+                      <FacebookIcon
+                        size={64}
+                        round />
+                    </FacebookShareButton>
+                  </div>
+
+                  <div className="storytelling-share-btn">
+                    <TwitterShareButton
+                      url={this.state.shareUrl}
+                      title={this.state.title}>
+                      <TwitterIcon
+                        size={64}
+                        round />
+                    </TwitterShareButton>  
+                  </div>
+                  <div className="storytelling-share-btn">
+                    <LinkedinShareButton
+                      url={this.state.shareUrl}
+                      windowWidth={750}
+                      windowHeight={600}>
+                      <LinkedinIcon
+                        size={64}
+                        round />
+                    </LinkedinShareButton>  
+                  </div>
+                </div>
+                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
+                  {
+                    <Link
+                      to={`/story#${this.state.saved}`}
+                    >{this.state.shareUrl}</Link>
+                  }
+                </DialogContentText>
+                <DialogActions>
+                  <Button onClick={() => this.handleyes()} color="primary" autoFocus>
+                    {this.props.language.back}
+                  </Button>
+                </DialogActions>
               </React.Fragment>
             :
             undefined
@@ -1000,7 +1128,7 @@ export default class StorytellingTool extends React.Component {
                   {this.props.language.publishStoryCourseText}
                 </DialogContentText>
                 <DialogActions>
-                  <Button onClick={() => this.handlePublishStory()} color="primary" autoFocus>
+                  <Button onClick={() => this. handleyes()} color="primary" autoFocus>
                     {this.props.language.back}
                   </Button>
                 </DialogActions>
@@ -1008,7 +1136,7 @@ export default class StorytellingTool extends React.Component {
             :
             undefined
           }
-          {
+           {
             this.state.action === "publishAsActivity" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
@@ -1031,7 +1159,7 @@ export default class StorytellingTool extends React.Component {
                   {this.props.language.publishStoryActivityText}
                 </DialogContentText>
                 <DialogActions>
-                  <Button onClick={() => this.handlePublishStory()} color="primary" autoFocus>
+                  <Button onClick={() => this.handleyes()} color="primary" autoFocus>
                     {this.props.language.back}
                   </Button>
                 </DialogActions>
@@ -1039,59 +1167,7 @@ export default class StorytellingTool extends React.Component {
             :
             undefined
           }
-          {
-            this.state.action === "publishOnSocialNetwork" ?
-              <React.Fragment>
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {this.props.language.publishOnSocialNetwork}
-                </DialogTitle>
-                <div class="storytelling-share-btn-group">
-                  <div class="storytelling-share-btn">
-                    <FacebookShareButton
-                      url={this.state.shareUrl}
-                      quote={this.state.title}>
-                      <FacebookIcon
-                        size={64}
-                        round />
-                    </FacebookShareButton>
-                  </div>
-
-                  <div class="storytelling-share-btn">
-                    <TwitterShareButton
-                      url={this.state.shareUrl}
-                      title={this.state.title}>
-                      <TwitterIcon
-                        size={64}
-                        round />
-                    </TwitterShareButton>  
-                  </div>
-                  <div class="storytelling-share-btn">
-                    <LinkedinShareButton
-                      url={this.state.shareUrl}
-                      windowWidth={750}
-                      windowHeight={600}>
-                      <LinkedinIcon
-                        size={64}
-                        round />
-                    </LinkedinShareButton>  
-                  </div>
-                </div>
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {
-                    <Link
-                      to={`/story#${this.state.saved}`}
-                    >{this.state.shareUrl}</Link>
-                  }
-                </DialogContentText>
-                <DialogActions>
-                  <Button onClick={() => this.handlePublishStory()} color="primary" autoFocus>
-                    {this.props.language.back}
-                  </Button>
-                </DialogActions>
-              </React.Fragment>
-            :
-            undefined
-          }
+          
         </Dialog>
       </div>
     )
