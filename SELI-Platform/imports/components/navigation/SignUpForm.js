@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import userInformation from '../../ui/UserInformation';
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
@@ -11,11 +12,12 @@ import { Accounts } from 'meteor/accounts-base';
 import ControlSnackbar from '../tools/ControlSnackbar';
 
 import {noSpecialCharacters} from '../../../lib/textFieldValidations';
+import { FaWindows } from 'react-icons/fa';
 
 export default class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+/*     this.state = {
       userInformation: {
         fullname: '',
         username: '',
@@ -27,10 +29,10 @@ export default class SignUpForm extends React.Component {
       validEmail: false,
       passwordResult: false,
       equalPasswords: false,
-    }
+    } */
   }
 
-  handleChange = name => event => {
+/*   handleChange = name => event => {
     let userInformation = this.state.userInformation;
     if (name === "fullname") {
       userInformation.fullname = event.target.value;
@@ -59,9 +61,9 @@ export default class SignUpForm extends React.Component {
     this.setState({
       userInformation: userInformation,
     });
-  }
+  } */
 
-  validateSignUp = () => {
+/*   validateSignUp = () => {
     if (
       this.state.userInformation.fullname === '' || this.state.userInformation.email === '' ||
       this.state.userInformation.username === '' || this.state.userInformation.password === '' ||
@@ -89,9 +91,9 @@ export default class SignUpForm extends React.Component {
     if (this.validateSignUp()) {
       this.createStudent(this.state.userInformation)
     }
-  }
+  } */
 
-  createStudent = (information) => {
+/*   createStudent = (information) => {
     Accounts.createUser({
       username: information.username,
       password: information.password,
@@ -125,8 +127,8 @@ export default class SignUpForm extends React.Component {
         Meteor.logout();
       }
     });
-  }
-
+  } */
+/* 
   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
     if (show) {
       if (action === 'subscribed') {
@@ -170,7 +172,7 @@ export default class SignUpForm extends React.Component {
       }, () => {
         Meteor.call("ValidateEmail", this.state.userInformation.email, (error, response) =>  {
           let message;
-          response=true;
+          //response=true;
           response ? message = this.props.language.validEmail : message = this.props.language.invalidEmail;
           this.setState({
             emailResult: true,
@@ -207,7 +209,7 @@ export default class SignUpForm extends React.Component {
     this.setState({
       passwordResult: false,
     })
-  }
+  } */
 
   keyController = (event) => {
     if (event.which == 32 || event.keyCode == 32) {
@@ -219,16 +221,18 @@ export default class SignUpForm extends React.Component {
     }
   }
 
-  redirect = url => {
+  redirect = (url, type) => {
     this.props.history.push({
       pathname: url,
+      type: type,
       state: {
         language: this.props.language,
       }
     });
+    this.props.handleClose();
   }
 
-  handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
+/*   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
     if (show) {
       if (action === 'subscribed') {
         action = () => this.showComponent('subscribed');
@@ -247,12 +251,12 @@ export default class SignUpForm extends React.Component {
         showControlMessage: show,
       });
     }
-  }
+  } */
 
   render() {
     return(
-      <div className="sign-form-container">
-        <TextField
+      <div className="sign-buttons-container-default">
+{/*         <TextField
           id="fullname-input"
           className="signin-input"
           label={this.props.language.fullname}
@@ -366,9 +370,22 @@ export default class SignUpForm extends React.Component {
             :
             undefined
           }
-        />
-        <div className="sign-buttons-container">
-          <Tooltip title={this.props.language.clickIfYouFiledForm}>
+        /> */}
+{/*         <div className="sign-buttons-container">
+          <Tooltip title={this.props.language.hereYouCanOpenStudentForm}>
+            <Button
+              onClick={() => this.redirect('/UserRegistration','student')}
+              className="sign-button"
+              //color="secondary"
+              //variant="contained"
+              variant="outlined"
+            >
+              {this.props.language.studentAccount}
+            </Button>
+          </Tooltip>
+        </div>
+        <div className="sign-buttons-container"> */}
+          {/* <Tooltip title={this.props.language.clickIfYouFiledForm}>
             <Button
               onClick={() => this.signUp()}
               className="sign-button"
@@ -377,25 +394,49 @@ export default class SignUpForm extends React.Component {
             >
               {this.props.language.signUp}
             </Button>
-          </Tooltip>
-          <Tooltip title={this.props.language.hereYouCanOpenTeacherForm}>
+          </Tooltip> */}
+{/*           <Tooltip title={this.props.language.hereYouCanOpenTeacherForm}>
             <Button
-              onClick={() => this.redirect('/tutorRegistration')}
+              onClick={() => this.redirect('/UserRegistration','tutor')}
               className="sign-button"
               variant="outlined"
             >
               {this.props.language.teachOnSeli}
             </Button>
           </Tooltip>
-        </div>
-        <ControlSnackbar
+        </div> */}
+{/*         <ControlSnackbar
           showControlMessage={this.state.showControlMessage}
           showControlAction={this.state.showControlAction}
           controlMessage={this.state.controlMessage}
           controlAction={this.state.controlAction}
           controlActionMessage={this.state.controlActionMessage}
           handleControlMessage={this.handleControlMessage.bind(this)}
-        />
+        /> */}
+        <Tooltip title={this.props.language.hereYouCanOpenStudentForm}>
+          <Button
+            onClick={() => this.redirect('/UserRegistration','student')}
+            className="sign-button-default"
+            color="secondary"
+            variant="contained"
+          >
+            {this.props.language.student}
+            <br/>
+            {this.props.language.account}
+          </Button>
+        </Tooltip>
+        <Tooltip title={this.props.language.hereYouCanOpenTeacherForm}>
+          <Button
+            onClick={() => this.redirect('/UserRegistration','tutor')}
+            className="sign-button-default"
+            color="secondary"
+            variant="contained"
+          >
+            {this.props.language.tutor}
+            <br/>
+            {this.props.language.account}
+          </Button>
+        </Tooltip>
       </div>
     );
   }

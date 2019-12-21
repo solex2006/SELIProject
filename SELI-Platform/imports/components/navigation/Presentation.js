@@ -170,7 +170,7 @@ export default class Presentation extends React.Component {
                   </p>
                   <Button
                     className="dashboard-link-button"
-                    onClick={() => this.redirect('/tutorRegistration', false)}
+                    onClick={() => this.redirect('/UserRegistration', false)}
                   >
                     <MoreHorizIcon className="dashboard-link-icon"/> {this.props.language.becomeATutor}
                   </Button>

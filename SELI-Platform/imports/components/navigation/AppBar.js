@@ -43,7 +43,6 @@ export default class AppBar extends React.Component {
   }
 
   componentDidMount(){
-    console.log(Accounts._verifyEmailToken)
     if(Accounts._verifyEmailToken){
       Session.set("verifyToken",Accounts._verifyEmailToken)
       Session.set("verifyPass",true);
@@ -61,7 +60,7 @@ export default class AppBar extends React.Component {
       .getPropertyValue('--primary');
     }
     if(action === "up"){
-      dialogTitle = `${this.props.language.signUpToSeli} (${this.props.language.studentAccount})`;
+      dialogTitle = this.props.language.signUpToSeli;
       color = getComputedStyle(document.documentElement)
       .getPropertyValue('--secondary');
     }
@@ -81,11 +80,6 @@ export default class AppBar extends React.Component {
   handleCloseDialog = () => {
     this.setState({ openDialog: false });
     this.handleClickOpen("in");
-  };
-
-  handleCloseRequest = () => {
-    this.setState({ openRequest: false });
-    this.handleClose();
   };
 
   toggleSearchBar = () => {
@@ -149,10 +143,10 @@ export default class AppBar extends React.Component {
             {
               this.props.user === undefined ?
                 <div>
-                  <Button variant="outlined" onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
+                  <Button variant="contained" onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
                     {this.props.language.signIn}
                   </Button>
-                  <Button variant="outlined" onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
+                  <Button variant="contained" onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
                     {this.props.language.signUp}
                   </Button>
                 </div>
@@ -213,8 +207,7 @@ export default class AppBar extends React.Component {
               {
                 this.state.action === "up" ?
                   <SignUpForm
-                    handleClickOpenRequest={this.handleClickOpenRequest.bind(this)}
-                    //handleClickOpen={this.handleClickOpen.bind(this)}
+                    handleClose={this.handleClose.bind(this)}
                     history={this.props.history}
                     language={this.props.language}
                   />
@@ -230,7 +223,7 @@ export default class AppBar extends React.Component {
                 <DialogContentText>
                   {this.props.language.dontHaveAccount}
                 </DialogContentText>
-                <Button onClick={() => this.handleClickOpen("up")} color="secondary">
+                <Button onClick={() => this.handleClickOpen("up")} color="secondary" variant="outlined">
                   {`${this.props.language.signUp} SELI`}
                 </Button>
               </DialogActions>
@@ -243,7 +236,7 @@ export default class AppBar extends React.Component {
                 <DialogContentText>
                   {this.props.language.alreadyHaveAccount}
                 </DialogContentText>
-                <Button onClick={() => this.handleClickOpen("in")} color="primary">
+                <Button onClick={() => this.handleClickOpen("in")} color="primary" variant="outlined">
                   {`${this.props.language.signIn} SELI`}
                 </Button>
               </DialogActions>
@@ -254,7 +247,7 @@ export default class AppBar extends React.Component {
           {
             this.state.action === "in" ?
               <DialogActions className="sign-actions">
-                <Button onClick={() => this.redirect('/RetrievePasswd')}>
+                <Button onClick={() => this.redirect('/RetrievePasswd')} variant="outlined">
                   {`${this.props.language.forgotPasswdAccount}`}
                 </Button>
               </DialogActions>
@@ -278,28 +271,7 @@ export default class AppBar extends React.Component {
             <CheckCircleIcon className="success-dialog-icon"/>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.handleCloseDialog()} color="primary" autoFocus>
-              {this.props.language.ok}
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Dialog
-          open={this.state.openRequest}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-success"
-          aria-describedby="alert-dialog-success"
-          disableBackdropClick={true}
-          disableEscapeKeyDown={true}
-        >
-          <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.resquestSuccessfullySent}</DialogTitle>
-          <DialogContent className="success-dialog-content">
-            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-              {this.props.language.verifyingEmail}
-            </DialogContentText>
-            <CheckCircleIcon className="success-dialog-icon"/>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => this.handleCloseRequest()} color="primary" autoFocus>
+            <Button onClick={() => this.handleCloseDialog()} color="secondary" variant="contained" autoFocus>
               {this.props.language.ok}
             </Button>
           </DialogActions>

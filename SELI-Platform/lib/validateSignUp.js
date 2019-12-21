@@ -12,7 +12,7 @@ async function validateEmail(email) {
   try {
     const emailValidator = new EmailValidator();
     const { wellFormed, validDomain, validMailbox } = await emailValidator.verify(email);
-    isValid = validDomain && wellFormed && validMailbox;
+    isValid = validDomain && wellFormed;
   } catch (e) {
     console.log(e);
   }

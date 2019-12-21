@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
-import FormStepper from '../components/navigation/FormStepperAux';
+import FormStepper from '../components/navigation/FormStepper';
 import MainMenu from '../components/navigation/MainMenu';
 import AppBar from '../components/navigation/AppBar';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
@@ -10,8 +11,7 @@ import ControlSnackbar from '../components/tools/ControlSnackbar';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
 
-import RetrieveInformation from '../components/tools/RetrieveInformation';
-import ResetInformation from '../components/tools/ResetInformation';
+import UserInformation from './UserInformation';
 
 import InfoIcon from '@material-ui/icons/Info';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
@@ -30,57 +30,26 @@ import english from '../../lib/translation/english';
 import portuguese from '../../lib/translation/portuguese';
 import turkish from "../../lib/translation/turkish";
 
-Session.set("resetPass",false);
-
-export default class RetrievePasswd extends React.Component {
+export default class UserRegistration extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hash: "",
-      RetrieveInformation: {
-        email: '',
-      },
-      ResetInformation: {
+      userInformation: {
+        fullname: '',
+        username: '',
         password: '',
+        biography: '',
+        googleLink: '',
+        website: '',
+        email: '',
+        countryCode: '',
+        phoneNumber: '',
+        image: undefined,
       },
       emailValidated: false,
+      typeState: '',
     }
   }
-
-  componentDidMount() { 
-    Session.set({language: Session.get('language') ? Session.get('language') : english});
-    this.setState({
-      language: Session.get('language') ? Session.get('language') : english,
-    }, () => {
-      this.setState({
-        retrieveSteps: [
-          {label: this.state.language.sendingEmail , icon: <InfoIcon className="step-icon"/>},
-          {label: this.state.language.newPasswd , icon: <InfoIcon className="step-icon"/>},
-        ],
-        retrieveForms: [
-          <RetrieveInformation
-            showErrorFunction={showError => this.showError = showError}
-            RetrieveInformation={this.state.RetrieveInformation}
-            handleEmail={this.handleEmail.bind(this)}
-            language={this.state.language}
-          />,
-          <ResetInformation
-            showErrorFunction={showError => this.showError = showError}
-            ResetInformation={this.state.ResetInformation}
-            handlePassword={this.handlePassword.bind(this)}
-            language={this.state.language}
-          />,
-        ],
-        hash: Session.get("resetToken")
-      })
-    });
-    if(Accounts._resetPasswordToken){
-      Session.set("resetToken",Accounts._resetPasswordToken)
-      Session.set("resetPass",true);
-    }
-    return Session.get("resetPass");
-  }
-  
 
   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
     if (show) {
@@ -117,74 +86,186 @@ export default class RetrievePasswd extends React.Component {
     });
   };
 
+  componentDidMount() {
+    Session.set({language: Session.get('language') ? Session.get('language') : english});
+    this.setState({
+      language: Session.get('language') ? Session.get('language') : english,
+    }, () => {
+      this.setState({
+        userSteps: [
+          {label: this.state.language.information , icon: <InfoIcon className="step-icon"/>},
+        ],
+        userForms: [
+          <UserInformation
+            showErrorFunction={showError => this.showError = showError}
+            userInformation={this.state.userInformation}
+            handleEmail={this.handleEmail.bind(this)}
+            handlePassword={this.handlePassword.bind(this)}
+            language={this.state.language}
+            type={this.props.location.type}
+          />,
+        ],
+      })
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.type !== this.props.location.type) {
+      this.setState({
+        userForms: [
+          <UserInformation
+            showErrorFunction={showError => this.showError = showError}
+            userInformation={this.state.userInformation}
+            handleEmail={this.handleEmail.bind(this)}
+            handlePassword={this.handlePassword.bind(this)}
+            language={this.state.language}
+            type={this.props.location.type}
+          />,
+        ],
+      });
+    }
+  }
+
   showError = () => {
 
   }
 
-  validateRetrieve = () => {
-    if (
-      this.state.RetrieveInformation.email === ''
-    ) {
+  validateUser = () => {
+    if (this.state.userInformation.biography === '' && this.props.location.type === "tutor") {
       this.showError();
       this.handleControlMessage(true, this.state.language.fieldsMarkedWith);
       return false;
-    }
-    else if (!this.state.emailValidated) {
-      this.handleControlMessage(true, this.state.language.validateYourMail);
-      return false;
+    } else {
+      if (
+        this.state.userInformation.fullname === '' ||
+        this.state.userInformation.username === '' ||
+        this.state.userInformation.email === '' ||
+        this.state.userInformation.password === '' 
+      ) {
+        this.showError();
+        this.handleControlMessage(true, this.state.language.fieldsMarkedWith);
+        return false;
+      }
+      else if (!this.state.emailValidated) {
+        this.handleControlMessage(true, this.state.language.validateYourMail);
+        return false;
+      }
+      else if (!this.state.equalPasswords) {
+        this.handleControlMessage(true, this.state.language.passwordsNotMatch);
+        return false;
+      }
+      else if (this.state.userInformation.image === undefined && this.props.location.type === "tutor") {
+        this.handleControlMessage(true, this.state.language.uploadYourProfilePhoto);
+        return false;
+      }
+      else if (this.state.userInformation.phoneNumber !== "" && this.props.location.type === "tutor") {
+        if (this.state.userInformation.countryCode === "") {
+          this.handleControlMessage(true, this.state.language.addCountryCode);
+          return false;
+        }
+      }
+      else if (this.state.userInformation.countryCode !== "" && this.props.location.type === "tutor") {
+        if (this.state.userInformation.phoneNumber === "") {
+          this.handleControlMessage(true, this.state.language.addPhoneNumber);
+          return false;
+        }
+      }
     }
     return true;
   }
 
-  validateReset = () => {
-    if (
-      this.state.ResetInformation.password === ''
-    ) {
-      this.showError();
-      this.handleControlMessage(true, this.state.language.fieldsMarkedWith);
-      return false;
-    }
-    else if (!this.state.equalPasswords) {
-      this.handleControlMessage(true, this.state.language.passwordsNotMatch);
-      return false;
-    }
-    return true;
-  } 
-
-  resetingPasswd = (newPassword) => {
-    Accounts.resetPassword(
-      Session.get("resetToken"), 
-      newPassword, 
-      (error) => {
+  createTutor = (information) => {
+    Accounts.createUser({
+      username: information.username,
+      password: information.password,
+      email: information.email,
+      profile: {
+        fullname: information.fullname,
+        biography: information.biography,
+        website: information.website,
+        googleLink: information.googleLink,
+        countryCode: information.countryCode,
+        phoneNumber: information.phoneNumber,
+        profileImage: information.image,
+        verified: false,
+        courses: [],
+        type: 'tutor',
+        configuration: {
+          language: 'English (US)',
+        },
+      },
+    }, (error) => {
       if (error) {
         this.handleError(error);
       }
       else {
+        CourseFiles.update(
+          { _id: information.image._id},
+          { $set: {
+            'meta.userId': Meteor.userId(),
+          }}
+        )
+        Meteor.logout();
         this.requestSent();
       }
-    })
+    });
   }
 
-  sendEmailRequest = (email) => {
-    Accounts.forgotPassword({email: email}, (error) => {
+  createStudent = (information) => {
+    Accounts.createUser({
+      username: information.username,
+      password: information.password,
+      email: information.email,
+      profile: {
+        fullname: information.fullname,
+        courses: [],
+        type: 'student',
+        certificates: [],
+        configuration: {
+          language: 'English (US)',
+        },
+      },
+    }, (error) => {
       if (error) {
         this.handleError(error);
       }
       else {
-        this.requestSent();
+        if (this.state.userInformation.image === undefined){
+          undefined
+        } else {
+          CourseFiles.update(
+            { _id: information.image._id},
+            { $set: {
+              'meta.userId': Meteor.userId(),
+            }}
+          )
+        }
+        Meteor.call('sendVEmail',
+          Meteor.userId(),
+          this.state.userInformation.email,
+          (error) => {
+            if (error) {
+              this.handleError(error);
+            }
+            else {
+              this.requestSent();
+            }
+          }
+        );
+        Meteor.logout();
       }
-    }) 
+    });
   }
 
-  changePasswd = () => {
-    if (this.validateReset()) {
-      this.resetingPasswd(this.state.ResetInformation.password)
+  registerTutor = () => {
+    if (this.validateUser()) {
+      this.createTutor(this.state.userInformation)
     }
   }
 
-  registerRetrieve = () => {
-    if (this.validateRetrieve()) {
-      this.sendEmailRequest(this.state.RetrieveInformation.email)
+  registerStudent = () => {
+    if (this.validateUser()) {
+      this.createStudent(this.state.userInformation)
     }
   }
 
@@ -216,7 +297,7 @@ export default class RetrievePasswd extends React.Component {
     this.setState({
       equalPasswords: value,
     });
-  } 
+  }
 
   setLanguage = (option) => {
     let language = this.state.language;
@@ -235,39 +316,31 @@ export default class RetrievePasswd extends React.Component {
       language: language,
     }, () => {
       this.setState({
-        retrieveSteps: [
-          {label: this.state.language.sendingEmail, icon: <InfoIcon className="step-icon"/>},
-          {label: this.state.language.newPasswd, icon: <InfoIcon className="step-icon"/>},
-        ],
-        retrieveForms: [
-          <RetrieveInformation
+        userForms: [
+          <UserInformation
             showErrorFunction={showError => this.showError = showError}
-            RetrieveInformation={this.state.RetrieveInformation}
+            userInformation={this.state.userInformation}
             handleEmail={this.handleEmail.bind(this)}
-            language={this.state.language}
-          />,
-          <ResetInformation
-            showErrorFunction={showError => this.showError = showError}
-            ResetInformation={this.state.ResetInformation}
             handlePassword={this.handlePassword.bind(this)}
             language={this.state.language}
+            type={this.props.location.type}
           />,
+        ],
+        userSteps: [
+          {label: this.state.language.information, icon: <InfoIcon className="step-icon"/>},
         ],
       })
     });
   }
 
-  render() { 
-    this.props.location.hash = this.state.hash
+  render() {
     return(
       <div>
         {
           <MuiThemeProvider theme={theme}>
             {
               this.state.language && Session.get('language') ?
-
-                Session.get("resetToken") ? 
-                
+                this.props.location.type === "tutor" ?
                   <React.Fragment>
                     <AppBar
                       history={this.props.history}
@@ -275,16 +348,16 @@ export default class RetrievePasswd extends React.Component {
                       setLanguage={this.setLanguage.bind(this)}
                     />
                     {
-                      this.state.retrieveForms !== undefined && this.state.retrieveSteps !== undefined ?
+                      this.state.userForms !== undefined && this.state.userSteps !== undefined ?
                         <FormStepper
-                          title={this.state.language.retrievingPasswd}
+                          title={this.state.language.tutorRegistration}
                           color="secondary"
-                          steps={this.state.retrieveSteps}
-                          forms={this.state.retrieveForms}
-                          finalLabel={this.state.language.rPasswd}
+                          steps={this.state.userSteps}
+                          forms={this.state.userForms}
+                          finalLabel={this.state.language.sendRequest}
                           saveLabel={undefined}
                           language={this.state.language}
-                          finalAction={this.changePasswd.bind(this)}
+                          finalAction={this.registerTutor.bind(this)}
                         />
                       :
                       undefined
@@ -297,10 +370,10 @@ export default class RetrievePasswd extends React.Component {
                       disableBackdropClick={true}
                       disableEscapeKeyDown={true}
                     >
-                      <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.passwdChanged}</DialogTitle>
+                      <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.resquestSuccessfullySent}</DialogTitle>
                       <DialogContent className="success-dialog-content">
                         <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                          {this.state.language.dbUpdated}
+                          {this.state.language.dataBeingValidated}
                         </DialogContentText>
                         <CheckCircleIcon className="success-dialog-icon"/>
                       </DialogContent>
@@ -327,16 +400,16 @@ export default class RetrievePasswd extends React.Component {
                       setLanguage={this.setLanguage.bind(this)}
                     />
                     {
-                      this.state.retrieveForms !== undefined && this.state.retrieveSteps !== undefined ?
+                      this.state.userForms !== undefined && this.state.userSteps !== undefined ?
                         <FormStepper
-                          title={this.state.language.retrievingPasswd}
+                          title={this.state.language.studentRegistration}
                           color="secondary"
-                          steps={this.state.retrieveSteps}
-                          forms={this.state.retrieveForms}
-                          finalLabel={this.state.language.sendEmail}
+                          steps={this.state.userSteps}
+                          forms={this.state.userForms}
+                          finalLabel={this.state.language.signUp}
                           saveLabel={undefined}
                           language={this.state.language}
-                          finalAction={this.registerRetrieve.bind(this)}
+                          finalAction={this.registerStudent.bind(this)}
                         />
                       :
                       undefined

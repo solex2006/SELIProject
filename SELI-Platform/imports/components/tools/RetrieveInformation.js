@@ -92,7 +92,7 @@ export default class RetrieveInformation extends React.Component {
         }, () => {
           Meteor.call("ValidateEmail", this.state.RetrieveInformation.email, (error, response) =>  {
             let message;
-            response=true;
+            //response=true;
             response ? message = this.props.language.validEmail : message = this.props.language.invalidEmail;
             this.setState({
               emailResult: true,

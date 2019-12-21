@@ -139,7 +139,11 @@ export default class SignInForm extends React.Component {
           error={this.state.showError && this.state.userInformation.password === ''}
         />
         <div className="sign-buttons-container">
-          <Button onClick={() => this.validateSignIn()} className="sign-button" color="primary" variant="contained">{this.props.language ? `${this.props.language.signIn}` : ''}</Button>
+          <Button onClick={() => this.validateSignIn()} 
+            className="sign-button" color="primary" variant="contained"
+          >
+            {this.props.language ? `${this.props.language.signIn}` : ''}
+          </Button>
         </div>
         <ControlSnackbar
           showControlMessage={this.state.showControlMessage}
