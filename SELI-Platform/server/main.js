@@ -6,16 +6,28 @@ import '../lib/RequirementsCollection';
 import '../lib/AudiencesCollection';
 import '../lib/CommentsCollection';
 import '../lib/FeedbackCollection';
+import '../lib/SessionLogCollection';
 import '../lib/extract';
 import '../lib/validateSignUp';
 import '../lib/usersUtil';
 import '../lib/sendVerificationEmail';
 import '../lib/changeAccountInformation';
 
-if (Meteor.isServer) {
-  
-  Meteor.startup(() => {
+/**
+ * SELI - Learning Analytics
+ * This method is used to obtain the client's IP address.
+ * @author Bernardo Caussin
+ * @returns {string} public internet IP address
+ */
+Meteor.methods({
+  getIP: function(){
+      var ip = this.connection.clientAddress;
+      return ip;
+  }
+});
 
+if (Meteor.isServer) {
+  Meteor.startup(() => {
     let smtp_domain = Meteor.settings.private.SMTP_DOMAIN;
     let smtp_port = Meteor.settings.private.SMTP_PORT;
     let smtp_user = Meteor.settings.private.SMTP_USER;
