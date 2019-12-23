@@ -1,4 +1,5 @@
 var PORTUGUESE = {
+  questionpublishstory: 'Are you sure to publish the story?',
   languageIndex: '2',
   languageLabel: 'Portuguese (PT)',
   seliProject: "Projeto SELI",

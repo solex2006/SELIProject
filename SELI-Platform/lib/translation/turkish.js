@@ -1,4 +1,5 @@
 var TURKISH = {
+  questionpublishstory: 'Are you sure to publish the story?',
   languageIndex: '4',
   languageLabel: 'Portuguese (PT)',
   seliProject: "SELI Projesi",

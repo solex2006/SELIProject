@@ -1,5 +1,4 @@
 var ENGLISH = {
-  no: "No",
   questionpublishstory: 'Are you sure to publish the story?',
   languageIndex: '0',
   languageLabel: 'English (US)',
