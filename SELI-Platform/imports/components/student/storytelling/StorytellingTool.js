@@ -34,11 +34,18 @@ import StorytellingEnd from './StorytellingEnd';
 import StorytellingPlayer from './StorytellingPlayer';
 
 import { Activities } from '../../../../lib/ActivitiesCollection';
+import { Feedback }   from '../../../../lib/FeedbackCollection';
 import { Courses } from '../../../../lib/CourseCollection';
 
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Carousel from 'react-images';
+import { makeStyles } from '@material-ui/core/styles';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 
 import { 
   FacebookShareButton, FacebookIcon,
@@ -48,9 +55,13 @@ import {
 
 import { Link } from "react-router-dom";
 
+
+
+
   
 
 export default class StorytellingTool extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -82,8 +93,63 @@ export default class StorytellingTool extends React.Component {
       stateconsulta: false,
       isyes:false,
       isno:false,
-      show: true
+      show: true,
+      dataImages: [],
+      dataImagesName:[],
+      dataImagesId:[],
+      dataAudio : [],
+      dataAudioName: [],
+      dataAudioId:[]  
     }
+  }
+
+
+
+  handleClickImages=(files)=>{
+    console.log("Link de las imagenes, nombre e id")
+    console.log(files)  //aqui se debe llamr al metodo getimagefielinformationReuse
+    
+  }
+  
+  handleImagesAudio=(value)=>{
+  
+    if (value === "images") {
+      console.log("images")
+      this.setState({
+        action: "reuse",
+        open: true,
+      })
+    }
+    else{
+      console.log("audio")
+      this.setState({
+        action: "reuseAudio",
+        open: true,
+      })
+    }
+    
+  }
+
+
+  
+  showImagesData=()=>{
+    console.log(":::::::::::EL ESTADO::::::::::::")
+    console.log(this.state.dataImages)
+    //const images = [{ source: 'http://localhost:3000/files/CourseFilesCollection/CourseFilesCollection/S6wvTMEG4n25fjD5k/original/S6wvTMEG4n25fjD5k.png'}];
+
+    return (
+  
+      <div>
+        <Button variant="contained" onClick={() => this.handleImagesAudio()} color="primary" className="bar-button">
+        Reuseee images
+    </Button>	  
+      </div>                
+  
+       
+   
+      
+    )
+
   }
 
   handleClose = () => {
@@ -205,15 +271,31 @@ export default class StorytellingTool extends React.Component {
       story: story,
     });
   }
-
-  getImageFileInformation(file){
+//esta funcion toma los parametros de vuelta de la funcion upload file tiene el link, nombre e id del nodo.
+  getImageFileInformation(file){  
+    console.log("file", file)
     let story = this.state.story;
+    console.log("selected node",this.state.selectedNode )
     story.nodes[this.state.selectedNode].image = file;
     this.setState({
       story: story,
     });
+
+    console.log("estado", this.state.story)
   }
 
+//el mismo metodo pero para reutilizar las imagenes ya subidas al servidor
+getImageFileInformationReuse(file){  
+  console.log("datos a reutilizar", file)
+  let story = this.state.story;
+  console.log("selected node despues de ReUsar",this.state.selectedNode )
+  story.nodes[this.state.selectedNode].image = file;
+  this.setState({
+    story: story,
+  });
+
+  console.log("estadodespuesdereutilizar", this.state.story)
+}
   unPickImageFile(){
     let story = this.state.story;
     story.nodes[this.state.selectedNode].image = '';
@@ -302,6 +384,8 @@ export default class StorytellingTool extends React.Component {
 
     if (this.state.saved) {
       if (this.state.story.name !== "") {
+        console.log("DATOS A GUARDAR....")
+        console.log(this.state.story.name, this.state.story.nodes, this.state.story.isPublic )
         Activities.update(
           { _id: this.state.saved},
           { $set: {
@@ -624,6 +708,30 @@ export default class StorytellingTool extends React.Component {
         saved: this.props.storyToEdit._id,
       })
     }
+
+    ////ACTUALIZACIONES saca los link de las imagens y audios ya usados al inicio del componente////
+    console.log("Las Imagenes y Audios ya usados")
+    let dataImageSound=Activities.find({}).fetch()
+    console.log("DATA-IMAGE-SOUND")
+    console.log(dataImageSound)
+    dataImageSound.map((data)=>{
+      let ImageSound = data.activity.data
+      ImageSound.map((data2)=>{
+       let dataImg=data2.image       //let dataImgName=data2.image.link
+       let dataAud=data2.audio 
+       //0let dataImgId=data2.image.link
+       //console.log(data2.image._id)
+       //console.log(data2.image.name)
+       
+       this.setState(prevState => ({
+        dataImages: [...prevState.dataImages, dataImg],
+        dataAudio: [...prevState.dataAudio, dataAud]
+        //dataImagesName: [...prevState.dataImagesName, dataImgName],
+        //dataImagesId: [...prevState.dataImagesId, dataImgId]
+      }))
+      })
+        
+    })
   }
 
   selectAudioType = (newValue) => {
@@ -633,6 +741,9 @@ export default class StorytellingTool extends React.Component {
   };
 
   render() {
+
+    
+
     return(
       <div>
         {
@@ -815,15 +926,15 @@ export default class StorytellingTool extends React.Component {
                       </Tabs>
                   }
                   {
-                    this.state.audioType === 'record' ?
+                     this.state.audioType === 'record' ?
                       <AudioRecorder
                         getFileInformation={this.getAudioFileInformation.bind(this)}
                       />
                       : 
-                        undefined
+                        undefined 
                   }
                     {
-                    this.state.audioType === 'upload' ?
+                     this.state.audioType === 'upload' ?
                       <FileUpload
                         type='audio'
                         user={Meteor.userId()}
@@ -832,9 +943,41 @@ export default class StorytellingTool extends React.Component {
                         getFileInformation={this.getAudioFileInformation.bind(this)}
                       /> 
                       : 
-                        undefined                    
+                        undefined                     
                   }
                
+                
+              
+             { 
+                <div>
+                  <Button variant="contained" onClick={() => this.handleImagesAudio("images")} color="primary" className="bar-button">
+                Reuse Images
+                </Button>	 
+                <Button variant="contained" onClick={() => this.handleImagesAudio("audio")} color="primary" className="bar-button">             
+                Reuse Audio
+                </Button>	
+                </div>
+                
+  
+              }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   {
                     this.state.story.nodes[this.state.selectedNode].image !== '' ?
                       <ImagePreview
@@ -999,8 +1142,46 @@ export default class StorytellingTool extends React.Component {
                       </React.Fragment>
                       :
                       undefined
-               // :
-               // undefined
+          }   
+          
+          {
+            this.state.action === "reuse" ?
+               // this.state.show=== true ?
+                      <React.Fragment>
+                        <div className="display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around',
+                          overflow: 'hidden', backgroundColor: theme.palette.background.paper">
+                          <GridList cellHeight={160}  cols={1}>
+                            {this.state.dataImages.map(tile => (
+                              <GridListTile key={Math.random()} >
+                                <img src={tile.link} alt={tile.link} onClick={() => this. getImageFileInformationReuse(tile)}/> 
+                              </GridListTile>
+                            ))}
+                          </GridList>
+                        </div>
+                      </React.Fragment>
+                      :
+                      undefined
+          }
+          {
+            this.state.action === "reuseAudio" ?
+               // this.state.show=== true ?
+                      <React.Fragment>
+                        <div>
+                          
+                            {this.state.dataAudio.map(tile => (
+                              <AudioPlayer
+                              autoPlay
+                              src={tile.link}
+                              
+                              // other props here
+                            />
+                          
+                            ))}
+                        
+                        </div>
+                      </React.Fragment>
+                      :
+                      undefined
           }          
         </Dialog>
         {/* despues del publish */}
@@ -1169,6 +1350,8 @@ export default class StorytellingTool extends React.Component {
           }
           
         </Dialog>
+
+      
       </div>
     )
   }
