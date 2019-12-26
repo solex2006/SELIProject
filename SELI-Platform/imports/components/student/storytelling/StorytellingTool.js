@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Viewer from 'react-viewer';
 import Loading from '../../tools/Loading';
 import AudioRecorder from './AudioRecorder';
 import AudioPreview from './AudioPreview';
@@ -41,12 +41,13 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Carousel from 'react-images';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
-
+import AliceCarousel from 'react-alice-carousel'
+import 'react-alice-carousel/lib/alice-carousel.css'
 import { 
   FacebookShareButton, FacebookIcon,
   LinkedinShareButton, LinkedinIcon,
@@ -56,11 +57,21 @@ import {
 import { Link } from "react-router-dom";
 
 
+const useStyles = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    width: 920,
+    height: 650,
+  },
+});
 
-
-  
-
-export default class StorytellingTool extends React.Component {
+ class StorytellingTool extends React.Component {
   
   constructor(props) {
     super(props);
@@ -99,11 +110,19 @@ export default class StorytellingTool extends React.Component {
       dataImagesId:[],
       dataAudio : [],
       dataAudioName: [],
-      dataAudioId:[]  
+      dataAudioId:[],
+      visible:false,
+      img:[]  
     }
   }
 
 
+  setVisible =(estado)=>{  //Para vizualizar las imagenes en react vizualizer
+    this.setState({
+      visible: false,
+      
+    })
+  }
 
   handleClickImages=(files)=>{
     console.log("Link de las imagenes, nombre e id")
@@ -115,6 +134,7 @@ export default class StorytellingTool extends React.Component {
   
     if (value === "images") {
       console.log("images")
+      
       this.setState({
         action: "reuse",
         open: true,
@@ -289,6 +309,7 @@ getImageFileInformationReuse(file){
   console.log("datos a reutilizar", file)
   let story = this.state.story;
   console.log("selected node despues de ReUsar",this.state.selectedNode )
+  this.handleClose()
   story.nodes[this.state.selectedNode].image = file;
   this.setState({
     story: story,
@@ -296,7 +317,23 @@ getImageFileInformationReuse(file){
 
   console.log("estadodespuesdereutilizar", this.state.story)
 }
-  unPickImageFile(){
+getImageFileInformationReuseAudio(fileAudio){
+  console.log("datos a reutilizar", fileAudio)
+  let story = this.state.story;
+  console.log("selected node despues de ReUsar",this.state.selectedNode )
+  this.handleClose()
+  story.nodes[this.state.selectedNode].audio = fileAudio;
+  this.setState({
+    story: story,
+  });
+
+  console.log("estadodespuesdereutilizar", this.state.story)
+
+}
+ 
+
+
+unPickImageFile(){
     let story = this.state.story;
     story.nodes[this.state.selectedNode].image = '';
     this.setState({
@@ -722,7 +759,8 @@ getImageFileInformationReuse(file){
        //0let dataImgId=data2.image.link
        //console.log(data2.image._id)
        //console.log(data2.image.name)
-       
+       //crea el array de las iamgnes
+       this.state.img.push({"src":dataImg.link}) 
        this.setState(prevState => ({
         dataImages: [...prevState.dataImages, dataImg],
         dataAudio: [...prevState.dataAudio, dataAud]
@@ -740,10 +778,14 @@ getImageFileInformationReuse(file){
     })
   };
 
+  handleOnDragStart = (e) => {
+    e.preventDefault()
+  }
+
+
+
   render() {
-
-    
-
+    const { classes } = this.props;
     return(
       <div>
         {
@@ -945,16 +987,14 @@ getImageFileInformationReuse(file){
                       : 
                         undefined                     
                   }
-               
-                
-              
+               <Divider light/>
              { 
-                <div>
+                <div className="center-row">
                   <Button variant="contained" onClick={() => this.handleImagesAudio("images")} color="primary" className="bar-button">
-                Reuse Images
+                  {this.props.language.reuseImg}
                 </Button>	 
                 <Button variant="contained" onClick={() => this.handleImagesAudio("audio")} color="primary" className="bar-button">             
-                Reuse Audio
+                {this.props.language.reuseAudio}
                 </Button>	
                 </div>
                 
@@ -1144,21 +1184,21 @@ getImageFileInformationReuse(file){
                       undefined
           }   
           
-          {
+          { 
             this.state.action === "reuse" ?
                // this.state.show=== true ?
                       <React.Fragment>
-                        <div className="display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around',
-                          overflow: 'hidden', backgroundColor: theme.palette.background.paper">
-                          <GridList cellHeight={160}  cols={1}>
-                            {this.state.dataImages.map(tile => (
-                              <GridListTile key={Math.random()} >
-                                <img src={tile.link} alt={tile.link} onClick={() => this. getImageFileInformationReuse(tile)}/> 
-                              </GridListTile>
-                            ))}
-                          </GridList>
-                        </div>
-                      </React.Fragment>
+                          <div className={classes.root}>
+                            <GridList  cols={3} className={classes.gridList}>
+                              {this.state.dataImages.map(tile => (
+                                <GridListTile key={Math.random()} >
+                                  <img src={tile.link} style={{padding: "5px", width: "150px", height:"150",  marginBlock: "10px", alignContent: 'center', align: "center"}} alt={tile.link} onDoubleClick={() => this.getImageFileInformationReuse(tile)}/>
+                                </GridListTile>
+                              ))}
+                            </GridList>
+                          </div>
+                      </React.Fragment> 
+             
                       :
                       undefined
           }
@@ -1166,19 +1206,20 @@ getImageFileInformationReuse(file){
             this.state.action === "reuseAudio" ?
                // this.state.show=== true ?
                       <React.Fragment>
-                        <div>
-                          
+                            <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                               {this.props.language.audiomessage}
+                             </DialogTitle>
                             {this.state.dataAudio.map(tile => (
-                              <AudioPlayer
-                              autoPlay
+                               
+                             <Button onDoubleClick={() => this.getImageFileInformationReuseAudio(tile)}>
+                               <AudioPlayer
+                              volume
                               src={tile.link}
-                              
-                              // other props here
-                            />
+                              />
+                             </Button> 
                           
                             ))}
-                        
-                        </div>
+
                       </React.Fragment>
                       :
                       undefined
@@ -1356,3 +1397,4 @@ getImageFileInformationReuse(file){
     )
   }
 }
+export default withStyles(useStyles)(StorytellingTool)

@@ -339,15 +339,3 @@ figure.group.caption-bottom, figure.group.caption-bottom>figcaption {
 }
 
 
-  .root {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
-  }
-
-  .gridList {
-    width: 500,
-    height: 450,
-  }
