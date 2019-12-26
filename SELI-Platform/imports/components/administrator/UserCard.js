@@ -18,6 +18,10 @@ export default class UserCard extends React.Component {
     win.focus();
   }
 
+  mailLink = (mail) =>{
+    window.location.href = `mailto:${mail}`;
+  }
+
   render() {
     return(
       <div className="user-card-container">
@@ -32,7 +36,7 @@ export default class UserCard extends React.Component {
         <div className="user-card-header">
           <p className="user-card-header-text">{`Name: ${this.props.user.profile.fullname}`}</p>
           <p className="user-card-header-text">{`Username: ${this.props.user.username}`}</p>
-          <p className="user-card-header-text">{`Email: ${this.props.user.emails[0].address}`}</p>
+          <p onClick={() => this.mailLink(this.props.user.emails[0].address)} className="user-card-link">{`Email: `} <span className="user-card-link-text">{this.props.user.emails[0].address}</span></p>
         </div>
         <p className="user-card-header-text">{this.props.user.profile.biography}</p>
         <div className="user-card-body">
