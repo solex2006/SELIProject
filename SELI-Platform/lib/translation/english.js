@@ -1,5 +1,7 @@
 var ENGLISH = {
-  no: "No",
+  reuseImg:"reuse image",
+  reuseAudio: "reuse audio",
+  audiomessage:'Note: double click to select',
   questionpublishstory: 'Are you sure to publish the story?',
   languageIndex: '0',
   languageLabel: 'English (US)',

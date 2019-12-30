@@ -258,7 +258,6 @@ export default class RetrievePasswd extends React.Component {
   }
 
   render() { 
-    this.props.location.hash = this.state.hash
     return(
       <div>
         {
@@ -285,6 +284,7 @@ export default class RetrievePasswd extends React.Component {
                           saveLabel={undefined}
                           language={this.state.language}
                           finalAction={this.changePasswd.bind(this)}
+                          hashStepper={Session.get("resetToken")}
                         />
                       :
                       undefined

@@ -57,6 +57,7 @@ export default class ImageItem extends React.Component {
       <div className="content-box">
         <div className="image-content-item">
           <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
+            
             <Resizable
               size={{
                 width: this.props.item.attributes.size.width,
