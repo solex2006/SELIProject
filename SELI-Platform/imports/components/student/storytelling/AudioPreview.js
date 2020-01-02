@@ -1,29 +1,41 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
+import AudioPlayer from 'react-h5-audio-player';
 
 export default class AudioPreview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      link: ''
 
     }
   }
 
   componentDidMount(){
-
+    this.setState({
+      link: this.props.file.link
+    })
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    //only update chart if the data has changed
+     if (prevProps.file.link !== this.props.file.link) {
+      this.setState({
+        link: this.props.file.link
+      })
+    } 
+    
+  }
+  
+
   render() {
+    let audio= <AudioPlayer
+    src={this.props.file.link}
+    />
+
     return(
       <div className="storytelling-media-preview-container">
-        <audio controls="controls" className="audio-file-preview" controlsList="nodownload">
-          <source src={this.props.file.link}></source>
-        </audio>
+        {audio}
 
         <Button
           className="storytelling-media-button"

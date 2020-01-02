@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Viewer from 'react-viewer';
-import Loading from '../../tools/Loading';
 import AudioRecorder from './AudioRecorder';
 import AudioPreview from './AudioPreview';
 import ImagePreview from './ImagePreview';
@@ -40,14 +38,14 @@ import { Courses } from '../../../../lib/CourseCollection';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Carousel from 'react-images';
+
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
-import AliceCarousel from 'react-alice-carousel'
-import 'react-alice-carousel/lib/alice-carousel.css'
+
+
 import { 
   FacebookShareButton, FacebookIcon,
   LinkedinShareButton, LinkedinIcon,
@@ -106,9 +104,11 @@ const useStyles = theme => ({
       isno:false,
       show: true,
       dataImages: [],
+      dataImages1: [],
       dataImagesName:[],
       dataImagesId:[],
       dataAudio : [],
+      dataAudio1 :[],
       dataAudioName: [],
       dataAudioId:[],
       visible:false,
@@ -130,15 +130,45 @@ const useStyles = theme => ({
     
   }
   
-  handleImagesAudio=(value)=>{
+  filterRepetidos=(data)=>{
+    let filteredArr = data.reduce((acc, current) => {
+      let x = acc.find(item => item.name === current.name);
+      if (!x) {
+        return acc.concat([current]);
+      } else {
+        return acc;
+      }
+    }, []);
+   
+    const filteredItems = filteredArr.filter(item => item != "")
   
+    console.log("Filtradoooooooooo", filteredItems)
+  
+    return filteredItems //retorna sin valores repetidos de audio o video
+  }
+
+  handleImagesAudio=(value)=>{
+    this.UpdateImagesAudio()
+    console.log("Antes", this.state.dataImages)
+    let Imagesfilter=this.filterRepetidos(this.state.dataImages)
+    let Audiofilter=this.filterRepetidos(this.state.dataAudio)
+
+    
+    
+    console.log("DespuesfiltradoImages", Imagesfilter)
+    console.log("DespuesfiltradoAudio", Audiofilter)
+    this.setState({
+      dataImages1:Imagesfilter,
+      dataAudio1:Audiofilter
+    })
+    
+     
     if (value === "images") {
-      console.log("images")
-      
       this.setState({
         action: "reuse",
         open: true,
       })
+     // console.log("Despuessatet", this.state.dataImages)
     }
     else{
       console.log("audio")
@@ -151,26 +181,59 @@ const useStyles = theme => ({
   }
 
 
-  
-  showImagesData=()=>{
-    console.log(":::::::::::EL ESTADO::::::::::::")
-    console.log(this.state.dataImages)
-    //const images = [{ source: 'http://localhost:3000/files/CourseFilesCollection/CourseFilesCollection/S6wvTMEG4n25fjD5k/original/S6wvTMEG4n25fjD5k.png'}];
-
-    return (
-  
-      <div>
-        <Button variant="contained" onClick={() => this.handleImagesAudio()} color="primary" className="bar-button">
-        Reuseee images
-    </Button>	  
-      </div>                
-  
-       
-   
-      
-    )
-
+  componentDidMount() {
+    if (this.props.storyToEdit !== undefined) {
+      this.setState({
+        story: {
+          name: this.props.storyToEdit.activity.name,
+          published: this.props.storyToEdit.activity.published,
+          activityId: this.props.storyToEdit.activity.activityId,
+          courseId: this.props.storyToEdit.activity.courseId,
+          user: this.props.storyToEdit.activity.user,
+          creationDate: this.props.storyToEdit.activity.date,
+          nodes: this.props.storyToEdit.activity.data,
+          isPublic: this.props.storyToEdit.activity.public,
+        },
+        saved: this.props.storyToEdit._id,
+      })
+    }
+     
+    this.UpdateImagesAudio()
   }
+
+  UpdateImagesAudio= () =>{ 
+    this.setState({
+      dataImages:[],
+      dataAudio:[]
+    })
+    console.log("Las Imagenes y Audios ya usados")
+    let dataImageSound=Activities.find({}).fetch()
+    console.log("DATA-IMAGE-SOUND")
+    console.log(dataImageSound)
+    dataImageSound.map((data)=>{
+      let ImageSound = data.activity.data
+      ImageSound.map((data2)=>{
+       let dataImg=data2.image       //let dataImgName=data2.image.link
+       let dataAud=data2.audio 
+      
+       
+      this.state.dataImages.push(dataImg)
+       this.state.dataAudio.push(dataAud)
+      /* this.setState(prevState => ({
+        dataImages: [...prevState.dataImages, dataImg],
+        dataAudio: [...prevState.dataAudio, dataAud]
+        
+      })) */
+      
+      })
+        
+    })
+    
+     console.log("esatdo de las imags" , this.state.dataImages)
+    //METODO PARA ELIMINAR REPETIDOS
+    
+            }
+  
 
   handleClose = () => {
     this.setState({ open: false });
@@ -276,12 +339,15 @@ const useStyles = theme => ({
 
   getAudioFileInformation(file){
     let story = this.state.story;
+    console.log("SELECTED NODE")
+    console.log(this.state.selectedNode)
     story.nodes[this.state.selectedNode].audio = file;
     this.setState({
       story: story,
     });
     console.log("Audio informacion..............")
     console.log(file)
+    console.log(this.state.story)
   }
 
   unPickAudioFile(){
@@ -729,48 +795,8 @@ unPickImageFile(){
     this.changeNodeOrdinal(index, index + 1);
   }
 
-  componentDidMount() {
-    if (this.props.storyToEdit !== undefined) {
-      this.setState({
-        story: {
-          name: this.props.storyToEdit.activity.name,
-          published: this.props.storyToEdit.activity.published,
-          activityId: this.props.storyToEdit.activity.activityId,
-          courseId: this.props.storyToEdit.activity.courseId,
-          user: this.props.storyToEdit.activity.user,
-          creationDate: this.props.storyToEdit.activity.date,
-          nodes: this.props.storyToEdit.activity.data,
-          isPublic: this.props.storyToEdit.activity.public,
-        },
-        saved: this.props.storyToEdit._id,
-      })
-    }
+  
 
-    ////ACTUALIZACIONES saca los link de las imagens y audios ya usados al inicio del componente////
-    console.log("Las Imagenes y Audios ya usados")
-    let dataImageSound=Activities.find({}).fetch()
-    console.log("DATA-IMAGE-SOUND")
-    console.log(dataImageSound)
-    dataImageSound.map((data)=>{
-      let ImageSound = data.activity.data
-      ImageSound.map((data2)=>{
-       let dataImg=data2.image       //let dataImgName=data2.image.link
-       let dataAud=data2.audio 
-       //0let dataImgId=data2.image.link
-       //console.log(data2.image._id)
-       //console.log(data2.image.name)
-       //crea el array de las iamgnes
-       this.state.img.push({"src":dataImg.link}) 
-       this.setState(prevState => ({
-        dataImages: [...prevState.dataImages, dataImg],
-        dataAudio: [...prevState.dataAudio, dataAud]
-        //dataImagesName: [...prevState.dataImagesName, dataImgName],
-        //dataImagesId: [...prevState.dataImagesId, dataImgId]
-      }))
-      })
-        
-    })
-  }
 
   selectAudioType = (newValue) => {
     this.setState({
@@ -781,7 +807,6 @@ unPickImageFile(){
   handleOnDragStart = (e) => {
     e.preventDefault()
   }
-
 
 
   render() {
@@ -1186,11 +1211,14 @@ unPickImageFile(){
           
           { 
             this.state.action === "reuse" ?
-               // this.state.show=== true ?
+            
                       <React.Fragment>
+                    
                           <div className={classes.root}>
                             <GridList  cols={3} className={classes.gridList}>
-                              {this.state.dataImages.map(tile => (
+                              {
+                                
+                                this.state.dataImages1.map(tile => (
                                 <GridListTile key={Math.random()} >
                                   <img src={tile.link} style={{padding: "5px", width: "150px", height:"150",  marginBlock: "10px", alignContent: 'center', align: "center"}} alt={tile.link} onDoubleClick={() => this.getImageFileInformationReuse(tile)}/>
                                 </GridListTile>
@@ -1209,7 +1237,7 @@ unPickImageFile(){
                             <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                                {this.props.language.audiomessage}
                              </DialogTitle>
-                            {this.state.dataAudio.map(tile => (
+                            {this.state.dataAudio1.map(tile => (
                                
                              <Button onDoubleClick={() => this.getImageFileInformationReuseAudio(tile)}>
                                <AudioPlayer
