@@ -4,7 +4,7 @@ var TURKISH = {
   audiomessage:'Note: double click to select',
   questionpublishstory: 'Are you sure to publish the story?',
   languageIndex: '4',
-  languageLabel: 'Portuguese (PT)',
+  languageLabel: 'Turkish (TR)',
   seliProject: "SELI Projesi",
   signIn: "Giriş yap",
   signUp: "Kaydol",

@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 
-export default class ImagePreview extends React.Component {
+export default class VideoPreview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

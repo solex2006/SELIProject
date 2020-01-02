@@ -27,6 +27,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CourseFiles from '../../lib/CourseFilesCollection';
 
 import english from '../../lib/translation/english';
+import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import turkish from "../../lib/translation/turkish";
 
@@ -308,7 +309,12 @@ export default class UserRegistration extends React.Component {
     else if (option === 'English (US)') {
       Session.set({language: english});
       language = english;
-    } else if (option === 'Turkish (TR)') {
+    } 
+    else if (option === 'Spanish (ES)') {
+      Session.set({language: spanish});
+      language = spanish;
+    } 
+    else if (option === 'Turkish (TR)') {
       Session.set({language: turkish});
       language = turkish;
     }

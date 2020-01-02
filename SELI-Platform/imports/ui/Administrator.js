@@ -36,6 +36,7 @@ import Button from '@material-ui/core/Button';
 import {checkUserType} from '../../lib/userSesions';
 
 import english from '../../lib/translation/english';
+import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import turkish from '../../lib/translation/turkish';
 
@@ -77,7 +78,12 @@ export default class Tutor extends React.Component {
     else if (option === 'English (US)') {
       Session.set({language: english});
       language = english;
-    } else if (option === 'Turkish (TR)') {
+    } 
+    else if (option === 'Spanish (ES)') {
+      Session.set({language: spanish});
+      language = spanish;
+    }
+    else if (option === 'Turkish (TR)') {
       Session.set({language: turkish});
       language = turkish;
     }

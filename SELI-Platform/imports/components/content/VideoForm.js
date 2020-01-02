@@ -31,6 +31,7 @@ export default class VideoForm extends React.Component {
         externalLink: '',
         hasDescription: true,
         description: '',
+        subtitles: [],
         accessibility: {
           pureDecorative: false,
           percentage: 0,
@@ -96,6 +97,16 @@ export default class VideoForm extends React.Component {
       attributes: attributes,
       showPreview: true,
       showGallery: false,
+    });
+  }
+
+  getFileInformationSub(file){
+    let attributes = this.state.attributes;
+    attributes.subtitles = file;
+    this.setState({
+      attributes: attributes,
+      //showPreview: true,
+      //showGallery: false,
     });
   }
 
@@ -242,38 +253,51 @@ export default class VideoForm extends React.Component {
                               getFileInformation={this.getFileInformation.bind(this)}
                             />
                           :
-                          <div>
-                            {
-                              this.state.validUrl ?
-                                <ReactPlayer className="course-creator-preview-player" url={this.state.url}/>
-                              :
-                                undefined
-                            }
-                            <div className="url-input-container">
-                              <TextField
-                                id="url-input"
-                                label="Url"
-                                margin="normal"
-                                variant="outlined"
-                                value={this.state.url}
-                                autoFocus={true}
-                                required
-                                onChange={this.urlHandleChange()}
-                                className="url-input"
-                                helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
-                              />
+                            <div>
+                              {
+                                this.state.validUrl ?
+                                  <ReactPlayer className="course-creator-preview-player" url={this.state.url}/>
+                                :
+                                  undefined
+                              }
+                              <div className="url-input-container">
+                                <TextField
+                                  id="url-input"
+                                  label="Url"
+                                  margin="normal"
+                                  variant="outlined"
+                                  value={this.state.url}
+                                  autoFocus={true}
+                                  required
+                                  onChange={this.urlHandleChange()}
+                                  className="url-input"
+                                  helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
+                                />
+                              </div>
+                              <div className="margin-center-row">
+                                <Button onClick={() => this.validateUrl()} className="url-check-button" color="primary">Test source</Button>
+                              </div>
                             </div>
-                            <div className="margin-center-row">
-                              <Button onClick={() => this.validateUrl()} className="url-check-button" color="primary">Test source</Button>
-                            </div>
-                          </div>
                         }
                       </div>
                     :
-                    <VideoPreview
-                      file={this.state.attributes.video}
-                      unPickFile={this.unPickFile.bind(this)}
-                    />
+                      <div>
+                        <div>
+                          <VideoPreview
+                            file={this.state.attributes.video}
+                            unPickFile={this.unPickFile.bind(this)}
+                          />
+                        </div>
+                        <div>
+                          <FileUpload
+                            type="file"
+                            user={Meteor.userId()}
+                            accept={'.srt'}
+                            label={'Click the button to upload a subtitle'}
+                            getFileInformation={this.getFileInformationSub.bind(this)}
+                          />
+                        </div>
+                      </div>
                   }
                 </div>
                 <div className="course-creator-form-column">
