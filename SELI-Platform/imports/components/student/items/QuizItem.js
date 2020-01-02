@@ -123,6 +123,7 @@ export default class QuizItem extends React.Component {
   }
 
   render() {
+    console.log("en el student")
     return(
       <div className="content-box">
         <div className="quiz-content-item">

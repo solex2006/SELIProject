@@ -21,7 +21,7 @@ export default class QuizForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timeLimits: ['5', '10', '20', '30', '60', '90', '120'],
+      timeLimits: ['5', '10', '20', '30', '60', '90', '120', 'Without time limit'],
       approvalPercentages: ['50', '60', '70', '80', '90'],
       questionSelected: 0,
       addedQuestions: 0,
@@ -96,6 +96,7 @@ export default class QuizForm extends React.Component {
       attributes.awardPoints = event.target.checked;
     }
     else if (name === 'timeLimit') {
+      console.log(event.target.value)
       attributes.timeLimit = event.target.value;
     }
     else if (name === 'approvalPercentage') {
@@ -231,11 +232,12 @@ export default class QuizForm extends React.Component {
     }
   }
 
-  componentDidMount(){
+  componentDidMount(){ //despues del render
     this.props.getQuizAttributesFunction(() => this.getQuizAttributes());
   }
 
-  componentWillMount(){
+  componentWillMount(){ //se llama antes del render
+    
     if (this.props.contentToEdit !== undefined) {
       this.setState({
         attributes: this.props.contentToEdit.attributes,
@@ -256,6 +258,7 @@ export default class QuizForm extends React.Component {
       })
     }
   }
+
 
   render() {
     return(
@@ -278,7 +281,7 @@ export default class QuizForm extends React.Component {
               select
               label="Time limit"
               required
-              value={this.state.attributes.timeLimit}
+              value={this.state.attributes.timeLimit} //por defecto 60
               onChange={this.handleChange('timeLimit')}
               SelectProps={{
                 MenuProps: {
@@ -295,6 +298,7 @@ export default class QuizForm extends React.Component {
                 </MenuItem>
               ))}
             </TextField>
+
           </div>
           <div className="quiz-input-container">
             <TextField

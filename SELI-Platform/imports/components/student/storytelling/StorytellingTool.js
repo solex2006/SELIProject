@@ -1213,7 +1213,9 @@ unPickImageFile(){
             this.state.action === "reuse" ?
             
                       <React.Fragment>
-                    
+                        <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                               {this.props.language.audiomessage}
+                             </DialogTitle>
                           <div className={classes.root}>
                             <GridList  cols={3} className={classes.gridList}>
                               {

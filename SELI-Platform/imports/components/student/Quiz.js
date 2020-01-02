@@ -138,6 +138,7 @@ export default class Quiz extends React.Component {
   }
 
   handleTick = (time) => {
+    console.log("handleTick")
     let progress;
     let fullTime = this.props.time;
     let seconds = time.s;
@@ -151,12 +152,20 @@ export default class Quiz extends React.Component {
   }
 
   render() {
+    console.log("Verifica pruebas...........")
+    console.log(this.props.time)
+    
     return(
       <div className="quiz-dashboard-container">
-        <Paper elevation={10} className="quiz-dashboard-side">
+        {
+          Number.isNaN(this.props.time) ?
+          undefined
+          :
+          <Paper elevation={10} className="quiz-dashboard-side">
           <p className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</p>
           <QuestionAnswerIcon className="quiz-dashboard-icon"/>
           <p className="quiz-dashboard-label-text">Time left</p>
+         
           <TimerMachine
             timeStart={this.props.time} // start at 10 seconds
             timeEnd={0} // end at 20 seconds
@@ -184,6 +193,8 @@ export default class Quiz extends React.Component {
             size={65}
           />
         </Paper>
+        }
+       
         <Paper elevation={8} className="quiz-dashboard-questions-container">
           <p className="question-dashboard-label-text">Choose the correct answer</p>
           <Divider/>
