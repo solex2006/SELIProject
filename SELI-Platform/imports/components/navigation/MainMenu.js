@@ -79,44 +79,77 @@ export default class MainMenu extends React.Component {
     win.focus();
   }
 
+  buildHandleEnterKeyPress = (onClick) => ({ key }) => {
+    if (key === 'Enter') { 
+      console.log(onClick)
+      onClick(); 
+    }
+  };
+
+  buildHandleEnterKeyPressMenu= (e)=>{
+    console.log("se presiona enter")
+    this.setState({
+      menuOpen: true, 
+    }) 
+    /* if (key === 'Enter') { 
+      console.log("Enter")
+      this.setState({
+        menuOpen: true, 
+      }) 
+    } */
+  }
   render() {
     return(
-      <div>
+      <div >
         <Menu
+       // customOnKeyDown={this.closeAllMenusOnEsc()} 
+          
           pageWrapId={ "page-wrap" }
           outerContainerId={ "outer-container" }
           isOpen={ this.state.menuOpen }
           customBurgerIcon={
-            <MdMenu
+            
+            <MdMenu 
+              tabIndex="1"
+              onKeyPress={ this.buildHandleEnterKeyPressMenu } 
               color={ "#FFFFFF" }
               size={ "1.75em" }
             />
+         
           }
           onStateChange={(state) => this.handleMenuStateChange(state)}>
-          <div onClick={() => this.showComponent("home")} className="menu-title">{this.props.language.seliLearningPlatform}</div>
+          <div  onClick={() => this.showComponent("home")} className="menu-title">{this.props.language.seliLearningPlatform}</div>
           <Divider className="user-menu-profile-divider" light={true}/>
           <div className="options-container">
             {
               this.state.options.map(options => {
                 return(
                   <ExpansionPanel
+                  tabIndex="-1" 
                     className="menu-expansion-panel"
                     defaultExpanded={ true }
                     onChange={this.handleChange(options.label[this.props.language.languageIndex])}>
                     <ExpansionPanelSummary
+                    tabIndex="-1" 
                       className="menu-expansion-summary"
                       expandIcon={
-                        <ExpandMoreIcon className="menu-expand-more-icon"/>
+                        <ExpandMoreIcon tabIndex="0" className="menu-expand-more-icon"/>
                       }
                     >
-                      <Typography className="menu-option">{options.label[this.props.language.languageIndex]}</Typography>
+                    <Typography tabIndex="-1"   className="menu-option">{options.label[this.props.language.languageIndex]}</Typography>
                     </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                      <div className="sub-menu-container">
+                    <ExpansionPanelDetails tabIndex="-1" >
+                      <div tabIndex="-1"  className="sub-menu-container">
                         {
-                          options.suboptions.map(suboptions => {
+                          options.suboptions.map((suboptions, index) => {
+                         
                             return(
-                              <div onClick={() => this.showComponent(suboptions.component)} className="sub-menu-option">{suboptions.label[this.props.language.languageIndex]}</div>
+                              <div 
+                              tabIndex="0" 
+                              onClick={() => this.showComponent(suboptions.component)}
+                              onKeyPress={ this.buildHandleEnterKeyPress(() => this.showComponent(suboptions.component)) } 
+                              className="sub-menu-option">{suboptions.label[this.props.language.languageIndex]}
+                              </div>
                             )
                           })
                         }

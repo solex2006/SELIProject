@@ -121,17 +121,17 @@ export default class AppBar extends React.Component {
 
   render() {
     return(
-      <div>
-        <div className="app-bar-container">
-          <p className="bar-title">{this.props.language.seliProject}</p>
-          <div className="bar-button-container">
+      <div >
+        <div className="app-bar-container" >
+          <p  className="bar-title">{this.props.language.seliProject}</p>
+          <div className="bar-button-container" >
             {
               this.props.user !== undefined ?
-                <div>
+                <div >
                   {
                     this.props.user.profile.type === 'student' ?
-                      <Button onClick={() => this.toggleSearchBar()} className="no-text-button">
-                        <SearchIcon className="app-bar-search-icon"/>
+                      <Button tabIndex="1" onClick={() => this.toggleSearchBar()} className="no-text-button">
+                        <SearchIcon tabIndex="1"  className="app-bar-search-icon"/>
                       </Button>
                     :
                     undefined
@@ -142,16 +142,17 @@ export default class AppBar extends React.Component {
             }
             {
               this.props.user === undefined ?
-                <div>
-                  <Button variant="contained" onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
+                <div tabIndex="1">
+                  <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
                     {this.props.language.signIn}
                   </Button>
-                  <Button variant="contained" onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
+                  <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
                     {this.props.language.signUp}
                   </Button>
                 </div>
               :
               <UserMenu
+              
                 language={this.props.language}
                 user={this.props.user}
                 showComponent={this.props.showComponent.bind(this)}
@@ -159,16 +160,18 @@ export default class AppBar extends React.Component {
               />
             }
             <LanguageSelector
+            
               language={this.props.language}
               setLanguage={this.props.setLanguage.bind(this)}
             />
           </div>
         </div>
-        <Slide direction="down" in={this.state.showSearchBar} mountOnEnter unmountOnExit>
-          <div className="app-bar-search-container">
-            <Paper elevation={15} className="app-bar-search-paper">
-              <Divider className="app-bar-search-divider" orientation="vertical" />
+        <Slide   direction="down" in={this.state.showSearchBar} mountOnEnter unmountOnExit>
+          <div   className="app-bar-search-container">
+            <Paper tabIndex="-1" elevation={15} className="app-bar-search-paper">
+              <Divider tabIndex="-1" className="app-bar-search-divider" orientation="vertical" />
               <InputBase
+          
                 fullWidth
                 className="app-bar-search-input-base"
                 placeholder={this.props.language.learnAbout}

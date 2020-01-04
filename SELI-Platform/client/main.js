@@ -36,8 +36,8 @@ Tracker.autorun(() => {
 
 Meteor.startup(() => {
   ReactDOM.render(
-    <Router history={history}>
-      <Switch>
+    <Router  history={history}>
+      <Switch >
         <Route exact path="/" component={Home} history={history}/>
         <Route exact path="/tutor" component={Tutor} history={history}/>
         <Route exact path="/student" component={Student} history={history}/>
