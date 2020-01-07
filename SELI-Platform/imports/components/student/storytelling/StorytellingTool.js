@@ -238,6 +238,7 @@ const useStyles = theme => ({
   handleClose = () => {
     this.setState({ open: false });
   }
+  
   handleClosepublish = () => {
     this.setState({ openpublish: false });
   }
@@ -891,7 +892,6 @@ unPickImageFile(){
                         undefined
                       }
 
-                      
                       {
                         this.state.story.nodes[this.state.selectedNode].type === 'scene' ?
                           <React.Fragment>
@@ -920,7 +920,6 @@ unPickImageFile(){
                     >
                       {this.props.language.saveStory}
                     </Button>
-
 
                     <Button
                       className="storytelling-media-button"
@@ -1190,7 +1189,7 @@ unPickImageFile(){
                // this.state.show=== true ?
                       <React.Fragment>
                         <div className="sign-actions">
-                        <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                         <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                             {this.props.language.questionpublishstory}
                           </DialogTitle>
                           <div className="center-row">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
@@ -10,26 +10,51 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-
 import TimerMachine from 'react-timer-machine'
-
-import moment from "moment";
+import { withStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Select from '@material-ui/core/Select';
+import moment, { min } from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
-
 momentDurationFormatSetup(moment);
+const useStyles = theme => ({
+  root: {
+    width: '79%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
+  button: {
+    display: 'block',
+    marginTop: theme.spacing(2),
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+});
 
-export default class Quiz extends React.Component {
+
+class Quiz extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selected: 0,
       answers: [],
+      panelshow: '',
+      age: '',
+      open: false,
+      selectedtime:'',
+      alert: '',
+   
     }
   }
 
   componentDidMount() {
+
     let answers = this.state.answers;
     let controlAnswers = this.state.controlAnswers;
     let questions = this.props.quiz.attributes.questions;
@@ -39,6 +64,8 @@ export default class Quiz extends React.Component {
     this.setState({
       answers: answers,
       start: false,
+      panelshow: this.props.time,
+      selectedtime: this.props.time
     });
   }
 
@@ -144,30 +171,72 @@ export default class Quiz extends React.Component {
     let seconds = time.s;
     let minutes = time.m;
     let hours = time.h;
+    console.log(fullTime, seconds, minutes, hours)
     time = seconds + minutes * 60 + hours * 3600;
     progress = (100 * time) / (fullTime / 1000);
     this.setState({
       progress: progress,
     })
+
+    if(seconds==0 && minutes==1 && hours==0){
+
+      this.setState({
+        alert: 'alert',
+      })
+    }
+
   }
 
-  render() {
-    console.log("Verifica pruebas...........")
-    console.log(this.props.time)
-    
+  stoptime= ()=>{
+    this.setState({
+      panelshow: 'stop'
+    })
+  }
+
+  adjust = () => {
+    this.setState({
+      panelshow: 'adjust'
+    })
+  }
+
+
+
+
+  handleChangeselector = event => {
+     let time=(event.target.value*this.props.time)
+    this.setState({
+        age: event.target.value,
+        selectedtime: time,
+        panelshow: 'cambio'
+      }) 
+
+      console.log("se cambio", event.target.value, "---", this.props.time, this.state.selectedtime)
+     
+    };
+
+  handleClose = () => {
+    this.setState({
+        open: false
+      })
+      console.log("se cerro")
+  };
+
+  handleOpen = () => {
+    this.setState({
+        open: true
+      })
+      console.log("se abrio")
+  };
+
+ 
+
+  cambio=(time)=>{
+    console.log("Cambio a: ", time, this.state.panelshow)
+    const { classes } = this.props;
     return(
-      <div className="quiz-dashboard-container">
-        {
-          Number.isNaN(this.props.time) ?
-          undefined
-          :
-          <Paper elevation={10} className="quiz-dashboard-side">
-          <p className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</p>
-          <QuestionAnswerIcon className="quiz-dashboard-icon"/>
-          <p className="quiz-dashboard-label-text">Time left</p>
-         
-          <TimerMachine
-            timeStart={this.props.time} // start at 10 seconds
+      <div key={time}>
+        <TimerMachine 
+            timeStart={time} // start at 10 seconds
             timeEnd={0} // end at 20 seconds
             started={true}
             paused={this.state.start}
@@ -185,16 +254,133 @@ export default class Quiz extends React.Component {
               this.handleFinish(false)
             }
           />
-          <CircularProgress
-            className="quiz-countdown-progress"
-            variant="determinate"
-            value={this.state.progress}
-            thickness={5.5}
-            size={65}
-          />
+          <div className={classes.root }>
+              <LinearProgress />
+              <LinearProgress color="secondary" />
+            </div>
+          <Button onClick={()=>this.reload()} className="timebutton">start</Button>
+      </div>
+    )
+  }
+
+  reload = () => {
+    let selected = this.state.selected;
+    this.setState({})
+  }
+
+  alerta =() =>{
+    return(
+     
+      <div className="sign-actions1">
+        <React.Fragment className="alert" >
+            <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+              Warning! : check the time
+            </DialogTitle>
+            <div className="center-row">
+            <Button onClick={()=>this.handleClosepublish()} variant="contained"  color="secondary" className="bar-button"
+            >
+            Continue
+            </Button>	
+            <Button onClick={()=>this.handleMoreTime()} variant="contained"  color="primary" className="bar-button"
+            >
+            More time
+            </Button>	                 
+            </div>
+        </React.Fragment>
+      </div>
+
+    )
+  }
+  handleClosepublish = () => {
+    this.setState({ alert: 'cierra' });
+  }
+
+  handleMoreTime = () =>{
+    this.setState({ 
+      alert: 'cierra',
+      panelshow: 'adjust'
+   });
+
+  }
+  render() {
+    const { classes } = this.props;
+    console.log("vuelve ajsutar", this.state.selectedtime)
+    return(
+      <div className="quiz-dashboard-container">
+        {
+          Number.isNaN(this.props.panelshow) || this.state.panelshow === 'stop' ?
+          undefined
+          :
+          <Paper elevation={10} className="quiz-dashboard-side" >
+          <p className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</p>
+          <QuestionAnswerIcon className="quiz-dashboard-icon"/>
+          <p className="quiz-dashboard-label-text">Time Left</p>
+           {
+             this.state.panelshow==='cambio'?
+             this.cambio(this.state.selectedtime)
+             :
+             <div >
+                <TimerMachine 
+                    timeStart={this.props.time} // start at 10 seconds
+                    timeEnd={0} // end at 20 seconds
+                    started={true}
+                    paused={this.state.start}
+                    countdown={true} // use as stopwatch
+                    interval={1000} // tick every 1 second
+                    formatTimer={(time, ms) =>
+                      moment.duration(ms, "milliseconds").format("hh:mm:ss", {
+                        trim: false
+                      })
+                    }
+                    onTick={time =>
+                      this.handleTick(time)
+                    }
+                    onComplete={time =>
+                      this.handleFinish(false)
+                    }
+                  />
+            <div className={classes.root }>
+                <LinearProgress />
+                <LinearProgress color="secondary" />
+            </div>
+          
+      </div>
+           }
+            <Button onClick={()=>this.stoptime()} className="course-item-video-card-media-button">Stop Time</Button>
+            {
+                this.state.panelshow==='adjust' ?
+                <FormControl className={classes.formControl}>
+                <InputLabel id="demo-controlled-open-select-label">Adjust Time</InputLabel>
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select"
+                  open={this.state.open}
+                  onClose={this.handleClose}
+                  onOpen={this.handleOpen}
+                  value={this.state.age}
+                  onChange={this.handleChangeselector}
+                >
+                  <MenuItem value={2}>x2</MenuItem>
+                  <MenuItem value={4}>x4</MenuItem>
+                  <MenuItem value={6}>x6</MenuItem>
+                  <MenuItem value={8}>x8</MenuItem>
+                  <MenuItem value={10}>x10</MenuItem>
+                </Select>
+              </FormControl>
+              :
+              <Button onClick={()=>this.adjust()} className="course-item-video-card-media-button" size="small" color="primary">Adjust time</Button>
+            }
         </Paper>
         }
        
+        {
+          this.state.alert==='alert' ?
+          this.alerta()
+          :
+          undefined
+        }
+
+        {console.log("cierra.......")}
         <Paper elevation={8} className="quiz-dashboard-questions-container">
           <p className="question-dashboard-label-text">Choose the correct answer</p>
           <Divider/>
@@ -297,3 +483,5 @@ export default class Quiz extends React.Component {
     )
   }
 }
+
+export default withStyles(useStyles)(Quiz)
