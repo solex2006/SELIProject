@@ -3,10 +3,60 @@
   padding: 0 2.5vw;
 }
 
-.file-upload-input {
-    display: none;
+
+/* ESTILO DEL DIV QUE CONTENTRÁ EL INPUT */
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  }
+  /* ESTILO DEL INPUT*/
+  .upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  }
+  /* ESTILO DEL BOTÓN */
+  .boton-standar-rw{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+  background-color: white;
+  color: rgb(112, 134, 236);
+  border-radius: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid rgb(112, 134, 236);
+  transition: all 0.3s ease 0s;
+  width: 12em;
+  padding: 10px;
+  }
+  /* ESTILO DEL BOTÓN CON HOVER DE MOUSE */
+  .boton-standar-rw:hover{
+    color: white;
+    background-color: rgb(158, 194, 235);
+  }
+
+  .center-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }
 
+
+.file-upload-input1  {
+  display: none;
+}
 .input-file-container {
   width: 100%;
   display: flex;

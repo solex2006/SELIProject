@@ -57,8 +57,17 @@
   justify-content: center !important;
   padding-bottom: 2vh !important;
   background-color: #fafafa;
+ 
 }
-
+.sign-actions1 {
+  justify-content: center !important;
+  padding-bottom: 2vh !important;
+  background-color: #fafafa;
+  position: absolute;
+}
+.alert{
+  position: absolute;
+}
 .helper-progress {
   margin-top: 1vh !important;
 }

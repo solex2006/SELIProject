@@ -67,6 +67,7 @@ export default class ContentItem extends React.Component {
                 :
                 undefined
               }
+              
               {
                 this.props.item.type === 'audio' ?
                   <AudioItem

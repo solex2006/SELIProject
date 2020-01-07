@@ -208,16 +208,30 @@ const useStyles = theme => ({
     })
     console.log("Las Imagenes y Audios ya usados")
     let dataImageSound=Activities.find({}).fetch()
-    console.log("DATA-IMAGE-SOUND")
+    console.log("DATA-IMAGE-SOUND de todos los Usuarios...")
     console.log(dataImageSound)
+    console.log("El user-id-actual")
+    console.log(Meteor.userId())
+   //borrar los que no pertenecen a ese ususario
+    dataImageSound.map((data, index)=>{
+      let User = data.activity.user
+      console.log("User and Index",User, index)
+      if(User != Meteor.userId()){
+        console.log("Diferente")
+        dataImageSound.splice(index,1)
+      }
+    })
+
+    console.log("DATA-IMAGE-SOUND NEWWWWWWWW...")
+    console.log(dataImageSound)
+
     dataImageSound.map((data)=>{
       let ImageSound = data.activity.data
       ImageSound.map((data2)=>{
        let dataImg=data2.image       //let dataImgName=data2.image.link
        let dataAud=data2.audio 
-      
-       
-      this.state.dataImages.push(dataImg)
+
+       this.state.dataImages.push(dataImg)
        this.state.dataAudio.push(dataAud)
       /* this.setState(prevState => ({
         dataImages: [...prevState.dataImages, dataImg],
@@ -238,6 +252,7 @@ const useStyles = theme => ({
   handleClose = () => {
     this.setState({ open: false });
   }
+  
   handleClosepublish = () => {
     this.setState({ openpublish: false });
   }
@@ -891,7 +906,6 @@ unPickImageFile(){
                         undefined
                       }
 
-                      
                       {
                         this.state.story.nodes[this.state.selectedNode].type === 'scene' ?
                           <React.Fragment>
@@ -920,7 +934,6 @@ unPickImageFile(){
                     >
                       {this.props.language.saveStory}
                     </Button>
-
 
                     <Button
                       className="storytelling-media-button"
@@ -1190,7 +1203,7 @@ unPickImageFile(){
                // this.state.show=== true ?
                       <React.Fragment>
                         <div className="sign-actions">
-                        <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                         <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                             {this.props.language.questionpublishstory}
                           </DialogTitle>
                           <div className="center-row">

@@ -53,67 +53,74 @@ export default class CourseSubscription extends React.Component {
 
   render() {
     return (
-      <div>
+      <div tabIndex="-1">
         {
           !this.props.course.published ?
-            <Card className="maintenance-subscription-card">
-              <CardActionArea className="subscription-card-area">
+            <Card tabIndex="-1" className="maintenance-subscription-card">
+              <CardActionArea tabIndex="-1" className="subscription-card-area">
                 <CardMedia
+                  tabIndex="0"
                   className="subscription-card-media"
                   image={this.props.course.image.link}
                   title={this.state.label}
                 />
-                <div className="subscription-card-column">
-                  <div className="subscription-card-maintenance-container">
-                    <p className="subscription-card-maintenance-text">
+                <div tabIndex="-1" className="subscription-card-column">
+                  <div tabIndex="-1" className="subscription-card-maintenance-container">
+                    <p tabIndex="-1" className="subscription-card-maintenance-text">
                       Course under maintenance, when it becomes active again you can continue.
                     </p>
                   </div>
                 </div>
-                <div className="maintenance-subscribed-hover">
-                  <NotInterestedIcon className="subscription-card-maintenance-icon"/>
+                <div tabIndex="-1" className="maintenance-subscribed-hover">
+                  <NotInterestedIcon tabIndex="-1" className="subscription-card-maintenance-icon"/>
                 </div>
               </CardActionArea>
             </Card>
           :
-          <Card className="subscription-card">
-            <CardActionArea className="subscription-card-area">
+          <Card tabIndex="1" className="subscription-card">
+            <CardActionArea tabIndex="1" className="subscription-card-area">
               <CardMedia
+                tabIndex="1"
                 className="subscription-card-media"
                 image={this.props.course.image.link}
                 title={this.state.label}
               />
-              <div className="subscription-card-column">
+              <div tabIndex="-1" className="subscription-card-column">
                 <CardHeader
+                  tabIndex="-1"
                   className="subscription-card-header"
                   title={this.props.course.title}
                   subheader={this.props.course.subtitle}
                 />
-                <CardContent className="subscription-card-content">
-                  <div className="subscription-card-progress-container">
+                <CardContent tabIndex="-1" className="subscription-card-content">
+                  <div tabIndex="-1" className="subscription-card-progress-container">
                     <LinearProgress
+                    tabIndex="-1"
                       className="subscription-linear-progress"
                       valueBuffer={100}
                       value={this.props.progress}
                       variant="determinate"
                     />
-                    <p className="subscription-linear-progress-text">
+                    <p tabIndex="-1" className="subscription-linear-progress-text">
                       {`${this.props.progress}%`}
                     </p>
                   </div>
                 </CardContent>
-                <CardActions className="subscription-card-actions" disableSpacing>
-                  <Button onClick={() => this.props.unsubscribe(this.props.course._id)}
+                <CardActions tabIndex="-1" className="subscription-card-actions" disableSpacing>
+                  <Button
+                    tabIndex="1" 
+                    onClick={() => this.props.unsubscribe(this.props.course._id)}
                     className="subscription-card-button"
                     variant="outlined"
                     color="primary"
                     disabled={this.props.disabled}
                   >
-                    Unsubscribe
+                    Unsubscribed
                   </Button>
                   {
                     this.props.progress === 0 ?
                       <Button
+                        tabIndex="1"
                         onClick={() => this.props.handleClickCourse(this.props.course._id)}
                         className="subscription-card-button"
                         variant="outlined"
@@ -128,6 +135,7 @@ export default class CourseSubscription extends React.Component {
                   {
                     this.props.progress > 0 && this.props.progress < 100 ?
                       <Button
+                       tabIndex="1"
                         onClick={() => this.props.handleClickCourse(this.props.course._id)}
                         className="subscription-card-button"
                         variant="outlined"
@@ -142,6 +150,7 @@ export default class CourseSubscription extends React.Component {
                   {
                     this.props.progress === 100 ?
                       <Button
+                        tabIndex="1"
                         onClick={() => this.props.handleClickCourse(this.props.course._id)}
                         className="subscription-card-button"
                         variant="outlined"

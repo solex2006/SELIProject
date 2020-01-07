@@ -324,11 +324,11 @@ export default class Student extends React.Component {
 
   render() {
     return(
-      <div>
-        <MuiThemeProvider theme={theme}>
+      <div tabIndex="-1">
+        <MuiThemeProvider tabindex="-1" theme={theme}>
           {
             this.state.language && Session.get('language') ?
-              <React.Fragment>
+              <React.Fragment tabIndex="-1">
                 <div id="outer-container">
                   {
                     this.state.user !== undefined ?
@@ -342,6 +342,7 @@ export default class Student extends React.Component {
                   }
                   <main id="page-wrap">
                     <AppBar
+                    tabIndex="-1"
                       history={this.props.history}
                       language={this.state.language}
                       setLanguage={this.setLanguage.bind(this)}
@@ -374,6 +375,7 @@ export default class Student extends React.Component {
                     {
                       this.state.component === 'courses' ?
                         <CoursesDashboard
+                           
                           user={this.state.user}
                           language={this.state.language}
                           subscribe={this.subscribe.bind(this)}
@@ -387,6 +389,7 @@ export default class Student extends React.Component {
                     {
                       this.state.component === 'subscribed' ?
                         <SubscribedCourses
+                          tabIndex="-1"
                           user={this.state.user}
                           language={this.state.language}
                           unsubscribe={this.unsubscribe.bind(this)}

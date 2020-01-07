@@ -106,9 +106,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .quiz-dashboard-side {
+  position: relative;
   width: 25%;
   height: 70%;
   display: flex;
@@ -142,13 +144,14 @@
 }
 
 .quiz-dashboard-questions-container {
+  position: relative;
   width: 55%;
   height: 70%;
   margin-left: 1%;
   animation: fadeInDown 0.75s;
   padding: 0 2.5%;
   padding-top: 1.5vh;
-  position: relative;
+  position: initial;
 }
 
 .quiz-dashboard-label-text {
@@ -205,6 +208,7 @@
   margin-top: 2vh !important;
   background-color: #eeeeee !important;
   border-radius: 50% !important;
+  display: block !important;
 }
 
 .quiz-result-dialog-content-text {

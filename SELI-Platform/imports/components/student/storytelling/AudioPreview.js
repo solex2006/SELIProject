@@ -10,7 +10,7 @@ export default class AudioPreview extends React.Component {
 
     }
   }
-
+  
   componentDidMount(){
     this.setState({
       link: this.props.file.link
