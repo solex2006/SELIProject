@@ -124,15 +124,15 @@ export default class QuizForm extends React.Component {
 
   validateContent = (content) => {
     if (!this.validateQuestion(content.questions[this.state.questionSelected])) {
-      this.props.handleControlMessage(true, "Complete the last question that you have added");
+      this.props.handleControlMessage(true, this.props.language.completeLastQuestion);
       return false;
     }
     else if (content.quizTitle === '' || content.creditResources === '') {
-      this.props.handleControlMessage(true, "The title of the quiz and the credit resources are required fields");
+      this.props.handleControlMessage(true, this.props.language.titleAndCreditAreR);
       return false;
     }
     else if ((this.state.addedQuestions + 1) < 2) {
-      this.props.handleControlMessage(true, "Every quiz must have at least 2 questions");
+      this.props.handleControlMessage(true, this.props.language.atLeast2Questions);
       return false;
     }
     return true;
@@ -153,17 +153,17 @@ export default class QuizForm extends React.Component {
 
   validateQuestion = (question) => {
     if (question.questionTitle === '') {
-      this.props.handleControlMessage(true, "The question title is a required field");
+      this.props.handleControlMessage(true, this.props.language.titleIsR);
       return false;
     }
     for (var i = 0; i < question.answersText.length; i++) {
       if (question.answersText[i] === '') {
-        this.props.handleControlMessage(true, `Please add the answer of the question ${i + 1}`);
+        this.props.handleControlMessage(true, `${this.props.language.addAnswerOfQ} ${i + 1}`);
         return false;
       }
     }
     if (!question.correctAnswers[0] && !question.correctAnswers[1] && !question.correctAnswers[2] && !question.correctAnswers[3]) {
-      this.props.handleControlMessage(true, "Select one correct answer");
+      this.props.handleControlMessage(true, this.props.language.selectOneCorrect);
       return false;
     }
     return true;
@@ -267,7 +267,7 @@ export default class QuizForm extends React.Component {
           <div className="quiz-input-container">
             <TextField
               id="quiz-input"
-              label="Quiz title"
+              label={this.props.language.quizTitle}
               margin="normal"
               variant="outlined"
               className="quiz-input"
@@ -279,7 +279,7 @@ export default class QuizForm extends React.Component {
             <TextField
               id="outlined-select-currency"
               select
-              label="Time limit"
+              label={this.props.language.timeLimit}
               required
               value={this.state.attributes.timeLimit} //por defecto 60
               onChange={this.handleChange('timeLimit')}
@@ -303,7 +303,7 @@ export default class QuizForm extends React.Component {
           <div className="quiz-input-container">
             <TextField
               id="credit-input"
-              label="Credit resources"
+              label={this.props.language.creditResources}
               margin="normal"
               variant="outlined"
               required
@@ -315,7 +315,7 @@ export default class QuizForm extends React.Component {
             <TextField
               id="outlined-select-currency"
               select
-              label="Approval percentage"
+              label={this.props.language.aprovalPercentage}
               required
               value={this.state.attributes.approvalPercentage}
               onChange={this.handleChange('approvalPercentage')}
@@ -340,7 +340,7 @@ export default class QuizForm extends React.Component {
               <FormGroup>
                 <FormControlLabel
                   control={<Switch checked={this.state.attributes.awardPoints} onChange={this.handleChange('awardPoints')} value="awardPoints" />}
-                  label="Award points"
+                  label={this.props.language.awardPoints}
                 />
               </FormGroup>
             </FormControl>
@@ -348,7 +348,7 @@ export default class QuizForm extends React.Component {
         </div>
         <Divider/>
         <div className="form-dialog-question-button-container">
-          <p className="form-dialog-question-button-container-text">Questions: </p>
+          <p className="form-dialog-question-button-container-text">{this.props.language.questions}</p>
           {this.state.attributes.questions.map((question, index) => {
             return(
               <Button
@@ -362,7 +362,7 @@ export default class QuizForm extends React.Component {
               </Button>
             )
           })}
-          <Tooltip title="Delete selected question">
+          <Tooltip title={this.props.language.deleteQuestion}>
             <IconButton onClick={() => this.deleteQuestion()} disabled={this.state.addedQuestions < 2} style={{marginLeft: '1vw'}} size='small'>
               <DeleteIcon/>
             </IconButton>
@@ -370,7 +370,7 @@ export default class QuizForm extends React.Component {
         </div>
         <div className="form-dialog-selected-question-input-container">
           <TextField
-            label={`Question ${(this.state.questionSelected + 1)}`}
+            label={`${this.props.language.question} ${(this.state.questionSelected + 1)}`}
             margin="normal"
             variant="outlined"
             required
@@ -380,7 +380,7 @@ export default class QuizForm extends React.Component {
           />
           <div className="form-dialog-question-input-container">
             <TextField
-              label="Answer 1"
+              label={`${this.props.language.answer} 1`}
               margin="normal"
               variant="outlined"
               required
@@ -402,7 +402,7 @@ export default class QuizForm extends React.Component {
               }}
             />
             <TextField
-              label="Answer 2"
+              label={`${this.props.language.answer} 2`}
               margin="normal"
               variant="outlined"
               required
@@ -426,7 +426,7 @@ export default class QuizForm extends React.Component {
           </div>
           <div className="form-dialog-question-input-container">
             <TextField
-              label="Answer 3"
+              label={`${this.props.language.answer} 3`}
               margin="normal"
               variant="outlined"
               required
@@ -448,7 +448,7 @@ export default class QuizForm extends React.Component {
               }}
             />
             <TextField
-              label="Answer 4"
+              label={`${this.props.language.answer} 4`}
               margin="normal"
               variant="outlined"
               required

@@ -1,6 +1,6 @@
 import React from 'react';
 import FileUpload from '../files/FileUpload';
-import AudioPreview from '../files//previews/AudioPreview';
+import AudioPreview from '../files/previews/AudioPreview';
 import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
 import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
 import Grid from '@material-ui/core/Grid';
@@ -87,15 +87,15 @@ export default class AudioForm extends React.Component {
 
   validateContent = (content) => {
     if (content.title === '') {
-      this.props.handleControlMessage(true, "The title of the audio content is required");
+      this.props.handleControlMessage(true, this.props.language.titleAudioRequired);
       return false;
     }
     if (content.audio === undefined) {
-      this.props.handleControlMessage(true, "Upload or record the audio source");
+      this.props.handleControlMessage(true, this.props.language.uploadRecordAudio);
       return false;
     }
     if (content.hasDescription && content.description === '') {
-      this.props.handleControlMessage(true, "Enter the description of the audio file or turn this feature off");
+      this.props.handleControlMessage(true, this.props.language.enterDescriptionVideo);
       return false;
     }
     return true;
@@ -167,7 +167,7 @@ export default class AudioForm extends React.Component {
               <Fab onClick={() => this.showLibrary()}>
                 <FolderSpecialIcon/>
               </Fab>
-              <p className="media-fab-text">Open library</p>
+              <p className="media-fab-text">{this.props.language.library}</p>
             </div>
           :
           undefined
@@ -185,8 +185,8 @@ export default class AudioForm extends React.Component {
                   variant="fullWidth"
                   centered={true}
                 >
-                  <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label="By upload" icon={<CloudUploadIcon />} />
-                  <Tab value={'record'} onClick={() => {this.selectType('record'); this.unPickFile()}} className="form-tab" label="Record audio" icon={<MicIcon />} />
+                  <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadAudio} icon={<CloudUploadIcon />} />
+                  <Tab value={'record'} onClick={() => {this.selectType('record'); this.unPickFile()}} className="form-tab" label={this.props.language.byRecordedAudio} icon={<MicIcon />} />
                 </Tabs>
               </Paper>
               <div className="dialog-columns-container">
@@ -200,12 +200,13 @@ export default class AudioForm extends React.Component {
                               type="audio"
                               accept={'audio/*'}
                               user={Meteor.userId()}
-                              label={'Click the button to upload an audio'}
+                              label={this.props.language.uploadAudioButtonLabel}
                               getFileInformation={this.getFileInformation.bind(this)}
                             />
                           :
                           <AudioRecorder
                             getFileInformation={this.getFileInformation.bind(this)}
+                            language={this.props.language}
                           />
                         }
                       </div>
@@ -213,6 +214,7 @@ export default class AudioForm extends React.Component {
                     <AudioPreview
                       file={this.state.attributes.audio}
                       unPickFile={this.unPickFile.bind(this)}
+                      language={this.props.language}
                     />
                   }
                 </div>
@@ -220,7 +222,7 @@ export default class AudioForm extends React.Component {
                   <div className="course-creator-input-container">
                     <TextField
                       id="title-input"
-                      label="Audio title"
+                      label={this.props.language.audioTitle}
                       margin="normal"
                       variant="outlined"
                       value={this.state.attributes.title}
@@ -230,7 +232,7 @@ export default class AudioForm extends React.Component {
                     />
                     <TextField
                       id="link-input"
-                      label="External link"
+                      label={this.props.language.externalLink}
                       value={this.state.attributes.externalLink}
                       onChange={this.handleChange('externalLink')}
                       margin="normal"
@@ -241,7 +243,7 @@ export default class AudioForm extends React.Component {
                       <FormGroup>
                         <FormControlLabel
                           control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
-                          label={<p className="form-label">Audio with text description</p>}
+                          label={<p className="form-label">{this.props.language.audioWithText}</p>}
                         />
                       </FormGroup>
                     </div>
@@ -252,6 +254,7 @@ export default class AudioForm extends React.Component {
                         innerHTML={this.state.attributes.description}
                         addLinks={true}
                         getInnerHtml={this.getInnerHtml.bind(this)}
+                        language={this.props.language}
                       />
                     </div>
                   </div>
@@ -264,6 +267,7 @@ export default class AudioForm extends React.Component {
             type={"audio"}
             getFileInformation={this.getFileInformation.bind(this)}
             hideLibrary={this.hideLibrary.bind(this)}
+            language={this.props.language}
           />
         }
       </div>

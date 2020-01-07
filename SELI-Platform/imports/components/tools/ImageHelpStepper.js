@@ -357,14 +357,14 @@ export default function ImageHelpStepper(props) {
 				activeStep={activeStep}
 				nextButton={
 					<Button size='small' onClick={handleNext} disabled={activeStep === getLength() - 1}>
-						Next
+						{props.language.next}
 						{theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
 					</Button>
 				}
 				backButton={
 					<Button size='small' onClick={handleBack} disabled={activeStep === 0}>
 						{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-						Back
+						{props.language.back}
 					</Button>
 				}
 			/>

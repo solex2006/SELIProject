@@ -282,6 +282,7 @@ export default class ActivityItem extends React.Component {
                   buttonLabels={false}
                   addLinks={true}
                   getInnerHtml={this.getInnerHtml.bind(this)}
+                  language={this.props.language}
                 />
               :
               undefined

@@ -59,6 +59,7 @@ export default function AccessibilityHelp(props) {
 								text={props.stepLabel}
 								color='primary'
 								buttonLabel='More details'
+								language={props.language}
 							/>
 						:
 						undefined

@@ -108,7 +108,7 @@ export default class AudienceRequestList extends React.Component {
       tableData.push({
         name: audience.name,
         description: audience.description,
-        date: audience.date.toDateString(),
+        date: audience.date.toLocaleDateString('en-US'),
         from: audience.from,
         _id: audience._id
       })

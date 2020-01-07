@@ -13,11 +13,11 @@ export default class PdfItem extends React.Component {
     super(props);
     this.state = {
       actions: [
-        { icon: <CloudDownloadIcon />, name: 'Download' },
-        { icon: <OpenInNewIcon />, name: 'Read new tab' },
-        { icon: <ChromeReaderModeIcon />, name: 'Read here' },
-        { icon: <PrintIcon />, name: 'Print' },
-        { icon: <StarRateIcon />, name: 'Add to my library' },
+        { icon: <CloudDownloadIcon />, name: this.props.language.download },
+        { icon: <OpenInNewIcon />, name: this.props.language.readNewTab },
+        { icon: <ChromeReaderModeIcon />, name: this.props.language.readHere },
+        { icon: <PrintIcon />, name: this.props.language.print },
+        { icon: <StarRateIcon />, name: this.props.language.addToMyLibrary },
       ],
     }
   }
@@ -36,7 +36,7 @@ export default class PdfItem extends React.Component {
               />
             </div>
             <div className="item-instruction-column">
-              <p className="instruction-title">Instructions:</p>
+              <p className="instruction-title">{this.props.language.instructions}</p>
               <div
                 className="pdf-item-instruction"
                 dangerouslySetInnerHTML={{__html: this.props.item.attributes.instruction}}
@@ -50,6 +50,7 @@ export default class PdfItem extends React.Component {
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
             editItem={this.props.editItem.bind(this)}
+            language={this.props.language}
           />
         </div>
       </div>

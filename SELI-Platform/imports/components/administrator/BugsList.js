@@ -102,7 +102,7 @@ export default class BugsList extends React.Component {
 
     ];
     bugs.map(bug => {
-      tableData.push({title: bug.title, description: bug.description, from: bug.from, date: bug.date.toDateString(), _id: bug._id})
+      tableData.push({title: bug.title, description: bug.description, from: bug.from, date: bug.date.toLocaleDateString('en-US'), _id: bug._id})
     })
     this.setState({
       headRows: headRows,

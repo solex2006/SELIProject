@@ -46,10 +46,10 @@ export default class Library extends React.Component {
       loading: true,
       results: false,
       options: [
-        {label: 'Date', value: 'date', icon: <DateRangeIcon/>},
-        {label: 'Favorite', value: 'favorite', icon: <FavoriteIcon/>},
-        {label: 'Name', value: 'name', icon: <LabelIcon/>},
-        {label: 'None', value: 'none', icon: <FilterNoneIcon/>},
+        {label: this.props.language.date, value: 'date', icon: <DateRangeIcon/>},
+        {label: this.props.language.Favorite, value: 'favorite', icon: <FavoriteIcon/>},
+        {label: this.props.language.name, value: 'name', icon: <LabelIcon/>},
+        {label: this.props.language.none, value: 'none', icon: <FilterNoneIcon/>},
       ],
       selectedIndex: 3,
     }
@@ -154,27 +154,27 @@ export default class Library extends React.Component {
             {
               this.state.results ?
                 <Paper className="library-results-header">
-                  <Tooltip title="Back">
+                  <Tooltip title={this.props.language.back}>
                     <IconButton onClick={() => this.props.hideLibrary()} color="primary" size="medium" aria-label="filter list">
                       <ArrowBackIcon />
                     </IconButton>
                   </Tooltip>
                   <InputBase
-                    placeholder="Search in library..."
+                    placeholder={`${this.props.language.searchInLibrary} ...`}
                     inputProps={{ 'aria-label': 'search in library' }}
                     className="library-search-input"
                   />
-                  <Tooltip title="Search">
+                  <Tooltip title={this.props.language.search}>
                     <IconButton aria-label="search">
                       <SearchIcon />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Order">
+                  <Tooltip title={this.props.language.order}>
                     <IconButton color="primary" size="medium" aria-label="filter list">
                       <ArrowUpwardIcon />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Filter">
+                  <Tooltip title={this.props.language.filter}>
                     <IconButton color="primary" onClick={() => this.handleClickListItem(event)} size="medium" aria-label="filter list">
                       <SortIcon style={{pointerEvents: "none"}} />
                     </IconButton>
@@ -193,7 +193,7 @@ export default class Library extends React.Component {
                     }}
                     className="form-selector-container"
                   >
-                    <p className="form-selector-options-title">Filter by</p>
+                    <p className="form-selector-options-title">{this.props.language.filterBy}</p>
                     <Divider/>
                     <List dense className="form-selector-options-list">
                       {this.state.options.map((option, index) => {
@@ -234,6 +234,7 @@ export default class Library extends React.Component {
                                 <LibraryImage
                                   file={file}
                                   getFileInformation={this.props.getFileInformation.bind(this)}
+                                  language={this.props.language}
                                 />
                               :
                               undefined
@@ -243,6 +244,7 @@ export default class Library extends React.Component {
                                 <LibraryVideo
                                   file={file}
                                   getFileInformation={this.props.getFileInformation.bind(this)}
+                                  language={this.props.language}
                                 />
                               :
                               undefined
@@ -252,6 +254,7 @@ export default class Library extends React.Component {
                                 <LibraryAudio
                                   file={file}
                                   getFileInformation={this.props.getFileInformation.bind(this)}
+                                  language={this.props.language}
                                 />
                               :
                               undefined
@@ -261,6 +264,7 @@ export default class Library extends React.Component {
                                 <LibraryPdf
                                   file={file}
                                   getFileInformation={this.props.getFileInformation.bind(this)}
+                                  language={this.props.language}
                                 />
                               :
                               undefined
@@ -270,6 +274,7 @@ export default class Library extends React.Component {
                                 <LibraryCompressed
                                   file={file}
                                   getFileInformation={this.props.getFileInformation.bind(this)}
+                                  language={this.props.language}
                                 />
                               :
                               undefined
@@ -283,9 +288,28 @@ export default class Library extends React.Component {
                 <div className="empty-result-container">
                   <div className="empty-result-message">
                     {this.getLibraryIcon()}
-                    <p className="result-library-text">{"No " + this.props.type + " files founded"}</p>
+                    {
+                      this.props.type === "image" ?
+                        <p className="result-library-text">{this.props.language.noImageFounded}</p> : undefined
+                    }
+                    {
+                      this.props.type === "video" ?
+                        <p className="result-library-text">{this.props.language.noVideoFounded}</p> : undefined
+                    }
+                    {
+                      this.props.type === "audio" ?
+                        <p className="result-library-text">{this.props.language.noAudioFounded}</p> : undefined
+                    }
+                    {
+                      this.props.type === "pdf" ?
+                        <p className="result-library-text">{this.props.language.noPdfFounded}</p> : undefined
+                    }
+                    {
+                      this.props.type === "compressed" ?
+                        <p className="result-library-text">{this.props.language.noCompressedFounded}</p> : undefined
+                    }
                   </div>
-                  <Button className="form-big-button" onClick={() => this.props.hideLibrary()} color="primary">Back to upload some files</Button>
+                  <Button className="form-big-button" onClick={() => this.props.hideLibrary()} color="primary">{this.props.language.backToUploadFiles}</Button>
                 </div>
               }
             </div>

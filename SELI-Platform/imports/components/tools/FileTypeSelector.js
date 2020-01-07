@@ -31,7 +31,7 @@ export default function FileTypeSelector(props) {
   return (
     <div>
       <div className="center-button-container">
-        <Button color="primary" variant="contained" onClick={handleClick}>Select allowed file type</Button>
+        <Button color="primary" variant="contained" onClick={handleClick}>{props.fileType}</Button>
       </div>
       <Popover
         id={id}

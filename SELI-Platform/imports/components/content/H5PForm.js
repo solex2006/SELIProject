@@ -55,7 +55,7 @@ export default class H5PForm extends React.Component {
 
   validateContent = (content) => {
     if (this.state.link === '') {
-      this.props.handleControlMessage(true, "Enter the h5p url");
+      this.props.handleControlMessage(true, this.props.language.enterH5pUrl);
       return false;
     }
     return true;
@@ -100,14 +100,15 @@ export default class H5PForm extends React.Component {
           onChange={this.handleChange('link')}
         />
         <div className="center-button-container">
-          <Button color="primary">Check Url</Button>
+          <Button color="primary">{this.props.language.checkUrl}</Button>
           <Help
             helper="hp5Helper"
-            text="To create H5P content follow the next steps:"
+            text={this.props.language.helpH5p}
+            language={this.props.language}
           />
         </div>
         <div className="advice-link-container">
-          <p className="advice-link-text">You can find some examples and demos</p>
+          <p className="advice-link-text">{this.props.language.canFindDemos}</p>
           <Link
             className="advice-link"
             component="button"
@@ -116,7 +117,7 @@ export default class H5PForm extends React.Component {
               window.open('https://h5p.org/content-types-and-applications', '_blank');
             }}
           >
-            Here
+            {this.props.language.here}
           </Link>
         </div>
         <div className="editor-block">
@@ -126,6 +127,7 @@ export default class H5PForm extends React.Component {
             buttonLabels={false}
             addLinks={true}
             getInnerHtml={this.getInnerHtml.bind(this)}
+            language={this.props.language}
           />
         </div>
       </div>

@@ -109,7 +109,7 @@ export default class CommentsList extends React.Component {
         user: comment.user,
         course: comment.course,
         show: comment.show ? 'Yes' : 'No',
-        date: comment.date.toDateString(),
+        date: comment.date.toLocaleDateString('en-US'),
         _id: comment._id
       })
     })

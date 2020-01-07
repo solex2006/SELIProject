@@ -71,11 +71,11 @@ export default function LinkButton(props) {
         }}
       >
         <div className="editor-link-form-container">
-          <p className="editor-form-title">Insert link</p>
+          <p className="editor-form-title">{props.language.insertLink}</p>
           <Divider light={true}/>
           <TextField
             id="url-input"
-            label="Link"
+            label={props.language.link}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -83,13 +83,13 @@ export default function LinkButton(props) {
           />
           <TextField
             id="text-input"
-            label="Text"
+            label={props.language.text}
             margin="normal"
             variant="outlined"
             fullWidth
           />
           <div className="editor-form-button-container">
-            <Button color="primary" variant="contained" onClick={insertLink}>Insert</Button>
+            <Button color="primary" variant="contained" onClick={insertLink}>{props.language.insert}</Button>
           </div>
         </div>
       </Popover>

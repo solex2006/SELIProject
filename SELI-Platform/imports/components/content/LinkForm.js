@@ -35,7 +35,7 @@ export default class LinkForm extends React.Component {
 
   validateContent = (content) => {
     if (content.url === '' || content.description === '') {
-      this.props.handleControlMessage(true, "The url and the description are required fileds");
+      this.props.handleControlMessage(true, this.props.language.urlAndDescriptionR);
       return false;
     }
     return true;
@@ -76,7 +76,7 @@ export default class LinkForm extends React.Component {
           className="form-padding-dialog-input"
         />
         <div className="padding-center-row">
-          <p className="form-message">Text describing where the link is going: </p>
+          <p className="form-message">{this.props.language.textDescribingLink}</p>
         </div>
         <div className="editor-block">
           <Editor
@@ -85,6 +85,7 @@ export default class LinkForm extends React.Component {
             buttonLabels={false}
             addLinks={false}
             getInnerHtml={this.getInnerHtml.bind(this)}
+            language={this.props.language}
           />
         </div>
       </div>

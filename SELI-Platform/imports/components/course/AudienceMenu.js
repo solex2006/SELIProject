@@ -69,13 +69,13 @@ export default function MenuItem(props) {
       }
     }
     if (audiencesCounter === 1) {
-      audiences = audiences + "audience";
+      audiences = audiences + props.language.audience;
     }
     else if (audiencesCounter > 1){
-      audiences = audiences + "audiences";
+      audiences = audiences + props.language.audiences;
     }
     else {
-      audiences = "No audience selected"
+      audiences = props.language.noAudienceSelected
     }
     return audiences;
   }
@@ -85,7 +85,7 @@ export default function MenuItem(props) {
 
   return (
     <div>
-      <List className="list-menu-container" component="nav" aria-label="audience menu">
+      <List className="list-menu-container" component="nav" aria-label={props.language.adienceMenu}>
         <ListItem
           button
           aria-haspopup="true"
@@ -99,8 +99,8 @@ export default function MenuItem(props) {
           </ListItemIcon>
           <ListItemText
             className="list-button-menu-text"
-            primary="Accessibility check"
-            secondary={props.options[0].selected ? "All audiences selected" : getAudiences()}
+            primary={props.language.accessibilityCheck}
+            secondary={props.options[0].selected ? props.language.allAudiencesSelected : getAudiences()}
           />
         </ListItem>
       </List>
@@ -123,7 +123,7 @@ export default function MenuItem(props) {
           aria-labelledby="nested-list-subheader"
           subheader={
             <ListSubheader component="div" id="nested-list-subheader" className="list-subheader">
-              {"Audience".toUpperCase()}
+              {props.language.audience.toUpperCase()}
             </ListSubheader>
           }
           className="menu-list-options-container"

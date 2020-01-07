@@ -38,6 +38,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -49,6 +50,7 @@ export default class ContentItem extends React.Component {
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
                     handleDecorative={this.props.handleDecorative.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -60,6 +62,7 @@ export default class ContentItem extends React.Component {
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
                     handleDecorative={this.props.handleDecorative.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -71,6 +74,7 @@ export default class ContentItem extends React.Component {
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
                     handleDecorative={this.props.handleDecorative.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -81,6 +85,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -91,6 +96,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -101,6 +107,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -111,6 +118,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -121,6 +129,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -131,6 +140,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -141,6 +151,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 undefined
@@ -149,7 +160,7 @@ export default class ContentItem extends React.Component {
           :
           <div className="content-preview-container">
             {
-                "Creating " + this.props.item.type + " content"
+              `${this.props.language.creating}: ${this.props.language[this.props.item.type]}`
             }
             <div className="linear-creating-container">
               <LinearProgress valueBuffer={95} color="secondary" />

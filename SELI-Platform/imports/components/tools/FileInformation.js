@@ -47,7 +47,7 @@ export default function FileInformation(props) {
 
   return (
     <div>
-      <Tooltip title="File information">
+      <Tooltip title={props.language.fileInformation}>
         <IconButton className="card-button" onClick={handleClick} aria-label="settings">
           <MoreVertIcon className="card-icon"/>
         </IconButton>
@@ -104,7 +104,7 @@ export default function FileInformation(props) {
                   undefined
                 }
                 {
-                  props.type.siCompressed ?
+                  props.file.isCompressed ?
                     <Avatar className="compressed-avatar" aria-label="information">
                       <ArchiveIcon/>
                     </Avatar>
@@ -113,21 +113,21 @@ export default function FileInformation(props) {
                 }
               </div>
             }
-            title={props.type.toUpperCase() + " INFORMATION"}
-            subheader={"File name: " + props.file.name}
+            title={props.language.information.toUpperCase()}
+            subheader={`${props.language.fileName}: ${props.file.name}`}
           />
           <CardContent className="file-information-card-content">
             <Typography variant="body1" color="textSecondary" component="p">
-              {"Date added: " + props.file.meta.dateAdded.toDateString()}
+              {`${props.language.dateAdded}: ${props.file.meta.dateAdded.toLocaleDateString('en-US')}`}
             </Typography>
             <Typography variant="body1" color="textSecondary" component="p">
-              {"Used in a course: "} {props.file.meta.isUsedInCourse ? "Yes" : "No"}
+              {`${props.language.usedInCourse}: `} {props.file.meta.isUsedInCourse ? props.language.yes : props.language.no}
             </Typography>
             <Typography variant="body1" color="textSecondary" component="p">
-              {"Size: " + bytesToSize(props.file.size)}
+              {`${props.language.size}: ${bytesToSize(props.file.size)}`}
             </Typography>
             <Typography variant="body1" color="textSecondary" component="p">
-              {"Extension: " + props.file.extension}
+              {`${props.language.extension}: ${props.file.extension}`}
             </Typography>
           </CardContent>
         </Card>

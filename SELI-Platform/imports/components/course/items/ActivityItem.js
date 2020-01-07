@@ -51,17 +51,17 @@ export default class ActivityItem extends React.Component {
                         className="item-quiz-expansion-summary"
                       >
                         <div className="item-quiz-expansion-summary-text-container">
-                          <Typography className="activity-panel-title">Activity</Typography>
+                          <Typography className="activity-panel-title">{this.props.language.activity}</Typography>
                           <Typography className="quiz-panel-subtitle">
-                            { this.props.item.attributes.type === 'storyboard' ? "Storytelling activity" : undefined }
-                            { this.props.item.attributes.type === 'upload' ? "Upload file activity" : undefined }
-                            { this.props.item.attributes.type === 'section' ? "Text section activity" : undefined }
+                            { this.props.item.attributes.type === 'storyboard' ? this.props.language.storyboardActivity : undefined }
+                            { this.props.item.attributes.type === 'upload' ? this.props.language.uploaddActivity : undefined }
+                            { this.props.item.attributes.type === 'section' ? this.props.language.textSectionActivity : undefined }
                           </Typography>
                         </div>
                       </ExpansionPanelSummary>
                       <ExpansionPanelDetails className="item-quiz-detail">
                         <div className="item-quiz-detail-container">
-                          <p className="activity-instruction-title">Instructions:</p>
+                          <p className="activity-instruction-title">{this.props.language.instructions}</p>
                           <div
                             className="activity-item-container-instruction"
                             dangerouslySetInnerHTML={{__html: this.props.item.attributes.instruction}}
@@ -72,7 +72,7 @@ export default class ActivityItem extends React.Component {
                             this.props.item.attributes.type === 'upload' ?
                               <div className="activity-detail-container">
                                 <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                                  Accepted file type:
+                                  {this.props.language.acceptedFileType}
                                 </Typography>
                                 <Typography className="file-type-text-detail" variant="overline" display="block" gutterBottom>
                                   {this.props.item.attributes.fileTypes.label}
@@ -97,6 +97,7 @@ export default class ActivityItem extends React.Component {
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
             editItem={this.props.editItem.bind(this)}
+            language={this.props.language}
           />
         </div>
       </div>

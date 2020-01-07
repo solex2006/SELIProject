@@ -44,17 +44,17 @@ export default class ImagePreview extends React.Component {
             <div style={{backgroundImage: `url(${this.props.file.link})`}} className="file-image-preview"></div>
           </div>
           <div className="file-preview-actions">
-            <Tooltip title="Open" placement="left">
+            <Tooltip title={this.props.language.open} placement="left">
               <IconButton onClick={() => this.open()} color="secondary" aria-label="open">
                 <OpenInNewIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Upload another" placement="left">
+            <Tooltip title={this.props.language.uploadAnother} placement="left">
               <IconButton onClick={() => this.props.unPickFile()} color="secondary" aria-label="another">
                 <AutorenewIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete" placement="left">
+            <Tooltip title={this.props.language.delete} placement="left">
               <IconButton onClick={() => this.delete()} color="secondary" aria-label="delete">
                 <DeleteIcon />
               </IconButton>

@@ -242,6 +242,7 @@ export default function ImageCaptionEditor(props) {
 						ref={editor}
 						error={props.error}
 						className="a11yEditor"
+						language={this.props.language}
 					/>
 				</Grid>
 			</Grid>

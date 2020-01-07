@@ -65,6 +65,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import InfoIcon from '@material-ui/icons/Info';
+import { FaThumbsDown } from 'react-icons/fa';
 
 
 function TransitionRight(props) {
@@ -94,10 +95,10 @@ export default class CourseCreatorTool extends React.Component {
         { id: Math.random(), type: "activity" }
       ],
       audienceOptions: [
-        {label: 'All disabilities', selected: true},
-        {label: 'Cognitive', selected: true},
-        {label: 'Hearing', selected: true},
-        {label: 'Visual', selected: true},
+        {label: this.props.language.allDisabilities, selected: true},
+        {label: this.props.language.congnitive, selected: true},
+        {label: this.props.language.hearing, selected: true},
+        {label: this.props.language.visual, selected: true},
       ],
       menuTab: 0,
       sortMode: false,
@@ -125,8 +126,22 @@ export default class CourseCreatorTool extends React.Component {
   openDialog(e){
     let type = e.payload.type;
     let courseInformation = this.state.courseInformation;
+    let languageTypeAdded = "";
+    if (type === 'text'){ languageTypeAdded = this.props.language.text }
+    else if (type === 'image'){ languageTypeAdded = this.props.language.image }
+    else if (type === 'video'){ languageTypeAdded = this.props.language.video }
+    else if (type === 'audio'){ languageTypeAdded = this.props.language.audio }
+    else if (type === 'link'){ languageTypeAdded = this.props.language.link }
+    else if (type === 'unity'){ languageTypeAdded = this.props.language.unity }
+    else if (type === 'embebed'){ languageTypeAdded = this.props.language.embebed }
+    else if (type === 'pdf'){ languageTypeAdded = this.props.language.pdf }
+    else if (type === 'compressed'){ languageTypeAdded = this.props.language.compressed }
+    else if (type === 'h5p'){ languageTypeAdded = "h5p" }
+    else if (type === 'quiz'){ languageTypeAdded = this.props.language.quiz }
+    else if (type === 'activity'){ languageTypeAdded = this.props.language.activity }
     this.setState({
       contentTypeAdded: type,
+      languageType: languageTypeAdded,
       addedId: e.payload.id,
       showCourseOrganization: false,
       showContentEditor: true,
@@ -345,7 +360,7 @@ export default class CourseCreatorTool extends React.Component {
         });
       }
       else {
-        this.props.handleControlMessage(true, "First add some content please");
+        this.props.handleControlMessage(true, this.props.language.firstAddSomeContent);
       }
     }
     else {
@@ -355,7 +370,7 @@ export default class CourseCreatorTool extends React.Component {
         });
       }
       else {
-        this.props.handleControlMessage(true, "First add some content please");
+        this.props.handleControlMessage(true, this.props.language.firstAddSomeContent);
       }
     }
     this.reRender();
@@ -557,6 +572,7 @@ export default class CourseCreatorTool extends React.Component {
                                   removeItem={this.removeItem.bind(this)}
                                   editItem={this.editItem.bind(this)}
                                   handleDecorative={this.handleDecorative.bind(this)}
+                                  language={this.props.language}
                                 />
                               </Draggable>
                             );
@@ -581,6 +597,7 @@ export default class CourseCreatorTool extends React.Component {
                                 item={p}
                                 removeItem={this.removeItem.bind(this)}
                                 index={i}
+                                language={this.props.language}
                               />
                             </Draggable>
                           );
@@ -593,6 +610,7 @@ export default class CourseCreatorTool extends React.Component {
                   <CourseCreatorMenu
                     setMenuTab={this.setMenuTab.bind(this)}
                     menuTab={this.state.menuTab}
+                    language={this.props.language}
                   />
                   {
                     this.state.menuTab === 0 ?
@@ -600,6 +618,7 @@ export default class CourseCreatorTool extends React.Component {
                         <AudienceMenu
                           options={this.state.audienceOptions}
                           setOption={this.setAudienceOption.bind(this)}
+                          language={this.props.language}
                         />
                         <Container
                           orientation="horizontal"
@@ -612,7 +631,7 @@ export default class CourseCreatorTool extends React.Component {
                             this.state.contentItems.map((p,i) => {
                               return (
                                 <Draggable key={i}>
-                                  <ContentMenuItem type={p.type}/>
+                                  <ContentMenuItem type={p.type} language={this.props.language}/>
                                 </Draggable>
                               );
                             })
@@ -621,10 +640,10 @@ export default class CourseCreatorTool extends React.Component {
                         <div className="course-creator-menu-actions-container">
                           <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
                             <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
-                              <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={"Sort mode"}/>
+                              <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
                             </ListItem>
                             <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
-                              <ListItemText className="course-creator-menu-action-text" primary="Preview"/>
+                              <ListItemText className="course-creator-menu-action-text" primary={this.props.language.seePreview}/>
                             </ListItem>
                           </List>
                         </div>
@@ -640,7 +659,7 @@ export default class CourseCreatorTool extends React.Component {
                             this.props.courseInformation.organization.unit === "Unit" ?
                               <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="orange-avatar" className="avatar">U</Avatar>
-                                By Units & Lessons
+                                {this.props.language.byUnitsAndLessons}
                               </Button>
                             :
                             undefined
@@ -649,7 +668,7 @@ export default class CourseCreatorTool extends React.Component {
                             this.props.courseInformation.organization.unit === "Topic" ?
                               <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="blue-avatar" className="avatar">T</Avatar>
-                                By Topics
+                                {this.props.language.byTopics}
                               </Button>
                             :
                             undefined
@@ -658,7 +677,7 @@ export default class CourseCreatorTool extends React.Component {
                             this.props.courseInformation.organization.unit === "Season" ?
                               <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Season" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="teal-avatar" className="avatar">D</Avatar>
-                                By Dates
+                                {this.props.language.byDates}
                               </Button>
                             :
                             undefined
@@ -675,6 +694,7 @@ export default class CourseCreatorTool extends React.Component {
                           setMenuTab={this.setMenuTab.bind(this)}
                           showCreatorToolMessage={this.showCreatorToolMessage.bind(this)}
                           dialog={true}
+                          language={this.props.language}
                         />
                       </div>
                     :
@@ -714,6 +734,7 @@ export default class CourseCreatorTool extends React.Component {
                                   removeItem={this.removeItem.bind(this)}
                                   editItem={this.editItem.bind(this)}
                                   handleDecorative={this.handleDecorative.bind(this)}
+                                  language={this.props.language}
                                 />
                               </Draggable>
                             );
@@ -738,6 +759,7 @@ export default class CourseCreatorTool extends React.Component {
                                 item={p}
                                 removeItem={this.removeItem.bind(this)}
                                 index={i}
+                                language={this.props.language}
                               />
                             </Draggable>
                           );
@@ -750,6 +772,7 @@ export default class CourseCreatorTool extends React.Component {
                   <CourseCreatorMenu
                     setMenuTab={this.setMenuTab.bind(this)}
                     menuTab={this.state.menuTab}
+                    language={this.props.language}
                   />
                   {
                     this.state.menuTab === 0 ?
@@ -757,6 +780,7 @@ export default class CourseCreatorTool extends React.Component {
                         <AudienceMenu
                           options={this.state.audienceOptions}
                           setOption={this.setAudienceOption.bind(this)}
+                          language={this.props.language}
                         />
                         <Container
                           orientation="horizontal"
@@ -769,7 +793,7 @@ export default class CourseCreatorTool extends React.Component {
                             this.state.contentItems.map((p,i) => {
                               return (
                                 <Draggable key={i}>
-                                  <ContentMenuItem type={p.type}/>
+                                  <ContentMenuItem type={p.type} language={this.props.language}/>
                                 </Draggable>
                               );
                             })
@@ -797,7 +821,7 @@ export default class CourseCreatorTool extends React.Component {
                             this.props.courseInformation.organization.unit === "Unit" ?
                               <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="orange-avatar" className="avatar">U</Avatar>
-                                By Units & Lessons
+                                {this.props.language.byUnitsAndLessons}
                               </Button>
                             :
                             undefined
@@ -806,7 +830,7 @@ export default class CourseCreatorTool extends React.Component {
                             this.props.courseInformation.organization.unit === "Topic" ?
                               <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="blue-avatar" className="avatar">T</Avatar>
-                                By Topics
+                                {this.props.language.byTopics}
                               </Button>
                             :
                             undefined
@@ -815,7 +839,7 @@ export default class CourseCreatorTool extends React.Component {
                             this.props.courseInformation.organization.unit === "Season" ?
                               <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Season" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="teal-avatar" className="avatar">D</Avatar>
-                                By Dates
+                                {this.props.language.byDates}
                               </Button>
                             :
                             undefined
@@ -832,6 +856,7 @@ export default class CourseCreatorTool extends React.Component {
                           setMenuTab={this.setMenuTab.bind(this)}
                           showCreatorToolMessage={this.showCreatorToolMessage.bind(this)}
                           dialog={true}
+                          language={this.props.language}
                         />
                       </div>
                     :
@@ -858,7 +883,7 @@ export default class CourseCreatorTool extends React.Component {
             <AppBar className="dialog-app-bar" color="primary" position="static">
               <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
                 <AppsIcon/>
-                <h4 className="dialog-label-title">{ this.state.contentaAdded !== undefined ? `Content editor - ${this.state.contentTypeAdded}` : 'Course organization'}</h4>
+                <h4 className="dialog-label-title">{ this.state.contentaAdded !== undefined ? `${this.props.language.contentEditor} - ${this.state.languageType}` : this.props.language.courseOrganization}</h4>
                 {
                   this.state.showCourseOrganization || this.state.showAccesibilityOptions || this.state.showAccesibilityForm ?
                     undefined
@@ -889,10 +914,11 @@ export default class CourseCreatorTool extends React.Component {
                   validateOrganization={this.validateOrganization.bind(this)}
                   reRender={this.reRender.bind(this)}
                   selected={this.props.selected}
+                  language={this.props.language}
                 />
                 <div className="dialog-actions-container">
                   <Tooltip title="Done">
-                    <Fab disabled={this.state.correctOrganization} onClick={() => this.setOrganization()} aria-label={`Start creating course`} className="dialog-fab" color="primary">
+                    <Fab disabled={this.state.correctOrganization} onClick={() => this.setOrganization()} aria-label={this.props.language.startCreatingCourse} className="dialog-fab" color="primary">
                       <AssignmentTurnedInIcon/>
                     </Fab>
                   </Tooltip>
@@ -911,6 +937,7 @@ export default class CourseCreatorTool extends React.Component {
                       reRender={this.reRender.bind(this)}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -921,7 +948,7 @@ export default class CourseCreatorTool extends React.Component {
                       getImageAttributesFunction={imageAttributes => this.getItemAttributes = imageAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
-
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -932,6 +959,7 @@ export default class CourseCreatorTool extends React.Component {
                       getVideoAttributesFunction={videoAttributes => this.getItemAttributes = videoAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -942,6 +970,7 @@ export default class CourseCreatorTool extends React.Component {
                       getAudioAttributesFunction={audioAttributes => this.getItemAttributes = audioAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -952,6 +981,7 @@ export default class CourseCreatorTool extends React.Component {
                       getLinkAttributesFunction={linkAttributes => this.getItemAttributes = linkAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -962,6 +992,7 @@ export default class CourseCreatorTool extends React.Component {
                       getPdfAttributesFunction={pdfAttributes => this.getItemAttributes = pdfAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -972,6 +1003,7 @@ export default class CourseCreatorTool extends React.Component {
                       getCompressedAttributesFunction={compressedAttributes => this.getItemAttributes = compressedAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -982,6 +1014,7 @@ export default class CourseCreatorTool extends React.Component {
                       getH5pAttributesFunction={h5pAttributes => this.getItemAttributes = h5pAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -992,6 +1025,7 @@ export default class CourseCreatorTool extends React.Component {
                       getQuizAttributesFunction={quizAttributes => this.getItemAttributes = quizAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -1002,6 +1036,7 @@ export default class CourseCreatorTool extends React.Component {
                       getActivityAttributesFunction={activityAttributes => this.getItemAttributes = activityAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -1012,6 +1047,7 @@ export default class CourseCreatorTool extends React.Component {
                       getEmbebedAttributesFunction={embebedAttributes => this.getItemAttributes = embebedAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -1022,6 +1058,7 @@ export default class CourseCreatorTool extends React.Component {
                       getUnityAttributesFunction={unityAttributes => this.getItemAttributes = unityAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      language={this.props.language}
                     />
                   :
                   undefined
@@ -1029,16 +1066,16 @@ export default class CourseCreatorTool extends React.Component {
                 {
                   this.state.contentToEdit === undefined ?
                     <div className="dialog-actions-container">
-                      <Tooltip title="Create content">
-                        <Fab onClick={() => this.createContent()} aria-label={`Create content`} className="dialog-fab" color="primary">
+                      <Tooltip title={this.props.language.createContent}>
+                        <Fab onClick={() => this.createContent()} aria-label={this.props.language.createContent} className="dialog-fab" color="primary">
                           <DoneIcon/>
                         </Fab>
                       </Tooltip>
                     </div>
                   :
                   <div className="dialog-actions-container">
-                    <Tooltip title="Edit content">
-                      <Fab onClick={() => this.finishEditContent()} aria-label={`Create content`} className="dialog-fab" color="primary">
+                    <Tooltip title={this.props.language.editContent}>
+                      <Fab onClick={() => this.finishEditContent()} aria-label={this.props.language.createContent} className="dialog-fab" color="primary">
                         <EditIcon/>
                       </Fab>
                     </Tooltip>
@@ -1058,7 +1095,7 @@ export default class CourseCreatorTool extends React.Component {
                         <AccessibilityNewIcon className="configure-accessibility-icon"/>
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={`Configure accessibility`} secondary="We recommend to configure the accessibility of your content and making it accessible to most audiences."/>
+                    <ListItemText primary={this.props.language.configureAccessibility} secondary={this.props.language.weRecomendAccessibility}/>
                   </ListItem>
                   <ListItem onClick={() => this.contentHandleClose()} button>
                     <ListItemAvatar>
@@ -1066,7 +1103,7 @@ export default class CourseCreatorTool extends React.Component {
                         <WatchLaterIcon className="configure-accessibility-icon"/>
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={`Configure accessibility later`} secondary="You can configure the accessibility of your content later, but this will be reflected with a red alert in your content."/>
+                    <ListItemText primary={this.props.language.configureAccessibilityLater} secondary={this.props.language.youConfigureAccessibility}/>
                   </ListItem>
                 </List>
               </div>
@@ -1084,7 +1121,7 @@ export default class CourseCreatorTool extends React.Component {
                 />
                 <div className="dialog-actions-container">
                   <Tooltip title="Set accessibility configuration">
-                    <Fab onClick={() => this.contentHandleClose()} aria-label={`set accessibility configuration`} className="dialog-fab" color="primary">
+                    <Fab onClick={() => this.contentHandleClose()} aria-label={this.props.language.setAccessibilityConf} className="dialog-fab" color="primary">
                       <AccessibilityNewIcon/>
                     </Fab>
                   </Tooltip>
@@ -1117,17 +1154,17 @@ export default class CourseCreatorTool extends React.Component {
                               <div className="snackbar-row">
                                 <InfoIcon className="snackbar-icon"/>
                                 <div className="navigation-message-container">
-                                  <p className="snackbar-message-title">EDITING</p>
-                                  <p>{`${this.props.courseInformation.organization.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}`}</p>
-                                  <p>{`${this.props.courseInformation.organization.subunit}: ${this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}</p>
+                                  <p className="snackbar-message-title">{this.props.language.editing}</p>
+                                  <p>{`${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}`}</p>
+                                  <p>{`${this.props.language.lesson}: ${this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}</p>
                                 </div>
                               </div>
                             :
                             <div className="snackbar-row">
                               <InfoIcon className="snackbar-icon"/>
                               <div className="navigation-message-container">
-                                <p className="snackbar-message-title">EDITING</p>
-                                <p>{`${this.props.courseInformation.organization.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}`}</p>
+                                <p className="snackbar-message-title">{this.props.language.editing}</p>
+                                <p>{`${this.props.language.topic}: ${this.props.courseInformation.program[this.props.selected[0]].name}`}</p>
                               </div>
                             </div>
                           }

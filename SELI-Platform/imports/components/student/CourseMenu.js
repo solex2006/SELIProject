@@ -78,7 +78,7 @@ export default function CourseMenu(props) {
           </IconButton>
         </div>
         <p className="course-menu-title">SELI Courses</p>
-        <div className="course-menu-subtitle-container">{new Date().toDateString()} <Clock className="menu-clock" format={'HH:mm:ss'} ticking={true}/></div>
+        <div className="course-menu-subtitle-container">{new Date().toLocaleDateString('en-US')} <Clock className="menu-clock" format={'HH:mm:ss'} ticking={true}/></div>
         <div className="course-menu-progress-container">
           <div className="course-menu-progress-bar">
             <LinearProgress className="course-menu-linear-progress" color="primary" variant="buffer" value={props.progress} valueBuffer={100} />
