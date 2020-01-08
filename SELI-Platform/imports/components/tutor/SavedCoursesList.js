@@ -66,8 +66,8 @@ export default class CoursesList extends React.Component {
     coursesToDelete.push(_id);
     this.handleClickOpen();
     this.setState({
-      dialogConfirmationTitle: 'Delete courses',
-      dialogConfirmationContentText: 'Are you sure you want to delete this course? You will lose all the information of the course, except the images, videos, audios and all the files that you have uploaded to your library.',
+      dialogConfirmationTitle: this.props.language.deletingCourses,
+      dialogConfirmationContentText: this.props.language.areYouSureDeleteCourses,
       confirmAction: () => this.delete(),
       coursesToDelete: coursesToDelete,
     });
@@ -78,8 +78,8 @@ export default class CoursesList extends React.Component {
     courses.map(course => {coursesToDelete.push(course)});
     this.handleClickOpen();
     this.setState({
-      dialogConfirmationTitle: 'Delete courses',
-      dialogConfirmationContentText: 'Are you sure you want to delete this course(s)? You will lose all the information of the course, except the images, videos, audios and all the files that you have uploaded to your library.',
+      dialogConfirmationTitle: this.props.language.deletingCourses,
+      dialogConfirmationContentText: this.props.language.areYouSureDeleteCourses,
       confirmAction: () => this.delete(),
       coursesToDelete: coursesToDelete,
     });
@@ -91,19 +91,19 @@ export default class CoursesList extends React.Component {
     });
     this.handleClose();
     this.setSelected();
-    this.props.handleControlMessage(true, 'Course(s) deleted successfully!', false, '', '');
+    this.props.handleControlMessage(true, this.props.language.courseDeletedS, false, '', '');
   }
 
   createTableData = (myCourses) => {
     let tableData = [];
     let headRows = [
-      { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
-      { id: 'organization', numeric: true, disablePadding: false, label: 'Organization' },
-      { id: 'actions', numeric: true, disablePadding: false, label: 'Actions' },
+      { id: 'title', numeric: false, disablePadding: true, label: this.props.language.title },
+      { id: 'organization', numeric: true, disablePadding: false, label: this.props.language.organization },
+      { id: 'actions', numeric: true, disablePadding: false, label: this.props.language.actions },
     ];
     let menuOptions = [
-      {label: "Resume editing", icon: <EditIcon/>, action: this.edit.bind(this)},
-      {label: "Delete course" , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
+      {label: this.props.language.resumeEditing , icon: <EditIcon/>, action: this.edit.bind(this)},
+      {label: this.props.language.deleteCourse , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
     ];
     myCourses.map(course => {
       tableData.push({title: course.title, organization: course.organization.label, _id: course._id})
@@ -142,7 +142,7 @@ export default class CoursesList extends React.Component {
             {
               this.state.results ?
                 <div className="management-result-container">
-                  <p className="management-title">My saved courses <SchoolIcon className="management-title-icon"/></p>
+                  <p className="management-title">{this.props.language.mySavedCourses}<SchoolIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
                     <Table
                       labels={{title:'You have', pagination: 'Courses per page:', plural: 'courses'}}
@@ -158,10 +158,10 @@ export default class CoursesList extends React.Component {
               :
               <div className="empty-dashboard">
                 <div className="empty-dashboard-row">
-                  <p className="empty-dashboard-text">You don't have any course saved yet</p>
+                  <p className="empty-dashboard-text">{this.props.language.noCourseSavedText}</p>
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
-                <Button onClick={() => this.props.showComponent('create')} variant="contained" color="secondary" className="empty-dashboard-button">Create a course</Button>
+                <Button onClick={() => this.props.showComponent('create')} variant="contained" color="secondary" className="empty-dashboard-button">{this.props.language.createCourse}</Button>
               </div>
             }
           </React.Fragment>
@@ -181,10 +181,10 @@ export default class CoursesList extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-              Cancel
+              {this.props.language.cancel}
             </Button>
             <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
-              Confirm
+              {this.props.language.confirm}
             </Button>
           </DialogActions>
         </Dialog>

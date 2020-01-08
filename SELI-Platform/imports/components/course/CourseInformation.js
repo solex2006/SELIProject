@@ -382,6 +382,7 @@ export default class CourseInformation extends React.Component {
                           <PdfPreview
                             file={this.state.sylabus}
                             unPickFile={this.unPickFile.bind(this)}
+                            language={this.props.language}
                           />
                         }
                       </div>
