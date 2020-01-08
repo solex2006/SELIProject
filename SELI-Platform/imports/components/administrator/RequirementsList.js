@@ -266,7 +266,17 @@ export default class RequirementsList extends React.Component {
                   <p className="management-title">Requirements <ComputerIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
                     <Table
-                      labels={{title:'You have', pagination: 'Requirements per page:', plural: 'requirements'}}
+                      labels={{
+                        title:'Number of requirements you have:', 
+                        pagination: 'Requirements per page:',
+                        filterList: this.props.language.filterList,
+                        refresh: this.props.language.refresh,
+                        delete: this.props.language.delete,
+                        selected: this.props.language.selected,
+                        nextPage: this.props.language.nextPage,
+                        previousPage: this.props.language.previousPage,
+                        options: this.props.language.options,
+                      }}
                       headRows={this.state.headRows}
                       menuOptions={this.state.menuOptions}
                       tableData={this.state.tableData}

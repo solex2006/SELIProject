@@ -166,7 +166,17 @@ export default class StudentsList extends React.Component {
                   <p className="management-title">Registered students <AccountCircleIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
                     <Table
-                      labels={{title:'There are', pagination: 'Students per page:', plural: 'students'}}
+                      labels={{
+                        title:'Number of students:', 
+                        pagination: 'Students per page:', 
+                        filterList: this.props.language.filterList,
+                        refresh: this.props.language.refresh,
+                        delete: this.props.language.delete,
+                        selected: this.props.language.selected,
+                        nextPage: this.props.language.nextPage,
+                        previousPage: this.props.language.previousPage,
+                        options: this.props.language.options,
+                      }}
                       headRows={this.state.headRows}
                       menuOptions={this.state.menuOptions}
                       tableData={this.state.tableData}

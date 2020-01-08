@@ -88,7 +88,7 @@ export default class AccountManagement extends React.Component {
             value={this.state.message.subject}
             onChange={this.handleChange('subject')}
             fullWidth
-            helperText="Select the subject of your message"
+            helperText={this.props.language.selectSubjectMesg}
             margin="normal"
             variant="outlined"
           >
