@@ -35,6 +35,7 @@ export default class LinkItem extends React.Component {
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
             editItem={this.props.editItem.bind(this)}
+            language={this.props.language}
           />
         </div>
       </div>

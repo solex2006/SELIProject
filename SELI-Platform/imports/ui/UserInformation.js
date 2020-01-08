@@ -498,6 +498,7 @@ export default class UserInformation extends React.Component {
                     type={this.state.fileType}
                     getFileInformation={this.getFileInformation.bind(this)}
                     hideLibrary={this.hideLibrary.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 <div>
@@ -507,6 +508,7 @@ export default class UserInformation extends React.Component {
                         <ImagePreview
                           file={this.state.image}
                           unPickFile={this.unPickFile.bind(this)}
+                          language={this.props.language}
                         />
                       </div>
                     :

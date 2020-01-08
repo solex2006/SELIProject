@@ -226,7 +226,7 @@ export default class CourseInformation extends React.Component {
                 changeFile={this.changeFile.bind(this)}
               />
             :
-            <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>Select the course image</Button>
+          <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>{this.props.language.selectCourseImage}</Button>
           }
           {
             this.state.courseInformation.sylabus !== undefined ?
@@ -237,13 +237,13 @@ export default class CourseInformation extends React.Component {
                 changeFile={this.changeFile.bind(this)}
               />
             :
-            <Button onClick={() => this.openFileSelector("pdf", ".pdf")} className="form-file-button" fullWidth color="secondary"><PictureAsPdfSharpIcon className="form-image-icon"/>Select the course sylabus</Button>
+            <Button onClick={() => this.openFileSelector("pdf", ".pdf")} className="form-file-button" fullWidth color="secondary"><PictureAsPdfSharpIcon className="form-image-icon"/>{this.props.language.selectCourseSyllabus}</Button>
           }
         </div>
         <div className="form-input-column">
           <TextField
             id="title-input"
-            label="Course title"
+            label={this.props.language.courseTitle}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -253,7 +253,7 @@ export default class CourseInformation extends React.Component {
           />
           <TextField
             id="subtitle-input"
-            label="Course subtitle"
+            label={this.props.language.courseSubtitle}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -263,7 +263,7 @@ export default class CourseInformation extends React.Component {
           />
           <TextField
             id="description-input"
-            label="Course description"
+            label={this.props.language.courseDescription}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -276,29 +276,29 @@ export default class CourseInformation extends React.Component {
           <TextField
             id="subject-select-currency"
             select
-            label="Language"
+            label={this.props.language.language}
             value={this.state.courseInformation.language}
             onChange={this.handleChange('language')}
             fullWidth
-            helperText="Select the language in which your course will be"
+            helperText={this.props.language.selectLanguageCourse}
             margin="normal"
             variant="outlined"
           >
-            <MenuItem value={0}>English (US)</MenuItem>
-            <MenuItem value={1}>Spanish (ES)</MenuItem>
-            <MenuItem value={2}>Portuguese (PT)</MenuItem>
-            <MenuItem value={3}>Polish (PL)</MenuItem>
-            <MenuItem value={4}>Turkish (TR)</MenuItem>
+            <MenuItem value={0}>{`${this.props.language.english} (US)`}</MenuItem>
+            <MenuItem value={1}>{`${this.props.language.spanish} (ES)`}</MenuItem>
+            <MenuItem value={2}>{`${this.props.language.portuguese} (PT)`}</MenuItem>
+            <MenuItem value={3}>{`${this.props.language.polish} (PL)`}</MenuItem>
+            <MenuItem value={4}>{`${this.props.language.turkish} (TR)`}</MenuItem>
           </TextField>
           <div className="row-input">
             <TextField
               id="keyWord-input"
-              label="Course keywords"
+              label={this.props.language.courseKeyWords}
               margin="normal"
               variant="outlined"
               required
               className="button-input"
-              helperText="Press enter to add a key word"
+              helperText={this.props.language.courseKeyWordsHelper}
               onKeyPress={() => this.keyController(event)}
             />
           </div>
@@ -321,22 +321,23 @@ export default class CourseInformation extends React.Component {
             :
             undefined
           }
-          <p className="form-message">What are key words
+          <p className="form-message"> {this.props.language.courseKeyWordsHelp}
             <Help
               helper="keyWordHelper"
-              text="Key words are used for this:"
+              text={this.props.language.keywordsAreUsed}
+              language={this.props.language}
             />
           </p>
           <TextField
             id="duration-input"
-            label="Estimated course duration"
+            label={this.props.language.estimatedCourseDuration}
             margin="normal"
             variant="outlined"
             type="number"
             fullWidth
             required
             InputProps={{
-              endAdornment: <InputAdornment position="end">hours</InputAdornment>,
+              endAdornment: <InputAdornment position="end">{this.props.language.hours}</InputAdornment>,
             }}
             inputProps={{ min: "0", max: "999", step: "1" }}
             value={this.state.courseInformation.duration}
@@ -353,7 +354,7 @@ export default class CourseInformation extends React.Component {
           keepMounted
           maxWidth={false}
         >
-          <DialogTitle className="form-dialog-title" id="alert-dialog-title">{this.state.fileType === "image" ? "Choose or upload the course image" : "Choose or upload the course sylabus"}</DialogTitle>
+          <DialogTitle className="form-dialog-title" id="alert-dialog-title">{this.state.fileType === "image" ? this.props.language.chooseOrUploadImage : this.props.language.chooseOrUploadSyllabus}</DialogTitle>
           <DialogContent>
             <div className="file-form-dialog">
               {
@@ -363,6 +364,7 @@ export default class CourseInformation extends React.Component {
                     type={this.state.fileType}
                     getFileInformation={this.getFileInformation.bind(this)}
                     hideLibrary={this.hideLibrary.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 <div>
@@ -374,6 +376,7 @@ export default class CourseInformation extends React.Component {
                             <ImagePreview
                               file={this.state.image}
                               unPickFile={this.unPickFile.bind(this)}
+                              language={this.props.language}
                             />
                           :
                           <PdfPreview
@@ -389,16 +392,16 @@ export default class CourseInformation extends React.Component {
                         user={Meteor.userId()}
                         accept={this.state.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
-                        label={this.state.fileType === 'image' ? 'Click the button to upload an image' : 'Click the button to upload a pdf'}
+                        label={this.state.fileType === 'image' ? this.props.language.uploadImageButtonLabel : this.props.language.uploadPdfButtonLabel }
                       />
                     </div>
                   }
                   <div className="center-row">
-                    <p className="normal-text">Or</p>
+                    <p className="normal-text">{this.props.language.or}</p>
                   </div>
                   <div className="center-row">
-                    <p className="normal-text">Pick one from your</p>
-                    <Button onClick={() => this.showLibrary()} color="primary" className="text-button">Library</Button>
+                    <p className="normal-text">{this.props.language.pickOneFrom}</p>
+                <Button onClick={() => this.showLibrary()} color="primary" className="text-button">{this.props.language.library}</Button>
                   </div>
                 </div>
               }
@@ -406,10 +409,10 @@ export default class CourseInformation extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-              Cancel
+              {this.props.language.cancel}
             </Button>
             <Button onClick={() => this.selectFile(this.state.fileType)} disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} color="primary">
-              Select
+              {this.props.language.select}
             </Button>
           </DialogActions>
         </Dialog>

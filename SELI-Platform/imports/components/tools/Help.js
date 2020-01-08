@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ImageHelpStepper from './ImageHelpStepper';
 
 const useStyles = makeStyles(theme => ({
-   iconButton:{
+  iconButton:{
     verticalAlign:'baseline',
     padding: '5px',
   }
@@ -60,7 +60,7 @@ export default function Help(props) {
       >
         <div className="help-container">
           <p className="help-text">{props.text}</p>
-          <ImageHelpStepper helper={props.helper}/>
+          <ImageHelpStepper helper={props.helper} language={props.language}/>
         </div>
       </Popover>
     </React.Fragment>

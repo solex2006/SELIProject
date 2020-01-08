@@ -24,8 +24,8 @@ export default function CourseCreatorMenu(props) {
       showLabels
       className="course-creator-menu-container"
     >
-      <BottomNavigationAction className="course-creator-tab" label="Content" icon={<AppsIcon />} />
-      <BottomNavigationAction className="course-creator-tab" label="Organization" icon={<FolderIcon />} />
+      <BottomNavigationAction className="course-creator-tab" label={props.language.content} icon={<AppsIcon />} />
+      <BottomNavigationAction className="course-creator-tab" label={props.language.organization} icon={<FolderIcon />} />
     </BottomNavigation>
   );
 }

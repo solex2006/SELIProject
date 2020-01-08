@@ -101,10 +101,14 @@ export default class NavigationTool extends React.Component {
     }
   }
 
-  addUnit() {
+  addUnit(type) {
+    let languageTypeAdded = "";
+    if (type === 'Unit'){ languageTypeAdded = this.props.language.unitName }
+    if (type === 'Topic'){ languageTypeAdded = this.props.language.topicName }
     if (this.props.dialog) {
       this.setState({
         action: "addUnit",
+        languageType: languageTypeAdded,
         open: true,
       }, () => {
         document.getElementById('unit-input').value = "";
@@ -269,11 +273,15 @@ export default class NavigationTool extends React.Component {
     });
   }
 
-  editUnit(index) {
+  editUnit(index, type) {
     let program = this.state.program;
+    let languageTypeAdded = "";
+    if (type === 'Unit'){ languageTypeAdded = this.props.language.unitName }
+    if (type === 'Topic'){ languageTypeAdded = this.props.language.topicName }
     this.setState({
       unitToEdit: index,
       action: "editUnit",
+      languageType: languageTypeAdded,
       open: true,
     }, () => {
       document.getElementById('unit-input').value = this.props.program[this.state.unitToEdit].name;
@@ -352,13 +360,13 @@ export default class NavigationTool extends React.Component {
                                               <ListItemIcon>
                                                 <EditIcon />
                                               </ListItemIcon>
-                                              <ListItemText primary="Edit" />
+                                              <ListItemText primary={this.props.language.edit} />
                                             </ListItem>
                                             <ListItem onClick={() => this.deletSubunit(childNode._id)} button>
                                               <ListItemIcon>
                                                 <CancelIcon />
                                               </ListItemIcon>
-                                              <ListItemText primary="Delete" />
+                                              <ListItemText primary={this.props.language.delete} />
                                             </ListItem>
                                           </List>
                                         </Paper>
@@ -370,7 +378,7 @@ export default class NavigationTool extends React.Component {
                               {
                                 this.props.organization.subunit ?
                                   <ContextMenuTrigger disabled={true} id={`noMenu${index}`}>
-                                    <TreeItem onClick={() => this.addSubunit(index)} icon={<AddIcon fontSize="small"/>} className="child-node-add" nodeId={`c${index}AddChild`} label={`Add ${this.props.organization.subunit}`}/>
+                                    <TreeItem onClick={() => this.addSubunit(index)} icon={<AddIcon fontSize="small"/>} className="child-node-add" nodeId={`c${index}AddChild`} label={this.props.language.addLesson}/>
                                   </ContextMenuTrigger>
                                 :
                                 undefined
@@ -381,17 +389,17 @@ export default class NavigationTool extends React.Component {
                         <ContextMenu className="right-click-menu" hideOnLeave={true} id={`p${index}`}>
                           <Paper elevation={8}>
                             <List className="navigation-options-list" dense={true} component="nav" aria-label="navigation-options">
-                              <ListItem onClick={() => this.editUnit(index)} button>
+                              <ListItem onClick={() => this.editUnit(index, this.props.organization.unit)} button>
                                 <ListItemIcon>
                                   <EditIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="Edit" />
+                                <ListItemText primary={this.props.language.edit} />
                               </ListItem>
                               <ListItem onClick={() => this.deletUnit(index)} button>
                                 <ListItemIcon>
                                   <CancelIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="Delete" />
+                                <ListItemText primary={this.props.language.delete} />
                               </ListItem>
                             </List>
                           </Paper>
@@ -400,7 +408,7 @@ export default class NavigationTool extends React.Component {
                     )
                   })
                 }
-                <TreeItem onClick={() => this.addUnit()} icon={<AddBoxIcon fontSize="small"/>} className="parent-node-add" nodeId={`pAddUnit`} label={`Add ${this.props.organization.unit}`}/>
+                <TreeItem onClick={() => this.addUnit(this.props.organization.unit)} icon={<AddBoxIcon fontSize="small"/>} className="parent-node-add" nodeId={`pAddUnit`} label={this.props.language.addUnit}/>
               </TreeView>
             </div>
           :
@@ -426,17 +434,17 @@ export default class NavigationTool extends React.Component {
                     <ContextMenu className="right-click-menu" hideOnLeave={true} id={`p${index}`}>
                       <Paper elevation={8}>
                         <List className="navigation-options-list" dense={true} component="nav" aria-label="navigation-options">
-                          <ListItem onClick={() => this.editUnit(index)} button>
+                          <ListItem onClick={() => this.editUnit(index, this.props.organization.unit)} button>
                             <ListItemIcon>
                               <EditIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Edit" />
+                            <ListItemText primary={this.props.language.edit} />
                           </ListItem>
                           <ListItem onClick={() => this.deletUnit(index)} button>
                             <ListItemIcon>
                               <CancelIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Delete" />
+                            <ListItemText primary={this.props.language.delete} />
                           </ListItem>
                         </List>
                       </Paper>
@@ -445,7 +453,7 @@ export default class NavigationTool extends React.Component {
                 )
               })
             }
-            <TreeItem onClick={() => this.addUnit()} icon={<AddBoxIcon fontSize="small"/>} className="parent-node-add" nodeId={`pAddUnit`} label={`Add ${this.props.organization.unit}`}/>
+            <TreeItem onClick={() => this.addUnit(this.props.organization.unit)} icon={<AddBoxIcon fontSize="small"/>} className="parent-node-add" nodeId={`pAddUnit`} label={this.props.language.addTopic}/>
           </TreeView>
         }
         <Dialog
@@ -457,7 +465,7 @@ export default class NavigationTool extends React.Component {
           keepMounted
           className="navigation-dialog"
         >
-          <DialogTitle className="navigation-dialog-title">{"Navigation editor"}</DialogTitle>
+          <DialogTitle className="navigation-dialog-title">{this.props.language.navigationEditor}</DialogTitle>
           <DialogContent>
             <div className="navigation-content">
               {
@@ -465,13 +473,13 @@ export default class NavigationTool extends React.Component {
                   <div>
                     <TextField
                       id="unit-input"
-                      label={`${this.props.organization.unit} name`}
+                      label={this.state.languageType}
                       margin="normal"
                       variant="outlined"
                       fullWidth
                       required
                       disabled={this.state.addedUnit !== undefined}
-                      helperText={`Press enter to add new ${this.props.organization.unit.toLowerCase()}`}
+                      helperText={this.props.language.pressEnterToAdd}
                       onKeyPress={() => this.unitKeyController(event)}
                     />
                   </div>
@@ -482,16 +490,16 @@ export default class NavigationTool extends React.Component {
                 this.state.addedUnit !== undefined ?
                   <div>
                     <p className="navigation-label">
-                      {`At least you have to add one ${this.props.organization.subunit.toLowerCase()} to complete the process`}
+                      {this.props.language.alLeastAdd}
                     </p>
                     <TextField
                       id="subunit-input"
-                      label={`${this.props.organization.subunit} name`}
+                      label={this.props.language.lessonName}
                       margin="normal"
                       variant="outlined"
                       fullWidth
                       required
-                      helperText={`Press enter to add new ${this.props.organization.subunit.toLowerCase()}`}
+                      helperText={this.props.language.pressEnterToAdd}
                       onKeyPress={() => this.unitKeyController(event)}
                     />
                   </div>
@@ -502,16 +510,16 @@ export default class NavigationTool extends React.Component {
                 this.state.action === "addSubunit" ?
                   <div>
                     <p className="navigation-label">
-                      {`Adding ${this.props.organization.subunit.toLowerCase()}s to the ${this.props.organization.unit.toLowerCase()}: ${this.props.program[this.state.selectedUnit].name.toLowerCase()}`}
+                      {`${this.props.language.addingLessons}: ${this.props.program[this.state.selectedUnit].name.toLowerCase()}`}
                     </p>
                     <TextField
                       id="subunit-input"
-                      label={`${this.props.organization.subunit} name`}
+                      label={this.props.language.lessonName}
                       margin="normal"
                       variant="outlined"
                       onKeyPress={() => this.unitKeyController(event)}
                       fullWidth
-                      helperText={`Press enter to add new ${this.props.organization.subunit.toLowerCase()}`}
+                      helperText={this.props.language.pressEnterToAdd}
                       required
                     />
                   </div>
@@ -523,12 +531,12 @@ export default class NavigationTool extends React.Component {
                   <div>
                     <TextField
                       id="unit-input"
-                      label={`${this.props.organization.unit} name`}
+                      label={this.state.languageType}
                       margin="normal"
                       variant="outlined"
                       onKeyPress={() => this.unitKeyController(event)}
                       fullWidth
-                      helperText={`Press enter to edit the ${this.props.organization.unit.toLowerCase()}`}
+                      helperText={this.props.language.pressEnterToEdit}
                       required
                     />
                   </div>
@@ -540,12 +548,12 @@ export default class NavigationTool extends React.Component {
                   <div>
                     <TextField
                       id="subunit-input"
-                      label={`${this.props.organization.subunit} name`}
+                      label={this.props.language.lessonName}
                       margin="normal"
                       variant="outlined"
                       onKeyPress={() => this.unitKeyController(event)}
                       fullWidth
-                      helperText={`Press enter to edit the ${this.props.organization.subunit.toLowerCase()}`}
+                      helperText={this.props.language.pressEnterToEdit}
                       required
                     />
                   </div>
@@ -556,7 +564,7 @@ export default class NavigationTool extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-              Close
+              {this.props.language.close}
             </Button>
           </DialogActions>
         </Dialog>

@@ -27,11 +27,11 @@ export default class PdfForm extends React.Component {
 
   validateContent = (content) => {
     if (content.pdf === undefined) {
-      this.props.handleControlMessage(true, "Upload or add the url of the pdf source");
+      this.props.handleControlMessage(true, this.props.language.uploadAddUrlPdf);
       return false;
     }
     if (content.instruction === '') {
-      this.props.handleControlMessage(true, "Add the instruction that the student must follow with the pdf file");
+      this.props.handleControlMessage(true, this.props.language.enterDescriptionPdf);
       return false;
     }
     return true;
@@ -114,7 +114,7 @@ export default class PdfForm extends React.Component {
                 <Fab onClick={() => this.showLibrary()}>
                   <FolderSpecialIcon/>
                 </Fab>
-                <p className="media-fab-text">Open library</p>
+                <p className="media-fab-text">{this.props.language.library}</p>
               </div>
               {
                 !this.state.showPreview ?
@@ -123,7 +123,7 @@ export default class PdfForm extends React.Component {
                       type="pdf"
                       user={Meteor.userId()}
                       accept={'.pdf'}
-                      label={'Click the button to upload a pdf'}
+                      label={this.props.language.uploadPdfButtonLabel}
                       getFileInformation={this.getFileInformation.bind(this)}
                     />
                   </div>
@@ -131,10 +131,11 @@ export default class PdfForm extends React.Component {
                 <PdfPreview
                   file={this.state.attributes.pdf}
                   unPickFile={this.unPickFile.bind(this)}
+                  language={this.props.language}
                 />
               }
               <div>
-                <p className="form-editor-label">Write the instructions that the student must follow below:</p>
+                <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
                 <div className="editor-block">
                   <Editor
                     areaHeight="25vh"
@@ -142,6 +143,7 @@ export default class PdfForm extends React.Component {
                     innerHTML={this.state.attributes.instruction}
                     addLinks={true}
                     getInnerHtml={this.getInnerHtml.bind(this)}
+                    language={this.props.language}
                   />
                 </div>
               </div>
@@ -152,6 +154,7 @@ export default class PdfForm extends React.Component {
             type={"pdf"}
             getFileInformation={this.getFileInformation.bind(this)}
             hideLibrary={this.hideLibrary.bind(this)}
+            language={this.props.language}
           />
         }
       </div>

@@ -99,7 +99,7 @@ export default class ActivityForm extends React.Component {
 
   validateContent = (content) => {
     if (content.instruction === '') {
-      this.props.handleControlMessage(true, "Add the instruction that the student must follow");
+      this.props.handleControlMessage(true, this.props.language.writeTheInstructions);
       return false;
     }
     return true;
@@ -197,9 +197,9 @@ export default class ActivityForm extends React.Component {
             variant="fullWidth"
             centered={true}
           >
-            <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label="Storyboard" icon={<LocalActivityIcon />} />
-            <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label="Upload" icon={<BackupIcon />} />
-            <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label="Text section" icon={<SubjectIcon />} />
+            <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} />
+            <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} />
+            <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.textSection} icon={<SubjectIcon />} />
           </Tabs>
         </Paper>
         {
@@ -208,7 +208,8 @@ export default class ActivityForm extends React.Component {
               <div className="center-row">
                 <Help
                   helper="storyboard"
-                  text="What is a storyboard activity?"
+                  text={this.props.language.whatIsStoryboard}
+                  language={this.props.language}
                 />
               </div>
             </div>
@@ -221,12 +222,14 @@ export default class ActivityForm extends React.Component {
               <div className="center-row">
                 <Help
                   helper="storyboard"
-                  text="What is an upload activity?"
+                  text={this.props.language.whatIsUpload}
+                  language={this.props.language}
                 />
               </div>
               <FileTypeSelector
                 fileTypes={this.state.fileTypes}
                 pickFileType={this.pickFileType.bind(this)}
+                fileType={this.props.language.selectAllowedFileType}
               />
             </div>
           :
@@ -238,7 +241,8 @@ export default class ActivityForm extends React.Component {
               <div className="center-row">
                 <Help
                   helper="storyboard"
-                  text="What is a text section activity?"
+                  text={this.props.language.whatIsTextSection}
+                  language={this.props.language}
                 />
               </div>
             </div>
@@ -246,7 +250,7 @@ export default class ActivityForm extends React.Component {
           undefined
         }
         <div className="center-row">
-          <p className="form-message">Write the instruction that the student must follow</p>
+          <p className="form-message">{this.props.language.writeTheInstructions}</p>
         </div>
         <div className="editor-block">
           <Editor
@@ -255,6 +259,7 @@ export default class ActivityForm extends React.Component {
             buttonLabels={false}
             addLinks={true}
             getInnerHtml={this.getInnerHtml.bind(this)}
+            language={this.props.language}
           />
         </div>
       </div>

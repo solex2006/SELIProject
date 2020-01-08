@@ -109,7 +109,7 @@ export default class Stories extends React.Component {
       {label: this.props.language.delete , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
     ];
     myStories.map(story => {
-      tableData.push({name: story.activity.name, date: story.activity.date.toDateString(), _id: story._id})
+      tableData.push({name: story.activity.name, date: story.activity.date.toLocaleDateString('en-US'), _id: story._id})
     })
     this.setState({
       headRows: headRows,

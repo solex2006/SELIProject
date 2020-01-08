@@ -40,11 +40,11 @@ export default class LibraryVideo extends React.Component {
   delete(){
     Meteor.call("RemoveCourseFile", this.props.file._id, function (err) {
       if (err) {
-        this.props.showControlMessage('There was an error deleting the file, try again later');
+        this.props.showControlMessage(this.props.language.errorDeleting);
         return;
       }
     });
-    this.props.showControlMessage('File deleted successfully');
+    this.props.showControlMessage(this.props.language.fileDeletedS);
   }
 
   addToFavorites(){
@@ -88,29 +88,29 @@ export default class LibraryVideo extends React.Component {
         <CardActions className="card-actions-bottom-container" disableSpacing>
           {
             this.state.playing ?
-              <Tooltip title="Pause">
+              <Tooltip title={this.props.language.pause}>
                 <IconButton className="card-button" onClick={() => this.pause()} aria-label="add to favorites">
                   <PauseIcon className="card-icon"/>
                 </IconButton>
               </Tooltip>
             :
-            <Tooltip title="Play">
+            <Tooltip title={this.props.language.play}>
               <IconButton className="card-button" onClick={() => this.play()} aria-label="add to favorites">
                 <PlayArrowIcon className="card-icon"/>
               </IconButton>
             </Tooltip>
           }
-          <Tooltip title="Add to favorites">
+          <Tooltip title={this.props.language.addToFavorites}>
             <IconButton color={this.props.file.meta.isFavorite ? `primary` : undefined} className="card-button" onClick={() => this.addToFavorites()} aria-label="add to favorites">
               <FavoriteIcon className="card-icon"/>
             </IconButton>
           </Tooltip>
-          <Tooltip title="Delete">
+          <Tooltip title={this.props.language.deleteFile}>
             <IconButton className="card-button" onClick={() => this.delete()} aria-label="delete">
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-          <FileInformation type={this.props.file.type} file={this.props.file}/>
+          <FileInformation type={this.props.file.type} file={this.props.file} language={this.props.language}/>
         </CardActions>
       </Card>
       );

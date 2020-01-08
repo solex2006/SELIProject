@@ -55,11 +55,11 @@ export default class EmbebedForm extends React.Component {
 
   validateContent = (content) => {
     if (content.url === '' || content.description === '') {
-      this.props.handleControlMessage(true, "The url and the description are required fields");
+      this.props.handleControlMessage(true, this.props.language.urlAndDescriptionR);
       return false;
     }
     if (content.hasDescription && content.description === '') {
-      this.props.handleControlMessage(true, "Enter the description of the embebed content or turn this feature off");
+      this.props.handleControlMessage(true, this.props.language.enterDescriptionEmbebed);
       return false;
     }
     return true;
@@ -106,7 +106,7 @@ export default class EmbebedForm extends React.Component {
           autoFocus={true}
         />
         <div className="margin-center-row">
-          <p className="form-label">Text position:</p>
+          <p className="form-label">{this.props.language.textPosition}</p>
           <Grid item>
             <ToggleButtonGroup onChange={this.handleChange('alignment')} size="small" value={this.state.attributes.alignment} exclusive>
               <ToggleButton className="toggle-button" disabled={!this.state.attributes.hasDescription} key={1} value="column">
@@ -129,6 +129,7 @@ export default class EmbebedForm extends React.Component {
             innerHTML={this.state.attributes.description}
             addLinks={false}
             getInnerHtml={this.getInnerHtml.bind(this)}
+            language={this.props.language}
           />
         </div>
       </div>

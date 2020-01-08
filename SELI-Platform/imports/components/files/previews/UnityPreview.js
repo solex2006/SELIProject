@@ -44,7 +44,7 @@ export default class UnityPreview extends React.Component {
         <div className="file-preview-container">
           <div id="unit-preview-information" className="file-preview-information">
             <div className="file-preview-icon-container">
-              <p className="file-preview-icon-text">Unity webgl project</p>
+              <p className="file-preview-icon-text">{this.props.language.unityProject}</p>
               <DiUnitySmall className="file-preview-icon"/>
             </div>
             <p className="file-preview-name">{this.props.file.name}</p>
@@ -60,17 +60,17 @@ export default class UnityPreview extends React.Component {
                   hash: `#MyUser`,
                 }}
               >
-                <IconButton color="secondary" aria-label="open">
+                <IconButton color="secondary" aria-label={this.props.language.open}>
                   <OpenInNewIcon />
                 </IconButton>
               </Link>
             </Tooltip>
-            <Tooltip title="Upload another" placement="left">
+            <Tooltip title={this.props.language.uploadAnother} placement="left">
               <IconButton onClick={() => this.props.unPickFile()} color="secondary" aria-label="another">
                 <AutorenewIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete" placement="left">
+            <Tooltip title={this.props.language.delete} placement="left">
               <IconButton onClick={() => this.delete()} color="secondary" aria-label="delete">
                 <DeleteIcon />
               </IconButton>

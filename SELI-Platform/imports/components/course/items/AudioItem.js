@@ -39,7 +39,7 @@ export default class AudioItem extends React.Component {
                     {` ${this.props.item.attributes.title}`}
                   </Typography>
                   <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
-                    {this.props.item.attributes.source === 'upload' ? `Audio file` : `Recorded file`}
+                      {this.props.item.attributes.source === 'upload' ? this.props.language.audioFile : this.props.language.recordedAudio}
                   </Typography>
                 </CardContent>
                 <CardMedia
@@ -58,7 +58,7 @@ export default class AudioItem extends React.Component {
                 {
                   this.props.item.attributes.externalLink !== '' ?
                     <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
-                      Learn More
+                      {this.props.language.learnMore}
                     </Button>
                   :
                     undefined
@@ -83,6 +83,7 @@ export default class AudioItem extends React.Component {
             removeItem={this.props.removeItem.bind(this)}
             editItem={this.props.editItem.bind(this)}
             handleDecorative={this.props.handleDecorative.bind(this)}
+            language={this.props.language}
           />
         </div>
         <ItemFeedback

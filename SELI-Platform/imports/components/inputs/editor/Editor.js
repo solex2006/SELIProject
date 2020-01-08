@@ -202,27 +202,27 @@ export default class Editor extends React.Component {
       <div style={{width: '100%', paddingBottom: '2.5vh'}}>
         <MuiThemeProvider theme={theme}>
           <div className="editor-container">
-            <p className="editor-label">TEXT EDITOR</p>
+            <p className="editor-label">{this.props.language.textEditor}</p>
             <div className="editor-tools">
               <Grid item>
                 <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
                   <ToggleButton key={1} value="left" onClick={() => {changeAligment('justifyLeft'); this.setActiveAligment("left")}}>
-                    <Tooltip title="Left alignment">
+                    <Tooltip title={this.props.language.leftAlign}>
                       <FormatAlignLeftIcon className="toggle-button-icon"/>
                     </Tooltip>
                   </ToggleButton>
                   <ToggleButton key={2} value="center" onClick={() => {changeAligment('justifyCenter'); this.setActiveAligment("center")}}>
-                    <Tooltip title="Center alignment">
+                    <Tooltip title={this.props.language.centerAlign}>
                       <FormatAlignCenterIcon className="toggle-button-icon"/>
                     </Tooltip>
                   </ToggleButton>
                   <ToggleButton key={3} value="right" onClick={() => {changeAligment('justifyRight'); this.setActiveAligment("right")}}>
-                    <Tooltip title="Right alignment">
+                    <Tooltip title={this.props.language.rightAlign}>
                       <FormatAlignRightIcon className="toggle-button-icon"/>
                     </Tooltip>
                   </ToggleButton>
                   <ToggleButton className="last-child-button" key={4} value="justify" onClick={() => {changeAligment('justifyFull'); this.setActiveAligment("justify")}}>
-                    <Tooltip title="Justify">
+                    <Tooltip title={this.props.language.justify}>
                       <FormatAlignJustifyIcon className="toggle-button-icon"/>
                     </Tooltip>
                   </ToggleButton>
@@ -245,7 +245,7 @@ export default class Editor extends React.Component {
                 this.props.addLinks ?
                   <Grid style={{marginLeft: "1vw"}}>
                     <ToggleButtonGroup size="small">
-                      <LinkButton buttonLabels={this.props.buttonLabels}/>
+                      <LinkButton buttonLabels={this.props.buttonLabels} language={this.props.language}/>
                     </ToggleButtonGroup>
                   </Grid>
                 :

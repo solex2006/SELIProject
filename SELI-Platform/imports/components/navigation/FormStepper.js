@@ -94,17 +94,17 @@ export default function FormStepper(props) {
       <div className="form-stepper-navigation">
         <div className="form-stepper-information">
           <h1 style={{color: getComputedStyle(document.documentElement).getPropertyValue('--' + props.color)}} className="form-stepper-title">{props.title}</h1>
-          <p className="form-stepper-active-step">{"Step " + parseInt(activeStep + 1) + " of " + steps.length + ": " + steps[activeStep].label}</p>
+          <p className="form-stepper-active-step">{`${props.language.step}  ${parseInt(activeStep + 1)} ${props.language.of} ${steps.length}: ${steps[activeStep].label}`}</p>
         </div>
         {
           props.steps.length > 1 ?
             <div className="form-stepper-navigation-actions">
-              <Tooltip title="Previous step">
+              <Tooltip title={props.language.previousStep}>
                 <IconButton className="form-stepper-navigation-button" onClick={handleBack} edge="end" aria-label="back">
                   <NavigateBeforeIcon className="form-stepper-navigation-icon"/>
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Next step">
+              <Tooltip title={props.language.nextStep}>
                 <IconButton className="form-stepper-navigation-button" onClick={handleNext} edge="end" aria-label="next">
                   <NavigateNextIcon className="form-stepper-navigation-icon"/>
                 </IconButton>
@@ -117,7 +117,7 @@ export default function FormStepper(props) {
           props.steps.length > 1 ?
             <div>
               <Button className="form-stepper-selector-button" color={props.color} aria-describedby={id} onClick={handleClick}>
-                Select step
+              {props.language.selectStep}
                 <KeyboardArrowDownIcon className="form-stepper-selector-button-icon"/>
               </Button>
               <Popover

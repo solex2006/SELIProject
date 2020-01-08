@@ -76,15 +76,15 @@ export default class VideoForm extends React.Component {
 
   validateContent = (content) => {
     if (content.title === '') {
-      this.props.handleControlMessage(true, "The title of the video content is required");
+      this.props.handleControlMessage(true, this.props.language.titleVideoRequired);
       return false;
     }
     if (content.video === undefined) {
-      this.props.handleControlMessage(true, "Upload or add the url of the video source");
+      this.props.handleControlMessage(true, this.props.language.uploadAddUrlVideo);
       return false;
     }
     if (content.hasDescription && content.description === '') {
-      this.props.handleControlMessage(true, "Enter the description of the audio file or turn this feature off");
+      this.props.handleControlMessage(true, this.props.language.enterDescriptionVide);
       return false;
     }
     return true;
@@ -154,12 +154,12 @@ export default class VideoForm extends React.Component {
         link: url,
       };
       attributes.video = video;
-      urlMessage = "The player can reproduce this type of source";
+      urlMessage = this.props.language.thePlayerCan;
       helperColor = "#4caf50";
     }
     else {
       attributes.video = undefined;
-      urlMessage = "The player can't reproduce this type of source";
+      urlMessage = this.props.language.thePlayerCannot;
       helperColor = "#f44336";
     }
     this.setState({
@@ -199,7 +199,7 @@ export default class VideoForm extends React.Component {
             validUrl: true,
             url: this.state.attributes.video.link,
             helperColor: "#4caf50",
-            urlMessage: "The player can reproduce this type of source",
+            urlMessage: this.props.language.thePlayerCan,
             showHelperText: true,
           })
         }
@@ -216,7 +216,7 @@ export default class VideoForm extends React.Component {
               <Fab onClick={() => this.showLibrary()}>
                 <FolderSpecialIcon/>
               </Fab>
-              <p className="media-fab-text">Open library</p>
+              <p className="media-fab-text">{this.props.language.library}</p>
             </div>
           :
           undefined
@@ -234,8 +234,8 @@ export default class VideoForm extends React.Component {
                   variant="fullWidth"
                   centered={true}
                 >
-                  <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label="By upload" icon={<CloudUploadIcon />} />
-                  <Tab value={'url'} onClick={() => {this.selectType('url'); this.unPickFile()}} className="form-tab" label="By Url" icon={<HttpIcon />} />
+                  <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadVideo} icon={<CloudUploadIcon />} />
+                  <Tab value={'url'} onClick={() => {this.selectType('url'); this.unPickFile()}} className="form-tab" label={this.props.language.byUrlVideo}  icon={<HttpIcon />} />
                 </Tabs>
               </Paper>
               <div className="dialog-columns-container">
@@ -249,7 +249,7 @@ export default class VideoForm extends React.Component {
                               type="video"
                               user={Meteor.userId()}
                               accept={'video/*'}
-                              label={'Click the button to upload a video'}
+                              label={this.props.language.uploadVideoButtonLabel}
                               getFileInformation={this.getFileInformation.bind(this)}
                             />
                           :
@@ -275,7 +275,7 @@ export default class VideoForm extends React.Component {
                                 />
                               </div>
                               <div className="margin-center-row">
-                                <Button onClick={() => this.validateUrl()} className="url-check-button" color="primary">Test source</Button>
+                                <Button onClick={() => this.validateUrl()} className="url-check-button" color="primary">{this.props.language.testSource}</Button>
                               </div>
                             </div>
                         }
@@ -286,6 +286,7 @@ export default class VideoForm extends React.Component {
                           <VideoPreview
                             file={this.state.attributes.video}
                             unPickFile={this.unPickFile.bind(this)}
+                            language={this.props.language}
                           />
                         </div>
                         <div>
@@ -293,7 +294,7 @@ export default class VideoForm extends React.Component {
                             type="file"
                             user={Meteor.userId()}
                             accept={'.srt'}
-                            label={'Click the button to upload a subtitle'}
+                            label={this.props.language.uploadSubtitleButtonLabel}
                             getFileInformation={this.getFileInformationSub.bind(this)}
                           />
                         </div>
@@ -304,7 +305,7 @@ export default class VideoForm extends React.Component {
                   <div className="course-creator-input-container">
                     <TextField
                       id="title-input"
-                      label="Video title"
+                      label={this.props.language.videoTitle}
                       margin="normal"
                       variant="outlined"
                       value={this.state.attributes.title}
@@ -314,7 +315,7 @@ export default class VideoForm extends React.Component {
                     />
                     <TextField
                       id="link-input"
-                      label="External link"
+                      label={this.props.language.externalLink}
                       value={this.state.attributes.externalLink}
                       onChange={this.handleChange('externalLink')}
                       margin="normal"
@@ -325,7 +326,7 @@ export default class VideoForm extends React.Component {
                       <FormGroup>
                         <FormControlLabel
                           control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
-                          label={<p className="form-label">Video with text description</p>}
+                          label={<p className="form-label">{this.props.language.videoWithText}</p>}
                         />
                       </FormGroup>
                     </div>
@@ -336,6 +337,7 @@ export default class VideoForm extends React.Component {
                         buttonLabels={false}
                         addLinks={true}
                         getInnerHtml={this.getInnerHtml.bind(this)}
+                        language={this.props.language}
                       />
                     </div>
                   </div>
@@ -348,6 +350,7 @@ export default class VideoForm extends React.Component {
             type={"video"}
             getFileInformation={this.getFileInformation.bind(this)}
             hideLibrary={this.hideLibrary.bind(this)}
+            language={this.props.language}
           />
         }
       </div>

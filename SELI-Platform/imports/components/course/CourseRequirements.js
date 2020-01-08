@@ -123,17 +123,17 @@ export default class CourseRequirements extends React.Component {
         {
           id: 1,
           name: "Audiences",
-          label: "This course will support the following disabilities:",
+          label: this.props.language.courseWillDisabilities,
           options: audienceAllowed,
-          help: {helper: "audienceHelper", text: "Audiences are:"},
+          help: {helper: "audienceHelper", text: this.props.language.audienceAre},
           icon: <PeopleIcon/>,
         },
         {
           id: 2,
           name: "Technical requirements",
-          label: "This course will need the following technical requirements:",
+          label: this.props.language.courseWillRequirements,
           options: technicalRequirements,
-          help: {helper: "technicalRequirementsHelper", text: "Technical Requirements are:"},
+          help: {helper: "technicalRequirementsHelper", text: this.props.language.trAre},
           icon: <DevicesIcon/>,
         }
       );
@@ -186,7 +186,7 @@ export default class CourseRequirements extends React.Component {
   validateRequest = () => {
     let request = this.state.request;
     if (request.type === '' || request.name === '' || request.description === '') {
-      this.props.handleControlMessage(true, "Fields marked with * are required");
+      this.props.handleControlMessage(true, this.props.language.fieldsMarkedWith);
       return false;
     }
     return true;
@@ -204,7 +204,7 @@ export default class CourseRequirements extends React.Component {
         answered: false,
       }, () => {
         this.handleClose();
-        this.props.handleControlMessage(true, "Request sent, we will answer you soon");
+        this.props.handleControlMessage(true, this.props.language.requestAnswerSoon);
         this.setState({
           request: {
             name: '',
@@ -230,7 +230,7 @@ export default class CourseRequirements extends React.Component {
                 <div className="loading-library-container">
                   <BounceLoader color={getComputedStyle(document.documentElement).getPropertyValue('--primary')}/>
                 </div>
-                <p className="loading-library-text">{`Loading requirement lists`}</p>
+                <p className="loading-library-text">{this.props.language.loadingRequirement}</p>
               </div>
             </div>
           :
@@ -244,6 +244,7 @@ export default class CourseRequirements extends React.Component {
                       <Help
                         helper={list.help.helper}
                         text={list.help.text}
+                        language={this.props.language}
                       />
                     </div>
                   </ListSubheader>
@@ -273,9 +274,9 @@ export default class CourseRequirements extends React.Component {
         }
         <div className="requirement-request-container">
           <p className="requirement-request-text">
-            If you think we are missing a requirement
+            {this.props.language.missingRequirement}
           </p>
-          <Button onClick={() => this.handleClickOpen()} color="primary" className="request-button">Let us know!</Button>
+      <Button onClick={() => this.handleClickOpen()} color="primary" className="request-button">{this.props.language.letUsKnow}</Button>
         </div>
         <Dialog
           open={this.state.open}
@@ -286,23 +287,23 @@ export default class CourseRequirements extends React.Component {
           keepMounted
           maxWidth={false}
         >
-          <DialogTitle className="form-dialog-title" id="alert-dialog-title">{`Requirement request`}</DialogTitle>
+          <DialogTitle className="form-dialog-title" id="alert-dialog-title">{this.props.language.requirementRequest}</DialogTitle>
           <DialogContent>
             <div>
               <FormControl className="content-form-control" component="fieldset">
                 <RadioGroup className="content-radio-group-center" aria-label="position" name="type" value={this.state.request.type} onChange={this.handleChange('type')} row>
-                  <FormLabel className="form-radio-label" component="legend">Requirement type*</FormLabel>
+                  <FormLabel className="form-radio-label" component="legend">{`${this.props.language.requirementType}*`}</FormLabel>
                   <FormControlLabel
                     value="technical"
                     control={<Radio color="primary" />}
-                    label="Technical"
+                    label={this.props.language.technical}
                     labelPlacement="end"
                     className="radio-input"
                   />
                   <FormControlLabel
                     value="audience"
                     control={<Radio color="primary" />}
-                    label="Audience"
+                    label={this.props.language.audience}
                     labelPlacement="end"
                     className="radio-input"
                   />
@@ -310,7 +311,7 @@ export default class CourseRequirements extends React.Component {
               </FormControl>
               <TextField
                 id="name-input"
-                label="Name"
+                label={this.props.language.name}
                 margin="normal"
                 variant="outlined"
                 fullWidth
@@ -320,7 +321,7 @@ export default class CourseRequirements extends React.Component {
               />
               <TextField
                 id="description-input"
-                label="Description"
+                label={this.props.language.description}
                 margin="normal"
                 variant="outlined"
                 fullWidth
@@ -334,10 +335,10 @@ export default class CourseRequirements extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-              Cancel
+              {this.props.language.cancel}
             </Button>
             <Button onClick={this.sendRequest} color="primary">
-              Send
+              {this.props.language.send}
             </Button>
           </DialogActions>
         </Dialog>

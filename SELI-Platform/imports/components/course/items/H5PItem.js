@@ -26,7 +26,7 @@ export default class H5PItem extends React.Component {
             <div className="h5p-content-item">
               <div>
                 <div className="h5P-item-container">
-                  <p className="h5p-instruction-title">Instructions:</p>
+                  <p className="h5p-instruction-title">{this.props.language.instructions}</p>
                   <div
                     className="h5P-item-container-instruction"
                     dangerouslySetInnerHTML={{__html: this.props.item.attributes.instruction}}
@@ -55,6 +55,7 @@ export default class H5PItem extends React.Component {
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
             editItem={this.props.editItem.bind(this)}
+            language={this.props.language}
           />
         </div>
       </div>

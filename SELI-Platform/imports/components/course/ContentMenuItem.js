@@ -34,10 +34,10 @@ export default class ContentMenuItem extends React.Component {
                   <div className="course-creator-menu-option-row">
                     <GoTextSize className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">Text</p>
+                  <p className="course-creator-menu-text">{this.props.language.text}</p>
                 </div>
               }
-              hint="Create titles, subtitles and custom paragraphs or text sections."
+              hint={this.props.language.textInfoHelp}
               placement="left"
             />
           :
@@ -51,10 +51,10 @@ export default class ContentMenuItem extends React.Component {
                   <div className="course-creator-menu-option-row">
                     <IoMdImages className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">Image</p>
+                  <p className="course-creator-menu-text">{this.props.language.image}</p>
                 </div>
               }
-              hint="Upload or select images to create content with text sections optionally."
+              hint={this.props.language.imageInfoHelp}
               placement="left"
             />
           :
@@ -68,10 +68,10 @@ export default class ContentMenuItem extends React.Component {
                   <div className="course-creator-menu-option-row">
                     <MdVideocam className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">Video</p>
+                  <p className="course-creator-menu-text">{this.props.language.video}</p>
                 </div>
               }
-              hint="Upload or select videos to create content with text sections optionally."
+              hint={this.props.language.videoInfoHelp}
               placement="left"
             />
           :
@@ -85,10 +85,10 @@ export default class ContentMenuItem extends React.Component {
                   <div className="course-creator-menu-option-row">
                     <FaItunesNote className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">Audio</p>
+                  <p className="course-creator-menu-text">{this.props.language.audio}</p>
                 </div>
               }
-              hint="Upload or select audios to create content with text sections optionally."
+              hint={this.props.language.audioInfoHelp}
               placement="left"
             />
           :
@@ -102,10 +102,10 @@ export default class ContentMenuItem extends React.Component {
                   <div className="course-creator-menu-option-row">
                     <IoIosLink className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">Link</p>
+                  <p className="course-creator-menu-text">{this.props.language.link}</p>
                 </div>
               }
-              hint="Insert link or custom text with links."
+              hint={this.props.language.linkInfoHelp}
               placement="left"
             />
           :
@@ -119,10 +119,10 @@ export default class ContentMenuItem extends React.Component {
                   <div className="course-creator-menu-option-row">
                     <DiUnitySmall className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">Unity</p>
+                  <p className="course-creator-menu-text">{this.props.language.unity}</p>
                 </div>
               }
-              hint="Select one unity game from our library"
+              hint={this.props.language.unityInfoHelp}
               placement="left"
             />
           :
@@ -136,10 +136,10 @@ export default class ContentMenuItem extends React.Component {
                   <div className="course-creator-menu-option-row">
                     <MdCode className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">Embebed</p>
+                  <p className="course-creator-menu-text">{this.props.language.embebed}</p>
                 </div>
               }
-              hint="Embebed"
+              hint={this.props.language.embebedInfoHelp}
               placement="left"
             />
           :
@@ -153,10 +153,10 @@ export default class ContentMenuItem extends React.Component {
                   <div className="course-creator-menu-option-row">
                     <FaRegFilePdf className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">Pdf</p>
+                  <p className="course-creator-menu-text">{this.props.language.pdf}</p>
                 </div>
               }
-              hint="Upload or select pdfs, adding an instruction about what the student has to do with it."
+              hint={this.props.language.pdfInfoHelp}
               placement="left"
             />
           :
@@ -170,10 +170,10 @@ export default class ContentMenuItem extends React.Component {
                   <div className="course-creator-menu-option-row">
                     <GoPackage className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">Compressed</p>
+                  <p className="course-creator-menu-text">{this.props.language.compressed}</p>
                 </div>
               }
-              hint="Upload or select compressed files (.rar, .zip, 7z, etc.), adding an instruction about what the student has to do with it."
+              hint={this.props.language.compressedInfoHelp}
               placement="left"
             />
           :
@@ -190,7 +190,7 @@ export default class ContentMenuItem extends React.Component {
                   <p className="course-creator-menu-text">H5P</p>
                 </div>
               }
-              hint="Insert any H5P content"
+              hint={this.props.language.h5pInfoHelp}
               placement="left"
             />
           :
@@ -204,10 +204,10 @@ export default class ContentMenuItem extends React.Component {
                   <div className="course-creator-menu-option-row">
                     <FaRegQuestionCircle className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">Quiz</p>
+                  <p className="course-creator-menu-text">{this.props.language.quiz}</p>
                 </div>
               }
-              hint="Create a quiz for this part of the course"
+              hint={this.props.language.quizInfoHelp}
               placement="left"
             />
           :
@@ -221,10 +221,10 @@ export default class ContentMenuItem extends React.Component {
                   <div className="course-creator-menu-option-row">
                     <FaPuzzlePiece className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">Activity</p>
+                  <p className="course-creator-menu-text">{this.props.language.activity}</p>
                 </div>
               }
-              hint="Create an activity for this part of the course"
+              hint={this.props.language.activityInfoHelp}
               placement="left"
             />
           :

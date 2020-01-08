@@ -96,7 +96,7 @@ export default class PublishedCoursesList extends React.Component {
       {label: "Unpublish course" , icon: <UnarchiveIcon/>, action: this.showUnpublishConfirmation.bind(this)},
     ];
     myCourses.map(course => {
-      tableData.push({title: course.title, organization: course.organization.label, duration: `${course.duration} hours`, creationDate: course.creationDate.toDateString(), _id: course._id})
+      tableData.push({title: course.title, organization: course.organization.label, duration: `${course.duration} hours`, creationDate: course.creationDate.toLocaleDateString('en-US'), _id: course._id})
     })
     this.setState({
       headRows: headRows,

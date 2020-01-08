@@ -12,8 +12,8 @@ export default class CourseOrganization extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      units: {label: "Organization by units and lessons", unit: "Unit", subunit: "Lesson"},
-      topics: {label: "Organization by topics", unit: "Topic", subunit: false},
+      units: {label: this.props.language.organizationByUAL, unit: "Unit", subunit: "Lesson"},
+      topics: {label: this.props.language.organizationByT, unit: "Topic", subunit: false},
       selectedOrganization: '',
       unitIndex: 0,
       step: 0,
@@ -157,59 +157,69 @@ export default class CourseOrganization extends React.Component {
             this.state.organizationSelected ?
               <div className="warning-container">
                 <WarningIcon className="warning-icon"/>
-                <p className="warning-text">You have already selected one type of organization, changing it will cause you to lose the organization structure and its content</p>
+                <p className="warning-text">{this.props.language.courseOrganizationChangeWarning}</p>
               </div>
             :
               undefined
           }
-          <p className="form-message">Select how to organize the course content: </p>
+          <p className="form-message">{`${this.props.language.selectHowToOrganize}:`}</p>
           <div className="button-row">
             <Button onClick={() => this.setOrganization(this.state.units)} fullWidth className={this.state.selectedOrganization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
               <Avatar id="orange-avatar" className="avatar">U</Avatar>
-              By Units & Lessons
+              {this.props.language.byUnitsAndLessons}
             </Button>
             <Button onClick={() => this.setOrganization(this.state.topics)} fullWidth className={this.state.selectedOrganization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
               <Avatar id="blue-avatar" className="avatar">T</Avatar>
-              By Topics
+              {this.props.language.byTopics}
             </Button>
           </div>
           {
             this.state.selectedOrganization !== '' ?
               <div>
                 <p className="form-message">
-                  {`Example of course organized by ${this.state.selectedOrganization.unit}s`}
-                  <Help helper="organization"/>
+                  {
+                  this.state.selectedOrganization.unit === "Unit" ?
+                    this.props.language.exampleByUnits
+                  :
+                    this.props.language.exampleByTopics
+                  }
+                  <Help helper="organization" language={this.props.language}/>
                 </p>
                 <p className="form-message">
-                  {`To start adding content write the name the first ${this.state.selectedOrganization.unit} of your course`}
+                  {
+                    this.state.selectedOrganization.unit === "Unit" ?
+                      this.props.language.toStartOrganizationU
+                    :
+                      this.props.language.toStartOrganizationT
+                  }
                 </p>
                 {
                   this.state.selectedOrganization.unit === "Unit" ?
                     <div>
                       <TextField
                         id="unit-input"
-                        label={`${this.state.selectedOrganization.unit} name`}
+                        label={this.props.language.unitName}
                         margin="normal"
                         variant="outlined"
                         className="form-dialog-input"
                         fullWidth
                         required
                         disabled={this.state.addedUnit || this.state.addSubunit}
-                        helperText={`Press enter to add new ${this.state.selectedOrganization.unit.toLowerCase()}`}
+                        helperText={this.props.language.pressEnterToAdd}
                         onKeyPress={() => this.unitKeyController(event)}
                       />
                       {
                         this.state.addSubunit ?
                           <TextField
                             id="subunit-input"
-                            label={`${this.state.selectedOrganization.subunit} name`}
+                            label={this.props.language.lessonName}
                             margin="normal"
                             variant="outlined"
                             className="form-dialog-input"
                             fullWidth
                             required
                             disabled={this.state.addedSubunit}
-                            helperText={`Press enter to add new ${this.state.selectedOrganization.subunit.toLowerCase()}`}
+                            helperText={this.props.language.pressEnterToAdd}
                             onKeyPress={() => this.subunitKeyController(event)}
                           />
                         :
@@ -217,18 +227,18 @@ export default class CourseOrganization extends React.Component {
                       }
                     </div>
                   :
-                  <TextField
-                    id="unit-input"
-                    label={`${this.state.selectedOrganization.unit} name`}
-                    margin="normal"
-                    variant="outlined"
-                    className="form-dialog-input"
-                    fullWidth
-                    required
-                    disabled={this.state.addedUnit}
-                    helperText={`Press enter to add new ${this.state.selectedOrganization.unit.toLowerCase()}`}
-                    onKeyPress={() => this.unitKeyController(event)}
-                  />
+                    <TextField
+                      id="unit-input"
+                      label={this.props.language.topicName}
+                      margin="normal"
+                      variant="outlined"
+                      className="form-dialog-input"
+                      fullWidth
+                      required
+                      disabled={this.state.addedUnit}
+                      helperText={this.props.language.pressEnterToAdd}
+                      onKeyPress={() => this.unitKeyController(event)}
+                    />
                 }
               </div>
             :
