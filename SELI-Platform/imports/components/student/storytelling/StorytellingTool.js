@@ -214,8 +214,16 @@ const useStyles = theme => ({
     console.log(Meteor.userId())
    //borrar los que no pertenecen a ese ususario
    //hacd una 
-   let dataImageSoundCopia= [...dataImageSound]
-   console.log(dataImageSoundCopia)
+   //let = [...dataImageSound]
+   var dataImageSoundCopia = dataImageSound.filter(function(value, index, arr){
+
+    if (value.activity.user == Meteor.userId()){
+      return value
+    }
+
+    });
+
+  /*  console.log(dataImageSoundCopia)
      dataImageSoundCopia.map((data, index)=>{
       let User = data.activity.user
       console.log("User and Index",User, index)
@@ -224,7 +232,7 @@ const useStyles = theme => ({
         dataImageSoundCopia.splice(index,1)
       }
     })
-
+ */
     console.log("DATA-IMAGE-SOUND NEWWWWWWWW...")
     console.log(dataImageSoundCopia) 
 
