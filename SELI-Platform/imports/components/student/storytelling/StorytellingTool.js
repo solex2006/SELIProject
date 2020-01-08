@@ -213,19 +213,22 @@ const useStyles = theme => ({
     console.log("El user-id-actual")
     console.log(Meteor.userId())
    //borrar los que no pertenecen a ese ususario
-    dataImageSound.map((data, index)=>{
+   //hacd una 
+   let dataImageSoundCopia= [...dataImageSound]
+   console.log(dataImageSoundCopia)
+     dataImageSoundCopia.map((data, index)=>{
       let User = data.activity.user
       console.log("User and Index",User, index)
       if(User != Meteor.userId()){
         console.log("Diferente")
-        dataImageSound.splice(index,1)
+        dataImageSoundCopia.splice(index,1)
       }
     })
 
     console.log("DATA-IMAGE-SOUND NEWWWWWWWW...")
-    console.log(dataImageSound)
+    console.log(dataImageSoundCopia) 
 
-    dataImageSound.map((data)=>{
+    dataImageSoundCopia.map((data)=>{
       let ImageSound = data.activity.data
       ImageSound.map((data2)=>{
        let dataImg=data2.image       //let dataImgName=data2.image.link
