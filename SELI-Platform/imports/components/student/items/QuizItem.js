@@ -141,23 +141,23 @@ export default class QuizItem extends React.Component {
                 className="item-quiz-expansion-summary"
               >
                 <div className="item-quiz-expansion-summary-text-container">
-                  <Typography className="quiz-panel-title">Quiz</Typography>
+                  <Typography className="quiz-panel-title">{this.props.language.quiz}</Typography>
                   <Typography className="quiz-panel-subtitle">{this.props.item.attributes.title}</Typography>
                 </div>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className="item-quiz-detail">
                 <div className="item-quiz-detail-container">
                   <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {"Time limit: " + this.props.item.attributes.timeLimit + " minutes"}
+                    {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit + " minutes"}
                   </Typography>
                   <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {"Credit resourses: " + this.props.item.attributes.creditResources}
+                    {this.props.language.creditResources + ": " + this.props.item.attributes.creditResources}
                   </Typography>
                   <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {this.props.item.attributes.awardPoints ? "Award points" : "No award points"}
+                    {this.props.item.attributes.awardPoints ? this.props.language.awardPoints : this.props.language.noAwardPoints}
                   </Typography>
                   <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {"Number of questions: " + this.props.item.attributes.questions.length}
+                    {this.props.language.numberQuestions + ": " + this.props.item.attributes.questions.length}
                   </Typography>
                   <div className="quiz-item-tick-container">
 
@@ -170,16 +170,16 @@ export default class QuizItem extends React.Component {
                   !this.state.resolved ?
                     <div>
                       <Button size="medium">
-                        Set reminder
+                        {this.props.language.setReminder}
                       </Button>
                       <Button onClick={() => this.startQuiz()} size="medium" color="primary">
-                        Start quiz
+                        {this.props.language.startQuiz}
                       </Button>
                     </div>
                   :
                   <div className="align-items-center">
                     <Button onClick={() => this.showScore()} size="medium">
-                      See results
+                      {this.props.language.seeResults}
                     </Button>
                     <CheckCircleIcon className="done-icon"/>
                   </div>
@@ -205,7 +205,7 @@ export default class QuizItem extends React.Component {
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h6">
-                SELI Quiz
+                {this.props.language.seliQuiz}
               </Typography>
             </Toolbar>
           </AppBar>
@@ -216,12 +216,12 @@ export default class QuizItem extends React.Component {
                   <div className="center-row">
                     <AnnouncementIcon className="quiz-dialog-icon-big"/>
                     <DialogContentText className="quiz-dialog-content-text" id="alert-dialog-description">
-                      Are you sure you want to start this quiz? Once you have started you won't be able to stop it, if your time is up, the quiz will end and you can only perform this quiz just once.
+                      {this.props.language.sureStartQuiz} 
                     </DialogContentText>
                   </div>
                   <div className="center-row">
-                    <Button onClick={() => this.handleClose()} className="dialog-confirmation-button" color="secondary">Cancel</Button>
-                    <Button onClick={() => this.confirmStartQuiz()} className="dialog-confirmation-button" color="primary">Yes I'm sure</Button>
+                    <Button onClick={() => this.handleClose()} className="dialog-confirmation-button" color="secondary">{this.props.language.cancel}</Button>
+                    <Button onClick={() => this.confirmStartQuiz()} className="dialog-confirmation-button" color="primary">{this.props.language.yesSure}</Button>
                   </div>
                 </div>
               :
@@ -235,6 +235,7 @@ export default class QuizItem extends React.Component {
                   handleControlMessage={this.props.handleControlMessage.bind(this)}
                   handleClose={this.handleClose.bind(this)}
                   time={this.state.time}
+                  language={this.props.language}
                 />
               :
               undefined
@@ -248,34 +249,34 @@ export default class QuizItem extends React.Component {
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
         >
-          <DialogTitle className="success-dialog-title" id="alert-dialog-title">Quiz results</DialogTitle>
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.quizResults}</DialogTitle>
           <DialogContent className="success-dialog-content">
             {
               this.state.loadingScore ?
-                <Loading message="Loading score..."/>
+                <Loading message={this.props.language.loadingScore}/>
               :
               <div>
                 {
                   !this.state.result ?
                     <DialogContentText className="success-dialog-content-text">
-                      No results
+                      {this.props.language.noResults}
                     </DialogContentText>
                   :
                   <div>
                     <DialogContentText id={this.state.quizResult.activity.approved ? "approved-text" : "non-approved-text"} className="quiz-result-dialog-content-text">
-                      {this.state.quizResult.activity.approved ? "Quiz approved" : "Quiz not approved"}
+                      {this.state.quizResult.activity.approved ? this.props.language.quizApproved : this.props.language.quizNotApproved}
                     </DialogContentText>
                     <DialogContentText id={this.state.quizResult.activity.approved ? "approved-text" : "non-approved-text"} className="quiz-result-dialog-content-text">
-                      {`Score: ${this.state.quizResult.activity.score}`}
+                      {`${this.props.language.score}: ${this.state.quizResult.activity.score}`}
                     </DialogContentText>
                     <DialogContentText  className="quiz-result-dialog-content-text">
-                      {`Corrects answers: ${this.state.quizResult.activity.hits}`}
+                      {`${this.props.language.correctAnswers}: ${this.state.quizResult.activity.hits}`}
                     </DialogContentText>
                     <DialogContentText  className="quiz-result-dialog-content-text">
-                      {`Wrong answers: ${(this.props.item.attributes.questions.length - this.state.quizResult.activity.hits)}`}
+                      {`${this.props.language.wrongAnswers}: ${(this.props.item.attributes.questions.length - this.state.quizResult.activity.hits)}`}
                     </DialogContentText>
                     <DialogContentText className="quiz-result-dialog-content-text">
-                      {`Approval percentage: ${this.props.item.attributes.approvalPercentage}%`}
+                      {`${this.props.language.approvalPercentage}: ${this.props.item.attributes.approvalPercentage}%`}
                     </DialogContentText>
                   </div>
                 }
@@ -284,7 +285,7 @@ export default class QuizItem extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => this.handleCloseScore()} color="primary" autoFocus>
-              Ok
+              {this.props.language.ok}
             </Button>
           </DialogActions>
         </Dialog>

@@ -172,13 +172,13 @@ class FileUpload extends Component {
                 <div class="upload-btn-wrapper center-row">
                   <button  id="da" class="boton-standar-rw center-row">{this.props.label}</button>
                   <input className="upload-btn-wrapper" 
-                          tabIndex="0"
-                          type="file"
-                          id={"fileinput" + this.props.type}
-                          onChange={this.uploadIt}
-                          ref={"fileinput" + this.props.type}
-                          accept={this.props.accept}
-                           />
+                    tabIndex="0"
+                    type="file"
+                    id={"fileinput" + this.props.type}
+                    onChange={this.uploadIt}
+                    ref={"fileinput" + this.props.type}
+                    accept={this.props.accept}
+                  />
               </div> 
                   <p className="upload-label">{this.props.label}</p>
               </div>

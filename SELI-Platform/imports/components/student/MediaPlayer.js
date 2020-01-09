@@ -26,7 +26,7 @@ import Fullscreen from "react-full-screen";
 
 const HIDE_TIME = 8000;
 
-export default class Course extends React.Component {
+export default class MediaPlayer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

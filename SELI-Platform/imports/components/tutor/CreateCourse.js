@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import FormStepper from '../navigation/FormStepper'; '../'
 import CourseInformation from '../course/CourseInformation';
@@ -276,9 +277,11 @@ export default class CreateCourse extends React.Component {
   }
 
   handlePreview = () => {
-    this.setState({
-      open: true,
-    })
+    if (this.validatePublishCourse()) {
+      this.setState({
+        open: true,
+      })
+    }
   }
 
   handleClose = () => {
@@ -286,20 +289,12 @@ export default class CreateCourse extends React.Component {
   }
 
   validatePreviewCourse = () => {
-
+    this.saveCourse();
   }
 
   confirmPreview = () => {
-    if (this.validatePublishCourse()) {
-      if (this.state.saved) {
-        const url = `/coursePreview#${this.state.saved}`;
-        window.open(url, "_blank");
-      }
-      else {
-        this.saveCourse(true);
-      }
-      this.handleClose();
-    }
+    this.saveCourse();
+    this.handleClose();
   }
 
   render() {
@@ -338,9 +333,27 @@ export default class CreateCourse extends React.Component {
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
             {this.props.language.cancel}
             </Button>
-            <Button onClick={() => this.confirmPreview()} color="primary" autoFocus>
-            {this.props.language.saoPreview}
-            </Button>
+            {
+              this.state.saved ?
+                <Link className="button-link"
+                  //target="_blank"
+                  onClick={() => this.confirmPreview()} 
+                  to={{
+                    pathname: "/coursePreview",
+                    hash: this.state.saved,
+                    state: { fromDashboard: true },
+                    query: {language: this.props.language}
+                  }}
+                >
+                  <Button color="primary" autoFocus>
+                    {this.props.language.seePreview}
+                  </Button>
+                </Link>
+              :
+                <Button onClick={() => this.validatePreviewCourse()} color="primary" autoFocus>
+                {this.props.language.saveCourse}
+                </Button>
+            }
           </DialogActions>
         </Dialog>
       </div>

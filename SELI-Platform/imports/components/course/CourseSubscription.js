@@ -67,7 +67,7 @@ export default class CourseSubscription extends React.Component {
                 <div tabIndex="-1" className="subscription-card-column">
                   <div tabIndex="-1" className="subscription-card-maintenance-container">
                     <p tabIndex="-1" className="subscription-card-maintenance-text">
-                      Course under maintenance, when it becomes active again you can continue.
+                      {this.props.language.courseUnderMaintenance}
                     </p>
                   </div>
                 </div>
@@ -115,7 +115,7 @@ export default class CourseSubscription extends React.Component {
                     color="primary"
                     disabled={this.props.disabled}
                   >
-                    Unsubscribed
+                    {this.props.language.unsubscribe}
                   </Button>
                   {
                     this.props.progress === 0 ?
@@ -127,7 +127,7 @@ export default class CourseSubscription extends React.Component {
                         color="primary"
                         disabled={this.props.disabled}
                       >
-                        Start course
+                        {this.props.language.startCourse}
                       </Button>
                     :
                     undefined
@@ -135,14 +135,14 @@ export default class CourseSubscription extends React.Component {
                   {
                     this.props.progress > 0 && this.props.progress < 100 ?
                       <Button
-                       tabIndex="1"
+                        tabIndex="1"
                         onClick={() => this.props.handleClickCourse(this.props.course._id)}
                         className="subscription-card-button"
                         variant="outlined"
                         color="primary"
                         disabled={this.props.disabled}
                       >
-                        Resume course
+                        {this.props.language.resumeCourse}
                       </Button>
                     :
                     undefined
@@ -157,7 +157,7 @@ export default class CourseSubscription extends React.Component {
                         color="primary"
                         disabled={this.props.disabled}
                       >
-                        Review course
+                        {this.props.language.reviewCourse}
                       </Button>
                     :
                     undefined

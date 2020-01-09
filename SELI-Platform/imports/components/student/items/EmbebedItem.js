@@ -49,7 +49,7 @@ export default class EmbebedItem extends React.Component {
             {
               this.state.loading ?
                 <div className="embebed-loading-container">
-                  <Loading message="Loading embebed content..."/>
+                  <Loading message={this.props.loadingEmbebed}/>
                 </div>
               :
               undefined

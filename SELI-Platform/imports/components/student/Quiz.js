@@ -98,7 +98,7 @@ class Quiz extends React.Component {
   validateQuiz = () => {
     for (var i = 0; i < this.state.answers.length; i++) {
       if (this.state.answers[i] === '') {
-        this.props.handleControlMessage(true, "You have questions with out answer");
+        this.props.handleControlMessage(true, this.props.language.questionsWithoutAnswers);
         return false;
       }
     }
@@ -258,7 +258,7 @@ class Quiz extends React.Component {
               <LinearProgress />
               <LinearProgress color="secondary" />
             </div>
-          <Button onClick={()=>this.reload()} className="timebutton">start</Button>
+          <Button onClick={()=>this.reload()} className="timebutton">{this.props.language.start}</Button>
       </div>
     )
   }
@@ -270,20 +270,19 @@ class Quiz extends React.Component {
 
   alerta =() =>{
     return(
-     
       <div className="sign-actions1">
         <React.Fragment className="alert" >
             <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-              Warning! : check the time
+              {this.props.language.warningTime}
             </DialogTitle>
             <div className="center-row">
             <Button onClick={()=>this.handleClosepublish()} variant="contained"  color="secondary" className="bar-button"
             >
-            Continue
+              {this.props.language.continue}
             </Button>	
             <Button onClick={()=>this.handleMoreTime()} variant="contained"  color="primary" className="bar-button"
             >
-            More time
+              {this.props.language.moreTime}
             </Button>	                 
             </div>
         </React.Fragment>
@@ -299,7 +298,7 @@ class Quiz extends React.Component {
     this.setState({ 
       alert: 'cierra',
       panelshow: 'adjust'
-   });
+  });
 
   }
   render() {
@@ -314,43 +313,43 @@ class Quiz extends React.Component {
           <Paper elevation={10} className="quiz-dashboard-side" >
           <p className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</p>
           <QuestionAnswerIcon className="quiz-dashboard-icon"/>
-          <p className="quiz-dashboard-label-text">Time Left</p>
-           {
-             this.state.panelshow==='cambio'?
-             this.cambio(this.state.selectedtime)
-             :
-             <div >
-                <TimerMachine 
-                    timeStart={this.props.time} // start at 10 seconds
-                    timeEnd={0} // end at 20 seconds
-                    started={true}
-                    paused={this.state.start}
-                    countdown={true} // use as stopwatch
-                    interval={1000} // tick every 1 second
-                    formatTimer={(time, ms) =>
-                      moment.duration(ms, "milliseconds").format("hh:mm:ss", {
-                        trim: false
-                      })
-                    }
-                    onTick={time =>
-                      this.handleTick(time)
-                    }
-                    onComplete={time =>
-                      this.handleFinish(false)
-                    }
-                  />
+          <p className="quiz-dashboard-label-text">{this.props.language.timeLeft}</p>
+          {
+            this.state.panelshow==='cambio'?
+            this.cambio(this.state.selectedtime)
+            :
+            <div >
+              <TimerMachine 
+                timeStart={this.props.time} // start at 10 seconds
+                timeEnd={0} // end at 20 seconds
+                started={true}
+                paused={this.state.start}
+                countdown={true} // use as stopwatch
+                interval={1000} // tick every 1 second
+                formatTimer={(time, ms) =>
+                  moment.duration(ms, "milliseconds").format("hh:mm:ss", {
+                    trim: false
+                  })
+                }
+                onTick={time =>
+                  this.handleTick(time)
+                }
+                onComplete={time =>
+                  this.handleFinish(false)
+                }
+              />
             <div className={classes.root }>
                 <LinearProgress />
                 <LinearProgress color="secondary" />
             </div>
           
       </div>
-           }
-            <Button onClick={()=>this.stoptime()} className="course-item-video-card-media-button">Stop Time</Button>
+          }
+            <Button onClick={()=>this.stoptime()} className="course-item-video-card-media-button">{this.props.language.stopTime}</Button>
             {
                 this.state.panelshow==='adjust' ?
                 <FormControl className={classes.formControl}>
-                <InputLabel id="demo-controlled-open-select-label">Adjust Time</InputLabel>
+                <InputLabel id="demo-controlled-open-select-label">{this.props.language.adjustTime}</InputLabel>
                 <Select
                   labelId="demo-controlled-open-select-label"
                   id="demo-controlled-open-select"
@@ -368,7 +367,7 @@ class Quiz extends React.Component {
                 </Select>
               </FormControl>
               :
-              <Button onClick={()=>this.adjust()} className="course-item-video-card-media-button" size="small" color="primary">Adjust time</Button>
+              <Button onClick={()=>this.adjust()} className="course-item-video-card-media-button" size="small" color="primary">{this.props.language.adjustTime}</Button>
             }
         </Paper>
         }
@@ -382,7 +381,7 @@ class Quiz extends React.Component {
 
         {console.log("cierra.......")}
         <Paper elevation={8} className="quiz-dashboard-questions-container">
-          <p className="question-dashboard-label-text">Choose the correct answer</p>
+          <p className="question-dashboard-label-text">{this.props.language.chooseCorrectAnswer}</p>
           <Divider/>
           <div className="question-dashboard-container">
             <FormControl component="fieldset" className="question-dashboard-form-control">
@@ -426,20 +425,20 @@ class Quiz extends React.Component {
           {
             this.state.showFinishConfirmation ?
               <div className="question-dashboard-actions">
-                <p className="question-dashboard-label-text">Are you sure you want to finish the quiz?</p>
+                <p className="question-dashboard-label-text">{this.props.language.sureFinishQuiz}</p>
                 <Button
                   className="question-dashboard-button"
                   color="primary"
                   onClick={() => this.cancelFinish()}
                 >
-                  No
+                  {this.props.language.no}
                 </Button>
                 <Button
                   className="question-dashboard-button"
                   color="primary"
                   onClick={() => this.handleFinish(true)}
                 >
-                  Yes
+                  {this.props.language.yes}
                 </Button>
               </div>
             :
@@ -453,7 +452,7 @@ class Quiz extends React.Component {
                   color="primary"
                   onClick={() => this.handlePrevious()}
                 >
-                  Previous
+                  {this.props.language.previous}
                 </Button>
               }
               {
@@ -464,7 +463,7 @@ class Quiz extends React.Component {
                     variant="contained"
                     onClick={() => this.showFinishConfirmation()}
                   >
-                    Finish
+                    {this.props.language.finish}
                   </Button>
                 :
                 <Button
@@ -473,7 +472,7 @@ class Quiz extends React.Component {
                   variant="contained"
                   onClick={() => this.handleNext()}
                 >
-                  Next
+                  {this.props.language.next}
                 </Button>
               }
             </div>

@@ -124,6 +124,7 @@ export default class CoursePreview extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return(
       <div>
         <MuiThemeProvider theme={theme}>
@@ -138,6 +139,7 @@ export default class CoursePreview extends React.Component {
                     course={this.state.course}
                     navigateTo={this.navigateTo.bind(this)}
                     selected={this.state.selected}
+                    language={this.props.location.query.language}
                   />
                 }
               </div>

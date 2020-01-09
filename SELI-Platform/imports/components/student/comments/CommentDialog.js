@@ -27,7 +27,7 @@ export default class CommentDialog extends React.Component {
 
   validateComment = () => {
     if (this.state.comment === '') {
-      this.props.handleControlMessage(true, "You can send an empty comment");
+      this.props.handleControlMessage(true, this.props.language.youCanSendEmpty);
       return false;
     }
     this.props.sendComment(this.state.comment);
@@ -51,7 +51,7 @@ export default class CommentDialog extends React.Component {
               {this.props.title}
             </DialogTitle>
             <TextField
-              label="Your comment"
+              label={this.props.language.yourComment}
               margin="normal"
               variant="outlined"
               fullWidth
@@ -65,10 +65,10 @@ export default class CommentDialog extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => this.props.handleClose()} color="primary" autoFocus>
-              Cancel
+              {this.props.language.cancel}
             </Button>
             <Button onClick={() => this.validateComment()} color="primary" autoFocus>
-              Send
+              {this.props.language.send}
             </Button>
           </DialogActions>
         </Dialog>

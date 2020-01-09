@@ -201,7 +201,8 @@ export default class CourseCard extends React.Component {
                   to={{
                     pathname: "/coursePreview",
                     hash: this.props.course._id,
-                    state: { fromDashboard: true }
+                    state: { fromDashboard: true },
+                    query: {language: this.props.language}
                   }}
                 >
                   <Button
@@ -209,12 +210,12 @@ export default class CourseCard extends React.Component {
                     aria-label="see preview"
                     variant="outlined"
                   >
-                    Course preview
+                    {this.props.language.coursePreview}
                   </Button>
                 </Link>
                 {
                   !this.state.subscribed ?
-                    <Tooltip title="Subscribe (Join course classroom)">
+                    <Tooltip title={this.props.language.subscribeJoin}>
                       <IconButton
                         disabled={this.props.disabled}
                         onClick={() => this.props.subscribe(this.props.course._id)}
@@ -225,7 +226,7 @@ export default class CourseCard extends React.Component {
                       </IconButton>
                     </Tooltip>
                   :
-                  <Tooltip title="Unsubscribe (Leave course classroom)">
+                  <Tooltip title={this.props.language.unsubscribeToolti}>
                     <IconButton
                       className="course-card-icon-button"
                       disabled={this.props.disabled}
@@ -236,7 +237,7 @@ export default class CourseCard extends React.Component {
                     </IconButton>
                   </Tooltip>
                 }
-                <Tooltip title="Course comments">
+                <Tooltip title={this.props.language.courseCommentsTooltip}>
                   <IconButton
                     className="course-card-icon-button"
                     onClick={() => this.showComments()}
@@ -257,12 +258,12 @@ export default class CourseCard extends React.Component {
           className="comments-dialog"
         >
           <DialogTitle className="comment-dialog-title">
-            Comments
+            {this.props.language.comments}
           </DialogTitle>
           <DialogContent className="comments-dialog-content">
             {
               this.state.loading ?
-                <Loading message="Loading comments..."/>
+                <Loading message={this.props.language.loadingComments}/>
               :
               <div>
                 {
@@ -273,6 +274,7 @@ export default class CourseCard extends React.Component {
                           return(
                             <Comment
                               comment={comment}
+                              commentOf={this.props.language.commentOf}
                             />
                           )
                         })
@@ -282,7 +284,7 @@ export default class CourseCard extends React.Component {
                   <div className="comments-result-container">
                     <div className="center-row">
                       <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                        This course has no comments yet
+                        {this.props.language.noCommentsText}
                       </DialogContentText>
                     </div>
                     <div className="center-row">

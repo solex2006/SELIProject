@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import FormStepper from '../navigation/FormStepper'; '../'
 import CourseInformation from '../course/CourseInformation';
@@ -21,7 +22,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import {Courses} from '../../../lib/CourseCollection';
 
-export default class CreateCourse extends React.Component {
+export default class EditCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -292,9 +293,11 @@ export default class CreateCourse extends React.Component {
   }
 
   handlePreview = () => {
-    this.setState({
-      open: true,
-    })
+    if (this.validatePublishCourse()) {
+      this.setState({
+        open: true,
+      })
+    }
   }
 
   handleClose = () => {
@@ -302,12 +305,10 @@ export default class CreateCourse extends React.Component {
   }
 
   confirmPreview = () => {
-    if (this.validatePublishCourse()) {
-      this.saveCourse()
-      this.handleClose();
-      const url = `/coursePreview#${this.state.saved}`;
-      window.open(url, "_blank");
-    }
+    this.saveCourse();
+    this.handleClose();
+    //const url = `/coursePreview#${this.state.saved}`;
+    //window.open(url, "_blank");
   }
 
   render() {
@@ -346,9 +347,20 @@ export default class CreateCourse extends React.Component {
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
             {this.props.language.cancel}
             </Button>
-            <Button onClick={() => this.confirmPreview()} color="primary" autoFocus>
-            {this.props.language.saoPreview}
-            </Button>
+            <Link className="button-link"
+              //target="_blank"
+              onClick={() => this.confirmPreview()}
+              to={{
+                pathname: "/coursePreview",
+                hash: this.state.saved,
+                state: { fromDashboard: true },
+                query: {language: this.props.language}
+              }}
+            >
+              <Button color="primary" autoFocus>
+                {this.props.language.saoPreview}
+              </Button>
+            </Link>
           </DialogActions>
         </Dialog>
       </div>

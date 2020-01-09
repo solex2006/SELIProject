@@ -83,7 +83,7 @@ export default class SubscribedCourses extends React.Component {
     this.handleClickOpen();
     this.setState({
       dialogConfirmationTitle: this.props.language.unsubscribeCourse,
-      dialogConfirmationContentText: `Are you sure you want to leave this classroom? All your progress on this course will be errased.`,
+      dialogConfirmationContentText: this.props.language.sureLeaveClassroom,
       courseToUnsubscribe: courseId,
       confirmAction: () => this.confirmUnsubscribe(),
     });
@@ -119,12 +119,13 @@ export default class SubscribedCourses extends React.Component {
                     this.state.courses.map((course, index) => {
                       return (
                         <CourseSubscription
-                         tabIndex="-1"
+                          tabIndex="-1"
                           course={course.information}
                           progress={course.progress}
                           disabled={this.props.disabled}
                           unsubscribe={this.unsubscribe.bind(this)}
                           handleClickCourse={this.handleClickCourse.bind(this)}
+                          language={this.props.language}
                         />
                       )
                     })

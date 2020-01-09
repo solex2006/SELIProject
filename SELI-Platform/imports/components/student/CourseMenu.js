@@ -77,7 +77,7 @@ export default function CourseMenu(props) {
             <CloseIcon className="white-button" fontSize="default"/>
           </IconButton>
         </div>
-        <p className="course-menu-title">SELI Courses</p>
+        <p className="course-menu-title">{props.language.seliCourses}</p>
         <div className="course-menu-subtitle-container">{new Date().toLocaleDateString('en-US')} <Clock className="menu-clock" format={'HH:mm:ss'} ticking={true}/></div>
         <div className="course-menu-progress-container">
           <div className="course-menu-progress-bar">
@@ -92,8 +92,8 @@ export default function CourseMenu(props) {
         </div>
       </div>
       <div className="course-menu-subheader">
-        <p className="course-menu-subheader-title">{`Course: ${props.course.title}`}</p>
-        <p className="course-menu-subheader-subtitle">Completed: {props.progress}%</p>
+        <p className="course-menu-subheader-title">{`${props.language.course}: ${props.course.title}`}</p>
+        <p className="course-menu-subheader-subtitle">{`${props.language.completed}: ${props.progress}%`}</p>
       </div>
       <div className="course-menu-navigation-container">
         <CourseNavigation
@@ -103,9 +103,13 @@ export default function CourseMenu(props) {
           selected={props.selected}
           navigateTo={props.navigateTo.bind(this)}
           closeDrawer={closeDrawer.bind(this)}
+          courseNav={props.language.courseNavigation}
+          topic={props.language.topic}
+          unit={props.language.unit}
+          lesson={props.language.lesson}
         />
       </div>
-      <Button onClick={() => showCourseStories()} className="course-menu-stories-button">Course stories</Button>
+      <Button onClick={() => showCourseStories()} className="course-menu-stories-button">{props.language.courseStories}</Button>
     </div>
   );
 

@@ -25,7 +25,7 @@ export default function UnitCourseNavigation(props) {
         </ListItemIcon>
         <ListItemText
           className="course-navigation-list-item-text"
-          primary={`${props.organization.unit}: ${props.index + 1}: ${props.unit.name}`}
+          primary={`${props.topicLabel} ${props.index + 1}: ${props.unit.name}`}
         />
       </ListItem>
     </div>

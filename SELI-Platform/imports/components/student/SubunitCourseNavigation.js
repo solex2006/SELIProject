@@ -30,7 +30,7 @@ export default function SubunitCourseNavigation(props) {
         </ListItemIcon>
         <ListItemText
           className="course-navigation-list-item-text"
-          primary={`${props.organization.unit}: ${props.index + 1}: ${props.unit.name}`}
+          primary={`${props.unitLabel} ${props.index + 1}: ${props.unit.name}`}
         />
         <div>
           {
@@ -51,7 +51,7 @@ export default function SubunitCourseNavigation(props) {
                 </ListItemIcon>
                 <ListItemText
                   className="course-navigation-sublist-item-text"
-                  primary={`${props.organization.subunit}: ${index + 1}: ${lesson.name}`}
+                  primary={`${props.lessonLabel} ${index + 1}: ${lesson.name}`}
                 />
               </ListItem>
             </List>

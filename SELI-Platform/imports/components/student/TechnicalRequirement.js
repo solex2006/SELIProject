@@ -21,7 +21,7 @@ export default function TechnicalRequirement(props) {
       <HtmlTooltip
         title={
           <React.Fragment>
-            <Typography color="inherit" className="course-technical-requirement-title">Description</Typography>
+            <Typography color="inherit" className="course-technical-requirement-title">{props.description}</Typography>
             <p className="course-technical-requirement-description">{props.requirement.description}</p>
           </React.Fragment>
         }
