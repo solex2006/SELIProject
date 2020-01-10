@@ -83,7 +83,6 @@ export default class CourseRequirements extends React.Component {
     }
     courseInformation.requirements = requirements;
     courseInformation.support = support;
-    console.log(courseInformation);
     this.setState({
       lists: lists,
     });

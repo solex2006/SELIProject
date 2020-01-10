@@ -157,7 +157,7 @@ export default class CreateCourse extends React.Component {
         courseInformation.classroom = [];
         course = Courses.insert(courseInformation);
       }
-      this.props.handleControlMessage(true, this.props.language.coursePublishedS, true, this.props.language.preview, this.props.language.seePreview, course);
+      this.props.handleControlMessage(true, this.props.language.coursePublishedS, true, 'preview', this.props.language.seePreview, course);
     }
   }
 
@@ -199,7 +199,7 @@ export default class CreateCourse extends React.Component {
         const url = `/coursePreview#${course}`;
         window.open(url, "_blank");
       }
-      this.props.handleControlMessage(true, this.props.language.courseSavedS, true, this.props.language.savedList, this.props.language.seeList);
+      this.props.handleControlMessage(true, this.props.language.courseSavedS, true, 'savedList', this.props.language.seeList);
     }
   }
 
@@ -211,31 +211,31 @@ export default class CreateCourse extends React.Component {
       courseInformation.description === '' ||
       courseInformation.duration === ''
     ) {
-      this.props.handleControlMessage(true, `${this.props.language.fieldsMarkedWith} (${this.props.language.step} 1 ${this.props.language.information})`, false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.fieldsMarkedWith} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    if (!courseInformation.image === undefined) {
-      this.props.handleControlMessage(true, `${this.props.language.chooseCourseImage} (${this.props.language.step} 1 ${this.props.language.information})`, false, '', '');
+    else if (courseInformation.image === undefined) {
+      this.props.handleControlMessage(true, `${this.props.language.chooseCourseImage} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    if (!courseInformation.sylabus === undefined) {
-      this.props.handleControlMessage(true, `${this.props.language.chooseCourseSyllabus} (${this.props.language.step} 1 ${this.props.language.information})`, false, '', '');
+    else if (courseInformation.sylabus === undefined) {
+      this.props.handleControlMessage(true, `${this.props.language.chooseCourseSyllabus} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    if (!courseInformation.keyWords.length) {
-      this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step} 1 ${this.props.language.information})`, false, '', '');
+    else if (!courseInformation.keyWords.length) {
+      this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    if (!courseInformation.requirements.length) {
-      this.props.handleControlMessage(true, `${this.props.language.technicalRequirement} (${this.props.language.step} 2 ${this.props.language.requirements})`, false, '', '');
+    else if (!courseInformation.requirements.length) {
+      this.props.handleControlMessage(true, `${this.props.language.technicalRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
     }
-    if (!courseInformation.support.length) {
-      this.props.handleControlMessage(true, `${this.props.language.audienceRequirement} (${this.props.language.step} 2 ${this.props.language.requirements})`, false, '', '');
+    else if (!courseInformation.support.length) {
+      this.props.handleControlMessage(true, `${this.props.language.audienceRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
     }
-    if (courseInformation.organization === '') {
-      this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step} 3 ${this.props.language.program})`, false, '', '');
+    else if (courseInformation.organization === '') {
+      this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step} 3: ${this.props.language.program})`, false, '', '');
       return false;
     }
     let emptyContent = false;
@@ -243,7 +243,7 @@ export default class CreateCourse extends React.Component {
       courseInformation.program.map(unit => {
         unit.lessons.map(lesson => {
           if (!lesson.items.length) {
-            this.props.handleControlMessage(true, `${this.props.language.contentRequirement} ${courseInformation.organization.unit.toLowerCase()}: ${unit.name} - ${courseInformation.organization.subunit.toLowerCase()}: ${lesson.name}`, false, '', '');
+            this.props.handleControlMessage(true, `${this.props.language[courseInformation.organization.unit.toLowerCase()]}: ${unit.name} - ${this.props.language[courseInformation.organization.subunit.toLowerCase()]}: ${lesson.name} ${this.props.language.contentRequirement}`, false, '', '');
             emptyContent = true;
           }
         })
@@ -252,7 +252,7 @@ export default class CreateCourse extends React.Component {
     if (!courseInformation.organization.subunit) {
       courseInformation.program.map(unit => {
         if (!unit.items.length) {
-          this.props.handleControlMessage(true, `${this.props.language.contentRequirement} ${courseInformation.organization.unit.toLowerCase()}: ${unit.name}`, false, '', '');
+          this.props.handleControlMessage(true, `${this.props.language[courseInformation.organization.unit.toLowerCase()]} ${unit.name} ${this.props.language.contentRequirement}`, false, '', '');
           emptyContent = true;
         }
       })

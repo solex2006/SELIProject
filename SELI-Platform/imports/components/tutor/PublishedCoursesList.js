@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Loading from '../../components/tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
@@ -64,8 +65,12 @@ export default class PublishedCoursesList extends React.Component {
   }
 
   preview = (_id) => {
-    const url = `/coursePreview#${_id}`;
-    window.open(url, "_blank");
+    this.handleClickOpen();
+    this.setState({
+      course_id: _id,
+      dialogConfirmationTitle: this.props.language.coursePreview,
+      dialogConfirmationContentText: this.props.language.willBeRedirected
+    })
   }
 
   unpublish = (_id) => {
@@ -231,15 +236,36 @@ export default class PublishedCoursesList extends React.Component {
             <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
               {this.state.dialogConfirmationContentText}
             </DialogContentText>
-            <WarningIcon className="warning-dialog-icon"/>
+            {
+              this.state.dialogConfirmationTitle === this.props.language.unpublishCourse ?
+                <WarningIcon className="warning-dialog-icon"/>
+              :
+                <InfoIcon className="warning-dialog-icon"/>   
+            }
           </DialogContent>
           <DialogActions>
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
               {this.props.language.cancel}
             </Button>
-            <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
-              {this.props.language.confirm}
-            </Button>
+            {
+              this.state.dialogConfirmationTitle === this.props.language.unpublishCourse ?
+                <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
+                  {this.props.language.confirm}
+                </Button>
+              :
+                <Link className="button-link"
+                  to={{
+                    pathname: "/coursePreview",
+                    hash: this.state.course_id,
+                    state: { fromDashboard: true },
+                    query: {language: this.props.language}
+                  }}
+                >
+                  <Button color="primary" autoFocus>
+                    {this.props.language.yes}
+                  </Button>
+                </Link>
+            }
           </DialogActions>
         </Dialog>
         <Dialog

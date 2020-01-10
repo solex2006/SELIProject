@@ -226,7 +226,10 @@ export default class CourseInformation extends React.Component {
                 changeFile={this.changeFile.bind(this)}
               />
             :
-          <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>{this.props.language.selectCourseImage}</Button>
+              <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>
+                {this.props.language.selectCourseImage} <br/>
+                {this.props.language.required}
+              </Button>
           }
           {
             this.state.courseInformation.sylabus !== undefined ?
@@ -237,7 +240,10 @@ export default class CourseInformation extends React.Component {
                 changeFile={this.changeFile.bind(this)}
               />
             :
-            <Button onClick={() => this.openFileSelector("pdf", ".pdf")} className="form-file-button" fullWidth color="secondary"><PictureAsPdfSharpIcon className="form-image-icon"/>{this.props.language.selectCourseSyllabus}</Button>
+              <Button onClick={() => this.openFileSelector("pdf", ".pdf")} className="form-file-button" fullWidth color="secondary"><PictureAsPdfSharpIcon className="form-image-icon"/>
+                {this.props.language.selectCourseSyllabus} <br/>
+                {this.props.language.required}
+              </Button>
           }
         </div>
         <div className="form-input-column">

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import { Link } from 'react-router-dom';
 
 import MainMenu from '../components/navigation/MainMenu';
 import AppBar from '../components/navigation/AppBar';
@@ -18,6 +19,7 @@ import Loading from '../components/tools/Loading';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
+import InfoIcon from '@material-ui/icons/Info';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -139,8 +141,9 @@ export default class Tutor extends React.Component {
   }
 
   showPreview = () => {
-    const url = `/coursePreview#${this.state.course}`;
-    window.open(url, "_blank");
+    this.setState({
+      courseToShow: true,
+    })
   }
 
   editCourse = (course) => {
@@ -152,7 +155,10 @@ export default class Tutor extends React.Component {
   }
 
   handleClose = () => {
-    this.setState({ chekingSesion: false });
+    this.setState({ 
+      chekingSesion: false,
+      courseToShow: false, 
+    });
   };
 
   render() {
@@ -279,6 +285,37 @@ export default class Tutor extends React.Component {
                   <DialogContent className="success-dialog-content">
                     <Loading message={this.state.language.loadingUser}/>
                   </DialogContent>
+                </Dialog>
+                <Dialog
+                  open={this.state.courseToShow}
+                  onClose={this.handleClose}
+                  aria-labelledby="alert-dialog-confirmation"
+                  aria-describedby="alert-dialog-confirmation"
+                >
+                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.coursePreview}</DialogTitle>
+                  <DialogContent className="success-dialog-content">
+                    <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                      {this.state.language.willBeRedirected}
+                    </DialogContentText>
+                    <InfoIcon className="warning-dialog-icon"/>   
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+                      {this.state.language.cancel}
+                    </Button>
+                    <Link className="button-link"
+                      to={{
+                        pathname: "/coursePreview",
+                        hash: this.state.course,
+                        state: { fromDashboard: true },
+                        query: {language: this.state.language}
+                      }}
+                    >
+                      <Button color="primary" autoFocus>
+                        {this.state.language.yes}
+                      </Button>
+                    </Link>
+                  </DialogActions>
                 </Dialog>
               </React.Fragment>
             :
