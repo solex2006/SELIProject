@@ -1050,23 +1050,6 @@ unPickImageFile(){
   
               }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                   {
                     this.state.story.nodes[this.state.selectedNode].image !== '' ?
                       <ImagePreview
@@ -1129,16 +1112,6 @@ unPickImageFile(){
             </Button>
           </React.Fragment>
         }
-
-
-
-
-
-
-
-
-
-
 
         <Dialog
           open={this.state.open}

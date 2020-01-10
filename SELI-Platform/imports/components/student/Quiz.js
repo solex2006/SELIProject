@@ -258,7 +258,7 @@ class Quiz extends React.Component {
               <LinearProgress />
               <LinearProgress color="secondary" />
             </div>
-          <Button onClick={()=>this.reload()} className="timebutton">{this.props.language.start}</Button>
+          <Button onClick={()=>this.reload()} className="timebutton">{this.props.language.startVerb}</Button>
       </div>
     )
   }

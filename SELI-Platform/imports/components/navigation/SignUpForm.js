@@ -420,9 +420,7 @@ export default class SignUpForm extends React.Component {
             color="secondary"
             variant="contained"
           >
-            {this.props.language.student}
-            <br/>
-            {this.props.language.account}
+            {this.props.language.studentAccount}
           </Button>
         </Tooltip>
         <Tooltip title={this.props.language.hereYouCanOpenTeacherForm}>
@@ -432,9 +430,7 @@ export default class SignUpForm extends React.Component {
             color="secondary"
             variant="contained"
           >
-            {this.props.language.tutor}
-            <br/>
-            {this.props.language.account}
+            {this.props.language.tutorAccount}
           </Button>
         </Tooltip>
       </div>

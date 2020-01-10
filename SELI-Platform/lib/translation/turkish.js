@@ -1,4 +1,6 @@
 var TURKISH = {
+  studentAccount: "öğrenci hesabı",
+  tutorAccount: "öğretmen hesabı",
   reuseImg:"reuse image",
   reuseAudio: "reuse audio",
   audiomessage:'Note: double click to select',
@@ -156,6 +158,7 @@ var TURKISH = {
   storyFlow: "Hikaye akışı",
   storyPreview: "Öykü önizlemesi",
   start: "Başlat",
+  startVerb: "Başlangıç",
   newScene: "Yeni bölüm",
   end: "Son",
   saveStory: "Hikayeyi kaydet",
@@ -547,6 +550,8 @@ var TURKISH = {
   certificateGenerated: "Certificate successfully generated!",
   certificateNotGenerated: "Certificate couldn't be generated",
   willBeRedirected: "Are you sure you want to be redirected to the course preview?",
+  storiesPerPage: "Stories per page:",
+  youHaveStories: "Number of stories you have:",
   done: "Tamamlandı",
   editing: "Düzenleme",
   dropHereLabel: "İçerik oluşturmak için herhangi bir öğeyi buraya bırakın",

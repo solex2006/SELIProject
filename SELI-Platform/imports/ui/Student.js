@@ -504,6 +504,7 @@ export default class Student extends React.Component {
                     <CourseDial
                       showComponent={this.showComponent.bind(this)}
                       closeCourse={this.closeCourse.bind(this)}
+                      language={this.state.language}
                     />
                   :
                   undefined

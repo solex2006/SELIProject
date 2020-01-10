@@ -1,4 +1,6 @@
 var PORTUGUESE = {
+  studentAccount: "conta de estudante",
+  tutorAccount: "conta do tutor",
   reuseImg:"reuse image",
   reuseAudio: "reuse audio",
   audiomessage:'Note: double click to select',
@@ -156,6 +158,7 @@ var PORTUGUESE = {
   storyFlow: "Fluxo da história",
   storyPreview: "Pré-visualização da história",
   start: "Início",
+  startVerb: "Iniciar",
   newScene: "Nova cena",
   end: "Fim",
   saveStory: "Salvar historia",
@@ -547,6 +550,8 @@ var PORTUGUESE = {
   certificateGenerated: "Certificate successfully generated!",
   certificateNotGenerated: "Certificate couldn't be generated",
   willBeRedirected: "Are you sure you want to be redirected to the course preview?",
+  storiesPerPage: "Stories per page:",
+  youHaveStories: "Number of stories you have:",
   done: "Pronto",
   editing: "Editando",
   dropHereLabel: "Arraste e solte itens aqui para criar conteúdo",

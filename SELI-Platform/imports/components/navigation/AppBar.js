@@ -227,7 +227,7 @@ export default class AppBar extends React.Component {
                   {this.props.language.dontHaveAccount}
                 </DialogContentText>
                 <Button onClick={() => this.handleClickOpen("up")} color="secondary" variant="outlined">
-                  {`${this.props.language.signUp} SELI`}
+                  {this.props.language.signUp}
                 </Button>
               </DialogActions>
             :
@@ -240,7 +240,7 @@ export default class AppBar extends React.Component {
                   {this.props.language.alreadyHaveAccount}
                 </DialogContentText>
                 <Button onClick={() => this.handleClickOpen("in")} color="primary" variant="outlined">
-                  {`${this.props.language.signIn} SELI`}
+                  {this.props.language.signIn}
                 </Button>
               </DialogActions>
             :

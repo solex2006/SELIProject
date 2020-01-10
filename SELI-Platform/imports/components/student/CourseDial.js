@@ -47,10 +47,10 @@ export default function SpeedDialTooltipOpen(props) {
   }
 
   const actions = [
-    { icon: <ArrowBackIcon />, name: 'Return to the course', action: () => {props.showComponent('course'); handleClose()}},
-    { icon: <CloseIcon />, name: 'Close course', action: () => props.closeCourse()},
-    { icon: <ViewListIcon />, name: 'My courses', action: () => {props.showComponent('subscribed'); handleClose()}},
-    { icon: <ChatIcon />, name: 'Open course chat', action: () =>  toggleOpen()},
+    { icon: <ArrowBackIcon />, name: props.language.returnToCourse, action: () => {props.showComponent('course'); handleClose()}},
+    { icon: <CloseIcon />, name: props.language.closeCourse, action: () => props.closeCourse()},
+    { icon: <ViewListIcon />, name: props.language.myCourses, action: () => {props.showComponent('subscribed'); handleClose()}},
+    { icon: <ChatIcon />, name: props.language.openCourseChat, action: () =>  toggleOpen()},
   ];
 
   return (
@@ -68,7 +68,7 @@ export default function SpeedDialTooltipOpen(props) {
           key={action.name}
           icon={action.icon}
           tooltipTitle={action.name}
-          tooltipOpen
+          tooltipOpen={false}
           onClick={action.action}
         />
       ))}
