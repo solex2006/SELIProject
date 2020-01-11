@@ -6,45 +6,40 @@ export default class AudioPreview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      link: ''
+      isPlaying: ''
 
     }
   }
   
   componentDidMount(){
     this.setState({
-      link: this.props.file.link
+      isPlaying: this.props.file.link,
     })
   }
-
-  componentDidUpdate(prevProps, prevState) {
-    //only update chart if the data has changed
-     if (prevProps.file.link !== this.props.file.link) {
-      this.setState({
-        link: this.props.file.link
-      })
-    } 
-    
-  }
   
+  componentDidUpdate(prevProps) {
+    if (prevProps.file.link !== this.props.file.link) {
+      this.setState({
+        isPlaying: this.props.file.link,
+      })
+      this.refs.audio.pause();
+      this.refs.audio.play();
+      this.refs.audio.load();
+    }
+  }
+
 
   render() {
-    let audio= <AudioPlayer
+/*     let audio= <AudioPlayer
     src={this.props.file.link}
-    />
+    /> */
 
     return(
       <div className="storytelling-media-preview-container">
-        {audio}
-
-        <Button
-          className="storytelling-media-button"
-          variant="outlined"
-          color="primary"
-          onClick={() => this.props.unPickAudioFile()}
-        >
-          Record again
-        </Button>
+        {/* {audio} */}
+        <audio controls className="audio-file-preview" ref="audio">
+          <source src={this.state.isPlaying}></source>
+        </audio>
       </div>
       );
     }

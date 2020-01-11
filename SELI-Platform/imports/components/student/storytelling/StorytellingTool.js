@@ -69,7 +69,7 @@ const useStyles = theme => ({
   },
 });
 
- class StorytellingTool extends React.Component {
+class StorytellingTool extends React.Component {
   
   constructor(props) {
     super(props);
@@ -99,6 +99,7 @@ const useStyles = theme => ({
       courses: [],
       activities: [],
       audioType: 'record',
+      imageType: 'upload',
       stateconsulta: false,
       isyes:false,
       isno:false,
@@ -197,7 +198,6 @@ const useStyles = theme => ({
         saved: this.props.storyToEdit._id,
       })
     }
-     
     this.UpdateImagesAudio()
   }
 
@@ -821,8 +821,17 @@ unPickImageFile(){
     this.changeNodeOrdinal(index, index + 1);
   }
 
-  
+  selectMediaType = (newValue) => {
+    this.setState({
+      mediaType: newValue
+    })
+  };
 
+  selectImageType = (newValue) => {
+    this.setState({
+      imageType: newValue
+    })
+  };
 
   selectAudioType = (newValue) => {
     this.setState({
@@ -843,68 +852,72 @@ unPickImageFile(){
           !this.state.showPreview ?
             <div className="storytelling-tool-container">
               <div className="storytelling-work-area">
-                <h2 className="storytelling-work-area-title">{this.props.language.storyFlow}</h2>
-                {
-                  this.state.story.nodes.length >= 2 ?
-                    <Button
-                      color="primary"
-                      className="storytelling-work-preview-button"
-                      onClick={() => this.showPreview()}
-                    >
-                      {this.props.language.storyPreview}
-                    </Button>
-                  :
-                  undefined
-                }
-                {
-                  this.state.story.nodes.map((node, index) => {
-                    return(
-                      <React.Fragment>
-                        {
-                          node.type === 'start' ?
-                            <StorytellingStart
-                              node={node}
-                              nodes={this.state.story.nodes}
-                              index={index}
-                              selectedNode={this.state.selectedNode}
-                              addSingleNode={this.addSingleNode.bind(this)}
-                              selectNode={this.selectNode.bind(this)}
-                            />
-                          :
-                          undefined
-                        }
-                        {
-                          node.type === 'scene' ?
-                            <StorytellingScene
-                              node={node}
-                              nodes={this.state.story.nodes}
-                              index={index}
-                              selectedNode={this.state.selectedNode}
-                              addSingleNode={this.addSingleNode.bind(this)}
-                              addEndNode={this.addEndNode.bind(this)}
-                              selectNode={this.selectNode.bind(this)}
-                              moveNodeUp={this.moveNodeUp.bind(this)}
-                              moveNodeDown={this.moveNodeDown.bind(this)}
-                            />
-                          :
-                          undefined
-                        }
-                        {
-                          node.type === 'end' ?
-                            <StorytellingEnd
-                              node={node}
-                              nodes={this.state.story.nodes}
-                              index={index}
-                              selectedNode={this.state.selectedNode}
-                              selectNode={this.selectNode.bind(this)}
-                            />
-                          :
-                          undefined
-                        }
-                      </React.Fragment>
-                    )
-                  })
-                }
+                <div className="storytelling-work-area">
+                  <h2 className="storytelling-work-area-title">{this.props.language.storyFlow}</h2>
+                  {
+                    this.state.story.nodes.length >= 2 ?
+                      <Button
+                        color="primary"
+                        className="storytelling-work-preview-button"
+                        onClick={() => this.showPreview()}
+                      >
+                        {this.props.language.storyPreview}
+                      </Button>
+                    :
+                    undefined
+                  }
+                </div>
+                <div className="storytelling-work-area">
+                  {
+                    this.state.story.nodes.map((node, index) => {
+                      return(
+                        <React.Fragment>
+                          {
+                            node.type === 'start' ?
+                              <StorytellingStart
+                                node={node}
+                                nodes={this.state.story.nodes}
+                                index={index}
+                                selectedNode={this.state.selectedNode}
+                                addSingleNode={this.addSingleNode.bind(this)}
+                                selectNode={this.selectNode.bind(this)}
+                              />
+                            :
+                            undefined
+                          }
+                          {
+                            node.type === 'scene' ?
+                              <StorytellingScene
+                                node={node}
+                                nodes={this.state.story.nodes}
+                                index={index}
+                                selectedNode={this.state.selectedNode}
+                                addSingleNode={this.addSingleNode.bind(this)}
+                                addEndNode={this.addEndNode.bind(this)}
+                                selectNode={this.selectNode.bind(this)}
+                                moveNodeUp={this.moveNodeUp.bind(this)}
+                                moveNodeDown={this.moveNodeDown.bind(this)}
+                              />
+                            :
+                            undefined
+                          }
+                          {
+                            node.type === 'end' ?
+                              <StorytellingEnd
+                                node={node}
+                                nodes={this.state.story.nodes}
+                                index={index}
+                                selectedNode={this.state.selectedNode}
+                                selectNode={this.selectNode.bind(this)}
+                              />
+                            :
+                            undefined
+                          }
+                        </React.Fragment>
+                      )
+                    })
+                  }
+                </div>
               </div>
               <div className="storytelling-menu-container">
                 <div className="storytelling-menu-header">
@@ -963,46 +976,63 @@ unPickImageFile(){
                     />
                   </FormGroup>
                 </div>
-                {console.log("..................................................")}
-              {console.log(this.state.selectedNode)}
-              { this.state.story.nodes[this.state.selectedNode].name !=='End'  ? 
-  
-                <div className="storytelling-menu-body">
-                  <TextField
-                    id="node-name-input"
-                    label={this.props.language.name}
-                    margin="normal"
-                    variant="outlined"
-                    fullWidth
-                    autoComplete={"off"}
-                    required
-                    value={this.state.story.nodes[this.state.selectedNode].name}
-                    onChange={this.handleChange('name')}
-                    error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
-                    helperText={this.props.language.sceneNameHelper}
-                  />
-                  <TextField
-                    id="node-description-input"
-                    label={this.props.language.description}
-                    margin="normal"
-                    variant="outlined"
-                    fullWidth
-                    multiline
-                    rows={3}
-                    value={this.state.story.nodes[this.state.selectedNode].description}
-                    onChange={this.handleChange('description')}
-                    error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
-                    helperText={this.props.language.sceneDescriptionHelper}
-                  />
-                  <Divider light/>
-                  {
-                    this.state.story.nodes[this.state.selectedNode].audio !== '' ?
-                      
-                      <AudioPreview
-                        file={this.state.story.nodes[this.state.selectedNode].audio}
-                        unPickAudioFile={this.unPickAudioFile.bind(this)}
+                {console.log(this.state.story.nodes[this.state.selectedNode].type)}
+                { 
+                  this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
+                    <div className="storytelling-menu-body">
+                      <TextField
+                        id="node-name-input"
+                        label={this.props.language.name}
+                        margin="normal"
+                        variant="outlined"
+                        fullWidth
+                        autoComplete={"off"}
+                        required
+                        value={this.state.story.nodes[this.state.selectedNode].name}
+                        onChange={this.handleChange('name')}
+                        error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
+                        helperText={this.props.language.sceneNameHelper}
                       />
-                    :
+                      <TextField
+                        id="node-description-input"
+                        label={this.props.language.description}
+                        margin="normal"
+                        variant="outlined"
+                        fullWidth
+                        multiline
+                        rows={3}
+                        value={this.state.story.nodes[this.state.selectedNode].description}
+                        onChange={this.handleChange('description')}
+                        error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                        helperText={this.props.language.sceneDescriptionHelper}
+                      />
+                    </div>
+                  :
+                    undefined
+                }
+                <Divider light/>
+                <div className="storytelling-menu-body">
+                    <Tabs
+                      color="primary"
+                      value={this.state.mediaType}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      className="form-tabs-container"
+                      variant="fullWidth"
+                      centered={true}
+                    >
+                      { 
+                        this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
+                          <Tab value={'audio'} onClick={() => this.selectMediaType('audio')} className="form-tab" label={this.props.language.audio} />
+                        :
+                          undefined
+                      }
+                      <Tab value={'image'} onClick={() => this.selectMediaType('image')} className="form-tab" label={this.props.language.image} />
+                    </Tabs>
+                </div>
+                {
+                  this.state.mediaType === 'audio' && this.state.story.nodes[this.state.selectedNode].type !== "end" ?
+                    <div className="storytelling-menu-body">
                       <Tabs
                         color="primary"
                         value={this.state.audioType}
@@ -1012,105 +1042,167 @@ unPickImageFile(){
                         variant="fullWidth"
                         centered={true}
                       >
-                      <Tab value={'record'} onClick={() => this.selectAudioType('record')} className="form-tab" label="Record" />
-                      <Tab value={'upload'} onClick={() => this.selectAudioType('upload')} className="form-tab" label="Upload" />
+                        <Tab value={'record'} onClick={() => this.selectAudioType('record')} className="form-tab" label={this.props.language.record} />
+                        <Tab value={'upload'} onClick={() => this.selectAudioType('upload')} className="form-tab" label={this.props.language.upload} />
+                        <Tab value={'reuse'} onClick={() => this.selectAudioType('reuse')} className="form-tab" label={this.props.language.reuse} />
                       </Tabs>
-                  }
-                  {
-                     this.state.audioType === 'record' ?
-                      <AudioRecorder
-                        getFileInformation={this.getAudioFileInformation.bind(this)}
-                      />
-                      : 
-                        undefined 
-                  }
-                    {
-                     this.state.audioType === 'upload' ?
-                      <FileUpload
-                        type='audio'
-                        user={Meteor.userId()}
-                        accept={'audio/*'}
-                        label={this.props.language.uploadAudioButtonLabel}
-                        getFileInformation={this.getAudioFileInformation.bind(this)}
-                      /> 
-                      : 
-                        undefined                     
-                  }
-               <Divider light/>
-             { 
-                <div className="center-row">
-                  <Button variant="contained" onClick={() => this.handleImagesAudio("images")} color="primary" className="bar-button">
-                  {this.props.language.reuseImg}
-                </Button>	 
-                <Button variant="contained" onClick={() => this.handleImagesAudio("audio")} color="primary" className="bar-button">             
-                {this.props.language.reuseAudio}
-                </Button>	
-                </div>
-                
-  
-              }
-
-                  {
-                    this.state.story.nodes[this.state.selectedNode].image !== '' ?
-                      <ImagePreview
-                        file={this.state.story.nodes[this.state.selectedNode].image}
-                        unPickImageFile={this.unPickImageFile.bind(this)}
-                      />
-                    :
-                    <FileUpload
-                      type='image'
-                      user={Meteor.userId()}
-                      accept={'image/*'}
-                      label={this.props.language.uploadImageButtonLabel}
-                      getFileInformation={this.getImageFileInformation.bind(this)}
-                    />
-                  }
-                </div>
-                :
-                this.state.story.nodes[this.state.selectedNode].image !== '' ?
-                      <ImagePreview
-                        file={this.state.story.nodes[this.state.selectedNode].image}
-                        unPickImageFile={this.unPickImageFile.bind(this)}
-                      />
-                    :
-                    <FileUpload
-                      type='image'
-                      user={Meteor.userId()}
-                      accept={'image/*'}
-                      label={this.props.language.uploadImageButtonLabel}
-                      getFileInformation={this.getImageFileInformation.bind(this)}
-                    />
-
-                }
-
-                { 
-                  this.state.story.nodes[this.state.selectedNode].type !== 'start' ?
-                    <Tooltip title="Delete this scene">
-                      <Fab
-                        color="secondary"
-                        className="storytelling-delete-button"
-                        onClick={() => this.openDialog('delete')}
-                      >
-                        <DeleteIcon/>
-                      </Fab>
-                    </Tooltip>
+                      <br/>
+                      {
+                        this.state.audioType === 'record' ?
+                          this.state.story.nodes[this.state.selectedNode].audio !== '' ?
+                            <div className="center-row"> 
+                              <Button
+                                className="bar-button"
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => this.unPickAudioFile()}
+                              >
+                                {this.props.language.recordAgain}
+                              </Button>
+                            </div>
+                          :
+                            <AudioRecorder
+                              getFileInformation={this.getAudioFileInformation.bind(this)}
+                            />
+                        : 
+                          undefined 
+                      }
+                      {
+                        this.state.audioType === 'upload' ?
+                          this.state.story.nodes[this.state.selectedNode].audio !== '' ?
+                            <div className="center-row"> 
+                              <Button
+                                className="bar-button"
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => this.unPickAudioFile()}
+                              >
+                                {this.props.language.changeAudio}
+                              </Button>
+                            </div>
+                          :
+                            <FileUpload
+                              type='audio'
+                              user={Meteor.userId()}
+                              accept={'audio/*'}
+                              label={this.props.language.uploadAudioButtonLabel}
+                              getFileInformation={this.getAudioFileInformation.bind(this)}
+                            /> 
+                        : 
+                          undefined                     
+                      }
+                      {
+                        this.state.audioType === 'reuse' ?
+                          <div className="center-row"> 
+                            <Button variant="contained" onClick={() => this.handleImagesAudio("audio")} color="primary" className="bar-button">             
+                              {this.props.language.reuseAudio}
+                            </Button>
+                          </div>
+                        : 
+                          undefined                     
+                      }
+                      {
+                        this.state.story.nodes[this.state.selectedNode].audio !== '' ?
+                          <AudioPreview
+                            file={this.state.story.nodes[this.state.selectedNode].audio}
+                          />
+                        :
+                          undefined
+                      }
+                    </div>
                   :
-                  undefined
+                    undefined
+                }
+                {
+                  this.state.mediaType === 'image' ?
+                    <div className="storytelling-menu-body">
+                      <Tabs
+                        color="primary"
+                        value={this.state.imageType}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        className="form-tabs-container"
+                        variant="fullWidth"
+                        centered={true}
+                      >
+                        <Tab value={'upload'} onClick={() => this.selectImageType('upload')} className="form-tab" label={this.props.language.upload} />
+                        <Tab value={'reuse'} onClick={() => this.selectImageType('reuse')} className="form-tab" label={this.props.language.reuse} />
+                      </Tabs>
+                      <br/>
+                      {
+                        this.state.imageType === 'upload' ?
+                          this.state.story.nodes[this.state.selectedNode].image !== '' ?
+                            <div className="center-row"> 
+                              <Button
+                                className="bar-button"
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => this.unPickImageFile()}
+                              >
+                                {this.props.language.changeImage}
+                              </Button>
+                            </div>
+                          :
+                            <FileUpload
+                              type='image'
+                              user={Meteor.userId()}
+                              accept={'image/*'}
+                              label={this.props.language.uploadImageButtonLabel}
+                              getFileInformation={this.getImageFileInformation.bind(this)}
+                            />
+                        : 
+                          undefined                     
+                      }
+                      {
+                        this.state.imageType === 'reuse' ?
+                          <div className="center-row"> 
+                            <Button variant="contained" onClick={() => this.handleImagesAudio("images")} color="primary" className="bar-button">
+                              {this.props.language.reuseImg}
+                            </Button>	
+                          </div>
+                        : 
+                          undefined                     
+                      }
+                      {
+                        this.state.story.nodes[this.state.selectedNode].image !== '' ?
+                          <ImagePreview
+                            file={this.state.story.nodes[this.state.selectedNode].image}
+                          />
+                        :
+                          undefined
+                      }
+                    </div>
+                  :
+                    undefined
                 }
               </div>
+              { 
+                this.state.story.nodes[this.state.selectedNode].type !== 'start' ?
+                  <Tooltip title="Delete this scene">
+                    <Fab
+                      color="secondary"
+                      className="storytelling-delete-button"
+                      onClick={() => this.openDialog('delete')}
+                    >
+                      <DeleteIcon/>
+                    </Fab>
+                  </Tooltip>
+                :
+                undefined
+              }
             </div>
           :
-          <React.Fragment>
-            <StorytellingPlayer
-              story={this.state.story}
-              comments={false}
-              link={false}
-            />
-            <Button color="primary" onClick={() => this.handleReturn()} className="storytelling-return-button">
-              <ArrowBackIcon className="storytelling-return-icon"/>
-              {this.props.language.return}
-            </Button>
-          </React.Fragment>
+            <React.Fragment>
+              <StorytellingPlayer
+                story={this.state.story}
+                comments={false}
+                link={false}
+              />
+              <Button color="primary" onClick={() => this.handleReturn()} className="storytelling-return-button">
+                <ArrowBackIcon className="storytelling-return-icon"/>
+                {this.props.language.return}
+              </Button>
+            </React.Fragment>
         }
 
         <Dialog

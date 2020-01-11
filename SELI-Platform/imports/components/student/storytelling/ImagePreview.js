@@ -24,14 +24,6 @@ export default class ImagePreview extends React.Component {
           <div className="storytelling-media-image">
             <div style={{backgroundImage: `url(${this.props.file.link})`}} className="file-image-preview"></div>
           </div>
-          <Button
-            className="storytelling-media-button"
-            variant="outlined"
-            color="primary"
-            onClick={() => this.props.unPickImageFile()}
-          >
-            Change image
-          </Button>
         </div>
       );
     }

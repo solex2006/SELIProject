@@ -16,7 +16,8 @@
 }
 
 .storytelling-work-area {
-  width: calc(100vw - 400px);
+  /* width: calc(100vw - 400px); */
+  width: calc(100vw - 550px);
   max-height: calc(100vh - var(--app-bar-height) - 5vh - 2.5em);
   padding-top: 2.5em;
   padding-bottom: 5vh;
@@ -28,14 +29,15 @@
 }
 
 .storytelling-menu-container {
-  width: calc(400px);
+  /* width: calc(400px); */
+  width: calc(550px);
   max-height: calc(100vh - var(--app-bar-height));
   position: relative;
 }
 
 .storytelling-menu-header {
   width: 100%;
-  height: calc(20vh - 1px);
+  height: calc(15vh);
   display: flex;
   flex-direction: column;
   align-items: center;
