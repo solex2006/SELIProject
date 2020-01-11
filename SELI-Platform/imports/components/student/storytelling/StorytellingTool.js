@@ -38,6 +38,7 @@ import { Courses } from '../../../../lib/CourseCollection';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Box from '@material-ui/core/Box';
 
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
@@ -85,7 +86,13 @@ class StorytellingTool extends React.Component {
           {
             type: 'start',
             name: `${this.props.language.start}`,
-            description: '',
+            description: {
+              english: '',
+              spanish: '',
+              portuguese: '',
+              polish: '',
+              turkish: '',
+            },
             image: '',
             audio: '', //change for allow save without end the story
             ordinal: 0,
@@ -98,6 +105,8 @@ class StorytellingTool extends React.Component {
       selectedNode: 0,
       courses: [],
       activities: [],
+      languageType: 'english',
+      mediaType: 'audio',
       audioType: 'record',
       imageType: 'upload',
       stateconsulta: false,
@@ -277,8 +286,20 @@ class StorytellingTool extends React.Component {
     if (name === 'name') {
       story.nodes[this.state.selectedNode].name = event.target.value;
     }
-    if (name === 'description') {
-      story.nodes[this.state.selectedNode].description = event.target.value;
+    if (name === 'description-english') {
+      story.nodes[this.state.selectedNode].description.english = event.target.value;
+    }
+    if (name === 'description-spanish') {
+      story.nodes[this.state.selectedNode].description.spanish = event.target.value;
+    }
+    if (name === 'description-portuguese') {
+      story.nodes[this.state.selectedNode].description.portuguese = event.target.value;
+    }
+    if (name === 'description-polish') {
+      story.nodes[this.state.selectedNode].description.polish = event.target.value;
+    }
+    if (name === 'description-turkish') {
+      story.nodes[this.state.selectedNode].description.turkish = event.target.value;
     }
     if (name === "public") {
       story.isPublic = !story.isPublic;
@@ -296,7 +317,13 @@ class StorytellingTool extends React.Component {
     const node = {
       type: 'scene',
       name: `${this.props.language.newScene} ${story.nodes.length}`,
-      description: '',
+      description: {
+        english: '',
+        spanish: '',
+        portuguese: '',
+        polish: '',
+        turkish: '',
+      },
       image: image,
       audio: '',
       ordinal: index + 1,
@@ -316,7 +343,13 @@ class StorytellingTool extends React.Component {
     story.nodes.push({
       type: 'end',
       name: `${this.props.language.end}`,
-      description: '',
+      description: {
+        english: '',
+        spanish: '',
+        portuguese: '',
+        polish: '',
+        turkish: '',
+      },
       image: '',
       audio: '',
       ordinal: story.nodes.length,
@@ -325,13 +358,19 @@ class StorytellingTool extends React.Component {
     this.setState({
       story: story,
       selectedNode: story.nodes.length - 1,
+      mediaType: 'image',
     });
   }
 
   selectNode = (index) => {
     this.setState({
       selectedNode: index,
-    });
+    })
+    if ((this.state.story.nodes.length - 1) === index){
+      this.setState({
+        mediaType: 'image',
+      })
+    }
   }
 
   openDialog = (action) => {
@@ -810,7 +849,7 @@ unPickImageFile(){
     this.setState({
       story: story,
       selectedNode: selectedNode
-    });    
+    }); 
   }
 
   moveNodeUp(index) {
@@ -820,6 +859,12 @@ unPickImageFile(){
   moveNodeDown(index) {
     this.changeNodeOrdinal(index, index + 1);
   }
+
+  selectLanguageType = (newValue) => {
+    this.setState({
+      languageType: newValue
+    })
+  };
 
   selectMediaType = (newValue) => {
     this.setState({
@@ -843,6 +888,13 @@ unPickImageFile(){
     e.preventDefault()
   }
 
+  selectColor = (language) => {
+    if (this.state.story.nodes[this.state.selectedNode].description[language] === ""){
+      return ""
+    } else {
+      return "primary.main"
+    }
+  };
 
   render() {
     const { classes } = this.props;
@@ -993,19 +1045,123 @@ unPickImageFile(){
                         error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
                         helperText={this.props.language.sceneNameHelper}
                       />
-                      <TextField
-                        id="node-description-input"
-                        label={this.props.language.description}
-                        margin="normal"
-                        variant="outlined"
-                        fullWidth
-                        multiline
-                        rows={3}
-                        value={this.state.story.nodes[this.state.selectedNode].description}
-                        onChange={this.handleChange('description')}
-                        error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
-                        helperText={this.props.language.sceneDescriptionHelper}
-                      />
+                    </div>
+                  :
+                    undefined
+                }
+                {
+                  this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
+                    <div className="storytelling-menu-body-aux">
+                      <div className="storytelling-menu-body-tabs">
+                        <Tabs
+                          color="primary"
+                          orientation="vertical"
+                          value={this.state.languageType}
+                          indicatorColor="primary"
+                          textColor="primary"
+                          className="form-tabs-container"
+                          variant="standard"
+                          //centered={true}
+                        >
+                          <Tab value={'english'} onClick={() => this.selectLanguageType('english')} className="form-tab-aux" label={<Box color={this.selectColor('english')}>{this.props.language.english}</Box>}/>
+                          <Tab value={'spanish'} onClick={() => this.selectLanguageType('spanish')} className="form-tab-aux" label={<Box color={this.selectColor('spanish')}>{this.props.language.spanish}</Box>}/>
+                          <Tab value={'portuguese'} onClick={() => this.selectLanguageType('portuguese')} className="form-tab-aux" label={<Box color={this.selectColor('portuguese')}>{this.props.language.portuguese}</Box>}/>
+                          <Tab value={'polish'} onClick={() => this.selectLanguageType('polish')} className="form-tab-aux" label={<Box color={this.selectColor('polish')}>{this.props.language.polish}</Box>}/>
+                          <Tab value={'turkish'} onClick={() => this.selectLanguageType('turkish')} className="form-tab-aux" label={<Box color={this.selectColor('turkish')}>{this.props.language.turkish}</Box>}/>
+                        </Tabs>
+                      </div>
+                      <div className="storytelling-menu-body-description">
+                        {
+                          this.state.languageType === 'english' ?
+                            <TextField
+                              id="node-description-input"
+                              label={`${this.props.language.descriptionIn} ${this.props.language.english}`}
+                              margin="normal"
+                              variant="outlined"
+                              fullWidth
+                              multiline
+                              rows={6}
+                              value={this.state.story.nodes[this.state.selectedNode].description.english}
+                              onChange={this.handleChange('description-english')}
+                              error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                              helperText={this.props.language.sceneDescriptionHelper}
+                            />
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.languageType === 'spanish' ?
+                            <TextField
+                              id="node-description-input"
+                              label={`${this.props.language.descriptionIn} ${this.props.language.spanish}`}
+                              margin="normal"
+                              variant="outlined"
+                              fullWidth
+                              multiline
+                              rows={6}
+                              value={this.state.story.nodes[this.state.selectedNode].description.spanish}
+                              onChange={this.handleChange('description-spanish')}
+                              error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                              helperText={this.props.language.sceneDescriptionHelper}
+                            />
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.languageType === 'portuguese' ?
+                            <TextField
+                              id="node-description-input"
+                              label={`${this.props.language.descriptionIn} ${this.props.language.portuguese}`}
+                              margin="normal"
+                              variant="outlined"
+                              fullWidth
+                              multiline
+                              rows={6}
+                              value={this.state.story.nodes[this.state.selectedNode].description.portuguese}
+                              onChange={this.handleChange('description-portuguese')}
+                              error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                              helperText={this.props.language.sceneDescriptionHelper}
+                            />
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.languageType === 'polish' ?
+                            <TextField
+                              id="node-description-input"
+                              label={`${this.props.language.descriptionIn} ${this.props.language.polish}`}
+                              margin="normal"
+                              variant="outlined"
+                              fullWidth
+                              multiline
+                              rows={6}
+                              value={this.state.story.nodes[this.state.selectedNode].description.polish}
+                              onChange={this.handleChange('description-polish')}
+                              error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                              helperText={this.props.language.sceneDescriptionHelper}
+                            />
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.languageType === 'turkish' ?
+                            <TextField
+                              id="node-description-input"
+                              label={`${this.props.language.descriptionIn} ${this.props.language.turkish}`}
+                              margin="normal"
+                              variant="outlined"
+                              fullWidth
+                              multiline
+                              rows={6}
+                              value={this.state.story.nodes[this.state.selectedNode].description.turkish}
+                              onChange={this.handleChange('description-turkish')}
+                              error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                              helperText={this.props.language.sceneDescriptionHelper}
+                            />
+                          :
+                            undefined
+                        }
+                      </div>
                     </div>
                   :
                     undefined
@@ -1175,21 +1331,21 @@ unPickImageFile(){
                   :
                     undefined
                 }
+                { 
+                  this.state.story.nodes[this.state.selectedNode].type !== 'start' ?
+                    <Tooltip title="Delete this scene">
+                      <Fab
+                        color="secondary"
+                        className="storytelling-delete-button"
+                        onClick={() => this.openDialog('delete')}
+                      >
+                        <DeleteIcon/>
+                      </Fab>
+                    </Tooltip>
+                  :
+                  undefined
+                }
               </div>
-              { 
-                this.state.story.nodes[this.state.selectedNode].type !== 'start' ?
-                  <Tooltip title="Delete this scene">
-                    <Fab
-                      color="secondary"
-                      className="storytelling-delete-button"
-                      onClick={() => this.openDialog('delete')}
-                    >
-                      <DeleteIcon/>
-                    </Fab>
-                  </Tooltip>
-                :
-                undefined
-              }
             </div>
           :
             <React.Fragment>
@@ -1197,6 +1353,7 @@ unPickImageFile(){
                 story={this.state.story}
                 comments={false}
                 link={false}
+                language={this.props.language}
               />
               <Button color="primary" onClick={() => this.handleReturn()} className="storytelling-return-button">
                 <ArrowBackIcon className="storytelling-return-icon"/>

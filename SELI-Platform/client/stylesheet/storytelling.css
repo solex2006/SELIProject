@@ -52,6 +52,24 @@
   overflow-y: scroll;
 }
 
+.storytelling-menu-body-aux {
+  width: calc(100% - 2vw);
+  padding: 0 1vw;
+  max-height: calc(100vh - var(--app-bar-height) - 20vh);
+  overflow-y: scroll;
+  display: flex;
+}
+
+.storytelling-menu-body-tabs {
+  width: calc(30%);
+
+}
+
+.storytelling-menu-body-description {
+  width: calc(100%);
+  padding-left: 0.5vw;
+}
+
 .storytelling-menu-title {
   font-weight: 300;
   letter-spacing: 1px;

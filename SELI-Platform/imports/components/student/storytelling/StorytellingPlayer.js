@@ -16,6 +16,8 @@ import ReplayIcon from '@material-ui/icons/Replay';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 
 import ReactPlayer from 'react-player';
@@ -31,6 +33,11 @@ export default class StorytellingPlayer extends React.Component {
       showDescription: true,
       autoPlay: true,
       playing: true,
+      englishAvailable: false,
+      spanishAvailable: false,
+      portugueseAvailable: false,
+      polishAvailable: false,
+      turkishAvailable: false,
     }
   }
 
@@ -43,6 +50,34 @@ export default class StorytellingPlayer extends React.Component {
     if (name === "autoPlay") {
       this.setState({
         autoPlay: !this.state.autoPlay,
+      });
+    }
+  }
+
+  handleChangeLanguage = name => event => {
+    if (name === "english") {
+      this.setState({
+        language: 'english'
+      });
+    }
+    if (name === "spanish") {
+      this.setState({
+        language: 'spanish'
+      });
+    }
+    if (name === "portuguese") {
+      this.setState({
+        language: 'portuguese'
+      });
+    }
+    if (name === "polish") {
+      this.setState({
+        language: 'polish'
+      });
+    }
+    if (name === "turkish") {
+      this.setState({
+        language: 'turkish'
       });
     }
   }
@@ -102,7 +137,23 @@ export default class StorytellingPlayer extends React.Component {
   }
 
   componentDidMount() {
-
+    for (let i = 0; i < this.props.story.nodes.length; i++) {
+      if(this.props.story.nodes[i].description.turkish !== ""){
+        this.setState({ turkishAvailable: true, language: 'turkish' });
+      }
+      if(this.props.story.nodes[i].description.polish !== ""){
+        this.setState({ polishAvailable: true, language: 'polish' });
+      }
+      if(this.props.story.nodes[i].description.portuguese !== ""){
+        this.setState({ portugueseAvailable: true, language: 'portuguese' });
+      }
+      if(this.props.story.nodes[i].description.spanish !== ""){
+        this.setState({ spanishAvailable: true, language: 'spanish' });
+      }
+      if(this.props.story.nodes[i].description.english !== ""){
+        this.setState({ englishAvailable: true, language: 'english' });
+      }
+    }
   }
 
   render() {
@@ -121,7 +172,7 @@ export default class StorytellingPlayer extends React.Component {
           ></div>
           <Slide direction="down" in={this.state.showDescription} mountOnEnter unmountOnExit>
             <div className="storytelling-player-description">
-              {this.props.story.nodes[this.state.scenePlaying].description}
+              {this.props.story.nodes[this.state.scenePlaying].description[this.state.language]}
             </div>
           </Slide>
           <div className="storytelling-player-actions">
@@ -132,7 +183,7 @@ export default class StorytellingPlayer extends React.Component {
                   className="storytelling-player-button"
                   onClick={() => this.props.showCommentDialog()}
                 >
-                  Leave a comment
+                  {this.props.language.leaveComment}
                 </Button>
               :
               undefined
@@ -187,6 +238,88 @@ export default class StorytellingPlayer extends React.Component {
               }}
             >
               <div className="storytelling-player-pop-menu">
+                <RadioGroup defaultValue="languages" aria-label="languages" name="customized-radios">
+                  {
+                    this.state.englishAvailable ?
+                      <FormControlLabel 
+                        control={
+                          <Radio
+                            checked={this.state.language === 'english'}
+                            onChange={this.handleChangeLanguage('english')}
+                            value="english"
+                            color="primary"
+                          />
+                        } 
+                        label={this.props.language.english} 
+                      />
+                    :
+                        undefined
+                  }
+                  {
+                    this.state.spanishAvailable ?
+                      <FormControlLabel  
+                        control={
+                          <Radio
+                            checked={this.state.language === 'spanish'}
+                            onChange={this.handleChangeLanguage('spanish')}
+                            value="spanish"
+                            color="primary"
+                          />
+                        } 
+                        label={this.props.language.spanish}
+                      />
+                    :
+                      undefined
+                  }
+                  {
+                    this.state.portugueseAvailable ?
+                      <FormControlLabel  
+                        control={
+                          <Radio
+                            checked={this.state.language === 'portuguese'}
+                            onChange={this.handleChangeLanguage('portuguese')}
+                            value="portuguese"
+                            color="primary"
+                          />
+                        } 
+                        label={this.props.language.portuguese}
+                      />
+                    :
+                      undefined
+                  }
+                  {
+                    this.state.polishAvailable ?
+                      <FormControlLabel  
+                        control={
+                          <Radio
+                            checked={this.state.language === 'polish'}
+                            onChange={this.handleChangeLanguage('polish')}
+                            value="polish"
+                            color="primary"
+                          />
+                        } 
+                        label={this.props.language.polish}
+                      />
+                    :
+                      undefined
+                  }
+                  {
+                    this.state.turkishAvailable ?
+                      <FormControlLabel  
+                        control={
+                          <Radio
+                            checked={this.state.language === 'turkish'}
+                            onChange={this.handleChangeLanguage('turkish')}
+                            value="turkish"
+                            color="primary"
+                          />
+                        } 
+                        label={this.props.language.turkish}
+                      />
+                    :
+                      undefined
+                  }
+                </RadioGroup>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -196,7 +329,7 @@ export default class StorytellingPlayer extends React.Component {
                       color="primary"
                     />
                   }
-                  label={this.state.showDescription ? "Hide description" : "Show description"}
+                  label={this.state.showDescription ? this.props.language.hideDescription : this.props.language.showDescription}
                 />
                 <FormControlLabel
                   control={
@@ -207,7 +340,7 @@ export default class StorytellingPlayer extends React.Component {
                       color="primary"
                     />
                   }
-                  label="Auto play"
+                  label={this.props.language.autoPlay}
                 />
               </div>
             </Popover>
