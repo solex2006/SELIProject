@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Session } from 'meteor/session';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
@@ -17,6 +18,11 @@ import Typography from '@material-ui/core/Typography';
 import { Activities } from '../../lib/ActivitiesCollection';
 import { Comments } from '../../lib/CommentsCollection';
 
+import english from '../../lib/translation/english';
+import spanish from '../../lib/translation/spanish';
+import portuguese from '../../lib/translation/portuguese';
+import turkish from '../../lib/translation/turkish';
+
 export default class Story extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +32,10 @@ export default class Story extends React.Component {
   }
 
   componentDidMount() {
+    Session.set({language: Session.get('language') ? Session.get('language') : english});
+    this.setState({
+      language: Session.get('language') ? Session.get('language') : english,
+    });
     this.setState({
       loadingStory: true,
     }, () => {
@@ -116,53 +126,64 @@ export default class Story extends React.Component {
     this.setState({
       language: language,
     });
+    Meteor.call("ChangeLanguague", Meteor.userId(), option, (error, response) =>  {});
   }
 
   render() {
+    console.log(this.state)
     return(
       <div>
         <MuiThemeProvider theme={theme}>
-          <div id="outer-container">
-            <main id="page-wrap">
-              <React.Fragment>
-                {
-                  this.state.story === undefined ?
-                    undefined
-                  :
-                  <div className="storytelling-link-container">
-                    <AppBar position="static" className="course-dialog-app-bar">
-                      <Toolbar style={{position: 'relative'}}>
-                        <Typography className="course-dialog-title" variant="h6">
-                          SELI stories
-                        </Typography>
-                      </Toolbar>
-                    </AppBar>
-                    <StorytellingPlayer
-                      story={this.state.story}
-                      comments={true}
-                      link={true}
-                      showCommentDialog={this.showCommentDialog.bind(this)}
-                    />
-                  </div>
-                }
+          {  
+            this.state.language && Session.get('language') ?  
+              <React.Fragment>      
+                <div id="outer-container">
+                  <main id="page-wrap">
+                    <React.Fragment>
+                      {
+                        this.state.story === undefined ?
+                          undefined
+                        :
+                        <div className="storytelling-link-container">
+                          <AppBar position="static" className="course-dialog-app-bar">
+                            <Toolbar style={{position: 'relative'}}>
+                              <Typography className="course-dialog-title" variant="h6">
+                                {this.state.language.seliStories}
+                              </Typography>
+                            </Toolbar>
+                          </AppBar>
+                          <StorytellingPlayer
+                            story={this.state.story}
+                            comments={true}
+                            link={true}
+                            showCommentDialog={this.showCommentDialog.bind(this)}
+                            language={this.state.language}
+                          />
+                        </div>
+                      }
+                    </React.Fragment>
+                  </main>
+                </div>
+                <CommentDialog
+                  open={this.state.openComment}
+                  title={this.state.language.leaveCommentStory}
+                  handleClose={this.handleCloseComment.bind(this)}
+                  sendComment={this.sendComment.bind(this)}
+                  handleControlMessage={this.handleControlMessage.bind(this)}
+                  language={this.state.language}
+                />
+                <ControlSnackbar
+                  showControlMessage={this.state.showControlMessage}
+                  showControlAction={this.state.showControlAction}
+                  controlMessage={this.state.controlMessage}
+                  controlAction={this.state.controlAction}
+                  controlActionMessage={this.state.controlActionMessage}
+                  handleControlMessage={this.handleControlMessage.bind(this)}
+                />
               </React.Fragment>
-            </main>
-          </div>
-          <CommentDialog
-            open={this.state.openComment}
-            title="LEAVE YOUR COMMENT ABOUT THIS STORY"
-            handleClose={this.handleCloseComment.bind(this)}
-            sendComment={this.sendComment.bind(this)}
-            handleControlMessage={this.handleControlMessage.bind(this)}
-          />
-          <ControlSnackbar
-            showControlMessage={this.state.showControlMessage}
-            showControlAction={this.state.showControlAction}
-            controlMessage={this.state.controlMessage}
-            controlAction={this.state.controlAction}
-            controlActionMessage={this.state.controlActionMessage}
-            handleControlMessage={this.handleControlMessage.bind(this)}
-          />
+            :
+              undefined
+          }
         </MuiThemeProvider>
       </div>
     )
