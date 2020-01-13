@@ -510,6 +510,7 @@ export default class UserInformation extends React.Component {
                           unPickFile={this.unPickFile.bind(this)}
                           language={this.props.language}
                         />
+                        
                       </div>
                     :
                     <div className="form-file-container">

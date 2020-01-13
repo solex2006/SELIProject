@@ -3,8 +3,8 @@ import React from 'react';
 import FileUpload from '../files/FileUpload';
 import ImagePreview from '../files//previews/ImagePreview';
 
-import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
-import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
+import VerticalSplitIcon    from '@material-ui/icons/VerticalSplit';
+import HorizontalSplitIcon  from '@material-ui/icons/HorizontalSplit';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -19,10 +19,12 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Editor from '../inputs/editor/Editor';
 import Tooltip from '@material-ui/core/Tooltip';
 
+
 export default class ImageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      coordenadaR:0,
       alignment: 'row',
       description: true,
       showLibrary: false,
@@ -64,7 +66,7 @@ export default class ImageForm extends React.Component {
 
   getFileInformation(file){
     let attributes = this.state.attributes;
-    attributes.image = file;
+    attributes.image = file;  ///deberia cambiar
     this.setState({
       attributes: attributes,
       showPreview: true,
@@ -135,7 +137,18 @@ export default class ImageForm extends React.Component {
     }
   }
 
+  coordenadasCursosImageForm =(coordenadas)=> {
+    this.state.attributes.image.coordenada=coordenadas
+    console.log("ImageForm ...", this.state.attributes.image)
+    console.log("CoordenadaImageForm ...", coordenadas)
+    this.setState({
+      coordenadaR: coordenadas 
+    })
+  } 
+
+
   render() {
+    console.log("ImageForm ...", this.state.attributes.image   )
     return(
       <div>
         {
@@ -145,8 +158,10 @@ export default class ImageForm extends React.Component {
                 <Fab onClick={() => this.showLibrary()}>
                   <FolderSpecialIcon/>
                 </Fab>
+
                 <p className="media-fab-text">{this.props.language.library}</p>
               </div>
+              
               {
                 !this.state.showPreview ?
                   <div className="form-file-container">
@@ -163,6 +178,8 @@ export default class ImageForm extends React.Component {
                   file={this.state.attributes.image}
                   unPickFile={this.unPickFile.bind(this)}
                   language={this.props.language}
+                  coordenadasCursosImageForm={this.coordenadasCursosImageForm}
+                  coordenadaR={this.setState.coordenadaR}
                 />
               }
               <div className="scroll-media-input-container">
@@ -171,7 +188,13 @@ export default class ImageForm extends React.Component {
                     <FormControlLabel
                       control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
                       label={<p className="form-label">{this.props.language.imageWithText}</p>}
-                    />
+                  />
+
+                  
+
+
+
+
                   </FormGroup>
                   <p className="form-label">{this.props.language.imagePosition}</p>
                   <Grid item>

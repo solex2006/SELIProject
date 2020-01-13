@@ -2,6 +2,8 @@ import React from 'react';
 import { Resizable } from "re-resizable";
 import MenuItem from './MenuItem';
 import ItemFeedback from '../../accessibility/ItemFeedback';
+import ResizableContent from './ResizableContent'
+import DiscreteSlider from './DiscreteSlider'
 
 export default class ImageItem extends React.Component {
   constructor(props) {
@@ -9,6 +11,8 @@ export default class ImageItem extends React.Component {
     this.state = {
       width: this.props.item.attributes.size.width,
       height: this.props.item.attributes.size.height,
+      //width: 200,
+      //height: 200
     }
   }
 
@@ -19,10 +23,10 @@ export default class ImageItem extends React.Component {
   }
 
   setImageSize(e, direction, ref, d){
-    let width = document.getElementById(this.props.item.attributes.image._id + this.props.item.id).clientWidth;
+    //let width = document.getElementById(this.props.item.attributes.image._id + this.props.item.id).clientWidth;
     let item = this.props.item;
     item.attributes.size.width = width,
-    item.attributes.size.height += d.height,
+    item.attributes.size.height = height,
     this.setState({
       width: this.props.item.attributes.size.width ,
       height: this.props.item.attributes.size.height,
@@ -48,17 +52,63 @@ export default class ImageItem extends React.Component {
     }
   }
 
-  componentDidMount(){
-
+  adjust=(width, height)=>{
+    /* this.setState({
+      width:width,
+      height:height
+    }) */
+    this.props.item.attributes.size.width=width
+    this.props.item.attributes.size.height=height
+    this.setState({
+      width: this.props.item.attributes.size.width ,
+      height: this.props.item.attributes.size.height,
+    });
+    
+    //this.resizeText();
   }
+  
+  
+
 
   render() {
+    console.log("ImageItem---", this.props.item,this.props.item.attributes.image.link)
+    console.log("---Coordenada a Renderizar---",this.props.item.attributes.image.coordenada)
+
+    if(this.state.width != this.state.height){
+      this.setState({
+        width: 300 ,
+        height: 300,
+      });
+    }
     return(
+
+      
       <div className="content-box">
+        <div>
+          <DiscreteSlider adjust={this.adjust}/> 
+         
+        </div>
         <div className="image-content-item">
           <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
-            
-            <Resizable
+
+          <ResizableContent
+              key={this.props.item.attributes.image.coordenada}
+              top={8}
+              minWidth={10}
+              minHeight={10}
+              left={8}
+              width={this.state.width}
+              height={this.state.height}
+              rotateAngle={this.props.item.attributes.image.coordenada}
+              //adjust={this.adjust}
+              //coordenada={this.props.coordenada}
+             //coordenadaCursos={this.coordenadaCursos}
+            >
+              <div>
+                  <img  style={{ width: `${this.state.width}px`, height: `${this.state.height}px`}}  src={this.props.item.attributes.image.link}></img>
+              </div>
+            </ResizableContent>
+           {/*  <Resizable
               size={{
                 width: this.props.item.attributes.size.width,
                 height: this.props.item.attributes.size.height,
@@ -85,7 +135,9 @@ export default class ImageItem extends React.Component {
                   backgroundImage: `url(${this.props.item.attributes.image.link})`,
                   backgroundSize: `${this.props.item.attributes.size.width}px`,
                 }}></div>
-            </Resizable>
+            </Resizable> */}
+
+
             {
               this.props.item.attributes.hasDescription ?
                 <div

@@ -1,19 +1,20 @@
-import React from 'react';
+import React ,{ Fragment} from 'react';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import ReactPanZoom from 'react-image-pan-zoom-rotate';
+import ResizableContent from './ResizableContent'
 
 export default class ImagePreview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+        type:''
     }
   }
-
   componentDidMount(){
     let file = this.props.file;
     this.setState({
@@ -37,11 +38,40 @@ export default class ImagePreview extends React.Component {
     win.focus();
   }
 
+  coordenadaCursos=(coordenada)=>{
+    console.log("COORDENADA CURSOS--->", coordenada )
+    this.props.coordenadasCursosImageForm(coordenada)
+  }
+  
   render() {
+    console.log("Coordenada R" , this.props)
+    if(this.props.type==="course"){
+      this.setState({
+        type: "course"
+      })
+    }
     return(
         <div className="file-preview-container">
-          <div id="image-preview-information" className="file-preview-information">
-            <div style={{backgroundImage: `url(${this.props.file.link})`}} className="file-image-preview"></div>
+          <div  id="image-preview-information" className="file-preview-information">
+          <Fragment>
+            <ResizableContent
+              top={22}
+              left={200}
+              width={200}
+              height={200}
+              rotateAngle={0}
+              //coordenada={this.props.coordenada}
+              coordenadaCursos={this.coordenadaCursos}
+              
+            >
+              
+              <div>
+                  <img style={{width: '200px', height: '200px'}} src={this.props.file.link}></img>
+              </div>
+            </ResizableContent>
+          </Fragment>
+          {/* <ReactPanZoom  key={Math.random()} image={this.props.file.link} alt="document image"/> */}
+            {/* <div style={{backgroundImage: `url(${this.props.file.link})`}} className="file-image-preview"></div> */}
           </div>
           <div className="file-preview-actions">
             <Tooltip title={this.props.language.open} placement="left">

@@ -1,4 +1,5 @@
 import React from 'react';
+import ResizableContent from './ResizableContent'
 
 export default class ImageItem extends React.Component {
   constructor(props) {
@@ -10,10 +11,10 @@ export default class ImageItem extends React.Component {
   }
 
   componentDidMount(){
-
   }
 
   render() {
+    console.log("DESDEiMAGEITEMDELCURSOESTUDIANTE")
     return(
       <div className="content-box">
         <div className="image-content-item">
@@ -22,11 +23,22 @@ export default class ImageItem extends React.Component {
               id={ this.props.item.attributes.image._id + this.props.item.id }
               className="image-item"
               style={{
-                  backgroundImage: `url(${this.props.item.attributes.image.link})`,
+                 
                   width: `${this.props.item.attributes.size.width}px`,
                   height: `${this.props.item.attributes.size.height}px`,
               }}
             >
+              <ResizableContent
+              top={22}
+              left={22}
+              width={this.props.item.attributes.size.width}
+              height={this.props.item.attributes.size.height}
+              rotateAngle={this.props.item.attributes.image.coordenada}
+            >
+              <div>
+                  <img style={{width: `${this.props.item.attributes.size.width}px`,height: `${this.props.item.attributes.size.height}px`}} src={this.props.item.attributes.image.link}></img>
+              </div>
+            </ResizableContent>
             </div>
             {
               this.props.item.attributes.hasDescription ?
