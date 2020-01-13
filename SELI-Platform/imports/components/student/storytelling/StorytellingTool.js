@@ -40,6 +40,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -1369,12 +1375,13 @@ unPickImageFile(){
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          maxWidth={false}
         >
           {
             this.state.action === "delete" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {this.props.language.deleteNode}
+                  {this.props.language.deletNode}
                 </DialogTitle>
                 <DialogContent className="success-dialog-content">
                   <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
@@ -1459,48 +1466,61 @@ unPickImageFile(){
           
           { 
             this.state.action === "reuse" ?
-            
-                      <React.Fragment>
-                        <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                               {this.props.language.audiomessage}
-                             </DialogTitle>
-                          <div className={classes.root}>
-                            <GridList  cols={3} className={classes.gridList}>
-                              {
-                                
-                                this.state.dataImages1.map(tile => (
-                                <GridListTile key={Math.random()} >
-                                  <img src={tile.link} style={{padding: "5px", width: "150px", height:"150",  marginBlock: "10px", alignContent: 'center', align: "center"}} alt={tile.link} onDoubleClick={() => this.getImageFileInformationReuse(tile)}/>
-                                </GridListTile>
-                              ))}
-                            </GridList>
-                          </div>
-                      </React.Fragment> 
-             
-                      :
-                      undefined
+              <React.Fragment>
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                  {this.props.language.reuseImg}
+                </DialogTitle>
+                <div className={classes.root}>
+                  <GridList  cols={3} className={classes.gridList}>
+                    {
+                      this.state.dataImages1.map(tile => (
+                      <GridListTile key={Math.random()} >
+                        <img src={tile.link} style={{padding: "5px", width: "150px", height:"150",  marginBlock: "10px", alignContent: 'center', align: "center"}} alt={tile.link} onDoubleClick={() => this.getImageFileInformationReuse(tile)}/>
+                      </GridListTile>
+                    ))}
+                  </GridList>
+                </div>
+                <DialogActions>
+                  {this.props.language.audiomessage}
+                </DialogActions>
+              </React.Fragment> 
+            :
+              undefined
           }
           {
             this.state.action === "reuseAudio" ?
-               // this.state.show=== true ?
-                      <React.Fragment>
-                            <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                               {this.props.language.audiomessage}
-                             </DialogTitle>
-                            {this.state.dataAudio1.map(tile => (
-                               
-                             <Button onDoubleClick={() => this.getImageFileInformationReuseAudio(tile)}>
-                               <AudioPlayer
-                              volume
-                              src={tile.link}
-                              />
-                             </Button> 
-                          
-                            ))}
-
-                      </React.Fragment>
-                      :
-                      undefined
+              // this.state.show=== true ?
+              <React.Fragment>
+                <DialogTitle className="form-dialog-title" id="alert-dialog-title">
+                    {this.props.language.reuseAudio}
+                </DialogTitle>
+                <div className="library-files-container">
+                  {this.state.dataAudio1.map(tile => (    
+/*                     <Button onDoubleClick={() => this.getImageFileInformationReuseAudio(tile)}>
+                      <AudioPlayer
+                        volume
+                        src={tile.link}
+                      />
+                    </Button> */
+                    <Card className="audio-card-storytelling">
+                      <div onDoubleClick={() => this.getImageFileInformationReuseAudio(tile)} className="card-media-audio-storytelling">
+                        <AudioPlayer
+                          volume
+                          src={tile.link}
+                        />
+                      </div>
+                      <CardActions className="card-actions-bottom-container" disableSpacing>
+                        {`${this.props.language.audioTitle}: ${tile.name}`}
+                      </CardActions>
+                    </Card>
+                  ))}
+                </div>
+                <DialogActions>
+                  {this.props.language.audiomessage}
+                </DialogActions>
+              </React.Fragment>
+            :
+              undefined
           }          
         </Dialog>
         {/* despues del publish */}

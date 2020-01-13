@@ -37,7 +37,7 @@ export default class AudioPreview extends React.Component {
     return(
       <div className="storytelling-media-preview-container">
         {/* {audio} */}
-        <audio controls className="audio-file-preview" ref="audio">
+        <audio controls className="storytelling-media-audio" ref="audio">
           <source src={this.state.isPlaying}></source>
         </audio>
       </div>

@@ -66,6 +66,15 @@
   background-color: #fafafa !important;
 }
 
+.audio-card-storytelling {
+  width: 400px !important;
+  height: var(--audio-card-height) !important;
+  margin: 0.5vh 0.5vw;
+  opacity: 0.9;
+  transition: 0.5s !important;
+  background-color: #fafafa !important;
+}
+
 .image-card:hover {
   cursor: pointer;
   opacity: 1;
@@ -90,6 +99,15 @@
   width: var(--audio-card-width) !important;
   height: calc(var(--audio-card-height) - var(--card-buttons)) !important;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-media-audio-storytelling {
+  width: 96% !important;
+  height: calc(var(--audio-card-height) - var(--card-buttons)) !important;
+  display: flex;
+  margin: auto;
   justify-content: center;
   align-items: center;
 }

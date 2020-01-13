@@ -238,6 +238,17 @@
   background-size: contain;
 }
 
+.storytelling-media-audio {
+  width: 470px;
+  height: 5vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 75%;
+  display: flex;
+  align-items: center;
+  animation: fadeInDown 0.5s;
+}
+
 .storytelling-player-image-container {
   width: 100%;
   height: 100%;
