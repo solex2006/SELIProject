@@ -34,7 +34,7 @@ export default class ImagePreview extends React.Component {
             >
               
               <div>
-                  <img style={{width: '200px', height: '200px'}} src={this.props.file.link}></img>
+                  <img style={{width: '200px', height: '200px', position: 'relative'}} src={this.props.file.link}></img>
               </div>
             </ResizableContent>
           </Fragment>

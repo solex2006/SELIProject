@@ -86,7 +86,6 @@ class StorytellingTool extends React.Component {
           {
             type: 'start',
             name: `${this.props.language.start}`,
-            rotate:0,
             description: {
               english: '',
               spanish: '',
@@ -1332,7 +1331,10 @@ unPickImageFile(){
                         {
                           this.state.story.nodes[this.state.selectedNode].image !== '' ?
                             <ImagePreview
+                              key={this.state.story.nodes[this.state.selectedNode].rotate}
                               file={this.state.story.nodes[this.state.selectedNode].image}
+                              rotateangle={this.rotateangle}
+                              rotateAngle={this.state.story.nodes[this.state.selectedNode].rotate}
                             />
                           :
                             undefined
@@ -1342,171 +1344,6 @@ unPickImageFile(){
                       undefined
                   }
                 </div>
-<<<<<<< HEAD
-                {
-                  this.state.mediaType === 'audio' && this.state.story.nodes[this.state.selectedNode].type !== "end" ?
-                    <div className="storytelling-menu-body">
-                      <Tabs
-                        color="primary"
-                        value={this.state.audioType}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        className="form-tabs-container"
-                        variant="fullWidth"
-                        centered={true}
-                      >
-                        <Tab value={'record'} onClick={() => this.selectAudioType('record')} className="form-tab" label={this.props.language.record} />
-                        <Tab value={'upload'} onClick={() => this.selectAudioType('upload')} className="form-tab" label={this.props.language.upload} />
-                        <Tab value={'reuse'} onClick={() => this.selectAudioType('reuse')} className="form-tab" label={this.props.language.reuse} />
-                      </Tabs>
-                      <br/>
-                      {
-                        this.state.audioType === 'record' ?
-                          this.state.story.nodes[this.state.selectedNode].audio !== '' ?
-                            <div className="center-row"> 
-                              <Button
-                                className="bar-button"
-                                variant="outlined"
-                                color="primary"
-                                onClick={() => this.unPickAudioFile()}
-                              >
-                                {this.props.language.recordAgain}
-                              </Button>
-                            </div>
-                          :
-                            <AudioRecorder
-                              getFileInformation={this.getAudioFileInformation.bind(this)}
-                            />
-                        : 
-                          undefined 
-                      }
-                      {
-                        this.state.audioType === 'upload' ?
-                          this.state.story.nodes[this.state.selectedNode].audio !== '' ?
-                            <div className="center-row"> 
-                              <Button
-                                className="bar-button"
-                                variant="outlined"
-                                color="primary"
-                                onClick={() => this.unPickAudioFile()}
-                              >
-                                {this.props.language.changeAudio}
-                              </Button>
-                            </div>
-                          :
-                            <FileUpload
-                              type='audio'
-                              user={Meteor.userId()}
-                              accept={'audio/*'}
-                              label={this.props.language.uploadAudioButtonLabel}
-                              getFileInformation={this.getAudioFileInformation.bind(this)}
-                            /> 
-                        : 
-                          undefined                     
-                      }
-                      {
-                        this.state.audioType === 'reuse' ?
-                          <div className="center-row"> 
-                            <Button variant="contained" onClick={() => this.handleImagesAudio("audio")} color="primary" className="bar-button">             
-                              {this.props.language.reuseAudio}
-                            </Button>
-                          </div>
-                        : 
-                          undefined                     
-                      }
-                      {
-                        this.state.story.nodes[this.state.selectedNode].audio !== '' ?
-                          <AudioPreview
-                            file={this.state.story.nodes[this.state.selectedNode].audio}
-                          />
-                        :
-                          undefined
-                      }
-                    </div>
-                  :
-                    undefined
-                }
-                {
-                  this.state.mediaType === 'image' ?
-                    <div className="storytelling-menu-body">
-                      <Tabs
-                        color="primary"
-                        value={this.state.imageType}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        className="form-tabs-container"
-                        variant="fullWidth"
-                        centered={true}
-                      >
-                        <Tab value={'upload'} onClick={() => this.selectImageType('upload')} className="form-tab" label={this.props.language.upload} />
-                        <Tab value={'reuse'} onClick={() => this.selectImageType('reuse')} className="form-tab" label={this.props.language.reuse} />
-                      </Tabs>
-                      <br/>
-                      {
-                        this.state.imageType === 'upload' ?
-                          this.state.story.nodes[this.state.selectedNode].image !== '' ?
-                            <div className="center-row"> 
-                              <Button
-                                className="bar-button"
-                                variant="outlined"
-                                color="primary"
-                                onClick={() => this.unPickImageFile()}
-                              >
-                                {this.props.language.changeImage}
-                              </Button>
-                            </div>
-                          :
-                            <FileUpload
-                              type='image'
-                              user={Meteor.userId()}
-                              accept={'image/*'}
-                              label={this.props.language.uploadImageButtonLabel}
-                              getFileInformation={this.getImageFileInformation.bind(this)}
-                            />
-                        : 
-                          undefined                     
-                      }
-                      {
-                        this.state.imageType === 'reuse' ?
-                          <div className="center-row"> 
-                            <Button variant="contained" onClick={() => this.handleImagesAudio("images")} color="primary" className="bar-button">
-                              {this.props.language.reuseImg}
-                            </Button>	
-                          </div>
-                        : 
-                          undefined                     
-                      }
-                      {
-                        this.state.story.nodes[this.state.selectedNode].image !== '' ?
-                          <ImagePreview
-                          key={this.state.story.nodes[this.state.selectedNode].rotate}
-                            file={this.state.story.nodes[this.state.selectedNode].image}
-                            rotateangle={this.rotateangle}
-                            rotateAngle={this.state.story.nodes[this.state.selectedNode].rotate}
-                          />
-                        :
-                          undefined
-                      }
-                    </div>
-                  :
-                    undefined
-                }
-                { 
-                  this.state.story.nodes[this.state.selectedNode].type !== 'start' ?
-                    <Tooltip title="Delete this scene">
-                      <Fab
-                        color="secondary"
-                        className="storytelling-delete-button"
-                        onClick={() => this.openDialog('delete')}
-                      >
-                        <DeleteIcon/>
-                      </Fab>
-                    </Tooltip>
-                  :
-                  undefined
-                }
-=======
->>>>>>> d5fb6d2e17740d942fea87b6616f1ae10cd35788
               </div>
               { 
                 this.state.story.nodes[this.state.selectedNode].type !== 'start' ?

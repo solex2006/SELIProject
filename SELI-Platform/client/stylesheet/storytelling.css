@@ -239,6 +239,8 @@
 }
 
 .storytelling-player-image-container {
+  align-content: center;
+  margin: auto;
   width: 100%;
   height: 100%;
   transition: 0.5s;

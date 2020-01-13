@@ -74,6 +74,7 @@
     "react-timer-machine": "^1.0.2",
     "react-unity-webgl": "^7.1.9",
     "react-viewer": "^3.1.0",
+    "react-window-size": "^1.2.2",
     "sanitize-html": "^1.20.1",
     "save": "^2.4.0",
     "sort-json-array": "^0.1.7",
