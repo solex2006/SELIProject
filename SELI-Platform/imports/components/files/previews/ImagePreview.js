@@ -61,8 +61,7 @@ export default class ImagePreview extends React.Component {
               height={200}
               rotateAngle={0}
               //coordenada={this.props.coordenada}
-              coordenadaCursos={this.coordenadaCursos}
-              
+              coordenadaCursos={this.coordenadaCursos}    
             >
               
               <div>

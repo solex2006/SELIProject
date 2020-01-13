@@ -100,7 +100,7 @@ class StorytellingTool extends React.Component {
               turkish: '',
             },
             image: '',
-            audio: '', //change for allow save without end the story
+            audio: '',
             ordinal: 0,
             _id: 1,
           },
@@ -284,8 +284,10 @@ class StorytellingTool extends React.Component {
   }
 
   handleChange = name => event => {
+    
     let story = this.state.story;
     let isPublic = this.state.isPublic;
+   
     if (name === 'storyName') {
       story.name = event.target.value;
     }
@@ -323,6 +325,7 @@ class StorytellingTool extends React.Component {
     const node = {
       type: 'scene',
       name: `${this.props.language.newScene} ${story.nodes.length}`,
+      rotate:0,
       description: {
         english: '',
         spanish: '',
@@ -349,6 +352,7 @@ class StorytellingTool extends React.Component {
     story.nodes.push({
       type: 'end',
       name: `${this.props.language.end}`,
+      rotate:0,
       description: {
         english: '',
         spanish: '',
@@ -902,6 +906,10 @@ unPickImageFile(){
     }
   };
 
+  rotateangle= (rotate)=>{
+    this.state.story.nodes[this.state.selectedNode].rotate=rotate
+  }
+
   render() {
     const { classes } = this.props;
     return(
@@ -1329,7 +1337,10 @@ unPickImageFile(){
                         {
                           this.state.story.nodes[this.state.selectedNode].image !== '' ?
                             <ImagePreview
+                              key={this.state.story.nodes[this.state.selectedNode].rotate}
                               file={this.state.story.nodes[this.state.selectedNode].image}
+                              rotateangle={this.rotateangle}
+                              rotateAngle={this.state.story.nodes[this.state.selectedNode].rotate}
                             />
                           :
                             undefined
