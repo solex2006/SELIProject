@@ -383,6 +383,7 @@ export default class CourseInformation extends React.Component {
                               file={this.state.image}
                               unPickFile={this.unPickFile.bind(this)}
                               language={this.props.language}
+                              tipo={"Course"}
                             />
                           :
                           <PdfPreview

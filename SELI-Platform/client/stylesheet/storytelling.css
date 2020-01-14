@@ -231,8 +231,17 @@
 }
 
 .storytelling-media-image {
-  width: 528px;
+  align-content: center;
+  width: 450px;
   height: 297px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.storytelling-media-image1 {
+  align-content: center;
+  height: 200px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
