@@ -259,6 +259,14 @@
   background-size: contain;
 }
 
+.storytelling-media-image1 {
+  align-content: center;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
 .storytelling-media-audio {
   width: 470px;
   height: 5vh;
