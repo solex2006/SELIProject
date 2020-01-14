@@ -1334,6 +1334,7 @@ unPickImageFile(){
                           : 
                             undefined                     
                         }
+                        <br/>
                         {
                           this.state.story.nodes[this.state.selectedNode].image !== '' ?
                             <ImagePreview
@@ -1478,18 +1479,24 @@ unPickImageFile(){
           { 
             this.state.action === "reuse" ?
               <React.Fragment>
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                <DialogTitle className="form-dialog-title" id="alert-dialog-title">
                   {this.props.language.reuseImg}
                 </DialogTitle>
-                <div className={classes.root}>
-                  <GridList  cols={3} className={classes.gridList}>
+                {/* <div className={classes.root}> */}
+                <div className="library-files-container">
+{/*                   <GridList  cols={3} className={classes.gridList}>
                     {
                       this.state.dataImages1.map(tile => (
                       <GridListTile key={Math.random()} >
                         <img src={tile.link} style={{padding: "5px", width: "150px", height:"150",  marginBlock: "10px", alignContent: 'center', align: "center"}} alt={tile.link} onDoubleClick={() => this.getImageFileInformationReuse(tile)}/>
                       </GridListTile>
                     ))}
-                  </GridList>
+                  </GridList> */}
+                  {this.state.dataImages1.map(tile => (
+                    <div className="storytelling-image-library">
+                      <div style={{backgroundImage: `url(${tile.link})`}} className="file-image-preview"></div>
+                    </div> 
+                  ))}
                 </div>
                 <DialogActions>
                   {this.props.language.audiomessage}

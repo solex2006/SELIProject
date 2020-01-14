@@ -381,7 +381,7 @@ var ENGLISH = {
   byRecordedAudio: "Record Audio",
   audioWithText: "Audio with text description",
   textDescribingLink: "Text describing where the link is going:",
-  urlAndDescriptionR: "The url and the description are required fileds",
+  urlAndDescriptionR: "The url and the description are required fields",
   addTextContent: "Add the text content",
   selectSizeText: "Select the size of the text",
   alignmentRequired: "Alignment is a requiered field",

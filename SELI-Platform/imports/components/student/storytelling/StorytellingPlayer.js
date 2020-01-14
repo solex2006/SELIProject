@@ -186,8 +186,8 @@ size = (width, height)=>{
             key={Math.random()}
               top={100}
               left={500}
-              width={500}
-              height={500}
+              width={800}
+              height={700}
               rotateAngle={this.props.story.nodes[this.state.scenePlaying].rotate}
               //coordenada={this.props.coordenada}
               //coordenadaCursos={this.coordenadaCursos}

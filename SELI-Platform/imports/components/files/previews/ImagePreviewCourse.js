@@ -7,7 +7,6 @@ import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import ReactPanZoom from 'react-image-pan-zoom-rotate';
 import ResizableContent from './ResizableContent'
-import { IoIosReturnLeft } from 'react-icons/io';
 
 export default class ImagePreview extends React.Component {
   constructor(props) {
@@ -44,39 +43,37 @@ export default class ImagePreview extends React.Component {
     this.props.coordenadasCursosImageForm(coordenada)
   }
   
-content =()=>{
-  if(this.props.tipo==="Course"){
-    return(
-      <div className="storytelling-media-image1">
-            <div style={{backgroundImage: `url(${this.props.file.link})`}} className="file-image-preview"></div>  
-      </div>
-    )
-  }else {
-    return(
-      <Fragment>
-        <ResizableContent
-          top={22}
-          left={200}
-          width={200}
-          height={200}
-          rotateAngle={0}
-          //coordenada={this.props.coordenada}
-          coordenadaCursos={this.coordenadaCursos}    
-        > 
-          <div>
-              <img style={{width: '200px', height: '200px'}} src={this.props.file.link}></img>
-          </div>
-        </ResizableContent>
-      </Fragment>
-    )
-  }
-}
-
   render() {
+    console.log("Coordenada R" , this.props)
+    if(this.props.type==="course"){
+      this.setState({
+        type: "course"
+      })
+    }
     return(
         <div className="file-preview-container">
           <div  id="image-preview-information" className="file-preview-information">
-          {this.content()}
+          {/* <Fragment>
+            <ResizableContent
+              top={22}
+              left={200}
+              width={200}
+              height={200}
+              rotateAngle={0}
+              //coordenada={this.props.coordenada}
+              coordenadaCursos={this.coordenadaCursos}    
+            >
+              
+              <div>
+                  <img style={{width: '200px', height: '200px'}} src={this.props.file.link}></img>
+              </div>
+            </ResizableContent>
+          </Fragment> */}
+          <div className="storytelling-media-image">
+            <div style={{backgroundImage: `url(${this.props.file.link})`}} className="file-image-preview"></div>
+          </div> 
+          {/* <ReactPanZoom  key={Math.random()} image={this.props.file.link} alt="document image"/> */}
+            {/* <div style={{backgroundImage: `url(${this.props.file.link})`}} className="file-image-preview"></div> */}
           </div>
           <div className="file-preview-actions">
             <Tooltip title={this.props.language.open} placement="left">

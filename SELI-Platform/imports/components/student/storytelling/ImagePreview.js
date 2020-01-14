@@ -25,8 +25,8 @@ export default class ImagePreview extends React.Component {
             <ResizableContent
              // top={0}
              // left={0}
-              width={200}
-              height={200}
+              width={160}
+              height={160}
               rotateangle={this.props.rotateangle}
               rotateAngle={this.props.rotateAngle}
               //coordenada={this.props.coordenada}
@@ -34,7 +34,7 @@ export default class ImagePreview extends React.Component {
             >
               
               <div>
-                  <img style={{width: '200px', height: '200px', position: 'relative'}} src={this.props.file.link}></img>
+                  <img style={{width: '160px', height: '160px', position: 'relative'}} src={this.props.file.link}></img>
               </div>
             </ResizableContent>
           </Fragment>
