@@ -30,22 +30,18 @@ import StorytellingStart from './StorytellingStart';
 import StorytellingScene from './StorytellingScene';
 import StorytellingEnd from './StorytellingEnd';
 import StorytellingPlayer from './StorytellingPlayer';
-
 import { Activities } from '../../../../lib/ActivitiesCollection';
 import { Feedback }   from '../../../../lib/FeedbackCollection';
 import { Courses } from '../../../../lib/CourseCollection';
-
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -74,6 +70,12 @@ const useStyles = theme => ({
     width: 920,
     height: 650,
   },
+  text: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: 300,
+    },
+  }
 });
 
 class StorytellingTool extends React.Component {
@@ -128,7 +130,8 @@ class StorytellingTool extends React.Component {
       dataAudioName: [],
       dataAudioId:[],
       visible:false,
-      img:[]  
+      img:[],
+      value: 'title'
     }
   }
 
@@ -910,6 +913,14 @@ unPickImageFile(){
     this.state.story.nodes[this.state.selectedNode].rotate=rotate
   }
 
+  handleChangeText = (event, tile, dataAudio) => {
+    this.setState({value: event.target.value})
+    console.log("HANDLECHANGETEXT, event", event.target.value )
+    console.log("this.state.saved", this.state.saved, tile, dataAudio)
+    console.log("Tile", tile, dataAudio)
+    console.log("dataAudio",dataAudio)
+  };
+
   render() {
     const { classes } = this.props;
     return(
@@ -1514,12 +1525,6 @@ unPickImageFile(){
                 </DialogTitle>
                 <div className="library-files-container">
                   {this.state.dataAudio1.map(tile => (    
-/*                     <Button onDoubleClick={() => this.getImageFileInformationReuseAudio(tile)}>
-                      <AudioPlayer
-                        volume
-                        src={tile.link}
-                      />
-                    </Button> */
                     <Card className="audio-card-storytelling">
                       <div onDoubleClick={() => this.getImageFileInformationReuseAudio(tile)} className="card-media-audio-storytelling">
                         <AudioPlayer
@@ -1527,12 +1532,27 @@ unPickImageFile(){
                           src={tile.link}
                         />
                       </div>
-                      <CardActions className="card-actions-bottom-container" disableSpacing>
+                      {/* <CardActions onDoubleClick={() => this.changeAudioName()} className="card-actions-bottom-container" disableSpacing>
                         {`${this.props.language.audioTitle}: ${tile.name}`}
-                      </CardActions>
+                      </CardActions>  */}
+                       <div className="card-actions-bottom-containerText">
+                          <form className={classes.text} noValidate autoComplete="off">
+                              <div>
+                                <div>{tile.name}</div>
+                                  <TextField
+                                  id="standard-multiline-flexible"
+                                  label="Rename audio"
+                                  multiline
+                                  rowsMax="4"
+                                  onChange={()=>this.handleChangeText(event, tile, this.state.dataAudio1)}
+                                  />
+                              </div>
+                            </form>
+                        </div>
                     </Card>
                   ))}
                 </div>
+                
                 <DialogActions>
                   {this.props.language.audiomessage}
                 </DialogActions>

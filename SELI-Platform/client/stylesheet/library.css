@@ -68,7 +68,6 @@
 
 .audio-card-storytelling {
   width: 400px !important;
-  height: var(--audio-card-height) !important;
   margin: 0.5vh 0.5vw;
   opacity: 0.9;
   transition: 0.5s !important;
@@ -160,6 +159,15 @@
   background-color: #f5f5f5;
   padding-right: 0.5vw !important;
 }
+.card-actions-bottom-containerText {
+  padding: 3px !important;
+  margin-top: 10px !important;
+  margin-bottom: 14px !important;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 0.5vw !important;
+}
+
 
 .file-information-card {
   width: 21vw;
