@@ -7,14 +7,14 @@ import AppBar from '../components/navigation/AppBar';
 
 import Presentation from '../components/navigation/Presentation';
 import TutorRequestList from '../components/administrator/TutorRequestList';
-import AudienceRequestList from '../components/administrator/AudienceRequestList';
+import DisabilitieRequestList from '../components/administrator/DisabilitieRequestList';
 import RequirementsRequestList from '../components/administrator/RequirementsRequestList';
 import TutorsList from '../components/administrator/TutorsList';
 import StudentsList from '../components/administrator/StudentsList';
 import CoursesList from '../components/administrator/CoursesList';
 import BugsList from '../components/administrator/BugsList';
 import CommentsList from '../components/administrator/CommentsList';
-import AudiencesList from '../components/administrator/AudiencesList';
+import DisabilitiesList from '../components/administrator/DisabilitiesList';
 import RequirementsList from '../components/administrator/RequirementsList';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 import Loading from '../components/tools/Loading';
@@ -182,8 +182,8 @@ export default class Tutor extends React.Component {
                 undefined
               }
               {
-                this.state.component === 'audienceRequests' ?
-                  <AudienceRequestList
+                this.state.component === 'disabilitieRequests' ?
+                  <DisabilitieRequestList
                     user={this.state.user}
                     language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}
@@ -232,8 +232,8 @@ export default class Tutor extends React.Component {
                 undefined
               }
               {
-                this.state.component === 'audiences' ?
-                  <AudiencesList
+                this.state.component === 'disabilities' ?
+                  <DisabilitiesList
                     user={this.state.user}
                     language={this.state.language}
                     handleControlMessage={this.handleControlMessage.bind(this)}

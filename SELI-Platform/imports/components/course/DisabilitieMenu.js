@@ -56,28 +56,28 @@ export default function MenuItem(props) {
     setAnchorEl(null);
   }
 
-  function getAudiences() {
-    let audiences = "";
-    let audiencesCounter = 0;
+  function getDisabilities() {
+    let disabilities = "";
+    let disabilitiesCounter = 0;
     for (var i = 1; i < props.options.length; i++) {
       if (props.options[i].selected) {
-        audiencesCounter > 0 ? audiences = audiences + props.options[i].label.toLowerCase() : audiences = audiences + props.options[i].label;
-        audiencesCounter++;
+        disabilitiesCounter > 0 ? disabilities = disabilities + props.options[i].label.toLowerCase() : disabilities = disabilities + props.options[i].label;
+        disabilitiesCounter++;
         if (i !== props.options.length) {
-          audiences = audiences + ", "
+          disabilities = disabilities + ", "
         }
       }
     }
-    if (audiencesCounter === 1) {
-      audiences = audiences + props.language.audience;
+    if (disabilitiesCounter === 1) {
+      disabilities = disabilities + props.language.disabilitie;
     }
-    else if (audiencesCounter > 1){
-      audiences = audiences + props.language.audiences;
+    else if (disabilitiesCounter > 1){
+      disabilities = disabilities + props.language.disabilities;
     }
     else {
-      audiences = props.language.noAudienceSelected
+      disabilities = props.language.noDisabilitieSelected
     }
-    return audiences;
+    return disabilities;
   }
 
   const open = Boolean(anchorEl);
@@ -100,7 +100,7 @@ export default function MenuItem(props) {
           <ListItemText
             className="list-button-menu-text"
             primary={props.language.accessibilityCheck}
-            secondary={props.options[0].selected ? props.language.allAudiencesSelected : getAudiences()}
+            secondary={props.options[0].selected ? props.language.allDisabilitiesSelected : getDisabilities()}
           />
         </ListItem>
       </List>
@@ -123,7 +123,7 @@ export default function MenuItem(props) {
           aria-labelledby="nested-list-subheader"
           subheader={
             <ListSubheader component="div" id="nested-list-subheader" className="list-subheader">
-              {props.language.audience.toUpperCase()}
+              {props.language.disabilities.toUpperCase()}
             </ListSubheader>
           }
           className="menu-list-options-container"

@@ -7,8 +7,8 @@ var OPTIONS = [
         component: 'tutorRequests',
       },
       {
-        label: ["Audience requests"],
-        component: 'audienceRequests',
+        label: ["Disabilitie requests"],
+        component: 'disabilitieRequests',
       },
       {
         label: ["Requirements requests"],
@@ -55,8 +55,8 @@ var OPTIONS = [
         component: 'courses',
       },
       {
-        label: ["Audiences"],
-        component: 'audiences',
+        label: ["Disabilities"],
+        component: 'disabilities',
       },
       {
         label: ["Requirements"],

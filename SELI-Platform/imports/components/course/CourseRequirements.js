@@ -28,7 +28,7 @@ import TextField from '@material-ui/core/TextField';
 
 import Help from '../tools/Help';
 
-import { Audiences } from '../../../lib/AudiencesCollection';
+import { Disabilities } from '../../../lib/DisabilitiesCollection';
 import { Requirements } from '../../../lib/RequirementsCollection';
 import { Feedback } from '../../../lib/FeedbackCollection';
 
@@ -37,10 +37,10 @@ export default class CourseRequirements extends React.Component {
     super(props);
     this.state = {
       courseRequirements: {
-        audienceAllowed: [],
+        disabilitieAllowed: [],
         technicalRequirements: [],
       },
-      audienceAllowed: [],
+      disabilitieAllowed: [],
       technicalRequirements: [],
       lists: this.props.requirementsList,
       courseInformation: this.props.courseInformation,
@@ -72,7 +72,7 @@ export default class CourseRequirements extends React.Component {
     for (var i = 0; i < lists.length; i++) {
       for (var j = 0; j < lists[i].options.length; j++) {
         if (lists[i].options[j].selected) {
-          if (lists[i].name === "Audiences") {
+          if (lists[i].name === "Disabilities") {
             support.push({_id: lists[i].options[j]._id, name: lists[i].options[j].name, description: lists[i].options[j].description});
           }
           else {
@@ -89,19 +89,19 @@ export default class CourseRequirements extends React.Component {
   }
 
   buildItems() {
-    let audienceAllowed = this.state.audienceAllowed;
+    let disabilitieAllowed = this.state.disabilitieAllowed;
     let technicalRequirements = this.state.technicalRequirements;
     let lists = this.state.lists;
     lists = [];
-    if (audienceAllowed.length && technicalRequirements.length) {
-      audienceAllowed.map(audience => {audience.selected = false});
+    if (disabilitieAllowed.length && technicalRequirements.length) {
+      disabilitieAllowed.map(disabilitie => {disabilitie.selected = false});
       technicalRequirements.map(requirement => {requirement.selected = false});
       if (this.props.courseInformation.support.length) {
         let support = this.props.courseInformation.support;
-        for (var i = 0; i < audienceAllowed.length; i++) {
+        for (var i = 0; i < disabilitieAllowed.length; i++) {
           for (var j = 0; j < support.length; j++) {
-            if (support[j]._id === audienceAllowed[i]._id) {
-              audienceAllowed[i].selected = true;
+            if (support[j]._id === disabilitieAllowed[i]._id) {
+              disabilitieAllowed[i].selected = true;
               break;
             }
           }
@@ -121,10 +121,10 @@ export default class CourseRequirements extends React.Component {
       lists.push(
         {
           id: 1,
-          name: "Audiences",
+          name: "Disabilities",
           label: this.props.language.courseWillDisabilities,
-          options: audienceAllowed,
-          help: {helper: "audienceHelper", text: this.props.language.audienceAre},
+          options: disabilitieAllowed,
+          help: {helper: "disabilitieHelper", text: this.props.language.disabilitieAre},
           icon: <PeopleIcon/>,
         },
         {
@@ -137,7 +137,7 @@ export default class CourseRequirements extends React.Component {
         }
       );
       this.setState({
-        audienceAllowed: audienceAllowed,
+        disabilitieAllowed: disabilitieAllowed,
         technicalRequirements: technicalRequirements,
         lists: lists,
         loading: false,
@@ -167,10 +167,10 @@ export default class CourseRequirements extends React.Component {
       loading: true,
     }, () => {
       Tracker.autorun(() => {
-        let audiences = Audiences.find().fetch();
+        let disabilities = Disabilities.find().fetch();
         let requirements = Requirements.find({type: "technical"}).fetch();
         this.setState({
-          audienceAllowed: audiences,
+          disabilitieAllowed: disabilities,
           technicalRequirements: requirements,
         }, () => {
           this.setState({
@@ -300,9 +300,9 @@ export default class CourseRequirements extends React.Component {
                     className="radio-input"
                   />
                   <FormControlLabel
-                    value="audience"
+                    value="disabilitie"
                     control={<Radio color="primary" />}
-                    label={this.props.language.audience}
+                    label={this.props.language.disabilitie}
                     labelPlacement="end"
                     className="radio-input"
                   />

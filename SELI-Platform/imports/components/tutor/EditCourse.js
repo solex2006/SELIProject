@@ -33,7 +33,7 @@ export default class EditCourse extends React.Component {
       ],
       courseInformation: {
         title: '',
-        subtitle: '',
+        subtitle: "",
         description: '',
         language: '',
         keyWords: [],
@@ -193,13 +193,17 @@ export default class EditCourse extends React.Component {
           saved: course,
         });
       }
+      let valueSubtitle = courseInformation.subtitle;
+      if (valueSubtitle === undefined) {
+        valueSubtitle = "-----"
+      }
       else {
         Courses.update(
           { _id: this.state.saved },
           { $set:
             {
               title: courseInformation.title,
-              subtitle: courseInformation.subtitle,
+              subtitle: valueSubtitle,
               description: courseInformation.description,
               language: courseInformation.language,
               keyWords: courseInformation.keyWords,
@@ -223,7 +227,7 @@ export default class EditCourse extends React.Component {
     let courseInformation = this.state.courseInformation;
     if (
       courseInformation.title === '' ||
-      courseInformation.subtitle === '' ||
+      //courseInformation.subtitle === '' ||
       courseInformation.description === '' ||
       courseInformation.duration === ''
     ) {
@@ -246,10 +250,10 @@ export default class EditCourse extends React.Component {
       this.props.handleControlMessage(true, `${this.props.language.technicalRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
     }
-    else if (!courseInformation.support.length) {
-      this.props.handleControlMessage(true, `${this.props.language.audienceRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
+    /* else if (!courseInformation.support.length) {
+      this.props.handleControlMessage(true, `${this.props.language.disabilitieRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
-    }
+    } */
     else if (courseInformation.organization === '') {
       this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step} 3: ${this.props.language.program})`, false, '', '');
       return false;
