@@ -230,6 +230,16 @@
   font-size: 0.85em !important;
 }
 
+.storytelling-image-library {
+    width: 16vw;
+    height: 9vw;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    padding: 0.1vw;
+    margin: auto;
+}
+
 .storytelling-media-image {
   align-content: center;
   width: 450px;
