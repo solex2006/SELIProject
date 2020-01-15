@@ -22,7 +22,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ResizableContent from './publish/ResizableContent'
 import ReactPlayer from 'react-player';
 import { Activities } from '../../../../lib/ActivitiesCollection';
-import Size from './Size'
+//import Size from './Size'
 
 export default class StorytellingPlayer extends React.Component {
   constructor(props) {
@@ -179,13 +179,13 @@ size = (width, height)=>{
           <div
             className="storytelling-player-image-container"
           >
-         <Size
+         {/* <Size
          size={this.size}
-         />
+         /> */}
             <ResizableContent
             key={Math.random()}
               top={100}
-              left={500}
+              //left={500}
               width={800}
               height={700}
               rotateAngle={this.props.story.nodes[this.state.scenePlaying].rotate}

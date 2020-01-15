@@ -11,8 +11,9 @@ const ResizableContent = props => {
   const [rotateAngle, setRotateAngle] = useState(props.rotateAngle)
 
   const contentStyle = {
+    alignContent: 'center',
     top,
-    left,
+    //left,
     width,
     height,
     position: 'relative',

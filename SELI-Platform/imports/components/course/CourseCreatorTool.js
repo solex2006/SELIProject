@@ -1086,9 +1086,10 @@ export default class CourseCreatorTool extends React.Component {
             undefined
           }
           {
-            this.state.showAccesibilityOptions && (this.state.contentTypeAdded === 'image' || this.state.contentTypeAdded === 'audio' || this.state.contentTypeAdded === 'video') ?
-              <div className="configure-accessibility-actions">
-                <List>
+            this.state.showAccesibilityOptions && (this.state.contentTypeAdded === 'image' || this.state.contentTypeAdded === 'audio' || this.state.contentTypeAdded === 'video') ?  
+             this.contentHandleClose()  // uncomment for view accesibility Menu
+             /* <div className="configure-accessibility-actions"> 
+                 <List>
                   <ListItem onClick={() => this.showAccesibilityForm()} button>
                     <ListItemAvatar>
                       <Avatar className="primary-avatar">
@@ -1097,16 +1098,16 @@ export default class CourseCreatorTool extends React.Component {
                     </ListItemAvatar>
                     <ListItemText primary={this.props.language.configureAccessibility} secondary={this.props.language.weRecomendAccessibility}/>
                   </ListItem>
-                  <ListItem onClick={() => this.contentHandleClose()} button>
+                 <ListItem onClick={() => this.contentHandleClose()} button>
                     <ListItemAvatar>
                       <Avatar className="secondary-avatar">
                         <WatchLaterIcon className="configure-accessibility-icon"/>
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={this.props.language.configureAccessibilityLater} secondary={this.props.language.youConfigureAccessibility}/>
-                  </ListItem>
-                </List>
-              </div>
+                  </ListItem> *
+                </List> 
+              </div>  */
             :
             undefined
           }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/* import React, { Component } from 'react';
 import windowSize from 'react-window-size';
  
 class Size extends Component {
@@ -20,4 +20,4 @@ componentDidMount(){
  
 }
  
-export default windowSize(Size);
+export default windowSize(Size); */
