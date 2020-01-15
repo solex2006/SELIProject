@@ -4,10 +4,10 @@ import React, { Component } from 'react';
 
 import { Accounts } from 'meteor/accounts-base';
 
-import AppBar from '../../components/navigation/AppBar';
+import AppBar from '../navigation/AppBar';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../../style/theme';
-import Loading from '../../components/tools/Loading';
+import Loading from '../tools/Loading';
 import Table from '../data_display/Table';
 import UserCard from './UserCard';
 
@@ -24,18 +24,18 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 
-import { Audiences } from '../../../lib/AudiencesCollection';
+import { Disabilities } from '../../../lib/DisabilitiesCollection';
 
-export default class AudiencesList extends React.Component {
+export default class DisabilitiesList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      audiences: [],
+      disabilities: [],
       open: false,
       dialog: {
         title: '',
       },
-      audience: {
+      disabilitie: {
         name: '',
         description: '',
       }
@@ -51,21 +51,21 @@ export default class AudiencesList extends React.Component {
   };
 
   componentDidMount() {
-    this.getAudiences();
+    this.getDisabilities();
   }
 
-  getAudiences = () => {
+  getDisabilities = () => {
     this.setState({
       loading: true,
     }, () => {
       Tracker.autorun(() => {
-        let audiences = Audiences.find({}).fetch();
+        let disabilities = Disabilities.find({}).fetch();
         this.setState({
-          audiences: audiences,
+          disabilities: disabilities,
         }, () => {
           let results = true;
-          if (this.state.audiences.length) {
-            this.createTableData(this.state.audiences);
+          if (this.state.disabilities.length) {
+            this.createTableData(this.state.disabilities);
           }
           else {
             results = false;
@@ -79,7 +79,7 @@ export default class AudiencesList extends React.Component {
     });
   }
 
-  createTableData = (audiences) => {
+  createTableData = (disabilities) => {
     let tableData = [];
     let headRows = [
       { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
@@ -90,8 +90,8 @@ export default class AudiencesList extends React.Component {
       {label: "Edit", icon: <EditIcon/>, action: this.showEditDialog.bind(this)},
       {label: "Delete" , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
     ];
-    audiences.map(audience => {
-      tableData.push({name: audience.name, description: audience.description, _id: audience._id})
+    disabilities.map(disabilitie => {
+      tableData.push({name: disabilitie.name, description: disabilitie.description, _id: disabilitie._id})
     })
     this.setState({
       headRows: headRows,
@@ -107,9 +107,9 @@ export default class AudiencesList extends React.Component {
   showAddDialog = () => {
     this.setState({
       dialog: {
-        title: 'Add new audience',
+        title: 'Add new disabilitie',
         action: 'add',
-        confirmActionLabel: 'Add audience'
+        confirmActionLabel: 'Add disabilitie'
       },
       open: true,
       confirmAction: () => this.add(),
@@ -117,73 +117,73 @@ export default class AudiencesList extends React.Component {
   }
 
   showEditDialog = (_id) => {
-    let audiences = this.state.audiences;
-    let audience = audiences.find( audience => audience._id === _id );
+    let disabilities = this.state.disabilities;
+    let disabilitie = disabilities.find( disabilitie => disabilitie._id === _id );
     this.setState({
       dialog: {
-        title: 'Edit audience information',
+        title: 'Edit disabilitie information',
         action: 'edit',
-        confirmActionLabel: 'Edit audience'
+        confirmActionLabel: 'Edit disabilitie'
       },
-      audience: {
-        name: audience.name,
-        description: audience.description,
+      disabilitie: {
+        name: disabilitie.name,
+        description: disabilitie.description,
       },
-      audienceToEdit: _id,
+      disabilitieToEdit: _id,
       open: true,
       confirmAction: () => this.edit(),
     })
   }
 
   handleChange = name => event => {
-    let audience = this.state.audience;
+    let disabilitie = this.state.disabilitie;
     if (name === 'name') {
-      audience.name = event.target.value;
+      disabilitie.name = event.target.value;
     }
     else if (name === 'description') {
-      audience.description = event.target.value;
+      disabilitie.description = event.target.value;
     }
     this.setState({
-      audience: audience,
+      disabilitie: disabilitie,
     });
   }
 
-  verifyAudience = () => {
-    let audience = this.state.audience;
-    if (audience.name === '' || audience.description === '') {
+  verifyDisabilitie = () => {
+    let disabilitie = this.state.disabilitie;
+    if (disabilitie.name === '' || disabilitie.description === '') {
       this.props.handleControlMessage(true, "Fields marked with * are required");
       return false;
     }
     return true;
   }
 
-  deleteSelected = (audiences) => {
-    let audiencesToDelete = [];
-    audiences.map(audience => {audiencesToDelete.push(audience)});
+  deleteSelected = (disabilities) => {
+    let disabilitiesToDelete = [];
+    disabilities.map(disabilitie => {disabilitiesToDelete.push(disabilitie)});
     this.setState({
       dialog: {
-        title: 'Delete audience(s)',
-        dialogConfirmationContentText: 'Are you sure you want to delete this audience(s)? Remeber that there could be some courses that use this information.',
+        title: 'Delete disabilitie(s)',
+        dialogConfirmationContentText: 'Are you sure you want to delete this disabilitie(s)? Remeber that there could be some courses that use this information.',
         action: 'delete',
-        confirmActionLabel: 'Delete audience(s)'
+        confirmActionLabel: 'Delete disabilitie(s)'
       },
       open: true,
       confirmAction: () => this.delete(),
-      audiencesToDelete: audiencesToDelete,
+      disabilitiesToDelete: disabilitiesToDelete,
     });
   }
 
   add = () => {
-    if (this.verifyAudience()) {
-      Audiences.insert({
-        name: this.state.audience.name,
-        description: this.state.audience.description,
+    if (this.verifyDisabilitie()) {
+      Disabilities.insert({
+        name: this.state.disabilitie.name,
+        description: this.state.disabilitie.description,
         additionDate: new Date(),
       }, () => {
         this.handleClose();
-        this.props.handleControlMessage(true, "Audience added successfully");
+        this.props.handleControlMessage(true, "Disabilitie added successfully");
         this.setState({
-          audience: {
+          disabilitie: {
             name: '',
             description: '',
           }
@@ -193,30 +193,30 @@ export default class AudiencesList extends React.Component {
   }
 
   delete = () => {
-    this.state.audiencesToDelete.map((audience, index) => {
-      Audiences.remove({_id: audience});
+    this.state.disabilitiesToDelete.map((disabilitie, index) => {
+      Disabilities.remove({_id: disabilitie});
     });
     this.handleClose();
     this.setSelected();
-    this.props.handleControlMessage(true, 'Audience(s) deleted successfully!', false, '', '');
+    this.props.handleControlMessage(true, 'Disabilitie(s) deleted successfully!', false, '', '');
   }
 
   edit = () => {
-    if (this.verifyAudience()) {
-      Audiences.update(
-        { _id: this.state.audienceToEdit},
+    if (this.verifyDisabilitie()) {
+      Disabilities.update(
+        { _id: this.state.disabilitieToEdit},
         { $set: {
-          name: this.state.audience.name,
-          description: this.state.audience.description,
+          name: this.state.disabilitie.name,
+          description: this.state.disabilitie.description,
         }}
         , () => {
           this.handleClose();
-          this.props.handleControlMessage(true, "Audience edited successfully");
+          this.props.handleControlMessage(true, "Disabilitie edited successfully");
           this.setState({
-            audience: {
+            disabilitie: {
               name: '',
               description: '',
-              audienceToEdit: '',
+              disabilitieToEdit: '',
             }
           })
         }
@@ -236,18 +236,18 @@ export default class AudiencesList extends React.Component {
   setSelected(){}
 
   showDeleteConfirmation = (_id) => {
-    let audiencesToDelete = [];
-    audiencesToDelete.push(_id);
+    let disabilitiesToDelete = [];
+    disabilitiesToDelete.push(_id);
     this.setState({
       dialog: {
-        title: 'Delete audience(s)',
-        dialogConfirmationContentText: "Are you sure you want to delete this audience(s)? Remeber that there could be some courses that use this information. It's better if you edit the information",
+        title: 'Delete disabilitie(s)',
+        dialogConfirmationContentText: "Are you sure you want to delete this disabilitie(s)? Remeber that there could be some courses that use this information. It's better if you edit the information",
         action: 'delete',
         confirmActionLabel: 'Delete'
       },
       open: true,
       confirmAction: () => this.delete(),
-      audiencesToDelete: audiencesToDelete,
+      disabilitiesToDelete: disabilitiesToDelete,
     });
   }
 
@@ -257,19 +257,19 @@ export default class AudiencesList extends React.Component {
         {
           this.state.loading ?
             <div className="loading-course-container">
-              <Loading message="Loading audiences..."/>
+              <Loading message="Loading disabilities..."/>
             </div>
           :
           <React.Fragment>
             {
               this.state.results ?
                 <div className="management-result-container">
-                  <p className="management-title">Audiences <AccessibilityNewIcon className="management-title-icon"/></p>
+                  <p className="management-title">Disabilities <AccessibilityNewIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
                     <Table
                       labels={{
-                        title: this.props.language.youHaveAudiences, 
-                        pagination: this.props.language.audiencePerPage,
+                        title: this.props.language.youHaveDisabilities, 
+                        pagination: this.props.language.disabilitiePerPage,
                         filterList: this.props.language.filterList,
                         refresh: this.props.language.refresh,
                         delete: this.props.language.delete,
@@ -282,7 +282,7 @@ export default class AudiencesList extends React.Component {
                       menuOptions={this.state.menuOptions}
                       tableData={this.state.tableData}
                       add={true}
-                      addLabel="Add new audience"
+                      addLabel="Add new disabilitie"
                       addAction={this.showAddDialog.bind(this)}
                       delete={true}
                       deleteSelected={this.deleteSelected.bind(this)}
@@ -293,10 +293,10 @@ export default class AudiencesList extends React.Component {
               :
               <div className="empty-dashboard">
                 <div className="empty-dashboard-row">
-                  <p className="empty-dashboard-text">You don't have any audience created yet</p>
+                  <p className="empty-dashboard-text">You don't have any disabilitie created yet</p>
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
-                <Button onClick={() => this.showAddDialog()} variant="contained" color="primary" className="empty-dashboard-button">Create an audience</Button>
+                <Button onClick={() => this.showAddDialog()} variant="contained" color="primary" className="empty-dashboard-button">Create an disabilitie</Button>
               </div>
             }
           </React.Fragment>
@@ -316,7 +316,7 @@ export default class AudiencesList extends React.Component {
                       variant="outlined"
                       fullWidth
                       required
-                      value={this.state.audience.name}
+                      value={this.state.disabilitie.name}
                       onChange={this.handleChange('name')}
                     />
                     <TextField
@@ -328,7 +328,7 @@ export default class AudiencesList extends React.Component {
                       required
                       multiline
                       rows={3}
-                      value={this.state.audience.description}
+                      value={this.state.disabilitie.description}
                       onKeyPress={() => this.keyController(event, 'add')}
                       onChange={this.handleChange('description')}
                     />
@@ -348,7 +348,7 @@ export default class AudiencesList extends React.Component {
                       variant="outlined"
                       fullWidth
                       required
-                      value={this.state.audience.name}
+                      value={this.state.disabilitie.name}
                       onChange={this.handleChange('name')}
                     />
                     <TextField
@@ -360,7 +360,7 @@ export default class AudiencesList extends React.Component {
                       required
                       multiline
                       rows={3}
-                      value={this.state.audience.description}
+                      value={this.state.disabilitie.description}
                       onKeyPress={() => this.keyController(event, 'edit')}
                       onChange={this.handleChange('description')}
                     />

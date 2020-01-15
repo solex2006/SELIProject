@@ -93,11 +93,11 @@ export default class CourseInformation extends React.Component {
         });
       }
       else {
-        this.props.handleControlMessage(true, "Maximun 3 key words separated by space");
+        this.props.handleControlMessage(true, this.props.language.keywordsMaximumMessage);
       }
     }
     else {
-      this.props.handleControlMessage(true, "Can't add an empty key word");
+      this.props.handleControlMessage(true, this.props.language.keywordsEmptyMessage);
     }
     document.getElementById('keyWord-input').value = "";
   }
@@ -263,7 +263,7 @@ export default class CourseInformation extends React.Component {
             margin="normal"
             variant="outlined"
             fullWidth
-            required
+            //required
             value={this.state.courseInformation.subtitle}
             onChange={this.handleChange('subtitle')}
           />

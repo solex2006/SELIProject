@@ -3,7 +3,7 @@ import '../imports/api/courseFiles';
 import '../lib/CourseCollection';
 import '../lib/ActivitiesCollection';
 import '../lib/RequirementsCollection';
-import '../lib/AudiencesCollection';
+import '../lib/DisabilitiesCollection';
 import '../lib/CommentsCollection';
 import '../lib/FeedbackCollection';
 import '../lib/extract';

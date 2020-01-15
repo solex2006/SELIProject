@@ -15,7 +15,7 @@ import BottomMenu from '../navigation/BottomMenu';
 import ContentMenuItem from './ContentMenuItem';
 import ContentItem from './ContentItem';
 import SortItem from './items/SortItem';
-import AudienceMenu from './AudienceMenu';
+import DisabilitieMenu from './DisabilitieMenu';
 import CourseCreatorMenu from './CourseCreatorMenu';
 import VerticalTab from '../tools/VerticalTab';
 
@@ -94,7 +94,7 @@ export default class CourseCreatorTool extends React.Component {
         { id: Math.random(), type: "quiz" },
         { id: Math.random(), type: "activity" }
       ],
-      audienceOptions: [
+      disabilitieOptions: [
         {label: this.props.language.allDisabilities, selected: true},
         {label: this.props.language.congnitive, selected: true},
         {label: this.props.language.hearing, selected: true},
@@ -319,8 +319,8 @@ export default class CourseCreatorTool extends React.Component {
     });
   }
 
-  setAudienceOption(index){
-    let options = this.state.audienceOptions;
+  setDisabilitieOption(index){
+    let options = this.state.disabilitieOptions;
     if (index === 0) {
       options[index].selected ? options.map(option => option.selected = false) : options.map(option => option.selected = true)
     }
@@ -335,7 +335,7 @@ export default class CourseCreatorTool extends React.Component {
       allSelected ? options[0].selected = true : options[0].selected = false;
     }
     this.setState({
-      audienceOptions: options,
+      disabilitieOptions: options,
     });
   }
 
@@ -615,9 +615,9 @@ export default class CourseCreatorTool extends React.Component {
                   {
                     this.state.menuTab === 0 ?
                       <div>
-                        <AudienceMenu
-                          options={this.state.audienceOptions}
-                          setOption={this.setAudienceOption.bind(this)}
+                        <DisabilitieMenu
+                          options={this.state.disabilitieOptions}
+                          setOption={this.setDisabilitieOption.bind(this)}
                           language={this.props.language}
                         />
                         <Container
@@ -777,9 +777,9 @@ export default class CourseCreatorTool extends React.Component {
                   {
                     this.state.menuTab === 0 ?
                       <div>
-                        <AudienceMenu
-                          options={this.state.audienceOptions}
-                          setOption={this.setAudienceOption.bind(this)}
+                        <DisabilitieMenu
+                          options={this.state.disabilitieOptions}
+                          setOption={this.setDisabilitieOption.bind(this)}
                           language={this.props.language}
                         />
                         <Container

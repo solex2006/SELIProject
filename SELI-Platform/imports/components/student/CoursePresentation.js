@@ -112,6 +112,7 @@ export default class CoursePresentation extends React.Component {
   }
 
   render() {
+    console.log(`from presentation: ${this.props.course.subtitle}`)
     return(
       <div className="course-presentation-container">
         <div className="course-presentation-hero-container">
@@ -120,7 +121,12 @@ export default class CoursePresentation extends React.Component {
               <h1 className="course-presentation-hero-title">{this.props.course.title}</h1>
             </Fade>
             <Fade delay={1000}>
-              <h4 className="course-presentation-hero-subtitle">{this.props.course.subtitle}</h4>
+              {
+                this.props.course.subtitle === "-----"?
+                  undefined
+                :
+                  <h4 className="course-presentation-hero-subtitle">{this.props.course.subtitle}</h4>
+              }
               <p className="course-presentation-hero-normal">{`${this.props.language.createdBy}: ${this.props.course.createdBy}`}</p>
             </Fade>
           </div>

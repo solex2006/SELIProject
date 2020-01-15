@@ -124,7 +124,6 @@ export default class CoursePreview extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return(
       <div>
         <MuiThemeProvider theme={theme}>

@@ -33,7 +33,7 @@ export default class CreateCourse extends React.Component {
       ],
       courseInformation: {
         title: '',
-        subtitle: '',
+        subtitle: "",
         description: '',
         language: '',
         keyWords: [],
@@ -175,13 +175,17 @@ export default class CreateCourse extends React.Component {
           saved: course,
         });
       }
+      let valueSubtitle = courseInformation.subtitle;
+      if (valueSubtitle === undefined) {
+        valueSubtitle = "-----"
+      }
       else {
         Courses.update(
           { _id: this.state.saved },
           { $set:
             {
               title: courseInformation.title,
-              subtitle: courseInformation.subtitle,
+              subtitle: valueSubtitle,
               description: courseInformation.description,
               keyWords: courseInformation.keyWords,
               image: courseInformation.image,
@@ -207,7 +211,7 @@ export default class CreateCourse extends React.Component {
     let courseInformation = this.state.courseInformation;
     if (
       courseInformation.title === '' ||
-      courseInformation.subtitle === '' ||
+      //courseInformation.subtitle === '' ||
       courseInformation.description === '' ||
       courseInformation.duration === ''
     ) {
@@ -231,7 +235,7 @@ export default class CreateCourse extends React.Component {
       return false;
     }
     else if (!courseInformation.support.length) {
-      this.props.handleControlMessage(true, `${this.props.language.audienceRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.disabilitieRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
     }
     else if (courseInformation.organization === '') {

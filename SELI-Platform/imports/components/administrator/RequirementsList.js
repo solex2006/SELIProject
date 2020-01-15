@@ -49,10 +49,10 @@ export default class RequirementsList extends React.Component {
   };
 
   componentDidMount() {
-    this.getAudiences();
+    this.getDisabilities();
   }
 
-  getAudiences = () => {
+  getDisabilities = () => {
     this.setState({
       loading: true,
     }, () => {
@@ -127,7 +127,7 @@ export default class RequirementsList extends React.Component {
         name: requirement.name,
         description: requirement.description,
       },
-      audienceToEdit: _id,
+      disabilitieToEdit: _id,
       open: true,
       confirmAction: () => this.edit(),
     })
@@ -146,7 +146,7 @@ export default class RequirementsList extends React.Component {
     });
   }
 
-  verifyAudience = () => {
+  verifyDisabilitie = () => {
     let requirement = this.state.requirement;
     if (requirement.name === '' || requirement.description === '') {
       this.props.handleControlMessage(true, "Fields marked with * are required");
@@ -156,8 +156,8 @@ export default class RequirementsList extends React.Component {
   }
 
   deleteSelected = (requirements) => {
-    let audiencesToDelete = [];
-    requirements.map(requirement => {audiencesToDelete.push(requirement)});
+    let disabilitiesToDelete = [];
+    requirements.map(requirement => {disabilitiesToDelete.push(requirement)});
     this.setState({
       dialog: {
         title: 'Delete requirement(s)',
@@ -167,12 +167,12 @@ export default class RequirementsList extends React.Component {
       },
       open: true,
       confirmAction: () => this.delete(),
-      audiencesToDelete: audiencesToDelete,
+      disabilitiesToDelete: disabilitiesToDelete,
     });
   }
 
   add = () => {
-    if (this.verifyAudience()) {
+    if (this.verifyDisabilitie()) {
       Requirements.insert({
         name: this.state.requirement.name,
         description: this.state.requirement.description,
@@ -192,7 +192,7 @@ export default class RequirementsList extends React.Component {
   }
 
   delete = () => {
-    this.state.audiencesToDelete.map((requirement, index) => {
+    this.state.disabilitiesToDelete.map((requirement, index) => {
       Requirements.remove({_id: requirement});
     });
     this.handleClose();
@@ -201,9 +201,9 @@ export default class RequirementsList extends React.Component {
   }
 
   edit = () => {
-    if (this.verifyAudience()) {
+    if (this.verifyDisabilitie()) {
       Requirements.update(
-        { _id: this.state.audienceToEdit},
+        { _id: this.state.disabilitieToEdit},
         { $set: {
           name: this.state.requirement.name,
           description: this.state.requirement.description,
@@ -215,7 +215,7 @@ export default class RequirementsList extends React.Component {
             requirement: {
               name: '',
               description: '',
-              audienceToEdit: '',
+              disabilitieToEdit: '',
             }
           })
         }
@@ -235,8 +235,8 @@ export default class RequirementsList extends React.Component {
   setSelected(){}
 
   showDeleteConfirmation = (_id) => {
-    let audiencesToDelete = [];
-    audiencesToDelete.push(_id);
+    let disabilitiesToDelete = [];
+    disabilitiesToDelete.push(_id);
     this.setState({
       dialog: {
         title: 'Delete requirement(s)',
@@ -246,7 +246,7 @@ export default class RequirementsList extends React.Component {
       },
       open: true,
       confirmAction: () => this.delete(),
-      audiencesToDelete: audiencesToDelete,
+      disabilitiesToDelete: disabilitiesToDelete,
     });
   }
 
