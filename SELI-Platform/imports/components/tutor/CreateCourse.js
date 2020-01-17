@@ -166,6 +166,10 @@ export default class CreateCourse extends React.Component {
       let user = Meteor.user();
       let courseInformation = this.state.courseInformation;
       let course;
+      let valueSubtitle = courseInformation.subtitle;
+      if (valueSubtitle === undefined) {
+        valueSubtitle = "-----"
+      }
       if (!this.state.saved) {
         courseInformation.createdBy = user.username;
         courseInformation.published = false;
@@ -174,10 +178,6 @@ export default class CreateCourse extends React.Component {
         this.setState({
           saved: course,
         });
-      }
-      let valueSubtitle = courseInformation.subtitle;
-      if (valueSubtitle === undefined) {
-        valueSubtitle = "-----"
       }
       else {
         Courses.update(

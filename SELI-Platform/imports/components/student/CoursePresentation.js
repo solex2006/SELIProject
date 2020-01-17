@@ -112,7 +112,6 @@ export default class CoursePresentation extends React.Component {
   }
 
   render() {
-    console.log(`from presentation: ${this.props.course.subtitle}`)
     return(
       <div className="course-presentation-container">
         <div className="course-presentation-hero-container">
@@ -131,12 +130,12 @@ export default class CoursePresentation extends React.Component {
             </Fade>
           </div>
           <div className="course-presentation-hero-column">
-           {/* <Paper
+            {/* <Paper
               id="course-presentation-hero-media-image"
               className="course-presentation-hero-media-paper"
               elevation={10}
               style={{backgroundImage: `url(${this.props.course.image.link})`}}
-            ></Paper>*/}
+            ></Paper> */}
             <Paper id="course-presentation-hero-media-color" 
 		className="course-presentation-hero-media-paper" elevation={12}
 		style={{backgroundImage: `url(${this.props.course.image.link})`}}></Paper>
@@ -226,26 +225,35 @@ export default class CoursePresentation extends React.Component {
             </Paper>
           </Fade>
         </div>
-        <div className="course-requirement-information">
-          <Roll right>
-            <p className="course-requirement-information-title">{`${this.props.language.supportDissabilitiesTitle}:`}</p>
-          </Roll>
-          <Fade left>
-            <CourseCarousel
-              requirements={this.props.course.support}
-              next={this.props.language.next}
-              back={this.props.language.back}
-            />
-          </Fade>
-          <Fade delay={500} right>
-            <div className="course-requirements-disabilities-container">
-              <p className="course-requirements-disabilities-title">{this.props.language.seliOverview}</p>
-              <p className="course-requirements-disabilities-description">{this.props.language.seliOverviewText}</p>
-              <Button onClick={() => this.learnMore()} className="course-requirements-accessibility-button" color="secondary">{this.props.language.learnMore}</Button>
-              <div className="course-requirements-accessibility-image"></div>
+        {
+          this.props.course.support.length !== 0 ?
+            <div className="course-requirement-information">
+              <Roll right>
+                <p className="course-requirement-information-title">{`${this.props.language.supportDissabilitiesTitle}:`}</p>
+              </Roll>
+              <Fade left>
+                <CourseCarousel
+                  requirements={this.props.course.support}
+                  next={this.props.language.next}
+                  back={this.props.language.back}
+                />
+              </Fade>
+              <Fade delay={500} right>
+                <div className="course-requirements-disabilities-container">
+                  <p className="course-requirements-disabilities-title">{this.props.language.seliOverview}</p>
+                  <p className="course-requirements-disabilities-description">{this.props.language.seliOverviewText}</p>
+                  <Button onClick={() => this.learnMore()} className="course-requirements-accessibility-button" color="secondary">{this.props.language.learnMore}</Button>
+                  <div className="course-requirements-accessibility-image"></div>
+                </div>
+              </Fade>
             </div>
-          </Fade>
-        </div>
+          :
+            <div className="course-requirement-information">
+              <Roll right>
+                <p className="course-requirement-information-title">{this.props.language.notSupportDisabilities}</p>
+              </Roll>
+            </div>
+        }
         <div className="course-requirement-information">
           <Roll left>
             <p className="course-requirement-information-title">{`${this.props.language.toCompleteTheCourseTitle}:`}</p>

@@ -271,7 +271,7 @@ var SPANISH = {
   courseSavedS: "¡Curso guardado con éxito!",
   addOneOrMore: "Agregue una o más palabras clave para que los usuarios puedan buscar sus cursos",
   technicalRequirement: "Seleccione los requerimientos técnicos para su curso",
-  disabilitieRequirement: "Seleccione a qué tipo de discapacidade(s) admitirá su curso",
+  disabilitieRequirement: "Seleccione a qué tipo de discapacidad(es) admitirá su curso",
   organizationRequirement: "Elija la organización del curso para guardarlo",
   contentRequirement: "(No hay contenido)",
   titleRequirement: "Escriba el título del curso para guardarlo",
@@ -788,6 +788,7 @@ var SPANISH = {
   uploadAudioButtonLabel: "Presione aquí para cargar un archivo de audio.",
   keywordsMaximumMessage: "Máximo 3 palabras clave separadas por espacio",
   keywordsEmptyMessage: "No se puede agregar una palabra clave vacía",
+  notSupportDisabilities: "Este curso no tiene soporte a ninguna discapacidad",
 }
 
 export default SPANISH;

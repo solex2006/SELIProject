@@ -390,6 +390,8 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   setOrganization() {
+    this.refs.CourseOrganization.addUnit()
+    this.refs.CourseOrganization.addSubunit()
     this.contentHandleClose()
     this.setState({
       showCourseOrganization: false,
@@ -909,7 +911,8 @@ export default class CourseCreatorTool extends React.Component {
           {
             this.state.showCourseOrganization ?
               <div>
-                <CourseOrganization
+                <CourseOrganization 
+                  ref="CourseOrganization"
                   courseInformation={this.props.courseInformation}
                   validateOrganization={this.validateOrganization.bind(this)}
                   reRender={this.reRender.bind(this)}
@@ -917,7 +920,7 @@ export default class CourseCreatorTool extends React.Component {
                   language={this.props.language}
                 />
                 <div className="dialog-actions-container">
-                  <Tooltip title="Done">
+                  <Tooltip title={this.props.language.done}>
                     <Fab disabled={this.state.correctOrganization} onClick={() => this.setOrganization()} aria-label={this.props.language.startCreatingCourse} className="dialog-fab" color="primary">
                       <AssignmentTurnedInIcon/>
                     </Fab>
