@@ -788,6 +788,8 @@ var PORTUGUESE = {
   uploadAudioButtonLabel: "Click the button to upload an audio file",
   keywordsMaximumMessage: "Maximum 3 key words separated by space",
   keywordsEmptyMessage: "Can't add an empty key word",
+  notSupportDisabilities: "This course does not support any disability",
+  dragDropItems: "Drag and drop items",
 }
 
 export default PORTUGUESE;

@@ -19,7 +19,7 @@ import DisabilitieMenu from './DisabilitieMenu';
 import CourseCreatorMenu from './CourseCreatorMenu';
 import VerticalTab from '../tools/VerticalTab';
 
-import { Container, Draggable } from 'react-smooth-dnd';
+import { Container, Draggable, dropHandlers } from 'react-smooth-dnd';
 import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
 import { createContentItems } from '../../../lib/contentMenuItemsCreator';
 
@@ -385,6 +385,8 @@ export default class CourseCreatorTool extends React.Component {
   manageOrganization() {
     this.setState({
       showCourseOrganization: true,
+      showContentEditor: false,
+      contentaAdded: false,
       contentOpen: true,
     });
   }
@@ -395,6 +397,7 @@ export default class CourseCreatorTool extends React.Component {
     this.contentHandleClose()
     this.setState({
       showCourseOrganization: false,
+      correctOrganization: true,
     });
   }
 
@@ -551,10 +554,18 @@ export default class CourseCreatorTool extends React.Component {
                 <div
                   style={
                     !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
-                      {backgroundImage: "url(drop.svg)", animation: "bounce 1s 1"}
+                      {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1"}
                     :
                     {backgroundImage: "url()"}} className="course-creator-drop-area"
                 >
+                  {
+                    !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
+                      <div className="background">
+                        {this.props.language.dropHereLabel.toUpperCase()}
+                      </div>
+                    :
+                      undefined
+                  }
                   {
                     !this.state.sortMode ?
                       <Container
@@ -622,6 +633,10 @@ export default class CourseCreatorTool extends React.Component {
                           setOption={this.setDisabilitieOption.bind(this)}
                           language={this.props.language}
                         />
+                        <Divider light/>
+                        <div className="course-creator-menu-actions">
+                          <ListItemText className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
+                        </div>
                         <Container
                           orientation="horizontal"
                           groupName="1"
@@ -641,12 +656,15 @@ export default class CourseCreatorTool extends React.Component {
                         </Container>
                         <div className="course-creator-menu-actions-container">
                           <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
+                            <Divider light/>
                             <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
                               <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
                             </ListItem>
+                            <Divider light/>
                             <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
                               <ListItemText className="course-creator-menu-action-text" primary={this.props.language.seePreview}/>
                             </ListItem>
+                            <Divider light/>
                           </List>
                         </div>
                       </div>
@@ -713,10 +731,18 @@ export default class CourseCreatorTool extends React.Component {
                 <div
                   style={
                     !this.props.courseInformation.program[this.props.selected[0]].items.length ?
-                      {backgroundImage: "url(drop.svg)", animation: "bounce 1s 1"}
+                      {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1"}
                     :
                     {backgroundImage: "url()"}} className="course-creator-drop-area"
                 >
+                  {
+                    !this.props.courseInformation.program[this.props.selected[0]].items.length ?
+                      <div className="background">
+                        {this.props.language.dropHereLabel.toUpperCase()}
+                      </div>
+                    :
+                      undefined
+                  }
                   {
                     !this.state.sortMode ?
                       <Container
@@ -784,6 +810,10 @@ export default class CourseCreatorTool extends React.Component {
                           setOption={this.setDisabilitieOption.bind(this)}
                           language={this.props.language}
                         />
+                        <Divider light/>
+                        <div className="course-creator-menu-actions">
+                          <ListItemText className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
+                        </div>
                         <Container
                           orientation="horizontal"
                           groupName="1"
@@ -803,12 +833,15 @@ export default class CourseCreatorTool extends React.Component {
                         </Container>
                         <div className="course-creator-menu-actions-container">
                           <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
+                            <Divider light/>
                             <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
                               <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={"Sort mode"}/>
                             </ListItem>
+                            <Divider light/>
                             <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
                               <ListItemText className="course-creator-menu-action-text" primary="Preview"/>
                             </ListItem>
+                            <Divider light/>
                           </List>
                         </div>
                       </div>
@@ -885,7 +918,7 @@ export default class CourseCreatorTool extends React.Component {
             <AppBar className="dialog-app-bar" color="primary" position="static">
               <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
                 <AppsIcon/>
-                <h4 className="dialog-label-title">{ this.state.contentaAdded !== undefined ? `${this.props.language.contentEditor} - ${this.state.languageType}` : this.props.language.courseOrganization}</h4>
+                <h4 className="dialog-label-title">{ this.state.contentaAdded ? `${this.props.language.contentEditor} - ${this.state.languageType}` : this.props.language.courseOrganization}</h4>
                 {
                   this.state.showCourseOrganization || this.state.showAccesibilityOptions || this.state.showAccesibilityForm ?
                     undefined

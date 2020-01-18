@@ -789,6 +789,7 @@ var SPANISH = {
   keywordsMaximumMessage: "Máximo 3 palabras clave separadas por espacio",
   keywordsEmptyMessage: "No se puede agregar una palabra clave vacía",
   notSupportDisabilities: "Este curso no tiene soporte a ninguna discapacidad",
+  dragDropItems: "Elementos para arrastrar y soltar",
 }
 
 export default SPANISH;

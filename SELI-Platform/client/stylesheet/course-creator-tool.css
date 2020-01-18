@@ -33,6 +33,16 @@
   background-position: center;
 }
 
+.background {
+  position: absolute;
+  padding-top: calc(50vh - 250px);
+  font-size: 25px;
+  text-align: center; 
+  width: calc(100vw - var(--course-tool-menu-size));
+  color: #ccc;
+  overflow: hidden;
+}
+
 .course-creator-menu-area {
   width: var(--course-tool-menu-size);
   height: calc(
