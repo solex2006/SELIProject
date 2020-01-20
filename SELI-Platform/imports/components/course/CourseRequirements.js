@@ -127,14 +127,14 @@ export default class CourseRequirements extends React.Component {
           help: {helper: "disabilitieHelper", text: this.props.language.disabilitieAre},
           icon: <PeopleIcon/>,
         },
-        {
+/*         {
           id: 2,
           name: "Technical requirements",
           label: this.props.language.courseWillRequirements,
           options: technicalRequirements,
           help: {helper: "technicalRequirementsHelper", text: this.props.language.trAre},
           icon: <DevicesIcon/>,
-        }
+        } */
       );
       this.setState({
         disabilitieAllowed: disabilitieAllowed,
@@ -271,12 +271,12 @@ export default class CourseRequirements extends React.Component {
             ))}
           </List>
         }
-        <div className="requirement-request-container">
+{/*         <div className="requirement-request-container">
           <p className="requirement-request-text">
             {this.props.language.missingRequirement}
           </p>
-      <Button onClick={() => this.handleClickOpen()} color="primary" className="request-button">{this.props.language.letUsKnow}</Button>
-        </div>
+          <Button onClick={() => this.handleClickOpen()} color="primary" className="request-button">{this.props.language.letUsKnow}</Button>
+        </div> */}
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

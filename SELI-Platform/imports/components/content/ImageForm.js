@@ -139,8 +139,8 @@ export default class ImageForm extends React.Component {
 
   coordenadasCursosImageForm =(coordenadas)=> {
     this.state.attributes.image.coordenada=coordenadas
-    console.log("ImageForm ...", this.state.attributes.image)
-    console.log("CoordenadaImageForm ...", coordenadas)
+    //console.log("ImageForm ...", this.state.attributes.image)
+    //console.log("CoordenadaImageForm ...", coordenadas)
     this.setState({
       coordenadaR: coordenadas 
     })
@@ -148,7 +148,7 @@ export default class ImageForm extends React.Component {
 
 
   render() {
-    console.log("ImageForm ...", this.state.attributes.image   )
+    //console.log("ImageForm ...", this.state.attributes.image   )
     return(
       <div>
         {

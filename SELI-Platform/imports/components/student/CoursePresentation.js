@@ -137,8 +137,8 @@ export default class CoursePresentation extends React.Component {
               style={{backgroundImage: `url(${this.props.course.image.link})`}}
             ></Paper> */}
             <Paper id="course-presentation-hero-media-color" 
-		className="course-presentation-hero-media-paper" elevation={12}
-		style={{backgroundImage: `url(${this.props.course.image.link})`}}></Paper>
+            className="course-presentation-hero-media-paper" elevation={12}
+            style={{backgroundImage: `url(${this.props.course.image.link})`}}></Paper>
           </div>
         </div>
         <Fade left>
@@ -254,7 +254,7 @@ export default class CoursePresentation extends React.Component {
               </Roll>
             </div>
         }
-        <div className="course-requirement-information">
+        {/* <div className="course-requirement-information">
           <Roll left>
             <p className="course-requirement-information-title">{`${this.props.language.toCompleteTheCourseTitle}:`}</p>
           </Roll>
@@ -267,7 +267,7 @@ export default class CoursePresentation extends React.Component {
               )
             })}
           </div>
-        </div>
+        </div> */}
         <div className="course-presentation-footer">
           <p className="course-presentation-copyright-text">{`${this.props.language.madeBySeliTeam} 2020`}</p>
         </div>

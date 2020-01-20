@@ -27,6 +27,7 @@ import { createContentItems } from '../../../lib/contentMenuItemsCreator';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 /* Trasitions */
 import Slide from '@material-ui/core/Slide';
@@ -66,6 +67,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import InfoIcon from '@material-ui/icons/Info';
 import { FaThumbsDown } from 'react-icons/fa';
+import WarningIcon from '@material-ui/icons/Warning';
 
 
 function TransitionRight(props) {
@@ -120,7 +122,14 @@ export default class CourseCreatorTool extends React.Component {
   };
 
   contentHandleClose = () => {
-    this.setState({ contentOpen: false, contentToEdit: undefined, contentTypeAdded: '', showAccesibilityForm: false});
+    this.setState({ 
+      contentOpen: false, 
+      contentToEdit: undefined, 
+      contentTypeAdded: '', 
+      showAccesibilityForm: false,
+      showCourseOrganization: false,
+      showWarningOrganization: false,
+    });
   };
 
   openDialog(e){
@@ -384,10 +393,18 @@ export default class CourseCreatorTool extends React.Component {
 
   manageOrganization() {
     this.setState({
+      showWarningOrganization: false,
       showCourseOrganization: true,
       showContentEditor: false,
       contentaAdded: false,
       contentOpen: true,
+    });
+  }
+
+  warningOrganization() {
+    this.contentHandleClickOpen();
+    this.setState({
+      showWarningOrganization: true,
     });
   }
 
@@ -413,6 +430,7 @@ export default class CourseCreatorTool extends React.Component {
   componentDidMount(){
     if (this.props.courseInformation.organization === '') {
       this.setState({
+        showWarningOrganization: false,
         showCourseOrganization: true,
         contentOpen: true,
         correctOrganization: true,
@@ -635,7 +653,7 @@ export default class CourseCreatorTool extends React.Component {
                         />
                         <Divider light/>
                         <div className="course-creator-menu-actions">
-                          <ListItemText className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
+                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
                         </div>
                         <Container
                           orientation="horizontal"
@@ -658,11 +676,11 @@ export default class CourseCreatorTool extends React.Component {
                           <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
                             <Divider light/>
                             <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
-                              <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
+                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
                             </ListItem>
                             <Divider light/>
                             <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
-                              <ListItemText className="course-creator-menu-action-text" primary={this.props.language.seePreview}/>
+                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.seePreview}/>
                             </ListItem>
                             <Divider light/>
                           </List>
@@ -677,7 +695,7 @@ export default class CourseCreatorTool extends React.Component {
                         <div className="button-row">
                           {
                             this.props.courseInformation.organization.unit === "Unit" ?
-                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
+                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="orange-avatar" className="avatar">U</Avatar>
                                 {this.props.language.byUnitsAndLessons}
                               </Button>
@@ -686,7 +704,7 @@ export default class CourseCreatorTool extends React.Component {
                           }
                           {
                             this.props.courseInformation.organization.unit === "Topic" ?
-                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
+                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="blue-avatar" className="avatar">T</Avatar>
                                 {this.props.language.byTopics}
                               </Button>
@@ -695,7 +713,7 @@ export default class CourseCreatorTool extends React.Component {
                           }
                           {
                             this.props.courseInformation.organization.unit === "Season" ?
-                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Season" ? "row-list-selected-button" : "row-list-button"}>
+                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Season" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="teal-avatar" className="avatar">D</Avatar>
                                 {this.props.language.byDates}
                               </Button>
@@ -812,7 +830,7 @@ export default class CourseCreatorTool extends React.Component {
                         />
                         <Divider light/>
                         <div className="course-creator-menu-actions">
-                          <ListItemText className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
+                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
                         </div>
                         <Container
                           orientation="horizontal"
@@ -835,11 +853,11 @@ export default class CourseCreatorTool extends React.Component {
                           <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
                             <Divider light/>
                             <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
-                              <ListItemText style={this.state.sortMode ? {color: "var(--primary)"} : {color: "#616161"}} className="course-creator-menu-action-text" primary={"Sort mode"}/>
+                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={"Sort mode"}/>
                             </ListItem>
                             <Divider light/>
                             <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
-                              <ListItemText className="course-creator-menu-action-text" primary="Preview"/>
+                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary="Preview"/>
                             </ListItem>
                             <Divider light/>
                           </List>
@@ -854,7 +872,7 @@ export default class CourseCreatorTool extends React.Component {
                         <div className="button-row">
                           {
                             this.props.courseInformation.organization.unit === "Unit" ?
-                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
+                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="orange-avatar" className="avatar">U</Avatar>
                                 {this.props.language.byUnitsAndLessons}
                               </Button>
@@ -863,7 +881,7 @@ export default class CourseCreatorTool extends React.Component {
                           }
                           {
                             this.props.courseInformation.organization.unit === "Topic" ?
-                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
+                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="blue-avatar" className="avatar">T</Avatar>
                                 {this.props.language.byTopics}
                               </Button>
@@ -872,7 +890,7 @@ export default class CourseCreatorTool extends React.Component {
                           }
                           {
                             this.props.courseInformation.organization.unit === "Season" ?
-                              <Button onClick={() => this.manageOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Season" ? "row-list-selected-button" : "row-list-button"}>
+                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Season" ? "row-list-selected-button" : "row-list-button"}>
                                 <Avatar id="teal-avatar" className="avatar">D</Avatar>
                                 {this.props.language.byDates}
                               </Button>
@@ -919,28 +937,46 @@ export default class CourseCreatorTool extends React.Component {
               <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
                 <AppsIcon/>
                 <h4 className="dialog-label-title">{ this.state.contentaAdded ? `${this.props.language.contentEditor} - ${this.state.languageType}` : this.props.language.courseOrganization}</h4>
-                {
-                  this.state.showCourseOrganization || this.state.showAccesibilityOptions || this.state.showAccesibilityForm ?
-                    undefined
-                  :
-                  <IconButton
-                    id="close-icon"
-                    edge="end"
-                    className="dialog-toolbar-icon"
-                    disabled={this.state.showCourseOrganization || this.state.showAccesibilityOptions || this.state.showAccesibilityForm}
-                    onClick={() => {
-                      this.contentHandleClose();
-                      if (this.state.contentToEdit === undefined) {
-                        this.cancelContentCreation();
-                      }
-                    }}
-                  >
-                    <CloseIcon/>
-                  </IconButton>
-                }
+                <IconButton
+                  id="close-icon"
+                  edge="end"
+                  className="dialog-toolbar-icon"
+                  //disabled={this.state.showCourseOrganization || this.state.showAccesibilityOptions || this.state.showAccesibilityForm}
+                  onClick={() => {
+                    this.contentHandleClose();
+                    if (this.state.contentToEdit === undefined) {
+                      this.cancelContentCreation();
+                    }
+                  }}
+                >
+                  <CloseIcon/>
+                </IconButton>
               </Toolbar>
             </AppBar>
           </DialogTitle>
+          {
+            this.state.showWarningOrganization ?
+              <div>
+                <DialogContent className="success-dialog-content">
+                  <div className="organization-form">
+                    <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                      {this.props.language.courseOrganizationChangeWarning}
+                    </DialogContentText>
+                  </div>
+                  <WarningIcon className="warning-dialog-icon"/>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => this.contentHandleClose()} color="primary" autoFocus>
+                    {this.props.language.cancel}
+                  </Button>
+                  <Button onClick={() => this.manageOrganization()} color="primary" autoFocus>
+                    {this.props.language.continue}
+                  </Button>
+                </DialogActions>
+              </div>
+            :
+              undefined
+          }
           {
             this.state.showCourseOrganization ?
               <div>
@@ -1123,10 +1159,10 @@ export default class CourseCreatorTool extends React.Component {
           }
           {
             this.state.showAccesibilityOptions && (this.state.contentTypeAdded === 'image' || this.state.contentTypeAdded === 'audio' || this.state.contentTypeAdded === 'video') ?  
-             this.contentHandleClose()  // uncomment for view accesibility Menu
-             /* <div className="configure-accessibility-actions"> 
-                 <List>
-                  <ListItem onClick={() => this.showAccesibilityForm()} button>
+             //this.contentHandleClose()  // uncomment for view accesibility Menu
+              <div className="configure-accessibility-actions"> 
+                <List>
+                  <ListItem disabled={true} onClick={() => this.showAccesibilityForm()} button>
                     <ListItemAvatar>
                       <Avatar className="primary-avatar">
                         <AccessibilityNewIcon className="configure-accessibility-icon"/>
@@ -1134,18 +1170,18 @@ export default class CourseCreatorTool extends React.Component {
                     </ListItemAvatar>
                     <ListItemText primary={this.props.language.configureAccessibility} secondary={this.props.language.weRecomendAccessibility}/>
                   </ListItem>
-                 <ListItem onClick={() => this.contentHandleClose()} button>
+                  <ListItem onClick={() => this.contentHandleClose()} button>
                     <ListItemAvatar>
                       <Avatar className="secondary-avatar">
                         <WatchLaterIcon className="configure-accessibility-icon"/>
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={this.props.language.configureAccessibilityLater} secondary={this.props.language.youConfigureAccessibility}/>
-                  </ListItem> *
+                  </ListItem> 
                 </List> 
-              </div>  */
+              </div>  
             :
-            undefined
+              undefined
           }
           {
             this.state.showAccesibilityForm ?

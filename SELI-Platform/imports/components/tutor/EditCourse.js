@@ -247,10 +247,10 @@ export default class EditCourse extends React.Component {
       this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    else if (!courseInformation.requirements.length) {
+    /* else if (!courseInformation.requirements.length) {
       this.props.handleControlMessage(true, `${this.props.language.technicalRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
-    }
+    } */
     /* else if (!courseInformation.support.length) {
       this.props.handleControlMessage(true, `${this.props.language.disabilitieRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
