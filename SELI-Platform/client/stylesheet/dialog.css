@@ -104,6 +104,11 @@
   position: relative;
 }
 
+.form-tabs-container-media {
+  width: 50%;
+  position: relative;
+}
+
 .form-dialog-input {
   width: 90% !important;
   position: relative;
