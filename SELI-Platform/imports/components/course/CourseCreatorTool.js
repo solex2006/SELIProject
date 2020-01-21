@@ -853,11 +853,11 @@ export default class CourseCreatorTool extends React.Component {
                           <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
                             <Divider light/>
                             <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
-                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={"Sort mode"}/>
+                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
                             </ListItem>
                             <Divider light/>
                             <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
-                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary="Preview"/>
+                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.seePreview}/>
                             </ListItem>
                             <Divider light/>
                           </List>
