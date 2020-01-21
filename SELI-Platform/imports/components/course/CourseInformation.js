@@ -329,7 +329,7 @@ export default class CourseInformation extends React.Component {
           }
           <p className="form-message"> {this.props.language.courseKeyWordsHelp}
             <Help
-              helper="keyWordHelper"
+              helper="default"
               text={this.props.language.keywordsAreUsed}
               language={this.props.language}
             />

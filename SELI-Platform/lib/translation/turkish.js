@@ -435,7 +435,7 @@ var TURKISH = {
   answer: "Answer",
   deleteQuestion: "Delete selected question",
   completeLastQuestion: "Complete the last question that you have added",
-  titleAndCreditAreR: "The title of the quiz and the credit resources are required fields",
+  titleAndCreditAreR: "The title of the quiz is a required field",
   atLeast2Questions: "Every quiz must have at least 2 questions",
   titleIsR: "The question title is a required field",
   addAnswerOfQ: "Please add the answer of the question",
@@ -570,7 +570,7 @@ var TURKISH = {
   allDisabilitiesSelected: "All special requirements selected",
   disabilitie: "special requirement",
   disabilities: "special requirements",
-  allDisabilities: "All special requirements",
+  allDisabilities: "All",
   congnitive: "Bilişsel",
   hearing: "İşitme",
   visual: "Görsel",
@@ -789,6 +789,9 @@ var TURKISH = {
   keywordsEmptyMessage: "Can't add an empty key word",
   notSupportDisabilities: "This course does not support any special requirement",
   dragDropItems: "Drag and drop items",
+  askForTheManual: "Ask for the manual",
+  selectAnswer: "Select the correct answer(s)",
+  toEditPublished: "To edit a published course you need to unpublish it",
 }
 
 export default TURKISH;

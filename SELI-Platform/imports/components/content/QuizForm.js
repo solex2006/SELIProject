@@ -29,7 +29,7 @@ export default class QuizForm extends React.Component {
         quizTitle: '',
         timeLimit: '60',
         approvalPercentage: '50',
-        creditResources: '',
+        //creditResources: '',
         awardPoints: false,
         questions: [
           {
@@ -102,9 +102,9 @@ export default class QuizForm extends React.Component {
     else if (name === 'approvalPercentage') {
       attributes.approvalPercentage = event.target.value;
     }
-    else if (name === 'creditResources') {
+    /* else if (name === 'creditResources') {
       attributes.creditResources = event.target.value;
-    }
+    } */
     else if (name === 'questionTitle') {
       attributes.questions[this.state.questionSelected].questionTitle = event.target.value;
     }
@@ -127,7 +127,8 @@ export default class QuizForm extends React.Component {
       this.props.handleControlMessage(true, this.props.language.completeLastQuestion);
       return false;
     }
-    else if (content.quizTitle === '' || content.creditResources === '') {
+    //else if (content.quizTitle === '' || content.creditResources === '') {
+    else if (content.quizTitle === '') {
       this.props.handleControlMessage(true, this.props.language.titleAndCreditAreR);
       return false;
     }
@@ -270,12 +271,25 @@ export default class QuizForm extends React.Component {
               label={this.props.language.quizTitle}
               margin="normal"
               variant="outlined"
-              className="quiz-input"
+              className="quiz-input-title"
               required
               value={this.state.attributes.quizTitle}
               onChange={this.handleChange('quizTitle')}
               autoFocus={true}
             />
+          </div>
+          <div className="quiz-input-container">
+            {/* <TextField
+              id="credit-input"
+              label={this.props.language.creditResources}
+              margin="normal"
+              variant="outlined"
+              required
+              className="quiz-input"
+              value={this.state.attributes.creditResources}
+              onChange={this.handleChange('creditResources')}
+              onKeyPress={() => validateOnlyNumbers(event)}
+            /> */}
             <TextField
               id="outlined-select-currency"
               select
@@ -298,20 +312,6 @@ export default class QuizForm extends React.Component {
                 </MenuItem>
               ))}
             </TextField>
-
-          </div>
-          <div className="quiz-input-container">
-            <TextField
-              id="credit-input"
-              label={this.props.language.creditResources}
-              margin="normal"
-              variant="outlined"
-              required
-              className="quiz-input"
-              value={this.state.attributes.creditResources}
-              onChange={this.handleChange('creditResources')}
-              onKeyPress={() => validateOnlyNumbers(event)}
-            />
             <TextField
               id="outlined-select-currency"
               select
@@ -378,6 +378,9 @@ export default class QuizForm extends React.Component {
             value={this.state.attributes.questions[this.state.questionSelected].questionTitle}
             onChange={this.handleChange('questionTitle')}
           />
+          <div className="quiz-input-container">
+            <p className="form-dialog-question-button-container-text-select">{this.props.language.selectAnswer}</p>
+          </div>
           <div className="form-dialog-question-input-container">
             <TextField
               label={`${this.props.language.answer} 1`}

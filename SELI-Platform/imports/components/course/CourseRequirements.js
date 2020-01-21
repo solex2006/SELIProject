@@ -124,7 +124,7 @@ export default class CourseRequirements extends React.Component {
           name: "Disabilities",
           label: this.props.language.courseWillDisabilities,
           options: disabilitieAllowed,
-          help: {helper: "disabilitieHelper", text: this.props.language.disabilitieAre},
+          help: {helper: "default", text: this.props.language.disabilitieAre},
           icon: <PeopleIcon/>,
         },
 /*         {
