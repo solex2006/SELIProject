@@ -19,6 +19,10 @@
   padding: 2.5vh 6vw;
 }
 
+.buttomAudiences{
+  border-radius: 15px !important;
+}
+
 .row-input {
   display: flex;
   justify-content: flex-start;
@@ -63,6 +67,13 @@
   color: #9e9e9e;
   height: 46px;
   animation: fadeIn 1s;
+}
+
+.items-audiences{
+  display: inline-block !important;
+  margin-right: 120px !important;
+  margin-top: 60px !important;
+  align-items: center !important;
 }
 
 .form-message-small{

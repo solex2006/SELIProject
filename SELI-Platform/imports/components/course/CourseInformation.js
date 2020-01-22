@@ -14,22 +14,23 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import MenuItem from '@material-ui/core/MenuItem';
-
 import FileUpload from '../files/FileUpload';
 import ImagePreview from '../files/previews/ImagePreview';
 import PdfPreview from '../files/previews/PdfPreview';
 import Library from '../tools/Library';
 import Help from '../tools/Help';
 import FormPreview from '../files/previews/FormPreview';
-
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldValidations';
+import Audiences from './Audiences'
+
 
 export default class CourseInformation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       courseInformation: this.props.courseInformation,
+      audiences: ''
     }
   }
 
@@ -213,6 +214,30 @@ export default class CourseInformation extends React.Component {
 
   }
 
+  audiences=()=>{
+    this.setState({
+      audiences: "audiences"
+    })
+  }
+
+  getAudiences=(audiences, name)=>{
+    let courseInformation = this.state.courseInformation;
+    //console.log("Audiences in Course Information", audiences, name)
+    console.log("CourseInformation:::::::::::", courseInformation )
+    //courseInformation.audiences = audiences;
+    if (name === 'signature') {
+      courseInformation.signature = audiences;
+    }
+    else if (name === 'level') {
+      courseInformation.level = audiences;
+    }
+    else if (name === 'type') {
+      courseInformation.type = audiences;
+    }
+   
+  }
+
+
   render() {
     return(
       <div className="course-information-container">
@@ -312,6 +337,7 @@ export default class CourseInformation extends React.Component {
             this.state.courseInformation.keyWords.length ?
               <div className="chips-container">
                 {this.state.courseInformation.keyWords.map((keyWord, index) => {
+                  
                   return(
                     <Chip
                       size="small"
@@ -349,8 +375,20 @@ export default class CourseInformation extends React.Component {
             value={this.state.courseInformation.duration}
             onChange={this.handleChange('duration')}
             onKeyPress={() => validateOnlyNumbers(event)}
-          />
+          /> 
+ 
+           <Button className={"buttomAudiences"} onClick={this.audiences} variant="outlined" color="primary">Audiences</Button>
+          {
+              this.state.audiences==="audiences" ?
+              <Audiences
+              language={this.props.language}
+              getAudiences={this.getAudiences}
+              />
+              :
+              undefined
+          } 
         </div>
+        
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

@@ -147,7 +147,9 @@ export default class CoursePresentation extends React.Component {
           </div>
         </Fade>
         <div className="course-other-information-container">
-          <Fade left>
+          <div className={"boxItem"}>
+
+          <Fade left  >
             <Paper
               elevation={12}
               className="course-card-information"
@@ -224,7 +226,72 @@ export default class CoursePresentation extends React.Component {
               </div>
             </Paper>
           </Fade>
+          </div>
+          
+          {
+          this.props.course.signature===undefined ?
+            undefined
+            :
+            <div className={"boxItem2"}>
+                <Fade up>
+                  <Paper
+                    elevation={12}
+                    className="course-card-information1"
+                    style={{
+                      backgroundColor: this.state.palette[0].bgColor,
+                      color: this.state.palette[0].textColor,
+                    }}
+                  >
+                    <div className={"course-card-title1"}>{this.props.language.audiences}</div>
+                    <div className={"groupAudicences"}>
+                        <div className="titleItem" >
+                          {this.props.language.audienceAreas}
+                          {
+                            this.props.course.signature==="" ?
+                            undefined
+                            :
+                            this.props.course.signature.map((value, index)=>{
+                              return(
+                                <div className={"itemAudience"}>{value}</div>
+                              )
+                            })
+                          }
+                        </div>
+                        <div className={"titleItem"}>
+                          {this.props.language.audiencelevel}
+                          {
+                            this.props.course.level==="" ?
+                            undefined
+                            :
+                            this.props.course.level.map((value, index)=>{
+                              return(
+                                <div className={"itemAudience"}>{value}</div>
+                              )
+                            })
+                          }
+                        </div>
+                        <div className={"titleItem"}>
+                          {this.props.language.audiencetype}
+                          {
+                            this.props.course.typpe==="" ?
+                            undefined
+                            :
+                            this.props.course.type.map((value, index)=>{
+                              return(
+                                <div className={"itemAudience"}>{value}</div>
+                              )
+                            })
+                          }
+                        </div>
+                    </div>
+                  </Paper>
+                </Fade>  
+            </div>
+                   
+        }
         </div>
+
+   
         {
           this.props.course.support.length !== 0 ?
             <div className="course-requirement-information">

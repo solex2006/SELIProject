@@ -43,6 +43,9 @@ export default class CreateCourse extends React.Component {
         requirements: [],
         support: [],
         organization: '',
+        signature:'',
+        level:'',
+        type:'',
         program: [
 
         ],

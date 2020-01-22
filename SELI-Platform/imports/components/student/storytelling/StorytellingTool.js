@@ -1539,13 +1539,13 @@ unPickImageFile(){
                           <form className={classes.text} noValidate autoComplete="off">
                               <div>
                                 <div>{tile.name}</div>
-                                  <TextField
+                                  {/* <TextField
                                   id="standard-multiline-flexible"
                                   label="Rename audio"
                                   multiline
                                   rowsMax="4"
                                   onChange={()=>this.handleChangeText(event, tile, this.state.dataAudio1)}
-                                  />
+                                  /> */}
                               </div>
                             </form>
                         </div>
