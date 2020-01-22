@@ -808,7 +808,9 @@ var SPANISH = {
   coursetitle: "Curso",
   holdanddrag: "Mantener presionado y arrastrar el contenido",
   activityInstructions: "Instrucciones de la Actividad",
-  deliverType:'Tipo de Entrega del estudiante'
+  deliverType:'Tipo de Entrega del estudiante',
+  basicItems: "Elementos básicos",
+  advancedItems: "Elementos avanzados",
 }
 
 export default SPANISH;

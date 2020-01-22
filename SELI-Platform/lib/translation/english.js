@@ -808,7 +808,9 @@ var ENGLISH = {
   coursetitle: "Course",
   holdanddrag: "Hold and drag the content",
   activityInstructions: "Activity Instrucctions",
-  deliverType:'Student delivery type'
+  deliverType:'Student delivery type',
+  basicItems: "Basic items",
+  advancedItems: "Advanced items",
 }
 
 export default ENGLISH;

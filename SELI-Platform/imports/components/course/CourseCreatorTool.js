@@ -79,14 +79,14 @@ export default class CourseCreatorTool extends React.Component {
         { id: Math.random(), type: "image" },
         { id: Math.random(), type: "video" },
         { id: Math.random(), type: "audio" },
-        { id: Math.random(), type: "link" },
-        { id: Math.random(), type: "unity" },
-        { id: Math.random(), type: "embebed" },
         { id: Math.random(), type: "pdf" },
         { id: Math.random(), type: "compressed" },
-        { id: Math.random(), type: "h5p" },
+        { id: Math.random(), type: "link" },
         { id: Math.random(), type: "quiz" },
-        { id: Math.random(), type: "activity" }
+        { id: Math.random(), type: "activity" },
+        { id: Math.random(), type: "embebed" },
+        { id: Math.random(), type: "h5p" },
+        { id: Math.random(), type: "unity" },
       ],
       disabilitieOptions: [
         {label: this.props.language.allDisabilities, selected: true},
@@ -648,9 +648,13 @@ export default class CourseCreatorTool extends React.Component {
                           setOption={this.setDisabilitieOption.bind(this)}
                           language={this.props.language}
                         />
-                        <Divider light/>
+                        <Divider light/><Divider light/><Divider light/>
                         <div className="course-creator-menu-actions">
                           <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
+                        </div>
+                        <Divider light/>
+                        <div className="course-creator-menu-actions">
+                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.basicItems}/>
                         </div>
                         <Container
                           orientation="horizontal"
@@ -661,17 +665,42 @@ export default class CourseCreatorTool extends React.Component {
                         >
                           {
                             this.state.contentItems.map((p,i) => {
-                              return (
-                                <Draggable key={i}>
-                                  <ContentMenuItem type={p.type} language={this.props.language}/>
-                                </Draggable>
-                              );
+                              if ( i >= 0 && i <=8 ) {
+                                return (
+                                  <Draggable key={i}>
+                                    <ContentMenuItem type={p.type} language={this.props.language}/>
+                                  </Draggable>
+                                );
+                              }
+                            })
+                          }
+                        </Container>
+                        <Divider light/>
+                        <div className="course-creator-menu-actions">
+                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.advancedItems}/>
+                        </div>
+                        <Container
+                          orientation="horizontal"
+                          groupName="1"
+                          behaviour="copy"
+                          getChildPayload={i => this.state.contentItems[i]}
+                          onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
+                        >
+                          {
+                            this.state.contentItems.map((p,i) => {
+                              if ( i >= 9 && i <=11 ) {
+                                return (
+                                  <Draggable key={i}>
+                                    <ContentMenuItem type={p.type} language={this.props.language}/>
+                                  </Draggable>
+                                );
+                              }
                             })
                           }
                         </Container>
                         <div className="course-creator-menu-actions-container">
                           <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
-                            <Divider light/>
+                            <Divider light/><Divider light/><Divider light/>
                             <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
                               <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
                             </ListItem>
@@ -826,9 +855,13 @@ export default class CourseCreatorTool extends React.Component {
                           setOption={this.setDisabilitieOption.bind(this)}
                           language={this.props.language}
                         />
-                        <Divider light/>
+                        <Divider light/><Divider light/><Divider light/>
                         <div className="course-creator-menu-actions">
                           <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
+                        </div>
+                        <Divider light/>
+                        <div className="course-creator-menu-actions">
+                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.basicItems}/>
                         </div>
                         <Container
                           orientation="horizontal"
@@ -839,17 +872,42 @@ export default class CourseCreatorTool extends React.Component {
                         >
                           {
                             this.state.contentItems.map((p,i) => {
-                              return (
-                                <Draggable key={i}>
-                                  <ContentMenuItem type={p.type} language={this.props.language}/>
-                                </Draggable>
-                              );
+                              if ( i >= 0 && i <=8 ) {
+                                return (
+                                  <Draggable key={i}>
+                                    <ContentMenuItem type={p.type} language={this.props.language}/>
+                                  </Draggable>
+                                );
+                              }
+                            })
+                          }
+                        </Container>
+                        <Divider light/>
+                        <div className="course-creator-menu-actions">
+                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.advancedItems}/>
+                        </div>
+                        <Container
+                          orientation="horizontal"
+                          groupName="1"
+                          behaviour="copy"
+                          getChildPayload={i => this.state.contentItems[i]}
+                          onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
+                        >
+                          {
+                            this.state.contentItems.map((p,i) => {
+                              if ( i >= 9 && i <=11 ) {
+                                return (
+                                  <Draggable key={i}>
+                                    <ContentMenuItem type={p.type} language={this.props.language}/>
+                                  </Draggable>
+                                );
+                              }
                             })
                           }
                         </Container>
                         <div className="course-creator-menu-actions-container">
                           <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
-                            <Divider light/>
+                            <Divider light/><Divider light/><Divider light/>
                             <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
                               <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
                             </ListItem>
