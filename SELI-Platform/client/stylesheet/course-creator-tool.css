@@ -24,6 +24,22 @@
   height: calc(100vh - var(--app-bar-height) - var(--form-stepper-height));
 }
 
+.title-course{
+ width: 100% !important;
+ text-align: left !important;
+ text-transform: uppercase;
+ background-color: #f5f5f5;
+ font-size: 28.5px;
+ font-weight: 100;
+ letter-spacing: 1px;
+ color: #0288d1;
+}
+
+.subtitle{
+  width: 84% !important;
+  text-align: center !important;
+}
+
 .course-creator-drop-area {
   width: calc(100vw - var(--course-tool-menu-size));
   overflow-y: scroll;

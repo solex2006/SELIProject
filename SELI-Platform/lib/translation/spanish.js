@@ -104,7 +104,7 @@ var SPANISH = {
   level4:'Primaria',
   type1:'Estudiante',
   type2:'Profesor',
-  
+  holdanddrag: "Mantener presionado y arrastrar el contenido",
   audiences: "Audiencia",
   audienceAreas: "Area",
   audiencelevel:"Nivel",
@@ -119,6 +119,7 @@ var SPANISH = {
   requirementsSupportTitle: "Este curso necesitará los siguientes requerimientos técnicos",
   next: "Próximo",
   back: "Atrás",
+  coursetitle: "Curso",
   seliOverview: "Descripción general de SELI",
   seliOverviewText: "Los cursos SELI se crean con el objetivo de ser accesibles para todo tipo de público.",
   toCompleteTheCourseTitle: "TAMBIÉN PARA COMPLETAR ESTE CURSO NECESITARÁ",

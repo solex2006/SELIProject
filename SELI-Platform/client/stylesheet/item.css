@@ -33,7 +33,6 @@
 }
 
 .menu-content-item {
-  width: var(--menu-item-width);
   height: auto;
   display: flex;
   justify-content: center;

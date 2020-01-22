@@ -4,7 +4,8 @@ import MenuItem from './MenuItem';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import ResizableContent from './ResizableContent'
 import DiscreteSlider from './DiscreteSlider'
-
+import DragItem from './DragItem'
+import Divider from '@material-ui/core/Divider';
 export default class ImageItem extends React.Component {
   constructor(props) {
     super(props);
@@ -84,6 +85,7 @@ export default class ImageItem extends React.Component {
 
       
       <div className="content-box">
+        
         <div>
           <DiscreteSlider adjust={this.adjust}/> 
          
@@ -157,7 +159,9 @@ export default class ImageItem extends React.Component {
             }
           </div>
         </div>
-        <div className="menu-content-item">
+        <Divider orientation="vertical" />
+      
+        <div className="menu-content-item">     
           <MenuItem
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
@@ -166,9 +170,15 @@ export default class ImageItem extends React.Component {
             language={this.props.language}
           />
         </div>
+        <Divider orientation="vertical" />
+        <DragItem
+        language={this.props.language}
+        />
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
         />
+        
+       
       </div>
       );
     }

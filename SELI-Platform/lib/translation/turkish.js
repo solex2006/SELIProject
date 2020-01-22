@@ -106,6 +106,8 @@ var TURKISH = {
   audienceAreas: "Area",
   audiencelevel:"level",
   audiencetype:"type",
+  coursetitle: "Curso",
+  holdanddrag: "Hold and drag the content",
   courseSyllabus: "Kurs programı",
   courseOrganization: "Kurs organizasyonu",
   hoursAbbreviation: "s",

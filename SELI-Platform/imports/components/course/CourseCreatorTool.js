@@ -69,7 +69,6 @@ import InfoIcon from '@material-ui/icons/Info';
 import { FaThumbsDown } from 'react-icons/fa';
 import WarningIcon from '@material-ui/icons/Warning';
 
-
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
 }
@@ -568,7 +567,12 @@ export default class CourseCreatorTool extends React.Component {
         <div className="course-creator-container">
           {
             this.props.courseInformation.organization.subunit ?
+            <div>
+                <div className="title-course">
+                  <div className="subtitle">{this.props.language.coursetitle}: {this.props.courseInformation.title}</div>
+                </div>
               <div className="course-creator-work-area">
+                
                 <div
                   style={
                     !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
@@ -637,6 +641,8 @@ export default class CourseCreatorTool extends React.Component {
                     </Container>
                   }
                 </div>
+
+          
                 <div className="course-creator-menu-area">
                   <CourseCreatorMenu
                     setMenuTab={this.setMenuTab.bind(this)}
@@ -740,6 +746,7 @@ export default class CourseCreatorTool extends React.Component {
                   }
                 </div>
               </div>
+            </div>
             :
             undefined
           }
