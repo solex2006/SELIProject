@@ -162,61 +162,65 @@ export default class AudioForm extends React.Component {
     return(
       <div>
         {
-          this.state.attributes.source === "upload" && !this.state.showGallery ?
-            <div className="media-gallery-tab-button-container">
-              <Fab onClick={() => this.showLibrary()}>
-                <FolderSpecialIcon/>
-              </Fab>
-              <p className="media-fab-text">{this.props.language.library}</p>
-            </div>
-          :
-          undefined
-        }
-        {
           !this.state.showGallery ?
             <div id="dialog-max-height" className="dialog-form-container-large">
-              <Paper square>
-                <Tabs
-                  color="primary"
-                  value={this.state.attributes.source}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  className="form-tabs-container"
-                  variant="fullWidth"
-                  centered={true}
-                >
-                  <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadAudio} icon={<CloudUploadIcon />} />
-                  <Tab value={'record'} onClick={() => {this.selectType('record'); this.unPickFile()}} className="form-tab" label={this.props.language.byRecordedAudio} icon={<MicIcon />} />
-                </Tabs>
-              </Paper>
               <div className="dialog-columns-container">
                 <div className="course-creator-file-form-column">
+                  <div className = "menu-tab-button-container">
+                    <Paper square>
+                      <Tabs
+                        color="primary"
+                        value={this.state.attributes.source}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        className="form-tabs-container"
+                        variant="fullWidth"
+                        centered={true}
+                      >
+                        <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadAudio} icon={<CloudUploadIcon />} />
+                        <Tab value={'record'} onClick={() => {this.selectType('record'); this.unPickFile()}} className="form-tab" label={this.props.language.byRecordedAudio} icon={<MicIcon />} />
+                      </Tabs>
+                    </Paper>
+                  </div>
                   {
-                    !this.state.showPreview ?
-                      <div className="form-file-container">
-                        {
-                          this.state.attributes.source === 'upload' ?
-                            <FileUpload
-                              type="audio"
-                              accept={'audio/*'}
-                              user={Meteor.userId()}
-                              label={this.props.language.uploadAudioButtonLabel}
-                              getFileInformation={this.getFileInformation.bind(this)}
-                            />
-                          :
-                          <AudioRecorder
-                            getFileInformation={this.getFileInformation.bind(this)}
-                            language={this.props.language}
-                          />
-                        }
+                    this.state.attributes.source === "upload" && !this.state.showGallery ?
+                      <div className="library-button-container">
+                        <Fab onClick={() => this.showLibrary()}>
+                          <FolderSpecialIcon/>
+                        </Fab>
+                        <p className="media-fab-text">{this.props.language.library}</p>
                       </div>
                     :
-                    <AudioPreview
-                      file={this.state.attributes.audio}
-                      unPickFile={this.unPickFile.bind(this)}
-                      language={this.props.language}
-                    />
+                    undefined
                   }
+                  <div className="form-column-container">
+                    {
+                      !this.state.showPreview ?
+                        <div>
+                          {
+                            this.state.attributes.source === 'upload' ?
+                              <FileUpload
+                                type="audio"
+                                accept={'audio/*'}
+                                user={Meteor.userId()}
+                                label={this.props.language.uploadAudioButtonLabel}
+                                getFileInformation={this.getFileInformation.bind(this)}
+                              />
+                            :
+                            <AudioRecorder
+                              getFileInformation={this.getFileInformation.bind(this)}
+                              language={this.props.language}
+                            />
+                          }
+                        </div>
+                      :
+                      <AudioPreview
+                        file={this.state.attributes.audio}
+                        unPickFile={this.unPickFile.bind(this)}
+                        language={this.props.language}
+                      />
+                    }
+                  </div>
                 </div>
                 <div className="course-creator-form-column">
                   <div className="course-creator-input-container">

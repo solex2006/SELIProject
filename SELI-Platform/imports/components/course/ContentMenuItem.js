@@ -13,6 +13,7 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 import { FaPuzzlePiece } from "react-icons/fa";
 
 import Hint from '../tools/Hint';
+import Divider from '@material-ui/core/Divider';
 
 export default class ContentMenuItem extends React.Component {
   constructor(props) {
@@ -89,6 +90,40 @@ export default class ContentMenuItem extends React.Component {
                 </div>
               }
               hint={this.props.language.audioInfoHelp}
+              placement="left"
+            />
+          :
+            undefined
+        }
+                {
+          this.props.type === "quiz" ?
+            <Hint
+              node={
+                <div className="course-creator-menu-option">
+                  <div className="course-creator-menu-option-row">
+                    <FaRegQuestionCircle className="course-creator-menu-icon" size={"1.45em"}/>
+                  </div>
+                  <p className="course-creator-menu-text">{this.props.language.quiz}</p>
+                </div>
+              }
+              hint={this.props.language.quizInfoHelp}
+              placement="left"
+            />
+          :
+            undefined
+        }
+        {
+          this.props.type === "activity" ?
+            <Hint
+              node={
+                <div className="course-creator-menu-option">
+                  <div className="course-creator-menu-option-row">
+                    <FaPuzzlePiece className="course-creator-menu-icon" size={"1.45em"}/>
+                  </div>
+                  <p className="course-creator-menu-text">{this.props.language.activity}</p>
+                </div>
+              }
+              hint={this.props.language.activityInfoHelp}
               placement="left"
             />
           :
@@ -191,40 +226,6 @@ export default class ContentMenuItem extends React.Component {
                 </div>
               }
               hint={this.props.language.h5pInfoHelp}
-              placement="left"
-            />
-          :
-            undefined
-        }
-        {
-          this.props.type === "quiz" ?
-            <Hint
-              node={
-                <div className="course-creator-menu-option">
-                  <div className="course-creator-menu-option-row">
-                    <FaRegQuestionCircle className="course-creator-menu-icon" size={"1.45em"}/>
-                  </div>
-                  <p className="course-creator-menu-text">{this.props.language.quiz}</p>
-                </div>
-              }
-              hint={this.props.language.quizInfoHelp}
-              placement="left"
-            />
-          :
-            undefined
-        }
-        {
-          this.props.type === "activity" ?
-            <Hint
-              node={
-                <div className="course-creator-menu-option">
-                  <div className="course-creator-menu-option-row">
-                    <FaPuzzlePiece className="course-creator-menu-icon" size={"1.45em"}/>
-                  </div>
-                  <p className="course-creator-menu-text">{this.props.language.activity}</p>
-                </div>
-              }
-              hint={this.props.language.activityInfoHelp}
               placement="left"
             />
           :

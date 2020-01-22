@@ -394,8 +394,6 @@ export default class CourseCreatorTool extends React.Component {
     this.setState({
       showWarningOrganization: false,
       showCourseOrganization: true,
-      showContentEditor: false,
-      contentaAdded: false,
       contentOpen: true,
     });
   }
@@ -403,6 +401,8 @@ export default class CourseCreatorTool extends React.Component {
   warningOrganization() {
     this.contentHandleClickOpen();
     this.setState({
+      showContentEditor: false,
+      contentaAdded: false,
       showWarningOrganization: true,
     });
   }

@@ -111,7 +111,7 @@ export default class CompressedForm extends React.Component {
         {
           !this.state.showGallery ?
             <div id="dialog-max-height" className="dialog-form-container">
-              <div className="media-gallery-button-container">
+              <div className="library-button-container">
                 <Fab onClick={() => this.showLibrary()}>
                   <FolderSpecialIcon/>
                 </Fab>

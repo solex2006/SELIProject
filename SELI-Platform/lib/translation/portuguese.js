@@ -792,7 +792,6 @@ var PORTUGUESE = {
   askForTheManual: "Peça o manual",
   selectAnswer: "Selecione a(s) resposta(s) correta(s)",
   toEditPublished: "Para editar um curso publicado você precisa despublicá-lo",
-  course: "Curso",
   audience1:'Pedagogy',
   audience2:'Computing',
   audience3:'Mathematics',
@@ -803,11 +802,11 @@ var PORTUGUESE = {
   type1:'Student',
   type2:'Teacher',
   audiences: "Audiences",
-  holdanddrag: "Hold and drag the content",
   audienceAreas: "Area",
   audiencelevel:"level",
   audiencetype:"type",
-  coursetitle: "Course"
+  coursetitle: "Course",
+  holdanddrag: "Hold and drag the content",
 }
 
 export default PORTUGUESE;

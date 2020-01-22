@@ -24,6 +24,15 @@ import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldValidations';
 import Audiences from './Audiences'
 
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppsIcon from '@material-ui/icons/Apps';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Fab from '@material-ui/core/Fab';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import Tooltip from '@material-ui/core/Tooltip';
+import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 
 export default class CourseInformation extends React.Component {
   constructor(props) {
@@ -403,7 +412,22 @@ export default class CourseInformation extends React.Component {
           keepMounted
           maxWidth={false}
         >
-          <DialogTitle className="form-dialog-title" id="alert-dialog-title">{this.state.fileType === "image" ? this.props.language.chooseOrUploadImage : this.props.language.chooseOrUploadSyllabus}</DialogTitle>
+          <DialogTitle className="dialog-title">
+            <AppBar className="dialog-app-bar" color="primary" position="static">
+              <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
+                <AppsIcon/>
+                <h4 className="dialog-label-title">{this.state.fileType === "image" ? this.props.language.chooseOrUploadImage : this.props.language.chooseOrUploadSyllabus}</h4>
+                <IconButton
+                  id="close-icon"
+                  edge="end"
+                  className="dialog-toolbar-icon"
+                  onClick={this.handleClose}
+                >
+                  <CloseIcon/>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </DialogTitle>
           <DialogContent>
             <div className="file-form-dialog">
               {
@@ -416,56 +440,54 @@ export default class CourseInformation extends React.Component {
                     language={this.props.language}
                   />
                 :
-                <div>
-                  {
-                    this.state.showPreview ?
-                      <div className="form-preview-container">
-                        {
-                          this.state.fileType === "image" ?
-                            <ImagePreview
-                              file={this.state.image}
+                  <div>
+                    <div className="library-button-container">
+                      <Fab onClick={() => this.showLibrary()}>
+                        <FolderSpecialIcon/>
+                      </Fab>
+                      <p className="media-fab-text">{this.props.language.library}</p>
+                    </div>
+                    {
+                      this.state.showPreview ?
+                        <div className="form-preview-container">
+                          {
+                            this.state.fileType === "image" ?
+                              <ImagePreview
+                                file={this.state.image}
+                                unPickFile={this.unPickFile.bind(this)}
+                                language={this.props.language}
+                                tipo={"Course"}
+                              />
+                            :
+                            <PdfPreview
+                              file={this.state.sylabus}
                               unPickFile={this.unPickFile.bind(this)}
                               language={this.props.language}
-                              tipo={"Course"}
                             />
-                          :
-                          <PdfPreview
-                            file={this.state.sylabus}
-                            unPickFile={this.unPickFile.bind(this)}
-                            language={this.props.language}
-                          />
-                        }
+                          }
+                        </div>
+                      :
+                      <div className="form-file-container">
+                        <FileUpload
+                          type={this.state.fileType}
+                          user={Meteor.userId()}
+                          accept={this.state.accept}
+                          getFileInformation={this.getFileInformation.bind(this)}
+                          label={this.state.fileType === 'image' ? this.props.language.uploadImageButtonLabel : this.props.language.uploadPdfButtonLabel }
+                        />
                       </div>
-                    :
-                    <div className="form-file-container">
-                      <FileUpload
-                        type={this.state.fileType}
-                        user={Meteor.userId()}
-                        accept={this.state.accept}
-                        getFileInformation={this.getFileInformation.bind(this)}
-                        label={this.state.fileType === 'image' ? this.props.language.uploadImageButtonLabel : this.props.language.uploadPdfButtonLabel }
-                      />
-                    </div>
-                  }
-                  <div className="center-row">
-                    <p className="normal-text">{this.props.language.or}</p>
+                    }
                   </div>
-                  <div className="center-row">
-                    <p className="normal-text">{this.props.language.pickOneFrom}</p>
-                <Button onClick={() => this.showLibrary()} color="primary" className="text-button">{this.props.language.library}</Button>
-                  </div>
-                </div>
               }
             </div>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              {this.props.language.cancel}
-            </Button>
-            <Button onClick={() => this.selectFile(this.state.fileType)} disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} color="primary">
-              {this.props.language.select}
-            </Button>
-          </DialogActions>
+          <div className="dialog-actions-container">
+            <Tooltip title={this.props.language.done}>
+              <Fab onClick={() => this.selectFile(this.state.fileType)} disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} className="dialog-fab" color="primary">
+                <AssignmentTurnedInIcon/>
+              </Fab>
+            </Tooltip>
+          </div>
         </Dialog>
       </div>
       );

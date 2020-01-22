@@ -211,95 +211,99 @@ export default class VideoForm extends React.Component {
     return(
       <div>
         {
-          this.state.attributes.source === "upload" && !this.state.showGallery ?
-            <div className="media-gallery-tab-button-container">
-              <Fab onClick={() => this.showLibrary()}>
-                <FolderSpecialIcon/>
-              </Fab>
-              <p className="media-fab-text">{this.props.language.library}</p>
-            </div>
-          :
-          undefined
-        }
-        {
           !this.state.showGallery ?
             <div id="dialog-max-height" className="dialog-form-container-large">
-              <Paper square>
-                <Tabs
-                  color="primary"
-                  value={this.state.attributes.source}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  className="form-tabs-container"
-                  variant="fullWidth"
-                  centered={true}
-                >
-                  <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadVideo} icon={<CloudUploadIcon />} />
-                  <Tab value={'url'} onClick={() => {this.selectType('url'); this.unPickFile()}} className="form-tab" label={this.props.language.byUrlVideo}  icon={<HttpIcon />} />
-                </Tabs>
-              </Paper>
               <div className="dialog-columns-container">
                 <div className="course-creator-file-form-column">
+                  <div className = "menu-tab-button-container">
+                    <Paper square>
+                      <Tabs
+                        color="primary"
+                        value={this.state.attributes.source}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        className="form-tabs-container"
+                        variant="fullWidth"
+                        centered={true}
+                      >
+                        <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadVideo} icon={<CloudUploadIcon />} />
+                        <Tab value={'url'} onClick={() => {this.selectType('url'); this.unPickFile()}} className="form-tab" label={this.props.language.byUrlVideo}  icon={<HttpIcon />} />
+                      </Tabs>
+                    </Paper>
+                  </div>
                   {
-                    !this.state.showPreview ?
-                      <div className="form-file-container">
-                        {
-                          this.state.attributes.source === "upload" ?
-                            <FileUpload
-                              type="video"
-                              user={Meteor.userId()}
-                              accept={'video/*'}
-                              label={this.props.language.uploadVideoButtonLabel}
-                              getFileInformation={this.getFileInformation.bind(this)}
-                            />
-                          :
-                            <div>
-                              {
-                                this.state.validUrl ?
-                                  <ReactPlayer className="course-creator-preview-player" url={this.state.url}/>
-                                :
-                                  undefined
-                              }
-                              <div className="url-input-container">
-                                <TextField
-                                  id="url-input"
-                                  label="Url"
-                                  margin="normal"
-                                  variant="outlined"
-                                  value={this.state.url}
-                                  autoFocus={true}
-                                  required
-                                  onChange={this.urlHandleChange()}
-                                  className="url-input"
-                                  helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
-                                />
-                              </div>
-                              <div className="margin-center-row">
-                                <Button onClick={() => this.validateUrl()} className="url-check-button" color="primary">{this.props.language.testSource}</Button>
-                              </div>
-                            </div>
-                        }
+                    this.state.attributes.source === "upload" && !this.state.showGallery ?
+                      <div className="library-button-container">
+                        <Fab onClick={() => this.showLibrary()}>
+                          <FolderSpecialIcon/>
+                        </Fab>
+                        <p className="media-fab-text">{this.props.language.library}</p>
                       </div>
                     :
-                      <div>
-                        <div>
-                          <VideoPreview
-                            file={this.state.attributes.video}
-                            unPickFile={this.unPickFile.bind(this)}
-                            language={this.props.language}
-                          />
-                        </div>
-                        {/* <div>
-                          <FileUpload
-                            type="file"
-                            user={Meteor.userId()}
-                            accept={'.srt'}
-                            label={this.props.language.uploadSubtitleButtonLabel}
-                            getFileInformation={this.getFileInformationSub.bind(this)}
-                          />
-                        </div> */}
-                      </div>
+                    undefined
                   }
+                  <div className="form-column-container">
+                    {
+                      !this.state.showPreview ?
+                        <div>
+                          {
+                            this.state.attributes.source === "upload" ?
+                              <FileUpload
+                                type="video"
+                                user={Meteor.userId()}
+                                accept={'video/*'}
+                                label={this.props.language.uploadVideoButtonLabel}
+                                getFileInformation={this.getFileInformation.bind(this)}
+                              />
+                            :
+                              <div>
+                                {
+                                  this.state.validUrl ?
+                                    <ReactPlayer className="course-creator-preview-player" url={this.state.url}/>
+                                  :
+                                    undefined
+                                }
+                                <div className="url-input-container">
+                                  <TextField
+                                    id="url-input"
+                                    label="Url"
+                                    margin="normal"
+                                    variant="outlined"
+                                    value={this.state.url}
+                                    autoFocus={true}
+                                    required
+                                    onChange={this.urlHandleChange()}
+                                    className="url-input"
+                                    helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
+                                  />
+                                </div>
+                                {/* <div className="margin-center-row">
+                                  <Button onClick={() => this.validateUrl()} className="url-check-button" color="primary">{this.props.language.testSource}</Button>
+                                </div> */}
+                              </div>
+                          }
+                        </div>
+                      :
+                        <div>
+                          <div>
+                            <VideoPreview
+                              file={this.state.attributes.video}
+                              unPickFile={this.unPickFile.bind(this)}
+                              language={this.props.language}
+                            />
+                          </div>
+                            {/* <div>
+                              <FileUpload
+                                type="file"
+                                user={Meteor.userId()}
+                                accept={'.srt'}
+                                label={this.props.language.uploadSubtitleButtonLabel}
+                                getFileInformation={this.getFileInformationSub.bind(this)}
+                              />
+                            </div> */}
+                        </div>
+                    }
+                  </div>
                 </div>
                 <div className="course-creator-form-column">
                   <div className="course-creator-input-container">

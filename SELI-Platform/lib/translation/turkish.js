@@ -792,7 +792,6 @@ var TURKISH = {
   askForTheManual: "Ask for the manual",
   selectAnswer: "Select the correct answer(s)",
   toEditPublished: "To edit a published course you need to unpublish it",
-  course: "Curso",
   audience1:'Pedagogy',
   audience2:'Computing',
   audience3:'Mathematics',
