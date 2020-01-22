@@ -207,7 +207,10 @@ export default class CourseInformation extends React.Component {
   }
 
   componentDidMount() {
-
+    this.setState({
+      image: this.state.courseInformation.image,
+      sylabus: this.state.courseInformation.sylabus,
+    })
   }
 
   componentWillUnmount(){
@@ -249,6 +252,7 @@ export default class CourseInformation extends React.Component {
                 type="image"
                 unPickFile={this.unPickFile.bind(this)}
                 changeFile={this.changeFile.bind(this)}
+                courseSyllabus={this.props.language.courseSyllabus}
               />
             :
               <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>
@@ -263,6 +267,7 @@ export default class CourseInformation extends React.Component {
                 type="pdf"
                 unPickFile={this.unPickFile.bind(this)}
                 changeFile={this.changeFile.bind(this)}
+                courseSyllabus={this.props.language.courseSyllabus}
               />
             :
               <Button onClick={() => this.openFileSelector("pdf", ".pdf")} className="form-file-button" fullWidth color="secondary"><PictureAsPdfSharpIcon className="form-image-icon"/>
@@ -355,7 +360,7 @@ export default class CourseInformation extends React.Component {
           }
           <p className="form-message"> {this.props.language.courseKeyWordsHelp}
             <Help
-              helper="keyWordHelper"
+              helper="default"
               text={this.props.language.keywordsAreUsed}
               language={this.props.language}
             />

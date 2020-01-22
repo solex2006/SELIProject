@@ -38,8 +38,8 @@ const ResizableContent = props => {
     setTop(top + deltaY)
   }
 
-console.log("Rotate Angle: ", props.rotateAngle)
-console.log("width, heigth::::::::::::::::::", width, height )
+//console.log("Rotate Angle: ", props.rotateAngle)
+//console.log("width, heigth::::::::::::::::::", width, height )
 if(width != height){
   setWidth(300)
   setHeight(300)

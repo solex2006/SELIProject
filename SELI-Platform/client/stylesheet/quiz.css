@@ -22,6 +22,11 @@
   animation-delay: 0.5s;
 }
 
+.quiz-input-title {
+  width: 100% !important;
+  margin: 0.5vh 0.5% !important;
+}
+
 .quiz-input {
   width: 49% !important;
   margin: 0.5vh 0.5% !important;
@@ -78,6 +83,14 @@
   letter-spacing: 1px;
   color: #616161;
   margin-right: 1vw;
+}
+
+.form-dialog-question-button-container-text-select {
+  font-size: 0.85em;
+  letter-spacing: 1px;
+  color: #616161;
+  margin-right: 1vw;
+  margin-bottom: 10px;
 }
 
 .form-dialog-selected-question-input-container {

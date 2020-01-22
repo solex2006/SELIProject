@@ -224,12 +224,12 @@ class StorytellingTool extends React.Component {
       dataImages:[],
       dataAudio:[]
     })
-    console.log("Las Imagenes y Audios ya usados")
+    //console.log("Las Imagenes y Audios ya usados")
     let dataImageSound=Activities.find({}).fetch()
-    console.log("DATA-IMAGE-SOUND de todos los Usuarios...")
-    console.log(dataImageSound)
-    console.log("El user-id-actual")
-    console.log(Meteor.userId())
+    //console.log("DATA-IMAGE-SOUND de todos los Usuarios...")
+    //console.log(dataImageSound)
+    //console.log("El user-id-actual")
+    //console.log(Meteor.userId())
    //borrar los que no pertenecen a ese ususario
    //hacd una 
    //let = [...dataImageSound]
@@ -251,25 +251,28 @@ class StorytellingTool extends React.Component {
       }
     })
  */
-    console.log("DATA-IMAGE-SOUND NEWWWWWWWW...")
+    //console.log("DATA-IMAGE-SOUND NEWWWWWWWW...")
+    //console.log(dataImageSoundCopia) 
+
     console.log(dataImageSoundCopia) 
 
     dataImageSoundCopia.map((data)=>{
-      let ImageSound = data.activity.data
-      ImageSound.map((data2)=>{
-       let dataImg=data2.image       //let dataImgName=data2.image.link
-       let dataAud=data2.audio 
+      if (data.activity.type === "storytelling"){
+        let ImageSound = data.activity.data
+        ImageSound.map((data2)=>{
+        let dataImg=data2.image       //let dataImgName=data2.image.link
+        let dataAud=data2.audio 
 
-       this.state.dataImages.push(dataImg)
-       this.state.dataAudio.push(dataAud)
-      /* this.setState(prevState => ({
-        dataImages: [...prevState.dataImages, dataImg],
-        dataAudio: [...prevState.dataAudio, dataAud]
+        this.state.dataImages.push(dataImg)
+        this.state.dataAudio.push(dataAud)
+        /* this.setState(prevState => ({
+          dataImages: [...prevState.dataImages, dataImg],
+          dataAudio: [...prevState.dataAudio, dataAud]
+          
+        })) */
         
-      })) */
-      
-      })
-        
+        })
+      }
     })
     
      console.log("esatdo de las imags" , this.state.dataImages)
@@ -905,7 +908,7 @@ unPickImageFile(){
     if (this.state.story.nodes[this.state.selectedNode].description[language] === ""){
       return ""
     } else {
-      return "primary.main"
+      return "secondary.main"
     }
   };
 
@@ -1053,7 +1056,6 @@ unPickImageFile(){
                     />
                   </FormGroup>
                 </div>
-                {console.log(this.state.story.nodes[this.state.selectedNode].type)}
                 <div className="storytelling-menu-body-full">
                   { 
                     this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
@@ -1193,13 +1195,13 @@ unPickImageFile(){
                       undefined
                   }
                   <Divider light/>
-                  <div className="storytelling-menu-body">
+                  <div className="storytelling-menu-body-aux">
                       <Tabs
-                        color="primary"
+                        color="secondary"
                         value={this.state.mediaType}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        className="form-tabs-container"
+                        indicatorColor="secondary"
+                        textColor="secondary"
+                        className="form-tabs-container-media"
                         variant="fullWidth"
                         centered={true}
                       >
@@ -1209,6 +1211,16 @@ unPickImageFile(){
                           :
                             undefined
                         }
+                      </Tabs>
+                      <Tabs
+                        color="primary"
+                        value={this.state.mediaType}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        className="form-tabs-container-media"
+                        variant="fullWidth"
+                        centered={true}
+                      >
                         <Tab value={'image'} onClick={() => this.selectMediaType('image')} className="form-tab" label={this.props.language.image} />
                       </Tabs>
                   </div>
@@ -1216,10 +1228,10 @@ unPickImageFile(){
                     this.state.mediaType === 'audio' && this.state.story.nodes[this.state.selectedNode].type !== "end" ?
                       <div className="storytelling-menu-body">
                         <Tabs
-                          color="primary"
+                          color="secondary"
                           value={this.state.audioType}
-                          indicatorColor="primary"
-                          textColor="primary"
+                          indicatorColor="secondary"
+                          textColor="secondary"
                           className="form-tabs-container"
                           variant="fullWidth"
                           centered={true}
@@ -1236,7 +1248,7 @@ unPickImageFile(){
                                 <Button
                                   className="bar-button"
                                   variant="outlined"
-                                  color="primary"
+                                  color="secondary"
                                   onClick={() => this.unPickAudioFile()}
                                 >
                                   {this.props.language.recordAgain}
@@ -1256,7 +1268,7 @@ unPickImageFile(){
                                 <Button
                                   className="bar-button"
                                   variant="outlined"
-                                  color="primary"
+                                  color="secondary"
                                   onClick={() => this.unPickAudioFile()}
                                 >
                                   {this.props.language.changeAudio}
@@ -1276,7 +1288,7 @@ unPickImageFile(){
                         {
                           this.state.audioType === 'reuse' ?
                             <div className="center-row"> 
-                              <Button variant="contained" onClick={() => this.handleImagesAudio("audio")} color="primary" className="bar-button">             
+                              <Button variant="contained" onClick={() => this.handleImagesAudio("audio")} color="secondary" className="bar-button">             
                                 {this.props.language.reuseAudio}
                               </Button>
                             </div>
@@ -1326,6 +1338,7 @@ unPickImageFile(){
                               </div>
                             :
                               <FileUpload
+                                color='primary'
                                 type='image'
                                 user={Meteor.userId()}
                                 accept={'image/*'}
@@ -1505,7 +1518,7 @@ unPickImageFile(){
                   </GridList> */}
                   {this.state.dataImages1.map(tile => (
                     <div className="storytelling-image-library">
-                      <div style={{backgroundImage: `url(${tile.link})`}} className="file-image-preview"></div>
+                      <div style={{backgroundImage: `url(${tile.link})`}} className="file-image-preview" onDoubleClick={() => this.getImageFileInformationReuse(tile)}></div>
                     </div> 
                   ))}
                 </div>
@@ -1532,14 +1545,14 @@ unPickImageFile(){
                           src={tile.link}
                         />
                       </div>
-                      {/* <CardActions onDoubleClick={() => this.changeAudioName()} className="card-actions-bottom-container" disableSpacing>
+                      <CardActions onDoubleClick={() => this.changeAudioName()} className="card-actions-bottom-container" disableSpacing>
                         {`${this.props.language.audioTitle}: ${tile.name}`}
-                      </CardActions>  */}
+                      </CardActions> 
                        <div className="card-actions-bottom-containerText">
                           <form className={classes.text} noValidate autoComplete="off">
                               <div>
                                 <div>{tile.name}</div>
-                                  {/* <TextField
+                                 {/* <TextField
                                   id="standard-multiline-flexible"
                                   label="Rename audio"
                                   multiline
@@ -1548,7 +1561,7 @@ unPickImageFile(){
                                   /> */}
                               </div>
                             </form>
-                        </div>
+                        </div> 
                     </Card>
                   ))}
                 </div>

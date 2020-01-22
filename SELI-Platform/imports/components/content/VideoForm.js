@@ -289,7 +289,7 @@ export default class VideoForm extends React.Component {
                             language={this.props.language}
                           />
                         </div>
-                        <div>
+                        {/* <div>
                           <FileUpload
                             type="file"
                             user={Meteor.userId()}
@@ -297,7 +297,7 @@ export default class VideoForm extends React.Component {
                             label={this.props.language.uploadSubtitleButtonLabel}
                             getFileInformation={this.getFileInformationSub.bind(this)}
                           />
-                        </div>
+                        </div> */}
                       </div>
                   }
                 </div>
@@ -313,7 +313,7 @@ export default class VideoForm extends React.Component {
                       required
                       className="form-padding-dialog-input"
                     />
-                    <TextField
+                    {/* <TextField
                       id="link-input"
                       label={this.props.language.externalLink}
                       value={this.state.attributes.externalLink}
@@ -321,7 +321,7 @@ export default class VideoForm extends React.Component {
                       margin="normal"
                       variant="outlined"
                       className="form-padding-dialog-input"
-                    />
+                    /> */}
                     <div className="margin-center-row">
                       <FormGroup>
                         <FormControlLabel

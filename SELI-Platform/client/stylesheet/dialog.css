@@ -84,6 +84,21 @@
   animation-delay: 0.25s;
 }
 
+.menu-tab-button-container {
+  height: 56px;
+  position: fixed !important;
+  width: calc(42.5vw - 150px);
+  margin-top: 1vh;
+  margin-left: 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+  animation: fadeInDown 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.25s;
+}
+
 .media-fab-text {
   margin-left: 0.5vw;
   letter-spacing: 1px;
@@ -101,6 +116,11 @@
 }
 
 .form-tabs-container {
+  position: relative;
+}
+
+.form-tabs-container-media {
+  width: 50%;
   position: relative;
 }
 

@@ -164,7 +164,8 @@ export default class CourseOrganization extends React.Component {
                   :
                     this.props.language.exampleByTopics
                   }
-                  <Help helper="organization" language={this.props.language}/>
+                  {/* <Help helper="organization" language={this.props.language}/> */}
+                  <Help helper="default" text={this.props.language.help} language={this.props.language}/>
                 </p>
                 <p className="form-message">
                   {

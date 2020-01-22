@@ -71,8 +71,8 @@ export default class ImageItem extends React.Component {
 
 
   render() {
-    console.log("ImageItem---", this.props.item,this.props.item.attributes.image.link)
-    console.log("---Coordenada a Renderizar---",this.props.item.attributes.image.coordenada)
+    //console.log("ImageItem---", this.props.item,this.props.item.attributes.image.link)
+    //console.log("---Coordenada a Renderizar---",this.props.item.attributes.image.coordenada)
 
     if(this.state.width != this.state.height){
       this.setState({

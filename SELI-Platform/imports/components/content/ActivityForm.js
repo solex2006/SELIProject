@@ -207,7 +207,7 @@ export default class ActivityForm extends React.Component {
             <div className="form-activity-input-contained">
               <div className="center-row">
                 <Help
-                  helper="storyboard"
+                  helper="default"
                   text={this.props.language.whatIsStoryboard}
                   language={this.props.language}
                 />
@@ -221,7 +221,7 @@ export default class ActivityForm extends React.Component {
             <div className="form-activity-input-contained">
               <div className="center-row">
                 <Help
-                  helper="storyboard"
+                  helper="default"
                   text={this.props.language.whatIsUpload}
                   language={this.props.language}
                 />
@@ -240,7 +240,7 @@ export default class ActivityForm extends React.Component {
             <div className="form-activity-input-contained">
               <div className="center-row">
                 <Help
-                  helper="storyboard"
+                  helper="default"
                   text={this.props.language.whatIsTextSection}
                   language={this.props.language}
                 />
