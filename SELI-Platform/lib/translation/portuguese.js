@@ -807,7 +807,9 @@ var PORTUGUESE = {
   audienceAreas: "Area",
   audiencelevel:"level",
   audiencetype:"type",
-  coursetitle: "Course"
+  coursetitle: "Course",
+  activityInstructions: "Activity Instrucctions",
+  deliverType:'Student delivery type'
 }
 
 export default PORTUGUESE;

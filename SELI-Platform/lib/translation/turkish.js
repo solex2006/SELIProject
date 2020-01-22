@@ -808,6 +808,7 @@ var TURKISH = {
   audiencetype:"type",
   coursetitle: "Curso",
   holdanddrag: "Hold and drag the content",
+  activityInstructions: "Activity Instrucctions",
+  deliverType:'Student delivery type'
 }
-
 export default TURKISH;

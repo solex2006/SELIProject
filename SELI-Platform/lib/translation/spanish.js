@@ -808,6 +808,8 @@ var SPANISH = {
   askForTheManual: "Pregunte por el manual",
   selectAnswer: "Seleccione la(s) respuesta(s) correcta(s)",
   toEditPublished: "Para editar un curso publicado debe cancelar su publicación",
+  activityInstructions: "Instrucciones de la Actividad",
+  deliverType:'Tipo de Entrega del estudiante'
 }
 
 export default SPANISH;

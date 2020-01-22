@@ -807,7 +807,9 @@ var ENGLISH = {
   askForTheManual: "Ask for the manual",
   selectAnswer: "Select the correct answer(s)",
   toEditPublished: "To edit a published course you need to unpublish it",
-  course: "Course"
+  course: "Course",
+  activityInstructions: "Activity Instrucctions",
+  deliverType:'Student delivery type'
 }
 
 export default ENGLISH;
