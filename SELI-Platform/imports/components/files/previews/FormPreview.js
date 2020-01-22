@@ -42,7 +42,7 @@ export default class FormPreview extends React.Component {
         {
           this.props.type === "pdf" ?
             <div className="form-file-selected-file-container">
-              <p className="form-file-selected-file-title">Course sylabus</p>
+              <p className="form-file-selected-file-title">{this.props.courseSyllabus}</p>
               <BookIcon className="file-selected-icon"/>
               <p className="form-file-selected-file-subtitle">{`${this.props.file.name}`}</p>
             </div>

@@ -193,7 +193,7 @@ export default class PublishedCoursesList extends React.Component {
             {
               this.state.results ?
                 <div className="management-result-container">
-                  <p className="management-title">{this.props.language.myPublishedCourses}<SchoolIcon className="management-title-icon"/></p>
+                  <p className="management-title-published">{this.props.language.myPublishedCourses}<SchoolIcon className="management-title-icon"/></p>
                   <p className="management-title-suggestion">{`(${this.props.language.toEditPublished})`}</p>
                   <p className="management-title-suggestion-indent"></p>
                   <div className="management-table-container">
