@@ -807,6 +807,8 @@ var SPANISH = {
   audiencetype:"Tipo",
   coursetitle: "Curso",
   holdanddrag: "Mantener presionado y arrastrar el contenido",
+  activityInstructions: "Instrucciones de la Actividad",
+  deliverType:'Tipo de Entrega del estudiante'
 }
 
 export default SPANISH;

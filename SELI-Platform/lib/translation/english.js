@@ -807,6 +807,8 @@ var ENGLISH = {
   audiencetype:"type",
   coursetitle: "Course",
   holdanddrag: "Hold and drag the content",
+  activityInstructions: "Activity Instrucctions",
+  deliverType:'Student delivery type'
 }
 
 export default ENGLISH;

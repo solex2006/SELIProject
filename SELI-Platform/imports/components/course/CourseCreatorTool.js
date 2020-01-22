@@ -10,7 +10,6 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
-
 import BottomMenu from '../navigation/BottomMenu';
 import ContentMenuItem from './ContentMenuItem';
 import ContentItem from './ContentItem';
@@ -18,11 +17,9 @@ import SortItem from './items/SortItem';
 import DisabilitieMenu from './DisabilitieMenu';
 import CourseCreatorMenu from './CourseCreatorMenu';
 import VerticalTab from '../tools/VerticalTab';
-
 import { Container, Draggable, dropHandlers } from 'react-smooth-dnd';
 import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
 import { createContentItems } from '../../../lib/contentMenuItemsCreator';
-
 /* Dialog */
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -32,7 +29,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 /* Trasitions */
 import Slide from '@material-ui/core/Slide';
 import Grow from '@material-ui/core/Grow';
-
 /* Content Forms */
 import TextForm from '../content/TextForm';
 import ImageForm from '../content/ImageForm';
@@ -56,11 +52,8 @@ import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Tooltip from '@material-ui/core/Tooltip';
-
-
 /* Accessibility Forms */
 import VideoAccessibilityForm from '../accessibility/VideoAccessibilityForm';
-
 /* Snackbar */
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -72,10 +65,10 @@ import WarningIcon from '@material-ui/icons/Warning';
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
 }
-
 const GrowTransition = React.forwardRef(function Transition(props, ref) {
   return <Grow ref={ref} {...props} />;
 });
+
 
 export default class CourseCreatorTool extends React.Component {
   constructor(props) {
@@ -267,14 +260,12 @@ export default class CourseCreatorTool extends React.Component {
 
     }
   }
-
   resetMenuItems(){
     let contentItems = createContentItems();
     this.setState({
       contentItems: contentItems,
     });
   }
-
   cancelContentCreation(){
     let courseInformation = this.state.courseInformation;
     let index;
@@ -443,7 +434,7 @@ export default class CourseCreatorTool extends React.Component {
       this.showCreatorToolMessage("navigation");
     }
   }
-
+  
   reRender(){
     this.forceUpdate();
     this.setState({ state: this.state });
