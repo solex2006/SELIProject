@@ -40,7 +40,7 @@ export default DiscreteSlider=(props)=> {
       setValue(310);
     }
   };
-console.log("PROPS", props)
+//sconsole.log("PROPS", props)
   return (
     <div className={classes.root}>
       <Grid container spacing={2} alignItems="center">

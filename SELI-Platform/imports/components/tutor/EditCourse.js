@@ -184,6 +184,11 @@ export default class EditCourse extends React.Component {
     if (this.validateSaveCourse()) {
       let user = Meteor.user();
       let courseInformation = this.state.courseInformation;
+      let valueSubtitle = courseInformation.subtitle;
+      let valueSupport = courseInformation.support;
+      if (valueSubtitle === undefined) {
+        valueSubtitle = "-----"
+      }
       if (!this.state.saved) {
         courseInformation.createdBy = user.username;
         courseInformation.published = false;
@@ -192,10 +197,6 @@ export default class EditCourse extends React.Component {
         this.setState({
           saved: course,
         });
-      }
-      let valueSubtitle = courseInformation.subtitle;
-      if (valueSubtitle === undefined) {
-        valueSubtitle = "-----"
       }
       else {
         Courses.update(
@@ -211,7 +212,7 @@ export default class EditCourse extends React.Component {
               sylabus: courseInformation.sylabus,
               duration: courseInformation.duration,
               requirements: courseInformation.requirements,
-              support: courseInformation.support,
+              support: valueSupport,
               organization: courseInformation.organization,
               program: courseInformation.program,
               classroom: courseInformation.classroom
@@ -246,10 +247,10 @@ export default class EditCourse extends React.Component {
       this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    else if (!courseInformation.requirements.length) {
+    /* else if (!courseInformation.requirements.length) {
       this.props.handleControlMessage(true, `${this.props.language.technicalRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
-    }
+    } */
     /* else if (!courseInformation.support.length) {
       this.props.handleControlMessage(true, `${this.props.language.disabilitieRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;

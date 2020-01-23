@@ -84,6 +84,26 @@
   animation-delay: 0.25s;
 }
 
+.library-button-container {
+  margin-top: 3vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInDown 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.25s;
+}
+
+.menu-tab-button-container {
+  width: 100%;
+  margin-top: 1vh;
+  margin-left: 1vw;
+  justify-content: center;
+  animation: fadeInDown 0.5s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.25s;
+}
+
 .media-fab-text {
   margin-left: 0.5vw;
   letter-spacing: 1px;
@@ -101,6 +121,12 @@
 }
 
 .form-tabs-container {
+  position: relative;
+  
+}
+
+.form-tabs-container-media {
+  width: 50%;
   position: relative;
 }
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import Divider from '@material-ui/core/Divider';
 import MenuItem from './MenuItem';
 import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -8,7 +7,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
-
+import DragItem from './DragItem'
+import Divider from '@material-ui/core/Divider';
 export default class ActivityItem extends React.Component {
   constructor(props) {
     super(props);
@@ -93,6 +93,7 @@ export default class ActivityItem extends React.Component {
           undefined
         }
         <div className="menu-content-item">
+        
           <MenuItem
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
@@ -100,6 +101,10 @@ export default class ActivityItem extends React.Component {
             language={this.props.language}
           />
         </div>
+        <Divider orientation="vertical" />
+        <DragItem
+        language={this.props.language}
+        />
       </div>
       );
     }

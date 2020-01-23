@@ -202,7 +202,7 @@ export default class Editor extends React.Component {
       <div style={{width: '100%', paddingBottom: '2.5vh'}}>
         <MuiThemeProvider theme={theme}>
           <div className="editor-container">
-            <p className="editor-label">{this.props.language.textEditor}</p>
+            <p className="editor-label">{this.props.language.activityInstructions}</p>
             <div className="editor-tools">
               <Grid item>
                 <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>

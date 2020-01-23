@@ -122,7 +122,7 @@ export default class UnityForm extends React.Component {
         </div>
         <div className="center-row">
           <Help
-            helper="unityHelper"
+            helper="default"
             text={this.props.language.unityHelp}
             language={this.props.language}
           />

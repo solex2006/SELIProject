@@ -21,6 +21,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppsIcon from '@material-ui/icons/Apps';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Tooltip from '@material-ui/core/Tooltip';
+import Fab from '@material-ui/core/Fab';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+
 import { ContextMenu, ContextMenuTrigger } from "react-contextmenu";
 
 export default class NavigationTool extends React.Component {
@@ -31,11 +40,32 @@ export default class NavigationTool extends React.Component {
       program: this.props.program,
       selected: this.props.selected,
       addedUnit: undefined,
+      nameLabels: { nameUnit: "", nameSubunit: ""},
+      disableButton: true,
     }
   }
 
   handleClickOpen = () => {
-    this.setState({ open: true });
+    this.setState({ open: true});
+    let nameLabels = this.state.nameLabels
+    if (this.state.action === "addUnit" ) {
+      nameLabels.nameUnit = ""
+      nameLabels.nameSubunit = ""
+    }
+    else if (this.state.action === "addSubunit") {
+      nameLabels.nameSubunit = ""
+    }
+    else if (this.state.action === "editSubunit") {
+      nameLabels.nameSubunit = this.props.program[this.state.unitToEdit].lessons[this.state.subunitToEdit].name
+    }
+    else {
+      nameLabels.nameUnit = this.props.program[this.state.unitToEdit].name
+    }
+    let totalLength = nameLabels.nameUnit.length + nameLabels.nameSubunit.length;
+    this.setState({
+      nameLabels: nameLabels,
+      totalLength: totalLength
+    });
   };
 
   handleClose = () => {
@@ -109,8 +139,8 @@ export default class NavigationTool extends React.Component {
       this.setState({
         action: "addUnit",
         languageType: languageTypeAdded,
-        open: true,
       }, () => {
+        this.handleClickOpen();
         document.getElementById('unit-input').value = "";
         document.getElementById('unit-input').focus();
       });
@@ -121,111 +151,79 @@ export default class NavigationTool extends React.Component {
     if (this.props.dialog) {
       this.setState({
         action: "addSubunit",
-        open: true,
         selectedUnit: index,
       }, () => {
+        this.handleClickOpen();
         document.getElementById('subunit-input').value = "";
         document.getElementById('subunit-input').focus();
       });
     }
   }
 
-  unitKeyController(event) {
-    if (event.which == 13 || event.keyCode == 13) {
-      if (this.state.action === "addUnit" ) {
-        this.finishAddUnit();
-      }
-      if (this.state.action === "completeAddUnit" ) {
-        this.setState({
-          selectedUnit: this.state.addedUnit,
-        }, () => {
-          this.finishAddSubunit();
-        })
-      }
-      if (this.state.action === "addSubunit" ) {
-        this.finishAddSubunit();
-      }
-      if (this.state.action === "editUnit" ) {
-        this.finishEditUnit();
-      }
-      if (this.state.action === "editSubunit" ) {
-        this.finishEditSubunit();
-      }
+  unitController() {
+    if (this.state.action === "addUnit" ) {
+      this.finishAddUnit();
     }
+    if (this.state.action === "addSubunit" ) {
+      this.finishAddSubunit();
+    }
+    if (this.state.action === "editUnit" ) {
+      this.finishEditUnit();
+    }
+    if (this.state.action === "editSubunit" ) {
+      this.finishEditSubunit();
+    }
+    this.handleClose();
   }
 
   finishAddUnit() {
-    let name = document.getElementById('unit-input').value;
-    if (name !== "") {
-      let program = this.props.program;
-      if (this.props.organization.unit === "Unit") {
-        let addedUnit = program.push({name: name, lessons: []});
-        this.setState({
-          addedUnit: (addedUnit - 1),
-          action: "completeAddUnit",
-        }, () => {
-          document.getElementById('subunit-input').focus();
-        });
-      }
-      else if (this.props.organization.unit === "Topic") {
-        program.push({name: name, items: []});
-      }
-      else if (this.props.organization.unit === "Season") {
-        program.push({name: name, items: []});
-      }
-      document.getElementById('unit-input').value = "";
-      this.setState({
-        added: true,
-      });
+    let name = this.state.nameLabels.nameUnit;
+    let program = this.props.program;
+    if (this.props.organization.unit === "Unit") {
+      let addedUnit = program.push({name: name, lessons: []});
+      program[addedUnit-1].lessons.push({name: name, _id: `${Math.random()}${name}`, items: []});
+      document.getElementById('subunit-input').value = "";
     }
-    else {
-
+    else if (this.props.organization.unit === "Topic") {
+      program.push({name: name, items: []});
     }
+    else if (this.props.organization.unit === "Season") {
+      program.push({name: name, items: []});
+    }
+    document.getElementById('unit-input').value = "";
   }
 
   finishAddSubunit () {
-    let name = document.getElementById('subunit-input').value;
-    if (name !== "") {
-      let program = this.props.program;
-      if (this.props.organization.unit === "Unit") {
-        program[this.state.selectedUnit].lessons.push({name: name, _id: `${Math.random()}${name}`, items: []});
-      }
-      document.getElementById('subunit-input').value = "";
-      this.setState({
-        added: true,
-      });
+    let name = this.state.nameLabels.nameSubunit;
+    let program = this.props.program;
+    if (this.props.organization.unit === "Unit") {
+      program[this.state.selectedUnit].lessons.push({name: name, _id: `${Math.random()}${name}`, items: []});
     }
-    else {
-
-    }
+    document.getElementById('subunit-input').value = "";
   }
 
   finishEditUnit() {
-    let name = document.getElementById('unit-input').value;
-    if (name !== "") {
-      let program = this.props.program;
-      program[this.state.unitToEdit].name = name;
-      this.setState({
-        edited: true,
-      }, () => {
-        this.props.reRender();
-      })
-    }
+    let name = this.state.nameLabels.nameUnit;
+    let program = this.props.program;
+    program[this.state.unitToEdit].name = name;
+    this.setState({
+      edited: true,
+    }, () => {
+      this.props.reRender();
+    })
   }
 
   finishEditSubunit() {
-    let name = document.getElementById('subunit-input').value;
-    if (name !== "") {
-      let program = this.props.program;
-      if (this.props.organization.unit === "Unit") {
-        program[this.state.unitToEdit].lessons[this.state.subunitToEdit].name = name;
-      }
-      this.setState({
-        edited: true,
-      }, () => {
-        this.props.reRender();
-      })
+    let name = this.state.nameLabels.nameSubunit;
+    let program = this.props.program;
+    if (this.props.organization.unit === "Unit") {
+      program[this.state.unitToEdit].lessons[this.state.subunitToEdit].name = name;
     }
+    this.setState({
+      edited: true,
+    }, () => {
+      this.props.reRender();
+    })
   }
 
   deletUnit(index) {
@@ -282,8 +280,8 @@ export default class NavigationTool extends React.Component {
       unitToEdit: index,
       action: "editUnit",
       languageType: languageTypeAdded,
-      open: true,
     }, () => {
+      this.handleClickOpen();
       document.getElementById('unit-input').value = this.props.program[this.state.unitToEdit].name;
       document.getElementById('unit-input').focus();
     });
@@ -298,8 +296,8 @@ export default class NavigationTool extends React.Component {
             unitToEdit: i,
             subunitToEdit: j,
             action: "editSubunit",
-            open: true,
           }, () => {
+            this.handleClickOpen();
             document.getElementById('subunit-input').value = this.props.program[this.state.unitToEdit].lessons[this.state.subunitToEdit].name;
             document.getElementById('subunit-input').focus();
           });
@@ -322,7 +320,73 @@ export default class NavigationTool extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.totalLength !== this.state.totalLength) {
+      if (this.state.action === "addUnit" ) {
+        if (this.props.organization.unit === "Unit") {
+          if (this.state.nameLabels.nameUnit.length !== 0 && this.state.nameLabels.nameSubunit.length !== 0 ){
+            this.setState({
+              disableButton: false
+            });
+          } else {
+            this.setState({
+              disableButton: true
+            });
+          }
+        } else {
+          if (this.state.nameLabels.nameUnit.length !== 0 ){
+            this.setState({
+              disableButton: false
+            });
+          } else {
+            this.setState({
+              disableButton: true
+            });
+          }
+        }
+      } 
+      else if (this.state.action === "addSubunit" || this.state.action === "editSubunit"){
+        if (this.state.nameLabels.nameSubunit.length !== 0 ){
+          this.setState({
+            disableButton: false
+          });
+        } else {
+          this.setState({
+            disableButton: true
+          });
+        }
+      }
+      else {
+        if (this.state.nameLabels.nameUnit.length !== 0 ){
+          this.setState({
+            disableButton: false
+          });
+        } else {
+          this.setState({
+            disableButton: true
+          });
+        }
+      }
+    };
+  };
+
+  handleChange = valueType => event => {
+    let nameLabels = this.state.nameLabels
+    if (valueType === 'unit') {
+      nameLabels.nameUnit = event.target.value
+    }
+    else if (valueType === 'subunit') {
+      nameLabels.nameSubunit = event.target.value
+    }
+    let totalLength = nameLabels.nameUnit.length + nameLabels.nameSubunit.length;
+    this.setState({
+      nameLabels: nameLabels,
+      totalLength: totalLength
+    });
+  };
+
   render() {
+    console.log(this.state.nameLabels)
     return(
       <div>
         {
@@ -465,11 +529,26 @@ export default class NavigationTool extends React.Component {
           keepMounted
           className="navigation-dialog"
         >
-          <DialogTitle className="navigation-dialog-title">{this.props.language.navigationEditor}</DialogTitle>
+          <DialogTitle className="dialog-title">
+            <AppBar className="dialog-app-bar" color="primary" position="static">
+              <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
+                <AppsIcon/>
+                <h4 className="dialog-label-title">{this.props.language.navigationEditor}</h4>
+                <IconButton
+                  id="close-icon"
+                  edge="end"
+                  className="dialog-toolbar-icon"
+                  onClick={this.handleClose}
+                >
+                  <CloseIcon/>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </DialogTitle>
           <DialogContent>
             <div className="navigation-content">
               {
-                this.state.action === "addUnit" || this.state.action === "completeAddUnit" ?
+                this.state.action === "addUnit" ?
                   <div>
                     <TextField
                       id="unit-input"
@@ -479,32 +558,36 @@ export default class NavigationTool extends React.Component {
                       fullWidth
                       required
                       disabled={this.state.addedUnit !== undefined}
-                      helperText={this.props.language.pressEnterToAdd}
-                      onKeyPress={() => this.unitKeyController(event)}
+                      //helperText={this.props.language.pressEnterToAdd}
+                      //onKeyPress={() => this.unitKeyController(event)}
+                      value={this.state.nameUnit}
+                      onChange={this.handleChange('unit')}
                     />
+                    {
+                      this.props.organization.unit === "Unit" ?
+                        <div>
+                          <p className="navigation-label">
+                            {this.props.language.atLeastAdd}
+                          </p>
+                          <TextField
+                            id="subunit-input"
+                            label={this.props.language.lessonName}
+                            margin="normal"
+                            variant="outlined"
+                            fullWidth
+                            required
+                            //helperText={this.props.language.pressEnterToAdd}
+                            //onKeyPress={() => this.unitKeyController(event)}
+                            value={this.state.nameSubunit}
+                            onChange={this.handleChange('subunit')}
+                          />
+                        </div>
+                      :
+                        undefined
+                    }
                   </div>
                 :
-                undefined
-              }
-              {
-                this.state.addedUnit !== undefined ?
-                  <div>
-                    <p className="navigation-label">
-                      {this.props.language.alLeastAdd}
-                    </p>
-                    <TextField
-                      id="subunit-input"
-                      label={this.props.language.lessonName}
-                      margin="normal"
-                      variant="outlined"
-                      fullWidth
-                      required
-                      helperText={this.props.language.pressEnterToAdd}
-                      onKeyPress={() => this.unitKeyController(event)}
-                    />
-                  </div>
-                :
-                undefined
+                  undefined
               }
               {
                 this.state.action === "addSubunit" ?
@@ -517,10 +600,12 @@ export default class NavigationTool extends React.Component {
                       label={this.props.language.lessonName}
                       margin="normal"
                       variant="outlined"
-                      onKeyPress={() => this.unitKeyController(event)}
+                      //onKeyPress={() => this.unitKeyController(event)}
                       fullWidth
-                      helperText={this.props.language.pressEnterToAdd}
+                      //helperText={this.props.language.pressEnterToAdd}
                       required
+                      value={this.state.nameSubnit}
+                      onChange={this.handleChange('subunit')}
                     />
                   </div>
                 :
@@ -534,10 +619,12 @@ export default class NavigationTool extends React.Component {
                       label={this.state.languageType}
                       margin="normal"
                       variant="outlined"
-                      onKeyPress={() => this.unitKeyController(event)}
+                      //onKeyPress={() => this.unitKeyController(event)}
                       fullWidth
-                      helperText={this.props.language.pressEnterToEdit}
+                      //helperText={this.props.language.pressEnterToEdit}
                       required
+                      value={this.state.nameUnit}
+                      onChange={this.handleChange('unit')}
                     />
                   </div>
                 :
@@ -551,10 +638,12 @@ export default class NavigationTool extends React.Component {
                       label={this.props.language.lessonName}
                       margin="normal"
                       variant="outlined"
-                      onKeyPress={() => this.unitKeyController(event)}
+                      //onKeyPress={() => this.unitKeyController(event)}
                       fullWidth
-                      helperText={this.props.language.pressEnterToEdit}
+                      //helperText={this.props.language.pressEnterToEdit}
                       required
+                      value={this.state.nameSubnit}
+                      onChange={this.handleChange('subunit')}
                     />
                   </div>
                 :
@@ -562,11 +651,22 @@ export default class NavigationTool extends React.Component {
               }
             </div>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              {this.props.language.close}
-            </Button>
-          </DialogActions>
+          <div className="dialog-actions-container">
+            <Tooltip title={this.props.language.done}>
+              <Fab 
+              disabled={this.state.disableButton} 
+              onClick={() => {this.unitController()}} 
+              aria-label={this.props.language.startCreatingCourse} 
+              className="dialog-fab" color="primary">
+                {
+                  this.state.action === "addUnit" || this.state.action === "addSubunit" ?
+                    <AssignmentTurnedInIcon/>
+                  :
+                    <EditIcon/>
+                }
+              </Fab>
+            </Tooltip>
+          </div>
         </Dialog>
       </div>
     )

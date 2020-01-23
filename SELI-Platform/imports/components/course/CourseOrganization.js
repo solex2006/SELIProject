@@ -17,6 +17,8 @@ export default class CourseOrganization extends React.Component {
       selectedOrganization: '',
       unitIndex: 0,
       step: 0,
+      nameLabels: { nameUnit: "", nameSubunit: ""},
+      totalLength: 0
     }
   }
 
@@ -46,75 +48,33 @@ export default class CourseOrganization extends React.Component {
   }
 
   addUnit(){
-    let name = document.getElementById('unit-input').value;
-    if (name !== '') {
-      let courseInformation = this.props.courseInformation;
-      if (this.state.selectedOrganization.unit === "Unit") {
-        courseInformation.program.push({name: name, lessons: []});
-        this.setState({
-          addSubunit: true,
-        }, () => {
-          document.getElementById('subunit-input').focus();
-        });
-        return;
-      }
-      else if (this.state.selectedOrganization.unit === "Topic") {
-        courseInformation.program.push({name: name, items: []});
-      }
-      else if (this.state.selectedOrganization.unit === "Season") {
-        courseInformation.program.push({name: name, items: []});
-      }
-      courseInformation.organization = this.state.selectedOrganization;
-      this.setState({
-        addedUnit: true,
-      }, () => {
-        this.checkOrganization();
-      });
+    let name = this.state.nameLabels.nameUnit;
+    let courseInformation = this.props.courseInformation;
+    if (this.state.selectedOrganization.unit === "Unit") {
+      courseInformation.program.push({name: name, lessons: []});
     }
-  }
-
-  unitKeyController(event) {
-    if (event.which == 13 || event.keyCode == 13) {
-      if (this.state.editUnit) {
-        this.editUnit();
-      }
-      else {
-        this.addUnit();
-      }
+    else if (this.state.selectedOrganization.unit === "Topic") {
+      courseInformation.program.push({name: name, items: []});
     }
-  }
-
-  subunitKeyController(event) {
-    if (event.which == 13 || event.keyCode == 13) {
-      if (this.state.editSubunit) {
-        this.editSubunit();
-      }
-      else {
-        this.addSubunit();
-      }
+    else if (this.state.selectedOrganization.unit === "Season") {
+      courseInformation.program.push({name: name, items: []});
     }
+    courseInformation.organization = this.state.selectedOrganization;
   }
 
   addSubunit(){
-    let name = document.getElementById('subunit-input').value;
-    if (name !== '') {
-      let courseInformation = this.props.courseInformation;
-      if (this.state.selectedOrganization.unit === "Unit") {
-        courseInformation.program[this.state.unitIndex].lessons.push({name: name, _id: `${Math.random()}${name}`, items: []});
-      }
-      courseInformation.organization = this.state.selectedOrganization;
-      this.setState({
-        addedSubunit: true,
-      }, () => {
-        this.checkOrganization();
-      });
+    let name = this.state.nameLabels.nameSubunit;
+    let courseInformation = this.props.courseInformation;
+    if (this.state.selectedOrganization.unit === "Unit") {
+      courseInformation.program[this.state.unitIndex].lessons.push({name: name, _id: `${Math.random()}${name}`, items: []});
     }
+    courseInformation.organization = this.state.selectedOrganization;
   }
 
   checkOrganization() {
     if (this.state.selectedOrganization.unit === "Unit") {
-      if (this.props.courseInformation.program.length) {
-        if (this.props.courseInformation.program[0].lessons.length) {
+      if (this.state.nameLabels.nameUnit.length) {
+        if (this.state.nameLabels.nameSubunit.length) {
           this.props.validateOrganization(false);
           this.setState({
             organizationSelected: true,
@@ -129,7 +89,7 @@ export default class CourseOrganization extends React.Component {
       }
     }
     else {
-      if (this.props.courseInformation.program.length) {
+      if (this.state.nameLabels.nameUnit.length) {
         this.props.validateOrganization(false);
         this.setState({
           organizationSelected: true,
@@ -149,18 +109,39 @@ export default class CourseOrganization extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.totalLength !== this.state.totalLength) {
+      this.checkOrganization()
+    };
+  };
+
+  handleChange = valueType => event => {
+    let nameLabels = this.state.nameLabels
+    if (valueType === 'unit') {
+      nameLabels.nameUnit = event.target.value
+    }
+    else if (valueType === 'subunit') {
+      nameLabels.nameSubunit = event.target.value
+    }
+    let totalLength = nameLabels.nameUnit.length + nameLabels.nameSubunit.length;
+    this.setState({
+      nameLabels: nameLabels,
+      totalLength: totalLength
+    });
+  };
+
   render() {
     return(
       <div className="organization-form">
         <div className="course-organization-options-container">
           {
-            this.state.organizationSelected ?
+            /* this.state.organizationSelected ?
               <div className="warning-container">
                 <WarningIcon className="warning-icon"/>
                 <p className="warning-text">{this.props.language.courseOrganizationChangeWarning}</p>
               </div>
             :
-              undefined
+              undefined */
           }
           <p className="form-message">{`${this.props.language.selectHowToOrganize}:`}</p>
           <div className="button-row">
@@ -183,7 +164,8 @@ export default class CourseOrganization extends React.Component {
                   :
                     this.props.language.exampleByTopics
                   }
-                  <Help helper="organization" language={this.props.language}/>
+                  {/* <Help helper="organization" language={this.props.language}/> */}
+                  <Help helper="default" text={this.props.language.help} language={this.props.language}/>
                 </p>
                 <p className="form-message">
                   {
@@ -204,27 +186,29 @@ export default class CourseOrganization extends React.Component {
                         className="form-dialog-input"
                         fullWidth
                         required
-                        disabled={this.state.addedUnit || this.state.addSubunit}
-                        helperText={this.props.language.pressEnterToAdd}
-                        onKeyPress={() => this.unitKeyController(event)}
+                        //disabled={this.state.addedUnit || this.state.addSubunit}
+                        //helperText={this.props.language.pressEnterToAdd}
+                        //onKeyPress={() => this.unitKeyController(event)}
+                        value={this.state.nameUnit}
+                        onChange={this.handleChange('unit')}
                       />
-                      {
-                        this.state.addSubunit ?
-                          <TextField
-                            id="subunit-input"
-                            label={this.props.language.lessonName}
-                            margin="normal"
-                            variant="outlined"
-                            className="form-dialog-input"
-                            fullWidth
-                            required
-                            disabled={this.state.addedSubunit}
-                            helperText={this.props.language.pressEnterToAdd}
-                            onKeyPress={() => this.subunitKeyController(event)}
-                          />
-                        :
-                        undefined
-                      }
+                      <p className="navigation-label">
+                        {this.props.language.atLeastAdd}
+                      </p>
+                      <TextField
+                        id="subunit-input"
+                        label={this.props.language.lessonName}
+                        margin="normal"
+                        variant="outlined"
+                        className="form-dialog-input"
+                        fullWidth
+                        required
+                        //disabled={this.state.addedSubunit}
+                        //helperText={this.props.language.pressEnterToAdd}
+                        //onKeyPress={() => this.subunitKeyController(event)}
+                        value={this.state.nameSubunit}
+                        onChange={this.handleChange('subunit')}
+                      />
                     </div>
                   :
                     <TextField
@@ -236,8 +220,10 @@ export default class CourseOrganization extends React.Component {
                       fullWidth
                       required
                       disabled={this.state.addedUnit}
-                      helperText={this.props.language.pressEnterToAdd}
-                      onKeyPress={() => this.unitKeyController(event)}
+                      //helperText={this.props.language.pressEnterToAdd}
+                      //onKeyPress={() => this.unitKeyController(event)}
+                      value={this.state.nameUnit}
+                      onChange={this.handleChange('unit')}
                     />
                 }
               </div>

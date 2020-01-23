@@ -43,6 +43,9 @@ export default class CreateCourse extends React.Component {
         requirements: [],
         support: [],
         organization: '',
+        signature:'',
+        level:'',
+        type:'',
         program: [
 
         ],
@@ -166,6 +169,10 @@ export default class CreateCourse extends React.Component {
       let user = Meteor.user();
       let courseInformation = this.state.courseInformation;
       let course;
+      let valueSubtitle = courseInformation.subtitle;
+      if (valueSubtitle === undefined) {
+        valueSubtitle = "-----"
+      }
       if (!this.state.saved) {
         courseInformation.createdBy = user.username;
         courseInformation.published = false;
@@ -174,10 +181,6 @@ export default class CreateCourse extends React.Component {
         this.setState({
           saved: course,
         });
-      }
-      let valueSubtitle = courseInformation.subtitle;
-      if (valueSubtitle === undefined) {
-        valueSubtitle = "-----"
       }
       else {
         Courses.update(
@@ -230,14 +233,14 @@ export default class CreateCourse extends React.Component {
       this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    else if (!courseInformation.requirements.length) {
+    /* else if (!courseInformation.requirements.length) {
       this.props.handleControlMessage(true, `${this.props.language.technicalRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
     }
     else if (!courseInformation.support.length) {
       this.props.handleControlMessage(true, `${this.props.language.disabilitieRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
-    }
+    } */
     else if (courseInformation.organization === '') {
       this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step} 3: ${this.props.language.program})`, false, '', '');
       return false;

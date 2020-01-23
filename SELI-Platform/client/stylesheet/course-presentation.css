@@ -92,12 +92,22 @@
 
 .course-other-information-container {
   height: 40vh;
-  display: flex;
-  justify-content: center;
+  justify-content: center !important;
   align-items: center;
-  flex-direction: row;
+  
   padding: 2.5vh 0;
   padding-bottom: 12.5vh;
+  align-content: center !important;
+}
+.boxItem{
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+}
+.boxItem2{
+  display: block;
+  flex-direction: row;
+  margin: 20px;
 }
 
 .course-card-information {
@@ -107,10 +117,24 @@
   opacity: 0.9;
   transition: 0.5s !important;
 }
-
+.course-card-information1 {
+  height: 30vh;
+  width: 25vw;
+  margin: 0 1.5vw;
+  align-content: center !important;
+  justify-content: center;
+  opacity: 0.9;
+  transition: 0.5s !important;
+}
 .course-card-information:hover {
   opacity: 1;
   cursor: pointer;
+}
+
+.groupAudicences{
+  display: inline-block;
+  justify-content: center !important;
+  text-align: center;
 }
 
 .course-card-title {
@@ -128,6 +152,36 @@
   align-items: center;
 }
 
+.course-card-title1 {
+  width: 90%;
+  height: 10vh;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  padding: 0 5%;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.itemAudience{
+  display: flex !important;
+  text-transform: capitalize;
+  margin-right: 2px;
+  margin-left: 18px;
+}
+
+.titleItem{
+  margin-right: 40px ;
+  margin-left: 30px ;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  display: flex;
+
+}
 .course-card-presentation-content {
   width: 100%;
   padding-top: 1vh;
@@ -181,6 +235,7 @@
   align-items: center;
   padding-top: 2.5vh;
   padding-bottom: 15vh;
+  margin-top: 110px;
 }
 
 .course-requirement-information-title {

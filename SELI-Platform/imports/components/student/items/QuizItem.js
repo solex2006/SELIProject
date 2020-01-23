@@ -150,14 +150,14 @@ export default class QuizItem extends React.Component {
                   <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit + " minutes"}
                   </Typography>
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                  {/* <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.creditResources + ": " + this.props.item.attributes.creditResources}
+                  </Typography> */}
+                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                    {this.props.language.numberQuestions + ": " + this.props.item.attributes.questions.length}
                   </Typography>
                   <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.item.attributes.awardPoints ? this.props.language.awardPoints : this.props.language.noAwardPoints}
-                  </Typography>
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {this.props.language.numberQuestions + ": " + this.props.item.attributes.questions.length}
                   </Typography>
                   <div className="quiz-item-tick-container">
 

@@ -10,12 +10,11 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import ReactPlayer from 'react-player';
-
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
-
 import ItemFeedback from '../../accessibility/ItemFeedback';
-
+import DragItem from './DragItem'
+import Divider from '@material-ui/core/Divider';
 
 export default class VideoItem extends React.Component {
   constructor(props) {
@@ -92,6 +91,10 @@ export default class VideoItem extends React.Component {
             language={this.props.language}
           />
         </div>
+        <Divider orientation="vertical" />
+        <DragItem
+        language={this.props.language}
+        />
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
         />

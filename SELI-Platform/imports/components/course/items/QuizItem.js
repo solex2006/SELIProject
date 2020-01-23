@@ -7,8 +7,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
+import DragItem from './DragItem'
 import Divider from '@material-ui/core/Divider';
-
 export default class QuizItem extends React.Component {
   constructor(props) {
     super(props);
@@ -56,14 +56,14 @@ export default class QuizItem extends React.Component {
                   <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit + " minutes"}
                   </Typography>
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                  {/* <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.creditResources + ": " + this.props.item.attributes.creditResources}
+                  </Typography> */}
+                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                    {this.props.language.numberQuestions +": " + this.props.item.attributes.questions.length}
                   </Typography>
                   <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.item.attributes.awardPoints ? this.props.language.awardPoints : this.props.language.noAwardPoints}
-                  </Typography>
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {this.props.language.numberQuestions +": " + this.props.item.attributes.questions.length}
                   </Typography>
                   <div className="quiz-item-tick-container">
 
@@ -82,6 +82,10 @@ export default class QuizItem extends React.Component {
             language={this.props.language}
           />
         </div>
+        <Divider orientation="vertical" />
+        <DragItem
+        language={this.props.language}
+        />
       </div>
       );
     }

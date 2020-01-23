@@ -139,8 +139,8 @@ export default class ImageForm extends React.Component {
 
   coordenadasCursosImageForm =(coordenadas)=> {
     this.state.attributes.image.coordenada=coordenadas
-    console.log("ImageForm ...", this.state.attributes.image)
-    console.log("CoordenadaImageForm ...", coordenadas)
+    //console.log("ImageForm ...", this.state.attributes.image)
+    //console.log("CoordenadaImageForm ...", coordenadas)
     this.setState({
       coordenadaR: coordenadas 
     })
@@ -148,20 +148,18 @@ export default class ImageForm extends React.Component {
 
 
   render() {
-    console.log("ImageForm ...", this.state.attributes.image   )
+    //console.log("ImageForm ...", this.state.attributes.image   )
     return(
       <div>
         {
           !this.state.showGallery ?
             <div id="dialog-max-height" className="dialog-form-container">
-              <div className="media-gallery-button-container">
+              <div className="library-button-container">
                 <Fab onClick={() => this.showLibrary()}>
                   <FolderSpecialIcon/>
                 </Fab>
-
                 <p className="media-fab-text">{this.props.language.library}</p>
               </div>
-              
               {
                 !this.state.showPreview ?
                   <div className="form-file-container">
@@ -184,18 +182,16 @@ export default class ImageForm extends React.Component {
               }
               <div className="scroll-media-input-container">
                 <div className="margin-center-row">
+                  <br/>
                   <FormGroup>
                     <FormControlLabel
                       control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
                       label={<p className="form-label">{this.props.language.imageWithText}</p>}
                   />
-
-                  
-
-
-
-
                   </FormGroup>
+                  <br/>
+                </div>
+                <div className="margin-center-row">
                   <p className="form-label">{this.props.language.imagePosition}</p>
                   <Grid item>
                     <ToggleButtonGroup size="small" onChange={this.handleChange("alignment")} value={this.state.attributes.alignment} exclusive>
