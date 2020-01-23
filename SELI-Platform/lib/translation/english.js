@@ -812,6 +812,8 @@ var ENGLISH = {
   basicItems: "Basic items",
   advancedItems: "Advanced items",
   saveCourseLost: "Your course is not saved. If you are going to another section, the information typed will be lost. Do you want to save it?",
+  other: "other",
+
 }
 
 export default ENGLISH;

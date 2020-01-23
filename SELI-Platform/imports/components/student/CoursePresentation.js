@@ -22,7 +22,7 @@ import Roll from 'react-reveal/Roll';
 import CourseCarousel from './CourseCarousel';
 import TechnicalRequirement from './TechnicalRequirement';
 import CourseNavigation from './CourseNavigation';
-
+import AccessibilityIcon from '@material-ui/icons/Accessibility';
 var ColorThief = require('color-thief');
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -269,7 +269,9 @@ export default class CoursePresentation extends React.Component {
                               )
                             })
                           }
+                          
                         </div>
+                        
                         <div className={"titleItem"}>
                           {this.props.language.audiencetype}
                           {
@@ -284,6 +286,14 @@ export default class CoursePresentation extends React.Component {
                           }
                         </div>
                     </div>
+                    <IconButton className="course-card-presentation-icon-button">
+                          <AccessibilityIcon
+                            className="course-card-presentation-icon"
+                            style={{
+                              color: this.state.palette[0].textColor,
+                            }}
+                          />
+                    </IconButton>
                   </Paper>
                 </Fade>  
             </div>
