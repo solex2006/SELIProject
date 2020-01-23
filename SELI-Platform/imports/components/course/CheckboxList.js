@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CommentIcon from '@material-ui/icons/Comment';
 import TextField from  '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import SendRoundedIcon from '@material-ui/icons/SendRounded';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,6 +25,7 @@ export default CheckboxList= (props)=> {
   const classes = useStyles();
   var [checked, setChecked] = React.useState([0]);
   var [other, setOther] = React.useState("nothing");
+  var [fieltext, setFieldText] = React.useState("Nofieldtext");
 
   const handleToggle = value => () => {
     console.log("SAVE",value)
@@ -36,19 +38,40 @@ export default CheckboxList= (props)=> {
       }else{
         newChecked.push(other);
         //console.log("Push audiences..", newChecked)
+        removeItemFromArr( newChecked, `${props.language.other}` );
+        newChecked = newChecked.filter(e => e !== 0);
         props.getAudiences(newChecked, props.name)
-        setOther("nothing")
+        setOther("nothing")//restart variable for storage textfield
+        setFieldText("Nofieldtext")
       }
     }else{
       if (currentIndex === -1) {
-        newChecked.push(value);
-        //console.log("Push audiences..", newChecked)
-        props.getAudiences(newChecked, props.name)
+        if(value===`${props.language.other}` ){
+          setFieldText("fieldtext")//Show the textfield
+          
+          newChecked.push(value);
+          //removeItemFromArr( newChecked, 0);
+          
+        }else{
+          newChecked.push(value);
+          newChecked = newChecked.filter(e => e !== 0);
+          console.log("Push audiences..", newChecked, value)
+          //removeItemFromArr( newChecked, `${props.language.other}` );
+          props.getAudiences(newChecked, props.name)
+        }
+        
       } else {
-        newChecked.splice(currentIndex, 1);
-        //console.log("Splice Audiences...", newChecked)
-        props.getAudiences(newChecked, props.name)
-      }
+          newChecked.splice(currentIndex, 1);
+          console.log("Splice Audiences...", newChecked)
+          //removeItemFromArr( newChecked, `${props.language.other}` );
+          props.getAudiences(newChecked, props.name)
+          if(value===`${props.language.other}` ){
+            setFieldText("Nofieldtext")//Show the textfield
+          }
+          
+        }
+        
+      
 
     }
     setChecked(newChecked);
@@ -56,17 +79,29 @@ export default CheckboxList= (props)=> {
 
  const handleChange = (event) => {
     console.log(event.target.value);
-    setOther(event.target.value)
-    
+    setOther(event.target.value)  
   };
-  
+  const handleTextField = () => {
+    return(
+      <form noValidate autoComplete="off">
+          <TextField 
+          onChange={handleChange}
+          id="standard-basic" label={`${props.language.other}`} />
+          <Button className={"buttomAudiencesSend"} onClick={handleToggle("save")} color="primary">
+          <SendRoundedIcon/>
+          </Button>
+      </form>
+    )
+     
+  };
 
-
+  const removeItemFromArr= ( arr, item )=> {
+    var i = arr.indexOf( item );
+    arr.splice( i, 1 );
+}
   const audiences=props.areas
 
-
   
-
   return (
     <div>
       <List className={classes.root}>
@@ -89,12 +124,18 @@ export default CheckboxList= (props)=> {
         );
        
       })}
-      <form noValidate autoComplete="off">
+      {
+        fieltext==="fieldtext" ?
+        handleTextField()
+        :
+        undefined
+      }
+     {/*  <form noValidate autoComplete="off">
           <TextField 
           onChange={handleChange}
           id="standard-basic" label="Other" />
           <Button className={"buttomAudiences"} onClick={handleToggle("save")} variant="outlined" color="primary">Send</Button>
-      </form>
+      </form> */}
 
     </List>
     </div>

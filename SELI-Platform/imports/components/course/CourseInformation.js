@@ -234,6 +234,7 @@ export default class CourseInformation extends React.Component {
 
   getAudiences=(audiences, name)=>{
     let courseInformation = this.state.courseInformation;
+    
     //console.log("Audiences in Course Information", audiences, name)
     console.log("CourseInformation:::::::::::", courseInformation )
     //courseInformation.audiences = audiences;
@@ -248,6 +249,7 @@ export default class CourseInformation extends React.Component {
     }
    
   }
+
 
 
   render() {

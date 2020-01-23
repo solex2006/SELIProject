@@ -811,6 +811,7 @@ var TURKISH = {
   deliverType:'Student delivery type',
   basicItems: "Basic items",
   advancedItems: "Advanced items",
+  other: "diğer",
 }
 
 export default TURKISH;

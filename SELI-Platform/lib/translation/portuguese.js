@@ -811,6 +811,7 @@ var PORTUGUESE = {
   deliverType:'Student delivery type',
   basicItems: "Basic items",
   advancedItems: "Advanced items",
+  other:"outro",
 }
 
 export default PORTUGUESE;

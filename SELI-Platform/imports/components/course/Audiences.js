@@ -25,24 +25,27 @@ class Audiences extends Component {
                     <CheckboxList
                         other={this.state.other}
                         getAudiences={this.props.getAudiences}
-                        areas={[`${this.props.language.audience1}`, `${this.props.language.audience2}`, `${this.props.language.audience3}`]}
+                        areas={[`${this.props.language.audience1}`, `${this.props.language.audience2}`, `${this.props.language.audience3}`, `${this.props.language.other}`]}
                         name={"signature"}
+                        language={this.props.language}
                     />
                 </div>
                 
                 <div className="items-audiences">
                 <CheckboxList
                     getAudiences={this.props.getAudiences}
-                    areas={[`${this.props.language.level1}`, `${this.props.language.level2}`, `${this.props.language.level3}`, `${this.props.language.level4}`]}
+                    areas={[`${this.props.language.level1}`, `${this.props.language.level2}`, `${this.props.language.level3}`,`${this.props.language.other}`]}
                     name={"level"}
+                    language={this.props.language}
                 />
                 </div>
                  
                 <div className="items-audiences">
                     <CheckboxList
                         getAudiences={this.props.getAudiences}
-                        areas={[`${this.props.language.type2}`,`${this.props.language.type1}`]}
+                        areas={[`${this.props.language.type2}`,`${this.props.language.type1}`, `${this.props.language.other}`]}
                         name={"type"}
+                        language={this.props.language}
                     />
                 </div>
                 

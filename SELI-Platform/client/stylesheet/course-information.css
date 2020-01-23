@@ -20,7 +20,15 @@
 }
 
 .buttomAudiences{
-  border-radius: 15px !important;
+  border-radius: 35px !important;
+
+}
+.buttomAudiencesSend{
+  border-radius: 100px !important;
+  display: inline-block;
+  margin-top: 19px !important;
+  align-content: left;
+  
 }
 
 .row-input {

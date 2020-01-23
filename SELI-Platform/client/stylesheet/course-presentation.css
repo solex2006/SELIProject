@@ -167,8 +167,10 @@
   align-items: center;
 }
 .itemAudience{
-  display: block !important;
-  text-transform: lowercase;
+  display: flex !important;
+  text-transform: capitalize;
+  margin-right: 2px;
+  margin-left: 18px;
 }
 
 .titleItem{
@@ -177,7 +179,7 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   text-align: center;
-  display: inline-block;
+  display: flex;
 
 }
 .course-card-presentation-content {

@@ -811,6 +811,7 @@ var SPANISH = {
   deliverType:'Tipo de Entrega del estudiante',
   basicItems: "Elementos básicos",
   advancedItems: "Elementos avanzados",
+  other: "otro",
 }
 
 export default SPANISH;
