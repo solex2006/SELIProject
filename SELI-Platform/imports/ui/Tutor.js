@@ -37,12 +37,16 @@ import english from '../../lib/translation/english';
 import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import turkish from '../../lib/translation/turkish';
+import WarningIcon from '@material-ui/icons/Warning';
 
 export default class Tutor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       component: 'home',
+      nextComponent: '',
+      savedCourse: false,
+      savedCourseWindow: false,
     }
   }
 
@@ -111,9 +115,21 @@ export default class Tutor extends React.Component {
   }
 
   showComponent = (component) => {
-    this.setState({
-      component: component,
-    });
+    if (!(component === "create" && this.state.component === "create")){
+      if (this.state.component === "create" && !this.state.savedCourse){
+        if (component !== "create") {
+          this.setState({
+            savedCourseWindow: true,
+            nextComponent: component,
+          });
+        }
+      } else {
+        this.setState({
+          component: component,
+          savedCourse: false,
+        });
+      }
+    }
   }
 
   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
@@ -160,6 +176,27 @@ export default class Tutor extends React.Component {
       courseToShow: false, 
     });
   };
+
+  handleCloseSave = () => {
+    this.setState({ 
+      savedCourseWindow: false,
+      savedCourse: false,
+      component: this.state.nextComponent, 
+    });
+  }
+
+  savedCourseState = () => {
+    this.setState({
+      savedCourse: true, 
+    });
+  }
+
+  saveCourse = () => {
+    this.refs.CreateCourse.saveCourse();
+    this.setState({ 
+      savedCourseWindow: false,
+    });
+  }
 
   render() {
     return(
@@ -223,6 +260,8 @@ export default class Tutor extends React.Component {
                     {
                       this.state.component === 'create' ?
                         <CreateCourse
+                          ref="CreateCourse"
+                          savedCourseState={this.savedCourseState.bind(this)}
                           language={this.state.language}
                           user={this.state.user}
                           handleControlMessage={this.handleControlMessage.bind(this)}
@@ -315,6 +354,28 @@ export default class Tutor extends React.Component {
                         {this.state.language.yes}
                       </Button>
                     </Link>
+                  </DialogActions>
+                </Dialog>
+                <Dialog
+                  open={this.state.savedCourseWindow}
+                  onClose={this.handleClose}
+                  aria-labelledby="alert-dialog-confirmation"
+                  aria-describedby="alert-dialog-confirmation"
+                >
+                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.saveCourse}</DialogTitle>
+                  <DialogContent className="success-dialog-content">
+                    <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                      {this.state.language.saveCourseLost}
+                    </DialogContentText>
+                    <WarningIcon className="warning-dialog-icon"/> 
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => this.handleCloseSave()} color="primary" autoFocus>
+                      {this.state.language.no}
+                    </Button>
+                    <Button onClick={() => this.saveCourse()} color="primary" autoFocus>
+                      {this.state.language.yes}
+                    </Button>
                   </DialogActions>
                 </Dialog>
               </React.Fragment>

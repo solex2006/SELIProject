@@ -811,6 +811,7 @@ var SPANISH = {
   deliverType:'Tipo de Entrega del estudiante',
   basicItems: "Elementos básicos",
   advancedItems: "Elementos avanzados",
+  saveCourseLost: "Su curso no está guardado. Si va a otra sección, la información ingresada se perderá. ¿Desea guardarlo?",
 }
 
 export default SPANISH;

@@ -5,6 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { DiUnitySmall } from "react-icons/di";
 import { Link } from 'react-router-dom';
 
@@ -61,13 +62,13 @@ export default class UnityPreview extends React.Component {
                 }}
               >
                 <IconButton color="secondary" aria-label={this.props.language.open}>
-                  <OpenInNewIcon />
+                  <img src="openNew.svg"/>
                 </IconButton>
               </Link>
             </Tooltip>
             <Tooltip title={this.props.language.uploadAnother} placement="left">
               <IconButton onClick={() => this.props.unPickFile()} color="secondary" aria-label="another">
-                <AutorenewIcon />
+                <CloudUploadIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title={this.props.language.delete} placement="left">
