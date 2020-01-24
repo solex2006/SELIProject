@@ -416,7 +416,7 @@ export default class CourseInformation extends React.Component {
         >
           <DialogTitle className="dialog-title">
             <AppBar className="dialog-app-bar" color="primary" position="static">
-              <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
+              <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
                 <AppsIcon/>
                 <h4 className="dialog-label-title">{this.state.fileType === "image" ? this.props.language.chooseOrUploadImage : this.props.language.chooseOrUploadSyllabus}</h4>
                 <IconButton

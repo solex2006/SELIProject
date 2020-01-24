@@ -181,6 +181,7 @@ export default class CreateCourse extends React.Component {
         this.setState({
           saved: course,
         });
+        this.props.savedCourseState();
       }
       else {
         Courses.update(
