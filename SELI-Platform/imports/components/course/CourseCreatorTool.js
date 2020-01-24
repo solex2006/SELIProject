@@ -555,13 +555,33 @@ export default class CourseCreatorTool extends React.Component {
   render() {
     return(
       <div>
+        {
+          this.props.courseInformation.organization.unit==="Topic"?
+            <div className="title-course">  
+                <div className="subtitle">{`${this.props.language.topic}: ` +`${this.props.courseInformation.program[this.props.selected[0]].name}`}</div>
+                <div className="subtitle">{`${this.props.courseInformation.title}`}</div>
+            </div>
+            :
+            undefined
+        }
         <div className="course-creator-container">
+          
           {
             this.props.courseInformation.organization.subunit ?
             <div>
-                <div className="title-course">
-                  <div className="subtitle">{this.props.language.coursetitle}: {this.props.courseInformation.title}</div>
-                </div>
+                {
+                  this.props.courseInformation.program[this.props.selected[0]].name ?
+                  <div className="title-course">
+                    <div className="subtitle">{`${this.props.language.unit}: `+`${this.props.courseInformation.program[this.props.selected[0]].name}`}</div>
+                  
+                    <div className="subtitle">{`${this.props.language.lesson}: ` +`${this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}</div>
+                  
+                    <div className="subtitle">{`${this.props.courseInformation.title}`}</div>
+                  </div>
+                  :
+                  undefined
+                }
+                   
               <div className="course-creator-work-area">
                 
                 <div
@@ -1260,7 +1280,7 @@ export default class CourseCreatorTool extends React.Component {
             undefined
           }
         </Dialog>
-        <Snackbar
+        {/* <Snackbar
           className="navigation-snackbar"
           anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
           key={"navigation-tool-snackbar"}
@@ -1317,7 +1337,7 @@ export default class CourseCreatorTool extends React.Component {
               <CloseIcon />
             </IconButton>
           ]}
-        />
+        /> */}
       </div>
     );
   }
