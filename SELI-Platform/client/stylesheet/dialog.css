@@ -21,6 +21,12 @@
   padding-left: 1vw !important;
 }
 
+.dialog-tool-bar-information {
+  min-width: 30vw;
+  color: var(--white) !important;
+  padding-left: 1vw !important;
+}
+
 .dialog-label-title {
   color: var(--white) !important;
   text-transform: uppercase;

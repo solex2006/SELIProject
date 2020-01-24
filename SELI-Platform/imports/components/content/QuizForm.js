@@ -17,6 +17,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {validateOnlyNumbers} from '../../../lib/textFieldValidations';
+import NumberItem from './NumberItem'
+
 export default class QuizForm extends React.Component {
   constructor(props) {
     super(props);
@@ -312,7 +314,9 @@ export default class QuizForm extends React.Component {
                 </MenuItem>
               ))}
             </TextField>
-            <TextField
+
+            <NumberItem/>
+            {/* <TextField
               id="outlined-select-currency"
               select
               label={this.props.language.aprovalPercentage}
@@ -333,7 +337,7 @@ export default class QuizForm extends React.Component {
                   {option + " %"}
                 </MenuItem>
               ))}
-            </TextField>
+            </TextField> */}
           </div>
           <div className="center-row">
             <FormControl className="quiz-form-control" component="fieldset">
