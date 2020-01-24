@@ -192,7 +192,7 @@ export default class CourseCard extends React.Component {
                   {this.props.course.description}
                 </Typography>
                 <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
-                  {`Author: ${this.props.course.createdBy}`}
+                  {`${this.props.language.autor}: ${this.props.course.createdBy}`}
                 </Typography>
               </CardContent>
               <CardActions className="course-card-actions" disableSpacing>

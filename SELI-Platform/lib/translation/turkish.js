@@ -3,7 +3,7 @@ var TURKISH = {
   tutorAccount: "öğretmen hesabı",
   reuseImg:"reuse image",
   reuseAudio: "reuse audio",
-  audiomessage:'Note: double click to select',
+  audiomessage:'Double click over the item to select',
   questionpublishstory: 'Are you sure to publish the story?',
   languageIndex: '4',
   languageLabel: 'Turkish (TR)',
@@ -812,7 +812,7 @@ var TURKISH = {
   basicItems: "Basic items",
   advancedItems: "Advanced items",
   saveCourseLost: "Your course is not saved. If you are going to another section, the information typed will be lost. Do you want to save it?",
-  other: "diğer",
+  author: "Author",
 }
 
 export default TURKISH;

@@ -231,13 +231,13 @@
 }
 
 .storytelling-image-library {
-    width: 16vw;
-    height: 9vw;
+    background-color: #2e3030;
+    width: 304px;
+    height: 171px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    padding: 0.1vw;
-    margin: auto;
+    margin: 5px 5px;
 }
 
 .storytelling-media-image {
@@ -283,12 +283,11 @@
   width: 98vw;
   padding: 1.5vh 1vw;
   position: absolute;
-  display: flex;
   align-items: center;
   letter-spacing: 1px;
   font-size: 1em;
-  text-align: justify;
-  top: 0;
+  text-align: center;
+  bottom: 8vh;
   left: 0;
   user-select: none;
   background-color: rgba(255, 255, 255, 0.65);
@@ -297,7 +296,7 @@
 .storytelling-player-actions {
   width: auto;
   padding: 0 2vw;
-  height: 15vh;
+  height: 8vh;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -341,7 +340,7 @@
 
 .storytelling-return-button {
   position: fixed;
-  bottom: 2.5vh;
+  bottom: 1.5vh;
   left: 2.5vw;
   font-size: 1.25em !important;
   letter-spacing: 1px !important;

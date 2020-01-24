@@ -3,7 +3,7 @@ var ENGLISH = {
   tutorAccount: "Tutor account",
   reuseImg:"reuse image",
   reuseAudio: "reuse audio",
-  audiomessage:'Note: double click to select',
+  audiomessage:'Double click over the item to select',
   questionpublishstory: 'Are you sure to publish the story?',
   languageIndex: '0',
   languageLabel: 'English (US)',
@@ -812,8 +812,7 @@ var ENGLISH = {
   basicItems: "Basic items",
   advancedItems: "Advanced items",
   saveCourseLost: "Your course is not saved. If you are going to another section, the information typed will be lost. Do you want to save it?",
-  other: "other",
-
+  author: "Author",
 }
 
 export default ENGLISH;
