@@ -17,12 +17,14 @@ import ClearIcon from '@material-ui/icons/Clear';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {validateOnlyNumbers} from '../../../lib/textFieldValidations';
-import NumberItem from './NumberItem'
+import NumericInput from 'react-numeric-input';
+
 
 export default class QuizForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showCheckBox:true,
       timeLimits: ['5', '10', '20', '30', '60', '90', '120', 'Without time limit'],
       approvalPercentages: ['50', '60', '70', '80', '90'],
       questionSelected: 0,
@@ -90,6 +92,7 @@ export default class QuizForm extends React.Component {
   }
 
   handleChange = (name, index) => event => {
+    console.log("Metodo HANDLE (name e index)", name, index, "evento-->", event)
     let attributes = this.state.attributes;
     if (name === 'quizTitle') {
       attributes.quizTitle = event.target.value;
@@ -98,15 +101,42 @@ export default class QuizForm extends React.Component {
       attributes.awardPoints = event.target.checked;
     }
     else if (name === 'timeLimit') {
-      console.log(event.target.value)
-      attributes.timeLimit = event.target.value;
+      if(event >0){
+        console.log(event)
+        attributes.timeLimit = event; ///save the value of aproval percentage
+      }else{
+        console.log("Time quiz Incorrect default 60", event) //save default aproval percentage of 100
+        attributes.timeLimit = 60;
+      }
     }
     else if (name === 'approvalPercentage') {
-      attributes.approvalPercentage = event.target.value;
+     
+      if(event <101 && event >0){
+        attributes.approvalPercentage = event; ///save the value of aproval percentage
+      }else{
+        console.log("Aproval Percentage Incorrect", event) //save default aproval percentage of 100
+        attributes.approvalPercentage = 100;
+      }
+      
     }
-    /* else if (name === 'creditResources') {
-      attributes.creditResources = event.target.value;
-    } */
+    else if (name === 'checkTime') {
+      console.log("Evento del checkbox", event.target.checked)
+
+      if (event.target.checked===true){
+        //console.log("cambia a false")
+        this.setState({
+          showCheckBox: false
+        })
+        attributes.timeLimit='Without time limit';
+      }
+      else{   
+        //console.log("cambia a true")
+        this.setState({
+          showCheckBox: true
+        })
+      }
+    
+    } 
     else if (name === 'questionTitle') {
       attributes.questions[this.state.questionSelected].questionTitle = event.target.value;
     }
@@ -124,6 +154,12 @@ export default class QuizForm extends React.Component {
     });
   };
 
+ myFormat=(num)=> {
+    return num + '%';
+}
+myFormatminutes=(num)=> {
+  return num + 'min';
+}
   validateContent = (content) => {
     if (!this.validateQuestion(content.questions[this.state.questionSelected])) {
       this.props.handleControlMessage(true, this.props.language.completeLastQuestion);
@@ -262,7 +298,6 @@ export default class QuizForm extends React.Component {
     }
   }
 
-
   render() {
     return(
       <div className="dialog-form-container">
@@ -291,8 +326,8 @@ export default class QuizForm extends React.Component {
               value={this.state.attributes.creditResources}
               onChange={this.handleChange('creditResources')}
               onKeyPress={() => validateOnlyNumbers(event)}
-            /> */}
-            <TextField
+            /> 
+            {/* <TextField
               id="outlined-select-currency"
               select
               label={this.props.language.timeLimit}
@@ -313,32 +348,70 @@ export default class QuizForm extends React.Component {
                   {option + " minutes"}
                 </MenuItem>
               ))}
-            </TextField>
+            </TextField> */}
+            
 
-            <NumberItem/>
+            <FormControlLabel control={
+              <Checkbox
+              value="checkedTime" 
+              onChange={this.handleChange('checkTime')}
+              inputProps={{
+                'aria-label': 'primary checkbox',
+              }}
+            />
+            } label={this.props.language.notime} />
+
+           
+              <NumericInput
+              className="quiz-inputnumeric"
+              defaultValue={0}
+              disabled={!(this.state.showCheckBox)}
+              min={0}
+              max={10000}
+              onChange={this.handleChange('approvalPercentage')}
+              format={this.myFormatminutes}
+              id="outlined-select-currency"
+              label={this.props.language.timeLimit}
+              required
+              value={this.state.attributes.timeLimit} //por defecto 60
+              onChange={this.handleChange('timeLimit')}
+            /> 
+             
+          
+         
+
+          
             {/* <TextField
               id="outlined-select-currency"
-              select
               label={this.props.language.aprovalPercentage}
               required
               value={this.state.attributes.approvalPercentage}
               onChange={this.handleChange('approvalPercentage')}
-              SelectProps={{
-                MenuProps: {
-
-                },
-              }}
               margin="normal"
               variant="outlined"
               className="quiz-input"
+              type="number"
+              inputProps={{
+                step: 2,
+                min: 0,
+                max: 100,
+                type: 'number',
+                'aria-labelledby': 'input-slider',
+              }}
             >
-              {this.state.approvalPercentages.map(option => (
-                <MenuItem value={option}>
-                  {option + " %"}
-                </MenuItem>
-              ))}
-            </TextField> */}
+            </TextField>  */} 
+            <NumericInput
+            className="quiz-inputnumeric"
+            defaultValue={0}
+            min={0}
+            max={100}
+            value={this.state.attributes.approvalPercentage}
+            onChange={this.handleChange('approvalPercentage')}
+            format={this.myFormat}
+            />
           </div>
+
+
           <div className="center-row">
             <FormControl className="quiz-form-control" component="fieldset">
               <FormGroup>

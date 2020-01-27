@@ -9,10 +9,10 @@
 }
 
 .quiz-input-container{
-  width: 95%;
+  width: 100%;
   padding: 0 2.5%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 
@@ -23,12 +23,19 @@
 }
 
 .quiz-input-title {
-  width: 100% !important;
+  width: 85% !important;
+  margin: 0.5vh 0.2% !important;
+}
+
+.quiz-inputnumeric{
   margin: 0.5vh 0.5% !important;
+  width: 88% !important;
+  height: 52px;
+ 
 }
 
 .quiz-input {
-  width: 49% !important;
+  width: 50% !important;
   margin: 0.5vh 0.5% !important;
 }
 
