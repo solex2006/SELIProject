@@ -144,6 +144,9 @@ export default class QuizForm extends React.Component {
     else if (name === 'badgeDescription') {
       attributes.badgeInformation.description = event.target.value;
     }
+    else if (name === 'allowBadge') {
+      console.log("allowBadge");
+    }
     this.setState({
       attributes: attributes,
     });
@@ -167,7 +170,6 @@ export default class QuizForm extends React.Component {
   }
 
   getQuizAttributes(){
-    console.log("olis")
     let quizContent = this.state.attributes;
     if (this.validateContent(quizContent)) {
       let questions = quizContent.questions.slice(0, (this.state.addedQuestions + 1));
@@ -530,8 +532,19 @@ export default class QuizForm extends React.Component {
           </div>
         </div>
 
-        <div className="course-information-container">
-          <div>
+        <Divider/>
+        <div className="center-row">
+            <FormControl className="quiz-form-control" component="fieldset">
+              <FormGroup>
+                <FormControlLabel
+                  control={<Switch onChange={this.handleChange('allowBadge')} value="allowBadge" />}
+                  label="Badge"
+                />
+              </FormGroup>
+            </FormControl>
+          </div>
+        <div className="badge-form-container">
+          <div className="badge-image-upload ">
           {
             this.state.showPreview ?
               <div className="form-preview-container">
@@ -548,13 +561,14 @@ export default class QuizForm extends React.Component {
                 user={Meteor.userId()}
                 accept={this.state.accept}
                 getFileInformation={this.getBadgeInformation.bind(this)}
-                label={this.props.language.uploadYourProfilePhoto}
+                label= "Upload your badge photo"
               />
             </div>
           }
           </div>
           {/*  */}
-          <div className="form-input-column">
+
+          <div className="badge-form-input-column">
           <div className="sign-form">
             <TextField
               id="name-input"

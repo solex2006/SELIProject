@@ -165,3 +165,15 @@ Meteor.methods({
     )
   }
 });
+
+Meteor.methods({
+  'updateBadges'(_id, badge){
+    Meteor.users.update(
+      { _id: _id },
+      { $set: {
+        'profile.badge': badge,
+      }}
+    )
+    return true;
+  }
+});

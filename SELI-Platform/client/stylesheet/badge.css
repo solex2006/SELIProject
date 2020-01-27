@@ -1,0 +1,29 @@
+.badge-form-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    position: relative;
+    animation: fadeIn 1s;
+}
+.badge-image-upload {
+    flex: 0 1 50%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    max-width: 50%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    animation: fadeIn 1s;
+}
+.badge-form-input-column {
+    flex: 0 1 50%;
+    display: flex;
+    max-width: 50%;
+    max-height: calc(100% - 5vh);
+    padding: 2.5vh 6vw;
+}

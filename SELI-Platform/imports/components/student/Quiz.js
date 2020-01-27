@@ -122,10 +122,10 @@ class Quiz extends React.Component {
     this.setState({
       start: true,
     });
+    let approved;
     if (validate) {
       if (this.validateQuiz()) {
         let results = this.getQuizResults(this.state.answers);
-        let approved;
         results.score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
         let quiz = {
           score: results.score,
@@ -139,7 +139,6 @@ class Quiz extends React.Component {
     }
     else {
       let score = this.getQuizResults(this.state.answers);
-      let approved;
       score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
       let quiz = {
         score: score,
@@ -149,9 +148,43 @@ class Quiz extends React.Component {
       }
       this.props.completeActivity(this.props.quiz.id, quiz, "Quiz");
     }
+    if(approved === true){
+      let badgeImage = this.props.quiz.attributes.badgeInformation.image;
+      this.issueBadge(badgeImage);
+      // Meteor.call("UpdateCourses", Meteor.userId, user.profile.b);
+
+    }
     this.props.handleClose();
   }
 
+  async issueBadge(image){
+    let file = image;
+    let buffer = new Uint8Array(await image.arrayBuffer());
+    var theAssertion ={
+      "uid": "123456789abcdefghi987654321jklmnopqr",
+      "recipient": {
+        "identity": "sha256$98765edcba98765edcba98765edcba",
+        "type": "email",
+        "hashed": true
+      },
+      "badge": "http://issuersite.com/badge",
+      "verify": {
+        "url": "http://issuersite.com/assertion",
+        "type": "hosted"
+      },
+      "issuedOn": 1403120715
+      };
+    var options = {
+      image: image,
+      assertion: theAssertion,
+    };
+
+    bakery.bake(options, function(err, data){
+      let bakedBadge = new File([data], file.name, file);
+      console.log(bakedBadge);
+    },file)
+
+  }
   showFinishConfirmation = () => {
     this.setState({
       showFinishConfirmation: true,
