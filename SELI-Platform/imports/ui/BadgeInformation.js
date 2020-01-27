@@ -1,39 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import ErrorIcon from '@material-ui/icons/Error';
-import ImageIcon from '@material-ui/icons/Image';
 import ImageSharpIcon from '@material-ui/icons/ImageSharp';
-import PictureAsPdfSharpIcon from '@material-ui/icons/PictureAsPdfSharp';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import MenuItem from '@material-ui/core/MenuItem';
-import LinearProgress from '@material-ui/core/LinearProgress';
-
 import FileUpload from '../components/files/FileUpload';
 import ImagePreview from '../components/files/previews/ImagePreview';
 import Library from '../components/tools/Library';
-import Help from '../components/tools/Help';
 import FormPreview from '../components/files/previews/FormPreview';
-
-import EmailIcon from '@material-ui/icons/Email';
-
-import CourseFilesCollection from '../../lib/CourseFilesCollection';
-import {validateOnlyLetters, validateOnlyNumbers} from '../../lib/textFieldValidations';
-
 import {noSpecialCharacters} from '../../lib/textFieldValidations';
 
 export default class BadgeInformation extends React.Component {
   constructor(props) {
+    console.log(props);
     super(props);
     this.state = {
-      userInformation: this.props.userInformation,
+      userInformation: this.props.badgeInformation,
       showError: false,
       passwordToConfirm: '',
     }
@@ -55,48 +39,7 @@ export default class BadgeInformation extends React.Component {
     else if (name === 'username') {
       userInformation.username = event.target.value;
     }
-    else if (name === 'password') {
-      userInformation.password = event.target.value;
-      this.setState({
-        userInformation: userInformation,
-      }, () => {
-        this.state.passwordToConfirm !== '' ? this.confirmPassword() : undefined
-      })
-    }
-    else if (name === "confirmPassword") {
-      this.setState({
-        passwordToConfirm: event.target.value,
-      }, () => {
-        this.confirmPassword();
-      })
-    }
-    else if (name === 'biography') {
-      userInformation.biography = event.target.value;
-    }
-    else if (name === 'email') {
-      userInformation.email = event.target.value;
-      if (this.state.validEmail) {
-        this.setState({
-          validatingEmail: false,
-          validEmail: false,
-          emailResult: false,
-        }, () => {
-          this.props.handleEmail(false);
-        })
-      }
-    }
-    else if (name === 'website') {
-      userInformation.website = event.target.value;
-    }
-    else if (name === 'googleLink') {
-      userInformation.googleLink = event.target.value;
-    }
-    else if (name === 'phoneNumber') {
-      userInformation.phoneNumber = event.target.value;
-    }
-    else if (name === 'countryCode') {
-      userInformation.countryCode = event.target.value;
-    }
+
     this.setState({
       userInformation: userInformation,
     });
@@ -158,13 +101,6 @@ export default class BadgeInformation extends React.Component {
         userInformation: userInformation,
       });
     }
-    else {
-      userInformation.sylabus = this.state.sylabus
-      this.setState({
-        showPreview: false,
-        userInformation: userInformation,
-      })
-    }
     this.handleClose();
   }
 
@@ -194,59 +130,7 @@ export default class BadgeInformation extends React.Component {
     }
   }
 
-  validateEmail = ()  => {
-    if (!this.state.validatingEmail) {
-      this.state.userInformation.email !== '' ?
-        this.setState({
-          validatingEmail: true,
-          emailHelperMessage: this.props.language.validatingEmail,
-        }, () => {
-          Meteor.call("ValidateEmail", this.state.userInformation.email, (error, response) =>  {
-            let message;
-            //response=true;
-            response ? message = this.props.language.validEmail : message = this.props.language.invalidEmail;
-            this.setState({
-              emailResult: true,
-              validEmail: response,
-              emailHelperMessage: message,
-            }, () => {
-              this.setState({
-                validatingEmail: false,
-              }, () => {
-                this.state.validEmail ? this.props.handleEmail(true) : this.props.handleEmail(false)
-              });
-            })
-          });
-        })
-      :
-      this.setState({
-        emailResult: false,
-        validatingEmail: false,
-      })
-    } else {
-      this.props.handleControlMessage(true, this.props.language.validatingEmail);
-    }
-  }
-
-  confirmPassword = () => {
-    this.state.passwordToConfirm !== '' ?
-      this.setState({
-        equalPasswords: this.state.passwordToConfirm === this.state.userInformation.password,
-        passwordResult: false,
-      }, () => {
-        let message;
-        this.state.equalPasswords ? message = this.props.language.passwordsMatch : message = this.props.language.passwordsNotMatch;
-        this.state.equalPasswords ? this.props.handlePassword(true) : this.props.handlePassword(false);
-        this.setState({
-          passwordHelperMessage: message,
-          passwordResult: true,
-        });
-      })
-    :
-    this.setState({
-      passwordResult: false,
-    })
-  }
+  
 
   componentDidMount() {
     this.props.showErrorFunction(() => this.showError());
@@ -256,10 +140,6 @@ export default class BadgeInformation extends React.Component {
     this.setState({
       showError: true,
     });
-  }
-
-  componentWillUnmount(){
-
   }
 
   render() {
@@ -284,16 +164,7 @@ export default class BadgeInformation extends React.Component {
                   <ImageSharpIcon className="form-image-icon"/>{this.props.language.selectYourProfilePhoto}
                 </Button>
           }
-          {
-            this.props.type === "tutor" ?
-              <div className="form-request-information">
-                <p className="form-information-primary-text">{this.props.language.correctEmailAdvice1}</p>
-                <EmailIcon className="form-information-icon"/>
-                <p className="form-information-secondary-text">{this.props.language.correctEmailAdvice2}</p>
-              </div>
-            :
-              undefined
-          }
+
         </div>
         <div className="form-input-column">
           <div className="sign-form">
@@ -340,7 +211,7 @@ export default class BadgeInformation extends React.Component {
               this.state.fileType === "image" ?
                 this.props.language.chooseOrUploadImage
               :
-              this.props.language.chooseOrUploadSyllabus
+              undefined
             }
           </DialogTitle>
           <DialogContent>
@@ -363,8 +234,7 @@ export default class BadgeInformation extends React.Component {
                           file={this.state.image}
                           unPickFile={this.unPickFile.bind(this)}
                           language={this.props.language}
-                        />
-                        
+                        />               
                       </div>
                     :
                     <div className="form-file-container">

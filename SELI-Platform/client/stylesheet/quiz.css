@@ -16,6 +16,18 @@
   align-items: center;
 }
 
+.badge-input-container{
+  width: 95%;
+  padding: 0 2.5%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.badge-header-container {
+  padding-top: 1.75vh;
+  width: 100%;
+}
 .question-form{
   animation: fadeInDown 0.5s;
   animation-fill-mode: backwards;
@@ -96,6 +108,7 @@
 .form-dialog-selected-question-input-container {
   width: 95%;
   padding: 0vh 2.5%;
+  margin-bottom: 10px;
 }
 
 .form-dialog-question-input-container {

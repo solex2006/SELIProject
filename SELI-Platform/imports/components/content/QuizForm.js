@@ -19,6 +19,20 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {validateOnlyNumbers} from '../../../lib/textFieldValidations';
 import NumberItem from './NumberItem'
 
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+
+import FileUpload from '../files/FileUpload';
+import ImagePreview from '../files/previews/ImagePreview';
+import Library from '../tools/Library';
+
+import InfoIcon from '@material-ui/icons/Info';
+import BadgeInformation from '../../ui/BadgeInformation';
+
 export default class QuizForm extends React.Component {
   constructor(props) {
     super(props);
@@ -33,6 +47,11 @@ export default class QuizForm extends React.Component {
         approvalPercentage: '50',
         //creditResources: '',
         awardPoints: false,
+        badgeInformation: {
+          name: '',
+          description: '',
+          image: undefined,
+        },
         questions: [
           {
             correctAnswers: [false, false, false, false],
@@ -119,6 +138,12 @@ export default class QuizForm extends React.Component {
       }
       attributes.questions[this.state.questionSelected].correctAnswers[index] = event.target.checked;
     }
+    else if (name === 'badgeName') {
+      attributes.badgeInformation.name = event.target.value;
+    }
+    else if (name === 'badgeDescription') {
+      attributes.badgeInformation.description = event.target.value;
+    }
     this.setState({
       attributes: attributes,
     });
@@ -142,6 +167,7 @@ export default class QuizForm extends React.Component {
   }
 
   getQuizAttributes(){
+    console.log("olis")
     let quizContent = this.state.attributes;
     if (this.validateContent(quizContent)) {
       let questions = quizContent.questions.slice(0, (this.state.addedQuestions + 1));
@@ -237,8 +263,23 @@ export default class QuizForm extends React.Component {
 
   componentDidMount(){ //despues del render
     this.props.getQuizAttributesFunction(() => this.getQuizAttributes());
+    Session.set({language: Session.get('language') ? Session.get('language') : english});
+    this.setState({
+      language: Session.get('language') ? Session.get('language') : english,
+    });
+ 
   }
 
+  getBadgeInformation(file){
+    let attributes = this.state.attributes;
+    attributes.badgeInformation.image = file;
+    this.setState({
+      attributes: attributes,
+      showPreview: true,
+      showLibrary: false,
+    })
+    this.handleClickOpen();
+  }
   componentWillMount(){ //se llama antes del render
     
     if (this.props.contentToEdit !== undefined) {
@@ -262,7 +303,21 @@ export default class QuizForm extends React.Component {
     }
   }
 
+  unPickBadgeImage(){
+    let attributes = this.state.attributes;
+    attributes.badgeInformation.image = undefined;
+    this.setState({
+      showPreview: false,
+      attributes: attributes,
+    });
+  }
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
 
+  handleClose = () => {
+    this.setState({ open: false });
+  };
   render() {
     return(
       <div className="dialog-form-container">
@@ -273,25 +328,12 @@ export default class QuizForm extends React.Component {
               label={this.props.language.quizTitle}
               margin="normal"
               variant="outlined"
-              className="quiz-input-title"
+              className="quiz-input"
               required
               value={this.state.attributes.quizTitle}
               onChange={this.handleChange('quizTitle')}
               autoFocus={true}
             />
-          </div>
-          <div className="quiz-input-container">
-            {/* <TextField
-              id="credit-input"
-              label={this.props.language.creditResources}
-              margin="normal"
-              variant="outlined"
-              required
-              className="quiz-input"
-              value={this.state.attributes.creditResources}
-              onChange={this.handleChange('creditResources')}
-              onKeyPress={() => validateOnlyNumbers(event)}
-            /> */}
             <TextField
               id="outlined-select-currency"
               select
@@ -315,8 +357,20 @@ export default class QuizForm extends React.Component {
               ))}
             </TextField>
 
-            <NumberItem/>
-            {/* <TextField
+          </div>
+          <div className="quiz-input-container">
+            <TextField
+              id="credit-input"
+              label={this.props.language.creditResources}
+              margin="normal"
+              variant="outlined"
+              required
+              className="quiz-input"
+              value={this.state.attributes.creditResources}
+              onChange={this.handleChange('creditResources')}
+              onKeyPress={() => validateOnlyNumbers(event)}
+            />
+            <TextField
               id="outlined-select-currency"
               select
               label={this.props.language.aprovalPercentage}
@@ -337,7 +391,7 @@ export default class QuizForm extends React.Component {
                   {option + " %"}
                 </MenuItem>
               ))}
-            </TextField> */}
+            </TextField>
           </div>
           <div className="center-row">
             <FormControl className="quiz-form-control" component="fieldset">
@@ -382,9 +436,6 @@ export default class QuizForm extends React.Component {
             value={this.state.attributes.questions[this.state.questionSelected].questionTitle}
             onChange={this.handleChange('questionTitle')}
           />
-          <div className="quiz-input-container">
-            <p className="form-dialog-question-button-container-text-select">{this.props.language.selectAnswer}</p>
-          </div>
           <div className="form-dialog-question-input-container">
             <TextField
               label={`${this.props.language.answer} 1`}
@@ -478,7 +529,63 @@ export default class QuizForm extends React.Component {
             />
           </div>
         </div>
+
+        <div className="course-information-container">
+          <div>
+          {
+            this.state.showPreview ?
+              <div className="form-preview-container">
+                <ImagePreview
+                  file={this.state.attributes.badgeInformation.image}
+                  language={this.props.language}
+                  unPickFile={this.unPickBadgeImage.bind(this)}
+                />
+              </div>
+            :
+            <div className="form-file-container">
+              <FileUpload
+                type={this.state.fileType}
+                user={Meteor.userId()}
+                accept={this.state.accept}
+                getFileInformation={this.getBadgeInformation.bind(this)}
+                label={this.props.language.uploadYourProfilePhoto}
+              />
+            </div>
+          }
+          </div>
+          {/*  */}
+          <div className="form-input-column">
+          <div className="sign-form">
+            <TextField
+              id="name-input"
+              label={this.props.language.name}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              autoComplete={"off"}
+              required
+              value={this.state.attributes.badgeInformation.name}
+              onChange={this.handleChange('badgeName')}
+              error={this.state.showError && this.state.attributes.badgeInformation.name === ''}
+            />
+            <TextField
+              id="description-input"
+              label={this.props.language.description}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              autoComplete={"off"}
+              required
+              multiline
+              rows={3}
+              value={this.state.attributes.badgeInformation.description}
+              onChange={this.handleChange('badgeDescription')}
+              error={this.state.showError && this.state.attributes.badgeInformation.description === ''}
+            />
+          </div>
+        </div>
+        </div>  
       </div>
     );
-  }
+   }
 }
