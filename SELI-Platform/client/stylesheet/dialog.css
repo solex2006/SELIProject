@@ -54,6 +54,15 @@
   position: relative;
 }
 
+.dialog-actions-container-reuse {
+  width: 100%;
+  background-color: #eeeeee;
+  position: relative;
+  text-align: center;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+}
+
 .dialog-fab {
   position: absolute !important;
   right: 1vw !important;

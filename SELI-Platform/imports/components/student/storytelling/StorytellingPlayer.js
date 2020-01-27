@@ -175,10 +175,7 @@ size = (width, height)=>{
             playing={this.state.playing}
             onEnded={this.state.scenePlaying + 1 === this.props.story.nodes[this.state.scenePlaying] ? this.handleEnd() : () => this.handleAutoPlay()}
           />
-           
-          <div
-            className="storytelling-player-image-container"
-          >
+          <div className="storytelling-player-image-container">
          {/* <Size
          size={this.size}
          /> */}
@@ -193,12 +190,11 @@ size = (width, height)=>{
               //coordenadaCursos={this.coordenadaCursos}
             > 
               <div
-              key={this.props.story.nodes[this.state.scenePlaying].rotate}
+                key={this.props.story.nodes[this.state.scenePlaying].rotate}
                 className="storytelling-player-image-container"
                 style={{backgroundImage: `url(${this.props.story.nodes[this.state.scenePlaying].image.link})`}}
-               ></div>
+              ></div>
             </ResizableContent>
-        
           </div>
           <Slide direction="down" in={this.state.showDescription} mountOnEnter unmountOnExit>
             <div className="storytelling-player-description">

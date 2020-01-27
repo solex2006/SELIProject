@@ -48,6 +48,11 @@ import GridListTile from '@material-ui/core/GridListTile';
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppsIcon from '@material-ui/icons/Apps';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { 
   FacebookShareButton, FacebookIcon,
@@ -619,10 +624,6 @@ unPickImageFile(){
       })
     }
   }
-
-  
-
-
 
   showPreview = () => {
     if (this.validateStory()) {
@@ -1479,102 +1480,105 @@ unPickImageFile(){
           {
             this.state.action === "publish" ?
                // this.state.show=== true ?
-                      <React.Fragment>
-                        <div className="sign-actions">
-                         <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                            {this.props.language.questionpublishstory}
-                          </DialogTitle>
-                          <div className="center-row">
-                          <Button variant="contained"  color="secondary" className="bar-button"
-                          onClick={() => this.handleyes()}>
-                          {this.props.language.yes}
-                          </Button>	
-                          <Button variant="contained"  color="primary" className="bar-button"
-                          onClick={() => this.handleClose()}>
-                          {this.props.language.no}
-                          </Button>	                 
-                          </div>
-                          </div>
-                      </React.Fragment>
-                      :
-                      undefined
+              <React.Fragment>
+                <div className="sign-actions">
+                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                    {this.props.language.questionpublishstory}
+                  </DialogTitle>
+                  <div className="center-row">
+                  <Button variant="contained"  color="secondary" className="bar-button"
+                  onClick={() => this.handleyes()}>
+                  {this.props.language.yes}
+                  </Button>	
+                  <Button variant="contained"  color="primary" className="bar-button"
+                  onClick={() => this.handleClose()}>
+                  {this.props.language.no}
+                  </Button>	                 
+                  </div>
+                  </div>
+              </React.Fragment>
+            :
+              undefined
           }   
           
           { 
-            this.state.action === "reuse" ?
+            this.state.action === "reuse" || this.state.action === "reuseAudio"?
               <React.Fragment>
-                <DialogTitle className="form-dialog-title" id="alert-dialog-title">
-                  {this.props.language.reuseImg}
+                <DialogTitle className="dialog-title">
+                  <AppBar className="dialog-app-bar" color="primary" position="static">
+                    <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
+                      <AppsIcon/>
+                      <h4 className="dialog-label-title">{this.state.action === "reuse" ? this.props.language.reuseImg : this.props.language.reuseAudio}</h4>
+                      <IconButton
+                        id="close-icon"
+                        edge="end"
+                        className="dialog-toolbar-icon"
+                        onClick={this.handleClose}
+                      >
+                        <CloseIcon/>
+                      </IconButton>
+                    </Toolbar>
+                  </AppBar>
                 </DialogTitle>
-                {/* <div className={classes.root}> */}
-                <div className="library-files-container">
-{/*                   <GridList  cols={3} className={classes.gridList}>
-                    {
-                      this.state.dataImages1.map(tile => (
-                      <GridListTile key={Math.random()} >
-                        <img src={tile.link} style={{padding: "5px", width: "150px", height:"150",  marginBlock: "10px", alignContent: 'center', align: "center"}} alt={tile.link} onDoubleClick={() => this.getImageFileInformationReuse(tile)}/>
-                      </GridListTile>
-                    ))}
-                  </GridList> */}
-                  {this.state.dataImages1.map(tile => (
-                    <div className="storytelling-image-library">
-                      <div style={{backgroundImage: `url(${tile.link})`}} className="file-image-preview" onDoubleClick={() => this.getImageFileInformationReuse(tile)}></div>
-                    </div> 
-                  ))}
-                </div>
+                {
+                  this.state.action === "reuse"?
+                    <div className="library-files-container">
+                      {/* <GridList  cols={3} className={classes.gridList}>
+                        {
+                          this.state.dataImages1.map(tile => (
+                          <GridListTile key={Math.random()} >
+                            <img src={tile.link} style={{padding: "5px", width: "150px", height:"150",  marginBlock: "10px", alignContent: 'center', align: "center"}} alt={tile.link} onDoubleClick={() => this.getImageFileInformationReuse(tile)}/>
+                          </GridListTile>
+                        ))}
+                      </GridList> */}
+                      {this.state.dataImages1.map(tile => (
+                        <div className="storytelling-image-library">
+                          <div style={{backgroundImage: `url(${tile.link})`}} className="file-image-preview" onDoubleClick={() => this.getImageFileInformationReuse(tile)}></div>
+                        </div> 
+                      ))}
+                    </div>
+                  :
+                    <div className="library-files-container">
+                      {this.state.dataAudio1.map(tile => (    
+                        <Card className="audio-card-storytelling">
+                          <div onDoubleClick={() => this.getImageFileInformationReuseAudio(tile)} className="card-media-audio-storytelling">
+                            <AudioPlayer
+                              volume
+                              src={tile.link}
+                            />
+                          </div>
+                          <CardActions onDoubleClick={() => this.changeAudioName()} className="card-actions-bottom-container" disableSpacing>
+                            {`${this.props.language.audioTitle}: ${tile.name}`}
+                          </CardActions> 
+                          {/* <div className="card-actions-bottom-containerText">
+                              <form className={classes.text} noValidate autoComplete="off">
+                                  <div>
+                                    <div>{tile.name}</div>
+                                    <TextField
+                                      id="standard-multiline-flexible"
+                                      label="Rename audio"
+                                      multiline
+                                      rowsMax="4"
+                                      onChange={()=>this.handleChangeText(event, tile, this.state.dataAudio1)}
+                                      />
+                                  </div>
+                                </form>
+                            </div>  */}
+                        </Card>
+                      ))}
+                    </div>
+                }
                 <DialogActions>
-                  {this.props.language.audiomessage}
+                  <div className="dialog-actions-container-reuse">
+                    {this.props.language.audiomessage}
+                  </div>
                 </DialogActions>
               </React.Fragment> 
             :
               undefined
-          }
-          {
-            this.state.action === "reuseAudio" ?
-              // this.state.show=== true ?
-              <React.Fragment>
-                <DialogTitle className="form-dialog-title" id="alert-dialog-title">
-                    {this.props.language.reuseAudio}
-                </DialogTitle>
-                <div className="library-files-container">
-                  {this.state.dataAudio1.map(tile => (    
-                    <Card className="audio-card-storytelling">
-                      <div onDoubleClick={() => this.getImageFileInformationReuseAudio(tile)} className="card-media-audio-storytelling">
-                        <AudioPlayer
-                          volume
-                          src={tile.link}
-                        />
-                      </div>
-                      <CardActions onDoubleClick={() => this.changeAudioName()} className="card-actions-bottom-container" disableSpacing>
-                        {`${this.props.language.audioTitle}: ${tile.name}`}
-                      </CardActions> 
-                       <div className="card-actions-bottom-containerText">
-                          <form className={classes.text} noValidate autoComplete="off">
-                              <div>
-                                <div>{tile.name}</div>
-                                 {/* <TextField
-                                  id="standard-multiline-flexible"
-                                  label="Rename audio"
-                                  multiline
-                                  rowsMax="4"
-                                  onChange={()=>this.handleChangeText(event, tile, this.state.dataAudio1)}
-                                  /> */}
-                              </div>
-                            </form>
-                        </div> 
-                    </Card>
-                  ))}
-                </div>
-                
-                <DialogActions>
-                  {this.props.language.audiomessage}
-                </DialogActions>
-              </React.Fragment>
-            :
-              undefined
-          }          
+          }        
         </Dialog>
-        {/* despues del publish */}
+        {/* After publish */}
 
         <Dialog
           open={this.state.openpublish} ///true for show

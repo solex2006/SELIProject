@@ -3,7 +3,7 @@ var PORTUGUESE = {
   tutorAccount: "conta do tutor",
   reuseImg:"reutilizar imagem",
   reuseAudio: "reutilizar áudio",
-  audiomessage:'Aviso: clique duas vezes para selecionar',
+  audiomessage:'Clique duas vezes no item para selecionar',
   questionpublishstory: 'Tem certeza que deseja publicar esta história?',
   languageIndex: '2',
   languageLabel: 'Português (PT)',
@@ -812,7 +812,7 @@ var PORTUGUESE = {
   basicItems: "Basic items",
   advancedItems: "Advanced items",
   saveCourseLost: "Your course is not saved. If you are going to another section, the information typed will be lost. Do you want to save it?",
-  other:"outro",
+  author: "Author",
 }
 
 export default PORTUGUESE;

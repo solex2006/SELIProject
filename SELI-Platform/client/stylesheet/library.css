@@ -104,7 +104,8 @@
 
 .card-media-audio-storytelling {
   width: 96% !important;
-  height: calc(var(--audio-card-height) - var(--card-buttons)) !important;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
   display: flex;
   margin: auto;
   justify-content: center;
