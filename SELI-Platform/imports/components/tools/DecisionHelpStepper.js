@@ -48,55 +48,55 @@ export default function DecisionHelpStepper(props) {
     const steps = [
       {
           key: 0,
-          question: 'Does the image contain text?',
+          question: props.language.feedback_a11y_helpStep_imageHasText,
           yes: 1,
           no: 4,
       },
       {
           key: 1,
-          question: 'and the text is also present as real text nearby.',
+          question: props.language.feedback_a11y_helpStep_imageHasText_01,
           yes: "deco",
           no: 2,
       },
       {
           key: 2,
-          question: 'and the text is only shown for visual effects.',
+          question: props.language.feedback_a11y_helpStep_imageHasText_03,
           yes: "deco",
           no: 3,
       },
       {
           key: 3,
-          question: ' and the text in the image is not present otherwise.',
+          question: props.language.feedback_a11y_helpStep_imageHasText_03,
           yes: "txt",
           no: "fail",
       },
       {
           key: 4,
-          question: 'Does the image contribute meaning to the current page or context?',
+          question: props.language.feedback_a11y_helpStep_imageHasMeaning,
           yes: 5,
           no: 8,
       },
       {
           key: 5,
-          question: 'and it’s a simple graphic or photograph.',
+          question: props.language.feedback_a11y_helpStep_imageHasMeaning_01,
           yes: "info",
           no: 6,
       },
       {
           key: 6,
-          question: 'and it’s a graph or complex piece of information.',
+          question: props.language.feedback_a11y_helpStep_imageHasMeaning_02,
           yes: 'cplx',
           no: 7,
       },
       {
           key: 7,
-          question: 'and it shows content that is redundant to real text nearby.',
+          question: props.language.feedback_a11y_helpStep_imageHasMeaning_03,
           yes: 'deco',
           no: "fail",
       },
       {
           key: 8,
-          question: 'Is the image purely decorative or not intended for the user?',
+          question: props.language.feedback_a11y_helpStep_imageIsDecorative,
           yes: 'deco',
           no: "fail",
       },
@@ -104,7 +104,7 @@ export default function DecisionHelpStepper(props) {
       { 
           //Keep this at last location
           key: "fail",
-          question: 'Is the image’s use not listed above or it’s unclear what alt text to provide?',
+          question: props.language.feedback_a11y_helpStep_imageFail,
           yes: '',
           no: '',
       },
@@ -119,7 +119,7 @@ export default function DecisionHelpStepper(props) {
 
     function updateStates(opt)
     {
-       if(opt=== "fail")
+      if(opt=== "fail")
         {
           setFailed(true);
           setCompleted(true);
@@ -160,26 +160,26 @@ export default function DecisionHelpStepper(props) {
             case 'deco':
               return( 
                 <React.Fragment> 
-                <Paper>Based at your's answers, you should select <b>Decorative Image</b></Paper>
+                <Paper>{`${props.language.feedback_a11y_helpStep_shouldSelect}: `}<b>{props.language.image_a11y_purpose_decorative_label}</b></Paper>
                 </React.Fragment>);
             case 'info':
               return ( 
                 <React.Fragment> 
-                <Paper>Based at your's answers, you should select <b>Informative Image</b></Paper>
+                <Paper>{`${props.language.feedback_a11y_helpStep_shouldSelect}: `}<b>{props.language.image_a11y_purpose_informative_label}</b></Paper>
                 </React.Fragment>);
             case 'txt':
               return ( 
                 <React.Fragment> 
-                <Paper>Based at your's answers, you should select <b>Image of Text</b></Paper>
+                <Paper>{`${props.language.feedback_a11y_helpStep_shouldSelect}: `}<b>{props.language.image_a11y_purpose_text}</b></Paper>
                 </React.Fragment>);
             case 'cplx':
               return ( 
                 <React.Fragment> 
-                <Paper>Based at your's answers, you should select <b>Complex Image</b></Paper>
+                <Paper>{`${props.language.feedback_a11y_helpStep_shouldSelect}: `}<b>{props.language.image_a11y_purpose_complex_label}</b></Paper>
                 </React.Fragment>);
             case 'fail':
             default:
-              return (<Paper>This decision tree does not cover all cases. For detailed information on the provision of text alternatives refer to the Image Concepts Page.</Paper>);
+              return (<Paper>{props.language.feedback_a11y_helpStep_imageFailMessage}</Paper>);
         }
     }
 
@@ -207,7 +207,7 @@ export default function DecisionHelpStepper(props) {
           scroll="paper"
           aria-labelledby={id+"-dlg-title"}>
 
-          <DialogTitle id={id+"-dlg-title"}>Guide</DialogTitle>
+          <DialogTitle id={id+"-dlg-title"}>{props.language.feedback_a11y_helpGuide_formTitle}</DialogTitle>
 
           <DialogContent dividers={true}>
             <DialogContentText>
@@ -248,25 +248,25 @@ export default function DecisionHelpStepper(props) {
             {
               !completed?
                 <div className={classes.actionsContainer}>
-                     <Button
-                       disabled={steps[activeStep].no===""}
-                       variant="contained"
-                       color="secondary"
-                       onClick={handleBack}
-                       className={classes.button}
-                     >
-                       No
-                     </Button>
-                     <Button
-                       disabled={steps[activeStep].yes===""}
-                       variant="contained"
-                       color="primary"
-                       onClick={handleNext}
-                       className={classes.button}
-                     >
-                       Yes
-                     </Button>
-                 </div>
+                  <Button
+                    disabled={steps[activeStep].no===""}
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleBack}
+                    className={classes.button}
+                  >
+                    {props.language.no}
+                  </Button>
+                  <Button
+                    disabled={steps[activeStep].yes===""}
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
+                    {props.language.yes}
+                  </Button>
+                </div>
               : 
               getStepContent()
             }
@@ -275,16 +275,13 @@ export default function DecisionHelpStepper(props) {
 
           <DialogActions>
               <Button onClick={handleReset}>
-                Reset guide
+                {props.language.feedback_a11y_helpGuide_reset_button}
               </Button>
               <Button onClick={handleClose} color="primary">
-                Close
+                {props.language.close}
               </Button>
           </DialogActions>
         </Dialog>
-                
-
-        
       </React.Fragment>
     );
 }

@@ -42,13 +42,14 @@ export function VideoTextAltA11Y(props){
 						error={dataField.shortDescriptionError}
 						value={dataField.shortDescription}
 						name="shortDescription"
-						label="Short Description"
+						label={props.language.shortDescription_a11y_label}
 						//ariaLabelledBy
 						//ariaDescribedBy
 						//editorData
-						placeholder="Content identification"
+						placeholder={props.language.shortDescription_a11y_placeholder}
 						required={true}
 						tip={shortDescriptionTip}
+						language={props.language}
 					/>
 				</Grid>
 				<Grid  item id='long-description-container' role='grid'>
@@ -57,8 +58,8 @@ export function VideoTextAltA11Y(props){
 						error={dataField.longDescriptionError}
 						value={dataField.longDescription}
 						name="longDescription"
-						label="Transcription"
-						placeholder="Video transcription"
+						label={props.language.longDescription_a11y_label_audio}
+						placeholder={props.language.longDescription_a11y_label_video}
 						required={true}
 						tip={
 							<React.Fragment>
@@ -67,13 +68,14 @@ export function VideoTextAltA11Y(props){
 						}
 						position={dataField.longDescriptionPosition}
 						handlePosition={React.useCallback(handleLongDescriptionPosition)}
-						textPositionLabel='Text position relative to video'
+						textPositionLabel={`${props.language.textPosition_a11y_lbl}: ${props.language.video}`}
+						language={props.language}
 					/>
 					<AccessibilityFileUpload size='small'
 						type='pdf'
 						user={Meteor.userId()}
 						accept={'.pdf'}
-						label={'Alternativaly, you can upload transcription as pdf file.'}
+						label={props.language.transcriptionUploadPDF_button}
 						getFileInformation={getFileInformation.bind(this)}
 					/>
 				</Grid>
@@ -102,7 +104,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 	return(
 		<Grid item id='captions-container' role='grid'>
 			<FormControl component='fieldset'>
-				<FormLabel component='legend' id='captions-radiogroup-label'>Did this content has captions embebed?</FormLabel>
+				<FormLabel component='legend' id='captions-radiogroup-label'>{props.language.captions_a11y_form_label}</FormLabel>
 				<RadioGroup
 					id='captions-radiogroup'
 					aria-labelledby='captions-radiogroup-label'
@@ -115,7 +117,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 					<FormControlLabel
 						id='captions-yes'
 						name='captionsEmbebed'
-						label='Yes'
+						label={props.language.yes}
 						value='yes'
 						control={<Radio color='primary' />}
 						labelPlacement='end'
@@ -123,7 +125,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 					<FormControlLabel
 						id='captions-no'
 						name='captionsEmbebed'
-						label='No'
+						label={props.language.no}
 						value='no'
 						control={<Radio color='secondary' />}
 						labelPlacement='end'
@@ -154,7 +156,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 		<Grid container spacing={1} direction='column' id='audioDescr-container' role='grid' justify='flex-end'>
 			<Grid item>
 				<FormControl component='fieldset' >
-					<FormLabel component='legend' id='audioDescr-radiogroup-label'>Did this content has audiodescription embebed?</FormLabel>
+					<FormLabel component='legend' id='audioDescr-radiogroup-label'>{props.language.audioDescription_a11y_has}</FormLabel>
 					<RadioGroup
 						id='audioDescr-radiogroup'
 						aria-describedby='audioDescr-exp'
@@ -167,7 +169,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 						<FormControlLabel
 							id='audioDescr-yes'
 							name='audioDescription'
-							label='Yes'
+							label={props.language.yes}
 							value='yes'
 							control={<Radio color='primary' />}
 							labelPlacement='end'
@@ -176,7 +178,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 						<FormControlLabel
 							id='audioDescr-no'
 							name='audioDescription'
-							label='No'
+							label={props.language.no}
 							value='no'
 							control={<Radio color='secondary' />}
 							labelPlacement='end'
@@ -188,7 +190,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 			</Grid>
 			<Grid item>
 				<FormControl component='fieldset' disabled={disabled_necAudioDesc}>
-					<FormLabel component='legend' id='audioDescr-necessary-label'>This content requires audiodescription?</FormLabel>
+					<FormLabel component='legend' id='audioDescr-necessary-label'>{props.language.audioDescription_a11y_required}</FormLabel>
 					<RadioGroup
 						id='audioDescr-necessary-radiogroup'
 						aria-describedby='audioDescr-necessary-exp'
@@ -200,7 +202,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 						<FormControlLabel
 							id='audioDescr-necessary-yes'
 							name='audioDescriptionRequired'
-							label='Yes'
+							label={props.language.yes}
 							value='yes'
 							control={<Radio color='primary' />}
 							labelPlacement='end'
@@ -208,7 +210,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 						<FormControlLabel
 							id='audioDescr-necessary-no'
 							name='audioDescriptionRequired'
-							label='No'
+							label={props.language.no}
 							value='no'
 							control={<Radio color='secondary' />}
 							labelPlacement='end'
@@ -222,7 +224,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 					type='audio'
 					user={Meteor.userId()}
 					accept={'audio/*'}
-					label={'Click the button to upload an audio description'}
+					label={props.language.audioDescriptionUpload_button}
 					getFileInformation={getFileInformation.bind(this)}
 				/>
 			</Grid>
@@ -240,7 +242,7 @@ export function VideoMediaSignLanguageA11Y(props){
 	return(
 		<Grid item id='signLang-container' role='grid'>
 			<FormControl component='fieldset' >
-				<FormLabel component='legend' id='signLang-label'>Did this content has sign language embebed?</FormLabel>
+				<FormLabel component='legend' id='signLang-label'>{props.language.signLanguage_a11y_has}</FormLabel>
 				<RadioGroup
 					id='signLang-radiogroup'
 					aria-describedby='signLang-exp'
@@ -254,7 +256,7 @@ export function VideoMediaSignLanguageA11Y(props){
 					<FormControlLabel
 						name='signLanguage'
 						id='signLang-yes'
-						label='Yes'
+						label={props.language.yes}
 						value='yes'
 						control={<Radio color='primary' />}
 						labelPlacement='end'
@@ -262,7 +264,7 @@ export function VideoMediaSignLanguageA11Y(props){
 					<FormControlLabel
 						name='signLanguage'
 						id='signLang-no'
-						label='No'
+						label={props.language.no}
 						value='no'
 						control={<Radio color='secondary' />}
 						labelPlacement='end'
@@ -283,7 +285,7 @@ export function VideoOthersA11Y(props){
 
 	return(
 		<FormControl component='fieldset' >
-			<FormLabel component='legend' id='seizures-label'>Did this content could provoke photosensitive seizures?</FormLabel>
+			<FormLabel component='legend' id='seizures-label'>{props.language.seizureRisk_a11y_has}</FormLabel>
 			<RadioGroup id='seizures-radiogroup'
 				aria-describedby='seizures-exp'
 				name='seizures'
@@ -293,16 +295,16 @@ export function VideoOthersA11Y(props){
 				<FormControlLabel
 					name='seizures'
 					id='seizures-yes'
-					label='Yes'
-					value='no'
+					label={props.language.yes}
+					value='yes'
 					control={<Radio color='primary' />}
 					labelPlacement='end'
 				/>
 				<FormControlLabel
 					name='seizures'
 					id='seizures-no'
-					label='No'
-					value='yes'
+					label={props.language.no}
+					value='no'
 					control={<Radio color='secondary' />}
 					labelPlacement='end'
 				/>
@@ -383,13 +385,13 @@ export default function VideoA11Y(props){
 	return(
 		<aside role='dialog'> {/* NOTE: this role indicates a modal. Change it if necessary*/}
 			<header className='accessibility-header-row'>
-				<h2 className='accessibility-subtitle'>Accessibility settings for video content</h2>
+				<h2 className='accessibility-subtitle'>{props.language.videoSettings_a11y}</h2>
 				<A11YProgressFeedback a11yFields={isA11Y}/>
 			</header>
 
 			<section id='video-text-alternatives'>
 				<header>
-					<h3>Text alternatives to video content</h3>
+					<h3>{props.language.textAlternatives_a11y_video}</h3>
 				</header>
 				<VideoTextAltA11Y data={{
 					handleInputOnChange,
@@ -402,7 +404,7 @@ export default function VideoA11Y(props){
 			<Divider component='li' />
 			<section id='video-media-alternatives'>
 				<header>
-					<h3>Media alternatives to video content</h3>
+					<h3>{props.language.mediaAlternatives_a11y_video}</h3>
 				</header>
 				<VideoMediaAltA11Y data={{
 					handleRadioButtonOnChange,
@@ -418,7 +420,7 @@ export default function VideoA11Y(props){
 			<Divider component='li' />
 			<section id='video-other-settings'>
 				<header>
-					<h3>Other</h3>
+					<h3>{props.language.other}</h3>
 				</header>
 				<VideoOthersA11Y data={{
 					handleRadioButtonOnChange,
@@ -430,7 +432,7 @@ export default function VideoA11Y(props){
 	);
 }
 
-export const useDataField = () => {
+export const useDataField = (props) => {
 	const [dataField, setDataField] = React.useState({
 		signLanguage: 'no',
 		seizures: 'no',
@@ -453,17 +455,17 @@ export const useDataField = () => {
 	});
 
 	//feedback variables
-	const [shortDescriptionTip, setShortDescriptionTip] = React.useState('Provide descriptive identification of the content');
-	const [longDescriptionTip, setLongDescriptionTip] = React.useState('Create a document that provide a textual version of the audio and video content that can be accessed by anyone. They should include spoken dialogue, and should also describe important sound effects and visual details.');
+	const [shortDescriptionTip, setShortDescriptionTip] = React.useState(props. shortDescription_a11y_tip);
+	const [longDescriptionTip, setLongDescriptionTip] = React.useState(props.video_a11y_aux_text_001);
 	const [seizuresTip, setSeizuresTip] = React.useState(
-		<React.Fragment>No content should flash more than 3 times per second, unless the flashes are in low contrast or have little red, otherwise they may cause epileptic seizures. <Link href={'https://www.trace.umd.edu/peat'}alt='Test your content in PEAT'>Test your content in PEAT</Link> to evaluate for epilepsy risk.
+		<React.Fragment>{`${props.video_a11y_aux_text_002} `}<Link href={'https://www.trace.umd.edu/peat'}alt='Test your content in PEAT'>{props.video_a11y_aux_text_003}</Link>{` ${props.video_a11y_aux_text_004}`}
 		</React.Fragment>
 	);
-	const [signLanguageTip, setSignLanguageTip] = React.useState('Embed a video of the sign language interpreter in the video stream.');
-	const [captionsTip, setCaptionsTip] = React.useState('Captions include dialogue, and, unlike subtitles, also identify who is speaking and provide information about significant sound effects. Captions can be either open (that is always visible) or closed (can be turned on and off).');
-	const [audioDescriptionTip, setAudioDescriptionTip] = React.useState('Audio description provides information about significant visual details that cannot be understood from the main soundtrack alone. During natural pauses in dialogue or critical sound elements, important actions, characters, scene changes, and on-screen text are described.');
+	const [signLanguageTip, setSignLanguageTip] = React.useState(props.video_a11y_aux_text_005);
+	const [captionsTip, setCaptionsTip] = React.useState(props.video_a11y_aux_text_006);
+	const [audioDescriptionTip, setAudioDescriptionTip] = React.useState(props.video_a11y_aux_text_007);
 
-	const [audioDescriptionRequiredTip, setAudioDescriptionRequiredTip] = React.useState('Audio description is not necessary when there is one person speaking against an unchanging background because there is no time-based visual information in the video that is important to the understanding of the content.');
+	const [audioDescriptionRequiredTip, setAudioDescriptionRequiredTip] = React.useState(props.video_a11y_aux_text_008);
 
 	const a11yInitial = [
 		{name: 'seizures', is_a11y: false},

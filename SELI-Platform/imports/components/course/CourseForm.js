@@ -18,11 +18,11 @@ export default class CourseForm extends React.Component {
           </div>
           <Stepper
             showControlMessage={this.props.showControlMessage.bind(this)}
-            showAccesibilityForm={this.props.showAccesibilityForm.bind(this)}
+            showAccessibilityForm={this.props.showAccessibilityForm.bind(this)}
             saveCourse={this.props.saveCourse.bind(this)}
             setCourseCategory={this.props.setCourseCategory.bind(this)}
             setCourseTemporalKey={this.props.setCourseTemporalKey.bind(this)}
-            showAccesibilityForm={this.props.showAccesibilityForm.bind(this)}
+            showAccessibilityForm={this.props.showAccessibilityForm.bind(this)}
             modalityItems={this.props.modalityItems}
             methodologyItems={this.props.methodologyItems}
             addedModalityItems={this.props.addedModalityItems}

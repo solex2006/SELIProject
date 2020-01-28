@@ -27,7 +27,7 @@ export default class AccessibilityDialog extends React.Component {
   }
 
   handleClose = () => {
-    this.setState({ open: false }, () => { this.props.hideAccesibilityForm() });
+    this.setState({ open: false }, () => { this.props.hideAccessibilityForm() });
   };
 
 
