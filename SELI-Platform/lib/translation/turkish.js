@@ -820,6 +820,7 @@ var TURKISH = {
 	video_a11y_aux_text_006: "Captions include dialogue, and, unlike subtitles, also identify who is speaking and provide information about significant sound effects. Captions can be either open (that is always visible) or closed (can be turned on and off).",
 	video_a11y_aux_text_007: "Audio description provides information about significant visual details that cannot be understood from the main soundtrack alone. During natural pauses in dialogue or critical sound elements, important actions, characters, scene changes, and on-screen text are described.",
   video_a11y_aux_text_008: "Audio description is not necessary when there is one person speaking against an unchanging background because there is no time-based visual information in the video that is important to the understanding of the content.",
+  notime: "No Time"
 }
 
 export default TURKISH;

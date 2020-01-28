@@ -275,7 +275,7 @@ export default class CoursePresentation extends React.Component {
                         <div className={"titleItem"}>
                           {this.props.language.audiencetype}
                           {
-                            this.props.course.typpe==="" ?
+                            this.props.course.type==="" ?
                             undefined
                             :
                             this.props.course.type.map((value, index)=>{

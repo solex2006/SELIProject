@@ -1,8 +1,6 @@
 import React from 'react';
 import InputNumber from 'rc-input-number';
  
-
- 
 class NumberItem extends React.Component {
   constructor(props) {
     super(props);
@@ -10,11 +8,13 @@ class NumberItem extends React.Component {
   }
   render() { 
     return (  
-      <InputNumber defaultValue={0}
+      <InputNumber 
+      className="quiz-inputnumeric"
+      defaultValue={0}
       min={0}
-      max={100}/>
+      max={100}
+      />
     );
   }
 }
- 
 export default NumberItem;

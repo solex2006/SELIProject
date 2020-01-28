@@ -306,8 +306,9 @@ class Quiz extends React.Component {
     console.log("vuelve ajsutar", this.state.selectedtime)
     return(
       <div className="quiz-dashboard-container">
+        {console.log("PANELSHOW",this.props.panelshow)}
         {
-          Number.isNaN(this.props.panelshow) || this.state.panelshow === 'stop' ?
+          Number.isNaN(this.state.selectedtime) || this.state.panelshow === 'stop' ?
           undefined
           :
           <Paper elevation={10} className="quiz-dashboard-side" >

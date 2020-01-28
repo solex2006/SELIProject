@@ -820,6 +820,7 @@ var SPANISH = {
   video_a11y_aux_text_006: "Los subtítulos incluyen diálogo y, a diferencia de los subtítulos, también identifican quién está hablando y proporcionan información sobre efectos de sonido significativos. Los subtítulos pueden ser abiertos (que siempre están visibles) o cerrados (se pueden activar y desactivar).",
   video_a11y_aux_text_007: "La descripción de audio proporciona información sobre detalles visuales significativos que no pueden entenderse solo desde la banda sonora principal. Durante las pausas naturales en el diálogo o elementos de sonido críticos, se describen acciones importantes, personajes, cambios de escena y texto en pantalla.",
   video_a11y_aux_text_008: "La descripción de audio no es necesaria cuando hay una persona que habla en un contexto inmutable porque no hay información visual basada en el tiempo en el video que sea importante para la comprensión del contenido.",
+  notime: "Sin tiempo"
 }
 
 export default SPANISH;
