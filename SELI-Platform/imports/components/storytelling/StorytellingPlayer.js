@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import Loading from '../../tools/Loading';
+import Loading from '../tools/Loading';
 
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -21,7 +21,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 import ReactPlayer from 'react-player';
-import { Activities } from '../../../../lib/ActivitiesCollection';
+import { Activities } from '../../../lib/ActivitiesCollection';
 //import Size from './Size'
 
 export default class StorytellingPlayer extends React.Component {
@@ -180,7 +180,6 @@ size = (width, height)=>{
                 />
                 <div className="storytelling-player-image-container">
                   <div
-                    
                     className="file-image-preview"
                     style={{
                       backgroundImage: `url(${this.props.story.nodes[this.state.scenePlaying].image.link})`,

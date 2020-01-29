@@ -773,8 +773,6 @@ var TURKISH = {
   deletNode: 'Delete node',
   sureDeleteNode: 'Are you sure you want to delete this node of the story?',
   myStory: 'My story',
-  weKnowInspiration: 'We know sometimes inspiration and names comes and the end',
-  addTheNameStory: 'Adicione o nome da história para salvá-la',
   loadingMyStories: 'Loading my stories...',
   informationUpdated: 'Information updated',
   tutorBasicInformation: 'Tutor basic information:',

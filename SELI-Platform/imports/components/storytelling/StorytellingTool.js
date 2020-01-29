@@ -3,7 +3,7 @@ import AudioRecorder from './AudioRecorder';
 import AudioPreview from './AudioPreview';
 import ImagePreview from './ImagePreview';
 import VideoPreview from './VideoPreview';
-import FileUpload from '../../files/FileUpload';
+import FileUpload from '../files/FileUpload';
 
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
@@ -31,9 +31,9 @@ import StorytellingStart from './StorytellingStart';
 import StorytellingScene from './StorytellingScene';
 import StorytellingEnd from './StorytellingEnd';
 import StorytellingPlayer from './StorytellingPlayer';
-import { Activities } from '../../../../lib/ActivitiesCollection';
-import { Feedback }   from '../../../../lib/FeedbackCollection';
-import { Courses } from '../../../../lib/CourseCollection';
+import { Activities } from '../../../lib/ActivitiesCollection';
+import { Feedback }   from '../../../lib/FeedbackCollection';
+import { Courses } from '../../../lib/CourseCollection';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -581,7 +581,7 @@ class StorytellingTool extends React.Component {
       }
     }
     if (!hasEnd) {
-      this.props.handleControlMessage(true, "Your story must have an end");
+      this.props.handleControlMessage(true, this.props.storyMustEnd);
       return false;
     }
     return true;
@@ -620,8 +620,7 @@ class StorytellingTool extends React.Component {
     //   selector= !selector
     // })
     // console.log("state modificado")
-    // console.log(this.state)
-
+    
     if (this.state.saved) {
       if (this.state.story.name !== "") {
         console.log("DATOS A GUARDAR....")
@@ -640,7 +639,7 @@ class StorytellingTool extends React.Component {
         )
       }
       else {
-        this.handleControlMessage(true, this.props.language.storyNameText);
+        this.props.handleControlMessage(true, this.props.language.storyNameText);
       }
     }
     else {
@@ -659,10 +658,13 @@ class StorytellingTool extends React.Component {
         }, () => {
           this.props.handleControlMessage(true, this.props.language.storySaved, true, "stories", this.props.language.seeList);
           this.handleClose();
+          this.setState({
+            saved: Activities.findOne({"activity.name": this.state.story.name})._id,
+          })
         })
       }
       else {
-        this.handleControlMessage(true, this.props.language.storyNameText);
+        this.props.handleControlMessage(true, this.props.language.storyNameText);
       }
     }
   }
@@ -1300,7 +1302,7 @@ class StorytellingTool extends React.Component {
                       value={this.state.mediaType}
                       indicatorColor="primary"
                       textColor="primary"
-                      className={this.state.story.nodes[this.state.selectedNode].type !== "end" ? "form-tabs-container-media" : "form-tabs-container"}
+                      className={this.state.story.nodes[this.state.selectedNode].type === "end" ? "form-tabs-container" : "form-tabs-container-media"}
                       variant="fullWidth"
                       centered={true}
                     >
@@ -1666,10 +1668,10 @@ class StorytellingTool extends React.Component {
                     required
                     value={this.state.story.name}
                     onChange={this.handleChange('storyName')}
-                    helperText={this.props.language.weKnowInspiration}
+                    helperText={this.props.language.storyNameHelper}
                   />
                   <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                    {this.props.language.addTheNameStory}
+                    {this.props.language.storyNameText}
                   </DialogContentText>
                   <WarningIcon className="warning-dialog-icon"/>
                 </DialogContent>

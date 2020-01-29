@@ -40,8 +40,6 @@ const ResizableContent = props => {
     setTop(top + deltaY)
   }
 
-
-  
   return (
     <Fragment>
       <div style={contentStyle}>{props.children}</div>

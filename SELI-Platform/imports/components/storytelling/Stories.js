@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Loading from '../../components/tools/Loading';
+import Loading from '../tools/Loading';
 import { Activities } from '../../../lib/ActivitiesCollection';
 import Table from '../data_display/Table';
 

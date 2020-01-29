@@ -42,6 +42,37 @@ var OPTIONS = [
   },
   {
     label: [
+      "Storytelling",
+      "Narración Digital",
+      "Narrativa",
+      "",
+      "",
+    ],
+    suboptions: [
+      {
+        label: [
+          "My stories",
+          "Mis historias",
+          "Minhas histórias",
+          "",
+          "",
+        ],
+        component: 'stories',
+      },
+      {
+        label: [
+          "Create story",
+          "Crear una historia",
+          "Criar história",
+          "",
+          "",
+        ],
+        component: 'storytelling',
+      },
+    ],
+  },
+  {
+    label: [
       "Support",
       "Soporte",
       "Suporte",
