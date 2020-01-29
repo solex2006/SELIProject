@@ -280,14 +280,15 @@
 }
 
 .storytelling-player-image-container {
-  align-content: center !important;
-  background-size: cover; 
-  width: 100%;
-  height: 100%;
-  transition: 0.5s;
+  width: calc(100vw) !important;
+  height: calc(100vh - var(--app-bar-height)) !important;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(0, 0, 0, 0.95);
+  background-size: contain;
+  transition: 0.5s;
+  display: table;
+  position: fixed;
+  white-space: nowrap;
 }
 
 .storytelling-player-description {
@@ -351,7 +352,7 @@
 
 .storytelling-return-button {
   position: fixed;
-  bottom: 15px;
+  bottom: 10px;
   left: 2.5vw;
   font-size: 1.25em !important;
   letter-spacing: 1px !important;
@@ -440,6 +441,7 @@
 .story-item-button {
   position: absolute !important;
   letter-spacing: 1px !important;
+  text-decoration: none !important;
   right: 1vw !important;
 }
 
