@@ -220,6 +220,10 @@
   width: 25vw !important;
   animation: fadeIn 1s;
 }
+.url-input-storytelling {
+  width: 100%;
+  animation: fadeIn 1s;
+}
 
 .url-check-button {
   margin-left: 1vw !important;

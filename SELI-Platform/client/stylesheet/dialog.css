@@ -141,7 +141,7 @@
 }
 
 .form-tabs-container-media {
-  width: 50%;
+  width: 33.33%;
   position: relative;
 }
 
@@ -181,6 +181,12 @@
 .course-creator-preview-player {
   width: 100% !important;
   height: 30vh !important;
+  animation: fadeInDown 0.5s;
+}
+
+.course-creator-preview-player-storytelling {
+  width: 100% !important;
+  height: 100% !important;
   animation: fadeInDown 0.5s;
 }
 

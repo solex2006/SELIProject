@@ -13,6 +13,17 @@
   max-height: calc(100vh - var(--app-bar-height));
   position: relative;
   display: flex;
+  background-color: #000000;
+}
+
+.storytelling-tool-play-container {
+  width: 100vw;
+  height: calc(100vh - var(--app-bar-height));
+  max-height: calc(100vh - var(--app-bar-height));
+  position: relative;
+  top: var(--app-bar-height);
+  display: flex;
+  background-color: #000000;
 }
 
 .storytelling-work-area-full {
@@ -340,7 +351,7 @@
 
 .storytelling-return-button {
   position: fixed;
-  bottom: 1.5vh;
+  bottom: 15px;
   left: 2.5vw;
   font-size: 1.25em !important;
   letter-spacing: 1px !important;

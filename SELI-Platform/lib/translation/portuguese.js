@@ -171,7 +171,7 @@ var PORTUGUESE = {
   sceneNameHelper: "Este é o nome da cena ex: Introdução, apenas Cena 1 ou qualquer nome que você queira.",
   description: "Descrição",
   descriptionIn: "Descrição em:",
-  sceneDescriptionHelper: "Esta é a descrição da cena, ela não é obrigatória, mas pode ajudar na acessibilidade para outros estudantes (você pode escrever a transcrição de sua gravação de voz).",
+  sceneDescriptionHelper: "Este é o roteiro da cena (você pode escrever a transcrição da voz como legendas em diferentes idiomas).",
   recordAgain: "Gravar novamente",
   changeAudio: "Alterar áudio",
   changeImage: "Mudar imagem",
@@ -316,7 +316,7 @@ var PORTUGUESE = {
   organizationByUAL: "Organização por unidades e lições",
   organizationByT: "Organização por tópicos",
   toStartOrganizationU: "Para começar a adicionar conteúdo insira o nome da primeira Unidade do seu curso",
-  toStartOrganizationU: "Para começar a adicionar conteúdo insira o nome do primeiro Tópico do seu curso",
+  toStartOrganizationT: "Para começar a adicionar conteúdo insira o nome do primeiro Tópico do seu curso",
   lessonName: "Nome da lição",
   byDate: "Por Data",
   disabilitieMenu: "lista de deficiências",
@@ -820,7 +820,11 @@ var PORTUGUESE = {
 	video_a11y_aux_text_006: "Captions include dialogue, and, unlike subtitles, also identify who is speaking and provide information about significant sound effects. Captions can be either open (that is always visible) or closed (can be turned on and off).",
 	video_a11y_aux_text_007: "Audio description provides information about significant visual details that cannot be understood from the main soundtrack alone. During natural pauses in dialogue or critical sound elements, important actions, characters, scene changes, and on-screen text are described.",
   video_a11y_aux_text_008: "Audio description is not necessary when there is one person speaking against an unchanging background because there is no time-based visual information in the video that is important to the understanding of the content.",
-  notime: "No Time"
+  notime: "No Time",
+  changeURL: "Change URL",
+  changeVideo: "Change Video",
+  reuseVideo: "Reuse Video",
+  videoLibraryMessage:'Double click over the item title to select',
 }
 
 export default PORTUGUESE;

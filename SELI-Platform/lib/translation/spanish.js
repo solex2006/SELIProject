@@ -171,7 +171,7 @@ var SPANISH = {
   sceneNameHelper: "Este es el nombre de la escena, por ejemplo: Introducción, solo la escena 1 o lo que quieras.",
   description: "Descripción",
   descriptionIn: "Descripción en:",
-  sceneDescriptionHelper: "Esta es la descripción de la escena, no es obligatoria, pero podría ayudar en la accesibilidad para otros estudiantes (podría escribir la transcripción de la voz grabada).",
+  sceneDescriptionHelper: "Este es el guión de la escena, (puede escribir la transcripción de la voz como subtítulos en diferentes idiomas).",
   recordAgain: "Grabar de nuevo",
   changeAudio: "Cambiar audio",
   changeImage: "Cambiar imagen",
@@ -188,7 +188,7 @@ var SPANISH = {
   publishStoryText: "Selecciona cómo quieres publicar tu historia",
   publishStoryCourseText: "Seleccione el curso en el que desea publicar su historia.",
   publishStoryActivityText: "Seleccione la actividad donde desea enviar su historia",
-  return: "Regreso",
+  return: "Regresar",
   hideDescription: "Ocultar descripción",
   showDescription: "Mostrar descripción",
   autoPlay: "Auto-reproducción",
@@ -820,7 +820,11 @@ var SPANISH = {
   video_a11y_aux_text_006: "Los subtítulos incluyen diálogo y, a diferencia de los subtítulos, también identifican quién está hablando y proporcionan información sobre efectos de sonido significativos. Los subtítulos pueden ser abiertos (que siempre están visibles) o cerrados (se pueden activar y desactivar).",
   video_a11y_aux_text_007: "La descripción de audio proporciona información sobre detalles visuales significativos que no pueden entenderse solo desde la banda sonora principal. Durante las pausas naturales en el diálogo o elementos de sonido críticos, se describen acciones importantes, personajes, cambios de escena y texto en pantalla.",
   video_a11y_aux_text_008: "La descripción de audio no es necesaria cuando hay una persona que habla en un contexto inmutable porque no hay información visual basada en el tiempo en el video que sea importante para la comprensión del contenido.",
-  notime: "Sin tiempo"
+  notime: "Sin tiempo",
+  changeURL: "Cambiar URL",
+  changeVideo: "Cambiar Video",
+  reuseVideo: "Reusar Video",
+  videoLibraryMessage: 'Haga doble clic sobre el título del elemento para seleccionar',
 }
 
 export default SPANISH;
