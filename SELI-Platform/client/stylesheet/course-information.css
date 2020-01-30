@@ -173,7 +173,6 @@
 .form-dialog-title {
   text-align: center;
   letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
 .form-library-container {
@@ -193,11 +192,11 @@
 }
 
 .form-file-selected-image-container {
-  width: 100%;
+  width: 220px;
   height: calc((100vh - var(--form-stepper-height) - var(--app-bar-height))* 0.6)  !important;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 100%;
+  background-size: 200px;
   animation: fadeInLeft 0.5s;
   background-color: #fafafa;
   transition: 0.5s;
@@ -219,7 +218,6 @@
 .form-file-selected-file-title {
   letter-spacing: 1px;
   font-size: 1.75em;
-  text-transform: uppercase;
 }
 
 .form-file-selected-file-subtitle {
