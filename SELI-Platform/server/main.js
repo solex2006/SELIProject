@@ -69,3 +69,5 @@ if (Meteor.isServer) {
 
   });
 }
+
+// meteor --settings settings.json

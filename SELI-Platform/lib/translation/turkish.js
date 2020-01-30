@@ -823,6 +823,7 @@ var TURKISH = {
   changeVideo: "Change Video",
   reuseVideo: "Reuse Video",
   videoLibraryMessage:'Double click over the item title to select',
+  minimumCourseDuration: 'Kurs süresi en az 5 saat olmalıdır',
 }
 
 export default TURKISH;

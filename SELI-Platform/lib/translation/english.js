@@ -823,6 +823,7 @@ var ENGLISH = {
   changeVideo: "Change Video",
   reuseVideo: "Reuse Video",
   videoLibraryMessage:'Double click over the item title to select',
+  minimumCourseDuration: 'The duration of the course must be a minimum of 5 hours',
 }
 
 export default ENGLISH;
