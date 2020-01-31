@@ -15,6 +15,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SchoolIcon from '@material-ui/icons/School';
 import EditIcon from '@material-ui/icons/Edit';
 import LanguageIcon from '@material-ui/icons/Language';
+import DoneIcon from '@material-ui/icons/Done';
 
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -134,32 +135,17 @@ class StorytellingTool extends React.Component {
       dataImages1: [],
       dataImagesName:[],
       dataImagesId:[],
-      dataAudio : [],
-      dataAudio1 :[],
+      dataAudio: [],
+      dataAudio1: [],
       dataAudioName: [],
-      dataAudioId:[],
-      dataVideo : [],
-      dataVideo1 :[],
+      dataAudioId: [],
+      dataVideo: [],
+      dataVideo1: [],
       dataVideoName: [],
       dataVideoId:[],
-      visible:false,
       img:[],
-      value: 'title'
+      renameFile: false,
     }
-  }
-
-
-  setVisible =(estado)=>{  //Para vizualizar las imagenes en react vizualizer
-    this.setState({
-      visible: false,
-      
-    })
-  }
-
-  handleClickImages=(files)=>{
-    console.log("Link de las imagenes, nombre e id")
-    console.log(files)  //aqui se debe llamr al metodo getimagefielinformationReuse
-    
   }
   
   filterRepitedFiles=(data)=>{
@@ -173,52 +159,30 @@ class StorytellingTool extends React.Component {
     }, []);
    
     const filteredItems = filteredArr.filter(item => item != "")
-  
-    console.log("Filtradoooooooooo", filteredItems)
-  
-    return filteredItems //retorna sin valores repetidos de audio o video
+    return filteredItems //Return filtered values
   }
 
   handleLibraryContent=(value)=>{
     this.updateLibraryContent()
-    console.log("Antes", this.state.dataImages)
     let Imagesfilter=this.filterRepitedFiles(this.state.dataImages)
     let Audiofilter=this.filterRepitedFiles(this.state.dataAudio)
     let Videofilter=this.filterRepitedFiles(this.state.dataVideo)
-    
-    console.log("DespuesfiltradoImages", Imagesfilter)
-    console.log("DespuesfiltradoAudio", Audiofilter)
     this.setState({
       dataImages1:Imagesfilter,
       dataAudio1:Audiofilter,
       dataVideo1:Videofilter
     })
     
-     
     if (value === "images") {
-      this.setState({
-        action: "reuse",
-        open: true,
-      })
-     // console.log("Despuessatet", this.state.dataImages)
+      this.openDialog("reuse");
     }
     else if (value === "audio") {
-      console.log("audio")
-      this.setState({
-        action: "reuseAudio",
-        open: true,
-      })
+      this.openDialog("reuseAudio");
     }
     else {
-      console.log("video")
-      this.setState({
-        action: "reuseVideo",
-        open: true,
-      })
+      this.openDialog("reuseVideo");
     }
-    
   }
-
 
   componentDidMount() {
     if (this.props.storyToEdit !== undefined) {
@@ -245,58 +209,27 @@ class StorytellingTool extends React.Component {
       dataAudio:[],
       dataVideo:[],
     })
-    //console.log("Images and audios already used")
     let dataLibraryContent=Activities.find({}).fetch()
-    //console.log("DATA-IMAGE-SOUND de todos los Usuarios...")
-    //console.log(dataLibraryContent)
-    //console.log("El user-id-actual")
-    //console.log(Meteor.userId())
-   //borrar los que no pertenecen a ese ususario
-   //hacd una 
-   //let = [...dataLibraryContent]
+    
     var dataLibraryContentCopy = dataLibraryContent.filter(function(value, index, arr){
-
-    if (value.activity.user == Meteor.userId()){
-      return value
-    }
-
-    });
-
-  /*  console.log(dataLibraryContentCopy)
-      dataLibraryContentCopy.map((data, index)=>{
-      let User = data.activity.user
-      console.log("User and Index",User, index)
-      if(User != Meteor.userId()){
-        console.log("Diferente")
-        dataLibraryContentCopy.splice(index,1)
+      if (value.activity.user == Meteor.userId()){
+        return value
       }
-    })
- */
-    //console.log("DATA-IMAGE-SOUND NEW...")
-    //console.log(dataLibraryContentCopy) 
+    });
 
     dataLibraryContentCopy.map((data)=>{
       if (data.activity.type === "storytelling"){
         let LibraryContent = data.activity.data
         LibraryContent.map((data2)=>{
-        let dataImg=data2.image       //let dataImgName=data2.image.link
+        let dataImg=data2.image
         let dataAud=data2.audio 
         let dataVid=data2.video 
         this.state.dataImages.push(dataImg)
         this.state.dataAudio.push(dataAud)
         this.state.dataVideo.push(dataVid)
-        /* this.setState(prevState => ({
-          dataImages: [...prevState.dataImages, dataImg],
-          dataAudio: [...prevState.dataAudio, dataAud]
-          
-        })) */
-        
         })
       }
     })
-    
-    console.log("Images state" , this.state.dataImages)
-    //Method to erase repited elements
   }
   
 
@@ -306,6 +239,10 @@ class StorytellingTool extends React.Component {
   
   handleClosepublish = () => {
     this.setState({ openpublish: false });
+  }
+
+  handleCloseRename = () => {
+    this.setState({ renameFile: false });
   }
 
   handleChange = name => event => {
@@ -365,7 +302,7 @@ class StorytellingTool extends React.Component {
       _id: newNode,
     };
     story.nodes.splice(index + 1, 0, node);
- 
+
     this.setState({
       story: story,
       selectedNode: story.nodes.length - 1,
@@ -439,32 +376,6 @@ class StorytellingTool extends React.Component {
     });
   }
 
-  getAudioFileInformation(file){
-    let story = this.state.story;
-    console.log("SELECTED NODE")
-    console.log(this.state.selectedNode)
-    story.nodes[this.state.selectedNode].audio = file;
-    this.setState({
-      story: story,
-    });
-    console.log("Audio informacion..............")
-    console.log(file)
-    console.log(this.state.story)
-  }
-
-  getVideoFileInformation(file){
-    let story = this.state.story;
-    console.log("SELECTED NODE")
-    console.log(this.state.selectedNode)
-    story.nodes[this.state.selectedNode].video = file;
-    this.setState({
-      story: story,
-    });
-    console.log("Audio informacion..............")
-    console.log(file)
-    console.log(this.state.story)
-  }
-
   unPickAudioFile(){
     let story = this.state.story;
     story.nodes[this.state.selectedNode].audio = '';
@@ -483,57 +394,13 @@ class StorytellingTool extends React.Component {
       url: '',
     });
   }
-//esta funcion toma los parametros de vuelta de la funcion upload file tiene el link, nombre e id del nodo.
+  //This function returns the information of the items of the data base depending on the file type 
   getFileInformation(file){  
-    console.log("file", file)
     let story = this.state.story;
-    console.log("selected node",this.state.selectedNode )
-    story.nodes[this.state.selectedNode].image = file;
+    story.nodes[this.state.selectedNode][this.state.mediaType] = file;
     this.setState({
       story: story,
     });
-
-    console.log("estado", this.state.story)
-  }
-
-  //el mismo metodo pero para reutilizar las imagenes ya subidas al servidor
-  getFileInformationReuse(file){  
-    console.log("datos a reutilizar", file)
-    let story = this.state.story;
-    console.log("selected node despues de ReUsar",this.state.selectedNode )
-    this.handleClose()
-    story.nodes[this.state.selectedNode].image = file;
-    this.setState({
-      story: story,
-    });
-
-    console.log("estadodespuesdereutilizar", this.state.story)
-  }
-
-  getFileInformationReuseAudio(fileAudio){
-    console.log("datos a reutilizar", fileAudio)
-    let story = this.state.story;
-    console.log("selected node despues de ReUsar",this.state.selectedNode )
-    this.handleClose()
-    story.nodes[this.state.selectedNode].audio = fileAudio;
-    this.setState({
-      story: story,
-    });
-
-    console.log("estadodespuesdereutilizar", this.state.story)
-  }
-
-  getFileInformationReuseVideo(fileVideo){
-    console.log("datos a reutilizar", fileVideo)
-    let story = this.state.story;
-    console.log("selected node despues de ReUsar",this.state.selectedNode )
-    this.handleClose()
-    story.nodes[this.state.selectedNode].video = fileVideo
-    this.setState({
-      story: story,
-    });
-
-    console.log("estadodespuesdereutilizar", this.state.story)
   }
 
   unPickImageFile(){
@@ -589,10 +456,7 @@ class StorytellingTool extends React.Component {
 
   handleSaveStory = () => {
     if (this.validateStory()) {
-      this.setState({
-        action: "save",
-        open: true,
-      })
+      this.openDialog("save");
     }
   }
 
@@ -671,10 +535,7 @@ class StorytellingTool extends React.Component {
 
   handlePublishStory = () => {
     if (this.validateStory()) {
-      this.setState({
-        action: "publish",
-        open: true,
-      })
+      this.openDialog("publish");
     }
   }
 
@@ -982,6 +843,12 @@ class StorytellingTool extends React.Component {
     })
   }
 
+  renameHandleChange = name => event => {
+    this.setState({
+      renameFileTitle: event.target.value,
+    });
+  }
+
   validateUrl(){
     let story = this.state.story;
     let url = document.getElementById('url-input').value;
@@ -1017,13 +884,41 @@ class StorytellingTool extends React.Component {
     this.state.story.nodes[this.state.selectedNode].rotate=rotate
   }
 
-  handleChangeText = (event, tile, dataAudio) => {
-    this.setState({value: event.target.value})
-    console.log("HANDLECHANGETEXT, event", event.target.value )
-    console.log("this.state.saved", this.state.saved, tile, dataAudio)
-    console.log("Tile", tile, dataAudio)
-    console.log("dataAudio",dataAudio)
-  };
+  changeFileName = (fileName, _id) => {
+    this.setState({
+      renameFile: true,
+      renameFileTitle: fileName,
+      renameFileId: _id,
+    });
+  }
+
+  finishChangeFileName = () => {
+    let storyId = "";
+    let story = this.state.story;
+    if (this.state.mediaType === "audio") {
+      storyId = Activities.findOne({"activity.data.audio._id": this.state.renameFileId})._id
+    } else {
+      storyId = Activities.findOne({"activity.data.video._id": this.state.renameFileId})._id
+    }
+    let newData = Activities.findOne({_id: storyId}).activity.data;
+    for (let i = 0; i < newData.length; i++) {
+      if (newData[i][this.state.mediaType]._id === this.state.renameFileId){
+        newData[i][this.state.mediaType].name = this.state.renameFileTitle;
+        if (this.state.saved === storyId) {
+          story.nodes[i][this.state.mediaType].name = this.state.renameFileTitle;
+          this.setState({
+            story: story,
+          });
+        }
+      }
+    }
+    Activities.update(
+      { _id: storyId},
+      { $set: {'activity.data': newData}}
+    )
+    this.handleLibraryContent(this.state.mediaType);
+    this.handleCloseRename();
+  }
 
   render() {
     const { classes } = this.props;
@@ -1373,7 +1268,7 @@ class StorytellingTool extends React.Component {
                               </div>
                             :
                               <AudioRecorder
-                                getFileInformation={this.getAudioFileInformation.bind(this)}
+                                getFileInformation={this.getFileInformation.bind(this)}
                               />
                           : 
                             undefined 
@@ -1397,7 +1292,7 @@ class StorytellingTool extends React.Component {
                                 user={Meteor.userId()}
                                 accept={'audio/*'}
                                 label={this.props.language.uploadAudioButtonLabel}
-                                getFileInformation={this.getAudioFileInformation.bind(this)}
+                                getFileInformation={this.getFileInformation.bind(this)}
                               /> 
                           : 
                             undefined                     
@@ -1555,7 +1450,7 @@ class StorytellingTool extends React.Component {
                                 user={Meteor.userId()}
                                 accept={'video/*'}
                                 label={this.props.language.uploadVideoButtonLabel}
-                                getFileInformation={this.getVideoFileInformation.bind(this)}
+                                getFileInformation={this.getFileInformation.bind(this)}
                               /> 
                           : 
                             undefined                     
@@ -1739,17 +1634,9 @@ class StorytellingTool extends React.Component {
                 {
                   this.state.action === "reuse"?
                     <div className="library-files-container">
-                      {/* <GridList  cols={3} className={classes.gridList}>
-                        {
-                          this.state.dataImages1.map(tile => (
-                          <GridListTile key={Math.random()} >
-                            <img src={tile.link} style={{padding: "5px", width: "150px", height:"150",  marginBlock: "10px", alignContent: 'center', align: "center"}} alt={tile.link} onDoubleClick={() => this.getFileInformationReuse(tile)}/>
-                          </GridListTile>
-                        ))}
-                      </GridList> */}
                       {this.state.dataImages1.map(tile => (
                         <div className="storytelling-image-library">
-                          <div style={{backgroundImage: `url(${tile.link})`}} className="file-image-preview" onDoubleClick={() => this.getFileInformationReuse(tile)}></div>
+                          <div style={{backgroundImage: `url(${tile.link})`}} className="file-image-preview" onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}}></div>
                         </div> 
                       ))}
                     </div>
@@ -1760,27 +1647,18 @@ class StorytellingTool extends React.Component {
                   this.state.action === "reuseAudio"?
                     <div className="library-files-container">
                       {this.state.dataAudio1.map(tile => (    
-                        <Card onDoubleClick={() => this.getFileInformationReuseAudio(tile)} className="audio-card-storytelling">
+                        <Card onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
                           <div className="card-media-audio-storytelling">
                             <AudioPlayer volume src={tile.link}/>
                           </div>
-                          <CardActions onDoubleClick={() => this.changeAudioName()} className="card-actions-bottom-container" disableSpacing>
+                          <CardActions className="card-actions-bottom-container" disableSpacing>
                             {`${this.props.language.audioTitle}: ${tile.name}`}
+                            <Tooltip title={this.props.language.edit}>
+                              <IconButton className="card-button" onClick={() => this.changeFileName(tile.name, tile._id)} aria-label="delete">
+                                <EditIcon className="card-icon"/>
+                              </IconButton>
+                            </Tooltip>
                           </CardActions> 
-                          {/* <div className="card-actions-bottom-containerText">
-                              <form className={classes.text} noValidate autoComplete="off">
-                                  <div>
-                                    <div>{tile.name}</div>
-                                    <TextField
-                                      id="standard-multiline-flexible"
-                                      label="Rename audio"
-                                      multiline
-                                      rowsMax="4"
-                                      onChange={()=>this.handleChangeText(event, tile, this.state.dataAudio1)}
-                                      />
-                                  </div>
-                                </form>
-                            </div>  */}
                         </Card>
                       ))}
                     </div>
@@ -1791,7 +1669,7 @@ class StorytellingTool extends React.Component {
                   this.state.action === "reuseVideo"?
                     <div className="library-files-container">
                       {this.state.dataVideo1.map(tile => (    
-                        <Card onDoubleClick={() => this.getFileInformationReuseVideo(tile)} className="audio-card-storytelling">
+                        <Card onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
                           <div className="card-media-audio-storytelling">
                             {
                               tile.name === "externalVideoUrlStorytelling" ?
@@ -1802,8 +1680,18 @@ class StorytellingTool extends React.Component {
                                 </div>
                             }  
                           </div>
-                          <CardActions onDoubleClick={() => this.changeAudioName()} className="card-actions-bottom-container" disableSpacing>
+                          <CardActions className="card-actions-bottom-container" disableSpacing>
                             {`${this.props.language.videoTitle}: ${tile.name === "externalVideoUrlStorytelling" ? tile.link : tile.name}`}
+                            {
+                              tile.name === "externalVideoUrlStorytelling" ?
+                                undefined
+                              :
+                                <Tooltip title={this.props.language.edit}>
+                                  <IconButton className="card-button" onClick={() => this.changeFileName(tile.name, tile._id)} aria-label="delete">
+                                    <EditIcon className="card-icon"/>
+                                  </IconButton>
+                                </Tooltip>
+                            }
                           </CardActions>
                         </Card>
                       ))}
@@ -1819,10 +1707,50 @@ class StorytellingTool extends React.Component {
               </React.Fragment> 
             :
               undefined
-          }        
+          }     
+        </Dialog>
+        <Dialog
+          open={this.state.renameFile} ///true for show
+          onClose={this.handleCloseRename}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+        >
+          <DialogTitle className="dialog-title">
+            <AppBar className="dialog-app-bar" color="primary" position="static">
+              <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
+                <h4 className="dialog-label-title">{this.props.language.renameFileTitle}</h4>
+                <IconButton
+                  id="close-icon"
+                  edge="end"
+                  className="dialog-toolbar-icon"
+                  onClick={this.handleCloseRename}
+                >
+                  <CloseIcon/>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </DialogTitle>
+          <div className="story-rename-container">
+            <TextField
+              id="rename-file-input"
+              label={this.props.language.fileTitle}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              multiline
+              value={this.state.renameFileTitle}
+              onChange={this.renameHandleChange()}
+            />
+          </div>
+          <div className="dialog-actions-container">
+            <Tooltip title={this.props.language.ok}>
+              <Fab onClick={() => this.finishChangeFileName()} aria-label="file name changed" className="dialog-fab" color="primary">
+                <DoneIcon />
+              </Fab>
+            </Tooltip>
+          </div>
         </Dialog>
         {/* After publish */}
-
         <Dialog
           open={this.state.openpublish} ///true for show
           onClose={this.handleClosepublish}
@@ -1869,7 +1797,7 @@ class StorytellingTool extends React.Component {
               undefined
       
           }
-           {
+          {
             this.state.action === "publishOnSocialNetwork" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
@@ -1954,7 +1882,7 @@ class StorytellingTool extends React.Component {
             :
             undefined
           }
-           {
+          {
             this.state.action === "publishAsActivity" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
@@ -1984,11 +1912,8 @@ class StorytellingTool extends React.Component {
               </React.Fragment>
             :
             undefined
-          }
-          
+          }         
         </Dialog>
-
-      
       </div>
     )
   }

@@ -823,6 +823,9 @@ var ENGLISH = {
   changeVideo: "Change Video",
   reuseVideo: "Reuse Video",
   videoLibraryMessage:'Double click over the item title to select',
+  
+  fileTitle: "File title",
+  renameFileTitle: "Rename file title",
 }
 
 export default ENGLISH;

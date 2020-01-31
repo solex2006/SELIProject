@@ -823,6 +823,9 @@ var SPANISH = {
   changeVideo: "Cambiar Video",
   reuseVideo: "Reusar Video",
   videoLibraryMessage: 'Haga doble clic sobre el título del elemento para seleccionar',
+  
+  fileTitle: "Título del archivo",
+  renameFileTitle: "Cambiar el título del archivo",
 }
 
 export default SPANISH;
