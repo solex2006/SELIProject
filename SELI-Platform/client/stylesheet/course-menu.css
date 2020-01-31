@@ -54,7 +54,6 @@
   letter-spacing: 2px;
   padding: 1.5vh 0;
   user-select: none;
-  text-transform: uppercase;
 }
 
 .course-menu-subtitle-container {
@@ -153,7 +152,6 @@
 .course-dialog-title {
   letter-spacing: 1px !important;
   font-size: 1.2em !important;
-  text-transform: uppercase;
 }
 
 .course-dialog-content {

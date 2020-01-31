@@ -32,11 +32,11 @@ export default function ImageAccessibility(props) {
 		<React.Fragment>
 			<section id='image-decoration' className='accessib-form'>
 				<header>
-					<h3 className="accessibility-form-title">Function of image</h3>
+					<h3 className="accessibility-form-title">{props.language.image_a11y_form}</h3>
 				</header>
 				<FormControl component='fieldset'>
 					<FormLabel component='legend' id='image-purpose-label' className="accessibility-form-label">
-						Image could be configured based on the purpose of the image
+						{props.language.image_a11y_form_lbl}
 					</FormLabel>
 					<RadioGroup
 						name='imagePurpose'
@@ -50,7 +50,7 @@ export default function ImageAccessibility(props) {
 						<FormControlLabel
 							name='imagePurpose'
 							id='image-purpose-info'
-							label='Informative'
+							label={props.language.image_a11y_purpose_informative}
 							value='info'
 							control={<Radio color='primary' />}
 							labelPlacement='end'
@@ -58,7 +58,7 @@ export default function ImageAccessibility(props) {
 						<FormControlLabel
 							name='imagePurpose'
 							id='image-purpose-deco'
-							label='Decorative'
+							label={props.language.image_a11y_purpose_decorative}
 							value='deco'
 							control={<Radio color='primary' />}
 							labelPlacement='end'
@@ -66,7 +66,7 @@ export default function ImageAccessibility(props) {
 						<FormControlLabel
 							name='imagePurpose'
 							id='image-purpose-txt'
-							label="Image of text"
+							label={props.language.image_a11y_purpose_text}
 							value='txt'
 							control={<Radio color='primary' />}
 							labelPlacement='end'
@@ -74,7 +74,7 @@ export default function ImageAccessibility(props) {
 						<FormControlLabel
 							name='imagePurpose'
 							id='image-purpose-cplx'
-							label="Complex images"
+							label={props.language.image_a11y_purpose_complex_label}
 							value='cplx'
 							control={<Radio color='primary' />}
 							labelPlacement='end'
@@ -88,6 +88,7 @@ export default function ImageAccessibility(props) {
 						step={'imagePurposeHelper_' + dataField.imagePurpose}
 						stepLabel={imagePurposeLabel}
 						guide=''
+						language={props.language}
 					/>
 				</FormControl>
 			</section>
@@ -97,7 +98,7 @@ export default function ImageAccessibility(props) {
 				style={{'display':displayAltGroup}}
 			>
 				<header>
-					<h3 className="accessibility-form-title">Text alternatives to image content</h3>
+					<h3 className="accessibility-form-title">{props.language.textAlternatives_a11y_image}</h3>
 				</header>
 				<Grid container spacing={1} direction='column' justify='flex-end'>
 					<Grid item id='short-description-container' role='grid'>
@@ -106,7 +107,7 @@ export default function ImageAccessibility(props) {
 							error={dataField.shortDescriptionError}
 							value={dataField.shortDescription}
 							name="shortDescription"
-							label="Short Description"
+							label={props.language.shortDescription_a11y_label}
 							//ariaLabelledBy
 							//ariaDescribedBy
 							//editorData
@@ -114,6 +115,7 @@ export default function ImageAccessibility(props) {
 							required={true}
 							tip={shortDescriptionTip}
 							step={'shortAltHelper_'+dataField.imagePurpose}
+							language={props.language}
 						/>
 					</Grid>
 					<Grid  item style={{'display' : displayAltLong}}>
@@ -122,18 +124,19 @@ export default function ImageAccessibility(props) {
 							error={dataField.longDescriptionError}
 							value={dataField.longDescription}
 							name="longDescription"
-							label="Long Description"
+							label={props.language.longDescription_a11y_label}
 							//ariaLabelledBy
 							//ariaDescribedBy
 							//editorData
-							placeholder="Caption"
+							placeholder={props.language.longDescription_a11y_placeholder_image}
 							required={true}
 							tip={longDescriptionTip}
 							step={'longAltHelper_'+dataField.imagePurpose}
 							stepLabel=''
 							position={dataField.longDescriptionPosition}
 							handlePosition={React.useCallback(handleLongDescriptionPosition)}
-							textPositionLabel='Text position relative to image'
+							textPositionLabel={`${props.language.textPosition_a11y_lbl}: ${props.language.image}`}
+							language={props.language}
 						/>
 					</Grid>
 				</Grid>
@@ -298,18 +301,18 @@ export const useImageDataField = (props) => {
 	function getImagePurposeLabel(purpose =''){
 		if(purpose === '')
 			purpose = dataField.imagePurpose;
-
+			
 		switch(purpose){
 		case 'info':
-			return 'Informative Images';
+			return props.image_a11y_purpose_informative_label;
 		case 'deco':
-			return 'Decorative Images';
+			return props.image_a11y_purpose_decorative_label;
 		case 'txt':
-			return 'Images of Texts';
+			return props.image_a11y_purpose_text_label;
 		case 'cplx':
-			return 'Complex Images';
+			return props.image_a11y_purpose_complex_label;
 		default:
-			return	'Error retrieving information';
+			return props.error_retrievingData;
 		}
 	}
 
@@ -319,13 +322,13 @@ export const useImageDataField = (props) => {
 
 		switch(purpose){
 		case 'info':
-			return 'Images that graphically represent SIMPLE concepts and information, typically pictures, photos, and illustrations.';
+			return props.image_a11y_purpose_informative_tip;
 		case 'deco':
-			return 'Decorative images don’t add information to the content of a page.';
+			return props.image_a11y_purpose_decorative_tip;
 		case 'txt':
-			return 'Readable text presented within an image. If the image is not a logo, avoid text in images, because genuine text is much more flexible than images: It can be resized without losing clarity, and background and text colors can be modified to suit the reading preferences of users';
+			return props.image_a11y_purpose_text_tip;
 		case 'cplx':
-			return 'Complex images such as graphs, charts, diagrams, ilustration, maps. Complex images contain substantial information – more than can be conveyed in a short phrase or sentence.';
+			return props.image_a11y_purpose_complex_tip;
 		default:
 			return;
 		}
@@ -337,11 +340,11 @@ export const useImageDataField = (props) => {
 
 		switch(purpose){
 		case 'info':
-			return 'Creat at least a short description conveying the essential information presented by the image, like meaning or content that is displayed visually, which typically isn’t a literal description of the image.';
+			return props.shortDescription_a11y_tip_image_informative;
 		case 'txt':
-			return 'Should contain the same words as in the image.';
+			return props.shortDescription_a11y_tip_image_text;
 		case 'cplx':
-			return 'Creat a short description to identify and provide a brief overview of the information.';
+			return props.shortDescription_a11y_tip_image_complex;
 		default:
 			return;
 		}
@@ -353,7 +356,7 @@ export const useImageDataField = (props) => {
 
 		switch(purpose){
 		case 'cplx':
-			return 'Provide a full-text equivalent of the data or information provided in the image as the text alternative. . As a result, it is possible to remove the image content and replace it with the text alternative and no functionality or information would be lost.';
+			return props.image_a11y_provide_text;
 		default:
 			return;
 		}

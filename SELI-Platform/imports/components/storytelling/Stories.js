@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Loading from '../../components/tools/Loading';
+import Loading from '../tools/Loading';
 import { Activities } from '../../../lib/ActivitiesCollection';
 import Table from '../data_display/Table';
 
@@ -158,6 +158,7 @@ export default class Stories extends React.Component {
                         nextPage: this.props.language.nextPage,
                         previousPage: this.props.language.previousPage,
                         options: this.props.language.options,
+                        of: this.props.language.of,
                       }}
                       headRows={this.state.headRows}
                       menuOptions={this.state.menuOptions}

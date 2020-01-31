@@ -234,6 +234,10 @@ export default class CreateCourse extends React.Component {
       this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
+    else if (courseInformation.duration < 5) {
+      this.props.handleControlMessage(true, `${this.props.language.minimumCourseDuration} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
+      return false;
+    }
     /* else if (!courseInformation.requirements.length) {
       this.props.handleControlMessage(true, `${this.props.language.technicalRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
@@ -246,6 +250,7 @@ export default class CreateCourse extends React.Component {
       this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step} 3: ${this.props.language.program})`, false, '', '');
       return false;
     }
+
     let emptyContent = false;
     if (courseInformation.organization.subunit) {
       courseInformation.program.map(unit => {

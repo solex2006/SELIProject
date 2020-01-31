@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Loading from '../tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
@@ -26,6 +27,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import DoneIcon from '@material-ui/icons/Done';
+import AppsIcon from '@material-ui/icons/Apps';
 
 import Slide from '@material-ui/core/Slide';
 
@@ -370,11 +372,6 @@ export default class Course extends React.Component {
     }
   }
 
-  openStory = (_id) => {
-    const url = `/story#${_id}`;
-    window.open(url, "_blank");
-  }
-
   render() {
     return(
       <div className="course-container">
@@ -509,17 +506,22 @@ export default class Course extends React.Component {
           aria-describedby="alert-dialog-confirmation"
           className="media-dialog"
         >
-          <AppBar position="static" className="course-dialog-app-bar">
-            <Toolbar style={{position: 'relative'}}>
-              <IconButton edge="start" color="inherit" onClick={this.handleCloseStories} aria-label="close">
-                <CloseIcon />
-              </IconButton>
-              <Typography className="course-dialog-title" variant="h6">
-                {this.props.language.courseStories}
-              </Typography>
-              <p className="app-tooltip">{this.props.language.pressEscCourse}</p>
-            </Toolbar>
-          </AppBar>
+          <DialogTitle className="dialog-title">
+            <AppBar className="dialog-app-bar" color="primary" position="static">
+              <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
+                <AppsIcon/>
+                <h4 className="dialog-label-title">{this.props.language.courseStories}</h4>
+                <IconButton
+                  id="close-icon"
+                  edge="end"
+                  className="dialog-toolbar-icon"
+                  onClick={this.handleCloseStories}
+                >
+                  <CloseIcon/>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </DialogTitle>
           <DialogContent className="stories-dialog-content">
             {
               this.state.stories.map(story => {
@@ -528,7 +530,14 @@ export default class Course extends React.Component {
                     <LibraryBooksIcon className="story-item-icon"/>
                     <p className="story-item-text-primary">{story.activity.name}</p>
                     <p className="story-item-text-secondary">{`By: ${story.userInformation.username}`}</p>
-                    <Button onClick={() => this.openStory(story._id)} className="story-item-button" color="primary">{this.props.language.open}</Button>
+                    <Link className="story-item-button"
+                      //target="_blank"
+                      to={`/story#${story._id}`}
+                    >
+                      <Button variant="contained" color="primary">
+                        {this.props.language.open}
+                      </Button>
+                    </Link>
                   </Paper>
                 )
               })

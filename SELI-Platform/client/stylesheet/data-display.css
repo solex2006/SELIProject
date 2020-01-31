@@ -29,7 +29,6 @@
   text-indent: calc(var(--menu-size) + 2vw);
   letter-spacing: 2.75px;
   font-size: 1.4em;
-  text-transform: uppercase;
   animation: fadeInDown 0.5s;
   z-index: 400;
 }
@@ -47,7 +46,6 @@
   text-indent: calc(var(--menu-size) + 2vw);
   letter-spacing: 2.75px;
   font-size: 1.4em;
-  text-transform: uppercase;
   animation: fadeInDown 0.5s;
   z-index: 400;
 }
@@ -106,7 +104,6 @@
 .management-table-toolbar-title {
   letter-spacing: 1px !important;
   font-size: 0.95em !important;
-  text-transform: uppercase !important;
   color: #424242;
 }
 

@@ -39,6 +39,7 @@ export default function a11yLongDescription(props){
 					error={props.error}
 					required={props.required}
 					handleerror={props.handleerror}
+					longDescription_a11y_delopment_purpose={props.language.longDescription_a11y_delopment_purpose}
 				/>
 				<AccessibilityHelp 
 					id={'long-description-help-container'} 
@@ -47,6 +48,7 @@ export default function a11yLongDescription(props){
 					tip={props.tip} 
 					step={props.step}
 					stepLabel={props.stepLabel}
+					language={props.language}
 				/>
 			</Grid>
 			<Grid item id={'long-description-position-container'} role='grid'>
@@ -62,14 +64,14 @@ export default function a11yLongDescription(props){
 						key={1} 
 						value='bottom' 
 						onClick={() => props.handlePosition('bottom')}>
-						<Tooltip title='Bottom'><HorizontalSplitIcon className='toggle-button-icon'/>
+						<Tooltip title={props.language.bottom_btn}><HorizontalSplitIcon className='toggle-button-icon'/>
 						</Tooltip>
 					</ToggleButton>
 					<ToggleButton 
 						key={2} 
 						value='top' 
 						onClick={() => props.handlePosition('top')}>
-						<Tooltip title='Top'><HorizontalSplitIcon style={{transform: 'rotate(180deg)'}} className='toggle-button-icon'/>
+						<Tooltip title={props.language.top_btn}><HorizontalSplitIcon style={{transform: 'rotate(180deg)'}} className='toggle-button-icon'/>
 						</Tooltip>
 					</ToggleButton>
 				</ToggleButtonGroup>

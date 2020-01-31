@@ -27,10 +27,11 @@ export default function AudioA11Y(props) {
 						error={dataField.shortDescriptionError}
 						value={dataField.shortDescription}
 						name="shortDescription"
-						label="Short Description"
+						label={props.language.shortDescription_a11y_label}
 						placeholder="Content identification"
 						required={true}
 						tip={shortDescriptionTip}
+						language={props.language}
 					/>
 				</Grid>
 				<Grid  item id='long-description-container' role='grid'>
@@ -39,13 +40,14 @@ export default function AudioA11Y(props) {
 					error={dataField.longDescriptionError}
 					value={dataField.longDescription}
 					name="longDescription"
-					label="Transcription"
-					placeholder="Audio transcription"
+					label={props.language.longDescription_a11y_label_audio}
+					placeholder={props.language.longDescription_a11y_placeholder_audio}
 					required={true}
 					tip={longDescriptionTip}
 					position={dataField.longDescriptionPosition}
 					handlePosition={React.useCallback(handleLongDescriptionPosition)}
-					textPositionLabel='Text position relative to audio player'
+					textPositionLabel={props.language.longDescription_a11y_audio_label}
+					language={props.language}
 				/>
 				</Grid>
 			</Grid>
@@ -54,7 +56,7 @@ export default function AudioA11Y(props) {
 	);
 }
 
-export const useAudioDataField = () =>{
+export const useAudioDataField = (props) =>{
 	const [dataField, setDataField] = React.useState({
 		shortDescription: '',
 		longDescription: '',
@@ -70,8 +72,8 @@ export const useAudioDataField = () =>{
 	const [isA11Y, setIsA11Y] = React.useState(a11yInitial);
 
 	//feedback
-	const [shortDescriptionTip, setShortDescriptionTip] = React.useState('Provide descriptive identification of the content');   
-	const [longDescriptionTip, setLongDescriptionTip] = React.useState('Creating a document that tells the same story and presents the same information as the prerecorded audio-only content. Includes all of the important dialogue and as well as descriptions of background sounds etc. that are part of the story.');
+	const [shortDescriptionTip, setShortDescriptionTip] = React.useState(props.shortDescription_a11y_tip);   
+	const [longDescriptionTip, setLongDescriptionTip] = React.useState(props.longDescription_a11y_tip);
 	
 	function handleInputOnChange ({ target: { name, value } }){
 		let errField = name + 'Error';

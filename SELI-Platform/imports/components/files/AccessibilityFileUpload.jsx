@@ -164,14 +164,14 @@ class AccessibilityFileUpload extends Component {
           {
             !this.state.inProgress ?
               <div className="upload-container">
-                <input
+                {/* <input
                   type="file"
                   id={"fileinput" + this.props.type}
                   onChange={this.uploadIt}
                   ref={"fileinput" + this.props.type}
                   className="file-upload-input"
                   accept={this.props.accept}
-                />
+                /> */}
                 <label className="upload-button-container" htmlFor={"fileinput" + this.props.type}>
                   <Fab color="secondary" className="upload-button" variant="contained" component="span">
                     <CloudUploadIcon className="upload-icon"/>

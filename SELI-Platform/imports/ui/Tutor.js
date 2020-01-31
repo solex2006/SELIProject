@@ -16,6 +16,8 @@ import ControlSnackbar from '../components/tools/ControlSnackbar';
 import AccountManagement from '../components/user/AccountManagement';
 import Help from '../components/user/Help';
 import Loading from '../components/tools/Loading';
+import StorytellingTool from '../components/storytelling/StorytellingTool';
+import Stories from '../components/storytelling/Stories';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
@@ -140,6 +142,9 @@ export default class Tutor extends React.Component {
       else if (action === 'preview') {
         action = () => this.showPreview();
       }
+      if (action === 'stories') {
+        action = () => this.showComponent('stories');
+      }
       this.setState({
         showControlMessage: show,
         controlMessage: message,
@@ -167,6 +172,14 @@ export default class Tutor extends React.Component {
       courseToEdit: course,
     }, () => {
       this.showComponent('edit');
+    });
+  }
+
+  editStory = (story) => {
+    this.setState({
+      storyToEdit: story,
+    }, () => {
+      this.showComponent('storytellingEdit');
     });
   }
 
@@ -275,6 +288,40 @@ export default class Tutor extends React.Component {
                           language={this.state.language}
                           user={this.state.user}
                           courseToEdit={this.state.courseToEdit}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'storytelling' ?
+                        <StorytellingTool
+                          user={this.state.user}
+                          language={this.state.language}
+                          storyToEdit={undefined}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'storytellingEdit' ?
+                        <StorytellingTool
+                          user={this.state.user}
+                          language={this.state.language}
+                          storyToEdit={this.state.storyToEdit}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'stories' ?
+                        <Stories
+                          user={this.state.user}
+                          language={this.state.language}
+                          showComponent={this.showComponent.bind(this)}
+                          editStory={this.editStory.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                         />
                       :

@@ -429,6 +429,7 @@ export default function EnhancedTable(props) {
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
           labelRowsPerPage={props.labels.pagination}
+          labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${props.labels.of} ${count}`}
         />
       </Paper>
     </div>

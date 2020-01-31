@@ -387,7 +387,7 @@ export default class CourseInformation extends React.Component {
             InputProps={{
               endAdornment: <InputAdornment position="end">{this.props.language.hours}</InputAdornment>,
             }}
-            inputProps={{ min: "0", max: "999", step: "1" }}
+            inputProps={{ min: "5", max: "999", step: "1" }}
             value={this.state.courseInformation.duration}
             onChange={this.handleChange('duration')}
             onKeyPress={() => validateOnlyNumbers(event)}

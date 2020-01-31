@@ -155,6 +155,7 @@ export default class CoursesList extends React.Component {
                         nextPage: this.props.language.nextPage,
                         previousPage: this.props.language.previousPage,
                         options: this.props.language.options,
+                        of: this.props.language.of,
                       }}
                       headRows={this.state.headRows}
                       menuOptions={this.state.menuOptions}

@@ -231,10 +231,13 @@
 }
 
 .card-button {
+  width: 40px;
+  height: 40px;
   margin: 0 0.1vw !important;
 }
 
 .card-icon {
+  margin: auto;
   font-size: 0.8em !important;
 }
 

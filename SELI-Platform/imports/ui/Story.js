@@ -9,7 +9,7 @@ import ControlSnackbar from '../components/tools/ControlSnackbar';
 import CommentDialog from '../components/student/comments/CommentDialog';
 
 
-import StorytellingPlayer from '../components/student/storytelling/StorytellingPlayer';
+import StorytellingPlayer from '../components/storytelling/StorytellingPlayer';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';

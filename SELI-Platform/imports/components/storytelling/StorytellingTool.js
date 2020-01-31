@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import AudioRecorder from './AudioRecorder';
 import AudioPreview from './AudioPreview';
 import ImagePreview from './ImagePreview';
-import FileUpload from '../../files/FileUpload';
+import VideoPreview from './VideoPreview';
+import FileUpload from '../files/FileUpload';
 
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
@@ -14,6 +15,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SchoolIcon from '@material-ui/icons/School';
 import EditIcon from '@material-ui/icons/Edit';
 import LanguageIcon from '@material-ui/icons/Language';
+import DoneIcon from '@material-ui/icons/Done';
 
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -30,9 +32,9 @@ import StorytellingStart from './StorytellingStart';
 import StorytellingScene from './StorytellingScene';
 import StorytellingEnd from './StorytellingEnd';
 import StorytellingPlayer from './StorytellingPlayer';
-import { Activities } from '../../../../lib/ActivitiesCollection';
-import { Feedback }   from '../../../../lib/FeedbackCollection';
-import { Courses } from '../../../../lib/CourseCollection';
+import { Activities } from '../../../lib/ActivitiesCollection';
+import { Feedback }   from '../../../lib/FeedbackCollection';
+import { Courses } from '../../../lib/CourseCollection';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -46,6 +48,7 @@ import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import AudioPlayer from 'react-h5-audio-player';
+import ReactPlayer from 'react-player';
 import 'react-h5-audio-player/lib/styles.css';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -108,6 +111,7 @@ class StorytellingTool extends React.Component {
             },
             image: '',
             audio: '',
+            video: '',
             ordinal: 0,
             _id: 1,
           },
@@ -119,9 +123,10 @@ class StorytellingTool extends React.Component {
       courses: [],
       activities: [],
       languageType: 'english',
-      mediaType: 'audio',
+      mediaType: 'image',
       audioType: 'record',
       imageType: 'upload',
+      videoType: 'upload',
       stateconsulta: false,
       isyes:false,
       isno:false,
@@ -130,31 +135,20 @@ class StorytellingTool extends React.Component {
       dataImages1: [],
       dataImagesName:[],
       dataImagesId:[],
-      dataAudio : [],
-      dataAudio1 :[],
+      dataAudio: [],
+      dataAudio1: [],
       dataAudioName: [],
-      dataAudioId:[],
-      visible:false,
+      dataAudioId: [],
+      dataVideo: [],
+      dataVideo1: [],
+      dataVideoName: [],
+      dataVideoId:[],
       img:[],
-      value: 'title'
+      renameFile: false,
     }
   }
-
-
-  setVisible =(estado)=>{  //Para vizualizar las imagenes en react vizualizer
-    this.setState({
-      visible: false,
-      
-    })
-  }
-
-  handleClickImages=(files)=>{
-    console.log("Link de las imagenes, nombre e id")
-    console.log(files)  //aqui se debe llamr al metodo getimagefielinformationReuse
-    
-  }
   
-  filterRepetidos=(data)=>{
+  filterRepitedFiles=(data)=>{
     let filteredArr = data.reduce((acc, current) => {
       let x = acc.find(item => item.name === current.name);
       if (!x) {
@@ -165,45 +159,30 @@ class StorytellingTool extends React.Component {
     }, []);
    
     const filteredItems = filteredArr.filter(item => item != "")
-  
-    console.log("Filtradoooooooooo", filteredItems)
-  
-    return filteredItems //retorna sin valores repetidos de audio o video
+    return filteredItems //Return filtered values
   }
 
-  handleImagesAudio=(value)=>{
-    this.UpdateImagesAudio()
-    console.log("Antes", this.state.dataImages)
-    let Imagesfilter=this.filterRepetidos(this.state.dataImages)
-    let Audiofilter=this.filterRepetidos(this.state.dataAudio)
-
-    
-    
-    console.log("DespuesfiltradoImages", Imagesfilter)
-    console.log("DespuesfiltradoAudio", Audiofilter)
+  handleLibraryContent=(value)=>{
+    this.updateLibraryContent()
+    let Imagesfilter=this.filterRepitedFiles(this.state.dataImages)
+    let Audiofilter=this.filterRepitedFiles(this.state.dataAudio)
+    let Videofilter=this.filterRepitedFiles(this.state.dataVideo)
     this.setState({
       dataImages1:Imagesfilter,
-      dataAudio1:Audiofilter
+      dataAudio1:Audiofilter,
+      dataVideo1:Videofilter
     })
     
-     
     if (value === "images") {
-      this.setState({
-        action: "reuse",
-        open: true,
-      })
-     // console.log("Despuessatet", this.state.dataImages)
+      this.openDialog("reuse");
     }
-    else{
-      console.log("audio")
-      this.setState({
-        action: "reuseAudio",
-        open: true,
-      })
+    else if (value === "audio") {
+      this.openDialog("reuseAudio");
     }
-    
+    else {
+      this.openDialog("reuseVideo");
+    }
   }
-
 
   componentDidMount() {
     if (this.props.storyToEdit !== undefined) {
@@ -221,69 +200,37 @@ class StorytellingTool extends React.Component {
         saved: this.props.storyToEdit._id,
       })
     }
-    this.UpdateImagesAudio()
+    this.updateLibraryContent()
   }
 
-  UpdateImagesAudio= () =>{ 
+  updateLibraryContent= () =>{ 
     this.setState({
       dataImages:[],
-      dataAudio:[]
+      dataAudio:[],
+      dataVideo:[],
     })
-    //console.log("Las Imagenes y Audios ya usados")
-    let dataImageSound=Activities.find({}).fetch()
-    //console.log("DATA-IMAGE-SOUND de todos los Usuarios...")
-    //console.log(dataImageSound)
-    //console.log("El user-id-actual")
-    //console.log(Meteor.userId())
-   //borrar los que no pertenecen a ese ususario
-   //hacd una 
-   //let = [...dataImageSound]
-   var dataImageSoundCopia = dataImageSound.filter(function(value, index, arr){
-
-    if (value.activity.user == Meteor.userId()){
-      return value
-    }
-
+    let dataLibraryContent=Activities.find({}).fetch()
+    
+    var dataLibraryContentCopy = dataLibraryContent.filter(function(value, index, arr){
+      if (value.activity.user == Meteor.userId()){
+        return value
+      }
     });
 
-  /*  console.log(dataImageSoundCopia)
-     dataImageSoundCopia.map((data, index)=>{
-      let User = data.activity.user
-      console.log("User and Index",User, index)
-      if(User != Meteor.userId()){
-        console.log("Diferente")
-        dataImageSoundCopia.splice(index,1)
-      }
-    })
- */
-    //console.log("DATA-IMAGE-SOUND NEWWWWWWWW...")
-    //console.log(dataImageSoundCopia) 
-
-    console.log(dataImageSoundCopia) 
-
-    dataImageSoundCopia.map((data)=>{
+    dataLibraryContentCopy.map((data)=>{
       if (data.activity.type === "storytelling"){
-        let ImageSound = data.activity.data
-        ImageSound.map((data2)=>{
-        let dataImg=data2.image       //let dataImgName=data2.image.link
+        let LibraryContent = data.activity.data
+        LibraryContent.map((data2)=>{
+        let dataImg=data2.image
         let dataAud=data2.audio 
-
+        let dataVid=data2.video 
         this.state.dataImages.push(dataImg)
         this.state.dataAudio.push(dataAud)
-        /* this.setState(prevState => ({
-          dataImages: [...prevState.dataImages, dataImg],
-          dataAudio: [...prevState.dataAudio, dataAud]
-          
-        })) */
-        
+        this.state.dataVideo.push(dataVid)
         })
       }
     })
-    
-     console.log("esatdo de las imags" , this.state.dataImages)
-    //METODO PARA ELIMINAR REPETIDOS
-    
-            }
+  }
   
 
   handleClose = () => {
@@ -292,6 +239,10 @@ class StorytellingTool extends React.Component {
   
   handleClosepublish = () => {
     this.setState({ openpublish: false });
+  }
+
+  handleCloseRename = () => {
+    this.setState({ renameFile: false });
   }
 
   handleChange = name => event => {
@@ -346,11 +297,12 @@ class StorytellingTool extends React.Component {
       },
       image: image,
       audio: '',
+      video: '',
       ordinal: index + 1,
       _id: newNode,
     };
     story.nodes.splice(index + 1, 0, node);
- 
+
     this.setState({
       story: story,
       selectedNode: story.nodes.length - 1,
@@ -373,6 +325,7 @@ class StorytellingTool extends React.Component {
       },
       image: '',
       audio: '',
+      video: '',
       ordinal: story.nodes.length,
       _id: newNode,
     });
@@ -423,19 +376,6 @@ class StorytellingTool extends React.Component {
     });
   }
 
-  getAudioFileInformation(file){
-    let story = this.state.story;
-    console.log("SELECTED NODE")
-    console.log(this.state.selectedNode)
-    story.nodes[this.state.selectedNode].audio = file;
-    this.setState({
-      story: story,
-    });
-    console.log("Audio informacion..............")
-    console.log(file)
-    console.log(this.state.story)
-  }
-
   unPickAudioFile(){
     let story = this.state.story;
     story.nodes[this.state.selectedNode].audio = '';
@@ -443,49 +383,27 @@ class StorytellingTool extends React.Component {
       story: story,
     });
   }
-//esta funcion toma los parametros de vuelta de la funcion upload file tiene el link, nombre e id del nodo.
-  getImageFileInformation(file){  
-    console.log("file", file)
+
+  unPickVideoFile(){
     let story = this.state.story;
-    console.log("selected node",this.state.selectedNode )
-    story.nodes[this.state.selectedNode].image = file;
+    story.nodes[this.state.selectedNode].video = '';
+    this.setState({
+      story: story,
+      validUrl: false,
+      urlMessage: '',
+      url: '',
+    });
+  }
+  //This function returns the information of the items of the data base depending on the file type 
+  getFileInformation(file){  
+    let story = this.state.story;
+    story.nodes[this.state.selectedNode][this.state.mediaType] = file;
     this.setState({
       story: story,
     });
-
-    console.log("estado", this.state.story)
   }
 
-//el mismo metodo pero para reutilizar las imagenes ya subidas al servidor
-getImageFileInformationReuse(file){  
-  console.log("datos a reutilizar", file)
-  let story = this.state.story;
-  console.log("selected node despues de ReUsar",this.state.selectedNode )
-  this.handleClose()
-  story.nodes[this.state.selectedNode].image = file;
-  this.setState({
-    story: story,
-  });
-
-  console.log("estadodespuesdereutilizar", this.state.story)
-}
-getImageFileInformationReuseAudio(fileAudio){
-  console.log("datos a reutilizar", fileAudio)
-  let story = this.state.story;
-  console.log("selected node despues de ReUsar",this.state.selectedNode )
-  this.handleClose()
-  story.nodes[this.state.selectedNode].audio = fileAudio;
-  this.setState({
-    story: story,
-  });
-
-  console.log("estadodespuesdereutilizar", this.state.story)
-
-}
- 
-
-
-unPickImageFile(){
+  unPickImageFile(){
     let story = this.state.story;
     story.nodes[this.state.selectedNode].image = '';
     this.setState({
@@ -530,7 +448,7 @@ unPickImageFile(){
       }
     }
     if (!hasEnd) {
-      this.props.handleControlMessage(true, "Your story must have an end");
+      this.props.handleControlMessage(true, this.props.storyMustEnd);
       return false;
     }
     return true;
@@ -538,10 +456,7 @@ unPickImageFile(){
 
   handleSaveStory = () => {
     if (this.validateStory()) {
-      this.setState({
-        action: "save",
-        open: true,
-      })
+      this.openDialog("save");
     }
   }
 
@@ -569,8 +484,7 @@ unPickImageFile(){
     //   selector= !selector
     // })
     // console.log("state modificado")
-    // console.log(this.state)
-
+    
     if (this.state.saved) {
       if (this.state.story.name !== "") {
         console.log("DATOS A GUARDAR....")
@@ -589,7 +503,7 @@ unPickImageFile(){
         )
       }
       else {
-        this.handleControlMessage(true, this.props.language.storyNameText);
+        this.props.handleControlMessage(true, this.props.language.storyNameText);
       }
     }
     else {
@@ -608,20 +522,20 @@ unPickImageFile(){
         }, () => {
           this.props.handleControlMessage(true, this.props.language.storySaved, true, "stories", this.props.language.seeList);
           this.handleClose();
+          this.setState({
+            saved: Activities.findOne({"activity.name": this.state.story.name})._id,
+          })
         })
       }
       else {
-        this.handleControlMessage(true, this.props.language.storyNameText);
+        this.props.handleControlMessage(true, this.props.language.storyNameText);
       }
     }
   }
 
   handlePublishStory = () => {
     if (this.validateStory()) {
-      this.setState({
-        action: "publish",
-        open: true,
-      })
+      this.openDialog("publish");
     }
   }
 
@@ -647,7 +561,6 @@ unPickImageFile(){
     courses = Courses.find({_id: {$in: courses}}).fetch();
     this.setState({
       action: "publishOnCourse",
-      open: true,
       courses: courses,
     })
   }
@@ -706,7 +619,6 @@ unPickImageFile(){
         activities: activities,
         courses: courses,
         action: "publishAsActivity",
-        open: true,
       })
     })
   }
@@ -717,7 +629,6 @@ unPickImageFile(){
       shareUrl: shareUrl,
       title: this.props.language.publishOnSocialNetwork,
       action: 'publishOnSocialNetwork',
-      openpublish: true,
     })
   }
 
@@ -735,10 +646,6 @@ unPickImageFile(){
         this.handleClose();
       }
     )
-    this.setState({
-      action: 'publishOnCourse',
-      openpublish: true,
-    })
   }
 
   publishAsActivity = (course, activity) => {
@@ -902,6 +809,12 @@ unPickImageFile(){
     })
   };
 
+  selectVideoType = (newValue) => {
+    this.setState({
+      videoType: newValue
+    })
+  };
+
   handleOnDragStart = (e) => {
     e.preventDefault()
   }
@@ -914,17 +827,92 @@ unPickImageFile(){
     }
   };
 
+  urlHandleChange = name => event => {
+    this.setState({
+      showHelperText: false,
+      url: event.target.value,
+      validUrl: false,
+    }, () => {
+      this.validateUrl()
+    })
+  }
+
+  renameHandleChange = name => event => {
+    this.setState({
+      renameFileTitle: event.target.value,
+    });
+  }
+
+  validateUrl(){
+    let story = this.state.story;
+    let url = document.getElementById('url-input').value;
+    let isValid = ReactPlayer.canPlay(url);
+    let helperColor = '';
+    let showHelperText = true;
+    let urlMessage = '';
+    if (isValid) {
+      let video = {
+        name: 'externalVideoUrlStorytelling',
+        link: url,
+      };
+      story.nodes[this.state.selectedNode].video = video;
+      urlMessage = this.props.language.thePlayerCan;
+      helperColor = "#4caf50";
+    }
+    else {
+      story.nodes[this.state.selectedNode].video = '';
+      urlMessage = this.props.language.thePlayerCannot;
+      helperColor = "#f44336";
+    }
+    this.setState({
+      showHelperText: showHelperText,
+      urlMessage: urlMessage,
+      helperColor: helperColor,
+      validUrl: isValid,
+      url: url,
+      story: story,
+    });
+  }
+
   rotateangle= (rotate)=>{
     this.state.story.nodes[this.state.selectedNode].rotate=rotate
   }
 
-  handleChangeText = (event, tile, dataAudio) => {
-    this.setState({value: event.target.value})
-    console.log("HANDLECHANGETEXT, event", event.target.value )
-    console.log("this.state.saved", this.state.saved, tile, dataAudio)
-    console.log("Tile", tile, dataAudio)
-    console.log("dataAudio",dataAudio)
-  };
+  changeFileName = (fileName, _id) => {
+    this.setState({
+      renameFile: true,
+      renameFileTitle: fileName,
+      renameFileId: _id,
+    });
+  }
+
+  finishChangeFileName = () => {
+    let storyId = "";
+    let story = this.state.story;
+    if (this.state.mediaType === "audio") {
+      storyId = Activities.findOne({"activity.data.audio._id": this.state.renameFileId})._id
+    } else {
+      storyId = Activities.findOne({"activity.data.video._id": this.state.renameFileId})._id
+    }
+    let newData = Activities.findOne({_id: storyId}).activity.data;
+    for (let i = 0; i < newData.length; i++) {
+      if (newData[i][this.state.mediaType]._id === this.state.renameFileId){
+        newData[i][this.state.mediaType].name = this.state.renameFileTitle;
+        if (this.state.saved === storyId) {
+          story.nodes[i][this.state.mediaType].name = this.state.renameFileTitle;
+          this.setState({
+            story: story,
+          });
+        }
+      }
+    }
+    Activities.update(
+      { _id: storyId},
+      { $set: {'activity.data': newData}}
+    )
+    this.handleLibraryContent(this.state.mediaType);
+    this.handleCloseRename();
+  }
 
   render() {
     const { classes } = this.props;
@@ -1198,33 +1186,49 @@ unPickImageFile(){
                   }
                   <Divider light/>
                   <div className="storytelling-menu-body-aux">
-                      <Tabs
-                        color="secondary"
-                        value={this.state.mediaType}
-                        indicatorColor="secondary"
-                        textColor="secondary"
-                        className="form-tabs-container-media"
-                        variant="fullWidth"
-                        centered={true}
-                      >
-                        { 
-                          this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
-                            <Tab value={'audio'} onClick={() => this.selectMediaType('audio')} className="form-tab" label={this.props.language.audio} />
-                          :
-                            undefined
-                        }
-                      </Tabs>
-                      <Tabs
-                        color="primary"
-                        value={this.state.mediaType}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        className="form-tabs-container-media"
-                        variant="fullWidth"
-                        centered={true}
-                      >
-                        <Tab value={'image'} onClick={() => this.selectMediaType('image')} className="form-tab" label={this.props.language.image} />
-                      </Tabs>
+                    <Tabs
+                      color="primary"
+                      value={this.state.mediaType}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      className={this.state.story.nodes[this.state.selectedNode].type === "end" ? "form-tabs-container" : "form-tabs-container-media"}
+                      variant="fullWidth"
+                      centered={true}
+                    >
+                      <Tab value={'image'} onClick={() => this.selectMediaType('image')} className="form-tab" label={this.props.language.image} />
+                    </Tabs>
+                    { 
+                      this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
+                        <Tabs
+                          color="secondary"
+                          value={this.state.mediaType}
+                          indicatorColor="secondary"
+                          textColor="secondary"
+                          className="form-tabs-container-media"
+                          variant="fullWidth"
+                          centered={true}
+                        >
+                          <Tab value={'audio'} onClick={() => this.selectMediaType('audio')} className="form-tab" label={this.props.language.audio} />   
+                        </Tabs>
+                      :
+                        undefined
+                    }
+                    { 
+                      this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
+                        <Tabs
+                          color="primary"
+                          value={this.state.mediaType}
+                          indicatorColor="primary"
+                          textColor="primary"
+                          className="form-tabs-container-media"
+                          variant="fullWidth"
+                          centered={true}
+                        >
+                          <Tab value={'video'} onClick={() => this.selectMediaType('video')} className="form-tab" label={this.props.language.video} />   
+                        </Tabs>
+                      :
+                        undefined
+                    }
                   </div>
                   {
                     this.state.mediaType === 'audio' && this.state.story.nodes[this.state.selectedNode].type !== "end" ?
@@ -1258,7 +1262,7 @@ unPickImageFile(){
                               </div>
                             :
                               <AudioRecorder
-                                getFileInformation={this.getAudioFileInformation.bind(this)}
+                                getFileInformation={this.getFileInformation.bind(this)}
                               />
                           : 
                             undefined 
@@ -1282,7 +1286,7 @@ unPickImageFile(){
                                 user={Meteor.userId()}
                                 accept={'audio/*'}
                                 label={this.props.language.uploadAudioButtonLabel}
-                                getFileInformation={this.getAudioFileInformation.bind(this)}
+                                getFileInformation={this.getFileInformation.bind(this)}
                               /> 
                           : 
                             undefined                     
@@ -1290,7 +1294,7 @@ unPickImageFile(){
                         {
                           this.state.audioType === 'reuse' ?
                             <div className="center-row"> 
-                              <Button variant="contained" onClick={() => this.handleImagesAudio("audio")} color="secondary" className="bar-button">             
+                              <Button variant="contained" onClick={() => this.handleLibraryContent("audio")} color="secondary" className="bar-button">             
                                 {this.props.language.reuseAudio}
                               </Button>
                             </div>
@@ -1345,7 +1349,7 @@ unPickImageFile(){
                                 user={Meteor.userId()}
                                 accept={'image/*'}
                                 label={this.props.language.uploadImageButtonLabel}
-                                getFileInformation={this.getImageFileInformation.bind(this)}
+                                getFileInformation={this.getFileInformation.bind(this)}
                               />
                           : 
                             undefined                     
@@ -1353,7 +1357,7 @@ unPickImageFile(){
                         {
                           this.state.imageType === 'reuse' ?
                             <div className="center-row"> 
-                              <Button variant="contained" onClick={() => this.handleImagesAudio("images")} color="primary" className="bar-button">
+                              <Button variant="contained" onClick={() => this.handleLibraryContent("images")} color="primary" className="bar-button">
                                 {this.props.language.reuseImg}
                               </Button>	
                             </div>
@@ -1376,11 +1380,107 @@ unPickImageFile(){
                     :
                       undefined
                   }
+                  {
+                    this.state.mediaType === 'video' && this.state.story.nodes[this.state.selectedNode].type !== "end" ?
+                      <div className="storytelling-menu-body">
+                        <Tabs
+                          color="primary"
+                          value={this.state.videoType}
+                          indicatorColor="primary"
+                          textColor="primary"
+                          className="form-tabs-container"
+                          variant="fullWidth"
+                          centered={true}
+                        >
+                          <Tab value={'url'} onClick={() => this.selectVideoType('url')} className="form-tab" label={this.props.language.byUrlVideo} />
+                          <Tab value={'upload'} onClick={() => this.selectVideoType('upload')} className="form-tab" label={this.props.language.upload} />
+                          <Tab value={'reuse'} onClick={() => this.selectVideoType('reuse')} className="form-tab" label={this.props.language.reuse} />
+                        </Tabs>
+                        <br/>
+                        {
+                          this.state.videoType === 'url' ?
+                            this.state.story.nodes[this.state.selectedNode].video !== '' ?
+                              <div className="center-row"> 
+                                <Button
+                                  className="bar-button"
+                                  variant="outlined"
+                                  color="primary"
+                                  onClick={() => this.unPickVideoFile()}
+                                >
+                                  {this.props.language.changeURL}
+                                </Button>
+                              </div>
+                            :
+                              <TextField
+                                id="url-input"
+                                label="Url"
+                                margin="normal"
+                                variant="outlined"
+                                value={this.state.url}
+                                autoFocus={true}
+                                onChange={this.urlHandleChange()}
+                                className="url-input-storytelling"
+                                helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
+                              />
+                          : 
+                            undefined 
+                        }
+                        {
+                          this.state.videoType === 'upload' ?
+                            this.state.story.nodes[this.state.selectedNode].video !== '' ?
+                              <div className="center-row"> 
+                                <Button
+                                  className="bar-button"
+                                  variant="outlined"
+                                  color="primary"
+                                  onClick={() => this.unPickVideoFile()}
+                                >
+                                  {this.props.language.changeVideo}
+                                </Button>
+                              </div>
+                            :
+                              <FileUpload
+                                type='audio'
+                                user={Meteor.userId()}
+                                accept={'video/*'}
+                                label={this.props.language.uploadVideoButtonLabel}
+                                getFileInformation={this.getFileInformation.bind(this)}
+                              /> 
+                          : 
+                            undefined                     
+                        }
+                        {
+                          this.state.videoType === 'reuse' ?
+                            <div className="center-row"> 
+                              <Button variant="contained" onClick={() => this.handleLibraryContent("video")} color="primary" className="bar-button">             
+                                {this.props.language.reuseVideo}
+                              </Button>
+                            </div>
+                          : 
+                            undefined                     
+                        }
+                        <br/>
+                        {console.log(this.state.story.nodes[this.state.selectedNode].video)}
+                        {
+                          this.state.story.nodes[this.state.selectedNode].video !== '' ?
+                            this.state.story.nodes[this.state.selectedNode].video.name === "externalVideoUrlStorytelling" ?
+                              <ReactPlayer className="course-creator-preview-player" url={this.state.story.nodes[this.state.selectedNode].video.link}/>
+                            :
+                              <div className="video-preview-container">
+                                <VideoPreview file={this.state.story.nodes[this.state.selectedNode].video}/>
+                              </div>
+                          :
+                            undefined
+                        }
+                      </div>
+                    :
+                      undefined
+                  }
                 </div>
               </div>
               { 
                 this.state.story.nodes[this.state.selectedNode].type !== 'start' ?
-                  <Tooltip title="Delete this scene">
+                  <Tooltip title={this.props.language.deleteThisScene}>
                     <Fab
                       color="secondary"
                       className="storytelling-delete-button"
@@ -1457,10 +1557,10 @@ unPickImageFile(){
                     required
                     value={this.state.story.name}
                     onChange={this.handleChange('storyName')}
-                    helperText={this.props.language.weKnowInspiration}
+                    helperText={this.props.language.storyNameHelper}
                   />
                   <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                    {this.props.language.addTheNameStory}
+                    {this.props.language.storyNameText}
                   </DialogContentText>
                   <WarningIcon className="warning-dialog-icon"/>
                 </DialogContent>
@@ -1503,13 +1603,17 @@ unPickImageFile(){
           }   
           
           { 
-            this.state.action === "reuse" || this.state.action === "reuseAudio"?
+            this.state.action === "reuse" || this.state.action === "reuseAudio" || this.state.action === "reuseVideo"?
               <React.Fragment>
                 <DialogTitle className="dialog-title">
                   <AppBar className="dialog-app-bar" color="primary" position="static">
                     <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
                       <AppsIcon/>
-                      <h4 className="dialog-label-title">{this.state.action === "reuse" ? this.props.language.reuseImg : this.props.language.reuseAudio}</h4>
+                      <h4 className="dialog-label-title">
+                        {this.state.action === "reuse" ? this.props.language.reuseImg : undefined}
+                        {this.state.action === "reuseAudio" ? this.props.language.reuseAudio : undefined} 
+                        {this.state.action === "reuseVideo" ? this.props.language.reuseVideo : undefined}  
+                      </h4>
                       <IconButton
                         id="close-icon"
                         edge="end"
@@ -1524,63 +1628,123 @@ unPickImageFile(){
                 {
                   this.state.action === "reuse"?
                     <div className="library-files-container">
-                      {/* <GridList  cols={3} className={classes.gridList}>
-                        {
-                          this.state.dataImages1.map(tile => (
-                          <GridListTile key={Math.random()} >
-                            <img src={tile.link} style={{padding: "5px", width: "150px", height:"150",  marginBlock: "10px", alignContent: 'center', align: "center"}} alt={tile.link} onDoubleClick={() => this.getImageFileInformationReuse(tile)}/>
-                          </GridListTile>
-                        ))}
-                      </GridList> */}
                       {this.state.dataImages1.map(tile => (
                         <div className="storytelling-image-library">
-                          <div style={{backgroundImage: `url(${tile.link})`}} className="file-image-preview" onDoubleClick={() => this.getImageFileInformationReuse(tile)}></div>
+                          <div style={{backgroundImage: `url(${tile.link})`}} className="file-image-preview" onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}}></div>
                         </div> 
                       ))}
                     </div>
                   :
+                    undefined
+                }
+                {
+                  this.state.action === "reuseAudio"?
                     <div className="library-files-container">
                       {this.state.dataAudio1.map(tile => (    
-                        <Card className="audio-card-storytelling">
-                          <div onDoubleClick={() => this.getImageFileInformationReuseAudio(tile)} className="card-media-audio-storytelling">
-                            <AudioPlayer
-                              volume
-                              src={tile.link}
-                            />
+                        <Card onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
+                          <div className="card-media-audio-storytelling">
+                            <AudioPlayer volume src={tile.link}/>
                           </div>
-                          <CardActions onDoubleClick={() => this.changeAudioName()} className="card-actions-bottom-container" disableSpacing>
+                          <CardActions className="card-actions-bottom-container" disableSpacing>
                             {`${this.props.language.audioTitle}: ${tile.name}`}
+                            <Tooltip title={this.props.language.edit}>
+                              <IconButton className="card-button" onClick={() => this.changeFileName(tile.name, tile._id)} aria-label="delete">
+                                <EditIcon className="card-icon"/>
+                              </IconButton>
+                            </Tooltip>
                           </CardActions> 
-                          {/* <div className="card-actions-bottom-containerText">
-                              <form className={classes.text} noValidate autoComplete="off">
-                                  <div>
-                                    <div>{tile.name}</div>
-                                    <TextField
-                                      id="standard-multiline-flexible"
-                                      label="Rename audio"
-                                      multiline
-                                      rowsMax="4"
-                                      onChange={()=>this.handleChangeText(event, tile, this.state.dataAudio1)}
-                                      />
-                                  </div>
-                                </form>
-                            </div>  */}
                         </Card>
                       ))}
                     </div>
+                  :
+                    undefined
+                }
+                {
+                  this.state.action === "reuseVideo"?
+                    <div className="library-files-container">
+                      {this.state.dataVideo1.map(tile => (    
+                        <Card onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
+                          <div className="card-media-audio-storytelling">
+                            {
+                              tile.name === "externalVideoUrlStorytelling" ?
+                                <ReactPlayer className="course-creator-preview-player" url={tile.link}/>
+                              :
+                                <div className="video-preview-container-library">
+                                  <VideoPreview file={tile}/>
+                                </div>
+                            }  
+                          </div>
+                          <CardActions className="card-actions-bottom-container" disableSpacing>
+                            {`${this.props.language.videoTitle}: ${tile.name === "externalVideoUrlStorytelling" ? tile.link : tile.name}`}
+                            {
+                              tile.name === "externalVideoUrlStorytelling" ?
+                                undefined
+                              :
+                                <Tooltip title={this.props.language.edit}>
+                                  <IconButton className="card-button" onClick={() => this.changeFileName(tile.name, tile._id)} aria-label="delete">
+                                    <EditIcon className="card-icon"/>
+                                  </IconButton>
+                                </Tooltip>
+                            }
+                          </CardActions>
+                        </Card>
+                      ))}
+                    </div>
+                  :
+                    undefined
                 }
                 <DialogActions>
                   <div className="dialog-actions-container-reuse">
-                    {this.props.language.audiomessage}
+                    { this.state.action === "reuse" ? this.props.language.audiomessage : this.props.language.videoLibraryMessage}
                   </div>
                 </DialogActions>
               </React.Fragment> 
             :
               undefined
-          }        
+          }     
+        </Dialog>
+        <Dialog
+          open={this.state.renameFile} ///true for show
+          onClose={this.handleCloseRename}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+        >
+          <DialogTitle className="dialog-title">
+            <AppBar className="dialog-app-bar" color="primary" position="static">
+              <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
+                <h4 className="dialog-label-title">{this.props.language.renameFileTitle}</h4>
+                <IconButton
+                  id="close-icon"
+                  edge="end"
+                  className="dialog-toolbar-icon"
+                  onClick={this.handleCloseRename}
+                >
+                  <CloseIcon/>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </DialogTitle>
+          <div className="story-rename-container">
+            <TextField
+              id="rename-file-input"
+              label={this.props.language.fileTitle}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              multiline
+              value={this.state.renameFileTitle}
+              onChange={this.renameHandleChange()}
+            />
+          </div>
+          <div className="dialog-actions-container">
+            <Tooltip title={this.props.language.ok}>
+              <Fab onClick={() => this.finishChangeFileName()} aria-label="file name changed" className="dialog-fab" color="primary">
+                <DoneIcon />
+              </Fab>
+            </Tooltip>
+          </div>
         </Dialog>
         {/* After publish */}
-
         <Dialog
           open={this.state.openpublish} ///true for show
           onClose={this.handleClosepublish}
@@ -1589,8 +1753,8 @@ unPickImageFile(){
         >
           {
             this.state.action === "boxpubshow" ?
-                  <React.Fragment>
-                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+              <React.Fragment>
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                   {this.props.language.publishStory}
                 </DialogTitle>
                 <div className="center-row">
@@ -1623,11 +1787,11 @@ unPickImageFile(){
                   {this.props.language.publishStoryText}
                 </DialogContentText>
               </React.Fragment> 
-              :
+            :
               undefined
       
           }
-           {
+          {
             this.state.action === "publishOnSocialNetwork" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
@@ -1635,7 +1799,6 @@ unPickImageFile(){
                 </DialogTitle>
                 <div class="storytelling-share-btn-group">
                   <div class="storytelling-share-btn">
-                    {console.log(this.state.shareUrl)}
                     <FacebookShareButton
                       url={this.state.shareUrl}
                       quote={this.state.title}>
@@ -1644,7 +1807,6 @@ unPickImageFile(){
                         round />
                     </FacebookShareButton>
                   </div>
-
                   <div className="storytelling-share-btn">
                     <TwitterShareButton
                       url={this.state.shareUrl}
@@ -1712,7 +1874,7 @@ unPickImageFile(){
             :
             undefined
           }
-           {
+          {
             this.state.action === "publishAsActivity" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
@@ -1742,11 +1904,8 @@ unPickImageFile(){
               </React.Fragment>
             :
             undefined
-          }
-          
+          }         
         </Dialog>
-
-      
       </div>
     )
   }

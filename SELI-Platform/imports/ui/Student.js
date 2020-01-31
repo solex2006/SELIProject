@@ -8,8 +8,8 @@ import AppBar from '../components/navigation/AppBar';
 import Presentation from '../components/navigation/Presentation';
 import CoursesDashboard from '../components/student/CoursesDashboard';
 import SubscribedCourses from '../components/student/SubscribedCourses';
-import StorytellingTool from '../components/student/storytelling/StorytellingTool';
-import Stories from '../components/student/Stories';
+import StorytellingTool from '../components/storytelling/StorytellingTool';
+import Stories from '../components/storytelling/Stories';
 import Course from '../components/student/Course';
 import CertificatesValidationForm from '../components/certificates/CertificatesValidationForm';
 

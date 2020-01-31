@@ -167,6 +167,7 @@ export default class ImageItem extends React.Component {
             removeItem={this.props.removeItem.bind(this)}
             editItem={this.props.editItem.bind(this)}
             handleDecorative={this.props.handleDecorative.bind(this)}
+            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
             language={this.props.language}
           />
         </div>
@@ -176,9 +177,8 @@ export default class ImageItem extends React.Component {
         />
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
+          language={this.props.language}
         />
-        
-       
       </div>
       );
     }
