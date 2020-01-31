@@ -169,8 +169,10 @@ export default class ActivityForm extends React.Component {
         attributes: this.props.contentToEdit.attributes,
       }, () => {
         let fileTypes = this.state.fileTypes;
-        let index = fileTypes.findIndex( type => type.label === this.state.attributes.fileTypes.label );
-        this.pickFileType(index);
+        if (this.state.attributes.type === "upload") {
+          let index = fileTypes.findIndex( type => type.label === this.state.attributes.fileTypes.label );
+          this.pickFileType(index);
+        }
       })
     }
   }
@@ -189,60 +191,6 @@ export default class ActivityForm extends React.Component {
   render() {
     return(
       <div className="dialog-form-container">
-        
-        {
-          this.state.attributes.type === 'storyboard' ?
-            <div className="form-activity-input-contained">
-               <p className="editor-label">{this.props.language.activity}</p>
-              <div className="center-row">
-                <Help
-                  helper="default"
-                  text={this.props.language.whatIsStoryboard}
-                  language={this.props.language}
-                />
-              </div>
-            </div>
-          :
-          undefined
-        }
-        {
-          this.state.attributes.type === 'upload' ?
-            <div className="form-activity-input-contained">
-               <p className="editor-label">{this.props.language.activity}</p>
-              <div className="center-row">
-                <Help
-                  helper="default"
-                  text={this.props.language.whatIsUpload}
-                  language={this.props.language}
-                />
-              </div>
-              <FileTypeSelector
-                fileTypes={this.state.fileTypes}
-                pickFileType={this.pickFileType.bind(this)}
-                fileType={this.props.language.selectAllowedFileType}
-              />
-            </div>
-          :
-          undefined
-        }
-        {
-          this.state.attributes.type === 'section' ?
-            <div className="form-activity-input-contained">
-               <p className="editor-label">{this.props.language.activity}</p>
-              <div className="center-row">
-                <Help
-                  helper="default"
-                  text={this.props.language.whatIsTextSection}
-                  language={this.props.language}
-                />
-              </div>
-            </div>
-          :
-          undefined
-        }
-        {/* <div className="center-row">
-          <p className="form-message">{this.props.language.writeTheInstructions}</p>
-        </div> */}
         <div className="editor-block">
           <Editor
             areaHeight='20vh'
@@ -253,7 +201,6 @@ export default class ActivityForm extends React.Component {
             language={this.props.language}
           />
         </div>
-
         <div className="editor-label1">{this.props.language.deliverType}</div>
         <div className="square-box">
               <Paper square>
@@ -271,7 +218,53 @@ export default class ActivityForm extends React.Component {
               </Tabs>
             </Paper>
         </div>
-        
+        {
+          this.state.attributes.type === 'storyboard' ?
+            <div className="form-activity-input-contained">
+              <div className="center-row">
+                <Help
+                  helper="default"
+                  text={this.props.language.whatIsStoryboard}
+                  language={this.props.language}
+                />
+              </div>
+            </div>
+          :
+          undefined
+        }
+        {
+          this.state.attributes.type === 'upload' ?
+            <div className="form-activity-input-contained">
+              <FileTypeSelector
+                fileTypes={this.state.fileTypes}
+                pickFileType={this.pickFileType.bind(this)}
+                fileType={this.props.language.selectAllowedFileType}
+              />
+              <div className="center-row">
+                <Help
+                  helper="default"
+                  text={this.props.language.whatIsUpload}
+                  language={this.props.language}
+                />
+              </div>
+            </div>
+          :
+          undefined
+        }
+        {
+          this.state.attributes.type === 'section' ?
+            <div className="form-activity-input-contained">
+              <div className="center-row">
+                <Help
+                  helper="default"
+                  text={this.props.language.whatIsTextSection}
+                  language={this.props.language}
+                />
+              </div>
+            </div>
+          :
+          undefined
+        }        
       </div>
     );
   }

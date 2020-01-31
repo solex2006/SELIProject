@@ -93,7 +93,6 @@ export default class ActivityItem extends React.Component {
           undefined
         }
         <div className="menu-content-item">
-        
           <MenuItem
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}

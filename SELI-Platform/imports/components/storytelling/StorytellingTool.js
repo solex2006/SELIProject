@@ -561,7 +561,6 @@ class StorytellingTool extends React.Component {
     courses = Courses.find({_id: {$in: courses}}).fetch();
     this.setState({
       action: "publishOnCourse",
-      open: true,
       courses: courses,
     })
   }
@@ -620,7 +619,6 @@ class StorytellingTool extends React.Component {
         activities: activities,
         courses: courses,
         action: "publishAsActivity",
-        open: true,
       })
     })
   }
@@ -631,7 +629,6 @@ class StorytellingTool extends React.Component {
       shareUrl: shareUrl,
       title: this.props.language.publishOnSocialNetwork,
       action: 'publishOnSocialNetwork',
-      openpublish: true,
     })
   }
 
@@ -649,10 +646,6 @@ class StorytellingTool extends React.Component {
         this.handleClose();
       }
     )
-    this.setState({
-      action: 'publishOnCourse',
-      openpublish: true,
-    })
   }
 
   publishAsActivity = (course, activity) => {
@@ -1759,8 +1752,8 @@ class StorytellingTool extends React.Component {
         >
           {
             this.state.action === "boxpubshow" ?
-                  <React.Fragment>
-                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+              <React.Fragment>
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                   {this.props.language.publishStory}
                 </DialogTitle>
                 <div className="center-row">
@@ -1793,7 +1786,7 @@ class StorytellingTool extends React.Component {
                   {this.props.language.publishStoryText}
                 </DialogContentText>
               </React.Fragment> 
-              :
+            :
               undefined
       
           }
@@ -1805,7 +1798,6 @@ class StorytellingTool extends React.Component {
                 </DialogTitle>
                 <div class="storytelling-share-btn-group">
                   <div class="storytelling-share-btn">
-                    {console.log(this.state.shareUrl)}
                     <FacebookShareButton
                       url={this.state.shareUrl}
                       quote={this.state.title}>
@@ -1814,7 +1806,6 @@ class StorytellingTool extends React.Component {
                         round />
                     </FacebookShareButton>
                   </div>
-
                   <div className="storytelling-share-btn">
                     <TwitterShareButton
                       url={this.state.shareUrl}
