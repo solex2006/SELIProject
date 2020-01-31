@@ -813,7 +813,9 @@ var SPANISH = {
   advancedItems: "Elementos avanzados",
   saveCourseLost: "Su curso no está guardado. Si va a otra sección, la información ingresada se perderá. ¿Desea guardarlo?",
   author: "Autor",
-  notime: "Sin tiempo"
+  notime: "Sin tiempo",
+  numberofAnswers: "Selecciona el número de Respuestas"
 }
 
-export default SPANISH;
+export default SPANISH
+

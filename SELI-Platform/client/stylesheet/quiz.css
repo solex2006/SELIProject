@@ -107,12 +107,22 @@
 
 .form-dialog-question-input-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  position: relative;
+  overflow-y: scroll;
+  align-items: flex-start;
+  place-content: flex-start;
 }
 
+.questions{
+width: 50% !important;
+display: flex
+}
 .answer-input {
   margin: 2px !important;
+ 
+
 }
 
 .answer-input .MuiOutlinedInput-adornedEnd{

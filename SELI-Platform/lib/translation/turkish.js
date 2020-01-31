@@ -813,7 +813,8 @@ var TURKISH = {
   advancedItems: "Advanced items",
   saveCourseLost: "Your course is not saved. If you are going to another section, the information typed will be lost. Do you want to save it?",
   author: "Author",
-  notime: "No Time"
+  notime: "No Time",
+  numberofAnswers: "Seelct the number of answers"
 }
 
 export default TURKISH;

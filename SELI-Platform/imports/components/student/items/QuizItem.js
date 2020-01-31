@@ -272,8 +272,9 @@ export default class QuizItem extends React.Component {
                     <DialogContentText  className="quiz-result-dialog-content-text">
                       {`${this.props.language.correctAnswers}: ${this.state.quizResult.activity.hits}`}
                     </DialogContentText>
+                 
                     <DialogContentText  className="quiz-result-dialog-content-text">
-                      {`${this.props.language.wrongAnswers}: ${(this.props.item.attributes.questions.length - this.state.quizResult.activity.hits)}`}
+                      {`${this.props.language.wrongAnswers}: ${(this.state.quizResult.activity.Incorrect)}`}
                     </DialogContentText>
                     <DialogContentText className="quiz-result-dialog-content-text">
                       {`${this.props.language.approvalPercentage}: ${this.props.item.attributes.approvalPercentage}%`}
