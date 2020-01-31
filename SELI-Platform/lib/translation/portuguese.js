@@ -823,9 +823,9 @@ var PORTUGUESE = {
   changeVideo: "Change Video",
   reuseVideo: "Reuse Video",
   videoLibraryMessage:'Double click over the item title to select',
-  
   fileTitle: "File title",
   renameFileTitle: "Rename file title",
+  minimumCourseDuration: 'A duração do curso deve ser de no mínimo 5 horas',
 }
 
 export default PORTUGUESE;

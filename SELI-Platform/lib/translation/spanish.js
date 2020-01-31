@@ -823,9 +823,9 @@ var SPANISH = {
   changeVideo: "Cambiar Video",
   reuseVideo: "Reusar Video",
   videoLibraryMessage: 'Haga doble clic sobre el título del elemento para seleccionar',
-  
   fileTitle: "Título del archivo",
   renameFileTitle: "Cambiar el título del archivo",
+  minimumCourseDuration: 'La duración del curso debe ser mínimo de 5 horas',
 }
 
 export default SPANISH;

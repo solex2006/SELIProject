@@ -23,13 +23,11 @@
 
 .course-presentation-hero-title {
   font-size: 7.5vh;
-  text-transform: uppercase;
 }
 
 .course-presentation-hero-subtitle {
   font-size: 2.5vh;
   letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
 .course-presentation-hero-media-paper {
@@ -145,7 +143,6 @@
   padding: 0 5%;
   font-size: 1.1em;
   letter-spacing: 1px;
-  text-transform: uppercase;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -160,7 +157,6 @@
   padding: 0 5%;
   font-size: 1.1em;
   letter-spacing: 1px;
-  text-transform: uppercase;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -177,7 +173,6 @@
   margin-right: 40px ;
   margin-left: 30px ;
   letter-spacing: 1px;
-  text-transform: uppercase;
   text-align: center;
   display: flex;
 
@@ -205,7 +200,6 @@
   letter-spacing: 2px;
   padding-right: 12px;
   padding-left: 6px;
-  text-transform: uppercase;
 }
 
 .course-card-medium-text {
@@ -213,7 +207,6 @@
   letter-spacing: 1px;
   padding-right: 12px;
   padding-left: 6px;
-  text-transform: uppercase;
 }
 
 .course-card-small-text {
@@ -222,7 +215,6 @@
   padding-right: 12px;
   padding-left: 6px;
   width: 10vw;
-  text-transform: uppercase;
 }
 
 .course-requirement-information {
@@ -243,7 +235,6 @@
   padding: 2vh 5%;
   font-size: 1.75em;
   letter-spacing: 2px;
-  text-transform: uppercase;
   text-align: center;
   color: #333;
 }
@@ -256,7 +247,6 @@
 .course-carousel-title {
   letter-spacing: 1px !important;
   color: var(--primary) !important;
-  text-transform: uppercase !important;
 }
 
 .course-carousel-content {
@@ -346,7 +336,6 @@
 
 .course-technical-requirement-title {
   font-size: 1.05em !important;
-  text-transform: uppercase;
   letter-spacing: 1px !important;
   text-align: center !important;
   padding: 1.5vh 0 !important;
