@@ -9,8 +9,8 @@ export default class CompressedItem extends React.Component {
     super(props);
     this.state = {
       actions: [
-        { icon: <CloudDownloadIcon />, name: 'Download', action: () => this.download() },
-        { icon: <StarRateIcon />, name: 'Add to my library', action: () => this.addToFavorites() },
+        { icon: <CloudDownloadIcon />, name: this.props.language.download, action: () => this.download() },
+        { icon: <StarRateIcon />, name: this.props.language.addToMyLibrary, action: () => this.addToFavorites() },
       ],
     }
   }
@@ -38,7 +38,7 @@ export default class CompressedItem extends React.Component {
               />
             </div>
             <div className="item-instruction-column">
-              <p className="instruction-title">Instructions:</p>
+              <p className="instruction-title">{this.props.language.instructions}</p>
               <div
                 id={this.props.item.attributes.compressed.id + "instruction" + this.props.item.id}
                 className="pdf-item-instruction"

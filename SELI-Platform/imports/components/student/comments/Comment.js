@@ -54,9 +54,9 @@ export default class Comment extends React.Component {
       <div className="comment-container">
         <Avatar style={{backgroundColor: this.state.color}} className="comment-avatar">{this.props.comment.user.charAt(0).toUpperCase()}</Avatar>
         <div className="comment-container-information">
-          <p className="comment-text-secondary">{`${this.props.comment.user} comment:`}</p>
+          <p className="comment-text-secondary">{`${this.props.commentOf}: ${this.props.comment.user}`}</p>
           <p className="comment-text-primary">{this.props.comment.comment}</p>
-          <p className="comment-text-secondary">{`${this.props.comment.date.toDateString()} - ${this.props.comment.date.toLocaleTimeString()}`}</p>
+          <p className="comment-text-secondary">{`${this.props.comment.date.toLocaleDateString('en-US')} - ${this.props.comment.date.toLocaleTimeString()}`}</p>
         </div>
       </div>
     );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Loading from '../../components/tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
@@ -64,8 +65,12 @@ export default class PublishedCoursesList extends React.Component {
   }
 
   preview = (_id) => {
-    const url = `/coursePreview#${_id}`;
-    window.open(url, "_blank");
+    this.handleClickOpen();
+    this.setState({
+      course_id: _id,
+      dialogConfirmationTitle: this.props.language.coursePreview,
+      dialogConfirmationContentText: this.props.language.willBeRedirected
+    })
   }
 
   unpublish = (_id) => {
@@ -78,25 +83,25 @@ export default class PublishedCoursesList extends React.Component {
       }
     );
     this.handleClose();
-    this.props.handleControlMessage(true, 'Course unpublished, you can find it in your saved courses!', true, 'savedList', 'See list');
+    this.props.handleControlMessage(true, this.props.language.courseUnpublished, true, 'savedList', this.props.language.seeList);
   }
 
   createTableData = (myCourses) => {
     let tableData = [];
     let headRows = [
-      { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
-      { id: 'organization', numeric: true, disablePadding: false, label: 'Organization' },
-      { id: 'duration', numeric: true, disablePadding: false, label: 'Duration' },
-      { id: 'creationDate', numeric: true, disablePadding: false, label: 'Creation Date' },
-      { id: 'actions', numeric: true, disablePadding: false, label: 'Actions' },
+      { id: 'title', numeric: false, disablePadding: true, label: this.props.language.title },
+      { id: 'organization', numeric: true, disablePadding: false, label: this.props.language.organization },
+      { id: 'duration', numeric: true, disablePadding: false, label: this.props.language.duration },
+      { id: 'creationDate', numeric: true, disablePadding: false, label: this.props.language.creationDate },
+      { id: 'actions', numeric: true, disablePadding: false, label: this.props.language.actions },
     ];
     let menuOptions = [
-      {label: "Course preview", icon: <TabIcon/>, action: this.preview.bind(this)},
-      {label: "Classroom management" , icon: <GroupIcon/>, action: this.openClassroomManagement.bind(this)},
-      {label: "Unpublish course" , icon: <UnarchiveIcon/>, action: this.showUnpublishConfirmation.bind(this)},
+      {label: this.props.language.coursePreview , icon: <TabIcon/>, action: this.preview.bind(this)},
+      {label: this.props.language.classroomManagement , icon: <GroupIcon/>, action: this.openClassroomManagement.bind(this)},
+      {label: this.props.language.unpublishCourse , icon: <UnarchiveIcon/>, action: this.showUnpublishConfirmation.bind(this)},
     ];
     myCourses.map(course => {
-      tableData.push({title: course.title, organization: course.organization.label, duration: `${course.duration} hours`, creationDate: course.creationDate.toDateString(), _id: course._id})
+      tableData.push({title: course.title, organization: course.organization.label, duration: `${course.duration} hours`, creationDate: course.creationDate.toLocaleDateString('en-US'), _id: course._id})
     })
     this.setState({
       headRows: headRows,
@@ -112,8 +117,8 @@ export default class PublishedCoursesList extends React.Component {
   showUnpublishConfirmation = (_id) => {
     this.handleClickOpen();
     this.setState({
-      dialogConfirmationTitle: 'Unpublish course',
-      dialogConfirmationContentText: `Are you sure you want to unpublish this course? All your suscriptors won't be able to access the course content`,
+      dialogConfirmationTitle: this.props.language.unpublishCourse,
+      dialogConfirmationContentText: this.props.language.areYouSureUnpublishCourse,
       courseToUnpublish: _id,
       confirmAction: () => this.unpublish(),
     });
@@ -188,10 +193,23 @@ export default class PublishedCoursesList extends React.Component {
             {
               this.state.results ?
                 <div className="management-result-container">
-                  <p className="management-title">My published courses <SchoolIcon className="management-title-icon"/></p>
+                  <p className="management-title-published">{this.props.language.myPublishedCourses}<SchoolIcon className="management-title-icon"/></p>
+                  <p className="management-title-suggestion">{`(${this.props.language.toEditPublished})`}</p>
+                  <p className="management-title-suggestion-indent"></p>
                   <div className="management-table-container">
                     <Table
-                      labels={{title:'You have', pagination: 'Courses per page:', plural: 'courses'}}
+                      labels={{
+                        title: this.props.language.youHaveCourses, 
+                        pagination: this.props.language.coursePerPage,
+                        filterList: this.props.language.filterList,
+                        refresh: this.props.language.refresh,
+                        delete: this.props.language.delete,
+                        selected: this.props.language.selected,
+                        nextPage: this.props.language.nextPage,
+                        previousPage: this.props.language.previousPage,
+                        options: this.props.language.options,
+                        of: this.props.language.of,
+                      }}
                       headRows={this.state.headRows}
                       menuOptions={this.state.menuOptions}
                       tableData={this.state.tableData}
@@ -202,10 +220,10 @@ export default class PublishedCoursesList extends React.Component {
               :
               <div className="empty-dashboard">
                 <div className="empty-dashboard-row">
-                  <p className="empty-dashboard-text">You don't have any course published yet</p>
+                  <p className="empty-dashboard-text">{this.props.language.noCoursePublished}</p>
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
-                <Button onClick={() => this.props.showComponent('create')} variant="contained" color="secondary" className="empty-dashboard-button">Create a course</Button>
+                <Button onClick={() => this.props.showComponent('create')} variant="contained" color="secondary" className="empty-dashboard-button">{this.props.language.createCourse}</Button>
               </div>
             }
           </React.Fragment>
@@ -221,15 +239,36 @@ export default class PublishedCoursesList extends React.Component {
             <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
               {this.state.dialogConfirmationContentText}
             </DialogContentText>
-            <WarningIcon className="warning-dialog-icon"/>
+            {
+              this.state.dialogConfirmationTitle === this.props.language.unpublishCourse ?
+                <WarningIcon className="warning-dialog-icon"/>
+              :
+                <InfoIcon className="warning-dialog-icon"/>   
+            }
           </DialogContent>
           <DialogActions>
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-              Cancel
+              {this.props.language.cancel}
             </Button>
-            <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
-              Confirm
-            </Button>
+            {
+              this.state.dialogConfirmationTitle === this.props.language.unpublishCourse ?
+                <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
+                  {this.props.language.confirm}
+                </Button>
+              :
+                <Link className="button-link"
+                  to={{
+                    pathname: "/coursePreview",
+                    hash: this.state.course_id,
+                    state: { fromDashboard: true },
+                    query: {language: this.props.language}
+                  }}
+                >
+                  <Button color="primary" autoFocus>
+                    {this.props.language.yes}
+                  </Button>
+                </Link>
+            }
           </DialogActions>
         </Dialog>
         <Dialog
@@ -245,9 +284,9 @@ export default class PublishedCoursesList extends React.Component {
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h6">
-                Classroom management
+                {this.props.language.classroomManagement}
               </Typography>
-              <p className="app-tooltip">Press Esc to return to published courses</p>
+              <p className="app-tooltip">{this.props.language.pressEsc}</p>
             </Toolbar>
           </AppBar>
           <DialogContent className="classroom-dialog-content">
@@ -257,12 +296,12 @@ export default class PublishedCoursesList extends React.Component {
                   {
                     this.state.loadingProfiles ?
                       <div className="loading-course-container">
-                        <Loading message="Loading students..."/>
+                        <Loading message={this.props.language.loadingStudents}/>
                       </div>
                     :
                     <React.Fragment>
                       <DialogContentText className="classroom-dialog-title" id="alert-dialog-description">
-                        Students in your classroom
+                        {this.props.language.studentsClassroom}
                       </DialogContentText>
                       <div className="classroom-management-students-container">
                         {
@@ -272,6 +311,7 @@ export default class PublishedCoursesList extends React.Component {
                                 profile={profile}
                                 handleControlMessage={this.props.handleControlMessage.bind(this)}
                                 reload={this.openClassroomManagement.bind(this)}
+                                language={this.props.language}
                               />
                             )
                           })
@@ -283,7 +323,7 @@ export default class PublishedCoursesList extends React.Component {
               :
               <div className="empty-dashboard">
                 <div className="empty-dashboard-row">
-                  <p className="empty-dashboard-text">You don't have any student subscribed in this course yet</p>
+                  <p className="empty-dashboard-text">{this.props.language.donotHaveStudents}</p>
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
               </div>

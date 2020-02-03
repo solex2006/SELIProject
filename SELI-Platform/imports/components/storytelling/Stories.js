@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Loading from '../../components/tools/Loading';
+import Loading from '../tools/Loading';
 import { Activities } from '../../../lib/ActivitiesCollection';
 import Table from '../data_display/Table';
 
@@ -109,7 +109,7 @@ export default class Stories extends React.Component {
       {label: this.props.language.delete , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
     ];
     myStories.map(story => {
-      tableData.push({name: story.activity.name, date: story.activity.date.toDateString(), _id: story._id})
+      tableData.push({name: story.activity.name, date: story.activity.date.toLocaleDateString('en-US'), _id: story._id})
     })
     this.setState({
       headRows: headRows,
@@ -148,7 +148,18 @@ export default class Stories extends React.Component {
                   <p className="management-title">{this.props.language.myStories}<CollectionsBookmarkIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
                     <Table
-                      labels={{title:this.props.language.youHave, pagination: `${this.props.language.stories} ${this.props.language.perPage.toLowerCase()}`, plural: this.props.language.stories}}
+                      labels={{
+                        title: this.props.language.youHaveStories, 
+                        pagination: this.props.language.storiesPerPage,
+                        filterList: this.props.language.filterList,
+                        refresh: this.props.language.refresh,
+                        delete: this.props.language.delete,
+                        selected: this.props.language.selected,
+                        nextPage: this.props.language.nextPage,
+                        previousPage: this.props.language.previousPage,
+                        options: this.props.language.options,
+                        of: this.props.language.of,
+                      }}
                       headRows={this.state.headRows}
                       menuOptions={this.state.menuOptions}
                       tableData={this.state.tableData}

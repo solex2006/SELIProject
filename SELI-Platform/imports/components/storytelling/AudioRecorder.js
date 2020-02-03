@@ -7,7 +7,7 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import SaveIcon from '@material-ui/icons/Save';
 import ReactStopwatch from 'react-stopwatch';
-import CourseFilesCollection from '../../../../lib/CourseFilesCollection';
+import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 
 let self;
 

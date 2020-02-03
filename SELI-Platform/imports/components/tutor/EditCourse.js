@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import FormStepper from '../navigation/FormStepper'; '../'
 import CourseInformation from '../course/CourseInformation';
@@ -21,18 +22,18 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import {Courses} from '../../../lib/CourseCollection';
 
-export default class CreateCourse extends React.Component {
+export default class EditCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       courseSteps: [
-        {label: 'Information', icon: <InfoIcon className="step-icon"/>},
-        {label: 'Requirements', icon: <PlaylistAddCheckIcon className="step-icon"/>},
-        {label: 'Program', icon: <SchoolIcon className="step-icon"/>},
+        {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
+        {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
+        {label: this.props.language.program, icon: <SchoolIcon className="step-icon"/>},
       ],
       courseInformation: {
         title: '',
-        subtitle: '',
+        subtitle: "",
         description: '',
         language: '',
         keyWords: [],
@@ -82,12 +83,14 @@ export default class CreateCourse extends React.Component {
           <CourseInformation
             courseInformation={this.state.courseInformation}
             handleControlMessage={this.props.handleControlMessage.bind(this)}
+            language={this.props.language}
           />,
           <CourseRequirements
             courseInformation={this.state.courseInformation}
             requirementsList={this.state.requirementsList}
             buildedItems={this.state.buildedItems}
             handleControlMessage={this.props.handleControlMessage.bind(this)}
+            language={this.props.language}
           />,
           <CourseCreatorTool
             courseInformation={this.state.courseInformation}
@@ -95,10 +98,45 @@ export default class CreateCourse extends React.Component {
             selected={this.state.selected}
             handleControlMessage={this.props.handleControlMessage.bind(this)}
             handlePreview={this.handlePreview.bind(this)}
+            language={this.props.language}
           />,
         ],
       })
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.language.languageIndex !== this.props.language.languageIndex) {
+      this.setState({
+        courseSteps: [
+          {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
+          {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
+          {label: this.props.language.program, icon: <SchoolIcon className="step-icon"/>},
+        ],
+        courseForms: [
+          <CourseInformation
+            courseInformation={this.state.courseInformation}
+            handleControlMessage={this.props.handleControlMessage.bind(this)}
+            language={this.props.language}
+          />,
+          <CourseRequirements
+            courseInformation={this.state.courseInformation}
+            requirementsList={this.state.requirementsList}
+            buildedItems={this.state.buildedItems}
+            handleControlMessage={this.props.handleControlMessage.bind(this)}
+            language={this.props.language}
+          />,
+          <CourseCreatorTool
+            courseInformation={this.state.courseInformation}
+            expandedNodes={this.state.expandedNodes}
+            selected={this.state.selected}
+            handleControlMessage={this.props.handleControlMessage.bind(this)}
+            handlePreview={this.handlePreview.bind(this)}
+            language={this.props.language}
+          />,
+        ],
+      });
+    }
   }
 
   publishCourse() {
@@ -138,7 +176,7 @@ export default class CreateCourse extends React.Component {
         courseInformation.classroom = [];
         course = Courses.insert(courseInformation);
       }
-      this.props.handleControlMessage(true, 'Course published successfully!', true, 'preview', 'See preview', course);
+      this.props.handleControlMessage(true, this.props.language.coursePublishedS, true, 'preview', this.props.language.seePreview, course);
     }
   }
 
@@ -146,6 +184,11 @@ export default class CreateCourse extends React.Component {
     if (this.validateSaveCourse()) {
       let user = Meteor.user();
       let courseInformation = this.state.courseInformation;
+      let valueSubtitle = courseInformation.subtitle;
+      let valueSupport = courseInformation.support;
+      if (valueSubtitle === undefined) {
+        valueSubtitle = "-----"
+      }
       if (!this.state.saved) {
         courseInformation.createdBy = user.username;
         courseInformation.published = false;
@@ -161,7 +204,7 @@ export default class CreateCourse extends React.Component {
           { $set:
             {
               title: courseInformation.title,
-              subtitle: courseInformation.subtitle,
+              subtitle: valueSubtitle,
               description: courseInformation.description,
               language: courseInformation.language,
               keyWords: courseInformation.keyWords,
@@ -169,7 +212,7 @@ export default class CreateCourse extends React.Component {
               sylabus: courseInformation.sylabus,
               duration: courseInformation.duration,
               requirements: courseInformation.requirements,
-              support: courseInformation.support,
+              support: valueSupport,
               organization: courseInformation.organization,
               program: courseInformation.program,
               classroom: courseInformation.classroom
@@ -177,7 +220,7 @@ export default class CreateCourse extends React.Component {
           }
         );
       }
-      this.props.handleControlMessage(true, 'Course saved successfully!', true, 'savedList', 'See list');
+      this.props.handleControlMessage(true, this.props.language.courseSavedS, true, 'savedList', this.props.language.seeList);
     }
   }
 
@@ -185,35 +228,35 @@ export default class CreateCourse extends React.Component {
     let courseInformation = this.state.courseInformation;
     if (
       courseInformation.title === '' ||
-      courseInformation.subtitle === '' ||
+      //courseInformation.subtitle === '' ||
       courseInformation.description === '' ||
       courseInformation.duration === ''
     ) {
-      this.props.handleControlMessage(true, 'Fields marked with an asterisk (*) are required (Step 1 Course information)', false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.fieldsMarkedWith} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    if (!courseInformation.image === undefined) {
-      this.props.handleControlMessage(true, 'Upload the course image (Step 1 Course information)', false, '', '');
+    else if (courseInformation.image === undefined) {
+      this.props.handleControlMessage(true, `${this.props.language.chooseCourseImage} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    if (!courseInformation.sylabus === undefined) {
-      this.props.handleControlMessage(true, 'Upload the course syllabus (Step 1 Course information)', false, '', '');
+    else if (courseInformation.sylabus === undefined) {
+      this.props.handleControlMessage(true, `${this.props.language.chooseCourseSyllabus} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    if (!courseInformation.keyWords.length) {
-      this.props.handleControlMessage(true, 'Add one or more keywords so users can search your courses (Step 1 Course information)', false, '', '');
+    else if (!courseInformation.keyWords.length) {
+      this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    if (!courseInformation.requirements.length) {
-      this.props.handleControlMessage(true, 'Select the technical requirements that your course will require (Step 2)', false, '', '');
+    /* else if (!courseInformation.requirements.length) {
+      this.props.handleControlMessage(true, `${this.props.language.technicalRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
-    }
-    if (!courseInformation.support.length) {
-      this.props.handleControlMessage(true, 'Select what the audience(s) that your course will support (Step 2)', false, '', '');
+    } */
+    /* else if (!courseInformation.support.length) {
+      this.props.handleControlMessage(true, `${this.props.language.disabilitieRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
-    }
-    if (courseInformation.organization === '') {
-      this.props.handleControlMessage(true, 'Chose the organization of the course to save it (Step 3 Program)', false, '', '');
+    } */
+    else if (courseInformation.organization === '') {
+      this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step} 3: ${this.props.language.program})`, false, '', '');
       return false;
     }
     let emptyContent = false;
@@ -221,7 +264,7 @@ export default class CreateCourse extends React.Component {
       courseInformation.program.map(unit => {
         unit.lessons.map(lesson => {
           if (!lesson.items.length) {
-            this.props.handleControlMessage(true, `You are missing to add content to ${courseInformation.organization.unit.toLowerCase()}: ${unit.name} - ${courseInformation.organization.subunit.toLowerCase()}: ${lesson.name}`, false, '', '');
+            this.props.handleControlMessage(true, `${this.props.language[courseInformation.organization.unit.toLowerCase()]}: ${unit.name} - ${this.props.language[courseInformation.organization.subunit.toLowerCase()]}: ${lesson.name} ${this.props.language.contentRequirement}`, false, '', '');
             emptyContent = true;
           }
         })
@@ -230,7 +273,7 @@ export default class CreateCourse extends React.Component {
     if (!courseInformation.organization.subunit) {
       courseInformation.program.map(unit => {
         if (!unit.items.length) {
-          this.props.handleControlMessage(true, `You are missing to add content to ${courseInformation.organization.unit.toLowerCase()}: ${unit.name}`, false, '', '');
+          this.props.handleControlMessage(true, `${this.props.language[courseInformation.organization.unit.toLowerCase()]} ${unit.name} ${this.props.language.contentRequirement}`, false, '', '');
           emptyContent = true;
         }
       })
@@ -244,20 +287,22 @@ export default class CreateCourse extends React.Component {
   validateSaveCourse = () => {
     let courseInformation = this.state.courseInformation;
     if (courseInformation.title === '') {
-      this.props.handleControlMessage(true, 'Write the title of the course to save it (Step 1 Course information)', false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.titleRequirement} (${this.props.language.step} 1 ${this.props.language.information})`, false, '', '');
       return false;
     }
     if (courseInformation.organization === '') {
-      this.props.handleControlMessage(true, 'Chose the organization of the course to save it (Step 3 Program)', false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step} 3 ${this.props.language.program})`, false, '', '');
       return false;
     }
     return true;
   }
 
   handlePreview = () => {
-    this.setState({
-      open: true,
-    })
+    if (this.validatePublishCourse()) {
+      this.setState({
+        open: true,
+      })
+    }
   }
 
   handleClose = () => {
@@ -265,12 +310,10 @@ export default class CreateCourse extends React.Component {
   }
 
   confirmPreview = () => {
-    if (this.validatePublishCourse()) {
-      this.saveCourse()
-      this.handleClose();
-      const url = `/coursePreview#${this.state.saved}`;
-      window.open(url, "_blank");
-    }
+    this.saveCourse();
+    this.handleClose();
+    //const url = `/coursePreview#${this.state.saved}`;
+    //window.open(url, "_blank");
   }
 
   render() {
@@ -279,12 +322,13 @@ export default class CreateCourse extends React.Component {
         {
           this.state.courseForms !== undefined ?
             <FormStepper
-              title="Create course"
+              language={this.props.language}
+              title={this.props.language.createCourse}
               color="primary"
               steps={this.state.courseSteps}
               forms={this.state.courseForms}
-              finalLabel="Publish course"
-              saveLabel="Save course"
+              finalLabel={this.props.language.publishCourse}
+              saveLabel={this.props.language.saveCourse}
               finalAction={this.publishCourse.bind(this)}
               saveAction={this.saveCourse.bind(this)}
             />
@@ -297,20 +341,31 @@ export default class CreateCourse extends React.Component {
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
         >
-          <DialogTitle className="success-dialog-title" id="alert-dialog-title">Course preview</DialogTitle>
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.coursePreview}</DialogTitle>
           <DialogContent className="success-dialog-content">
             <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-              If your want to see the preview of this course you have to save it.
+            {this.props.language.ifYouWantCP}
             </DialogContentText>
             <InfoIcon className="warning-dialog-icon"/>
           </DialogContent>
           <DialogActions>
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-              Cancel
+            {this.props.language.cancel}
             </Button>
-            <Button onClick={() => this.confirmPreview()} color="primary" autoFocus>
-              Save and open preview
-            </Button>
+            <Link className="button-link"
+              //target="_blank"
+              onClick={() => this.confirmPreview()}
+              to={{
+                pathname: "/coursePreview",
+                hash: this.state.saved,
+                state: { fromDashboard: true },
+                query: {language: this.props.language}
+              }}
+            >
+              <Button color="primary" autoFocus>
+                {this.props.language.saoPreview}
+              </Button>
+            </Link>
           </DialogActions>
         </Dialog>
       </div>

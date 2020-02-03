@@ -1,6 +1,6 @@
 import React from 'react';
 import FileUpload from '../files/FileUpload';
-import CompressedPreview from '../files//previews/CompressedPreview';
+import CompressedPreview from '../files/previews/CompressedPreview';
 import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
 import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
 import Grid from '@material-ui/core/Grid';
@@ -28,11 +28,11 @@ export default class CompressedForm extends React.Component {
   validateContent = (content) => {
     console.log(content);
     if (content.compressed === undefined) {
-      this.props.handleControlMessage(true, "Upload or add the url of the compressed source");
+      this.props.handleControlMessage(true, this.props.language.uploadAddUrlCompressed);
       return false;
     }
     if (content.instruction === '') {
-      this.props.handleControlMessage(true, "Add the instruction that the student must follow with the files");
+      this.props.handleControlMessage(true, this.props.language.enterDescriptionCompressed);
       return false;
     }
     return true;
@@ -111,11 +111,11 @@ export default class CompressedForm extends React.Component {
         {
           !this.state.showGallery ?
             <div id="dialog-max-height" className="dialog-form-container">
-              <div className="media-gallery-button-container">
+              <div className="library-button-container">
                 <Fab onClick={() => this.showLibrary()}>
                   <FolderSpecialIcon/>
                 </Fab>
-                <p className="media-fab-text">Open library</p>
+                <p className="media-fab-text">{this.props.language.library}</p>
               </div>
               {
                 !this.state.showPreview ?
@@ -124,7 +124,7 @@ export default class CompressedForm extends React.Component {
                       type="compressed"
                       user={Meteor.userId()}
                       accept={['.zip', '.rar', '.tz', '.7z']}
-                      label={'Click the button to upload a compressed file'}
+                      label={this.props.language.uploadCompressedButtonLabel}
                       getFileInformation={this.getFileInformation.bind(this)}
                     />
                   </div>
@@ -132,10 +132,11 @@ export default class CompressedForm extends React.Component {
                 <CompressedPreview
                   file={this.state.attributes.compressed}
                   unPickFile={this.unPickFile.bind(this)}
+                  language={this.props.language}
                 />
               }
               <div>
-                <p className="form-editor-label">Write the instructions that the student must follow below:</p>
+                <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
                 <div className="editor-block">
                   <Editor
                     areaHeight="25vh"
@@ -143,6 +144,7 @@ export default class CompressedForm extends React.Component {
                     innerHTML={this.state.attributes.instruction}
                     addLinks={true}
                     getInnerHtml={this.getInnerHtml.bind(this)}
+                    language={this.props.language}
                   />
                 </div>
               </div>
@@ -153,6 +155,7 @@ export default class CompressedForm extends React.Component {
             type={"compressed"}
             getFileInformation={this.getFileInformation.bind(this)}
             hideLibrary={this.hideLibrary.bind(this)}
+            language={this.props.language}
           />
         }
       </div>

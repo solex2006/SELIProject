@@ -85,7 +85,7 @@ export default class MyCertificates extends React.Component {
   render() {
     return(
       <div className="subscriptions-dashboard-container">
-        <p className="management-title">My certificates<SchoolIcon className="management-title-icon"/></p>
+        <p className="management-title">{this.props.language.myCertificates}<SchoolIcon className="management-title-icon"/></p>
         <Divider/>
 	{console.log("despues de divider")}
         {
@@ -111,10 +111,10 @@ export default class MyCertificates extends React.Component {
               :
               <div className="empty-dashboard">
                 <div className="empty-dashboard-row">
-                  <p className="empty-dashboard-text">You aren't subscribed to any of our courses yet</p>
+                  <p className="empty-dashboard-text">{this.props.language.youAreNotSubscribed}</p>
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
-                <Button onClick={() => this.props.showComponent('courses')} variant="contained" color="primary" className="empty-dashboard-button">Check out our courses</Button>
+                <Button onClick={() => this.props.showComponent('courses')} variant="contained" color="primary" className="empty-dashboard-button">{this.props.language.checkOutCourses}</Button>
               </div>
             }
           </div>
@@ -134,10 +134,10 @@ export default class MyCertificates extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-              Cancel
+              {this.props.language.cancel}
             </Button>
             <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
-              Confirm
+              {this.props.language.confirm}
             </Button>
           </DialogActions>
         </Dialog>

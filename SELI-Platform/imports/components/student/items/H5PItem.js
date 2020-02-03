@@ -35,7 +35,7 @@ export default class H5PItem extends React.Component {
             <div className="h5p-content-item">
               <div>
                 <div className="h5P-item-container">
-                  <p className="h5p-instruction-title">Instructions:</p>
+                  <p className="h5p-instruction-title">{this.props.instructions}</p>
                   <div
                     className="h5P-item-container-instruction"
                     dangerouslySetInnerHTML={{__html: this.props.item.attributes.instruction}}
@@ -50,7 +50,7 @@ export default class H5PItem extends React.Component {
                     {
                       this.state.loading ?
                         <div className="embebed-loading-container">
-                          <Loading message="Loading h5p content..."/>
+                          <Loading message={this.props.loadingH5p}/>
                         </div>
                       :
                       undefined

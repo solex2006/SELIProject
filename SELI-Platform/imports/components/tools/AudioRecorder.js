@@ -63,7 +63,7 @@ export default class AudioRecorder extends React.Component {
     xhr.onload = function()
     {
         blob = xhr.response;//xhr.response is now a blob object
-        var file = new File([blob], `audio-recorded-${new Date().toDateString()}.wav`, {type: 'audio/wav'});
+        var file = new File([blob], `audio-recorded-${new Date().toLocaleDateString('en-US')}.wav`, {type: 'audio/wav'});
         self.saveAudio(file);
     }
     xhr.send();
@@ -166,19 +166,19 @@ export default class AudioRecorder extends React.Component {
               {this.state.saveButton ? this.state.time : `00:00:00`}
             </p>
           }
-          <Tooltip title="Start recording">
+          <Tooltip title={this.props.language.startRecording}>
             <Fab color={this.state.record ? "secondary" : undefined} className="recorder-button" onClick={this.startRecording}>
               <PlayArrowIcon/>
             </Fab>
           </Tooltip>
-          <Tooltip title="Stop recording">
+          <Tooltip title={this.props.language.stopRecording}>
             <Fab disabled={!this.state.record} className="recorder-button" onClick={this.stopRecording}>
               <StopIcon/>
             </Fab>
           </Tooltip>
           {
             this.state.saveButton ?
-              <Tooltip title="Save audio">
+              <Tooltip title={this.props.language.saveAudio}>
                 <Fab onClick={() => this.saveRecordedAudio()} color="secondary" className="recorder-button" onClick={() => this.saveRecordedAudio()}>
                   <SaveIcon/>
                 </Fab>

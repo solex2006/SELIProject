@@ -7,8 +7,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
+import DragItem from './DragItem'
 import Divider from '@material-ui/core/Divider';
-
 export default class QuizItem extends React.Component {
   constructor(props) {
     super(props);
@@ -47,23 +47,23 @@ export default class QuizItem extends React.Component {
                 className="item-quiz-expansion-summary"
               >
                 <div className="item-quiz-expansion-summary-text-container">
-                  <Typography className="quiz-panel-title">Quiz</Typography>
+                  <Typography className="quiz-panel-title">{this.props.language.quiz}</Typography>
                   <Typography className="quiz-panel-subtitle">{this.props.item.attributes.quizTitle}</Typography>
                 </div>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className="item-quiz-detail">
                 <div className="item-quiz-detail-container">
                   <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {"Time limit: " + this.props.item.attributes.timeLimit + " minutes"}
+                    {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit + " minutes"}
+                  </Typography>
+                  {/* <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                    {this.props.language.creditResources + ": " + this.props.item.attributes.creditResources}
+                  </Typography> */}
+                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                    {this.props.language.numberQuestions +": " + this.props.item.attributes.questions.length}
                   </Typography>
                   <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {"Credit resourses: " + this.props.item.attributes.creditResources}
-                  </Typography>
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {this.props.item.attributes.awardPoints ? "Award points" : "No award points"}
-                  </Typography>
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {"Number of questions: " + this.props.item.attributes.questions.length}
+                    {this.props.item.attributes.awardPoints ? this.props.language.awardPoints : this.props.language.noAwardPoints}
                   </Typography>
                   <div className="quiz-item-tick-container">
 
@@ -79,8 +79,13 @@ export default class QuizItem extends React.Component {
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}
             editItem={this.props.editItem.bind(this)}
+            language={this.props.language}
           />
         </div>
+        <Divider orientation="vertical" />
+        <DragItem
+        language={this.props.language}
+        />
       </div>
       );
     }

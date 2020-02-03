@@ -21,12 +21,12 @@ export default class SortItem extends React.Component {
           this.props.item.attributes !== undefined ?
             <div className="sort-item">
               <p className="sort-item-index">[{this.props.index + 1}]</p>
-              <p className="sort-item-text">{this.props.item.type + " item"}</p>
+              <p className="sort-item-text">{this.props.language[this.props.item.type]}</p>
             </div>
           :
           <div className="content-preview-container">
             {
-                "Creating " + this.props.item.type + " content"
+              `${this.props.language.creating}: ${this.props.language[this.props.item.type]}`
             }
             <div className="linear-creating-container">
               <LinearProgress valueBuffer={95} color="secondary" />

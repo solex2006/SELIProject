@@ -17,18 +17,22 @@
     "@monaco-editor/react": "^1.2.3",
     "@mrblenny/react-flow-chart": "0.0.7",
     "bcrypt": "^3.0.7",
+    "bind-decorator": "^1.0.11",
     "color-thief": "^2.2.5",
     "date-fns": "^1.30.1",
     "debug": "^4.1.1",
     "draft-js": "^0.10.5",
     "draft-js-export-html": "^1.4.1",
     "email-deep-validator": "^3.3.0",
+    "material-ui": "^0.20.2",
     "material-ui-audio-player": "^1.0.6",
     "material-ui-icons": "^1.0.0-beta.36",
+    "material-ui-number-input": "^5.0.24",
     "material-ui-pickers": "^2.2.4",
     "meteor-node-stubs": "^0.4.1",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
+    "rc-input-number": "^4.5.3",
     "re-resizable": "^5.0.1",
     "react": "^16.12.0",
     "react-alice-carousel": "^1.17.1",
@@ -43,16 +47,24 @@
     "react-froala-wysiwyg": "^3.0.6",
     "react-full-screen": "^0.2.4",
     "react-h5-audio-player": "^2.0.0-beta.2",
+    "react-h5-video": "^1.0.4",
     "react-icons": "^3.8.0",
     "react-id-swiper": "^2.4.0",
     "react-iframe": "^1.8.0",
     "react-iframe-comm": "^1.2.2",
+    "react-image-pan-zoom-rotate": "^1.3.0",
     "react-images": "^0.5.19",
     "react-images-viewer": "^1.6.2",
     "react-live-clock": "^3.1.0",
+    "react-md": "^1.14.0",
     "react-mic": "^12.4.1",
+    "react-native": "^0.61.5",
+    "react-native-elements": "^1.2.7",
+    "react-native-vector-icons": "^6.6.0",
+    "react-numeric-input": "^2.2.3",
     "react-player": "^1.14.2",
     "react-quill": "^1.3.3",
+    "react-resizable-rotatable-draggable": "^0.2.0",
     "react-reveal": "^1.2.2",
     "react-router-dom": "^5.1.2",
     "react-scroll": "^1.7.14",
@@ -67,6 +79,7 @@
     "react-timer-machine": "^1.0.2",
     "react-unity-webgl": "^7.1.9",
     "react-viewer": "^3.1.0",
+    "react-window-size": "^1.2.2",
     "sanitize-html": "^1.20.1",
     "save": "^2.4.0",
     "sort-json-array": "^0.1.7",
@@ -82,6 +95,13 @@
     "testModule": "tests/main.js"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
     "json-loader": "^0.5.7"
-  }
+  },
+  "plugin": [
+    "jsx-a11y"
+  ],
+  "extends": [
+    "plugin: jsx-a11y/recommended"
+  ]
 }

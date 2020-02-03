@@ -3,8 +3,8 @@ import React from 'react';
 import FileUpload from '../files/FileUpload';
 import ImagePreview from '../files//previews/ImagePreview';
 
-import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
-import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
+import VerticalSplitIcon    from '@material-ui/icons/VerticalSplit';
+import HorizontalSplitIcon  from '@material-ui/icons/HorizontalSplit';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -19,10 +19,12 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Editor from '../inputs/editor/Editor';
 import Tooltip from '@material-ui/core/Tooltip';
 
+
 export default class ImageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      coordenadaR:0,
       alignment: 'row',
       description: true,
       showLibrary: false,
@@ -52,11 +54,11 @@ export default class ImageForm extends React.Component {
 
   validateContent = (content) => {
     if (content.image === undefined) {
-      this.props.handleControlMessage(true, "Upload or add the url of the image source");
+      this.props.handleControlMessage(true, this.props.language.uploadAddUrlImage);
       return false;
     }
     if (content.hasDescription && content.description === '') {
-      this.props.handleControlMessage(true, "Enter the description of the image or turn this feature off");
+      this.props.handleControlMessage(true, this.props.language.enterDescriptionImage);
       return false;
     }
     return true;
@@ -64,7 +66,7 @@ export default class ImageForm extends React.Component {
 
   getFileInformation(file){
     let attributes = this.state.attributes;
-    attributes.image = file;
+    attributes.image = file;  ///deberia cambiar
     this.setState({
       attributes: attributes,
       showPreview: true,
@@ -135,17 +137,28 @@ export default class ImageForm extends React.Component {
     }
   }
 
+  coordenadasCursosImageForm =(coordenadas)=> {
+    this.state.attributes.image.coordenada=coordenadas
+    //console.log("ImageForm ...", this.state.attributes.image)
+    //console.log("CoordenadaImageForm ...", coordenadas)
+    this.setState({
+      coordenadaR: coordenadas 
+    })
+  } 
+
+
   render() {
+    //console.log("ImageForm ...", this.state.attributes.image   )
     return(
       <div>
         {
           !this.state.showGallery ?
             <div id="dialog-max-height" className="dialog-form-container">
-              <div className="media-gallery-button-container">
+              <div className="library-button-container">
                 <Fab onClick={() => this.showLibrary()}>
                   <FolderSpecialIcon/>
                 </Fab>
-                <p className="media-fab-text">Open library</p>
+                <p className="media-fab-text">{this.props.language.library}</p>
               </div>
               {
                 !this.state.showPreview ?
@@ -154,7 +167,7 @@ export default class ImageForm extends React.Component {
                       type='image'
                       user={Meteor.userId()}
                       accept={'image/*'}
-                      label={'Click the button to upload an image'}
+                      label={this.props.language.uploadImageButtonLabel}
                       getFileInformation={this.getFileInformation.bind(this)}
                     />
                   </div>
@@ -162,36 +175,43 @@ export default class ImageForm extends React.Component {
                 <ImagePreview
                   file={this.state.attributes.image}
                   unPickFile={this.unPickFile.bind(this)}
+                  language={this.props.language}
+                  coordenadasCursosImageForm={this.coordenadasCursosImageForm}
+                  coordenadaR={this.setState.coordenadaR}
                 />
               }
               <div className="scroll-media-input-container">
                 <div className="margin-center-row">
+                  <br/>
                   <FormGroup>
                     <FormControlLabel
                       control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
-                      label={<p className="form-label">Image with text description</p>}
-                    />
+                      label={<p className="form-label">{this.props.language.imageWithText}</p>}
+                  />
                   </FormGroup>
-                  <p className="form-label">Image position:</p>
+                  <br/>
+                </div>
+                <div className="margin-center-row">
+                  <p className="form-label">{this.props.language.imagePosition}</p>
                   <Grid item>
                     <ToggleButtonGroup size="small" onChange={this.handleChange("alignment")} value={this.state.attributes.alignment} exclusive>
                       <ToggleButton className="toggle-button" disabled={!this.state.attributes.hasDescription} key={1} value="row">
-                        <Tooltip title="Left side">
+                        <Tooltip title={this.props.language.leftSide}>
                           <VerticalSplitIcon className="toggle-button-icon"/>
                         </Tooltip>
                       </ToggleButton>
                       <ToggleButton className="toggle-button" disabled={!this.state.attributes.hasDescription} key={2} value="row-reverse">
-                        <Tooltip style={{transform: "rotate(180deg)"}} title="Right side">
+                        <Tooltip style={{transform: "rotate(180deg)"}} title={this.props.language.rightSide}>
                           <VerticalSplitIcon className="toggle-button-icon"/>
                         </Tooltip>
                       </ToggleButton>
                       <ToggleButton className="toggle-button" disabled={!this.state.attributes.hasDescription} key={3} value="column-reverse">
-                        <Tooltip title="Up">
+                        <Tooltip title={this.props.language.up}>
                           <HorizontalSplitIcon className="toggle-button-icon"/>
                         </Tooltip>
                       </ToggleButton>
                       <ToggleButton className="toggle-button" disabled={!this.state.attributes.hasDescription} key={4} value="column">
-                        <Tooltip title="Down">
+                        <Tooltip title={this.props.language.down}>
                           <HorizontalSplitIcon style={{transform: "rotate(180deg)"}} className="toggle-button-icon"/>
                         </Tooltip>
                       </ToggleButton>
@@ -205,6 +225,7 @@ export default class ImageForm extends React.Component {
                     innerHTML={this.state.attributes.description}
                     addLinks={true}
                     getInnerHtml={this.getInnerHtml.bind(this)}
+                    language={this.props.language}
                   />
                 </div>
               </div>
@@ -215,6 +236,7 @@ export default class ImageForm extends React.Component {
             type={"image"}
             getFileInformation={this.getFileInformation.bind(this)}
             hideLibrary={this.hideLibrary.bind(this)}
+            language={this.props.language}
           />
         }
       </div>

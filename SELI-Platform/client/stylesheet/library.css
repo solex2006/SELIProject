@@ -66,6 +66,14 @@
   background-color: #fafafa !important;
 }
 
+.audio-card-storytelling {
+  width: 400px !important;
+  margin: 0.5vh 0.5vw;
+  opacity: 0.9;
+  transition: 0.5s !important;
+  background-color: #fafafa !important;
+}
+
 .image-card:hover {
   cursor: pointer;
   opacity: 1;
@@ -90,6 +98,16 @@
   width: var(--audio-card-width) !important;
   height: calc(var(--audio-card-height) - var(--card-buttons)) !important;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-media-audio-storytelling {
+  width: 96% !important;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+  display: flex;
+  margin: auto;
   justify-content: center;
   align-items: center;
 }
@@ -142,6 +160,15 @@
   background-color: #f5f5f5;
   padding-right: 0.5vw !important;
 }
+.card-actions-bottom-containerText {
+  padding: 3px !important;
+  margin-top: 10px !important;
+  margin-bottom: 14px !important;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 0.5vw !important;
+}
+
 
 .file-information-card {
   width: 21vw;
@@ -204,10 +231,13 @@
 }
 
 .card-button {
+  width: 40px;
+  height: 40px;
   margin: 0 0.1vw !important;
 }
 
 .card-icon {
+  margin: auto;
   font-size: 0.8em !important;
 }
 

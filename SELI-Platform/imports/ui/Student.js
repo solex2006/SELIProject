@@ -8,8 +8,8 @@ import AppBar from '../components/navigation/AppBar';
 import Presentation from '../components/navigation/Presentation';
 import CoursesDashboard from '../components/student/CoursesDashboard';
 import SubscribedCourses from '../components/student/SubscribedCourses';
-import StorytellingTool from '../components/student/storytelling/StorytellingTool';
-import Stories from '../components/student/Stories';
+import StorytellingTool from '../components/storytelling/StorytellingTool';
+import Stories from '../components/storytelling/Stories';
 import Course from '../components/student/Course';
 import CertificatesValidationForm from '../components/certificates/CertificatesValidationForm';
 
@@ -36,6 +36,7 @@ import Button from '@material-ui/core/Button';
 import {checkUserType} from '../../lib/userSesions';
 import { Courses } from '../../lib/CourseCollection';
 import english from '../../lib/translation/english';
+import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import turkish from '../../lib/translation/turkish';
 
@@ -84,7 +85,12 @@ export default class Student extends React.Component {
     else if (option === 'English (US)') {
       Session.set({language: english});
       language = english;
-    } else if (option === 'Turkish (TR)') {
+    } 
+    else if (option === 'Spanish (ES)') {
+      Session.set({language: spanish});
+      language = spanish;
+    } 
+    else if (option === 'Turkish (TR)') {
       Session.set({language: turkish});
       language = turkish;
     }
@@ -147,7 +153,7 @@ export default class Student extends React.Component {
   subscribe = (courseId) => {
     this.setState({
       showLoadingMessage: true,
-      loadingMessage: 'Joining classroom please wait',
+      loadingMessage: this.state.language.joiningClassWait,
     });
     let course = Courses.find({_id: courseId}).fetch();
     this.handleSubscription(course[0]);
@@ -156,7 +162,7 @@ export default class Student extends React.Component {
   unsubscribe = (courseId) => {
     this.setState({
       showLoadingMessage: true,
-      loadingMessage: 'Leaving classroom please wait',
+      loadingMessage: this.state.language.leavingClassWait,
     })
     let course = Courses.find({_id: courseId}).fetch();
     this.handleUnsubscription(course[0]);
@@ -189,7 +195,7 @@ export default class Student extends React.Component {
               subscribed: true,
               showLoadingMessage: false,
             } , () => {
-              this.handleControlMessage(true, 'Added to subscribed courses', true, 'subscribed', 'see list', undefined);
+              this.handleControlMessage(true, this.state.language.addedToSCourses, true, this.state.language.subscribed, this.state.language.seeList, undefined);
               let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
               this.setState({
                 user: user[0],
@@ -226,7 +232,7 @@ export default class Student extends React.Component {
               if (this.state.activeCourse !== undefined) {
                 this.state.activeCourse.courseId === course._id ? this.closeCourse() : undefined
               }
-              this.handleControlMessage(true, 'Course removed from your subscriptions', false, '', '', undefined);
+              this.handleControlMessage(true, this.state.language.courseRemovedSubs, false, '', '', undefined);
               this.state.component === 'subscribed' ? this.getSubscribedCourses() : undefined
               let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
               this.setState({
@@ -246,7 +252,7 @@ export default class Student extends React.Component {
       activeCourse: course,
       showLoadingMessage: true,
       selected: [-1, -1],
-      loadingMessage: 'Starting course, please wait',
+      loadingMessage: this.state.language.startingCourse,
     }, () => {
       let course = Courses.find({_id: this.state.activeCourse.information._id}).fetch();
       course = course[0];
@@ -318,11 +324,11 @@ export default class Student extends React.Component {
 
   render() {
     return(
-      <div>
-        <MuiThemeProvider theme={theme}>
+      <div tabIndex="-1">
+        <MuiThemeProvider tabindex="-1" theme={theme}>
           {
             this.state.language && Session.get('language') ?
-              <React.Fragment>
+              <React.Fragment tabIndex="-1">
                 <div id="outer-container">
                   {
                     this.state.user !== undefined ?
@@ -336,6 +342,7 @@ export default class Student extends React.Component {
                   }
                   <main id="page-wrap">
                     <AppBar
+                    tabIndex="-1"
                       history={this.props.history}
                       language={this.state.language}
                       setLanguage={this.setLanguage.bind(this)}
@@ -356,6 +363,7 @@ export default class Student extends React.Component {
                       this.state.component === 'course' ?
                         <Course
                           user={this.state.user}
+                          language={this.state.language}
                           reRender={this.forceUpdate.bind(this)}
                           selected={this.state.selected}
                           activeCourse={this.state.activeCourse}
@@ -381,6 +389,7 @@ export default class Student extends React.Component {
                     {
                       this.state.component === 'subscribed' ?
                         <SubscribedCourses
+                          tabIndex="-1"
                           user={this.state.user}
                           language={this.state.language}
                           unsubscribe={this.unsubscribe.bind(this)}
@@ -495,6 +504,7 @@ export default class Student extends React.Component {
                     <CourseDial
                       showComponent={this.showComponent.bind(this)}
                       closeCourse={this.closeCourse.bind(this)}
+                      language={this.state.language}
                     />
                   :
                   undefined

@@ -5,6 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { DiUnitySmall } from "react-icons/di";
 import { Link } from 'react-router-dom';
 
@@ -44,7 +45,7 @@ export default class UnityPreview extends React.Component {
         <div className="file-preview-container">
           <div id="unit-preview-information" className="file-preview-information">
             <div className="file-preview-icon-container">
-              <p className="file-preview-icon-text">Unity webgl project</p>
+              <p className="file-preview-icon-text">{this.props.language.unityProject}</p>
               <DiUnitySmall className="file-preview-icon"/>
             </div>
             <p className="file-preview-name">{this.props.file.name}</p>
@@ -60,17 +61,17 @@ export default class UnityPreview extends React.Component {
                   hash: `#MyUser`,
                 }}
               >
-                <IconButton color="secondary" aria-label="open">
-                  <OpenInNewIcon />
+                <IconButton color="secondary" aria-label={this.props.language.open}>
+                  <img src="openNew.svg"/>
                 </IconButton>
               </Link>
             </Tooltip>
-            <Tooltip title="Upload another" placement="left">
+            <Tooltip title={this.props.language.uploadAnother} placement="left">
               <IconButton onClick={() => this.props.unPickFile()} color="secondary" aria-label="another">
-                <AutorenewIcon />
+                <CloudUploadIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete" placement="left">
+            <Tooltip title={this.props.language.delete} placement="left">
               <IconButton onClick={() => this.delete()} color="secondary" aria-label="delete">
                 <DeleteIcon />
               </IconButton>

@@ -95,7 +95,7 @@ export default function FormStepper(props) {
       <div className="form-stepper-navigation">
         <div className="form-stepper-information">
           <h1 style={{color: getComputedStyle(document.documentElement).getPropertyValue('--' + props.color)}} className="form-stepper-title">{props.title}</h1>
-          <p className="form-stepper-active-step">{"Step " + parseInt(activeStep + 1) + " of " + steps.length + ": " + steps[activeStep].label}</p>
+          <p className="form-stepper-active-step">{`${props.language.step}  ${parseInt(activeStep + 1)} ${props.language.of} ${steps.length}: ${steps[activeStep].label}`}</p>
         </div>
         {
           activeStep < 1 ?

@@ -102,7 +102,7 @@ export default class BugsList extends React.Component {
 
     ];
     bugs.map(bug => {
-      tableData.push({title: bug.title, description: bug.description, from: bug.from, date: bug.date.toDateString(), _id: bug._id})
+      tableData.push({title: bug.title, description: bug.description, from: bug.from, date: bug.date.toLocaleDateString('en-US'), _id: bug._id})
     })
     this.setState({
       headRows: headRows,
@@ -133,7 +133,18 @@ export default class BugsList extends React.Component {
                   <p className="management-title">Registered bugs <AccountCircleIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
                     <Table
-                      labels={{title:'There are', pagination: 'Bugs per page:', plural: 'bugs'}}
+                      labels={{
+                        title:'Number of bugs:', 
+                        pagination: 'Bugs per page:', 
+                        filterList: this.props.language.filterList,
+                        refresh: this.props.language.refresh,
+                        delete: this.props.language.delete,
+                        selected: this.props.language.selected,
+                        nextPage: this.props.language.nextPage,
+                        previousPage: this.props.language.previousPage,
+                        options: this.props.language.options,
+                        of: this.props.language.of,
+                      }}
                       headRows={this.state.headRows}
                       menuOptions={this.state.menuOptions}
                       tableData={this.state.tableData}

@@ -50,7 +50,7 @@ export default class UnityForm extends React.Component {
         showPreview: false,
         file: undefined,
       })
-      this.props.handleControlMessage(true, "Error on server");
+      this.props.handleControlMessage(true, this.props.language.errorOnServer);
     }
   }
 
@@ -67,17 +67,17 @@ export default class UnityForm extends React.Component {
       Meteor.call("RemoveCourseFile", file._id, function (err) {});
     }
     if (!file.decompressResult.extracted) {
-      this.props.handleControlMessage(true, "Bad rar file try compressing with RAR4");
+      this.props.handleControlMessage(true, this.props.language.badCompressing);
     }
     else if (file.decompressResult.extracted) {
       if (!(file.decompressResult.buildJSON.founded || file.decompressResult.loaderJs.founded)) {
-        this.props.handleControlMessage(true, "No Folder.json and UnityLoader.js founded");
+        this.props.handleControlMessage(true, this.props.language.noFolderJsUnityJs);
       }
       else if (!file.decompressResult.buildJSON.founded) {
-        this.props.handleControlMessage(true, "No Folder.json founded");
+        this.props.handleControlMessage(true, this.props.language.noFolferJs);
       }
       else if (!file.decompressResult.loaderJs.founded) {
-        this.props.handleControlMessage(true, "No UnityLoader.js founded");
+        this.props.handleControlMessage(true, this.props.language.noUnityJs);
       }
     }
     if (file.decompressResult.buildJSON.founded && file.decompressResult.loaderJs.founded && file.decompressResult.extracted) {
@@ -103,31 +103,34 @@ export default class UnityForm extends React.Component {
                 user={Meteor.userId()}
                 accept={['.rar']}
                 getFileInformation={this.getFileInformation.bind(this)}
+                language={this.props.language}
               />
             </div>
           :
           <UnityPreview
             file={this.state.file}
             unPickFile={this.unPickFile.bind(this)}
+            language={this.props.language}
           />
         }
         <div className="center-row">
-          <p className="normal-text">Or</p>
+          <p className="normal-text">{this.props.language.or}</p>
         </div>
         <div className="center-row">
-          <p className="normal-text">Pick one from our</p>
-          <Button color="primary" className="text-button">Library</Button>
+          <p className="normal-text">{this.props.language.pickOneFromOur}</p>
+          <Button color="primary" className="text-button">{this.props.language.library}</Button>
         </div>
         <div className="center-row">
           <Help
-            helper="unityHelper"
-            text="Unity contents are:"
+            helper="default"
+            text={this.props.language.unityHelp}
+            language={this.props.language}
           />
         </div>
         <Divider light={true}/>
         <TextField
           id="name-input"
-          label="Name"
+          label={this.props.language.name}
           margin="normal"
           variant="outlined"
           required
@@ -135,7 +138,7 @@ export default class UnityForm extends React.Component {
         />
         <TextField
           id="description-input"
-          label="Description"
+          label={this.props.language.description}
           margin="normal"
           variant="outlined"
           required

@@ -79,7 +79,12 @@ export default class CoursePreview extends React.Component {
     else if (option === 'English (US)') {
       Session.set({language: english});
       language = english;
-    } else if (option === 'Turkish (TR)') {
+    }
+    else if (option === 'Spanish (ES)') {
+      Session.set({language: spanish});
+      language = spanish;
+    } 
+    else if (option === 'Turkish (TR)') {
       Session.set({language: turkish});
       language = turkish;
     }
@@ -133,6 +138,7 @@ export default class CoursePreview extends React.Component {
                     course={this.state.course}
                     navigateTo={this.navigateTo.bind(this)}
                     selected={this.state.selected}
+                    language={this.props.location.query.language}
                   />
                 }
               </div>

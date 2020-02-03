@@ -27,6 +27,18 @@
 
 }
 
+.timebutton{
+  margin-top: 5px;
+  background-color: rgb(238, 238, 238); /* Green */
+  border: 2px solid rgb(240, 10, 10); 
+  color: rgb(240, 10, 10);
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 9px;
+  border-radius: 30% !important;
+
+}
 .course-item-video-card-media-fab {
   background-color: var(--white) !important;
   color: #333 !important;
@@ -71,7 +83,6 @@
 }
 
 .course-item-card-title {
-  text-transform: uppercase !important;
   letter-spacing: 1px !important;
   color: #616161 !important;
   display: flex;
@@ -79,7 +90,6 @@
 }
 
 .course-item-card-subtitle {
-  text-transform: uppercase !important;
   letter-spacing: 1px !important;
   margin-left: 0.5vw !important;
 }

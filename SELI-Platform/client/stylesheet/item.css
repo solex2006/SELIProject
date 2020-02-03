@@ -33,7 +33,6 @@
 }
 
 .menu-content-item {
-  width: var(--menu-item-width);
   height: auto;
   display: flex;
   justify-content: center;
@@ -80,7 +79,6 @@
   letter-spacing: 2px;
   color: #333;
   font-weight: 100 !important;
-  text-transform: uppercase;
   transition: 0.5s;
   border-bottom: solid 1px #e0e0e0;
 }
@@ -329,7 +327,6 @@
 .instruction-title {
   width: 90%;
   margin: 2.5vh 5%;
-  text-transform: uppercase;
 }
 
 /* H5P */
@@ -367,7 +364,6 @@
   padding-top: 2vh;
   font-size: 1.2em;
   letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
 .h5P-item-container-instruction {
@@ -479,7 +475,6 @@
   padding-top: 2vh;
   font-size: 1.2em;
   letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
 .activity-item-container-instruction {
@@ -507,7 +502,6 @@
 
 .activity-panel-title {
   font-size: 1.85em !important;
-  text-transform: uppercase !important;
   letter-spacing: 2px !important;
   color: var(--secondary) !important;
 }

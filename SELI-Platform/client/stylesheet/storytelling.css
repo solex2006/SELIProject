@@ -13,29 +13,51 @@
   max-height: calc(100vh - var(--app-bar-height));
   position: relative;
   display: flex;
+  background-color: #000000;
 }
 
-.storytelling-work-area {
-  width: calc(100vw - 400px);
-  max-height: calc(100vh - var(--app-bar-height) - 5vh - 2.5em);
+.storytelling-tool-play-container {
+  width: 100vw;
+  height: calc(100vh - var(--app-bar-height));
+  max-height: calc(100vh - var(--app-bar-height));
+  position: relative;
+  top: var(--app-bar-height);
+  display: flex;
+  background-color: #000000;
+}
+
+.storytelling-work-area-full {
+  /* width: calc(100vw - 400px); */
+  width: calc(100vw - 550px);
+  height: calc(100vh - var(--app-bar-height) - 2.5em);
   padding-top: 2.5em;
-  padding-bottom: 5vh;
   background-color: #f5f5f5;
   display: flex;
   flex-direction: column;
+  overflow-x: scroll;
   overflow-y: scroll;
   position: relative;
 }
 
+.storytelling-work-area {
+  padding-top: 2em; 
+  padding-bottom: 5vh;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  /* overflow-y: scroll; */
+  position: relative;
+}
+
 .storytelling-menu-container {
-  width: calc(400px);
+  width: calc(550px);
   max-height: calc(100vh - var(--app-bar-height));
   position: relative;
 }
 
 .storytelling-menu-header {
   width: 100%;
-  height: calc(20vh - 1px);
+  height: calc(15vh);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,11 +65,31 @@
   border-bottom: solid 1px #bdbdbd;
 }
 
+.storytelling-menu-body-full{
+  width: calc(100%);
+  height: calc(85vh - var(--app-bar-height));
+  overflow-y: scroll;
+}
+
 .storytelling-menu-body {
   width: calc(100% - 2vw);
   padding: 0 1vw;
-  max-height: calc(100vh - var(--app-bar-height) - 20vh);
-  overflow-y: scroll;
+}
+
+.storytelling-menu-body-aux {
+  width: calc(100% - 2vw);
+  padding: 0 1vw;
+  display: flex;
+}
+
+.storytelling-menu-body-tabs {
+  width: calc(30%);
+
+}
+
+.storytelling-menu-body-description {
+  width: calc(100%);
+  padding-left: 0.5vw;
 }
 
 .storytelling-menu-title {
@@ -62,7 +104,7 @@
 
 .storytelling-delete-button {
   position: absolute !important;
-  left: -31.75px !important;
+  left: calc(100vw - 581.75px)!important;
   bottom: 5vh !important;
   animation: zoomIn 1s;
 }
@@ -199,34 +241,65 @@
   font-size: 0.85em !important;
 }
 
+.storytelling-image-library {
+    background-color: #2e3030;
+    width: 304px;
+    height: 171px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin: 5px 5px;
+}
+
 .storytelling-media-image {
-  width: 350px;
-  height: 350px;
+  align-content: center;
+  width: 450px;
+  height: 297px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
-.storytelling-player-image-container {
-  width: 100%;
-  height: 100%;
-  transition: 0.5s;
+.storytelling-media-image1 {
+  align-content: center;
+  height: 200px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  background-color: rgba(0, 0, 0, 0.95);
+}
+
+.storytelling-media-audio {
+  width: 470px;
+  height: 5vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 75%;
+  display: flex;
+  align-items: center;
+  animation: fadeInDown 0.5s;
+}
+
+.storytelling-player-image-container {
+  width: calc(100vw) !important;
+  height: calc(100vh - var(--app-bar-height)) !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: 0.5s;
+  display: table;
+  position: fixed;
+  white-space: nowrap;
 }
 
 .storytelling-player-description {
   width: 98vw;
   padding: 1.5vh 1vw;
   position: absolute;
-  display: flex;
   align-items: center;
   letter-spacing: 1px;
   font-size: 1em;
-  text-align: justify;
-  top: 0;
+  text-align: center;
+  bottom: 8vh;
   left: 0;
   user-select: none;
   background-color: rgba(255, 255, 255, 0.65);
@@ -235,7 +308,7 @@
 .storytelling-player-actions {
   width: auto;
   padding: 0 2vw;
-  height: 15vh;
+  height: 8vh;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -279,7 +352,6 @@
 
 .storytelling-return-button {
   position: fixed;
-  bottom: 2.5vh;
   left: 2.5vw;
   font-size: 1.25em !important;
   letter-spacing: 1px !important;
@@ -342,6 +414,14 @@
   animation: fadeInLeft 0.5s !important;
 }
 
+.story-rename-container {
+  align-items: center;
+  width: 100%-2vw;
+  padding: 0 1vw;
+  transition: 0.5s;
+  animation: fadeInLeft 0.5s;
+}
+
 .story-item-container:hover {
   background-color: #f5f5f5;
   cursor: pointer;
@@ -368,6 +448,7 @@
 .story-item-button {
   position: absolute !important;
   letter-spacing: 1px !important;
+  text-decoration: none !important;
   right: 1vw !important;
 }
 

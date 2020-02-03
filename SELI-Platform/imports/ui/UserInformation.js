@@ -482,12 +482,7 @@ export default class UserInformation extends React.Component {
           maxWidth={false}
         >
           <DialogTitle className="form-dialog-title" id="alert-dialog-title">
-            {
-              this.state.fileType === "image" ?
-                this.props.language.chooseOrUploadImage
-              :
-              this.props.language.chooseOrUploadSyllabus
-            }
+            {this.props.language.uploadYourProfilePhoto}
           </DialogTitle>
           <DialogContent>
             <div className="file-form-dialog">
@@ -498,6 +493,7 @@ export default class UserInformation extends React.Component {
                     type={this.state.fileType}
                     getFileInformation={this.getFileInformation.bind(this)}
                     hideLibrary={this.hideLibrary.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 <div>
@@ -507,7 +503,9 @@ export default class UserInformation extends React.Component {
                         <ImagePreview
                           file={this.state.image}
                           unPickFile={this.unPickFile.bind(this)}
+                          language={this.props.language}
                         />
+                        
                       </div>
                     :
                     <div className="form-file-container">

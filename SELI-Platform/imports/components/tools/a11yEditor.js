@@ -242,6 +242,7 @@ export default function ImageCaptionEditor(props) {
 						ref={editor}
 						error={props.error}
 						className="a11yEditor"
+						language={props.language}
 					/>
 				</Grid>
 			</Grid>
@@ -249,7 +250,7 @@ export default function ImageCaptionEditor(props) {
 			<div className = { inDevelopment ? '' : 'hide' } >
 				<details>
 					<summary>
-						<mark style={{margin: "1.5vh 0"}}>DEVELOPMENT PURPOSE: output as semantic html (accessibility)</mark>
+						<mark style={{margin: "1.5vh 0"}}>{props.longDescription_a11y_delopment_purpose}</mark>
 					</summary>
 					<Grid container spacing={1} direction="row" justify="flex-start" >
 						<Grid item lg>

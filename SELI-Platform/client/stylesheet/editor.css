@@ -32,6 +32,10 @@
   animation: fadeInUp 0.35s;
 }
 
+.square-box{
+  margin: 10px 10px;
+  display: inline;
+}
 .editor-button {
   padding: 0.5vh 0 !important;
   width: 1vw;
@@ -93,6 +97,14 @@
   padding: 0 3.5vh !important;
   text-align: center;
   font-size: 1.3em;
+  color: #333;
+  letter-spacing: 2px;
+}
+
+.editor-label1 {
+  margin-top: 25px !important;
+  text-align: center;
+  font-size: 1.1em;
   color: #333;
   letter-spacing: 2px;
 }

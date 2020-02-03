@@ -56,28 +56,28 @@ export default function MenuItem(props) {
     setAnchorEl(null);
   }
 
-  function getAudiences() {
-    let audiences = "";
-    let audiencesCounter = 0;
+  function getDisabilities() {
+    let disabilities = "";
+    let disabilitiesCounter = 0;
     for (var i = 1; i < props.options.length; i++) {
       if (props.options[i].selected) {
-        audiencesCounter > 0 ? audiences = audiences + props.options[i].label.toLowerCase() : audiences = audiences + props.options[i].label;
-        audiencesCounter++;
+        disabilitiesCounter > 0 ? disabilities = disabilities + props.options[i].label.toLowerCase() : disabilities = disabilities + props.options[i].label;
+        disabilitiesCounter++;
         if (i !== props.options.length) {
-          audiences = audiences + ", "
+          disabilities = disabilities + ", "
         }
       }
     }
-    if (audiencesCounter === 1) {
-      audiences = audiences + "audience";
+    if (disabilitiesCounter === 1) {
+      disabilities = disabilities + props.language.disabilitie;
     }
-    else if (audiencesCounter > 1){
-      audiences = audiences + "audiences";
+    else if (disabilitiesCounter > 1){
+      disabilities = disabilities + props.language.disabilities;
     }
     else {
-      audiences = "No audience selected"
+      disabilities = props.language.noDisabilitieSelected
     }
-    return audiences;
+    return disabilities;
   }
 
   const open = Boolean(anchorEl);
@@ -85,7 +85,7 @@ export default function MenuItem(props) {
 
   return (
     <div>
-      <List className="list-menu-container" component="nav" aria-label="audience menu">
+      <List className="list-menu-container" component="nav" aria-label={props.language.adienceMenu}>
         <ListItem
           button
           aria-haspopup="true"
@@ -99,8 +99,8 @@ export default function MenuItem(props) {
           </ListItemIcon>
           <ListItemText
             className="list-button-menu-text"
-            primary="Accessibility check"
-            secondary={props.options[0].selected ? "All audiences selected" : getAudiences()}
+            primary={props.language.accessibilityCheck}
+            secondary={props.options[0].selected ? props.language.allDisabilitiesSelected : getDisabilities()}
           />
         </ListItem>
       </List>
@@ -123,7 +123,7 @@ export default function MenuItem(props) {
           aria-labelledby="nested-list-subheader"
           subheader={
             <ListSubheader component="div" id="nested-list-subheader" className="list-subheader">
-              {"Audience".toUpperCase()}
+              {props.language.disabilities.toUpperCase()}
             </ListSubheader>
           }
           className="menu-list-options-container"

@@ -39,11 +39,11 @@ export default class LibraryPdf extends React.Component {
   delete(){
     Meteor.call("RemoveCourseFile", this.props.file._id, function (err) {
       if (err) {
-        this.props.showControlMessage('There was an error deleting the file, try again later');
+        this.props.showControlMessage(this.props.language.errorDeleting);
         return;
       }
     });
-    this.props.showControlMessage('File deleted successfully');
+    this.props.showControlMessage(this.props.language.fileDeletedS);
   }
 
   addToFavorites(){
@@ -71,17 +71,17 @@ export default class LibraryPdf extends React.Component {
           <div onClick={() => this.useFile()} className="card-media-pdf-text">{this.props.file.name}</div>
         </CardMedia>
         <CardActions className="card-actions-bottom-container" disableSpacing>
-          <Tooltip title="Add to favorites">
+          <Tooltip title={this.props.language.addToFavorites}>
             <IconButton color={this.props.file.meta.isFavorite ? `primary` : undefined} className="card-button" onClick={() => this.addToFavorites()} aria-label="add to favorites">
               <FavoriteIcon className="card-icon"/>
             </IconButton>
           </Tooltip>
-          <Tooltip title="Delete file">
+          <Tooltip title={this.props.language.deleteFile}>
             <IconButton className="card-button" onClick={() => this.delete()} aria-label="delete">
               <DeleteIcon className="card-icon"/>
             </IconButton>
           </Tooltip>
-          <FileInformation type={this.props.file.type} file={this.props.file}/>
+          <FileInformation type={this.props.file.type} file={this.props.file} language={this.props.language}/>
         </CardActions>
       </Card>
       );

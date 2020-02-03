@@ -24,11 +24,13 @@ export default class SubscribedCourses extends React.Component {
     this.state = {
       courses: [],
     }
+   // this.cursos = React.createRef();
   }
 
   componentDidMount() {
     this.props.getSubscribedCourses(() => this.getSubscribedCourses());
     this.getSubscribedCourses();
+    //this.cursos.current.focus();
   }
 
   componentWillReceiveProps() {
@@ -81,7 +83,7 @@ export default class SubscribedCourses extends React.Component {
     this.handleClickOpen();
     this.setState({
       dialogConfirmationTitle: this.props.language.unsubscribeCourse,
-      dialogConfirmationContentText: `Are you sure you want to leave this classroom? All your progress on this course will be errased.`,
+      dialogConfirmationContentText: this.props.language.sureLeaveClassroom,
       courseToUnsubscribe: courseId,
       confirmAction: () => this.confirmUnsubscribe(),
     });
@@ -100,62 +102,65 @@ export default class SubscribedCourses extends React.Component {
 
   render() {
     return(
-      <div className="subscriptions-dashboard-container">
-        <p className="management-title">{this.props.language.mySubscriptions}<SchoolIcon className="management-title-icon"/></p>
+      <div  tabIndex="-1" className="subscriptions-dashboard-container">
+        <p  tabIndex="-1" className="management-title">{this.props.language.mySubscriptions}<SchoolIcon className="management-title-icon"/></p>
         <Divider/>
         {
           this.state.loading ?
-            <div className="dashboard-loading-container">
-              <Loading message={this.props.language.loadingCourses}/>
+            <div tabIndex="-1" className="dashboard-loading-container">
+              <Loading tabIndex="-1" message={this.props.language.loadingCourses}/>
             </div>
           :
-          <div>
+          <div tabIndex="-1">
             {
               this.state.courses.length ?
-                <div className="subscriptions-dashboard-result">
+                <div tabIndex="-1" className="subscriptions-dashboard-result">
                   {
                     this.state.courses.map((course, index) => {
                       return (
                         <CourseSubscription
+                          tabIndex="-1"
                           course={course.information}
                           progress={course.progress}
                           disabled={this.props.disabled}
                           unsubscribe={this.unsubscribe.bind(this)}
                           handleClickCourse={this.handleClickCourse.bind(this)}
+                          language={this.props.language}
                         />
                       )
                     })
                   }
                 </div>
               :
-              <div className="empty-dashboard">
-                <div className="empty-dashboard-row">
-                  <p className="empty-dashboard-text">{this.props.language.youAreNotSubscribed}</p>
-                  <InfoIcon className="empty-dashboard-icon"/>
+              <div  tabIndex="-1" className="empty-dashboard">
+                <div  tabIndex="-1" className="empty-dashboard-row">
+                  <p  tabIndex="-1" className="empty-dashboard-text">{this.props.language.youAreNotSubscribed}</p>
+                  <InfoIcon tabIndex="-1" className="empty-dashboard-icon"/>
                 </div>
-                <Button onClick={() => this.props.showComponent('courses')} variant="contained" color="primary" className="empty-dashboard-button">{this.props.language.checkOutCourses}</Button>
+                <Button tabIndex="-1" onClick={() => this.props.showComponent('courses')} variant="contained" color="primary" className="empty-dashboard-button">{this.props.language.checkOutCourses}</Button>
               </div>
             }
           </div>
         }
         <Dialog
+          tabIndex="-1"
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
         >
-          <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.dialogConfirmationTitle}</DialogTitle>
-          <DialogContent className="success-dialog-content">
-            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+          <DialogTitle  tabIndex="-1" className="success-dialog-title" id="alert-dialog-title">{this.state.dialogConfirmationTitle}</DialogTitle>
+          <DialogContent tabIndex="-1" className="success-dialog-content">
+            <DialogContentText tabIndex="-1" className="success-dialog-content-text" id="alert-dialog-description">
               {this.state.dialogConfirmationContentText}
             </DialogContentText>
-            <WarningIcon className="warning-dialog-icon"/>
+            <WarningIcon tabIndex="-1" className="warning-dialog-icon"/>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+            <Button tabIndex="-1" onClick={() => this.handleClose()} color="primary" autoFocus>
               {this.props.language.cancel}
             </Button>
-            <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
+            <Button tabIndex="-1" onClick={() => this.state.confirmAction()} color="primary" autoFocus>
               {this.props.language.confirm}
             </Button>
           </DialogActions>

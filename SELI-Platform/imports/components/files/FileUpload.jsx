@@ -154,28 +154,38 @@ class FileUpload extends Component {
     }
   }
 
+
+  handleKeyPress = (event) => {
+    console.log('enter press here! ')
+    if(event.key === 'Enter'){
+      console.log('enter press here! ')
+    }
+  }
   render() {
     debug("Rendering FileUpload",this.props.docsReadyYet);
     if (this.props.files && this.props.docsReadyYet) {
       return (
-        <div>
+        <div  tabIndex="-1">
           {
             !this.state.inProgress ?
-              <div className="upload-container">
-                <input
-                  type="file"
-                  id={"fileinput" + this.props.type}
-                  onChange={this.uploadIt}
-                  ref={"fileinput" + this.props.type}
-                  className="file-upload-input"
-                  accept={this.props.accept}
-                />
-                <label className="upload-button-container" htmlFor={"fileinput" + this.props.type}>
-                  <Fab color="secondary" className="upload-button" variant="contained" component="span">
-                    <CloudUploadIcon className="upload-icon"/>
-                  </Fab>
-                  <p className="upload-label">{this.props.label}</p>
-                </label>
+              <div  className="upload-container">
+                <div class="upload-btn-wrapper center-row">
+                  {
+                    this.props.color ?
+                      <Button  id="da" className="sign-button" color={this.props.color} variant="outlined">{this.props.label}</Button>
+                    :
+                      <Button  id="da" className="sign-button" color="secondary" variant="outlined">{this.props.label}</Button>
+                  }
+                  <input className="upload-btn-wrapper" 
+                    tabIndex="0"
+                    type="file"
+                    id={"fileinput" + this.props.type}
+                    onChange={this.uploadIt}
+                    ref={"fileinput" + this.props.type}
+                    accept={this.props.accept}
+                  />
+                </div> 
+                {/* <p className="upload-label">{this.props.label}</p> */}
               </div>
             :
             undefined

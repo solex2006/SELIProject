@@ -5,14 +5,12 @@ import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
-
 import ItemFeedback from '../../accessibility/ItemFeedback';
-
-
 import MenuItem from './MenuItem';
+import DragItem from './DragItem'
+import Divider from '@material-ui/core/Divider';
 
 export default class AudioItem extends React.Component {
   constructor(props) {
@@ -39,7 +37,7 @@ export default class AudioItem extends React.Component {
                     {` ${this.props.item.attributes.title}`}
                   </Typography>
                   <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
-                    {this.props.item.attributes.source === 'upload' ? `Audio file` : `Recorded file`}
+                      {this.props.item.attributes.source === 'upload' ? this.props.language.audioFile : this.props.language.recordedAudio}
                   </Typography>
                 </CardContent>
                 <CardMedia
@@ -58,7 +56,7 @@ export default class AudioItem extends React.Component {
                 {
                   this.props.item.attributes.externalLink !== '' ?
                     <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
-                      Learn More
+                      {this.props.language.learnMore}
                     </Button>
                   :
                     undefined
@@ -83,10 +81,17 @@ export default class AudioItem extends React.Component {
             removeItem={this.props.removeItem.bind(this)}
             editItem={this.props.editItem.bind(this)}
             handleDecorative={this.props.handleDecorative.bind(this)}
+            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+            language={this.props.language}
           />
         </div>
+        <Divider orientation="vertical" />
+        <DragItem
+        language={this.props.language}
+        />
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
+          language={this.props.language}
         />
       </div>
       );

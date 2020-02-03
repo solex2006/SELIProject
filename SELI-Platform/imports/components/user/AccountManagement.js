@@ -576,6 +576,7 @@ export default class AccountManagement extends React.Component {
                     type={this.state.fileType}
                     getFileInformation={this.getFileInformation.bind(this)}
                     hideLibrary={this.hideLibrary.bind(this)}
+                    language={this.props.language}
                   />
                 :
                 <div>

@@ -80,7 +80,7 @@ export default function LanguageSelector(props) {
             key={option}
             selected={index === selectedIndex}
             onClick={event => handleMenuItemClick(event, index, option)}
-            disabled={option !== 'English (US)' && option !== 'Portuguese (PT)' && option !== 'Turkish (TR)'}
+            disabled={option !== 'English (US)' && option !== 'Spanish (ES)' && option !== 'Portuguese (PT)' && option !== 'Turkish (TR)'}
           >
             {languages[index]}
           </MenuItem>

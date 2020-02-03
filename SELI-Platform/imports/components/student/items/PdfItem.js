@@ -30,11 +30,11 @@ export default class PdfItem extends React.Component {
     super(props);
     this.state = {
       actions: [
-        { icon: <CloudDownloadIcon />, name: 'Download', action: () => this.download()},
-        { icon: <OpenInNewIcon />, name: 'Read new tab', action: () => this.openNewTab()},
-        { icon: <ChromeReaderModeIcon />, name: 'Read here', action: () => this.read()},
-        { icon: <PrintIcon />, name: 'Print', action: () => this.printPdf()},
-        { icon: <StarRateIcon />, name: 'Add to my library' },
+        { icon: <CloudDownloadIcon />, name: this.props.language.download, action: () => this.download()},
+        { icon: <OpenInNewIcon />, name: this.props.language.readNewTab, action: () => this.openNewTab()},
+        { icon: <ChromeReaderModeIcon />, name: this.props.language.readHere, action: () => this.read()},
+        { icon: <PrintIcon />, name: this.props.language.print, action: () => this.printPdf()},
+        { icon: <StarRateIcon />, name: this.props.language.addToMyLibrary},
       ],
     }
   }
@@ -60,23 +60,23 @@ export default class PdfItem extends React.Component {
   download = () => {
     // for non-IE
     if (!window.ActiveXObject) {
-        var save = document.createElement('a');
-        save.href = this.props.item.attributes.pdf.link;
-        save.target = '_blank';
-        var filename = this.props.item.attributes.pdf.link.substring(this.props.item.attributes.pdf.link.lastIndexOf('/')+1);
-        save.download = this.props.item.attributes.pdf.name || filename;
-	       if ( navigator.userAgent.toLowerCase().match(/(ipad|iphone|safari)/) && navigator.userAgent.search("Chrome") < 0) {
-				document.location = save.href;
-// window event not working here
-			}else{
-		        var evt = new MouseEvent('click', {
-		            'view': window,
-		            'bubbles': true,
-		            'cancelable': false
-		        });
-		        save.dispatchEvent(evt);
-		        (window.URL || window.webkitURL).revokeObjectURL(save.href);
-			}
+      var save = document.createElement('a');
+      save.href = this.props.item.attributes.pdf.link;
+      save.target = '_blank';
+      var filename = this.props.item.attributes.pdf.link.substring(this.props.item.attributes.pdf.link.lastIndexOf('/')+1);
+      save.download = this.props.item.attributes.pdf.name || filename;
+      if ( navigator.userAgent.toLowerCase().match(/(ipad|iphone|safari)/) && navigator.userAgent.search("Chrome") < 0) {
+        document.location = save.href;
+        // window event not working here
+      }else{
+            var evt = new MouseEvent('click', {
+                'view': window,
+                'bubbles': true,
+                'cancelable': false
+            });
+            save.dispatchEvent(evt);
+            (window.URL || window.webkitURL).revokeObjectURL(save.href);
+      }
     }
 
     // for IE < 11
@@ -115,7 +115,7 @@ export default class PdfItem extends React.Component {
               />
             </div>
             <div className="item-instruction-column">
-              <p className="instruction-title">Instructions:</p>
+              <p className="instruction-title">{this.props.language.instructions}</p>
               <div
                 id={this.props.item.attributes.pdf.id + "instruction" + this.props.item.id}
                 className="pdf-item-instruction"
@@ -141,9 +141,9 @@ export default class PdfItem extends React.Component {
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h6">
-                SELI Pdf reader
+                {this.props.language.seliPdfReader}
               </Typography>
-              <p className="app-tooltip">Press Esc to return to course content</p>
+              <p className="app-tooltip">{this.props.language.pressEscCourse}</p>
             </Toolbar>
           </AppBar>
           <DialogContent className="media-dialog-content">

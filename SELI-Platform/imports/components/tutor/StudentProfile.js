@@ -87,7 +87,7 @@ export default class StudentProfile extends React.Component {
         user.profile.courses.splice(courseIndex, 1);
         Meteor.call("UpdateCourses", this.props.profile.studentId, user.profile.courses, (error, response) =>  {
             if (response) {
-              this.props.handleControlMessage(true, "Student removed from this course");
+              this.props.handleControlMessage(true, this.props.language.studendRemoved);
               this.handleClose();
               this.props.reload(this.props.profile.courseProfile.courseId);
             }
@@ -114,13 +114,13 @@ export default class StudentProfile extends React.Component {
               {this.props.profile.studentInformation.username}
             </p>
             <p className="student-profile-information-text-secondary">
-              {`Joined SELI: ${this.props.profile.studentInformation.dateJoined}`}
+              {`${this.props.language.joinedSeli}: ${this.props.profile.studentInformation.dateJoined}`}
             </p>
             <p className="student-profile-information-text-secondary">
-              {`Student name: ${this.props.profile.studentInformation.fullname}`}
+              {`${this.props.language.studentName}: ${this.props.profile.studentInformation.fullname}`}
             </p>
             <p className="student-profile-information-text-secondary">
-              {`Progress: ${this.props.profile.courseProfile.progress}%`}
+              {`${this.props.language.progress}: ${this.props.profile.courseProfile.progress}%`}
             </p>
           </div>
           <div className="student-profile-actions-container">
@@ -129,7 +129,7 @@ export default class StudentProfile extends React.Component {
               color="primary"
               variant="outlined"
             >
-              Send message
+              {this.props.language.sendMessage}
             </Button>
             <Button
               className="student-profile-button"
@@ -137,7 +137,7 @@ export default class StudentProfile extends React.Component {
               variant="outlined"
               onClick={(event) => this.handleClick(event)}
             >
-              Cancel subscription
+              {this.props.language.cancelSubscription}
             </Button>
             <Popover
               open={Boolean(this.state.anchorEl)}
@@ -153,14 +153,14 @@ export default class StudentProfile extends React.Component {
               }}
             >
               <div className="confirmation-popover-container">
-                <p>Are you sure you want to cancel ths subscription of this student?</p>
+                <p>{this.props.language.cancelSubscriptionStudent}</p>
                 <div>
                   <Button
                     className="student-confirmation-button"
                     onClick={() => this.handleUnsubscription()}
                     variant="contained" color="primary"
                   >
-                    Yes
+                    {this.props.language.yes}
                   </Button>
                   <Button
                     className="student-confirmation-button"
@@ -168,7 +168,7 @@ export default class StudentProfile extends React.Component {
                     variant="contained"
                     color="secondary"
                   >
-                    No
+                    {this.props.language.no}
                   </Button>
                 </div>
               </div>

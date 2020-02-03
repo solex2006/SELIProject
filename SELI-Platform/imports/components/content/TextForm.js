@@ -26,9 +26,9 @@ export default class TextForm extends React.Component {
     super(props);
     this.state = {
       sizes: [
-        {label: "Big (Title)", value: "1.5em"},
-        {label: "Medium (Subtitle)", value: '1.15em'},
-        {label: "Small (Normal)", value: '0.9em'}
+        {label: this.props.language.bigTitle, value: "1.5em"},
+        {label: this.props.language.mediumSubtitle, value: '1.15em'},
+        {label: this.props.language.smallNormal, value: '0.9em'}
       ],
       languages: codeLanguages,
       language: codeLanguages[16],
@@ -54,19 +54,19 @@ export default class TextForm extends React.Component {
 
   validateContent = (content) => {
     if (content.content === '') {
-      this.props.handleControlMessage(true, "Add the text content");
+      this.props.handleControlMessage(true, this.props.language.addTextContent);
       return false;
     }
     if (content.type === 'title' && content.size === '') {
-      this.props.handleControlMessage(true, "Select the size of the text");
+      this.props.handleControlMessage(true, this.props.language.selectSizeText);
       return false;
     }
     if (content.type === 'title' && content.alignment === '') {
-      this.props.handleControlMessage(true, "Alignment is a requiered field");
+      this.props.handleControlMessage(true, this.props.language.alignmentRequired);
       return false;
     }
     if (content.type === 'code' && content.language === '') {
-      this.props.handleControlMessage(true, "Pick the language");
+      this.props.handleControlMessage(true, this.props.language.pickLanguage);
       return false;
     }
     return true;
@@ -147,9 +147,9 @@ export default class TextForm extends React.Component {
             variant="fullWidth"
             centered={true}
           >
-            <Tab value={'title'} onClick={() => this.selectType('title')} className="form-tab" label="Title/Subtitle" icon={<TextFieldsIcon />} />
-            <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label="Text section" icon={<SubjectIcon />} />
-            <Tab value={'code'} onClick={() => this.selectType('code')} className="form-tab" label="Code" icon={<CodeIcon />} />
+            <Tab value={'title'} onClick={() => this.selectType('title')} className="form-tab" label={this.props.language.titleSubtitle} icon={<TextFieldsIcon />} />
+            <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.textSection} icon={<SubjectIcon />} />
+            <Tab value={'code'} onClick={() => this.selectType('code')} className="form-tab" label={this.props.language.code} icon={<CodeIcon />} />
           </Tabs>
         </Paper>
         <div className="inputs-block">
@@ -157,22 +157,22 @@ export default class TextForm extends React.Component {
             this.state.attributes.type === "title" ?
               <div>
                 <div className="margin-center-row">
-                  <Help helper="textHelper" text="Structure and style to maximise readability and scanning:" />
-                  <p className="form-label">Alignment:</p>
+                  <Help helper="textHelper" text={this.props.language.structureAndStyle} language={this.props.language}/>
+                  <p className="form-label">{`${this.props.language.alignment}:`}</p>
                   <Grid item>
                     <ToggleButtonGroup onChange={this.handleChange("alignment")} size="small" value={this.state.attributes.alignment} exclusive>
                       <ToggleButton className="toggle-button" key={1} value="left">
-                        <Tooltip title="Left alignment">
+                        <Tooltip title={this.props.language.leftAlign}>
                           <FormatAlignLeftIcon className="toggle-button-icon"/>
                         </Tooltip>
                       </ToggleButton>
                       <ToggleButton className="toggle-button" key={2} value="center" onClick={() => this.handleChange("alignment")}>
-                        <Tooltip title="Center alignment">
+                        <Tooltip title={this.props.language.centertAlign}>
                           <FormatAlignCenterIcon className="toggle-button-icon"/>
                         </Tooltip>
                       </ToggleButton>
                       <ToggleButton className="toggle-button" key={3} value="right" onClick={() => this.handleChange("alignment")}>
-                        <Tooltip title="Right alignment">
+                        <Tooltip title={this.props.language.rightAlign}>
                           <FormatAlignRightIcon className="toggle-button-icon"/>
                         </Tooltip>
                       </ToggleButton>
@@ -182,7 +182,7 @@ export default class TextForm extends React.Component {
                     select
                     className="size-text-input"
                     variant="outlined"
-                    label="Size"
+                    label={this.props.language.size}
                     value={this.state.attributes.size}
                     onChange={this.handleChange('size')}
                   >
@@ -195,7 +195,7 @@ export default class TextForm extends React.Component {
                 </div>
                 <TextField
                   id="text-input"
-                  label="Text"
+                  label={this.props.language.text}
                   margin="normal"
                   variant="outlined"
                   required
@@ -217,6 +217,7 @@ export default class TextForm extends React.Component {
                   addLinks={false}
                   innerHTML={this.state.attributes.content}
                   getInnerHtml={this.getInnerHtml.bind(this)}
+                  language={this.props.language}
                 />
               </div>
             :
@@ -230,7 +231,7 @@ export default class TextForm extends React.Component {
                     select
                     style={{width: "90%"}}
                     variant="outlined"
-                    label="Language"
+                    label={this.props.language.language}
                     value={this.state.attributes.language}
                     onChange={this.handleChange('language')}
                   >

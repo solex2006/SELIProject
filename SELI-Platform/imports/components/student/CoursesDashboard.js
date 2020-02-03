@@ -103,10 +103,10 @@ export default class CoursesDashboard extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-              Cancel
+              {this.props.language.cancel}
             </Button>
             <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
-              Confirm
+              {this.props.language.confirm}
             </Button>
           </DialogActions>
         </Dialog>

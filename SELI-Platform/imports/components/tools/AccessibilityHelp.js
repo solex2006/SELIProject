@@ -58,7 +58,8 @@ export default function AccessibilityHelp(props) {
 								aria-label='Accessibilit tip'
 								text={props.stepLabel}
 								color='primary'
-								buttonLabel='More details'
+								buttonLabel={props.language.feedback_a11y_helpStep_button}
+								language={props.language}
 							/>
 						:
 						undefined
@@ -67,10 +68,11 @@ export default function AccessibilityHelp(props) {
 						props.guide !== undefined ?
 							<Decision
 								caller={props.name}
-								buttonLabel='Help me decide'
+								buttonLabel={props.language.feedback_a11y_helpGuide_button}
 								useStyle={classes.iconButton}
 								ariaLabel='Accessibilit help'
 								color='secondary'
+								language={props.language}
 							/>
 						:
 						undefined

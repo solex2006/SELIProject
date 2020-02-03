@@ -22,7 +22,6 @@
   padding: 1vh 0;
   margin-bottom: 2.5vh;
   font-size: var(--main-navigation-title-size);
-  text-transform: uppercase;
   position: relative;
 }
 
@@ -30,7 +29,6 @@
   text-align: center;
   padding: 1vh 0;
   font-size: var(--navigation-title-size);
-  text-transform: uppercase;
   position: relative;
 }
 
@@ -63,7 +61,6 @@
   text-align: center !important;
   font-size: 0.9em !important;
   letter-spacing: 1px !important;
-  text-transform: uppercase;
 }
 
 .course-navigation-sublist-item {

@@ -56,11 +56,11 @@ export default class ActivityItem extends React.Component {
     let dialogText;
     let confirmAction;
     if (this.props.item.attributes.type === 'upload') {
-      dialogText = `To complete this activity, upload the required file`,
+      dialogText = this.props.language.toActivityUpload,
       confirmAction = () => this.sendFile();
     }
     if (this.props.item.attributes.type === 'section') {
-      dialogText = `To complete this activity, write about what is requested in the instructions`,
+      dialogText = this.props.language.toActivityWrite,
       confirmAction = () => this.sendSection();
     }
     this.setState({
@@ -126,7 +126,7 @@ export default class ActivityItem extends React.Component {
 
   validateUploadActivity = () => {
     if (this.state.file === undefined) {
-      this.props.handleControlMessage(true, "Upload a file to complete the activity")
+      this.props.handleControlMessage(true, this.props.language.completeActivityUpload)
       return false;
     }
     return true;
@@ -134,7 +134,7 @@ export default class ActivityItem extends React.Component {
 
   validateSectionActivity = () => {
     if (this.state.textSection === '') {
-      this.props.handleControlMessage(true, "Complete your text section to end this activity")
+      this.props.handleControlMessage(true, this.props.language.completeActivityWrite)
       return false;
     }
     return true;
@@ -172,17 +172,17 @@ export default class ActivityItem extends React.Component {
                         className="item-quiz-expansion-summary"
                       >
                         <div className="item-quiz-expansion-summary-text-container">
-                          <Typography className="activity-panel-title">Activity</Typography>
+                          <Typography className="activity-panel-title">{this.props.language.activity}</Typography>
                           <Typography className="quiz-panel-subtitle">
-                            { this.props.item.attributes.type === 'storyboard' ? "Storytelling activity" : undefined }
-                            { this.props.item.attributes.type === 'upload' ? "Upload file activity" : undefined }
-                            { this.props.item.attributes.type === 'section' ? "Text section activity" : undefined }
+                            { this.props.item.attributes.type === 'storyboard' ? this.props.language.storyboardActivity : undefined }
+                            { this.props.item.attributes.type === 'upload' ? this.props.language.uploaddActivity : undefined }
+                            { this.props.item.attributes.type === 'section' ? this.props.language.textSectionActivity : undefined }
                           </Typography>
                         </div>
                       </ExpansionPanelSummary>
                       <ExpansionPanelDetails className="item-quiz-detail">
                         <div className="item-quiz-detail-container">
-                          <p className="activity-instruction-title">Instructions:</p>
+                          <p className="activity-instruction-title">{this.props.language.instructions}</p>
                           <div className="activity-item-container-instruction">
                             {this.props.item.attributes.instruction}
                           </div>
@@ -190,7 +190,7 @@ export default class ActivityItem extends React.Component {
                             this.props.item.attributes.type === 'upload' ?
                               <div className="activity-detail-container">
                                 <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                                  Accepted file type:
+                                  {this.props.language.acceptedFileType}
                                 </Typography>
                                 <Typography className="file-type-text-detail" variant="overline" display="block" gutterBottom>
                                   {this.props.item.attributes.fileTypes.label}
@@ -207,16 +207,16 @@ export default class ActivityItem extends React.Component {
                           !this.state.resolved ?
                             <div>
                               <Button size="medium">
-                                Set reminder
+                                {this.props.language.setReminder}
                               </Button>
                               <Button onClick={() => this.doActivity()} size="medium" color="primary">
-                                Do activity
+                                {this.props.language.doActivity}
                               </Button>
                             </div>
                           :
                           <div className="align-items-center">
                             <Button size="medium">
-                              Activity done
+                              {this.props.language.activityDone}
                             </Button>
                             <CheckCircleIcon className="done-icon"/>
                           </div>
@@ -236,7 +236,7 @@ export default class ActivityItem extends React.Component {
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
         >
-          <DialogTitle className="success-dialog-title" id="alert-dialog-title">Do activity</DialogTitle>
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.doActivity}</DialogTitle>
           <DialogContent className="success-dialog-content">
             <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
               {this.state.dialogText}
@@ -251,17 +251,18 @@ export default class ActivityItem extends React.Component {
                         user={Meteor.userId()}
                         accept={this.props.item.attributes.fileTypes.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
-                        label="Click the button to upload your file"
+                        label={this.props.language.clickUploadFile}
                       />
                     :
                     <AttachmentPreview
                       file={this.state.file}
                       unPickFile={this.unPickFile.bind(this)}
+                      language={this.props.language}
                     />
                   }
                   <TextField
                     id="biography-input"
-                    label="Additional notes"
+                    label={`${this.props.language.additionalNotes}:`}
                     margin="normal"
                     variant="outlined"
                     fullWidth
@@ -282,6 +283,7 @@ export default class ActivityItem extends React.Component {
                   buttonLabels={false}
                   addLinks={true}
                   getInnerHtml={this.getInnerHtml.bind(this)}
+                  language={this.props.language}
                 />
               :
               undefined
@@ -289,10 +291,10 @@ export default class ActivityItem extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-              Cancel
+              {this.props.language.cancel}
             </Button>
             <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
-              Deliver activity
+              {this.props.language.deliverActivity}
             </Button>
           </DialogActions>
         </Dialog>

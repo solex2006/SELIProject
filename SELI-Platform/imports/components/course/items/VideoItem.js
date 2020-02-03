@@ -10,12 +10,11 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import ReactPlayer from 'react-player';
-
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
-
 import ItemFeedback from '../../accessibility/ItemFeedback';
-
+import DragItem from './DragItem'
+import Divider from '@material-ui/core/Divider';
 
 export default class VideoItem extends React.Component {
   constructor(props) {
@@ -56,7 +55,7 @@ export default class VideoItem extends React.Component {
                 <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
                   {` ${this.props.item.attributes.title}`}
                   <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
-                    {this.props.item.attributes.source === 'upload' ? `Video file` : `External video`}
+                    {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
                   </Typography>
                 </Typography>
                 {
@@ -75,7 +74,7 @@ export default class VideoItem extends React.Component {
               {
                 this.props.item.attributes.externalLink !== '' ?
                   <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
-                    Learn More
+                    {this.props.language.learnMore}
                   </Button>
                 :
                   undefined
@@ -89,10 +88,17 @@ export default class VideoItem extends React.Component {
             removeItem={this.props.removeItem.bind(this)}
             editItem={this.props.editItem.bind(this)}
             handleDecorative={this.props.handleDecorative.bind(this)}
+            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+            language={this.props.language}
           />
         </div>
+        <Divider orientation="vertical" />
+        <DragItem
+        language={this.props.language}
+        />
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
+          language={this.props.language}
         />
       </div>
       );

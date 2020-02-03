@@ -22,7 +22,7 @@ import Roll from 'react-reveal/Roll';
 import CourseCarousel from './CourseCarousel';
 import TechnicalRequirement from './TechnicalRequirement';
 import CourseNavigation from './CourseNavigation';
-
+import AccessibilityIcon from '@material-ui/icons/Accessibility';
 var ColorThief = require('color-thief');
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -120,20 +120,25 @@ export default class CoursePresentation extends React.Component {
               <h1 className="course-presentation-hero-title">{this.props.course.title}</h1>
             </Fade>
             <Fade delay={1000}>
-              <h4 className="course-presentation-hero-subtitle">{this.props.course.subtitle}</h4>
-              <p className="course-presentation-hero-normal">{`Created by: ${this.props.course.createdBy}`}</p>
+              {
+                this.props.course.subtitle === "-----"?
+                  undefined
+                :
+                  <h4 className="course-presentation-hero-subtitle">{this.props.course.subtitle}</h4>
+              }
+              <p className="course-presentation-hero-normal">{`${this.props.language.createdBy}: ${this.props.course.createdBy}`}</p>
             </Fade>
           </div>
           <div className="course-presentation-hero-column">
-           {/* <Paper
+            {/* <Paper
               id="course-presentation-hero-media-image"
               className="course-presentation-hero-media-paper"
               elevation={10}
               style={{backgroundImage: `url(${this.props.course.image.link})`}}
-            ></Paper>*/}
+            ></Paper> */}
             <Paper id="course-presentation-hero-media-color" 
-		className="course-presentation-hero-media-paper" elevation={12}
-		style={{backgroundImage: `url(${this.props.course.image.link})`}}></Paper>
+            className="course-presentation-hero-media-paper" elevation={12}
+            style={{backgroundImage: `url(${this.props.course.image.link})`}}></Paper>
           </div>
         </div>
         <Fade left>
@@ -142,7 +147,9 @@ export default class CoursePresentation extends React.Component {
           </div>
         </Fade>
         <div className="course-other-information-container">
-          <Fade left>
+          <div className={"boxItem"}>
+
+          <Fade left  >
             <Paper
               elevation={12}
               className="course-card-information"
@@ -152,7 +159,7 @@ export default class CoursePresentation extends React.Component {
               }}
             >
               <div className="course-card-title">
-                Estimated course duration
+                {this.props.language.estimatedCourseDuration}
               </div>
               <div className="course-card-presentation-content">
                 <IconButton className="course-card-presentation-icon-button">
@@ -163,7 +170,7 @@ export default class CoursePresentation extends React.Component {
                     }}
                   />
                 </IconButton>
-                <p className="course-card-large-text">{`${this.props.course.duration}h`}</p>
+                <p className="course-card-large-text">{`${this.props.course.duration} ${this.props.language.hours}`}</p>
               </div>
             </Paper>
           </Fade>
@@ -178,7 +185,7 @@ export default class CoursePresentation extends React.Component {
               onClick={() => this.handleClickOpenSylabus()}
             >
               <div className="course-card-title">
-                Course syllabus
+                {this.props.language.courseSyllabus}
               </div>
               <div className="course-card-presentation-content">
                 <IconButton className="course-card-presentation-icon-button">
@@ -189,7 +196,7 @@ export default class CoursePresentation extends React.Component {
                     }}
                   />
                 </IconButton>
-                <p className="course-card-medium-text">{`Click to read`}</p>
+                <p className="course-card-medium-text">{this.props.language.clickToRead}</p>
               </div>
             </Paper>
           </Fade>
@@ -204,7 +211,7 @@ export default class CoursePresentation extends React.Component {
               onClick={() => this.handleClickOpenOrganization()}
             >
               <div className="course-card-title">
-                Course organization
+                {this.props.language.courseOrganization}
               </div>
               <div className="course-card-presentation-content">
                 <IconButton className="course-card-presentation-icon-button">
@@ -215,45 +222,131 @@ export default class CoursePresentation extends React.Component {
                     }}
                   />
                 </IconButton>
-                <p className="course-card-small-text">{`Click to see all ${this.props.course.organization.unit.toLowerCase()}s ${this.props.course.organization.subunit ? `and ${this.props.course.organization.subunit.toLowerCase()}` : ''}`}</p>
+                <p className="course-card-small-text">{`${this.props.course.organization.subunit ? this.props.language.clickToSeeAllUnitsAndSubunits : this.props.language.clickToSeeAllTopics}`}</p>
               </div>
             </Paper>
           </Fade>
-        </div>
-        <div className="course-requirement-information">
-          <Roll right>
-            <p className="course-requirement-information-title">This course will support the following disabilities:</p>
-          </Roll>
-          <Fade left>
-            <CourseCarousel
-              requirements={this.props.course.support}
-            />
-          </Fade>
-          <Fade delay={500} right>
-            <div className="course-requirements-disabilities-container">
-              <p className="course-requirements-disabilities-title">SELI Overview</p>
-              <p className="course-requirements-disabilities-description">SELI courses are created with the objective to be accessible to all types of public</p>
-              <Button onClick={() => this.learnMore()} className="course-requirements-accessibility-button" color="secondary">Learn more</Button>
-              <div className="course-requirements-accessibility-image"></div>
+          </div>
+          
+          {
+          this.props.course.signature===undefined ?
+            undefined
+            :
+            <div className={"boxItem2"}>
+                <Fade up>
+                  <Paper
+                    elevation={12}
+                    className="course-card-information1"
+                    style={{
+                      backgroundColor: this.state.palette[0].bgColor,
+                      color: this.state.palette[0].textColor,
+                    }}
+                  >
+                    <div className={"course-card-title1"}>{this.props.language.audiences}</div>
+                    <div className={"groupAudicences"}>
+                        <div className="titleItem" >
+                          {this.props.language.audienceAreas}
+                          {
+                            this.props.course.signature==="" ?
+                            undefined
+                            :
+                            this.props.course.signature.map((value, index)=>{
+                              return(
+                                <div className={"itemAudience"}>{value}</div>
+                              )
+                            })
+                          }
+                        </div>
+                        <div className={"titleItem"}>
+                          {this.props.language.audiencelevel}
+                          {
+                            this.props.course.level==="" ?
+                            undefined
+                            :
+                            this.props.course.level.map((value, index)=>{
+                              return(
+                                <div className={"itemAudience"}>{value}</div>
+                              )
+                            })
+                          }
+                          
+                        </div>
+                        
+                        <div className={"titleItem"}>
+                          {this.props.language.audiencetype}
+                          {
+                            this.props.course.type==="" ?
+                            undefined
+                            :
+                            this.props.course.type.map((value, index)=>{
+                              return(
+                                <div className={"itemAudience"}>{value}</div>
+                              )
+                            })
+                          }
+                        </div>
+                    </div>
+                    <IconButton className="course-card-presentation-icon-button">
+                          <AccessibilityIcon
+                            className="course-card-presentation-icon"
+                            style={{
+                              color: this.state.palette[0].textColor,
+                            }}
+                          />
+                    </IconButton>
+                  </Paper>
+                </Fade>  
             </div>
-          </Fade>
+                   
+        }
         </div>
-        <div className="course-requirement-information">
+
+   
+        {
+          this.props.course.support.length !== 0 ?
+            <div className="course-requirement-information">
+              <Roll right>
+                <p className="course-requirement-information-title">{`${this.props.language.supportDissabilitiesTitle}:`}</p>
+              </Roll>
+              <Fade left>
+                <CourseCarousel
+                  requirements={this.props.course.support}
+                  next={this.props.language.next}
+                  back={this.props.language.back}
+                />
+              </Fade>
+              <Fade delay={500} right>
+                <div className="course-requirements-disabilities-container">
+                  <p className="course-requirements-disabilities-title">{this.props.language.seliOverview}</p>
+                  <p className="course-requirements-disabilities-description">{this.props.language.seliOverviewText}</p>
+                  <Button onClick={() => this.learnMore()} className="course-requirements-accessibility-button" color="secondary">{this.props.language.learnMore}</Button>
+                  <div className="course-requirements-accessibility-image"></div>
+                </div>
+              </Fade>
+            </div>
+          :
+            <div className="course-requirement-information">
+              <Roll right>
+                <p className="course-requirement-information-title">{this.props.language.notSupportDisabilities}</p>
+              </Roll>
+            </div>
+        }
+        {/* <div className="course-requirement-information">
           <Roll left>
-            <p className="course-requirement-information-title">Also to complete this course you will need:</p>
+            <p className="course-requirement-information-title">{`${this.props.language.toCompleteTheCourseTitle}:`}</p>
           </Roll>
           <div className="course-technical-requirements-container">
             {this.props.course.requirements.map((requirement, index) => {
               return(
                 <Fade delay={(index + 1) * 250} down>
-                  <TechnicalRequirement requirement={requirement}/>
+                  <TechnicalRequirement requirement={requirement} description={this.props.language.description}/>
                 </Fade>
               )
             })}
           </div>
-        </div>
+        </div> */}
         <div className="course-presentation-footer">
-          <p className="course-presentation-copyright-text">Made by SELI Team 2019</p>
+          <p className="course-presentation-copyright-text">{`${this.props.language.madeBySeliTeam} 2020`}</p>
         </div>
         <Dialog fullScreen open={this.state.openSylabus} onClose={this.handleCloseSyalbus} TransitionComponent={Transition}>
           <AppBar position="static" className="course-dialog-app-bar">
@@ -262,7 +355,7 @@ export default class CoursePresentation extends React.Component {
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h6">
-                Course sylabus
+                {this.props.language.courseSyllabus}
               </Typography>
             </Toolbar>
           </AppBar>
@@ -277,7 +370,7 @@ export default class CoursePresentation extends React.Component {
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h6">
-                Course organization
+              {this.props.language.courseOrganization}
               </Typography>
             </Toolbar>
           </AppBar>
@@ -288,6 +381,10 @@ export default class CoursePresentation extends React.Component {
               navigate={false}
               navigateTo={this.props.navigateTo.bind(this)}
               selected={this.props.selected}
+              courseNav={this.props.language.courseNavigation}
+              topic={this.props.language.topic}
+              unit={this.props.language.unit}
+              lesson={this.props.language.lesson}
             />
           </div>
         </Dialog>

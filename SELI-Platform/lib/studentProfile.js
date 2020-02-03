@@ -2,7 +2,7 @@ var OPTIONS = [
   {
     label: [
       "My courses",
-      "",
+      "Mis cursos",
       "Meus cursos",
       "",
       "",
@@ -11,7 +11,7 @@ var OPTIONS = [
       {
         label: [
           "Suscribed courses",
-          "",
+          "Cursos Inscritos",
           "Cursos inscritos",
           "",
           "",
@@ -21,7 +21,7 @@ var OPTIONS = [
       {
         label: [
           "SELI courses",
-          "",
+          "Cursos SELI",
           "Cursos SELI",
           "",
           ""
@@ -33,7 +33,7 @@ var OPTIONS = [
   {
     label: [
       "Storytelling",
-      "",
+      "Narración Digital",
       "Narrativa",
       "",
       "",
@@ -42,7 +42,7 @@ var OPTIONS = [
       {
         label: [
           "My stories",
-          "",
+          "Mis historias",
           "Minhas histórias",
           "",
           "",
@@ -52,7 +52,7 @@ var OPTIONS = [
       {
         label: [
           "Create story",
-          "",
+          "Crear una historia",
           "Criar história",
           "",
           "",
@@ -64,7 +64,7 @@ var OPTIONS = [
   {
     label: [
       "Certificates",
-      "",
+      "Certificados",
       "Certificados",
       "",
       "",
@@ -73,7 +73,7 @@ var OPTIONS = [
       {
         label: [
           "My certificates",
-          "",
+          "Mis certificados",
           "Meus certificados",
           "",
           "",
@@ -85,7 +85,7 @@ var OPTIONS = [
   {
     label: [
       "Support",
-      "",
+      "Soporte",
       "Suporte",
       "",
       "",
@@ -94,7 +94,7 @@ var OPTIONS = [
       {
         label: [
           "Help",
-          "",
+          "Ayuda",
           "Ajuda",
           "",
           "",
@@ -104,7 +104,7 @@ var OPTIONS = [
       {
         label: [
           "Documentation",
-          "",
+          "Documentación",
           "Documentação",
           "",
           "",

@@ -2,7 +2,7 @@ var OPTIONS = [
   {
     label: [
       "My courses",
-      "",
+      "Mis cursos",
       "Meus cursos",
       "",
       "",
@@ -11,7 +11,7 @@ var OPTIONS = [
       {
         label: [
           "Create course",
-          "",
+          "Crear un curso",
           "Crie um curso",
           "",
           "",
@@ -21,7 +21,7 @@ var OPTIONS = [
       {
         label: [
           "Published courses",
-          "",
+          "Cursos publicados",
           "Cursos publicados",
           "",
           "",
@@ -31,7 +31,7 @@ var OPTIONS = [
       {
         label: [
           "Saved courses",
-          "",
+          "Cursos guardados",
           "Cursos salvos",
           "",
           "",
@@ -42,8 +42,39 @@ var OPTIONS = [
   },
   {
     label: [
-      "Support",
+      "Storytelling",
+      "Narración Digital",
+      "Narrativa",
       "",
+      "",
+    ],
+    suboptions: [
+      {
+        label: [
+          "My stories",
+          "Mis historias",
+          "Minhas histórias",
+          "",
+          "",
+        ],
+        component: 'stories',
+      },
+      {
+        label: [
+          "Create story",
+          "Crear una historia",
+          "Criar história",
+          "",
+          "",
+        ],
+        component: 'storytelling',
+      },
+    ],
+  },
+  {
+    label: [
+      "Support",
+      "Soporte",
       "Suporte",
       "",
       "",
@@ -52,7 +83,7 @@ var OPTIONS = [
       {
         label: [
           "Help",
-          "",
+          "Ayuda",
           "Ajuda",
           "",
           "",
@@ -62,7 +93,7 @@ var OPTIONS = [
       {
         label: [
           "Documentation",
-          "",
+          "Documentación",
           "Documentação",
           "",
           "",

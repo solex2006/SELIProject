@@ -25,7 +25,7 @@ import Button from '@material-ui/core/Button';
 import { Feedback } from '../../../lib/FeedbackCollection';
 import { Requirements } from '../../../lib/RequirementsCollection';
 
-export default class AudienceRequestList extends React.Component {
+export default class DisabilitieRequestList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,12 +47,12 @@ export default class AudienceRequestList extends React.Component {
   };
 
   componentDidMount() {
-    this.getAudiences();
+    this.getDisabilities();
   }
 
   showDeleteConfirmation = (_id) => {
-    let audiencesToDelete = [];
-    audiencesToDelete.push(_id);
+    let disabilitiesToDelete = [];
+    disabilitiesToDelete.push(_id);
     this.setState({
       dialog: {
         title: 'Delete requirement requests(s)',
@@ -62,11 +62,11 @@ export default class AudienceRequestList extends React.Component {
       },
       open: true,
       confirmAction: () => this.delete(),
-      audiencesToDelete: audiencesToDelete,
+      disabilitiesToDelete: disabilitiesToDelete,
     });
   }
 
-  getAudiences = () => {
+  getDisabilities = () => {
     this.setState({
       loading: true,
     }, () => {
@@ -108,7 +108,7 @@ export default class AudienceRequestList extends React.Component {
       tableData.push({
         name: requirement.name,
         description: requirement.description,
-        date: requirement.date.toDateString(),
+        date: requirement.date.toLocaleDateString('en-US'),
         from: requirement.from,
         _id: requirement._id
       })
@@ -125,8 +125,8 @@ export default class AudienceRequestList extends React.Component {
   }
 
   deleteSelected = (requirements) => {
-    let audiencesToDelete = [];
-    requirements.map(requirement => {audiencesToDelete.push(requirement)});
+    let disabilitiesToDelete = [];
+    requirements.map(requirement => {disabilitiesToDelete.push(requirement)});
     this.setState({
       dialog: {
         title: 'Delete request(s)',
@@ -136,12 +136,12 @@ export default class AudienceRequestList extends React.Component {
       },
       open: true,
       confirmAction: () => this.delete(),
-      audiencesToDelete: audiencesToDelete,
+      disabilitiesToDelete: disabilitiesToDelete,
     });
   }
 
   delete = () => {
-    this.state.audiencesToDelete.map((requirement, index) => {
+    this.state.disabilitiesToDelete.map((requirement, index) => {
       Feedback.remove({_id: requirement});
     });
     this.handleClose();
@@ -189,7 +189,18 @@ export default class AudienceRequestList extends React.Component {
                   <p className="management-title">Requirements requests <AssignmentLateIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
                     <Table
-                      labels={{title:'There are', pagination: 'Requests per page:', plural: 'requirement requests'}}
+                      labels={{
+                        title:'Number of requirement requests:', 
+                        pagination: 'Requests per page:', 
+                        filterList: this.props.language.filterList,
+                        refresh: this.props.language.refresh,
+                        delete: this.props.language.delete,
+                        selected: this.props.language.selected,
+                        nextPage: this.props.language.nextPage,
+                        previousPage: this.props.language.previousPage,
+                        options: this.props.language.options,
+                        of: this.props.language.of,
+                      }}
                       headRows={this.state.headRows}
                       menuOptions={this.state.menuOptions}
                       tableData={this.state.tableData}

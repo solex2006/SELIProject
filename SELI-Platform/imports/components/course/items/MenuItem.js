@@ -72,6 +72,11 @@ export default function MenuItem(props) {
     props.editItem(props.item);
   }
 
+  editAccessibility = () => {
+    editItem();
+    props.editAccessibilityForm(props.item.attributes);
+  }
+
   return (
     <div>
       <IconButton
@@ -104,7 +109,7 @@ export default function MenuItem(props) {
           aria-labelledby="nested-list-subheader"
           subheader={
             <ListSubheader component="div" id="nested-list-subheader" className="list-subheader">
-              {props.item.type.toUpperCase() + " CONTENT"}
+              {props.language[props.item.type].toUpperCase()}
             </ListSubheader>
           }
           className="menu-item-list"
@@ -114,13 +119,13 @@ export default function MenuItem(props) {
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
-            <ListItemText primary="Delete" />
+            <ListItemText primary={props.language.delete} />
           </ListItem>
           <ListItem button onClick={editItem}>
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
-            <ListItemText primary="Edit" />
+            <ListItemText primary={props.language.edit} />
           </ListItem>
           {
             props.item.type === "audio" || props.item.type === "image" || props.item.type === "video" ?
@@ -129,7 +134,7 @@ export default function MenuItem(props) {
                   <ListItemIcon>
                     <AccessibilityNewIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Accessibility" />
+                  <ListItemText primary={props.language.accessibility} />
                   {openList ? <ExpandLess style={{animation: "fadeIn 0.25s"}}/> : <ExpandMore style={{animation: "fadeIn 0.25s"}}/>}
                 </ListItem>
                 <Collapse in={openList} timeout="auto" unmountOnExit>
@@ -138,13 +143,13 @@ export default function MenuItem(props) {
                       <ListItemIcon>
                         <BuildIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Auto repair" />
+                      <ListItemText primary={props.language.autoRepair} />
                     </ListItem>
                     <ListItem onClick={() => handleDecorative()} button className={classes.nested}>
                       <ListItemIcon>
                         <CameraIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Decorative" />
+                      <ListItemText primary={props.language.decorative} />
                     </ListItem>
                     <ListItemSecondaryAction>
                       <Checkbox
@@ -154,11 +159,11 @@ export default function MenuItem(props) {
                       />
                     </ListItemSecondaryAction>
                     <Divider light={true}/>
-                    <ListItem button className={classes.nested}>
+                    <ListItem button onClick={() => this.editAccessibility()} className={classes.nested}>
                       <ListItemIcon>
                         <SettingsIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Settings" />
+                      <ListItemText primary={props.language.settings} />
                     </ListItem>
                   </List>
                 </Collapse>

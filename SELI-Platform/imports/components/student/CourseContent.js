@@ -49,19 +49,19 @@ export default class CourseContent extends React.Component {
                 <Paper elevation={0} className="course-content-breadcrumbs-paper">
                   <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
                     <Typography onClick={() => this.props.showComponent("home")} className="course-content-breadcrumb-text">
-                      Home
+                      {this.props.language.home}
                     </Typography>
                     <Typography onClick={() => this.props.showComponent("subscribed")} className="course-content-breadcrumb-text">
-                      Courses
+                      {this.props.language.courses}
                     </Typography>
                     <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
                       {this.props.course.title}
                     </Typography>
                     <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                      {`${this.props.course.organization.unit} - ${this.props.selected[1] + 1}: ${this.props.course.program[this.props.selected[1]].name}`}
+                      {`${this.props.language.unit} ${this.props.selected[1] + 1}: ${this.props.course.program[this.props.selected[1]].name}`}
                     </Typography>
                     <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                      {`${this.props.course.organization.subunit} - ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[1]].lessons[this.props.selected[0]].name}`}
+                      {`${this.props.language.lesson} ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[1]].lessons[this.props.selected[0]].name}`}
                     </Typography>
                   </Breadcrumbs>
                 </Paper>
@@ -94,6 +94,7 @@ export default class CourseContent extends React.Component {
                             item={item}
                             openMediaPlayer={this.props.openMediaPlayer.bind(this)}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            language={this.props.language}
                           />
                         :
                         undefined
@@ -104,6 +105,7 @@ export default class CourseContent extends React.Component {
                             item={item}
                             openMediaPlayer={this.props.openMediaPlayer.bind(this)}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            language={this.props.language}
                           />
                         :
                         undefined
@@ -131,6 +133,7 @@ export default class CourseContent extends React.Component {
                           <EmbebedItem
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            loadingEmbebed={this.props.language.loadingEmbebed}
                           />
                         :
                         undefined
@@ -140,6 +143,7 @@ export default class CourseContent extends React.Component {
                           <PdfItem
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            language={this.props.language}
                           />
                         :
                         undefined
@@ -149,6 +153,7 @@ export default class CourseContent extends React.Component {
                           <CompressedItem
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            language={this.props.language}
                           />
                         :
                         undefined
@@ -158,6 +163,8 @@ export default class CourseContent extends React.Component {
                           <H5PItem
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            instructions={this.props.language.instructions}
+                            loadingH5p={this.props.language.loadingH5p}
                           />
                         :
                         undefined
@@ -170,6 +177,7 @@ export default class CourseContent extends React.Component {
                             course={this.props.course._id}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             completeActivity={this.props.completeActivity.bind(this)}
+                            language={this.props.language}
                           />
                         :
                         undefined
@@ -181,6 +189,7 @@ export default class CourseContent extends React.Component {
                             toResolve={this.props.toResolve}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             completeActivity={this.props.completeActivity.bind(this)}
+                            language={this.props.language}
                           />
                         :
                         undefined
@@ -198,13 +207,13 @@ export default class CourseContent extends React.Component {
                       variant="outlined"
                       onClick={() => this.props.leaveComment()}
                     >
-                      Leave a comment
+                      {this.props.language.leaveComment}
                     </Button>
                   :
                   undefined
                 }
                 <div className="course-content-footer-row">
-                  <Tooltip title={`Previous ${this.props.course.organization.unit}`}>
+                  <Tooltip title={this.props.language.previousLesson}>
                     <Fab
                       disabled={this.props.selected[0] === 0 && this.props.selected[1] === 0}
                       size="small"
@@ -214,7 +223,7 @@ export default class CourseContent extends React.Component {
                       <NavigateBeforeIcon/>
                     </Fab>
                   </Tooltip>
-                  <Tooltip title={`Next ${this.props.course.organization.unit}`}>
+                  <Tooltip title={this.props.language.nextLesson}>
                     <Fab
                       disabled={this.props.selected[1] === this.props.course.program.length - 1 && this.props.course.program[this.props.selected[1]].lessons.length - 1 === this.props.selected[0]}
                       size="small"
@@ -233,8 +242,8 @@ export default class CourseContent extends React.Component {
                 >
                   {
                     this.props.toComplete[this.props.selected[1]].subunits[this.props.selected[0]] ?
-                    `${this.props.course.organization.subunit} completed` :
-                    `Complete ${this.props.course.organization.subunit}`
+                    `${this.props.language[this.props.course.organization.subunit.toLowerCase()]} ${this.props.language.completed}` :
+                    `${this.props.language.complete} ${this.props.language[this.props.course.organization.subunit.toLowerCase()]}`
                   }
                 </Button>
                 {
@@ -251,16 +260,16 @@ export default class CourseContent extends React.Component {
               <Paper elevation={0} className="course-content-breadcrumbs-paper">
                 <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
                   <Typography onClick={() => this.props.showComponent("home")} className="course-content-breadcrumb-text">
-                    Home
+                    {this.props.language.home}
                   </Typography>
                   <Typography onClick={() => this.props.showComponent("subscribed")} className="course-content-breadcrumb-text">
-                    Courses
+                    {this.props.language.courses}
                   </Typography>
                   <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
                     {this.props.course.title}
                   </Typography>
                   <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                    {`${this.props.course.organization.unit} - ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[0]].name}`}
+                    {`${this.props.language.topic} ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[0]].name}`}
                   </Typography>
                 </Breadcrumbs>
               </Paper>
@@ -293,6 +302,7 @@ export default class CourseContent extends React.Component {
                           item={item}
                           openMediaPlayer={this.props.openMediaPlayer.bind(this)}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          language={this.props.language}
                         />
                       :
                       undefined
@@ -303,6 +313,7 @@ export default class CourseContent extends React.Component {
                           item={item}
                           openMediaPlayer={this.props.openMediaPlayer.bind(this)}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          language={this.props.language}
                         />
                       :
                       undefined
@@ -330,6 +341,7 @@ export default class CourseContent extends React.Component {
                         <EmbebedItem
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          loadingEmbebed={this.props.language.loadingEmbebed}
                         />
                       :
                       undefined
@@ -339,6 +351,7 @@ export default class CourseContent extends React.Component {
                         <PdfItem
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          language={this.props.language}
                         />
                       :
                       undefined
@@ -348,6 +361,7 @@ export default class CourseContent extends React.Component {
                         <CompressedItem
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          language={this.props.language}
                         />
                       :
                       undefined
@@ -357,6 +371,8 @@ export default class CourseContent extends React.Component {
                         <H5PItem
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          instructions={this.props.language.instructions}
+                          loadingH5p={this.props.language.loadingH5p}
                         />
                       :
                       undefined
@@ -369,6 +385,7 @@ export default class CourseContent extends React.Component {
                           course={this.props.course._id}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           completeActivity={this.props.completeActivity.bind(this)}
+                          language={this.props.language}
                         />
                       :
                       undefined
@@ -380,6 +397,7 @@ export default class CourseContent extends React.Component {
                           toResolve={this.props.toResolve}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           completeActivity={this.props.completeActivity.bind(this)}
+                          language={this.props.language}
                         />
                       :
                       undefined
@@ -397,13 +415,13 @@ export default class CourseContent extends React.Component {
                     variant="outlined"
                     onClick={() => this.props.leaveComment()}
                   >
-                    Leave a comment
+                    {this.props.language.leaveComment}
                   </Button>
                 :
                 undefined
               }
               <div className="course-content-footer-row">
-                <Tooltip title={`Previous ${this.props.course.organization.unit}`}>
+                <Tooltip title={this.props.language.previousTopic}>
                   <Fab
                     disabled={this.props.selected[0] === 0}
                     size="small"
@@ -413,7 +431,7 @@ export default class CourseContent extends React.Component {
                     <NavigateBeforeIcon/>
                   </Fab>
                 </Tooltip>
-                <Tooltip title={`Next ${this.props.course.organization.unit}`}>
+                <Tooltip title={this.props.language.nextTopic}>
                   <Fab
                     disabled={this.props.selected[0] === this.props.course.program.length - 1}
                     size="small"
@@ -432,8 +450,8 @@ export default class CourseContent extends React.Component {
               >
                 {
                   this.props.toComplete[this.props.selected[0]] ?
-                  `${this.props.course.organization.unit} completed` :
-                  `Complete ${this.props.course.organization.unit}`
+                  `${this.props.language[this.props.course.organization.unit.toLowerCase()]} ${this.props.language.completed}` :
+                  `${this.props.language.complete} ${this.props.language[this.props.course.organization.unit.toLowerCase()]}`
                 }
               </Button>
               {

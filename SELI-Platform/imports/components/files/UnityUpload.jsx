@@ -162,7 +162,7 @@ class UnityUpload extends Component {
               <div className="uploading-file-row">
                 <div className="uploading-file-actions">
                   <Button className="uploading-file-button" onClick={() => this.cancelUpload()} color="secondary" variant="contained">
-                    Cancel upload
+                    {this.props.language.cancel}
                   </Button>
                 </div>
               </div>
@@ -193,7 +193,7 @@ class UnityUpload extends Component {
                   <Fab color="secondary" className="upload-button" variant="contained" component="span">
                     <CloudUploadIcon className="upload-icon"/>
                   </Fab>
-                  <p className="upload-label">Upload unity webgl project</p>
+                  <p className="upload-label">{this.props.language.uploadUnityProject}</p>
                 </label>
               </div>
             :
@@ -202,7 +202,7 @@ class UnityUpload extends Component {
           {
             this.state.decompressing ?
               <Loading
-                message={"Validating Unity project please wait"}
+                message={this.props.language.validatingUnity}
               />
             :
             undefined
@@ -215,7 +215,7 @@ class UnityUpload extends Component {
       return (
         <div>
           <Loading
-            message="Loading file uploader..."
+            message={this.props.language.loadingUploader}
           />
         </div>
       );

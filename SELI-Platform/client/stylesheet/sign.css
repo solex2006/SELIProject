@@ -47,7 +47,7 @@
 }
 
 .sign-button-default {
-  width: 50%;
+  width: 35%;
   padding: 0.75vh 1.95vw !important;
   letter-spacing: 2px !important;
   margin: 0 0.5vw !important;
@@ -57,8 +57,17 @@
   justify-content: center !important;
   padding-bottom: 2vh !important;
   background-color: #fafafa;
+ 
 }
-
+.sign-actions1 {
+  justify-content: center !important;
+  padding-bottom: 2vh !important;
+  background-color: #fafafa;
+  position: absolute;
+}
+.alert{
+  position: absolute;
+}
 .helper-progress {
   margin-top: 1vh !important;
 }

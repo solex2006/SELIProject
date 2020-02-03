@@ -99,7 +99,7 @@ export default class ActivityForm extends React.Component {
 
   validateContent = (content) => {
     if (content.instruction === '') {
-      this.props.handleControlMessage(true, "Add the instruction that the student must follow");
+      this.props.handleControlMessage(true, this.props.language.writeTheInstructions);
       return false;
     }
     return true;
@@ -169,8 +169,10 @@ export default class ActivityForm extends React.Component {
         attributes: this.props.contentToEdit.attributes,
       }, () => {
         let fileTypes = this.state.fileTypes;
-        let index = fileTypes.findIndex( type => type.label === this.state.attributes.fileTypes.label );
-        this.pickFileType(index);
+        if (this.state.attributes.type === "upload") {
+          let index = fileTypes.findIndex( type => type.label === this.state.attributes.fileTypes.label );
+          this.pickFileType(index);
+        }
       })
     }
   }
@@ -184,31 +186,46 @@ export default class ActivityForm extends React.Component {
     });
   }
 
+
+  
   render() {
     return(
       <div className="dialog-form-container">
-        <Paper square>
-          <Tabs
-            color="primary"
-            value={this.state.attributes.type}
-            indicatorColor="primary"
-            textColor="primary"
-            className="form-tabs-container"
-            variant="fullWidth"
-            centered={true}
-          >
-            <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label="Storyboard" icon={<LocalActivityIcon />} />
-            <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label="Upload" icon={<BackupIcon />} />
-            <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label="Text section" icon={<SubjectIcon />} />
-          </Tabs>
-        </Paper>
+        <div className="editor-block">
+          <Editor
+            areaHeight='20vh'
+            innerHTML={this.state.attributes.instruction}
+            buttonLabels={false}
+            addLinks={true}
+            getInnerHtml={this.getInnerHtml.bind(this)}
+            language={this.props.language}
+          />
+        </div>
+        <div className="editor-label1">{this.props.language.deliverType}</div>
+        <div className="square-box">
+              <Paper square>
+              <Tabs
+                color="primary"
+                value={this.state.attributes.type}
+                indicatorColor="primary"
+                textColor="primary"
+                className="form-tabs-container"
+                centered={true}
+              >
+                <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} />
+                <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} />
+                <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.textSection} icon={<SubjectIcon />} />
+              </Tabs>
+            </Paper>
+        </div>
         {
           this.state.attributes.type === 'storyboard' ?
             <div className="form-activity-input-contained">
               <div className="center-row">
                 <Help
-                  helper="storyboard"
-                  text="What is a storyboard activity?"
+                  helper="default"
+                  text={this.props.language.whatIsStoryboard}
+                  language={this.props.language}
                 />
               </div>
             </div>
@@ -218,16 +235,18 @@ export default class ActivityForm extends React.Component {
         {
           this.state.attributes.type === 'upload' ?
             <div className="form-activity-input-contained">
-              <div className="center-row">
-                <Help
-                  helper="storyboard"
-                  text="What is an upload activity?"
-                />
-              </div>
               <FileTypeSelector
                 fileTypes={this.state.fileTypes}
                 pickFileType={this.pickFileType.bind(this)}
+                fileType={this.props.language.selectAllowedFileType}
               />
+              <div className="center-row">
+                <Help
+                  helper="default"
+                  text={this.props.language.whatIsUpload}
+                  language={this.props.language}
+                />
+              </div>
             </div>
           :
           undefined
@@ -237,26 +256,15 @@ export default class ActivityForm extends React.Component {
             <div className="form-activity-input-contained">
               <div className="center-row">
                 <Help
-                  helper="storyboard"
-                  text="What is a text section activity?"
+                  helper="default"
+                  text={this.props.language.whatIsTextSection}
+                  language={this.props.language}
                 />
               </div>
             </div>
           :
           undefined
-        }
-        <div className="center-row">
-          <p className="form-message">Write the instruction that the student must follow</p>
-        </div>
-        <div className="editor-block">
-          <Editor
-            areaHeight='20vh'
-            innerHTML={this.state.attributes.instruction}
-            buttonLabels={false}
-            addLinks={true}
-            getInnerHtml={this.getInnerHtml.bind(this)}
-          />
-        </div>
+        }        
       </div>
     );
   }

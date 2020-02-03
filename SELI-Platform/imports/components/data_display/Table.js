@@ -143,11 +143,11 @@ const EnhancedTableToolbar = props => {
       <div className={classes.title}>
         {numSelected > 0 ? (
           <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
+            {props.labels.selected}: {numSelected}
           </Typography>
         ) : (
           <Typography className="management-table-toolbar-title" variant="h6" id="tableTitle">
-            {`${props.labels.title} ${props.data.length} ${props.labels.plural}`}
+            {`${props.labels.title} ${props.data.length}`}
           </Typography>
         )}
       </div>
@@ -155,7 +155,7 @@ const EnhancedTableToolbar = props => {
       <div className={classes.actions}>
         {numSelected > 0 ? (
           <div>
-            <Tooltip title="Delete">
+            <Tooltip title={props.labels.delete}>
               <IconButton onClick={() => props.deleteSelected()} aria-label="Delete">
                 <DeleteIcon/>
               </IconButton>
@@ -172,14 +172,14 @@ const EnhancedTableToolbar = props => {
             :
             undefined
           }
-            <Tooltip title="Filter list">
+            <Tooltip title={props.labels.filterList}>
               <IconButton aria-label="Filter list">
                 <FilterListIcon />
               </IconButton>
             </Tooltip>
             {
               props.refresh ?
-                <Tooltip title="Refresh">
+                <Tooltip title={props.labels.refresh}>
                   <IconButton onClick={() => props.refreshAction()} aria-label="Refresh">
                     <RefreshIcon />
                   </IconButton>
@@ -384,7 +384,7 @@ export default function EnhancedTable(props) {
                                     vertical: 'center',
                                     horizontal: 'right',
                                   }}
-                                ><List subheader={<ListSubheader style={{textAlign: 'center'}}>OPTIONS</ListSubheader>}>
+                                ><List subheader={<ListSubheader style={{textAlign: 'center'}}>{props.labels.options.toUpperCase()}</ListSubheader>}>
                                   {props.menuOptions.map((option, index) => {
                                     return(
                                       <ListItem onClick={() => {option.action(rowId); handleCloseMenu()}} dense button key={`${index}-${option.label}`}>
@@ -421,14 +421,15 @@ export default function EnhancedTable(props) {
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
-            'aria-label': 'Previous Page',
+            'aria-label': props.labels.previousPage,
           }}
           nextIconButtonProps={{
-            'aria-label': 'Next Page',
+            'aria-label': props.labels.nextPage,
           }}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
           labelRowsPerPage={props.labels.pagination}
+          labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${props.labels.of} ${count}`}
         />
       </Paper>
     </div>

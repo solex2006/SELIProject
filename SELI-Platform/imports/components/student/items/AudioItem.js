@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
-
+import AudioPlayer from 'react-h5-audio-player';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 
@@ -35,7 +35,7 @@ export default class AudioItem extends React.Component {
                     {` ${this.props.item.attributes.title}`}
                   </Typography>
                   <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
-                    {this.props.item.attributes.source === 'upload' ? `Audio file` : `Recorded file`}
+                    {this.props.item.attributes.source === 'upload' ? this.props.language.audioFile : this.props.language.recordedAudio}
                   </Typography>
                 </CardContent>
                 <CardMedia
@@ -44,21 +44,26 @@ export default class AudioItem extends React.Component {
                   title="Live from space album cover"
                 />
               </div>
+              <br/>
               <div className="course-item-audio-card-controls">
-                <Tooltip title="Open media player">
-                  <IconButton onClick={() => this.props.openMediaPlayer(this.props.item.attributes.audio, this.props.item.type, this.props.item.attributes.title)} className="course-item-audio-card-icon-button" aria-label="play/pause">
-                    <PlayArrowIcon className="course-item-audio-card-icon"/>
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Add to library">
+                <audio controls className="audio-file-preview">
+                  <source src={this.props.item.attributes.audio.link}></source>
+                </audio>
+{/*               <div style={{padding: "5px"}}>
+                  <AudioPlayer autoPlay={false} src={this.props.item.attributes.audio.link} />
+                </div> */} 
+{/*               <IconButton onClick={() => this.props.openMediaPlayer(this.props.item.attributes.audio, this.props.item.type, this.props.item.attributes.title)} className="course-item-audio-card-icon-button" aria-label="play/pause">
+                  <PlayArrowIcon className="course-item-audio-card-icon"/>
+                </IconButton> */}
+                <Tooltip title={this.props.language.addToMyLibrary}>
                   <IconButton className="course-item-audio-card-icon-button" aria-label="add to favorites">
                     <FolderSpecialIcon className="course-item-audio-card-icon"/>
                   </IconButton>
-                </Tooltip>
+                </Tooltip> 
                 {
                   this.props.item.attributes.externalLink !== '' ?
                     <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
-                      Learn More
+                      {this.props.language.externalLink}
                     </Button>
                   :
                     undefined

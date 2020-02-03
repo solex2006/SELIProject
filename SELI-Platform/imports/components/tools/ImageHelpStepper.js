@@ -234,6 +234,16 @@ const linkTextSteps =[
 	},
 ];
 
+//Deafault Help
+const defaultSteps = [
+	{
+		longdesc: '',
+		label: 'Ask for the manual',
+		imgPath:
+			'manual.svg'
+	}
+];
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		maxWidth: 400,
@@ -271,6 +281,8 @@ export default function ImageHelpStepper(props) {
 
 	function getTutorialSteps(helper){
 		switch(helper) {
+		case 'default':
+			return defaultSteps;
 		case 'hp5Helper':
 			return hP5Steps;
 		case 'textHelper':
@@ -357,14 +369,14 @@ export default function ImageHelpStepper(props) {
 				activeStep={activeStep}
 				nextButton={
 					<Button size='small' onClick={handleNext} disabled={activeStep === getLength() - 1}>
-						Next
+						{props.language.next}
 						{theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
 					</Button>
 				}
 				backButton={
 					<Button size='small' onClick={handleBack} disabled={activeStep === 0}>
 						{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-						Back
+						{props.language.back}
 					</Button>
 				}
 			/>

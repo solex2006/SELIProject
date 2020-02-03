@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Loading from '../tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
@@ -26,6 +27,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import DoneIcon from '@material-ui/icons/Done';
+import AppsIcon from '@material-ui/icons/Apps';
 
 import Slide from '@material-ui/core/Slide';
 
@@ -137,7 +139,7 @@ export default class Course extends React.Component {
         progress,
         (error, response) =>  {
           if (!error) {
-            this.props.handleControlMessage(true, "Topic completed, you can leave your comments about what you think about this part of the course");
+            this.props.handleControlMessage(true, this.props.language.topicCompletedText);
           }
         }
       );
@@ -160,7 +162,7 @@ export default class Course extends React.Component {
         this.state.course._id,
         progress, (error, response) =>  {
           if (!error) {
-            this.props.handleControlMessage(true, "Topic completed, you can leave your comments about what you think about this part of the course");
+            this.props.handleControlMessage(true, this.props.language.lessonCompletedText);
           }
         }
       );
@@ -228,7 +230,7 @@ export default class Course extends React.Component {
             Activities.insert({
               activity
             }, () => {
-              this.props.handleControlMessage(true, `${label} successfully done`);
+              this.props.handleControlMessage(true, `${this.props.language[label.toLowerCase()]} ${this.props.language.successfullyDone}`);
               this.props.reRender();
             }
           );
@@ -268,7 +270,7 @@ export default class Course extends React.Component {
       show: true,
       date: new Date(),
     }, () => {
-      this.props.handleControlMessage(true, "Comment successfully sent");
+      this.props.handleControlMessage(true, this.props.language.commentSuccessfullySent);
     })
   }
 
@@ -365,14 +367,9 @@ export default class Course extends React.Component {
         results: false,
         loadingStories: false,
       }, () => {
-        this.props.handleControlMessage(true, "This course doesn't have stories yet")
+        this.props.handleControlMessage(true, this.props.language.notStoriesMessage)
       })
     }
-  }
-
-  openStory = (_id) => {
-    const url = `/story#${_id}`;
-    window.open(url, "_blank");
   }
 
   render() {
@@ -385,6 +382,7 @@ export default class Course extends React.Component {
           selected={this.state.selected}
           showPresentation={this.showPresentation.bind(this)}
           showCourseStories={this.showCourseStories.bind(this)}
+          language={this.props.language}
         />
         {
           this.state.coursePresentation ?
@@ -392,6 +390,7 @@ export default class Course extends React.Component {
               course={this.state.course}
               navigateTo={this.navigateTo.bind(this)}
               selected={this.state.selected}
+              language={this.props.language}
             />
           :
           undefined
@@ -415,6 +414,7 @@ export default class Course extends React.Component {
               selected={this.state.selected}
               toComplete={this.state.toComplete}
               toResolve={this.state.toResolve}
+              language={this.props.language}
             />
           :
           undefined
@@ -428,16 +428,16 @@ export default class Course extends React.Component {
                 aria-labelledby="alert-dialog-confirmation"
                 aria-describedby="alert-dialog-confirmation"
               >
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">Certificate sucessfylly generated</DialogTitle>
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateGenerated}</DialogTitle>
                 <DialogContent className="success-dialog-content">
                   <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                    Please go to my certificates.
+                    {this.props.language.pleaseGoCertificates}
                   </DialogContentText>
                   <DoneIcon className="warning-dialog-icon"/>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                    Close
+                  {this.props.language.close}
                   </Button>
                 </DialogActions>
               </Dialog>
@@ -451,16 +451,16 @@ export default class Course extends React.Component {
                 aria-labelledby="alert-dialog-confirmation"
                 aria-describedby="alert-dialog-confirmation"
               >
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">Certificate couldn't be generated</DialogTitle>
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateNotGenerated}</DialogTitle>
                 <DialogContent className="success-dialog-content">
                   <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                    Please contact the administrator.
+                    {this.props.language.pleaseContactAdmin}
                   </DialogContentText>
                   <InfoIcon className="warning-dialog-icon"/>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                    Close
+                    {this.props.language.close}
                   </Button>
                 </DialogActions>
               </Dialog>
@@ -485,9 +485,9 @@ export default class Course extends React.Component {
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h6">
-                SELI Media player
+                {this.props.language.seliMediaPlayer}
               </Typography>
-              <p className="app-tooltip">Press Esc to return to course content</p>
+              <p className="app-tooltip">{this.props.language.pressEscCourse}</p>
             </Toolbar>
           </AppBar>
           <DialogContent className="media-dialog-content">
@@ -506,17 +506,22 @@ export default class Course extends React.Component {
           aria-describedby="alert-dialog-confirmation"
           className="media-dialog"
         >
-          <AppBar position="static" className="course-dialog-app-bar">
-            <Toolbar style={{position: 'relative'}}>
-              <IconButton edge="start" color="inherit" onClick={this.handleCloseStories} aria-label="close">
-                <CloseIcon />
-              </IconButton>
-              <Typography className="course-dialog-title" variant="h6">
-                Course stories
-              </Typography>
-              <p className="app-tooltip">Press Esc to return to course content</p>
-            </Toolbar>
-          </AppBar>
+          <DialogTitle className="dialog-title">
+            <AppBar className="dialog-app-bar" color="primary" position="static">
+              <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
+                <AppsIcon/>
+                <h4 className="dialog-label-title">{this.props.language.courseStories}</h4>
+                <IconButton
+                  id="close-icon"
+                  edge="end"
+                  className="dialog-toolbar-icon"
+                  onClick={this.handleCloseStories}
+                >
+                  <CloseIcon/>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </DialogTitle>
           <DialogContent className="stories-dialog-content">
             {
               this.state.stories.map(story => {
@@ -525,7 +530,14 @@ export default class Course extends React.Component {
                     <LibraryBooksIcon className="story-item-icon"/>
                     <p className="story-item-text-primary">{story.activity.name}</p>
                     <p className="story-item-text-secondary">{`By: ${story.userInformation.username}`}</p>
-                    <Button onClick={() => this.openStory(story._id)} className="story-item-button" color="primary">Open</Button>
+                    <Link className="story-item-button"
+                      //target="_blank"
+                      to={`/story#${story._id}`}
+                    >
+                      <Button variant="contained" color="primary">
+                        {this.props.language.open}
+                      </Button>
+                    </Link>
                   </Paper>
                 )
               })
@@ -534,10 +546,11 @@ export default class Course extends React.Component {
         </Dialog>
         <CommentDialog
           open={this.state.openComment}
-          title="LEAVE YOUR COMMENT ABOUT THE EXPERIENCE WITH THIS COURSE"
+          title={this.props.language.leaveCommentTitle}
           handleClose={this.handleCloseComment.bind(this)}
           sendComment={this.sendComment.bind(this)}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
+          language={this.props.language}
         />
       </div>
     )
