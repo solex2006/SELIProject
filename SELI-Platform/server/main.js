@@ -12,6 +12,7 @@ import '../lib/validateSignUp';
 import '../lib/usersUtil';
 import '../lib/sendVerificationEmail';
 import '../lib/changeAccountInformation';
+import '../lib/StudentLogCollection';
 
 /**
  * SELI - Learning Analytics
