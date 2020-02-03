@@ -829,6 +829,8 @@ var ENGLISH = {
   ifYouWantPC: 'You are going to publish your course. After this, you will not be able to edit the course until you unpublish it.',
   minimumCourseDuration: 'The duration of the course must be a minimum of 5 hours',
   numberofAnswers: " Select the number of answers",
+  toActivityStoryboard: "To complete this activity, select a story",
+  completeActivityStoryboard: "Select a story to complete the activity",
 }
 
 export default ENGLISH;

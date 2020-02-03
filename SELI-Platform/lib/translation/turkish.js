@@ -829,6 +829,8 @@ var TURKISH = {
   ifYouWantPC: "You are going to publish your course. After this, you will not be able to edit the course until you unpublish it.",
   minimumCourseDuration: 'Kurs süresi en az 5 saat olmalıdır',
   numberofAnswers: "Seelct the number of answers",
+  toActivityStoryboard: "To complete this activity, select a story",
+  completeActivityStoryboard: "Select a story to complete the activity",
 }
 
 export default TURKISH;

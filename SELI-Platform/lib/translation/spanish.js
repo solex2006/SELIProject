@@ -442,14 +442,14 @@ var SPANISH = {
   selectOneCorrect: "Seleccione una respuesta correcta",
   numberQuestions: "Numero de preguntas",
   noAwardPoints: "Sin puntos premiados",
-  storyboard: "Guión gráfico",
+  storyboard: "Narración digital",
   whatIsTextSection: "¿Qué es una actividad de sección de texto?",
   whatIsUpload: "¿Qué es una actividad de carga?",
-  whatIsStoryboard: "¿Qué es una actividad de guión gráfico?",
+  whatIsStoryboard: "¿Qué es una actividad de narración digital?",
   upload: "Cargar",
   acceptedFileType: "Tipo de archivo aceptado:",
   selectAllowedFileType: "Seleccionar el tipo de archivo admitido",
-  storyboardActivity: "Actividad de guión gráfico",
+  storyboardActivity: "Actividad de narración digital",
   uploaddActivity: "Actividad de archivo cargado",
   textSectionActivity: "Actividad de la sección de texto",
   mySavedCourses: "Mis cursos guardados",
@@ -829,6 +829,8 @@ var SPANISH = {
   ifYouWantPC: "Esta iendo a publicar su curso. Después de esto, no podrá editar el curso hasta que cancele su publicación.",
   minimumCourseDuration: 'La duración del curso debe ser mínimo de 5 horas',
   numberofAnswers: "Selecciona el número de Respuestas",
+  toActivityStoryboard: "Para completar esta actividad, seleccione una historia",
+  completeActivityStoryboard: "Seleccione una historia para completar la actividad",
 }
 
 export default SPANISH

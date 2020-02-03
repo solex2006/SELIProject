@@ -586,6 +586,7 @@ class StorytellingTool extends React.Component {
                         source: `${unit.name} - ${subunit.name}`,
                         courseId: course._id,
                         activityId: item.id,
+                        instruction: item.attributes.instruction,
                       });
                     }
                   }
@@ -607,6 +608,7 @@ class StorytellingTool extends React.Component {
                       source: unit.name,
                       courseId: course._id,
                       activityId: item.id,
+                      instruction: item.attributes.instruction,
                     });
                   }
                 }
@@ -643,7 +645,7 @@ class StorytellingTool extends React.Component {
       }}
       , () => {
         this.props.handleControlMessage(true, this.props.language.storyPublished);
-        this.handleClose();
+        this.handleClosepublish();
       }
     )
   }
@@ -660,6 +662,7 @@ class StorytellingTool extends React.Component {
       }}
       , () => {
         this.completeActivity(activity, this.props.language.storySent, course);
+        this.handleClosepublish();
       }
     )
   }
@@ -1766,14 +1769,19 @@ class StorytellingTool extends React.Component {
                     <p className="storytelling-publish-button-text">{this.props.language.publishOnACourse}</p>
                     <SchoolIcon className="storytelling-publish-icon"/>
                   </Button>
-                  <Button
-                    className="storytelling-publish-button"
-                    color="primary"
-                    onClick={() => this.handlePublishAsActivity()}
-                  >
-                    <p className="storytelling-publish-button-text">{this.props.language.sendAsActivity}</p>
-                    <EditIcon className="storytelling-publish-icon"/>
-                  </Button>
+                  {
+                    Meteor.user().profile.type === "student" ?
+                      <Button
+                        className="storytelling-publish-button"
+                        color="primary"
+                        onClick={() => this.handlePublishAsActivity()}
+                      >
+                        <p className="storytelling-publish-button-text">{this.props.language.sendAsActivity}</p>
+                        <EditIcon className="storytelling-publish-icon"/>
+                      </Button>
+                    :
+                      undefined
+                  }
                   <Button
                     className="storytelling-publish-button"
                     color="primary"
@@ -1888,7 +1896,7 @@ class StorytellingTool extends React.Component {
                         className="storytelling-course-activity-publish-button"
                         onClick={() => this.publishAsActivity(activity.courseId, activity.activityId)}
                       >
-                        {`- ${activity.course} at: ${activity.source} | Storytelling activity`}
+                        {`- ${activity.course} at: ${activity.source} | ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
                       </Button>
                     )
                   })

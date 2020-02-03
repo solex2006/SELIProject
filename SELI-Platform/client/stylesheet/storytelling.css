@@ -409,6 +409,7 @@
   position: relative !important;
   align-items: center !important;
   width: 40vw !important;
+  margin-top: 1vh !important;
   padding: 1.5vh 1vw !important;
   transition: 0.5s !important;
   animation: fadeInLeft 0.5s !important;
