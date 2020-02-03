@@ -581,12 +581,12 @@ class StorytellingTool extends React.Component {
                 for (var i = 0; i < this.props.user.profile.courses.length; i++) {
                   for (var j = 0; j < this.props.user.profile.courses[i].toResolve.length; j++) {
                     if (this.props.user.profile.courses[i].toResolve[j]._id === item.id && !this.props.user.profile.courses[i].toResolve[j].resolved) {
-                        activities.push({
-                          course: course.title,
-                          source: `${unit.name} - ${subunit.name}`,
-                          courseId: course._id,
-                          activityId: item.id,
-                        });
+                      activities.push({
+                        course: course.title,
+                        source: `${unit.name} - ${subunit.name}`,
+                        courseId: course._id,
+                        activityId: item.id,
+                      });
                     }
                   }
                 }
@@ -602,12 +602,12 @@ class StorytellingTool extends React.Component {
               for (var i = 0; i < this.props.user.profile.courses.length; i++) {
                 for (var j = 0; j < this.props.user.profile.courses[i].toResolve.length; j++) {
                   if (this.props.user.profile.courses[i].toResolve[j]._id === item.id && !this.props.user.profile.courses[i].toResolve[j].resolved) {
-                      activities.push({
-                        course: course.title,
-                        source: unit.name,
-                        courseId: course._id,
-                        activityId: item.id,
-                      });
+                    activities.push({
+                      course: course.title,
+                      source: unit.name,
+                      courseId: course._id,
+                      activityId: item.id,
+                    });
                   }
                 }
               }

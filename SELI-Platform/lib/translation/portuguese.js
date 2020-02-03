@@ -819,13 +819,14 @@ var PORTUGUESE = {
 	video_a11y_aux_text_007: "Descrição de áudio fornece informações sobre detalhes visuais significativos que não podem ser entedidos apenas pela banda sonora principal. Durante pausas naturais no diálogo ou elementos sonoros críticos são descritas ações importantes, personagens, mudanças de cena, e textos na tela.",
   video_a11y_aux_text_008: "A descrição de áudio não é necessária quando se tem uma pessoa falando em cenário fixo, pois não há informações visuais sobre o tempo no vídeo que sejam importantes para o entendimento do seu conteúdo.",
   notime: "Sem Tempo",
-  changeURL: "Change URL",
-  changeVideo: "Change Video",
-  reuseVideo: "Reuse Video",
-  videoLibraryMessage:'Double click over the item title to select',
+  changeURL: "Mudar URL",
+  changeVideo: "Mudar Vídeo",
+  reuseVideo: "Reusar Vídeo",
+  videoLibraryMessage: "Clique duas vezes no título do item para selecionar",
   fileTitle: "File title",
   renameFileTitle: "Rename file title",
-  minimumCourseDuration: 'A duração do curso deve ser de no mínimo 5 horas',
+  minimumCourseDuration: "A duração do curso deve ser de no mínimo 5 horas",
+  ifYouWantPC: "You are going to publish your course. After this, you will not be able to edit the course until you unpublish it.",
 }
 
 export default PORTUGUESE;
