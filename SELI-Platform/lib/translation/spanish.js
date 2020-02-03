@@ -827,6 +827,9 @@ var SPANISH = {
   renameFileTitle: "Cambiar el título del archivo",
   minimumCourseDuration: "La duración del curso debe ser mínimo de 5 horas",
   ifYouWantPC: "Esta iendo a publicar su curso. Después de esto, no podrá editar el curso hasta que cancele su publicación.",
+  minimumCourseDuration: 'La duración del curso debe ser mínimo de 5 horas',
+  numberofAnswers: "Selecciona el número de Respuestas",
 }
 
-export default SPANISH;
+export default SPANISH
+

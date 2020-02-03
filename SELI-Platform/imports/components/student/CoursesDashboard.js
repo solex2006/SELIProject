@@ -4,6 +4,7 @@ import Divider from '@material-ui/core/Divider';
 
 import Loading from '../../components/tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
+import { StudentLog } from '../../../lib/StudentLogCollection';
 
 import CourseCard from '../../components/course/CourseCard';
 
@@ -53,6 +54,9 @@ export default class CoursesDashboard extends React.Component {
   }
 
   confirmUnsubscribe = () => {
+    StudentLog.insert({ "UserId": Meteor.userId(), "CourseId" : this.state.courseToUnsubscribe, 
+                      "Datetime": new Date(), "Action": "Course Unsubscribe" });
+
     this.props.unsubscribe(this.state.courseToUnsubscribe);
     this.handleClose();
   }

@@ -24,6 +24,7 @@ export default class QuizForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      numberofAnswers: 1,
       showCheckBox:true,
       timeLimits: ['5', '10', '20', '30', '60', '90', '120', 'Without time limit'],
       approvalPercentages: ['50', '60', '70', '80', '90'],
@@ -33,58 +34,59 @@ export default class QuizForm extends React.Component {
         quizTitle: '',
         timeLimit: '60',
         approvalPercentage: '50',
+        numberofQuestions: 0,
         //creditResources: '',
         awardPoints: false,
         questions: [
           {
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           },
           {
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           },
           {
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           },
           {
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           },
           {
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           },
           {
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           },
           {
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           },
           {
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           },
           {
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           },
           {
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           },
         ],
       }
@@ -110,18 +112,15 @@ export default class QuizForm extends React.Component {
       }
     }
     else if (name === 'approvalPercentage') {
-     
       if(event <101 && event >0){
         attributes.approvalPercentage = event; ///save the value of aproval percentage
       }else{
         console.log("Aproval Percentage Incorrect", event) //save default aproval percentage of 100
         attributes.approvalPercentage = 100;
       }
-      
     }
     else if (name === 'checkTime') {
       console.log("Evento del checkbox", event.target.checked)
-
       if (event.target.checked===true){
         //console.log("cambia a false")
         this.setState({
@@ -140,13 +139,37 @@ export default class QuizForm extends React.Component {
     else if (name === 'questionTitle') {
       attributes.questions[this.state.questionSelected].questionTitle = event.target.value;
     }
+    else if(name==='numberofAnswers'){
+      
+      let questions=this.state.attributes.questions;
+      console.log("event-->", event, "this.state.numberofAnswers-->",this.state.numberofAnswers, "length", index)
+       
+      if(event>index){
+          ///questions.map((value, index)=>{
+            questions[this.state.questionSelected].answersText.push('');
+            questions[this.state.questionSelected].correctAnswers.push(false);
+           //})
+        }
+      else if (event<index){
+        //questions.map((value, index)=>{
+          questions[this.state.questionSelected].answersText.pop();
+          questions[this.state.questionSelected].correctAnswers.pop();
+        //})
+      }
+    
+      this.setState({
+        numberofAnswers: index,
+      })
+      
+      
+    }
     else if (name === 'answersText') {
       attributes.questions[this.state.questionSelected].answersText[index] = event.target.value;
     }
     else if (name === 'correctAnswers') {
-      for (var i = 0; i < attributes.questions[this.state.questionSelected].correctAnswers.length; i++) {
+      /* for (var i = 0; i < attributes.questions[this.state.questionSelected].correctAnswers.length; i++) {
         attributes.questions[this.state.questionSelected].correctAnswers[i] = !event.target.checked;
-      }
+      } */
       attributes.questions[this.state.questionSelected].correctAnswers[index] = event.target.checked;
     }
     this.setState({
@@ -174,6 +197,7 @@ myFormatminutes=(num)=> {
       this.props.handleControlMessage(true, this.props.language.atLeast2Questions);
       return false;
     }
+    
     return true;
   }
 
@@ -316,41 +340,6 @@ myFormatminutes=(num)=> {
             />
           </div>
           <div className="quiz-input-container">
-            {/* <TextField
-              id="credit-input"
-              label={this.props.language.creditResources}
-              margin="normal"
-              variant="outlined"
-              required
-              className="quiz-input"
-              value={this.state.attributes.creditResources}
-              onChange={this.handleChange('creditResources')}
-              onKeyPress={() => validateOnlyNumbers(event)}
-            /> 
-            {/* <TextField
-              id="outlined-select-currency"
-              select
-              label={this.props.language.timeLimit}
-              required
-              value={this.state.attributes.timeLimit} //por defecto 60
-              onChange={this.handleChange('timeLimit')}
-              SelectProps={{
-                MenuProps: {
-
-                },
-              }}
-              margin="normal"
-              variant="outlined"
-              className="quiz-input"
-            >
-              {this.state.timeLimits.map(option => (
-                <MenuItem value={option}>
-                  {option + " minutes"}
-                </MenuItem>
-              ))}
-            </TextField> */}
-            
-
             <FormControlLabel control={
               <Checkbox
               value="checkedTime" 
@@ -360,46 +349,20 @@ myFormatminutes=(num)=> {
               }}
             />
             } label={this.props.language.notime} />
-
-           
+  
               <NumericInput
               className="quiz-inputnumeric"
-              defaultValue={0}
+              defaultValue={1}
               disabled={!(this.state.showCheckBox)}
-              min={0}
-              max={10000}
-              onChange={this.handleChange('approvalPercentage')}
+              min={1}
+              max={1000}
               format={this.myFormatminutes}
               id="outlined-select-currency"
               label={this.props.language.timeLimit}
               required
               value={this.state.attributes.timeLimit} //por defecto 60
               onChange={this.handleChange('timeLimit')}
-            /> 
-             
-          
-         
-
-          
-            {/* <TextField
-              id="outlined-select-currency"
-              label={this.props.language.aprovalPercentage}
-              required
-              value={this.state.attributes.approvalPercentage}
-              onChange={this.handleChange('approvalPercentage')}
-              margin="normal"
-              variant="outlined"
-              className="quiz-input"
-              type="number"
-              inputProps={{
-                step: 2,
-                min: 0,
-                max: 100,
-                type: 'number',
-                'aria-labelledby': 'input-slider',
-              }}
-            >
-            </TextField>  */} 
+            />  
             <NumericInput
             className="quiz-inputnumeric"
             defaultValue={0}
@@ -410,8 +373,6 @@ myFormatminutes=(num)=> {
             format={this.myFormat}
             />
           </div>
-
-
           <div className="center-row">
             <FormControl className="quiz-form-control" component="fieldset">
               <FormGroup>
@@ -423,7 +384,9 @@ myFormatminutes=(num)=> {
             </FormControl>
           </div>
         </div>
+
         <Divider/>
+
         <div className="form-dialog-question-button-container">
           <p className="form-dialog-question-button-container-text">{this.props.language.questions}</p>
           {this.state.attributes.questions.map((question, index) => {
@@ -445,6 +408,7 @@ myFormatminutes=(num)=> {
             </IconButton>
           </Tooltip>
         </div>
+
         <div className="form-dialog-selected-question-input-container">
           <TextField
             label={`${this.props.language.question} ${(this.state.questionSelected + 1)}`}
@@ -456,100 +420,56 @@ myFormatminutes=(num)=> {
             onChange={this.handleChange('questionTitle')}
           />
           <div className="quiz-input-container">
-            <p className="form-dialog-question-button-container-text-select">{this.props.language.selectAnswer}</p>
+            <p className="form-dialog-question-button-container-text-select">{this.props.language.numberofAnswers}</p>
           </div>
-          <div className="form-dialog-question-input-container">
-            <TextField
-              label={`${this.props.language.answer} 1`}
-              margin="normal"
-              variant="outlined"
-              required
-              className="answer-input"
-              value={this.state.attributes.questions[this.state.questionSelected].answersText[0]}
-              onChange={this.handleChange('answersText', 0)}
-              InputProps={{
-                endAdornment:
-                <InputAdornment position="end">
-                  <Checkbox
-                    value="checkedA"
-                    checked={this.state.attributes.questions[this.state.questionSelected].correctAnswers[0]}
-                    onChange={this.handleChange('correctAnswers', 0)}
-                    inputProps={{
-                      'aria-label': 'primary checkbox',
-                    }}
-                  />
-                </InputAdornment>,
-              }}
-            />
-            <TextField
-              label={`${this.props.language.answer} 2`}
-              margin="normal"
-              variant="outlined"
-              required
-              className="answer-input"
-              value={this.state.attributes.questions[this.state.questionSelected].answersText[1]}
-              onChange={this.handleChange('answersText', 1)}
-              InputProps={{
-                endAdornment:
-                <InputAdornment position="end">
-                  <Checkbox
-                    value="checkedA"
-                    checked={this.state.attributes.questions[this.state.questionSelected].correctAnswers[1]}
-                    onChange={this.handleChange('correctAnswers', 1)}
-                    inputProps={{
-                      'aria-label': 'primary checkbox',
-                    }}
-                  />
-                </InputAdornment>,
-              }}
-            />
-          </div>
-          <div className="form-dialog-question-input-container">
-            <TextField
-              label={`${this.props.language.answer} 3`}
-              margin="normal"
-              variant="outlined"
-              required
-              className="answer-input"
-              value={this.state.attributes.questions[this.state.questionSelected].answersText[2]}
-              onChange={this.handleChange('answersText', 2)}
-              InputProps={{
-                endAdornment:
-                <InputAdornment position="end">
-                  <Checkbox
-                    value="checkedA"
-                    checked={this.state.attributes.questions[this.state.questionSelected].correctAnswers[2]}
-                    onChange={this.handleChange('correctAnswers', 2)}
-                    inputProps={{
-                      'aria-label': 'primary checkbox',
-                    }}
-                  />
-                </InputAdornment>,
-              }}
-            />
-            <TextField
-              label={`${this.props.language.answer} 4`}
-              margin="normal"
-              variant="outlined"
-              required
-              className="answer-input"
-              value={this.state.attributes.questions[this.state.questionSelected].answersText[3]}
-              onChange={this.handleChange('answersText', 3)}
-              InputProps={{
-                endAdornment:
-                <InputAdornment position="end">
-                  <Checkbox
-                    value="checkedA"
-                    checked={this.state.attributes.questions[this.state.questionSelected].correctAnswers[3]}
-                    onChange={this.handleChange('correctAnswers', 3)}
-                    inputProps={{
-                      'aria-label': 'primary checkbox',
-                    }}
-                  />
-                </InputAdornment>,
-              }}
-            />
-          </div>
+          {
+            console.log("Numeric Input", this.state.attributes.questions[this.state.questionSelected].correctAnswers.length)
+           
+          }
+          <NumericInput 
+            key={Math.random()}
+            mobile
+            defaultValue={this.state.attributes.questions[this.state.questionSelected].correctAnswers.length}
+            min={1}
+            max={500}
+            onChange={this.handleChange('numberofAnswers', this.state.attributes.questions[this.state.questionSelected].correctAnswers.length)}
+            required
+          /> 
+           <div className="form-dialog-question-input-container">         
+             {
+              this.state.attributes.questions[this.state.questionSelected].correctAnswers.map((value,index)=>{
+                //value.answersText.map((answer,index)=>{
+                  
+                  console.log("question selected", this.state.attributes.questions[this.state.questionSelected])
+                   return(
+                    <div className="questions">
+                      <TextField
+                        label={`${this.props.language.answer} ${index}`}
+                        margin="normal"
+                        variant="outlined"
+                        required
+                        className="answer-input"
+                        value={this.state.attributes.questions[this.state.questionSelected].answersText[index]}
+                        onChange={this.handleChange('answersText',index)}
+                        InputProps={{
+                          endAdornment:
+                          <InputAdornment position="end">
+                            <Checkbox
+                              //value="checkedA"
+                              checked={this.state.attributes.questions[this.state.questionSelected].correctAnswers[index]}
+                              onChange={this.handleChange('correctAnswers', index)}
+                              inputProps={{
+                                'aria-label': 'primary checkbox',
+                              }}
+                            />
+                          </InputAdornment>,
+                        }}
+                      />
+                    </div>
+                  ) 
+              })
+            }
+          </div> 
         </div>
       </div>
     );

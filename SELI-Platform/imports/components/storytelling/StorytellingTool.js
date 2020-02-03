@@ -683,6 +683,7 @@ class StorytellingTool extends React.Component {
   })}
 
   completeActivity = (id, label, courseId) => {
+    
     let courses = this.state.courses;
     let courseIndex = courses.findIndex(course => course._id === courseId);
     let toComplete = this.props.user.profile.courses[courseIndex].toComplete;

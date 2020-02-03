@@ -827,6 +827,8 @@ var PORTUGUESE = {
   renameFileTitle: "Rename file title",
   minimumCourseDuration: "A duração do curso deve ser de no mínimo 5 horas",
   ifYouWantPC: "You are going to publish your course. After this, you will not be able to edit the course until you unpublish it.",
+  minimumCourseDuration: 'A duração do curso deve ser de no mínimo 5 horas',
+  numberofAnswers: "Select the number of answers",
 }
 
 export default PORTUGUESE;

@@ -827,6 +827,8 @@ var TURKISH = {
   renameFileTitle: "Rename file title",
   minimumCourseDuration: "Kurs süresi en az 5 saat olmalıdır",
   ifYouWantPC: "You are going to publish your course. After this, you will not be able to edit the course until you unpublish it.",
+  minimumCourseDuration: 'Kurs süresi en az 5 saat olmalıdır',
+  numberofAnswers: "Seelct the number of answers",
 }
 
 export default TURKISH;
