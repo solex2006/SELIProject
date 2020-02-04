@@ -5,6 +5,13 @@
   transition: 0.35s;
 }
 
+.student-profile-container-1 {
+  padding: 1vh 0.5vw;
+  display: flex;
+  align-items: center;
+  transition: 0.35s;
+}
+
 .student-profile-container:hover {
   cursor: pointer;
   margin-left: 0.15vw;
@@ -63,4 +70,35 @@
 .student-confirmation-button {
   margin: 0 0.5vw !important;
   margin-top: 1vh !important;
+}
+.library-files-containerquiz {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 66vw;
+  min-width: 66vw;
+  min-height: 60vh;
+  max-height: 60vh;
+  align-items: flex-start;
+  place-content: flex-start;
+}
+.dialog-toolbar-icon {
+  color: var(--white) !important;
+}
+.dialog-tool-bar-information {
+  min-width: 30vw;
+  color: var(--white) !important;
+  padding-left: 1vw !important;
+}
+.dialog-app-bar {
+  background-color: var(--app-bar-color) !important;
+}
+.dialog-title {
+  width: auto;
+  padding: 0 !important;
+}
+
+.studentTable{
+  margin-top: 19px;
+  margin-left: 5px
+
 }

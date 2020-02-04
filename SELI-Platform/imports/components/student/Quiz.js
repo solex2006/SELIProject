@@ -468,7 +468,7 @@ class Quiz extends React.Component {
               >
                 {
                   this.props.quiz.attributes.questions[this.state.selected].answersText.map((text, index)=>{ 
-                    console.log("answertTesxt", text)
+                   // console.log("answertTesxt", text)
                     return(
                       <FormControlLabel
                         control={
