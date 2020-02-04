@@ -278,6 +278,7 @@ export default class Tutor extends React.Component {
                           language={this.state.language}
                           user={this.state.user}
                           handleControlMessage={this.handleControlMessage.bind(this)}
+                          showComponent={this.showComponent.bind(this)}
                         />
                       :
                       undefined
@@ -289,6 +290,7 @@ export default class Tutor extends React.Component {
                           user={this.state.user}
                           courseToEdit={this.state.courseToEdit}
                           handleControlMessage={this.handleControlMessage.bind(this)}
+                          showComponent={this.showComponent.bind(this)}
                         />
                       :
                       undefined

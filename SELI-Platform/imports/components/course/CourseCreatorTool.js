@@ -256,16 +256,15 @@ export default class CourseCreatorTool extends React.Component {
       this.contentHandleClose();
       this.resetMenuItems();
     }
-    else {
-
-    }
   }
+
   resetMenuItems(){
     let contentItems = createContentItems();
     this.setState({
       contentItems: contentItems,
     });
   }
+
   cancelContentCreation(){
     let courseInformation = this.state.courseInformation;
     let index;
@@ -590,7 +589,6 @@ export default class CourseCreatorTool extends React.Component {
                   :
                   undefined
                 }
-                   
               <div className="course-creator-work-area">
                 
                 <div

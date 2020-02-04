@@ -223,19 +223,27 @@ export default class Course extends React.Component {
         progress,
         (error, response) => {
           if (!error) {
-            activity.activityId = id;
-            activity.date = new Date();
-            activity.user = Meteor.userId();
-            activity.course = this.state.course._id;
-            Activities.insert({
-              activity
-            }, () => {
-              this.props.handleControlMessage(true, `${this.props.language[label.toLowerCase()]} ${this.props.language.successfullyDone}`);
-              this.props.reRender();
+            if (activity.type === "storyboard"){
+              Activities.update(
+                { _id: activity.activityId},
+                { $set: {
+                  'activity.courseId': this.state.course._id,
+                  'activity.activityId': id,
+                }})
+            } else {
+              activity.activityId = id;
+              activity.date = new Date();
+              activity.user = Meteor.userId();
+              activity.course = this.state.course._id;
+              Activities.insert({
+                activity
+              });
             }
-          );
+            this.props.handleControlMessage(true, `${this.props.language[label.toLowerCase()]} ${this.props.language.successfullyDone}`);
+            this.props.reRender();
+          }
         }
-      });
+      );
     });
   }
 

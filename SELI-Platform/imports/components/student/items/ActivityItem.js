@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -20,6 +21,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import AttachmentPreview from '../../files/previews/AttachmentPreview';
 import FileUpload from '../../files/FileUpload';
 import Editor from '../../inputs/editor/Editor';
+import Paper from '@material-ui/core/Paper';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+import { Activities } from '../../../../lib/ActivitiesCollection';
 
 export default class ActivityItem extends React.Component {
   constructor(props) {
@@ -30,6 +34,7 @@ export default class ActivityItem extends React.Component {
       additionalNotes: '',
       resolved: false,
       textSection: '',
+      myStories: [],
     }
   }
 
@@ -43,6 +48,26 @@ export default class ActivityItem extends React.Component {
 
   componentDidMount(){
     this.checkResolved();
+    this.getStories();
+  }
+
+  getStories = () => {
+    Tracker.autorun(() => {
+      let myStories = Activities.find({
+        'activity.user': Meteor.userId(),
+        'activity.type': "storytelling",
+      }).fetch();
+      this.setState({
+        myStories: myStories,
+      });
+    });
+  }
+
+  selectStory = (story, name) => {
+    this.setState({
+      storySelected: story,
+      storySelectedName: name,
+    });
   }
 
   checkResolved = () => {
@@ -63,10 +88,26 @@ export default class ActivityItem extends React.Component {
       dialogText = this.props.language.toActivityWrite,
       confirmAction = () => this.sendSection();
     }
+    if (this.props.item.attributes.type === 'storyboard') {
+      dialogText = this.props.language.toActivityStoryboard,
+      confirmAction = () => this.sendStoryboard();
+    }
     this.setState({
       dialogText: dialogText,
       confirmAction: confirmAction,
     });
+  }
+
+  sendStoryboard = () => {
+    if (this.validateStoryboard()) {
+      let activity = {
+        activityId: this.state.storySelected,
+        type: 'storyboard',
+        public: false,
+      }
+      this.props.completeActivity(this.props.item.id, activity, "Activity");
+      this.handleClose();
+    }
   }
 
   sendFile = () => {
@@ -122,6 +163,14 @@ export default class ActivityItem extends React.Component {
         additionalNotes: event.target.value,
       });
     }
+  }
+
+  validateStoryboard = () => {
+    if (this.state.storySelected === undefined) {
+      this.props.handleControlMessage(true, this.props.language.completeActivityStoryboard)
+      return false;
+    }
+    return true;
   }
 
   validateUploadActivity = () => {
@@ -198,6 +247,24 @@ export default class ActivityItem extends React.Component {
                               </div>
                             :
                             undefined
+                          }
+                          {
+                            /* this.props.item.attributes.type === 'storyboard' ?
+                              <div className="activity-detail-container">
+                                <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                                  {`${this.props.language.story}:`}
+                                </Typography>
+                                <Link className="story-item-button"
+                                  //target="_blank"
+                                  to={`/story#${this.state.storySelected}`}
+                                >
+                                  <Typography className="file-type-text-detail" variant="overline" display="block" gutterBottom>
+                                    {this.state.storySelectedName}
+                                  </Typography>
+                                </Link>
+                              </div>
+                            :
+                            undefined */
                           }
                         </div>
                       </ExpansionPanelDetails>
@@ -287,6 +354,31 @@ export default class ActivityItem extends React.Component {
                 />
               :
               undefined
+            }
+            {
+              this.props.item.attributes.type === 'storyboard' ?
+                this.state.myStories.map(story => {
+                  return(
+                    <Paper 
+                      onClick={() => this.selectStory(story._id, story.activity.name)} 
+                      elevation={story._id === this.state.storySelected ? 5 : 1} 
+                      className="story-item-container"
+                    >
+                      <LibraryBooksIcon className="story-item-icon"/>
+                      <p className="story-item-text-primary">{story.activity.name}</p>
+                      <Link className="story-item-button"
+                        //target="_blank"
+                        to={`/story#${story._id}`}
+                      >
+                        <Button variant="contained" color="secondary">
+                          {this.props.language.open}
+                        </Button>
+                      </Link>
+                    </Paper>
+                  )
+                })
+              :
+                undefined
             }
           </DialogContent>
           <DialogActions>

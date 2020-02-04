@@ -822,11 +822,15 @@ var ENGLISH = {
   changeURL: "Change URL",
   changeVideo: "Change Video",
   reuseVideo: "Reuse Video",
-  videoLibraryMessage:'Double click over the item title to select',
+  videoLibraryMessage: "Double click over the item title to select",
   fileTitle: "File title",
   renameFileTitle: "Rename file title",
+  minimumCourseDuration: "The duration of the course must be a minimum of 5 hours",
+  ifYouWantPC: 'You are going to publish your course. After this, you will not be able to edit the course until you unpublish it.',
   minimumCourseDuration: 'The duration of the course must be a minimum of 5 hours',
   numberofAnswers: " Select the number of answers",
+  toActivityStoryboard: "To complete this activity, select a story",
+  completeActivityStoryboard: "Select a story to complete the activity",
 }
 
 export default ENGLISH;

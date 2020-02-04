@@ -217,6 +217,14 @@
   place-content: flex-start;
 }
 
+.stories-dialog-content {
+  flex-wrap: wrap;
+  max-height: 60vh;
+  overflow-y: scroll;
+  align-items: flex-start;
+  place-content: flex-start;
+}
+
 .library-results-header {
   width: 100% !important;
   display: flex !important;

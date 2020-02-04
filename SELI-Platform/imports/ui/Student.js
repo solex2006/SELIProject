@@ -167,46 +167,6 @@ export default class Student extends React.Component {
     let course = Courses.find({_id: courseId}).fetch();
     this.handleUnsubscription(course[0]);
   }
-
-  handleSubscription = (course) => {
-    course.classroom.push(Meteor.userId());
-    Courses.update(
-      { _id: course._id },
-      { $set: {
-        classroom: course.classroom,
-      }}
-      , () => {
-        var user = Meteor.users.findOne({_id: Meteor.userId()});
-        var toComplete = this.toComplete(course);
-        var toResolve = this.toResolve(course);
-        user.profile.courses.push({
-          courseId: course._id,
-          progress: 0,
-          toComplete: toComplete,
-          toResolve: toResolve,
-        });
-        Meteor.users.update(
-          { _id: Meteor.userId() },
-          { $set: {
-            'profile.courses': user.profile.courses,
-          }}
-          , () => {
-            this.setState({
-              subscribed: true,
-              showLoadingMessage: false,
-            } , () => {
-              this.handleControlMessage(true, this.state.language.addedToSCourses, true, this.state.language.subscribed, this.state.language.seeList, undefined);
-              let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
-              this.setState({
-                user: user[0],
-              });
-            });
-          }
-        )
-      }
-    )
-  }
-
   handleUnsubscription = (course) => {
     let studentIndex = course.classroom.findIndex(students => students === Meteor.userId());
     course.classroom.splice(studentIndex, 1);
@@ -247,6 +207,45 @@ export default class Student extends React.Component {
 
   getSubscribedCourses = () => {}
 
+  handleSubscription = (course) => {
+    course.classroom.push(Meteor.userId());
+    Courses.update(
+      { _id: course._id },
+      { $set: {
+        classroom: course.classroom,
+      }}
+      , () => {
+        var user = Meteor.users.findOne({_id: Meteor.userId()});
+        var toComplete = this.toComplete(course);
+        var toResolve = this.toResolve(course);
+        user.profile.courses.push({
+          courseId: course._id,
+          progress: 0,
+          toComplete: toComplete,
+          toResolve: toResolve,
+        });
+        Meteor.users.update(
+          { _id: Meteor.userId() },
+          { $set: {
+            'profile.courses': user.profile.courses,
+          }}
+          , () => {
+            this.setState({
+              subscribed: true,
+              showLoadingMessage: false,
+            } , () => {
+              this.handleControlMessage(true, this.state.language.addedToSCourses, true, this.state.language.subscribed, this.state.language.seeList, undefined);
+              let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
+              this.setState({
+                user: user[0],
+              });
+            });
+          }
+        )
+      }
+    )
+  }
+
   handleClickCourse = (course) => {
     this.setState({
       activeCourse: course,
@@ -261,6 +260,16 @@ export default class Student extends React.Component {
         this.setState({
           showLoadingMessage: false,
         }, () => {
+          var user = Meteor.users.findOne({_id: this.state.user._id});
+          var courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === course._id);
+          var toComplete = this.toComplete(course, user.profile.courses[courseIndex].toComplete);
+          var toResolve = this.toResolve(course, user.profile.courses[courseIndex].toResolve);
+          user.profile.courses[courseIndex].toComplete = toComplete;
+          user.profile.courses[courseIndex].toResolve = toResolve;
+          Meteor.users.update(
+            {_id: this.state.user._id},
+            {$set: {"profile.courses": user.profile.courses}}
+          )
           this.showComponent('course');
         })
       }
@@ -270,34 +279,22 @@ export default class Student extends React.Component {
     });
   }
 
-  toComplete = (course) => {
-    let toComplete = [];
-    if (course.organization.subunit) {
-      let parentIndex = 0;
-      course.program.map((unit, index) => {
-        toComplete.push({subunits: []})
-        parentIndex = index;
-        unit.lessons.map(subunit => {
-          toComplete[parentIndex].subunits.push(false);
-        })
-      })
-    }
-    else {
-      course.program.map(unit => {
-        toComplete.push(false);
-      })
-    }
-    return toComplete;
-  }
-
-  toResolve = (course) => {
+  toResolve = (course, toResolveStudent) => {
     let toResolve = [];
+    let userCourseIndex = -1;
     if (course.organization.subunit) {
       course.program.map(unit => {
         unit.lessons.map(subunit => {
           subunit.items.map(content => {
             if (content.type === 'quiz' || content.type === 'activity') {
-              toResolve.push({resolved: false, _id: content.id});
+              if (toResolveStudent) {
+                userCourseIndex = toResolveStudent.findIndex(item => item._id === content.id);
+              }
+              if (userCourseIndex >= 0) {
+                toResolve.push(toResolveStudent[userCourseIndex])
+              } else {
+                toResolve.push({resolved: false, _id: content.id});
+              }
             }
           })
         })
@@ -307,12 +304,47 @@ export default class Student extends React.Component {
       course.program.map(unit => {
         unit.items.map(content => {
           if (content.type === 'quiz' || content.type === 'activity') {
-            toResolve.push({resolved: false, _id: content.id});
+            if (toResolveStudent) {
+              userCourseIndex = toResolveStudent.findIndex(item => item._id === content.id);
+            }
+            if (userCourseIndex >= 0) {
+              toResolve.push(toResolveStudent[userCourseIndex])
+            } else {
+              toResolve.push({resolved: false, _id: content.id});
+            }
           }
         })
       })
     }
     return toResolve;
+  }
+
+  toComplete = (course, toCompleteStudent) => {
+    let toComplete = [];
+    if (course.organization.subunit) {
+      let parentIndex = 0;
+      course.program.map((unit, index) => {
+        toComplete.push({subunits: []})
+        parentIndex = index;
+        unit.lessons.map((subunit, childIndex) => {
+          if (toCompleteStudent && toCompleteStudent[parentIndex] && toCompleteStudent[parentIndex].subunits[childIndex]) {
+            toComplete[parentIndex].subunits.push(toCompleteStudent[parentIndex].subunits[childIndex])
+          } else {
+            toComplete[parentIndex].subunits.push(false);
+          }
+        })
+      })
+    }
+    else {
+      course.program.map((unit, index) => {
+        if (toCompleteStudent && toCompleteStudent[index]) {
+          toComplete.push(toCompleteStudent[index])
+        } else {
+          toComplete.push(false);
+        }
+      })
+    }
+    return toComplete;
   }
 
   closeCourse = () => {
