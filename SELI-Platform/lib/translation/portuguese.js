@@ -15,7 +15,7 @@ var PORTUGUESE = {
   learningPlatform: "Plataforma de Aprendizagem",
   seliPresentation: "A plataforma de aprendizagem SELI oferece a oportunidade de criar cursos para vários tipos de público, levando em consideração padrões de acessibilidade, interação entre estudantes e estímulo da criatividade de tutores e estudantes.",
   learnMore: "Saiba Mais",
-  hereToTeachYou: "Estamos aqui para te ensinar!",
+  hereToTeachYou: "Venha aprender juntos!",
   joinOurClassroom: "Junte-se à nossa sala de aula e aprenda sobre o que quiser!",
   learnAbout: "Sobre o que você quer aprender?",
   thinkingOnAccessibility: "Considerando acessibilidade!",
@@ -832,6 +832,8 @@ var PORTUGUESE = {
   toActivityStoryboard: "To complete this activity, select a story",
   completeActivityStoryboard: "Select a story to complete the activity",
   selectFileType: "Select a file type pressing the button.",
+  forum: "Forum",
+  whatIsForum: "What is a forum?",
 }
 
 export default PORTUGUESE;

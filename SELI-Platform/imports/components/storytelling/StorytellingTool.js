@@ -1443,6 +1443,7 @@ class StorytellingTool extends React.Component {
                               </div>
                             :
                               <FileUpload
+                                color='primary'
                                 type='audio'
                                 user={Meteor.userId()}
                                 accept={'video/*'}

@@ -15,6 +15,7 @@ import FileTypeSelector from '../tools/FileTypeSelector';
 import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import BackupIcon from '@material-ui/icons/Backup';
 import SubjectIcon from '@material-ui/icons/Subject';
+import ForumIcon from '@material-ui/icons/Forum';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
@@ -204,7 +205,7 @@ export default class ActivityForm extends React.Component {
             language={this.props.language}
           />
         </div>
-        <div className="editor-label1">{this.props.language.deliverType}</div>
+        <div className="editor-label1">{`${this.props.language.deliverType}:`}</div>
         <div className="square-box">
               <Paper square>
               <Tabs
@@ -218,6 +219,7 @@ export default class ActivityForm extends React.Component {
                 <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} />
                 <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} />
                 <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.textSection} icon={<SubjectIcon />} />
+                {/* <Tab value={'forum'} onClick={() => this.selectType('forum')} className="form-tab" label={this.props.language.forum} icon={<ForumIcon />} /> */}
               </Tabs>
             </Paper>
         </div>
@@ -267,7 +269,21 @@ export default class ActivityForm extends React.Component {
             </div>
           :
           undefined
-        }        
+        }
+        {
+          this.state.attributes.type === 'forum' ?
+            <div className="form-activity-input-contained">
+              <div className="center-row">
+                <Help
+                  helper="default"
+                  text={this.props.language.whatIsForum}
+                  language={this.props.language}
+                />
+              </div>
+            </div>
+          :
+          undefined
+        }           
       </div>
     );
   }

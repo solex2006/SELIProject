@@ -15,7 +15,7 @@ var ENGLISH = {
   learningPlatform: "Learning platform",
   seliPresentation: "The SELI learning platform provides the opportunity to create courses for various types of disabilities, taking into consideration accessibility standards, interaction between students and stimulating the creativity of tutors and students.",
   learnMore: "Learn more",
-  hereToTeachYou: "We're here to teach you!",
+  hereToTeachYou: "Come to learn together!",
   joinOurClassroom: "Join our classroom and learn about whatever you want!",
   learnAbout: "What do you want to learn about?",
   thinkingOnAccessibility: "Thinking on accessibility!",
@@ -832,6 +832,8 @@ var ENGLISH = {
   toActivityStoryboard: "To complete this activity, select a story",
   completeActivityStoryboard: "Select a story to complete the activity",
   selectFileType: "Select a file type pressing the button.",
+  forum: "Forum",
+  whatIsForum: "What is a forum?",
 }
 
 export default ENGLISH;
