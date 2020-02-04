@@ -831,6 +831,7 @@ var SPANISH = {
   numberofAnswers: "Selecciona el número de Respuestas",
   toActivityStoryboard: "Para completar esta actividad, seleccione una historia",
   completeActivityStoryboard: "Seleccione una historia para completar la actividad",
+  selectFileType: "Seleccione un tipo de archivo presionando el botón.",
 }
 
 export default SPANISH

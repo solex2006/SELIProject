@@ -101,6 +101,9 @@ export default class ActivityForm extends React.Component {
     if (content.instruction === '') {
       this.props.handleControlMessage(true, this.props.language.writeTheInstructions);
       return false;
+    } else if (content.type === 'upload' && content.fileTypes === undefined) {
+      this.props.handleControlMessage(true, this.props.language.selectFileType);
+      return false;
     }
     return true;
   }

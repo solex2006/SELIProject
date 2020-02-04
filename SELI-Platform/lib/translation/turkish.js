@@ -831,6 +831,7 @@ var TURKISH = {
   numberofAnswers: "Seelct the number of answers",
   toActivityStoryboard: "To complete this activity, select a story",
   completeActivityStoryboard: "Select a story to complete the activity",
+  selectFileType: "Select a file type pressing the button.",
 }
 
 export default TURKISH;
