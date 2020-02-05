@@ -449,9 +449,9 @@ var PORTUGUESE = {
   upload: "Enviar",
   acceptedFileType: "Tipos de arquivos aceitos:",
   selectAllowedFileType: "Selecione tipo de arquivo permitido",
-  storyboardActivity: "Atividade de storyboard",
-  uploaddActivity: "Enviar arquivo de atividade",
-  textSectionActivity: "Atividade de seção de texto",
+  storyboardActivity: "Storyboard",
+  uploaddActivity: "Enviar arquivo",
+  textSectionActivity: "Seção de texto",
   mySavedCourses: "Meus cursos salvos",
   resumeEditing: "Continuar edição",
   deleteCourse: "Apagar curso",
@@ -834,6 +834,7 @@ var PORTUGUESE = {
   selectFileType: "Select a file type pressing the button.",
   forum: "Forum",
   whatIsForum: "What is a forum?",
+  seeCourse: "See course",
 }
 
 export default PORTUGUESE;

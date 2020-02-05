@@ -304,7 +304,7 @@ export default class ActivityItem extends React.Component {
           aria-describedby="alert-dialog-confirmation"
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.doActivity}</DialogTitle>
-          <DialogContent className="success-dialog-content">
+          <DialogContent className="stories-dialog-content">
             <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
               {this.state.dialogText}
             </DialogContentText>

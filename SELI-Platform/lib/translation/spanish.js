@@ -449,9 +449,9 @@ var SPANISH = {
   upload: "Cargar",
   acceptedFileType: "Tipo de archivo aceptado:",
   selectAllowedFileType: "Seleccionar el tipo de archivo admitido",
-  storyboardActivity: "Actividad de narración digital",
-  uploaddActivity: "Actividad de archivo cargado",
-  textSectionActivity: "Actividad de la sección de texto",
+  storyboardActivity: "Narración digital",
+  uploaddActivity: "Cargar un archivo",
+  textSectionActivity: "Sección de texto",
   mySavedCourses: "Mis cursos guardados",
   resumeEditing: "Reanudar la edición",
   deleteCourse: "Eliminar el curso",
@@ -834,6 +834,7 @@ var SPANISH = {
   selectFileType: "Seleccione un tipo de archivo presionando el botón.",
   forum: "Foro",
   whatIsForum: "¿Qué es un foro?",
+  seeCourse: "Ver curso",
 }
 
 export default SPANISH
