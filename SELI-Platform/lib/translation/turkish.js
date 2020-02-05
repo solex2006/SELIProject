@@ -15,7 +15,7 @@ var TURKISH = {
   learningPlatform: "Öğrenme platformu",
   seliPresentation: "SELI öğrenme platformu, erişilebilirlik standartlarını, öğrenciler arasındaki etkileşimi göz önünde bulundurarak ve öğretmenlerin ve öğrencilerin yaratıcılığını teşvik eden farklı hedef kitleler için kurslar oluşturma fırsatı sunar.",
   learnMore: "Daha fazla bilgi edinin",
-  hereToTeachYou: "Öğrenmeyi desteklemek için buradayız!",
+  hereToTeachYou: "Birlikte öğrenmeye gel!",
   joinOurClassroom: "Öğrenme topluluklarımıza katılın ve ne isterseniz öğrenin!!",
   learnAbout: "Ne hakkında öğrenmek istiyorsun?",
   thinkingOnAccessibility: "Erişilebilirliği Düşünmek!",
@@ -831,6 +831,9 @@ var TURKISH = {
   numberofAnswers: "Seelct the number of answers",
   toActivityStoryboard: "To complete this activity, select a story",
   completeActivityStoryboard: "Select a story to complete the activity",
+  selectFileType: "Select a file type pressing the button.",
+  forum: "Forum",
+  whatIsForum: "What is a forum?",
 }
 
 export default TURKISH;
