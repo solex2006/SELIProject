@@ -53,8 +53,7 @@ class Quiz extends React.Component {
       answertest: false,
       average:'',
       successTrue:'',
-      Incorrect:''
-   
+      Incorrect:'',
     }
   }
 
@@ -70,7 +69,6 @@ class Quiz extends React.Component {
     let questions = this.props.quiz.attributes.questions;
     questions.map(question => {
       let answerlength=question.correctAnswers.length;
-      console.log("Answer-Length", answerlength)
       answers.push(Array.apply(null, new Array(answerlength)).map(Boolean.prototype.valueOf,false));
     })
     this.setState({
@@ -79,9 +77,6 @@ class Quiz extends React.Component {
       panelshow: this.props.time,
       selectedtime: this.props.time
     });
-
-    console.log("despues el anaswer",this.state.answers)
-
   }
 
   handleChange = (check,event) => {
@@ -122,18 +117,6 @@ class Quiz extends React.Component {
   }
 
   getQuizResults = (answers) => {
-    /* let questions = this.props.quiz.attributes.questions;
-    let hits = 0;
-    for (var i = 0; i < questions.length; i++) {
-      if (answers[i] !== '') {
-        if (questions[i].correctAnswers[parseInt(answers[i])]) {
-          hits++;
-        }
-      }
-    }
-    return {score: (hits / this.props.quiz.attributes.questions.length) * 100, hits: hits}; */
-    
-    //new method for validate answers with multiples choices
     let hits = [];
     let success=0;
     let successTrue=0;
@@ -144,12 +127,9 @@ class Quiz extends React.Component {
     let TotalAverage=0;
     let TotalCorrectTrue=0;
     let TotalIncorrect=0;
-
-    console.log("Answers de llegada", answers)
-    console.log("Answers verdaderas",this.props.quiz.attributes.questions)
+   // console.log("Answers de llegada", answers)
+    //console.log("Answers verdaderas",this.props.quiz.attributes.questions)
     answers.map(((answersgroup, index)=>{
-      /* if(JSON.stringify(answersgroup)===JSON.stringify(this.props.quiz.attributes.questions[index].correctAnswers)){
-      } */
       success=0;
       successTrue=0;
       Incorrect=0;
@@ -169,32 +149,28 @@ class Quiz extends React.Component {
         })
         //calculate score
         if (NumberAnswers===success){ //all answers correct
-            console.log("100% Bien")
+            //console.log("100% Bien")
              average=100;
         }else if((successTrue===0) || (successTrue===Incorrect)){ //all answers incorrect
-          console.log("0% mal")
+          //console.log("0% mal")
            average=0;
         }else if((Incorrect-successTrue)>0){
-          console.log("0% mal")
+          //console.log("0% mal")
            average=0;
         }else if((Incorrect-successTrue)<0){
           let correctquiz=(this.props.quiz.attributes.questions[index].correctAnswers.filter(x => x == true).length)
-          console.log(correctquiz)
+          //console.log(correctquiz)
            average=(((successTrue-Incorrect)*100)/correctquiz)
-          console.log("Se calcula:", average)
+         // console.log("Se calcula:", average)
         }
         TotalAverage=average+TotalAverage;
         TotalCorrectTrue=successTrue+TotalCorrectTrue;
         TotalIncorrect=Incorrect+TotalIncorrect;
-        
-         
-        
+
     }))
     TotalAverage=(TotalAverage/answers.length)
-    console.log("totlaes", TotalAverage, TotalCorrectTrue, TotalIncorrect)
-    return({score: TotalAverage, hits: TotalCorrectTrue,  Incorrect: TotalIncorrect});
-     
-
+    console.log("total", TotalAverage, TotalCorrectTrue, TotalIncorrect)
+    return({score: TotalAverage, hits: TotalCorrectTrue,  Incorrect: TotalIncorrect, answers: answers, trueAnswers: this.props.quiz.attributes.questions});
   }
 
   handleFinish = (validate) => {
@@ -208,7 +184,6 @@ class Quiz extends React.Component {
         let approved;
         console.log("results", results)
          results.score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
-        
         let quiz = {
           score: results.score,
           hits: results.hits,
@@ -216,6 +191,8 @@ class Quiz extends React.Component {
           public: false,
           type: 'quiz',
           Incorrect: results.Incorrect,
+          answers:results.answers,
+          trueAnswers:results.trueAnswers
         }
         this.props.completeActivity(this.props.quiz.id, quiz ,"Quiz"); 
       } 
@@ -249,7 +226,6 @@ class Quiz extends React.Component {
   }
 
   handleTick = (time) => {
-    //console.log("handleTick")
     let progress;
     let fullTime = this.props.time;
     let seconds = time.s;

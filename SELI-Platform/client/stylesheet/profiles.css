@@ -1,8 +1,17 @@
+.student{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1vh 0.5vw;
+  align-items: center;
+  transition: 0.35s;
+}
+
 .student-profile-container {
   padding: 1vh 0.5vw;
   display: flex;
   align-items: center;
   transition: 0.35s;
+  flex-wrap: wrap;
 }
 
 .student-profile-container-1 {
@@ -14,7 +23,7 @@
 
 .student-profile-container:hover {
   cursor: pointer;
-  margin-left: 0.15vw;
+  
 }
 
 .student-profile-information-container {
