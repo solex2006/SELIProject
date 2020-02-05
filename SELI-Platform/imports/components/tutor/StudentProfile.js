@@ -182,6 +182,15 @@ export default class StudentProfile extends React.Component {
                   >
                     Ver de notas*
                   </Button>
+                  {console.log(this.statestudentScores)}
+                  <Button
+                    className="student-profile-button"
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => this.props.handleView("course", this.state.studentScores)}
+                  >
+                    {this.props.language.seeCourse}
+                  </Button>
                   <Popover
                     open={Boolean(this.state.anchorEl)}
                     anchorEl={this.state.anchorEl}

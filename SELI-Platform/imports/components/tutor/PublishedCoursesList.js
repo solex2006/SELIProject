@@ -6,6 +6,10 @@ import { Courses } from '../../../lib/CourseCollection';
 import Table from '../data_display/Table';
 
 import StudentProfile from './StudentProfile';
+import CourseMenu from '../student/CourseMenu';
+import CourseContent from '../student/CourseContent';
+import { Activities } from '../../../lib/ActivitiesCollection';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 
 import SchoolIcon from '@material-ui/icons/School';
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
@@ -44,6 +48,8 @@ export default class PublishedCoursesList extends React.Component {
       studentInformation: '',
       studentScores: [],
       course: [],
+      selected: [],
+      stories: [],
     }
   }
 
@@ -177,8 +183,9 @@ export default class PublishedCoursesList extends React.Component {
     this.setState({
       openClassroom: true,
       studentInformation: '',
-      studentScores:[],
-      course:[],
+      studentScores: [],
+      course: [],
+      completeCourse: course,
       classroomResults: results,
     });
   }
@@ -275,6 +282,70 @@ export default class PublishedCoursesList extends React.Component {
         </div>
       </Paper>
     )
+  }
+
+  navigateTo(level, to) {
+    let selected = this.state.selected;
+    selected.splice(0, selected.length)
+    selected.push(to[0], to[1]);
+    this.setState({
+      selected: selected,
+      coursePresentation: false,
+      courseContent: true,
+    });
+  }
+
+  showPresentation() {
+    let selected = this.state.selected;
+    selected.splice(0, selected.length)
+    selected.push(-1, -1);
+    this.setState({
+      selected: selected,
+      coursePresentation: true,
+      courseContent: false,
+    });
+  }
+
+  handleCloseStories = () => {
+    this.setState({
+      openStories: false,
+    });
+  };
+
+
+  showCourseStories = () => {
+    this.setState({
+      loadingStories: true,
+    }, () => {
+      Tracker.autorun(() => {
+        let stories = Activities.find({'activity.type': 'storytelling', 'activity.courseId': this.state.completeCourse._id}).fetch();
+        this.buildStories(stories);
+      });
+    });
+  }
+
+  buildStories = (stories) => {
+    if (stories.length) {
+      let users = [];
+      stories.map(story => {
+        let user = Meteor.users.find({_id: story.activity.user}).fetch();
+        story.userInformation = user[0];
+      })
+      this.setState({
+        stories: stories,
+        results: true,
+        loadingStories: false,
+        openStories: true,
+      })
+    }
+    else {
+      this.setState({
+        results: false,
+        loadingStories: false,
+      }, () => {
+        this.props.handleControlMessage(true, this.props.language.notStoriesMessage)
+      })
+    }
   }
 
   menu = () => {
@@ -424,42 +495,80 @@ export default class PublishedCoursesList extends React.Component {
                         <Loading message={this.props.language.loadingStudents}/>
                       </div>
                     :
-                    <React.Fragment>
-                      <DialogContentText className="classroom-dialog-title" id="alert-dialog-description">
-                        {this.props.language.studentsClassroom}
-                      </DialogContentText>
-                      {this.menu()}
-                      <div className="classroom-management-students-container">
-                        {
-                          this.state.studentInformation===''?
-                            this.state.courseProfiles.map((profile, index) => {
-                              return(
-                                <StudentProfile
-                                  profile={profile}
-                                  handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                  handleView={this.handleView}
-                                  reload={this.openClassroomManagement.bind(this)}
+                      <React.Fragment>
+                        {this.menu()}
+                        <div className="classroom-management-students-container">
+                          {
+                            this.state.studentInformation===''?
+                              <div>
+                                <DialogContentText className="classroom-dialog-title" id="alert-dialog-description">
+                                {this.props.language.studentsClassroom}
+                                </DialogContentText>
+                                {this.state.courseProfiles.map((profile, index) => {
+                                  return(
+                                    <StudentProfile
+                                      profile={profile}
+                                      handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                      handleView={this.handleView}
+                                      reload={this.openClassroomManagement.bind(this)}
+                                      language={this.props.language}
+                                    />
+                                  )
+                                })}
+                              </div>
+                            :
+                              undefined
+                          }
+                          {
+                            this.state.studentInformation==='quiz'?
+                              this.quizes()
+                            :
+                              undefined
+                          }
+                          {
+                            this.state.studentInformation==='quizDetails'?
+                              this.quizDetails()
+                            :
+                              undefined
+                          }
+                          {
+                            this.state.studentInformation==='course'?
+                              <div>
+                                {console.log(this.state.completeCourse)}
+                                <CourseMenu
+                                  course={this.state.completeCourse}
+                                  progress={this.state.progress}
+                                  navigateTo={this.navigateTo.bind(this)}
+                                  selected={this.state.selected}
+                                  showPresentation={this.showPresentation.bind(this)}
+                                  showCourseStories={this.showCourseStories.bind(this)}
                                   language={this.props.language}
                                 />
-                              )
-                            })
-                          :
-                            undefined
-                        }
-                        {
-                          this.state.studentInformation==='quiz'?
-                            this.quizes()
-                          :
-                            undefined
-                        }
-                        {
-                          this.state.studentInformation==='quizDetails'?
-                            this.quizDetails()
-                          :
-                            undefined
-                        }
-                      </div>
-                    </React.Fragment>
+                                {/* <CourseContent
+                                  course={this.state.completeCourse}
+                                  showComponent={this.props.showComponent.bind(this)}
+                                  handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                  handlePreviousUnit={this.handlePreviousUnit.bind(this)}
+                                  handleNextUnit={this.handleNextUnit.bind(this)}
+                                  handlePreviousSubunit={this.handlePreviousSubunit.bind(this)}
+                                  handleNextSubunit={this.handleNextSubunit.bind(this)}
+                                  completeActivity={this.completeActivity.bind(this)}
+                                  navigateTo={this.navigateTo.bind(this)}
+                                  completeUnit={this.completeUnit.bind(this)}
+                                  completeSubunit={this.completeSubunit.bind(this)}
+                                  openMediaPlayer={this.openMediaPlayer.bind(this)}
+                                  leaveComment={this.leaveComment.bind(this)}
+                                  selected={this.state.selected}
+                                  toComplete={this.state.toComplete}
+                                  toResolve={this.state.toResolve}
+                                  language={this.props.language}
+                                /> */}
+                              </div>
+                            :
+                              undefined
+                          }
+                        </div>
+                      </React.Fragment>
                   }
                 </React.Fragment>
               :
@@ -469,6 +578,51 @@ export default class PublishedCoursesList extends React.Component {
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
               </div>
+            }
+          </DialogContent>
+        </Dialog>
+        <Dialog
+          open={this.state.openStories}
+          onClose={this.handleCloseStories}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+          className="media-dialog"
+        >
+          <DialogTitle className="dialog-title">
+            <AppBar className="dialog-app-bar" color="primary" position="static">
+              <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
+                <AppsIcon/>
+                <h4 className="dialog-label-title">{this.props.language.courseStories}</h4>
+                <IconButton
+                  id="close-icon"
+                  edge="end"
+                  className="dialog-toolbar-icon"
+                  onClick={this.handleCloseStories}
+                >
+                  <CloseIcon/>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </DialogTitle>
+          <DialogContent className="stories-dialog-content">
+            {
+              this.state.stories.map(story => {
+                return(
+                  <Paper elevation={5} className="story-item-container">
+                    <LibraryBooksIcon className="story-item-icon"/>
+                    <p className="story-item-text-primary">{story.activity.name}</p>
+                    <p className="story-item-text-secondary">{`By: ${story.userInformation.username}`}</p>
+                    <Link className="story-item-button"
+                      //target="_blank"
+                      to={`/story#${story._id}`}
+                    >
+                      <Button variant="contained" color="primary">
+                        {this.props.language.open}
+                      </Button>
+                    </Link>
+                  </Paper>
+                )
+              })
             }
           </DialogContent>
         </Dialog>
