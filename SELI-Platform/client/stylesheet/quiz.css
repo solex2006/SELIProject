@@ -186,11 +186,11 @@ display: flex
 
 .quiz-dashboard-questions-containerTutor {
   position: relative;
-  width: 50%;
+  width: 40%;
   margin-left: 1%;
   animation: fadeInDown 0.75s;
   padding: 0 2.5%;
-  display: flex;
+  display: block;
   margin: 2vh;
 }
 
@@ -227,10 +227,12 @@ display: flex
   font-size: 0.95em;
   padding: 2vh 0;
   text-transform: uppercase;
+  position:relative;
 }
 
 .question-dashboard-container {
   padding: 2.5vh 1vw;
+  width: 100%
 }
 
 .question-dashboard-form-label {
@@ -264,4 +266,26 @@ display: flex
 
 #non-approved-text {
   color: #f44336 !important;
+}
+
+.question-dashboard-radio-group{
+  display: flex !important;
+  flex-wrap: wrap !important;
+  flex-direction: row !important;
+}
+
+.student-answers{
+  margin: 1vh 1vw;
+  border-style: dotted;
+}
+.student-answers-block{
+  margin: 1vh 1vw;
+}
+.student-answers-block-q{
+  margin: 1.65vh 1vw;
+}
+
+.answers{
+  padding: 0vh 2vw;
+  font-weight: bold;
 }

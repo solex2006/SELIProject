@@ -34,6 +34,11 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import BookIcon from '@material-ui/icons/Book';
+import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
+import SpellcheckRoundedIcon from '@material-ui/icons/SpellcheckRounded';
+import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
+import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 
 export default class PublishedCoursesList extends React.Component {
   constructor(props) {
@@ -240,36 +245,104 @@ export default class PublishedCoursesList extends React.Component {
   }
 
   quizDetails=()=>{
+    console.log(this.state.course, "course...", this.state.studentScores)
     return(
       <Paper elevation={8} className="quiz-dashboard-questions-containerTutor">
-        <p className="question-dashboard-label-text">{this.props.language.chooseCorrectAnswer}</p>
+        <p className="question-dashboard-label-text">Quiz View Tool</p>
         <div className="question-dashboard-container">
-          <FormControl component="fieldset" className="question-dashboard-form-control">
-            <FormLabel component="legend" className="question-dashboard-form-label">title</FormLabel>
+          <FormControl component="fieldset" className="question-dashboard-form-controlx">
+            {/* <FormLabel component="legend" className="question-dashboard-form-label">title quiz</FormLabel> */}
             <RadioGroup
               aria-label="answer"
               name="answer"
               className="question-dashboard-radio-group"
             >
-            {
-            //console.log("studentScores",this.state.studentScores)
-            this.state.studentScores.map((question, indexQuestion) =>
-            
-                question.activity.answers.map((answers, indexanswers) =>{
-                    return(
-                      <div>
-                      <div>asdsda</div>
-                      {answers.map((answer) =>{
-                        if(answer===true){answer="correcto*"} else{answer="Incorrecto*"}
-                        return(<li>{answer}</li>)
-                      })}
-                      </div>
+            <div>
+              <div  className="answers">Questions<BookIcon/></div>
+              <div className="student-answers">
+              {
+                this.state.studentScores[0].activity.trueAnswers.map((question, indexQuestion) =>{
+                  return(
+                    <div>
+                      <div className="answers">Question*: {question.questionTitle}</div>
+                      {
+                          question.answersText.map((answersText, indexanswersText) =>{
+                            return(
+                              <div className="student-answers-block-q">
+                                <ul>{answersText}</ul>
+                              </div>
+                            )
+                          }) 
+                      } 
+                    </div>
+                        
+                  )   
+                })
+              }
+            </div>
+            </div>
+
+
+            <div>
+              <div className="answers">Student Answers <CreateRoundedIcon/></div>
+              <div className="student-answers">
+                  {
+                    this.state.studentScores.map((question, indexQuestion) =>
+                        question.activity.answers.map((answers, indexanswers) =>{
+                            return(
+                              <div >
+                                <div className="answers" >Answers*</div>
+                                {answers.map((answer) =>{
+                                  if(answer===true){answer=<div>Correct*<DoneRoundedIcon/></div>} else{answer=<div>Incorrect*<ClearRoundedIcon/></div>}
+                                  return(
+                                    <div className="student-answers-block">
+                                      <ul>{answer}</ul>
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            )
+                          }
+                        )
                     )
                   }
-                )
-            )
+              </div>
+            </div>
             
-            }
+
+            <div>
+              <div className="answers">Correct Answers<SpellcheckRoundedIcon/></div>
+              <div className="student-answers">  
+                {
+                  this.state.studentScores[0].activity.trueAnswers.map((question, indexQuestion) =>{
+                    return(
+                      <div>
+                        <div className="answers">Answers*</div>
+                        {
+                            question.answersText.map((answersText, indexanswersText) =>{
+                              return(
+                                <div className="student-answers-block">
+                                  {
+                                    question.correctAnswers[indexanswersText]===true ?
+                                    <div>Correct*<DoneRoundedIcon/></div>
+                                    :
+                                    <div>Incorrect*<ClearRoundedIcon/></div>
+                                  
+                                  }
+                                </div>
+                              )
+                            }) 
+                        } 
+                      </div>
+                          
+                    )   
+                  })
+                }
+              </div>
+            </div>
+            
+            
+            
             </RadioGroup>
           </FormControl>
         </div>
