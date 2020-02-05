@@ -5,7 +5,7 @@ var OPTIONS = [
       "Mis cursos",
       "Meus cursos",
       "",
-      "",
+      "Derslerim",
     ],
     suboptions: [
       {
@@ -14,7 +14,7 @@ var OPTIONS = [
           "Cursos Inscritos",
           "Cursos inscritos",
           "",
-          "",
+          "Takip edilen derslerim",
         ],
         component: 'subscribed',
       },
@@ -24,7 +24,7 @@ var OPTIONS = [
           "Cursos SELI",
           "Cursos SELI",
           "",
-          ""
+          "SELI Dersleri"
         ],
         component: 'courses',
       },
@@ -36,7 +36,7 @@ var OPTIONS = [
       "Narración Digital",
       "Narrativa",
       "",
-      "",
+      "Hikaye Anlatımı",
     ],
     suboptions: [
       {
@@ -45,7 +45,7 @@ var OPTIONS = [
           "Mis historias",
           "Minhas histórias",
           "",
-          "",
+          "Benim Hikayelerim",
         ],
         component: 'stories',
       },
@@ -55,7 +55,7 @@ var OPTIONS = [
           "Crear una historia",
           "Criar história",
           "",
-          "",
+          "Hikaye oluştur",
         ],
         component: 'storytelling',
       },
@@ -67,7 +67,7 @@ var OPTIONS = [
       "Certificados",
       "Certificados",
       "",
-      "",
+      "Sertifikalar",
     ],
     suboptions: [
       {
@@ -76,7 +76,7 @@ var OPTIONS = [
           "Mis certificados",
           "Meus certificados",
           "",
-          "",
+          "Benim Sertifikalarım",
         ],
         component: 'certificates',
       },
@@ -88,7 +88,7 @@ var OPTIONS = [
       "Soporte",
       "Suporte",
       "",
-      "",
+      "Destek",
     ],
     suboptions: [
       {
@@ -97,7 +97,7 @@ var OPTIONS = [
           "Ayuda",
           "Ajuda",
           "",
-          "",
+          "Yardım",
         ],
         component: 'help',
       },
@@ -107,7 +107,7 @@ var OPTIONS = [
           "Documentación",
           "Documentação",
           "",
-          "",
+          "Belgeleme",
         ],
         component: 'documentation',
       },
