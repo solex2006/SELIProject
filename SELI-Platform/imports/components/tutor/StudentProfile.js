@@ -14,10 +14,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import AppsIcon from '@material-ui/icons/Apps';
-import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import DenseTable from './DenseTable'
 import { Divider } from 'material-ui';
@@ -80,21 +76,6 @@ export default class StudentProfile extends React.Component {
       anchorEl: event.currentTarget,
     })
   }
-  handleViewActivities= (event, quiz, index)=>{
-    console.log(event)
-    if(event==="quiz"){
-      this.setState({
-        showQuizes:'showQuizes',
-        showStudents:'noshowStudents'
-      })
-    }else if(event==="quizDetails"){
-      console.log("indice", index)
-      this.setState({
-        showQuizDetails:'showQuizDetails',
-        index: index
-      })
-    }
-  }
 
  componentDidMount() {
     let course = Courses.find({_id: this.props.profile.courseProfile.courseId}).fetch();
@@ -113,50 +94,7 @@ export default class StudentProfile extends React.Component {
       })
   }
 
-  quizes= ()=>{
-      return(
-        <React.Fragment>
-                <DialogTitle className="dialog-title">
-                  <AppBar className="dialog-app-bar" color="primary" >
-                    <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
-                      <AppsIcon/>
-                      <h4 className="dialog-label-title">
-                        Reuse componet*
-                      </h4>
-                      <IconButton
-                        id="close-icon"
-                        edge="end"
-                        className="dialog-toolbar-icon"
-                        onClick={this.handleClose}  //add
-                      >
-                        <CloseIcon/>
-                      </IconButton>
-                    </Toolbar>
-                  </AppBar>
-                </DialogTitle>
-                    <div className="library-files-containerquiz">
-                    {this.state.studentScores.map((quiz, index) => (
-                      
-                      <div>
-                        <div className="studentTable">
-                          <h3>Quiz: {this.state.course[0].title}</h3>
-                        </div>
-                        <DenseTable quiz={quiz}/>
-                        <Button
-                            className="student-profile-button"
-                            color="primary"
-                            variant="outlined"
-                            onClick={() => this.handleViewActivities("quizDetails", quiz, index)}
-                        >
-                            Quiz details*
-                        </Button>
-                      </div>   
-                    ))} 
-                    </div>
-              </React.Fragment> 
-      )
-    
-  }
+  
 
   handleUnsubscription = () => {
     let course = Courses.find({_id: this.props.profile.courseProfile.courseId}).fetch();
@@ -193,8 +131,6 @@ export default class StudentProfile extends React.Component {
     return(
       <div className="student">
         <div className="student-profile-container">
-        {
-            this.state.showStudents==='showStudents'?
             <div>
               <Avatar
                 style={{backgroundColor: this.state.color}}
@@ -242,7 +178,7 @@ export default class StudentProfile extends React.Component {
                     className="student-profile-button"
                     color="primary"
                     variant="outlined"
-                    onClick={() => this.handleViewActivities("quiz")}
+                    onClick={() => this.props.handleView("quiz", this.state.studentScores, this.state.course)}
                   >
                     Ver de notas*
                   </Button>
@@ -283,56 +219,7 @@ export default class StudentProfile extends React.Component {
                 </div>
               </Paper>
             </div>
-            :
-            undefined 
-        }
          </div>  
-        {
-          this.state.showQuizes==='showQuizes'?
-          this.quizes()
-          :
-          undefined
-        }
-        {
-          this.state.showQuizDetails==='showQuizDetails' ?
-              <Paper elevation={8} className="quiz-dashboard-questions-containerTutor">
-              <p className="question-dashboard-label-text">{this.props.language.chooseCorrectAnswer}</p>
-              <div className="question-dashboard-container">
-                <FormControl component="fieldset" className="question-dashboard-form-control">
-                  <FormLabel component="legend" className="question-dashboard-form-label">title</FormLabel>
-                  <RadioGroup
-                    aria-label="answer"
-                    name="answer"
-                    className="question-dashboard-radio-group"
-                  >
-                  {
-                  //console.log("studentScores",this.state.studentScores)
-                  this.state.studentScores.map((question, indexQuestion) =>
-                  
-                      question.activity.answers.map((answers, indexanswers) =>{
-                          return(
-                            <div>
-                            <div>asdsda</div>
-                            {answers.map((answer) =>{
-                              if(answer===true){answer="correcto*"} else{answer="Incorrecto*"}
-                              return(<li>{answer}</li>)
-                            })}
-                            </div>
-                          )
-                        }
-                      )
-                  )
-                  
-                  }
-``
-                  </RadioGroup>
-                </FormControl>
-              </div>
-            </Paper>
-          :
-          undefined
-        }
-       
       </div>
       
     )

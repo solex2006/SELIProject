@@ -25,7 +25,15 @@ import IconButton from '@material-ui/core/IconButton';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-
+import AppsIcon from '@material-ui/icons/Apps';
+import DenseTable from './DenseTable';
+import Paper from '@material-ui/core/Paper';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 export default class PublishedCoursesList extends React.Component {
   constructor(props) {
@@ -33,6 +41,9 @@ export default class PublishedCoursesList extends React.Component {
     this.state = {
       myCourses: [],
       courseProfiles: [],
+      studentInformation: '',
+      studentScores: [],
+      course: [],
     }
   }
 
@@ -165,6 +176,9 @@ export default class PublishedCoursesList extends React.Component {
     }
     this.setState({
       openClassroom: true,
+      studentInformation: '',
+      studentScores:[],
+      course:[],
       classroomResults: results,
     });
   }
@@ -180,6 +194,116 @@ export default class PublishedCoursesList extends React.Component {
   handleCloseClassroom = () => {
     this.setState({ openClassroom: false });
   };
+
+  handleView= (event, studentScores, course)=>{
+    console.log(event)
+    this.setState({
+      studentInformation: event,
+      studentScores: studentScores,
+      course,
+    })
+    /* else if(event==="quizDetails"){
+      console.log("indice", index)
+      this.setState({
+        showQuizDetails:'showQuizDetails',
+        index: index
+      })
+    } */
+  }
+
+  quizes= ()=>{
+    return(
+      <React.Fragment>
+
+        <div className="library-files-containerquiz">
+          {console.log(`${this.state.studentScores} scores`)}
+        {this.state.studentScores.map((quiz, index) => (
+          <div>
+            <div className="studentTable">
+              <h3>Quiz: {this.state.course[0].title}</h3>
+            </div>
+            <DenseTable quiz={quiz}/>
+            <Button
+                className="student-profile-button"
+                color="primary"
+                variant="outlined"
+                onClick={() => this.handleView("quizDetails", this.state.studentScores, this.state.course)}
+            >
+                Quiz details*
+            </Button>
+          </div>   
+        ))} 
+        </div>
+      </React.Fragment> 
+    )
+  
+  }
+
+  quizDetails=()=>{
+    return(
+      <Paper elevation={8} className="quiz-dashboard-questions-containerTutor">
+        <p className="question-dashboard-label-text">{this.props.language.chooseCorrectAnswer}</p>
+        <div className="question-dashboard-container">
+          <FormControl component="fieldset" className="question-dashboard-form-control">
+            <FormLabel component="legend" className="question-dashboard-form-label">title</FormLabel>
+            <RadioGroup
+              aria-label="answer"
+              name="answer"
+              className="question-dashboard-radio-group"
+            >
+            {
+            //console.log("studentScores",this.state.studentScores)
+            this.state.studentScores.map((question, indexQuestion) =>
+            
+                question.activity.answers.map((answers, indexanswers) =>{
+                    return(
+                      <div>
+                      <div>asdsda</div>
+                      {answers.map((answer) =>{
+                        if(answer===true){answer="correcto*"} else{answer="Incorrecto*"}
+                        return(<li>{answer}</li>)
+                      })}
+                      </div>
+                    )
+                  }
+                )
+            )
+            
+            }
+            </RadioGroup>
+          </FormControl>
+        </div>
+      </Paper>
+    )
+  }
+
+  menu = () => {
+    return(
+      <div className="course-content-container-quiz">
+        <div className="course-content-breadcrumbs-container-quiz">
+          <Paper elevation={0} className="course-content-breadcrumbs-paper-quiz">
+            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+              <Typography onClick={() => this.handleView("")} className="course-content-breadcrumb-text">
+                {this.props.language.course}
+              </Typography>
+              <Typography onClick={() => this.handleView("quiz", this.state.studentScores, this.state.course)} className="course-content-breadcrumb-text">
+                {this.props.language.quiz}
+              </Typography>
+              <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
+                quiz details *
+              </Typography>
+              {/* <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
+                {`${this.props.language.unit} ${this.props.selected[1] + 1}: ${this.props.course.program[this.props.selected[1]].name}`}
+              </Typography>
+              <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
+                {`${this.props.language.lesson} ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[1]].lessons[this.props.selected[0]].name}`}
+              </Typography> */}
+            </Breadcrumbs>
+          </Paper>
+        </div>
+      </div>
+    )
+  }
 
   render() {
     return(
@@ -304,18 +428,35 @@ export default class PublishedCoursesList extends React.Component {
                       <DialogContentText className="classroom-dialog-title" id="alert-dialog-description">
                         {this.props.language.studentsClassroom}
                       </DialogContentText>
+                      {this.menu()}
                       <div className="classroom-management-students-container">
                         {
-                          this.state.courseProfiles.map((profile, index) => {
-                            return(
-                              <StudentProfile
-                                profile={profile}
-                                handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                reload={this.openClassroomManagement.bind(this)}
-                                language={this.props.language}
-                              />
-                            )
-                          })
+                          this.state.studentInformation===''?
+                            this.state.courseProfiles.map((profile, index) => {
+                              return(
+                                <StudentProfile
+                                  profile={profile}
+                                  handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                  handleView={this.handleView}
+                                  reload={this.openClassroomManagement.bind(this)}
+                                  language={this.props.language}
+                                />
+                              )
+                            })
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.studentInformation==='quiz'?
+                            this.quizes()
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.studentInformation==='quizDetails'?
+                            this.quizDetails()
+                          :
+                            undefined
                         }
                       </div>
                     </React.Fragment>
