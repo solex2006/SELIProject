@@ -272,14 +272,17 @@ export default class ActivityItem extends React.Component {
                       <ExpansionPanelActions className="quiz-item-actions">
                         {
                           !this.state.resolved ?
-                            <div>
-                              <Button size="medium">
-                                {this.props.language.setReminder}
-                              </Button>
-                              <Button onClick={() => this.doActivity()} size="medium" color="primary">
-                                {this.props.language.doActivity}
-                              </Button>
-                            </div>
+                            this.props.fromTutor ? 
+                              undefined 
+                            : 
+                              <div>
+                                <Button size="medium">
+                                  {this.props.language.setReminder}
+                                </Button>
+                                <Button onClick={() => this.doActivity()} size="medium" color="primary">
+                                  {this.props.language.doActivity}
+                                </Button>
+                              </div>
                           :
                           <div className="align-items-center">
                             <Button size="medium">

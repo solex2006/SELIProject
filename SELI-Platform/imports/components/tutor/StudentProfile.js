@@ -23,8 +23,6 @@ export default class StudentProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showQuizes:'',
-      showStudents:'showStudents',
       studentScores:'', 
       course: '',
       showQuizDetails:'',
@@ -77,7 +75,7 @@ export default class StudentProfile extends React.Component {
     })
   }
 
- componentDidMount() {
+  componentDidMount() {
     let course = Courses.find({_id: this.props.profile.courseProfile.courseId}).fetch();
     console.log("CourseInformation", course) 
     let studentScores = Activities.find({"activity.user": this.props.profile.studentId, "activity.course": this.props.profile.courseProfile.courseId}).fetch();
@@ -178,16 +176,15 @@ export default class StudentProfile extends React.Component {
                     className="student-profile-button"
                     color="primary"
                     variant="outlined"
-                    onClick={() => this.props.handleView("quiz", this.state.studentScores, this.state.course)}
+                    onClick={() => this.props.handleView({}, "quiz", this.state.studentScores)}
                   >
                     Ver de notas*
                   </Button>
-                  {console.log(this.statestudentScores)}
                   <Button
                     className="student-profile-button"
                     color="primary"
                     variant="outlined"
-                    onClick={() => this.props.handleView("course", this.state.studentScores)}
+                    onClick={() => this.props.handleView(this.props.profile, "course")}
                   >
                     {this.props.language.seeCourse}
                   </Button>

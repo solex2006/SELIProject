@@ -75,11 +75,11 @@ export default class VideoItem extends React.Component {
                 :
                   undefined
               }
-              <Tooltip title={this.props.language.openMediaPlayer}>
+              {this.props.fromTutor ? undefined : <Tooltip title={this.props.language.openMediaPlayer}>
                 <Fab onClick={() => this.props.openMediaPlayer(this.props.item.attributes.video, this.props.item.type, this.props.item.attributes.title)} className="course-item-video-card-media-fab" size="small">
                   <PlayArrowIcon/>
                 </Fab>
-              </Tooltip>
+              </Tooltip>}
               <Tooltip title={this.props.language.addToMyLibrary}>
                 <Fab className="course-item-video-card-media-fab" size="small">
                   <FolderSpecialIcon/>
