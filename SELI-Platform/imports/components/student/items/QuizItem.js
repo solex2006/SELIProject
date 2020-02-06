@@ -95,18 +95,28 @@ export default class QuizItem extends React.Component {
   }
 
   showScore = () => {
-
+    let activity;
     this.setState({
       openScore: true,
       loadingScore: true,
     }, () => {
-      let activity = Activities.find(
-        {
-          'activity.user': Meteor.userId(),
-          'activity.course': this.props.course,
-          'activity.activityId': this.props.item.id,
-        }
-      ).fetch();
+      if (this.props.fromTutor) {
+        activity = Activities.find(
+          {
+            'activity.user': this.props.fromTutor,
+            'activity.course': this.props.course,
+            'activity.activityId': this.props.item.id,
+          }
+        ).fetch();
+      } else {
+        activity = Activities.find(
+          {
+            'activity.user': Meteor.userId(),
+            'activity.course': this.props.course,
+            'activity.activityId': this.props.item.id,
+          }
+        ).fetch();
+      }
       if (activity.length) {
         activity = activity[activity.length-1];
         this.setState({
@@ -172,26 +182,19 @@ export default class QuizItem extends React.Component {
               <Divider />
               <ExpansionPanelActions className="quiz-item-actions">
                 {
-                  !this.state.resolved ?
-                    <div>
-                      <Button onClick={() => this.startQuiz()} size="medium" color="primary">
-                        {this.props.language.startQuiz}
-                      </Button>
-                    </div>
-                  :
-                  <div>
-                    <div>
-                        <Button onClick={() => this.startQuiz()} size="medium" color="primary">
-                          {this.props.language.startQuiz}
-                        </Button>
-                      </div>
+                  this.props.fromTutor ? undefined :
+                    <Button onClick={() => this.startQuiz()} size="medium" color="primary">
+                      {this.props.language.startQuiz}
+                    </Button>
+                }
+                {
+                  !this.state.resolved ? undefined :
                     <div className="align-items-center">
                       <Button onClick={() => this.showScore()} size="medium">
                         {this.props.language.seeResults}
                       </Button>
                       <CheckCircleIcon className="done-icon"/>
                     </div>
-                  </div>
                 }
               </ExpansionPanelActions>
             </ExpansionPanel>
