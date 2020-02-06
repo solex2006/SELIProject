@@ -42,51 +42,61 @@ export default class QuizForm extends React.Component {
             correctAnswers: [],
             questionTitle: '',
             answersText: [],
+            quizTitle: '',
           },
           {
             correctAnswers: [],
             questionTitle: '',
             answersText: [],
+            quizTitle: '',
           },
           {
             correctAnswers: [],
             questionTitle: '',
             answersText: [],
+            quizTitle: '',
           },
           {
             correctAnswers: [],
             questionTitle: '',
             answersText: [],
+            quizTitle: '',
           },
           {
             correctAnswers: [],
             questionTitle: '',
             answersText: [],
+            quizTitle: '',
           },
           {
             correctAnswers: [],
             questionTitle: '',
             answersText: [],
+            quizTitle: '',
           },
           {
             correctAnswers: [],
             questionTitle: '',
             answersText: [],
+            quizTitle: '',
           },
           {
             correctAnswers: [],
             questionTitle: '',
             answersText: [],
+            quizTitle: '',
           },
           {
             correctAnswers: [],
             questionTitle: '',
             answersText: [],
+            quizTitle: '',
           },
           {
             correctAnswers: [],
             questionTitle: '',
             answersText: [],
+            quizTitle: '',
           },
         ],
       }
@@ -98,6 +108,7 @@ export default class QuizForm extends React.Component {
     let attributes = this.state.attributes;
     if (name === 'quizTitle') {
       attributes.quizTitle = event.target.value;
+      attributes.questions[this.state.questionSelected].quizTitle = event.target.value;
     }
     else if (name === 'awardPoints') {
       attributes.awardPoints = event.target.checked;
@@ -439,7 +450,6 @@ myFormatminutes=(num)=> {
              {
               this.state.attributes.questions[this.state.questionSelected].correctAnswers.map((value,index)=>{
                 //value.answersText.map((answer,index)=>{
-                  
                   console.log("question selected", this.state.attributes.questions[this.state.questionSelected])
                    return(
                     <div className="questions">

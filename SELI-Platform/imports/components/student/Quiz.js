@@ -114,6 +114,7 @@ class Quiz extends React.Component {
       }
     }
     return true;
+    
   }
 
   getQuizResults = (answers) => {
@@ -203,10 +204,14 @@ class Quiz extends React.Component {
       let approved;
       score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
       let quiz = {
-        score: score,
-        approved: approved,
-        public: false,
-        type: 'quiz',
+        score: results.score,
+          hits: results.hits,
+          approved: approved,
+          public: false,
+          type: 'quiz',
+          Incorrect: results.Incorrect,
+          answers:results.answers,
+          trueAnswers:results.trueAnswers
       }
       this.props.completeActivity(this.props.quiz.id, quiz, "Quiz");
     }
@@ -315,7 +320,7 @@ class Quiz extends React.Component {
 
   reload = () => {
     let selected = this.state.selected;
-    this.setState({})
+    
   }
 
   alerta =() =>{
@@ -343,7 +348,6 @@ class Quiz extends React.Component {
   handleClosepublish = () => {
     this.setState({ alert: 'cierra' });
   }
-
   handleMoreTime = () =>{
     this.setState({ 
       alert: 'cierra',

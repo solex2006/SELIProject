@@ -289,3 +289,15 @@ display: flex
   padding: 0vh 2vw;
   font-weight: bold;
 }
+
+.answers-scores{
+  padding: 0vh 2vw;
+  font-weight: bold;
+}
+
+.student-scores{
+  margin: 1vh 1vw;
+  border-style: dotted;
+  display: flex;
+}
+

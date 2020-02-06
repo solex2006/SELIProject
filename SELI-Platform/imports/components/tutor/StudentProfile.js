@@ -88,7 +88,7 @@ export default class StudentProfile extends React.Component {
     })
     //})
     console.log("studentScores", studentScores) 
-    console.log("wwwwwww", this.props.profile.studentId, this.props.profile.courseProfile.courseId)
+    //console.log("wwwwwww", this.props.profile.studentId, this.props.profile.courseProfile.courseId)
       this.setState({
         color: this.getAvatarColor(this.props.profile.studentInformation.username.toUpperCase().charCodeAt(0)),
       })

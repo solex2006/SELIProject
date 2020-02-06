@@ -169,9 +169,7 @@ export default class QuizItem extends React.Component {
                 {
                   !this.state.resolved ?
                     <div>
-                      <Button size="medium">
-                        {this.props.language.setReminder}
-                      </Button>
+                      
                       <Button onClick={() => this.startQuiz()} size="medium" color="primary">
                         {this.props.language.startQuiz}
                       </Button>

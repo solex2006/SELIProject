@@ -55,11 +55,14 @@ export default class PublishedCoursesList extends React.Component {
       course: [],
       selected: [],
       stories: [],
+      indexquiz:'',
+      valuesofScores:[]
     }
   }
 
   componentDidMount() {
     this.getMyCourses(this.props.user.username);
+    
   }
 
   getMyCourses = (user) => {
@@ -207,12 +210,14 @@ export default class PublishedCoursesList extends React.Component {
     this.setState({ openClassroom: false });
   };
 
-  handleView= (event, studentScores, course)=>{
+  handleView= (event, studentScores, course, index)=>{
+    this.average()
     console.log(event)
     this.setState({
       studentInformation: event,
       studentScores: studentScores,
       course,
+      indexquiz: index
     })
     /* else if(event==="quizDetails"){
       console.log("indice", index)
@@ -224,22 +229,21 @@ export default class PublishedCoursesList extends React.Component {
   }
 
   quizes= ()=>{
+   
     return(
       <React.Fragment>
-
         <div className="library-files-containerquiz">
-          {console.log(`${this.state.studentScores} scores`)}
-        {this.state.studentScores.map((quiz, index) => (
+          {this.state.studentScores.map((quiz, index) => (
           <div>
             <div className="studentTable">
-              <h3>Quiz: {this.state.course[0].title}</h3>
+              <h3>{quiz.activity.trueAnswers[0].quizTitle}</h3>
             </div>
             <DenseTable quiz={quiz}/>
             <Button
                 className="student-profile-button"
                 color="primary"
                 variant="outlined"
-                onClick={() => this.handleView("quizDetails", this.state.studentScores, this.state.course)}
+                onClick={() => this.handleView("quizDetails", this.state.studentScores, this.state.course, index)}
             >
                 Quiz details*
             </Button>
@@ -251,14 +255,69 @@ export default class PublishedCoursesList extends React.Component {
   
   }
 
+
+ insertAt=(array, index, elementsArray)=> {
+   return array.splice(index, 0, elementsArray);
+}
+
+  average=()=>{
+    let scores=this.state.studentScores 
+    let dupes = {};
+    scores.forEach((item,index) => {
+      dupes[item.activity.activityId] = dupes[item.activity.activityId] || [];
+      dupes[item.activity.activityId].push(index);
+    });  
+    let valuesofScores=[]
+    
+    for(let name in dupes){
+      //average
+      let average=0;
+      let max=0;
+      let min=0;
+      let times=0
+      let maximum=[]
+
+      if(dupes[name].length>1){  
+        dupes[name].map((repeat,index)=>{
+          average=scores[repeat].activity.score+average
+          maximum.push(scores[repeat].activity.score)
+        })
+        max=Math.max.apply(Math, maximum)
+        min= Math.min.apply(Math, maximum)
+        times=dupes[name].length
+        average=(average/times)
+        let total=[max, min, average, times]
+        dupes[name].map((repeat,index)=>{
+          this.insertAt(valuesofScores, repeat, total );
+        })
+       
+      }else {
+        dupes[name].map((repeat,index)=>{
+          average=scores[repeat].activity.score
+          max=scores[repeat].activity.score
+          min=scores[repeat].activity.score
+          times=1
+          average=max
+          let total=[max, min, average, times]
+          this.insertAt(valuesofScores, repeat, total );
+        })
+      }   
+    } //console.log(name+'->indexes->'+dupes[name]+'->count->'+dupes[name].length)
+    console.log("total", valuesofScores)
+    this.setState({
+      valuesofScores:valuesofScores,
+    })
+  }
+
   quizDetails=()=>{
-    console.log(this.state.course, "course...", this.state.studentScores)
+    
+    console.log(this.state.course, "course...", this.state.studentScores, "indexquiz", this.state.indexquiz)
     return(
       <Paper elevation={8} className="quiz-dashboard-questions-containerTutor">
-        <p className="question-dashboard-label-text">Quiz View Tool</p>
+        <p className="question-dashboard-label-text">Quiz View Tool*</p>
         <div className="question-dashboard-container">
           <FormControl component="fieldset" className="question-dashboard-form-controlx">
-            {/* <FormLabel component="legend" className="question-dashboard-form-label">title quiz</FormLabel> */}
+           {/*  <FormLabel component="legend" className="question-dashboard-form-label">{this.state.studentScores[this.state.indexquiz].activity.trueAnswers[0].quizTitle}</FormLabel>  */}
             <RadioGroup
               aria-label="answer"
               name="answer"
@@ -268,7 +327,7 @@ export default class PublishedCoursesList extends React.Component {
               <div  className="answers">Questions<BookIcon/></div>
               <div className="student-answers">
               {
-                this.state.studentScores[0].activity.trueAnswers.map((question, indexQuestion) =>{
+                this.state.studentScores[this.state.indexquiz].activity.trueAnswers.map((question, indexQuestion) =>{
                   return(
                     <div>
                       <div className="answers">Question*: {question.questionTitle}</div>
@@ -281,21 +340,17 @@ export default class PublishedCoursesList extends React.Component {
                             )
                           }) 
                       } 
-                    </div>
-                        
+                    </div>       
                   )   
                 })
               }
             </div>
             </div>
-
-
             <div>
               <div className="answers">Student Answers <CreateRoundedIcon/></div>
               <div className="student-answers">
                   {
-                    this.state.studentScores.map((question, indexQuestion) =>
-                        question.activity.answers.map((answers, indexanswers) =>{
+                    this.state.studentScores[this.state.indexquiz].activity.answers.map((answers, indexanswers) =>{
                             return(
                               <div >
                                 <div className="answers" >Answers*</div>
@@ -309,19 +364,17 @@ export default class PublishedCoursesList extends React.Component {
                                 })}
                               </div>
                             )
+                          
                           }
-                        )
                     )
                   }
               </div>
             </div>
-            
-
             <div>
               <div className="answers">Correct Answers<SpellcheckRoundedIcon/></div>
               <div className="student-answers">  
                 {
-                  this.state.studentScores[0].activity.trueAnswers.map((question, indexQuestion) =>{
+                  this.state.studentScores[this.state.indexquiz].activity.trueAnswers.map((question, indexQuestion) =>{
                     return(
                       <div>
                         <div className="answers">Answers*</div>
@@ -347,9 +400,22 @@ export default class PublishedCoursesList extends React.Component {
                 }
               </div>
             </div>
+
+
+            <div >
+              <div className="answers-scores">Scores<SpellcheckRoundedIcon/></div>
+              <div className="student-scores">  
+              
+          
+               <div>Average*<DoneRoundedIcon/>{this.state.valuesofScores[this.state.indexquiz][2]}</div>
+                <div>Max*<ClearRoundedIcon/>{this.state.valuesofScores[this.state.indexquiz][0]}</div>
+                <div>Min*<ClearRoundedIcon/>{this.state.valuesofScores[this.state.indexquiz][1]}</div>
+                <div>Number of attemps*<ClearRoundedIcon/>{this.state.valuesofScores[this.state.indexquiz][3]}</div> 
+                   
             
-            
-            
+              </div>
+            </div>
+ 
             </RadioGroup>
           </FormControl>
         </div>
@@ -448,6 +514,14 @@ export default class PublishedCoursesList extends React.Component {
       </div>
     )
   }
+
+
+  
+
+
+
+
+
 
   render() {
     return(

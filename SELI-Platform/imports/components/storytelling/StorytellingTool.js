@@ -686,7 +686,7 @@ class StorytellingTool extends React.Component {
   })}
 
   completeActivity = (id, label, courseId) => {
-    
+    //no es aqui donde se manda al terminar la prueba
     let courses = this.state.courses;
     let courseIndex = courses.findIndex(course => course._id === courseId);
     let toComplete = this.props.user.profile.courses[courseIndex].toComplete;
