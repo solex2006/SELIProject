@@ -205,6 +205,7 @@ export default class Course extends React.Component {
     let toComplete = this.state.toComplete;
     let toResolve = this.state.toResolve;
     
+    console.log("complete activity......")
     if(label==='Quiz'){
       for (var i = 0; i < toResolve.length; i++) {
         if (toResolve[i]._id === id) {
@@ -257,7 +258,6 @@ export default class Course extends React.Component {
       }
     }
     let progress = this.calculateProgress(toComplete, toResolve);
-    console.log("Progress", progress)
     this.setState({
       toResolve: toResolve,
       progress: progress,

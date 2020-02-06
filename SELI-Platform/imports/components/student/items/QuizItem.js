@@ -95,6 +95,7 @@ export default class QuizItem extends React.Component {
   }
 
   showScore = () => {
+
     this.setState({
       openScore: true,
       loadingScore: true,
@@ -107,7 +108,7 @@ export default class QuizItem extends React.Component {
         }
       ).fetch();
       if (activity.length) {
-        activity = activity[0];
+        activity = activity[activity.length-1];
         this.setState({
           quizResult: activity,
           loadingScore: false,
@@ -119,7 +120,11 @@ export default class QuizItem extends React.Component {
           result: false,
         })
       }
-    });
+    }
+    
+   
+    );
+    
   }
 
   render() {
@@ -168,23 +173,24 @@ export default class QuizItem extends React.Component {
               <ExpansionPanelActions className="quiz-item-actions">
                 {
                   !this.state.resolved ?
-                    this.props.fromTutor ? 
-                      undefined 
-                    : 
-                      <div>
-                        <Button size="medium">
-                          {this.props.language.setReminder}
-                        </Button>
+                    <div>
+                      <Button onClick={() => this.startQuiz()} size="medium" color="primary">
+                        {this.props.language.startQuiz}
+                      </Button>
+                    </div>
+                  :
+                  <div>
+                    <div>
                         <Button onClick={() => this.startQuiz()} size="medium" color="primary">
                           {this.props.language.startQuiz}
                         </Button>
                       </div>
-                  :
-                  <div className="align-items-center">
-                    <Button onClick={() => this.showScore()} size="medium">
-                      {this.props.language.seeResults}
-                    </Button>
-                    <CheckCircleIcon className="done-icon"/>
+                    <div className="align-items-center">
+                      <Button onClick={() => this.showScore()} size="medium">
+                        {this.props.language.seeResults}
+                      </Button>
+                      <CheckCircleIcon className="done-icon"/>
+                    </div>
                   </div>
                 }
               </ExpansionPanelActions>
@@ -265,7 +271,7 @@ export default class QuizItem extends React.Component {
                       {this.props.language.noResults}
                     </DialogContentText>
                   :
-                  <div>
+                  <div key={Math.random()}>
                     <DialogContentText id={this.state.quizResult.activity.approved ? "approved-text" : "non-approved-text"} className="quiz-result-dialog-content-text">
                       {this.state.quizResult.activity.approved ? this.props.language.quizApproved : this.props.language.quizNotApproved}
                     </DialogContentText>
@@ -276,9 +282,9 @@ export default class QuizItem extends React.Component {
                       {`${this.props.language.correctAnswers}: ${this.state.quizResult.activity.hits}`}
                     </DialogContentText>
                  
-                    <DialogContentText  className="quiz-result-dialog-content-text">
+                    {/* <DialogContentText  className="quiz-result-dialog-content-text">
                       {`${this.props.language.wrongAnswers}: ${(this.state.quizResult.activity.Incorrect)}`}
-                    </DialogContentText>
+                    </DialogContentText> */}
                     <DialogContentText className="quiz-result-dialog-content-text">
                       {`${this.props.language.approvalPercentage}: ${this.props.item.attributes.approvalPercentage}%`}
                     </DialogContentText>

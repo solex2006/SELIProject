@@ -80,7 +80,7 @@ class Quiz extends React.Component {
   }
 
   handleChange = (check,event) => {
-    console.log("check and index",this.state.selected, check , this.state.answers, 'event---', event.target.checked)
+    //console.log("check and index",this.state.selected, check , this.state.answers, 'event---', event.target.checked)
     let answers = this.state.answers;
     answers[this.state.selected][check]=event.target.checked;
     this.setState({
@@ -179,7 +179,6 @@ class Quiz extends React.Component {
       start: true,
     });
     if(validate) {
-      console.log("validate..")
       if (this.validateQuiz()) { // always validate inclusive without any question resolved
         let results = this.getQuizResults(this.state.answers);
         let approved;
@@ -444,7 +443,7 @@ class Quiz extends React.Component {
               <RadioGroup
                 aria-label="answer"
                 name="answer"
-                className="question-dashboard-radio-group"
+                className="question-dashboard-radio-group-student"
               >
                 {
                   this.props.quiz.attributes.questions[this.state.selected].answersText.map((text, index)=>{ 
@@ -499,9 +498,10 @@ class Quiz extends React.Component {
                 <Button
                   className="question-dashboard-button"
                   color="primary"
+                  variant="contained"
                   onClick={() => this.handlePrevious()}
                 >
-                  {this.props.language.previous}
+                  {this.props.language.previousStep}
                 </Button>
               }
               {
