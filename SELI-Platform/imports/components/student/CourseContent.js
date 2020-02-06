@@ -46,25 +46,28 @@ export default class CourseContent extends React.Component {
           this.props.course.organization.subunit ?
             <div>
               <div className="course-content-breadcrumbs-container">
-                <Paper elevation={0} className="course-content-breadcrumbs-paper">
-                  <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                    <Typography onClick={() => this.props.showComponent("home")} className="course-content-breadcrumb-text">
-                      {this.props.language.home}
-                    </Typography>
-                    <Typography onClick={() => this.props.showComponent("subscribed")} className="course-content-breadcrumb-text">
-                      {this.props.language.courses}
-                    </Typography>
-                    <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
-                      {this.props.course.title}
-                    </Typography>
-                    <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                      {`${this.props.language.unit} ${this.props.selected[1] + 1}: ${this.props.course.program[this.props.selected[1]].name}`}
-                    </Typography>
-                    <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                      {`${this.props.language.lesson} ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[1]].lessons[this.props.selected[0]].name}`}
-                    </Typography>
-                  </Breadcrumbs>
-                </Paper>
+                {
+                  this.props.fromTutor ? undefined :
+                    <Paper elevation={0} className="course-content-breadcrumbs-paper">
+                      <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                        <Typography onClick={() => this.props.showComponent("home")} className="course-content-breadcrumb-text">
+                          {this.props.language.home}
+                        </Typography>
+                        <Typography onClick={() => this.props.showComponent("subscribed")} className="course-content-breadcrumb-text">
+                          {this.props.language.courses}
+                        </Typography>
+                        <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
+                          {this.props.course.title}
+                        </Typography>
+                        <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
+                          {`${this.props.language.unit} ${this.props.selected[1] + 1}: ${this.props.course.program[this.props.selected[1]].name}`}
+                        </Typography>
+                        <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
+                          {`${this.props.language.lesson} ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[1]].lessons[this.props.selected[0]].name}`}
+                        </Typography>
+                      </Breadcrumbs>
+                    </Paper>
+                }
               </div>
               {
                 this.props.course.program[this.props.selected[1]].lessons[this.props.selected[0]].items.map((item, index) => {
@@ -91,8 +94,9 @@ export default class CourseContent extends React.Component {
                       {
                         item.type === "video" ?
                           <VideoItem
+                            fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
                             item={item}
-                            openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+                            openMediaPlayer={this.props.fromTutor ? undefined : this.props.openMediaPlayer.bind(this)}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             language={this.props.language}
                           />
@@ -102,8 +106,9 @@ export default class CourseContent extends React.Component {
                       {
                         item.type === "audio" ?
                           <AudioItem
+                            fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
                             item={item}
-                            openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+                            openMediaPlayer={this.props.fromTutor ? undefined : this.props.openMediaPlayer.bind(this)}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             language={this.props.language}
                           />
@@ -172,11 +177,12 @@ export default class CourseContent extends React.Component {
                       {
                         item.type === "quiz" ?
                           <QuizItem
+                            fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
                             item={item}
                             toResolve={this.props.toResolve}
                             course={this.props.course._id}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
-                            completeActivity={this.props.completeActivity.bind(this)}
+                            completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
                             language={this.props.language}
                           />
                         :
@@ -185,10 +191,11 @@ export default class CourseContent extends React.Component {
                       {
                         item.type === "activity" ?
                           <ActivityItem
+                            fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
                             item={item}
                             toResolve={this.props.toResolve}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
-                            completeActivity={this.props.completeActivity.bind(this)}
+                            completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
                             language={this.props.language}
                           />
                         :
@@ -200,7 +207,7 @@ export default class CourseContent extends React.Component {
               }
               <div className="course-content-footer-actions">
                 {
-                  this.props.toComplete[this.props.selected[1]].subunits[this.props.selected[0]] ?
+                  !this.props.fromTutor &&  this.props.toComplete[this.props.selected[1]].subunits[this.props.selected[0]] ?
                     <Button
                       className="course-content-footer-button-small"
                       color="primary"
@@ -234,6 +241,7 @@ export default class CourseContent extends React.Component {
                     </Fab>
                   </Tooltip>
                 </div>
+                {this.props.fromTutor ? undefined : 
                 <Button
                   disabled={this.props.toComplete[this.props.selected[1]].subunits[this.props.selected[0]]}
                   onClick={() => this.props.completeSubunit(this.props.selected[1], this.props.selected[0])}
@@ -245,7 +253,7 @@ export default class CourseContent extends React.Component {
                     `${this.props.language[this.props.course.organization.subunit.toLowerCase()]} ${this.props.language.completed}` :
                     `${this.props.language.complete} ${this.props.language[this.props.course.organization.subunit.toLowerCase()]}`
                   }
-                </Button>
+                </Button>}
                 {
                   this.props.toComplete[this.props.selected[1]].subunits[this.props.selected[0]] ?
                     <CheckCircleIcon className="success-dialog-icon-small"/>
@@ -257,22 +265,25 @@ export default class CourseContent extends React.Component {
           :
           <div>
             <div className="course-content-breadcrumbs-container">
-              <Paper elevation={0} className="course-content-breadcrumbs-paper">
-                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                  <Typography onClick={() => this.props.showComponent("home")} className="course-content-breadcrumb-text">
-                    {this.props.language.home}
-                  </Typography>
-                  <Typography onClick={() => this.props.showComponent("subscribed")} className="course-content-breadcrumb-text">
-                    {this.props.language.courses}
-                  </Typography>
-                  <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
-                    {this.props.course.title}
-                  </Typography>
-                  <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                    {`${this.props.language.topic} ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[0]].name}`}
-                  </Typography>
-                </Breadcrumbs>
-              </Paper>
+              {
+                this.props.fromTutor ? undefined :
+                  <Paper elevation={0} className="course-content-breadcrumbs-paper">
+                    <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                      <Typography onClick={() => this.props.showComponent("home")} className="course-content-breadcrumb-text">
+                        {this.props.language.home}
+                      </Typography>
+                      <Typography onClick={() => this.props.showComponent("subscribed")} className="course-content-breadcrumb-text">
+                        {this.props.language.courses}
+                      </Typography>
+                      <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
+                        {this.props.course.title}
+                      </Typography>
+                      <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
+                        {`${this.props.language.topic} ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[0]].name}`}
+                      </Typography>
+                    </Breadcrumbs>
+                  </Paper>
+              }
             </div>
             {
               this.props.course.program[this.props.selected[0]].items.map((item, index) => {
@@ -299,8 +310,9 @@ export default class CourseContent extends React.Component {
                     {
                       item.type === "video" ?
                         <VideoItem
+                          fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
                           item={item}
-                          openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+                          openMediaPlayer={this.props.fromTutor ? undefined : this.props.openMediaPlayer.bind(this)}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           language={this.props.language}
                         />
@@ -310,8 +322,9 @@ export default class CourseContent extends React.Component {
                     {
                       item.type === "audio" ?
                         <AudioItem
+                          fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
                           item={item}
-                          openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+                          openMediaPlayer={this.props.fromTutor ? undefined : this.props.openMediaPlayer.bind(this)}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           language={this.props.language}
                         />
@@ -380,11 +393,12 @@ export default class CourseContent extends React.Component {
                     {
                       item.type === "quiz" ?
                         <QuizItem
+                          fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
                           item={item}
                           toResolve={this.props.toResolve}
                           course={this.props.course._id}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
-                          completeActivity={this.props.completeActivity.bind(this)}
+                          completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
                           language={this.props.language}
                         />
                       :
@@ -393,10 +407,11 @@ export default class CourseContent extends React.Component {
                     {
                       item.type === "activity" ?
                         <ActivityItem
+                          fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
                           item={item}
                           toResolve={this.props.toResolve}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
-                          completeActivity={this.props.completeActivity.bind(this)}
+                          completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
                           language={this.props.language}
                         />
                       :
@@ -408,7 +423,7 @@ export default class CourseContent extends React.Component {
             }
             <div className="course-content-footer-actions">
               {
-                this.props.toComplete[this.props.selected[0]] ?
+                this.props.toComplete[this.props.selected[0]] && !this.props.fromTutor ?
                   <Button
                     className="course-content-footer-button-small"
                     color="primary"
@@ -442,7 +457,7 @@ export default class CourseContent extends React.Component {
                   </Fab>
                 </Tooltip>
               </div>
-              <Button
+              {this.props.fromTutor ? undefined : <Button
                 disabled={this.props.toComplete[this.props.selected[0]]}
                 onClick={() => this.props.completeUnit(this.props.selected[0])}
                 variant="contained"
@@ -453,7 +468,7 @@ export default class CourseContent extends React.Component {
                   `${this.props.language[this.props.course.organization.unit.toLowerCase()]} ${this.props.language.completed}` :
                   `${this.props.language.complete} ${this.props.language[this.props.course.organization.unit.toLowerCase()]}`
                 }
-              </Button>
+              </Button>}
               {
                 this.props.toComplete[this.props.selected[0]] ?
                   <CheckCircleIcon className="success-dialog-icon-small"/>

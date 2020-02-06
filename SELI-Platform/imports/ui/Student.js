@@ -355,6 +355,7 @@ export default class Student extends React.Component {
   }
 
   render() {
+    console.log(this.state.activeCourse)
     return(
       <div tabIndex="-1">
         <MuiThemeProvider tabindex="-1" theme={theme}>

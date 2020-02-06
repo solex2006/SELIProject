@@ -168,14 +168,17 @@ export default class QuizItem extends React.Component {
               <ExpansionPanelActions className="quiz-item-actions">
                 {
                   !this.state.resolved ?
-                    <div>
-                      <Button size="medium">
-                        {this.props.language.setReminder}
-                      </Button>
-                      <Button onClick={() => this.startQuiz()} size="medium" color="primary">
-                        {this.props.language.startQuiz}
-                      </Button>
-                    </div>
+                    this.props.fromTutor ? 
+                      undefined 
+                    : 
+                      <div>
+                        <Button size="medium">
+                          {this.props.language.setReminder}
+                        </Button>
+                        <Button onClick={() => this.startQuiz()} size="medium" color="primary">
+                          {this.props.language.startQuiz}
+                        </Button>
+                      </div>
                   :
                   <div className="align-items-center">
                     <Button onClick={() => this.showScore()} size="medium">
