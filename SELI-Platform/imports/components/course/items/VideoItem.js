@@ -15,6 +15,7 @@ import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import DragItem from './DragItem'
 import Divider from '@material-ui/core/Divider';
+import VideoPreview from '../../storytelling/VideoPreview';
 
 export default class VideoItem extends React.Component {
   constructor(props) {
@@ -41,22 +42,16 @@ export default class VideoItem extends React.Component {
             <CardActionArea className="course-item-video-card-media-action-area">
               {
                 this.props.item.attributes.source === 'upload' ?
-                  <CardMedia
-                    className="course-item-video-card-media"
-                    src={this.props.item.attributes.video.link}
-                    component="video"
-                    video={this.props.item.attributes.video.link}
-                    title={this.props.item.attributes.video.name}
-                  />
+                  <VideoPreview file={this.props.item.attributes.video}/>
                 :
-                <ReactPlayer className="course-creator-item-video-card-preview-player" url={this.props.item.attributes.video.link}/>
+                  <ReactPlayer className="course-creator-item-video-card-preview-player" url={this.props.item.attributes.video.link}/>
               }
               <CardContent className="course-item-video-card-media-content">
                 <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
                   {` ${this.props.item.attributes.title}`}
-                  <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
+                </Typography>
+                <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
                     {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
-                  </Typography>
                 </Typography>
                 {
                   this.props.item.attributes.hasDescription ?

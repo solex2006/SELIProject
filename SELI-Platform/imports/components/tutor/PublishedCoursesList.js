@@ -212,15 +212,22 @@ export default class PublishedCoursesList extends React.Component {
     this.average()
     if (event === "course") {
       this.setState({
-        studentCourse: profile.courseProfile,
-        studentName: profile.studentInformation.fullname,
+        student: profile,
         selected: [0, 0],
+      })
+    }
+    if (event === "quiz") {
+      this.setState({
+        studentScores,
+      })
+    }
+    if (event === "quizDetails") {
+      this.setState({
+        indexquiz: index,
       })
     }
     this.setState({
       studentInformation: event,
-      studentScores,
-      indexquiz: index
     })
   }
 
@@ -239,7 +246,7 @@ export default class PublishedCoursesList extends React.Component {
                 className="student-profile-button"
                 color="primary"
                 variant="outlined"
-                onClick={() => this.handleView("", "quizDetails", this.state.studentScores, index)}
+                onClick={() => this.handleView("", "quizDetails", "", index)}
             >
                 Quiz details*
             </Button>
@@ -522,12 +529,12 @@ export default class PublishedCoursesList extends React.Component {
           <Paper elevation={0} className="course-content-breadcrumbs-paper-quiz">
             <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
               { this.state.studentInformation !== "" ?
-                  <Typography onClick={() => this.handleView({}, "", this.state.studentScores)} className="course-content-breadcrumb-text">
+                  <Typography onClick={() => this.handleView({}, "")} className="course-content-breadcrumb-text">
                     {this.state.course.title}
                   </Typography> : undefined }
               { this.state.studentInformation === "course" ?
                   <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                    {this.state.studentName}
+                    {this.state.student.studentInformation.fullname}
                   </Typography> : undefined }
               { this.state.studentInformation === "course" && this.state.course.organization.subunit ?
                   <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
@@ -555,14 +562,6 @@ export default class PublishedCoursesList extends React.Component {
       </div>
     )
   }
-
-
-  
-
-
-
-
-
 
   render() {
     return(
@@ -724,7 +723,7 @@ export default class PublishedCoursesList extends React.Component {
                               <div>
                                 <CourseMenu
                                   course={this.state.course}
-                                  progress={this.state.studentCourse.progress}
+                                  progress={this.state.student.courseProfile.progress}
                                   navigateTo={this.navigateTo.bind(this)}
                                   selected={this.state.selected}
                                   showPresentation={this.showPresentation.bind(this)}
@@ -732,7 +731,7 @@ export default class PublishedCoursesList extends React.Component {
                                   language={this.props.language}
                                 />
                                 <CourseContent
-                                  fromTutor
+                                  fromTutor={this.state.student.studentId}
                                   course={this.state.course}
                                   showComponent={this.props.showComponent.bind(this)}
                                   handleControlMessage={this.props.handleControlMessage.bind(this)}
@@ -747,8 +746,8 @@ export default class PublishedCoursesList extends React.Component {
                                   //openMediaPlayer={this.openMediaPlayer.bind(this)}
                                   //leaveComment={this.leaveComment.bind(this)}
                                   selected={this.state.selected}
-                                  toComplete={this.state.studentCourse.toComplete}
-                                  toResolve={this.state.studentCourse.toResolve}
+                                  toComplete={this.state.student.courseProfile.toComplete}
+                                  toResolve={this.state.student.courseProfile.toResolve}
                                   language={this.props.language}
                                 />
                               </div>

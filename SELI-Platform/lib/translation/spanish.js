@@ -835,6 +835,7 @@ var SPANISH = {
   forum: "Foro",
   whatIsForum: "¿Qué es un foro?",
   seeCourse: "Ver curso",
+  fileType: "Tipo de archivo",
 }
 
 export default SPANISH

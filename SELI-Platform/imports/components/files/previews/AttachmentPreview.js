@@ -52,16 +52,19 @@ export default class AttachmentPreview extends React.Component {
                 <img src="openNew.svg"/>
               </IconButton>
             </Tooltip>
-            <Tooltip title={this.props.language.uploadAnother} placement="left">
-              <IconButton onClick={() => this.props.unPickFile()} color="secondary" aria-label="another">
-                <CloudUploadIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={this.props.language.delete} placement="left">
-              <IconButton onClick={() => this.delete()} color="secondary" aria-label="delete">
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+            { this.props.preview ? undefined : 
+              <Tooltip title={this.props.language.uploadAnother} placement="left">
+                <IconButton onClick={() => this.props.unPickFile()} color="secondary" aria-label="another">
+                  <CloudUploadIcon />
+                </IconButton>
+              </Tooltip>}
+            { this.props.preview ? undefined : 
+              <Tooltip title={this.props.language.delete} placement="left">
+                <IconButton onClick={() => this.delete()} color="secondary" aria-label="delete">
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            }
           </div>
         </div>
       );

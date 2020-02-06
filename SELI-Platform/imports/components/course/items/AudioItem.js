@@ -46,10 +46,11 @@ export default class AudioItem extends React.Component {
                   title={this.props.item.attributes.title}
                 />
               </div>
+              <br/>
               <div className="course-item-audio-card-controls">
-                <IconButton className="course-item-audio-card-icon-button" aria-label="play/pause">
-                  <PlayArrowIcon className="course-item-audio-card-icon"/>
-                </IconButton>
+                <audio controls className="storytelling-media-audio">
+                  <source src={this.props.item.attributes.audio.link}></source>
+                </audio>
                 <IconButton className="course-item-audio-card-icon-button" aria-label="add to favorites">
                   <FolderSpecialIcon className="course-item-audio-card-icon"/>
                 </IconButton>

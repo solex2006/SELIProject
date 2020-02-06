@@ -146,7 +146,7 @@ export default class StudentProfile extends React.Component {
                     {this.props.profile.studentInformation.username}
                   </p>
                   <p className="student-profile-information-text-secondary">
-                    {`${this.props.language.joinedSeli}: ${this.props.profile.studentInformation.dateJoined}`}
+                    {`${this.props.language.joinedSeli}: ${this.props.profile.studentInformation.dateJoined.toLocaleDateString('en-US')}`}
                   </p>
                   <p className="student-profile-information-text-secondary">
                     {`${this.props.language.studentName}: ${this.props.profile.studentInformation.fullname}`}
@@ -154,6 +154,24 @@ export default class StudentProfile extends React.Component {
                   <p className="student-profile-information-text-secondary">
                     {`${this.props.language.progress}: ${this.props.profile.courseProfile.progress}%`}
                   </p>
+                </div>
+                <div className="student-profile-actions-container">
+                  <Button
+                    className="student-profile-button"
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => this.props.handleView(this.props.profile, "course")}
+                  >
+                    {this.props.language.seeCourse}
+                  </Button>
+                  <Button
+                    className="student-profile-button"
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => this.props.handleView({}, "quiz", this.state.studentScores)}
+                  >
+                    Ver de notas*
+                  </Button>
                 </div>
                 <div className="student-profile-actions-container">
                   <Button
@@ -170,23 +188,6 @@ export default class StudentProfile extends React.Component {
                     onClick={(event) => this.handleClick(event)}
                   >
                     {this.props.language.cancelSubscription}
-                  </Button>
-
-                  <Button
-                    className="student-profile-button"
-                    color="primary"
-                    variant="outlined"
-                    onClick={() => this.props.handleView({}, "quiz", this.state.studentScores)}
-                  >
-                    Ver de notas*
-                  </Button>
-                  <Button
-                    className="student-profile-button"
-                    color="primary"
-                    variant="outlined"
-                    onClick={() => this.props.handleView(this.props.profile, "course")}
-                  >
-                    {this.props.language.seeCourse}
                   </Button>
                   <Popover
                     open={Boolean(this.state.anchorEl)}
