@@ -835,6 +835,7 @@ var TURKISH = {
   forum: "Forum",
   whatIsForum: "What is a forum?",
   seeCourse: "See course",
+  fileType: "File type",
 }
 
 export default TURKISH;

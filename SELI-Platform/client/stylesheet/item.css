@@ -469,19 +469,23 @@
 }
 
 .activity-instruction-title {
-  width: 95%;
-  height: auto;
-  padding: 0vh 2.5%;
-  padding-top: 2vh;
+  width: 88%;
+  padding: 1.5vh 2.5%;
   font-size: 1.2em;
   letter-spacing: 1px;
 }
 
 .activity-item-container-instruction {
-  width: 95%;
+  width: 88%;
   padding: 1.5vh 2.5%;
   color: #616161;
-  padding-bottom: 2.5vh;
+}
+
+.activity-item-container-file {
+  width: calc(90vw - 200px);
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
 
 .file-type-text-detail {

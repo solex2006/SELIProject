@@ -46,7 +46,7 @@ export default class AudioItem extends React.Component {
               </div>
               <br/>
               <div className="course-item-audio-card-controls">
-                <audio controls className="audio-file-preview">
+                <audio controls className="storytelling-media-audio">
                   <source src={this.props.item.attributes.audio.link}></source>
                 </audio>
 {/*               <div style={{padding: "5px"}}>

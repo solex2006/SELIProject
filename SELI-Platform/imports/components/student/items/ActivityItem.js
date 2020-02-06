@@ -17,6 +17,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import StorytellingPlayer from '../../storytelling/StorytellingPlayer';
 
 import AttachmentPreview from '../../files/previews/AttachmentPreview';
 import FileUpload from '../../files/FileUpload';
@@ -49,6 +50,25 @@ export default class ActivityItem extends React.Component {
   componentDidMount(){
     this.checkResolved();
     this.getStories();
+    this.getActivityInformation();
+  }
+
+  getActivityInformation = () => {
+    let activity;
+    if (this.props.fromTutor) {
+      activity = Activities.findOne({
+        "activity.activityId": this.props.item.id,
+        "activity.user": this.props.fromTutor,
+      })
+    } else {
+      activity = Activities.findOne({
+        "activity.activityId": this.props.item.id,
+        "activity.user": Meteor.userId(),
+      })
+    }
+    this.setState({
+      activityInformation: activity,
+    });
   }
 
   getStories = () => {
@@ -232,39 +252,51 @@ export default class ActivityItem extends React.Component {
                       <ExpansionPanelDetails className="item-quiz-detail">
                         <div className="item-quiz-detail-container">
                           <p className="activity-instruction-title">{this.props.language.instructions}</p>
-                          <div className="activity-item-container-instruction">
-                            {this.props.item.attributes.instruction}
+                          <div className="activity-item-container-instruction"
+                            dangerouslySetInnerHTML={{__html:this.props.item.attributes.instruction}}>
                           </div>
                           {
-                            this.props.item.attributes.type === 'upload' ?
-                              <div className="activity-detail-container">
-                                <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                                  {this.props.language.acceptedFileType}
-                                </Typography>
-                                <Typography className="file-type-text-detail" variant="overline" display="block" gutterBottom>
-                                  {this.props.item.attributes.fileTypes.label}
-                                </Typography>
+                            this.state.activityInformation && this.props.item.attributes.type === 'upload' ?
+                              <div>
+                                <p className="activity-instruction-title">{`${this.props.language.fileType}: ${this.props.item.attributes.fileTypes.label}`}</p>
+                                <div className="activity-item-container-file">
+                                  <AttachmentPreview
+                                    preview
+                                    file={this.state.activityInformation.activity.file}
+                                    unPickFile={this.unPickFile.bind(this)}
+                                    language={this.props.language}
+                                  />
+                                </div>
                               </div>
                             :
-                            undefined
+                              undefined
                           }
                           {
-                            /* this.props.item.attributes.type === 'storyboard' ?
-                              <div className="activity-detail-container">
-                                <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                                  {`${this.props.language.story}:`}
-                                </Typography>
-                                <Link className="story-item-button"
-                                  //target="_blank"
-                                  to={`/story#${this.state.storySelected}`}
-                                >
-                                  <Typography className="file-type-text-detail" variant="overline" display="block" gutterBottom>
-                                    {this.state.storySelectedName}
-                                  </Typography>
-                                </Link>
+                            this.state.activityInformation && this.props.item.attributes.type === 'storyboard' ?
+                              <div>
+                                <p className="activity-instruction-title">{`${this.props.language.story}:`}</p>
+                                <div className="activity-item-container-instruction">
+                                  <Link style={{"text-decoration": "none"}}
+                                    //target="_blank"
+                                    to={`/story#${this.state.activityInformation._id}`}
+                                  >
+                                    {this.state.activityInformation.activity.name}
+                                  </Link>
+                                </div>
                               </div>
                             :
-                            undefined */
+                              undefined
+                          }
+                          {
+                            this.state.activityInformation && this.props.item.attributes.type === 'section' ?
+                              <div>
+                                <p className="activity-instruction-title">{`${this.props.language.text}:`}</p>
+                                <div className="activity-item-container-instruction"
+                                  dangerouslySetInnerHTML={{__html: this.state.activityInformation.activity.textSection}}>
+                                </div>
+                              </div>
+                            :
+                              undefined
                           }
                         </div>
                       </ExpansionPanelDetails>
@@ -324,11 +356,11 @@ export default class ActivityItem extends React.Component {
                         label={this.props.language.clickUploadFile}
                       />
                     :
-                    <AttachmentPreview
-                      file={this.state.file}
-                      unPickFile={this.unPickFile.bind(this)}
-                      language={this.props.language}
-                    />
+                      <AttachmentPreview
+                        file={this.state.file}
+                        unPickFile={this.unPickFile.bind(this)}
+                        language={this.props.language}
+                      />
                   }
                   <TextField
                     id="biography-input"

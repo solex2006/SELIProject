@@ -835,6 +835,7 @@ var PORTUGUESE = {
   forum: "Forum",
   whatIsForum: "What is a forum?",
   seeCourse: "See course",
+  fileType: "File type",
 }
 
 export default PORTUGUESE;
