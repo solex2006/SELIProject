@@ -518,7 +518,6 @@ var ENGLISH = {
   noResults: "No results",
   quizApproved: "Quiz approved",
   quizNotApproved: "Quiz not approved",
-  score: "Score",
   correctAnswers: "Correct answers",
   wrongAnswers: "Wrong answers",
   approvalPercentage: "Approval percentage",

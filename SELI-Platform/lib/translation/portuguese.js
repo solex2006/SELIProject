@@ -518,7 +518,6 @@ var PORTUGUESE = {
   noResults: "Sem resultados",
   quizApproved: "Quiz aprovado",
   quizNotApproved: "Quiz não provado",
-  score: "Pontuação",
   correctAnswers: "Respostas corretas",
   wrongAnswers: "Respostas erradas",
   approvalPercentage: "Porcentagem de aprovação",

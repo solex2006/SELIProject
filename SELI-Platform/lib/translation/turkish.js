@@ -518,7 +518,6 @@ var TURKISH = {
   noResults: "Sonuç yok",
   quizApproved: "Test onaylandı",
   quizNotApproved: "Test onaylanmadı",
-  score: "Puan",
   correctAnswers: "Doğru cevap",
   wrongAnswers: "Yanlış Cevap",
   approvalPercentage: "Onay yüzdesi",
