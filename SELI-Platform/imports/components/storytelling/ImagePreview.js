@@ -38,14 +38,7 @@ export default class ImagePreview extends React.Component {
                   backgroundImage: `url(${this.props.file.link})`,
                 }}
               ></div>
-              {/* <div>
-                  <img style={{width: '160px', height: '160px', position: 'relative'}} src={this.props.file.link}></img>
-              </div> */}
             </ResizableContent>
-          
-          {/* <div className="storytelling-media-image">
-            <div style={{backgroundImage: `url(${this.props.file.link})`}} className="file-image-preview"></div>
-          </div> */}
         </div>
       );
     }
