@@ -78,7 +78,11 @@ export default class StudentProfile extends React.Component {
   componentDidMount() {
     let course = Courses.find({_id: this.props.profile.courseProfile.courseId}).fetch();
     console.log("CourseInformation", course) 
-    let studentScores = Activities.find({"activity.user": this.props.profile.studentId, "activity.course": this.props.profile.courseProfile.courseId}).fetch();
+    let studentScores = Activities.find({
+      "activity.user": this.props.profile.studentId, 
+      "activity.course": this.props.profile.courseProfile.courseId,
+      "activity.type": "quiz"
+    }).fetch();
     //studentScores.map((quiz,index)=>{
     this.setState({
       studentScores: studentScores,
