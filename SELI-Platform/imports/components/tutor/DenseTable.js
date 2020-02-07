@@ -27,7 +27,6 @@ const useStyles = theme => ({
 
   
   componentDidMount(){
-    console.log("EStadovvvvvvvv", this.props.quiz.activity.score)
 
     this.setState({
       approved:this.props.quiz.activity.approved,
@@ -39,20 +38,20 @@ const useStyles = theme => ({
     })
     
     if(this.props.quiz.activity.hits===undefined){
-      this.setState({hits: "NR*"})
+      this.setState({hits: `${this.props.language.Noregistered}`})
     }else if(this.props.quiz.activity.Incorrect===undefined){
-      this.setState({Incorrect: "NR*"})
+      this.setState({Incorrect: `${this.props.language.Noregistered}`})
     }else if(this.props.quiz.activity.approved===undefined){
-      this.setState({approved: "NR*"})
+      this.setState({approved:  `${this.props.language.Noregistered}`})
     }else if(this.props.quiz.activity.type===undefined){
-      this.setState({type: "NR*"})
+      this.setState({type:  `${this.props.language.Noregistered}`})
     }else if(this.props.quiz.activity.type===undefined){
-      this.setState({score: "NR*"})}
+      this.setState({score:  `${this.props.language.Noregistered}`})}
 
     if(this.props.quiz.activity.approved===true) {
-      this.setState({approved: "A*"})
+      this.setState({approved:  `${this.props.language.Approved}`})
     }else if (this.props.quiz.activity.approved===false){
-      this.setState({approved: "R*"})
+      this.setState({approved:  `${this.props.language.Reproved}`})
     }
     
     
@@ -66,11 +65,11 @@ render(){
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-           <TableCell component="th" scope="row">Aciertos*</TableCell>
-            <TableCell align="right">Fallas*</TableCell>
-            <TableCell align="right">Estado*</TableCell>
-            <TableCell align="right">Tipo*</TableCell>
-            <TableCell align="right">Nota*</TableCell>
+           <TableCell component="th" scope="row">{this.props.language.hits}</TableCell>
+            <TableCell align="right">{this.props.language.wrong}</TableCell>
+            <TableCell align="right">{this.props.language.state}</TableCell>
+            <TableCell align="right">{this.props.language.type}</TableCell>
+            <TableCell align="right">{this.props.language.score}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

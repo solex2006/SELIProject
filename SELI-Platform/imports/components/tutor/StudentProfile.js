@@ -170,7 +170,7 @@ export default class StudentProfile extends React.Component {
                     variant="outlined"
                     onClick={() => this.props.handleView({}, "quiz", this.state.studentScores)}
                   >
-                    Ver de notas*
+                    {this.props.language.SeeScore}
                   </Button>
                 </div>
                 <div className="student-profile-actions-container">

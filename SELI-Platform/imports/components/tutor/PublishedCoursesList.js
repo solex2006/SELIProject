@@ -43,7 +43,9 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import SpellcheckRoundedIcon from '@material-ui/icons/SpellcheckRounded';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
-
+import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
+import MoodBadIcon from '@material-ui/icons/MoodBad';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 export default class PublishedCoursesList extends React.Component {
   constructor(props) {
     super(props);
@@ -241,14 +243,17 @@ export default class PublishedCoursesList extends React.Component {
             <div className="studentTable">
               <h3>{quiz.activity.trueAnswers[0].quizTitle}</h3>
             </div>
-            <DenseTable quiz={quiz}/>
+            <DenseTable 
+              quiz={quiz}
+              language={this.props.language}
+            />
             <Button
                 className="student-profile-button"
                 color="primary"
                 variant="outlined"
                 onClick={() => this.handleView("", "quizDetails", "", index)}
             >
-                Quiz details*
+                {this.props.language.quizdetails}
             </Button>
           </div>   
         ))} 
@@ -313,11 +318,10 @@ export default class PublishedCoursesList extends React.Component {
   }
 
   quizDetails=()=>{
-    
     console.log(this.state.course, "course...", this.state.studentScores, "indexquiz", this.state.indexquiz)
     return(
       <Paper elevation={8} className="quiz-dashboard-questions-containerTutor">
-        <p className="question-dashboard-label-text">Quiz View Tool*</p>
+        <p className="question-dashboard-label-text">{this.props.language.QuizViewTool}</p>
         <div className="question-dashboard-container">
           <FormControl component="fieldset" className="question-dashboard-form-controlx">
            {/*  <FormLabel component="legend" className="question-dashboard-form-label">{this.state.studentScores[this.state.indexquiz].activity.trueAnswers[0].quizTitle}</FormLabel>  */}
@@ -327,13 +331,13 @@ export default class PublishedCoursesList extends React.Component {
               className="question-dashboard-radio-group"
             >
             <div>
-              <div  className="answers">Questions<BookIcon/></div>
+              <div  className="answers">{this.props.language.Questions}<BookIcon/></div>
               <div className="student-answers">
               {
                 this.state.studentScores[this.state.indexquiz].activity.trueAnswers.map((question, indexQuestion) =>{
                   return(
                     <div>
-                      <div className="answers">Question*: {question.questionTitle}</div>
+                      <div className="answers">{this.props.language.Question}: {question.questionTitle}</div>
                       {
                           question.answersText.map((answersText, indexanswersText) =>{
                             return(
@@ -350,15 +354,15 @@ export default class PublishedCoursesList extends React.Component {
             </div>
             </div>
             <div>
-              <div className="answers">Student Answers <CreateRoundedIcon/></div>
+              <div className="answers">{this.props.language.StudentAnswers}<CreateRoundedIcon/></div>
               <div className="student-answers">
                   {
                     this.state.studentScores[this.state.indexquiz].activity.answers.map((answers, indexanswers) =>{
                             return(
                               <div >
-                                <div className="answers" >Answers*</div>
+                                <div className="answers" >{this.props.language.Answers}</div>
                                 {answers.map((answer) =>{
-                                  if(answer===true){answer=<div>Correct*<DoneRoundedIcon/></div>} else{answer=<div>Incorrect*<ClearRoundedIcon/></div>}
+                                  if(answer===true){answer=<div>{this.props.language.Correct}<DoneRoundedIcon/></div>} else{answer=<div>{this.props.language.Incorrect}<ClearRoundedIcon/></div>}
                                   return(
                                     <div className="student-answers-block">
                                       <ul>{answer}</ul>
@@ -374,51 +378,42 @@ export default class PublishedCoursesList extends React.Component {
               </div>
             </div>
             <div>
-              <div className="answers">Correct Answers<SpellcheckRoundedIcon/></div>
+              <div className="answers">{this.props.language.correctAnswers}<SpellcheckRoundedIcon/></div>
               <div className="student-answers">  
                 {
                   this.state.studentScores[this.state.indexquiz].activity.trueAnswers.map((question, indexQuestion) =>{
                     return(
                       <div>
-                        <div className="answers">Answers*</div>
+                        <div className="answers">{this.props.language.Answers}</div>
                         {
                             question.answersText.map((answersText, indexanswersText) =>{
                               return(
                                 <div className="student-answers-block">
                                   {
                                     question.correctAnswers[indexanswersText]===true ?
-                                    <div>Correct*<DoneRoundedIcon/></div>
+                                    <div>{this.props.language.Correct}<DoneRoundedIcon/></div>
                                     :
-                                    <div>Incorrect*<ClearRoundedIcon/></div>
-                                  
+                                    <div>{this.props.language.Incorrect}<ClearRoundedIcon/></div>
                                   }
                                 </div>
                               )
                             }) 
                         } 
-                      </div>
-                          
+                      </div>      
                     )   
                   })
                 }
               </div>
             </div>
-
-
             <div >
               <div className="answers-scores">Scores<SpellcheckRoundedIcon/></div>
-              <div className="student-scores">  
-              
-          
-               <div>Average*<DoneRoundedIcon/>{this.state.valuesofScores[this.state.indexquiz][2]}</div>
-                <div>Max*<ClearRoundedIcon/>{this.state.valuesofScores[this.state.indexquiz][0]}</div>
-                <div>Min*<ClearRoundedIcon/>{this.state.valuesofScores[this.state.indexquiz][1]}</div>
-                <div>Number of attemps*<ClearRoundedIcon/>{this.state.valuesofScores[this.state.indexquiz][3]}</div> 
-                   
-            
+              <div className="student-scores-results">  
+               <div className="note"><h5>   {this.props.language.AverageGrade} </h5> <p>{this.state.valuesofScores[this.state.indexquiz][2]}</p></div>
+                  <div className="note"><h5>{this.props.language.Maximumgrade}</h5> <p>{this.state.valuesofScores[this.state.indexquiz][0]}</p><SentimentVerySatisfiedIcon/> </div>
+                  <div className="note"><h5>{this.props.language.Minimumgrade}</h5> <p>{this.state.valuesofScores[this.state.indexquiz][1]}</p><MoodBadIcon/> </div>
+                  <div className="note"><h5>{this.props.language.NumberofAttemps}</h5><p>{this.state.valuesofScores[this.state.indexquiz][3]}</p><FormatListNumberedIcon/> </div> 
               </div>
             </div>
- 
             </RadioGroup>
           </FormControl>
         </div>
@@ -779,7 +774,7 @@ export default class PublishedCoursesList extends React.Component {
             <AppBar className="dialog-app-bar" color="primary" position="static">
               <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
                 <AppsIcon/>
-                <h4 className="dialog-label-title">{this.props.language.courseStories}</h4>
+                <h4 className="dialog-label-title">{this.props.language.courseStories}</h4>     
                 <IconButton
                   id="close-icon"
                   edge="end"

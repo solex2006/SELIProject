@@ -836,7 +836,29 @@ var SPANISH = {
   whatIsForum: "¿Qué es un foro?",
   seeCourse: "Ver curso",
   fileType: "Tipo de archivo",
+  AverageGrade:"Nota promedio",
+  Maximumgrade:"Nota Máxima",
+  Minimumgrade:"Nota Minima",
+  NumberofAttemps:"Numero de Intentos",
+  Correct: "Correcto",
+  Incorrect: "Incorrecto",
+  StudentAnswers:"Respuestas del Estudiante",
+  SeeScore:"Revisar Notas",
+  Question:"Pregunta",
+  Questions:"Preguntas",
+  QuizViewTool:"Herramienta para visualizar pruebas",
+  Answer:"Respuesta",
+  correctAnswers:"Respuestas Correctas",
+  Answers:"Respuestas",
+  wrong:"Mal",
+  state:"Estado",
+  type:"Tipo",
+  score:"Nota",
+  hits:"Aciertos",
+  Approved:"Aprovado",
+  Reproved:"Reprovado",
+  Noregistered:"No registrado",
+  quizdetails:"Detalles de la prueba"
 }
-
 export default SPANISH
 
