@@ -13,6 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import WarningIcon from '@material-ui/icons/Warning';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SchoolIcon from '@material-ui/icons/School';
+import InfoIcon from '@material-ui/icons/Info';
 import EditIcon from '@material-ui/icons/Edit';
 import LanguageIcon from '@material-ui/icons/Language';
 import DoneIcon from '@material-ui/icons/Done';
@@ -1584,23 +1585,39 @@ class StorytellingTool extends React.Component {
           }
           {
             this.state.action === "publish" ?
-               // this.state.show=== true ?
               <React.Fragment>
-                <div className="sign-actions">
-                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                    {this.props.language.questionpublishstory}
-                  </DialogTitle>
-                  <div className="center-row">
-                  <Button variant="contained"  color="secondary" className="bar-button"
-                  onClick={() => this.handleyes()}>
-                  {this.props.language.yes}
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                  {this.props.language.publishStory}
+                </DialogTitle>
+                <DialogContent className="success-dialog-content">
+                  {console.log(this.state)}
+                  {console.log(this.props)}
+                  <DialogContentText className="copyright-dialog-content-text" id="alert-dialog-description">
+                    <p>{this.props.language.questionpublishstory}</p><br/>
+                    <p>        {this.props.language.questionpublishstory001}</p><br/> 
+                    <div className="copyright-dialog-content-data">
+                      <div>
+                        <p>{this.props.language.questionpublishstory003}:</p>
+                        <p>{this.props.language.questionpublishstory004}:</p>
+                        <p>{this.props.language.questionpublishstory005}:</p>
+                      </div>
+                      <div style={{"margin-left": "1vw"}}>
+                        <p style={{"font-weight": "bold"}}>{this.state.story.name}</p>
+                        <p style={{"font-weight": "bold"}}>{this.props.user.username}</p>
+                        <p style={{"font-weight": "bold"}}>{this.props.user.profile.fullname}</p>
+                      </div>
+                    </div>
+                  </DialogContentText>
+                  <InfoIcon className="warning-dialog-icon"/>
+                </DialogContent>
+                <DialogActions>
+                  <Button variant="outlined"  color="primary" className="bar-button" onClick={() => this.handleyes()}>
+                    {this.props.language.yes}
                   </Button>	
-                  <Button variant="contained"  color="primary" className="bar-button"
-                  onClick={() => this.handleClose()}>
-                  {this.props.language.no}
-                  </Button>	                 
-                  </div>
-                  </div>
+                  <Button variant="contained"  color="primary" className="bar-button" onClick={() => this.handleClose()}>
+                    {this.props.language.no}
+                  </Button>
+                </DialogActions>                 
               </React.Fragment>
             :
               undefined

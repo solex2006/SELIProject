@@ -4,7 +4,7 @@ var SPANISH = {
   reuseImg:"reusar imagen",
   reuseAudio: "reusar audio",
   audiomessage:"Haga doble clic sobre el elemento para seleccionar",
-  questionpublishstory: "Estas seguro de publicar la historia?",
+  questionpublishstory: "Formulario de permiso de participante para publicar el contenido",
   languageIndex: "1",
   languageLabel: "Español (ES)",
   seliProject: "Proyecto SELI",
@@ -858,7 +858,12 @@ var SPANISH = {
   Approved:"Aprovado",
   Reproved:"Reprovado",
   Noregistered:"No registrado",
-  quizdetails:"Detalles de la prueba"
+  quizdetails:"Detalles de la prueba",
+  courseNotHaveQuizes: "Este curso no tiene cuestionarios.",
+  questionpublishstory001: "Como parte del proyecto SELI, declaro que he cumplido con las reglas ético-morales al crear mi historia digital. He recibido los permisos necesarios para el contenido que se usó y he dado permiso para publicar y compartir mi historia digital.",
+  questionpublishstory003: "Nombre de la historia digital",
+  questionpublishstory004: "Nombre de usuario del propietario de la historia digital",
+  questionpublishstory005: "Nombre completo del propietario de la historia digital",
 }
 export default SPANISH
 

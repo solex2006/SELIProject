@@ -1,13 +1,12 @@
 .student{
   display: flex;
-  flex-wrap: wrap;
-  padding: 1vh 0.5vw;
+  padding: 1vh 0;
   align-items: center;
   transition: 0.35s;
 }
 
 .student-profile-container {
-  padding: 1vh 0.5vw;
+  padding: 1vh 0;
   display: flex;
   align-items: center;
   transition: 0.35s;
@@ -23,12 +22,10 @@
 
 .student-profile-container:hover {
   cursor: pointer;
-  
 }
 
 .student-profile-information-container {
   padding: 2vh 1vw !important;
-  margin-left: 1vw !important;
   display: flex;
 }
 
@@ -41,6 +38,7 @@
 }
 
 .student-profile-information-text-secondary {
+  width: 18vw;
   letter-spacing: 1px;
   font-size: 0.9em;
   color: #616161;
@@ -48,10 +46,11 @@
 
 .student-profile-actions-container {
   width: auto;
-  padding-left: 0.5vw;
+  padding-left: 0.3vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  animation: fadeInLeft 0.3s;
 }
 
 .student-profile-actions-icon {
@@ -63,9 +62,12 @@
 }
 
 .student-profile-avatar {
-  width: 3vw !important;
-  height: 3vw !important;
-  font-size: 1.25vw !important;
+  width: 50px !important;
+  height: 50px !important;
+  font-size: 25px!important;
+  position: absolute;
+  margin-top: 130px;
+  left: 25px;
 }
 
 .confirmation-popover-container {
@@ -80,6 +82,7 @@
   margin: 0 0.5vw !important;
   margin-top: 1vh !important;
 }
+
 .library-files-containerquiz {
   display: flex;
   flex-wrap: wrap;
@@ -90,17 +93,31 @@
   align-items: flex-start;
   place-content: flex-start;
 }
+
+.library-files-container-student {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  overflow-y: auto;
+  margin: auto;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .dialog-toolbar-icon {
   color: var(--white) !important;
 }
+
 .dialog-tool-bar-information {
   min-width: 30vw;
   color: var(--white) !important;
   padding-left: 1vw !important;
 }
+
 .dialog-app-bar {
   background-color: var(--app-bar-color) !important;
 }
+
 .dialog-title {
   width: auto;
   padding: 0 !important;

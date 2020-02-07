@@ -686,24 +686,32 @@ export default class PublishedCoursesList extends React.Component {
                                 <DialogContentText className="classroom-dialog-title" id="alert-dialog-description">
                                 {this.props.language.studentsClassroom}
                                 </DialogContentText>
-                                {this.state.courseProfiles.map((profile, index) => {
-                                  return(
-                                    <StudentProfile
-                                      profile={profile}
-                                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                      handleView={this.handleView}
-                                      reload={this.openClassroomManagement.bind(this)}
-                                      language={this.props.language}
-                                    />
-                                  )
-                                })}
+                                <div className="library-files-container-student">
+                                  {this.state.courseProfiles.map((profile, index) => {
+                                    return(
+                                      <StudentProfile
+                                        profile={profile}
+                                        handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                        handleView={this.handleView}
+                                        reload={this.openClassroomManagement.bind(this)}
+                                        language={this.props.language}
+                                      />
+                                    )
+                                  })}
+                                </div>
                               </div>
                             :
                               undefined
                           }
                           {
                             this.state.studentInformation==='quiz'?
-                              this.quizes()
+                              this.state.studentScores.length === 0 ?
+                                <div className="empty-dashboard-quiz">
+                                  <p className="empty-dashboard-text">{this.props.language.courseNotHaveQuizes}</p>
+                                  <InfoIcon className="empty-dashboard-icon"/>
+                                </div>
+                              :
+                                this.quizes()
                             :
                               undefined
                           }

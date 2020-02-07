@@ -4,7 +4,7 @@ var TURKISH = {
   reuseImg:"resmi tekrar kullan",
   reuseAudio: "sesi tekrar kullan",
   audiomessage:'Not: seçmek için çift tıklayın',
-  questionpublishstory: 'Hikayeni paylaşmak istediğinden emin misin?',
+  questionpublishstory: "İçeriği Yayınlamak için Katılımcı İzin Formu.",
   languageIndex: '4',
   languageLabel: 'Turkish (TR)',
   seliProject: "SELI Projesi",
@@ -858,6 +858,11 @@ var TURKISH = {
   Approved:"Approved",
   Reproved:"Reproved",
   Noregistered:"No registered",
-  quizdetails:"Quiz Details"
+  quizdetails:"Quiz Details",
+  courseNotHaveQuizes: "This course do not have quizes.",
+  questionpublishstory001: "As part of the SELI project, I declare that I have complied with ethical-moral rules while creating my digital story. I have received the necessary permissions for the content that was used, and I have given permission to publish and share my digital story.",
+  questionpublishstory003: "Name of the Digital Story",
+  questionpublishstory004: "Username of the Digital Story Owner",
+  questionpublishstory005: "Full name of the Digital Story Owner",
 }
 export default TURKISH;

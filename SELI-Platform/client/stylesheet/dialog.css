@@ -205,6 +205,19 @@
   animation-delay: 0.15s;
 }
 
+.copyright-dialog-content-text {
+  white-space: pre-wrap;
+  width: 40vw;
+  text-align: justify;
+  animation: fadeIn 0.75s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.15s;
+}
+
+.copyright-dialog-content-data {
+  display: flex;
+}
+
 .success-dialog-content {
   display: flex;
   flex-direction: column;

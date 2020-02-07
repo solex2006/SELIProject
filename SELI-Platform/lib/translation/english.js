@@ -4,7 +4,7 @@ var ENGLISH = {
   reuseImg:"reuse image",
   reuseAudio: "reuse audio",
   audiomessage:'Double click over the item to select',
-  questionpublishstory: 'Are you sure to publish the story?',
+  questionpublishstory: "Participant Permission Form for Publishing the Content.",
   languageIndex: '0',
   languageLabel: 'English (US)',
   seliProject: "SELI Project",
@@ -858,6 +858,11 @@ var ENGLISH = {
   Approved:"Approved",
   Reproved:"Reproved",
   Noregistered:"No registered",
-  quizdetails:"Quiz Details"
+  quizdetails:"Quiz Details",
+  courseNotHaveQuizes: "This course do not have quizes.",
+  questionpublishstory001: "As part of the SELI project, I declare that I have complied with ethical-moral rules while creating my digital story. I have received the necessary permissions for the content that was used, and I have given permission to publish and share my digital story.",
+  questionpublishstory003: "Name of the Digital Story",
+  questionpublishstory004: "Username of the Digital Story Owner",
+  questionpublishstory005: "Full name of the Digital Story Owner",
 }
 export default ENGLISH;
