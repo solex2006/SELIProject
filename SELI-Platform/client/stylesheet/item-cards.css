@@ -39,7 +39,14 @@
   border-radius: 30% !important;
 
 }
+
 .course-item-video-card-media-fab {
+  background-color: var(--white) !important;
+  color: #333 !important;
+}
+
+.course-item-comment-card-media-fab {
+  margin: 1vw !important;
   background-color: var(--white) !important;
   color: #333 !important;
 }

@@ -863,5 +863,6 @@ var ENGLISH = {
   questionpublishstory003: "Name of the Digital Story",
   questionpublishstory004: "Username of the Digital Story Owner",
   questionpublishstory005: "Full name of the Digital Story Owner",
+  reply: "Reply",
 }
 export default ENGLISH;
