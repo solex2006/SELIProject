@@ -1368,7 +1368,6 @@ class StorytellingTool extends React.Component {
                           : 
                             undefined                     
                         }
-                        <br/>
                         {
                           this.state.story.nodes[this.state.selectedNode].image !== '' ?
                             <ImagePreview
