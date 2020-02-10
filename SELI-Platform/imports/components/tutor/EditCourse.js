@@ -168,6 +168,7 @@ export default class EditCourse extends React.Component {
           }
         );
         course = this.state.saved;
+        this.props.createForum(courseInformation, this.state.saved);
       }
       else {
         let user = Meteor.user();
@@ -176,6 +177,7 @@ export default class EditCourse extends React.Component {
         courseInformation.published = true;
         courseInformation.classroom = [];
         course = Courses.insert(courseInformation);
+        this.props.createForum(courseInformation, course);
       }
       this.props.showComponent('published')
       this.props.handleControlMessage(true, this.props.language.coursePublishedS, true, 'preview', this.props.language.seePreview, course);
@@ -199,6 +201,7 @@ export default class EditCourse extends React.Component {
         this.setState({
           saved: course,
         });
+        this.props.createForum(courseInformation, course);
       }
       else {
         Courses.update(
@@ -221,8 +224,10 @@ export default class EditCourse extends React.Component {
             }
           }
         );
+        this.props.createForum(courseInformation, this.state.saved);
       }
       this.props.handleControlMessage(true, this.props.language.courseSavedS, true, 'savedList', this.props.language.seeList);
+      this.props.createForum(courseInformation);
     }
   }
 

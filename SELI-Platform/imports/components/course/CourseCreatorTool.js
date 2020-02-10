@@ -686,9 +686,6 @@ export default class CourseCreatorTool extends React.Component {
                           <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
                         </div>
                         <Divider light/>
-                        <div className="course-creator-menu-actions">
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.basicItems}/>
-                        </div>
                         <Container
                           orientation="horizontal"
                           groupName="1"
@@ -698,36 +695,11 @@ export default class CourseCreatorTool extends React.Component {
                         >
                           {
                             this.state.contentItems.map((p,i) => {
-                              if ( i >= 0 && i <=8 ) {
-                                return (
-                                  <Draggable key={i}>
-                                    <ContentMenuItem type={p.type} language={this.props.language}/>
-                                  </Draggable>
-                                );
-                              }
-                            })
-                          }
-                        </Container>
-                        <Divider light/>
-                        <div className="course-creator-menu-actions">
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.advancedItems}/>
-                        </div>
-                        <Container
-                          orientation="horizontal"
-                          groupName="1"
-                          behaviour="copy"
-                          getChildPayload={i => this.state.contentItems[i]}
-                          onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
-                        >
-                          {
-                            this.state.contentItems.map((p,i) => {
-                              if ( i >= 9 && i <=11 ) {
-                                return (
-                                  <Draggable key={i}>
-                                    <ContentMenuItem type={p.type} language={this.props.language}/>
-                                  </Draggable>
-                                );
-                              }
+                              return (
+                                <Draggable key={i}>
+                                  <ContentMenuItem type={p.type} language={this.props.language}/>
+                                </Draggable>
+                              );
                             })
                           }
                         </Container>
@@ -895,9 +867,6 @@ export default class CourseCreatorTool extends React.Component {
                           <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
                         </div>
                         <Divider light/>
-                        <div className="course-creator-menu-actions">
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.basicItems}/>
-                        </div>
                         <Container
                           orientation="horizontal"
                           groupName="1"
@@ -907,36 +876,11 @@ export default class CourseCreatorTool extends React.Component {
                         >
                           {
                             this.state.contentItems.map((p,i) => {
-                              if ( i >= 0 && i <=8 ) {
-                                return (
-                                  <Draggable key={i}>
-                                    <ContentMenuItem type={p.type} language={this.props.language}/>
-                                  </Draggable>
-                                );
-                              }
-                            })
-                          }
-                        </Container>
-                        <Divider light/>
-                        <div className="course-creator-menu-actions">
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.advancedItems}/>
-                        </div>
-                        <Container
-                          orientation="horizontal"
-                          groupName="1"
-                          behaviour="copy"
-                          getChildPayload={i => this.state.contentItems[i]}
-                          onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
-                        >
-                          {
-                            this.state.contentItems.map((p,i) => {
-                              if ( i >= 9 && i <=11 ) {
-                                return (
-                                  <Draggable key={i}>
-                                    <ContentMenuItem type={p.type} language={this.props.language}/>
-                                  </Draggable>
-                                );
-                              }
+                              return (
+                                <Draggable key={i}>
+                                  <ContentMenuItem type={p.type} language={this.props.language}/>
+                                </Draggable>
+                              );
                             })
                           }
                         </Container>
@@ -1253,7 +1197,7 @@ export default class CourseCreatorTool extends React.Component {
              //this.contentHandleClose()  // uncomment for view accessibility Menu
               <div className="configure-accessibility-actions"> 
                 <List>
-                  <ListItem onClick={() => this.showAccessibilityForm()} button>
+                  <ListItem disabled={true} onClick={() => this.showAccessibilityForm()} button>
                     <ListItemAvatar>
                       <Avatar className="primary-avatar">
                         <AccessibilityNewIcon className="configure-accessibility-icon"/>

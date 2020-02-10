@@ -5,6 +5,12 @@
   transition: 0.35s;
 }
 
+.student-comment {
+  display: flex;
+  align-items: center;
+  transition: 0.35s;
+}
+
 .student-profile-container {
   padding: 1vh 0;
   display: flex;
@@ -29,6 +35,12 @@
   display: flex;
 }
 
+.student-profile-information-container-comment {
+  width: calc(75vw - 200px);
+  padding: 2vh 1vw !important;
+  display: flex;
+}
+
 .student-profile-information-text-primary {
   letter-spacing: 1px;
   font-size: 1.05em;
@@ -39,6 +51,12 @@
 
 .student-profile-information-text-secondary {
   width: 18vw;
+  letter-spacing: 1px;
+  font-size: 0.9em;
+  color: #616161;
+}
+
+.student-profile-information-text-secondary-comment {
   letter-spacing: 1px;
   font-size: 0.9em;
   color: #616161;
@@ -68,6 +86,13 @@
   position: absolute;
   margin-top: 130px;
   left: 25px;
+}
+
+.student-profile-avatar-comment {
+  width: 72px !important;
+  height: 72px !important;
+  font-size: 36px!important;
+  margin-right: 10px;
 }
 
 .confirmation-popover-container {

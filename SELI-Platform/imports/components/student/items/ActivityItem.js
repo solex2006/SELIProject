@@ -6,6 +6,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
+import CommentItem from './CommentItem.js';
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -24,6 +25,10 @@ import FileUpload from '../../files/FileUpload';
 import Editor from '../../inputs/editor/Editor';
 import Paper from '@material-ui/core/Paper';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+import SendIcon from '@material-ui/icons/Send';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
+import { Tracker } from 'meteor/tracker';
 import { Activities } from '../../../../lib/ActivitiesCollection';
 
 export default class ActivityItem extends React.Component {
@@ -36,6 +41,9 @@ export default class ActivityItem extends React.Component {
       resolved: false,
       textSection: '',
       myStories: [],
+      insertText: false,
+      commentText: '',
+      activityForum: [],
     }
   }
 
@@ -51,6 +59,11 @@ export default class ActivityItem extends React.Component {
     this.checkResolved();
     this.getStories();
     this.getActivityInformation();
+    this.listsTracker = Tracker.autorun(() => {
+      Meteor.subscribe('activityForum'); // Auto publish when loggedin
+      const activityForum = Activities.findOne({"activity.activityId": this.props.item.id}).activity.data;
+      this.setState({ activityForum });
+    });
   }
 
   getActivityInformation = () => {
@@ -97,25 +110,71 @@ export default class ActivityItem extends React.Component {
   }
 
   doActivity = () => {
-    this.handleClickOpen();
-    let dialogText;
-    let confirmAction;
-    if (this.props.item.attributes.type === 'upload') {
-      dialogText = this.props.language.toActivityUpload,
-      confirmAction = () => this.sendFile();
+    if (this.props.item.attributes.type !== 'forum') {
+      this.handleClickOpen();
+      let dialogText;
+      let confirmAction;
+      if (this.props.item.attributes.type === 'upload') {
+        dialogText = this.props.language.toActivityUpload,
+        confirmAction = () => this.sendFile();
+      }
+      if (this.props.item.attributes.type === 'section') {
+        dialogText = this.props.language.toActivityWrite,
+        confirmAction = () => this.sendSection();
+      }
+      if (this.props.item.attributes.type === 'storyboard') {
+        dialogText = this.props.language.toActivityStoryboard,
+        confirmAction = () => this.sendStoryboard();
+      }
+      this.setState({
+        dialogText: dialogText,
+        confirmAction: confirmAction,
+      });
+    } else {
+      this.setState({
+        insertText: true,
+      });
     }
-    if (this.props.item.attributes.type === 'section') {
-      dialogText = this.props.language.toActivityWrite,
-      confirmAction = () => this.sendSection();
-    }
-    if (this.props.item.attributes.type === 'storyboard') {
-      dialogText = this.props.language.toActivityStoryboard,
-      confirmAction = () => this.sendStoryboard();
-    }
-    this.setState({
-      dialogText: dialogText,
-      confirmAction: confirmAction,
-    });
+  }
+
+  sendComment = () => {
+    let comment = {};
+    let activity = Activities.findOne({"activity.activityId": this.props.item.id});
+    let data = activity.activity.data;
+    comment.id = Math.random();
+    comment.userId = Meteor.userId();
+    comment.date = new Date();
+    comment.label = this.state.commentText;
+    comment.media = [];
+    data.push(comment);
+    Activities.update(
+      { _id: activity._id},
+      { $set: {
+        'activity.data': data,
+      }}, () => {
+        this.setState({
+          commentText: '',
+          activityForum: Activities.findOne({"activity.activityId": this.props.item.id}).activity.data,
+        })
+      }
+    );
+  }
+
+  deleteComment = (commentToDelete) => {
+    let activity = Activities.findOne({"activity.activityId": this.props.item.id});
+    let data = activity.activity.data;
+    const index = data.findIndex(comment => comment.id === commentToDelete.id);
+    data.splice(index, 1);
+    Activities.update(
+      { _id: activity._id},
+      { $set: {
+        'activity.data': data,
+      }}, () => {
+        this.setState({
+          activityForum: Activities.findOne({"activity.activityId": this.props.item.id}).activity.data,
+        })
+      }
+    );
   }
 
   sendStoryboard = () => {
@@ -219,6 +278,12 @@ export default class ActivityItem extends React.Component {
     this.checkResolved();
   }
 
+  handleChange = () => event => {
+    this.setState({
+      commentText: event.target.value,
+    })
+  };
+
   render() {
     return(
       <div className="content-box">
@@ -246,6 +311,7 @@ export default class ActivityItem extends React.Component {
                             { this.props.item.attributes.type === 'storyboard' ? this.props.language.storyboardActivity : undefined }
                             { this.props.item.attributes.type === 'upload' ? this.props.language.uploaddActivity : undefined }
                             { this.props.item.attributes.type === 'section' ? this.props.language.textSectionActivity : undefined }
+                            { this.props.item.attributes.type === 'forum' ? this.props.language.forum : undefined }
                           </Typography>
                         </div>
                       </ExpansionPanelSummary>
@@ -298,15 +364,56 @@ export default class ActivityItem extends React.Component {
                             :
                               undefined
                           }
+                          {
+                            this.props.item.attributes.type === 'forum' && this.state.activityForum.length > 0 ?
+                              <div>
+                                <p className="activity-instruction-title">{`${this.props.language.comments}:`}</p>
+                                {
+                                  this.state.activityForum.map(comment => {
+                                    return(
+                                      <CommentItem 
+                                        comment={comment}
+                                        deleteComment={this.deleteComment.bind(this)}
+                                        language={this.props.language}
+                                      />
+                                    )
+                                  })
+                                }
+                              </div>
+                            :
+                              undefined
+                          }
                         </div>
                       </ExpansionPanelDetails>
                       <Divider />
                       <ExpansionPanelActions className="quiz-item-actions">
                         {
+                          this.state.insertText || this.props.fromTutor ?
+                            <div className="activity-comment">
+                              <TextField
+                                id="name-input"
+                                label={this.props.language.reply}
+                                margin="normal"
+                                variant="outlined"
+                                multiline
+                                fullWidth
+                                autoComplete={"off"}
+                                required
+                                value={this.state.commentText}
+                                onChange={this.handleChange()}
+                              />
+                              <Tooltip onClick={() => this.sendComment()} title={this.props.language.send}>
+                                <Fab className="course-item-comment-card-media-fab" size="small">
+                                  <SendIcon color="primary"/>
+                                </Fab>
+                              </Tooltip>
+                            </div>
+                          :
+                            undefined
+                        }
+                        {
                           !this.state.resolved ?
-                            this.props.fromTutor ? 
-                              undefined 
-                            : 
+                            this.props.fromTutor ? undefined : 
                               <div>
                                 <Button size="medium">
                                   {this.props.language.setReminder}
@@ -316,12 +423,12 @@ export default class ActivityItem extends React.Component {
                                 </Button>
                               </div>
                           :
-                          <div className="align-items-center">
-                            <Button size="medium">
-                              {this.props.language.activityDone}
-                            </Button>
-                            <CheckCircleIcon className="done-icon"/>
-                          </div>
+                            <div className="align-items-center">
+                              <Button size="medium">
+                                {this.props.language.activityDone}
+                              </Button>
+                              <CheckCircleIcon className="done-icon"/>
+                            </div>
                         }
                       </ExpansionPanelActions>
                     </ExpansionPanel>

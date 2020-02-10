@@ -46,6 +46,10 @@ if (Meteor.isServer) {
       process.env.MAIL_URL=`smtp://${smtp_user}:${smtp_user_password}@${smtp_domain}:${smtp_port}`;
     }
 
+    Meteor.publish('activityForum', function () {
+      return Activities.find({});
+    });
+
     options={
       url: "certificate-result",
       getArgsFromRequest: function (request) {

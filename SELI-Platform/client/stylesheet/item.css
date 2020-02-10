@@ -475,6 +475,12 @@
   letter-spacing: 1px;
 }
 
+.activity-comment {
+  display: flex;
+  align-items: center;
+  width: 70%;
+}
+
 .activity-item-container-instruction {
   width: 88%;
   padding: 1.5vh 2.5%;

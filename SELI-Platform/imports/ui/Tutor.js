@@ -34,6 +34,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
 import {checkUserType} from '../../lib/userSesions';
+import { Activities } from '../../lib/ActivitiesCollection';
 
 import english from '../../lib/translation/english';
 import spanish from '../../lib/translation/spanish';
@@ -211,6 +212,47 @@ export default class Tutor extends React.Component {
     });
   }
 
+  createForum = (course, courseId) => {
+    if (course.organization.subunit) {
+      course.program.map(unit => {
+        unit.lessons.map(lesson => {
+          lesson.items.map(item => {
+            if (item.type === "activity" && item.attributes.type === "forum"){
+              this.createForumItem(item.id, courseId);
+            }
+          })
+        })
+      })
+    } else {
+      course.program.map(topic => {
+        topic.items.map(item => {
+          if (item.type === "activity" && item.attributes.type === "forum"){
+            this.createForumItem(item.id, courseId);
+          }
+        })
+      })
+    }
+  }
+
+  createForumItem = (itemId, courseId) => {
+    let activity = {
+      data: [],
+      type: 'forum',
+      public: false,
+    }
+    if (itemId && courseId) {
+      if (!Activities.findOne({"activity.activityId": itemId})) {
+        activity.activityId = itemId;
+        activity.date = new Date();
+        activity.user = Meteor.userId();
+        activity.course = courseId;
+        Activities.insert({
+          activity
+        });
+      }
+    }
+  }
+
   render() {
     return(
       <div>
@@ -279,6 +321,7 @@ export default class Tutor extends React.Component {
                           user={this.state.user}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                           showComponent={this.showComponent.bind(this)}
+                          createForum={this.createForum.bind(this)}
                         />
                       :
                       undefined
@@ -291,6 +334,7 @@ export default class Tutor extends React.Component {
                           courseToEdit={this.state.courseToEdit}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                           showComponent={this.showComponent.bind(this)}
+                          createForum={this.createForum.bind(this)}
                         />
                       :
                       undefined

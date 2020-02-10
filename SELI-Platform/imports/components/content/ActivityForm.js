@@ -189,8 +189,6 @@ export default class ActivityForm extends React.Component {
       fileTypes: fileTypes,
     });
   }
-
-
   
   render() {
     return(
@@ -207,21 +205,21 @@ export default class ActivityForm extends React.Component {
         </div>
         <div className="editor-label1">{`${this.props.language.deliverType}:`}</div>
         <div className="square-box">
-              <Paper square>
-              <Tabs
-                color="primary"
-                value={this.state.attributes.type}
-                indicatorColor="primary"
-                textColor="primary"
-                className="form-tabs-container"
-                centered={true}
-              >
-                <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} />
-                <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} />
-                <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.textSection} icon={<SubjectIcon />} />
-                {/* <Tab value={'forum'} onClick={() => this.selectType('forum')} className="form-tab" label={this.props.language.forum} icon={<ForumIcon />} /> */}
-              </Tabs>
-            </Paper>
+          <Paper square>
+            <Tabs
+              color="primary"
+              value={this.state.attributes.type}
+              indicatorColor="primary"
+              textColor="primary"
+              className="form-tabs-container"
+              centered={true}
+            >
+              <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} />
+              <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} />
+              <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.textSection} icon={<SubjectIcon />} />
+              <Tab value={'forum'} onClick={() => this.selectType('forum')} className="form-tab" label={this.props.language.forum} icon={<ForumIcon />} />
+            </Tabs>
+          </Paper>
         </div>
         {
           this.state.attributes.type === 'storyboard' ?
