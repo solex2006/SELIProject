@@ -47,6 +47,7 @@ export default class Student extends React.Component {
       component: 'home',
       activeCourse: undefined,
       selected: [-1, -1],
+      searchText:[]
     }
   }
 
@@ -68,6 +69,8 @@ export default class Student extends React.Component {
         });
       });
     });
+
+    console.log("compnetsadasd333333333333",this.props.navbar)
   }
 
   logOut = () => {
@@ -103,6 +106,7 @@ export default class Student extends React.Component {
   showComponent = (component) => {
     this.setState({
       component: component,
+      searchText:[]
     });
   }
 
@@ -354,6 +358,15 @@ export default class Student extends React.Component {
     })
   }
 
+  searchValue=(value)=>{
+    console.log("Value to search", value)
+    this.setState({
+      searchText:value,
+      component : 'courses'
+    })
+
+  }
+
   render() {
     return(
       <div tabIndex="-1">
@@ -374,19 +387,21 @@ export default class Student extends React.Component {
                   }
                   <main id="page-wrap">
                     <AppBar
-                    tabIndex="-1"
+                      tabIndex="-1"
                       history={this.props.history}
                       language={this.state.language}
                       setLanguage={this.setLanguage.bind(this)}
                       user={this.state.user}
                       logOut={this.logOut.bind(this)}
                       showComponent={this.showComponent.bind(this)}
+                      searchValue={this.searchValue}
                     />
                     {
                       this.state.component === 'home' ?
                         <Presentation
                           language={this.state.language}
                           history={this.props.history}
+                          searchValue={this.searchValue}
                         />
                       :
                       undefined
@@ -414,6 +429,8 @@ export default class Student extends React.Component {
                           unsubscribe={this.unsubscribe.bind(this)}
                           disabled={this.state.showLoadingMessage}
                           handleControlMessage={this.handleControlMessage.bind(this)}
+                          searchText={this.state.searchText}
+                      
                         />
                       :
                       undefined

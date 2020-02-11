@@ -18,7 +18,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-
 import { Courses } from '../../lib/CourseCollection';
 
 export default class CoursePreview extends React.Component {

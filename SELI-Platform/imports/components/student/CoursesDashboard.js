@@ -18,6 +18,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+
+
+
 export default class CoursesDashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -29,9 +32,15 @@ export default class CoursesDashboard extends React.Component {
   componentDidMount() {
     Tracker.autorun(() => {
       let courses = Courses.find({published: true}).fetch();
-      this.setState({
-        courses: courses,
-      });
+        if(this.props.searchText.length>0){
+          this.setState({
+            courses:this.props.searchText ,
+          });
+        } else {
+          this.setState({
+            courses: courses,
+          });
+        }
     });
   }
 
@@ -61,7 +70,25 @@ export default class CoursesDashboard extends React.Component {
     this.handleClose();
   }
 
+  componentDidUpdate(prevProps){
+    if (prevProps.searchText !== this.props.searchText ){
+      if(this.props.searchText.length>0){
+        this.setState({
+          courses:this.props.searchText ,
+        });
+      }else if(this.props.searchText.length===0){
+        this.setState({
+          courses: [],
+        });
+    }
+    }
+  }
+ 
   render() {
+
+   
+  
+
     return(
       <div className="courses-dashboard-container">
         <div className="courses-dashboard-title-container">
@@ -86,6 +113,7 @@ export default class CoursesDashboard extends React.Component {
                     disabled={this.props.disabled}
                     subscribe={this.props.subscribe.bind(this)}
                     unsubscribe={this.unsubscribe.bind(this)}
+                    key={Math.random()}
                   />
                 )
               })

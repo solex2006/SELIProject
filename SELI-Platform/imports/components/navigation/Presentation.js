@@ -12,19 +12,19 @@ import SchoolIcon from '@material-ui/icons/School';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
-
 import Swiper from 'react-id-swiper';
 import 'swiper/css/swiper.css';
-
 import Rotate from 'react-reveal/Rotate';
 import Zoom from 'react-reveal/Zoom';
-
+import { Courses } from '../../../lib/CourseCollection'
+import filter from '@mcabreradev/filter'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 export default class Presentation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchText:'',
       playing: true,
       params: {
         loop: true,
@@ -84,6 +84,22 @@ export default class Presentation extends React.Component {
     });
   }
 
+  handleSearchText=(event)=>{
+    console.log("texto")
+    this.setState({
+      searchText: event.target.value
+    })
+   }
+
+   handleSearchButton=(event)=>{
+     console.log("botonn", this.state.searchText)
+     let courses = Courses.find({published: true}).fetch();
+     
+     let search=filter(courses, { 'title': this.state.searchText})
+     console.log("filtrado en presentation",search);
+     this.props.searchValue(search)
+   }
+
   render() {
     return(
       <div>
@@ -123,9 +139,13 @@ export default class Presentation extends React.Component {
                       className="dashboard-input-base"
                       placeholder={this.props.language.learnAbout}
                       inputProps={{ 'aria-label': 'what do you want to learn about' }}
+                      onChange={this.handleSearchText}
+
                     />
                     <IconButton className="dashboard-icon-button" aria-label="search">
-                      <SearchIcon />
+                      <SearchIcon 
+                      onClick={this.handleSearchButton}
+                      />
                     </IconButton>
                     <Divider orientation="vertical" />
                   </Paper>
