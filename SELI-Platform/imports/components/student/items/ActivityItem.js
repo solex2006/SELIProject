@@ -249,6 +249,11 @@ export default class ActivityItem extends React.Component {
         additionalNotes: event.target.value,
       });
     }
+    if (name === 'forum') {
+      this.setState({
+        commentText: event.target.value,
+      });
+    }
   }
 
   validateStoryboard = () => {
@@ -285,11 +290,11 @@ export default class ActivityItem extends React.Component {
     this.checkResolved();
   }
 
-  handleChange = () => event => {
-    this.setState({
-      commentText: event.target.value,
-    })
-  };
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.resolved !== this.state.resolved) {
+      this.getActivityInformation();
+    }
+  }
 
   render() {
     return(
@@ -333,12 +338,15 @@ export default class ActivityItem extends React.Component {
                               <div>
                                 <p className="activity-instruction-title">{`${this.props.language.fileType}: ${this.props.item.attributes.fileTypes.label}`}</p>
                                 <div className="activity-item-container-file">
-                                  <AttachmentPreview
-                                    preview
-                                    file={this.state.activityInformation.activity.file}
-                                    unPickFile={this.unPickFile.bind(this)}
-                                    language={this.props.language}
-                                  />
+                                  {
+                                    !this.state.activityInformation.activity.file ? undefined :
+                                      <AttachmentPreview
+                                        preview
+                                        file={this.state.activityInformation.activity.file}
+                                        unPickFile={this.unPickFile.bind(this)}
+                                        language={this.props.language}
+                                      />
+                                  }
                                 </div>
                               </div>
                             :
@@ -408,7 +416,7 @@ export default class ActivityItem extends React.Component {
                                   autoComplete={"off"}
                                   required
                                   value={this.state.commentText}
-                                  onChange={this.handleChange()}
+                                  onChange={this.handleChange('forum')}
                                 />
                                 <Tooltip onClick={() => this.sendComment()} title={this.props.language.send}>
                                   <Fab className="course-item-comment-card-media-fab" size="small">

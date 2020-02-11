@@ -1191,7 +1191,7 @@ export default class CourseCreatorTool extends React.Component {
              //this.contentHandleClose()  // uncomment for view accessibility Menu
               <div className="configure-accessibility-actions"> 
                 <List>
-                  <ListItem onClick={() => this.showAccessibilityForm()} button>
+                  <ListItem disabled={true} onClick={() => this.showAccessibilityForm()} button>
                     <ListItemAvatar>
                       <Avatar className="primary-avatar">
                         <AccessibilityNewIcon className="configure-accessibility-icon"/>

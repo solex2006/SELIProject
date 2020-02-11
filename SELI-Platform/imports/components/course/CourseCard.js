@@ -198,7 +198,6 @@ export default class CourseCard extends React.Component {
               </CardContent>
               <CardActions className="course-card-actions" disableSpacing>
                 <Link className="button-link"
-                  target="_blank"
                   to={{
                     pathname: "/coursePreview",
                     hash: this.props.course._id,
