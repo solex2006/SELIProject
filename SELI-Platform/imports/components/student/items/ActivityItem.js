@@ -288,12 +288,7 @@ export default class ActivityItem extends React.Component {
 
   componentWillReceiveProps() {
     this.checkResolved();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.resolved !== this.state.resolved) {
-      this.getActivityInformation();
-    }
+    this.getActivityInformation();
   }
 
   render() {
@@ -337,6 +332,9 @@ export default class ActivityItem extends React.Component {
                             this.state.activityInformation && this.props.item.attributes.type === 'upload' ?
                               <div>
                                 <p className="activity-instruction-title">{`${this.props.language.fileType}: ${this.props.item.attributes.fileTypes.label}`}</p>
+                                <div className="activity-item-container-instruction"
+                                  dangerouslySetInnerHTML={{__html: this.state.activityInformation.activity.additionalNotes}}>
+                                </div>
                                 <div className="activity-item-container-file">
                                   {
                                     !this.state.activityInformation.activity.file ? undefined :

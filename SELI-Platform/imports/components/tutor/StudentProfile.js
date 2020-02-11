@@ -24,6 +24,7 @@ export default class StudentProfile extends React.Component {
       expanded: false,
     }
   }
+
   getAvatarColor = (code) => {
     if (code >= 65 && code <= 67) {
       return "#f44336"
@@ -56,6 +57,7 @@ export default class StudentProfile extends React.Component {
       return "#ff9800";
     }
   }
+
   handleClose = () => {
     this.setState({
       anchorEl: null,
@@ -64,6 +66,7 @@ export default class StudentProfile extends React.Component {
       
     })
   }
+
   handleClick = event => {
     this.setState({
       anchorEl: event.currentTarget,
@@ -90,8 +93,6 @@ export default class StudentProfile extends React.Component {
         color: this.getAvatarColor(this.props.profile.studentInformation.username.toUpperCase().charCodeAt(0)),
       })
   }
-
-  
 
   handleUnsubscription = () => {
     let course = Courses.find({_id: this.props.profile.courseProfile.courseId}).fetch();
