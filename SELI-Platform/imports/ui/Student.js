@@ -234,7 +234,7 @@ export default class Student extends React.Component {
               subscribed: true,
               showLoadingMessage: false,
             } , () => {
-              this.handleControlMessage(true, this.state.language.addedToSCourses, true, this.state.language.subscribed, this.state.language.seeList, undefined);
+              this.handleControlMessage(true, this.state.language.addedToSCourses, true, 'subscribed', this.state.language.seeList, undefined);
               let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
               this.setState({
                 user: user[0],

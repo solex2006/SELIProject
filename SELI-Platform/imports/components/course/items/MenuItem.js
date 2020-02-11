@@ -73,8 +73,8 @@ export default function MenuItem(props) {
   }
 
   editAccessibility = () => {
-    editItem();
-    props.editAccessibilityForm(props.item.attributes);
+    //editItem();
+    //props.editAccessibilityForm(props.item.attributes);
   }
 
   return (

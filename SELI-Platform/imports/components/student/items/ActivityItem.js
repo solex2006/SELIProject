@@ -28,6 +28,7 @@ import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import SendIcon from '@material-ui/icons/Send';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
+import InfoIcon from '@material-ui/icons/Info';
 import { Tracker } from 'meteor/tracker';
 import { Activities } from '../../../../lib/ActivitiesCollection';
 
@@ -61,7 +62,10 @@ export default class ActivityItem extends React.Component {
     this.getActivityInformation();
     this.listsTracker = Tracker.autorun(() => {
       Meteor.subscribe('activityForum'); // Auto publish when loggedin
-      const activityForum = Activities.findOne({"activity.activityId": this.props.item.id}).activity.data;
+      let activityForum = Activities.findOne({"activity.activityId": this.props.item.id});
+      if (activityForum) {
+        activityForum = activityForum.activity.data;
+      }
       this.setState({ activityForum });
     });
   }
@@ -152,6 +156,9 @@ export default class ActivityItem extends React.Component {
       { $set: {
         'activity.data': data,
       }}, () => {
+        if (!this.props.fromTutor) {
+          this.props.completeActivity(this.props.item.id, "", "Forum");
+        }
         this.setState({
           commentText: '',
           activityForum: Activities.findOne({"activity.activityId": this.props.item.id}).activity.data,
@@ -388,32 +395,35 @@ export default class ActivityItem extends React.Component {
                       <Divider />
                       <ExpansionPanelActions className="quiz-item-actions">
                         {
-                          this.state.insertText || this.props.fromTutor ?
-                            <div className="activity-comment">
-                              <TextField
-                                id="name-input"
-                                label={this.props.language.reply}
-                                margin="normal"
-                                variant="outlined"
-                                multiline
-                                fullWidth
-                                autoComplete={"off"}
-                                required
-                                value={this.state.commentText}
-                                onChange={this.handleChange()}
-                              />
-                              <Tooltip onClick={() => this.sendComment()} title={this.props.language.send}>
-                                <Fab className="course-item-comment-card-media-fab" size="small">
-                                  <SendIcon color="primary"/>
-                                </Fab>
-                              </Tooltip>
-                            </div>
+                          this.props.item.attributes.type === 'forum' ?
+                            this.state.insertText || this.props.fromTutor || this.state.resolved ?
+                              <div className="activity-comment">
+                                <TextField
+                                  id="name-input"
+                                  label={this.props.language.reply}
+                                  margin="normal"
+                                  variant="outlined"
+                                  multiline
+                                  fullWidth
+                                  autoComplete={"off"}
+                                  required
+                                  value={this.state.commentText}
+                                  onChange={this.handleChange()}
+                                />
+                                <Tooltip onClick={() => this.sendComment()} title={this.props.language.send}>
+                                  <Fab className="course-item-comment-card-media-fab" size="small">
+                                    <SendIcon color="primary"/>
+                                  </Fab>
+                                </Tooltip>
+                              </div>
+                            :
+                              undefined
                           :
                             undefined
                         }
                         {
                           !this.state.resolved ?
-                            this.props.fromTutor ? undefined : 
+                            this.props.fromTutor || this.state.insertText ? undefined : 
                               <div>
                                 <Button size="medium">
                                   {this.props.language.setReminder}
@@ -499,26 +509,32 @@ export default class ActivityItem extends React.Component {
             }
             {
               this.props.item.attributes.type === 'storyboard' ?
-                this.state.myStories.map(story => {
-                  return(
-                    <Paper 
-                      onClick={() => this.selectStory(story._id, story.activity.name)} 
-                      elevation={story._id === this.state.storySelected ? 5 : 1} 
-                      className="story-item-container"
-                    >
-                      <LibraryBooksIcon className="story-item-icon"/>
-                      <p className="story-item-text-primary">{story.activity.name}</p>
-                      <Link className="story-item-button"
-                        //target="_blank"
-                        to={`/story#${story._id}`}
+                this.state.myStories.length === 0 ?
+                  <div className="empty-dashboard-row">
+                    <p >{this.props.language.notHaveStoriesYet}</p>
+                    <InfoIcon />
+                  </div>
+                :
+                  this.state.myStories.map(story => {
+                    return(
+                      <Paper 
+                        onClick={() => this.selectStory(story._id, story.activity.name)} 
+                        elevation={story._id === this.state.storySelected ? 5 : 1} 
+                        className="story-item-container"
                       >
-                        <Button variant="contained" color="secondary">
-                          {this.props.language.open}
-                        </Button>
-                      </Link>
-                    </Paper>
-                  )
-                })
+                        <LibraryBooksIcon className="story-item-icon"/>
+                        <p className="story-item-text-primary">{story.activity.name}</p>
+                        <Link className="story-item-button"
+                          //target="_blank"
+                          to={`/story#${story._id}`}
+                        >
+                          <Button variant="contained" color="secondary">
+                            {this.props.language.open}
+                          </Button>
+                        </Link>
+                      </Paper>
+                    )
+                  })
               :
                 undefined
             }

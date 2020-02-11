@@ -21,9 +21,9 @@ export default function ItemFeedBack(props) {
 
   const a11yCOLOR = {
     none : '#ef5350',
-		fail : '#ff9800',
-		poor: '#ffc107',
-		average: '#fbc02d',
+		fail : '#d1a101',
+		poor: '#d1a101',
+		average: '#d1a101',
 		good: '#9ccc65',
 		valid: '#66bb6a',
 	};

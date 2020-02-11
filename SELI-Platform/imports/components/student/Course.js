@@ -205,7 +205,6 @@ export default class Course extends React.Component {
     let toComplete = this.state.toComplete;
     let toResolve = this.state.toResolve;
     
-    console.log("complete activity......")
     if(label==='Quiz'){
       for (var i = 0; i < toResolve.length; i++) {
         if (toResolve[i]._id === id) {
@@ -249,50 +248,51 @@ export default class Course extends React.Component {
           }
         );
       });
-
-    }else{
-    for (var i = 0; i < toResolve.length; i++) {
-      if (toResolve[i]._id === id) {
-        toResolve[i].resolved = true;
-        break;
-      }
-    }
-    let progress = this.calculateProgress(toComplete, toResolve);
-    this.setState({
-      toResolve: toResolve,
-      progress: progress,
-    }, () => {
-      Meteor.call(
-        "CompleteActivity",
-        Meteor.userId(),
-        this.state.toResolve,
-        this.state.course._id,
-        progress,
-        (error, response) => {
-          if (!error) {
-            if (activity.type === "storyboard"){
-              Activities.update(
-                { _id: activity.activityId},
-                { $set: {
-                  'activity.courseId': this.state.course._id,
-                  'activity.activityId': id,
-                }})
-            } else {
-              activity.activityId = id;
-              activity.date = new Date();
-              activity.user = Meteor.userId();
-              activity.course = this.state.course._id;
-              Activities.insert({
-                activity
-              });
-            }
-            this.props.handleControlMessage(true, `${this.props.language[label.toLowerCase()]} ${this.props.language.successfullyDone}`);
-            this.props.reRender();
-          }
+    } else {
+      for (var i = 0; i < toResolve.length; i++) {
+        if (toResolve[i]._id === id) {
+          toResolve[i].resolved = true;
+          break;
         }
-      );
-    });
-  }
+      }
+      let progress = this.calculateProgress(toComplete, toResolve);
+      this.setState({
+        toResolve: toResolve,
+        progress: progress,
+      }, () => {
+        Meteor.call(
+          "CompleteActivity",
+          Meteor.userId(),
+          this.state.toResolve,
+          this.state.course._id,
+          progress,
+          (error, response) => {
+            if (!error) {
+              if (label !== "Forum") {  
+                if (activity.type === "storyboard"){
+                  Activities.update(
+                    { _id: activity.activityId},
+                    { $set: {
+                      'activity.courseId': this.state.course._id,
+                      'activity.activityId': id,
+                    }})
+                } else {
+                  activity.activityId = id;
+                  activity.date = new Date();
+                  activity.user = Meteor.userId();
+                  activity.course = this.state.course._id;
+                  Activities.insert({
+                    activity
+                  });
+                }
+              }
+              this.props.handleControlMessage(true, `${this.props.language[label.toLowerCase()]} ${this.props.language.successfullyDone}`);
+              this.props.reRender();
+            }
+          }
+        );
+      });
+    }
   }
 
 

@@ -168,7 +168,7 @@ export default class AudioRecorder extends React.Component {
           }
           <Tooltip title={this.props.language.startRecording}>
             <Fab color={this.state.record ? "secondary" : undefined} className="recorder-button" onClick={this.startRecording}>
-              <PlayArrowIcon/>
+              <MicIcon/>
             </Fab>
           </Tooltip>
           <Tooltip title={this.props.language.stopRecording}>
