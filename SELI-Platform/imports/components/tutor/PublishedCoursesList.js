@@ -731,6 +731,7 @@ export default class PublishedCoursesList extends React.Component {
                                   selected={this.state.selected}
                                   showPresentation={this.showPresentation.bind(this)}
                                   showCourseStories={this.showCourseStories.bind(this)}
+                                  handleView={this.handleView.bind(this)}
                                   language={this.props.language}
                                 />
                                 <CourseContent

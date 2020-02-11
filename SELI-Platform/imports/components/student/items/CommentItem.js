@@ -66,7 +66,6 @@ export default class CommentItem extends React.Component {
   }
 
   render() {
-    console.log(this.props.comment)
     return(
       <div>
         {

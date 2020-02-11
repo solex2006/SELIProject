@@ -87,6 +87,14 @@ export default class CoursesList extends React.Component {
 
   delete = () => {
     this.state.coursesToDelete.map((course, index) => {
+      let students = Courses.findOne({_id: course}).classroom;
+      let courseId = course;
+      students.map(student => {
+        var user = Meteor.users.findOne({_id: student});
+        let courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === courseId);
+        user.profile.courses.splice(courseIndex, 1);
+        Meteor.call("UpdateCourses", student, user.profile.courses, (error, response) =>  {})
+      })
       Courses.remove({_id: course});
     });
     this.handleClose();
