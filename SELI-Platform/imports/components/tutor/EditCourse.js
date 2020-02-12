@@ -39,7 +39,8 @@ export default class EditCourse extends React.Component {
         keyWords: [],
         image: undefined,
         sylabus: undefined,
-        duration: '',
+        duration: 0,
+        durationweeks: 0,
         requirements: [],
         support: [],
         organization: '',
@@ -71,6 +72,7 @@ export default class EditCourse extends React.Component {
         image: this.props.courseToEdit.image,
         sylabus: this.props.courseToEdit.sylabus,
         duration: this.props.courseToEdit.duration,
+        durationweeks: this.props.courseToEdit.durationweeks,
         requirements: this.props.courseToEdit.requirements,
         support: this.props.courseToEdit.support,
         organization: this.props.courseToEdit.organization,
@@ -157,6 +159,7 @@ export default class EditCourse extends React.Component {
               image: courseInformation.image,
               sylabus: courseInformation.sylabus,
               duration: courseInformation.duration,
+              durationweeks: courseInformation.durationweeks,
               requirements: courseInformation.requirements,
               support: courseInformation.support,
               organization: courseInformation.organization,
@@ -216,6 +219,7 @@ export default class EditCourse extends React.Component {
               image: courseInformation.image,
               sylabus: courseInformation.sylabus,
               duration: courseInformation.duration,
+              durationweeks: courseInformation.durationweeks,
               requirements: courseInformation.requirements,
               support: valueSupport,
               organization: courseInformation.organization,
@@ -236,8 +240,8 @@ export default class EditCourse extends React.Component {
     if (
       courseInformation.title === '' ||
       //courseInformation.subtitle === '' ||
-      courseInformation.description === '' ||
-      courseInformation.duration === ''
+      courseInformation.description === '' 
+      //|| courseInformation.duration === ''
     ) {
       this.props.handleControlMessage(true, `${this.props.language.fieldsMarkedWith} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;

@@ -5,14 +5,11 @@ import FormStepper from '../navigation/FormStepper'; '../'
 import CourseInformation from '../course/CourseInformation';
 import CourseRequirements from '../course/CourseRequirements';
 import CourseCreatorTool from '../course/CourseCreatorTool';
-
 import { Meteor } from 'meteor/meteor';
-
 import InfoIcon from '@material-ui/icons/Info';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import SchoolIcon from '@material-ui/icons/School';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
-
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -21,6 +18,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import {Courses} from '../../../lib/CourseCollection';
+
 
 export default class CreateCourse extends React.Component {
   constructor(props) {
@@ -39,7 +37,8 @@ export default class CreateCourse extends React.Component {
         keyWords: [],
         image: undefined,
         sylabus: undefined,
-        duration: '',
+        duration: 0,
+        durationweeks: 0,
         requirements: [],
         support: [],
         organization: '',
@@ -64,6 +63,7 @@ export default class CreateCourse extends React.Component {
   }
 
   componentDidMount() {
+    console.log("CourseInformation---did",this.state.courseInformation)
     this.setState({
       courseForms: [
         <CourseInformation
@@ -141,6 +141,7 @@ export default class CreateCourse extends React.Component {
               image: courseInformation.image,
               sylabus: courseInformation.sylabus,
               duration: courseInformation.duration,
+              durationweeks: courseInformation.durationweeks,
               requirements: courseInformation.requirements,
               support: courseInformation.support,
               organization: courseInformation.organization,
@@ -174,8 +175,12 @@ export default class CreateCourse extends React.Component {
       let courseInformation = this.state.courseInformation;
       let course;
       let valueSubtitle = courseInformation.subtitle;
+      let valueduration = courseInformation.duration;
       if (valueSubtitle === undefined) {
         valueSubtitle = "-----"
+      }
+      if (valueduration === undefined) {
+        valueduration = "0"
       }
       if (!this.state.saved) {
         courseInformation.createdBy = user.username;
@@ -199,7 +204,8 @@ export default class CreateCourse extends React.Component {
               keyWords: courseInformation.keyWords,
               image: courseInformation.image,
               sylabus: courseInformation.sylabus,
-              duration: courseInformation.duration,
+              duration: valueduration,
+              durationweeks: courseInformation.durationweeks,
               requirements: courseInformation.requirements,
               support: courseInformation.support,
               organization: courseInformation.organization,
@@ -219,8 +225,8 @@ export default class CreateCourse extends React.Component {
     if (
       courseInformation.title === '' ||
       //courseInformation.subtitle === '' ||
-      courseInformation.description === '' ||
-      courseInformation.duration === ''
+      courseInformation.description === '' 
+      //|| courseInformation.duration === ''
     ) {
       this.props.handleControlMessage(true, `${this.props.language.fieldsMarkedWith} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
@@ -237,10 +243,10 @@ export default class CreateCourse extends React.Component {
       this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    else if (courseInformation.duration < 5) {
+   /*  else if (courseInformation.duration < 5) {
       this.props.handleControlMessage(true, `${this.props.language.minimumCourseDuration} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
-    }
+    } */
     /* else if (!courseInformation.requirements.length) {
       this.props.handleControlMessage(true, `${this.props.language.technicalRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
       return false;
@@ -340,6 +346,7 @@ export default class CreateCourse extends React.Component {
           :
           undefined
         }
+
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

@@ -23,6 +23,7 @@ import CourseCarousel from './CourseCarousel';
 import TechnicalRequirement from './TechnicalRequirement';
 import CourseNavigation from './CourseNavigation';
 import AccessibilityIcon from '@material-ui/icons/Accessibility';
+
 var ColorThief = require('color-thief');
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -41,6 +42,7 @@ export default class CoursePresentation extends React.Component {
 
   componentDidMount() {
     this.getImageColors();
+   
   }
 
   getImageColors() {
@@ -112,6 +114,7 @@ export default class CoursePresentation extends React.Component {
   }
 
   render() {
+     
     return(
       <div className="course-presentation-container">
         <div className="course-presentation-hero-container">
@@ -171,9 +174,12 @@ export default class CoursePresentation extends React.Component {
                   />
                 </IconButton>
                 <p className="course-card-large-text">{`${this.props.course.duration} ${this.props.language.hours}`}</p>
+                <p className="course-card-large-text">{`${this.props.course.durationweeks} ${this.props.language.week}`}</p>
               </div>
             </Paper>
           </Fade>
+
+
           <Fade up>
             <Paper
               elevation={12}
