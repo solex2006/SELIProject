@@ -9,7 +9,8 @@ import AppBar from '../components/navigation/AppBar';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 
 import BadgeInformation from './BadgeInformation';
-
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from '../style/theme';
 import InfoIcon from '@material-ui/icons/Info';
 
 import Button from '@material-ui/core/Button';
@@ -25,10 +26,11 @@ import english from '../../lib/translation/english';
 import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import turkish from "../../lib/translation/turkish";
+import CourseFilesCollection from '../../lib/CourseFilesCollection';
 
+var bakery=require('openbadges-bakery-v2');
 export default class BadgeRegistration extends React.Component {
   constructor(props) {
-    console.log(props);
     super(props);
     this.state = {
       badgeInformation: {
@@ -94,78 +96,31 @@ export default class BadgeRegistration extends React.Component {
     console.log(this.state);
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.location.type !== this.props.location.type) {
-  //     this.setState({
-  //       userForms: [
-  //         <BadgeInformation
-  //           showErrorFunction={showError => this.showError = showError}
-  //           badgeInformation={this.state.badgeInformation}
-  //           language={this.state.language}
-  //           type={this.props.location.type}
-  //         />,
-  //       ],
-  //     });
-  //   }
-  // }
-
   showError = () => {
 
   }
 
-  validateUser = () => {
-
-      if (
-        this.state.badgeInformation.fullname === '' ||
-        this.state.badgeInformation.username === '' 
-      ) {
-        this.showError();
-        this.handleControlMessage(true, this.state.language.fieldsMarkedWith);
-        return false;
-      }
-      else if (this.state.badgeInformation.image === undefined && this.props.location.type === "tutor") {
-        this.handleControlMessage(true, this.state.language.uploadYourProfilePhoto);
-        return false;
-      }
-
-    return true;
-  }
-
-  createStudent = (information) => {
-    Accounts.createUser({
-      username: information.username,
-      password: information.password,
-      email: information.email,
-      profile: {
-        fullname: information.fullname,
-        courses: [],
-        type: 'student',
-        certificates: [],
-        configuration: {
-          language: 'English (US)',
-        },
-      },
-    }, (error) => {
-      if (error) {
-        this.handleError(error);
-      }
-      else {
-        if (this.state.badgeInformation.image === undefined){
-          undefined
-        } else {
-          CourseFiles.update(
-            { _id: information.image._id},
-            { $set: {
-              'meta.userId': Meteor.userId(),
-            }}
-          )
-        }
-      }
-    });
-  }
+  debake(img) {	
+    return new Promise((resolve,reject) => {
+      bakery.extract(img, function(err, data){
+        if(err)
+          return reject(err)
+        else
+          resolve(data);
+      });
+    })	
+  }	
 
   registerStudent = () => {
-    console.log(this.state.language.open);
+    let uploadedImage = CourseFilesCollection.findOne({_id: this.state.badgeInformation.image._id});
+    let image=uploadedImage.meta.buffer;
+	  var ima = this.debake(image)
+    .then(data => {this.setDataForm(data)})
+    .catch(err => {console.log(err)} );
+  }
+
+  setDataForm(data){
+    console.log(data);
   }
 
 
@@ -216,6 +171,8 @@ export default class BadgeRegistration extends React.Component {
     return(
       <div>
         { 
+           <MuiThemeProvider theme={theme}>
+             {        
           this.state.language && Session.get('language') ?
           <React.Fragment>
             <AppBar
@@ -264,6 +221,8 @@ export default class BadgeRegistration extends React.Component {
           </React.Fragment>
           :
           undefined
+  }
+  </MuiThemeProvider>
         }
       </div>
     )

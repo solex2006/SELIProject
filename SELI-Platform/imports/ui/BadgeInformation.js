@@ -11,6 +11,7 @@ import ImagePreview from '../components/files/previews/ImagePreview';
 import Library from '../components/tools/Library';
 import FormPreview from '../components/files/previews/FormPreview';
 import {noSpecialCharacters} from '../../lib/textFieldValidations';
+import BadgeUpload from '../components/files/BadgeUpload';
 
 export default class BadgeInformation extends React.Component {
   constructor(props) {
@@ -238,7 +239,7 @@ export default class BadgeInformation extends React.Component {
                       </div>
                     :
                     <div className="form-file-container">
-                      <FileUpload
+                      <BadgeUpload
                         type={this.state.fileType}
                         user={"guest"}
                         accept={this.state.accept}

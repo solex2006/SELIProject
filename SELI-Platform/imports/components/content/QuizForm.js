@@ -32,6 +32,9 @@ import Library from '../tools/Library';
 
 import InfoIcon from '@material-ui/icons/Info';
 import BadgeInformation from '../../ui/BadgeInformation';
+import BadgeUpload from '../files/BadgeUpload';
+
+const http = require('http');
 
 export default class QuizForm extends React.Component {
   constructor(props) {
@@ -51,6 +54,7 @@ export default class QuizForm extends React.Component {
           name: '',
           description: '',
           image: undefined,
+          imageBuffer: '',
         },
         questions: [
           {
@@ -275,6 +279,7 @@ export default class QuizForm extends React.Component {
   getBadgeInformation(file){
     let attributes = this.state.attributes;
     attributes.badgeInformation.image = file;
+ 
     this.setState({
       attributes: attributes,
       showPreview: true,
@@ -556,7 +561,7 @@ export default class QuizForm extends React.Component {
               </div>
             :
             <div className="form-file-container">
-              <FileUpload
+              <BadgeUpload
                 type={this.state.fileType}
                 user={Meteor.userId()}
                 accept={this.state.accept}

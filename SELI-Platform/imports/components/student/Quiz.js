@@ -19,6 +19,10 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Select from '@material-ui/core/Select';
 import moment, { min } from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
+import CourseFilesCollection from '../../../lib/CourseFilesCollection';
+
+const bakery=require('openbadges-bakery-v2');
+
 momentDurationFormatSetup(moment);
 const useStyles = theme => ({
   root: {
@@ -130,7 +134,7 @@ class Quiz extends React.Component {
         let quiz = {
           score: results.score,
           hits: results.hits,
-          approved: approved,
+          approved:   approved,
           public: false,
           type: 'quiz',
         }
@@ -154,36 +158,116 @@ class Quiz extends React.Component {
       // Meteor.call("UpdateCourses", Meteor.userId, user.profile.b);
 
     }
+    else{
+      console.log("no approved");
+    }
     this.props.handleClose();
   }
 
-  async issueBadge(image){
-    let file = image;
-    let buffer = new Uint8Array(await image.arrayBuffer());
+  issueBadge(image){
+    let self = this;
+    let buffer = CourseFilesCollection.findOne({_id: image._id });
+    buffer = buffer.meta.buffer;
+    let course = self.props.quiz.attributes.badgeInformation.name;
+    let description = self.props.quiz.attributes.badgeInformation.description;
     var theAssertion ={
       "uid": "123456789abcdefghi987654321jklmnopqr",
       "recipient": {
         "identity": "sha256$98765edcba98765edcba98765edcba",
         "type": "email",
-        "hashed": true
+        "hashed": true,
+        "badgeName": course,
+        "badgeDescription": description,
       },
       "badge": "http://issuersite.com/badge",
       "verify": {
         "url": "http://issuersite.com/assertion",
         "type": "hosted"
       },
-      "issuedOn": 1403120715
+      "issuedOn": new Date()
       };
     var options = {
-      image: image,
+      image: buffer,
       assertion: theAssertion,
     };
 
     bakery.bake(options, function(err, data){
-      let bakedBadge = new File([data], file.name, file);
-      console.log(bakedBadge);
-    },file)
+      let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
+      user = user[0];
+      var file = new File([data],image._id+".png",{ type: "image/png", 
+                                                    ext: "png",
+                                                    extension: "png",
+                                                    extensionWithDot: ".png"});
+      let uploadInstance = CourseFilesCollection.insert({
+        file: file,
+        meta: {
+            locator: '',
+            dateAdded: new Date(),
+            isFavorite: false,
+            usedInCourse: false,
+            userId: '', 
+            buffer: '',
+          //userId: Meteor.userId() // Optional, used to check on server for file tampering
+        },
+        streams: 'dynamic',
+        chunkSize: 'dynamic',
+        allowWebWorkers: true // If you see issues with uploads, change this to false
+      }, false);
+      uploadInstance.start(); 
 
+
+
+
+      let idStudent = user._id;
+      let student = user.profile.fullname;
+      let tutor = 'Maestro';
+      let today = new Date();
+      let date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+      let course = self.props.quiz.attributes.badgeInformation.name;
+      let description = self.props.quiz.attributes.badgeInformation.description;
+      let duration = '10';
+      let certificateInfo = {
+        idStudent: idStudent,
+        name: student,
+        tutor: tutor,
+        date: date,
+        course: course,
+        description: description,
+        duration: duration,
+      };
+
+      console.log(certificateInfo);
+
+      fetch('https://201.159.223.92/datos', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(certificateInfo)
+      }).then(res => res.json())
+      .then(res => {
+        console.log(res);
+        if(res === "se genero el certificado con exito en 201.159.223.92"){
+          this.setState({
+            certificateCreated: true,
+            certificateError: false,
+            certificateDialogOpen: true,
+          });
+        }else{
+          this.setState({
+            certificateCreated: false,
+            certificateError: true,
+            certificateErrorDialogOpen: true,
+          });
+        }
+      });
+  
+
+    },self)
+
+
+   
   }
   showFinishConfirmation = () => {
     this.setState({
@@ -516,4 +600,4 @@ class Quiz extends React.Component {
   }
 }
 
-export default withStyles(useStyles)(Quiz)
+export default withStyles(useStyles)(Quiz) 

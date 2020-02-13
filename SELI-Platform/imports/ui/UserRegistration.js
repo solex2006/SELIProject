@@ -222,6 +222,7 @@ export default class UserRegistration extends React.Component {
         courses: [],
         type: 'student',
         certificates: [],
+        badge: [],
         configuration: {
           language: 'English (US)',
         },
@@ -344,7 +345,7 @@ export default class UserRegistration extends React.Component {
       <div>
         {
           <MuiThemeProvider theme={theme}>
-            {
+              {
               this.state.language && Session.get('language') ?
                 this.props.location.type === "tutor" ?
                   <React.Fragment>
