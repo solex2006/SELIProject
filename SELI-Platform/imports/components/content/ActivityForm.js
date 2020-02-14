@@ -15,6 +15,7 @@ import FileTypeSelector from '../tools/FileTypeSelector';
 import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import BackupIcon from '@material-ui/icons/Backup';
 import SubjectIcon from '@material-ui/icons/Subject';
+import ForumIcon from '@material-ui/icons/Forum';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
@@ -101,6 +102,9 @@ export default class ActivityForm extends React.Component {
     if (content.instruction === '') {
       this.props.handleControlMessage(true, this.props.language.writeTheInstructions);
       return false;
+    } else if (content.type === 'upload' && content.fileTypes === undefined) {
+      this.props.handleControlMessage(true, this.props.language.selectFileType);
+      return false;
     }
     return true;
   }
@@ -169,8 +173,10 @@ export default class ActivityForm extends React.Component {
         attributes: this.props.contentToEdit.attributes,
       }, () => {
         let fileTypes = this.state.fileTypes;
-        let index = fileTypes.findIndex( type => type.label === this.state.attributes.fileTypes.label );
-        this.pickFileType(index);
+        if (this.state.attributes.type === "upload") {
+          let index = fileTypes.findIndex( type => type.label === this.state.attributes.fileTypes.label );
+          this.pickFileType(index);
+        }
       })
     }
   }
@@ -183,17 +189,41 @@ export default class ActivityForm extends React.Component {
       fileTypes: fileTypes,
     });
   }
-
-
   
   render() {
     return(
       <div className="dialog-form-container">
-        
+        <div className="editor-block">
+          <Editor
+            areaHeight='20vh'
+            innerHTML={this.state.attributes.instruction}
+            buttonLabels={false}
+            addLinks={true}
+            getInnerHtml={this.getInnerHtml.bind(this)}
+            language={this.props.language}
+          />
+        </div>
+        <div className="editor-label1">{`${this.props.language.deliverType}:`}</div>
+        <div className="square-box">
+          <Paper square>
+            <Tabs
+              color="primary"
+              value={this.state.attributes.type}
+              indicatorColor="primary"
+              textColor="primary"
+              className="form-tabs-container"
+              centered={true}
+            >
+              <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} />
+              <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} />
+              <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.textSection} icon={<SubjectIcon />} />
+              <Tab value={'forum'} onClick={() => this.selectType('forum')} className="form-tab" label={this.props.language.forum} icon={<ForumIcon />} />
+            </Tabs>
+          </Paper>
+        </div>
         {
           this.state.attributes.type === 'storyboard' ?
             <div className="form-activity-input-contained">
-               <p className="editor-label">{this.props.language.activity}</p>
               <div className="center-row">
                 <Help
                   helper="default"
@@ -208,7 +238,11 @@ export default class ActivityForm extends React.Component {
         {
           this.state.attributes.type === 'upload' ?
             <div className="form-activity-input-contained">
-               <p className="editor-label">{this.props.language.activity}</p>
+              <FileTypeSelector
+                fileTypes={this.state.fileTypes}
+                pickFileType={this.pickFileType.bind(this)}
+                fileType={this.props.language.selectAllowedFileType}
+              />
               <div className="center-row">
                 <Help
                   helper="default"
@@ -216,11 +250,6 @@ export default class ActivityForm extends React.Component {
                   language={this.props.language}
                 />
               </div>
-              <FileTypeSelector
-                fileTypes={this.state.fileTypes}
-                pickFileType={this.pickFileType.bind(this)}
-                fileType={this.props.language.selectAllowedFileType}
-              />
             </div>
           :
           undefined
@@ -228,7 +257,6 @@ export default class ActivityForm extends React.Component {
         {
           this.state.attributes.type === 'section' ?
             <div className="form-activity-input-contained">
-               <p className="editor-label">{this.props.language.activity}</p>
               <div className="center-row">
                 <Help
                   helper="default"
@@ -240,38 +268,20 @@ export default class ActivityForm extends React.Component {
           :
           undefined
         }
-        {/* <div className="center-row">
-          <p className="form-message">{this.props.language.writeTheInstructions}</p>
-        </div> */}
-        <div className="editor-block">
-          <Editor
-            areaHeight='20vh'
-            innerHTML={this.state.attributes.instruction}
-            buttonLabels={false}
-            addLinks={true}
-            getInnerHtml={this.getInnerHtml.bind(this)}
-            language={this.props.language}
-          />
-        </div>
-
-        <div className="editor-label1">{this.props.language.deliverType}</div>
-        <div className="square-box">
-              <Paper square>
-              <Tabs
-                color="primary"
-                value={this.state.attributes.type}
-                indicatorColor="primary"
-                textColor="primary"
-                className="form-tabs-container"
-                centered={true}
-              >
-                <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} />
-                <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} />
-                <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.textSection} icon={<SubjectIcon />} />
-              </Tabs>
-            </Paper>
-        </div>
-        
+        {
+          this.state.attributes.type === 'forum' ?
+            <div className="form-activity-input-contained">
+              <div className="center-row">
+                <Help
+                  helper="default"
+                  text={this.props.language.whatIsForum}
+                  language={this.props.language}
+                />
+              </div>
+            </div>
+          :
+          undefined
+        }           
       </div>
     );
   }

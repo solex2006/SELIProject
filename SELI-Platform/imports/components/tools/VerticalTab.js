@@ -73,7 +73,9 @@ function TabPanel(props) {
 		let indexTab = 0;
 		let indexPanel = 0;
 
-		const data = useData(props.contentTypeAdded);
+		console.log(props.item)
+		const data = useData(props.language, props.contentTypeAdded);
+		console.log(data)
 		//props.setContentAccessibilityData(data);
 		return (
 			<div className={classes.root}>
@@ -85,9 +87,9 @@ function TabPanel(props) {
 					aria-label="Settings"
 					className="vertical-tabs-container"
 				>
-					<Tab label="Content" {...a11yProps(indexTab++,props.contentTypeAdded)}/>
+					<Tab label={props.language.content} {...a11yProps(indexTab++,props.contentTypeAdded)}/>
 					<Tab
-						label="Acessibility"
+						label={props.language.accessibility}
 						{...a11yProps(indexTab++, props.contentTypeAdded)}
 						disabled
 						className="tabPanelSubhead"
@@ -95,7 +97,7 @@ function TabPanel(props) {
 					{
 							props.contentTypeAdded === 'image' &&
 						<Tab
-							label="Text Alternatives"
+							label={props.language.textAlternatives}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/>
 					}
@@ -110,42 +112,42 @@ function TabPanel(props) {
 					}
 					{
 							props.contentTypeAdded === 'video' &&
-						<Tab label="Text Alternatives"
+						<Tab label={props.language.textAlternatives}
 							{...a11yProps(indexTab++, props.contentTypeAdded )}
 						/>
 					}
 					{
 							props.contentTypeAdded === 'video' &&
 						<Tab
-							label="Captions"
+							label={props.language.Captions}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/>
 					}
 					{
 							props.contentTypeAdded === 'video' &&
 						<Tab
-							label="Audio Descriptions"
+							label={props.language.audioDescription}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/>
 					}
 					{
 							props.contentTypeAdded === 'video' &&
 						<Tab
-							label="Sign Language"
+							label={props.language.signLanguage}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/>
 					}
 					{
 							props.contentTypeAdded === 'video' &&
 						<Tab
-							label="Others"
+							label={props.language.other}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/>
 					}
 					{
 							props.contentTypeAdded === 'audio' &&
 						<Tab
-							label="Text Alternatives"
+							label={props.language.textAlternatives}
 							{...a11yProps(indexTab++)}
 						/>
 					}
@@ -203,6 +205,7 @@ function TabPanel(props) {
 							props.contentTypeAdded === 'video' ?
 								<VideoItem
 									item={props.item}
+									language={props.language}
 								/>
 							:
 							undefined
@@ -211,6 +214,7 @@ function TabPanel(props) {
 							props.contentTypeAdded === 'audio' ?
 								<AudioItem
 									item={props.item}
+									language={props.language}
 								/>
 							:
 							undefined
@@ -238,6 +242,7 @@ function TabPanel(props) {
 										isA11Y:data.isA11Y,
 									}}
 									item={props.item}
+									language={props.language}
 								/>
 							</TabPanel>
 						</React.Fragment>
@@ -253,7 +258,9 @@ function TabPanel(props) {
 									shortDescriptionTip:data.shortDescriptionTip,
 									longDescriptionTip:data.longDescriptionTip,
 									iisA11Y:data.isA11Y,
-								}}/>
+								}}
+								language={props.language}
+								/>
 							</TabPanel>
 						</React.Fragment>
 					}
@@ -277,14 +284,16 @@ function TabPanel(props) {
 									dataField: data.dataField,
 									shortDescriptionTip: data.shortDescriptionTip,
 									longDescriptionTip: data.longDescriptionTip,
-								}}/>
+								}}
+								language={props.language}/>
 							</TabPanel>
 							<TabPanel value={value} index={indexPanel++}>
 								<VideoMediaCaptionsAltA11Y data={{
 									handleRadioButtonOnChange: data.handleRadioButtonOnChange,
 									dataField: data.dataField,
 									captionsTip: data.captionsTip,
-								}}/>
+								}}
+								language={props.language}/>
 							</TabPanel>
 							<TabPanel value={value} index={indexPanel++}>
 								<VideoMediaAudioDescriptioA11Y data={{
@@ -294,21 +303,24 @@ function TabPanel(props) {
 									audioDescriptionRequiredTip: data.audioDescriptionRequiredTip,
 									disabled_necAudioDesc: data.disabled_necAudioDesc,
 									disabled_uploadAudioDesc: data.disabled_uploadAudioDesc,
-								}}/>
+								}}
+								language={props.language}/>
 							</TabPanel>
 							<TabPanel value={value} index={indexPanel++}>
 								<VideoMediaSignLanguageA11Y data={{
 									handleRadioButtonOnChange: data.handleRadioButtonOnChange,
 									dataField: data.dataField,
 									signLanguageTip: data.signLanguageTip
-								}}/>
+								}}
+								language={props.language}/>
 							</TabPanel>
 							<TabPanel value={value} index={indexPanel++}>
 								<VideoOthersA11Y data={{
 									handleRadioButtonOnChange: data.handleRadioButtonOnChange,
 									dataField: data.dataField,
 									seizuresTip: data.seizuresTip
-								}}/>
+								}}
+								language={props.language}/>
 							</TabPanel>
 						</React.Fragment>
 					}
@@ -318,13 +330,13 @@ function TabPanel(props) {
 			</div>
 			);
 		}
-		export const useData = (type) => {
+		export const useData = (language, type) => {
 			if(type === 'video')
-			return useDataField();
+			return useDataField(language);
 			if(type === 'image')
-			return useImageDataField();
+			return useImageDataField(language);
 			if(type === 'audio')
-			return useAudioDataField();
+			return useAudioDataField(language);
 			return  {
 				isA11Y: [],
 			};

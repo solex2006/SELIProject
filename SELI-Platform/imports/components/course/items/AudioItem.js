@@ -46,10 +46,11 @@ export default class AudioItem extends React.Component {
                   title={this.props.item.attributes.title}
                 />
               </div>
+              <br/>
               <div className="course-item-audio-card-controls">
-                <IconButton className="course-item-audio-card-icon-button" aria-label="play/pause">
-                  <PlayArrowIcon className="course-item-audio-card-icon"/>
-                </IconButton>
+                <audio controls className="storytelling-media-audio">
+                  <source src={this.props.item.attributes.audio.link}></source>
+                </audio>
                 <IconButton className="course-item-audio-card-icon-button" aria-label="add to favorites">
                   <FolderSpecialIcon className="course-item-audio-card-icon"/>
                 </IconButton>
@@ -81,6 +82,7 @@ export default class AudioItem extends React.Component {
             removeItem={this.props.removeItem.bind(this)}
             editItem={this.props.editItem.bind(this)}
             handleDecorative={this.props.handleDecorative.bind(this)}
+            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
             language={this.props.language}
           />
         </div>
@@ -90,6 +92,7 @@ export default class AudioItem extends React.Component {
         />
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
+          language={this.props.language}
         />
       </div>
       );

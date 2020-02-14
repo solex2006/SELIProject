@@ -18,7 +18,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-
 import { Courses } from '../../lib/CourseCollection';
 
 export default class CoursePreview extends React.Component {
@@ -37,6 +36,8 @@ export default class CoursePreview extends React.Component {
       let _id = this.props.location.hash.substr(1);
       Tracker.autorun(() => {
         let course = Courses.find({_id: _id}).fetch();
+        
+        console.log("TOMA LOS CURSOS", course )
         course.length ?
         this.setState({
           course: course[0],

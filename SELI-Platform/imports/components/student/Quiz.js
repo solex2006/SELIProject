@@ -20,6 +20,7 @@ import Select from '@material-ui/core/Select';
 import moment, { min } from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const bakery=require('openbadges-bakery-v2');
 
@@ -47,23 +48,32 @@ class Quiz extends React.Component {
     super(props);
     this.state = {
       selected: 0,
-      answers: [],
+      answers: [], //should be load at start of the componen
       panelshow: '',
       age: '',
       open: false,
       selectedtime:'',
       alert: '',
-   
+      answertest: false,
+      average:'',
+      successTrue:'',
+      Incorrect:'',
     }
   }
 
   componentDidMount() {
+    //console.log("numero de respuetas por pregunta", this.props.quiz.attributes.questions)
+    
+  }
 
+  componentWillMount(){
+    console.log("Correct",this.props.quiz.attributes.questions )
     let answers = this.state.answers;
     let controlAnswers = this.state.controlAnswers;
     let questions = this.props.quiz.attributes.questions;
     questions.map(question => {
-      answers.push('');
+      let answerlength=question.correctAnswers.length;
+      answers.push(Array.apply(null, new Array(answerlength)).map(Boolean.prototype.valueOf,false));
     })
     this.setState({
       answers: answers,
@@ -73,9 +83,10 @@ class Quiz extends React.Component {
     });
   }
 
-  handleChange = check => {
+  handleChange = (check,event) => {
+    //console.log("check and index",this.state.selected, check , this.state.answers, 'event---', event.target.checked)
     let answers = this.state.answers;
-    answers[this.state.selected] = check;
+    answers[this.state.selected][check]=event.target.checked;
     this.setState({
       answers: answers,
     });
@@ -107,48 +118,102 @@ class Quiz extends React.Component {
       }
     }
     return true;
+    
   }
 
   getQuizResults = (answers) => {
-    let questions = this.props.quiz.attributes.questions;
-    let hits = 0;
-    for (var i = 0; i < questions.length; i++) {
-      if (answers[i] !== '') {
-        if (questions[i].correctAnswers[parseInt(answers[i])]) {
-          hits++;
+    let hits = [];
+    let success=0;
+    let successTrue=0;
+    let Incorrect=0;
+    let appprovalPercentage=0;
+    let average=0;
+    let NumberAnswers=0;
+    let TotalAverage=0;
+    let TotalCorrectTrue=0;
+    let TotalIncorrect=0;
+   // console.log("Answers de llegada", answers)
+    //console.log("Answers verdaderas",this.props.quiz.attributes.questions)
+    answers.map(((answersgroup, index)=>{
+      success=0;
+      successTrue=0;
+      Incorrect=0;
+      NumberAnswers=0;
+      average=0
+        answersgroup.map((IndividualAnswer,Individualindex)=>{
+          NumberAnswers++
+          if(IndividualAnswer===this.props.quiz.attributes.questions[index].correctAnswers[Individualindex]){
+              success++;
+           // console.log("Coincide para prgunta ", index, "answer ", Individualindex,"exitos ",success  )
+            if((IndividualAnswer && this.props.quiz.attributes.questions[index].correctAnswers[Individualindex])===true){
+              successTrue++;
+            }
+          }else if(IndividualAnswer===true && this.props.quiz.attributes.questions[index].correctAnswers[Individualindex]===false){
+              Incorrect++;
+          }
+        })
+        //calculate score
+        if (NumberAnswers===success){ //all answers correct
+            //console.log("100% Bien")
+             average=100;
+        }else if((successTrue===0) || (successTrue===Incorrect)){ //all answers incorrect
+          //console.log("0% mal")
+           average=0;
+        }else if((Incorrect-successTrue)>0){
+          //console.log("0% mal")
+           average=0;
+        }else if((Incorrect-successTrue)<0){
+          let correctquiz=(this.props.quiz.attributes.questions[index].correctAnswers.filter(x => x == true).length)
+          //console.log(correctquiz)
+           average=(((successTrue-Incorrect)*100)/correctquiz)
+         // console.log("Se calcula:", average)
         }
-      }
-    }
-    return {score: (hits / this.props.quiz.attributes.questions.length) * 100, hits: hits};
+        TotalAverage=average+TotalAverage;
+        TotalCorrectTrue=successTrue+TotalCorrectTrue;
+        TotalIncorrect=Incorrect+TotalIncorrect;
+
+    }))
+    TotalAverage=(TotalAverage/answers.length)
+    console.log("total", TotalAverage, TotalCorrectTrue, TotalIncorrect)
+    return({score: TotalAverage, hits: TotalCorrectTrue,  Incorrect: TotalIncorrect, answers: answers, trueAnswers: this.props.quiz.attributes.questions});
   }
 
   handleFinish = (validate) => {
     this.setState({
       start: true,
     });
-    let approved;
-    if (validate) {
-      if (this.validateQuiz()) {
+    if(validate) {
+      if (this.validateQuiz()) { // always validate inclusive without any question resolved
         let results = this.getQuizResults(this.state.answers);
-        results.score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
+        let approved;
+        console.log("results", results)
+         results.score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
         let quiz = {
           score: results.score,
           hits: results.hits,
           approved:   approved,
           public: false,
           type: 'quiz',
+          Incorrect: results.Incorrect,
+          answers:results.answers,
+          trueAnswers:results.trueAnswers
         }
-        this.props.completeActivity(this.props.quiz.id, quiz ,"Quiz");
-      }
+        this.props.completeActivity(this.props.quiz.id, quiz ,"Quiz"); 
+      } 
     }
-    else {
+     else {
+      console.log("no validate..")
       let score = this.getQuizResults(this.state.answers);
       score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
       let quiz = {
-        score: score,
-        approved: approved,
-        public: false,
-        type: 'quiz',
+        score: results.score,
+          hits: results.hits,
+          approved: approved,
+          public: false,
+          type: 'quiz',
+          Incorrect: results.Incorrect,
+          answers:results.answers,
+          trueAnswers:results.trueAnswers
       }
       this.props.completeActivity(this.props.quiz.id, quiz, "Quiz");
     }
@@ -282,13 +347,11 @@ class Quiz extends React.Component {
   }
 
   handleTick = (time) => {
-    console.log("handleTick")
     let progress;
     let fullTime = this.props.time;
     let seconds = time.s;
     let minutes = time.m;
     let hours = time.h;
-    console.log(fullTime, seconds, minutes, hours)
     time = seconds + minutes * 60 + hours * 3600;
     progress = (100 * time) / (fullTime / 1000);
     this.setState({
@@ -296,12 +359,10 @@ class Quiz extends React.Component {
     })
 
     if(seconds==0 && minutes==1 && hours==0){
-
       this.setState({
         alert: 'alert',
       })
     }
-
   }
 
   stoptime= ()=>{
@@ -315,10 +376,6 @@ class Quiz extends React.Component {
       panelshow: 'adjust'
     })
   }
-
-
-
-
   handleChangeselector = event => {
      let time=(event.target.value*this.props.time)
     this.setState({
@@ -326,9 +383,6 @@ class Quiz extends React.Component {
         selectedtime: time,
         panelshow: 'cambio'
       }) 
-
-      console.log("se cambio", event.target.value, "---", this.props.time, this.state.selectedtime)
-     
     };
 
   handleClose = () => {
@@ -342,13 +396,13 @@ class Quiz extends React.Component {
     this.setState({
         open: true
       })
-      console.log("se abrio")
+      //console.log("se abrio")
   };
 
  
 
   cambio=(time)=>{
-    console.log("Cambio a: ", time, this.state.panelshow)
+    //console.log("Cambio a: ", time, this.state.panelshow)
     const { classes } = this.props;
     return(
       <div key={time}>
@@ -382,7 +436,7 @@ class Quiz extends React.Component {
 
   reload = () => {
     let selected = this.state.selected;
-    this.setState({})
+    
   }
 
   alerta =() =>{
@@ -410,7 +464,6 @@ class Quiz extends React.Component {
   handleClosepublish = () => {
     this.setState({ alert: 'cierra' });
   }
-
   handleMoreTime = () =>{
     this.setState({ 
       alert: 'cierra',
@@ -420,11 +473,11 @@ class Quiz extends React.Component {
   }
   render() {
     const { classes } = this.props;
-    console.log("vuelve ajsutar", this.state.selectedtime)
+    //console.log("vuelve ajsutar", this.state.selectedtime)
     return(
       <div className="quiz-dashboard-container">
         {
-          Number.isNaN(this.props.panelshow) || this.state.panelshow === 'stop' ?
+          Number.isNaN(this.state.selectedtime) || this.state.panelshow === 'stop' ?
           undefined
           :
           <Paper elevation={10} className="quiz-dashboard-side" >
@@ -496,49 +549,44 @@ class Quiz extends React.Component {
           undefined
         }
 
-        {console.log("cierra.......")}
+       
         <Paper elevation={8} className="quiz-dashboard-questions-container">
           <p className="question-dashboard-label-text">{this.props.language.chooseCorrectAnswer}</p>
           <Divider/>
-          <div className="question-dashboard-container">
+
+           <div className="question-dashboard-container">
             <FormControl component="fieldset" className="question-dashboard-form-control">
               <FormLabel component="legend" className="question-dashboard-form-label">{this.props.quiz.attributes.questions[this.state.selected].questionTitle}</FormLabel>
               <RadioGroup
                 aria-label="answer"
                 name="answer"
-                className="question-dashboard-radio-group"
+                className="question-dashboard-radio-group-student"
               >
-                <FormControlLabel
-                  onClick={() => this.handleChange(0)}
-                  className="question-dashboard-form-control-label"
-                  control={<Radio color="primary"/>}
-                  checked={this.state.answers[this.state.selected] === 0}
-                  label={this.props.quiz.attributes.questions[this.state.selected].answersText[0]}
-                />
-                <FormControlLabel
-                  onClick={() => this.handleChange(1)}
-                  className="question-dashboard-form-control-label"
-                  control={<Radio color="primary"/>}
-                  checked={this.state.answers[this.state.selected] === 1}
-                  label={this.props.quiz.attributes.questions[this.state.selected].answersText[1]}
-                />
-                <FormControlLabel
-                  onClick={() => this.handleChange(2)}
-                  className="question-dashboard-form-control-label"
-                  control={<Radio color="primary"/>}
-                  checked={this.state.answers[this.state.selected] === 2}
-                  label={this.props.quiz.attributes.questions[this.state.selected].answersText[2]}
-                />
-                <FormControlLabel
-                  onClick={() => this.handleChange(3)}
-                  className="question-dashboard-form-control-label"
-                  control={<Radio color="primary"/>}
-                  checked={this.state.answers[this.state.selected] === 3}
-                  label={this.props.quiz.attributes.questions[this.state.selected].answersText[3]}
-                />
+                {
+                  this.props.quiz.attributes.questions[this.state.selected].answersText.map((text, index)=>{ 
+                   // console.log("answertTesxt", text)
+                    return(
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                              className={"question-dashboard-form-control-label"}
+                              checked={this.state.answers[this.state.selected][index]===true}
+                              onChange={() => this.handleChange(index,event)}
+                              inputProps={{
+                                'aria-label': 'primary checkbox',
+                              }}  
+                          />
+                        }
+                        label={text}
+                      />
+                          
+                    )
+                  })
+                }
               </RadioGroup>
             </FormControl>
           </div>
+
           {
             this.state.showFinishConfirmation ?
               <div className="question-dashboard-actions">
@@ -567,9 +615,10 @@ class Quiz extends React.Component {
                 <Button
                   className="question-dashboard-button"
                   color="primary"
+                  variant="contained"
                   onClick={() => this.handlePrevious()}
                 >
-                  {this.props.language.previous}
+                  {this.props.language.previousStep}
                 </Button>
               }
               {

@@ -18,6 +18,14 @@ const ResizableContent = props => {
     transform: `rotate(${rotateAngle}deg)`
   }
 
+  const contentStylerotate = {
+     margin: '25px',
+     position: 'relative',
+     width:'0px',
+     height:'0px',
+    
+   }
+
   const handleResize = (style, isShiftKey, type) => {
     const {width, height } = style
     setWidth(Math.round(width))
@@ -28,7 +36,6 @@ const ResizableContent = props => {
 
   const handleRotate = rotateAngle => {
     setRotateAngle(rotateAngle)
-    console.log("ANGULO A ROTAR EN STORYTELLING", rotateAngle)
     props.rotateangle(rotateAngle)
     //props.coordenadaCursos(rotateAngle)
     //props.coordenada(rotateAngle)
@@ -40,26 +47,27 @@ const ResizableContent = props => {
     setTop(top + deltaY)
   }
 
-
-  
   return (
     <Fragment>
       <div style={contentStyle}>{props.children}</div>
-      <ResizableRect
-       // top={top}
-        rotatable
-        //left={left}
-        aspectRatio
-        minWidth={10}
-        width={width}
-        minHeight={10}
-        height={height}
-      //  onDrag={handleDrag}
-        onRotate={handleRotate}
-        //onResize={handleResize}
-        //zoomable="nw, ne, se, sw"
-        rotateAngle={rotateAngle}
-      />
+      <div style={contentStylerotate}>
+          <ResizableRect
+          // top={top}
+            rotatable
+            //left={left}
+            aspectRatio
+            minWidth={10}
+           
+            minHeight={10}
+           
+          //  onDrag={handleDrag}
+            onRotate={handleRotate}
+            //onResize={handleResize}
+            //zoomable="nw, ne, se, sw"
+            rotateAngle={rotateAngle}
+          />
+      </div>
+      
     </Fragment>
   )
 }

@@ -7,7 +7,6 @@
 }
 
 .content-editor-title {
-  text-transform: uppercase;
   text-align: center;
 }
 
@@ -74,7 +73,6 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  text-transform: uppercase;
 }
 
 .linear-creating-container {
@@ -117,7 +115,6 @@
 .gallery-subtitle {
   width: 100%;
   font-size: 0.85em;
-  text-transform: uppercase;
   letter-spacing: 0.75px;
   color: var(--primary);
   text-align: center;
@@ -220,6 +217,10 @@
   width: 25vw !important;
   animation: fadeIn 1s;
 }
+.url-input-storytelling {
+  width: 100%;
+  animation: fadeIn 1s;
+}
 
 .url-check-button {
   margin-left: 1vw !important;
@@ -313,7 +314,6 @@
   text-align: center;
   font-size: 0.85em;
   color: var(--primary);
-  text-transform: uppercase;
 }
 
 .link-preview-container {

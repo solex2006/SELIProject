@@ -36,6 +36,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Comment from '../../components/student/comments/Comment';
 
 import {Comments} from '../../../lib/CommentsCollection';
+import { StudentLog } from '../../../lib/StudentLogCollection';
 
 var ColorThief = require('color-thief');
 
@@ -192,12 +193,11 @@ export default class CourseCard extends React.Component {
                   {this.props.course.description}
                 </Typography>
                 <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
-                  {`${this.props.language.autor}: ${this.props.course.createdBy}`}
+                  {`${this.props.language.author}: ${this.props.course.createdBy}`}
                 </Typography>
               </CardContent>
               <CardActions className="course-card-actions" disableSpacing>
                 <Link className="button-link"
-                  //target="_blank"
                   to={{
                     pathname: "/coursePreview",
                     hash: this.props.course._id,
@@ -209,6 +209,11 @@ export default class CourseCard extends React.Component {
                     className="course-card-button"
                     aria-label="see preview"
                     variant="outlined"
+                    onClick={() => 
+                    {
+                      StudentLog.insert({ "UserId": Meteor.userId(), "CourseId" : this.props.course._id, 
+                      "Datetime": new Date(), "Action": "Course Preview" });
+                    }}
                   >
                     {this.props.language.coursePreview}
                   </Button>

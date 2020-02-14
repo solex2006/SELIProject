@@ -2,21 +2,26 @@ import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-
 import MessageIcon from '@material-ui/icons/Message';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-
+import Checkbox from '@material-ui/core/Checkbox';
 import { Meteor } from 'meteor/meteor';
-
 import Popover from '@material-ui/core/Popover';
-
 import { Courses } from '../../../lib/CourseCollection';
+import { Activities } from '../../../lib/ActivitiesCollection';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import { Divider } from 'material-ui';
 
 export default class StudentProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      studentScores:'', 
+      course: '',
+      showQuizDetails:'',
+      index: '',
+      expanded: false,
     }
   }
 
@@ -56,6 +61,9 @@ export default class StudentProfile extends React.Component {
   handleClose = () => {
     this.setState({
       anchorEl: null,
+      showQuizes:'NoshowQuizes',
+      showStudents:'showStudents'
+      
     })
   }
 
@@ -66,6 +74,21 @@ export default class StudentProfile extends React.Component {
   }
 
   componentDidMount() {
+    let course = Courses.find({_id: this.props.profile.courseProfile.courseId}).fetch();
+    console.log("CourseInformation", course) 
+    let studentScores = Activities.find({
+      "activity.user": this.props.profile.studentId, 
+      "activity.course": this.props.profile.courseProfile.courseId,
+      "activity.type": "quiz"
+    }).fetch();
+    //studentScores.map((quiz,index)=>{
+    this.setState({
+      studentScores: studentScores,
+      course: course
+    })
+    //})
+    console.log("studentScores", studentScores) 
+    //console.log("wwwwwww", this.props.profile.studentId, this.props.profile.courseProfile.courseId)
       this.setState({
         color: this.getAvatarColor(this.props.profile.studentInformation.username.toUpperCase().charCodeAt(0)),
       })
@@ -96,85 +119,129 @@ export default class StudentProfile extends React.Component {
     )
   }
 
+  handleChangePanel = () => {
+    {
+      this.setState({
+        expanded: !this.state.expanded,
+      })
+    }
+  }
+
   render() {
     return(
-      <div className="student-profile-container">
+      <div className="student">
         <Avatar
           style={{backgroundColor: this.state.color}}
           className="student-profile-avatar"
         >
           {this.props.profile.studentInformation.username.charAt(0).toUpperCase()}
         </Avatar>
-        <Paper
-          className="student-profile-information-container"
-          elevation={8}
-        >
-          <div>
-            <p className="student-profile-information-text-primary">
-              {this.props.profile.studentInformation.username}
-            </p>
-            <p className="student-profile-information-text-secondary">
-              {`${this.props.language.joinedSeli}: ${this.props.profile.studentInformation.dateJoined}`}
-            </p>
-            <p className="student-profile-information-text-secondary">
-              {`${this.props.language.studentName}: ${this.props.profile.studentInformation.fullname}`}
-            </p>
-            <p className="student-profile-information-text-secondary">
-              {`${this.props.language.progress}: ${this.props.profile.courseProfile.progress}%`}
-            </p>
-          </div>
-          <div className="student-profile-actions-container">
-            <Button
-              className="student-profile-button"
-              color="primary"
-              variant="outlined"
-            >
-              {this.props.language.sendMessage}
-            </Button>
-            <Button
-              className="student-profile-button"
-              color="primary"
-              variant="outlined"
-              onClick={(event) => this.handleClick(event)}
-            >
-              {this.props.language.cancelSubscription}
-            </Button>
-            <Popover
-              open={Boolean(this.state.anchorEl)}
-              anchorEl={this.state.anchorEl}
-              onClose={this.handleClose}
-              anchorOrigin={{
-                vertical: 'center',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'center',
-                horizontal: 'left',
-              }}
-            >
-              <div className="confirmation-popover-container">
-                <p>{this.props.language.cancelSubscriptionStudent}</p>
+        <div className="student-profile-container">
+            <div>
+              <Paper
+                className="student-profile-information-container"
+                elevation={4}
+              >
+                {console.log("DATOS DEL ALUMNO--->", this.props.profile)}
                 <div>
+                  <p className="student-profile-information-text-primary">
+                    {this.props.profile.studentInformation.username}
+                  </p>
+                  <p className="student-profile-information-text-secondary">
+                    {`${this.props.language.joinedSeli}: ${this.props.profile.studentInformation.dateJoined.toLocaleDateString('en-US')}`}
+                  </p>
+                  <p className="student-profile-information-text-secondary">
+                    {`${this.props.language.studentName}: ${this.props.profile.studentInformation.fullname}`}
+                  </p>
+                  <p className="student-profile-information-text-secondary">
+                    {`${this.props.language.progress}: ${this.props.profile.courseProfile.progress}%`}
+                  </p>
+                </div>
+                <div className="student-profile-actions-container">
                   <Button
-                    className="student-confirmation-button"
-                    onClick={() => this.handleUnsubscription()}
-                    variant="contained" color="primary"
+                    className="student-profile-button"
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => this.props.handleView(this.props.profile, "course")}
                   >
-                    {this.props.language.yes}
+                    {this.props.language.seeCourse}
                   </Button>
                   <Button
-                    className="student-confirmation-button"
-                    onClick={() => this.handleClose()}
-                    variant="contained"
-                    color="secondary"
+                    className="student-profile-button"
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => this.props.handleView({}, "quiz", this.state.studentScores)}
                   >
-                    {this.props.language.no}
+                    {this.props.language.SeeScore}
                   </Button>
                 </div>
-              </div>
-            </Popover>
-          </div>
-        </Paper>
+                <div onClick={() => this.handleChangePanel()} className="student-profile-actions-container">
+                  {
+                    this.state.expanded ?
+                      <KeyboardArrowLeftIcon />
+                    :
+                      <KeyboardArrowRightIcon />
+                  }
+                </div>
+                {
+                  this.state.expanded ?
+                    <div className="student-profile-actions-container">
+                      <Button
+                        className="student-profile-button"
+                        color="primary"
+                        variant="outlined"
+                      >
+                        {this.props.language.sendMessage}
+                      </Button>
+                      <Button
+                        className="student-profile-button"
+                        color="primary"
+                        variant="outlined"
+                        onClick={(event) => this.handleClick(event)}
+                      >
+                        {this.props.language.cancelSubscription}
+                      </Button>
+                      <Popover
+                        open={Boolean(this.state.anchorEl)}
+                        anchorEl={this.state.anchorEl}
+                        onClose={this.handleClose}
+                        anchorOrigin={{
+                          vertical: 'center',
+                          horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                          vertical: 'center',
+                          horizontal: 'left',
+                        }}
+                      >
+                        <div className="confirmation-popover-container">
+                          <p>{this.props.language.cancelSubscriptionStudent}</p>
+                          <div>
+                            <Button
+                              className="student-confirmation-button"
+                              onClick={() => this.handleUnsubscription()}
+                              variant="contained" color="primary"
+                            >
+                              {this.props.language.yes}
+                            </Button>
+                            <Button
+                              className="student-confirmation-button"
+                              onClick={() => this.handleClose()}
+                              variant="contained"
+                              color="secondary"
+                            >
+                              {this.props.language.no}
+                            </Button>
+                          </div>
+                        </div>
+                      </Popover>
+                    </div>
+                  :
+                    undefined
+                }
+              </Paper>
+            </div>
+        </div>  
       </div>
     )
   }

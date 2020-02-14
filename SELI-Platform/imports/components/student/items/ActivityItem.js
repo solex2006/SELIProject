@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
+import CommentItem from './CommentItem.js';
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -16,10 +18,19 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import StorytellingPlayer from '../../storytelling/StorytellingPlayer';
 
 import AttachmentPreview from '../../files/previews/AttachmentPreview';
 import FileUpload from '../../files/FileUpload';
 import Editor from '../../inputs/editor/Editor';
+import Paper from '@material-ui/core/Paper';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+import SendIcon from '@material-ui/icons/Send';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
+import InfoIcon from '@material-ui/icons/Info';
+import { Tracker } from 'meteor/tracker';
+import { Activities } from '../../../../lib/ActivitiesCollection';
 
 export default class ActivityItem extends React.Component {
   constructor(props) {
@@ -30,6 +41,10 @@ export default class ActivityItem extends React.Component {
       additionalNotes: '',
       resolved: false,
       textSection: '',
+      myStories: [],
+      insertText: false,
+      commentText: '',
+      activityForum: [],
     }
   }
 
@@ -43,6 +58,53 @@ export default class ActivityItem extends React.Component {
 
   componentDidMount(){
     this.checkResolved();
+    this.getStories();
+    this.getActivityInformation();
+    this.listsTracker = Tracker.autorun(() => {
+      Meteor.subscribe('activityForum'); // Auto publish when loggedin
+      let activityForum = Activities.findOne({"activity.activityId": this.props.item.id});
+      if (activityForum) {
+        activityForum = activityForum.activity.data;
+      }
+      this.setState({ activityForum });
+    });
+  }
+
+  getActivityInformation = () => {
+    let activity;
+    if (this.props.fromTutor) {
+      activity = Activities.findOne({
+        "activity.activityId": this.props.item.id,
+        "activity.user": this.props.fromTutor,
+      })
+    } else {
+      activity = Activities.findOne({
+        "activity.activityId": this.props.item.id,
+        "activity.user": Meteor.userId(),
+      })
+    }
+    this.setState({
+      activityInformation: activity,
+    });
+  }
+
+  getStories = () => {
+    Tracker.autorun(() => {
+      let myStories = Activities.find({
+        'activity.user': Meteor.userId(),
+        'activity.type': "storytelling",
+      }).fetch();
+      this.setState({
+        myStories: myStories,
+      });
+    });
+  }
+
+  selectStory = (story, name) => {
+    this.setState({
+      storySelected: story,
+      storySelectedName: name,
+    });
   }
 
   checkResolved = () => {
@@ -52,21 +114,86 @@ export default class ActivityItem extends React.Component {
   }
 
   doActivity = () => {
-    this.handleClickOpen();
-    let dialogText;
-    let confirmAction;
-    if (this.props.item.attributes.type === 'upload') {
-      dialogText = this.props.language.toActivityUpload,
-      confirmAction = () => this.sendFile();
+    if (this.props.item.attributes.type !== 'forum') {
+      this.handleClickOpen();
+      let dialogText;
+      let confirmAction;
+      if (this.props.item.attributes.type === 'upload') {
+        dialogText = this.props.language.toActivityUpload,
+        confirmAction = () => this.sendFile();
+      }
+      if (this.props.item.attributes.type === 'section') {
+        dialogText = this.props.language.toActivityWrite,
+        confirmAction = () => this.sendSection();
+      }
+      if (this.props.item.attributes.type === 'storyboard') {
+        dialogText = this.props.language.toActivityStoryboard,
+        confirmAction = () => this.sendStoryboard();
+      }
+      this.setState({
+        dialogText: dialogText,
+        confirmAction: confirmAction,
+      });
+    } else {
+      this.setState({
+        insertText: true,
+      });
     }
-    if (this.props.item.attributes.type === 'section') {
-      dialogText = this.props.language.toActivityWrite,
-      confirmAction = () => this.sendSection();
+  }
+
+  sendComment = () => {
+    let comment = {};
+    let activity = Activities.findOne({"activity.activityId": this.props.item.id});
+    let data = activity.activity.data;
+    comment.id = Math.random();
+    comment.userId = Meteor.userId();
+    comment.date = new Date();
+    comment.label = this.state.commentText;
+    comment.media = [];
+    data.push(comment);
+    Activities.update(
+      { _id: activity._id},
+      { $set: {
+        'activity.data': data,
+      }}, () => {
+        if (!this.props.fromTutor) {
+          this.props.completeActivity(this.props.item.id, "", "Forum");
+        }
+        this.setState({
+          commentText: '',
+          activityForum: Activities.findOne({"activity.activityId": this.props.item.id}).activity.data,
+        })
+      }
+    );
+  }
+
+  deleteComment = (commentToDelete) => {
+    let activity = Activities.findOne({"activity.activityId": this.props.item.id});
+    let data = activity.activity.data;
+    const index = data.findIndex(comment => comment.id === commentToDelete.id);
+    data.splice(index, 1);
+    Activities.update(
+      { _id: activity._id},
+      { $set: {
+        'activity.data': data,
+      }}, () => {
+        this.setState({
+          activityForum: Activities.findOne({"activity.activityId": this.props.item.id}).activity.data,
+        })
+      }
+    );
+  }
+
+  sendStoryboard = () => {
+    if (this.validateStoryboard()) {
+      let activity = {
+        activityId: this.state.storySelected,
+        type: 'storyboard',
+        public: false,
+      }
+      this.props.completeActivity(this.props.item.id, activity, "Activity");
+      this.handleClose();
     }
-    this.setState({
-      dialogText: dialogText,
-      confirmAction: confirmAction,
-    });
   }
 
   sendFile = () => {
@@ -122,6 +249,19 @@ export default class ActivityItem extends React.Component {
         additionalNotes: event.target.value,
       });
     }
+    if (name === 'forum') {
+      this.setState({
+        commentText: event.target.value,
+      });
+    }
+  }
+
+  validateStoryboard = () => {
+    if (this.state.storySelected === undefined) {
+      this.props.handleControlMessage(true, this.props.language.completeActivityStoryboard)
+      return false;
+    }
+    return true;
   }
 
   validateUploadActivity = () => {
@@ -148,6 +288,7 @@ export default class ActivityItem extends React.Component {
 
   componentWillReceiveProps() {
     this.checkResolved();
+    this.getActivityInformation();
   }
 
   render() {
@@ -177,49 +318,133 @@ export default class ActivityItem extends React.Component {
                             { this.props.item.attributes.type === 'storyboard' ? this.props.language.storyboardActivity : undefined }
                             { this.props.item.attributes.type === 'upload' ? this.props.language.uploaddActivity : undefined }
                             { this.props.item.attributes.type === 'section' ? this.props.language.textSectionActivity : undefined }
+                            { this.props.item.attributes.type === 'forum' ? this.props.language.forum : undefined }
                           </Typography>
                         </div>
                       </ExpansionPanelSummary>
                       <ExpansionPanelDetails className="item-quiz-detail">
                         <div className="item-quiz-detail-container">
                           <p className="activity-instruction-title">{this.props.language.instructions}</p>
-                          <div className="activity-item-container-instruction">
-                            {this.props.item.attributes.instruction}
+                          <div className="activity-item-container-instruction"
+                            dangerouslySetInnerHTML={{__html:this.props.item.attributes.instruction}}>
                           </div>
                           {
-                            this.props.item.attributes.type === 'upload' ?
-                              <div className="activity-detail-container">
-                                <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                                  {this.props.language.acceptedFileType}
-                                </Typography>
-                                <Typography className="file-type-text-detail" variant="overline" display="block" gutterBottom>
-                                  {this.props.item.attributes.fileTypes.label}
-                                </Typography>
+                            this.state.activityInformation && this.props.item.attributes.type === 'upload' ?
+                              <div>
+                                <p className="activity-instruction-title">{`${this.props.language.fileType}: ${this.props.item.attributes.fileTypes.label}`}</p>
+                                <div className="activity-item-container-instruction"
+                                  dangerouslySetInnerHTML={{__html: this.state.activityInformation.activity.additionalNotes}}>
+                                </div>
+                                <div className="activity-item-container-file">
+                                  {
+                                    !this.state.activityInformation.activity.file ? undefined :
+                                      <AttachmentPreview
+                                        preview
+                                        file={this.state.activityInformation.activity.file}
+                                        unPickFile={this.unPickFile.bind(this)}
+                                        language={this.props.language}
+                                      />
+                                  }
+                                </div>
                               </div>
                             :
-                            undefined
+                              undefined
+                          }
+                          {
+                            this.state.activityInformation && this.props.item.attributes.type === 'storyboard' ?
+                              <div>
+                                <p className="activity-instruction-title">{`${this.props.language.story}:`}</p>
+                                <div className="activity-item-container-instruction">
+                                  <Link style={{"text-decoration": "none"}}
+                                    //target="_blank"
+                                    to={`/story#${this.state.activityInformation._id}`}
+                                  >
+                                    {this.state.activityInformation.activity.name}
+                                  </Link>
+                                </div>
+                              </div>
+                            :
+                              undefined
+                          }
+                          {
+                            this.state.activityInformation && this.props.item.attributes.type === 'section' ?
+                              <div>
+                                <p className="activity-instruction-title">{`${this.props.language.text}:`}</p>
+                                <div className="activity-item-container-instruction"
+                                  dangerouslySetInnerHTML={{__html: this.state.activityInformation.activity.textSection}}>
+                                </div>
+                              </div>
+                            :
+                              undefined
+                          }
+                          {
+                            this.props.item.attributes.type === 'forum' && this.state.activityForum.length > 0 ?
+                              <div>
+                                <p className="activity-instruction-title">{`${this.props.language.comments}:`}</p>
+                                {
+                                  this.state.activityForum.map(comment => {
+                                    return(
+                                      <CommentItem 
+                                        comment={comment}
+                                        deleteComment={this.deleteComment.bind(this)}
+                                        language={this.props.language}
+                                      />
+                                    )
+                                  })
+                                }
+                              </div>
+                            :
+                              undefined
                           }
                         </div>
                       </ExpansionPanelDetails>
                       <Divider />
                       <ExpansionPanelActions className="quiz-item-actions">
                         {
-                          !this.state.resolved ?
-                            <div>
-                              <Button size="medium">
-                                {this.props.language.setReminder}
-                              </Button>
-                              <Button onClick={() => this.doActivity()} size="medium" color="primary">
-                                {this.props.language.doActivity}
-                              </Button>
-                            </div>
+                          this.props.item.attributes.type === 'forum' ?
+                            this.state.insertText || this.props.fromTutor || this.state.resolved ?
+                              <div className="activity-comment">
+                                <TextField
+                                  id="name-input"
+                                  label={this.props.language.reply}
+                                  margin="normal"
+                                  variant="outlined"
+                                  multiline
+                                  fullWidth
+                                  autoComplete={"off"}
+                                  required
+                                  value={this.state.commentText}
+                                  onChange={this.handleChange('forum')}
+                                />
+                                <Tooltip onClick={() => this.sendComment()} title={this.props.language.send}>
+                                  <Fab className="course-item-comment-card-media-fab" size="small">
+                                    <SendIcon color="primary"/>
+                                  </Fab>
+                                </Tooltip>
+                              </div>
+                            :
+                              undefined
                           :
-                          <div className="align-items-center">
-                            <Button size="medium">
-                              {this.props.language.activityDone}
-                            </Button>
-                            <CheckCircleIcon className="done-icon"/>
-                          </div>
+                            undefined
+                        }
+                        {
+                          !this.state.resolved ?
+                            this.props.fromTutor || this.state.insertText ? undefined : 
+                              <div>
+                                <Button size="medium">
+                                  {this.props.language.setReminder}
+                                </Button>
+                                <Button onClick={() => this.doActivity()} size="medium" color="primary">
+                                  {this.props.language.doActivity}
+                                </Button>
+                              </div>
+                          :
+                            <div className="align-items-center">
+                              <Button size="medium">
+                                {this.props.language.activityDone}
+                              </Button>
+                              <CheckCircleIcon className="done-icon"/>
+                            </div>
                         }
                       </ExpansionPanelActions>
                     </ExpansionPanel>
@@ -237,7 +462,7 @@ export default class ActivityItem extends React.Component {
           aria-describedby="alert-dialog-confirmation"
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.doActivity}</DialogTitle>
-          <DialogContent className="success-dialog-content">
+          <DialogContent className="stories-dialog-content">
             <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
               {this.state.dialogText}
             </DialogContentText>
@@ -254,11 +479,11 @@ export default class ActivityItem extends React.Component {
                         label={this.props.language.clickUploadFile}
                       />
                     :
-                    <AttachmentPreview
-                      file={this.state.file}
-                      unPickFile={this.unPickFile.bind(this)}
-                      language={this.props.language}
-                    />
+                      <AttachmentPreview
+                        file={this.state.file}
+                        unPickFile={this.unPickFile.bind(this)}
+                        language={this.props.language}
+                      />
                   }
                   <TextField
                     id="biography-input"
@@ -287,6 +512,37 @@ export default class ActivityItem extends React.Component {
                 />
               :
               undefined
+            }
+            {
+              this.props.item.attributes.type === 'storyboard' ?
+                this.state.myStories.length === 0 ?
+                  <div className="empty-dashboard-row">
+                    <p >{this.props.language.notHaveStoriesYet}</p>
+                    <InfoIcon />
+                  </div>
+                :
+                  this.state.myStories.map(story => {
+                    return(
+                      <Paper 
+                        onClick={() => this.selectStory(story._id, story.activity.name)} 
+                        elevation={story._id === this.state.storySelected ? 5 : 1} 
+                        className="story-item-container"
+                      >
+                        <LibraryBooksIcon className="story-item-icon"/>
+                        <p className="story-item-text-primary">{story.activity.name}</p>
+                        <Link className="story-item-button"
+                          //target="_blank"
+                          to={`/story#${story._id}`}
+                        >
+                          <Button variant="contained" color="secondary">
+                            {this.props.language.open}
+                          </Button>
+                        </Link>
+                      </Paper>
+                    )
+                  })
+              :
+                undefined
             }
           </DialogContent>
           <DialogActions>

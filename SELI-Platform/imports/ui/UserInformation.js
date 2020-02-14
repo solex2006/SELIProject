@@ -482,12 +482,7 @@ export default class UserInformation extends React.Component {
           maxWidth={false}
         >
           <DialogTitle className="form-dialog-title" id="alert-dialog-title">
-            {
-              this.state.fileType === "image" ?
-                this.props.language.chooseOrUploadImage
-              :
-              this.props.language.chooseOrUploadSyllabus
-            }
+            {this.props.language.uploadYourProfilePhoto}
           </DialogTitle>
           <DialogContent>
             <div className="file-form-dialog">

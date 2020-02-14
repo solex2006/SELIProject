@@ -18,12 +18,15 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ControlSnackbar from '../../components/tools/ControlSnackbar';
-
 import LanguageSelector from './LanguageSelector';
 import UserMenu from './UserMenu';
-
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
+import { Courses } from '../../../lib/CourseCollection'
+import filter from '@mcabreradev/filter'
+import CoursesDashboard  from '../student/CoursesDashboard'
+
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Grow ref={ref} {...props} />;
@@ -39,6 +42,8 @@ export default class AppBar extends React.Component {
       openDialog: false,
       openRequest: false,
       showSearchBar: false,
+      searchText:'',
+      showPreview: ''
     }
   }
 
@@ -119,9 +124,28 @@ export default class AppBar extends React.Component {
     this.setState({ openRequest: true });
   };
 
-  render() {
+
+  handleSearchText=(event)=>{
+   this.setState({
+     searchText: event.target.value
+   })
+  }
+  handleSearchButton=(event)=>{
+    //console.log(this.state.searchText)
+    //let courses= Courses.find({}).fetch()
+    let courses = Courses.find({published: true}).fetch();
+    console.log(courses)
+    console.log(filter(courses, { 'title': this.state.searchText}));
+    let search=filter(courses, { 'title': this.state.searchText})
+    this.setState({
+      showPreview: 'showPreview'
+    })
+    this.props.searchValue(search)
+  }
+
+  appbar=()=>{
     return(
-      <div >
+      <div>
         <div className="app-bar-container" >
           <p  className="bar-title">{this.props.language.seliProject}</p>
           <div className="bar-button-container" >
@@ -152,7 +176,6 @@ export default class AppBar extends React.Component {
                 </div>
               :
               <UserMenu
-              
                 language={this.props.language}
                 user={this.props.user}
                 showComponent={this.props.showComponent.bind(this)}
@@ -171,15 +194,15 @@ export default class AppBar extends React.Component {
             <Paper tabIndex="-1" elevation={15} className="app-bar-search-paper">
               <Divider tabIndex="-1" className="app-bar-search-divider" orientation="vertical" />
               <InputBase
-          
                 fullWidth
                 className="app-bar-search-input-base"
                 placeholder={this.props.language.learnAbout}
                 inputProps={{ 'aria-label': this.props.language.learnAbout}}
                 autoFocus={true}
+                onChange={this.handleSearchText}
               />
             </Paper>
-            <Button className="app-bar-search-button">{this.props.language.searchCourses}</Button>
+            <Button className="app-bar-search-button" onClick={this.handleSearchButton}>{this.props.language.searchCourses}</Button>
             <IconButton onClick={() => this.toggleSearchBar()} className="app-bar-search-icon-button" aria-label="menu">
               <CloseIcon className="app-bar-search-icon"/>
             </IconButton>
@@ -279,6 +302,18 @@ export default class AppBar extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+      </div>
+    )
+  }
+
+  render() {
+    return(
+      <div >
+        {
+      
+          this.appbar()
+        }
+        
       </div>
     );
   }

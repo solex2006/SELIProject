@@ -21,9 +21,9 @@ export default function ItemFeedBack(props) {
 
   const a11yCOLOR = {
     none : '#ef5350',
-		fail : '#ff9800',
-		poor: '#ffc107',
-		average: '#fbc02d',
+		fail : '#d1a101',
+		poor: '#d1a101',
+		average: '#d1a101',
 		good: '#9ccc65',
 		valid: '#66bb6a',
 	};
@@ -33,33 +33,33 @@ export default function ItemFeedBack(props) {
 
   if (props.accessibility.percentage === 0){
     color = a11yCOLOR.none;
-    text = 'This content has no accessibility';
+    text = props.language.feedback_a11y_accessibility_no;
   }
 
   else if (props.accessibility.percentage < 20){
     color = a11yCOLOR.fail;
-    text = 'This content has no accessibility';
+    text = props.language.feedback_a11y_accessibility_no;
   }
   else if (props.accessibility.percentage < 40 ){
     color = a11yCOLOR.poor;
-    text = 'This content has poor accessibility';
+    text = props.language.feedback_a11y_accessibility_poor;
   }
   else if (props.accessibility.percentage < 60 ){
     color = a11yCOLOR.average;
-    text = 'This content has average accessibility';
+    text = props.language.feedback_a11y_accessibility_average;
   }
   else if (props.accessibility.percentage < 80 ){
     color = a11yCOLOR.good;
-    text = 'This content has good accessibility';
+    text = props.language.feedback_a11y_accessibility_good;
   }
   else{
     color = a11yCOLOR.valid;
-    text = 'This content has excellent accessibility';
+    text = props.language.feedback_a11y_accessibility_excelent;
   }
 
   if (props.accessibility.pureDecorative) {
     color = a11yCOLOR.valid;
-    text = 'This content is pure decorative';
+    text = props.language.feedback_a11y_accessibility_pure_decorative;
   }
 
   const handlePopoverOpen = event => {
@@ -101,7 +101,7 @@ export default function ItemFeedBack(props) {
       >
         <div className="accessibility-feedback-label" style={{color: "#FFF", backgroundColor: color}}>
           <InfoIcon style={{margin: "0 0.5vw"}}/>
-          {`Accessibility feedback: ${text}`}
+          {text}
         </div>
       </Popover>
     </div>

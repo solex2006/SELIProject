@@ -79,7 +79,6 @@
   letter-spacing: 2px;
   color: #333;
   font-weight: 100 !important;
-  text-transform: uppercase;
   transition: 0.5s;
   border-bottom: solid 1px #e0e0e0;
 }
@@ -328,7 +327,6 @@
 .instruction-title {
   width: 90%;
   margin: 2.5vh 5%;
-  text-transform: uppercase;
 }
 
 /* H5P */
@@ -366,7 +364,6 @@
   padding-top: 2vh;
   font-size: 1.2em;
   letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
 .h5P-item-container-instruction {
@@ -472,20 +469,29 @@
 }
 
 .activity-instruction-title {
-  width: 95%;
-  height: auto;
-  padding: 0vh 2.5%;
-  padding-top: 2vh;
+  width: 88%;
+  padding: 1.5vh 2.5%;
   font-size: 1.2em;
   letter-spacing: 1px;
-  text-transform: uppercase;
+}
+
+.activity-comment {
+  display: flex;
+  align-items: center;
+  width: 70%;
 }
 
 .activity-item-container-instruction {
-  width: 95%;
+  width: 88%;
   padding: 1.5vh 2.5%;
   color: #616161;
-  padding-bottom: 2.5vh;
+}
+
+.activity-item-container-file {
+  width: calc(90vw - 200px);
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
 
 .file-type-text-detail {
@@ -506,7 +512,6 @@
 
 .activity-panel-title {
   font-size: 1.85em !important;
-  text-transform: uppercase !important;
   letter-spacing: 2px !important;
   color: var(--secondary) !important;
 }

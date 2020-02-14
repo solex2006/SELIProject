@@ -56,6 +56,7 @@ export default class ActivityItem extends React.Component {
                             { this.props.item.attributes.type === 'storyboard' ? this.props.language.storyboardActivity : undefined }
                             { this.props.item.attributes.type === 'upload' ? this.props.language.uploaddActivity : undefined }
                             { this.props.item.attributes.type === 'section' ? this.props.language.textSectionActivity : undefined }
+                            { this.props.item.attributes.type === 'forum' ? this.props.language.forum : undefined }
                           </Typography>
                         </div>
                       </ExpansionPanelSummary>
@@ -93,7 +94,6 @@ export default class ActivityItem extends React.Component {
           undefined
         }
         <div className="menu-content-item">
-        
           <MenuItem
             item={this.props.item}
             removeItem={this.props.removeItem.bind(this)}

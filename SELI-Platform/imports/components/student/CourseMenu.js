@@ -66,6 +66,11 @@ export default function CourseMenu(props) {
     closeDrawer();
   }
 
+  function handleView() {
+    props.handleView({}, "");
+    closeDrawer();
+  }
+
   const sideList = side => (
     <div
       className="course-menu-options-container"
@@ -87,7 +92,7 @@ export default function CourseMenu(props) {
             elevation={12}
             className="course-menu-image-container"
             style={{backgroundImage: `url(${props.course.image.link})`}}
-            onClick={() => {showPresentation()}}
+            onClick={() => {props.handleView ? handleView() : showPresentation()}}
           />
         </div>
       </div>

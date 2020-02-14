@@ -13,6 +13,17 @@
   max-height: calc(100vh - var(--app-bar-height));
   position: relative;
   display: flex;
+  background-color: #000000;
+}
+
+.storytelling-tool-play-container {
+  width: 100vw;
+  height: calc(100vh - var(--app-bar-height));
+  max-height: calc(100vh - var(--app-bar-height));
+  position: relative;
+  top: var(--app-bar-height);
+  display: flex;
+  background-color: #000000;
 }
 
 .storytelling-work-area-full {
@@ -217,7 +228,6 @@
 .storytelling-media-preview-container {
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 2vh 0;
@@ -269,14 +279,15 @@
 }
 
 .storytelling-player-image-container {
-  align-content: center !important;
-  background-size: cover; 
-  width: 100%;
-  height: 100%;
-  transition: 0.5s;
+  width: calc(100vw) !important;
+  height: calc(100vh - var(--app-bar-height)) !important;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(0, 0, 0, 0.95);
+  background-size: contain;
+  transition: 0.5s;
+  display: table;
+  position: fixed;
+  white-space: nowrap;
 }
 
 .storytelling-player-description {
@@ -340,7 +351,6 @@
 
 .storytelling-return-button {
   position: fixed;
-  bottom: 1.5vh;
   left: 2.5vw;
   font-size: 1.25em !important;
   letter-spacing: 1px !important;
@@ -398,9 +408,18 @@
   position: relative !important;
   align-items: center !important;
   width: 40vw !important;
+  margin-top: 1vh !important;
   padding: 1.5vh 1vw !important;
   transition: 0.5s !important;
   animation: fadeInLeft 0.5s !important;
+}
+
+.story-rename-container {
+  align-items: center;
+  width: 100%-2vw;
+  padding: 0 1vw;
+  transition: 0.5s;
+  animation: fadeInLeft 0.5s;
 }
 
 .story-item-container:hover {
@@ -429,6 +448,7 @@
 .story-item-button {
   position: absolute !important;
   letter-spacing: 1px !important;
+  text-decoration: none !important;
   right: 1vw !important;
 }
 

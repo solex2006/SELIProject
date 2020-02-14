@@ -16,6 +16,8 @@ import ControlSnackbar from '../components/tools/ControlSnackbar';
 import AccountManagement from '../components/user/AccountManagement';
 import Help from '../components/user/Help';
 import Loading from '../components/tools/Loading';
+import StorytellingTool from '../components/storytelling/StorytellingTool';
+import Stories from '../components/storytelling/Stories';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
@@ -32,6 +34,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
 import {checkUserType} from '../../lib/userSesions';
+import { Activities } from '../../lib/ActivitiesCollection';
 
 import english from '../../lib/translation/english';
 import spanish from '../../lib/translation/spanish';
@@ -140,6 +143,9 @@ export default class Tutor extends React.Component {
       else if (action === 'preview') {
         action = () => this.showPreview();
       }
+      if (action === 'stories') {
+        action = () => this.showComponent('stories');
+      }
       this.setState({
         showControlMessage: show,
         controlMessage: message,
@@ -170,6 +176,14 @@ export default class Tutor extends React.Component {
     });
   }
 
+  editStory = (story) => {
+    this.setState({
+      storyToEdit: story,
+    }, () => {
+      this.showComponent('storytellingEdit');
+    });
+  }
+
   handleClose = () => {
     this.setState({ 
       chekingSesion: false,
@@ -196,6 +210,47 @@ export default class Tutor extends React.Component {
     this.setState({ 
       savedCourseWindow: false,
     });
+  }
+
+  createForum = (course, courseId) => {
+    if (course.organization.subunit) {
+      course.program.map(unit => {
+        unit.lessons.map(lesson => {
+          lesson.items.map(item => {
+            if (item.type === "activity" && item.attributes.type === "forum"){
+              this.createForumItem(item.id, courseId);
+            }
+          })
+        })
+      })
+    } else {
+      course.program.map(topic => {
+        topic.items.map(item => {
+          if (item.type === "activity" && item.attributes.type === "forum"){
+            this.createForumItem(item.id, courseId);
+          }
+        })
+      })
+    }
+  }
+
+  createForumItem = (itemId, courseId) => {
+    let activity = {
+      data: [],
+      type: 'forum',
+      public: false,
+    }
+    if (itemId && courseId) {
+      if (!Activities.findOne({"activity.activityId": itemId})) {
+        activity.activityId = itemId;
+        activity.date = new Date();
+        activity.user = Meteor.userId();
+        activity.course = courseId;
+        Activities.insert({
+          activity
+        });
+      }
+    }
   }
 
   render() {
@@ -265,6 +320,8 @@ export default class Tutor extends React.Component {
                           language={this.state.language}
                           user={this.state.user}
                           handleControlMessage={this.handleControlMessage.bind(this)}
+                          showComponent={this.showComponent.bind(this)}
+                          createForum={this.createForum.bind(this)}
                         />
                       :
                       undefined
@@ -275,6 +332,42 @@ export default class Tutor extends React.Component {
                           language={this.state.language}
                           user={this.state.user}
                           courseToEdit={this.state.courseToEdit}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                          showComponent={this.showComponent.bind(this)}
+                          createForum={this.createForum.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'storytelling' ?
+                        <StorytellingTool
+                          user={this.state.user}
+                          language={this.state.language}
+                          storyToEdit={undefined}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'storytellingEdit' ?
+                        <StorytellingTool
+                          user={this.state.user}
+                          language={this.state.language}
+                          storyToEdit={this.state.storyToEdit}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'stories' ?
+                        <Stories
+                          user={this.state.user}
+                          language={this.state.language}
+                          showComponent={this.showComponent.bind(this)}
+                          editStory={this.editStory.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                         />
                       :

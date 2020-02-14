@@ -39,7 +39,8 @@ export default class EditCourse extends React.Component {
         keyWords: [],
         image: undefined,
         sylabus: undefined,
-        duration: '',
+        duration: 0,
+        durationweeks: 0,
         requirements: [],
         support: [],
         organization: '',
@@ -52,6 +53,7 @@ export default class EditCourse extends React.Component {
       expandedNodes: [],
       selected: [0, 0],
       saved: false,
+      action: "",
     }
   }
 
@@ -70,6 +72,7 @@ export default class EditCourse extends React.Component {
         image: this.props.courseToEdit.image,
         sylabus: this.props.courseToEdit.sylabus,
         duration: this.props.courseToEdit.duration,
+        durationweeks: this.props.courseToEdit.durationweeks,
         requirements: this.props.courseToEdit.requirements,
         support: this.props.courseToEdit.support,
         organization: this.props.courseToEdit.organization,
@@ -156,6 +159,7 @@ export default class EditCourse extends React.Component {
               image: courseInformation.image,
               sylabus: courseInformation.sylabus,
               duration: courseInformation.duration,
+              durationweeks: courseInformation.durationweeks,
               requirements: courseInformation.requirements,
               support: courseInformation.support,
               organization: courseInformation.organization,
@@ -167,6 +171,7 @@ export default class EditCourse extends React.Component {
           }
         );
         course = this.state.saved;
+        this.props.createForum(courseInformation, this.state.saved);
       }
       else {
         let user = Meteor.user();
@@ -175,7 +180,9 @@ export default class EditCourse extends React.Component {
         courseInformation.published = true;
         courseInformation.classroom = [];
         course = Courses.insert(courseInformation);
+        this.props.createForum(courseInformation, course);
       }
+      this.props.showComponent('published')
       this.props.handleControlMessage(true, this.props.language.coursePublishedS, true, 'preview', this.props.language.seePreview, course);
     }
   }
@@ -197,6 +204,7 @@ export default class EditCourse extends React.Component {
         this.setState({
           saved: course,
         });
+        this.props.createForum(courseInformation, course);
       }
       else {
         Courses.update(
@@ -211,6 +219,7 @@ export default class EditCourse extends React.Component {
               image: courseInformation.image,
               sylabus: courseInformation.sylabus,
               duration: courseInformation.duration,
+              durationweeks: courseInformation.durationweeks,
               requirements: courseInformation.requirements,
               support: valueSupport,
               organization: courseInformation.organization,
@@ -219,8 +228,10 @@ export default class EditCourse extends React.Component {
             }
           }
         );
+        this.props.createForum(courseInformation, this.state.saved);
       }
       this.props.handleControlMessage(true, this.props.language.courseSavedS, true, 'savedList', this.props.language.seeList);
+      this.props.createForum(courseInformation);
     }
   }
 
@@ -229,8 +240,8 @@ export default class EditCourse extends React.Component {
     if (
       courseInformation.title === '' ||
       //courseInformation.subtitle === '' ||
-      courseInformation.description === '' ||
-      courseInformation.duration === ''
+      courseInformation.description === '' 
+      //|| courseInformation.duration === ''
     ) {
       this.props.handleControlMessage(true, `${this.props.language.fieldsMarkedWith} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
@@ -301,8 +312,16 @@ export default class EditCourse extends React.Component {
     if (this.validatePublishCourse()) {
       this.setState({
         open: true,
+        action: "preview",
       })
     }
+  }
+
+  handlePublish = () => {
+    this.setState({
+      open: true,
+      action: "publish",
+    })
   }
 
   handleClose = () => {
@@ -312,8 +331,6 @@ export default class EditCourse extends React.Component {
   confirmPreview = () => {
     this.saveCourse();
     this.handleClose();
-    //const url = `/coursePreview#${this.state.saved}`;
-    //window.open(url, "_blank");
   }
 
   render() {
@@ -329,7 +346,7 @@ export default class EditCourse extends React.Component {
               forms={this.state.courseForms}
               finalLabel={this.props.language.publishCourse}
               saveLabel={this.props.language.saveCourse}
-              finalAction={this.publishCourse.bind(this)}
+              finalAction={this.handlePublish.bind(this)}
               saveAction={this.saveCourse.bind(this)}
             />
           :
@@ -341,10 +358,12 @@ export default class EditCourse extends React.Component {
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
         >
-          <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.coursePreview}</DialogTitle>
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+            {this.state.action === "preview" ? this.props.language.coursePreview : this.props.language.publishCourse}
+          </DialogTitle>
           <DialogContent className="success-dialog-content">
             <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-            {this.props.language.ifYouWantCP}
+              {this.state.action === "preview" ? this.props.language.ifYouWantCP : this.props.language.ifYouWantPC}
             </DialogContentText>
             <InfoIcon className="warning-dialog-icon"/>
           </DialogContent>
@@ -352,20 +371,27 @@ export default class EditCourse extends React.Component {
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
             {this.props.language.cancel}
             </Button>
-            <Link className="button-link"
-              //target="_blank"
-              onClick={() => this.confirmPreview()}
-              to={{
-                pathname: "/coursePreview",
-                hash: this.state.saved,
-                state: { fromDashboard: true },
-                query: {language: this.props.language}
-              }}
-            >
-              <Button color="primary" autoFocus>
-                {this.props.language.saoPreview}
-              </Button>
-            </Link>
+            {
+              this.state.action === "preview" ?
+                <Link className="button-link"
+                  //target="_blank"
+                  onClick={() => this.confirmPreview()}
+                  to={{
+                    pathname: "/coursePreview",
+                    hash: this.state.saved,
+                    state: { fromDashboard: true },
+                    query: {language: this.props.language}
+                  }}
+                >
+                  <Button color="primary" autoFocus>
+                    {this.props.language.saoPreview}
+                  </Button>
+                </Link>
+              :
+                <Button onClick={() => this.publishCourse()} color="primary" autoFocus>
+                  {this.props.language.ok}
+                </Button>
+            }
           </DialogActions>
         </Dialog>
       </div>

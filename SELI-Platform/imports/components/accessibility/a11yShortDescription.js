@@ -48,6 +48,7 @@ export default function a11yShortDescription(props){
 					tip={props.tip} 
 					step={props.step}
 					stepLabel={props.stepLabel}
+					language={props.language}
 				/>
 			</Grid>
 		</React.Fragment>

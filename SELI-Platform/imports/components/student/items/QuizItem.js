@@ -95,19 +95,30 @@ export default class QuizItem extends React.Component {
   }
 
   showScore = () => {
+    let activity;
     this.setState({
       openScore: true,
       loadingScore: true,
     }, () => {
-      let activity = Activities.find(
-        {
-          'activity.user': Meteor.userId(),
-          'activity.course': this.props.course,
-          'activity.activityId': this.props.item.id,
-        }
-      ).fetch();
+      if (this.props.fromTutor) {
+        activity = Activities.find(
+          {
+            'activity.user': this.props.fromTutor,
+            'activity.course': this.props.course,
+            'activity.activityId': this.props.item.id,
+          }
+        ).fetch();
+      } else {
+        activity = Activities.find(
+          {
+            'activity.user': Meteor.userId(),
+            'activity.course': this.props.course,
+            'activity.activityId': this.props.item.id,
+          }
+        ).fetch();
+      }
       if (activity.length) {
-        activity = activity[0];
+        activity = activity[activity.length-1];
         this.setState({
           quizResult: activity,
           loadingScore: false,
@@ -119,7 +130,11 @@ export default class QuizItem extends React.Component {
           result: false,
         })
       }
-    });
+    }
+    
+   
+    );
+    
   }
 
   render() {
@@ -167,22 +182,19 @@ export default class QuizItem extends React.Component {
               <Divider />
               <ExpansionPanelActions className="quiz-item-actions">
                 {
-                  !this.state.resolved ?
-                    <div>
-                      <Button size="medium">
-                        {this.props.language.setReminder}
-                      </Button>
-                      <Button onClick={() => this.startQuiz()} size="medium" color="primary">
-                        {this.props.language.startQuiz}
-                      </Button>
-                    </div>
-                  :
-                  <div className="align-items-center">
-                    <Button onClick={() => this.showScore()} size="medium">
-                      {this.props.language.seeResults}
+                  this.props.fromTutor ? undefined :
+                    <Button onClick={() => this.startQuiz()} size="medium" color="primary">
+                      {this.props.language.startQuiz}
                     </Button>
-                    <CheckCircleIcon className="done-icon"/>
-                  </div>
+                }
+                {
+                  !this.state.resolved ? undefined :
+                    <div className="align-items-center">
+                      <Button onClick={() => this.showScore()} size="medium">
+                        {this.props.language.seeResults}
+                      </Button>
+                      <CheckCircleIcon className="done-icon"/>
+                    </div>
                 }
               </ExpansionPanelActions>
             </ExpansionPanel>
@@ -262,7 +274,7 @@ export default class QuizItem extends React.Component {
                       {this.props.language.noResults}
                     </DialogContentText>
                   :
-                  <div>
+                  <div key={Math.random()}>
                     <DialogContentText id={this.state.quizResult.activity.approved ? "approved-text" : "non-approved-text"} className="quiz-result-dialog-content-text">
                       {this.state.quizResult.activity.approved ? this.props.language.quizApproved : this.props.language.quizNotApproved}
                     </DialogContentText>
@@ -272,9 +284,10 @@ export default class QuizItem extends React.Component {
                     <DialogContentText  className="quiz-result-dialog-content-text">
                       {`${this.props.language.correctAnswers}: ${this.state.quizResult.activity.hits}`}
                     </DialogContentText>
-                    <DialogContentText  className="quiz-result-dialog-content-text">
-                      {`${this.props.language.wrongAnswers}: ${(this.props.item.attributes.questions.length - this.state.quizResult.activity.hits)}`}
-                    </DialogContentText>
+                 
+                    {/* <DialogContentText  className="quiz-result-dialog-content-text">
+                      {`${this.props.language.wrongAnswers}: ${(this.state.quizResult.activity.Incorrect)}`}
+                    </DialogContentText> */}
                     <DialogContentText className="quiz-result-dialog-content-text">
                       {`${this.props.language.approvalPercentage}: ${this.props.item.attributes.approvalPercentage}%`}
                     </DialogContentText>

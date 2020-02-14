@@ -33,13 +33,16 @@ import Fab from '@material-ui/core/Fab';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Tooltip from '@material-ui/core/Tooltip';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
+import RadioButtonsGroup from './CheckBox'
+
 
 export default class CourseInformation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       courseInformation: this.props.courseInformation,
-      audiences: ''
+      audiences: '',
+      weekHourOption:'',
     }
   }
 
@@ -74,6 +77,10 @@ export default class CourseInformation extends React.Component {
     }
     else if (name === 'duration') {
       courseInformation.duration = event.target.value;
+    }
+    else if (name === 'durationWeeks') {
+      courseInformation.durationweeks = event.target.value;
+     
     }
     else if (name === 'language') {
       courseInformation.language = event.target.value;
@@ -220,6 +227,7 @@ export default class CourseInformation extends React.Component {
       image: this.state.courseInformation.image,
       sylabus: this.state.courseInformation.sylabus,
     })
+    console.log("CourseInformation",this.props.courseInformation)
   }
 
   componentWillUnmount(){
@@ -234,9 +242,8 @@ export default class CourseInformation extends React.Component {
 
   getAudiences=(audiences, name)=>{
     let courseInformation = this.state.courseInformation;
-    
     //console.log("Audiences in Course Information", audiences, name)
-    console.log("CourseInformation:::::::::::", courseInformation )
+   // console.log("CourseInformation:::::::::::", courseInformation )
     //courseInformation.audiences = audiences;
     if (name === 'signature') {
       courseInformation.signature = audiences;
@@ -250,6 +257,22 @@ export default class CourseInformation extends React.Component {
    
   }
 
+  courseDuration=(hourWeek)=>{
+    console.log("Semana u hora: ",hourWeek)
+    if(hourWeek==="weeks"){
+      this.setState({
+        weekHourOption:'weeks'
+      })
+    }else if(hourWeek==="hours"){
+      this.setState({
+        weekHourOption:'hours'
+      })
+    }
+  }
+
+  componentDidUpdate(prevState){
+
+  }
 
 
   render() {
@@ -376,23 +399,59 @@ export default class CourseInformation extends React.Component {
               language={this.props.language}
             />
           </p>
-          <TextField
-            id="duration-input"
-            label={this.props.language.estimatedCourseDuration}
-            margin="normal"
-            variant="outlined"
-            type="number"
-            fullWidth
-            required
-            InputProps={{
-              endAdornment: <InputAdornment position="end">{this.props.language.hours}</InputAdornment>,
-            }}
-            inputProps={{ min: "0", max: "999", step: "1" }}
-            value={this.state.courseInformation.duration}
-            onChange={this.handleChange('duration')}
-            onKeyPress={() => validateOnlyNumbers(event)}
-          /> 
- 
+          <div>
+          
+            <RadioButtonsGroup
+              language={this.props.language}
+              courseDuration={this.courseDuration}
+            />
+
+{ 
+              this.state.weekHourOption==='weeks'?
+                  <TextField
+                        id="duration-input"
+                        label={this.props.language.estimatedCourseDuration}
+                        margin="normal"
+                        variant="outlined"
+                        type="number"
+                        fullWidth
+                        required
+                        InputProps={{
+                          endAdornment: <InputAdornment position="end">{this.props.language.week}</InputAdornment>,
+                        }}
+                        inputProps={{min: "1", max: "999", step: "1" }}
+                        value={this.state.courseInformation.durationweeks}
+                        onChange={this.handleChange('durationWeeks')}
+                        onKeyPress={() => validateOnlyNumbers(event)}
+                  /> 
+                :
+                undefined
+            }
+            {
+              this.state.weekHourOption==='hours'?
+                    <TextField
+                        id="duration-input"
+                        label={this.props.language.estimatedCourseDuration}
+                        margin="normal"
+                        variant="outlined"
+                        type="number"
+                        fullWidth
+                        required
+                        InputProps={{
+                          endAdornment: <InputAdornment position="end">{this.props.language.hours}</InputAdornment>,
+                        }}
+                        inputProps={{ min: "5", max: "999", step: "1" }}
+                        value={this.state.courseInformation.duration}
+                        onChange={this.handleChange('duration')}
+                        onKeyPress={() => validateOnlyNumbers(event)}
+                  />    
+                :
+                 undefined
+            }
+
+           
+           
+          </div>
            <Button className={"buttomAudiences"} onClick={this.audiences} variant="outlined" color="primary">Audiences</Button>
           {
               this.state.audiences==="audiences" ?

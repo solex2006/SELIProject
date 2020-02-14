@@ -136,12 +136,13 @@
 }
 
 .form-tabs-container {
+  width: 100%;
   position: relative;
   
 }
 
 .form-tabs-container-media {
-  width: 50%;
+  width: 33.33%;
   position: relative;
 }
 
@@ -184,6 +185,12 @@
   animation: fadeInDown 0.5s;
 }
 
+.course-creator-preview-player-storytelling {
+  width: 100% !important;
+  height: 100% !important;
+  animation: fadeInDown 0.5s;
+}
+
 .success-dialog-title .MuiTypography-root{
   text-align: center !important;
   letter-spacing: 1px !important;
@@ -196,6 +203,19 @@
   animation: fadeIn 0.75s;
   animation-fill-mode: backwards;
   animation-delay: 0.15s;
+}
+
+.copyright-dialog-content-text {
+  white-space: pre-wrap;
+  width: 40vw;
+  text-align: justify;
+  animation: fadeIn 0.75s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.15s;
+}
+
+.copyright-dialog-content-data {
+  display: flex;
 }
 
 .success-dialog-content {

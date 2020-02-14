@@ -62,6 +62,8 @@ import InfoIcon from '@material-ui/icons/Info';
 import { FaThumbsDown } from 'react-icons/fa';
 import WarningIcon from '@material-ui/icons/Warning';
 
+
+
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
 }
@@ -110,7 +112,7 @@ export default class CourseCreatorTool extends React.Component {
   };
 
   contentHandleClickOpen = () => {
-    this.setState({ showAccesibilityForm: false, showAccesibilityOptions: false, contentOpen: true });
+    this.setState({ showAccessibilityForm: false, showAccessibilityOptions: false, contentOpen: true });
   };
 
   contentHandleClose = () => {
@@ -118,7 +120,7 @@ export default class CourseCreatorTool extends React.Component {
       contentOpen: false, 
       contentToEdit: undefined, 
       contentTypeAdded: '', 
-      showAccesibilityForm: false,
+      showAccessibilityForm: false,
       showCourseOrganization: false,
       showWarningOrganization: false,
     });
@@ -205,18 +207,18 @@ export default class CourseCreatorTool extends React.Component {
           courseInformation.program[this.props.selected[0]].items[index].attributes.size = size;
         }
       }
-      let showAccesibilityOptions = false;
+      let showAccessibilityOptions = false;
       if (this.state.contentTypeAdded === "audio" || this.state.contentTypeAdded === "image" || this.state.contentTypeAdded === "video") {
-        showAccesibilityOptions = true;
+        showAccessibilityOptions = true;
       }
       else {
 
       }
       this.setState({
-        showAccesibilityOptions: showAccesibilityOptions,
+        showAccessibilityOptions: showAccessibilityOptions,
         showCourseOrganization: false,
         showContentEditor: false,
-        contentOpen: showAccesibilityOptions,
+        contentOpen: showAccessibilityOptions,
         contentToConfigureAccessibility: itemContent,
       });
       this.resetMenuItems();
@@ -256,16 +258,15 @@ export default class CourseCreatorTool extends React.Component {
       this.contentHandleClose();
       this.resetMenuItems();
     }
-    else {
-
-    }
   }
+
   resetMenuItems(){
     let contentItems = createContentItems();
     this.setState({
       contentItems: contentItems,
     });
   }
+
   cancelContentCreation(){
     let courseInformation = this.state.courseInformation;
     let index;
@@ -310,7 +311,7 @@ export default class CourseCreatorTool extends React.Component {
   editItem(item){
     this.setState({
       contentTypeAdded: item.type,
-      showAccesibilityOptions: false,
+      showAccessibilityOptions: false,
       showCourseOrganization: false,
       showContentEditor: true,
       contentOpen: true,
@@ -344,10 +345,18 @@ export default class CourseCreatorTool extends React.Component {
     });
   }
 
-  showAccesibilityForm(){
+  showAccessibilityForm(){
     this.setState({
-      showAccesibilityForm: true,
-      showAccesibilityOptions: false,
+      showAccessibilityForm: true,
+      showAccessibilityOptions: false,
+    })
+  }
+
+  editAccessibilityForm(item){
+    this.setState({
+      contentToConfigureAccessibility: item,     
+      showContentEditor: false,
+      showAccessibilityForm: true,
     })
   }
 
@@ -418,6 +427,7 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   componentDidMount(){
+    console.log("CourseCreatorTool",this.props.courseInformation)
     if (this.props.courseInformation.organization === '') {
       this.setState({
         showWarningOrganization: false,
@@ -460,6 +470,7 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   getAccessibilityPercetage = (value) => {
+    console.log(value)
     let courseInformation = this.state.courseInformation;
     let index;
     if (courseInformation.organization.subunit) {
@@ -564,6 +575,9 @@ export default class CourseCreatorTool extends React.Component {
             :
             undefined
         }
+        
+
+
         <div className="course-creator-container">
           
           {
@@ -581,7 +595,6 @@ export default class CourseCreatorTool extends React.Component {
                   :
                   undefined
                 }
-                   
               <div className="course-creator-work-area">
                 
                 <div
@@ -618,6 +631,7 @@ export default class CourseCreatorTool extends React.Component {
                                   removeItem={this.removeItem.bind(this)}
                                   editItem={this.editItem.bind(this)}
                                   handleDecorative={this.handleDecorative.bind(this)}
+                                  editAccessibilityForm={this.editAccessibilityForm.bind(this)}
                                   language={this.props.language}
                                 />
                               </Draggable>
@@ -673,9 +687,6 @@ export default class CourseCreatorTool extends React.Component {
                           <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
                         </div>
                         <Divider light/>
-                        <div className="course-creator-menu-actions">
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.basicItems}/>
-                        </div>
                         <Container
                           orientation="horizontal"
                           groupName="1"
@@ -685,36 +696,11 @@ export default class CourseCreatorTool extends React.Component {
                         >
                           {
                             this.state.contentItems.map((p,i) => {
-                              if ( i >= 0 && i <=8 ) {
-                                return (
-                                  <Draggable key={i}>
-                                    <ContentMenuItem type={p.type} language={this.props.language}/>
-                                  </Draggable>
-                                );
-                              }
-                            })
-                          }
-                        </Container>
-                        <Divider light/>
-                        <div className="course-creator-menu-actions">
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.advancedItems}/>
-                        </div>
-                        <Container
-                          orientation="horizontal"
-                          groupName="1"
-                          behaviour="copy"
-                          getChildPayload={i => this.state.contentItems[i]}
-                          onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
-                        >
-                          {
-                            this.state.contentItems.map((p,i) => {
-                              if ( i >= 9 && i <=11 ) {
-                                return (
-                                  <Draggable key={i}>
-                                    <ContentMenuItem type={p.type} language={this.props.language}/>
-                                  </Draggable>
-                                );
-                              }
+                              return (
+                                <Draggable key={i}>
+                                  <ContentMenuItem type={p.type} language={this.props.language}/>
+                                </Draggable>
+                              );
                             })
                           }
                         </Container>
@@ -790,6 +776,7 @@ export default class CourseCreatorTool extends React.Component {
             :
             undefined
           }
+          
           {
             !this.props.courseInformation.organization.subunit && this.props.courseInformation.organization ?
               <div className="course-creator-work-area">
@@ -827,6 +814,7 @@ export default class CourseCreatorTool extends React.Component {
                                   removeItem={this.removeItem.bind(this)}
                                   editItem={this.editItem.bind(this)}
                                   handleDecorative={this.handleDecorative.bind(this)}
+                                  editAccessibilityForm={this.editAccessibilityForm.bind(this)}
                                   language={this.props.language}
                                 />
                               </Draggable>
@@ -880,9 +868,6 @@ export default class CourseCreatorTool extends React.Component {
                           <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
                         </div>
                         <Divider light/>
-                        <div className="course-creator-menu-actions">
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.basicItems}/>
-                        </div>
                         <Container
                           orientation="horizontal"
                           groupName="1"
@@ -892,36 +877,11 @@ export default class CourseCreatorTool extends React.Component {
                         >
                           {
                             this.state.contentItems.map((p,i) => {
-                              if ( i >= 0 && i <=8 ) {
-                                return (
-                                  <Draggable key={i}>
-                                    <ContentMenuItem type={p.type} language={this.props.language}/>
-                                  </Draggable>
-                                );
-                              }
-                            })
-                          }
-                        </Container>
-                        <Divider light/>
-                        <div className="course-creator-menu-actions">
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.advancedItems}/>
-                        </div>
-                        <Container
-                          orientation="horizontal"
-                          groupName="1"
-                          behaviour="copy"
-                          getChildPayload={i => this.state.contentItems[i]}
-                          onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
-                        >
-                          {
-                            this.state.contentItems.map((p,i) => {
-                              if ( i >= 9 && i <=11 ) {
-                                return (
-                                  <Draggable key={i}>
-                                    <ContentMenuItem type={p.type} language={this.props.language}/>
-                                  </Draggable>
-                                );
-                              }
+                              return (
+                                <Draggable key={i}>
+                                  <ContentMenuItem type={p.type} language={this.props.language}/>
+                                </Draggable>
+                              );
                             })
                           }
                         </Container>
@@ -1017,7 +977,7 @@ export default class CourseCreatorTool extends React.Component {
                   id="close-icon"
                   edge="end"
                   className="dialog-toolbar-icon"
-                  //disabled={this.state.showCourseOrganization || this.state.showAccesibilityOptions || this.state.showAccesibilityForm}
+                  //disabled={this.state.showCourseOrganization || this.state.showAccessibilityOptions || this.state.showAccessibilityForm}
                   onClick={() => {
                     this.contentHandleClose();
                     if (this.state.contentToEdit === undefined) {
@@ -1079,7 +1039,7 @@ export default class CourseCreatorTool extends React.Component {
             this.state.showContentEditor ?
               <div>
                 {
-                  this.state.contentTypeAdded === 'text' && !this.state.showAccesibilityOptions ?
+                  this.state.contentTypeAdded === 'text' && !this.state.showAccessibilityOptions ?
                     <TextForm
                       getTextAttributesFunction={textAttributes => this.getItemAttributes = textAttributes}
                       reRender={this.reRender.bind(this)}
@@ -1091,7 +1051,7 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'image' && !this.state.showAccesibilityOptions ?
+                  this.state.contentTypeAdded === 'image' && !this.state.showAccessibilityOptions ?
                     <ImageForm
                       getImageAttributesFunction={imageAttributes => this.getItemAttributes = imageAttributes}
                       contentToEdit={this.state.contentToEdit}
@@ -1102,7 +1062,7 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'video' && !this.state.showAccesibilityOptions && !this.state.showAccesibilityForm ?
+                  this.state.contentTypeAdded === 'video' && !this.state.showAccessibilityOptions && !this.state.showAccessibilityForm ?
                     <VideoForm
                       getVideoAttributesFunction={videoAttributes => this.getItemAttributes = videoAttributes}
                       contentToEdit={this.state.contentToEdit}
@@ -1113,7 +1073,7 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'audio' && !this.state.showAccesibilityOptions ?
+                  this.state.contentTypeAdded === 'audio' && !this.state.showAccessibilityOptions ?
                     <AudioForm
                       getAudioAttributesFunction={audioAttributes => this.getItemAttributes = audioAttributes}
                       contentToEdit={this.state.contentToEdit}
@@ -1124,7 +1084,7 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'link' && !this.state.showAccesibilityOptions ?
+                  this.state.contentTypeAdded === 'link' && !this.state.showAccessibilityOptions ?
                     <LinkForm
                       getLinkAttributesFunction={linkAttributes => this.getItemAttributes = linkAttributes}
                       contentToEdit={this.state.contentToEdit}
@@ -1135,7 +1095,7 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'pdf' && !this.state.showAccesibilityOptions ?
+                  this.state.contentTypeAdded === 'pdf' && !this.state.showAccessibilityOptions ?
                     <PdfForm
                       getPdfAttributesFunction={pdfAttributes => this.getItemAttributes = pdfAttributes}
                       contentToEdit={this.state.contentToEdit}
@@ -1146,7 +1106,7 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'compressed' && !this.state.showAccesibilityOptions ?
+                  this.state.contentTypeAdded === 'compressed' && !this.state.showAccessibilityOptions ?
                     <CompressedForm
                       getCompressedAttributesFunction={compressedAttributes => this.getItemAttributes = compressedAttributes}
                       contentToEdit={this.state.contentToEdit}
@@ -1157,7 +1117,7 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'h5p' && !this.state.showAccesibilityOptions ?
+                  this.state.contentTypeAdded === 'h5p' && !this.state.showAccessibilityOptions ?
                     <H5PForm
                       getH5pAttributesFunction={h5pAttributes => this.getItemAttributes = h5pAttributes}
                       contentToEdit={this.state.contentToEdit}
@@ -1168,7 +1128,7 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'quiz' && !this.state.showAccesibilityOptions ?
+                  this.state.contentTypeAdded === 'quiz' && !this.state.showAccessibilityOptions ?
                     <QuizForm
                       getQuizAttributesFunction={quizAttributes => this.getItemAttributes = quizAttributes}
                       contentToEdit={this.state.contentToEdit}
@@ -1179,7 +1139,7 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'activity' && !this.state.showAccesibilityOptions ?
+                  this.state.contentTypeAdded === 'activity' && !this.state.showAccessibilityOptions ?
                     <ActivityForm
                       getActivityAttributesFunction={activityAttributes => this.getItemAttributes = activityAttributes}
                       contentToEdit={this.state.contentToEdit}
@@ -1190,7 +1150,7 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'embebed' && !this.state.showAccesibilityOptions ?
+                  this.state.contentTypeAdded === 'embebed' && !this.state.showAccessibilityOptions ?
                     <EmbebedForm
                       getEmbebedAttributesFunction={embebedAttributes => this.getItemAttributes = embebedAttributes}
                       contentToEdit={this.state.contentToEdit}
@@ -1201,7 +1161,7 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'unity' && !this.state.showAccesibilityOptions ?
+                  this.state.contentTypeAdded === 'unity' && !this.state.showAccessibilityOptions ?
                     <UnityForm
                       getUnityAttributesFunction={unityAttributes => this.getItemAttributes = unityAttributes}
                       contentToEdit={this.state.contentToEdit}
@@ -1234,11 +1194,11 @@ export default class CourseCreatorTool extends React.Component {
             undefined
           }
           {
-            this.state.showAccesibilityOptions && (this.state.contentTypeAdded === 'image' || this.state.contentTypeAdded === 'audio' || this.state.contentTypeAdded === 'video') ?  
-             //this.contentHandleClose()  // uncomment for view accesibility Menu
+            this.state.showAccessibilityOptions && (this.state.contentTypeAdded === 'image' || this.state.contentTypeAdded === 'audio' || this.state.contentTypeAdded === 'video') ?  
+             //this.contentHandleClose()  // uncomment for view accessibility Menu
               <div className="configure-accessibility-actions"> 
                 <List>
-                  <ListItem disabled={true} onClick={() => this.showAccesibilityForm()} button>
+                  <ListItem disabled={true} onClick={() => this.showAccessibilityForm()} button>
                     <ListItemAvatar>
                       <Avatar className="primary-avatar">
                         <AccessibilityNewIcon className="configure-accessibility-icon"/>
@@ -1260,16 +1220,17 @@ export default class CourseCreatorTool extends React.Component {
               undefined
           }
           {
-            this.state.showAccesibilityForm ?
+            this.state.showAccessibilityForm ?
               <React.Fragment>
                 <VerticalTab
                   contentTypeAdded={this.state.contentTypeAdded}
                   item={this.state.contentToConfigureAccessibility}
                   getAccessibilityPercetage={this.getAccessibilityPercetage.bind(this)}
                   setContentAccessibilityData={this.setContentAccessibilityData.bind(this)}
+                  language={this.props.language}
                 />
                 <div className="dialog-actions-container">
-                  <Tooltip title="Set accessibility configuration">
+                  <Tooltip title={this.props.language.setAccessibilityConf}>
                     <Fab onClick={() => this.contentHandleClose()} aria-label={this.props.language.setAccessibilityConf} className="dialog-fab" color="primary">
                       <AccessibilityNewIcon/>
                     </Fab>

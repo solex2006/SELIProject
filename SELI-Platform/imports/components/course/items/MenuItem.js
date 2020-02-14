@@ -72,6 +72,11 @@ export default function MenuItem(props) {
     props.editItem(props.item);
   }
 
+  editAccessibility = () => {
+    //editItem();
+    //props.editAccessibilityForm(props.item.attributes);
+  }
+
   return (
     <div>
       <IconButton
@@ -154,7 +159,7 @@ export default function MenuItem(props) {
                       />
                     </ListItemSecondaryAction>
                     <Divider light={true}/>
-                    <ListItem button className={classes.nested}>
+                    <ListItem button onClick={() => this.editAccessibility()} className={classes.nested}>
                       <ListItemIcon>
                         <SettingsIcon />
                       </ListItemIcon>

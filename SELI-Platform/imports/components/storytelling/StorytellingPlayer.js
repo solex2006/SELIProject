@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import Loading from '../../tools/Loading';
+import Loading from '../tools/Loading';
 
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -14,14 +14,14 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import ReplayIcon from '@material-ui/icons/Replay';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import VideoPreview from './VideoPreview';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Checkbox from '@material-ui/core/Checkbox';
-import ResizableContent from './publish/ResizableContent'
 import ReactPlayer from 'react-player';
-import { Activities } from '../../../../lib/ActivitiesCollection';
+import { Activities } from '../../../lib/ActivitiesCollection';
 //import Size from './Size'
 
 export default class StorytellingPlayer extends React.Component {
@@ -168,34 +168,34 @@ size = (width, height)=>{
   render() {
     return(
       <div>
-        <div className={this.props.link ? "storytelling-tool-link-container" : "storytelling-tool-container"}>
-          <ReactPlayer
-            className="storytelling-tool-audio-player"
-            url={this.props.story.nodes[this.state.scenePlaying].audio.link}
-            playing={this.state.playing}
-            onEnded={this.state.scenePlaying + 1 === this.props.story.nodes[this.state.scenePlaying] ? this.handleEnd() : () => this.handleAutoPlay()}
-          />
-          <div className="storytelling-player-image-container">
-         {/* <Size
-         size={this.size}
-         /> */}
-            <ResizableContent
-            key={Math.random()}
-              top={100}
-              //left={500}
-              width={800}
-              height={700}
-              rotateAngle={this.props.story.nodes[this.state.scenePlaying].rotate}
-              //coordenada={this.props.coordenada}
-              //coordenadaCursos={this.coordenadaCursos}
-            > 
-              <div
-                key={this.props.story.nodes[this.state.scenePlaying].rotate}
-                className="storytelling-player-image-container"
-                style={{backgroundImage: `url(${this.props.story.nodes[this.state.scenePlaying].image.link})`}}
-              ></div>
-            </ResizableContent>
-          </div>
+        <div className={this.props.link ? "storytelling-tool-link-container" : "storytelling-tool-play-container"}>
+          {
+            this.props.story.nodes[this.state.scenePlaying].video === "" ?
+              <div>
+                <ReactPlayer
+                  className="storytelling-tool-audio-player"
+                  url={this.props.story.nodes[this.state.scenePlaying].audio.link}
+                  playing={this.state.playing}
+                  onEnded={this.state.scenePlaying + 1 === this.props.story.nodes[this.state.scenePlaying] ? this.handleEnd() : () => this.handleAutoPlay()}
+                />
+                <div className="storytelling-player-image-container">
+                  <div
+                    className="file-image-preview"
+                    style={{
+                      backgroundImage: `url(${this.props.story.nodes[this.state.scenePlaying].image.link})`,
+                      transform: `rotate(${this.props.story.nodes[this.state.scenePlaying].rotate}deg)`,
+                    }}
+                  ></div>
+                </div>
+              </div>
+            :
+              <ReactPlayer 
+                className="course-creator-preview-player-storytelling" 
+                url={this.props.story.nodes[this.state.scenePlaying].video.link}
+                playing={this.state.playing}
+                onEnded={this.state.scenePlaying + 1 === this.props.story.nodes[this.state.scenePlaying] ? this.handleEnd() : () => this.handleAutoPlay()}
+              />
+          }
           <Slide direction="down" in={this.state.showDescription} mountOnEnter unmountOnExit>
             <div className="storytelling-player-description">
               {this.props.story.nodes[this.state.scenePlaying].description[this.state.language]}

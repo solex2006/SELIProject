@@ -52,7 +52,7 @@ export default class VideoItem extends React.Component {
                 <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
                   {` ${this.props.item.title}`}
                   <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
-                    {this.props.item.source === 'upload' ? `Video file` : `External video`}
+                    {this.props.item.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
                   </Typography>
                 </Typography>
                 {
@@ -71,7 +71,7 @@ export default class VideoItem extends React.Component {
               {
                 this.props.item.externalLink !== '' ?
                   <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
-                    Learn More
+                    {this.props.language.learnMore}
                   </Button>
                 :
                   undefined

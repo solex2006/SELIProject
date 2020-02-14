@@ -3,4 +3,6 @@ node_modules/
 .deploy/
 .deploy1/
 public/.well-known/
+.idea/
+settings.json
 

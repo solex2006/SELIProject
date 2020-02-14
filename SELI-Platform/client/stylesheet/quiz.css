@@ -5,14 +5,14 @@
 
 .quiz-header-container {
   padding-top: 1.75vh;
-  width: 100%;
+  width: 95%;
 }
 
 .quiz-input-container{
-  width: 95%;
+  width: 100%;
   padding: 0 2.5%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 
@@ -35,12 +35,19 @@
 }
 
 .quiz-input-title {
-  width: 100% !important;
+  width: 85% !important;
+  margin: 0.5vh 0.2% !important;
+}
+
+.quiz-inputnumeric{
   margin: 0.5vh 0.5% !important;
+  width: 88% !important;
+  height: 52px;
+ 
 }
 
 .quiz-input {
-  width: 49% !important;
+  width: 50% !important;
   margin: 0.5vh 0.5% !important;
 }
 
@@ -113,12 +120,22 @@
 
 .form-dialog-question-input-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  position: relative;
+  overflow-y: scroll;
+  align-items: flex-start;
+  place-content: flex-start;
 }
 
+.questions{
+width: 50% !important;
+display: flex
+}
 .answer-input {
   margin: 2px !important;
+ 
+
 }
 
 .answer-input .MuiOutlinedInput-adornedEnd{
@@ -180,6 +197,16 @@
   position: initial;
 }
 
+.quiz-dashboard-questions-containerTutor {
+  position: relative;
+  width: 40%;
+  margin-left: 1%;
+  animation: fadeInDown 0.75s;
+  padding: 0 2.5%;
+  display: block;
+  margin: 2vh;
+}
+
 .quiz-dashboard-label-text {
   letter-spacing: 2px;
   font-size: 0.95em;
@@ -203,7 +230,7 @@
 
 .question-dashboard-button {
   letter-spacing: 1px !important;
-  margin: 0 0.25vw !important;
+  margin: 0 0.25vw    !important;
   border-radius: 0 !important;
   animation: fadeIn 0.5s;
 }
@@ -213,10 +240,12 @@
   font-size: 0.95em;
   padding: 2vh 0;
   text-transform: uppercase;
+  position:relative;
 }
 
 .question-dashboard-container {
   padding: 2.5vh 1vw;
+  width: 100%
 }
 
 .question-dashboard-form-label {
@@ -250,4 +279,52 @@
 
 #non-approved-text {
   color: #f44336 !important;
+}
+
+.question-dashboard-radio-group{
+  display: flex !important;
+  flex-wrap: wrap !important;
+  flex-direction: row !important;
+}
+.question-dashboard-radio-group-student{
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+.student-answers{
+  margin: 1vh 1vw;
+  border-style: dotted;
+}
+.student-answers-block{
+  margin: 1vh 1vw;
+}
+.student-answers-block-q{
+  margin: 1.65vh 1vw;
+}
+
+.answers{
+  padding: 0vh 2vw;
+  font-weight: bold;
+}
+
+.answers-scores{
+  padding: 0vh 2vw;
+  font-weight: bold;
+}
+
+.student-scores{
+  margin: 1vh 1vw;
+  border-style: dotted;
+  display: flex;
+}
+
+.student-scores-results{
+  margin: 1vh 1vw;
+  border-style: dotted;
+  display: flex;
+  
+}
+
+.note{
+  margin-right: 50px;
 }
