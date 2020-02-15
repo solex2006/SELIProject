@@ -1,3 +1,9 @@
+---
+name: WCAG Requirement
+about: Use this template for create a WCAG requiremment.
+labels: !REQUIREMENT!
+---
+
 # GUIDELINE
 ## Principle
 <!--- OPERABLE: User interface components and navigation must be operable. This means that users must be able to operate the interface (the interface cannot require interaction that a user cannot perform) Make all functionality available from a keyboard. Give users enough time to read and use content. Do not use content that causes seizures or physical reactions. Help users navigate and find content. Make it easier to use inputs other than keyboard. --->
