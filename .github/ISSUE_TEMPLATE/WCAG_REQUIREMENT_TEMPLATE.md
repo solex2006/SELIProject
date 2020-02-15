@@ -1,7 +1,8 @@
 ---
 name: WCAG Requirement
 about: Use this template for create a WCAG requiremment.
-labels: !REQUIREMENT!
+labels: REQUIREMENT
+title: REQ_WCAG_X.Y.Z SUBJECT
 ---
 
 # GUIDELINE
