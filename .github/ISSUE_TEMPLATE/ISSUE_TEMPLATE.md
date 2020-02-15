@@ -1,6 +1,6 @@
 ---
-name: WCAG Requirement
-about: Use this template for create a WCAG requiremment.
+name: Bug report
+about: Use this template to track bugs
 labels: bug
 ---
 
