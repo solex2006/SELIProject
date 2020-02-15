@@ -864,6 +864,7 @@ var SPANISH = {
   questionpublishstory004: "Nombre de usuario del propietario de la historia digital",
   questionpublishstory005: "Nombre completo del propietario de la historia digital",
   reply: "Responder",
+  week:'weeks',
 }
 export default SPANISH
 

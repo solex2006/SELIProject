@@ -432,6 +432,7 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   componentDidMount(){
+    console.log("CourseCreatorTool",this.props.courseInformation)
     if (this.props.courseInformation.organization === '') {
       this.setState({
         showWarningOrganization: false,

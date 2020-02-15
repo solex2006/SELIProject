@@ -36,6 +36,8 @@ export default class CoursePreview extends React.Component {
       let _id = this.props.location.hash.substr(1);
       Tracker.autorun(() => {
         let course = Courses.find({_id: _id}).fetch();
+        
+        console.log("TOMA LOS CURSOS", course )
         course.length ?
         this.setState({
           course: course[0],
