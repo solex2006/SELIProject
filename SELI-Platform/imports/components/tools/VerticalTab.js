@@ -73,7 +73,7 @@ function TabPanel(props) {
 		let indexTab = 0;
 		let indexPanel = 0;
 
-		console.log(props.item)
+		console.log(props.item) 
 		const data = useData(props.language, props.contentTypeAdded);
 		console.log(data)
 		//props.setContentAccessibilityData(data);
@@ -185,11 +185,16 @@ function TabPanel(props) {
 							// 	</React.Fragment>
 							// } {...a11yProps(indexTab++,props.contentTypeAdded)} disabled className={classes.disabled}/>
 					}
-					<A11YProgressFeedback
-						a11yFields={data.isA11Y}
-						getAccessibilityPercetage={props.getAccessibilityPercetage.bind(this)}
-						{...a11yProps(indexTab++, props.contentTypeAdded)}
-					/>
+					{console.log(data.isA11Y)}
+					{
+						data.isA11Y.length > 0 ? 
+							<A11YProgressFeedback
+								a11yFields={data.isA11Y}
+								getAccessibilityPercetage={props.getAccessibilityPercetage.bind(this)}
+								{...a11yProps(indexTab++, props.contentTypeAdded)}
+							/>
+						: undefined
+					}
 				</Tabs>
 				<div className="accessibility-form-side-container">
 					<TabPanel value={value} index={indexPanel++}>

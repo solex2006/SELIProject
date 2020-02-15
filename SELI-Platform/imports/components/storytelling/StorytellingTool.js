@@ -462,34 +462,9 @@ class StorytellingTool extends React.Component {
   }
 
   saveStory = () => {
-    // console.log("esto se va a guradar......al final")
-    // console.log(this.state)
-   
-    
-    
-    // var selector=true
-    // this.state.story.nodes.map((elemento)=>{
-    //   console.log("cada elemento")
-    //   var audio0={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"https://seli.uazuay.edu.ec/audio1.wav"}
-    //   var audio1={_id:"8goGZhHF9qcmC9YfK",name:"audio-recorded-Fri Dec 06 2019.wav",link:"https://seli.uazuay.edu.ec/audio2.wav"}
-    //   console.log("selector")
-    //   console.log(selector)
-    //   elemento.audio==='' ? 
-    //       selector===true ?
-    //       elemento.audio=audio0
-    //       :
-    //       elemento.audio=audio1
-
-    //   :
-    //   console.log("lleno")
-    //   selector= !selector
-    // })
-    // console.log("state modificado")
-    
     if (this.state.saved) {
       if (this.state.story.name !== "") {
-        console.log("DATOS A GUARDAR....")
-        console.log(this.state.story.name, this.state.story.nodes, this.state.story.isPublic )
+        //console.log(this.state.story.name, this.state.story.nodes, this.state.story.isPublic )
         Activities.update(
           { _id: this.state.saved},
           { $set: {
@@ -502,6 +477,7 @@ class StorytellingTool extends React.Component {
             this.handleClose();
           }
         )
+        return true;
       }
       else {
         this.props.handleControlMessage(true, this.props.language.storyNameText);
@@ -525,8 +501,9 @@ class StorytellingTool extends React.Component {
           this.handleClose();
           this.setState({
             saved: Activities.findOne({"activity.name": this.state.story.name})._id,
-          })
+          });
         })
+        return true;
       }
       else {
         this.props.handleControlMessage(true, this.props.language.storyNameText);
@@ -651,32 +628,18 @@ class StorytellingTool extends React.Component {
     )
   }
 
-  publishAsActivity = (course, activity) => {
-    Activities.update(
-      { _id: this.state.saved},
-      { $set: {
-        'activity.name': this.state.story.name,
-        'activity.data': this.state.story.nodes,
-        'activity.public': this.state.story.isPublic,
-        'activity.courseId': course,
-        'activity.activityId': activity,
-      }}
-      , () => {
-        this.completeActivity(activity, this.props.language.storySent, course);
-        this.handleClosepublish();
-      }
-    )
-  }
-
   handleyes = () => {
-    this.setState({
-      isyes: true,
-      show: false,
-      openpublish: true,
-      open: false,
-      action: "boxpubshow"
-    })
-    ;
+    if (this.validateStory() && this.saveStory()) {
+      this.setState({
+        isyes: true,
+        show: false,
+        openpublish: true,
+        open: false,
+        action: "boxpubshow"
+      });
+    } else {
+      this.openDialog("save");
+    }
   }
   
   handleno = () => {
@@ -687,7 +650,6 @@ class StorytellingTool extends React.Component {
   })}
 
   completeActivity = (id, label, courseId) => {
-    //no es aqui donde se manda al terminar la prueba
     let courses = this.state.courses;
     let courseIndex = courses.findIndex(course => course._id === courseId);
     let toComplete = this.props.user.profile.courses[courseIndex].toComplete;
@@ -695,6 +657,7 @@ class StorytellingTool extends React.Component {
     for (var i = 0; i < toResolve.length; i++) {
       if (toResolve[i]._id === id) {
         toResolve[i].resolved = true;
+        toResolve[i].activityId = this.state.saved;
         break;
       }
     }
@@ -710,10 +673,11 @@ class StorytellingTool extends React.Component {
         progress,
         (error, response) =>  {
           if (!error) {
-            this.props.handleControlMessage(true, `${label}`);
+            this.props.handleControlMessage(true, label);
             this.handleClose();
           }
       });
+      this.handleClosepublish();
     });
   }
 
@@ -1778,14 +1742,19 @@ class StorytellingTool extends React.Component {
                   {this.props.language.publishStory}
                 </DialogTitle>
                 <div className="center-row">
-                  <Button
-                    className="storytelling-publish-button"
-                    color="primary"
-                    onClick={() => this.handlePublishOnCourse()}
-                  >
-                    <p className="storytelling-publish-button-text">{this.props.language.publishOnACourse}</p>
-                    <SchoolIcon className="storytelling-publish-icon"/>
-                  </Button>
+                  {
+                    Meteor.user().profile.type === "student" ?
+                      <Button
+                        className="storytelling-publish-button"
+                        color="primary"
+                        onClick={() => this.handlePublishOnCourse()}
+                      >
+                        <p className="storytelling-publish-button-text">{this.props.language.publishOnACourse}</p>
+                        <SchoolIcon className="storytelling-publish-icon"/>
+                      </Button>
+                    :
+                    undefined
+                  }
                   {
                     Meteor.user().profile.type === "student" ?
                       <Button
@@ -1911,7 +1880,7 @@ class StorytellingTool extends React.Component {
                       <Button
                         color="primary"
                         className="storytelling-course-activity-publish-button"
-                        onClick={() => this.publishAsActivity(activity.courseId, activity.activityId)}
+                        onClick={() => this.completeActivity(activity.activityId, this.props.language.storySent, activity.courseId)}
                       >
                         {`- ${activity.course} at: ${activity.source} | ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
                       </Button>

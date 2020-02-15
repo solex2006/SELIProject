@@ -353,8 +353,13 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   editAccessibilityForm(item){
+    let itemContent = this.getItemAttributes();
     this.setState({
-      contentToConfigureAccessibility: item,     
+      contentTypeAdded: item.type,
+      showAccessibilityOptions: false,
+      showCourseOrganization: false,
+      contentOpen: true,
+      contentToConfigureAccessibility: itemContent,     
       showContentEditor: false,
       showAccessibilityForm: true,
     })
@@ -469,7 +474,6 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   getAccessibilityPercetage = (value) => {
-    console.log(value)
     let courseInformation = this.state.courseInformation;
     let index;
     if (courseInformation.organization.subunit) {
@@ -1197,7 +1201,7 @@ export default class CourseCreatorTool extends React.Component {
              //this.contentHandleClose()  // uncomment for view accessibility Menu
               <div className="configure-accessibility-actions"> 
                 <List>
-                  <ListItem disabled={true} onClick={() => this.showAccessibilityForm()} button>
+                  <ListItem disabled={false} onClick={() => this.showAccessibilityForm()} button>
                     <ListItemAvatar>
                       <Avatar className="primary-avatar">
                         <AccessibilityNewIcon className="configure-accessibility-icon"/>
@@ -1240,64 +1244,6 @@ export default class CourseCreatorTool extends React.Component {
             undefined
           }
         </Dialog>
-        {/* <Snackbar
-          className="navigation-snackbar"
-          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-          key={"navigation-tool-snackbar"}
-          open={this.state.openSnackbar}
-          onClose={this.handleCloseSnackbar}
-          ContentProps={{
-            'aria-describedby': 'message-id',
-          }}
-          TransitionComponent={TransitionRight}
-          message={
-            <div>
-              {
-                this.state.snackbarType === "navigation" ?
-                  <div>
-                    {
-                      this.props.courseInformation.program.length ?
-                        <div>
-                          {
-                            this.props.courseInformation.organization.subunit ?
-                              <div className="snackbar-row">
-                                <InfoIcon className="snackbar-icon"/>
-                                <div className="navigation-message-container">
-                                  <p className="snackbar-message-title">{this.props.language.editing}</p>
-                                  <p>{`${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}`}</p>
-                                  <p>{`${this.props.language.lesson}: ${this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}</p>
-                                </div>
-                              </div>
-                            :
-                            <div className="snackbar-row">
-                              <InfoIcon className="snackbar-icon"/>
-                              <div className="navigation-message-container">
-                                <p className="snackbar-message-title">{this.props.language.editing}</p>
-                                <p>{`${this.props.language.topic}: ${this.props.courseInformation.program[this.props.selected[0]].name}`}</p>
-                              </div>
-                            </div>
-                          }
-                        </div>
-                      :
-                      undefined
-                    }
-                  </div>
-                :
-                undefined
-              }
-            </div>
-          }
-          action={[
-            <IconButton
-              key="close"
-              aria-label="Close"
-              color="inherit"
-              onClick={this.handleCloseSnackbar}
-            >
-              <CloseIcon />
-            </IconButton>
-          ]}
-        /> */}
       </div>
     );
   }

@@ -251,6 +251,18 @@ export default class Student extends React.Component {
   }
 
   handleClickCourse = (course) => {
+    var user = Meteor.users.findOne({_id: this.state.user._id});
+    var courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === course.courseId);
+    var toComplete = this.toComplete(course.information, user.profile.courses[courseIndex].toComplete);
+    var toResolve = this.toResolve(course.information, user.profile.courses[courseIndex].toResolve);
+    user.profile.courses[courseIndex].toComplete = toComplete;
+    course.toComplete = toComplete;
+    user.profile.courses[courseIndex].toResolve = toResolve;
+    course.toResolve = toResolve;
+    Meteor.users.update(
+      {_id: this.state.user._id},
+      {$set: {"profile.courses": user.profile.courses}}
+    )
     this.setState({
       activeCourse: course,
       showLoadingMessage: true,
@@ -264,16 +276,6 @@ export default class Student extends React.Component {
         this.setState({
           showLoadingMessage: false,
         }, () => {
-          var user = Meteor.users.findOne({_id: this.state.user._id});
-          var courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === course._id);
-          var toComplete = this.toComplete(course, user.profile.courses[courseIndex].toComplete);
-          var toResolve = this.toResolve(course, user.profile.courses[courseIndex].toResolve);
-          user.profile.courses[courseIndex].toComplete = toComplete;
-          user.profile.courses[courseIndex].toResolve = toResolve;
-          Meteor.users.update(
-            {_id: this.state.user._id},
-            {$set: {"profile.courses": user.profile.courses}}
-          )
           this.showComponent('course');
         })
       }
@@ -297,7 +299,11 @@ export default class Student extends React.Component {
               if (userCourseIndex >= 0) {
                 toResolve.push(toResolveStudent[userCourseIndex])
               } else {
-                toResolve.push({resolved: false, _id: content.id});
+                if (content.type === "activity" && content.attributes.type === "forum" && content.attributes.activityId){
+                  toResolve.push({resolved: false, _id: content.id, activityId: content.attributes.activityId});
+                } else {
+                  toResolve.push({resolved: false, _id: content.id});
+                }
               }
             }
           })
@@ -314,7 +320,11 @@ export default class Student extends React.Component {
             if (userCourseIndex >= 0) {
               toResolve.push(toResolveStudent[userCourseIndex])
             } else {
-              toResolve.push({resolved: false, _id: content.id});
+              if (content.type === "activity" && content.attributes.type === "forum" && content.attributes.activityId){
+                toResolve.push({resolved: false, _id: content.id, activityId: content.attributes.activityId});
+              } else {
+                toResolve.push({resolved: false, _id: content.id});
+              }
             }
           }
         })
