@@ -1,3 +1,9 @@
+---
+name: WCAG Requirement
+about: Use this template for create a WCAG requiremment.
+labels: bug
+---
+
 <!--- Not obligatory, but add a [MODULE_LABEL] if this issue ocurs in a specific module or function ---> 
 <!--- Not obligatory, but add a {ISSUE_CATEGORY_LABEL} if this applys ---> 
 <!--- Not obligatory, but add a (ROLE_LABEL) if this ocurs to a specific user role --->
