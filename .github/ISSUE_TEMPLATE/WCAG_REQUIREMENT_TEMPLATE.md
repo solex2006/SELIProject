@@ -36,6 +36,7 @@ title: REQ_WCAG_X.Y.Z SUBJECT
 
 1.
 2.
+
 ## Sufficient Techniques
 
 > Sufficient techniques are reliable ways to meet the success criteria.
@@ -43,11 +44,12 @@ title: REQ_WCAG_X.Y.Z SUBJECT
 > - From an evaluator's perspective: If web content implements the sufficient techniques for a given criterion correctly and it is accessibility-supported for the content's users, it conforms to that success criterion. (The converse is not true; if content does not implement these sufficient techniques, it does not necessarily fail the success criteria, as explained in Testing Techniques below.)
 > There may be other ways to meet success criteria besides the sufficient techniques in W3C's Techniques for WCAG document, as Other Techniques below. (See also Techniques are Informative above.)
 
-- IDx; or
+<!-- OR list -->
+- IDx
 - IDy
-
-- IDx; and
-- IDy
+<!-- AND list -->
+1. IDx
+2. IDy
 
 [ID: NAME](LINK TO)
 > DESCRIPTION
@@ -130,19 +132,20 @@ title: REQ_WCAG_X.Y.Z SUBJECT
 <!--- Based on test procedure, what's the expected result to success --->
 
 # SELI CONTEXT
-> How to implement this requirement on SELI Platform?
 
-```
-```
 ## Tasks
-List the tasks required to accomplish the requirement (not exaustive)
+List the tasks required to accomplish the requirement (not exhaustive)
 <!--- Not required, but agroup by modules or functions --->
 
-## System's contents
-> All contents not created by users (e.g. seli "about" section text, buttons, fields) that STUDENT could consume 
-- [ ] **DEVELOPER** MUST ...
-- [ ] **TEACHER** MUST have the option to ...
-- [ ] **STUDENT** must render teacher's content ...
+- [ ] **SYSTEM** MUST ...
+- [ ] **TEACHER** MUST ...
+- [ ] **STUDENT** MUST ...
+
+# Suggested implementation
+
+```
+
+```
 
 # :notebook_with_decorative_cover:   References
 
@@ -150,6 +153,8 @@ List the tasks required to accomplish the requirement (not exaustive)
 - [Understanding Techniques for WCAG Success Criteria](https://www.w3.org/WAI/WCAG21/Understanding/understanding-techniques)
 
 # GLOSSARY 
+- SELI's content: all contents not created by users (e.g. seli "about" section text)
+
 :warning: The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119/8174](http://www.rfc-editor.org/info/rfc8174).
 > 1. **MUST** This word, or the terms "REQUIRED" or "SHALL", mean that the definition is an absolute requirement of the specification.
 > 2. **MUST NOT** This phrase, or the phrase "SHALL NOT", mean that the definition is an absolute prohibition of the specification.
