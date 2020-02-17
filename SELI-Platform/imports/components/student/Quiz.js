@@ -182,10 +182,10 @@ class Quiz extends React.Component {
     this.setState({
       start: true,
     });
+    let approved;
     if(validate) {
       if (this.validateQuiz()) { // always validate inclusive without any question resolved
         let results = this.getQuizResults(this.state.answers);
-        let approved;
         console.log("results", results)
          results.score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
         let quiz = {
@@ -231,25 +231,27 @@ class Quiz extends React.Component {
 
   issueBadge(image){
     let self = this;
+    console.log(self.props);
     let buffer = CourseFilesCollection.findOne({_id: image._id });
     buffer = buffer.meta.buffer;
-    let course = self.props.quiz.attributes.badgeInformation.name;
-    let description = self.props.quiz.attributes.badgeInformation.description;
     var theAssertion ={
       "uid": "123456789abcdefghi987654321jklmnopqr",
       "recipient": {
         "identity": "sha256$98765edcba98765edcba98765edcba",
         "type": "email",
         "hashed": true,
-        "badgeName": course,
-        "badgeDescription": description,
+        "badgeName": self.props.quiz.attributes.badgeInformation.name,
+        "badgeDescription": self.props.quiz.attributes.badgeInformation.description,
+        "badgeTeacher": "Teacher 1",
+        "badgeCourse": "Test Course",
+        "badgeStudent": "student1",
       },
       "badge": "http://issuersite.com/badge",
       "verify": {
         "url": "http://issuersite.com/assertion",
         "type": "hosted"
       },
-      "issuedOn": new Date()
+      "issuedOn": new Date().toISOString().substring(0, 10),
       };
     var options = {
       image: buffer,

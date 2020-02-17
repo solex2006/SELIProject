@@ -52,7 +52,7 @@ Meteor.startup(() => {
         <Route exact path="/dashboard" component={CoursesDashboard} history={history}/>
         <Route exact path="/tutorRequests" component={TutorRequestList} history={history}/>
         <Route exact path="/certificatesValidation" component={CertificateValidation} history={history}/>
-        <Route exact path="/badgeIssuer" component={BadgeRegistration} history={history}/>
+        <Route exact path="/badgeVerification" component={BadgeRegistration} history={history}/>
       </Switch>
     </Router>, document.getElementById('render-target')
   );

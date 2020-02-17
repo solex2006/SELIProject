@@ -865,6 +865,9 @@ var SPANISH = {
   questionpublishstory005: "Nombre completo del propietario de la historia digital",
   reply: "Responder",
   week:'weeks',
+  selectYourBadgeImage: "Selecciona tu emblema",
+  verifyBadge: "Verificar emblema",
+  badgeVerification: "Verificacion del emblema",
 }
 export default SPANISH
 

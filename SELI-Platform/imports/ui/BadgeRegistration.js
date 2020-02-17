@@ -27,6 +27,7 @@ import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import turkish from "../../lib/translation/turkish";
 import CourseFilesCollection from '../../lib/CourseFilesCollection';
+import TitleButton from './TitleButton';
 
 var bakery=require('openbadges-bakery-v2');
 export default class BadgeRegistration extends React.Component {
@@ -34,8 +35,12 @@ export default class BadgeRegistration extends React.Component {
     super(props);
     this.state = {
       badgeInformation: {
-        fullname: '',
-        username: '',
+        badgeName: '',
+        badgeDescription: '',
+        badgeStudent: '',
+        badgeTeacher: '',
+        badgeCourse: '',
+        badgeDate:'',
         image: undefined,
       },
     }
@@ -111,16 +116,27 @@ export default class BadgeRegistration extends React.Component {
     })	
   }	
 
-  registerStudent = () => {
+  verifyBadge = () => {
     let uploadedImage = CourseFilesCollection.findOne({_id: this.state.badgeInformation.image._id});
     let image=uploadedImage.meta.buffer;
 	  var ima = this.debake(image)
-    .then(data => {this.setDataForm(data)})
+    .then(data => {this.setDataForm(data,image)})
     .catch(err => {console.log(err)} );
   }
 
-  setDataForm(data){
-    console.log(data);
+  setDataForm(data,image){
+    data = JSON.parse(data);
+    this.setState({
+      badgeInformation:{
+        badgeName: data.recipient.badgeName,
+        badgeDescription: data.recipient.badgeDescription,
+        badgeStudent:data.recipient.badgeStudent,
+        badgeTeacher: data.recipient.badgeTeacher,
+        badgeCourse: data.recipient.badgeCourse,
+        badgeDate: data.issuedOn,
+        image: this.state.badgeInformation.image,
+      }
+    });
   }
 
 
@@ -156,12 +172,12 @@ export default class BadgeRegistration extends React.Component {
         userForms: [
           <BadgeInformation
             showErrorFunction={showError => this.showError = showError}
-            userInformation={this.state.badgeInformation}
+            badgeInformation={this.state.badgeInformation}
             language={this.state.language}
           />,
         ],
         userSteps: [
-          {label: this.state.language.information, icon: <InfoIcon className="step-icon"/>},
+          {label: this.state.language.verifyBadge, icon: <InfoIcon className="step-icon"/>},
         ],
       })
     });
@@ -180,21 +196,20 @@ export default class BadgeRegistration extends React.Component {
               language={this.state.language}
               setLanguage={this.setLanguage.bind(this)}
             />
-            {
-              this.state.userForms !== undefined && this.state.userSteps !== undefined ?
-                <FormStepper
-                  title={this.state.language.studentRegistration}
-                  color="secondary"
-                  steps={this.state.userSteps}
-                  forms={this.state.userForms}
-                  finalLabel={this.state.language.signUp}
-                  saveLabel={undefined}
-                  language={this.state.language}
-                  finalAction={this.registerStudent.bind(this)}
-                />
-              :
-              undefined
-            }
+            <TitleButton
+              showErrorFunction={showError => this.showError = showError}
+              language={this.state.language}
+              color="secondary"
+              onClick={()=>this.verifyBadge()}
+            />
+            <BadgeInformation
+               showErrorFunction={showError => this.showError = showError}
+               badgeInformation={this.state.badgeInformation}
+               language={this.state.language}
+
+            />
+             
+          
             <Dialog
               open={this.state.open}
               onClose={this.handleClose}

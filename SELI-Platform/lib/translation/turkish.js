@@ -864,6 +864,9 @@ var TURKISH = {
   questionpublishstory004: "Username of the Digital Story Owner",
   questionpublishstory005: "Full name of the Digital Story Owner",
   reply: "Reply",
-  week:'weeks'
+  week:'weeks',
+  selectYourBadgeImage: "Select your badge image",
+  verifyBadge: "Verify the badge",
+  badgeVerification: "Badge verification",
 }
 export default TURKISH;

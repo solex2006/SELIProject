@@ -15,10 +15,9 @@ import BadgeUpload from '../components/files/BadgeUpload';
 
 export default class BadgeInformation extends React.Component {
   constructor(props) {
-    console.log(props);
     super(props);
     this.state = {
-      userInformation: this.props.badgeInformation,
+      badgeInformation: this.props.badgeInformation,
       showError: false,
       passwordToConfirm: '',
     }
@@ -33,16 +32,17 @@ export default class BadgeInformation extends React.Component {
   };
 
   handleChange = name => event => {
-    let userInformation = this.state.userInformation;
+    console.log("handle change: "+name);
+    let badgeInformation = this.state.badgeInformation;
     if (name === 'fullname') {
-      userInformation.fullname = event.target.value;
+      badgeInformation.fullname = event.target.value;
     }
     else if (name === 'username') {
-      userInformation.username = event.target.value;
+      badgeInformation.username = event.target.value;
     }
 
     this.setState({
-      userInformation: userInformation,
+      badgeInformation: badgeInformation,
     });
   };
 
@@ -94,12 +94,12 @@ export default class BadgeInformation extends React.Component {
   }
 
   selectFile(fileType) {
-    let userInformation = this.state.userInformation;
+    let badgeInformation = this.state.badgeInformation;
     if (fileType === "image") {
-      userInformation.image = this.state.image;
+      badgeInformation.image = this.state.image;
       this.setState({
         showPreview: false,
-        userInformation: userInformation,
+        badgeInformation: badgeInformation,
       });
     }
     this.handleClose();
@@ -114,6 +114,12 @@ export default class BadgeInformation extends React.Component {
     }
   }
 
+  fillBadgeData()
+  {
+    console.log('fill Badge data');
+    console.log(this.props.badgeInformation);
+    this.setState({badgeInformation:this.props.badgeInformation});
+  }
   keyController = (event, from) => {
     if (from === "username") {
       if (event.which == 32 || event.keyCode == 32) {
@@ -131,26 +137,50 @@ export default class BadgeInformation extends React.Component {
     }
   }
 
-  
-
   componentDidMount() {
+    console.log("componentDidMount");
     this.props.showErrorFunction(() => this.showError());
   }
-
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state != nextProps;
+  }
+  // static getDerivedStateFromProps(props, current_state) {
+  //   console.log("getDerivedState")
+  //   if (current_state.value !== props.value) {
+  //     return {
+  //       badgeInformation: props.badgeInformation
+  //     }
+  //   }
+  //   return null
+  // }
   showError = () => {
     this.setState({
       showError: true,
     });
   }
-
+  print(){
+    console.log(this.props.badgeInformation);
+    console.log(this.state.badgeInformation);
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    this.setState({ badgeInformation: nextProps.badgeInformation });  
+  }
+  static getDerivedStateFromProps(nextProps, prevState){
+    console.log(nextProps.badgeInformation);
+    if(nextProps.badgeInformation!==prevState.badgeInformation){
+      return { badgeInformation: nextProps.badgeInformation};
+   }
+   else return null;
+ }
   render() {
     return(
       <div className="course-information-container">
         <div className="form-file-column">
           {
-            this.state.userInformation.image !== undefined ?
+            this.state.badgeInformation.image !== undefined ?
               <FormPreview
-                file={this.state.userInformation.image}
+                file={this.state.badgeInformation.image}
                 type="image"
                 unPickFile={this.unPickFile.bind(this)}
                 changeFile={this.changeFile.bind(this)}
@@ -158,43 +188,105 @@ export default class BadgeInformation extends React.Component {
             :
               this.props.type === "tutor" ?
                 <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="secondary">
-                  <ImageSharpIcon className="form-image-icon"/>{this.props.language.selectYourProfilePhoto} <br/> {this.props.language.required}
+                  <ImageSharpIcon className="form-image-icon"/>{this.props.language.selectYourBadgeImage} <br/> {this.props.language.required}
                 </Button>
               :
                 <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="secondary">
-                  <ImageSharpIcon className="form-image-icon"/>{this.props.language.selectYourProfilePhoto}
+                  <ImageSharpIcon className="form-image-icon"/>{this.props.language.selectYourBadgeImage}
                 </Button>
           }
 
         </div>
         <div className="form-input-column">
           <div className="sign-form">
-            <TextField
-              id="name-input"
-              label={this.props.language.name}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              autoComplete={"off"}
-              required
-              value={this.state.userInformation.fullname}
-              onChange={this.handleChange('fullname')}
-              error={this.state.showError && this.state.userInformation.fullname === ''}
-            />
+            <label class="badge-information-label">Name of the Student</label>
             <TextField
               id="description-input"
-              label={this.props.language.description}
+              label={this.props.badgeInformation.username}
               margin="normal"
               variant="outlined"
               fullWidth
-              autoComplete={"off"}
-              required
-              multiline
-              rows={3}
-              value={this.state.userInformation.username}
+              InputProps={{
+                readOnly: true,
+              }}
+              value={this.props.badgeInformation.badgeStudent}
               onChange={this.handleChange('username')}
               onKeyPress={() => this.keyController(event, 'username')}
-              error={this.state.showError && this.state.userInformation.username === ''}
+              error={this.state.showError && this.state.badgeInformation  .username === ''}
+            />
+            <label class="badge-information-label">Name of the badge</label>
+            <TextField
+              id="description-input"
+              label={this.props.badgeInformation.username}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                readOnly: true,
+              }}
+              value={this.props.badgeInformation.badgeName}
+              onChange={this.handleChange('username')}
+              onKeyPress={() => this.keyController(event, 'username')}
+              error={this.state.showError && this.state.badgeInformation  .username === ''}
+            />
+            <label class="badge-information-label">Description of the badge</label>
+            <TextField
+              id="description-input"
+              label={this.props.badgeInformation.username}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={3}
+              InputProps={{
+                readOnly: true,
+              }}
+              value={this.props.badgeInformation.badgeDescription}
+              onChange={this.handleChange('username')}
+              error={this.state.showError && this.state.badgeInformation  .username === ''}
+            />
+            <label class="badge-information-label">Name of the teacher</label>
+            <TextField
+              id="description-input"
+              label={this.props.badgeInformation.username}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                readOnly: true,
+              }}
+              value={this.props.badgeInformation.badgeTeacher}
+              onChange={this.handleChange('username')}
+            />
+            <label class="badge-information-label">Course</label>
+            <TextField
+              id="description-input"
+              label={this.props.badgeInformation.username}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                readOnly: true,
+              }}
+              value={this.props.badgeInformation.badgeCourse}
+              onChange={this.handleChange('username')}
+              onKeyPress={() => this.keyController(event, 'username')}
+              error={this.state.showError && this.state.badgeInformation  .username === ''}
+            />
+            <label class="badge-information-label">Issued on</label>
+            <TextField
+              id="description-input"
+              label={this.props.badgeInformation.username}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                readOnly: true,
+              }}
+              value={this.props.badgeInformation.badgeDate}
+              onChange={this.handleChange('username')}
+              onKeyPress={() => this.keyController(event, 'username')}
+              error={this.state.showError && this.state.badgeInformation  .username === ''}
             />
           </div>
         </div>
