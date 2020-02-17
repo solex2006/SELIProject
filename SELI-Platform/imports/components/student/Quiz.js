@@ -194,7 +194,7 @@ class Quiz extends React.Component {
           answers:results.answers,
           trueAnswers:results.trueAnswers
         }
-        this.props.completeActivity(this.props.quiz.id, quiz ,"Quiz"); 
+        this.props.completeActivity(this.props.quiz.id, quiz); 
       } 
     }
      else {
@@ -212,7 +212,7 @@ class Quiz extends React.Component {
           answers:results.answers,
           trueAnswers:results.trueAnswers
       }
-      this.props.completeActivity(this.props.quiz.id, quiz, "Quiz");
+      this.props.completeActivity(this.props.quiz.id, quiz);
     }
     this.props.handleClose(); 
   }

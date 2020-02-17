@@ -78,6 +78,7 @@ export default class CourseContent extends React.Component {
                           <TextItem
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            key={Math.random()}
                           />
                         :
                         undefined
@@ -87,6 +88,7 @@ export default class CourseContent extends React.Component {
                           <ImageItem
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            key={Math.random()}
                           />
                         :
                         undefined
@@ -98,6 +100,7 @@ export default class CourseContent extends React.Component {
                             item={item}
                             openMediaPlayer={this.props.fromTutor ? undefined : this.props.openMediaPlayer.bind(this)}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            key={Math.random()}
                             language={this.props.language}
                           />
                         :
@@ -110,6 +113,7 @@ export default class CourseContent extends React.Component {
                             item={item}
                             openMediaPlayer={this.props.fromTutor ? undefined : this.props.openMediaPlayer.bind(this)}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            key={Math.random()}
                             language={this.props.language}
                           />
                         :
@@ -120,6 +124,7 @@ export default class CourseContent extends React.Component {
                           <LinkItem
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            key={Math.random()}
                           />
                         :
                         undefined
@@ -129,6 +134,7 @@ export default class CourseContent extends React.Component {
                           <UnityItem
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            key={Math.random()}
                           />
                         :
                         undefined
@@ -139,6 +145,7 @@ export default class CourseContent extends React.Component {
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             loadingEmbebed={this.props.language.loadingEmbebed}
+                            key={Math.random()}
                           />
                         :
                         undefined
@@ -148,6 +155,7 @@ export default class CourseContent extends React.Component {
                           <PdfItem
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            key={Math.random()}
                             language={this.props.language}
                           />
                         :
@@ -158,6 +166,7 @@ export default class CourseContent extends React.Component {
                           <CompressedItem
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            key={Math.random()}
                             language={this.props.language}
                           />
                         :
@@ -170,6 +179,7 @@ export default class CourseContent extends React.Component {
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             instructions={this.props.language.instructions}
                             loadingH5p={this.props.language.loadingH5p}
+                            key={Math.random()}
                           />
                         :
                         undefined
@@ -183,6 +193,7 @@ export default class CourseContent extends React.Component {
                             course={this.props.course._id}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
+                            key={Math.random()}
                             language={this.props.language}
                           />
                         :
@@ -196,6 +207,7 @@ export default class CourseContent extends React.Component {
                             toResolve={this.props.toResolve}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
+                            key={Math.random()}
                             language={this.props.language}
                           />
                         :
@@ -294,6 +306,7 @@ export default class CourseContent extends React.Component {
                         <TextItem
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          key={Math.random()}
                         />
                       :
                       undefined
@@ -303,6 +316,7 @@ export default class CourseContent extends React.Component {
                         <ImageItem
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          key={Math.random()}
                         />
                       :
                       undefined
@@ -314,6 +328,7 @@ export default class CourseContent extends React.Component {
                           item={item}
                           openMediaPlayer={this.props.fromTutor ? undefined : this.props.openMediaPlayer.bind(this)}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          key={Math.random()}
                           language={this.props.language}
                         />
                       :
@@ -326,6 +341,7 @@ export default class CourseContent extends React.Component {
                           item={item}
                           openMediaPlayer={this.props.fromTutor ? undefined : this.props.openMediaPlayer.bind(this)}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          key={Math.random()}
                           language={this.props.language}
                         />
                       :
@@ -336,6 +352,7 @@ export default class CourseContent extends React.Component {
                         <LinkItem
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          key={Math.random()}
                         />
                       :
                       undefined
@@ -345,6 +362,7 @@ export default class CourseContent extends React.Component {
                         <UnityItem
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          key={Math.random()}
                         />
                       :
                       undefined
@@ -355,6 +373,7 @@ export default class CourseContent extends React.Component {
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           loadingEmbebed={this.props.language.loadingEmbebed}
+                          key={Math.random()}
                         />
                       :
                       undefined
@@ -364,6 +383,7 @@ export default class CourseContent extends React.Component {
                         <PdfItem
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          key={Math.random()}
                           language={this.props.language}
                         />
                       :
@@ -374,6 +394,7 @@ export default class CourseContent extends React.Component {
                         <CompressedItem
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
+                          key={Math.random()}
                           language={this.props.language}
                         />
                       :
@@ -386,6 +407,7 @@ export default class CourseContent extends React.Component {
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           instructions={this.props.language.instructions}
                           loadingH5p={this.props.language.loadingH5p}
+                          key={Math.random()}
                         />
                       :
                       undefined
@@ -399,6 +421,7 @@ export default class CourseContent extends React.Component {
                           course={this.props.course._id}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
+                          key={Math.random()}
                           language={this.props.language}
                         />
                       :
@@ -412,6 +435,7 @@ export default class CourseContent extends React.Component {
                           toResolve={this.props.toResolve}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
+                          key={Math.random()}
                           language={this.props.language}
                         />
                       :
