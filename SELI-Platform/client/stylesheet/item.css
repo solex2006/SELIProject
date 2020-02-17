@@ -101,6 +101,12 @@
   display: flex;
 }
 
+.image-item-container2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .image-item-container {
   width: 95%;
   padding: 1.5vh 2.5%;

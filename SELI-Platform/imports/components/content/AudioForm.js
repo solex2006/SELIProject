@@ -25,6 +25,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import AudioRecorder from '../tools/AudioRecorder';
 import TextField from '@material-ui/core/TextField';
 
+
 export default class AudioForm extends React.Component {
   constructor(props) {
     super(props);
@@ -32,6 +33,7 @@ export default class AudioForm extends React.Component {
       showLibrary: false,
       attributes: {
         audio: undefined,
+        videosignal:undefined,
         source: 'upload',
         title: '',
         externalLink: '',
@@ -102,12 +104,25 @@ export default class AudioForm extends React.Component {
   }
 
   getFileInformation(file){
+    console.log("fileAudio", file)
     let attributes = this.state.attributes;
     attributes.audio = file;
+    
     this.setState({
       attributes: attributes,
       showPreview: true,
       showGallery: false,
+    });
+  }
+  getFileInformationVideo(file){
+    console.log("filevideo", file)
+    let attributes = this.state.attributes;
+    attributes.videosignal = file;
+    
+    this.setState({
+      attributes: attributes,
+     // showPreview: true,
+      //showGallery: false,
     });
   }
 
@@ -134,6 +149,7 @@ export default class AudioForm extends React.Component {
 
   componentDidMount(){
     this.props.getAudioAttributesFunction(() => this.getAudioAttributes());
+    console.log("ContnetToedit",this.props.contentToEdit)
   }
 
   componentWillMount(){
@@ -193,6 +209,8 @@ export default class AudioForm extends React.Component {
                     :
                     undefined
                   }
+
+
                   <div className="form-column-container">
                     {
                       !this.state.showPreview ?
@@ -221,6 +239,28 @@ export default class AudioForm extends React.Component {
                       />
                     }
                   </div>
+
+
+
+
+
+
+
+                  <div className="form-column-container">
+                    {
+                        <div> 
+                          <FileUpload
+                            type="video"
+                            accept={'video/*'}
+                            user={Meteor.userId()}
+                            label={"Sign language"}
+                            getFileInformation={this.getFileInformationVideo.bind(this)}
+                          />
+                        </div>
+                    }
+                  </div>
+
+
                 </div>
                 <div className="course-creator-form-column">
                   <div className="course-creator-input-container">

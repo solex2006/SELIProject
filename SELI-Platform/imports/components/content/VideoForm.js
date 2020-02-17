@@ -26,6 +26,7 @@ export default class VideoForm extends React.Component {
       showLibrary: false,
       attributes: {
         video: undefined,
+        videosignal:undefined,
         source: 'upload',
         title: '',
         externalLink: '',
@@ -100,13 +101,13 @@ export default class VideoForm extends React.Component {
     });
   }
 
-  getFileInformationSub(file){
+  getFileInformationsignal(file){
     let attributes = this.state.attributes;
-    attributes.subtitles = file;
+    attributes.videosignal = file;
     this.setState({
       attributes: attributes,
-      //showPreview: true,
-      //showGallery: false,
+      showPreviewSignal: true,
+      showGallerySignal: false,
     });
   }
 
@@ -118,16 +119,26 @@ export default class VideoForm extends React.Component {
       attributes: attributes,
     });
   }
+  unPickFileSignal(){
+    let attributes = this.state.attributes;
+    attributes.videosignal = undefined;
+    this.setState({
+      attributes: attributes,
+      showPreviewSignal: false,
+    });
+  }
 
   showLibrary(){
     this.setState({
       showGallery: true,
+      showGallerySignal: true,
     })
   }
 
   hideLibrary(){
     this.setState({
       showGallery: false,
+      showGallerySignal: false,
     })
   }
 
@@ -192,6 +203,7 @@ export default class VideoForm extends React.Component {
         if (this.state.attributes.video !== undefined && this.state.attributes.source === 'upload') {
           this.setState({
             showPreview: true,
+            showPreviewSignal: true,
           })
         }
         else {
@@ -242,7 +254,49 @@ export default class VideoForm extends React.Component {
                     :
                     undefined
                   }
+
+
+                  
                   <div className="form-column-container">
+                  {//languages signal part
+                      !this.state.showPreviewSignal ?
+                        <div>
+                          {
+                            this.state.attributes.source === "upload" ?
+                              <div className="uploadsignals">
+                                <FileUpload
+                                  type="video"
+                                  user={Meteor.userId()}
+                                  accept={'video/*'}
+                                  label={"traduction*"}
+                                  getFileInformation={this.getFileInformationsignal.bind(this)}
+                                />
+                              </div>
+                              
+                            :
+                              <div>
+                                {
+                                  this.state.validUrl ?
+                                    <ReactPlayer className="course-creator-preview-player" url={this.state.url}/>
+                                  :
+                                    undefined
+                                }
+                               
+                              </div>
+                          }
+                        </div>
+                      :
+                        <div>
+                          <div>
+                            <VideoPreview
+                              file={this.state.attributes.videosignal}
+                              unPickFile={this.unPickFileSignal.bind(this)}
+                              language={this.props.language}
+                            />
+                          </div>
+                        </div>
+                    }
+
                     {
                       !this.state.showPreview ?
                         <div>
@@ -277,9 +331,7 @@ export default class VideoForm extends React.Component {
                                     helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
                                   />
                                 </div>
-                                {/* <div className="margin-center-row">
-                                  <Button onClick={() => this.validateUrl()} className="url-check-button" color="primary">{this.props.language.testSource}</Button>
-                                </div> */}
+
                               </div>
                           }
                         </div>
@@ -292,15 +344,6 @@ export default class VideoForm extends React.Component {
                               language={this.props.language}
                             />
                           </div>
-                            {/* <div>
-                              <FileUpload
-                                type="file"
-                                user={Meteor.userId()}
-                                accept={'.srt'}
-                                label={this.props.language.uploadSubtitleButtonLabel}
-                                getFileInformation={this.getFileInformationSub.bind(this)}
-                              />
-                            </div> */}
                         </div>
                     }
                   </div>
@@ -317,15 +360,6 @@ export default class VideoForm extends React.Component {
                       required
                       className="form-padding-dialog-input"
                     />
-                    {/* <TextField
-                      id="link-input"
-                      label={this.props.language.externalLink}
-                      value={this.state.attributes.externalLink}
-                      onChange={this.handleChange('externalLink')}
-                      margin="normal"
-                      variant="outlined"
-                      className="form-padding-dialog-input"
-                    /> */}
                     <div className="margin-center-row">
                       <FormGroup>
                         <FormControlLabel

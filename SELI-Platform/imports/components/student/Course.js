@@ -5,7 +5,6 @@ import Loading from '../tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
 import { Activities } from '../../../lib/ActivitiesCollection';
 import { Comments } from '../../../lib/CommentsCollection';
-
 import CourseMenu from './CourseMenu';
 import CoursePresentation from './CoursePresentation';
 import CourseContent from './CourseContent';

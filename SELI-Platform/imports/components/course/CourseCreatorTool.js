@@ -166,12 +166,18 @@ export default class CourseCreatorTool extends React.Component {
     });
   }
 
-  getItemAttributes(){}
+  getItemAttributes(){
+
+
+  }
 
   createContent(){
     let courseInformation = this.state.courseInformation;
     let index;
     let itemContent = this.getItemAttributes();
+
+    console.log("courseInformation",courseInformation)
+    console.log("courseInformation",itemContent)
     if (itemContent !== undefined) {
       if (courseInformation.organization.subunit) {
         for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
