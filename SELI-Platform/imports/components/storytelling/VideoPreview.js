@@ -11,6 +11,7 @@ export default class VideoPreview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      autoplay:false
 
     }
   }
@@ -19,6 +20,11 @@ export default class VideoPreview extends React.Component {
     this.setState({
       isPlaying: this.props.file.link,
     })
+    if (this.props.autoplay==="autoplay"){
+      this.setState({
+        autoplay: true
+      })
+    }
   }
   
   componentDidUpdate(prevProps) {
@@ -34,7 +40,7 @@ export default class VideoPreview extends React.Component {
 
   render() {
     return(
-        <video controls id="video-preview-information" className="file-preview-information" ref="video">
+        <video  controls id="video-preview-information" className="file-preview-information" ref="video">
           <source src={this.props.file.link}></source>
         </video>
       );

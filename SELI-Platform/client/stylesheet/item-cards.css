@@ -1,5 +1,13 @@
 .course-item-video-card {
   width: 100% !important;
+  padding: 1.5vh 2.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.course-item-video-card2 {
+  width: 100% !important;
+
 }
 
 .course-item-video-card-media-action-area {
@@ -112,4 +120,25 @@
 .course-item-audio-card-image {
   position: absolute !important;
   top: 0 !important;
+}
+.checkboxstyle{
+  margin-left: 10px
+}
+
+.videosignal{
+    position: absolute;
+    z-index: 1;
+    top: 15px;
+    left: 5px;
+
+}
+
+.videoPreview{
+  position: relative;
+  z-index: 0;
+  background-color: #00CCFF;
+}
+
+.AudioSignal{
+  margin-left: 40px
 }

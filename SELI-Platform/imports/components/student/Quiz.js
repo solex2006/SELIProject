@@ -198,7 +198,7 @@ class Quiz extends React.Component {
           answers:results.answers,
           trueAnswers:results.trueAnswers
         }
-        this.props.completeActivity(this.props.quiz.id, quiz ,"Quiz"); 
+        this.props.completeActivity(this.props.quiz.id, quiz); 
       } 
     }
      else {
@@ -215,7 +215,7 @@ class Quiz extends React.Component {
           answers:results.answers,
           trueAnswers:results.trueAnswers
       }
-      this.props.completeActivity(this.props.quiz.id, quiz, "Quiz");
+      this.props.completeActivity(this.props.quiz.id, quiz);
     }
     if(approved === true){
       let badgeImage = this.props.quiz.attributes.badgeInformation.image;

@@ -14,6 +14,7 @@
   justify-content: center;
 }
 
+
 .form-column-container {
   margin-top: 3vh;
   margin-left: 1vw;
@@ -88,4 +89,9 @@
   width: 15% !important;
   min-width: 15% !important;
   border-radius: 0 !important;
+}
+
+.uploadsignals{
+  border-radius: 15px;
+  margin-bottom: 25px;
 }

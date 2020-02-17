@@ -9,12 +9,17 @@ import Tooltip from '@material-ui/core/Tooltip';
 import AudioPlayer from 'react-h5-audio-player';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
+import ReactPlayer from 'react-player';
+import VideoPreview from '../../storytelling/VideoPreview';
+import CheckboxLabels from './CheckBox'
 
 export default class AudioItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      signalShow:'',
+      autoplay:false,
+      key:78
     }
   }
 
@@ -23,11 +28,34 @@ export default class AudioItem extends React.Component {
     win.focus();
   }
 
+  checkbox=(event)=>{
+    if(event===true){
+      this.setState({
+        signalShow:"signalShow"
+      })
+    }else if(event===false){
+      this.setState({
+        signalShow:'nosignalShow',
+        autoplay:false
+      })
+    }
+  }
+
+  playAudio=(event)=>{
+     if(this.state.signalShow==='signalShow'){
+      this.setState({
+        autoplay:true,
+        key:Math.random()
+      })
+     }
+  }
+
   render() {
+
     return(
       <div className="content-box">
         <div className="image-content-item">
-          <div className="image-item-container">
+          <div className="image-item-container2">
             <Card raised className="course-item-audio-card">
               <div className="course-item-audio-card-details">
                 <CardContent className="course-item-audio-card-content">
@@ -45,16 +73,29 @@ export default class AudioItem extends React.Component {
                 />
               </div>
               <br/>
-              <div className="course-item-audio-card-controls">
-                <audio controls className="storytelling-media-audio">
-                  <source src={this.props.item.attributes.audio.link}></source>
-                </audio>
-{/*               <div style={{padding: "5px"}}>
-                  <AudioPlayer autoPlay={false} src={this.props.item.attributes.audio.link} />
-                </div> */} 
-{/*               <IconButton onClick={() => this.props.openMediaPlayer(this.props.item.attributes.audio, this.props.item.type, this.props.item.attributes.title)} className="course-item-audio-card-icon-button" aria-label="play/pause">
-                  <PlayArrowIcon className="course-item-audio-card-icon"/>
-                </IconButton> */}
+              <div  className="checkboxstyle">
+              <CheckboxLabels
+                language={this.props.language}
+                checkbox={this.checkbox}
+              />
+              {
+                this.state.signalShow==='signalShow'?
+                <div className="AudioSignal">
+                  <video  width="320" height="240" key={this.state.key} autoPlay={this.state.autoplay} controls id="video-preview-information" className="file-preview-information" ref="video">
+                    <source src={this.props.item.attributes.videosignal.link}></source>
+                  </video>
+                </div>        
+                  :
+                  undefined  
+              }
+              </div>
+              <div className="course-item-audio-card-controls"> 
+              <AudioPlayer 
+                volume 
+                src={this.props.item.attributes.audio.link}
+                onPlay={this.playAudio}
+                
+              />
                 <Tooltip title={this.props.language.addToMyLibrary}>
                   <IconButton className="course-item-audio-card-icon-button" aria-label="add to favorites">
                     <FolderSpecialIcon className="course-item-audio-card-icon"/>
