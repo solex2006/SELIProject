@@ -258,6 +258,10 @@ class Quiz extends React.Component {
       assertion: theAssertion,
     };
 
+
+    //this part is pending to modify 
+    //is implemented as a certificate 
+    
     bakery.bake(options, function(err, data){
       let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
       user = user[0];
@@ -281,9 +285,6 @@ class Quiz extends React.Component {
         allowWebWorkers: true // If you see issues with uploads, change this to false
       }, false);
       uploadInstance.start(); 
-
-
-
 
       let idStudent = user._id;
       let student = user.profile.fullname;
