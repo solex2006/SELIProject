@@ -130,7 +130,6 @@
     z-index: 1;
     top: 15px;
     left: 5px;
-
 }
 
 .videoPreview{
@@ -141,4 +140,16 @@
 
 .AudioSignal{
   margin-left: 40px
+}
+.AudioPlayer{
+  position: absolute;
+  z-index: 2;
+  top: 110px;
+  left: 5px;
+
+}
+
+.VideoAudio{
+  
+  
 }

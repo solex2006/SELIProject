@@ -218,7 +218,6 @@ export default class CourseCreatorTool extends React.Component {
         showAccessibilityOptions = true;
       }
       else {
-
       }
       this.setState({
         showAccessibilityOptions: showAccessibilityOptions,
@@ -230,10 +229,8 @@ export default class CourseCreatorTool extends React.Component {
       this.resetMenuItems();
     }
     else {
-
     }
   }
-
   finishEditContent(){
     let courseInformation = this.state.courseInformation;
     let index;
@@ -460,7 +457,6 @@ export default class CourseCreatorTool extends React.Component {
     this.forceUpdate();
     this.setState({ state: this.state });
   }
-
   handleSnackbar = () => {
     this.setState({ openSnackbar: true });
   };
