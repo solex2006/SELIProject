@@ -32,7 +32,7 @@ export default function A11YProgressFeedback(props){
 		let a11yPercentage = a11y * 100 / max;
 		setProgressPercent(a11yPercentage);
 		setProgressText(a11y + '/' + max);
-		props.getAccessibilityPercetage(a11yPercentage)
+		props.getAccessibilityPercentage(a11yPercentage)
 		if (a11yPercentage < 20){
 			setProgressColor({color: a11yCOLOR.fail});
 		}

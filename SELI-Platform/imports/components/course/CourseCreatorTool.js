@@ -166,18 +166,15 @@ export default class CourseCreatorTool extends React.Component {
     });
   }
 
-  getItemAttributes(){
-
-
-  }
+  getItemAttributes(){}
 
   createContent(){
     let courseInformation = this.state.courseInformation;
     let index;
     let itemContent = this.getItemAttributes();
 
-    console.log("courseInformation",courseInformation)
-    console.log("courseInformation",itemContent)
+    //console.log("courseInformation",courseInformation)
+    //console.log("courseInformation",itemContent)
     if (itemContent !== undefined) {
       if (courseInformation.organization.subunit) {
         for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
@@ -359,15 +356,15 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   editAccessibilityForm(item){
-    let itemContent = this.getItemAttributes();
     this.setState({
+      addedId: item.id,
+      contentToEdit: item,
       contentTypeAdded: item.type,
-      showAccessibilityOptions: false,
-      showCourseOrganization: false,
-      contentOpen: true,
-      contentToConfigureAccessibility: itemContent,     
-      showContentEditor: false,
       showAccessibilityForm: true,
+      showAccessibilityOptions: false,
+      contentOpen: true,
+      contentToConfigureAccessibility: item.attributes,    
+      showContentEditor: false,
     })
   }
 
@@ -438,7 +435,6 @@ export default class CourseCreatorTool extends React.Component {
   }
 
   componentDidMount(){
-    console.log("CourseCreatorTool",this.props.courseInformation)
     if (this.props.courseInformation.organization === '') {
       this.setState({
         showWarningOrganization: false,
@@ -480,7 +476,7 @@ export default class CourseCreatorTool extends React.Component {
     });
   }
 
-  getAccessibilityPercetage = (value) => {
+  getAccessibilityPercentage = (value) => {
     let courseInformation = this.state.courseInformation;
     let index;
     if (courseInformation.organization.subunit) {
@@ -561,16 +557,17 @@ export default class CourseCreatorTool extends React.Component {
         }
       }
       if (courseInformation.organization.subunit) {
-        courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.dataField = data;
+        courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.dataField = data.dataField;
+        courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.isA11Y= data.isA11Y;
       }
       else {
-        courseInformation.program[this.props.selected[0]].items[index].attributes.accessibility.dataField = data;
+        courseInformation.program[this.props.selected[0]].items[index].attributes.accessibility.dataField = data.dataField;
+        courseInformation.program[this.props.selected[0]].items[index].attributes.accessibility.isA11Y = data.isA11Y;
       }
       this.setState({
         courseInformation: courseInformation,
-      }, () => console.log(this.state.courseInformation.program));
+      }, () => {this.contentHandleClose()});
     }
-
   }
 
   render() {
@@ -1235,17 +1232,10 @@ export default class CourseCreatorTool extends React.Component {
                 <VerticalTab
                   contentTypeAdded={this.state.contentTypeAdded}
                   item={this.state.contentToConfigureAccessibility}
-                  getAccessibilityPercetage={this.getAccessibilityPercetage.bind(this)}
+                  getAccessibilityPercentage={this.getAccessibilityPercentage.bind(this)}
                   setContentAccessibilityData={this.setContentAccessibilityData.bind(this)}
                   language={this.props.language}
                 />
-                <div className="dialog-actions-container">
-                  <Tooltip title={this.props.language.setAccessibilityConf}>
-                    <Fab onClick={() => this.contentHandleClose()} aria-label={this.props.language.setAccessibilityConf} className="dialog-fab" color="primary">
-                      <AccessibilityNewIcon/>
-                    </Fab>
-                  </Tooltip>
-                </div>
               </React.Fragment>
             :
             undefined

@@ -74,7 +74,7 @@ export default function MenuItem(props) {
 
   editAccessibility = () => {
     handleClose();
-    props.editAccessibilityForm(props.item.attributes);
+    props.editAccessibilityForm(props.item);
   }
 
   return (

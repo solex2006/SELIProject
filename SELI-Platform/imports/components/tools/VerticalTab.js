@@ -15,6 +15,9 @@ import ImageA11yForm, {useImageDataField} from '../accessibility/ImageAccessibil
 import {VideoTextAltA11Y, VideoMediaCaptionsAltA11Y, VideoMediaSignLanguageA11Y, VideoMediaAudioDescriptioA11Y, VideoOthersA11Y, useDataField} from '../accessibility/VideoAccessibilityForm';
 import AudioA11yForm, {useAudioDataField} from '../accessibility/AudioAccessibilityForm';
 import A11YProgressFeedback from '../accessibility/a11yProgressFeedback';
+import Fab from '@material-ui/core/Fab';
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 function TabPanel(props) {
@@ -32,52 +35,75 @@ function TabPanel(props) {
 				{children}
 			</Box>
 		</Typography>
-		);
-	}
+	);
+}
 
-	TabPanel.propTypes = {
-		children: PropTypes.node,
-		index: PropTypes.any.isRequired,
-		value: PropTypes.any.isRequired,
+TabPanel.propTypes = {
+	children: PropTypes.node,
+	index: PropTypes.any.isRequired,
+	value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index, parent) {
+	return {
+		id: 'vertical-tab-'+{parent}+'-'+{index},
+		'aria-controls': 'vertical-tabpanel-'+{parent}+'-'+{index},
 	};
+}
 
-	function a11yProps(index, parent) {
-		return {
-			id: 'vertical-tab-'+{parent}+'-'+{index},
-			'aria-controls': 'vertical-tabpanel-'+{parent}+'-'+{index},
-		};
+const useStyles = makeStyles(theme => ({
+	root: {
+		flexGrow: 1,
+		backgroundColor: theme.palette.background.paper,
+		display: 'flex',
+	},
+	tabs: {
+		borderRight: `1px solid ${theme.palette.divider}`,
+	},
+	disabled:{
+		opacity: 1,
+	}
+}));
+
+export const useData = (language, type) => {
+	if(type === 'video')
+		return useDataField(language);
+	if(type === 'image')
+		return useImageDataField(language);
+	if(type === 'audio')
+		return useAudioDataField(language);
+	return  {
+		isA11Y: [],
+	};
+};
+
+export default function VerticalTabs(props) {
+	const classes = useStyles();
+	const [value, setValue] = React.useState(0);
+
+	function handleTabChange(event, newValue) {
+		setValue(newValue);
 	}
 
-	const useStyles = makeStyles(theme => ({
-		root: {
-			flexGrow: 1,
-			backgroundColor: theme.palette.background.paper,
-			display: 'flex',
-		},
-		tabs: {
-			borderRight: `1px solid ${theme.palette.divider}`,
-		},
-		disabled:{
-			opacity: 1,
-		}
-	}));
+	let indexTab = 0;
+	let indexPanel = 0;
 
+	let data = useData(props.language, props.contentTypeAdded);
 
-	export default function VerticalTabs(props) {
-		const classes = useStyles();
-		const [value, setValue] = React.useState(0);
+	useEffect(() => {
+		data.dataField = props.item.accessibility.dataField;
+		data.isA11Y = props.item.accessibility.isA11Y;
+	});
 
-		function handleTabChange(event, newValue) {
-			setValue(newValue);
-		}
-		let indexTab = 0;
-		let indexPanel = 0;
+	let dataToSend = {
+		dataField: data.dataField,
+		isA11Y: data.isA11Y,
+	}
 
-		console.log(props.item) 
-		const data = useData(props.language, props.contentTypeAdded);
-		console.log(data)
-		//props.setContentAccessibilityData(data);
-		return (
+	//console.log(data.dataField.shortDescription)
+
+	return (
+		<div>
 			<div className={classes.root}>
 				<Tabs
 					orientation="vertical"
@@ -185,12 +211,11 @@ function TabPanel(props) {
 							// 	</React.Fragment>
 							// } {...a11yProps(indexTab++,props.contentTypeAdded)} disabled className={classes.disabled}/>
 					}
-					{console.log(data.isA11Y)}
 					{
 						data.isA11Y.length > 0 ? 
 							<A11YProgressFeedback
 								a11yFields={data.isA11Y}
-								getAccessibilityPercetage={props.getAccessibilityPercetage.bind(this)}
+								getAccessibilityPercentage={props.getAccessibilityPercentage.bind(this)}
 								{...a11yProps(indexTab++, props.contentTypeAdded)}
 							/>
 						: undefined
@@ -333,16 +358,13 @@ function TabPanel(props) {
 					</TabPanel>
 				</div>
 			</div>
-			);
-		}
-		export const useData = (language, type) => {
-			if(type === 'video')
-			return useDataField(language);
-			if(type === 'image')
-			return useImageDataField(language);
-			if(type === 'audio')
-			return useAudioDataField(language);
-			return  {
-				isA11Y: [],
-			};
-		};
+			<div className="dialog-actions-container">
+				<Tooltip title={props.language.setAccessibilityConf}>
+					<Fab onClick={() => props.setContentAccessibilityData(dataToSend)} aria-label={props.language.setAccessibilityConf} className="dialog-fab" color="primary">
+						<AccessibilityNewIcon/>
+					</Fab>
+				</Tooltip>
+			</div>
+	</div>
+	);
+}
