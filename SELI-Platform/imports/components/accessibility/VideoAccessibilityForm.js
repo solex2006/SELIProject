@@ -476,6 +476,13 @@ export const useDataField = (props) => {
 		{name: 'signLanguage', is_a11y: false},
 	];
 
+	useEffect(() => {
+		if (props.item.dataField && props.item.isA11Y) {
+			setDataField(props.item.dataField);
+			setIsA11Y(props.item.isA11Y);
+		}
+	}, [])
+
 	const [isA11Y, setIsA11Y] = React.useState(a11yInitial);
 
 	//layout

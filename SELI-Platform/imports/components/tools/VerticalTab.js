@@ -65,13 +65,13 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-export const useData = (language, type) => {
+export const useData = (language, type, item) => {
 	if(type === 'video')
-		return useDataField(language);
+		return useDataField({language, item});
 	if(type === 'image')
-		return useImageDataField(language);
+		return useImageDataField({language, item});
 	if(type === 'audio')
-		return useAudioDataField(language);
+		return useAudioDataField({language, item});
 	return  {
 		isA11Y: [],
 	};
@@ -88,19 +88,12 @@ export default function VerticalTabs(props) {
 	let indexTab = 0;
 	let indexPanel = 0;
 
-	let data = useData(props.language, props.contentTypeAdded);
-
-	useEffect(() => {
-		data.dataField = props.item.accessibility.dataField;
-		data.isA11Y = props.item.accessibility.isA11Y;
-	});
+	let data = useData(props.language, props.contentTypeAdded, props.item.accessibility);
 
 	let dataToSend = {
 		dataField: data.dataField,
 		isA11Y: data.isA11Y,
 	}
-
-	//console.log(data.dataField.shortDescription)
 
 	return (
 		<div>

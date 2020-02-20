@@ -92,8 +92,6 @@ export default function ImageAccessibility(props) {
 					/>
 				</FormControl>
 			</section>
-
-
 			<section id='image-text-alternatives'  className="form accessib-form"
 				style={{'display':displayAltGroup}}
 			>
@@ -168,12 +166,19 @@ export const useImageDataField = (props) => {
 	});
 
 	const a11yInitial = [
-		// {name: 'longDescription', is_a11y: false},
-		// {name: 'shortDescription', is_a11y: false},
-		// {name: 'imagePurpose', is_a11y: false}
+		{name: 'longDescription', is_a11y: false},
+		{name: 'shortDescription', is_a11y: false},
+		{name: 'imagePurpose', is_a11y: false}
 	];
 
 	const [isA11Y, setIsA11Y] = React.useState(a11yInitial);
+
+	useEffect(() => {
+		if (props.item.dataField && props.item.isA11Y) {
+			setDataField(props.item.dataField);
+			setIsA11Y(props.item.isA11Y);
+		}
+	}, [])
 
 	useEffect(() => {
 
@@ -197,7 +202,7 @@ export const useImageDataField = (props) => {
 		setDisplayAltLong(toogleLong ? 'none' : 'initial');
 	}, [toogleLong]);
 
-	useEffect(() => {
+/* 	useEffect(() => {
 		setDataField(dataField => ({...dataField,
 			shortDescription: '',
 		}));
@@ -208,7 +213,7 @@ export const useImageDataField = (props) => {
 			shortDescription: '',
 			longDescription: '',
 		}));
-	}, [displayAltLong]);
+	}, [displayAltLong]); */
 
 
 	const handleImagePurposeOnChange = event => {
@@ -304,15 +309,15 @@ export const useImageDataField = (props) => {
 			
 		switch(purpose){
 		case 'info':
-			return props.image_a11y_purpose_informative_label;
+			return props.language.image_a11y_purpose_informative_label;
 		case 'deco':
-			return props.image_a11y_purpose_decorative_label;
+			return props.language.image_a11y_purpose_decorative_label;
 		case 'txt':
-			return props.image_a11y_purpose_text_label;
+			return props.language.image_a11y_purpose_text_label;
 		case 'cplx':
-			return props.image_a11y_purpose_complex_label;
+			return props.language.image_a11y_purpose_complex_label;
 		default:
-			return props.error_retrievingData;
+			return props.language.error_retrievingData;
 		}
 	}
 
@@ -322,13 +327,13 @@ export const useImageDataField = (props) => {
 
 		switch(purpose){
 		case 'info':
-			return props.image_a11y_purpose_informative_tip;
+			return props.language.image_a11y_purpose_informative_tip;
 		case 'deco':
-			return props.image_a11y_purpose_decorative_tip;
+			return props.language.image_a11y_purpose_decorative_tip;
 		case 'txt':
-			return props.image_a11y_purpose_text_tip;
+			return props.language.image_a11y_purpose_text_tip;
 		case 'cplx':
-			return props.image_a11y_purpose_complex_tip;
+			return props.language.image_a11y_purpose_complex_tip;
 		default:
 			return;
 		}
@@ -340,11 +345,11 @@ export const useImageDataField = (props) => {
 
 		switch(purpose){
 		case 'info':
-			return props.shortDescription_a11y_tip_image_informative;
+			return props.language.shortDescription_a11y_tip_image_informative;
 		case 'txt':
-			return props.shortDescription_a11y_tip_image_text;
+			return props.language.shortDescription_a11y_tip_image_text;
 		case 'cplx':
-			return props.shortDescription_a11y_tip_image_complex;
+			return props.language.shortDescription_a11y_tip_image_complex;
 		default:
 			return;
 		}
@@ -356,7 +361,7 @@ export const useImageDataField = (props) => {
 
 		switch(purpose){
 		case 'cplx':
-			return props.image_a11y_provide_text;
+			return props.language.image_a11y_provide_text;
 		default:
 			return;
 		}
