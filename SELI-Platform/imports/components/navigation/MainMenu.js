@@ -87,7 +87,6 @@ export default class MainMenu extends React.Component {
   };
 
   buildHandleEnterKeyPressMenu= (e)=>{
-    console.log("se presiona enter")
     this.setState({
       menuOpen: true, 
     }) 

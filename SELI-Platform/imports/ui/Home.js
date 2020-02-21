@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import AppBar from '../components/navigation/AppBar';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
-import Presentacion from '../components/navigation/Presentation';
+import Presentation from '../components/navigation/Presentation';
 
 import Loading from '../components/tools/Loading';
 
@@ -55,11 +55,8 @@ export default class Home extends React.Component {
               user: response[0],
               chekingSesion: false,
             }, () => {
-              if (this.state.user.profile.type === 'tutor') {
-                this.props.history.push('/tutor');
-              }
-              else if (this.state.user.profile.type === 'student') {
-                this.props.history.push('/student');
+              if (this.state.user.profile.type === 'tutor' || this.state.user.profile.type === 'student') {
+                this.props.history.push("/user");
               }
               else if (this.state.user.profile.type === 'administrator') {
                 this.props.history.push('/administrator');
@@ -111,7 +108,7 @@ export default class Home extends React.Component {
                   language={this.state.language}
                   setLanguage={this.setLanguage.bind(this)}
                 />
-                <Presentacion
+                <Presentation
                   language={this.state.language}
                   history={this.props.history}
                 />

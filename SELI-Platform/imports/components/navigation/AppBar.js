@@ -126,9 +126,9 @@ export default class AppBar extends React.Component {
 
 
   handleSearchText=(event)=>{
-   this.setState({
-     searchText: event.target.value
-   })
+    this.setState({
+      searchText: event.target.value
+    })
   }
   handleSearchButton=(event)=>{
     //console.log(this.state.searchText)

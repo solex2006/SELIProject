@@ -38,6 +38,26 @@ var OPTIONS = [
         ],
         component: 'saved',
       },
+      {
+        label: [
+          "Suscribed courses",
+          "Cursos Inscritos",
+          "Cursos inscritos",
+          "",
+          "Takip edilen derslerim",
+        ],
+        component: 'subscribed',
+      },
+      {
+        label: [
+          "SELI courses",
+          "Cursos SELI",
+          "Cursos SELI",
+          "",
+          "SELI Dersleri"
+        ],
+        component: 'courses',
+      },
     ],
   },
   {

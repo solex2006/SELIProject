@@ -159,7 +159,7 @@ export const useImageDataField = (props) => {
 	const [dataField, setDataField] = React.useState({
 		longDescription:'',
 		shortDescription:'',
-		imagePurpose: 'info',
+		imagePurpose: '',
 		shortDescriptionError : true,
 		longDescriptionError : true,
 		longDescriptionPosition: 'bottom'
