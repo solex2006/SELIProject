@@ -434,8 +434,8 @@ export default class User extends React.Component {
   searchValue=(value)=>{
     //console.log("Value to search", value)
     this.setState({
-      searchText:value,
-      component : 'courses'
+      searchText: value,
+      component: 'courses',
     })
   }
 
@@ -472,12 +472,14 @@ export default class User extends React.Component {
                       user={this.state.user}
                       logOut={this.logOut.bind(this)}
                       showComponent={this.showComponent.bind(this)}
+                      searchValue={this.searchValue}
                     />
                     {
                       this.state.component === 'home' ?
                         <Presentation
                           language={this.state.language}
                           history={this.props.history}
+                          searchValue={this.searchValue}
                         />
                       :
                       undefined
