@@ -124,9 +124,9 @@ export default function UserMenu(props) {
           />
         }
         <p className="user-menu-username">{props.user.username}</p>
-        <Badge className="user-menu-badge" overlap="circle" badgeContent={5} color="primary">
+        {/* <Badge className="user-menu-badge" overlap="circle" badgeContent={5} color="primary">
           <MailIcon className="user-menu-badge-icon" />
-        </Badge>
+        </Badge> */}
       </div>
       <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
         {sideList('right')}
