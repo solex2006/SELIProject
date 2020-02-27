@@ -4,7 +4,7 @@ import ffmpeg from 'fluent-ffmpeg';
 import * as fs from 'fs';
 import { Meteor } from "meteor/meteor";
 import { Activities } from './ActivitiesCollection';
-import CourseFilesCollection  from "./CourseFilesCollection";
+import CourseFilesCollection from "./CourseFilesCollection";
 import * as os from 'os';
 import * as path from "path";
 
@@ -18,51 +18,51 @@ Meteor.methods({
         if (err) throw err;
       })
     }
-    const story = Activities.findOne({ _id: id});
+    const story = Activities.findOne({ _id: id });
     // Create a list from story's scenes
     const files = createFileList(story);
 
     return new Promise((resolve, reject) => {
       // Creates video from image and audio
       getLangFromUser(userId)
-      .then(val => {
-        files.forEach(file => {
-          file.lang = val;
+        .then(val => {
+          files.forEach(file => {
+            file.lang = val;
+          })
+          return createTempSceneVideos(files)
         })
-        return createTempSceneVideos(files)
-      })
-      .then(val => getAllMediaLength(files))
-      .then(val => mergeAllSubtitles(files))
-      .then(val => {
-        const videoFiles = files.map(file => file.video2);
-        const mergedVideo = path.join(os.tmpdir(), videoFileName);
-        return mergeVideoFiles(videoFiles, mergedVideo)
-      })
-      .then(val => {
-        // Add new file to the 
-        CourseFilesCollection.addFile(val, {
-          fileName: id.toString() + '.mp4',
-          type: 'video/mp4',
-          meta: {}
-        }, (err, fileRef) => {
-          if (err) {
-            fs.unlinkSync(val);
-            throw err;
-          } else {
-            resolve(fileRef._id)
-          }
-        });
-      })
-      .catch(err => reject(err))
-      .finally(() => {
-        files.forEach(file => {
-          if (file.temp) {
-            fs.unlinkSync(file.video);
-            fs.unlinkSync(file.video2);
-            fs.unlinkSync(file.subtitle);
-          }
+        .then(val => getAllMediaDuration(files))
+        .then(val => mergeAllSubtitles(files))
+        .then(val => {
+          const videoFiles = files.map(file => file.video2);
+          const mergedVideo = path.join(os.tmpdir(), videoFileName);
+          return mergeVideoFiles(videoFiles, mergedVideo)
         })
-      })
+        .then(val => {
+          // Add new file to the 
+          CourseFilesCollection.addFile(val, {
+            fileName: id.toString() + '.mp4',
+            type: 'video/mp4',
+            meta: {}
+          }, (err, fileRef) => {
+            if (err) {
+              fs.unlinkSync(val);
+              throw err;
+            } else {
+              resolve(fileRef._id)
+            }
+          });
+        })
+        .catch(err => reject(err))
+        .finally(() => {
+          files.forEach(file => {
+            if (file.temp) {
+              fs.unlinkSync(file.video);
+              fs.unlinkSync(file.video2);
+              fs.unlinkSync(file.subtitle);
+            }
+          })
+        })
     })
   }
 })
@@ -81,8 +81,8 @@ const mergeSubtitles = (file) => {
   return new Promise((resolve, reject) => {
     const srtFileName = file.video.replace('mp4', 'srt');
     file.video2 = file.video.replace('.mp4', '2.mp4');
-    const time = '00:00:00,000 --> ' + file.duration + '\n';
-    srtContent = '1\n' + time + file.description[file.language];
+    const time = '00:00:00,000 --> ' + printDuration(file.duration) + '\n';
+    srtContent = '1\n' + time + file.description[file.lang];
     fs.writeFile(srtFileName, srtContent, 'utf8', (err) => {
       if (err) {
         reject(err);
@@ -90,23 +90,36 @@ const mergeSubtitles = (file) => {
         file.subtitle = srtFileName;
       }
       ffmpeg()
-      .addInput(file.video)
-      .output(file.video2)
-      .outputFormat('mp4')
-      .on('end', (ffmpegCmd) => {
-        resolve(true);
-      })
-      .on('error', (err, stdout, stderr) => {
-        reject(err);
-      })
-      .run();
+        .addInput(file.video)
+        .output(file.video2)
+        .outputFormat('mp4')
+        .addOutputOption('-vf subtitles=' + srtFileName)
+        .on('end', (ffmpegCmd) => {
+          resolve(true);
+        })
+        .on('error', (err, stdout, stderr) => {
+          reject(err);
+        })
+        .run();
     })
   })
 }
 
+const printDuration = (duration) => {
+  const miliseconds = (duration % 1) * 1000;
+  const seconds = Math.floor(duration);
+  const dt = new Date(0, 0, 0, 0, 0, seconds, miliseconds);
+
+  let strDuration = dt.getHours().toString().padStart(2, '0') + ':' +
+    dt.getMinutes().toString().padStart(2, '0') + ':' +
+    dt.getSeconds().toString().padStart(2, '0') + ',' +
+    dt.getMilliseconds().toString().padEnd(3, '0');
+  return strDuration;
+}
+
 const getLangFromUser = (userId) => {
-  return new Promise((resolve, reject )=> {
-    const user = Meteor.users.findOne({_id: userId});
+  return new Promise((resolve, reject) => {
+    const user = Meteor.users.findOne({ _id: userId });
     if (!user) reject('User not found');
     let lang = '';
     switch (user.profile.configuration.language) {
@@ -121,10 +134,10 @@ const getLangFromUser = (userId) => {
         break;
       case 'Turkish (TR)':
         lang = 'turkish';
-        break;      
+        break;
       case 'Polish (PL)':
         lang = 'polish';
-        break;          
+        break;
       default:
         lang = 'english';
         break;
@@ -134,17 +147,17 @@ const getLangFromUser = (userId) => {
 
 }
 
-const getAllMediaLength = (files) => {
+const getAllMediaDuration = (files) => {
   const taskList = [];
   let fileName = '';
   files.forEach(file => {
-    taskList.push(getMediaLength(file))
+    taskList.push(getMediaDuration(file))
   });
 
   return Promise.all(taskList);
 }
 
-const getMediaLength = (file) => {
+const getMediaDuration = (file) => {
   return new Promise((resolve, reject) => {
     let fileName = file.video;
     if (fileName.length === 0) {
@@ -165,11 +178,11 @@ const getMediaLength = (file) => {
 
 const createTempVideoFileName = (image, audio) => {
   let fileName = '';
-  if (image && image.length > 0) { 
+  if (image && image.length > 0) {
     fileName += path.basename(image).replace('.', '_').toString();
   }
   fileName += '__';
-  if (audio && audio.length > 0) { 
+  if (audio && audio.length > 0) {
     fileName += path.basename(audio).replace('.', '_').toString();
   }
   return fileName.concat('.mp4')
@@ -199,22 +212,24 @@ const createTempSceneVideos = (files) => {
 const createFileList = (story) => {
   const files = [];
   story.activity.data.forEach(data => {
-    const tmpFile = {};
-    let file;
-    if (data.image && data.image._id.length > 0) {
-      file = CourseFilesCollection.findOne({ _id: data.image._id});
-      tmpFile.image = file.path;
+    if (data.type !== 'end') {
+      const tmpFile = {};
+      let file;
+      if (data.image && data.image._id.length > 0) {
+        file = CourseFilesCollection.findOne({ _id: data.image._id });
+        tmpFile.image = file.path;
+      }
+      if (data.audio && data.audio._id.length > 0) {
+        file = CourseFilesCollection.findOne({ _id: data.audio._id });
+        tmpFile.audio = file.path;
+      }
+      if (data.video && data.video._id.length > 0) {
+        file = CourseFilesCollection.findOne({ _id: data.video._id });
+        tmpFile.video = file.path;
+      }
+      tmpFile.description = data.description;
+      files.push(tmpFile);
     }
-    if (data.audio && data.audio._id.length > 0) {
-      file = CourseFilesCollection.findOne({ _id: data.audio._id});
-      tmpFile.audio = file.path;
-    }
-    if (data.video && data.video._id.length > 0) {
-      file = CourseFilesCollection.findOne({ _id: data.video._id});
-      tmpFile.video = file.path;
-    }
-    tmpFile.description = data.description;
-    files.push(tmpFile);
   })
   return files;
 }
@@ -288,42 +303,3 @@ const mergeVideoFiles = (fileList, videoFileName) => {
     });
   })
 }
-
-
-// Processes input files and generates a merged video file.
-const processFiles = (fileList, mergedVideo) => {
-  let taskList = [];
-  fileList.forEach(item => {
-    taskList.push(mergeImageAndAudio(item.image, item.audio, item.video));
-  })
-  Promise
-    .all(taskList)
-    .then((values) => {
-      return mergeVideoFiles(values, mergedVideo)
-    })
-    .then(val => {
-      console.log('files merged');
-    })
-    .catch(err => console.log(err));
-}
-
-/*
-
-// Final video output
-const mergedVideoFileName = __dirname + '/data/tempVideo.avi';
-
-// Example data and process
-processFiles([
-  {
-    imageFileName: __dirname + '/data/kedi1.jpg',
-    audioFileName: __dirname + '/data/audio1.wav',
-    videoFileName: __dirname + '/data/tempVideo1.avi'
-  },
-  {
-    imageFileName: __dirname + '/data/kedi2.jpg',
-    audioFileName: __dirname + '/data/audio2.wav',
-    videoFileName: __dirname + '/data/tempVideo2.avi'
-  },
-], mergedVideoFileName)
-
-*/

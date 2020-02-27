@@ -147,25 +147,40 @@ export default class Stories extends React.Component {
     let story = myStories.find( story => story._id === _id );
     this.setState({
       downloadOpen: true
-    }, () => {
-      Meteor.call('saveAsVideo', _id, Meteor.userId(), (err, fileId) => {
-        let download = { ...this.state.download };
-        download.completed = true;
-        if (err) {
-          console.log(err);
-          download.success = false;
-        } else {
-          download.success = true;
-          //const file = CourseFilesCollection.findOne({ name: _id.toString() + '.mp4'});
-          const file = CourseFilesCollection.findOne({ _id: fileId });
-          download.link = file.link();
-          download.name = story.activity.name
-        }
-        this.setState({
-          download: download
-        });
-      })
     });
+
+    Meteor.call('saveAsVideo', _id, Meteor.userId(), (err, fileId) => {
+      let download = { ...this.state.download };
+      download.completed = true;
+      if (err) {
+        console.log(err);
+        download.success = false;
+      } else {
+        setTimeout(() => {
+          const file = this.getStoryVideo(fileId, _id);
+
+          if (file) {
+            download.success = true;
+            download.name = story.activity.name
+            download.link = file.link();          
+          } else {
+            download.success = false;
+          }
+          this.setState({
+            download: download
+          });
+        }, 100);
+      }
+
+    })    
+  }
+
+  getStoryVideo = (fileId, storyId) => {
+    let file = CourseFilesCollection.findOne({ _id: fileId });
+    if (!file) {
+      file = CourseFilesCollection.findOne({ name: storyId + '.mp4' });
+    }
+    return file;
   }
 
   handleDownloadClose = () => {
@@ -258,7 +273,7 @@ export default class Stories extends React.Component {
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.downloadStoryTelling}</DialogTitle>
           <DialogContent className="success-dialog-content">
             <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-              {this.state.dialogConfirmationContentText}
+              
             </DialogContentText>
             
             {this.state.download.completed ? 
