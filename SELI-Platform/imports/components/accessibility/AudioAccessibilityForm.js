@@ -71,6 +71,13 @@ export const useAudioDataField = (props) =>{
 	];
 	const [isA11Y, setIsA11Y] = React.useState(a11yInitial);
 
+	useEffect(() => {
+		if (props.item.dataField && props.item.isA11Y) {
+			setDataField(props.item.dataField);
+			setIsA11Y(props.item.isA11Y);
+		}
+	}, [])
+
 	//feedback
 	const [shortDescriptionTip, setShortDescriptionTip] = React.useState(props.shortDescription_a11y_tip);   
 	const [longDescriptionTip, setLongDescriptionTip] = React.useState(props.longDescription_a11y_tip);

@@ -17,7 +17,8 @@ import A11YProgressFeedback from './a11yProgressFeedback';
 import A11YLongDescription from './a11yLongDescription';
 import A11YShortDescription from './a11yShortDescription';
 import EditorA11Y from '../tools/a11yEditor';
-
+import FileUpload from '../files/FileUpload'
+import VideoPreview from '../files/previews/VideoPreview';
 import { makeStyles } from  '@material-ui/core/styles';
 
 export function VideoTextAltA11Y(props){
@@ -147,9 +148,34 @@ export function VideoMediaAudioDescriptioA11Y(props){
 		audioDescriptionTip,
 		audioDescriptionRequiredTip,
 	} = props.data;
+	const [showPreviewSignal, setshowPreviewSignal] = useState(false);
+	const [newAudioSignal, setnewAudioSignal] = useState(false);
 
-	function getFileInformation() {
-		console.log('yes');
+
+	const handleRadioButtonOnChange1 =handleRadioButtonOnChange
+
+	console.log("dataField",dataField)
+	console.log("audioDescriptionRequiredTip",audioDescriptionRequiredTip)
+	console.log("disabled_uploadAudioDesc",disabled_uploadAudioDesc)
+	console.log("disabled_necAudioDesc",disabled_necAudioDesc)
+
+	
+
+	const getFileInformationAudioDescription=(file)=>{
+		dataField.fileAudioDescription[0]=file
+		setshowPreviewSignal(true)
+		setnewAudioSignal(false)
+	}
+
+	const unPickFileSignal=()=>{
+		dataField.fileAudioDescription[0]=undefined
+		setnewAudioSignal(true)
+
+	  }
+	  const  noAudiofile=()=>{
+		dataField.fileAudioDescription[0]=undefined
+		setshowPreviewSignal(false)
+		return undefined
 	}
 
 	return(
@@ -164,7 +190,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 						name='audioDescription'
 						row
 						value={dataField.audioDescription}
-						onChange={React.useCallback(handleRadioButtonOnChange)}
+						onChange={handleRadioButtonOnChange1}
 					>
 						<FormControlLabel
 							id='audioDescr-yes'
@@ -187,50 +213,55 @@ export function VideoMediaAudioDescriptioA11Y(props){
 					</RadioGroup>
 					<AccessibilityHelp idName='audioDescr-radiogroup' error={dataField.audioDescriptionError} tip={audioDescriptionTip} />
 				</FormControl>
-			</Grid>
-			<Grid item>
-				<FormControl component='fieldset' disabled={disabled_necAudioDesc}>
-					<FormLabel component='legend' id='audioDescr-necessary-label'>{props.language.audioDescription_a11y_required}</FormLabel>
-					<RadioGroup
-						id='audioDescr-necessary-radiogroup'
-						aria-describedby='audioDescr-necessary-exp'
-						aria-labelledby='audioDescr-necessary-radiogroup-label'
-						name='audioDescriptionRequired'
-						value={dataField.audioDescriptionRequired}
-						onChange={React.useCallback(handleRadioButtonOnChange)}
-					row>
-						<FormControlLabel
-							id='audioDescr-necessary-yes'
-							name='audioDescriptionRequired'
-							label={props.language.yes}
-							value='yes'
-							control={<Radio color='primary' />}
-							labelPlacement='end'
-						/>
-						<FormControlLabel
-							id='audioDescr-necessary-no'
-							name='audioDescriptionRequired'
-							label={props.language.no}
-							value='no'
-							control={<Radio color='secondary' />}
-							labelPlacement='end'
-						/>
-					</RadioGroup>
-					<AccessibilityHelp idName='audioDescr-necessary-radiogroup' error={dataField.audioDescriptionError} tip={audioDescriptionRequiredTip} />
-				</FormControl>
-			</Grid>
-			<Grid item>
-				<AccessibilityFileUpload
-					type='audio'
-					user={Meteor.userId()}
-					accept={'audio/*'}
-					label={props.language.audioDescriptionUpload_button}
-					getFileInformation={getFileInformation.bind(this)}
-				/>
-			</Grid>
+
+				{//languages audio part
+					dataField.audioDescription === "yes"?
+					<div>
+						{ (dataField.fileAudioDescription[0]===undefined || newAudioSignal===true )?
+						<div className="uploadsignals">
+							<FileUpload
+                                type="audio"
+                                accept={'audio/*'}
+                                user={Meteor.userId()}
+                                label={"UPLOAD AUDIO DESCRIPTION*"}//label={this.props.language.uploadAudioButtonLabel}
+                                getFileInformation={getFileInformationAudioDescription}
+                              />
+						</div>
+						:
+						<div>
+							{
+								showPreviewSignal===true?
+								<div>
+									<div>
+									<VideoPreview
+										file={dataField.fileAudioDescription[0]}
+										unPickFile={unPickFileSignal}
+										language={props.language}
+									/>
+									</div>
+								</div>
+								:
+								<div>
+									<div>
+									<VideoPreview
+										file={dataField.fileAudioDescription[0]}
+										unPickFile={unPickFileSignal}
+										language={props.language}
+									/>
+									</div>
+								</div>
+							}
+						</div>
+						}
+					</div>	
+					:
+					noAudiofile
+				}
+			</Grid>		
 		</Grid>
 	);
 }
+
 
 export function VideoMediaSignLanguageA11Y(props){
 	const {
@@ -238,6 +269,32 @@ export function VideoMediaSignLanguageA11Y(props){
 		dataField,
 		signLanguageTip,
 	} = props.data;
+
+	const [showPreviewSignal, setshowPreviewSignal] = useState(false);
+	const [newVideoSignal, setnewVideoSignal] = useState(false);
+
+	const handleRadioButtonOnChange1 =handleRadioButtonOnChange
+	console.log("dataField",dataField)
+	console.log("signLanguageTip",signLanguageTip)
+	
+	const  getFileInformationsignal=(file)=>{
+		//console.log("File to upload", file)
+		dataField.fileVideoSignal[0]=file
+		setshowPreviewSignal(true)
+		setnewVideoSignal(false)
+	  }
+	const  noVideofile=()=>{
+		dataField.fileVideoSignal[0]=undefined
+		setshowPreviewSignal(false)
+		return undefined
+	}
+
+	const unPickFileSignal=()=>{
+		dataField.fileVideoSignal[0]=undefined
+		setnewVideoSignal(true)
+	
+		
+	  }
 
 	return(
 		<Grid item id='signLang-container' role='grid'>
@@ -250,7 +307,7 @@ export function VideoMediaSignLanguageA11Y(props){
 					name='signLanguage'
 					row
 					value={dataField.signLanguage}
-					onChange={handleRadioButtonOnChange}
+					onChange={handleRadioButtonOnChange1}
 					aria-describedby='signLang-exp'
 					row>
 					<FormControlLabel
@@ -272,6 +329,55 @@ export function VideoMediaSignLanguageA11Y(props){
 				</RadioGroup>
 				<AccessibilityHelp idName='signLang-radiogroup' error={dataField.signLanguageError} tip={signLanguageTip} />
 			</FormControl>
+			
+			
+			
+			 {//languages signal part
+
+				(dataField.signLanguage=== "yes" || newVideoSignal===true )?
+				<div>
+					{dataField.fileVideoSignal[0]===undefined?
+					<div className="uploadsignals">
+						<FileUpload
+						type="video"
+						user={Meteor.userId()}
+						accept={'video/*'}
+						label={"traduction*"}
+						getFileInformation={getFileInformationsignal}
+						/>
+					</div>
+					:
+					<div>
+						{
+							showPreviewSignal===true?
+							<div>
+								<div>
+								<VideoPreview
+									file={dataField.fileVideoSignal[0]}
+									unPickFile={unPickFileSignal}
+									language={props.language}
+								/>
+								</div>
+							</div>
+							:
+							<div>
+								<div>
+								<VideoPreview
+									file={dataField.fileVideoSignal[0]}
+									unPickFile={unPickFileSignal}
+									language={props.language}
+								/>
+								</div>
+							</div>
+						}
+					</div>
+					}
+				</div>	
+				:
+				noVideofile
+			}		
+					
+			
 		</Grid>
 	);
 }
@@ -337,6 +443,8 @@ export default function VideoA11Y(props){
 		disabled_uploadAudioDesc,
 		isA11Y,
 	} = useDataField();
+
+
 	/*
 		function getTranscriptionFileInfo(fileInformation){
 			// setState({
@@ -445,6 +553,8 @@ export const useDataField = (props) => {
 		shortDescription:'',
 		fileTranscription: [],
 		fileAudioDescription: [],
+		fileVideoSignal:[],
+		hasVideoSignalFile: false,
 		//error states
 		shortDescriptionError : true,
 		longDescriptionError : true,
@@ -475,6 +585,13 @@ export const useDataField = (props) => {
 		{name: 'audioDescription', is_a11y: false},
 		{name: 'signLanguage', is_a11y: false},
 	];
+
+	useEffect(() => {
+		if (props.item.dataField && props.item.isA11Y) {
+			setDataField(props.item.dataField);
+			setIsA11Y(props.item.isA11Y);
+		}
+	}, [])
 
 	const [isA11Y, setIsA11Y] = React.useState(a11yInitial);
 
@@ -516,6 +633,8 @@ export const useDataField = (props) => {
 		let data = {
 			[name]: value,
 		};
+
+		console.log("en la funcion handleRadioButtonOnChange", "name" ,name, "value",value)
 
 		if(name === 'audioDescription')
 		{

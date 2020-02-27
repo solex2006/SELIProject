@@ -61,11 +61,8 @@ export default class SignInForm extends React.Component {
         this.setState({
           user: Meteor.user(),
         }, () => {
-          if (this.state.user.profile.type === 'tutor') {
-            this.props.history.push("/tutor");
-          }
-          else if (this.state.user.profile.type === 'student') {
-            this.props.history.push("/student");
+          if (this.state.user.profile.type === 'tutor' || this.state.user.profile.type === 'student') {
+            this.props.history.push("/user");
           }
           else if (this.state.user.profile.type === 'administrator') {
             this.props.history.push("/administrator");

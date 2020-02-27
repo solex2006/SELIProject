@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -12,8 +11,7 @@ import { createBrowserHistory } from 'history';
 import { Tracker } from 'meteor/tracker';
 
 import Home from '../imports/ui/Home';
-import Tutor from '../imports/ui/Tutor';
-import Student from '../imports/ui/Student';
+import User from '../imports/ui/User';
 import Administrator from '../imports/ui/Administrator';
 import UserRegistration from '../imports/ui/UserRegistration';
 import RetrievePasswd from '../imports/ui/RetrievePasswd';
@@ -40,8 +38,7 @@ Meteor.startup(() => {
     <Router  history={history}>
       <Switch >
         <Route exact path="/" component={Home} history={history}/>
-        <Route exact path="/tutor" component={Tutor} history={history}/>
-        <Route exact path="/student" component={Student} history={history}/>
+        <Route exact path="/user" component={User} history={history}/>
         <Route exact path="/administrator" component={Administrator} history={history}/>
         <Route exact path="/UserRegistration" component={UserRegistration} history={history}/>
         <Route exact path="/RetrievePasswd" component={RetrievePasswd} history={history}/>

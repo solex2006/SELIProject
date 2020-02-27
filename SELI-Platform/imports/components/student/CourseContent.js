@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import ImageItem from './items/ImageItem'
 import AudioItem from './items/AudioItem'
 import TextItem from './items/TextItem'
@@ -11,17 +10,18 @@ import LinkItem from './items/LinkItem'
 import PdfItem from './items/PdfItem'
 import QuizItem from './items/QuizItem'
 import VideoItem from './items/VideoItem'
-
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
-
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+
+
+
 
 export default class CourseContent extends React.Component {
   constructor(props) {

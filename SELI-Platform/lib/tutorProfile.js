@@ -1,6 +1,27 @@
 var OPTIONS = [
   {
     label: [
+      "Dashboard",
+      "Dashboard",
+      "Dashboard",
+      "",
+      "Dashboard",
+    ],
+    suboptions: [
+      {
+        label: [
+          "Test",
+          "Test",
+          "Test",
+          "",
+          "Test",
+        ],
+        component: 'dashboard',
+      }
+    ]
+  },
+  {
+    label: [
       "My courses",
       "Mis cursos",
       "Meus cursos",
@@ -37,6 +58,26 @@ var OPTIONS = [
           "Kaydedilen dersler",
         ],
         component: 'saved',
+      },
+      {
+        label: [
+          "Suscribed courses",
+          "Cursos Inscritos",
+          "Cursos inscritos",
+          "",
+          "Takip edilen derslerim",
+        ],
+        component: 'subscribed',
+      },
+      {
+        label: [
+          "SELI courses",
+          "Cursos SELI",
+          "Cursos SELI",
+          "",
+          "SELI Dersleri"
+        ],
+        component: 'courses',
       },
     ],
   },

@@ -114,6 +114,7 @@ export default class AudioForm extends React.Component {
       showGallery: false,
     });
   }
+  
   getFileInformationVideo(file){
     console.log("filevideo", file)
     let attributes = this.state.attributes;
@@ -198,6 +199,8 @@ export default class AudioForm extends React.Component {
                       </Tabs>
                     </Paper>
                   </div>
+
+                  
                   {
                     this.state.attributes.source === "upload" && !this.state.showGallery ?
                       <div className="library-button-container">

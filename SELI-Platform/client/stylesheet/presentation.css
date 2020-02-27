@@ -150,13 +150,13 @@
 }
 
 .swiper-button-next {
-  background-image: url(next-f2.svg) !important;
+  /* background-image: url(next-f2.svg) !important; */
   margin-right: 1vw !important;
 }
 
 .swiper-button-prev {
-  background-image: url(previous-f2.svg) !important;
-  margin-right: 1vw !important;
+  /* background-image: url(previous-f2.svg) !important; */
+  margin-left: 1vw !important;
 }
 
 .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {

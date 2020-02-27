@@ -40,9 +40,11 @@ export default class StorytellingScene extends React.Component {
             {`${this.props.node.name}`}
           </p>
           <Paper
+            tabIndex="0"
             elevation={8}
             className="storytelling-item-node-scene"
             onClick={() => this.props.selectNode(this.props.index)}
+            onKeyDown={() => this.props.selectNode(this.props.index)}
           ></Paper>
           <div className="storytelling-item-actions">
             <Tooltip

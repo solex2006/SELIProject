@@ -37,9 +37,11 @@ export default class StorytellingEnd extends React.Component {
             {`${this.props.node.name}`}
           </p>
           <Paper
+            tabIndex="0"
             elevation={8}
             className="storytelling-item-node-end"
             onClick={() => this.props.selectNode(this.props.index)}
+            onKeyDown={() => this.props.selectNode(this.props.index)}
           ></Paper>
           <div className="storytelling-selected-empty-container"></div>
           <div className="storytelling-selected-empty-container"></div>

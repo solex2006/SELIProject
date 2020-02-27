@@ -7,6 +7,7 @@ import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
+
 export default class VideoPreview extends React.Component {
   constructor(props) {
     super(props);
@@ -20,8 +21,16 @@ export default class VideoPreview extends React.Component {
     this.setState({
       nameWithoutExtension: true,
     });
-    file.name = file.name.toString().split('.');
-    file.name = file.name[0];
+    
+    if(file===null){
+      console.log("sdfsdf",file)
+      //file.name = '';
+    }
+    else{
+      file.name = file.name.toString().split('.');
+      file.name = file.name[0];
+  }
+    
   }
 
   delete(){
@@ -41,9 +50,16 @@ export default class VideoPreview extends React.Component {
   render() {
     return(
         <div className="file-preview-container">
-          <video controls id="video-preview-information" className="file-preview-information">
-            <source src={this.props.file.link}></source>
-          </video>
+          {
+            this.props.file!=null?
+              <video controls id="video-preview-information" className="file-preview-information">
+                <source src={this.props.file.link}></source>
+              </video>
+            :
+            undefined
+          }
+         
+          
           <div className="file-preview-actions">
             <Tooltip title={this.props.language.open} placement="left">
               <IconButton onClick={() => this.open()} color="secondary" aria-label="open">

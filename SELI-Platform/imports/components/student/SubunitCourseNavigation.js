@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect  } from 'react';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,6 +10,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import RemoveIcon from '@material-ui/icons/Remove';
 
+
 export default function SubunitCourseNavigation(props) {
   const [open, setOpen] = React.useState(true);
 
@@ -17,10 +18,31 @@ export default function SubunitCourseNavigation(props) {
     setOpen(!open);
   }
 
-  function selectSubunit(index, parentIndex) {
+  const selectSubunit= (index, parentIndex)=> {
     props.navigateTo("subunit", [index, parentIndex]);
     props.closeDrawer();
   }
+
+
+
+
+  const clickKey = (event,index)=> {
+    console.log("evento", event.key)
+    if(event.key==="Enter"){
+      if (props.navigate===true) { 
+        selectSubunit(index, props.index) 
+     }
+    } 
+  };
+
+  const handleToggle = (value,index) => () => {
+  
+   if (props.navigate===true) { 
+      selectSubunit(index, props.index) 
+   }
+     
+  };
+
 
   return(
     <div>
@@ -44,17 +66,18 @@ export default function SubunitCourseNavigation(props) {
       <Collapse in={open} timeout="auto" unmountOnExit>
         {props.unit.lessons.map((lesson, index) => {
           return(
-            <List onClick={props.navigate ? () => selectSubunit(index, props.index) : undefined} dense className="course-navigation-sublist" component="div" disablePadding>
-              <ListItem selected={index === props.selected[0] && props.index === props.selected[1] && props.navigate} className="course-navigation-sublist-item" button>
-                <ListItemIcon className="course-navigation-sublist-item-icon">
-                  <RemoveIcon className="course-navigation-sublist-icon"/>
-                </ListItemIcon>
-                <ListItemText
-                  className="course-navigation-sublist-item-text"
-                  primary={`${props.lessonLabel} ${index + 1}: ${lesson.name}`}
-                />
-              </ListItem>
-            </List>
+              <List onClick={handleToggle(lesson,index)} onKeyDown={(e) => {clickKey(e, index)}} tabIndex="0" dense className="course-navigation-sublist" key={Math.random()} role={undefined}>
+                <ListItem   onselected={index === props.selected[0] && props.index === props.selected[1] && props.navigate} className="course-navigation-sublist-item" button>
+                  <ListItemIcon className="course-navigation-sublist-item-icon">
+                    <RemoveIcon className="course-navigation-sublist-icon"/>
+                  </ListItemIcon>
+                  <ListItemText
+                    className="course-navigation-sublist-item-text"
+                    primary={`${props.lessonLabel} ${index + 1}: ${lesson.name}`}
+                  />
+                </ListItem>
+              </List>
+           
           )
         })}
       </Collapse>

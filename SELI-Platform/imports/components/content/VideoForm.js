@@ -18,6 +18,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Switch from '@material-ui/core/Switch';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab'
+import AudioPreview from '../files/previews/AudioPreview';
+import AudioRecorder from '../tools/AudioRecorder';
+
 
 export default class VideoForm extends React.Component {
   constructor(props) {
@@ -25,6 +28,7 @@ export default class VideoForm extends React.Component {
     this.state = {
       showLibrary: false,
       attributes: {
+        audio:undefined,
         video: undefined,
         videosignal:undefined,
         source: 'upload',
@@ -101,6 +105,18 @@ export default class VideoForm extends React.Component {
     });
   }
 
+  getFileInformationAudioDescription(file){
+   
+    let attributes = this.state.attributes;
+    attributes.audio = file;
+    
+    this.setState({
+      attributes: attributes,
+      showPreviewAudioDescription: true,
+      showGalleryAudioDescription: false,
+    });
+  }
+
   getFileInformationsignal(file){
     let attributes = this.state.attributes;
     attributes.videosignal = file;
@@ -128,6 +144,14 @@ export default class VideoForm extends React.Component {
     });
   }
 
+  unPickFileAudioDescription(){
+    let attributes = this.state.attributes;
+    attributes.audio = undefined;
+    this.setState({
+      showPreviewAudioDescription: false,
+      attributes: attributes,
+    })
+  }
   showLibrary(){
     this.setState({
       showGallery: true,
@@ -191,6 +215,7 @@ export default class VideoForm extends React.Component {
     });
   }
 
+  
   componentDidMount(){
     this.props.getVideoAttributesFunction(() => this.getVideoAttributes());
   }
@@ -204,6 +229,7 @@ export default class VideoForm extends React.Component {
           this.setState({
             showPreview: true,
             showPreviewSignal: true,
+            showPreviewAudioDescription: true,
           })
         }
         else {
@@ -254,49 +280,7 @@ export default class VideoForm extends React.Component {
                     :
                     undefined
                   }
-
-
-                  
                   <div className="form-column-container">
-                  {//languages signal part
-                      !this.state.showPreviewSignal ?
-                        <div>
-                          {
-                            this.state.attributes.source === "upload" ?
-                              <div className="uploadsignals">
-                                <FileUpload
-                                  type="video"
-                                  user={Meteor.userId()}
-                                  accept={'video/*'}
-                                  label={"traduction*"}
-                                  getFileInformation={this.getFileInformationsignal.bind(this)}
-                                />
-                              </div>
-                              
-                            :
-                              <div>
-                                {
-                                  this.state.validUrl ?
-                                    <ReactPlayer className="course-creator-preview-player" url={this.state.url}/>
-                                  :
-                                    undefined
-                                }
-                               
-                              </div>
-                          }
-                        </div>
-                      :
-                        <div>
-                          <div>
-                            <VideoPreview
-                              file={this.state.attributes.videosignal}
-                              unPickFile={this.unPickFileSignal.bind(this)}
-                              language={this.props.language}
-                            />
-                          </div>
-                        </div>
-                    }
-
                     {
                       !this.state.showPreview ?
                         <div>
