@@ -1,2 +1,2 @@
 #!/bin/bash
-meteor --settings .deploy/settings.json
+meteor --port 3002 --settings .deploy/settings.json
