@@ -864,11 +864,11 @@ var SPANISH = {
   questionpublishstory004: "Nombre de usuario del propietario de la historia digital",
   questionpublishstory005: "Nombre completo del propietario de la historia digital",
   reply: "Responder",
-  week:'weeks',
-  downloadStoryTelling: 'Download StoryTelling',
-  downloadVideoDesc: 'You may download the video from the link below',
-  downloadVideoError: 'An error occured while processing video',
-  downloadVideoState: 'Preparing video'
+  week: 'Semanas',
+  downloadStoryTelling: 'Descargar narración digital',
+  downloadVideoDesc: 'Puede descargar el video desde el siguiente enlace', 
+  downloadVideoError: 'Se produjo un error al procesar el video', 
+  downloadVideoState: 'Preparando video, por favor espere'
 }
 export default SPANISH
 
