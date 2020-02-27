@@ -21,6 +21,7 @@ import Fab from '@material-ui/core/Fab'
 import AudioPreview from '../files/previews/AudioPreview';
 import AudioRecorder from '../tools/AudioRecorder';
 
+
 export default class VideoForm extends React.Component {
   constructor(props) {
     super(props);
@@ -279,84 +280,7 @@ export default class VideoForm extends React.Component {
                     :
                     undefined
                   }
-
-
-                  
                   <div className="form-column-container">
-                  {//languages signal part
-                      !this.state.showPreviewSignal ?
-                        <div>
-                          {
-                            this.state.attributes.source === "upload" ?
-                              <div className="uploadsignals">
-                                <FileUpload
-                                  type="video"
-                                  user={Meteor.userId()}
-                                  accept={'video/*'}
-                                  label={"traduction*"}
-                                  getFileInformation={this.getFileInformationsignal.bind(this)}
-                                />
-                              </div>
-                            :
-                              <div>
-                                {
-                                  this.state.validUrl ?
-                                    <ReactPlayer className="course-creator-preview-player" url={this.state.url}/>
-                                  :
-                                    undefined
-                                }
-                              </div>
-                          }
-                        </div>
-                      :
-                        <div>
-                          <div>
-                            <VideoPreview
-                              file={this.state.attributes.videosignal}
-                              unPickFile={this.unPickFileSignal.bind(this)}
-                              language={this.props.language}
-                            />
-                          </div>
-                        </div>
-                    }
-
-
-                   }
-
-
-
-                  <div className="form-column-container">
-                    {//FOR AUDIODESCRIPTION
-                      !this.state.showPreviewAudioDescription ?
-                        <div>
-                          {
-                            this.state.attributes.source === 'upload' ?
-                              <FileUpload
-                                type="audio"
-                                accept={'audio/*'}
-                                user={Meteor.userId()}
-                                label={this.props.language.uploadAudioButtonLabel}
-                                getFileInformation={this.getFileInformationAudioDescription.bind(this)}
-                              />
-                            :
-                            <AudioRecorder
-                              getFileInformation={this.getFileInformationAudioDescription.bind(this)}
-                              language={this.props.language}
-                            />
-                          }
-                        </div>
-                      :
-                      <AudioPreview
-                        file={this.state.attributes.audio}
-                        unPickFile={this.unPickFile.bind(this)}
-                        language={this.props.language}
-                      />
-                    }
-                  </div>
-
-
-
-
                     {
                       !this.state.showPreview ?
                         <div>

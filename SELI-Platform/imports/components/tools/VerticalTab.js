@@ -65,6 +65,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
+
 export const useData = (language, type, item) => {
 	if(type === 'video')
 		return useDataField({language, item});
@@ -76,6 +77,8 @@ export const useData = (language, type, item) => {
 		isA11Y: [],
 	};
 };
+
+
 
 export default function VerticalTabs(props) {
 	const classes = useStyles();
@@ -214,6 +217,11 @@ export default function VerticalTabs(props) {
 						: undefined
 					}
 				</Tabs>
+
+
+
+
+
 				<div className="accessibility-form-side-container">
 					<TabPanel value={value} index={indexPanel++}>
 						{
@@ -244,8 +252,12 @@ export default function VerticalTabs(props) {
 						}
 					</TabPanel>
 
+
+
 					<TabPanel value={value} index={indexPanel++}>
 					</TabPanel>
+
+					
 					{
 						props.contentTypeAdded === 'image' &&
 						<React.Fragment>
@@ -318,6 +330,8 @@ export default function VerticalTabs(props) {
 								}}
 								language={props.language}/>
 							</TabPanel>
+
+							
 							<TabPanel value={value} index={indexPanel++}>
 								<VideoMediaAudioDescriptioA11Y data={{
 									handleRadioButtonOnChange: data.handleRadioButtonOnChange,
@@ -329,6 +343,8 @@ export default function VerticalTabs(props) {
 								}}
 								language={props.language}/>
 							</TabPanel>
+
+
 							<TabPanel value={value} index={indexPanel++}>
 								<VideoMediaSignLanguageA11Y data={{
 									handleRadioButtonOnChange: data.handleRadioButtonOnChange,
@@ -337,6 +353,8 @@ export default function VerticalTabs(props) {
 								}}
 								language={props.language}/>
 							</TabPanel>
+
+
 							<TabPanel value={value} index={indexPanel++}>
 								<VideoOthersA11Y data={{
 									handleRadioButtonOnChange: data.handleRadioButtonOnChange,
@@ -344,7 +362,7 @@ export default function VerticalTabs(props) {
 									seizuresTip: data.seizuresTip
 								}}
 								language={props.language}/>
-							</TabPanel>
+							</TabPanel> *
 						</React.Fragment>
 					}
 					<TabPanel value={value} index={indexPanel++}>

@@ -29,6 +29,7 @@ import {validateOnlyLetters, validateOnlyNumbers} from '../../lib/textFieldValid
 
 import {noSpecialCharacters} from '../../lib/textFieldValidations';
 
+
 export default class UserInformation extends React.Component {
   constructor(props) {
     super(props);
@@ -261,6 +262,7 @@ export default class UserInformation extends React.Component {
   componentWillUnmount(){
 
   }
+
 
   render() {
     return(
@@ -515,6 +517,7 @@ export default class UserInformation extends React.Component {
                         accept={this.state.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
                         label={this.props.language.uploadImageButtonLabel}
+                        
                       />
                     </div>
                   }

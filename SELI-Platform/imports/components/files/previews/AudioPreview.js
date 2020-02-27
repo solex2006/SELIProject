@@ -21,8 +21,14 @@ export default class AudioPreview extends React.Component {
     this.setState({
       nameWithoutExtension: true,
     });
-    file.name = file.name.toString().split('.');
-    file.name = file.name[0];
+    if(typeof file===null){
+      //file.name = '';
+      console.log("sdfsdf",file)
+    }
+    else{
+      file.name = file.name.toString().split('.');
+      file.name = file.name[0];
+  }
   }
 
   delete(){
@@ -42,9 +48,15 @@ export default class AudioPreview extends React.Component {
   render() {
     return(
         <div className="file-preview-container">
-          <div className="audio-file-preview">
-            <AudioPlayer volume src={this.props.file.link}/>
-          </div>
+          {
+            this.props.file!=null?
+              <div className="audio-file-preview">
+                <AudioPlayer volume src={this.props.file.link}/>
+              </div>
+            :
+            undefined
+          }
+         
           <div className="file-preview-actions">
             <Tooltip title={this.props.language.open} placement="left">
               <IconButton onClick={() => this.open()} color="secondary" aria-label="open">

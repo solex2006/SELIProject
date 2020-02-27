@@ -1,11 +1,8 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,9 +10,16 @@ const useStyles = makeStyles(theme => ({
     color: 'var(--white)',
     backgroundColor: 'var(--app-bar-color)'
   },
+  menu: {
+    width: 'auto',
+    color: 'var(--black)',
+    backgroundColor: '#B7BDC2',
+    padding: '0 1vw' ,
+   transition: '0.5s' ,
+  }
 }));
 
-export default function LanguageSelector(props) {
+export default function SimpleMenu(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(Session.get('language').languageIndex);
@@ -48,7 +52,7 @@ export default function LanguageSelector(props) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMenuItemClick = (event, index, option) => {
+  const handleMenuItemClick = (index, option) => {
     setSelectedIndex(index);
     setAnchorEl(null);
     props.setLanguage(option);
@@ -60,32 +64,86 @@ export default function LanguageSelector(props) {
 
   return (
     <div className={classes.root}>
-      <Button id="language-selector-button" onClick={handleClickListItem}>
+      <Button id="language-selector-button" onClick={handleClickListItem}  aria-controls="simple-menu" aria-haspopup="true">
         {labels[props.language.languageIndex]}
-        <ArrowDropDownIcon className="language-selector-icon"/>
+        
       </Button>
       <Menu
-        id="lock-menu"
+        className="Menu-mainp"
+        id="simple-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        className="language-selector-menu"
       >
-        <p className="language-selector-title">{props.language.selectYourLanguage}</p>
-        <Divider/>
-        {options.map((option, index) => (
-          <MenuItem
-            className="language-selector-menu-item"
-            key={option}
-            selected={index === selectedIndex}
-            onClick={event => handleMenuItemClick(event, index, option)}
-            disabled={option !== 'English (US)' && option !== 'Spanish (ES)' && option !== 'Portuguese (PT)' && option !== 'Turkish (TR)'}
+         <MenuItem
+            className={classes.menu}
+            disableGutters={false}
+            key='English (US)'
+            selected={0 === selectedIndex}
+            onClick={event => handleMenuItemClick( 0, 'English (US)')}   
           >
-            {languages[index]}
+            {languages[0]}
           </MenuItem>
-        ))}
+          <MenuItem
+            className={classes.menu}
+            disableGutters={false}
+            key='Spanish (ES)'
+            selected={1 === selectedIndex}
+            onClick={event => handleMenuItemClick( 1, 'Spanish (ES)')}    
+          >
+            {languages[1]}
+          </MenuItem>
+          <MenuItem
+            className={classes.menu}
+            disableGutters={false}
+            key='Portuguese (PT)'
+            selected={2 === selectedIndex}
+            onClick={event => handleMenuItemClick( 2, 'Portuguese (PT)')}    
+          >
+            {languages[2]}
+          </MenuItem>
+          <MenuItem
+            className={classes.menu}
+            key='Polish (PL)'
+            selected={3 === selectedIndex}
+            onClick={event => handleMenuItemClick( 3, 'Polish (PL)')}    
+          >
+            {languages[3]}
+          </MenuItem>
+          <MenuItem
+            className={classes.menu}
+            key='Turkish (TR)'
+            selected={4 === selectedIndex}
+            onClick={event => handleMenuItemClick( 4, 'Turkish (TR)')}    
+          >
+            {languages[4]}
+          </MenuItem>
       </Menu>
     </div>
   );
 }
+
+
+{/* <Menu
+id="lock-menu"
+anchorEl={anchorEl}
+keepMounted
+open={Boolean(anchorEl)}
+onClose={handleClose}
+className="language-selector-menu"
+>
+<p className="language-selector-title">{props.language.selectYourLanguage}</p>
+<Divider/>
+{options.map((option, index) => (
+  <MenuItem
+    className="language-selector-menu-item"
+    key={option}
+    selected={index === selectedIndex}
+    onClick={event => handleMenuItemClick( index, option)}
+    disabled={option !== 'English (US)' && option !== 'Spanish (ES)' && option !== 'Portuguese (PT)' && option !== 'Turkish (TR)'}
+  >
+    {languages[index]}
+  </MenuItem>
+))}
+</Menu> */}

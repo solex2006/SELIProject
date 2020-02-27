@@ -161,6 +161,12 @@ class FileUpload extends Component {
       console.log('enter press here! ')
     }
   }
+
+  triggerInputFile = () => {
+    //console.log("FILEINPUT",this.refs)
+    this.refs["fileinput" + this.props.type].click();
+    //this.fileInput.click()
+  }
   render() {
     debug("Rendering FileUpload",this.props.docsReadyYet);
     if (this.props.files && this.props.docsReadyYet) {
@@ -172,9 +178,9 @@ class FileUpload extends Component {
                 <div class="upload-btn-wrapper center-row">
                   {
                     this.props.color ?
-                      <Button  id="da" className="sign-button" color={this.props.color} variant="outlined">{this.props.label}</Button>
+                      <Button onClick={this.triggerInputFile} id="da" className="sign-button" color={this.props.color} variant="outlined">{this.props.label}</Button>
                     :
-                      <Button  id="da" className="sign-button" color="secondary" variant="outlined">{this.props.label}</Button>
+                      <Button onClick={this.triggerInputFile} id="da" className="sign-button" color="secondary" variant="outlined">{this.props.label}</Button>
                   }
                   <input className="upload-btn-wrapper" 
                     tabIndex="0"

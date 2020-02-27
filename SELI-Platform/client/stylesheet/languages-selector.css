@@ -55,3 +55,14 @@
   background-color: var(--app-bar-color) !important;
   color: var(--white) !important;
 }
+
+.MuiPaper-root{
+ background-color:#F8F9FA !important;
+}
+.MuiButtonBase-root:hover {
+  background-color:#8D9194 !important;
+}
+
+.MuiMenu-list{
+background-color: #B7BDC2 !important;
+}
