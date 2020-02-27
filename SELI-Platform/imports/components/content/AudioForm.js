@@ -245,25 +245,6 @@ export default class AudioForm extends React.Component {
 
 
 
-
-
-
-{/* 
-                  <div className="form-column-container">
-                    {
-                        <div> 
-                          <FileUpload
-                            type="video"
-                            accept={'video/*'}
-                            user={Meteor.userId()}
-                            label={"Sign language"}
-                            getFileInformation={this.getFileInformationVideo.bind(this)}
-                          />
-                        </div>
-                    } 
-                  </div>*/}
-
-
                 </div>
                 <div className="course-creator-form-column">
                   <div className="course-creator-input-container">
