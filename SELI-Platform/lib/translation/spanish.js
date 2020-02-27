@@ -868,6 +868,10 @@ var SPANISH = {
   selectYourBadgeImage: "Selecciona tu emblema",
   verifyBadge: "Verificar emblema",
   badgeVerification: "Verificacion del emblema",
+  downloadStoryTelling: 'Download StoryTelling',
+  downloadVideoDesc: 'You may download the video from the link below',
+  downloadVideoError: 'An error occured while processing video',
+  downloadVideoState: 'Preparing video',
 }
 export default SPANISH
 

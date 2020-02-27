@@ -868,5 +868,9 @@ var PORTUGUESE = {
   selectYourBadgeImage: "Select your badge image",
   verifyBadge: "Verify the badge",
   badgeVerification: "Badge verification",
+  downloadStoryTelling: 'Download StoryTelling',
+  downloadVideoDesc: 'You may download the video from the link below',
+  downloadVideoError: 'An error occured while processing video',
+  downloadVideoState: 'Preparing video'
 }
 export default PORTUGUESE;

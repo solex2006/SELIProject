@@ -27,6 +27,7 @@
     "draft-js-export-html": "^1.4.1",
     "email-deep-validator": "^3.3.0",
     "firebase": "^7.8.1",
+    "fluent-ffmpeg": "^2.1.2",
     "jsonwebtoken": "^8.5.1",
     "material-ui": "^0.20.2",
     "material-ui-audio-player": "^1.0.6",

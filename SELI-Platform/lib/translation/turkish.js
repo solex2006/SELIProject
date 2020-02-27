@@ -868,5 +868,9 @@ var TURKISH = {
   selectYourBadgeImage: "Select your badge image",
   verifyBadge: "Verify the badge",
   badgeVerification: "Badge verification",
+  downloadStoryTelling: 'Dijital Hikaye İndir',
+  downloadVideoDesc: 'Videoyu aşağıdaki linkden indirebilirsiniz',
+  downloadVideoError: 'Video hazırlanırken hata oluştu',
+  downloadVideoState: 'Video hazırlanıyor, lütfen bekleyiniz',
 }
 export default TURKISH;

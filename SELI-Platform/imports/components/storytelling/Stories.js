@@ -9,6 +9,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WarningIcon from '@material-ui/icons/Warning';
 import InfoIcon from '@material-ui/icons/Info';
+import DownloadIcon from "@material-ui/icons/CloudDownload";
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -16,6 +17,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CourseFilesCollection from "../../../lib/CourseFilesCollection";
 
 export default class Stories extends React.Component {
   constructor(props) {
@@ -23,6 +25,12 @@ export default class Stories extends React.Component {
     this.state = {
       myStories: [],
       loading: true,
+      download: {
+        completed: false,
+        success: false,
+        link: ''
+      },
+      downloadOpen: false,
     }
   }
 
@@ -107,6 +115,7 @@ export default class Stories extends React.Component {
     let menuOptions = [
       {label: this.props.language.openInEditor, icon: <EditIcon/>, action: this.edit.bind(this)},
       {label: this.props.language.delete , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
+      {label: this.props.language.download , icon: <DownloadIcon/>, action: this.showDownloadForm.bind(this)},
     ];
     myStories.map(story => {
       tableData.push({name: story.activity.name, date: story.activity.date.toLocaleDateString('en-US'), _id: story._id})
@@ -131,6 +140,59 @@ export default class Stories extends React.Component {
   };
 
   setSelected(){}
+
+  // Download Video
+  showDownloadForm = (_id) => {
+    let myStories = this.state.myStories;
+    let story = myStories.find( story => story._id === _id );
+    this.setState({
+      downloadOpen: true
+    });
+
+    Meteor.call('saveAsVideo', _id, Meteor.userId(), (err, fileId) => {
+      let download = { ...this.state.download };
+      download.completed = true;
+      if (err) {
+        console.log(err);
+        download.success = false;
+      } else {
+        setTimeout(() => {
+          const file = this.getStoryVideo(fileId, _id);
+
+          if (file) {
+            download.success = true;
+            download.name = story.activity.name
+            download.link = file.link();          
+          } else {
+            download.success = false;
+          }
+          this.setState({
+            download: download
+          });
+        }, 100);
+      }
+
+    })    
+  }
+
+  getStoryVideo = (fileId, storyId) => {
+    let file = CourseFilesCollection.findOne({ _id: fileId });
+    if (!file) {
+      file = CourseFilesCollection.findOne({ name: storyId + '.mp4' });
+    }
+    return file;
+  }
+
+  handleDownloadClose = () => {
+    this.setState({
+      downloadOpen: false,
+      download: {
+        completed: false,
+        success: false,
+        link: ''
+      }
+    });
+  }
 
   render() {
     return(
@@ -199,6 +261,37 @@ export default class Stories extends React.Component {
             </Button>
             <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
               {this.props.language.confirm}
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.downloadOpen}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+        >
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.downloadStoryTelling}</DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+              
+            </DialogContentText>
+            
+            {this.state.download.completed ? 
+              <div>
+                <div>{this.props.language.downloadVideoDesc}</div>
+                {this.state.download.success ?
+                <p><a href={this.state.download.link} target="_blank" download>{this.state.download.name}</a></p>
+                : 
+                  <div>{this.props.language.downloadVideoError}</div>
+                }
+              </div>
+            :
+              <div>{this.props.language.downloadVideoState}</div>
+            }
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleDownloadClose()} color="primary" autoFocus>
+              {this.props.language.close_button}
             </Button>
           </DialogActions>
         </Dialog>
