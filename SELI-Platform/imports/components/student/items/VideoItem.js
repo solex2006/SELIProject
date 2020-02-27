@@ -38,22 +38,22 @@ export default class VideoItem extends React.Component {
 
   checkbox=(event, name)=>{
     console.log("event and name", event, name)
-    if(event===true && name==='checkedA'){//Videosignal
+    if(event===true && name==='signLanguage'){//Videosignal
       this.setState({
         signalShow:"signalShow"
       })
     }
-    else if(event===true && name==='checkedB'){//AudioDescription
+    else if(event===true && name==='audioDescription'){//AudioDescription
       this.setState({
         signalShowAudioDescription:"signalShowAudioDescription"
       })
-    }else if(event===false && name==='checkedA'){
+    }else if(event===false && name==='signLanguage'){
       this.setState({
         signalShow:'nosignalShow',
         autoplay:false
       })
     }
-    else if(event===false && name==='checkedB'){
+    else if(event===false && name==='audioDescription'){
       this.setState({
         signalShowAudioDescription:'nosignalShowAudioDescription',
         autoplay:false
@@ -62,40 +62,100 @@ export default class VideoItem extends React.Component {
   }
 
   render() {
-    console.log("ATRIBUTOS", this.props.item.attributes)
+ //   console.log("ATRIBUTOS", this.props.item.attributes,this.props.item.attributes.accessibility.dataField.fileVideoSignal[0].link)
     return(
       <div className="content-box">
         <div className="image-content-item">
           <Card className="course-item-video-card2">
             <CardActionArea className="course-item-video-card-media-action-area">
                  <VideoPreview file={this.props.item.attributes.video} className="videoPreview"/>
-                  <div className="checkboxstyle">
-                    <CheckboxLabels
-                      language={this.props.language}
-                      checkbox={this.checkbox}
-                    />
-                  </div>
 
-                  {//For Audio description
-                    this.state.signalShowAudioDescription==='signalShowAudioDescription'?
-                    <div className="AudioPlayer">
-                      <AudioPlayer className="file-preview-information" volume src={this.props.item.attributes.audio.link}/>
-                    </div>
-                      :
-                      undefined  
-                   }
-                 
-                  {//for video signal 
-                    this.state.signalShow==='signalShow'?
-                    <div className="videosignal">
-                      <video width="160" height="120"  key={this.state.key} autoPlay={this.state.autoplay} controls id="video-preview-information" className="file-preview-information" ref="video">
-                        <source src={this.props.item.attributes.videosignal.link}></source>
-                      </video>
-                    </div>
-                      :
-                      undefined  
+                 {
+                   this.props.item.attributes.accessibility.dataField===undefined?
+                   undefined
+                   :
+                  <div>
+                    {
+                      this.props.item.attributes.accessibility.dataField.signLanguage==="yes"?
+                      <div>
+                        {
+                          this.props.item.attributes.accessibility.dataField.fileVideoSignal[0]!=null?
+                          <div>
+                            <div className="checkboxstyle">
+                            <CheckboxLabels
+                              language={this.props.language}
+                              checkbox={this.checkbox}
+                              type="signLanguage"
+                              label={this.props.language.signLanguage}
+                            />
+                          </div>
+                          {//for video signal 
+                            this.state.signalShow==='signalShow'?
+                            <div className="videosignal">
+                              <video width="160" height="120"  key={this.state.key} autoPlay={this.state.autoplay} controls id="video-preview-information" className="file-preview-information" ref="video">
+                                <source src={this.props.item.attributes.accessibility.dataField.fileVideoSignal[0].link}></source>
+                              </video>
+                            </div>
+                              :
+                              undefined  
+                          }
+                          </div>
+                          :
+                          
+                          undefined
+  
+                            }
+                          </div>
+                          :
+                          undefined    
+                    }
+                  </div>
+                 }
+                  
+                  {
+                   this.props.item.attributes.accessibility.dataField===undefined?
+                   undefined
+                   :
+                   <div>
+                    {
+                      this.props.item.attributes.accessibility.dataField.audioDescription==="yes"?
+                        <div>
+                          {
+                            this.props.item.attributes.accessibility.dataField.fileAudioDescription[0]!=null?
+                            <div>
+                              <div className="checkboxstyle">
+                              <CheckboxLabels
+                                language={this.props.language}
+                                checkbox={this.checkbox}
+                                type="audioDescription"
+                                label={this.props.language.audioDescription}
+                              />
+                            </div>
+                            {//For Audio description
+                              this.state.signalShowAudioDescription==='signalShowAudioDescription'?
+                                <div className="AudioPlayer">
+                                  <AudioPlayer className="file-preview-information" volume src={this.props.item.attributes.accessibility.dataField.fileAudioDescription[0].link}/>
+                                </div>
+                                :
+                                undefined  
+                            }
+                            </div>
+                            :   
+                            undefined
+                          }
+
+                        </div>    
+                        :
+                        undefined
+                    }
+                   </div>
+
                   }
-          
+
+                  
+
+                  
+           
                  
                 <CardContent className="course-item-video-card-media-content">
                   <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">

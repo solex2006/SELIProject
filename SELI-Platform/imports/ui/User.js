@@ -23,6 +23,7 @@ import CoursesDashboard from '../components/student/CoursesDashboard';
 import SubscribedCourses from '../components/student/SubscribedCourses';
 import Course from '../components/student/Course';
 import MyCertificates from '../components/student/MyCertificates';
+import DashboardComponent from '../components/dashboard/dashboard';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
@@ -157,6 +158,10 @@ export default class User extends React.Component {
       if (action === 'subscribed') {
         action = () => this.showComponent('subscribed');
       }
+      if (action === 'dashboard'){
+        action = () => this.showComponent('dashboard');
+      }
+
       this.setState({
         showControlMessage: show,
         controlMessage: message,
@@ -434,8 +439,8 @@ export default class User extends React.Component {
   searchValue=(value)=>{
     //console.log("Value to search", value)
     this.setState({
-      searchText:value,
-      component : 'courses'
+      searchText: value,
+      component: 'courses',
     })
   }
 
@@ -472,12 +477,14 @@ export default class User extends React.Component {
                       user={this.state.user}
                       logOut={this.logOut.bind(this)}
                       showComponent={this.showComponent.bind(this)}
+                      searchValue={this.searchValue}
                     />
                     {
                       this.state.component === 'home' ?
                         <Presentation
                           language={this.state.language}
                           history={this.props.history}
+                          searchValue={this.searchValue}
                         />
                       :
                       undefined
@@ -608,6 +615,12 @@ export default class User extends React.Component {
                           handleControlMessage={this.handleControlMessage.bind(this)}
                         />
                       :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'dashboard' ?
+                      <DashboardComponent/>
+                    :
                       undefined
                     }
                     {

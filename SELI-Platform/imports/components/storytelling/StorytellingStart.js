@@ -9,6 +9,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
+
 export default class StorytellingStart extends React.Component {
   constructor(props) {
     super(props);
@@ -38,9 +39,11 @@ export default class StorytellingStart extends React.Component {
             {`${this.props.node.name}`}
           </p>
           <Paper
+            tabIndex="0"
             elevation={8}
             className="storytelling-item-node-start"
             onClick={() => this.props.selectNode(this.props.index)}
+            onKeyDown={() => this.props.selectNode(this.props.index)}
           ></Paper>
           <div className="storytelling-item-actions">
             <Tooltip

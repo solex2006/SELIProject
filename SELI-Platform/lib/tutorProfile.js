@@ -1,6 +1,27 @@
 var OPTIONS = [
   {
     label: [
+      "Dashboard",
+      "Dashboard",
+      "Dashboard",
+      "",
+      "Dashboard",
+    ],
+    suboptions: [
+      {
+        label: [
+          "Test",
+          "Test",
+          "Test",
+          "",
+          "Test",
+        ],
+        component: 'dashboard',
+      }
+    ]
+  },
+  {
+    label: [
       "My courses",
       "Mis cursos",
       "Meus cursos",

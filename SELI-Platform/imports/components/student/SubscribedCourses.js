@@ -157,10 +157,10 @@ export default class SubscribedCourses extends React.Component {
             <WarningIcon tabIndex="-1" className="warning-dialog-icon"/>
           </DialogContent>
           <DialogActions>
-            <Button tabIndex="-1" onClick={() => this.handleClose()} color="primary" autoFocus>
+            <Button tabIndex="0" onClick={() => this.handleClose()} color="primary" autoFocus>
               {this.props.language.cancel}
             </Button>
-            <Button tabIndex="-1" onClick={() => this.state.confirmAction()} color="primary" autoFocus>
+            <Button tabIndex="0" onClick={() => this.state.confirmAction()} color="primary" autoFocus>
               {this.props.language.confirm}
             </Button>
           </DialogActions>

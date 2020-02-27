@@ -29,7 +29,7 @@ export default class Presentation extends React.Component {
       params: {
         loop: true,
         autoplay: {
-          delay: 8000,
+          delay: 12000,
           disableOnInteraction: true,
         },
         speed: 2000,
@@ -89,16 +89,15 @@ export default class Presentation extends React.Component {
     this.setState({
       searchText: event.target.value
     })
-   }
+  }
 
-   handleSearchButton=(event)=>{
-     console.log("botonn", this.state.searchText)
-     let courses = Courses.find({published: true}).fetch();
-     
-     let search=filter(courses, { 'title': this.state.searchText})
-     console.log("filtrado en presentation",search);
-     this.props.searchValue(search)
-   }
+  handleSearchButton=(event)=>{
+    console.log("botonn", this.state.searchText)
+    let courses = Courses.find({published: true}).fetch();
+    let search=filter(courses, { 'title': this.state.searchText})
+    console.log("filtrado en presentation",search);
+    this.props.searchValue(search)
+  }
 
   render() {
     return(
@@ -133,22 +132,27 @@ export default class Presentation extends React.Component {
                   <p className="dashboard-text-medium">
                     {this.props.language.joinOurClassroom}
                   </p>
-                  <Paper elevation={15} className="dashboard-paper">
-                    <InputBase
-                      fullWidth
-                      className="dashboard-input-base"
-                      placeholder={this.props.language.learnAbout}
-                      inputProps={{ 'aria-label': 'what do you want to learn about' }}
-                      onChange={this.handleSearchText}
+                  {
+                    Meteor.userId() ?
+                      <Paper elevation={15} className="dashboard-paper">
+                        <InputBase
+                          fullWidth
+                          className="dashboard-input-base"
+                          placeholder={this.props.language.learnAbout}
+                          inputProps={{ 'aria-label': 'what do you want to learn about' }}
+                          onChange={this.handleSearchText}
 
-                    />
-                    <IconButton className="dashboard-icon-button" aria-label="search">
-                      <SearchIcon 
-                      onClick={this.handleSearchButton}
-                      />
-                    </IconButton>
-                    <Divider orientation="vertical" />
-                  </Paper>
+                        />
+                        <IconButton className="dashboard-icon-button" aria-label="search">
+                          <SearchIcon 
+                          onClick={this.handleSearchButton}
+                          />
+                        </IconButton>
+                        <Divider orientation="vertical" />
+                      </Paper>
+                    :
+                      undefined
+                  }
                 </div>
               </div>
               <div id="dashboard-3" className="dashboard">

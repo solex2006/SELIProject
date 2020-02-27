@@ -64,12 +64,14 @@ import WarningIcon from '@material-ui/icons/Warning';
 
 
 
+
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
 }
 const GrowTransition = React.forwardRef(function Transition(props, ref) {
   return <Grow ref={ref} {...props} />;
 });
+
 
 
 export default class CourseCreatorTool extends React.Component {
@@ -1222,7 +1224,16 @@ export default class CourseCreatorTool extends React.Component {
             :
               undefined
           }
+
           {
+            this.state.showAccessibilityForm ?
+            console.log("ContentTypeAdded",  this.state.contentTypeAdded,"--ITEM--",  this.state.contentTypeAdded)
+          :
+            undefined   
+          }
+       
+          {
+            
             this.state.showAccessibilityForm ?
               <React.Fragment>
                 <VerticalTab
