@@ -13,7 +13,7 @@ import ImageItem from '../accessibility/previews/ImageItem';
 /* a11y content forms */
 import ImageA11yForm, {useImageDataField} from '../accessibility/ImageAccessibilityForm';
 import {VideoTextAltA11Y, VideoMediaCaptionsAltA11Y, VideoMediaSignLanguageA11Y, VideoMediaAudioDescriptioA11Y, VideoOthersA11Y, useDataField} from '../accessibility/VideoAccessibilityForm';
-import AudioA11yForm, {useAudioDataField} from '../accessibility/AudioAccessibilityForm';
+import AudioA11yForm, {useAudioDataField, VideoSignalA11Y} from '../accessibility/AudioAccessibilityForm';
 import A11YProgressFeedback from '../accessibility/a11yProgressFeedback';
 import Fab from '@material-ui/core/Fab';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
@@ -123,15 +123,7 @@ export default function VerticalTabs(props) {
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/>
 					}
-					{
-							/* Tab doesnt accept Fragment as child
-							https://github.com/mui-org/material-ui/issues/14943
-							*/
-							// <React.Fragment>
-							// <Tab> ...
-							// <Tab> ...
-							// </React.Fragment>
-					}
+					
 					{
 							props.contentTypeAdded === 'video' &&
 						<Tab label={props.language.textAlternatives}
@@ -166,12 +158,21 @@ export default function VerticalTabs(props) {
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/>
 					}
+					
 					{
-							props.contentTypeAdded === 'audio' &&
+						 	props.contentTypeAdded === 'audio' &&
+						 <Tab
+							 label={props.language.signLanguage}
+							 {...a11yProps(indexTab++, props.contentTypeAdded)}
+						 />
+						
+					}
+					{
+						/* 	props.contentTypeAdded === 'audio' &&
 						<Tab
 							label={props.language.textAlternatives}
 							{...a11yProps(indexTab++)}
-						/>
+						/> */
 					}
 					{
 							//   <Tab label="A11y Text" {...a11yProps(1)} />
@@ -285,7 +286,7 @@ export default function VerticalTabs(props) {
 					{
 						props.contentTypeAdded === 'audio' &&
 						<React.Fragment>
-							<TabPanel value={value} index={indexPanel++}>
+							 {/* <TabPanel value={value} index={indexPanel++}>
 								<AudioA11yForm data={{
 									handleInputOnChange:data.handleInputOnChange,
 									handleLongDescriptionPosition:data.handleLongDescriptionPosition,
@@ -296,7 +297,25 @@ export default function VerticalTabs(props) {
 								}}
 								language={props.language}
 								/>
+							</TabPanel> */}  
+							<TabPanel value={value} index={indexPanel++}>
+								<VideoSignalA11Y data={{
+									handleRadioButtonOnChange: data.handleRadioButtonOnChange,
+									dataField: data.dataField,
+									signLanguageTip: data.signLanguageTip
+								}}
+								language={props.language}
+								/>
 							</TabPanel>
+
+							{/* <TabPanel value={value} index={indexPanel++}>
+								<VideoMediaSignLanguageA11Y data={{
+									handleRadioButtonOnChange: data.handleRadioButtonOnChange,
+									dataField: data.dataField,
+									signLanguageTip: data.signLanguageTip
+								}}
+								language={props.language}/>
+							</TabPanel> */}
 						</React.Fragment>
 					}
 					{
@@ -362,7 +381,7 @@ export default function VerticalTabs(props) {
 									seizuresTip: data.seizuresTip
 								}}
 								language={props.language}/>
-							</TabPanel> *
+							</TabPanel> 
 						</React.Fragment>
 					}
 					<TabPanel value={value} index={indexPanel++}>

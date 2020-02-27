@@ -274,8 +274,8 @@ export function VideoMediaSignLanguageA11Y(props){
 	const [newVideoSignal, setnewVideoSignal] = useState(false);
 
 	const handleRadioButtonOnChange1 =handleRadioButtonOnChange
-	console.log("dataField",dataField)
-	console.log("signLanguageTip",signLanguageTip)
+	//console.log("dataField",dataField)
+	//console.log("signLanguageTip",signLanguageTip)
 	
 	const  getFileInformationsignal=(file)=>{
 		//console.log("File to upload", file)

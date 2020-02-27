@@ -248,7 +248,7 @@ export default class AudioForm extends React.Component {
 
 
 
-
+{/* 
                   <div className="form-column-container">
                     {
                         <div> 
@@ -260,8 +260,8 @@ export default class AudioForm extends React.Component {
                             getFileInformation={this.getFileInformationVideo.bind(this)}
                           />
                         </div>
-                    }
-                  </div>
+                    } 
+                  </div>*/}
 
 
                 </div>
