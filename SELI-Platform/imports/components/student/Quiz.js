@@ -21,6 +21,7 @@ import moment, { min } from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import Checkbox from '@material-ui/core/Checkbox';
+import { BadgeNotification } from './BadgeNotification';
 
 const bakery=require('openbadges-bakery-v2');
 
@@ -44,6 +45,7 @@ const useStyles = theme => ({
 
 
 class Quiz extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -58,12 +60,15 @@ class Quiz extends React.Component {
       average:'',
       successTrue:'',
       Incorrect:'',
+      badgeWin: false,
+      isLoading: true
     }
   }
 
   componentDidMount() {
     //console.log("numero de respuetas por pregunta", this.props.quiz.attributes.questions)
-    
+    console.log('didmount');
+    this._isMounted = true;
   }
 
   componentWillMount(){
@@ -82,7 +87,9 @@ class Quiz extends React.Component {
       selectedtime: this.props.time
     });
   }
-
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   handleChange = (check,event) => {
     //console.log("check and index",this.state.selected, check , this.state.answers, 'event---', event.target.checked)
     let answers = this.state.answers;
@@ -178,7 +185,8 @@ class Quiz extends React.Component {
     return({score: TotalAverage, hits: TotalCorrectTrue,  Incorrect: TotalIncorrect, answers: answers, trueAnswers: this.props.quiz.attributes.questions});
   }
 
-  handleFinish = (validate) => {
+   handleFinish = (validate) => {
+     
     this.setState({
       start: true,
     });
@@ -229,9 +237,59 @@ class Quiz extends React.Component {
     this.props.handleClose();
   }
 
-  issueBadge(image){
-    let self = this;
-    console.log(self.props);
+  async bake(options) {
+    return new Promise((resolve,reject) => {
+      bakery.bake(options, function(err, data){
+        if(err)
+         return reject(err)
+        else
+         resolve(data);
+      })
+    })
+    
+  }
+  async saveBadge(data,image){
+    let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
+    user = user[0];
+    var file = new File([data],image._id+".png",{ type: "image/png", 
+                                                  ext: "png",
+                                                  extension: "png",
+                                                  extensionWithDot: ".png"});
+    let uploadInstance = CourseFilesCollection.insert({
+      file: file,
+      meta: {
+          locator: '',
+          dateAdded: new Date(),
+          isFavorite: false,
+          usedInCourse: false,
+          userId: '', 
+          buffer: '',
+        //userId: Meteor.userId() // Optional, used to check on server for file tampering
+      },
+      streams: 'dynamic',
+      chunkSize: 'dynamic',
+      allowWebWorkers: true // If you see issues with uploads, change this to false
+    }, false);
+    uploadInstance.start(); 
+    console.log(file); 
+    console.log(uploadInstance);
+    let today = new Date();
+    let certificateInfo = {
+      idStudent: user._id,
+      name: user.profile.fullname,
+      tutor: 'Maestro',
+      date: today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear(),
+      course: this.props.quiz.attributes.badgeInformation.name,
+      description: this.props.quiz.attributes.badgeInformation.description,
+      duration: '10',
+    };
+    if (this._isMounted) {
+      this.setState({badgeWin:true});
+    }
+    console.log(this.state);
+
+  }
+  async issueBadge(image){
     let buffer = CourseFilesCollection.findOne({_id: image._id });
     buffer = buffer.meta.buffer;
     var theAssertion ={
@@ -240,8 +298,8 @@ class Quiz extends React.Component {
         "identity": "sha256$98765edcba98765edcba98765edcba",
         "type": "email",
         "hashed": true,
-        "badgeName": self.props.quiz.attributes.badgeInformation.name,
-        "badgeDescription": self.props.quiz.attributes.badgeInformation.description,
+        "badgeName": this.props.quiz.attributes.badgeInformation.name,
+        "badgeDescription": this.props.quiz.attributes.badgeInformation.description,
         "badgeTeacher": "Teacher 1",
         "badgeCourse": "Test Course",
         "badgeStudent": "student1",
@@ -258,84 +316,38 @@ class Quiz extends React.Component {
       assertion: theAssertion,
     };
 
-
-    //this part is pending to modify 
-    //is implemented as a certificate 
-    
-    bakery.bake(options, function(err, data){
-      let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
-      user = user[0];
-      var file = new File([data],image._id+".png",{ type: "image/png", 
-                                                    ext: "png",
-                                                    extension: "png",
-                                                    extensionWithDot: ".png"});
-      let uploadInstance = CourseFilesCollection.insert({
-        file: file,
-        meta: {
-            locator: '',
-            dateAdded: new Date(),
-            isFavorite: false,
-            usedInCourse: false,
-            userId: '', 
-            buffer: '',
-          //userId: Meteor.userId() // Optional, used to check on server for file tampering
-        },
-        streams: 'dynamic',
-        chunkSize: 'dynamic',
-        allowWebWorkers: true // If you see issues with uploads, change this to false
-      }, false);
-      uploadInstance.start(); 
-
-      let idStudent = user._id;
-      let student = user.profile.fullname;
-      let tutor = 'Maestro';
-      let today = new Date();
-      let date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
-      let course = self.props.quiz.attributes.badgeInformation.name;
-      let description = self.props.quiz.attributes.badgeInformation.description;
-      let duration = '10';
-      let certificateInfo = {
-        idStudent: idStudent,
-        name: student,
-        tutor: tutor,
-        date: date,
-        course: course,
-        description: description,
-        duration: duration,
-      };
-
-      console.log(certificateInfo);
-
-      fetch('https://201.159.223.92/datos', {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(certificateInfo)
-      }).then(res => res.json())
-      .then(res => {
-        console.log(res);
-        if(res === "se genero el certificado con exito en 201.159.223.92"){
-          this.setState({
-            certificateCreated: true,
-            certificateError: false,
-            certificateDialogOpen: true,
-          });
-        }else{
-          this.setState({
-            certificateCreated: false,
-            certificateError: true,
-            certificateErrorDialogOpen: true,
-          });
-        }
-      });
-  
-
-    },self)
-
-
-   
+    await this.bake(options)
+    .then(data => {
+      this.saveBadge(data,image);
+      this.setState({badgeWin:true});
+    })
+    .catch(err => {console.log(err)})
+  }
+  persistBadge(badgeInfo){
+    fetch('https://201.159.223.92/datos', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(badgeInfo)
+    }).then(res => res.json())
+    .then(res => {
+      console.log(res);
+      if(res === "se genero el certificado con exito en 201.159.223.92"){
+        this.setState({
+          certificateCreated: true,
+          certificateError: false,
+          certificateDialogOpen: true,
+        });
+      }else{
+        this.setState({
+          certificateCreated: false,
+          certificateError: true,
+          certificateErrorDialogOpen: true,
+        });
+      }
+    });
   }
   showFinishConfirmation = () => {
     this.setState({
@@ -475,10 +487,19 @@ class Quiz extends React.Component {
 
   }
   render() {
+    console.log('render');
     const { classes } = this.props;
     //console.log("vuelve ajsutar", this.state.selectedtime)
     return(
       <div className="quiz-dashboard-container">
+        <div>
+          {
+          this.state.badgeWin &&
+            <BadgeNotification 
+              list={this.state.badgeInformation}
+            />
+          }
+        </div>
         {
           Number.isNaN(this.state.selectedtime) || this.state.panelshow === 'stop' ?
           undefined
@@ -511,12 +532,12 @@ class Quiz extends React.Component {
                   this.handleFinish(false)
                 }
               />
-            <div className={classes.root }>
-                <LinearProgress />
-                <LinearProgress color="secondary" />
-            </div>
+              <div className={classes.root }>
+                  <LinearProgress />
+                  <LinearProgress color="secondary" />
+              </div>
           
-      </div>
+            </div>
           }
             <Button onClick={()=>this.stoptime()} className="course-item-video-card-media-button">{this.props.language.stopTime}</Button>
             {

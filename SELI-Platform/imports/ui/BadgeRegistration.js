@@ -209,7 +209,29 @@ export default class BadgeRegistration extends React.Component {
 
             />
              
-          
+             <DialogContent className="sign-content">
+            <div className="sign-form">
+              {
+                this.state.action === "in" ?
+                  <SignInForm
+                    language={this.props.language}
+                    history={this.props.history}
+                  />
+                :
+                undefined
+              }
+              {
+                this.state.action === "up" ?
+                  <SignUpForm
+                    handleClose={this.handleClose.bind(this)}
+                    history={this.props.history}
+                    language={this.props.language}
+                  />
+                :
+                undefined
+              }
+            </div>
+          </DialogContent>
             <Dialog
               open={this.state.open}
               onClose={this.handleClose}
