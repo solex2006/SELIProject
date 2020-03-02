@@ -42,7 +42,6 @@ export default class CoursePresentation extends React.Component {
 
   componentDidMount() {
     this.getImageColors();
-   
   }
 
   getImageColors() {
@@ -114,7 +113,6 @@ export default class CoursePresentation extends React.Component {
   }
 
   render() {
-     
     return(
       <div className="course-presentation-container">
         <div className="course-presentation-hero-container">
@@ -133,15 +131,20 @@ export default class CoursePresentation extends React.Component {
             </Fade>
           </div>
           <div className="course-presentation-hero-column">
-            {/* <Paper
+            <Paper
               id="course-presentation-hero-media-image"
-              className="course-presentation-hero-media-paper"
-              elevation={10}
+              className="course-presentation-hero-media-paper-1"
+              elevation={5}
               style={{backgroundImage: `url(${this.props.course.image.link})`}}
-            ></Paper> */}
-            <Paper id="course-presentation-hero-media-color" 
-            className="course-presentation-hero-media-paper" elevation={12}
-            style={{backgroundImage: `url(${this.props.course.image.link})`}}></Paper>
+            ></Paper>
+            <div className="course-presentation-hero-media-paper-2">
+              <Paper 
+                id="course-presentation-hero-media-color" 
+                className="course-zoom" 
+                elevation={10}
+                style={{backgroundImage: `url(${this.props.course.image.link})`}}
+              ></Paper>
+            </div>
           </div>
         </div>
         <Fade left>
@@ -151,8 +154,7 @@ export default class CoursePresentation extends React.Component {
         </Fade>
         <div className="course-other-information-container">
           <div className={"boxItem"}>
-
-          <Fade left  >
+          <Fade left>
             <Paper
               elevation={12}
               className="course-card-information"
@@ -178,8 +180,6 @@ export default class CoursePresentation extends React.Component {
               </div>
             </Paper>
           </Fade>
-
-
           <Fade up>
             <Paper
               elevation={12}
@@ -232,17 +232,14 @@ export default class CoursePresentation extends React.Component {
               </div>
             </Paper>
           </Fade>
-          </div>
-          
           {
-          this.props.course.signature===undefined ?
-            undefined
-            :
-            <div className={"boxItem2"}>
+            this.props.course.signature === "" ?
+                undefined
+              :
                 <Fade up>
                   <Paper
                     elevation={12}
-                    className="course-card-information1"
+                    className="course-card-information"
                     style={{
                       backgroundColor: this.state.palette[0].bgColor,
                       color: this.state.palette[0].textColor,
@@ -302,12 +299,9 @@ export default class CoursePresentation extends React.Component {
                     </IconButton>
                   </Paper>
                 </Fade>  
-            </div>
-                   
-        }
+            }
+          </div>
         </div>
-
-   
         {
           this.props.course.support.length !== 0 ?
             <div className="course-requirement-information">
@@ -384,9 +378,9 @@ export default class CoursePresentation extends React.Component {
             <CourseNavigation
               program={this.props.course.program}
               organization={this.props.course.organization}
-              navigate={false}
-              navigateTo={this.props.navigateTo.bind(this)}
+              navigate={true}
               selected={this.props.selected}
+              navigateTo={this.props.navigateTo.bind(this)}
               courseNav={this.props.language.courseNavigation}
               topic={this.props.language.topic}
               unit={this.props.language.unit}

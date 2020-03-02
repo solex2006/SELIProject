@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function FileDial(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [hidden, setHidden] = React.useState(false);
 
   const handleVisibility = () => {
@@ -47,13 +47,13 @@ export default function FileDial(props) {
         className="file-dial-container"
         hidden={hidden}
         icon={props.icon}
-        onBlur={handleClose}
+        //onBlur={handleClose}
         onClick={handleClick}
-        onClose={handleClose}
-        onFocus={handleOpen}
-        onMouseEnter={handleOpen}
-        onMouseLeave={handleClose}
-        open={true}
+        //onClose={handleClose}
+        //onFocus={handleOpen}
+        //onMouseEnter={handleOpen}
+        //onMouseLeave={handleClose}
+        open={open}
         direction="right"
         ButtonProps={{
           color: props.color

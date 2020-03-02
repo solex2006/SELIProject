@@ -42,7 +42,7 @@ export default class CourseInformation extends React.Component {
     this.state = {
       courseInformation: this.props.courseInformation,
       audiences: '',
-      weekHourOption:'',
+      weekHourOption: 'hours',
     }
   }
 
@@ -400,13 +400,11 @@ export default class CourseInformation extends React.Component {
             />
           </p>
           <div>
-          
-            <RadioButtonsGroup
-              language={this.props.language}
-              courseDuration={this.courseDuration}
-            />
-
-{ 
+          <RadioButtonsGroup
+            language={this.props.language}
+            courseDuration={this.courseDuration}
+          />
+            { 
               this.state.weekHourOption==='weeks'?
                   <TextField
                         id="duration-input"
@@ -446,20 +444,17 @@ export default class CourseInformation extends React.Component {
                         onKeyPress={() => validateOnlyNumbers(event)}
                   />    
                 :
-                 undefined
+                  undefined
             }
-
-           
-           
           </div>
-           <Button className={"buttomAudiences"} onClick={this.audiences} variant="outlined" color="primary">Audiences</Button>
+          <Button className={"buttomAudiences"} onClick={this.audiences} variant="outlined" color="primary">Audiences</Button>
           {
-              this.state.audiences==="audiences" ?
+            this.state.audiences==="audiences" ?
               <Audiences
-              language={this.props.language}
-              getAudiences={this.getAudiences}
+                language={this.props.language}
+                getAudiences={this.getAudiences}
               />
-              :
+            :
               undefined
           } 
         </div>

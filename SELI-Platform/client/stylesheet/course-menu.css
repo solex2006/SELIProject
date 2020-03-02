@@ -98,7 +98,7 @@
   height: 90px;
   border-radius: 100% !important;
   background-position: center;
-  background-size: 90px;
+  background-size: cover;
   background-repeat: no-repeat;
   z-index: 180;
 }

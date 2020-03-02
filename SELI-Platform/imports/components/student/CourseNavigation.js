@@ -47,7 +47,7 @@ export default class CourseNavigation extends React.Component {
                         navigate={this.props.navigate}
                         selected={this.props.selected}
                         navigateTo={this.props.navigateTo.bind(this)}
-                        closeDrawer={this.props.navigate ? this.props.closeDrawer.bind(this) : undefined}
+                        closeDrawer={this.props.closeDrawer ? this.props.closeDrawer.bind(this) : undefined}
                         unitLabel={this.props.unit}
                         lessonLabel={this.props.lesson}
                       />
@@ -67,7 +67,7 @@ export default class CourseNavigation extends React.Component {
                       selected={this.props.selected}
                       navigate={this.props.navigate}
                       navigateTo={this.props.navigateTo.bind(this)}
-                      closeDrawer={this.props.navigate ? this.props.closeDrawer.bind(this) : undefined}
+                      closeDrawer={this.props.closeDrawer ? this.props.closeDrawer.bind(this) : undefined}
                       topicLabel={this.props.topic}
                     />
                   )
