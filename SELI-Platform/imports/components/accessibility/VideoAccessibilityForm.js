@@ -54,6 +54,7 @@ export function VideoTextAltA11Y(props){
 					/>
 				</Grid>
 				<Grid  item id='long-description-container' role='grid'>
+				
 					<A11YLongDescription
 						handleOnChange={React.useCallback(handleInputOnChange)}
 						error={dataField.longDescriptionError}
@@ -72,6 +73,7 @@ export function VideoTextAltA11Y(props){
 						textPositionLabel={`${props.language.textPosition_a11y_lbl}: ${props.language.video}`}
 						language={props.language}
 					/>
+
 					<AccessibilityFileUpload size='small'
 						type='pdf'
 						user={Meteor.userId()}
@@ -608,6 +610,8 @@ export const useDataField = (props) => {
 	}, [dataField]);
 
 	function handleInputOnChange ({ target: { name, value } }){
+
+		console.log(" handleInputOnChange", name, value )
 		let errField = name + 'Error';
 		let errValue = false;
 

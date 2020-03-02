@@ -47,14 +47,14 @@ export default function ImageAccessibility(props) {
 						onChange={React.useCallback(handleImagePurposeOnChange)}
 						column
 					>
-						<FormControlLabel
+						 <FormControlLabel
 							name='imagePurpose'
 							id='image-purpose-info'
 							label={props.language.image_a11y_purpose_informative}
 							value='info'
 							control={<Radio color='primary' />}
 							labelPlacement='end'
-						/>
+						/> 
 						<FormControlLabel
 							name='imagePurpose'
 							id='image-purpose-deco'
@@ -63,14 +63,14 @@ export default function ImageAccessibility(props) {
 							control={<Radio color='primary' />}
 							labelPlacement='end'
 						/>
-						<FormControlLabel
+					  <FormControlLabel
 							name='imagePurpose'
 							id='image-purpose-txt'
 							label={props.language.image_a11y_purpose_text}
 							value='txt'
 							control={<Radio color='primary' />}
 							labelPlacement='end'
-						/>
+						/> 
 						<FormControlLabel
 							name='imagePurpose'
 							id='image-purpose-cplx'
@@ -116,6 +116,7 @@ export default function ImageAccessibility(props) {
 							language={props.language}
 						/>
 					</Grid>
+					
 					<Grid  item style={{'display' : displayAltLong}}>
 						<A11YLongDescription
 							handleOnChange={React.useCallback(handleInputOnChange)}
@@ -217,13 +218,12 @@ export const useImageDataField = (props) => {
 
 
 	const handleImagePurposeOnChange = event => {
+		console.log("event and target-----------------", event.target)
 		const { name, value } = event.target;
-
 		let data = {
 			[name]: value,
 		};
 		setDataField( dataField => ({ ...dataField, ...data }));
-
 		let shortToogle = (value === 'deco');
 		let longToogle = (toogleShort || value === 'info' || value === 'txt');
 

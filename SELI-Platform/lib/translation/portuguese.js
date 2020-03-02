@@ -868,6 +868,9 @@ var PORTUGUESE = {
   downloadStoryTelling: 'Download StoryTelling',
   downloadVideoDesc: 'You may download the video from the link below',
   downloadVideoError: 'An error occured while processing video',
-  downloadVideoState: 'Preparing video'
+  downloadVideoState: 'Preparing video',
+  NoshortDescription:'No short Description',
+  NolongDescription:'No Long Description',
+  textAlternatives: 'Accessibility with text alternatives',
 }
 export default PORTUGUESE;

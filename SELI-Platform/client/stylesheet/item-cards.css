@@ -89,6 +89,12 @@
   padding: 0 1vw !important;
 }
 
+.course-item-audio-card-controls2 {
+  margin-bottom: 0.5vh !important;
+  justify-content: flex-start !important;
+  padding: 0 1vw !important;
+}
+
 .course-item-audio-card-image {
   width: 120px !important;
   height: 120px !important;
@@ -129,7 +135,7 @@
     position: absolute;
     z-index: 1;
     top: 15px;
-    left: 5px;
+    left: 35px;
 }
 
 .videoPreview{
@@ -144,8 +150,15 @@
 .AudioPlayer{
   position: absolute;
   z-index: 2;
-  top: 110px;
-  left: 5px;
+  top: 270px;
+  left: 360px;
 
 }
 
+.checkBoxItem{
+display: flex;
+}
+
+.description{
+
+}

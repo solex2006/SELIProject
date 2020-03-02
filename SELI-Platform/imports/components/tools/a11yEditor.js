@@ -82,10 +82,55 @@ export default function ImageCaptionEditor(props) {
 		classNameAsterisk,
 	} = useEditor(props);
 
+
+	const data={
+		
+			"blocks": [
+			  {
+				"key": "a6shj",
+				"text": "andres",
+				"type": "unstyled",
+				"depth": 0,
+				"inlineStyleRanges": [],
+				"entityRanges": [],
+				"data": {}
+			  },
+			  {
+				"key": "aau3l",
+				"text": "asdasd",
+				"type": "header-six",
+				"depth": 0,
+				"inlineStyleRanges": [],
+				"entityRanges": [],
+				"data": {}
+			  },
+			  {
+				"key": "5fmhr",
+				"text": "asdasdasd",
+				"type": "unordered-list-item",
+				"depth": 0,
+				"inlineStyleRanges": [],
+				"entityRanges": [],
+				"data": {}
+			  },
+			  {
+				"key": "1hoch",
+				"text": "dsadad",
+				"type": "ordered-list-item",
+				"depth": 0,
+				"inlineStyleRanges": [],
+				"entityRanges": [],
+				"data": {}
+			  }
+			],
+			"entityMap": {}
+		  }
+	
+
 	return (
 		<Grid item>
 			<Grid container direction='column' justify='flex-start' alignments='flex-start'spacing={0} className="a11yEditor-root">
-				<Grid item  xl={3} id="editor-control-block-types" value={blockTypes} className='a11yEditor-controls'>
+				<Grid item  xs={12} id="editor-control-block-types" value={blockTypes} className='a11yEditor-controls'>
 					<ToggleButton
 						value='paragraph'
 						key="paragraph"
@@ -187,7 +232,7 @@ export default function ImageCaptionEditor(props) {
 						Quote
 					</ToggleButton>
 				</Grid>
-				<Grid item  xl={3} id="editor-control-inline-styles" value={textSyles} className="a11yEditor-controls">
+				{/* <Grid item  xl={3} id="editor-control-inline-styles" value={textSyles} className="a11yEditor-controls">
 					<ToggleButton
 						value='BOLD'
 						key="BOLD"
@@ -217,37 +262,40 @@ export default function ImageCaptionEditor(props) {
 							React.useCallback(toogleInlineStyle('UNDERLINE'));}}
 						className={"a11yEditor-styleButton "+( editorState.getCurrentInlineStyle().has('UNDERLINE')? 'a11yEditor-activeButton' : '')}>
 						U
-					</ToggleButton>
-				</Grid>
-				<Grid item  xl={3} className={classNameEditor}>
-					<label className={classNameLabel} data-shrink="false" htmlFor={props.id + "-Editor"}>
+					</ToggleButton> 
+				</Grid>*/}
+				<Grid item  xl={12} className={classNameEditor}>
+					{/* <label className={classNameLabel} data-shrink="false" htmlFor={props.id + "-Editor"}>
 						{props.label}
 						{
 							props.required &&
 							<span className={classNameAsterisk}>&thinsp;*</span>
 						}
-					</label>
-					<Editor
-						id={props.id + "-Editor"}
-						editorKey={props.id+"-Editor"}
-						editorState={editorState}
-						onChange={React.useCallback(onChange)}
-						onClick={React.useCallback(onClick)}
-						handleKeyCommand={React.useCallback(handleKeyCommand)}
-						onTab={React.useCallback(onTab)}
-						ariaMultiline={true}
-						ariaLabelledBy={props.ariaLabelledBy}
-						ariaDescribedBy={props.ariaDescribedBy}
-						placeholder={props.placeholder}
-						ref={editor}
-						error={props.error}
-						className="a11yEditor"
-						language={props.language}
-					/>
+					</label> */}
+					<div className="a11yEditor">
+						<Editor
+							id={props.id + "-Editor"}
+							editorKey={props.id+"-Editor"}
+							editorState={editorState}
+							onChange={React.useCallback(onChange)}
+							onClick={React.useCallback(onClick)}
+							handleKeyCommand={React.useCallback(handleKeyCommand)}
+							onTab={React.useCallback(onTab)}
+							ariaMultiline={true}
+							ariaLabelledBy={props.ariaLabelledBy}
+							ariaDescribedBy={props.ariaDescribedBy}
+							placeholder={props.placeholder}
+							ref={editor}
+							error={props.error}
+							className="a11yEditor"
+							language={props.language}
+							data={data}
+						/>
+					</div>
 				</Grid>
 			</Grid>
 
-			<div className = { inDevelopment ? '' : 'hide' } >
+			{/* <div className = { inDevelopment ? '' : 'hide' } >
 				<details>
 					<summary>
 						<mark style={{margin: "1.5vh 0"}}>{props.longDescription_a11y_delopment_purpose}</mark>
@@ -265,7 +313,7 @@ export default function ImageCaptionEditor(props) {
 						</Grid>
 					</Grid>
 				</details>
-			</div>
+			</div> */}
 		</Grid>
 	);
 }
@@ -304,7 +352,7 @@ const useEditor =(props) => {
 
 		//const txt = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
 		if (props.onChange !== undefined)
-			props.onChange({target : {name: props.name, value: currentContent.getPlainText('\u0001')}});
+			props.onChange({target : {name: props.name, value: raw}});//.getPlainText('\u0001')
 
 
 	}, [editorState]);
@@ -353,8 +401,6 @@ const useEditor =(props) => {
 		classEditor += (showPlaceholder ? '' : ' a11yEditor-hidePlaceholder');
 		classEditor += (showFocus ? ' a11yEditor-focused' : '');
 		classNameLabel += (showFocus ? ' a11yEditor-labelFocused' : '');
-
-
 		setClassNameEditor(classEditor);
 		setClassNameLabel(classNameLabel);
 	}

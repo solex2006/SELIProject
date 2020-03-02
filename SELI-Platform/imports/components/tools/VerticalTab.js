@@ -256,6 +256,7 @@ export default function VerticalTabs(props) {
 
 
 					<TabPanel value={value} index={indexPanel++}>
+						
 					</TabPanel>
 
 					

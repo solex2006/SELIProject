@@ -167,7 +167,8 @@
 }
 
 .a11yEditor {
-  background-color: #333;
+  background-color: #f5f5f5;
+  border-style: solid #000000;
 }
 
 .a11yEditor-controls {

@@ -666,7 +666,7 @@ var ENGLISH = {
   image_a11y_purpose_complex_label: "Complex Images",
   image_a11y_purpose_complex_tip: "Complex images such as graphs, charts, diagrams, ilustration, maps. Complex images contain substantial information – more than can be conveyed in a short phrase or sentence.",
   image_a11y_purpose_decorative: "Decorative",
-  image_a11y_purpose_decorative_label: "Decorative images",
+  image_a11y_purpose_decorative_label: "Decorative image",
   image_a11y_purpose_decorative_tip: "Decorative images don’t add information to the content of a page.",
   image_a11y_purpose_informative: "Informative",
   image_a11y_purpose_informative_label: "Informative images",
@@ -868,6 +868,9 @@ var ENGLISH = {
   downloadStoryTelling: 'Download StoryTelling',
   downloadVideoDesc: 'You may download the video from the link below',
   downloadVideoError: 'An error occured while processing video',
-  downloadVideoState: 'Preparing video, please wait'
+  downloadVideoState: 'Preparing video, please wait',
+  NoshortDescription:'No short Description',
+  NolongDescription:'No Long Description',
+  textAlternatives: 'Accessibility with text alternatives',
 }
 export default ENGLISH;

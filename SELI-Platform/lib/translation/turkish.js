@@ -868,6 +868,9 @@ var TURKISH = {
   downloadStoryTelling: 'Dijital Hikaye İndir',
   downloadVideoDesc: 'Videoyu aşağıdaki linkden indirebilirsiniz',
   downloadVideoError: 'Video hazırlanırken hata oluştu',
-  downloadVideoState: 'Video hazırlanıyor, lütfen bekleyiniz'
+  downloadVideoState: 'Video hazırlanıyor, lütfen bekleyiniz',
+  NoshortDescription:'No short Description',
+  NolongDescription:'No Long Description',
+  textAlternatives: 'Accessibility with text alternatives',
 }
 export default TURKISH;

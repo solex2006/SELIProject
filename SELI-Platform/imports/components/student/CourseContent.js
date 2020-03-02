@@ -79,6 +79,7 @@ export default class CourseContent extends React.Component {
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             key={Math.random()}
+                            language={this.props.language}
                           />
                         :
                         undefined
@@ -89,6 +90,7 @@ export default class CourseContent extends React.Component {
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             key={Math.random()}
+                            language={this.props.language}
                           />
                         :
                         undefined
@@ -317,6 +319,7 @@ export default class CourseContent extends React.Component {
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           key={Math.random()}
+                          language={this.props.language}
                         />
                       :
                       undefined
