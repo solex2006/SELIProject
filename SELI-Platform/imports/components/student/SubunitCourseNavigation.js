@@ -20,7 +20,9 @@ export default function SubunitCourseNavigation(props) {
 
   const selectSubunit= (index, parentIndex)=> {
     props.navigateTo("subunit", [index, parentIndex]);
-    props.closeDrawer();
+    if (props.closeDrawer){
+      props.closeDrawer();
+    }
   }
 
 

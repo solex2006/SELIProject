@@ -192,11 +192,11 @@
 }
 
 .form-file-selected-image-container {
-  width: 220px;
+  width: 100%;
   height: calc((100vh - var(--form-stepper-height) - var(--app-bar-height))* 0.6)  !important;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 200px;
+  background-size: contain;
   animation: fadeInLeft 0.5s;
   background-color: #fafafa;
   transition: 0.5s;

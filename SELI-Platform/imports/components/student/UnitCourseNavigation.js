@@ -14,7 +14,9 @@ export default function UnitCourseNavigation(props) {
 
   function selectUnit(index) {
     props.navigateTo("unit", [index]);
-    props.closeDrawer();
+    if (props.closeDrawer){
+      props.closeDrawer();
+    }
   }
 
   return(

@@ -415,6 +415,7 @@ export default class Course extends React.Component {
           this.state.courseContent ?
             <CourseContent
               course={this.state.course}
+              showPresentation={this.showPresentation.bind(this)}
               showComponent={this.props.showComponent.bind(this)}
               handleControlMessage={this.props.handleControlMessage.bind(this)}
               handlePreviousUnit={this.handlePreviousUnit.bind(this)}

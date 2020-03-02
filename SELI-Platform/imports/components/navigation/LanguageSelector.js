@@ -103,14 +103,14 @@ export default function SimpleMenu(props) {
           >
             {languages[2]}
           </MenuItem>
-          <MenuItem
+          {/* <MenuItem
             className={classes.menu}
             key='Polish (PL)'
             selected={3 === selectedIndex}
             onClick={event => handleMenuItemClick( 3, 'Polish (PL)')}    
           >
             {languages[3]}
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem
             className={classes.menu}
             key='Turkish (TR)'

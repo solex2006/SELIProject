@@ -56,7 +56,7 @@ export default class CourseContent extends React.Component {
                         <Typography onClick={() => this.props.showComponent("subscribed")} className="course-content-breadcrumb-text">
                           {this.props.language.courses}
                         </Typography>
-                        <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
+                        <Typography onClick={() => this.props.showPresentation()} id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
                           {this.props.course.title}
                         </Typography>
                         <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">

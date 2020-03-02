@@ -10,7 +10,7 @@ export default class CompressedItem extends React.Component {
     this.state = {
       actions: [
         { icon: <CloudDownloadIcon />, name: this.props.language.download, action: () => this.download() },
-        { icon: <StarRateIcon />, name: this.props.language.addToMyLibrary, action: () => this.addToFavorites() },
+        //{ icon: <StarRateIcon />, name: this.props.language.addToMyLibrary, action: () => this.addToFavorites() },
       ],
     }
   }

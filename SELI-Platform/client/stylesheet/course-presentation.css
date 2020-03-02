@@ -12,9 +12,9 @@
 }
 
 .course-presentation-hero-column {
-  width: 45vw;
+  width: 47vw;
   height: 100%;
-  padding-left: 5vw;
+  padding-left: 3vw;
   display: flex;
   position: relative;
   flex-direction: column;
@@ -23,6 +23,7 @@
 
 .course-presentation-hero-title {
   font-size: 7.5vh;
+  word-wrap: break-word;
 }
 
 .course-presentation-hero-subtitle {
@@ -30,10 +31,41 @@
   letter-spacing: 1px;
 }
 
-.course-presentation-hero-media-paper {
-  position: relative;
-  width: 22.5vw;
-  height: 22.5vw;
+.course-presentation-hero-media-paper-1 {
+  position: absolute;
+  width: 35vw;
+  height: 35vw;
+  align-items: center;
+  left: 4vw;
+  z-index: 5;
+  animation: fadeInRight 0.75s;
+  animation-fill-mode: backwards;
+  animation-delay: 0.75s;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.course-presentation-hero-media-paper-2 {
+  position: absolute;
+  width: 43vw;
+  height: 37vw;
+  align-items: center;
+  z-index: 4;
+  animation: fadeInUp 1s;
+  animation-fill-mode: backwards;
+  animation-delay: 1s;
+  overflow: hidden;
+}
+
+.course-zoom{
+  transform: scale(1.5);
+  width: 100%;
+  height: 100%;
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .course-presentation-hero-fab {
@@ -48,27 +80,6 @@
   letter-spacing: 1.5px;
   color: #333333;
   margin-top: 0.5vh;
-}
-
-#course-presentation-hero-media-image {
-  top: 5.625vw;
-  left: 11.25vw;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  z-index: 5;
-  animation: fadeInRight 0.75s;
-  animation-fill-mode: backwards;
-  animation-delay: 0.75s;
-}
-
-#course-presentation-hero-media-color {
-  bottom: 5.625vw;
-  z-index: 4;
-  border-radius: 100% !important;
-  animation: fadeInUp 1s;
-  animation-fill-mode: backwards;
-  animation-delay: 1s;
 }
 
 .course-presentation-hero-media-column {
@@ -89,41 +100,26 @@
 }
 
 .course-other-information-container {
-  height: 40vh;
   justify-content: center !important;
   align-items: center;
-  
-  padding: 2.5vh 0;
-  padding-bottom: 12.5vh;
   align-content: center !important;
 }
+
 .boxItem{
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   flex-direction: row;
-  margin: 20px;
-}
-.boxItem2{
-  display: block;
-  flex-direction: row;
-  margin: 20px;
 }
 
 .course-card-information {
   height: 30vh;
   width: 25vw;
-  margin: 0 1.5vw;
+  margin: 1vw 1.5vw;
   opacity: 0.9;
   transition: 0.5s !important;
 }
-.course-card-information1 {
-  height: 30vh;
-  width: 25vw;
-  margin: 0 1.5vw;
-  align-content: center !important;
-  justify-content: center;
-  opacity: 0.9;
-  transition: 0.5s !important;
-}
+
 .course-card-information:hover {
   opacity: 1;
   cursor: pointer;
