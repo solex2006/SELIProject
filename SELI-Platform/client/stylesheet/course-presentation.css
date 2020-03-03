@@ -33,10 +33,9 @@
 
 .course-presentation-hero-media-paper-1 {
   position: absolute;
-  width: 35vw;
-  height: 35vw;
+  width: 43vw;
+  height: 37vw;
   align-items: center;
-  left: 4vw;
   z-index: 5;
   animation: fadeInRight 0.75s;
   animation-fill-mode: backwards;

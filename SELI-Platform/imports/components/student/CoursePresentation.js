@@ -118,7 +118,7 @@ export default class CoursePresentation extends React.Component {
         <div className="course-presentation-hero-container">
           <div className="course-presentation-hero-column">
             <Fade duration={2000} cascade>
-              <h1 className="course-presentation-hero-title">{this.props.course.title}</h1>
+              <h1 className="course-presentation-hero-title"><p>{this.props.course.title}</p></h1>
             </Fade>
             <Fade delay={1000}>
               {
@@ -140,14 +140,16 @@ export default class CoursePresentation extends React.Component {
                 backgroundColor: "transparent",
                 color: "transparent"}}
             ></Paper>
-            <div className="course-presentation-hero-media-paper-2">
-              <Paper 
-                id="course-presentation-hero-media-color" 
+            <Paper 
+              id="course-presentation-hero-media-color" 
+              className="course-presentation-hero-media-paper-2" 
+              elevation={20}
+            >
+              <div 
                 className="course-zoom" 
-                elevation={10}
                 style={{backgroundImage: `url(${this.props.course.image.link})`}}
-              ></Paper>
-            </div>
+              ></div>
+            </Paper>
           </div>
         </div>
         <Fade left>
@@ -236,9 +238,7 @@ export default class CoursePresentation extends React.Component {
             </Paper>
           </Fade>
           {
-            this.props.course.signature === "" ?
-                undefined
-              :
+            this.props.course.signature && this.props.course.signature !== "" ?
                 <Fade up>
                   <Paper
                     elevation={12}
@@ -301,7 +301,8 @@ export default class CoursePresentation extends React.Component {
                           />
                     </IconButton>
                   </Paper>
-                </Fade>  
+                </Fade> 
+              : undefined 
             }
           </div>
         </div>
