@@ -43,7 +43,7 @@
   animation-delay: 0.75s;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
 }
 
 .course-presentation-hero-media-paper-2 {
@@ -66,6 +66,7 @@
   -webkit-filter: blur(8px);
   background-position: center;
   background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .course-presentation-hero-fab {

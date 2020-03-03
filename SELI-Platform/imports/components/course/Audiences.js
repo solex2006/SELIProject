@@ -7,7 +7,7 @@ class Audiences extends Component {
         super(props);
         this.state = { 
             other:''
-         }
+        }
     }
  /* handleChange = (event) => {
     console.log(event.target.value);
@@ -30,16 +30,14 @@ class Audiences extends Component {
                         language={this.props.language}
                     />
                 </div>
-                
                 <div className="items-audiences">
-                <CheckboxList
-                    getAudiences={this.props.getAudiences}
-                    areas={[`${this.props.language.level1}`, `${this.props.language.level2}`, `${this.props.language.level3}`,`${this.props.language.other}`]}
-                    name={"level"}
-                    language={this.props.language}
-                />
+                    <CheckboxList
+                        getAudiences={this.props.getAudiences}
+                        areas={[`${this.props.language.level1}`, `${this.props.language.level2}`, `${this.props.language.level3}`,`${this.props.language.other}`]}
+                        name={"level"}
+                        language={this.props.language}
+                    />
                 </div>
-                 
                 <div className="items-audiences">
                     <CheckboxList
                         getAudiences={this.props.getAudiences}
@@ -48,10 +46,9 @@ class Audiences extends Component {
                         language={this.props.language}
                     />
                 </div>
-                
             </div>
         );
     }
 }
- 
+
 export default Audiences;

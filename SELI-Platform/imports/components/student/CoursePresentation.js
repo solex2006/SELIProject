@@ -134,8 +134,11 @@ export default class CoursePresentation extends React.Component {
             <Paper
               id="course-presentation-hero-media-image"
               className="course-presentation-hero-media-paper-1"
-              elevation={5}
-              style={{backgroundImage: `url(${this.props.course.image.link})`}}
+              elevation={0}
+              style={{
+                backgroundImage: `url(${this.props.course.image.link})`, 
+                backgroundColor: "transparent",
+                color: "transparent"}}
             ></Paper>
             <div className="course-presentation-hero-media-paper-2">
               <Paper 
@@ -248,7 +251,7 @@ export default class CoursePresentation extends React.Component {
                     <div className={"course-card-title1"}>{this.props.language.audiences}</div>
                     <div className={"groupAudicences"}>
                         <div className="titleItem" >
-                          {this.props.language.audienceAreas}
+                          {this.props.language.audienceAreas}:
                           {
                             this.props.course.signature==="" ?
                             undefined
@@ -260,8 +263,8 @@ export default class CoursePresentation extends React.Component {
                             })
                           }
                         </div>
-                        <div className={"titleItem"}>
-                          {this.props.language.audiencelevel}
+                        <div className="titleItem" >
+                          {this.props.language.audiencelevel}:
                           {
                             this.props.course.level==="" ?
                             undefined
@@ -275,8 +278,8 @@ export default class CoursePresentation extends React.Component {
                           
                         </div>
                         
-                        <div className={"titleItem"}>
-                          {this.props.language.audiencetype}
+                        <div className="titleItem" >
+                          {this.props.language.audiencetype}:
                           {
                             this.props.course.type==="" ?
                             undefined
