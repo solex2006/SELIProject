@@ -148,7 +148,7 @@ export const  VideoSignalA11Y=(props)=> {
 						type="video"
 						user={Meteor.userId()}
 						accept={'video/*'}
-						label={"traduction*"}
+						label={props.language.byUploadVideo}
 						getFileInformation={getFileInformationsignal}
 						/>
 					</div>
