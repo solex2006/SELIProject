@@ -116,7 +116,7 @@ export default class ImageItem extends React.Component {
                   {
                       this.props.item.attributes.accessibility.dataField.imagePurpose==='info'?
                       <div> 
-                        <h2 className="description">Decorativa </h2>
+                        <h2 className="description">{this.props.language.image_a11y_purpose_informative_label}</h2>
                         {this.props.item.attributes.accessibility.dataField.shortDescription}
                       </div>
                       :
@@ -124,15 +124,14 @@ export default class ImageItem extends React.Component {
                   }
                   {
                       this.props.item.attributes.accessibility.dataField.imagePurpose==='deco'?
-                      
-                      <div>Only Decorative Image</div>
+                      <h2>{this.props.language.image_a11y_purpose_decorative_label}</h2>
                       :
                       undefined
                   }
                   {
                       this.props.item.attributes.accessibility.dataField.imagePurpose==='txt'?
                       <div> 
-                        <h2 className="description">Imagen con descripcion de texto </h2>
+                        <h2 className="description">{this.props.language.image_a11y_purpose_text}</h2>
                         {this.props.item.attributes.accessibility.dataField.shortDescription}
                       </div>
                       :
@@ -141,7 +140,7 @@ export default class ImageItem extends React.Component {
                   {
                       this.props.item.attributes.accessibility.dataField.imagePurpose==='cplx'?
                       <div> 
-                        <h2 className="description">Imagen con descripcion Compleja </h2>
+                        <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
                         {this.props.item.attributes.accessibility.dataField.shortDescription}
                         <Editor editorState={this.signalText()} readOnly={true}/>
                       </div>

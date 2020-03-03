@@ -155,6 +155,11 @@ export default class VideoItem extends React.Component {
                   <VideoPreview file={this.props.item.attributes.video} className="videoPreview"/>
                  }
                 {
+                  this.props.item.attributes.accessibility.dataField===undefined?
+                  undefined
+                  :
+                  <div>
+                    {
                   this.props.item.attributes.accessibility.dataField.signLanguage==="yes"?
                   <div>
                     {
@@ -177,7 +182,9 @@ export default class VideoItem extends React.Component {
                     }
                       </div>
                       :
-                      undefined    
+                      undefined   
+                    } 
+                  </div>
                 }
                   
                   

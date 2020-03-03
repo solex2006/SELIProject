@@ -108,6 +108,11 @@ export default class AudioItem extends React.Component {
               <div className="course-item-audio-card-controls2"> 
 
                 {
+                   this.props.item.attributes.accessibility.dataField===undefined?
+                   undefined
+                   :
+                   <div>
+                  {
                   this.props.item.attributes.accessibility.dataField.signLanguage==="yes"?
                   <div>
                     {
@@ -130,7 +135,9 @@ export default class AudioItem extends React.Component {
                     }
                       </div>
                       :
-                      undefined    
+                      undefined   
+                    } 
+                  </div>
                 }
                 <AudioPlayer 
                   volume 
