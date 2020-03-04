@@ -110,6 +110,7 @@ export default function VerticalTabs(props) {
 					className="vertical-tabs-container"
 				>
 					<Tab label={props.language.content} {...a11yProps(indexTab++,props.contentTypeAdded)}/>
+					
 					<Tab
 						label={props.language.accessibility}
 						{...a11yProps(indexTab++, props.contentTypeAdded)}

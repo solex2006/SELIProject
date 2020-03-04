@@ -19,6 +19,7 @@ import A11YShortDescription from './a11yShortDescription';
 import EditorA11Y from '../tools/a11yEditor';
 import FileUpload from '../files/FileUpload'
 import VideoPreview from '../files/previews/VideoPreview';
+import AttachmentPreview from '../files/previews/AttachmentPreview';
 import { makeStyles } from  '@material-ui/core/styles';
 
 export function VideoTextAltA11Y(props){
@@ -104,6 +105,27 @@ export function VideoMediaCaptionsAltA11Y(props){
 		captionsTip,
 	} = props.data;
 
+	const [showPreviewSignal, setshowPreviewSignal] = useState(false);
+	const [newCaption, setnewCaption] = useState(false);
+	
+	const getFileInformationCaption=(file)=>{
+		console.log("archivo de subtitulos", file)
+		dataField.fileTranscription[0]=file
+		setshowPreviewSignal(true)
+		setnewCaption(false)
+	}
+	
+	const  noCaption=()=>{
+		dataField.fileTranscription[0]=undefined
+		setshowPreviewSignal(false)
+		return undefined
+	}
+	
+	const unPickFileSignal=()=>{
+		dataField.fileTranscription[0]=undefined
+		setnewCaption(true)
+	}
+
 	return(
 		<Grid item id='captions-container' role='grid'>
 			<FormControl component='fieldset'>
@@ -137,6 +159,57 @@ export function VideoMediaCaptionsAltA11Y(props){
 				</RadioGroup>
 				<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbebedError} tip={captionsTip}/>
 			</FormControl>
+
+
+				{//languages signal part
+
+				(dataField.captionsEmbebed === "yes" || newCaption===true )?
+				<div>
+					{dataField.fileTranscription[0]===undefined?
+					<div className="uploadsignals">
+						<FileUpload
+						type="vtt"
+						user={Meteor.userId()}
+						accept={'.vtt'}
+						label={props.language.Captions}
+						getFileInformation={getFileInformationCaption}
+						/>
+					</div>
+					:
+					<div>
+						{
+							showPreviewSignal===true?
+							<div>
+								<div>
+
+								<AttachmentPreview
+									preview={false}
+									file={dataField.fileTranscription[0]}
+									unPickFile={unPickFileSignal}
+									language={props.language}
+								/>
+								</div>
+							</div>
+							:
+							<div>
+								<div>
+								<AttachmentPreview
+									preview={false}
+									file={dataField.fileTranscription[0]}
+									unPickFile={unPickFileSignal}
+									language={props.language}
+								/>
+								</div>
+							</div>
+						}
+					</div>
+					}
+				</div>	
+				:
+				noCaption
+			}
+					
+				
 		</Grid>
 	);
 }
@@ -172,8 +245,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 	const unPickFileSignal=()=>{
 		dataField.fileAudioDescription[0]=undefined
 		setnewAudioSignal(true)
-
-	  }
+	}
 	  const  noAudiofile=()=>{
 		dataField.fileAudioDescription[0]=undefined
 		setshowPreviewSignal(false)
@@ -294,9 +366,7 @@ export function VideoMediaSignLanguageA11Y(props){
 	const unPickFileSignal=()=>{
 		dataField.fileVideoSignal[0]=undefined
 		setnewVideoSignal(true)
-	
-		
-	  }
+	}
 
 	return(
 		<Grid item id='signLang-container' role='grid'>

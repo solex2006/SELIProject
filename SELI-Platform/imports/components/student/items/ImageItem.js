@@ -111,8 +111,7 @@ export default class ImageItem extends React.Component {
             {//For text Alternatives
                 this.state.shortlongDescription==='shortlongDescription'?
                 <Grid container spacing={3}>
-                  <Grid item xs={6}>
-                  
+                  <Grid item xs={6}>       
                   {
                       this.props.item.attributes.accessibility.dataField.imagePurpose==='info'?
                       <div> 
@@ -144,11 +143,9 @@ export default class ImageItem extends React.Component {
                         {this.props.item.attributes.accessibility.dataField.shortDescription}
                         <Editor editorState={this.signalText()} readOnly={true}/>
                       </div>
-                     
                       :
                       undefined
                   }
-
                   </Grid>
                   {/* <Grid item xs={6}>
                    <h2 className="description">{this.props.language.longDescription_a11y_label}</h2> 

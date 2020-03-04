@@ -42,6 +42,7 @@ export default class VideoPreview extends React.Component {
     return(
         <video  controls id="video-preview-information" className="file-preview-information" ref="video">
           <source src={this.props.file.link}></source>
+          {/* <track src="myvideo_en.vtt" kind="descriptions" srclang="en" label="English"></track> */}
         </video>
       );
     }
