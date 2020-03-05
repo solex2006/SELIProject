@@ -153,11 +153,11 @@ export default function VerticalTabs(props) {
 						/>
 					}
 					{
-							props.contentTypeAdded === 'video' &&
+						/* 	props.contentTypeAdded === 'video' &&
 						<Tab
 							label={props.language.other}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
-						/>
+						/> */
 					}
 					
 					{

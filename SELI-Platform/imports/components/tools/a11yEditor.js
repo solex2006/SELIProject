@@ -290,6 +290,7 @@ export default function ImageCaptionEditor(props) {
 							className="a11yEditor"
 							language={props.language}
 							data={data}
+							readOnly={false}
 						/>
 					</div>
 				</Grid>

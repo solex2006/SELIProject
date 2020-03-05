@@ -75,13 +75,13 @@ export function VideoTextAltA11Y(props){
 						language={props.language}
 					/>
 
-					<AccessibilityFileUpload size='small'
+					{/* <AccessibilityFileUpload size='small'
 						type='pdf'
 						user={Meteor.userId()}
 						accept={'.pdf'}
 						label={props.language.transcriptionUploadPDF_button}
 						getFileInformation={getFileInformation.bind(this)}
-					/>
+					/> */}
 				</Grid>
 			</Grid>
 		</section>
