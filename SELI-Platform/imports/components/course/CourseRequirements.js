@@ -215,10 +215,6 @@ export default class CourseRequirements extends React.Component {
     }
   }
 
-  componentWillUnmount(){
-
-  }
-
   render() {
     return(
       <div className="requirements-container">

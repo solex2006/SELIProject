@@ -57,7 +57,6 @@ export default class User extends React.Component {
       savedCourseWindow: false,
       accountType: '',
       selected: [-1, -1],
-      searchText: [],
     }
   }
 
@@ -138,7 +137,6 @@ export default class User extends React.Component {
         this.setState({
           component: component,
           savedCourse: false,
-          searchText:[],
         });
       }
     }
@@ -437,10 +435,15 @@ export default class User extends React.Component {
   }
 
   searchValue=(value)=>{
-    //console.log("Value to search", value)
     this.setState({
       searchText: value,
       component: 'courses',
+    })
+  }
+
+  cleanSearchText = () => {
+    this.setState({
+      searchText: undefined,
     })
   }
 
@@ -562,7 +565,8 @@ export default class User extends React.Component {
                           unsubscribe={this.unsubscribe.bind(this)}
                           disabled={this.state.showLoadingMessage}
                           handleControlMessage={this.handleControlMessage.bind(this)}
-                          searchText={this.state.searchText}
+                          searchText={this.state.searchText ? this.state.searchText : undefined}
+                          cleanSearchText={this.cleanSearchText.bind(this)}
                         />
                       :
                       undefined

@@ -80,7 +80,6 @@ export default class CourseInformation extends React.Component {
     }
     else if (name === 'durationWeeks') {
       courseInformation.durationweeks = event.target.value;
-     
     }
     else if (name === 'language') {
       courseInformation.language = event.target.value;

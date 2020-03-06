@@ -62,17 +62,12 @@ import InfoIcon from '@material-ui/icons/Info';
 import { FaThumbsDown } from 'react-icons/fa';
 import WarningIcon from '@material-ui/icons/Warning';
 
-
-
-
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
 }
 const GrowTransition = React.forwardRef(function Transition(props, ref) {
   return <Grow ref={ref} {...props} />;
 });
-
-
 
 export default class CourseCreatorTool extends React.Component {
   constructor(props) {

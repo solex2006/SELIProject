@@ -60,7 +60,6 @@ export default class CreateCourse extends React.Component {
   }
 
   showControlMessage(){
-
   }
 
   componentDidMount() {
@@ -356,6 +355,8 @@ export default class CreateCourse extends React.Component {
   }
 
   render() {
+    console.log(this.state.requirementsList)
+    console.log(this.state.buildedItems)
     return(
       <div>
         {
