@@ -21,8 +21,15 @@
 
 .buttomAudiences{
   border-radius: 35px !important;
-
 }
+
+.sub-course-information {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
 .buttomAudiencesSend{
   border-radius: 100px !important;
   display: inline-block;
@@ -79,9 +86,9 @@
 
 .items-audiences{
   display: inline-block !important;
-  margin-right: 120px !important;
-  margin-top: 60px !important;
+  margin-left: 60px !important;
   align-items: center !important;
+  color: #616161;
 }
 
 .form-message-small{

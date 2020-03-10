@@ -22,21 +22,26 @@
   display: flex;
   position: relative;
   height: calc(100vh - var(--app-bar-height) - var(--form-stepper-height));
+  background-color: #f5f5f5;
 }
 
 .title-course{
- width: 100% !important;
- text-align: left !important;
- text-transform: capitalize !important;
- background-color: #f5f5f5;
- font-size: 18.5px;
- font-weight: 100;
- letter-spacing: 1px;
- color: #0288d1;
+  z-index: 1;
+  position: absolute;
+  width: calc(100vw - var(--course-tool-menu-size));
+  text-align: left !important;
+  background-color: #f5f5f5c5;
+  font-size: 18.5px;
+  font-weight: 100;
+  letter-spacing: 1px;
+  color: rgb(104, 104, 104);
 }
 
 .subtitle{
-  width: 19% !important;
+  margin-left: 2vw;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
+  width: 100% !important;
   text-align: left ;
   display: inline-block;
   position: relative;

@@ -111,6 +111,7 @@ export default CheckboxList= (props)=> {
           <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
             <ListItemIcon>
               <Checkbox
+                color="primary"
                 edge="start"
                 checked={checked.indexOf(value) !== -1}
                 tabIndex={-1}
