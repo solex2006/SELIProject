@@ -23,6 +23,10 @@
 
 .list-button-menu-text .MuiListItemText-secondary {
   font-size: 0.75em !important;
+  padding-left: 35px;
+  width: 250px;
+  text-align: left;
+  white-space: pre-wrap;
 }
 
 .list-menu-icon {
@@ -33,16 +37,17 @@
 }
 
 .list-menu-item {
-  width: 220px !important;
+  width: 255px !important;
 }
 
 .list-menu-item {
   width: 100%;
   padding: 0 !important;
-  padding-left: 2vw !important;
+  padding-left: 1vw !important;
 }
 
 .menu-list-options-container {
+  width: 255px !important;
   border-radius: 0px !important;
   padding-bottom: 2.5vh !important;
 }

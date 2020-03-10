@@ -87,12 +87,6 @@ export default class CourseCreatorTool extends React.Component {
         { id: Math.random(), type: "h5p" },
         { id: Math.random(), type: "unity" },
       ],
-      disabilitieOptions: [
-        {label: this.props.language.allDisabilities, selected: true},
-        {label: this.props.language.congnitive, selected: true},
-        {label: this.props.language.hearing, selected: true},
-        {label: this.props.language.visual, selected: true},
-      ],
       menuTab: 0,
       sortMode: false,
       correctOrganization: false,
@@ -316,23 +310,11 @@ export default class CourseCreatorTool extends React.Component {
     });
   }
 
-  setDisabilitieOption(index){
-    let options = this.state.disabilitieOptions;
-    if (index === 0) {
-      options[index].selected ? options.map(option => option.selected = false) : options.map(option => option.selected = true)
-    }
-    else {
-      options[index].selected = !options[index].selected;
-      let allSelected = true;
-      for (var i = 1; i < options.length; i++) {
-        if (!options[i].selected) {
-          allSelected = false;
-        }
-      }
-      allSelected ? options[0].selected = true : options[0].selected = false;
-    }
+  setDisabilitieOption(support){
+    let courseInformation = this.state.courseInformation;
+    courseInformation.support = support;
     this.setState({
-      disabilitieOptions: options,
+      courseInformation: courseInformation,
     });
   }
 
@@ -575,11 +557,7 @@ export default class CourseCreatorTool extends React.Component {
             :
             undefined
         }
-        
-
-
-        <div className="course-creator-container">
-          
+        <div className="course-creator-container">   
           {
             this.props.courseInformation.organization.subunit ?
             <div>
@@ -596,7 +574,6 @@ export default class CourseCreatorTool extends React.Component {
                   undefined
                 }
               <div className="course-creator-work-area">
-                
                 <div
                   style={
                     !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
@@ -666,8 +643,6 @@ export default class CourseCreatorTool extends React.Component {
                     </Container>
                   }
                 </div>
-
-          
                 <div className="course-creator-menu-area">
                   <CourseCreatorMenu
                     setMenuTab={this.setMenuTab.bind(this)}
@@ -678,7 +653,7 @@ export default class CourseCreatorTool extends React.Component {
                     this.state.menuTab === 0 ?
                       <div>
                         <DisabilitieMenu
-                          options={this.state.disabilitieOptions}
+                          disabilitieOptions={this.state.courseInformation.support}
                           setOption={this.setDisabilitieOption.bind(this)}
                           language={this.props.language}
                         />
@@ -776,7 +751,6 @@ export default class CourseCreatorTool extends React.Component {
             :
             undefined
           }
-          
           {
             !this.props.courseInformation.organization.subunit && this.props.courseInformation.organization ?
               <div className="course-creator-work-area">
@@ -859,7 +833,7 @@ export default class CourseCreatorTool extends React.Component {
                     this.state.menuTab === 0 ?
                       <div>
                         <DisabilitieMenu
-                          options={this.state.disabilitieOptions}
+                          disabilitieOptions={this.state.courseInformation.support}
                           setOption={this.setDisabilitieOption.bind(this)}
                           language={this.props.language}
                         />

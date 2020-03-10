@@ -46,11 +46,9 @@ export default class CreateCourse extends React.Component {
         signature:'',
         level:'',
         type:'',
-        program: [
-
-        ],
+        program: [],
       },
-      requirementsList: [],
+      lists: [],
       buildedItems: false,
       expandedNodes: [],
       selected: [0, 0],
@@ -95,7 +93,7 @@ export default class CreateCourse extends React.Component {
         />,
         <CourseRequirements
           courseInformation={this.state.courseInformation}
-          requirementsList={this.state.requirementsList}
+          lists={this.state.lists}
           buildedItems={this.state.buildedItems}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
           language={this.props.language}
@@ -355,8 +353,6 @@ export default class CreateCourse extends React.Component {
   }
 
   render() {
-    console.log(this.state.requirementsList)
-    console.log(this.state.buildedItems)
     return(
       <div>
         {
@@ -375,7 +371,6 @@ export default class CreateCourse extends React.Component {
           :
           undefined
         }
-
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

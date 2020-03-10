@@ -124,12 +124,12 @@ export default class AppBar extends React.Component {
     this.setState({ openRequest: true });
   };
 
-
   handleSearchText=(event)=>{
     this.setState({
       searchText: event.target.value
     })
   }
+
   handleSearchButton=(event)=>{
     //console.log(this.state.searchText)
     //let courses= Courses.find({}).fetch()
@@ -305,10 +305,8 @@ export default class AppBar extends React.Component {
     return(
       <div >
         {
-      
           this.appbar()
         }
-        
       </div>
     );
   }
