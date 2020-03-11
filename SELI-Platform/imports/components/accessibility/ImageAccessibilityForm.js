@@ -31,9 +31,9 @@ export default function ImageAccessibility(props) {
 	return (
 		<React.Fragment>
 			<section id='image-decoration' className='accessib-form'>
-				<header>
+				{/* <header>
 					<h3 className="accessibility-form-title">{props.language.image_a11y_form}</h3>
-				</header>
+				</header> */}
 				<FormControl component='fieldset'>
 					<FormLabel component='legend' id='image-purpose-label' className="accessibility-form-label">
 						{props.language.image_a11y_form_lbl}
@@ -45,7 +45,7 @@ export default function ImageAccessibility(props) {
 						aria-describedby='image-purpose-exp'
 						value={dataField.imagePurpose}
 						onChange={React.useCallback(handleImagePurposeOnChange)}
-						column
+						row
 					>
 						 <FormControlLabel
 							name='imagePurpose'
@@ -80,6 +80,7 @@ export default function ImageAccessibility(props) {
 							labelPlacement='end'
 						/>
 					</RadioGroup>
+					
 					<AccessibilityHelp
 						id='image-purpose'
 						name='imagePurpose'
@@ -112,7 +113,7 @@ export default function ImageAccessibility(props) {
 							placeholder="Content identification"
 							required={true}
 							tip={shortDescriptionTip}
-							step={'shortAltHelper_'+dataField.imagePurpose}
+							step={'shortAltHelper_'+ dataField.imagePurpose}
 							language={props.language}
 						/>
 					</Grid>

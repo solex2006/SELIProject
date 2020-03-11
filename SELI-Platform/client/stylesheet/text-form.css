@@ -89,6 +89,10 @@
   padding-left: 8px !important;
 }
 
+.MuiToggleButton-root{
+  border: none !important;
+}
+
 .toggle-button .MuiToggleButton-label {
   pointer-events: none !important;
 }

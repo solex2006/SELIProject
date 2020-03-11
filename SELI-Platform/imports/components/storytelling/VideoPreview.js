@@ -19,7 +19,7 @@ export default class VideoPreview extends React.Component {
 
 
   componentDidMount(){
-    console.log("desde VIDEOPREVIEW", this.props.captions)
+    //console.log("desde VIDEOPREVIEW", this.props.captions)
     if(this.props.captions!=undefined){
       if(this.props.captions.fileTranscription && this.props.captions.fileTranscription.length>0){
         this.setState({

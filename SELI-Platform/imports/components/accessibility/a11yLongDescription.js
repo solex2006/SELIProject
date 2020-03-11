@@ -40,6 +40,7 @@ export default function a11yLongDescription(props){
 					required={props.required}
 					handleerror={props.handleerror}
 					longDescription_a11y_delopment_purpose={props.language.longDescription_a11y_delopment_purpose}
+					
 				/>
 				<AccessibilityHelp 
 					id={'long-description-help-container'} 
@@ -51,7 +52,7 @@ export default function a11yLongDescription(props){
 					language={props.language}
 				/>
 			</Grid>
-			{/* <Grid item id={'long-description-position-container'} role='grid'>
+			<Grid item id={'long-description-position-container'} role='grid'>
 				<span id={'long-description-position-label'}>{props.textPositionLabel} </span>
 				<ToggleButtonGroup id={'long-description-position'}
 					name={'longDescriptionPosition'+props.name}
@@ -75,7 +76,7 @@ export default function a11yLongDescription(props){
 						</Tooltip>
 					</ToggleButton>
 				</ToggleButtonGroup>
-			</Grid> */}
+			</Grid> 
 		</React.Fragment>
 	);
 }

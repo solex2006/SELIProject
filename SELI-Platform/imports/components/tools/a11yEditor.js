@@ -32,7 +32,9 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
-
+import TextField from '@material-ui/core/TextField';
+import { Label, Segment } from 'semantic-ui-react' ;
+import { FormControl } from '@material-ui/core';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
@@ -42,6 +44,7 @@ import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
 import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // props {                                                                   //
@@ -83,54 +86,13 @@ export default function ImageCaptionEditor(props) {
 	} = useEditor(props);
 
 
-	const data={
-		
-			"blocks": [
-			  {
-				"key": "a6shj",
-				"text": "andres",
-				"type": "unstyled",
-				"depth": 0,
-				"inlineStyleRanges": [],
-				"entityRanges": [],
-				"data": {}
-			  },
-			  {
-				"key": "aau3l",
-				"text": "asdasd",
-				"type": "header-six",
-				"depth": 0,
-				"inlineStyleRanges": [],
-				"entityRanges": [],
-				"data": {}
-			  },
-			  {
-				"key": "5fmhr",
-				"text": "asdasdasd",
-				"type": "unordered-list-item",
-				"depth": 0,
-				"inlineStyleRanges": [],
-				"entityRanges": [],
-				"data": {}
-			  },
-			  {
-				"key": "1hoch",
-				"text": "dsadad",
-				"type": "ordered-list-item",
-				"depth": 0,
-				"inlineStyleRanges": [],
-				"entityRanges": [],
-				"data": {}
-			  }
-			],
-			"entityMap": {}
-		  }
+	
 	
 
 	return (
 		<Grid item>
-			<Grid container direction='column' justify='flex-start' alignments='flex-start'spacing={0} className="a11yEditor-root">
-				<Grid item  xs={12} id="editor-control-block-types" value={blockTypes} className='a11yEditor-controls'>
+			<Grid container direction='column' justify='flex-start' alignments='flex-start'spacing={0} className="a11yEditor-root a11yEditor">
+				<Grid item  xs={12} id="editor-control-block-types" value={blockTypes} >
 					<ToggleButton
 						value='paragraph'
 						key="paragraph"
@@ -139,7 +101,7 @@ export default function ImageCaptionEditor(props) {
 							e.preventDefault();
 							React.useCallback(toggleBlockType('paragraph'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "paragraph"? "a11yEditor-activeButton" : "")}>
-						P
+						Parrafo*
 					</ToggleButton>
 					<ToggleButton
 						value='header-one'
@@ -149,9 +111,9 @@ export default function ImageCaptionEditor(props) {
 							e.preventDefault();
 							React.useCallback(toggleBlockType('header-one'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-one"? "a11yEditor-activeButton" : "")}>
-						H1
+						Title*
 					</ToggleButton>
-					<ToggleButton
+					{/* <ToggleButton
 						value='header-two'
 						key='header-two'
 						aria-label="Header two"
@@ -160,7 +122,7 @@ export default function ImageCaptionEditor(props) {
 							React.useCallback(toggleBlockType('header-two'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-two"? "a11yEditor-activeButton" : "")}>
 						H2
-					</ToggleButton>
+					</ToggleButton> */}
 					<ToggleButton
 						value='header-three'
 						key='header-three'
@@ -169,9 +131,9 @@ export default function ImageCaptionEditor(props) {
 							e.preventDefault();
 							React.useCallback(toggleBlockType('header-three'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-three"? "a11yEditor-activeButton" : "")}>
-						H3
+						Subtitle*
 					</ToggleButton>
-					<ToggleButton
+					{/* <ToggleButton
 						value='header-four'
 						key='header-four'
 						aria-label="Header four"
@@ -180,8 +142,8 @@ export default function ImageCaptionEditor(props) {
 							React.useCallback(toggleBlockType('header-four'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-four"? "a11yEditor-activeButton" : "")}>
 						H4
-					</ToggleButton>
-					<ToggleButton
+					</ToggleButton> */}
+					{/* <ToggleButton
 						value='header-five'
 						key='header-five'
 						aria-label="Header five"
@@ -190,8 +152,8 @@ export default function ImageCaptionEditor(props) {
 							React.useCallback(toggleBlockType('header-five'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-five"? "a11yEditor-activeButton" : "")}>
 						H5
-					</ToggleButton>
-					<ToggleButton
+					</ToggleButton> */}
+					{/* <ToggleButton
 						value='header-six'
 						key='header-six'
 						aria-label="Header six"
@@ -200,7 +162,7 @@ export default function ImageCaptionEditor(props) {
 							React.useCallback(toggleBlockType('header-six'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "header-six"? "a11yEditor-activeButton" : "")}>
 						H6
-					</ToggleButton>
+					</ToggleButton> */}
 					<ToggleButton
 						value='unordered-list-item'
 						key='unordered-list-item'
@@ -209,7 +171,7 @@ export default function ImageCaptionEditor(props) {
 							e.preventDefault();
 							React.useCallback(toggleBlockType('unordered-list-item'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "unordered-list-item"? "a11yEditor-activeButton" : "")}>
-						UL
+						Unordered List*
 					</ToggleButton>
 					<ToggleButton
 						value='ordered-list-item'
@@ -219,7 +181,7 @@ export default function ImageCaptionEditor(props) {
 							e.preventDefault();
 							React.useCallback(toggleBlockType('ordered-list-item'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "ordered-list-item"? "a11yEditor-activeButton" : "")}>
-						OL
+						Ordered List*
 					</ToggleButton>
 					<ToggleButton
 						value='blockquote'
@@ -229,11 +191,12 @@ export default function ImageCaptionEditor(props) {
 							e.preventDefault();
 							React.useCallback(toggleBlockType('blockquote'));}}
 						className={"a11yEditor-styleButton "+( blockTypes === "blockquote"? "a11yEditor-activeButton" : "")}>
-						Quote
+						Quote*
 					</ToggleButton>
+					
 				</Grid>
-				{/* <Grid item  xl={3} id="editor-control-inline-styles" value={textSyles} className="a11yEditor-controls">
-					<ToggleButton
+				 <Grid item  xs={12} id="editor-control-inline-styles" value={textSyles} >
+				 <ToggleButton
 						value='BOLD'
 						key="BOLD"
 						aria-label="Bold"
@@ -241,7 +204,7 @@ export default function ImageCaptionEditor(props) {
 							e.preventDefault();
 							React.useCallback(toogleInlineStyle('BOLD'));}}
 						className={"a11yEditor-styleButton "+( editorState.getCurrentInlineStyle().has('BOLD')? 'a11yEditor-activeButton' : '')}>
-						B
+						Bold
 					</ToggleButton>
 					<ToggleButton
 						value='ITALIC'
@@ -251,7 +214,7 @@ export default function ImageCaptionEditor(props) {
 							e.preventDefault();
 							React.useCallback(toogleInlineStyle('ITALIC'));}}
 						className={"a11yEditor-styleButton "+( editorState.getCurrentInlineStyle().has('ITALIC')? 'a11yEditor-activeButton' : '')}>
-						I
+						Italic
 					</ToggleButton>
 					<ToggleButton
 						value='UNDERLINE'
@@ -261,39 +224,11 @@ export default function ImageCaptionEditor(props) {
 							e.preventDefault();
 							React.useCallback(toogleInlineStyle('UNDERLINE'));}}
 						className={"a11yEditor-styleButton "+( editorState.getCurrentInlineStyle().has('UNDERLINE')? 'a11yEditor-activeButton' : '')}>
-						U
+						Underline*
 					</ToggleButton> 
-				</Grid>*/}
-				<Grid item  xl={12} className={classNameEditor}>
-					{/* <label className={classNameLabel} data-shrink="false" htmlFor={props.id + "-Editor"}>
-						{props.label}
-						{
-							props.required &&
-							<span className={classNameAsterisk}>&thinsp;*</span>
-						}
-					</label> */}
-					<div className="a11yEditor">
-						<Editor
-							id={props.id + "-Editor"}
-							editorKey={props.id+"-Editor"}
-							editorState={editorState}
-							onChange={React.useCallback(onChange)}
-							onClick={React.useCallback(onClick)}
-							handleKeyCommand={React.useCallback(handleKeyCommand)}
-							onTab={React.useCallback(onTab)}
-							ariaMultiline={true}
-							ariaLabelledBy={props.ariaLabelledBy}
-							ariaDescribedBy={props.ariaDescribedBy}
-							placeholder={props.placeholder}
-							ref={editor}
-							error={props.error}
-							className="a11yEditor"
-							language={props.language}
-							data={data}
-							readOnly={false}
-						/>
-					</div>
 				</Grid>
+		
+				
 			</Grid>
 
 			{/* <div className = { inDevelopment ? '' : 'hide' } >
@@ -314,7 +249,32 @@ export default function ImageCaptionEditor(props) {
 						</Grid>
 					</Grid>
 				</details>
-			</div> */}
+			</div> */} 
+			<Grid item  xl={12} className={classNameEditor}>	
+			<Label pointing className="labelEditor">Long Description*</Label>
+			<div className="a11yEditor">
+				<Editor
+					id={props.id + "-Editor"}
+					editorKey={props.id+"-Editor"}
+					editorState={editorState}
+					onChange={React.useCallback(onChange)}
+					onClick={React.useCallback(onClick)}
+					handleKeyCommand={React.useCallback(handleKeyCommand)}
+					onTab={React.useCallback(onTab)}
+					ariaMultiline={true}
+					ariaLabelledBy={props.ariaLabelledBy}
+					ariaDescribedBy={props.ariaDescribedBy}
+					placeholder={props.longDescription_a11y_label}
+					ref={editor}
+					error={props.error}
+					className="a11yEditor"
+					language={props.language}
+					readOnly={false}
+					variant="outlined"		
+				/>
+		
+			</div>
+		</Grid>
 		</Grid>
 	);
 }
@@ -342,15 +302,11 @@ const useEditor =(props) => {
 
 	useEffect(() => {
 		const currentContent = editorState.getCurrentContent();
-
 		// setBlockTypes(getActiveBlockType());
-
 		setOutputHtml(stateToHTML(currentContent));
-
 		let raw = convertToRaw(currentContent);
 		setOutputRaw(raw);
 		localStorage.setItem('editorData', JSON.stringify(raw));
-
 		//const txt = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
 		if (props.onChange !== undefined)
 			props.onChange({target : {name: props.name, value: raw}});//.getPlainText('\u0001')
@@ -417,13 +373,16 @@ const useEditor =(props) => {
 
 	function toogleInlineStyle(inlineStyle) {
 		setTextStyles(inlineStyle);
+		console.log("editorState inlineStyle",editorState,  inlineStyle)
 		onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle));
 	}
+
 
 	function toggleBlockType(type) {
 		let prevType = getActiveBlockType();
 		type = prevType === type ? 'paragraph' : type;
 		setBlockTypes(type);
+		console.log("editorState blocktype",editorState, type)
 		onChange(RichUtils.toggleBlockType(editorState, type));
 	}
 
@@ -455,6 +414,7 @@ const useEditor =(props) => {
 	};
 
 	const onChange = (newEditorState) => {
+		console.log("OnChange", newEditorState)
 		setEditorState(newEditorState);
 	};
 

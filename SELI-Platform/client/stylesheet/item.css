@@ -51,6 +51,12 @@
   display: flex;
   position: relative;
 }
+.content-boxstudent {
+  width: 100%;
+  height: auto;
+  display: contents;
+  position: relative;
+}
 
 .menu-item-list {
   width: 250px !important;

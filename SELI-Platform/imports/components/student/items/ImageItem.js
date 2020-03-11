@@ -18,7 +18,7 @@ export default class ImageItem extends React.Component {
 
   checkBoxLabels=()=>{
     return(
-      <div>
+      <div className="checkBoxItem">
         {
           this.props.item.attributes.accessibility.dataField===undefined?
                    undefined
@@ -62,11 +62,82 @@ export default class ImageItem extends React.Component {
     return editorState
   }
 
+  textAlternatives=()=>{
+    return(
+      <div>
+        {//For text Alternatives
+            this.state.shortlongDescription==='shortlongDescription'?
+            <Grid container spacing={3}>
+              <Grid item xs={6}>       
+              {
+                  this.props.item.attributes.accessibility.dataField.imagePurpose==='info'?
+                  <div> 
+                    <h2 className="description">{this.props.language.image_a11y_purpose_informative_label}</h2>
+                    {this.props.item.attributes.accessibility.dataField.shortDescription}
+                  </div>
+                  :
+                  undefined
+              }
+              {
+                  this.props.item.attributes.accessibility.dataField.imagePurpose==='deco'?
+                  <h2>{this.props.language.image_a11y_purpose_decorative_label}</h2>
+                  :
+                  undefined
+              }
+              {
+                  this.props.item.attributes.accessibility.dataField.imagePurpose==='txt'?
+                  <div> 
+                    <h2 className="description">{this.props.language.image_a11y_purpose_text}</h2>
+                    {this.props.item.attributes.accessibility.dataField.shortDescription}
+                  </div>
+                  :
+                  undefined
+              }
+              {
+                  this.props.item.attributes.accessibility.dataField.imagePurpose==='cplx'?
+                  <div> 
+                    <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
+                    {this.props.item.attributes.accessibility.dataField.shortDescription}
+                    <Editor editorState={this.signalText()} readOnly={true}/>
+                  </div>
+                  :
+                  undefined
+              }
+              </Grid>
+              {/* <Grid item xs={6}>
+                <h2 className="description">{this.props.language.longDescription_a11y_label}</h2> 
+                {
+                  this.props.item.attributes.accessibility.dataField===undefined?
+                  undefined
+                  :
+                <div> 
+                  {
+                    this.props.item.attributes.accessibility.dataField!=undefined ?
+                    <Editor editorState={this.signalText()} readOnly={true} />
+                    :
+                    <div>{this.props.language.NolongDescription}</div>
+                  }  
+                  </div>
+                }
+              </Grid> */}
+            </Grid>
+            :
+            undefined
+        }
+      </div>
+    )
+  }
   render() {
    // console.log("DESDEiMAGEITEMDELCURSOESTUDIANTE", this.props.item.attributes.accessibility.dataField)
     return(
-      <div className="content-box">
+      <div className="content-boxstudent">
         {this.checkBoxLabels()}
+        {
+          this.props.item.attributes.accessibility.dataField.longDescriptionPosition==='top'?
+          this.textAlternatives()
+          :
+          undefined
+        }
         <div className="image-content-item">
           <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
             <div
@@ -108,69 +179,14 @@ export default class ImageItem extends React.Component {
                 undefined
             }
 
-            {//For text Alternatives
-                this.state.shortlongDescription==='shortlongDescription'?
-                <Grid container spacing={3}>
-                  <Grid item xs={6}>       
-                  {
-                      this.props.item.attributes.accessibility.dataField.imagePurpose==='info'?
-                      <div> 
-                        <h2 className="description">{this.props.language.image_a11y_purpose_informative_label}</h2>
-                        {this.props.item.attributes.accessibility.dataField.shortDescription}
-                      </div>
-                      :
-                      undefined
-                  }
-                  {
-                      this.props.item.attributes.accessibility.dataField.imagePurpose==='deco'?
-                      <h2>{this.props.language.image_a11y_purpose_decorative_label}</h2>
-                      :
-                      undefined
-                  }
-                  {
-                      this.props.item.attributes.accessibility.dataField.imagePurpose==='txt'?
-                      <div> 
-                        <h2 className="description">{this.props.language.image_a11y_purpose_text}</h2>
-                        {this.props.item.attributes.accessibility.dataField.shortDescription}
-                      </div>
-                      :
-                      undefined
-                  }
-                  {
-                      this.props.item.attributes.accessibility.dataField.imagePurpose==='cplx'?
-                      <div> 
-                        <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
-                        {this.props.item.attributes.accessibility.dataField.shortDescription}
-                        <Editor editorState={this.signalText()} readOnly={true}/>
-                      </div>
-                      :
-                      undefined
-                  }
-                  </Grid>
-                  {/* <Grid item xs={6}>
-                   <h2 className="description">{this.props.language.longDescription_a11y_label}</h2> 
-                    {
-                      this.props.item.attributes.accessibility.dataField===undefined?
-                      undefined
-                      :
-                    <div> 
-                      {
-                        this.props.item.attributes.accessibility.dataField!=undefined ?
-                        <Editor editorState={this.signalText()} readOnly={true} />
-                        :
-                        <div>{this.props.language.NolongDescription}</div>
-                      }  
-                      </div>
-                    }
-                  </Grid> */}
-                </Grid>
-                :
-                undefined
-            } 
-
-
           </div>
         </div>
+        {
+          this.props.item.attributes.accessibility.dataField.longDescriptionPosition==='bottom'?
+          this.textAlternatives()
+          :
+          undefined
+        }
       </div>
       );
     }
