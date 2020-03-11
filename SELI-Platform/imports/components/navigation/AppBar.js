@@ -124,18 +124,18 @@ export default class AppBar extends React.Component {
     this.setState({ openRequest: true });
   };
 
-
   handleSearchText=(event)=>{
     this.setState({
       searchText: event.target.value
     })
   }
+
   handleSearchButton=(event)=>{
     //console.log(this.state.searchText)
     //let courses= Courses.find({}).fetch()
     let courses = Courses.find({published: true}).fetch();
-    console.log(courses)
-    console.log(filter(courses, { 'title': this.state.searchText}));
+    //console.log(courses)
+    //console.log(filter(courses, { 'title': this.state.searchText}));
     let search=filter(courses, { 'title': this.state.searchText})
     this.setState({
       showPreview: 'showPreview'
@@ -305,10 +305,8 @@ export default class AppBar extends React.Component {
     return(
       <div >
         {
-      
           this.appbar()
         }
-        
       </div>
     );
   }

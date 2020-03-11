@@ -42,7 +42,7 @@ export default class CourseRequirements extends React.Component {
       },
       disabilitieAllowed: [],
       technicalRequirements: [],
-      lists: this.props.requirementsList,
+      lists: this.props.lists,
       courseInformation: this.props.courseInformation,
       loading: true,
       request: {
@@ -213,10 +213,6 @@ export default class CourseRequirements extends React.Component {
         })
       })
     }
-  }
-
-  componentWillUnmount(){
-
   }
 
   render() {

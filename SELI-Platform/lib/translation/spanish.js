@@ -794,7 +794,7 @@ var SPANISH = {
   level4:'Primaria',
   type1:'Estudiante',
   type2:'Profesor',
-  audiences: "Audiencia",
+  audiences: "Audiencias",
   audienceAreas: "Área",
   audiencelevel: "Nivel",
   audiencetype: "Tipo",

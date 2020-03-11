@@ -22,7 +22,8 @@ import Help from '../tools/Help';
 import FormPreview from '../files/previews/FormPreview';
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldValidations';
-import Audiences from './Audiences'
+import Audiences from './Audiences';
+import FormLabel from '@material-ui/core/FormLabel';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -41,7 +42,6 @@ export default class CourseInformation extends React.Component {
     super(props);
     this.state = {
       courseInformation: this.props.courseInformation,
-      audiences: '',
       weekHourOption: 'hours',
     }
   }
@@ -80,7 +80,6 @@ export default class CourseInformation extends React.Component {
     }
     else if (name === 'durationWeeks') {
       courseInformation.durationweeks = event.target.value;
-     
     }
     else if (name === 'language') {
       courseInformation.language = event.target.value;
@@ -227,17 +226,7 @@ export default class CourseInformation extends React.Component {
       image: this.state.courseInformation.image,
       sylabus: this.state.courseInformation.sylabus,
     })
-    console.log("CourseInformation",this.props.courseInformation)
-  }
-
-  componentWillUnmount(){
-
-  }
-
-  audiences=()=>{
-    this.setState({
-      audiences: "audiences"
-    })
+    //console.log("CourseInformation",this.props.courseInformation)
   }
 
   getAudiences=(audiences, name)=>{
@@ -254,7 +243,6 @@ export default class CourseInformation extends React.Component {
     else if (name === 'type') {
       courseInformation.type = audiences;
     }
-   
   }
 
   courseDuration=(hourWeek)=>{
@@ -269,11 +257,6 @@ export default class CourseInformation extends React.Component {
       })
     }
   }
-
-  componentDidUpdate(prevState){
-
-  }
-
 
   render() {
     return(
@@ -399,11 +382,7 @@ export default class CourseInformation extends React.Component {
               language={this.props.language}
             />
           </p>
-          <div>
-          <RadioButtonsGroup
-            language={this.props.language}
-            courseDuration={this.courseDuration}
-          />
+          <div className="sub-course-information">
             { 
               this.state.weekHourOption==='weeks'?
                   <TextField
@@ -446,8 +425,19 @@ export default class CourseInformation extends React.Component {
                 :
                   undefined
             }
+            <RadioButtonsGroup
+              language={this.props.language}
+              courseDuration={this.courseDuration}
+            />
           </div>
-          <Button className={"buttomAudiences"} onClick={this.audiences} variant="outlined" color="primary">Audiences</Button>
+          <div className="sub-course-information">
+            <FormLabel component="legend">{`${this.props.language.audiences}:`}</FormLabel>
+            <Audiences
+              language={this.props.language}
+              getAudiences={this.getAudiences}
+            />
+          </div>
+          {/* <Button className={"buttomAudiences"} onClick={this.audiences} variant="outlined" color="primary">Audiences</Button>
           {
             this.state.audiences==="audiences" ?
               <Audiences
@@ -456,7 +446,7 @@ export default class CourseInformation extends React.Component {
               />
             :
               undefined
-          } 
+          }  */}
         </div>
         
         <Dialog

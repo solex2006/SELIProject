@@ -10,13 +10,11 @@ import { withStyles } from '@material-ui/core/styles';
 const useStyles = theme => ({
   formControl: {
     margin: theme.spacing(3),
+    width: "210px"
   },
 });
 
 class RadioButtonsGroup extends Component {
-
-
- 
   state={
       value:'Weeks'
   }
@@ -34,10 +32,9 @@ class RadioButtonsGroup extends Component {
   return (
     <div>
       <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend">{this.props.language.estimatedCourseDuration}</FormLabel>
-        <RadioGroup aria-label="gender" name="gender1" value={this.state.value} onChange={this.handleChange}>
-          <FormControlLabel value="weeks" control={<Radio />} label="Weeks" />
-          <FormControlLabel value="hours" control={<Radio />} label="Hours" />
+        <RadioGroup row aria-label="gender" name="gender1" value={this.state.value} onChange={this.handleChange} color= "#616161">
+          <FormControlLabel value="weeks" control={<Radio color="primary" />} label={this.props.language.week} color= "#616161"/>
+          <FormControlLabel value="hours" control={<Radio color="primary" />} label={this.props.language.hours} color= "#616161"/>
         </RadioGroup>
       </FormControl>
       
