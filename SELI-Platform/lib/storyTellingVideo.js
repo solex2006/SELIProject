@@ -1,8 +1,6 @@
 // https://github.com/fluent-ffmpeg/node-fluent-ffmpeg
 // Library for image, audio and video creation and format conversion.
 
-var ffprobeInstaller = require('@ffprobe-installer/ffprobe')
-const ffmpeg = require('fluent-ffmpeg');
 
 import * as fs from 'fs';
 import { Meteor } from "meteor/meteor";
@@ -11,7 +9,6 @@ import CourseFilesCollection from "./CourseFilesCollection";
 import * as os from 'os';
 import * as path from "path";
 
-const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 
 
 Meteor.methods({
@@ -24,6 +21,7 @@ Meteor.methods({
         if (err) throw err;
       })
     }
+
     const story = Activities.findOne({ _id: id });
     // Create a list from story's scenes
     const files = createFileList(story);

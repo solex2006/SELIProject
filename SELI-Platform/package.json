@@ -28,7 +28,10 @@
     "draft-js": "^0.10.5",
     "draft-js-export-html": "^1.4.1",
     "email-deep-validator": "^3.3.0",
+<<<<<<< HEAD
     "ffmpeg-binaries": "^4.0.0",
+=======
+>>>>>>> 586d559a88d79f21ff8560a72eff697c7a322ada
     "ffprobe": "^1.1.0",
     "firebase": "^7.8.1",
     "fluent-ffmpeg": "^2.1.2",
@@ -41,6 +44,7 @@
     "meteor-node-stubs": "^0.4.1",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
+    "node-ffprobe": "github:ListenerApproved/node-ffprobe",
     "object-str-find": "^0.1.1",
     "rc-input-number": "^4.5.3",
     "re-resizable": "^5.0.1",
