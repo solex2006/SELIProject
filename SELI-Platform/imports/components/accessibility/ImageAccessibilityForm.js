@@ -28,6 +28,8 @@ export default function ImageAccessibility(props) {
 		isA11Y,
 	} = props.data;
 
+	
+	
 	return (
 		<React.Fragment>
 			<section id='image-decoration' className='accessib-form'>
@@ -336,7 +338,7 @@ export const useImageDataField = (props) => {
 		case 'cplx':
 			return props.language.image_a11y_purpose_complex_tip;
 		default:
-			return;
+			return props.language.shortDescription_a11y_tip_default_image;;
 		}
 	}
 
@@ -352,7 +354,7 @@ export const useImageDataField = (props) => {
 		case 'cplx':
 			return props.language.shortDescription_a11y_tip_image_complex;
 		default:
-			return;
+			return props.language.shortDescription_a11y_default_image;
 		}
 	}
 
@@ -364,7 +366,7 @@ export const useImageDataField = (props) => {
 		case 'cplx':
 			return props.language.image_a11y_provide_text;
 		default:
-			return;
+			return ;
 		}
 	}
 

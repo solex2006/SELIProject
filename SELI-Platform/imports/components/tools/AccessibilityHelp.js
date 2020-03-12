@@ -46,6 +46,7 @@ export default function AccessibilityHelp(props) {
 						undefined
 					}
 					<InfoIcon aria-label='Accessibilit tip'/>
+					
 					<span className={props.error? 'accessibError' : 'accessibValid'}>
 						{props.tip}
 					</span>

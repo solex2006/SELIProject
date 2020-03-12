@@ -1,12 +1,18 @@
 // https://github.com/fluent-ffmpeg/node-fluent-ffmpeg
 // Library for image, audio and video creation and format conversion.
-import ffmpeg from 'fluent-ffmpeg';
+
+var ffprobeInstaller = require('@ffprobe-installer/ffprobe')
+const ffmpeg = require('fluent-ffmpeg');
+
 import * as fs from 'fs';
 import { Meteor } from "meteor/meteor";
 import { Activities } from './ActivitiesCollection';
 import CourseFilesCollection from "./CourseFilesCollection";
 import * as os from 'os';
 import * as path from "path";
+
+const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
+
 
 Meteor.methods({
   'saveAsVideo': (id, userId) => {
@@ -89,7 +95,12 @@ const mergeSubtitles = (file) => {
       } else {
         file.subtitle = srtFileName;
       }
-      ffmpeg()
+
+      //ffmpeg.setFfmpegPath(ffmpegPath.path);
+      //console.log("PATH",ffmpegPath.path)
+
+
+      ffmpeg().setFfmpegPath(ffmpegInstaller.path.replace('app.asar', 'app.asar.unpacked'))
         .addInput(file.video)
         .output(file.video2)
         .outputFormat('mp4')
@@ -164,7 +175,7 @@ const getMediaDuration = (file) => {
       file.duration = 5;
       resolve(false);
     } else {
-      ffmpeg.ffprobe(fileName, (err, metadata) => {
+      ffmpeg.ffprobe(fileName, (err, metadata) => { 
         if (err) {
           reject(err);
         } else {
@@ -240,7 +251,7 @@ const createFileList = (story) => {
 // Merge an image and audio file into a video file.
 const mergeImageAndAudio = (imageName, audioName, videoName) => {
   return new Promise((resolve, reject) => {
-    let ffmpegCmd = ffmpeg();
+      let ffmpegCmd =ffmpeg().setFfmpegPath(ffmpegInstaller.path.replace('app.asar', 'app.asar.unpacked')) ;
     if (imageName && imageName.length > 0) {
       ffmpegCmd = ffmpegCmd.addInput(imageName).loop();
     }
@@ -286,7 +297,7 @@ const mergeVideoFiles = (fileList, videoFileName) => {
 
       if (err) return reject(err);
 
-      ffmpeg()
+      ffmpeg().setFfmpegPath(ffmpegInstaller.path.replace('app.asar', 'app.asar.unpacked'))
         .input(listFileName)
         .inputOptions(['-f concat', '-safe 0'])
         .outputOptions('-c copy')

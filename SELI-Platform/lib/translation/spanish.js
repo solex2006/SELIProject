@@ -869,9 +869,11 @@ var SPANISH = {
   downloadVideoDesc: 'Puede descargar el video desde el siguiente enlace', 
   downloadVideoError: 'Se produjo un error al procesar el video', 
   downloadVideoState: 'Preparando video, por favor espere',
-  NoshortDescription:'No short Description',
-  NolongDescription:'No Long Description',
-  textAlternatives: 'Accessibility with text alternatives',
+  NoshortDescription:'Descripcion corta deshabilitada',
+  NolongDescription:'Descripcion larga deshabilitada',
+  textAlternatives: 'Accessibilidad con alternativas de texto',
+  shortDescription_a11y_tip_default_image: "Selecciona el tipo de imagen que deseas utilizar ",
+  shortDescription_a11y_default_image: "Permite al usuario crear una corta descripción que transmite la información esencial presentada por la imagen",
 }
 export default SPANISH
 

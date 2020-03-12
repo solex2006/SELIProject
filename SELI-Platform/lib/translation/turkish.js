@@ -872,5 +872,7 @@ var TURKISH = {
   NoshortDescription:'Kısa açıklama yok',
   NolongDescription:'Uzun açıklama yok',
   textAlternatives: 'Alternatif metinlerle erişilebilirlik',
+  shortDescription_a11y_tip_default_image: "select the type of image you want to use",
+  shortDescription_a11y_default_image: "Allows the user to create a short description that transmits the essential information presented by the image",
 }
 export default TURKISH;
