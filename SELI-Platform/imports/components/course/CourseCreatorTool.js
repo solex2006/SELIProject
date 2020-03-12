@@ -579,7 +579,7 @@ export default class CourseCreatorTool extends React.Component {
                         lockAxis="y"
                         dragBeginDelay={500}
                         dragClass="drag-class"
-                        style={{width: "100%", height: "100%"}}
+                        style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
                         groupName="1"
                         getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
                         onDrop={e => this.openDialog(e)}>
@@ -601,30 +601,30 @@ export default class CourseCreatorTool extends React.Component {
                         }
                       </Container>
                     :
-                    <Container
-                      lockAxis="y"
-                      dragBeginDelay={0}
-                      dragClass="drag-class"
-                      style={{width: "100%", height: "100%"}}
-                      groupName="1"
-                      getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
-                      onDrop={e => this.openDialog(e)}
-                    >
-                      {
-                        this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
-                          return (
-                            <Draggable key={i}>
-                              <SortItem
-                                item={p}
-                                removeItem={this.removeItem.bind(this)}
-                                index={i}
-                                language={this.props.language}
-                              />
-                            </Draggable>
-                          );
-                        })
-                      }
-                    </Container>
+                      <Container
+                        lockAxis="y"
+                        dragBeginDelay={0}
+                        dragClass="drag-class"
+                        style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
+                        groupName="1"
+                        getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
+                        onDrop={e => this.openDialog(e)}
+                      >
+                        {
+                          this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
+                            return (
+                              <Draggable key={i}>
+                                <SortItem
+                                  item={p}
+                                  removeItem={this.removeItem.bind(this)}
+                                  index={i}
+                                  language={this.props.language}
+                                />
+                              </Draggable>
+                            );
+                          })
+                        }
+                      </Container>
                   }
                 </div>
                 <div className="course-creator-menu-area">
@@ -763,7 +763,7 @@ export default class CourseCreatorTool extends React.Component {
                         lockAxis="y"
                         dragBeginDelay={500}
                         dragClass="drag-class"
-                        style={{width: "100%", height: "100%"}}
+                        style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
                         groupName="1"
                         getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].items[i]}
                         onDrop={e => this.openDialog(e)}>
@@ -785,30 +785,30 @@ export default class CourseCreatorTool extends React.Component {
                         }
                       </Container>
                     :
-                    <Container
-                      lockAxis="y"
-                      dragBeginDelay={0}
-                      dragClass="drag-class"
-                      style={{width: "100%", height: "100%"}}
-                      groupName="1"
-                      getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].items[i]}
-                      onDrop={e => this.openDialog(e)}
-                    >
-                      {
-                        this.props.courseInformation.program[this.props.selected[0]].items.map((p, i) => {
-                          return (
-                            <Draggable key={i}>
-                              <SortItem
-                                item={p}
-                                removeItem={this.removeItem.bind(this)}
-                                index={i}
-                                language={this.props.language}
-                              />
-                            </Draggable>
-                          );
-                        })
-                      }
-                    </Container>
+                      <Container
+                        lockAxis="y"
+                        dragBeginDelay={0}
+                        dragClass="drag-class"
+                        style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
+                        groupName="1"
+                        getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].items[i]}
+                        onDrop={e => this.openDialog(e)}
+                      >
+                        {
+                          this.props.courseInformation.program[this.props.selected[0]].items.map((p, i) => {
+                            return (
+                              <Draggable key={i}>
+                                <SortItem
+                                  item={p}
+                                  removeItem={this.removeItem.bind(this)}
+                                  index={i}
+                                  language={this.props.language}
+                                />
+                              </Draggable>
+                            );
+                          })
+                        }
+                      </Container>
                   }
                 </div>
                 <div className="course-creator-menu-area">
