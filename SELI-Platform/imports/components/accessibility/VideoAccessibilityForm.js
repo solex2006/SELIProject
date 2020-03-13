@@ -291,55 +291,129 @@ export function VideoMediaAudioDescriptioA11Y(props){
 					</RadioGroup>
 					<AccessibilityHelp idName='audioDescr-radiogroup' error={dataField.audioDescriptionError} tip={audioDescriptionTip} />
 				</FormControl>
+			</Grid>	
+			<Grid item>
+			<FormControl component='fieldset' disabled={disabled_necAudioDesc}>
+				<FormLabel component='legend' id='audioDescr-necessary-label'>This content requires audiodescription?</FormLabel>
+				<RadioGroup
+					id='audioDescr-necessary-radiogroup'
+					aria-describedby='audioDescr-necessary-exp'
+					aria-labelledby='audioDescr-necessary-radiogroup-label'
+					name='audioDescriptionRequired'
+					value={dataField.audioDescriptionRequired}
+					onChange={React.useCallback(handleRadioButtonOnChange)}
+				row>
+					<FormControlLabel
+						id='audioDescr-necessary-yes'
+						name='audioDescriptionRequired'
+						label='Yes'
+						value='yes'
+						control={<Radio color='primary' />}
+						labelPlacement='end'
+					/>
+					<FormControlLabel
+						id='audioDescr-necessary-no'
+						name='audioDescriptionRequired'
+						label='No'
+						value='no'
+						control={<Radio color='secondary' />}
+						labelPlacement='end'
+					/>
+				</RadioGroup>
+				<AccessibilityHelp idName='audioDescr-necessary-radiogroup' error={dataField.audioDescriptionError} tip={audioDescriptionRequiredTip} />
+			</FormControl>
+		</Grid>
 
-				{//languages audio part
-					dataField.audioDescription === "yes"?
-					<div>
-						{ (dataField.fileAudioDescription[0]===undefined || newAudioSignal===true )?
-						<div className="uploadsignals">
-							<FileUpload
-                                type="audio"
-                                accept={'audio/*'}
-                                user={Meteor.userId()}
-                                label={"UPLOAD AUDIO DESCRIPTION*"}//label={this.props.language.uploadAudioButtonLabel}
-                                getFileInformation={getFileInformationAudioDescription}
-                              />
-						</div>
-						:
-						<div>
-							{
-								showPreviewSignal===true?
-								<div>
-									<div>
-									<VideoPreview
-										file={dataField.fileAudioDescription[0]}
-										unPickFile={unPickFileSignal}
-										language={props.language}
-									/>
-									</div>
-								</div>
-								:
-								<div>
-									<div>
-									<VideoPreview
-										file={dataField.fileAudioDescription[0]}
-										unPickFile={unPickFileSignal}
-										language={props.language}
-									/>
-									</div>
-								</div>
-							}
-						</div>
-						}
-					</div>	
-					:
-					noAudiofile
+		{ 
+			(dataField.audioDescription === "no" && dataField.audioDescriptionRequired === "yes")?
+			<div>
+				{ (dataField.fileAudioDescription[0]===undefined || newAudioSignal===true )?
+				<div className="uploadsignals">
+					<FileUpload
+						type="audio"
+						accept={'audio/*'}
+						user={Meteor.userId()}
+						label={props.language.uploadAudioButtonLabel}//label={this.props.language.uploadAudioButtonLabel}
+						getFileInformation={getFileInformationAudioDescription}
+						/>
+				</div>
+				:
+				<div>	
+					<VideoPreview
+						file={dataField.fileAudioDescription[0]}
+						unPickFile={unPickFileSignal}
+						language={props.language}
+					/>
+				</div>
 				}
-			</Grid>		
+			</div>	
+			:
+			noAudiofile  
+		}
+		{ 
+			(dataField.audioDescription === "yes")?
+			<div>
+				{ (dataField.fileAudioDescription[0]===undefined || newAudioSignal===true )?
+				<div className="uploadsignals">
+					<FileUpload
+						type="audio"
+						accept={'audio/*'}
+						user={Meteor.userId()}
+						label={props.language.uploadAudioButtonLabel}//label={this.props.language.uploadAudioButtonLabel}
+						getFileInformation={getFileInformationAudioDescription}
+						/>
+				</div>
+				:
+				<div>	
+					<VideoPreview
+						file={dataField.fileAudioDescription[0]}
+						unPickFile={unPickFileSignal}
+						language={props.language}
+					/>
+				</div>
+				}
+			</div>	
+			:
+			noAudiofile  
+		}
+		{ 
+			(dataField.audioDescription === "no" && dataField.audioDescriptionRequired === "no")?
+			<div>
+				{ (dataField.fileAudioDescription[0]===undefined || newAudioSignal===true )?
+				<div className="uploadsignals">
+					<FileUpload
+						type="audio"
+						accept={'audio/*'}
+						user={Meteor.userId()}
+						label={props.language.uploadAudioButtonLabel}
+						getFileInformation={getFileInformationAudioDescription}
+						/>
+				</div>
+				:
+				<div>	
+					<VideoPreview
+						file={dataField.fileAudioDescription[0]}
+						unPickFile={unPickFileSignal}
+						language={props.language}
+					/>
+				</div>
+				}
+			</div>	
+			:
+			noAudiofile  
+		}
+			{/* <Grid item>
+				<AccessibilityFileUpload
+					type='audio'
+					user={Meteor.userId()}
+					accept={'audio/*'}
+					label={'Click the button to upload an audio description'}
+					getFileInformation={getFileInformationAudioDescription}
+				/>
+			</Grid> */}
 		</Grid>
 	);
 }
-
 
 export function VideoMediaSignLanguageA11Y(props){
 	const {
@@ -652,7 +726,7 @@ export const useDataField = (props) => {
 	const [captionsTip, setCaptionsTip] = React.useState(props.language.video_a11y_aux_text_006);
 	const [audioDescriptionTip, setAudioDescriptionTip] = React.useState(props.language.video_a11y_aux_text_007);
 
-	const [audioDescriptionRequiredTip, setAudioDescriptionRequiredTip] = React.useState(props.video_a11y_aux_text_008);
+	const [audioDescriptionRequiredTip, setAudioDescriptionRequiredTip] = React.useState(props.language.video_a11y_aux_text_008);
 
 	const a11yInitial = [
 		{name: 'seizures', is_a11y: false},
