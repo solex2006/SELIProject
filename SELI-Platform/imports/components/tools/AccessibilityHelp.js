@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
  */
 export default function AccessibilityHelp(props) {
 	const classes = useStyles();
-	console.log("Accesibility HELP ERROR",props.error)
+	//console.log("Accesibility HELP ERROR",props.error)
 
 	return(
 		<React.Fragment>

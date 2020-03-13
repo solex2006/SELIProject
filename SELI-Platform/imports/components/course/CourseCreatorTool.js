@@ -306,6 +306,8 @@ export default class CourseCreatorTool extends React.Component {
       showCourseOrganization: false,
       showContentEditor: true,
       contentOpen: true,
+      contentaAdded: true,
+      languageType: this.props.language[item.type],
       contentToEdit: item,
     });
   }
@@ -336,6 +338,8 @@ export default class CourseCreatorTool extends React.Component {
       addedId: item.id,
       contentToEdit: item,
       contentTypeAdded: item.type,
+      contentaAdded: true,
+      languageType: this.props.language[item.type],
       showAccessibilityForm: true,
       showAccessibilityOptions: false,
       contentOpen: true,
@@ -934,7 +938,14 @@ export default class CourseCreatorTool extends React.Component {
             <AppBar className="dialog-app-bar" color="primary" position="static">
               <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
                 <AppsIcon/>
-                <h4 className="dialog-label-title">{ this.state.contentaAdded ? `${this.props.language.contentEditor} - ${this.state.languageType}` : this.props.language.courseOrganization}</h4>
+                <h4 className="dialog-label-title">{ 
+                  this.state.contentaAdded ? 
+                    this.state.showAccessibilityForm ?
+                      `${this.props.language.accessibility} - ${this.state.languageType}` 
+                    :
+                      `${this.props.language.contentEditor} - ${this.state.languageType}` 
+                  : this.props.language.courseOrganization}
+                </h4>
                 <IconButton
                   id="close-icon"
                   edge="end"
@@ -1181,19 +1192,11 @@ export default class CourseCreatorTool extends React.Component {
             :
               undefined
           }
-
           {
-            this.state.showAccessibilityForm ?
-            console.log("ContentTypeAdded",  this.state.contentTypeAdded,"--ITEM--",  this.state.contentTypeAdded)
-          :
-            undefined   
-          }
-       
-          {
-            
             this.state.showAccessibilityForm ?
               <React.Fragment>
                 <VerticalTab
+                  support={this.state.courseInformation.support}
                   contentTypeAdded={this.state.contentTypeAdded}
                   item={this.state.contentToConfigureAccessibility}
                   getAccessibilityPercentage={this.getAccessibilityPercentage.bind(this)}
