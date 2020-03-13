@@ -39,6 +39,9 @@ export function VideoTextAltA11Y(props){
 		<section id='video-text-alternatives'>
 			<Grid container spacing={1} direction='column' justify='flex-end'>
 				<Grid item id='short-description-container' role='grid'>
+				<header>
+					<h3 className="accessibility-form-title">{props.language.textAlternatives_a11y_video}</h3>
+				</header>
 					<A11YShortDescription
 						handleOnChange={React.useCallback(handleInputOnChange)}
 						error={dataField.shortDescriptionError}
@@ -104,6 +107,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 		dataField,
 		captionsTip,
 	} = props.data;
+	console.log("datos de video--",captionsTip, dataField)
 
 	const [showPreviewSignal, setshowPreviewSignal] = useState(false);
 	const [newCaption, setnewCaption] = useState(false);
@@ -613,6 +617,7 @@ export default function VideoA11Y(props){
 }
 
 export const useDataField = (props) => {
+	console.log("props de ingreso", props)
 	const [dataField, setDataField] = React.useState({
 		signLanguage: 'no',
 		seizures: 'no',
@@ -637,15 +642,15 @@ export const useDataField = (props) => {
 	});
 
 	//feedback variables
-	const [shortDescriptionTip, setShortDescriptionTip] = React.useState(props. shortDescription_a11y_tip);
-	const [longDescriptionTip, setLongDescriptionTip] = React.useState(props.video_a11y_aux_text_001);
+	const [shortDescriptionTip, setShortDescriptionTip] = React.useState(props.language.shortDescription_a11y_tip);
+	const [longDescriptionTip, setLongDescriptionTip] = React.useState(props.language.video_a11y_aux_text_001);
 	const [seizuresTip, setSeizuresTip] = React.useState(
-		<React.Fragment>{`${props.video_a11y_aux_text_002} `}<Link href={'https://www.trace.umd.edu/peat'}alt='Test your content in PEAT'>{props.video_a11y_aux_text_003}</Link>{` ${props.video_a11y_aux_text_004}`}
+		<React.Fragment>{`${props.language.video_a11y_aux_text_002} `}<Link href={'https://www.trace.umd.edu/peat'}alt='Test your content in PEAT'>{props.video_a11y_aux_text_003}</Link>{` ${props.video_a11y_aux_text_004}`}
 		</React.Fragment>
 	);
-	const [signLanguageTip, setSignLanguageTip] = React.useState(props.video_a11y_aux_text_005);
-	const [captionsTip, setCaptionsTip] = React.useState(props.video_a11y_aux_text_006);
-	const [audioDescriptionTip, setAudioDescriptionTip] = React.useState(props.video_a11y_aux_text_007);
+	const [signLanguageTip, setSignLanguageTip] = React.useState(props.language.video_a11y_aux_text_005);
+	const [captionsTip, setCaptionsTip] = React.useState(props.language.video_a11y_aux_text_006);
+	const [audioDescriptionTip, setAudioDescriptionTip] = React.useState(props.language.video_a11y_aux_text_007);
 
 	const [audioDescriptionRequiredTip, setAudioDescriptionRequiredTip] = React.useState(props.video_a11y_aux_text_008);
 

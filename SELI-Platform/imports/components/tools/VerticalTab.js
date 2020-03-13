@@ -161,19 +161,19 @@ export default function VerticalTabs(props) {
 					}
 					
 					{
-						 	props.contentTypeAdded === 'audio' &&
+						 	/* props.contentTypeAdded === 'audio' &&
 						 <Tab
 							 label={props.language.signLanguage}
 							 {...a11yProps(indexTab++, props.contentTypeAdded)}
-						 />
+						 /> */
 						
 					}
 					{
-						/* 	props.contentTypeAdded === 'audio' &&
+							props.contentTypeAdded === 'audio' &&
 						<Tab
 							label={props.language.textAlternatives}
 							{...a11yProps(indexTab++)}
-						/> */
+						/>
 					}
 					{
 							//   <Tab label="A11y Text" {...a11yProps(1)} />
@@ -288,7 +288,7 @@ export default function VerticalTabs(props) {
 					{
 						props.contentTypeAdded === 'audio' &&
 						<React.Fragment>
-							 {/* <TabPanel value={value} index={indexPanel++}>
+						    <TabPanel value={value} index={indexPanel++}>
 								<AudioA11yForm data={{
 									handleInputOnChange:data.handleInputOnChange,
 									handleLongDescriptionPosition:data.handleLongDescriptionPosition,
@@ -299,8 +299,8 @@ export default function VerticalTabs(props) {
 								}}
 								language={props.language}
 								/>
-							</TabPanel> */}  
-							<TabPanel value={value} index={indexPanel++}>
+							</TabPanel>  
+							{/* <TabPanel value={value} index={indexPanel++}>
 								<VideoSignalA11Y data={{
 									handleRadioButtonOnChange: data.handleRadioButtonOnChange,
 									dataField: data.dataField,
@@ -308,7 +308,7 @@ export default function VerticalTabs(props) {
 								}}
 								language={props.language}
 								/>
-							</TabPanel>
+							</TabPanel> */}
 
 							{/* <TabPanel value={value} index={indexPanel++}>
 								<VideoMediaSignLanguageA11Y data={{

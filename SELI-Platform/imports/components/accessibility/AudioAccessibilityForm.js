@@ -2,22 +2,17 @@ import React, {useState, useEffect, useCallback} from 'react';
 //layout
 import Grid from '@material-ui/core/Grid';
 //a11y componentes
-
 import AccessibilityHelp from '../tools/AccessibilityHelp';
 import A11YLongDescription from './a11yLongDescription';
 import A11YShortDescription from './a11yShortDescription';
-
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
-
 import AccessibilityFileUpload from '../files/AccessibilityFileUpload';
 import Link from '@material-ui/core/Link';
 //a11y
-
-
 import FileUpload from '../files/FileUpload'
 import VideoPreview from '../files/previews/VideoPreview';
 
@@ -229,10 +224,8 @@ export const useAudioDataField = (props) =>{
 	}, [])
 
 	//feedback
-	const [shortDescriptionTip, setShortDescriptionTip] = React.useState(props.shortDescription_a11y_tip);   
-	const [longDescriptionTip, setLongDescriptionTip] = React.useState(props.longDescription_a11y_tip);
-	
-
+	const [shortDescriptionTip, setShortDescriptionTip] = React.useState(props.language.shortDescription_a11y_tip);   
+	const [longDescriptionTip, setLongDescriptionTip] = React.useState(props.language.longDescription_a11y_tip);
 	const [seizuresTip, setSeizuresTip] = React.useState(
 		<React.Fragment>{`${props.video_a11y_aux_text_002} `}<Link href={'https://www.trace.umd.edu/peat'}alt='Test your content in PEAT'>{props.video_a11y_aux_text_003}</Link>{` ${props.video_a11y_aux_text_004}`}
 		</React.Fragment>

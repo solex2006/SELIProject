@@ -1,12 +1,12 @@
+
 import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
 import FormHelperText from '@material-ui/core/FormHelperText';
 import AccessibilityIcon from '@material-ui/icons/Accessibility';
 import InfoIcon from '@material-ui/icons/Info';
-
 import Help from './Help';
 import Decision from './DecisionHelpStepper';
+
 
 const useStyles = makeStyles(theme => ({
 	iconButton:{
@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
  */
 export default function AccessibilityHelp(props) {
 	const classes = useStyles();
+	console.log("Accesibility HELP ERROR",props.error)
 
 	return(
 		<React.Fragment>

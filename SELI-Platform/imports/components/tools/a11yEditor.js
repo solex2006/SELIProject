@@ -83,11 +83,8 @@ export default function ImageCaptionEditor(props) {
 		classNameEditor,
 		classNameLabel,
 		classNameAsterisk,
+		inputRaw,
 	} = useEditor(props);
-
-
-	
-	
 
 	return (
 		<Grid item>
@@ -231,7 +228,7 @@ export default function ImageCaptionEditor(props) {
 				
 			</Grid>
 
-			{/* <div className = { inDevelopment ? '' : 'hide' } >
+			{/*  <div className = { inDevelopment ? '' : 'hide' } >
 				<details>
 					<summary>
 						<mark style={{margin: "1.5vh 0"}}>{props.longDescription_a11y_delopment_purpose}</mark>
@@ -249,37 +246,42 @@ export default function ImageCaptionEditor(props) {
 						</Grid>
 					</Grid>
 				</details>
-			</div> */} 
+			</div>  */}
 			<Grid item  xl={12} className={classNameEditor}>	
-			<Label pointing className="labelEditor">Long Description*</Label>
-			<div className="a11yEditor">
-				<Editor
-					id={props.id + "-Editor"}
-					editorKey={props.id+"-Editor"}
-					editorState={editorState}
-					onChange={React.useCallback(onChange)}
-					onClick={React.useCallback(onClick)}
-					handleKeyCommand={React.useCallback(handleKeyCommand)}
-					onTab={React.useCallback(onTab)}
-					ariaMultiline={true}
-					ariaLabelledBy={props.ariaLabelledBy}
-					ariaDescribedBy={props.ariaDescribedBy}
-					placeholder={props.longDescription_a11y_label}
-					ref={editor}
-					error={props.error}
-					className="a11yEditor"
-					language={props.language}
-					readOnly={false}
-					variant="outlined"		
-				/>
+				<label className={classNameLabel} data-shrink="false" htmlFor={props.id + "-Editor"}>
+						{props.label}
+						{
+							props.required &&
+							<span className={classNameAsterisk}>&thinsp;*</span>
+						}
+					</label>
+
+					{console.log("inputRaw------",inputRaw)}
+					<Editor
+						id={props.id + "-Editor"}
+						editorKey={props.id+"-Editor"}
+						editorState={editorState}
+						onChange={React.useCallback(onChange)}
+						onClick={React.useCallback(onClick)}
+						handleKeyCommand={React.useCallback(handleKeyCommand)}
+						onTab={React.useCallback(onTab)}
+						ariaMultiline={true}
+						ariaLabelledBy={props.ariaLabelledBy}
+						ariaDescribedBy={props.ariaDescribedBy}
+						placeholder={props.placeholder}
+						ref={editor}
+						error={props.error}
+						className="a11yEditor"
+					/>
 		
-			</div>
+		
 		</Grid>
 		</Grid>
 	);
 }
 
 const useEditor =(props) => {
+	
 	const [editorState, setEditorState] = React.useState(EditorState.createEmpty());
 
 	const editor = React.useRef(null);
@@ -302,14 +304,18 @@ const useEditor =(props) => {
 
 	useEffect(() => {
 		const currentContent = editorState.getCurrentContent();
+
 		// setBlockTypes(getActiveBlockType());
+
 		setOutputHtml(stateToHTML(currentContent));
+	
 		let raw = convertToRaw(currentContent);
 		setOutputRaw(raw);
 		localStorage.setItem('editorData', JSON.stringify(raw));
+
 		//const txt = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
 		if (props.onChange !== undefined)
-			props.onChange({target : {name: props.name, value: raw}});//.getPlainText('\u0001')
+			props.onChange({target : {name: props.name, value: currentContent.getPlainText('\u0001')}});
 
 
 	}, [editorState]);
@@ -358,6 +364,8 @@ const useEditor =(props) => {
 		classEditor += (showPlaceholder ? '' : ' a11yEditor-hidePlaceholder');
 		classEditor += (showFocus ? ' a11yEditor-focused' : '');
 		classNameLabel += (showFocus ? ' a11yEditor-labelFocused' : '');
+
+
 		setClassNameEditor(classEditor);
 		setClassNameLabel(classNameLabel);
 	}
@@ -373,16 +381,13 @@ const useEditor =(props) => {
 
 	function toogleInlineStyle(inlineStyle) {
 		setTextStyles(inlineStyle);
-		console.log("editorState inlineStyle",editorState,  inlineStyle)
 		onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle));
 	}
-
 
 	function toggleBlockType(type) {
 		let prevType = getActiveBlockType();
 		type = prevType === type ? 'paragraph' : type;
 		setBlockTypes(type);
-		console.log("editorState blocktype",editorState, type)
 		onChange(RichUtils.toggleBlockType(editorState, type));
 	}
 
@@ -414,7 +419,6 @@ const useEditor =(props) => {
 	};
 
 	const onChange = (newEditorState) => {
-		console.log("OnChange", newEditorState)
 		setEditorState(newEditorState);
 	};
 
@@ -436,6 +440,7 @@ const useEditor =(props) => {
 		classNameEditor,
 		classNameLabel,
 		classNameAsterisk,
+		inputRaw
 	};
 };
 const styleMap = {

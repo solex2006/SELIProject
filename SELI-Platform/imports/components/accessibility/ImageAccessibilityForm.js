@@ -281,7 +281,6 @@ export const useImageDataField = (props) => {
 	}
 
 	function handleInputOnChange ({ target: { name, value } }){
-
 		let errValue = value === '';
 		setDataField(dataField => ({ ...dataField,
 			[name] : value,

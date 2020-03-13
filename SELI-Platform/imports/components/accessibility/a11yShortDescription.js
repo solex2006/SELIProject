@@ -3,7 +3,6 @@ import Grid from '@material-ui/core/Grid';
 import EditorA11Y from '../tools/a11yEditor';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
 import TextField from '@material-ui/core/TextField';
-
 //////////////////////////////////////////////////////////////////////////////////////////
 // props {                                                                   			//
 // 	handleOnChange (fn) [optional],                                                     //
@@ -20,7 +19,6 @@ import TextField from '@material-ui/core/TextField';
 // 	tip (string  [optional]or React.Fragment)											//
 //////////////////////////////////////////////////////////////////////////////////////////
 export default function a11yShortDescription(props){
-
 	return(
 		<React.Fragment>
 			<Grid  item id={'short-description-input-container'} role='grid'>

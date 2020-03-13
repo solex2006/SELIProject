@@ -52,6 +52,7 @@ export default function a11yLongDescription(props){
 					language={props.language}
 				/>
 			</Grid>
+			
 			<Grid item id={'long-description-position-container'} role='grid'>
 				<span id={'long-description-position-label'}>{props.textPositionLabel} </span>
 				<ToggleButtonGroup id={'long-description-position'}
