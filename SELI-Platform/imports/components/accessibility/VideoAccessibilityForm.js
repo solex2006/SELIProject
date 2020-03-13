@@ -484,7 +484,7 @@ export function VideoMediaSignLanguageA11Y(props){
 			
 			 {//languages signal part
 
-				(dataField.signLanguage=== "yes" || newVideoSignal===true )?
+				(dataField.signLanguage=== "no" || newVideoSignal===true )?
 				<div>
 					{dataField.fileVideoSignal[0]===undefined?
 					<div className="uploadsignals">

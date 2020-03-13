@@ -98,7 +98,8 @@ export default class VideoItem extends React.Component {
                   <div className="checkBoxItem"> 
                     
                       {
-                        this.props.item.attributes.accessibility.dataField.fileVideoSignal[0]!=null?
+                        (this.props.item.attributes.accessibility.dataField.fileVideoSignal[0]!=null && 
+                          this.props.item.attributes.accessibility.dataField.signLanguage==="no") ?
                           <div className="checkboxstyle">
                             <CheckboxLabels
                               language={this.props.language}
@@ -165,7 +166,7 @@ export default class VideoItem extends React.Component {
                   :
                   <div>
                     {
-                  this.props.item.attributes.accessibility.dataField.signLanguage==="yes"?
+                  this.props.item.attributes.accessibility.dataField.signLanguage==="no"?
                   <div>
                     {
                       this.props.item.attributes.accessibility.dataField.fileVideoSignal[0]!=null?
@@ -174,7 +175,7 @@ export default class VideoItem extends React.Component {
                       {//for video signal 
                         this.state.signalShow==='signalShow'?
                         <div className="videosignal">
-                          <video width="160" height="120"  key={this.state.key} autoPlay={this.state.autoplay} controls id="video-preview-information" className="file-preview-information" ref="video">
+                          <video width="320" height="240"  key={this.state.key} autoPlay={this.state.autoplay} controls id="video-preview-information" className="file-preview-information" ref="video">
                             <source src={this.props.item.attributes.accessibility.dataField.fileVideoSignal[0].link}></source>
                           </video>
                         </div>
