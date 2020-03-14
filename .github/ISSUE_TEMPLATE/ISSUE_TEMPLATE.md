@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Use this template to track bugs
+about: Use this template to track bugs in production
 labels: bug
 ---
 
@@ -23,6 +23,10 @@ labels: bug
 2.
 3.
 4.
+
+## Environment
+<!--- Please tell us about your environment -->
+Browser: all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView
 
 ## Possible Solution
 <!--- Not obligatory, but suggest a fix/reason for the bug, -->
