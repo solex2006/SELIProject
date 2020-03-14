@@ -1,7 +1,7 @@
 ---
-name: Bug report
-about: Use this template to track bugs in production
-labels: bug
+name: Issue report
+about: Use this template to track issues in development
+labels: issue
 ---
 
 <!--- Not obligatory, but add a [MODULE_LABEL] if this issue ocurs in a specific module or function ---> 
