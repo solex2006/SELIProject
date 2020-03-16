@@ -107,16 +107,15 @@ export function VideoMediaCaptionsAltA11Y(props){
 		dataField,
 		captionsTip,
 	} = props.data;
-	console.log("datos de video--",captionsTip, dataField)
 
 	const [showPreviewSignal, setshowPreviewSignal] = useState(false);
 	const [newCaption, setnewCaption] = useState(false);
 	
 	const getFileInformationCaption=(file)=>{
-		console.log("archivo de subtitulos", file)
 		dataField.fileTranscription[0]=file
 		setshowPreviewSignal(true)
 		setnewCaption(false)
+		console.log("infoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",file)
 	}
 	
 	const  noCaption=()=>{
@@ -164,10 +163,9 @@ export function VideoMediaCaptionsAltA11Y(props){
 				<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbebedError} tip={captionsTip}/>
 			</FormControl>
 
-
 				{//languages signal part
 
-				(dataField.captionsEmbebed === "yes" || newCaption===true )?
+				(dataField.captionsEmbebed === "no" || newCaption===true )?
 				<div>
 					{dataField.fileTranscription[0]===undefined?
 					<div className="uploadsignals">
@@ -181,31 +179,12 @@ export function VideoMediaCaptionsAltA11Y(props){
 					</div>
 					:
 					<div>
-						{
-							showPreviewSignal===true?
-							<div>
-								<div>
-
-								<AttachmentPreview
-									preview={false}
-									file={dataField.fileTranscription[0]}
-									unPickFile={unPickFileSignal}
-									language={props.language}
-								/>
-								</div>
-							</div>
-							:
-							<div>
-								<div>
-								<AttachmentPreview
-									preview={false}
-									file={dataField.fileTranscription[0]}
-									unPickFile={unPickFileSignal}
-									language={props.language}
-								/>
-								</div>
-							</div>
-						}
+						<AttachmentPreview
+							preview={false}
+							file={dataField.fileTranscription[0]}
+							unPickFile={unPickFileSignal}
+							language={props.language}
+						/>
 					</div>
 					}
 				</div>	

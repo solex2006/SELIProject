@@ -29,7 +29,7 @@ export default function ImageAccessibility(props) {
 	} = props.data;
 
 	
-	
+	console.log("dataField.imagePurpose",dataField)
 	return (
 		<React.Fragment>
 			<section id='image-decoration' className='accessib-form'>
@@ -163,7 +163,7 @@ export const useImageDataField = (props) => {
 	const [dataField, setDataField] = React.useState({
 		longDescription:'',
 		shortDescription:'',
-		imagePurpose: '',
+		imagePurpose: 'info',
 		shortDescriptionError : true,
 		longDescriptionError : true,
 		longDescriptionPosition: 'bottom'
