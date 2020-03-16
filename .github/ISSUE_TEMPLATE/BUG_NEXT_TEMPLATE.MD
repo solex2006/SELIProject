@@ -1,5 +1,5 @@
 ---
-name: Bug report
+name: Bug Next report
 about: Use this template to track bugs in next release
 labels: bug-next
 title: BUG_[CATEGORY_INDEX]_[INDEX] SUBJECT
