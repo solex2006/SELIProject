@@ -1,8 +1,8 @@
 ---
-name: Issue report
-about: Use this template to track issues in development
-labels: issue
-title: ISSUE_[CATEGORY_INDEX]_[INDEX] SUBJECT
+name: Bug report
+about: Use this template to track bugs in production
+labels: bug
+title: BUG_[CATEGORY_INDEX]_[INDEX] SUBJECT
 ---
 
 Add to the title the [category index](#bug-categories).

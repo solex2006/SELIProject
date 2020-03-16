@@ -107,11 +107,13 @@ export function VideoMediaCaptionsAltA11Y(props){
 		dataField,
 		captionsTip,
 	} = props.data;
+	//console.log("datos de video--",captionsTip, dataField)
 
 	const [showPreviewSignal, setshowPreviewSignal] = useState(false);
 	const [newCaption, setnewCaption] = useState(false);
 	
 	const getFileInformationCaption=(file)=>{
+		//console.log("archivo de subtitulos", file)
 		dataField.fileTranscription[0]=file
 		setshowPreviewSignal(true)
 		setnewCaption(false)
@@ -212,10 +214,10 @@ export function VideoMediaAudioDescriptioA11Y(props){
 
 	const handleRadioButtonOnChange1 =handleRadioButtonOnChange
 
-	console.log("dataField",dataField)
-	console.log("audioDescriptionRequiredTip",audioDescriptionRequiredTip)
-	console.log("disabled_uploadAudioDesc",disabled_uploadAudioDesc)
-	console.log("disabled_necAudioDesc",disabled_necAudioDesc)
+	//console.log("dataField",dataField)
+	//console.log("audioDescriptionRequiredTip",audioDescriptionRequiredTip)
+	//console.log("disabled_uploadAudioDesc",disabled_uploadAudioDesc)
+	//console.log("disabled_necAudioDesc",disabled_necAudioDesc)
 
 	
 
@@ -670,7 +672,7 @@ export default function VideoA11Y(props){
 }
 
 export const useDataField = (props) => {
-	console.log("props de ingreso", props)
+	//console.log("props de ingreso", props)
 	const [dataField, setDataField] = React.useState({
 		signLanguage: 'no',
 		seizures: 'no',
@@ -739,7 +741,7 @@ export const useDataField = (props) => {
 
 	function handleInputOnChange ({ target: { name, value } }){
 
-		console.log(" handleInputOnChange", name, value )
+		//console.log(" handleInputOnChange", name, value )
 		let errField = name + 'Error';
 		let errValue = false;
 
@@ -766,7 +768,7 @@ export const useDataField = (props) => {
 			[name]: value,
 		};
 
-		console.log("en la funcion handleRadioButtonOnChange", "name" ,name, "value",value)
+		//console.log("en la funcion handleRadioButtonOnChange", "name" ,name, "value",value)
 
 		if(name === 'audioDescription')
 		{
