@@ -2,11 +2,25 @@
 name: Feature Requirement
 about: Use this template for create a fetaure requiremment.
 labels: REQUIREMENT
-title: REQ_AAA_X.Y.Z SUBJECT
+title: REQ_[CATEGORY]_[INDEX] SUBJECT
 ---
 <!--- General description --->
 
-# REQUIREMENT: X.Y.Z TITLE
+# INDEX
+1 [REQUIREMENT](#requirement)
+1.1 [USER STORIES](#user-stories)
+1.2 [USER ACCEPTANCE TESTS](#user-acceptance-tests)
+1.3 [WORKFLOW](#workflow)
+1.4 [REQUIREMENTS (DETAILS)](#requirement-details)
+1.5 [WIREFRAMES](#wireframes)
+1.6 [REFERENCED REQUIREMENTS](#referenced-requirements)
+2 [RESOURCES](#resources)
+2.1 [TOOLS](#tools)
+2.2 [SUGGESTED IMPLEMENTATION](#suggested-implementation)
+2.3 [REFERENCES](#references)
+3 [GLOSSARY](#glossary)
+
+# REQUIREMENT
 
 ## USER STORIES
 This states all of the scenarios of the users involved. These should read:
@@ -29,34 +43,35 @@ This should include a picture of the screens involved.
 Error states and view changes based on role should be documented. 
 This picture is worth a thousand words, as the details of the flow through the feature can be quite complex, and this is hard to spell out the details in the next section. We have been using Gliffy, a confluence plugin, and it rocks. It is a flash app that allows us to create and edit the workflows with eases.
 
-## REQUIREMENTS (DETAILS)
+## REQUIREMENT DETAILS
 These are the details of the feature. Document all screen(s) and every field, label, validation, message, and action. This is essentially the functional specification of the details of the screen(s) involved. Because it is in the context of the wireframe (next section), it is more concise. You can simply reference the field name, rather than verbosely state everything about the field. You can keep the details to field length, required, etc.
-## Referenced Requirements
 
-## Wireframes
+## WIREFRAMES
 A picture is required for each screen involved. Wireframes can be simple drawings on a whiteboard that are photographed, or a set of boxes created in Visio or OmniGraffle (or anything really). Some are photoshop-ed, and others are HTML. We have found that the best approach is HTML if that’s your end result. Recreating HTML that looks the exact same as a picture can be quite painful. Usually, a visual designer is involved in creating the mock ups, and can easily do this work in HTML. The developers can therefore take the exact HTML that is requested, and fill in their code as needed.
 
+## REFERENCED REQUIREMENTS
 <!--- Reference requirements that should be meet together --->
 <!--- Reference requirements that replace this requiremebt --->
 
 
 
-# Resources
+# RESOURCES
 <!--- resources to help implement / understadment of some technique --->
 
-## :computer: Suggested implementation
+## SUGGESTED IMPLEMENTATION
 Some code or pseudo-code
 ```
 
 ```
-## :pushpin: Plugins, Libraries, Frameworks, etc
+## TOOLS
+PLUGINS, LIBRARIES, FRAMEWORKS, ETC
 1. 
 2.
 3.
 
-# :notebook_with_decorative_cover: References
+## REFERENCES
 
-- [How to Meet WCAG (Quick Reference)](https://www.w3.org/WAI/WCAG21/quickref)
+- [Some external reference](https://github.com)
 - [Understanding Techniques for WCAG Success Criteria](https://www.w3.org/WAI/WCAG21/Understanding/understanding-techniques)
 
 # GLOSSARY 
