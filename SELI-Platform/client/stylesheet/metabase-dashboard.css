@@ -1,0 +1,18 @@
+.metabase-main-container {
+    width: 100vw;
+    height: calc(100vh - var(--app-bar-height));
+    position: relative;
+    top: var(--app-bar-height);
+    display: flex;
+    animation: fadeIn 0.5s;
+}
+.metabase-main-frame{
+    position:fixed; 
+    top: var(--app-bar-height);
+    display: flex;
+    animation: fadeIn 0.5s;
+    width: 100vw;
+    height: calc(100vh - var(--app-bar-height));
+    border:none;
+    overflow:hidden;
+}
