@@ -108,16 +108,13 @@ export function VideoMediaCaptionsAltA11Y(props){
 		captionsTip,
 	} = props.data;
 	//console.log("datos de video--",captionsTip, dataField)
-
 	const [showPreviewSignal, setshowPreviewSignal] = useState(false);
 	const [newCaption, setnewCaption] = useState(false);
-	
 	const getFileInformationCaption=(file)=>{
 		//console.log("archivo de subtitulos", file)
 		dataField.fileTranscription[0]=file
 		setshowPreviewSignal(true)
 		setnewCaption(false)
-		console.log("infoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",file)
 	}
 	
 	const  noCaption=()=>{
@@ -193,8 +190,6 @@ export function VideoMediaCaptionsAltA11Y(props){
 				:
 				noCaption
 			}
-					
-				
 		</Grid>
 	);
 }

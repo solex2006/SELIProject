@@ -29,7 +29,7 @@ export default function ImageAccessibility(props) {
 	} = props.data;
 
 	
-	console.log("dataField.imagePurpose",dataField)
+	//console.log("dataField.imagePurpose",dataField)
 	return (
 		<React.Fragment>
 			<section id='image-decoration' className='accessib-form'>
@@ -103,6 +103,7 @@ export default function ImageAccessibility(props) {
 				</header>
 				<Grid container spacing={1} direction='column' justify='flex-end'>
 					<Grid item id='short-description-container' role='grid'>
+
 						<A11YShortDescription
 							handleOnChange={React.useCallback(handleInputOnChange)}
 							error={dataField.shortDescriptionError}
@@ -221,7 +222,7 @@ export const useImageDataField = (props) => {
 
 
 	const handleImagePurposeOnChange = event => {
-		console.log("event and target-----------------", event.target)
+		//console.log("event and target-----------------", event.target)
 		const { name, value } = event.target;
 		let data = {
 			[name]: value,
@@ -267,6 +268,7 @@ export const useImageDataField = (props) => {
 		}
 		else if(!longToogle)
 		{
+			
 			setIsA11Y([
 				{name: 'shortDescription', is_a11y: false},
 				{name: 'longDescription', is_a11y: false},
@@ -282,16 +284,22 @@ export const useImageDataField = (props) => {
 
 	function handleInputOnChange ({ target: { name, value } }){
 		let errValue = value === '';
+		//console.log("propiedades////////", props)
 		setDataField(dataField => ({ ...dataField,
 			[name] : value,
 			[name+'Error'] : errValue,
 		}));
-
 		let new_a11Y = isA11Y.map(el => {
 			if(el.name == name)
 				return Object.assign({}, el, {is_a11y:!errValue});
+				
 			return el;
 		});
+		/* let new_a11Yreuse = isA11Y.map(el => {
+			if(el.name == name){
+				localStorage.setItem('a11y'+name, JSON.stringify(new_a11Y));
+			}	
+		}); */
 		setIsA11Y(new_a11Y);
 	}
 

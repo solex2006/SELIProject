@@ -158,11 +158,11 @@ export default function VerticalTabs(props) {
 						/>
 					}
 					{
-						/* 	props.contentTypeAdded === 'video' &&
+						 	props.contentTypeAdded === 'video' &&
 						<Tab
 							label={props.language.other}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
-						/> */
+						/> 
 					}
 					
 					{
@@ -213,12 +213,29 @@ export default function VerticalTabs(props) {
 							// 	</React.Fragment>
 							// } {...a11yProps(indexTab++,props.contentTypeAdded)} disabled className={classes.disabled}/>
 					}
+
+					
 					{
 						data.isA11Y.length > 0 ? 
 							<A11YProgressFeedback
 								a11yFields={data.isA11Y}
 								getAccessibilityPercentage={props.getAccessibilityPercentage.bind(this)}
 								{...a11yProps(indexTab++, props.contentTypeAdded)}
+								data={{
+									handleInputOnChange:data.handleInputOnChange,
+									handleImagePurposeOnChange:data.handleImagePurposeOnChange,
+									handleLongDescriptionPosition:data.handleLongDescriptionPosition,
+									dataField:data.dataField,
+									shortDescriptionTip:data.shortDescriptionTip,
+									longDescriptionTip:data.longDescriptionTip,
+									imagePurposeTip:data.imagePurposeTip,
+									imagePurposeLabel:data.imagePurposeLabel,
+									displayAltGroup:data.displayAltGroup,
+									displayAltLong:data.displayAltLong,
+									isA11Y:data.isA11Y,
+								}}
+								item={props.item}
+								language={props.language}
 							/>
 						: undefined
 					}

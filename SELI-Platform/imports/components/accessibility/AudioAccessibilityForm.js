@@ -269,7 +269,7 @@ export const useAudioDataField = (props) =>{
 			[name]: value,
 		};
 
-		console.log("en la funcion handleRadioButtonOnChange", "name" ,name, "value",value)
+		//console.log("en la funcion handleRadioButtonOnChange", "name" ,name, "value",value)
 
 		if(name === 'audioDescription')
 		{
