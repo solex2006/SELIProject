@@ -1,13 +1,14 @@
 ---
 name: Bug Next report
 about: Use this template to track bugs in next release
-labels: bug on next release,0-backlog
+labels: bug on next release,0 - Backlog
 title: BUG_SUBJECT
 ---
 
 
-<!--- Not obligatory, but add a [MODULE_LABEL] if this issue ocurs in a specific module or function ---> 
-<!--- Not obligatory, but add a (ROLE_LABEL) if this ocurs to a specific user role --->
+<!--- Not obligatory, but add a MODULE-LABEL if this issue ocurs in a specific module or function ---> 
+<!--- Not obligatory, but add a ROLE-LABEL if this ocurs to a specific user role --->
+<!--- Not obligatory, but add a TYPE-ERROR if you can identify the type of error --->
 
 
 <!--- Provide a general summary of the issue in the Title above -->
