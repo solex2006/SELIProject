@@ -1,7 +1,7 @@
 ---
-name: Epic Request
-about: Use this template for create a epic request.
-labels: epic request
+name: Epic
+about: Use this template for create an Epic. Epic are large bodies of work that can be broken down into a number of smaller tasks (called stories).
+labels: epic
 title: 
 ---
 
@@ -9,7 +9,8 @@ title:
 <!--- Brief summary of what this Epic is, whether it's a larger project, goal, or user story. Describe the job to be done, which persona this Epic is mainly for, or if more multiple, break it down by user and job story. --->
 
 ## Initiative / goal
-<!--- Describe how this Epic impacts an initiative the business is working on. --->
+<!--- Describe how this Epic impacts an initiative the business is working on. 
+Initiatives are collections of epics that drive toward a common goal.--->
 
 ### Hypothesis
 <!--- What is your hypothesis on the success of this Epic? 
