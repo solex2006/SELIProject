@@ -1,5 +1,5 @@
 ---
-name: Feature Requirement
+name: Feature Request
 about: Use this template for create a fetaure requiremment.
 labels: feature requirement
 title: As a [role] I would like to [action] 
