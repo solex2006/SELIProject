@@ -58,7 +58,6 @@ export function VideoTextAltA11Y(props){
 					/>
 				</Grid>
 				<Grid  item id='long-description-container' role='grid'>
-				
 					<A11YLongDescription
 						handleOnChange={React.useCallback(handleInputOnChange)}
 						error={dataField.longDescriptionError}
@@ -822,7 +821,6 @@ export const useDataField = (props) => {
 			longDescriptionPosition : value,
 		}));
 	}
-
 
 	return  {
 		handleInputOnChange: handleInputOnChange,

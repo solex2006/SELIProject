@@ -23,7 +23,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import { Editor, EditorState, ContentState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html";
 
 import Button from '@material-ui/core/Button';
@@ -192,8 +192,8 @@ export default function ImageCaptionEditor(props) {
 					</ToggleButton>
 					
 				</Grid>
-				 <Grid item  xs={12} id="editor-control-inline-styles" value={textSyles} >
-				 <ToggleButton
+				<Grid item  xs={12} id="editor-control-inline-styles" value={textSyles} >
+					<ToggleButton
 						value='BOLD'
 						key="BOLD"
 						aria-label="Bold"
@@ -224,10 +224,7 @@ export default function ImageCaptionEditor(props) {
 						Underline*
 					</ToggleButton> 
 				</Grid>
-		
-				
 			</Grid>
-
 			{/*  <div className = { inDevelopment ? '' : 'hide' } >
 				<details>
 					<summary>
@@ -249,33 +246,30 @@ export default function ImageCaptionEditor(props) {
 			</div>  */}
 			<Grid item  xl={12} className={classNameEditor}>	
 				<label className={classNameLabel} data-shrink="false" htmlFor={props.id + "-Editor"}>
-						{props.label}
-						{
-							props.required &&
-							<span className={classNameAsterisk}>&thinsp;*</span>
-						}
-					</label>
-
-					{console.log("inputRaw------",inputRaw)}
-					<Editor
-						id={props.id + "-Editor"}
-						editorKey={props.id+"-Editor"}
-						editorState={editorState}
-						onChange={React.useCallback(onChange)}
-						onClick={React.useCallback(onClick)}
-						handleKeyCommand={React.useCallback(handleKeyCommand)}
-						onTab={React.useCallback(onTab)}
-						ariaMultiline={true}
-						ariaLabelledBy={props.ariaLabelledBy}
-						ariaDescribedBy={props.ariaDescribedBy}
-						placeholder={props.placeholder}
-						ref={editor}
-						error={props.error}
-						className="a11yEditor"
-					/>
-		
-		
-		</Grid>
+					{props.label}
+					{
+						props.required &&
+						<span className={classNameAsterisk}>&thinsp;*</span>
+					}
+				</label>
+				{/* console.log("inputRaw------",inputRaw) */}
+				<Editor
+					id={props.id + "-Editor"}
+					editorKey={props.id+"-Editor"}
+					editorState={editorState}
+					onChange={React.useCallback(onChange)}
+					onClick={React.useCallback(onClick)}
+					handleKeyCommand={React.useCallback(handleKeyCommand)}
+					onTab={React.useCallback(onTab)}
+					ariaMultiline={true}
+					ariaLabelledBy={props.ariaLabelledBy}
+					ariaDescribedBy={props.ariaDescribedBy}
+					placeholder={props.placeholder}
+					ref={editor}
+					error={props.error}
+					className="a11yEditor"
+				/>
+			</Grid>
 		</Grid>
 	);
 }
@@ -301,6 +295,12 @@ const useEditor =(props) => {
 	const [classNameEditor, setClassNameEditor] = React.useState('a11yEditor-editor');
 	const [classNameLabel, setClassNameLabel] = React.useState('a11yEditor-label');
 	const [classNameAsterisk, setClassNameAsterisk] = React.useState('a11yEditor-asterisk');
+
+	useEffect(() => {
+		if (props.value) {
+			setEditorState(EditorState.createWithContent(ContentState.createFromText(props.value)));
+		}
+	}, []);
 
 	useEffect(() => {
 		const currentContent = editorState.getCurrentContent();
@@ -524,7 +524,6 @@ const BlockStyleControls = (props) => {
 		</div>
 	);
 };
-
 
 var INLINE_STYLES = [
 	{ label: 'Bold', style: 'BOLD' },
