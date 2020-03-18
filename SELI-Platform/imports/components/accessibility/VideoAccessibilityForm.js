@@ -58,7 +58,6 @@ export function VideoTextAltA11Y(props){
 					/>
 				</Grid>
 				<Grid  item id='long-description-container' role='grid'>
-				
 					<A11YLongDescription
 						handleOnChange={React.useCallback(handleInputOnChange)}
 						error={dataField.longDescriptionError}
@@ -117,6 +116,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 		dataField.fileTranscription[0]=file
 		setshowPreviewSignal(true)
 		setnewCaption(false)
+		console.log("infoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",file)
 	}
 	
 	const  noCaption=()=>{
@@ -164,10 +164,9 @@ export function VideoMediaCaptionsAltA11Y(props){
 				<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbebedError} tip={captionsTip}/>
 			</FormControl>
 
-
 				{//languages signal part
 
-				(dataField.captionsEmbebed === "yes" || newCaption===true )?
+				(dataField.captionsEmbebed === "no" || newCaption===true )?
 				<div>
 					{dataField.fileTranscription[0]===undefined?
 					<div className="uploadsignals">
@@ -181,31 +180,12 @@ export function VideoMediaCaptionsAltA11Y(props){
 					</div>
 					:
 					<div>
-						{
-							showPreviewSignal===true?
-							<div>
-								<div>
-
-								<AttachmentPreview
-									preview={false}
-									file={dataField.fileTranscription[0]}
-									unPickFile={unPickFileSignal}
-									language={props.language}
-								/>
-								</div>
-							</div>
-							:
-							<div>
-								<div>
-								<AttachmentPreview
-									preview={false}
-									file={dataField.fileTranscription[0]}
-									unPickFile={unPickFileSignal}
-									language={props.language}
-								/>
-								</div>
-							</div>
-						}
+						<AttachmentPreview
+							preview={false}
+							file={dataField.fileTranscription[0]}
+							unPickFile={unPickFileSignal}
+							language={props.language}
+						/>
 					</div>
 					}
 				</div>	
@@ -841,7 +821,6 @@ export const useDataField = (props) => {
 			longDescriptionPosition : value,
 		}));
 	}
-
 
 	return  {
 		handleInputOnChange: handleInputOnChange,
