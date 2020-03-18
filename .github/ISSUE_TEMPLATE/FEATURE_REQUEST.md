@@ -1,9 +1,9 @@
 ---
 name: Feature Request
 about: Use this template to suggest an idea to the project.
-labels: feature request
+labels: Feature Request
 title: 
-project: features
+projects: features
 ---
 
 # Is your feature request related to a problem? 
