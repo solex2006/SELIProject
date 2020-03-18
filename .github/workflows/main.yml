@@ -13,13 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     name: Assign to One Project
     steps:
-    - name: Assign issues 'feature request` label to project 3
+    - name: Assign issues 'feature request' label to project 3
       uses: srggrs/assign-one-project-github-action@1.2.0
       if: |
-        contains(github.event.issue.labels.*.name, 'feature request')
+        contains(github.event.issue.labels.*.name, 'Feature Request')
       with:
         project: 'https://github.com/ecureuill/SELIProject/projects/3'
-        column_name: 'Needs triage'
+        column_name: 'NEEDS TRIAGE'
     - name: Assign issues 'bugs` label to project 1
       uses: srggrs/assign-one-project-github-action@1.2.0
       if: |
