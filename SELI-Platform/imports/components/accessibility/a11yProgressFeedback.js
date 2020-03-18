@@ -2,6 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/styles';
+import { EditorFormatColorFill } from 'material-ui/svg-icons';
 
 
 //props{
@@ -22,62 +23,51 @@ export default function A11YProgressFeedback(props){
 	const [a, setReuseprogress] = React.useState(0);
 	
 
-	useEffect(() => {
-
-		console.log("actualiza--------->")
-		
-		
-		
-	  }, []);
 
 
 	useEffect(() => {
-		console.log("propiedades----->", props.item.accessibility, props.a11yFields)
+		console.log("propiedades----->", props.item.accessibility.isA11Y, props.a11yFields)
 		updateProgress()
-		
-		/* if(a===0){
-			if(props.item.accessibility.dataField!=undefined){
-				if(props.item.accessibility.dataField.longDescription!="" && props.item.accessibility.dataField.shortDescription!=""){
-					console.log("son diferenes")
-					setReuseprogress(3)
+
+			 /*  if(props.item.accessibility.dataField!=undefined){
+				if(props.item.accessibility.dataField.longDescription!="" && props.item.accessibility.dataField.shortDescription!=""){				
 					let propsCopy={ ...props };
 						propsCopy.item.accessibility.isA11Y[1].is_a11y=true
 						propsCopy.item.accessibility.isA11Y[0].is_a11y=true
 						console.log("propiedadesX2----->", propsCopy.item.accessibility, propsCopy.item.accessibility.isA11Y[0].is_a11y, propsCopy.item.accessibility.isA11Y[1].is_a11y)
 						ReuseProgress(propsCopy) 
 					
-				}
-			} 
+				} else if (props.item.accessibility.dataField.longDescription!=""){
+					let propsCopy={ ...props };
+						propsCopy.item.accessibility.isA11Y[0].is_a11y=true
+						propsCopy.item.accessibility.isA11Y[1].is_a11y=false
+						//console.log("propiedadesX2----->", propsCopy.item.accessibility, propsCopy.item.accessibility.isA11Y[0].is_a11y, propsCopy.item.accessibility.isA11Y[1].is_a11y)
+						ReuseProgress(propsCopy)
 
-		} */
+				}else if (props.item.accessibility.dataField.shortDescription!=""){
+					let propsCopy={ ...props };
+						propsCopy.item.accessibility.isA11Y[0].is_a11y=false
+						propsCopy.item.accessibility.isA11Y[1].is_a11y=true
+						//console.log("propiedadesX2----->", propsCopy.item.accessibility, propsCopy.item.accessibility.isA11Y[0].is_a11y, propsCopy.item.accessibility.isA11Y[1].is_a11y)
+						ReuseProgress(propsCopy)
+
+				}
+			}   */
+ 
+	
 		
-	//	
+
 	
 	},[props.a11yFields]);
 
 
 
-	/* useEffect(() => {
-		if(props.item.accessibility.dataField!=undefined){
-			if(props.item.accessibility.dataField.longDescription!="" && props.item.accessibility.dataField.shortDescription!=""){
-				console.log("son diferenes")
-				let propsCopy={ ...props };
-					propsCopy.item.accessibility.isA11Y[1].is_a11y=true
-					propsCopy.item.accessibility.isA11Y[0].is_a11y=true
-					console.log("propiedadesX2----->", propsCopy.item.accessibility, propsCopy.item.accessibility.isA11Y[0].is_a11y, propsCopy.item.accessibility.isA11Y[1].is_a11y)
-					ReuseProgress(propsCopy) 
-				
-			}
-		
-		} 
-	}); */
-	
 
-	function ReuseProgress(copy){
-		console.log("propiedadescambiadaswwww----->", copy.item.accessibility)
+	function ReuseProgress(){
+		//console.log("propiedadescambiadaswwww----->", copy.item.accessibility)
 		if (props.item.accessibility.isA11Y!=undefined){
-			let max = copy.item.accessibility.isA11Y.length;
-			let a11y = copy.item.accessibility.isA11Y.filter( el => el.is_a11y ).length;
+			let max = props.item.accessibility.isA11Y.length;
+			let a11y = props.item.accessibility.isA11Y.filter( el => el.is_a11y ).length;
 			let a11yPercentage = a11y * 100 / max;
 			setProgressPercent(a11yPercentage);
 			setProgressText(a11y + '/' + max);
@@ -102,6 +92,7 @@ export default function A11YProgressFeedback(props){
 	}
 
 	function updateProgress(){
+	
 		let max =props.a11yFields.length;
 		let a11y = props.a11yFields.filter( el => el.is_a11y ).length;
 		let a11yPercentage = a11y * 100 / max;
@@ -126,6 +117,7 @@ export default function A11YProgressFeedback(props){
 		}
 	}
 
+	
 	return(
 		<React.Fragment>
 			<Tooltip  title={'Accessibility progress ' + progressText} placement='right-start'>
