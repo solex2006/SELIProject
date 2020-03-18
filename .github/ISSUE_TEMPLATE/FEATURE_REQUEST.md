@@ -3,6 +3,7 @@ name: Feature Request
 about: Use this template to suggest an idea to the project.
 labels: feature request
 title: 
+project: features
 ---
 
 # Is your feature request related to a problem? 
