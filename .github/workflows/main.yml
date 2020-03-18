@@ -1,0 +1,31 @@
+name: Auto Assign to Project(s)
+
+on:
+  issues:
+    types: [opened, labeled]
+#   pull_request:
+#     types: [opened, labeled]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  assign_one_project:
+    runs-on: ubuntu-latest
+    name: Assign to One Project
+    steps:
+    - name: Assign issues 'feature request` label to project 3
+      uses: srggrs/assign-one-project-github-action@1.2.0
+      if: |
+        contains(github.event.issue.labels.*.name, 'feature request')
+      with:
+        project: 'https://github.com/ecureuill/SELIProject/projects/3'
+        column_name: 'Needs triage'
+    - name: Assign issues 'bugs` label to project 1
+      uses: srggrs/assign-one-project-github-action@1.2.0
+      if: |
+        contains(github.event.issue.labels.*.name, 'bug') ||
+        contains(github.event.issue.labels.*.name, 'bug on next release') ||
+        contains(github.event.issue.labels.*.name, 'issues')
+      with:
+        project: 'https://github.com/ecureuill/SELIProject/projects/1'
+        column_name: 'Needs triage'
