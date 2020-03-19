@@ -2,5 +2,8 @@
   'IN DISCUSSION':
     - 'Discussion'
     - '0 - Backlog'
+  'IN FUTURE':
+    - '0 - Backlog'
   'UP NEXT':
     - '1 - Planning'
+  'NOT GOING TO DO':
