@@ -85,17 +85,17 @@ export default class Presentation extends React.Component {
   }
 
   handleSearchText=(event)=>{
-    console.log("texto")
+    //console.log("texto")
     this.setState({
       searchText: event.target.value
     })
   }
 
   handleSearchButton=(event)=>{
-    console.log("botonn", this.state.searchText)
+    //console.log("botonn", this.state.searchText)
     let courses = Courses.find({published: true}).fetch();
     let search=filter(courses, { 'title': this.state.searchText})
-    console.log("filtrado en presentation",search);
+    //console.log("filtrado en presentation",search);
     this.props.searchValue(search)
   }
 

@@ -110,8 +110,8 @@ export default class StorytellingPlayer extends React.Component {
         scenePlaying: this.state.scenePlaying + 1,
       });
     }
-    console.log("AAAAAAAAAAAAAAAAAA")
-    console.log(this.state)
+    //console.log("AAAAAAAAAAAAAAAAAA")
+    //console.log(this.state)
   }
 
   handleAutoPlay = () => {
@@ -159,7 +159,7 @@ export default class StorytellingPlayer extends React.Component {
   }
 
 size = (width, height)=>{
-  console.log(width, height)
+  //console.log(width, height)
   this.setState({
     width:width,
     height:height

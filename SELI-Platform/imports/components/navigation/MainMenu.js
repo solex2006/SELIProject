@@ -81,7 +81,7 @@ export default class MainMenu extends React.Component {
 
   buildHandleEnterKeyPress = (onClick) => ({ key }) => {
     if (key === 'Enter') { 
-      console.log(onClick)
+      //console.log(onClick)
       onClick(); 
     }
   };

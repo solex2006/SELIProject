@@ -721,7 +721,7 @@ class StorytellingTool extends React.Component {
   };
 
   changeNodeOrdinal(index, newIndex) {
-    console.log('changeNodeOrdinal ' + index + '  ' +  newIndex);
+    //console.log('changeNodeOrdinal ' + index + '  ' +  newIndex);
 
     let story = this.state.story;
     const fromNode = story.nodes[index];

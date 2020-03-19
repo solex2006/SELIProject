@@ -34,7 +34,7 @@ export default CheckboxList= (props)=> {
 
     if(value==='save'){
       if (other==="nothing" || other===undefined){
-        console.log("pass...")
+        //console.log("pass...")
       }else{
         newChecked.push(other);
         //console.log("Push audiences..", newChecked)

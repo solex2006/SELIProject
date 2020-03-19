@@ -80,7 +80,7 @@ class UnityUpload extends Component {
         })
 
         uploadInstance.on('error', function (error, fileObj) {
-          console.log('Error during upload: ' + error)
+          //console.log('Error during upload: ' + error)
         });
 
         uploadInstance.on('progress', function (progress, fileObj) {

@@ -266,10 +266,8 @@ export const useImageDataField = (props) => {
 
 	function updateAccessibilityProgress( shortToogle, longToogle ,toogleValue ){
 		console.log("shortToogle, longToogle----",shortToogle, longToogle, toogleValue ,props)
-		
 		if(!shortToogle && longToogle) //hide shortDescription === hideLongDescription
 		{	
-
 				if(toogleValue==='info'){
 					setIsA11Y([
 						{name: 'shortDescription', is_a11y: props.item.isA11Y===undefined ?false : props.item.isA11Y[0].is_a11y},
@@ -294,6 +292,12 @@ export const useImageDataField = (props) => {
 						]);
 					}
 					else{
+						if(toogleValue==='cplx'){
+							console.log("CPLX")
+							setDisplayAltLong('initial')
+						}else if(toogleValue==='imagePurpose'){
+							setDisplayAltLong('none')
+						}
 						setIsA11Y([
 							{name: 'shortDescription', is_a11y: props.item.isA11Y===undefined ?false : props.item.isA11Y[0].is_a11y},
 							{name: 'longDescription',  is_a11y: false}
@@ -306,7 +310,7 @@ export const useImageDataField = (props) => {
 
 		if(!shortToogle && !longToogle) {	
 			if(toogleValue==='cplx'){
-				console.log("gggg")
+				setDisplayAltLong('initial')
 				setIsA11Y([
 					{name: 'shortDescription', is_a11y: props.item.dataField===undefined ?false : true},
 					{name: 'longDescription',  is_a11y: props.item.dataField===undefined ?false : true},
@@ -314,18 +318,14 @@ export const useImageDataField = (props) => {
 			}
 			if(props.item.dataField!=undefined){
 				if(toogleValue==='cplx'){
-				
+					setDisplayAltLong('initial')
 					setIsA11Y([
-						{name: 'shortDescription', is_a11y: props.item.dataField.shortDescription!='' ?false : true},
-						{name: 'longDescription',  is_a11y: props.item.dataField.longDescription!='' ?false : true},
+						{name: 'shortDescription', is_a11y: props.item.dataField.shortDescription!='' ?true : false},
+						{name: 'longDescription',  is_a11y: props.item.dataField.longDescription!='' ?true : false},
 					]);
-				}
-				
+				}	
 			}
-
 		}
-				
-		
 	}
 
 	function handleInputOnChange ({ target: { name, value } }){
