@@ -8,3 +8,15 @@
     - '0 - Backlog'
   'UP NEXT':
     - '1 - Planning'
+
+'DEVELOPMENT CYCLE':
+   'TO-DO':
+     - '1 - Ready'
+   'CODING':
+     - '3 - Working'
+   'CODED':
+     - '4 - In Review'
+   'FAILED':
+     - '4 - In Review'
+   'DONE':
+     - 
