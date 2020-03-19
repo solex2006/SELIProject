@@ -29,3 +29,12 @@ jobs:
        with:
         project: 'https://github.com/ecureuill/SELIProject/projects/1'
         column_name: 'NEEDS TRIAGE'
+        
+     - name: Assign '1 - PLANNING' label to project 4
+       uses: srggrs/assign-one-project-github-action@1.2.0
+       if: |
+            contains(github.event.issue.labels.*.name, '1 - Planning')
+
+       with:
+        project: 'https://github.com/ecureuill/SELIProject/projects/4'
+        column_name: 'TO-DO'
