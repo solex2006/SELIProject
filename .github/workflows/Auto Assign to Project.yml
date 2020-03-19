@@ -37,4 +37,4 @@ jobs:
 
        with:
         project: 'https://github.com/ecureuill/SELIProject/projects/4'
-        column_name: 'TO-DO'
+        column_name: 'PENDING FEATURE REQUEST'
