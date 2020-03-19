@@ -158,7 +158,7 @@ export default function VerticalTabs(props) {
 						/>
 					}
 					{
-						 	props.contentTypeAdded === 'video' &&
+						 	props.contentTypeAdded === 'video' && support.some(object => ["Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
 						<Tab
 							label={props.language.other}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
@@ -331,6 +331,7 @@ export default function VerticalTabs(props) {
 										</TabPanel> */}
 								</React.Fragment>
 					}
+
 					{
 						props.contentTypeAdded === 'video' &&
 							<React.Fragment>
@@ -374,7 +375,7 @@ export default function VerticalTabs(props) {
 										}}
 										language={props.language}/>
 									</TabPanel>}
-								{/* {support.find(disabilitie => disabilitie === "Video") &&
+								 {support.some(object => ["Language", "Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
 									<TabPanel value={value} index={indexPanel++}>
 										<VideoOthersA11Y data={{
 											handleRadioButtonOnChange: data.handleRadioButtonOnChange,
@@ -382,7 +383,7 @@ export default function VerticalTabs(props) {
 											seizuresTip: data.seizuresTip
 										}}
 										language={props.language}/>
-									</TabPanel>}  */}
+									</TabPanel>} 
 							</React.Fragment>
 					}
 					<TabPanel value={value} index={indexPanel++}>
