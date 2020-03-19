@@ -2,6 +2,8 @@
 on:
   project_card:
     types: [moved]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 name: Project Card Event
 jobs:
   triage:
