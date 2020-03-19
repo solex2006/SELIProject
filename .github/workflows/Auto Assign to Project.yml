@@ -33,7 +33,13 @@ jobs:
      - name: Assign '1 - PLANNING' label to project 4
        uses: srggrs/assign-one-project-github-action@1.2.0
        if: contains(github.event.issue.labels.*.name, '1 - Planning')
-
        with:
         project: 'https://github.com/ecureuill/SELIProject/projects/4'
         column_name: 'PENDING FEATURE REQUEST'
+
+     - name: Assign '2 - READY' label to project 2
+       uses: srggrs/assign-one-project-github-action@1.2.0
+       if: contains(github.event.issue.labels.*.name, '2 - READY')
+       with:
+        project: 'https://github.com/ecureuill/SELIProject/projects/2'
+        column_name: 'TO-DO'
