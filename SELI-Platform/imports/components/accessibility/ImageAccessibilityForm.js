@@ -13,7 +13,6 @@ import A11YShortDescription from './a11yShortDescription';
 import EditorA11Y from '../tools/a11yEditor';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
 
-
 export default function ImageAccessibility(props) {
 	const  {
 		handleInputOnChange,
@@ -29,7 +28,6 @@ export default function ImageAccessibility(props) {
 		isA11Y,
 	} = props.data;
 
-	
 	//console.log("dataField.imagePurpose",dataField)
 	return (
 		<React.Fragment>
@@ -104,7 +102,6 @@ export default function ImageAccessibility(props) {
 				</header>
 				<Grid container spacing={1} direction='column' justify='flex-end'>
 					<Grid item id='short-description-container' role='grid'>
-
 						<A11YShortDescription
 							handleOnChange={React.useCallback(handleInputOnChange)}
 							error={dataField.shortDescriptionError}

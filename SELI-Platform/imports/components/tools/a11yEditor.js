@@ -296,11 +296,11 @@ const useEditor =(props) => {
 	const [classNameLabel, setClassNameLabel] = React.useState('a11yEditor-label');
 	const [classNameAsterisk, setClassNameAsterisk] = React.useState('a11yEditor-asterisk');
 
-	useEffect(() => {
+	/* useEffect(() => {
 		if (props.value) {
 			setEditorState(EditorState.createWithContent(ContentState.createFromText(props.value)));
 		}
-	}, []);
+	}, []); */
 
 	useEffect(() => {
 		const currentContent = editorState.getCurrentContent();
@@ -313,9 +313,9 @@ const useEditor =(props) => {
 		setOutputRaw(raw);
 		localStorage.setItem('editorData', JSON.stringify(raw));
 
-		//const txt = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
+		//const txt = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n'); 
 		if (props.onChange !== undefined)
-			props.onChange({target : {name: props.name, value: currentContent.getPlainText('\u0001')}});
+			props.onChange({target : {name: props.name, value:raw }})//currentContent.getPlainText('\u0001')}});  
 
 
 	}, [editorState]);

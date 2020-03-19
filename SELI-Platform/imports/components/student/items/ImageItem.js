@@ -128,7 +128,7 @@ export default class ImageItem extends React.Component {
     )
   }
   render() {
-   // console.log("DESDEiMAGEITEMDELCURSOESTUDIANTE", this.props.item.attributes.accessibility.dataField)
+    console.log("DESDEiMAGEITEMDELCURSOESTUDIANTE", this.props.item.attributes.accessibility.dataField)
     return(
       <div className="content-boxstudent">
         {this.checkBoxLabels()}
