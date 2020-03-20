@@ -44,9 +44,9 @@ jobs:
         project: 'https://github.com/ecureuill/SELIProject/projects/2'
         column_name: 'TO-DO'
 
-     - name: Assign '3 - IN REVIEW' label to 'FUNCTIONALITY TEST CYCLE'
+     - name: Assign 'need tester' label to 'FUNCTIONALITY TEST CYCLE'
        uses: srggrs/assign-one-project-github-action@1.2.0
-       if: contains(github.event.issue.labels.*.name, '4 - in Review')
+       if: contains(github.event.issue.labels.*.name, 'need tester')
        with:
         project: 'https://github.com/ecureuill/SELIProject/projects/6'
         column_name: 'TO-DO'
