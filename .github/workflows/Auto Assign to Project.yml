@@ -5,10 +5,17 @@ on:
     types: [opened, labeled, unlabeled]
   pull_request:
     types: [opened, labeled, unlabeled]
+  project_card:
+    types: [moved]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-jobs:   
+jobs:
+  triage:
+    name: Auto card labeler
+    runs-on: ubuntu-latest
+    steps:
+      - uses: technote-space/auto-card-labeler@v1   
   comment:
     runs-on: ubuntu-18.04
     steps:
