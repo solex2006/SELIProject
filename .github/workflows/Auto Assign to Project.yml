@@ -1,4 +1,4 @@
-name: (s)
+name: main
 
 on:
   issues:
@@ -11,16 +11,16 @@ env:
 jobs:
   assign_one_project:
     runs-on: ubuntu-latest
-    name: Assign to One Project
+    name: AssignToProject
     steps:
-     - name: Assign FEATURE REQUEST and to project 3
+     - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
        uses: srggrs/assign-one-project-github-action@1.2.0
        if:  contains(github.event.issue.labels.*.name, 'feature request')
        with:
         project: 'https://github.com/ecureuill/SELIProject/projects/1'
         column_name: 'NEEDS TRIAGE'
 
-     - name: Assign BUG, ISSUE, BUG ON NEXT RELEASE label to project 1
+     - name: Assign 'BUG', 'ISSUE',' BUG ON NEXT RELEASE' label to 'TRIAGE - Bugs'
        uses: srggrs/assign-one-project-github-action@1.2.0
        if: |
             contains(github.event.issue.labels.*.name, 'bug') ||
@@ -30,16 +30,33 @@ jobs:
         project: 'https://github.com/ecureuill/SELIProject/projects/1'
         column_name: 'NEEDS TRIAGE'
         
-     - name: Assign '1 - PLANNING' label to project 4
+     - name: Assign '1 - PLANNING' label to 'FEATURE SPECIFICATION'
        uses: srggrs/assign-one-project-github-action@1.2.0
        if: contains(github.event.issue.labels.*.name, '1 - Planning')
        with:
         project: 'https://github.com/ecureuill/SELIProject/projects/4'
         column_name: 'PENDING FEATURE REQUEST'
 
-     - name: Assign '2 - READY' label to project 2
+     - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE'
        uses: srggrs/assign-one-project-github-action@1.2.0
-       if: contains(github.event.issue.labels.*.name, '2 - READY')
+       if: contains(github.event.issue.labels.*.name, '2 - Ready')
        with:
         project: 'https://github.com/ecureuill/SELIProject/projects/2'
         column_name: 'TO-DO'
+
+     - name: Assign 'need tester' label to 'FUNCTIONALITY TEST CYCLE'
+       uses: srggrs/assign-one-project-github-action@1.2.0
+       if: contains(github.event.issue.labels.*.name, 'need tester')
+       with:
+        project: 'https://github.com/ecureuill/SELIProject/projects/6'
+        column_name: 'TO-DO'
+
+     - name: Assign 'Pull Request' to 'PULL REQUEST CYCLE'
+       uses: srggrs/assign-one-project-github-action@1.2.0
+       if: |
+          github.event_name == 'pull_request' &&
+          github.event.action == 'opened'
+       with:
+        project: 'https://github.com/ecureuill/SELIProject/projects/7'
+        column_name: 'In progress'
+
