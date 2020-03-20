@@ -18,13 +18,14 @@ jobs:
       - uses: technote-space/auto-card-labeler@v1   
   comment:
     needs: triage
-    name: CommentWhenLabelled
     runs-on: ubuntu-18.04
     steps:
-      - uses: peaceiris/actions-label-commenter@v1
+      - uses: actions/checkout@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          config_file: .github/label-commenter-config.yml
+          ref: master
+
+      - name: Label Commenter
+        uses: peaceiris/actions-label-commenter@v1
   assign_one_project:
     needs: triage
     runs-on: ubuntu-latest
