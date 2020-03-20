@@ -13,7 +13,10 @@
    'TO-DO':
      - '2 - Ready'
    'CODING':
+     - '3 - Working'   
+   'CODED':
      - '3 - Working'
+     - 'need tester'
 
 'FUNCTIONALITY TEST':
    'TO-DO':
