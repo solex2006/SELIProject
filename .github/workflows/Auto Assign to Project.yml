@@ -1,10 +1,10 @@
-name: (s)
+name: main
 
 on:
   issues:
-    types: [opened, labeled]
+    types: [opened, labeled, unlabled]
   pull_request:
-    types: [opened, labeled]
+    types: [opened, labeled, unlabled]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -15,9 +15,15 @@ jobs:
       - name: Label Commenter
         uses: peaceiris/actions-label-commenter@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
           config_file: .github/label-commenter-config.yml
-     
+
+  triage:
+    name: Auto card labeler
+    runs-on: ubuntu-latest
+    steps:
+      - uses: technote-space/auto-card-labeler@v1
+        
   assign_one_project:
     runs-on: ubuntu-latest
     name: Assign to One Project
