@@ -12,25 +12,26 @@ env:
 
 jobs:
   triage:
-    name: Auto card labeler
+    name: LabelWhenMoved
     runs-on: ubuntu-latest
     steps:
       - uses: technote-space/auto-card-labeler@v1   
   comment:
+    needs: triage
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
         with:
           ref: master
 
-      - name: Label Commenter
+      - name: CommentWhenLabelled
         uses: peaceiris/actions-label-commenter@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           config_file: .github/label-commenter-config.yml
   assign_one_project:
     runs-on: ubuntu-latest
-    name: Assign to One Project
+    name: AssignToProject
     steps:
      - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
        uses: srggrs/assign-one-project-github-action@1.2.0
