@@ -30,6 +30,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           config_file: .github/label-commenter-config.yml
   assign_one_project:
+    needs: triage
     runs-on: ubuntu-latest
     name: AssignToProject
     steps:
