@@ -15,7 +15,7 @@
    'CODING':
      - '3 - Working'   
    'CODED':
-     - '3 - Working'
+     - '3 - Working' #after functionaly test 
 #     - 'need tester'
 
 'FUNCTIONALITY TEST':
@@ -24,7 +24,8 @@
      - '3 - Working'
    'IN PROGRESS':
      - '4 - In Review'
-#   'FAILED':
-#     - 'test-FTfailed'
+   'FAILED':
+     - '3 - Working'   
+#     - 'test-FTfailed' #fix actions to label add by bot also trigger others actions
 #   'SUCCESSFUL':
 #      - 'test-FTpass'
