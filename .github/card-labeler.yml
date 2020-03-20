@@ -14,10 +14,6 @@
      - '2 - Ready'
    'CODING':
      - '3 - Working'
-   'CODED':
-     - #'4 - In Review'
-   'DONE':
-     - 
 
 'FUNCTIONALITY TEST':
    'TO-DO':
