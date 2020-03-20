@@ -2,9 +2,9 @@ name: main
 
 on:
   issues:
-    types: [opened, labeled, unlabeled]
+    types: [opened, labeled]
   pull_request:
-    types: [opened, labeled, unlabeled]
+    types: [opened, labeled]
   project_card:
     types: [moved]
 env:
@@ -18,14 +18,10 @@ jobs:
       - uses: technote-space/auto-card-labeler@v1   
   comment:
     needs: triage
+    name: CommentWhenLabelled
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: master
-
-      - name: CommentWhenLabelled
-        uses: peaceiris/actions-label-commenter@v1
+      - uses: peaceiris/actions-label-commenter@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           config_file: .github/label-commenter-config.yml
