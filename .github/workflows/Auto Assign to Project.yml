@@ -9,6 +9,11 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto card labeler
+        uses: technote-space/auto-card-labeler@v1
   comment:
     runs-on: ubuntu-18.04
     steps:
@@ -16,14 +21,7 @@ jobs:
         uses: peaceiris/actions-label-commenter@v1
         with:
 #          github_token: ${{ secrets.GITHUB_TOKEN }}
-          config_file: .github/label-commenter-config.yml
-
-  triage:
-    name: Auto card labeler
-    runs-on: ubuntu-latest
-    steps:
-      - uses: technote-space/auto-card-labeler@v1
-        
+          config_file: .github/label-commenter-config.yml       
   assign_one_project:
     runs-on: ubuntu-latest
     name: Assign to One Project
@@ -74,4 +72,3 @@ jobs:
        with:
         project: 'https://github.com/ecureuill/SELIProject/projects/7'
         column_name: 'In progress'
-          
