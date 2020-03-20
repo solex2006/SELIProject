@@ -5,7 +5,7 @@ labels:
         body: | 
           Functional Test failed!
           Please review your solution.
-        #action: close
+        action: open
       #pr:
         #body: Please follow the pull request templates.
         #action: close
