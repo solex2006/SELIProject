@@ -2,8 +2,9 @@ labels:
   - name: test-FTfailed
     labeled:
       issue:
-        body: |Functional Test failed!
-        Please review your solution.
+        body: | 
+          Functional Test failed!
+          Please review your solution.
         #action: close
       #pr:
         #body: Please follow the pull request templates.
@@ -12,7 +13,6 @@ labels:
       #issue:
         #body: Thank you for following the template. The repository owner will reply.
         #action: open
- 
   - name: wontfix
     labeled:
       issue:
