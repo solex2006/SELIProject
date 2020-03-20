@@ -113,8 +113,8 @@ export default class VideoItem extends React.Component {
                       }
                       {
                         (this.props.item.attributes.accessibility.dataField.fileAudioDescription[0]!=null &&
-                        (this.props.item.attributes.accessibility.dataField.audioDescription!="no" &&
-                        this.props.item.attributes.accessibility.dataField.audioDescriptionRequired!="no")) ?
+                        (this.props.item.attributes.accessibility.dataField.audioDescription==="no" &&
+                        this.props.item.attributes.accessibility.dataField.audioDescriptionRequired==="yes")) ?
                         <div className="checkboxstyle">
                           <CheckboxLabels
                             language={this.props.language}

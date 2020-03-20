@@ -104,22 +104,7 @@ export default class ImageItem extends React.Component {
                   undefined
               }
               </Grid>
-              {/* <Grid item xs={6}>
-                <h2 className="description">{this.props.language.longDescription_a11y_label}</h2> 
-                {
-                  this.props.item.attributes.accessibility.dataField===undefined?
-                  undefined
-                  :
-                <div> 
-                  {
-                    this.props.item.attributes.accessibility.dataField!=undefined ?
-                    <Editor editorState={this.signalText()} readOnly={true} />
-                    :
-                    <div>{this.props.language.NolongDescription}</div>
-                  }  
-                  </div>
-                }
-              </Grid> */}
+              
             </Grid>
             :
             undefined
