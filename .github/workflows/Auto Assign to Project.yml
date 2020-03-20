@@ -50,3 +50,13 @@ jobs:
        with:
         project: 'https://github.com/ecureuill/SELIProject/projects/6'
         column_name: 'TO-DO'
+
+     - name: Assign 'Pull Request' to 'PULL REQUEST CYCLE'
+       uses: srggrs/assign-one-project-github-action@1.2.0
+       if: |
+          github.event == 'pull_request' &&
+          github.event.action == 'opened'
+       with:
+        project: 'https://github.com/ecureuill/SELIProject/projects/7'
+        column_name: 'In progress'
+          
