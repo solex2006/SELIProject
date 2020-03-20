@@ -20,10 +20,6 @@ jobs:
     needs: triage
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: master
-
       - name: Label Commenter
         uses: peaceiris/actions-label-commenter@v1
         with:
