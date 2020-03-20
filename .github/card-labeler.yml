@@ -14,16 +14,17 @@
      - '2 - Ready'
    'CODING':
      - '3 - Working'   
-   'CODED':
-     - '3 - Working'
-     - 'need tester'
+#   'CODED':
+#     - '3 - Working'
+#     - 'need tester'
 
 'FUNCTIONALITY TEST':
    'TO-DO':
      - 'need tester'
+     - '4 - In Review'
    'IN PROGRESS':
      - '4 - In Review'
-   'FAILED':
-     - 'test-FTfailed'
-   'SUCCESSFUL':
-      - 'test-FTpass'
+#   'FAILED':
+#     - 'test-FTfailed'
+#   'SUCCESSFUL':
+#      - 'test-FTpass'
