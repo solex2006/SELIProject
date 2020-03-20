@@ -6,6 +6,13 @@ labels:
           Functional Test failed!
           Please review your solution.
         action: open
+  - name: test-FTsuccess
+    labeled:
+      issue:
+        body: | 
+          Functional Test passed!
+          @owner Please open a PULL REQUEST.
+        action: open        
       #pr:
         #body: Please follow the pull request templates.
         #action: close
