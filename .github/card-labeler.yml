@@ -17,6 +17,9 @@
    'CODED':
      - '3 - Working' #after functionaly test 
 #     - 'need tester'
+    'PULL REQUEST':
+      - '4 - In Review'
+#    'MERGED':
 
 'FUNCTIONALITY TEST':
    'TO-DO':
@@ -27,5 +30,6 @@
    'FAILED':
      - '3 - Working'   
 #     - 'test-FTfailed' #fix actions to label add by bot also trigger others actions
-#   'SUCCESSFUL':
+   'SUCCESSFUL':
+     - '4 - In Review'
 #      - 'test-FTpass'
