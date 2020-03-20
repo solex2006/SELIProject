@@ -2,13 +2,25 @@ name: main
 
 on:
   issues:
-    types: [opened, labeled, unlabled]
+    types: [opened, labeled, unlabeled]
   pull_request:
-    types: [opened, labeled, unlabled]
+    types: [opened, labeled, unlabeled]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:   
+  comment:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Label Commenter
+        uses: peaceiris/actions-label-commenter@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # config_file: .github/label-commenter-config.yml
   assign_one_project:
     runs-on: ubuntu-latest
     name: Assign to One Project
