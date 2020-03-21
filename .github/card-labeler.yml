@@ -23,3 +23,9 @@
   'SUCCESSFUL':
     - '4 - In Review'
 #      - 'test-FTpass'
+
+'TRIAGE - Feature Request'
+   - 'UP NEXT':
+      - '1 - Planning'
+   - 'IN FUTURE':
+      - '0 - Backlog'
