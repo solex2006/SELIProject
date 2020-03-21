@@ -19,10 +19,10 @@ FUNCTIONALITY TEST:
     - '4 - In Review'
   'FAILED':
     - '3 - Working'   
-     - 'test-FTfailed' #fix actions to label add by bot also trigger others actions
+    - 'test-FTfailed' #fix actions to label add by bot also trigger others actions
   'SUCCESSFUL':
     - '4 - In Review'
-      - 'test-FTpass'
+    - 'test-FTpass'
 
 TRIAGE - Feature Request:
    - 'UP NEXT':
