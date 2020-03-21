@@ -1,4 +1,4 @@
-name: Assign to One Project
+name: Assign Issues to project
 
 on:
   issues:
@@ -15,7 +15,7 @@ jobs:
        uses: srggrs/assign-one-project-github-action@1.2.0
        if:  contains(github.event.issue.labels.*.name, 'feature request')
        with:
-        project: 'https://github.com/ecureuill/SELIProject/projects/1'
+        project: 'https://github.com/ecureuill/SELIProject/projects/3'
         column_name: 'NEEDS TRIAGE'
 
      - name: Assign 'BUG', 'ISSUE',' BUG ON NEXT RELEASE' label to 'TRIAGE - Bugs'
