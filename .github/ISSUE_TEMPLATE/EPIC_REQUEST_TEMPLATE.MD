@@ -1,5 +1,5 @@
 ---
-name: Epic Specification
+name: 02 - Epic Specification
 about: Use this template for create an Epic. Epic are large bodies of work that can be broken down into a number of smaller tasks (called stories).
 labels: epic
 title: 
