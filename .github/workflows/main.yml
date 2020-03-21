@@ -26,7 +26,7 @@ jobs:
         uses: peaceiris/actions-label-commenter@v1
         with:
           github_token: ${{ secrets.MY_ACTION_TOKEN }}
-          # config_file: .github/label-commenter-config.yml
+          config_file: .github/label-commenter-config.yml
 
 
   assign_one_project:
