@@ -16,12 +16,14 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   triage:
+    if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
     name: Auto card labeler
     runs-on: ubuntu-latest
     steps:
       - uses: technote-space/auto-card-labeler@v1
  
   comment:
+    if: github.event_name == 'project_card'
     runs-on: ubuntu-18.04
     steps:
       - name: Label Commenter
@@ -47,7 +49,6 @@ jobs:
      - name: Assign 'BUG', 'ISSUE',' BUG ON NEXT RELEASE' label to 'TRIAGE - Bugs'
        uses: srggrs/assign-one-project-github-action@1.2.0
        if: |
-            github.event_name == 'issue' && && github.event.action == 'labeled' && (
             contains(github.event.issue.labels.*.name, 'bug') ||
             contains(github.event.issue.labels.*.name, 'bug on next release') ||
             contains(github.event.issue.labels.*.name, 'issues'))
