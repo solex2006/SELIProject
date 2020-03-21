@@ -29,7 +29,7 @@ labels:
       issue:
         body: This has become active again.
         action: open
-  - name: resolution-duplicate
+  - name: resolution-Duplicate
     labeled:
       issue:
         body: This issue or pull request already exists.
