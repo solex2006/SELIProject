@@ -1,7 +1,7 @@
 ---
 name: 07 - Bug report in release
 about: Use this template to track bugs in next release
-labels: bug on next release,0 - Backlog
+labels: bug on next release
 title: BUG_SUBJECT
 ---
 
