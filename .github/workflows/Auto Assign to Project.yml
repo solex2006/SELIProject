@@ -15,9 +15,9 @@ jobs:
     steps:
      - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
        uses: srggrs/assign-one-project-github-action@1.2.0
-       if:  github.event_name == 'issue' &&
+       if:  github.event_name == 'issue' && (
             github.event.action == 'opened' ||
-            contains(github.event.issue.labels.*.name, 'feature request')
+            contains(github.event.issue.labels.*.name, 'feature request'))
        with:
         project: 'https://github.com/ecureuill/SELIProject/projects/1'
         column_name: 'NEEDS TRIAGE'
