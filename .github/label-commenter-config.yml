@@ -20,7 +20,7 @@ labels:
       #issue:
         #body: Thank you for following the template. The repository owner will reply.
         #action: open
-  - name: wontfix
+  - name: "resolution-Won't fix"
     labeled:
       issue:
         body: This will not be worked on but we appreciate your contribution.
