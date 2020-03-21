@@ -1,5 +1,5 @@
 ---
-name: [Feature] Feature Request
+name: [FEATURE] Feature Request
 about: Use this template to suggest an idea to the project.
 labels: Feature Request, 0 - Backlog
 title: 
