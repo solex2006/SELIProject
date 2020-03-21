@@ -15,15 +15,15 @@ env:
   GITHUB_TOKEN: ${{ secrets.MY_ACTION_TOKEN }}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  triage:
-    if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
+  triage: #GitHub actions that automatically labels Issues or PullRequests based on project card moves
+    if: github.event_name == 'project_card'
     name: Auto card labeler
     runs-on: ubuntu-latest
     steps:
       - uses: technote-space/auto-card-labeler@v1
  
-  comment:
-    if: github.event_name == 'project_card'
+  comment: #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
+    if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
     runs-on: ubuntu-18.04
     steps:
       - name: Label Commenter
@@ -39,9 +39,7 @@ jobs:
     steps:
      - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
        uses: srggrs/assign-one-project-github-action@1.2.0
-       if:  |
-        github.event_name == 'issue' &&
-        contains(github.event.issue.labels.*.name, 'feature request')
+       if: contains(github.event.issue.labels.*.name, 'feature request')
        with:
         project: 'https://github.com/ecureuill/SELIProject/projects/3'
         column_name: 'NEEDS TRIAGE'
