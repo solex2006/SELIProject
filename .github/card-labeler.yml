@@ -6,25 +6,25 @@
     - '3 - Working'   
   'CODED':
     - '3 - Working' #after functionaly test 
-#    - 'need tester'
+    - 'need tester'
   'PULL REQUEST':
     - '4 - In Review'
 #    'MERGED':
 
 'FUNCTIONALITY TEST':
   'TO-DO':
-    - 'need tester'
+    #- 'need tester'
     - '3 - Working'
   'IN PROGRESS':
     - '4 - In Review'
   'FAILED':
     - '3 - Working'   
-#     - 'test-FTfailed' #fix actions to label add by bot also trigger others actions
+     - 'test-FTfailed' #fix actions to label add by bot also trigger others actions
   'SUCCESSFUL':
     - '4 - In Review'
-#      - 'test-FTpass'
+      - 'test-FTpass'
 
-'TRIAGE - Feature Request'
+'TRIAGE - Feature Request':
    - 'UP NEXT':
       - '1 - Planning'
    - 'IN FUTURE':
