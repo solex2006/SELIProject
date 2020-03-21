@@ -16,6 +16,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   triage: #GitHub actions that automatically labels Issues or PullRequests based on project card moves
+    needs: [assign_one_project]
     if: github.event_name == 'project_card'
     name: Auto card labeler
     runs-on: ubuntu-latest
@@ -23,6 +24,7 @@ jobs:
       - uses: technote-space/auto-card-labeler@v1
  
   comment: #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
+    needs: [triage, assign_one_project]
     if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
     runs-on: ubuntu-18.04
     steps:
@@ -38,6 +40,7 @@ jobs:
 
 
   assign_one_project:
+    if: github.event_name == 'issues' && github.event.action == 'labeled'
     runs-on: ubuntu-latest
     name: AssignToProject
     steps:
