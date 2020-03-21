@@ -1,5 +1,5 @@
 ---
-name: Feature Specification
+name: [FEATURE] Feature Specification
 about: Use this template for create a fetaure specification.
 labels: Feature Specification
 title: REQ_ SUBJECT
