@@ -16,8 +16,8 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   triage: #GitHub actions that automatically labels Issues or PullRequests based on project card moves
-    needs: [assign_one_project]
-    if: github.event_name == 'project_card'
+#    needs: [assign_one_project]
+#    if: github.event_name == 'project_card'
     name: Auto card labeler
     runs-on: ubuntu-latest
     steps:
