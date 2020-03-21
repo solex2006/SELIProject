@@ -1,5 +1,5 @@
-   
-'DEVELOPMENT CYCLE':
+  
+DEVELOPMENT CYCLE:
   'TO-DO':
     - '2 - Ready'
   'CODING':
@@ -11,7 +11,7 @@
     - '4 - In Review'
 #    'MERGED':
 
-'FUNCTIONALITY TEST':
+FUNCTIONALITY TEST:
   'TO-DO':
     #- 'need tester'
     - '3 - Working'
@@ -24,7 +24,7 @@
     - '4 - In Review'
       - 'test-FTpass'
 
-'TRIAGE - Feature Request':
+TRIAGE - Feature Request:
    - 'UP NEXT':
       - '1 - Planning'
    - 'IN FUTURE':
