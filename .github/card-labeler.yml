@@ -1,14 +1,13 @@
 'TRIAGE - Feature Request':
   'NEEDS TRIAGE':
-    - '0 - Backlog'
+    - 
   'IN DISCUSSION':
     - 'Discussion'
-    - '0 - Backlog'
   'IN FUTURE':
-    - '0 - Backlog'
+    - 
   'UP NEXT':
-    - '1 - Planning'
-
+    - 
+    
 'DEVELOPMENT CYCLE':
   'TO-DO':
     - '2 - Ready'
