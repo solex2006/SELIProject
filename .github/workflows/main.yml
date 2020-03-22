@@ -60,19 +60,19 @@ jobs:
 #            config_file: .github/label-commenter-config01.yml
 
 #comment
-#       - name: verbose
-#         uses: peter-evans/create-or-update-comment@v1
-#         with:
-#           token: ${{ secrets.GITHUB_TOKEN }}
-#           issue-number: 59
-#           body: |
-#               *Verbose*
-#               event_name: ${{github.event_name }} 
-#               event.action: ${{github.event.action}} 
-#               event.project_card.id: ${{github.event.project_card.id}} 
-#               event.project_card.column_id: ${{github.event.project_card.column_id}} 
-#               event.repository.issues_url: ${{github.event.repository.issues_url}} 
-#               event.project_card.issues_url: ${{github.event.project_card.issues_url}} 
+      - name: verbose
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: 59
+          body: |
+              *Verbose*
+              event_name: ${{github.event_name }} 
+              event.action: ${{github.event.action}} 
+              event.project_card.id: ${{github.event.project_card.id}} 
+              event.project_card.column_id: ${{github.event.project_card.column_id}} 
+              event.repository.issues_url: ${{github.event.repository.issues_url}} 
+              event.project_card.issues_url: ${{github.event.project_card.issues_url}} 
 
    
 #           reaction-type: '+1'
