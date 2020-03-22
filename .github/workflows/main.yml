@@ -27,7 +27,13 @@ jobs:
           # a Personal Access Token instead of secrets.GITHUB_TOKEN
           # so that tag pushes trigger repo push events.
           token: ${{ secrets. MY_PERSONAL_ACTION_TOKEN }}
+      
       - uses: technote-space/auto-card-labeler@v1
+          with:
+            # Secret GitHub API token to use for making API requests.
+            GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
+            # Config file name.
+            #CONFIG_FILENAME: # default is card-labeler.yml
  
 #   comment: #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
 #     needs: [triage, assign_one_project]
