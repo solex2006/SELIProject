@@ -8,7 +8,7 @@ labels:
     labeled:
       issue:
         body: This Feature Request was accepted and is ready for specfication.
-        action: open
+        action: close
   - name: 2 - Ready
     labeled:
       issue:
