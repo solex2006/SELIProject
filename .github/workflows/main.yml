@@ -66,11 +66,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: 59
           body: |
-            event: ${{ github.event}} 
-            comment: ${{ github.event.issue }} 
-            comment id:  ${{ github.event.issue.id }} 
-            *****
-            assignes:  ${{ github.event.issues.assignee.login }} 
+            assignee:  ${{ github.event.issue.assignee.login }} 
           reaction-type: '+1'
 
 #       - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
