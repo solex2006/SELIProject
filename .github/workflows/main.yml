@@ -59,9 +59,23 @@ jobs:
 #            github_token: ${{ secrets.GITHUB_TOKEN }}
 #            config_file: .github/label-commenter-config01.yml
 
-#comment 
+#comment
+      - name: verbose
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: 59
+          body: |
+              ${{github.event.name }} 
+              ${{github.event.action}} 
+              ${{contains(github.event.issue.labels.*.name, 'test-FTfailed')}}
+          reaction-type: '+1'
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
+        if: |
+          github.event.name == 'issues' && 
+          github.event.action == 'labeled' &&
+          contains(github.event.issue.labels.*.name, 'test-FTfailed')
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: 59
