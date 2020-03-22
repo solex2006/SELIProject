@@ -4,7 +4,7 @@ labels:
       issue:
         body: This Feature Request was accepted, but are not going to be implemented in next release.
         action: open
-  - name: 1 - Planning
+  - name: need specification
     labeled:
       issue:
         body: This Feature Request was accepted and is ready for specfication.
