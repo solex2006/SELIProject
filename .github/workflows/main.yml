@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: main
 
 # Controls when the action will run. Triggers the workflow on push or pull request 
@@ -13,9 +11,10 @@ on:
     types: [moved]
 env:
   GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  triage: 
+  job01: 
 #    needs: [assign_one_project]
 #    if: github.event_name == 'project_card'
     name: Auto card labeler
@@ -28,14 +27,16 @@ jobs:
           # so that tag pushes trigger repo push events.
           token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
       
-      - uses: technote-space/auto-card-labeler@v1 #GitHub actions that automatically labels Issues or PullRequests based on project card moves
+      - uses: technote-space/auto-card-labeler@v1 
+      #GitHub actions that automatically labels Issues or PullRequests based on project card moves
         with:
-            # Secret GitHub API token to use for making API requests.
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
             # Config file name.
             #CONFIG_FILENAME: # default is card-labeler.yml
 
+#     #mail: 
 #       - uses: timheuer/issue-notifier@v1
+#       #GitHub actions that automatically send e-mail when a issue is labeled 
 #         env:
 #           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
 #         with:
@@ -46,19 +47,13 @@ jobs:
 #           labelsToMonitor: "1 - Planning"
 #           verbose: true
  
-#   mail: 
+
+#commenter
 #     needs: [triage, assign_one_project]
 #     if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
 #     runs-on: ubuntu-18.04
-#     steps:
-#       - uses: actions/checkout@v2
-#         with:
-#           ref: master
-#           token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
-
-#commenter
-#       - name: Label Commenter
-      - uses: peaceiris/actions-label-commenter@v1.3.2 #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
+      - uses: peaceiris/actions-label-commenter@v1.3.2 
+#      #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
         if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
         with:
            github_token: ${{ secrets.GITHUB_TOKEN }}
