@@ -70,7 +70,7 @@ jobs:
             - With GitHub **Markdown**
             - Created by [create-or-update-comment][1]
             ******
-            assignes:  ${{ github.event.issues.assignee }} 
+            assignes:  ${{ github.event.issues.assignee.login }} 
             
           reaction-type: '+1'
 
