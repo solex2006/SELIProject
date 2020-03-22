@@ -29,31 +29,22 @@ jobs:
           token: ${{ secrets. MY_PERSONAL_ACTION_TOKEN }}
       - uses: technote-space/auto-card-labeler@v1
  
-  comment: #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
-    needs: [triage, assign_one_project]
-    if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: master
-          token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
+#   comment: #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
+#     needs: [triage, assign_one_project]
+#     if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
+#     runs-on: ubuntu-18.04
+#     steps:
+#       - uses: actions/checkout@v2
+#         with:
+#           ref: master
+#           token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
 
-      - name: Label Commenter
-        uses: peaceiris/actions-label-commenter@v1.3.2
-        with:
-          github_token: ${{ secrets.MY_ACTION_TOKEN }}
-          config_file: .github/label-commenter-config01.yml
-  assign_one_project:
-    needs: triage
- #   if: github.event_name != 'project_card' # && github.event.action == 'labeled'
-    runs-on: ubuntu-latest
-    name: AssignToProject
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.MY_ACTION_TOKEN }}
-      
+#       - name: Label Commenter
+#         uses: peaceiris/actions-label-commenter@v1.3.2
+#         with:
+#           github_token: ${{ secrets.MY_ACTION_TOKEN }}
+#           config_file: .github/label-commenter-config01.yml
+ 
       - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
         uses: srggrs/assign-one-project-github-action@1.2.0
         if: contains(github.event.issue.labels.*.name, 'Feature Request')
