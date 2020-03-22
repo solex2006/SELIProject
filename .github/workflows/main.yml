@@ -6,7 +6,7 @@ name: main
 # events but only for the master branch
 on:
   issues:
-    types: [labeled, unlabeled]
+    types: [edited, labeled, unlabeled]
   pull_request:
     types: [labeled, unlabeled]
   project_card:
@@ -34,6 +34,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
             # Config file name.
             #CONFIG_FILENAME: # default is card-labeler.yml
+      - uses: timheuer/issue-notifier@v1
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        with:
+          fromMailAddress: 'q4j4v5e8z5w0j0m0@seli-wp4.slack.com'
+          toMailAddress: 'q4j4v5e8z5w0j0m0@seli-wp4.slack.com'
+          subject: 'New feature ready to specification'
+          subjectPrefix: ''
+          labelsToMonitor: "1 - Planning"
+          verbose: true
  
 #   comment: #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
 #     needs: [triage, assign_one_project]
