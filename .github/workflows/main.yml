@@ -71,7 +71,7 @@ jobs:
               event.action: ${{github.event.action}} 
               event.project_card.id: ${{github.event.project_card.id}} 
               event.project_card.column_id: ${{github.event.project_card.column_id}} 
-              event.repository.issues_url: ${{github.event.project.issues_url}} 
+              event.repository.issues_url: ${{github.event.repository.issues_url}} 
               event.project_card.issues_url: ${{github.event.project_card.issues_url}} 
 
    
