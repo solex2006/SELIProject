@@ -69,14 +69,15 @@ jobs:
               *Verbose*
               ${{github.event_name }} 
               ${{github.event.action}} 
-              ${{contains(github.event.issue.labels.*.name, 'test-FTfailed')}}
+              ${{github.project_card.column_id}} 
+              
           reaction-type: '+1'
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
         if: |
-          github.event_name == 'issues' && 
-          github.event.action == 'labeled' &&
-          contains(github.event.issue.labels.*.name, 'test-FTfailed')
+          github.event_name == 'project_card' && 
+          github.event.action == 'moved' &&
+          github.event.project_card.column_id == 8389382
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: 59
