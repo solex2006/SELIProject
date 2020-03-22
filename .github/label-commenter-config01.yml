@@ -1,4 +1,14 @@
 labels:
+ - name: 0 - Backlog
+    labeled:
+      issue:
+        body: This Feature Request was accepted, but are not going to be implemented in next release.
+        action: open
+ - name: 1 - Planning
+    labeled:
+      issue:
+        body: This Feature Request was accepted and is ready for specfication.
+        action: open
   - name: test-FTfailed
     labeled:
       issue:
