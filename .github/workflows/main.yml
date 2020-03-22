@@ -80,7 +80,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1
         if: |
           github.event_name == 'project_card' && 
-          github.project_card.id == 34978495 &&
+          github.event.project_card.id == 34978495 &&
           github.event.project_card.column_id == 8389382
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
