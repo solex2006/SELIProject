@@ -40,7 +40,7 @@ jobs:
 
 
   assign_one_project:
-    if: github.event_name != 'project_card' # && github.event.action == 'labeled'
+ #   if: github.event_name != 'project_card' # && github.event.action == 'labeled'
     runs-on: ubuntu-latest
     name: AssignToProject
     steps:
