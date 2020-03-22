@@ -6,6 +6,13 @@ TRIAGE - Feature Request:
   'IN DISCUSSION':
     - 'Discussion'
 
+Feature Specification:
+  'PENDING FEATURE REQUEST':
+    - '1 - Planning'
+    - 'need specification'
+  'FEATURE READY':
+    - '2 - Ready'
+    
 DEVELOPMENT CYCLE:
   'TO-DO':
     - '2 - Ready'
