@@ -29,9 +29,9 @@ jobs:
           token: ${{ secrets. MY_PERSONAL_ACTION_TOKEN }}
       
       - uses: technote-space/auto-card-labeler@v1
-          with:
+        with:
             # Secret GitHub API token to use for making API requests.
-            GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
             # Config file name.
             #CONFIG_FILENAME: # default is card-labeler.yml
  
