@@ -60,22 +60,22 @@ jobs:
 #            config_file: .github/label-commenter-config01.yml
 
 #comment
-      - name: verbose
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: 59
-          body: |
-              *Verbose*
-              event_name: ${{github.event_name }} 
-              event.action: ${{github.event.action}} 
-              event.project_card.id: ${{github.event.project_card.id}} 
-              event.project_card.column_id: ${{github.event.project_card.column_id}} 
-              event.repository.issues_url: ${{github.event.repository.issues_url}} 
-              event.project_card.issues_url: ${{github.event.project_card.issues_url}} 
+#       - name: verbose
+#         uses: peter-evans/create-or-update-comment@v1
+#         with:
+#           token: ${{ secrets.GITHUB_TOKEN }}
+#           issue-number: 59
+#           body: |
+#               *Verbose*
+#               event_name: ${{github.event_name }} 
+#               event.action: ${{github.event.action}} 
+#               event.project_card.id: ${{github.event.project_card.id}} 
+#               event.project_card.column_id: ${{github.event.project_card.column_id}} 
+#               event.repository.issues_url: ${{github.event.repository.issues_url}} 
+#               event.project_card.issues_url: ${{github.event.project_card.issues_url}} 
 
    
-          reaction-type: '+1'
+#           reaction-type: '+1'
       - name: Create Comment - project FUNCTIONAL TEST - card FAILED
         uses: peter-evans/create-or-update-comment@v1
         if: |
@@ -84,10 +84,23 @@ jobs:
           github.event.project_card.column_id == 8389382
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: 59
+          issue-number: 60
           body: |
-            :o: @${{ github.event.issue.assignee.login }} your solution doesn't pass Functional Test
-          reaction-type: '+1'
+            :o: @${{ github.event.issue.assignee.login }} your solution didn't pass Functional Test
+#           reaction-type: '+1'
+
+      - name: Create Comment - project FUNCTIONAL TEST - card SUCCESS
+        uses: peter-evans/create-or-update-comment@v1
+        if: |
+          github.event_name == 'project_card' && 
+          github.project_card.id == 34978495 &&
+          github.event.project_card.column_id == 8389386
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: 60
+          body: |
+            :large_blue_circle: @${{ github.event.issue.assignee.login }} your solution passed Functional Test
+#           reaction-type: '+1'
 
 #       - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
 #         uses: srggrs/assign-one-project-github-action@1.2.0
