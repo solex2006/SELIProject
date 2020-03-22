@@ -79,18 +79,14 @@ jobs:
 
       - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE'
         uses: srggrs/assign-one-project-github-action@1.2.0
-        if: |
-          github.event_name == 'issue' &&
-          contains(github.event.issue.labels.*.name, '2 - Ready')
+        if: contains(github.event.issue.labels.*.name, '2 - Ready')
         with:
           project: 'https://github.com/ecureuill/SELIProject/projects/2'
           column_name: 'TO-DO'
 
       - name: Assign 'need tester' label to 'FUNCTIONALITY TEST CYCLE'
         uses: srggrs/assign-one-project-github-action@1.2.0
-        if: |
-          github.event_name == 'issue' &&
-          contains(github.event.issue.labels.*.name, 'need tester')
+        if: contains(github.event.issue.labels.*.name, 'need tester')
         with:
           project: 'https://github.com/ecureuill/SELIProject/projects/6'
           column_name: 'TO-DO'
