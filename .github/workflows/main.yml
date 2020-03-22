@@ -26,7 +26,7 @@ jobs:
           # NOTE @v2 uses the token as an auth http header. Set it to
           # a Personal Access Token instead of secrets.GITHUB_TOKEN
           # so that tag pushes trigger repo push events.
-          token: ${{ secrets. MY_PERSONAL_ACTION_TOKEN }}
+          token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
       
       - uses: technote-space/auto-card-labeler@v1
         with:
@@ -49,7 +49,7 @@ jobs:
       - uses: peaceiris/actions-label-commenter@v1.3.2
         if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
         with:
-           #github_token: ${{ secrets.MY_ACTION_TOKEN }}
+           github_token: ${{ secrets.GITHUB_TOKEN }}
            config_file: .github/label-commenter-config01.yml
  
       - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
