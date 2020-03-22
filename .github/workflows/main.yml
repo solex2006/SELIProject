@@ -21,6 +21,7 @@ jobs:
     name: Auto card labeler
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - uses: technote-space/auto-card-labeler@v1
  
   comment: #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
