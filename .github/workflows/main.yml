@@ -66,12 +66,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: 59
           body: |
-            This is a multi-line test comment
-            - With GitHub **Markdown**
-            - Created by [create-or-update-comment][1]
-            ******
+            event: ${{ github.event}} 
+            comment: ${{ github.event.comment }} 
+            comment id:  ${{ github.event.comment.id }} 
+            *****
             assignes:  ${{ github.event.issues.assignee.login }} 
-            
           reaction-type: '+1'
 
       - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
