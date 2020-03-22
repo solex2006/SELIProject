@@ -67,8 +67,8 @@ jobs:
           issue-number: 59
           body: |
             event: ${{ github.event}} 
-            comment: ${{ github.event.comment }} 
-            comment id:  ${{ github.event.comment.id }} 
+            comment: ${{ github.event.issue }} 
+            comment id:  ${{ github.event.issue.id }} 
             *****
             assignes:  ${{ github.event.issues.assignee.login }} 
           reaction-type: '+1'
