@@ -3,12 +3,17 @@ labels:
     labeled:
       issue:
         body: This Feature Request was accepted, but are not going to be implemented in next release.
-        action: open
+        action: open    
   - name: need specification
     labeled:
       issue:
         body: This Feature Request was accepted and is ready for specfication.
         action: open
+  - name: 2 - Ready
+    labeled:
+      issue:
+        body: This Feature is ready to be implemented.
+        action: open            
   - name: test-FTfailed
     labeled:
       issue:
