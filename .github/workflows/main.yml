@@ -69,9 +69,9 @@ jobs:
               *Verbose*
               event_name: ${{github.event_name }} 
               event.action: ${{github.event.action}} 
-              project_card.column_id: ${{github.event.project_card.column_id}} 
-              event.project.id: ${{github.event.project.id}} 
-              project.id: ${{github.project.id}} 
+              event.project_card.id: ${{github.event.project_card.id}} 
+              event.project_card.column_id: ${{github.event.project_card.column_id}} 
+     
               
           reaction-type: '+1'
 #       - name: Create comment
