@@ -1,11 +1,11 @@
 ---
 name: 03 - Feature Specification
 about: Use this template for create a fetaure specification.
-labels: Feature Specification
+labels: Feature Specification, 1 - Planning
 title: FEAT [SUBJECT]
 ---
 
-<!--- Link to a feature request and a feature story, if 
+<!--- Link to a feature request --->
 
 <!--- General description --->
 
