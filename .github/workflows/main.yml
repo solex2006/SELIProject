@@ -84,7 +84,7 @@ jobs:
         uses: srggrs/assign-one-project-github-action@1.2.0
         if: |
           contains(github.event.issue.labels.*.name, '1 - Planning') ||
-          contains(github.event.issue.labels.*.name, 'needs specification')
+          contains(github.event.issue.labels.*.name, 'need specification')
         with:
           project: 'https://github.com/ecureuill/SELIProject/projects/4'
           column_name: 'PENDING FEATURE REQUEST'
