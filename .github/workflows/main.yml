@@ -71,22 +71,23 @@ jobs:
               event.action: ${{github.event.action}} 
               event.project_card.id: ${{github.event.project_card.id}} 
               event.project_card.column_id: ${{github.event.project_card.column_id}} 
-     
-              
+              issues_url: ${{github.issues_url }} 
+              event.issues_url: ${{github.event.issues_url}} 
+
+   
           reaction-type: '+1'
-#       - name: Create comment
-#         uses: peter-evans/create-or-update-comment@v1
-#         if: |
-#           github.event_name == 'project_card' && 
-#           github.event.action == 'moved' &&
-#           github.event.project_card.column_id == 8389382
-#         with:
-#           token: ${{ secrets.GITHUB_TOKEN }}
-#           issue-number: 59
-#           body: |
-#             assignee:  ${{ github.event.issue.assignee.login }} 
-#             @${{ github.event.issue.assignee.login }} 
-#           reaction-type: '+1'
+      - name: Create Comment - project FUNCTIONAL TEST - card FAILED
+        uses: peter-evans/create-or-update-comment@v1
+        if: |
+          github.event_name == 'project_card' && 
+          github.project_card.id == 34978495 &&
+          github.event.project_card.column_id == 8389382
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: 59
+          body: |
+            :o: @${{ github.event.issue.assignee.login }} your solution doesn't pass Functional Test
+          reaction-type: '+1'
 
 #       - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
 #         uses: srggrs/assign-one-project-github-action@1.2.0
