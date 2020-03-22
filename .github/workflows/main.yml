@@ -12,7 +12,7 @@ on:
   project_card:
     types: [moved]
 env:
-  GITHUB_TOKEN: ${{ secrets.MY_ACTION_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   triage: #GitHub actions that automatically labels Issues or PullRequests based on project card moves
@@ -26,7 +26,7 @@ jobs:
           # NOTE @v2 uses the token as an auth http header. Set it to
           # a Personal Access Token instead of secrets.GITHUB_TOKEN
           # so that tag pushes trigger repo push events.
-          token: ${{ secrets.MY_ACTION_TOKEN }}
+          token: ${{ secrets. MY_PERSONAL_ACTION_TOKEN }}
       - uses: technote-space/auto-card-labeler@v1
  
   comment: #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
@@ -34,10 +34,10 @@ jobs:
     if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
         with:
           ref: master
-          token: ${{ secrets.MY_ACTION_TOKEN }}
+          token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
 
       - name: Label Commenter
         uses: peaceiris/actions-label-commenter@v1.3.2
