@@ -71,8 +71,8 @@ jobs:
               event.action: ${{github.event.action}} 
               event.project_card.id: ${{github.event.project_card.id}} 
               event.project_card.column_id: ${{github.event.project_card.column_id}} 
-              issues_url: ${{github.issues_url }} 
-              event.issues_url: ${{github.event.issues_url}} 
+              event.project.issues_url: ${{github.event.project.issues_url}} 
+              event.project_card.issues_url: ${{github.event.project_card.issues_url}} 
 
    
           reaction-type: '+1'
