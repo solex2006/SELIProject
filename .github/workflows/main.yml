@@ -20,44 +20,44 @@ jobs:
 #    name: Auto card labeler
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          # NOTE @v2 uses the token as an auth http header. Set it to
-          # a Personal Access Token instead of secrets.GITHUB_TOKEN
-          # so that tag pushes trigger repo push events.
-          token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
-      
-      - uses: technote-space/auto-card-labeler@v1 
-      #GitHub actions that automatically labels Issues or PullRequests based on project card moves
-        with:
-          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
-            # Config file name.
-            #CONFIG_FILENAME: # default is card-labeler.yml
-
-#     #mail: 
-#       - uses: timheuer/issue-notifier@v1
-#       #GitHub actions that automatically send e-mail when a issue is labeled 
-#         env:
-#           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+#       - uses: actions/checkout@v2
 #         with:
-#           fromMailAddress: 'q4j4v5e8z5w0j0m0@seli-wp4.slack.com'
-#           toMailAddress: 'q4j4v5e8z5w0j0m0@seli-wp4.slack.com'
-#           subject: 'New feature ready to specification'
-#           subjectPrefix: ''
-#           labelsToMonitor: "1 - Planning"
-#           verbose: true
+#           # NOTE @v2 uses the token as an auth http header. Set it to
+#           # a Personal Access Token instead of secrets.GITHUB_TOKEN
+#           # so that tag pushes trigger repo push events.
+#           token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
+      
+#       - uses: technote-space/auto-card-labeler@v1 
+#       #GitHub actions that automatically labels Issues or PullRequests based on project card moves
+#         with:
+#           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
+#             # Config file name.
+#             #CONFIG_FILENAME: # default is card-labeler.yml
+
+# #     #mail: 
+# #       - uses: timheuer/issue-notifier@v1
+# #       #GitHub actions that automatically send e-mail when a issue is labeled 
+# #         env:
+# #           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+# #         with:
+# #           fromMailAddress: 'q4j4v5e8z5w0j0m0@seli-wp4.slack.com'
+# #           toMailAddress: 'q4j4v5e8z5w0j0m0@seli-wp4.slack.com'
+# #           subject: 'New feature ready to specification'
+# #           subjectPrefix: ''
+# #           labelsToMonitor: "1 - Planning"
+# #           verbose: true
  
 
-#commenter by label
-#     needs: [triage, assign_one_project]
-#     if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
-#     runs-on: ubuntu-18.04
-      - uses: peaceiris/actions-label-commenter@v1.3.2 
-#      #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
-        if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
-        with:
-           github_token: ${{ secrets.GITHUB_TOKEN }}
-           config_file: .github/label-commenter-config01.yml
+# #commenter by label
+# #     needs: [triage, assign_one_project]
+# #     if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
+# #     runs-on: ubuntu-18.04
+#       - uses: peaceiris/actions-label-commenter@v1.3.2 
+# #      #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
+#         if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
+#         with:
+#            github_token: ${{ secrets.GITHUB_TOKEN }}
+#            config_file: .github/label-commenter-config01.yml
 
 #comment 
       - name: Create comment
@@ -73,50 +73,50 @@ jobs:
             assignes:  ${{ github.event.issues.assignee.login }} 
           reaction-type: '+1'
 
-      - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
-        uses: srggrs/assign-one-project-github-action@1.2.0
-        if: contains(github.event.issue.labels.*.name, 'Feature Request')
-        with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/3'
-          column_name: 'NEEDS TRIAGE'
-      - name: Assign 'BUG', 'ISSUE',' BUG ON NEXT RELEASE' label to 'TRIAGE - Bugs'
-        uses: srggrs/assign-one-project-github-action@1.2.0
-        if: |
-          contains(github.event.issue.labels.*.name, 'bug') ||
-          contains(github.event.issue.labels.*.name, 'bug on next release') ||
-          contains(github.event.issue.labels.*.name, 'issues')
-        with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/1'
-          column_name: 'NEEDS TRIAGE'
+#       - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
+#         uses: srggrs/assign-one-project-github-action@1.2.0
+#         if: contains(github.event.issue.labels.*.name, 'Feature Request')
+#         with:
+#           project: 'https://github.com/ecureuill/SELIProject/projects/3'
+#           column_name: 'NEEDS TRIAGE'
+#       - name: Assign 'BUG', 'ISSUE',' BUG ON NEXT RELEASE' label to 'TRIAGE - Bugs'
+#         uses: srggrs/assign-one-project-github-action@1.2.0
+#         if: |
+#           contains(github.event.issue.labels.*.name, 'bug') ||
+#           contains(github.event.issue.labels.*.name, 'bug on next release') ||
+#           contains(github.event.issue.labels.*.name, 'issues')
+#         with:
+#           project: 'https://github.com/ecureuill/SELIProject/projects/1'
+#           column_name: 'NEEDS TRIAGE'
         
-      - name: Assign '1 - PLANNING' label to 'FEATURE SPECIFICATION'
-        uses: srggrs/assign-one-project-github-action@1.2.0
-        if: |
-          contains(github.event.issue.labels.*.name, '1 - Planning') ||
-          contains(github.event.issue.labels.*.name, 'need specification')
-        with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/4'
-          column_name: 'PENDING FEATURE REQUEST'
+#       - name: Assign '1 - PLANNING' label to 'FEATURE SPECIFICATION'
+#         uses: srggrs/assign-one-project-github-action@1.2.0
+#         if: |
+#           contains(github.event.issue.labels.*.name, '1 - Planning') ||
+#           contains(github.event.issue.labels.*.name, 'need specification')
+#         with:
+#           project: 'https://github.com/ecureuill/SELIProject/projects/4'
+#           column_name: 'PENDING FEATURE REQUEST'
 
-      - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE'
-        uses: srggrs/assign-one-project-github-action@1.2.0
-        if: contains(github.event.issue.labels.*.name, '2 - Ready')
-        with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/2'
-          column_name: 'TO-DO'
+#       - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE'
+#         uses: srggrs/assign-one-project-github-action@1.2.0
+#         if: contains(github.event.issue.labels.*.name, '2 - Ready')
+#         with:
+#           project: 'https://github.com/ecureuill/SELIProject/projects/2'
+#           column_name: 'TO-DO'
 
-      - name: Assign 'need tester' label to 'FUNCTIONALITY TEST CYCLE'
-        uses: srggrs/assign-one-project-github-action@1.2.0
-        if: contains(github.event.issue.labels.*.name, 'need tester')
-        with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/6'
-          column_name: 'TO-DO'
+#       - name: Assign 'need tester' label to 'FUNCTIONALITY TEST CYCLE'
+#         uses: srggrs/assign-one-project-github-action@1.2.0
+#         if: contains(github.event.issue.labels.*.name, 'need tester')
+#         with:
+#           project: 'https://github.com/ecureuill/SELIProject/projects/6'
+#           column_name: 'TO-DO'
 
-      - name: Assign 'Pull Request' to 'PULL REQUEST CYCLE'
-        uses: srggrs/assign-one-project-github-action@1.2.0
-        if: |
-          github.event_name == 'pull_request' &&
-          github.event.action == 'opened'
-        with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/7'
-          column_name: 'In progress'
+#       - name: Assign 'Pull Request' to 'PULL REQUEST CYCLE'
+#         uses: srggrs/assign-one-project-github-action@1.2.0
+#         if: |
+#           github.event_name == 'pull_request' &&
+#           github.event.action == 'opened'
+#         with:
+#           project: 'https://github.com/ecureuill/SELIProject/projects/7'
+#           column_name: 'In progress'
