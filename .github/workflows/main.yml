@@ -17,7 +17,7 @@ jobs:
   job01: 
 #    needs: [assign_one_project]
 #    if: github.event_name == 'project_card'
-    name: Auto card labeler
+#    name: Auto card labeler
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -48,7 +48,7 @@ jobs:
 #           verbose: true
  
 
-#commenter
+#commenter by label
 #     needs: [triage, assign_one_project]
 #     if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
 #     runs-on: ubuntu-18.04
@@ -58,7 +58,22 @@ jobs:
         with:
            github_token: ${{ secrets.GITHUB_TOKEN }}
            config_file: .github/label-commenter-config01.yml
- 
+
+#comment 
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: 59
+          body: |
+            This is a multi-line test comment
+            - With GitHub **Markdown**
+            - Created by [create-or-update-comment][1]
+            ******
+            assignes:  ${{ github.event.issues.assignee }} 
+            
+          reaction-type: '+1'
+
       - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
         uses: srggrs/assign-one-project-github-action@1.2.0
         if: contains(github.event.issue.labels.*.name, 'Feature Request')
