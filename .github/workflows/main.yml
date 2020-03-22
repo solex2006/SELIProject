@@ -21,7 +21,12 @@ jobs:
     name: Auto card labeler
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+        with:
+          # NOTE @v2 uses the token as an auth http header. Set it to
+          # a Personal Access Token instead of secrets.GITHUB_TOKEN
+          # so that tag pushes trigger repo push events.
+          token: ${{ secrets.MY_ACTION_TOKEN }}
       - uses: technote-space/auto-card-labeler@v1
  
   comment: #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
@@ -32,53 +37,54 @@ jobs:
       - uses: actions/checkout@v1
         with:
           ref: master
+          token: ${{ secrets.MY_ACTION_TOKEN }}
 
       - name: Label Commenter
         uses: peaceiris/actions-label-commenter@v1.3.2
         with:
           github_token: ${{ secrets.MY_ACTION_TOKEN }}
           config_file: .github/label-commenter-config01.yml
-
-
   assign_one_project:
     needs: triage
  #   if: github.event_name != 'project_card' # && github.event.action == 'labeled'
     runs-on: ubuntu-latest
     name: AssignToProject
     steps:
-     - uses: actions/checkout@v1
-     - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
-       uses: srggrs/assign-one-project-github-action@1.2.0
-       if: contains(github.event.issue.labels.*.name, 'Feature Request')
-       with:
-        project: 'https://github.com/ecureuill/SELIProject/projects/3'
-        column_name: 'NEEDS TRIAGE'
-
-     - name: Assign 'BUG', 'ISSUE',' BUG ON NEXT RELEASE' label to 'TRIAGE - Bugs'
-       uses: srggrs/assign-one-project-github-action@1.2.0
-       if: |
-            contains(github.event.issue.labels.*.name, 'bug') ||
-            contains(github.event.issue.labels.*.name, 'bug on next release') ||
-            contains(github.event.issue.labels.*.name, 'issues')
-       with:
-        project: 'https://github.com/ecureuill/SELIProject/projects/1'
-        column_name: 'NEEDS TRIAGE'
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.MY_ACTION_TOKEN }}
+      
+      - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: contains(github.event.issue.labels.*.name, 'Feature Request')
+        with:
+          project: 'https://github.com/ecureuill/SELIProject/projects/3'
+          column_name: 'NEEDS TRIAGE'
+      - name: Assign 'BUG', 'ISSUE',' BUG ON NEXT RELEASE' label to 'TRIAGE - Bugs'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: |
+          contains(github.event.issue.labels.*.name, 'bug') ||
+          contains(github.event.issue.labels.*.name, 'bug on next release') ||
+          contains(github.event.issue.labels.*.name, 'issues')
+        with:
+          project: 'https://github.com/ecureuill/SELIProject/projects/1'
+          column_name: 'NEEDS TRIAGE'
         
-     - name: Assign '1 - PLANNING' label to 'FEATURE SPECIFICATION'
-       uses: srggrs/assign-one-project-github-action@1.2.0
-       if: contains(github.event.issue.labels.*.name, '1 - Planning')
-       with:
-        project: 'https://github.com/ecureuill/SELIProject/projects/4'
-        column_name: 'PENDING FEATURE REQUEST'
+      - name: Assign '1 - PLANNING' label to 'FEATURE SPECIFICATION'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: contains(github.event.issue.labels.*.name, '1 - Planning')
+        with:
+          project: 'https://github.com/ecureuill/SELIProject/projects/4'
+          column_name: 'PENDING FEATURE REQUEST'
 
-     - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE'
-       uses: srggrs/assign-one-project-github-action@1.2.0
-       if: |
-            github.event_name == 'issue' &&
-            contains(github.event.issue.labels.*.name, '2 - Ready')
-       with:
-        project: 'https://github.com/ecureuill/SELIProject/projects/2'
-        column_name: 'TO-DO'
+      - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: |
+          github.event_name == 'issue' &&
+          contains(github.event.issue.labels.*.name, '2 - Ready')
+        with:
+          project: 'https://github.com/ecureuill/SELIProject/projects/2'
+          column_name: 'TO-DO'
 
      - name: Assign 'need tester' label to 'FUNCTIONALITY TEST CYCLE'
        uses: srggrs/assign-one-project-github-action@1.2.0
