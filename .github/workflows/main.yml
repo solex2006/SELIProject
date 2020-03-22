@@ -67,6 +67,7 @@ jobs:
           issue-number: 59
           body: |
             assignee:  ${{ github.event.issue.assignee.login }} 
+            @${{ github.event.issue.assignee.login }} 
           reaction-type: '+1'
 
 #       - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
