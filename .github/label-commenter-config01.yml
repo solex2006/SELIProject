@@ -1,28 +1,28 @@
 labels:
  - name: 0 - Backlog
-    labeled:
-      issue:
-        body: This Feature Request was accepted, but are not going to be implemented in next release.
-        action: open
+   labeled:
+    issue:
+     body: This Feature Request was accepted, but are not going to be implemented in next release.
+     action: open
  - name: 1 - Planning
-    labeled:
-      issue:
-        body: This Feature Request was accepted and is ready for specfication.
-        action: open
+   labeled:
+    issue:
+     body: This Feature Request was accepted and is ready for specfication.
+     action: open
   - name: test-FTfailed
     labeled:
-      issue:
-        body: | 
-          Functional Test failed!
-          Please review your solution.
-        action: open
+     issue:
+      body: | 
+       Functional Test failed!
+       Please review your solution.
+      action: open
   - name: test-FTsuccess
     labeled:
-      issue:
-        body: | 
-          Functional Test passed!
-          @owner Please open a PULL REQUEST.
-        action: open        
+     issue:
+      body: | 
+       Functional Test passed!
+       @owner Please open a PULL REQUEST.
+      action: open        
       #pr:
         #body: Please follow the pull request templates.
         #action: close
@@ -32,19 +32,20 @@ labels:
         #action: open
   - name: resolution-Won't fix
     labeled:
-      issue:
-        body: This will not be worked on but we appreciate your contribution.
-        action: close
+     issue:
+      body: This will not be worked on but we appreciate your contribution.
+      action: close
     unlabeled:
-      issue:
-        body: This has become active again.
-        action: open
+     issue:
+      body: This has become active again.
+      action: open
   - name: resolution-Duplicate
     labeled:
-      issue:
-        body: This issue or pull request already exists.
-        action: close
+     issue:
+      body: This issue or pull request already exists.
+      action: close
   - name: good first issue
     labeled:
-      issue:
-        body: This issue is easy for contributing. Everyone can work on this.
+     issue:
+      body: This issue is easy for contributing. Everyone can work on this.
+      action: open
