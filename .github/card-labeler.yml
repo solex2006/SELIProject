@@ -33,7 +33,7 @@ FUNCTIONALITY TEST:
     - '4 - In Review'
   'FAILED':
     - '3 - Working'   
-    - 'test-FTfailed' #fix actions to label add by bot also trigger others actions
+    - ':red_circle:failed' #fix actions to label add by bot also trigger others actions
   'SUCCESSFUL':
     - '4 - In Review'
-    - 'test-FTpass'
+    - ':large_blue_circle:passed'
