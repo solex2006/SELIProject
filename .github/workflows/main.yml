@@ -73,14 +73,15 @@ jobs:
               event.project_card.column_id: ${{github.event.project_card.column_id}} 
               event.repository.issues_url: ${{github.event.repository.issues_url}} 
               event.project_card.issues_url: ${{github.event.project_card.issues_url}} 
-
+              event.project_card.project_url: ${{github.event.project_card.project_url}} 
+              event.project_card.content_id:  ${{github.event.project_card.content_id}} 
    
 #           reaction-type: '+1'
       - name: Create Comment - project FUNCTIONAL TEST - card FAILED
         uses: peter-evans/create-or-update-comment@v1
         if: |
           github.event_name == 'project_card' && 
-          github.event.project_card.id == 34978495 &&
+          github.event.project_card.project_url == 'https://github.com/ecureuill/SELIProject/projects/6' &&
           github.event.project_card.column_id == 8389382
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -93,7 +94,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1
         if: |
           github.event_name == 'project_card' && 
-          github.project_card.id == 34978495 &&
+          github.event.project_card.project_url == 'https://github.com/ecureuill/SELIProject/projects/6' &&
           github.event.project_card.column_id == 8389386
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
