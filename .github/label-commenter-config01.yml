@@ -14,19 +14,25 @@ labels:
       issue:
         body: This Feature is ready to be implemented.
         action: open            
-  - name: test-FTfailed
+  - name: need tester
+    labeled:
+      issue:
+        body: |
+          This feature have been implemented and is ready for Funcional Test.
+          Plese, test the feature.
+  - name: :red_circle:failed
     labeled:
       issue:
         body: | 
           Functional Test failed!
-          Please review your solution.
+          Please, review your solution.
         action: open
-  - name: test-FTsuccess
+  - name: :large_blue_circle:passed 
     labeled:
       issue:
         body: | 
           Functional Test passed!
-          @owner Please open a PULL REQUEST.
+          Please, make a PULL REQUEST.
         action: open        
     #pr:
     #body: Please follow the pull request templates.
