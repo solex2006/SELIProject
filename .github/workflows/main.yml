@@ -75,7 +75,8 @@ jobs:
               event.project_card.issues_url: ${{github.event.project_card.issues_url}} 
               event.project_card.project_url: ${{github.event.project_card.project_url}} 
               event.project_card.content_id:  ${{github.event.project_card.content_id}} 
-   
+              event.project_card.note:  ${{github.event.project_card.note}} 
+              github.event_path: ${{github.event_path}} 
 #           reaction-type: '+1'
       - name: Create Comment - project FUNCTIONAL TEST - card FAILED
         uses: peter-evans/create-or-update-comment@v1
