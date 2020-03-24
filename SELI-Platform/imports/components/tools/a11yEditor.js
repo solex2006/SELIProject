@@ -47,6 +47,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 
 
+
 ///////////////////////////////////////////////////////////////////////////////
 // props {                                                                   //
 // 	onChange (fn),                                                           //
@@ -297,9 +298,13 @@ const useEditor =(props) => {
 	const [classNameAsterisk, setClassNameAsterisk] = React.useState('a11yEditor-asterisk');
 
 	 useEffect(() => {
-		const contentState = convertFromRaw(props.value);
-		const editorState =  EditorState.createWithContent(contentState);
-		setEditorState(editorState)
+		 console.log("<-------props.value----->",props.value)
+		 if(props.value!=""){
+			const contentState = convertFromRaw(props.value);
+			const editorState =  EditorState.createWithContent(contentState);
+			setEditorState(editorState)
+		 }
+		
 	}, []); 
 
 	useEffect(() => {
