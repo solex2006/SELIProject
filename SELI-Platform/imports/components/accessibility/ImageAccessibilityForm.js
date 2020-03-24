@@ -12,9 +12,11 @@ import A11YLongDescription from './a11yLongDescription';
 import A11YShortDescription from './a11yShortDescription';
 import EditorA11Y from '../tools/a11yEditor';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
+import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 export default function ImageAccessibility(props) {
 	const  {
+		editorReuse,
 		handleInputOnChange,
 		handleImagePurposeOnChange,
 		handleLongDescriptionPosition,
@@ -139,6 +141,19 @@ export default function ImageAccessibility(props) {
 							textPositionLabel={`${props.language.textPosition_a11y_lbl}: ${props.language.image}`}
 							language={props.language}
 						/>
+
+                        {/* <Editor editorState={editorReuse()} readOnly={false} /> */}
+						{/* <EditorA11Y 
+							editorState={editorReuse()}
+							id={'long-description-input'}
+							name="longDescription"
+							label={props.language.longDescription_a11y_label}
+							aria-describedby='long-description-help-container'
+							placeholder={props.language.longDescription_a11y_placeholder_image}
+							onChange={React.useCallback(handleInputOnChange)}
+							error={dataField.longDescriptionError}
+							longDescription_a11y_delopment_purpose={props.language.longDescription_a11y_delopment_purpose}
+						/> */}
 					</Grid>
 				</Grid>
 			</section>
@@ -261,6 +276,14 @@ export const useImageDataField = (props) => {
 		// setDataField( dataField => ({ ...dataField, ...data }));
 	};
 
+	function editorReuse(){
+	
+			const contentState = convertFromRaw(props.item.dataField.longDescription);
+			const editorState =  EditorState.createWithContent(contentState);
+			return editorState
+			
+	
+	}
 	function updateAccessibilityProgress( shortToogle, longToogle ,toogleValue ){
 		console.log("shortToogle, longToogle----",shortToogle, longToogle, toogleValue ,props)
 		if(!shortToogle && longToogle) //hide shortDescription === hideLongDescription
@@ -416,6 +439,7 @@ export const useImageDataField = (props) => {
 	}
 
 	return  {
+		editorReuse,
 		handleInputOnChange: handleInputOnChange,
 		handleImagePurposeOnChange:handleImagePurposeOnChange,
 		handleLongDescriptionPosition:handleLongDescriptionPosition,

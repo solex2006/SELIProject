@@ -46,6 +46,7 @@ import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 
+
 ///////////////////////////////////////////////////////////////////////////////
 // props {                                                                   //
 // 	onChange (fn),                                                           //
@@ -65,7 +66,6 @@ const inDevelopment = function() {
 };
 //TODO: dinamically create buttons; editor for image caption, for longdescription, text
 export default function ImageCaptionEditor(props) {
-
 	const  {
 		handleKeyCommand: handleKeyCommand,
 		onTab: onTab,
@@ -296,22 +296,20 @@ const useEditor =(props) => {
 	const [classNameLabel, setClassNameLabel] = React.useState('a11yEditor-label');
 	const [classNameAsterisk, setClassNameAsterisk] = React.useState('a11yEditor-asterisk');
 
-	/* useEffect(() => {
-		if (props.value) {
-			setEditorState(EditorState.createWithContent(ContentState.createFromText(props.value)));
-		}
-	}, []); */
+	 useEffect(() => {
+		const contentState = convertFromRaw(props.value);
+		const editorState =  EditorState.createWithContent(contentState);
+		setEditorState(editorState)
+	}, []); 
 
 	useEffect(() => {
 		const currentContent = editorState.getCurrentContent();
 
 		// setBlockTypes(getActiveBlockType());
-
 		setOutputHtml(stateToHTML(currentContent));
-	
 		let raw = convertToRaw(currentContent);
 		setOutputRaw(raw);
-		localStorage.setItem('editorData', JSON.stringify(raw));
+		//localStorage.setItem('editorData', JSON.stringify(raw));
 
 		//const txt = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n'); 
 		if (props.onChange !== undefined)
