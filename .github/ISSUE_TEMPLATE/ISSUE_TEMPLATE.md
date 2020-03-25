@@ -1,7 +1,7 @@
 ---
-name: Issue report
+name: 05 - Issue report
 about: Use this template to track issues in development
-labels: issue, 0 - Backlog
+labels: issue
 title: ISSUE_SUBJECT
 ---
 

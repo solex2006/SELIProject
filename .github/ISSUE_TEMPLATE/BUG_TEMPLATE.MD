@@ -1,7 +1,7 @@
 ---
-name: Bug report
-about: Use this template to track bugs in production
-labels: bug, 0 - Backlog
+name: 06 - Bug report
+about: Use this template to track bugs IN PRODUCTION
+labels: bug
 title: BUG_ SUBJECT
 ---
 

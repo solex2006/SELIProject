@@ -1,7 +1,7 @@
 ---
-name: User story
+name: 04 - User story
 about: Use this template for create a user story for a feature.
-labels: feature story
+labels: Feature Story, 1 - Planning
 title: As a [SOME ROLE] I want to [DO SOMETHING] So that I [CAN GET SOME BENEFIT]
 ---
 
