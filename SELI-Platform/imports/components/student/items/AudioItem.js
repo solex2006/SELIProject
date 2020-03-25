@@ -153,8 +153,16 @@ export default class AudioItem extends React.Component {
           <Card className="course-item-video-card2">
             {this.checkBoxLabels()}
             {
-              this.props.item.attributes.accessibility.dataField.longDescriptionPosition==='top'?
-              this.textAlternatives()
+
+              this.props.item.attributes.accessibility.dataField!=undefined?
+              <div>
+              {
+               this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+               this.textAlternatives()
+               :
+               undefined
+              }
+            </div>
               :
               undefined
             }
@@ -198,8 +206,15 @@ export default class AudioItem extends React.Component {
               </div>
             </Card>
             {
-            this.props.item.attributes.accessibility.dataField.longDescriptionPosition==='bottom'?
-            this.textAlternatives()
+            this.props.item.attributes.accessibility.dataField !=undefined?
+            <div>
+            {
+             this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+             this.textAlternatives()
+             :
+             undefined
+            }
+          </div>
             :
             undefined
             }

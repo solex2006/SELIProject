@@ -117,9 +117,18 @@ export default class ImageItem extends React.Component {
     return(
       <div className="content-boxstudent">
         {this.checkBoxLabels()}
+        {console.log("dsfdsfdsfdsfdsfdsf",this.props.item.attributes.accessibility.dataField)}
         {
-          this.props.item.attributes.accessibility.dataField.longDescriptionPosition==='top'?
-          this.textAlternatives()
+          this.props.item.attributes.accessibility.dataField != undefined ?
+          <div>
+            {
+             this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+             this.textAlternatives()
+             :
+             undefined
+            }
+          </div>
+         
           :
           undefined
         }
@@ -167,8 +176,15 @@ export default class ImageItem extends React.Component {
           </div>
         </div>
         {
-          this.props.item.attributes.accessibility.dataField.longDescriptionPosition==='bottom'?
-          this.textAlternatives()
+          this.props.item.attributes.accessibility.dataField!=undefined?
+          <div>
+            {
+             this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+             this.textAlternatives()
+             :
+             undefined
+            }
+          </div>
           :
           undefined
         }
