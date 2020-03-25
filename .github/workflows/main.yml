@@ -6,7 +6,7 @@ on:
   issues:
     types: [edited, labeled, unlabeled]
   pull_request:
-    types: [labeled, unlabeled]
+    types: [opened]
   project_card:
     types: [moved]
 env:
