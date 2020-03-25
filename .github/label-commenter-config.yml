@@ -1,0 +1,62 @@
+labels:
+  - name: 0 - Backlog
+    labeled:
+      issue:
+        body: This Feature Request was accepted, but are not going to be implemented in next release.
+        action: open    
+  - name: need specification
+    labeled:
+      issue:
+        body: This Feature Request was accepted and is ready for specfication.
+        action: close
+  - name: 2 - Ready
+    labeled:
+      issue:
+        body: This Feature is ready to be implemented.
+        action: open            
+  - name: need tester
+    labeled:
+      issue:
+        body: |
+          This feature have been implemented and is ready for Funcional Test.
+          Plese, test the feature.
+  - name: :red_circle:failed
+    labeled:
+      issue:
+        body: | 
+          Functional Test failed!
+          Please, review your solution.
+        action: open
+  - name: :large_blue_circle:passed 
+    labeled:
+      issue:
+        body: | 
+          Functional Test passed!
+          Please, make a PULL REQUEST.
+        action: open        
+    #pr:
+    #body: Please follow the pull request templates.
+    #action: close
+    #unlabeled:
+    #issue:
+    #body: Thank you for following the template. The repository owner will reply.
+    #action: open
+  - name: resolution-WontFix
+    labeled:
+      issue:
+        body: This will not be worked on but we appreciate your contribution.
+        action: close
+    unlabeled:
+      issue:
+        body: This has become active again.
+        action: open
+  - name: resolution-Duplicate
+    labeled:
+      issue:
+        body: This issue or pull request already exists.
+        action: close
+  - name: good first issue
+    labeled:
+      issue:
+        body: This issue is easy for contributing. Everyone can work on this.
+        action: open

@@ -1,18 +1,15 @@
 ---
-name: Bug report
-about: Use this template to track bugs in production
+name: 06 - Bug report
+about: Use this template to track bugs IN PRODUCTION
 labels: bug
-title: BUG_[CATEGORY_INDEX]_[INDEX] SUBJECT
+title: BUG_ SUBJECT
 ---
 
-Add to the title the [category index](#bug-categories).
-Not obligatory, but add [bug priority](#bug-priorities) as a label.
 
-<!--- Not obligatory, but add a [MODULE_LABEL] if this issue ocurs in a specific module or function ---> 
-<!--- Not obligatory, but add a (ROLE_LABEL) if this ocurs to a specific user role --->
+<!--- Not obligatory, but add a MODULE-LABEL if this issue ocurs in a specific module or function ---> 
+<!--- Not obligatory, but add a ROLE-LABEL if this ocurs to a specific user role --->
+<!--- Not obligatory, but add a TYPE-ERROR if you can identify the type of error --->
 
-
-title: REQ_[CATEGORY]_[INDEX] SUBJECT
 
 <!--- Provide a general summary of the issue in the Title above -->
 
