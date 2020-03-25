@@ -102,13 +102,23 @@ var OPTIONS = [
       },
       {
         label: [
-          "Create story",
-          "Crear una historia",
-          "Criar história",
+          "Create story (Scenes)",
+          "Crear una historia (Escenas)",
+          "Criar história (Cenas)",
           "",
-          "Hikaye oluştur",
+          "Hikaye oluştur (Sahneler)",
         ],
         component: 'storytelling',
+      },
+      {
+        label: [
+          "Create story (Timeline)",
+          "Crear una historia (Línea de tiempo)",
+          "Criar história (Linha do tempo)",
+          "",
+          "Hikaye oluştur (Zaman çizelgesi)",
+        ],
+        component: 'storytelling-time',
       },
     ],
   },

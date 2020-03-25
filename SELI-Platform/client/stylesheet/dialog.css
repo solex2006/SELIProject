@@ -138,11 +138,20 @@
 .form-tabs-container {
   width: 100%;
   position: relative;
-  
 }
 
 .form-tabs-container-media {
   width: 33.33%;
+  position: relative;
+}
+
+.form-tabs-container-time {
+  width: 8vw;
+  position: relative;
+}
+
+.form-tabs-container-media-time {
+  width: 50%;
   position: relative;
 }
 
