@@ -1,0 +1,39 @@
+TRIAGE - Feature Request:
+  'UP NEXT':
+    - 'need specification'
+  'IN FUTURE':
+    - '0 - Backlog'
+  'IN DISCUSSION':
+    - 'Discussion'
+
+Feature Specification:
+  'PENDING FEATURE REQUEST':
+    - '1 - Planning'
+    - 'need specification'
+  'FEATURE READY':
+    - '2 - Ready'
+    
+DEVELOPMENT CYCLE:
+  'TO-DO':
+    - '2 - Ready'
+  'CODING':
+    - '3 - Working'   
+  'CODED':
+    - '3 - Working' #after functionaly test 
+    - 'need tester'
+  'PULL REQUEST':
+    - '4 - In Review'
+#    'MERGED':
+
+FUNCTIONALITY TEST:
+  'TO-DO':
+    - 'need tester'
+    - '3 - Working'
+  'IN PROGRESS':
+    - '4 - In Review'
+  'FAILED':
+    - '3 - Working'   
+    - ':red_circle:failed' #fix actions to label add by bot also trigger others actions
+  'SUCCESSFUL':
+    - '4 - In Review'
+    - ':large_blue_circle:passed'
