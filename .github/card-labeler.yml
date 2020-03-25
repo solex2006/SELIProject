@@ -4,8 +4,12 @@ TRIAGE - Feature Request:
   'IN FUTURE':
     - '0 - Backlog'
   'IN DISCUSSION':
-    - 'Discussion'
+    - 'discussion'
 
+TRIAGE - Bugs:   
+   'READY TO WORK ON':
+    - '2 - Ready'
+    
 Feature Specification:
   'PENDING FEATURE REQUEST':
     - '1 - Planning'
