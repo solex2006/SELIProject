@@ -57,7 +57,7 @@ jobs:
         if: github.event.action == 'labeled' || github.event.action == 'unlabeled' 
         with:
            github_token: ${{ secrets.GITHUB_TOKEN }}
-           config_file: .github/label-commenter-config01.yml
+           config_file: .github/label-commenter-config.yml
 
 # #comment
 #       - name: verbose
