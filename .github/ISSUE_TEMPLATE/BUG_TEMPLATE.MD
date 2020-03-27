@@ -1,5 +1,5 @@
 ---
-name: 06 - Bug report
+name: 06 - Bug report in production
 about: Use this template to track bugs IN PRODUCTION
 labels: bug, env:production
 title: BUG_ SUBJECT
