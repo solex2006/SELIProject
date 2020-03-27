@@ -114,14 +114,12 @@ jobs:
         with:
           project: 'https://github.com/ecureuill/SELIProject/projects/3'
           column_name: 'NEEDS TRIAGE'
-      - name: Assign 'BUG', 'ISSUE',' BUG ON NEXT RELEASE' label to 'TRIAGE - Bugs'
+      - name: Assign 'bug' label to 'TRIAGE - Bugs'
         uses: srggrs/assign-one-project-github-action@1.2.0
         if: |
           github.event_name == 'issues' && 
-          github.event.action == 'labeled' &&  (
-          contains(github.event.issue.labels.*.name, 'bug') ||
-          contains(github.event.issue.labels.*.name, 'bug on next release') ||
-          contains(github.event.issue.labels.*.name, 'issues'))
+          github.event.action == 'labeled' &&
+          contains(github.event.issue.labels.*.name, 'bug')
         with:
           project: 'https://github.com/ecureuill/SELIProject/projects/1'
           column_name: 'NEEDS TRIAGE'
