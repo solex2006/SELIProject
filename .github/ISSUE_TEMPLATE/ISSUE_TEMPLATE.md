@@ -1,7 +1,7 @@
 ---
 name: 05 - Issue report
 about: Use this template to track issues in development
-labels: issue
+labels: bug, env:development
 title: ISSUE_SUBJECT
 ---
 
