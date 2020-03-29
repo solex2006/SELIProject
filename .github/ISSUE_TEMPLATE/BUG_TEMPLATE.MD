@@ -1,8 +1,8 @@
 ---
-name: ':i Bug report in production'
+name: "\U0001F41B Bug report in production"
 about: Use this template to track bugs IN PRODUCTION
 labels: ":bug:bug , env:production"
-title: BUG_ SUBJECT
+title: BUG_SUBJECT
 ---
 
 
