@@ -1,6 +1,6 @@
 ---
 name: "\U0001F41B Bug report in release"
-about: Use this template to track bugs in next release
+about: Use this template to track bugs in next branch
 labels: ":bug:bug, env:next release"
 title: BUG_SUBJECT
 ---
