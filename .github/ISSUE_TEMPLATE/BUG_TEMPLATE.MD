@@ -1,8 +1,8 @@
 ---
-name: 06 - Bug report
-about: Use this template to track bugs IN PRODUCTION
-labels: ":bug:bug", env:production
-title: BUG_SUBJECT
+name: "\U0001F41B Bug report in production"
+about: Use this template to track bugs in master branch
+labels: ":bug:bug, env:production"
+title: [A short and descriptive title]
 ---
 
 
@@ -29,7 +29,7 @@ title: BUG_SUBJECT
 
 ## Environment
 <!--- Please tell us about your environment -->
-Browser: all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView
+<!-- Browser: all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView -->
 
 ## Possible Solution
 <!--- Not obligatory, but suggest a fix/reason for the bug, -->
@@ -40,4 +40,3 @@ Browser: all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | A
 
 ## Related issues
 <!--- Not obligatory, but reference related issues --> 
-
