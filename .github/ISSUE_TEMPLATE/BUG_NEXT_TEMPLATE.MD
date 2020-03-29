@@ -1,8 +1,8 @@
 ---
-name: 07 - Bug report in release
-about: Use this template to track bugs in next release
-labels: :bug:bug, env:next release
-title: BUG_SUBJECT
+name: "\U0001F41B Bug report in release"
+about: Use this template to track bugs in next branch
+labels: ":bug:bug, env:next release"
+title: [A short and descriptive title]
 ---
 
 
@@ -29,7 +29,7 @@ title: BUG_SUBJECT
 
 ## Environment
 <!--- Please tell us about your environment -->
-Browser: all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView
+<!-- Browser: all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView -->
 
 ## Possible Solution
 <!--- Not obligatory, but suggest a fix/reason for the bug, -->
