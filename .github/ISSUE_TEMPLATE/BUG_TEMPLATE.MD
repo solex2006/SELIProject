@@ -1,6 +1,6 @@
 ---
 name: "\U0001F41B Bug report in production"
-about: Use this template to track bugs IN PRODUCTION
+about: Use this template to track bugs in master branch
 labels: ":bug:bug , env:production"
 title: BUG_SUBJECT
 ---
