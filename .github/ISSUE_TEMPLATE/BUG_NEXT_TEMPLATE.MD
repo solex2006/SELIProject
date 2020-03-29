@@ -1,5 +1,5 @@
 ---
-name: 07 - Bug report in release
+name: ":bug: Bug report in release"
 about: Use this template to track bugs in next release
 labels: ":bug:bug, env:next release"
 title: BUG_SUBJECT
