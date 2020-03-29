@@ -1,6 +1,6 @@
 ---
-name: 08 - Issue report
-about: Use this template to track issues in development
+name: "\U0001F41B Issue report in development"
+about: Use this template to track issues in dev branch
 labels: ":bug:bug, env:development"
 title: ISSUE_SUBJECT
 ---
