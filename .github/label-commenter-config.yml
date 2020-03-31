@@ -65,3 +65,8 @@ labels:
       issue:
         body: We couldn’t reproduce the bug.
         action: close
+   - name: resolution:Fixed
+    labeled:
+      issue:
+        body: 
+        action: close
