@@ -23,7 +23,6 @@ DEVELOPMENT CYCLE:
   'CODING':
     - '3 - Working'   
   'CODED':
-    - '3 - Working' #after functionaly test 
     - 'need tester'
   'PULL REQUEST':
     - '4 - In Review'
