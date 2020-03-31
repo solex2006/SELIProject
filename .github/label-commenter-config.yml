@@ -20,14 +20,14 @@ labels:
         body: |
           This feature have been implemented and is ready for Funcional Test.
           Plese, test the feature.
-  - name: :red_circle:failed
+  - name: failed :red_circle:
     labeled:
       issue:
         body: | 
           Functional Test failed!
           Please, review your solution.
         action: open
-  - name: :large_blue_circle:passed 
+  - name: passed :large_blue_circle:
     labeled:
       issue:
         body: | 
@@ -41,7 +41,7 @@ labels:
     #issue:
     #body: Thank you for following the template. The repository owner will reply.
     #action: open
-  - name: resolution-WontFix
+  - name: resolution:WontFix
     labeled:
       issue:
         body: This will not be worked on but we appreciate your contribution.
@@ -50,13 +50,18 @@ labels:
       issue:
         body: This has become active again.
         action: open
-  - name: resolution-Duplicate
+  - name: resolution:Duplicate
     labeled:
       issue:
         body: This issue or pull request already exists.
         action: close
-  - name: good first issue
+  - name: resolution:By Design
     labeled:
       issue:
-        body: This issue is easy for contributing. Everyone can work on this.
-        action: open
+        body: The behavior reported in the issue is actually correct.
+        action: close
+   - name: resolution:Not Reproducible
+    labeled:
+      issue:
+        body: We couldn’t reproduce the bug.
+        action: close
