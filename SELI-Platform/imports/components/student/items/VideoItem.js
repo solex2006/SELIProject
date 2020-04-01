@@ -113,8 +113,8 @@ export default class VideoItem extends React.Component {
                       }
                       {
                         (this.props.item.attributes.accessibility.dataField.fileAudioDescription[0]!=null &&
-                        (this.props.item.attributes.accessibility.dataField.audioDescription!="no" &&
-                        this.props.item.attributes.accessibility.dataField.audioDescriptionRequired!="no")) ?
+                        (this.props.item.attributes.accessibility.dataField.audioDescription==="no" &&
+                        this.props.item.attributes.accessibility.dataField.audioDescriptionRequired==="yes")) ?
                         <div className="checkboxstyle">
                           <CheckboxLabels
                             language={this.props.language}
@@ -127,7 +127,7 @@ export default class VideoItem extends React.Component {
                         undefined
                       }
                       {
-                        /* (this.props.item.attributes.accessibility.dataField.shortDescription!='' || this.props.item.attributes.accessibility.dataField.longDescription.blocks[0].text!='')?
+                         (this.props.item.attributes.accessibility.dataField.shortDescription!='' || this.props.item.attributes.accessibility.dataField.longDescription.blocks[0].text!='')?
                           <CheckboxLabels
                             language={this.props.language}
                             checkbox={this.checkbox}
@@ -135,7 +135,7 @@ export default class VideoItem extends React.Component {
                             label={this.props.language.textAlternatives}
                           />
                         :
-                        undefined */
+                        undefined 
                       }
                     </div>
                 }
@@ -160,6 +160,7 @@ export default class VideoItem extends React.Component {
                   :
                   <VideoPreview file={this.props.item.attributes.video} captions={this.props.item.attributes.accessibility.dataField} className="videoPreview"/>
                  }
+
                 {
                   this.props.item.attributes.accessibility.dataField===undefined?
                   undefined

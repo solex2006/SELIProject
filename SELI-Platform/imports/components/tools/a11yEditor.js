@@ -23,7 +23,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import { Editor, EditorState, ContentState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html";
 
 import Button from '@material-ui/core/Button';
@@ -46,6 +46,8 @@ import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // props {                                                                   //
 // 	onChange (fn),                                                           //
@@ -65,7 +67,6 @@ const inDevelopment = function() {
 };
 //TODO: dinamically create buttons; editor for image caption, for longdescription, text
 export default function ImageCaptionEditor(props) {
-
 	const  {
 		handleKeyCommand: handleKeyCommand,
 		onTab: onTab,
@@ -192,8 +193,8 @@ export default function ImageCaptionEditor(props) {
 					</ToggleButton>
 					
 				</Grid>
-				 <Grid item  xs={12} id="editor-control-inline-styles" value={textSyles} >
-				 <ToggleButton
+				<Grid item  xs={12} id="editor-control-inline-styles" value={textSyles} >
+					<ToggleButton
 						value='BOLD'
 						key="BOLD"
 						aria-label="Bold"
@@ -224,10 +225,7 @@ export default function ImageCaptionEditor(props) {
 						Underline*
 					</ToggleButton> 
 				</Grid>
-		
-				
 			</Grid>
-
 			{/*  <div className = { inDevelopment ? '' : 'hide' } >
 				<details>
 					<summary>
@@ -249,33 +247,30 @@ export default function ImageCaptionEditor(props) {
 			</div>  */}
 			<Grid item  xl={12} className={classNameEditor}>	
 				<label className={classNameLabel} data-shrink="false" htmlFor={props.id + "-Editor"}>
-						{props.label}
-						{
-							props.required &&
-							<span className={classNameAsterisk}>&thinsp;*</span>
-						}
-					</label>
-
-					{console.log("inputRaw------",inputRaw)}
-					<Editor
-						id={props.id + "-Editor"}
-						editorKey={props.id+"-Editor"}
-						editorState={editorState}
-						onChange={React.useCallback(onChange)}
-						onClick={React.useCallback(onClick)}
-						handleKeyCommand={React.useCallback(handleKeyCommand)}
-						onTab={React.useCallback(onTab)}
-						ariaMultiline={true}
-						ariaLabelledBy={props.ariaLabelledBy}
-						ariaDescribedBy={props.ariaDescribedBy}
-						placeholder={props.placeholder}
-						ref={editor}
-						error={props.error}
-						className="a11yEditor"
-					/>
-		
-		
-		</Grid>
+					{props.label}
+					{
+						props.required &&
+						<span className={classNameAsterisk}>&thinsp;*</span>
+					}
+				</label>
+				{/* console.log("inputRaw------",inputRaw) */}
+				<Editor
+					id={props.id + "-Editor"}
+					editorKey={props.id+"-Editor"}
+					editorState={editorState}
+					onChange={React.useCallback(onChange)}
+					onClick={React.useCallback(onClick)}
+					handleKeyCommand={React.useCallback(handleKeyCommand)}
+					onTab={React.useCallback(onTab)}
+					ariaMultiline={true}
+					ariaLabelledBy={props.ariaLabelledBy}
+					ariaDescribedBy={props.ariaDescribedBy}
+					placeholder={props.placeholder}
+					ref={editor}
+					error={props.error}
+					className="a11yEditor"
+				/>
+			</Grid>
 		</Grid>
 	);
 }
@@ -302,20 +297,28 @@ const useEditor =(props) => {
 	const [classNameLabel, setClassNameLabel] = React.useState('a11yEditor-label');
 	const [classNameAsterisk, setClassNameAsterisk] = React.useState('a11yEditor-asterisk');
 
+	 useEffect(() => {
+		 console.log("<-------props.value----->",props.value)
+		 if(props.value!=""){
+			const contentState = convertFromRaw(props.value);
+			const editorState =  EditorState.createWithContent(contentState);
+			setEditorState(editorState)
+		 }
+		
+	}, []); 
+
 	useEffect(() => {
 		const currentContent = editorState.getCurrentContent();
 
 		// setBlockTypes(getActiveBlockType());
-
 		setOutputHtml(stateToHTML(currentContent));
-	
 		let raw = convertToRaw(currentContent);
 		setOutputRaw(raw);
-		localStorage.setItem('editorData', JSON.stringify(raw));
+		//localStorage.setItem('editorData', JSON.stringify(raw));
 
-		//const txt = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
+		//const txt = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n'); 
 		if (props.onChange !== undefined)
-			props.onChange({target : {name: props.name, value: currentContent.getPlainText('\u0001')}});
+			props.onChange({target : {name: props.name, value:raw }})//currentContent.getPlainText('\u0001')}});  
 
 
 	}, [editorState]);
@@ -524,7 +527,6 @@ const BlockStyleControls = (props) => {
 		</div>
 	);
 };
-
 
 var INLINE_STYLES = [
 	{ label: 'Bold', style: 'BOLD' },

@@ -104,22 +104,7 @@ export default class ImageItem extends React.Component {
                   undefined
               }
               </Grid>
-              {/* <Grid item xs={6}>
-                <h2 className="description">{this.props.language.longDescription_a11y_label}</h2> 
-                {
-                  this.props.item.attributes.accessibility.dataField===undefined?
-                  undefined
-                  :
-                <div> 
-                  {
-                    this.props.item.attributes.accessibility.dataField!=undefined ?
-                    <Editor editorState={this.signalText()} readOnly={true} />
-                    :
-                    <div>{this.props.language.NolongDescription}</div>
-                  }  
-                  </div>
-                }
-              </Grid> */}
+              
             </Grid>
             :
             undefined
@@ -128,13 +113,22 @@ export default class ImageItem extends React.Component {
     )
   }
   render() {
-   // console.log("DESDEiMAGEITEMDELCURSOESTUDIANTE", this.props.item.attributes.accessibility.dataField)
+    console.log("DESDEiMAGEITEMDELCURSOESTUDIANTE", this.props.item.attributes.accessibility.dataField)
     return(
       <div className="content-boxstudent">
         {this.checkBoxLabels()}
+        {console.log("dsfdsfdsfdsfdsfdsf",this.props.item.attributes.accessibility.dataField)}
         {
-          this.props.item.attributes.accessibility.dataField.longDescriptionPosition==='top'?
-          this.textAlternatives()
+          this.props.item.attributes.accessibility.dataField != undefined ?
+          <div>
+            {
+             this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+             this.textAlternatives()
+             :
+             undefined
+            }
+          </div>
+         
           :
           undefined
         }
@@ -182,8 +176,15 @@ export default class ImageItem extends React.Component {
           </div>
         </div>
         {
-          this.props.item.attributes.accessibility.dataField.longDescriptionPosition==='bottom'?
-          this.textAlternatives()
+          this.props.item.attributes.accessibility.dataField!=undefined?
+          <div>
+            {
+             this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+             this.textAlternatives()
+             :
+             undefined
+            }
+          </div>
           :
           undefined
         }

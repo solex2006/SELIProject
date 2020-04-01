@@ -1,5 +1,26 @@
 var OPTIONS = [
   {
+    label: [
+      "Dashboard",
+      "Dashboard",
+      "Dashboard",
+      "",
+      "Dashboard",
+    ],
+    suboptions: [
+      {
+        label: [
+          "My Dashboard",
+          "Mi Dashboard",
+          "My Dashboard",
+          "",
+          "My Dashboard",
+        ],
+        component: 'dashboard',
+      }
+    ],
+  },
+  {
     label: ["Requests - feedback"],
     suboptions: [
       {

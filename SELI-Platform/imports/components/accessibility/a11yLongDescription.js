@@ -25,11 +25,13 @@ import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
 // 	tip (string  [optional]or React.Fragment)											//
 // 	position ([default] [optional]bottom | top)											//
 //////////////////////////////////////////////////////////////////////////////////////////
+
 export default function a11yLongDescription(props){
 	return(
 		<React.Fragment>
 			<Grid  item id={'long-description-input-container'} role='grid'>
-				<EditorA11Y id={'long-description-input'}
+				<EditorA11Y 
+					id={'long-description-input'}
 					name={props.name}
 					label={props.label}
 					aria-describedby='long-description-help-container'
@@ -40,7 +42,6 @@ export default function a11yLongDescription(props){
 					required={props.required}
 					handleerror={props.handleerror}
 					longDescription_a11y_delopment_purpose={props.language.longDescription_a11y_delopment_purpose}
-					
 				/>
 				<AccessibilityHelp 
 					id={'long-description-help-container'} 
@@ -52,7 +53,6 @@ export default function a11yLongDescription(props){
 					language={props.language}
 				/>
 			</Grid>
-			
 			<Grid item id={'long-description-position-container'} role='grid'>
 				<span id={'long-description-position-label'}>{props.textPositionLabel} </span>
 				<ToggleButtonGroup id={'long-description-position'}

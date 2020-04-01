@@ -40,12 +40,12 @@ export default class ImagePreview extends React.Component {
   }
 
   coordenadaCursos=(coordenada)=>{
-    console.log("COORDENADA CURSOS--->", coordenada )
+    //console.log("COORDENADA CURSOS--->", coordenada )
     this.props.coordenadasCursosImageForm(coordenada)
   }
   
   render() {
-    console.log("Coordenada R" , this.props)
+    //console.log("Coordenada R" , this.props)
     if(this.props.type==="course"){
       this.setState({
         type: "course"

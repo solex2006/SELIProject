@@ -29,9 +29,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-import StorytellingStart from './StorytellingStart';
-import StorytellingScene from './StorytellingScene';
-import StorytellingEnd from './StorytellingEnd';
+import StorytellingObject from './StorytellingStart';
 import StorytellingPlayer from './StorytellingPlayer';
 import { Activities } from '../../../lib/ActivitiesCollection';
 import { Feedback }   from '../../../lib/FeedbackCollection';
@@ -57,6 +55,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import WaveSurfer from 'wavesurfer.js';
 
 import { 
   FacebookShareButton, FacebookIcon,
@@ -87,7 +86,7 @@ const useStyles = theme => ({
   }
 });
 
-class StorytellingTool extends React.Component {
+class StorytellingToolTime extends React.Component {
   
   constructor(props) {
     super(props);
@@ -888,15 +887,15 @@ class StorytellingTool extends React.Component {
       <div>
         {
           !this.state.showPreview ?
-            <div className="storytelling-tool-container">
-              <div className="storytelling-work-area-full">
-                <div className="storytelling-work-area">
-                  <h2 className="storytelling-work-area-title">{this.props.language.storyFlow}</h2>
+            <div className="storytelling-tool-container-time">
+              <div className="storytelling-work-area-full-time">
+                <div className="storytelling-title-area-time">
+                  <h2 className="storytelling-work-area-title-time">{this.props.language.storyFlow}</h2>
                   {
                     this.state.story.nodes.length >= 2 ?
                       <Button
                         color="primary"
-                        className="storytelling-work-preview-button"
+                        className="storytelling-work-preview-button-time"
                         onClick={() => this.showPreview()}
                       >
                         {this.props.language.storyPreview}
@@ -905,290 +904,174 @@ class StorytellingTool extends React.Component {
                     undefined
                   }
                 </div>
-                <div className="storytelling-work-area">
+                <div className="storytelling-work-area-time">
                   {
                     this.state.story.nodes.map((node, index) => {
                       return(
                         <React.Fragment>
-                          {
-                            node.type === 'start' ?
-                              <StorytellingStart
-                                node={node}
-                                nodes={this.state.story.nodes}
-                                index={index}
-                                selectedNode={this.state.selectedNode}
-                                addSingleNode={this.addSingleNode.bind(this)}
-                                selectNode={this.selectNode.bind(this)}
-                              />
-                            :
-                            undefined
-                          }
-                          {
-                            node.type === 'scene' ?
-                              <StorytellingScene
-                                node={node}
-                                nodes={this.state.story.nodes}
-                                index={index}
-                                selectedNode={this.state.selectedNode}
-                                addSingleNode={this.addSingleNode.bind(this)}
-                                addEndNode={this.addEndNode.bind(this)}
-                                selectNode={this.selectNode.bind(this)}
-                                moveNodeUp={this.moveNodeUp.bind(this)}
-                                moveNodeDown={this.moveNodeDown.bind(this)}
-                              />
-                            :
-                            undefined
-                          }
-                          {
-                            node.type === 'end' ?
-                              <StorytellingEnd
-                                node={node}
-                                nodes={this.state.story.nodes}
-                                index={index}
-                                selectedNode={this.state.selectedNode}
-                                selectNode={this.selectNode.bind(this)}
-                              />
-                            :
-                            undefined
-                          }
+                          <StorytellingObject
+                            node={node}
+                            nodes={this.state.story.nodes}
+                            index={index}
+                            selectedNode={this.state.selectedNode}
+                            addSingleNode={this.addSingleNode.bind(this)}
+                            addEndNode={this.addEndNode.bind(this)}
+                            selectNode={this.selectNode.bind(this)}
+                            moveNodeUp={this.moveNodeUp.bind(this)}
+                            moveNodeDown={this.moveNodeDown.bind(this)}
+                          />
                         </React.Fragment>
                       )
                     })
                   }
                 </div>
               </div>
-              <div className="storytelling-menu-container">
-                <div className="storytelling-menu-header">
-                  <h3 className="storytelling-menu-title">
-                    <React.Fragment>
-                      {
-                        this.state.story.nodes[this.state.selectedNode].type === 'start' ?
-                          this.props.language.beginningOfTheStory
-                        :
-                        undefined
-                      }
-
-                      {
-                        this.state.story.nodes[this.state.selectedNode].type === 'scene' ?
-                          <React.Fragment>
-                            {`${this.props.language.scene} ${this.state.story.nodes[this.state.selectedNode].ordinal}`}
-                          </React.Fragment>
-                        :
-                        undefined
-                      }
-                      {
-                        this.state.story.nodes[this.state.selectedNode].type === 'end' ?
-                          <React.Fragment>
-                            {this.props.language.endOfStory}
-                          </React.Fragment>
-                        :
-                        undefined
-                      }
-
-                    </React.Fragment>
-                  </h3>
-                  <div className="center-row">
-                    <Button
-                      className="storytelling-media-button"
-                      variant="outlined"
+              <div className="storytelling-menu-container-time">
+                <div className="storytelling-menu-body-aux-time">
+                  <div className="storytelling-menu-body-tabs-time">
+                    <Tabs
                       color="primary"
-                      onClick={() => this.handleSaveStory()}
+                      orientation="vertical"
+                      value={this.state.languageType}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      className="form-tabs-container-time"
+                      variant="standard"
+                      //centered={true}
                     >
-                      {this.props.language.saveStory}
-                    </Button>
-
-                    <Button
-                      className="storytelling-media-button"
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => this.handlePublishStory()}
-                    >
-                      {this.props.language.publishStory}
-                    </Button>
-                    
+                      <Tab value={'english'} onClick={() => this.selectLanguageType('english')} className="form-tab-aux" label={<Box color={this.selectColor('english')}>{this.props.language.english}</Box>}/>
+                      <Tab value={'spanish'} onClick={() => this.selectLanguageType('spanish')} className="form-tab-aux" label={<Box color={this.selectColor('spanish')}>{this.props.language.spanish}</Box>}/>
+                      <Tab value={'portuguese'} onClick={() => this.selectLanguageType('portuguese')} className="form-tab-aux" label={<Box color={this.selectColor('portuguese')}>{this.props.language.portuguese}</Box>}/>
+                      <Tab value={'polish'} onClick={() => this.selectLanguageType('polish')} className="form-tab-aux" label={<Box color={this.selectColor('polish')}>{this.props.language.polish}</Box>}/>
+                      <Tab value={'turkish'} onClick={() => this.selectLanguageType('turkish')} className="form-tab-aux" label={<Box color={this.selectColor('turkish')}>{this.props.language.turkish}</Box>}/>
+                    </Tabs>
                   </div>
-                  <FormGroup style={{marginTop: "1.5vh"}}>
-                    <FormControlLabel
-                      control={<Switch size="small" onChange={this.handleChange('public')} checked={this.state.story.isPublic}/>}
-                      label={<p className="form-label">{this.props.language.makeStoryPublic}</p>}
-                    />
-                  </FormGroup>
-                </div>
-                <div className="storytelling-menu-body-full">
-                  { 
-                    this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
-                      <div className="storytelling-menu-body">
+                  <div className="storytelling-menu-body-description-time">
+                    {
+                      this.state.languageType === 'english' ?
                         <TextField
-                          id="node-name-input"
-                          label={this.props.language.name}
+                          id="node-description-input"
+                          label={`${this.props.language.descriptionIn} ${this.props.language.english}`}
                           margin="normal"
                           variant="outlined"
                           fullWidth
-                          autoComplete={"off"}
-                          required
-                          value={this.state.story.nodes[this.state.selectedNode].name}
-                          onChange={this.handleChange('name')}
-                          error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
-                          helperText={this.props.language.sceneNameHelper}
+                          multiline
+                          rows={13}
+                          value={this.state.story.nodes[this.state.selectedNode].description.english}
+                          onChange={this.handleChange('description-english')}
+                          error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                          helperText={this.props.language.sceneDescriptionHelper}
                         />
-                      </div>
-                    :
-                      undefined
-                  }
-                  {
-                    this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
-                      <div className="storytelling-menu-body-aux">
-                        <div className="storytelling-menu-body-tabs">
-                          <Tabs
-                            color="primary"
-                            orientation="vertical"
-                            value={this.state.languageType}
-                            indicatorColor="primary"
-                            textColor="primary"
-                            className="form-tabs-container"
-                            variant="standard"
-                            //centered={true}
-                          >
-                            <Tab value={'english'} onClick={() => this.selectLanguageType('english')} className="form-tab-aux" label={<Box color={this.selectColor('english')}>{this.props.language.english}</Box>}/>
-                            <Tab value={'spanish'} onClick={() => this.selectLanguageType('spanish')} className="form-tab-aux" label={<Box color={this.selectColor('spanish')}>{this.props.language.spanish}</Box>}/>
-                            <Tab value={'portuguese'} onClick={() => this.selectLanguageType('portuguese')} className="form-tab-aux" label={<Box color={this.selectColor('portuguese')}>{this.props.language.portuguese}</Box>}/>
-                            <Tab value={'polish'} onClick={() => this.selectLanguageType('polish')} className="form-tab-aux" label={<Box color={this.selectColor('polish')}>{this.props.language.polish}</Box>}/>
-                            <Tab value={'turkish'} onClick={() => this.selectLanguageType('turkish')} className="form-tab-aux" label={<Box color={this.selectColor('turkish')}>{this.props.language.turkish}</Box>}/>
-                          </Tabs>
-                        </div>
-                        <div className="storytelling-menu-body-description">
-                          {
-                            this.state.languageType === 'english' ?
-                              <TextField
-                                id="node-description-input"
-                                label={`${this.props.language.descriptionIn} ${this.props.language.english}`}
-                                margin="normal"
-                                variant="outlined"
-                                fullWidth
-                                multiline
-                                rows={6}
-                                value={this.state.story.nodes[this.state.selectedNode].description.english}
-                                onChange={this.handleChange('description-english')}
-                                error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
-                                helperText={this.props.language.sceneDescriptionHelper}
-                              />
-                            :
-                              undefined
-                          }
-                          {
-                            this.state.languageType === 'spanish' ?
-                              <TextField
-                                id="node-description-input"
-                                label={`${this.props.language.descriptionIn} ${this.props.language.spanish}`}
-                                margin="normal"
-                                variant="outlined"
-                                fullWidth
-                                multiline
-                                rows={6}
-                                value={this.state.story.nodes[this.state.selectedNode].description.spanish}
-                                onChange={this.handleChange('description-spanish')}
-                                error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
-                                helperText={this.props.language.sceneDescriptionHelper}
-                              />
-                            :
-                              undefined
-                          }
-                          {
-                            this.state.languageType === 'portuguese' ?
-                              <TextField
-                                id="node-description-input"
-                                label={`${this.props.language.descriptionIn} ${this.props.language.portuguese}`}
-                                margin="normal"
-                                variant="outlined"
-                                fullWidth
-                                multiline
-                                rows={6}
-                                value={this.state.story.nodes[this.state.selectedNode].description.portuguese}
-                                onChange={this.handleChange('description-portuguese')}
-                                error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
-                                helperText={this.props.language.sceneDescriptionHelper}
-                              />
-                            :
-                              undefined
-                          }
-                          {
-                            this.state.languageType === 'polish' ?
-                              <TextField
-                                id="node-description-input"
-                                label={`${this.props.language.descriptionIn} ${this.props.language.polish}`}
-                                margin="normal"
-                                variant="outlined"
-                                fullWidth
-                                multiline
-                                rows={6}
-                                value={this.state.story.nodes[this.state.selectedNode].description.polish}
-                                onChange={this.handleChange('description-polish')}
-                                error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
-                                helperText={this.props.language.sceneDescriptionHelper}
-                              />
-                            :
-                              undefined
-                          }
-                          {
-                            this.state.languageType === 'turkish' ?
-                              <TextField
-                                id="node-description-input"
-                                label={`${this.props.language.descriptionIn} ${this.props.language.turkish}`}
-                                margin="normal"
-                                variant="outlined"
-                                fullWidth
-                                multiline
-                                rows={6}
-                                value={this.state.story.nodes[this.state.selectedNode].description.turkish}
-                                onChange={this.handleChange('description-turkish')}
-                                error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
-                                helperText={this.props.language.sceneDescriptionHelper}
-                              />
-                            :
-                              undefined
-                          }
-                        </div>
-                      </div>
-                    :
-                      undefined
-                  }
-                  <Divider light/>
-                  <div className="storytelling-menu-body-aux">
+                      :
+                        undefined
+                    }
+                    {
+                      this.state.languageType === 'spanish' ?
+                        <TextField
+                          id="node-description-input"
+                          label={`${this.props.language.descriptionIn} ${this.props.language.spanish}`}
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
+                          multiline
+                          rows={13}
+                          value={this.state.story.nodes[this.state.selectedNode].description.spanish}
+                          onChange={this.handleChange('description-spanish')}
+                          error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                          helperText={this.props.language.sceneDescriptionHelper}
+                        />
+                      :
+                        undefined
+                    }
+                    {
+                      this.state.languageType === 'portuguese' ?
+                        <TextField
+                          id="node-description-input"
+                          label={`${this.props.language.descriptionIn} ${this.props.language.portuguese}`}
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
+                          multiline
+                          rows={13}
+                          value={this.state.story.nodes[this.state.selectedNode].description.portuguese}
+                          onChange={this.handleChange('description-portuguese')}
+                          error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                          helperText={this.props.language.sceneDescriptionHelper}
+                        />
+                      :
+                        undefined
+                    }
+                    {
+                      this.state.languageType === 'polish' ?
+                        <TextField
+                          id="node-description-input"
+                          label={`${this.props.language.descriptionIn} ${this.props.language.polish}`}
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
+                          multiline
+                          rows={13}
+                          value={this.state.story.nodes[this.state.selectedNode].description.polish}
+                          onChange={this.handleChange('description-polish')}
+                          error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                          helperText={this.props.language.sceneDescriptionHelper}
+                        />
+                      :
+                        undefined
+                    }
+                    {
+                      this.state.languageType === 'turkish' ?
+                        <TextField
+                          id="node-description-input"
+                          label={`${this.props.language.descriptionIn} ${this.props.language.turkish}`}
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
+                          multiline
+                          rows={13}
+                          value={this.state.story.nodes[this.state.selectedNode].description.turkish}
+                          onChange={this.handleChange('description-turkish')}
+                          error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                          helperText={this.props.language.sceneDescriptionHelper}
+                        />
+                      :
+                        undefined
+                    }
+                  </div>
+                </div>
+                <Divider light orientation="vertical"/>
+                <div className="storytelling-menu-body-full-time">
+                  <div className="storytelling-menu-media-time">
                     <Tabs
                       color="primary"
                       value={this.state.mediaType}
                       indicatorColor="primary"
                       textColor="primary"
-                      className={this.state.story.nodes[this.state.selectedNode].type === "end" ? "form-tabs-container" : "form-tabs-container-media"}
+                      className={"form-tabs-container-media-time"}
                       variant="fullWidth"
                       centered={true}
                     >
                       <Tab value={'image'} onClick={() => this.selectMediaType('image')} className="form-tab" label={this.props.language.image} />
                     </Tabs>
-                    { 
-                      this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
-                        <Tabs
-                          color="secondary"
-                          value={this.state.mediaType}
-                          indicatorColor="secondary"
-                          textColor="secondary"
-                          className="form-tabs-container-media"
-                          variant="fullWidth"
-                          centered={true}
-                        >
-                          <Tab value={'audio'} onClick={() => this.selectMediaType('audio')} className="form-tab" label={this.props.language.audio} />   
-                        </Tabs>
-                      :
-                        undefined
-                    }
-                    { 
+                    <Tabs
+                      color="secondary"
+                      value={this.state.mediaType}
+                      indicatorColor="secondary"
+                      textColor="secondary"
+                      className="form-tabs-container-media-time"
+                      variant="fullWidth"
+                      centered={true}
+                    >
+                      <Tab value={'audio'} onClick={() => this.selectMediaType('audio')} className="form-tab" label={this.props.language.audio} />   
+                    </Tabs>
+                    {/* { 
                       this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
                         <Tabs
                           color="primary"
                           value={this.state.mediaType}
                           indicatorColor="primary"
                           textColor="primary"
-                          className="form-tabs-container-media"
+                          className="form-tabs-container-media-time"
                           variant="fullWidth"
                           centered={true}
                         >
@@ -1196,17 +1079,18 @@ class StorytellingTool extends React.Component {
                         </Tabs>
                       :
                         undefined
-                    }
+                    } */}
                   </div>
                   {
-                    this.state.mediaType === 'audio' && this.state.story.nodes[this.state.selectedNode].type !== "end" ?
-                      <div className="storytelling-menu-body">
+                    this.state.mediaType === 'audio' ?
+                      <div className="storytelling-menu-body-time">
                         <Tabs
                           color="secondary"
+                          orientation="vertical"
                           value={this.state.audioType}
                           indicatorColor="secondary"
                           textColor="secondary"
-                          className="form-tabs-container"
+                          className="form-tabs-container-time"
                           variant="fullWidth"
                           centered={true}
                         >
@@ -1214,11 +1098,10 @@ class StorytellingTool extends React.Component {
                           <Tab value={'upload'} onClick={() => this.selectAudioType('upload')} className="form-tab" label={this.props.language.upload} />
                           <Tab value={'reuse'} onClick={() => this.selectAudioType('reuse')} className="form-tab" label={this.props.language.reuse} />
                         </Tabs>
-                        <br/>
-                        {
-                          this.state.audioType === 'record' ?
-                            this.state.story.nodes[this.state.selectedNode].audio !== '' ?
-                              <div className="center-row"> 
+                        <div className="center-row-audio-time"> 
+                          {
+                            this.state.audioType === 'record' ?
+                              this.state.story.nodes[this.state.selectedNode].audio !== '' ?
                                 <Button
                                   className="bar-button"
                                   variant="outlined"
@@ -1227,18 +1110,16 @@ class StorytellingTool extends React.Component {
                                 >
                                   {this.props.language.recordAgain}
                                 </Button>
-                              </div>
-                            :
-                              <AudioRecorder
-                                getFileInformation={this.getFileInformation.bind(this)}
-                              />
-                          : 
-                            undefined 
-                        }
-                        {
-                          this.state.audioType === 'upload' ?
-                            this.state.story.nodes[this.state.selectedNode].audio !== '' ?
-                              <div className="center-row"> 
+                              :
+                                <AudioRecorder
+                                  getFileInformation={this.getFileInformation.bind(this)}
+                                />
+                            : 
+                              undefined 
+                          }
+                          {
+                            this.state.audioType === 'upload' ?
+                              this.state.story.nodes[this.state.selectedNode].audio !== '' ?
                                 <Button
                                   className="bar-button"
                                   variant="outlined"
@@ -1247,60 +1128,58 @@ class StorytellingTool extends React.Component {
                                 >
                                   {this.props.language.changeAudio}
                                 </Button>
-                              </div>
-                            :
-                              <FileUpload
-                                type='audio'
-                                user={Meteor.userId()}
-                                accept={'audio/*'}
-                                label={this.props.language.uploadAudioButtonLabel}
-                                getFileInformation={this.getFileInformation.bind(this)}
-                              /> 
-                          : 
-                            undefined                     
-                        }
-                        {
-                          this.state.audioType === 'reuse' ?
-                            <div className="center-row"> 
+                              :
+                                <FileUpload
+                                  type='audio'
+                                  user={Meteor.userId()}
+                                  accept={'audio/*'}
+                                  label={this.props.language.uploadAudioButtonLabel}
+                                  getFileInformation={this.getFileInformation.bind(this)}
+                                /> 
+                            : 
+                              undefined                     
+                          }
+                          {
+                            this.state.audioType === 'reuse' ?
                               <Button variant="contained" onClick={() => this.handleLibraryContent("audio")} color="secondary" className="bar-button">             
                                 {this.props.language.reuseAudio}
                               </Button>
-                            </div>
-                          : 
-                            undefined                     
-                        }
-                        {
-                          this.state.story.nodes[this.state.selectedNode].audio !== '' ?
-                            <AudioPreview
-                              file={this.state.story.nodes[this.state.selectedNode].audio}
-                            />
-                          :
-                            undefined
-                        }
+                            : 
+                              undefined                     
+                          }
+                          {
+                            this.state.story.nodes[this.state.selectedNode].audio !== '' ?
+                              <AudioPreview
+                                file={this.state.story.nodes[this.state.selectedNode].audio}
+                              />
+                            :
+                              undefined
+                          }
+                        </div>
                       </div>
                     :
                       undefined
                   }
                   {
                     this.state.mediaType === 'image' ?
-                      <div className="storytelling-menu-body">
+                      <div className="storytelling-menu-body-time">
                         <Tabs
                           color="primary"
+                          orientation="vertical"
                           value={this.state.imageType}
                           indicatorColor="primary"
                           textColor="primary"
-                          className="form-tabs-container"
+                          className="form-tabs-container-time"
                           variant="fullWidth"
                           centered={true}
                         >
                           <Tab value={'upload'} onClick={() => this.selectImageType('upload')} className="form-tab" label={this.props.language.upload} />
                           <Tab value={'reuse'} onClick={() => this.selectImageType('reuse')} className="form-tab" label={this.props.language.reuse} />
                         </Tabs>
-                        <br/>
-                        {
-                          this.state.imageType === 'upload' ?
-                            this.state.story.nodes[this.state.selectedNode].image !== '' ?
-                              <div className="center-row"> 
+                        <div className="center-row-image-time"> 
+                          {
+                            this.state.imageType === 'upload' ?
+                              this.state.story.nodes[this.state.selectedNode].image !== '' ?
                                 <Button
                                   className="bar-button"
                                   variant="outlined"
@@ -1309,53 +1188,52 @@ class StorytellingTool extends React.Component {
                                 >
                                   {this.props.language.changeImage}
                                 </Button>
-                              </div>
-                            :
-                              <FileUpload
-                                color='primary'
-                                type='image'
-                                user={Meteor.userId()}
-                                accept={'image/*'}
-                                label={this.props.language.uploadImageButtonLabel}
-                                getFileInformation={this.getFileInformation.bind(this)}
-                              />
-                          : 
-                            undefined                     
-                        }
-                        {
-                          this.state.imageType === 'reuse' ?
-                            <div className="center-row"> 
+                              :
+                                <FileUpload
+                                  color='primary'
+                                  type='image'
+                                  user={Meteor.userId()}
+                                  accept={'image/*'}
+                                  label={this.props.language.uploadImageButtonLabel}
+                                  getFileInformation={this.getFileInformation.bind(this)}
+                                />
+                            : 
+                              undefined                     
+                          }
+                          {
+                            this.state.imageType === 'reuse' ?
                               <Button variant="contained" onClick={() => this.handleLibraryContent("images")} color="primary" className="bar-button">
                                 {this.props.language.reuseImg}
                               </Button>	
-                            </div>
-                          : 
-                            undefined                     
-                        }
-                        {
-                          this.state.story.nodes[this.state.selectedNode].image !== '' ?
-                            <ImagePreview
-                              key={this.state.story.nodes[this.state.selectedNode].rotate}
-                              file={this.state.story.nodes[this.state.selectedNode].image}
-                              rotateangle={this.rotateangle}
-                              rotateAngle={this.state.story.nodes[this.state.selectedNode].rotate}
-                            />
-                          :
-                            undefined
-                        }
+                            : 
+                              undefined                     
+                          }
+                          {
+                            this.state.story.nodes[this.state.selectedNode].image !== '' ?
+                              <ImagePreview
+                                key={this.state.story.nodes[this.state.selectedNode].rotate}
+                                file={this.state.story.nodes[this.state.selectedNode].image}
+                                rotateangle={this.rotateangle}
+                                rotateAngle={this.state.story.nodes[this.state.selectedNode].rotate}
+                              />
+                            :
+                              undefined
+                          }
+                        </div>
                       </div>
                     :
                       undefined
                   }
-                  {
-                    this.state.mediaType === 'video' && this.state.story.nodes[this.state.selectedNode].type !== "end" ?
-                      <div className="storytelling-menu-body">
+                  {/* {
+                    this.state.mediaType === 'video' ?
+                      <div className="storytelling-menu-body-time">
                         <Tabs
                           color="primary"
+                          orientation="vertical"
                           value={this.state.videoType}
                           indicatorColor="primary"
                           textColor="primary"
-                          className="form-tabs-container"
+                          className="form-tabs-container-time"
                           variant="fullWidth"
                           centered={true}
                         >
@@ -1367,7 +1245,7 @@ class StorytellingTool extends React.Component {
                         {
                           this.state.videoType === 'url' ?
                             this.state.story.nodes[this.state.selectedNode].video !== '' ?
-                              <div className="center-row"> 
+                              <div className="center-row-time"> 
                                 <Button
                                   className="bar-button"
                                   variant="outlined"
@@ -1395,7 +1273,7 @@ class StorytellingTool extends React.Component {
                         {
                           this.state.videoType === 'upload' ?
                             this.state.story.nodes[this.state.selectedNode].video !== '' ?
-                              <div className="center-row"> 
+                              <div className="center-row-time"> 
                                 <Button
                                   className="bar-button"
                                   variant="outlined"
@@ -1419,7 +1297,7 @@ class StorytellingTool extends React.Component {
                         }
                         {
                           this.state.videoType === 'reuse' ?
-                            <div className="center-row"> 
+                            <div className="center-row-time"> 
                               <Button variant="contained" onClick={() => this.handleLibraryContent("video")} color="primary" className="bar-button">             
                                 {this.props.language.reuseVideo}
                               </Button>
@@ -1443,15 +1321,83 @@ class StorytellingTool extends React.Component {
                       </div>
                     :
                       undefined
-                  }
+                  } */}
+                </div>
+                <Divider light orientation="vertical"/>
+                <div className="storytelling-menu-header-time">
+                  {/* <h3 className="storytelling-menu-title-time">
+                    <React.Fragment>
+                      {
+                        this.state.story.nodes[this.state.selectedNode].type === 'start' ?
+                          this.props.language.beginningOfTheStory
+                        :
+                        undefined
+                      }
+
+                      {
+                        this.state.story.nodes[this.state.selectedNode].type === 'scene' ?
+                          <React.Fragment>
+                            {`${this.props.language.scene} ${this.state.story.nodes[this.state.selectedNode].ordinal}`}
+                          </React.Fragment>
+                        :
+                        undefined
+                      }
+                      {
+                        this.state.story.nodes[this.state.selectedNode].type === 'end' ?
+                          <React.Fragment>
+                            {this.props.language.endOfStory}
+                          </React.Fragment>
+                        :
+                        undefined
+                      }
+
+                    </React.Fragment>
+                  </h3> */}
+                  <Button
+                    className="storytelling-media-button-time"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => this.handlePublishStory()}
+                  >
+                    {this.props.language.publishStory}
+                  </Button>
+                  <Button
+                    className="storytelling-media-button-time"
+                    variant="outlined"
+                    color="primary"
+                    fullWidth
+                    onClick={() => this.handleSaveStory()}
+                  >
+                    {this.props.language.saveStory}
+                  </Button>
+                  <FormGroup className="center-row-time">
+                    <FormControlLabel
+                      control={<Switch size="small" onChange={this.handleChange('public')} checked={this.state.story.isPublic}/>}
+                      label={<p className="form-label">{this.props.language.makeStoryPublic}</p>}
+                    />
+                  </FormGroup>
+                  <TextField
+                    id="node-name-input"
+                    label={this.props.language.name}
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    autoComplete={"off"}
+                    required
+                    value={this.state.story.nodes[this.state.selectedNode].name}
+                    onChange={this.handleChange('name')}
+                    error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
+                    helperText={this.props.language.sceneNameHelper}
+                  />
                 </div>
               </div>
-              { 
+              {/* { 
                 this.state.story.nodes[this.state.selectedNode].type !== 'start' ?
                   <Tooltip title={this.props.language.deleteThisScene}>
                     <Fab
                       color="secondary"
-                      className="storytelling-delete-button"
+                      className="storytelling-delete-button-time"
                       onClick={() => this.openDialog('delete')}
                     >
                       <DeleteIcon/>
@@ -1459,7 +1405,7 @@ class StorytellingTool extends React.Component {
                   </Tooltip>
                 :
                   undefined
-              }
+              } */}
             </div>
           :
             <React.Fragment>
@@ -1469,8 +1415,8 @@ class StorytellingTool extends React.Component {
                 link={false}
                 language={this.props.language}
               />
-              <Button color="primary" onClick={() => this.handleReturn()} className="storytelling-return-button">
-                <ArrowBackIcon className="storytelling-return-icon"/>
+              <Button color="primary" onClick={() => this.handleReturn()} className="storytelling-return-button-time">
+                <ArrowBackIcon className="storytelling-return-icon-time"/>
                 {this.props.language.return}
               </Button>
             </React.Fragment>
@@ -1613,7 +1559,7 @@ class StorytellingTool extends React.Component {
                   this.state.action === "reuse"?
                     <div className="library-files-container">
                       {this.state.dataImages1.map(tile => (
-                        <div className="storytelling-image-library">
+                        <div className="storytelling-image-library-time">
                           <div style={{backgroundImage: `url(${tile.link})`}} className="file-image-preview" onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}}></div>
                         </div> 
                       ))}
@@ -1745,12 +1691,12 @@ class StorytellingTool extends React.Component {
                   {
                     Meteor.user().profile.type === "student" ?
                       <Button
-                        className="storytelling-publish-button"
+                        className="storytelling-publish-button-time"
                         color="primary"
                         onClick={() => this.handlePublishOnCourse()}
                       >
-                        <p className="storytelling-publish-button-text">{this.props.language.publishOnACourse}</p>
-                        <SchoolIcon className="storytelling-publish-icon"/>
+                        <p className="storytelling-publish-button-text-time">{this.props.language.publishOnACourse}</p>
+                        <SchoolIcon className="storytelling-publish-icon-time"/>
                       </Button>
                     :
                     undefined
@@ -1758,23 +1704,23 @@ class StorytellingTool extends React.Component {
                   {
                     Meteor.user().profile.type === "student" ?
                       <Button
-                        className="storytelling-publish-button"
+                        className="storytelling-publish-button-time"
                         color="primary"
                         onClick={() => this.handlePublishAsActivity()}
                       >
-                        <p className="storytelling-publish-button-text">{this.props.language.sendAsActivity}</p>
-                        <EditIcon className="storytelling-publish-icon"/>
+                        <p className="storytelling-publish-button-text-time">{this.props.language.sendAsActivity}</p>
+                        <EditIcon className="storytelling-publish-icon-time"/>
                       </Button>
                     :
                       undefined
                   }
                   <Button
-                    className="storytelling-publish-button"
+                    className="storytelling-publish-button-time"
                     color="primary"
                     onClick={() => this.handlePublishOnSocialNetwork()}
                   >
-                    <p className="storytelling-publish-button-text">{this.props.language.publishOnSocialNetwork}</p>
-                    <LanguageIcon className="storytelling-publish-icon"/>
+                    <p className="storytelling-publish-button-text-time">{this.props.language.publishOnSocialNetwork}</p>
+                    <LanguageIcon className="storytelling-publish-icon-time"/>
                   </Button>
                 </div>
                 <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
@@ -1791,8 +1737,8 @@ class StorytellingTool extends React.Component {
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                   {this.props.language.publishOnSocialNetwork}
                 </DialogTitle>
-                <div class="storytelling-share-btn-group">
-                  <div class="storytelling-share-btn">
+                <div class="storytelling-share-btn-group-time">
+                  <div class="storytelling-share-btn-time">
                     <FacebookShareButton
                       url={this.state.shareUrl}
                       quote={this.state.title}>
@@ -1801,7 +1747,7 @@ class StorytellingTool extends React.Component {
                         round />
                     </FacebookShareButton>
                   </div>
-                  <div className="storytelling-share-btn">
+                  <div className="storytelling-share-btn-time">
                     <TwitterShareButton
                       url={this.state.shareUrl}
                       title={this.state.title}>
@@ -1810,7 +1756,7 @@ class StorytellingTool extends React.Component {
                         round />
                     </TwitterShareButton>  
                   </div>
-                  <div className="storytelling-share-btn">
+                  <div className="storytelling-share-btn-time">
                     <LinkedinShareButton
                       url={this.state.shareUrl}
                       windowWidth={750}
@@ -1848,7 +1794,7 @@ class StorytellingTool extends React.Component {
                     return(
                       <Button
                         color="primary"
-                        className="storytelling-course-publish-button"
+                        className="storytelling-course-publish-button-time"
                         onClick={() => this.publishOnCourse(course._id)}
                       >
                         {`- ${course.title}`}
@@ -1879,7 +1825,7 @@ class StorytellingTool extends React.Component {
                     return(
                       <Button
                         color="primary"
-                        className="storytelling-course-activity-publish-button"
+                        className="storytelling-course-activity-publish-button-time"
                         onClick={() => this.completeActivity(activity.activityId, this.props.language.storySent, activity.courseId)}
                       >
                         {`- ${activity.course} at: ${activity.source} | ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
@@ -1904,4 +1850,4 @@ class StorytellingTool extends React.Component {
     )
   }
 }
-export default withStyles(useStyles)(StorytellingTool)
+export default withStyles(useStyles)(StorytellingToolTime)

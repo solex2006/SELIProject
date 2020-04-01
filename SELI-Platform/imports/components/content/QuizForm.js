@@ -115,7 +115,7 @@ export default class QuizForm extends React.Component {
     }
     else if (name === 'timeLimit') {
       if(event >0){
-        console.log(event)
+        //console.log(event)
         attributes.timeLimit = event; ///save the value of aproval percentage
       }else{
         console.log("Time quiz Incorrect default 60", event) //save default aproval percentage of 100
@@ -126,12 +126,12 @@ export default class QuizForm extends React.Component {
       if(event <101 && event >0){
         attributes.approvalPercentage = event; ///save the value of aproval percentage
       }else{
-        console.log("Aproval Percentage Incorrect", event) //save default aproval percentage of 100
+        //console.log("Aproval Percentage Incorrect", event) //save default aproval percentage of 100
         attributes.approvalPercentage = 100;
       }
     }
     else if (name === 'checkTime') {
-      console.log("Evento del checkbox", event.target.checked)
+     // console.log("Evento del checkbox", event.target.checked)
       if (event.target.checked===true){
         //console.log("cambia a false")
         this.setState({
@@ -153,7 +153,7 @@ export default class QuizForm extends React.Component {
     else if(name==='numberofAnswers'){
       
       let questions=this.state.attributes.questions;
-      console.log("event-->", event, "this.state.numberofAnswers-->",this.state.numberofAnswers, "length", index)
+      //console.log("event-->", event, "this.state.numberofAnswers-->",this.state.numberofAnswers, "length", index)
        
       if(event>index){
           ///questions.map((value, index)=>{

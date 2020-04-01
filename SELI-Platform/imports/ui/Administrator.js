@@ -39,6 +39,7 @@ import english from '../../lib/translation/english';
 import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import turkish from '../../lib/translation/turkish';
+import DashboardComponent from '../components/dashboard/dashboard';
 
 export default class Tutor extends React.Component {
   constructor(props) {
@@ -192,6 +193,12 @@ export default class Tutor extends React.Component {
                 undefined
               }
               {
+                this.state.component === 'dashboard' ?
+                    <DashboardComponent/>
+                  :
+                    undefined
+                }
+                {
                 this.state.component === 'requirementRequests' ?
                   <RequirementsRequestList
                     user={this.state.user}

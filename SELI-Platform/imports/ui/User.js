@@ -18,6 +18,7 @@ import AccountManagement from '../components/user/AccountManagement';
 import Help from '../components/user/Help';
 import Loading from '../components/tools/Loading';
 import StorytellingTool from '../components/storytelling/StorytellingTool';
+import StorytellingToolTime from '../components/storytelling/StorytellingToolTime';
 import Stories from '../components/storytelling/Stories';
 import CoursesDashboard from '../components/student/CoursesDashboard';
 import SubscribedCourses from '../components/student/SubscribedCourses';
@@ -590,6 +591,17 @@ export default class User extends React.Component {
                     {
                       this.state.component === 'storytelling' ?
                         <StorytellingTool
+                          user={this.state.user}
+                          language={this.state.language}
+                          storyToEdit={undefined}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'storytelling-time' ?
+                        <StorytellingToolTime
                           user={this.state.user}
                           language={this.state.language}
                           storyToEdit={undefined}

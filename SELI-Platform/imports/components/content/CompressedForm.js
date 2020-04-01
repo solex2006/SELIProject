@@ -26,7 +26,7 @@ export default class CompressedForm extends React.Component {
   }
 
   validateContent = (content) => {
-    console.log(content);
+    //console.log(content);
     if (content.compressed === undefined) {
       this.props.handleControlMessage(true, this.props.language.uploadAddUrlCompressed);
       return false;

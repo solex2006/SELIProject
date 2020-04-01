@@ -20,6 +20,7 @@ import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
+
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 	return (
@@ -81,6 +82,7 @@ export default function VerticalTabs(props) {
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
 	const [support, setSupport] = React.useState([]);
+	//const [captionValidator, setCaptionValidator] = React.useState('');
 
 	function handleTabChange(event, newValue) {
 		setValue(newValue);
@@ -103,7 +105,7 @@ export default function VerticalTabs(props) {
 		dataField: data.dataField,
 		isA11Y: data.isA11Y,
 	}
-
+	
 	return (
 		<div>
 			<div className={classes.root}>
@@ -158,11 +160,11 @@ export default function VerticalTabs(props) {
 						/>
 					}
 					{
-						/* 	props.contentTypeAdded === 'video' &&
+						 	props.contentTypeAdded === 'video' && support.some(object => ["Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
 						<Tab
 							label={props.language.other}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
-						/> */
+						/> 
 					}
 					
 					{
@@ -213,12 +215,29 @@ export default function VerticalTabs(props) {
 							// 	</React.Fragment>
 							// } {...a11yProps(indexTab++,props.contentTypeAdded)} disabled className={classes.disabled}/>
 					}
+
+					
 					{
 						data.isA11Y.length > 0 ? 
 							<A11YProgressFeedback
 								a11yFields={data.isA11Y}
 								getAccessibilityPercentage={props.getAccessibilityPercentage.bind(this)}
 								{...a11yProps(indexTab++, props.contentTypeAdded)}
+								data={{
+									handleInputOnChange:data.handleInputOnChange,
+									handleImagePurposeOnChange:data.handleImagePurposeOnChange,
+									handleLongDescriptionPosition:data.handleLongDescriptionPosition,
+									dataField:data.dataField,
+									shortDescriptionTip:data.shortDescriptionTip,
+									longDescriptionTip:data.longDescriptionTip,
+									imagePurposeTip:data.imagePurposeTip,
+									imagePurposeLabel:data.imagePurposeLabel,
+									displayAltGroup:data.displayAltGroup,
+									displayAltLong:data.displayAltLong,
+									isA11Y:data.isA11Y,
+								}}
+								item={props.item}
+								language={props.language}
 							/>
 						: undefined
 					}
@@ -260,6 +279,7 @@ export default function VerticalTabs(props) {
 									<TabPanel value={value} index={indexPanel++}>
 										<ImageA11yForm
 											data={{
+												editorReuse:data.editorReuse,
 												handleInputOnChange:data.handleInputOnChange,
 												handleImagePurposeOnChange:data.handleImagePurposeOnChange,
 												handleLongDescriptionPosition:data.handleLongDescriptionPosition,
@@ -314,6 +334,7 @@ export default function VerticalTabs(props) {
 										</TabPanel> */}
 								</React.Fragment>
 					}
+
 					{
 						props.contentTypeAdded === 'video' &&
 							<React.Fragment>
@@ -331,14 +352,17 @@ export default function VerticalTabs(props) {
 									<TabPanel value={value} index={indexPanel++}>
 										<VideoMediaCaptionsAltA11Y data={{
 											handleRadioButtonOnChange: data.handleRadioButtonOnChange,
+											handleRadioButtonOnChangeValidator: data.handleRadioButtonOnChangeValidator,
 											dataField: data.dataField,
 											captionsTip: data.captionsTip,
+											captionValidator: data.captionValidator
 										}}
 										language={props.language}/>
 									</TabPanel>}
 								{support.some(object => ["Visual"].includes(object)) &&
 									<TabPanel value={value} index={indexPanel++}>
 										<VideoMediaAudioDescriptioA11Y data={{
+											handleRadioButtonOnChangeValidator: data.handleRadioButtonOnChangeValidator,
 											handleRadioButtonOnChange: data.handleRadioButtonOnChange,
 											dataField: data.dataField,
 											audioDescriptionTip: data.audioDescriptionTip,
@@ -353,11 +377,12 @@ export default function VerticalTabs(props) {
 										<VideoMediaSignLanguageA11Y data={{
 											handleRadioButtonOnChange: data.handleRadioButtonOnChange,
 											dataField: data.dataField,
+											handleRadioButtonOnChangeValidator: data.handleRadioButtonOnChangeValidator,
 											signLanguageTip: data.signLanguageTip
 										}}
 										language={props.language}/>
 									</TabPanel>}
-								{/* {support.find(disabilitie => disabilitie === "Video") &&
+								 {support.some(object => ["Language", "Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
 									<TabPanel value={value} index={indexPanel++}>
 										<VideoOthersA11Y data={{
 											handleRadioButtonOnChange: data.handleRadioButtonOnChange,
@@ -365,7 +390,7 @@ export default function VerticalTabs(props) {
 											seizuresTip: data.seizuresTip
 										}}
 										language={props.language}/>
-									</TabPanel>}  */}
+									</TabPanel>} 
 							</React.Fragment>
 					}
 					<TabPanel value={value} index={indexPanel++}>

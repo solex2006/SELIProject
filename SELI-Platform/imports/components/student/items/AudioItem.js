@@ -12,6 +12,8 @@ import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import ReactPlayer from 'react-player';
 import VideoPreview from '../../storytelling/VideoPreview';
 import CheckboxLabels from './CheckBox'
+import Grid from '@material-ui/core/Grid';
+import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 export default class AudioItem extends React.Component {
   constructor(props) {
@@ -19,7 +21,8 @@ export default class AudioItem extends React.Component {
     this.state = {
       signalShow:'',
       autoplay:false,
-      key:78
+      key:78,
+      shortlongDescription:''
     }
   }
 
@@ -28,7 +31,7 @@ export default class AudioItem extends React.Component {
     win.focus();
   }
 
-  checkbox=(event,name)=>{
+  checkboxaudio=(event,name)=>{
     console.log("event and name", event, name)
     if(event===true && name==='signLanguage'){//Videosignal
       this.setState({
@@ -52,7 +55,7 @@ export default class AudioItem extends React.Component {
   }
 
 
-  checkBoxLabels=()=>{
+  checkBoxLabelsaudio=()=>{
     return(
       <div>
         {
@@ -80,6 +83,67 @@ export default class AudioItem extends React.Component {
     )
   }
 
+  checkBoxLabels=()=>{
+    return(
+      <div className="checkBoxItem">
+        {
+          this.props.item.attributes.accessibility.dataField===undefined?
+                   undefined
+                   :
+                  <div className="checkBoxItem">    
+                      <div className="checkboxstyle">
+                        <CheckboxLabels
+                            language={this.props.language}
+                            checkbox={this.checkbox}
+                            type="shortLongDescription"
+                            label={this.props.language.textAlternatives}
+                        />
+                      </div>
+                  </div>
+        }
+      </div>
+    )
+  }
+  checkbox=(event, name)=>{
+    console.log("event and name", event, name)
+    if(event===true && name==='shortLongDescription'){
+      this.setState({
+        shortlongDescription:'shortlongDescription',
+      })
+    }
+    else if(event===false && name==='shortLongDescription'){
+      this.setState({
+        shortlongDescription:'noshortlongDescription'
+      })
+    }
+  }
+  signalText=()=>{
+    const contentState = convertFromRaw(this.props.item.attributes.accessibility.dataField.longDescription);
+    const editorState = EditorState.createWithContent(contentState);
+    return editorState
+  }
+  textAlternatives=()=>{
+    return(
+      <div>
+        {//For text Alternatives
+            this.state.shortlongDescription==='shortlongDescription'?
+            <Grid container spacing={3}>
+              <Grid item xs={6}>       
+                  <div> 
+                    <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
+                    {this.props.item.attributes.accessibility.dataField.shortDescription}
+                    <Editor editorState={this.signalText()} readOnly={true}/>
+                  </div>
+              </Grid>
+              
+            </Grid>
+            :
+            undefined
+        }
+      </div>
+    )
+  }
+
   render() {
     console.log("ATRIBUTOSDEAUDIO", this.props.item.attributes)
 
@@ -88,6 +152,20 @@ export default class AudioItem extends React.Component {
         <div className="image-content-item">
           <Card className="course-item-video-card2">
             {this.checkBoxLabels()}
+            {
+
+              this.props.item.attributes.accessibility.dataField!=undefined?
+              <div>
+              {
+               this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+               this.textAlternatives()
+               :
+               undefined
+              }
+            </div>
+              :
+              undefined
+            }
             <Card raised className="course-item-audio-card">
               <div className="course-item-audio-card-details">
                 <CardContent className="course-item-audio-card-content">
@@ -105,40 +183,7 @@ export default class AudioItem extends React.Component {
                 />
               </div>
 
-              <div className="course-item-audio-card-controls2"> 
-
-                {
-                   this.props.item.attributes.accessibility.dataField===undefined?
-                   undefined
-                   :
-                   <div>
-                  {
-                  this.props.item.attributes.accessibility.dataField.signLanguage==="yes"?
-                  <div>
-                    {
-                      this.props.item.attributes.accessibility.dataField.fileVideoSignal[0]!=null?
-                      <div>
-                        
-                      {//for video signal 
-                        this.state.signalShow==='signalShow'?
-                        <div >
-                          <video   key={this.state.key} autoPlay={this.state.autoplay} controls id="video-preview-information" ref="video">
-                            <source src={this.props.item.attributes.accessibility.dataField.fileVideoSignal[0].link}></source>
-                          </video>
-                        </div>
-                          :
-                          undefined  
-                      }
-                      </div>
-                      :  
-                      undefined
-                    }
-                      </div>
-                      :
-                      undefined   
-                    } 
-                  </div>
-                }
+             <div className="course-item-audio-card-controls2"> 
                 <AudioPlayer 
                   volume 
                   src={this.props.item.attributes.audio.link}
@@ -160,6 +205,19 @@ export default class AudioItem extends React.Component {
                   }
               </div>
             </Card>
+            {
+            this.props.item.attributes.accessibility.dataField !=undefined?
+            <div>
+            {
+             this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+             this.textAlternatives()
+             :
+             undefined
+            }
+          </div>
+            :
+            undefined
+            }
             {
               this.props.item.attributes.hasDescription ?
                 <div

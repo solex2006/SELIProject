@@ -1,14 +1,14 @@
 ---
-name: "\U0001F41B Issue report in development"
+name: "\U0001F41B Bug report in development"
 about: Use this template to track issues in dev branch
 labels: ":bug:bug, env:development"
-title: ISSUE_SUBJECT
+title: [A short and descriptive title]
 ---
+
 
 <!--- Not obligatory, but add a MODULE-LABEL if this issue ocurs in a specific module or function ---> 
 <!--- Not obligatory, but add a ROLE-LABEL if this ocurs to a specific user role --->
 <!--- Not obligatory, but add a TYPE-ERROR if you can identify the type of error --->
-
 
 
 <!--- Provide a general summary of the issue in the Title above -->
@@ -29,7 +29,7 @@ title: ISSUE_SUBJECT
 
 ## Environment
 <!--- Please tell us about your environment -->
-Browser: all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView
+<!-- Browser: all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView -->
 
 ## Possible Solution
 <!--- Not obligatory, but suggest a fix/reason for the bug, -->
@@ -40,3 +40,5 @@ Browser: all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | A
 
 ## Related issues
 <!--- Not obligatory, but reference related issues --> 
+
+
