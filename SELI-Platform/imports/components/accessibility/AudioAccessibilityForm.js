@@ -236,9 +236,16 @@ export const useAudioDataField = (props) =>{
 	function handleInputOnChange ({ target: { name, value } }){
 		let errField = name + 'Error';
 		let errValue = false;
-
+	
 		if(name === 'longDescription'){
-			errValue = (value === '' && !dataField.hasTranscriptionFile);
+			if(value.blocks[0].text===''){
+				errValue = true;
+
+			}else{
+				errValue = false
+			}
+			
+
 		}
 		
 		if(name === 'shortDescription'){

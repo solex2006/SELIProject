@@ -770,7 +770,12 @@ export const useDataField = (props) => {
 		let errValue = false;
 
 		if(name === 'longDescription'){
-			errValue = (value === '' && !dataField.hasTranscriptionFile);
+			if(value.blocks[0].text===''){
+				errValue = true;
+
+			}else{
+				errValue = false
+			}
 		}
 
 		if(name === 'shortDescription'){
