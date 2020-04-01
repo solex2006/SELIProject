@@ -919,6 +919,7 @@ class StorytellingTool extends React.Component {
                                 selectedNode={this.state.selectedNode}
                                 addSingleNode={this.addSingleNode.bind(this)}
                                 selectNode={this.selectNode.bind(this)}
+                                addNewScene={this.props.language.addNewScene}
                               />
                             :
                             undefined
@@ -935,6 +936,7 @@ class StorytellingTool extends React.Component {
                                 selectNode={this.selectNode.bind(this)}
                                 moveNodeUp={this.moveNodeUp.bind(this)}
                                 moveNodeDown={this.moveNodeDown.bind(this)}
+                                language={this.props.language}
                               />
                             :
                             undefined
@@ -1269,6 +1271,7 @@ class StorytellingTool extends React.Component {
                           : 
                             undefined                     
                         }
+                        <br/>
                         {
                           this.state.story.nodes[this.state.selectedNode].audio !== '' ?
                             <AudioPreview

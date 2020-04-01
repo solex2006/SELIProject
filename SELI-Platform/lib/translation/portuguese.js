@@ -874,5 +874,15 @@ var PORTUGUESE = {
   textAlternatives: 'Accessibility with text alternatives',
   shortDescription_a11y_tip_default_image: "select the type of image you want to use",
   shortDescription_a11y_default_image: "Allows the user to create a short description that transmits the essential information presented by the image",
+  scenes: "Scenes",
+  timeline: "Timeline",
+  moveSceneUp: "Move the scene up",
+  moveSceneDown: "Move the scene down",
+  moveAudioBack:  "Move the audio back",
+  moveAudioForward: "Move the audio forward",
+  addImage: "Add image",
+  addScript: "Add script",
+  addAudio: "Add audio",
+  noAudioUploaded: "No audio",
 }
 export default PORTUGUESE;

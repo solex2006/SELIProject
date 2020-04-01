@@ -874,5 +874,15 @@ var TURKISH = {
   textAlternatives: 'Alternatif metinlerle erişilebilirlik',
   shortDescription_a11y_tip_default_image: "kullanmak istediğiniz görüntü türünü seçin",
   shortDescription_a11y_default_image: "Kullanıcının, görüntü tarafından sunulan temel bilgileri ileten kısa bir açıklama oluşturmasına olanak tanır",
+  scenes: "Scenes",
+  timeline: "Timeline",
+  moveSceneUp: "Move the scene up",
+  moveSceneDown: "Move the scene down",
+  moveAudioBack:  "Move the audio back",
+  moveAudioForward: "Move the audio forward",
+  addImage: "Add image",
+  addScript: "Add script",
+  addAudio: "Add audio",
+  noAudioUploaded: "No audio",
 }
 export default TURKISH;

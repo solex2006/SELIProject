@@ -22,9 +22,9 @@ export default class AudioPreview extends React.Component {
       this.setState({
         isPlaying: this.props.file.link,
       })
-      this.refs.audio.pause();
+      /* this.refs.audio.pause();
       this.refs.audio.play();
-      this.refs.audio.load();
+      this.refs.audio.load(); */
     }
   }
 
@@ -36,10 +36,12 @@ export default class AudioPreview extends React.Component {
 
     return(
       <div className="storytelling-media-preview-container">
-        {/* {audio} */}
-        <audio controls className="storytelling-media-audio" ref="audio">
+        <div className="storytelling-media-audio">
+          <AudioPlayer volume src={this.state.isPlaying}/>
+        </div>
+        {/* <audio controls className="storytelling-media-audio" ref="audio">
           <source src={this.state.isPlaying}></source>
-        </audio>
+        </audio> */}
       </div>
       );
     }

@@ -83,7 +83,7 @@ jobs:
 #         uses: peter-evans/create-or-update-comment@v1
 #         if: |
 #           github.event_name == 'project_card' && 
-#           github.event.project_card.project_url == 'https://github.com/ecureuill/SELIProject/projects/6' &&
+#           github.event.project_card.project_url == 'https://github.com/solex2006/SELIProject/projects/6' &&
 #           github.event.project_card.column_id == 8389382
 #         with:
 #           token: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +96,7 @@ jobs:
 #         uses: peter-evans/create-or-update-comment@v1
 #         if: |
 #           github.event_name == 'project_card' && 
-#           github.event.project_card.project_url == 'https://github.com/ecureuill/SELIProject/projects/6' &&
+#           github.event.project_card.project_url == 'https://github.com/solex2006/SELIProject/projects/6' &&
 #           github.event.project_card.column_id == 8389386
 #         with:
 #           token: ${{ secrets.GITHUB_TOKEN }}
@@ -112,7 +112,7 @@ jobs:
           github.event.action == 'labeled' &&  
           contains(github.event.issue.labels.*.name, ':bulb:Feature Request')
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/6'
+          project: 'https://github.com/solex2006/SELIProject/projects/6'
           column_name: 'NEEDS TRIAGE'
       - name: Assign 'BUG', 'ISSUE',' BUG ON NEXT RELEASE' label to 'TRIAGE - Bugs'
         uses: srggrs/assign-one-project-github-action@1.2.0
@@ -123,7 +123,7 @@ jobs:
           contains(github.event.issue.labels.*.name, ':beetle:bug-next') ||
           contains(github.event.issue.labels.*.name, ':ant:issue'))
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/7'
+          project: 'https://github.com/solex2006/SELIProject/projects/7'
           column_name: 'NEEDS TRIAGE'
         
       - name: Assign '1 - PLANNING' label to 'FEATURE SPECIFICATION'
@@ -134,7 +134,7 @@ jobs:
           contains(github.event.issue.labels.*.name, '1 - Planning') ||
           contains(github.event.issue.labels.*.name, 'need specification'))
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/8'
+          project: 'https://github.com/solex2006/SELIProject/projects/8'
           column_name: 'PENDING FEATURE REQUEST'
 
       - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE'
@@ -144,7 +144,7 @@ jobs:
           github.event.action == 'labeled' &&  
           contains(github.event.issue.labels.*.name, '2 - Ready')
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/9'
+          project: 'https://github.com/solex2006/SELIProject/projects/9'
           column_name: 'TO-DO'
 
       - name: Assign 'need tester' label to 'FUNCTIONALITY TEST CYCLE'
@@ -154,7 +154,7 @@ jobs:
           github.event.action == 'labeled' &&  
           contains(github.event.issue.labels.*.name, 'need tester')
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/10'
+          project: 'https://github.com/solex2006/SELIProject/projects/10'
           column_name: 'TO-DO'
 
       - name: Assign 'Pull Request' to 'PULL REQUEST CYCLE'
@@ -163,5 +163,5 @@ jobs:
           github.event_name == 'pull_request' &&
           github.event.action == 'opened'
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/11'
+          project: 'https://github.com/solex2006/SELIProject/projects/11'
           column_name: 'Review in progress'
