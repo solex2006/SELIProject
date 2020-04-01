@@ -91,4 +91,7 @@
   --pdf-card-height: 12vh;
   --card-buttons: 40px;
   --subscription-card-height: 25vh;
+
+   /* Storytelling-time */
+  --actions-height: 165px;
 }

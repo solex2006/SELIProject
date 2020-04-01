@@ -98,7 +98,8 @@
     "sort-json-array": "^0.1.7",
     "swiper": "^5.2.1",
     "unrar-js": "^0.2.3",
-    "unrar.js": "^0.2.5"
+    "unrar.js": "^0.2.5",
+    "wavesurfer.js": "^3.3.1"
   },
   "meteor": {
     "mainModule": {

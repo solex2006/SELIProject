@@ -874,6 +874,16 @@ var SPANISH = {
   textAlternatives: 'Accessibilidad con alternativas de texto',
   shortDescription_a11y_tip_default_image: "Selecciona el tipo de imagen que deseas utilizar ",
   shortDescription_a11y_default_image: "Permite al usuario crear una corta descripción que transmite la información esencial presentada por la imagen",
+  scenes: "Escenas",
+  timeline: "Línea de tiempo",
+  moveSceneUp: "Mover la escena hacia arriba",
+  moveSceneDown: "Mover la escena hacia abajo",
+  moveAudioBack: "Mover el audio hacia atrás",
+  moveAudioForward: "Mover el audio hacia adelante",
+  addImage: "Agregar imagen",
+  addScript: "Agregar script",
+  addAudio: "Agregar audio",
+  noAudioUploaded: "Sin audio",
 }
 export default SPANISH
 

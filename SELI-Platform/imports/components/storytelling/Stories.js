@@ -46,6 +46,7 @@ export default class Stories extends React.Component {
         let myStories = Activities.find({
           'activity.user': Meteor.userId(),
           'activity.type': "storytelling",
+          'activity.type': { $in: [ "storytelling", "storytelling-time" ] },
         }).fetch();
         this.setState({
           myStories: myStories,
@@ -109,6 +110,7 @@ export default class Stories extends React.Component {
     let tableData = [];
     let headRows = [
       { id: 'name', numeric: false, disablePadding: true, label: this.props.language.name },
+      { id: 'type', numeric: true, disablePadding: false, label: this.props.language.type },
       { id: 'date', numeric: true, disablePadding: false, label: this.props.language.dateCreated },
       { id: 'actions', numeric: true, disablePadding: false, label: this.props.language.actions },
     ];
@@ -118,7 +120,11 @@ export default class Stories extends React.Component {
       {label: this.props.language.download , icon: <DownloadIcon/>, action: this.showDownloadForm.bind(this)},
     ];
     myStories.map(story => {
-      tableData.push({name: story.activity.name, date: story.activity.date.toLocaleDateString('en-US'), _id: story._id})
+      tableData.push({
+        name: story.activity.name,
+        type: story.activity.type === "storytelling" ? this.props.language.scenes : this.props.language.timeline,
+        date: story.activity.date.toLocaleDateString('en-US'), 
+        _id: story._id})
     })
     this.setState({
       headRows: headRows,

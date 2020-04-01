@@ -1,124 +1,246 @@
 import React, { Component } from 'react';
+import Waveform from './Waveform';
+import { ContextMenu, ContextMenuTrigger } from "react-contextmenu";
 
 import AddIcon from '@material-ui/icons/Add';
+import ImageIcon from '@material-ui/icons/Image';
+import ShortTextIcon from '@material-ui/icons/ShortText';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import CancelIcon from '@material-ui/icons/Cancel';
+import EditIcon from '@material-ui/icons/Edit';
 
 import Fab from '@material-ui/core/Fab';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
-import StopIcon from '@material-ui/icons/Stop';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ArrowForward from '@material-ui/icons/ArrowForward';
+import ArrowBack from "@material-ui/icons/ArrowBack";
 
 export default class StorytellingObject extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      audioDuration: 0,
     }
   }
 
   componentDidMount() {
+  }
 
+  getSingleDuration = (audioDuration) => {
+    this.setState({
+      audioDuration,
+    })
+  }
+
+  getPosition = (timestamp) => {
+    if (this.state.audioDuration === 0 || timestamp/this.state.audioDuration > 1) {
+      return 100;
+    } else {
+      return timestamp/this.state.audioDuration*100;
+    } 
+  }
+
+  addContent = (type) => {
+    let time = this.refs.wave.getTime();
+    if (type === 'image') {
+      this.props.addSingleImage(time);
+    } else {
+      this.props.addSingleScript(time);
+    }
   }
 
   render() {
     return(
-      <div className="storytelling-item-full-container">
-        <div className="storytelling-item-row-container">
-          {
-            this.props.selectedNode === this.props.index ?
-              <ArrowRightIcon fontSize="large" className="storytelling-selected-item-icon"/>
-            :
-            <div className="storytelling-selected-empty-container"></div>
-          }
-          <p
-            className="storytelling-item-name"
-            onClick={() => this.props.selectNode(this.props.index)}
-          >
-            {`${this.props.node.name}`}
-          </p>
+      <div className="storytelling-item-full-container-time">
+        {
+          this.props.node.images.length ?
+            <div className="storytelling-item-actions-time">
+              {
+                this.props.node.images.map((image, imageIndex) => {
+                  return(
+                    <React.Fragment>
+                      <ContextMenuTrigger id={`i${this.props.index}${imageIndex}`}>
+                        <Paper
+                          tabIndex="0"
+                          elevation={8}
+                          className="storytelling-item-images-scene-time"
+                          onClick={() => this.props.handleContent(this.props.index, imageIndex, 'image')}
+                          onKeyDown={() => this.props.handleContent(this.props.index, imageIndex, 'image')}
+                          style={{
+                            backgroundImage:  image.file === "" ? "none" : `url(${image.file.link})`,
+                            left: `calc(${this.getPosition(image.timestamp)}% - 64px)`
+                          }}
+                        ></Paper>
+                      </ContextMenuTrigger>
+                      <Paper
+                        tabIndex="0"
+                        elevation={8}
+                        className="storytelling-selected-empty-container-time"
+                        style={{left: `calc(${this.getPosition(image.timestamp)}% - 2px)`}}
+                      ></Paper>
+                      <ContextMenu className="right-click-menu" hideOnLeave={true} id={`i${this.props.index}${imageIndex}`}>
+                        <Paper elevation={8}>
+                          <List className="navigation-options-list" dense={true} component="nav" aria-label="navigation-options">
+                            <ListItem onClick={() => this.props.handleContent(this.props.index, imageIndex, 'image', 'edit')} button>
+                              <ListItemIcon>
+                                <EditIcon />
+                              </ListItemIcon>
+                              <ListItemText primary={this.props.language.edit} />
+                            </ListItem>
+                            <ListItem onClick={() => this.props.handleContent(this.props.index, imageIndex, 'image', 'delete')} button>
+                              <ListItemIcon>
+                                <CancelIcon />
+                              </ListItemIcon>
+                              <ListItemText primary={this.props.language.delete} />
+                            </ListItem>
+                          </List>
+                        </Paper>
+                      </ContextMenu>
+                    </React.Fragment>
+                  )
+                })
+              }
+            </div>
+          :
+            undefined
+        }
+        {/* <p
+          className="storytelling-item-name-time"
+          onClick={() => this.props.handleNode(this.props.index)}
+        >
+          {`${this.props.node.audio !== "" ? this.props.node.audio.name : this.props.language.noAudioUploaded}`}
+        </p> */}
+        <ContextMenuTrigger id={`a${this.props.index}`}>
           <Paper
             tabIndex="0"
             elevation={8}
-            className="storytelling-item-node-scene"
-            onClick={() => this.props.selectNode(this.props.index)}
-            onKeyDown={() => this.props.selectNode(this.props.index)}
-          ></Paper>
-          <div className="storytelling-item-actions">
-            <Tooltip
-              title="Add new scene"
-              leaveTouchDelay={0}
-              enterDelay={1000}
-              leaveDelay={10}
-            >
-              <Fab
-                className="storytelling-item-fab"
-                size="small"
-                onClick={() => this.props.addSingleNode(this.props.index)}
-              >
-                <AddIcon className="storytelling-item-fab-icon" fontSize="small"/>
-              </Fab>
-            </Tooltip>
+            className="storytelling-item-node-scene-time"
+            onClick={() => this.props.handleNode(this.props.index)}
+            onKeyDown={() => this.props.handleNode(this.props.index)}
+          >
             {
-              this.props.index !== 1 ?
+              this.props.node.audio === "" ? undefined :
+                <div className="storytelling-wave">
+                  <Waveform 
+                    ref="wave"
+                    src={this.props.node.audio.link} 
+                    getSingleDuration={this.getSingleDuration.bind(this)}
+                  />
+                </div>
+            }
+          </Paper>
+        </ContextMenuTrigger>
+        <ContextMenu className="right-click-menu" hideOnLeave={true} id={`a${this.props.index}`}>
+          <Paper elevation={8}>
+            <List className="navigation-options-list" dense={true} component="nav" aria-label="navigation-options">
+              <ListItem onClick={() => this.props.handleNode(this.props.index, 'edit')} button>
+                <ListItemIcon>
+                  <EditIcon />
+                </ListItemIcon>
+                <ListItemText primary={this.props.language.edit} />
+              </ListItem>
+              { 
+                this.props.index !== 0 || this.props.length > 1 ?
+                  <ListItem onClick={() => this.props.handleNode(this.props.index, 'delete')} button>
+                    <ListItemIcon>
+                      <CancelIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={this.props.language.delete} />
+                  </ListItem>
+                :
+                  undefined
+              }
+            </List>
+          </Paper>
+        </ContextMenu>
+        <div className="storytelling-item-actions-time" edge="end">
+          {
+            this.props.index !== 0 ?
               <Tooltip
-                title="move the scene up"
+                title={this.props.language.moveAudioBack}
                 enterDelay={1000}
                 leaveDelay={10}
               >
                 <Fab
-                  className="storytelling-item-fab"
+                  className="storytelling-item-fab-time"
                   size="small"
                   onClick={() => this.props.moveNodeUp(this.props.index)}
                 >
-                  <ArrowUpwardIcon className="storytelling-item-fab-icon" fontSize="small"/>
+                  <ArrowBack className="storytelling-item-fab-icon-time" fontSize="small"/>
                 </Fab>
               </Tooltip>
             :
               undefined
-            }
-            
-            {
-              this.props.index !== this.props.nodes.length - 1 &&
-              this.props.nodes[this.props.index + 1].type !== 'end' ?
-                <Tooltip
-                  title="move the scene down"
-                  enterDelay={1000}
-                  leaveDelay={10}
+          }
+          {
+            this.props.index !== this.props.length - 1 && this.props.length > 1 ?
+              <Tooltip
+                title={this.props.language.moveAudioForward}
+                enterDelay={1000}
+                leaveDelay={10}
+              >
+                <Fab
+                  className="storytelling-item-fab-time"
+                  size="small"
+                  onClick={() => this.props.moveNodeDown(this.props.index)}
                 >
-                  <Fab
-                    className="storytelling-item-fab"
-                    size="small"
-                    onClick={() => this.props.moveNodeDown(this.props.index)}
-                  >
-                    <ArrowDownwardIcon className="storytelling-item-fab-icon" fontSize="small"/>
-                  </Fab>
-                </Tooltip>
-              :
-                undefined
-            }
-            {
-              this.props.index === this.props.nodes.length - 1 ? 
-                <Tooltip
-                  title="Add final scene"
-                  enterDelay={1000}
-                  leaveDelay={10}
+                  <ArrowForward className="storytelling-item-fab-icon-time" fontSize="small"/>
+                </Fab>
+              </Tooltip>
+            :
+              undefined
+          }
+          {
+            this.props.node.audio === "" ? undefined :
+              <Tooltip
+                title={this.props.language.addImage}
+                enterDelay={1000}
+                leaveDelay={10}
+              >
+                <Fab
+                  className="storytelling-item-fab-time"
+                  size="small"
+                  onClick={() => {this.props.handleNode(this.props.index), this.addContent('image')}}
                 >
-                  <Fab
-                    className="storytelling-item-fab"
-                    size="small"
-                    onClick={() => this.props.addEndNode(this.props.index)}
-                    disabled={this.props.index !== this.props.nodes.length - 1}
-                  >
-                    <StopIcon className="storytelling-item-fab-icon" fontSize="small"/>
-                  </Fab>
-                </Tooltip>
-              : undefined
-            }
-          </div>
-          <div className="storytelling-selected-empty-container"></div>
+                  <ImageIcon className="storytelling-item-fab-icon-time" fontSize="small"/>
+                </Fab>
+              </Tooltip>
+          }
+          {
+            this.props.node.audio === "" ? undefined :
+              <Tooltip
+                title={this.props.language.addScript}
+                enterDelay={1000}
+                leaveDelay={10}
+              >
+                <Fab
+                  className="storytelling-item-fab-time"
+                  size="small"
+                  onClick={() => {this.props.handleNode(this.props.index), this.addContent('script')}}
+                >
+                  <ShortTextIcon className="storytelling-item-fab-icon-time" fontSize="small"/>
+                </Fab>
+              </Tooltip>
+          }
+          <Tooltip
+            title={this.props.language.addAudio}
+            leaveTouchDelay={0}
+            enterDelay={1000}
+            leaveDelay={10}
+          >
+            <Fab
+              className="storytelling-item-fab-time"
+              size="small"
+              onClick={() => this.props.addSingleNode(this.props.index)}
+            >
+              <AddIcon className="storytelling-item-fab-icon-time" fontSize="small"/>
+            </Fab>
+          </Tooltip>
         </div>
       </div>
     )
