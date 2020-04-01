@@ -750,8 +750,6 @@ export const useDataField = (props) => {
 		setDisabled_necAudioDesc(!(dataField.audioDescription === 'no'));
 		setDisabled_uploadAudioDesc((disabled_necAudioDesc? disabled_necAudioDesc : (dataField.audioDescriptionRequired === undefined || dataField.audioDescriptionRequired ==='no')));
 
-		//setIsA11Y(a11yInitial);
-		//getAccessibilityProgress();
 	}, [dataField]);
 
 	function captionValidator(validator){
