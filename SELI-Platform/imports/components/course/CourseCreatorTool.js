@@ -1196,7 +1196,7 @@ export default class CourseCreatorTool extends React.Component {
             this.state.showAccessibilityForm ?
               <React.Fragment>
                 <VerticalTab
-                  support={this.state.courseInformation.support}
+                  support={ ["Vestibular","Speech", "Visual", "Elderly", "Language", "Hearing", "Diversity","Cognitive", "Motor"]}
                   contentTypeAdded={this.state.contentTypeAdded}
                   item={this.state.contentToConfigureAccessibility}
                   getAccessibilityPercentage={this.getAccessibilityPercentage.bind(this)}

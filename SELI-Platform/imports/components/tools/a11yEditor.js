@@ -300,9 +300,9 @@ const useEditor =(props) => {
 	 useEffect(() => {
 		 console.log("<-------props.value----->",props.value)
 		 if(props.value!=""){
-			const contentState = convertFromRaw(props.value);
+			 const contentState = convertFromRaw(props.value);
 			const editorState =  EditorState.createWithContent(contentState);
-			setEditorState(editorState)
+			setEditorState(editorState) 
 		 }
 		
 	}, []); 
