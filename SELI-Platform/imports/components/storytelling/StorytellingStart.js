@@ -47,7 +47,7 @@ export default class StorytellingStart extends React.Component {
           ></Paper>
           <div className="storytelling-item-actions">
             <Tooltip
-              title="Add new scene"
+              title={this.props.addNewScene}
               enterDelay={1000}
               leaveDelay={10}
             >

@@ -48,7 +48,7 @@ export default class StorytellingScene extends React.Component {
           ></Paper>
           <div className="storytelling-item-actions">
             <Tooltip
-              title="Add new scene"
+              title={this.props.language.addNewScene}
               leaveTouchDelay={0}
               enterDelay={1000}
               leaveDelay={10}
@@ -64,7 +64,7 @@ export default class StorytellingScene extends React.Component {
             {
               this.props.index !== 1 ?
               <Tooltip
-                title="move the scene up"
+                title={this.props.language.moveSceneUp}
                 enterDelay={1000}
                 leaveDelay={10}
               >
@@ -84,7 +84,7 @@ export default class StorytellingScene extends React.Component {
               this.props.index !== this.props.nodes.length - 1 &&
               this.props.nodes[this.props.index + 1].type !== 'end' ?
                 <Tooltip
-                  title="move the scene down"
+                  title={this.props.language.moveSceneDown}
                   enterDelay={1000}
                   leaveDelay={10}
                 >
@@ -102,7 +102,7 @@ export default class StorytellingScene extends React.Component {
             {
               this.props.index === this.props.nodes.length - 1 ? 
                 <Tooltip
-                  title="Add final scene"
+                  title={this.props.language.addFinalScene}
                   enterDelay={1000}
                   leaveDelay={10}
                 >

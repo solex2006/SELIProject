@@ -403,7 +403,11 @@ export default class User extends React.Component {
     this.setState({
       storyToEdit: story,
     }, () => {
-      this.showComponent('storytellingEdit');
+      if (story.activity.type === "storytelling") {
+        this.showComponent('storytellingEdit');
+      } else {
+        this.showComponent('storytellingEdit-time');
+      }
     });
   }
 
@@ -517,26 +521,13 @@ export default class User extends React.Component {
                       undefined
                     }
                     {
-                      this.state.component === 'create' ?
+                      this.state.component === 'create' || this.state.component === 'edit' ?
                         <CreateCourse
                           ref="CreateCourse"
                           savedCourseState={this.savedCourseState.bind(this)}
                           language={this.state.language}
                           user={this.state.user}
-                          handleControlMessage={this.handleControlMessage.bind(this)}
-                          showComponent={this.showComponent.bind(this)}
-                        />
-                      :
-                      undefined
-                    }
-                    {
-                      this.state.component === 'edit' ?
-                        <CreateCourse
-                          ref="CreateCourse"
-                          savedCourseState={this.savedCourseState.bind(this)}
-                          language={this.state.language}
-                          user={this.state.user}
-                          courseToEdit={this.state.courseToEdit}
+                          courseToEdit={this.state.component === 'edit' ? this.state.courseToEdit : undefined}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                           showComponent={this.showComponent.bind(this)}
                         />
@@ -589,33 +580,22 @@ export default class User extends React.Component {
                       undefined
                     }
                     {
-                      this.state.component === 'storytelling' ?
+                      this.state.component === 'storytelling' || this.state.component === 'storytellingEdit' ?
                         <StorytellingTool
                           user={this.state.user}
                           language={this.state.language}
-                          storyToEdit={undefined}
+                          storyToEdit={this.state.component === 'storytellingEdit' ? this.state.storyToEdit : undefined}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                         />
                       :
                       undefined
                     }
                     {
-                      this.state.component === 'storytelling-time' ?
+                      this.state.component === 'storytelling-time' || this.state.component === 'storytellingEdit-time' ?
                         <StorytellingToolTime
                           user={this.state.user}
                           language={this.state.language}
-                          storyToEdit={undefined}
-                          handleControlMessage={this.handleControlMessage.bind(this)}
-                        />
-                      :
-                      undefined
-                    }
-                    {
-                      this.state.component === 'storytellingEdit' ?
-                        <StorytellingTool
-                          user={this.state.user}
-                          language={this.state.language}
-                          storyToEdit={this.state.storyToEdit}
+                          storyToEdit={this.state.component === 'storytellingEdit-time' ? this.state.storyToEdit : undefined}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                         />
                       :
@@ -635,9 +615,9 @@ export default class User extends React.Component {
                     }
                     {
                       this.state.component === 'dashboard' ?
-                      <DashboardComponent/>
-                    :
-                      undefined
+                        <DashboardComponent/>
+                      :
+                        undefined
                     }
                     {
                       this.state.component === 'certificates' ?

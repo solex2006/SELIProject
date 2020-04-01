@@ -731,11 +731,14 @@ export const useDataField = (props) => {
 	];
 
 	useEffect(() => {
+		console.log("Video",props.item.dataField, props.item.isA11Y)
 		if (props.item.dataField && props.item.isA11Y) {
 			setDataField(props.item.dataField);
 			setIsA11Y(props.item.isA11Y);
 		}
 	}, [])
+
+
 
 	const [isA11Y, setIsA11Y] = React.useState(a11yInitial);
 
@@ -767,21 +770,30 @@ export const useDataField = (props) => {
 		let errValue = false;
 
 		if(name === 'longDescription'){
-			errValue = (value === '' && !dataField.hasTranscriptionFile);
+			if(value.blocks[0].text===''){
+				errValue = true;
+
+			}else{
+				errValue = false
+			}
 		}
 
 		if(name === 'shortDescription'){
 			errValue = value === '';
 		}
 
+		
+
 		setDataField(dataField => ({...dataField,
 			[name]: value,
 			[errField]: errValue,
 		}));
 
+		console.log("dataFieldVideo",dataField)
+
 		let arr = [...isA11Y];
 		arr.find(a => a.name == name).is_a11y = !errValue;
-		setIsA11Y(arr);
+		setIsA11Y(arr)
 		
 	}
 	

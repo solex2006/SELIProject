@@ -14,7 +14,7 @@
   display: flex !important;
   align-items: center !important;
   color: var(--bar-font-color) !important;
-  padding: 0 calc(var(--menu-size) + 2vw) !important;
+  margin-left: calc(var(--menu-size) + 2vw) !important;
   font-size: 1.25em !important;
   font-weight: 500 !important;
   letter-spacing: 2.5px !important;

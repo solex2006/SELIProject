@@ -21,6 +21,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 
 
+
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 	return (
@@ -89,9 +90,10 @@ export default function VerticalTabs(props) {
 	}
 
 	useEffect(() => {
+		console.log("props.support",props.support)
 		let supportAux = [];
 		props.support.map((option) => {
-			supportAux.push(option.name.split(" ")[0])
+			supportAux.push(option)
 		})
 		setSupport(supportAux);
   }, [])
@@ -126,41 +128,41 @@ export default function VerticalTabs(props) {
 						disabled
 					/> */}
 					{
-							props.contentTypeAdded === 'image' && support.some(object => ["Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
+							props.contentTypeAdded === 'image' && support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
 						<Tab
 							label={props.language.textAlternatives}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/>
 					}
 					{
-							props.contentTypeAdded === 'video' && support.some(object => ["Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
+							props.contentTypeAdded === 'video' && support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
 						<Tab label={props.language.textAlternatives}
 							{...a11yProps(indexTab++, props.contentTypeAdded )}
 						/>
 					}
 					{
-							props.contentTypeAdded === 'video' && support.some(object => ["Hearing"].includes(object)) &&
+							props.contentTypeAdded === 'video' && support.some(object => ["Cognitive","Hearing"].includes(object)) &&
 						<Tab
 							label={props.language.Captions}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/>
 					}
 					{
-							props.contentTypeAdded === 'video' && support.some(object => ["Visual"].includes(object)) &&
+							props.contentTypeAdded === 'video' && support.some(object => ["Cognitive","Speech","Visual"].includes(object)) &&
 						<Tab
 							label={props.language.audioDescription}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/>
 					}
 					{
-							props.contentTypeAdded === 'video' && support.some(object => ["Language"].includes(object)) &&
+							props.contentTypeAdded === 'video' && support.some(object => ["Hearing","Cognitive"].includes(object)) &&
 						<Tab
 							label={props.language.signLanguage}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/>
 					}
 					{
-						 	props.contentTypeAdded === 'video' && support.some(object => ["Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
+						 	props.contentTypeAdded === 'video' && support.some(object => ["Cognitive"].includes(object)) &&
 						<Tab
 							label={props.language.other}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
@@ -174,8 +176,10 @@ export default function VerticalTabs(props) {
 							 {...a11yProps(indexTab++, props.contentTypeAdded)}
 						 /> */
 					}
+					
 					{
-							props.contentTypeAdded === 'audio' && support.some(object => ["Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
+						
+							props.contentTypeAdded === 'audio' && support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
 						<Tab
 							label={props.language.textAlternatives}
 							{...a11yProps(indexTab++)}
@@ -275,7 +279,7 @@ export default function VerticalTabs(props) {
 					{
 						props.contentTypeAdded === 'image' &&
 							<React.Fragment>
-								{support.some(object => ["Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
+								{support.some(object => ["Cognitive", "Hearing", "Speech"].includes(object)) &&
 									<TabPanel value={value} index={indexPanel++}>
 										<ImageA11yForm
 											data={{
@@ -301,7 +305,7 @@ export default function VerticalTabs(props) {
 					{
 						props.contentTypeAdded === 'audio' &&
 								<React.Fragment>
-									{support.some(object => ["Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
+									{support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
 										<TabPanel value={value} index={indexPanel++}>
 											<AudioA11yForm data={{
 												handleInputOnChange:data.handleInputOnChange,
@@ -338,7 +342,7 @@ export default function VerticalTabs(props) {
 					{
 						props.contentTypeAdded === 'video' &&
 							<React.Fragment>
-								{support.some(object => ["Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
+								{support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
 									<TabPanel value={value} index={indexPanel++}>
 										<VideoTextAltA11Y data={{
 											handleInputOnChange: data.handleInputOnChange,
@@ -348,7 +352,7 @@ export default function VerticalTabs(props) {
 										}}
 										language={props.language}/>
 									</TabPanel>}
-								{support.some(object => ["Hearing"].includes(object)) &&
+								{support.some(object => ["Cognitive","Hearing"].includes(object)) &&
 									<TabPanel value={value} index={indexPanel++}>
 										<VideoMediaCaptionsAltA11Y data={{
 											handleRadioButtonOnChange: data.handleRadioButtonOnChange,
@@ -359,7 +363,7 @@ export default function VerticalTabs(props) {
 										}}
 										language={props.language}/>
 									</TabPanel>}
-								{support.some(object => ["Visual"].includes(object)) &&
+								{support.some(object => ["Cognitive","Speech","Visual"].includes(object)) &&
 									<TabPanel value={value} index={indexPanel++}>
 										<VideoMediaAudioDescriptioA11Y data={{
 											handleRadioButtonOnChangeValidator: data.handleRadioButtonOnChangeValidator,
@@ -372,7 +376,7 @@ export default function VerticalTabs(props) {
 										}}
 										language={props.language}/>
 									</TabPanel>}
-								{support.some(object => ["Language"].includes(object)) &&
+								{support.some(object => ["Hearing","Cognitive"].includes(object)) &&
 									<TabPanel value={value} index={indexPanel++}>
 										<VideoMediaSignLanguageA11Y data={{
 											handleRadioButtonOnChange: data.handleRadioButtonOnChange,
@@ -382,7 +386,7 @@ export default function VerticalTabs(props) {
 										}}
 										language={props.language}/>
 									</TabPanel>}
-								 {support.some(object => ["Language", "Cognitive", "Hearing", "Diversity", "Motor", "Speech", "Vestibular", "Elderly"].includes(object)) &&
+								 {support.some(object => ["Cognitive"].includes(object)) &&
 									<TabPanel value={value} index={indexPanel++}>
 										<VideoOthersA11Y data={{
 											handleRadioButtonOnChange: data.handleRadioButtonOnChange,
