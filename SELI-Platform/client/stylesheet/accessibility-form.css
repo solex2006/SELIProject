@@ -209,6 +209,18 @@
   margin-right: 16px!important;
 }
 
+.a11yEditor-styleButtonStudent{
+  color: #999!important;
+  cursor: pointer!important;
+  display: inline-block!important;
+  padding: 3px!important;
+  max-height: 26px !important;
+  border: none!important;
+  margin-right: 1px!important;
+  max-width: fit-content!important;
+ 
+}
+
 .a11yEditor-activeButton {
   color: #5890ff!important;
 }

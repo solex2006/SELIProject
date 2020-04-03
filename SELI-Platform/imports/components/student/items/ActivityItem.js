@@ -22,7 +22,7 @@ import StorytellingPlayer from '../../storytelling/StorytellingPlayer';
 
 import AttachmentPreview from '../../files/previews/AttachmentPreview';
 import FileUpload from '../../files/FileUpload';
-import Editor from '../../inputs/editor/Editor';
+//import Editor from '../../inputs/editor/Editor';
 import Paper from '@material-ui/core/Paper';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import SendIcon from '@material-ui/icons/Send';
@@ -31,6 +31,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import InfoIcon from '@material-ui/icons/Info';
 import { Tracker } from 'meteor/tracker';
 import { Activities } from '../../../../lib/ActivitiesCollection';
+import { Editor, EditorState, convertFromRaw } from "draft-js";
+import ImageCaptionEditor from './Editordraft'
+
 
 export default class ActivityItem extends React.Component {
   constructor(props) {
@@ -46,6 +49,7 @@ export default class ActivityItem extends React.Component {
       commentText: '',
       index: 0,
       activityId: '',
+      editorText:''
     }
   }
 
@@ -210,8 +214,9 @@ export default class ActivityItem extends React.Component {
     if (this.validateSectionActivity()) {
       let activity = {
         textSection: this.state.textSection,
+        editorText:this.state.editorText,
         type: 'section',
-        public: false,
+        public: true,
       }
       this.props.completeActivity(this.props.item.id, activity);
       this.handleClose();
@@ -270,10 +275,10 @@ export default class ActivityItem extends React.Component {
   }
 
   validateSectionActivity = () => {
-    if (this.state.textSection === '') {
+    /* if (this.state.textSection === '') {
       this.props.handleControlMessage(true, this.props.language.completeActivityWrite)
       return false;
-    }
+    } */
     return true;
   }
 
@@ -288,11 +293,30 @@ export default class ActivityItem extends React.Component {
     this.getIndex()
   }
 
+
+  getEditorState=(editorState)=>{
+    console.log("editorState en ActivityItem",editorState)    
+    this.state.editorText=editorState
+
+  }
+
+  Texteditor=()=>{
+    if(this.state.activityInformation===undefined){
+      return ("")
+    }else{
+      const contentState = convertFromRaw(this.state.activityInformation.activity.editorText);
+      const editorState =  EditorState.createWithContent(contentState);
+      return editorState
+    }
+    
+  }
 /*   componentDidUpdate(prevProps, prevState) {
     if (prevProps.item.id !== this.props.item.id) {
       this.getIndex();
     }
   } */
+
+  
 
   render() {
     return(
@@ -379,9 +403,14 @@ export default class ActivityItem extends React.Component {
                             this.state.activityInformation && this.state.activityInformation.activity.type === 'section' ?
                               <div>
                                 <p className="activity-instruction-title">{`${this.props.language.text}:`}</p>
-                                <div className="activity-item-container-instruction"
+                                {/* <div className="activity-item-container-instruction"
                                   dangerouslySetInnerHTML={{__html: this.state.activityInformation.activity.textSection}}>
-                                </div>
+                                </div> */}
+                           { console.log("getCurrentContentt",this.state.activityInformation)}
+                            <Editor 
+                              editorState={this.Texteditor()} readOnly={false} 
+                              />  
+                      
                               </div>
                             :
                               undefined
@@ -512,8 +541,21 @@ export default class ActivityItem extends React.Component {
               :
               undefined
             }
+
             {
               this.props.item.attributes.type === 'section' ?
+
+              <ImageCaptionEditor
+                getEditorState={this.getEditorState}
+                language={this.props.language}
+                value={this.Texteditor()}
+              />
+             
+            :
+              undefined
+            }
+            {
+              /* this.props.item.attributes.type === 'section' ?
                 <Editor
                   areaHeight='20vh'
                   innerHTML={this.state.textSection}
@@ -523,7 +565,7 @@ export default class ActivityItem extends React.Component {
                   language={this.props.language}
                 />
               :
-              undefined
+              undefined */
             }
             {
               this.props.item.attributes.type === 'storyboard' ?

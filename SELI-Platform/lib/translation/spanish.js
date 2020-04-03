@@ -884,6 +884,8 @@ var SPANISH = {
   addScript: "Agregar script",
   addAudio: "Agregar audio",
   noAudioUploaded: "Sin audio",
+  textEditor_a11y_title: "title",
+  textEditor_a11y_subtitle: "subtitle",
 }
 export default SPANISH
 
