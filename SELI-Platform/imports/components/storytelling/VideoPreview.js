@@ -30,7 +30,7 @@ export default class VideoPreview extends React.Component {
     
 
     this.setState({
-      isPlaying: this.props.file.link,
+      isPlaying: (this.props.file!=undefined)? (this.props.file.link):(undefined),
     })
     if (this.props.autoplay==="autoplay"){
       this.setState({
@@ -40,20 +40,22 @@ export default class VideoPreview extends React.Component {
   }
   
   componentDidUpdate(prevProps) {
-    if (prevProps.file.link !== this.props.file.link) {
-      this.setState({
-        isPlaying: this.props.file.link,
-      })
-      this.refs.video.pause();
-      this.refs.video.play();
-      this.refs.video.load();
+    if(this.props.file!=undefined && prevProps.file!=undefined ){
+      if (prevProps.file.link !== this.props.file.link) {
+        this.setState({
+          isPlaying: this.props.file.link,
+        })
+        this.refs.video.pause();
+        this.refs.video.play();
+        this.refs.video.load();
+      }
     }
   }
 
   render() {
     return(
         <video width="640" height="480"  controls id="video-preview-information" className="file-preview-information" ref="video">
-          <source src={this.props.file.link}></source>
+          <source src={(this.props.file!=undefined)? (this.props.file.link):(undefined)}></source>
           {
             this.state.captions!=''?   
             <track src={this.state.captions} kind="subtitles" srcLang="captions" />

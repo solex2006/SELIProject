@@ -6,6 +6,7 @@ import ResizableContent from './ResizableContent'
 import DiscreteSlider from './DiscreteSlider'
 import DragItem from './DragItem'
 import Divider from '@material-ui/core/Divider';
+
 export default class ImageItem extends React.Component {
   constructor(props) {
     super(props);
@@ -92,24 +93,24 @@ export default class ImageItem extends React.Component {
         </div>
         <div className="image-content-item">
           <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
-
+         {console.log("this.props.item.attributes.image.coordenada",this.props.item.attributes)}
           <ResizableContent
-              key={this.props.item.attributes.image.coordenada}
+              key={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
               top={8}
               minWidth={10}
               minHeight={10}
               left={8}
               width={this.state.width}
               height={this.state.height}
-              rotateAngle={this.props.item.attributes.image.coordenada}
+              rotateAngle={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
               //adjust={this.adjust}
               //coordenada={this.props.coordenada}
              //coordenadaCursos={this.coordenadaCursos}
-            >
+            > 
               <div>
-                  <img  style={{ width: `${this.state.width}px`, height: `${this.state.height}px`}}  src={this.props.item.attributes.image.link}></img>
+                  <img  style={{ width: `${this.state.width}px`, height: `${this.state.height}px`}}  src={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())}></img>
               </div>
-            </ResizableContent>
+            </ResizableContent> 
            {/*  <Resizable
               size={{
                 width: this.props.item.attributes.size.width,
@@ -143,7 +144,7 @@ export default class ImageItem extends React.Component {
             {
               this.props.item.attributes.hasDescription ?
                 <div
-                  id={this.props.item.attributes.image._id+"description"+this.props.item.id}
+                  id={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image._id+"description"+this.props.item.id):(Math.random())}
                   style={{width: this.props.item.attributes.descriptionWidth}}
                   className={
                     this.props.item.attributes.alignment === "row" || this.props.item.attributes.alignment === "row-reverse" ?

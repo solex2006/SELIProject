@@ -12,6 +12,7 @@ import MenuItem from './MenuItem';
 import DragItem from './DragItem'
 import Divider from '@material-ui/core/Divider';
 
+
 export default class AudioItem extends React.Component {
   constructor(props) {
     super(props);
@@ -49,7 +50,12 @@ export default class AudioItem extends React.Component {
               <br/>
               <div className="course-item-audio-card-controls">
                 <audio controls className="storytelling-media-audio">
-                  <source src={this.props.item.attributes.audio.link}></source>
+                  {
+                    this.props.item.attributes.audio===undefined?
+                    undefined
+                    :
+                    <source src={this.props.item.attributes.audio.link}></source> 
+                  }
                 </audio>
                 <IconButton className="course-item-audio-card-icon-button" aria-label="add to favorites">
                   <FolderSpecialIcon className="course-item-audio-card-icon"/>
