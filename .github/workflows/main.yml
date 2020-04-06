@@ -120,8 +120,6 @@ jobs:
           github.event_name == 'issues' && 
           github.event.action == 'labeled' &&
           contains(github.event.issue.labels.*.name, 'bug')
-=======
-
         with:
           project: 'https://github.com/solex2006/SELIProject/projects/7'
           column_name: 'NEEDS TRIAGE'
