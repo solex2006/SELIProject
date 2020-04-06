@@ -114,7 +114,6 @@ jobs:
         with:
           project: 'https://github.com/solex2006/SELIProject/projects/6'
           column_name: 'NEEDS TRIAGE'
-<<<<<<< HEAD
       - name: Assign 'bug' label to 'TRIAGE - Bugs'
         uses: srggrs/assign-one-project-github-action@1.2.0
         if: |
