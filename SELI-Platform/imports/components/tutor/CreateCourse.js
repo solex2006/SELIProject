@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import FormStepper from '../navigation/FormStepper'; '../'
+import CourseAnalysis from '../course/CourseAnalysis';
+import CourseDesign from '../course/CourseDesign';
 import CourseInformation from '../course/CourseInformation';
 import CourseRequirements from '../course/CourseRequirements';
 import CourseCreatorTool from '../course/CourseCreatorTool';
@@ -26,6 +28,8 @@ export default class CreateCourse extends React.Component {
     super(props);
     this.state = {
       courseSteps: [
+        {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
+        {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
         {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
         {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
         {label: this.props.language.program, icon: <SchoolIcon className="step-icon"/>},
@@ -55,6 +59,7 @@ export default class CreateCourse extends React.Component {
       saved: false,
       action: "",
     }
+    this.handlePreview.bind(this)
   }
 
   showControlMessage(){
@@ -86,11 +91,22 @@ export default class CreateCourse extends React.Component {
   loadingData = () => {
     this.setState({
       courseForms: [
+        <CourseAnalysis
+          courseInformation={this.state.courseInformation}
+          handleControlMessage={this.props.handleControlMessage.bind(this)}
+          language={this.props.language}
+        />,
+        <CourseDesign
+          courseInformation={this.state.courseInformation}
+          handleControlMessage={this.props.handleControlMessage.bind(this)}
+          language={this.props.language}
+        />,
         <CourseInformation
           courseInformation={this.state.courseInformation}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
           language={this.props.language}
         />,
+
         <CourseRequirements
           courseInformation={this.state.courseInformation}
           lists={this.state.lists}
@@ -377,6 +393,52 @@ export default class CreateCourse extends React.Component {
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
         >
+          
+          
+          <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+            {this.state.action === "preview" ? this.props.language.coursePreview : this.props.language.publishCourse}
+          </DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+              {this.state.action === "preview" ? this.props.language.ifYouWantCP : this.props.language.ifYouWantPC}
+            </DialogContentText>
+            <InfoIcon className="warning-dialog-icon"/>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+            {this.props.language.cancel}
+            </Button>
+            {
+              this.state.action === "preview" ?
+                <Link className="button-link"
+                  //target="_blank"
+                  onClick={() => this.confirmPreview()} 
+                  to={{
+                    pathname: "/coursePreview",
+                    hash: this.state.saved,
+                    state: { fromDashboard: true },
+                    query: {language: this.props.language}
+                  }}
+                >
+                  <Button color="primary" autoFocus>
+                    {this.props.language.saoPreview}
+                  </Button>
+                </Link>
+              :
+                <Button onClick={() => this.publishCourse()} color="primary" autoFocus>
+                  {this.props.language.ok}
+                </Button>
+            }
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+        >
+          
+          
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">
             {this.state.action === "preview" ? this.props.language.coursePreview : this.props.language.publishCourse}
           </DialogTitle>
