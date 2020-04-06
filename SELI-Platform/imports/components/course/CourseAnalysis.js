@@ -302,20 +302,80 @@ export default class CourseAnalysis extends React.Component {
             width: '95%',
             height:'900px',
             }}>
-            <div style={{ display: 'table-row',height:'60px',border: '1px solid'}}>
-              <div style={{ border: '1px solid',display: 'table-cell',width: '30%',}}>
-                123456789012
+            <div style={{ display: 'table-row',height:'40px',border: '1px solid'}}>
+              <div style={{ border: '1px solid',display: 'table-cell',width: '30%'}}>
+                <div style={{marginLeft: '10px'}}>
+                Teachers:
+                </div>                
               </div>   
               <div style={{ border: '1px solid', display: 'table-cell'}}>
                 Teachers:
               </div>                                  
             </div>
+            <div style={{display: 'table-row',border: '2px solid',}}>
+              Course Title
+            </div>
+            <div style={{display: 'table-row',border: '2px solid'}}>
+              Learning Objective Text
+            </div>
             <div style={{display: 'table-row',border: '1px solid'}}>
               <div style={{ border: '1px solid', display: 'table-cell'}}>
-                Teachers:
+                <div style={{marginTop: '10px'}}>
+                Audience and their characteristics
+                </div>
               </div>
               <div style={{ border: '1px solid', display: 'table-cell'}}>
-                Teachers:
+              teachers of English of all levels and systems, private and public education. 
+              </div>
+            </div>
+            <div style={{display: 'table-row',border: '1px solid'}}>
+              <div style={{ border: '1px solid', display: 'table-cell'}}>
+                <div style={{marginTop: '10px'}}>
+                Expectative behavioral outcomes
+                </div>
+              </div>
+              <div style={{ border: '1px solid', display: 'table-cell'}}>
+              Familiarizing with the SELI perspectives on educational inclusion with digital tools Using DST in your class\es, 
+              </div>
+            </div>
+            <div style={{display: 'table-row',border: '1px solid'}}>
+              <div style={{ border: '1px solid', display: 'table-cell'}}>
+                <div style={{marginTop: '10px'}}>
+                Possible learning constraints
+                </div>
+              </div>
+              <div style={{ border: '1px solid', display: 'table-cell'}}>
+              availability of devices to be used at the moment in the face to face instance. large size of the group in Montevideo diversity of backgrounds and levels of digital literacy
+              </div>
+            </div>
+            <div style={{display: 'table-row',border: '1px solid'}}>
+              <div style={{ border: '1px solid', display: 'table-cell'}}>
+                <div style={{marginTop: '10px'}}>
+                Delivery options
+                </div>
+              </div>
+              <div style={{ border: '1px solid', display: 'table-cell'}}>
+                Audience and their characteristics
+              </div>
+            </div>
+            <div style={{display: 'table-row',border: '1px solid'}}>
+              <div style={{ border: '1px solid', display: 'table-cell'}}>
+                <div style={{marginTop: '10px'}}>
+                Pedagogical considerations
+                </div>
+              </div>
+              <div style={{ border: '1px solid', display: 'table-cell'}}>
+                Audience and their characteristics
+              </div>
+            </div>
+            <div style={{display: 'table-row',border: '1px solid'}}>
+              <div style={{ border: '1px solid', display: 'table-cell'}}>
+                <div style={{marginTop: '10px'}}>
+                Timeline for course completion
+                </div>
+              </div>
+              <div style={{ border: '1px solid', display: 'table-cell'}}>
+                Audience and their characteristics
               </div>
             </div>
           </div>
