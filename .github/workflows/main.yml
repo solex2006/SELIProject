@@ -112,7 +112,7 @@ jobs:
           github.event.action == 'labeled' &&  
           contains(github.event.issue.labels.*.name, ':bulb:Feature Request')
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/3'
+          project: 'https://github.com/solex2006/SELIProject/projects/6'
           column_name: 'NEEDS TRIAGE'
 <<<<<<< HEAD
       - name: Assign 'bug' label to 'TRIAGE - Bugs'
