@@ -67,8 +67,8 @@
 }
 
 .audio-card-storytelling {
-  width: 400px !important;
-  margin: 0.5vh 0.5vw;
+  width: 21vw !important;
+  margin: 0.5vh 0.4vw;
   opacity: 0.9;
   transition: 0.5s !important;
   background-color: #fafafa !important;

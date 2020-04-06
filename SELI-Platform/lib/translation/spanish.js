@@ -884,6 +884,7 @@ var SPANISH = {
   addScript: "Agregar script",
   addAudio: "Agregar audio",
   noAudioUploaded: "Sin audio",
+  gettingCourseInf: "Obteniendo información del curso",
 }
 export default SPANISH
 

@@ -884,5 +884,6 @@ var ENGLISH = {
   addScript: "Add script",
   addAudio: "Add audio",
   noAudioUploaded: "No audio",
+  gettingCourseInf: "Getting course information",
 }
 export default ENGLISH;

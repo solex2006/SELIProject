@@ -20,6 +20,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import { Courses } from '../../lib/CourseCollection';
 
+import english from '../../lib/translation/english';
+import spanish from '../../lib/translation/spanish';
+import portuguese from '../../lib/translation/portuguese';
+import polish from '../../lib/translation/polish';
+import turkish from '../../lib/translation/turkish';
+
 export default class CoursePreview extends React.Component {
   constructor(props) {
     super(props);
@@ -84,7 +90,11 @@ export default class CoursePreview extends React.Component {
     else if (option === 'Spanish (ES)') {
       Session.set({language: spanish});
       language = spanish;
-    } 
+    }
+    else if (option === 'Polish (PL)') {
+      Session.set({language: polish});
+      language = polish;
+    }
     else if (option === 'Turkish (TR)') {
       Session.set({language: turkish});
       language = turkish;
@@ -161,7 +171,7 @@ export default class CoursePreview extends React.Component {
             disableBackdropClick={true}
             disableEscapeKeyDown={true}
           >
-            <DialogTitle className="success-dialog-title" id="alert-dialog-title">Getting course information</DialogTitle>
+            <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.location.query.language.gettingCourseInf}</DialogTitle>
             <DialogContent className="success-dialog-content">
               <Loading message='Loading course...'/>
             </DialogContent>

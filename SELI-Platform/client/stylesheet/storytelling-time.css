@@ -64,8 +64,8 @@
 
 .storytelling-work-area-time { 
   height: calc(100% - 4vh - 40px);
-  padding-left: calc(2vw + 64px);
-  padding-right: 2vw;
+  padding-left: calc(2vw + 124px);
+  padding-right: calc(2vw + 124px);
   padding-top: 2vh; 
   padding-bottom: 2vh;
   background-color: #f5f5f5;
@@ -159,7 +159,7 @@
   height: 128px !important;
   position: absolute;
   bottom: 25px;
-  background-color: #4b814d77 !important;
+  background-color: #00534bef !important;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -188,15 +188,32 @@
   z-index: 10;
 }
 
+.storytelling-script-time {
+  position: relative;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
+  margin-left: 0.5vw;
+  margin-right: 0.5vw;
+  font-size: 0.6em;
+  color: white;
+}
+
 .storytelling-item-scripts-scene-time {
-  min-height: 128px !important;
-  align-items: center;
-  background-color: #77777777 !important;
+  width: 192px !important;
+  min-height: 28px !important;
+  position: absolute;
+  top: 20px;
+  background-color: #17599cef !important;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 6;
+  transform: perspective(225px) rotateY(35deg);
   cursor: pointer;
 }
 
 .storytelling-item-actions-time {
-  margin-top: 0.5vh;
+  margin-top: 5px;
   display: flex;
   position: relative;
 }
@@ -208,10 +225,19 @@
   min-height: 30px !important;
   min-width: 30px !important;
   margin: 0 0.2vw !important;
+  z-index: 8;
 }
 
-.storytelling-item-images-scene-time:hover {
+.storytelling-item-images-scene-time:hover, 
+.storytelling-item-images-scene-time:focus {
   z-index: 7;
+  transform: scale(1.5);
+  transition: 0.5s;
+}
+
+.storytelling-item-scripts-scene-time:hover,
+.storytelling-item-scripts-scene-time:focus-within {
+  z-index: 9;
   transform: scale(1.5);
   transition: 0.5s;
 }
@@ -232,12 +258,21 @@
 }
 
 .storytelling-selected-empty-container-time {
-  background-color: #4b814d77 !important;
+  background-color: #00534bef !important;
   z-index: 5;
   position: absolute;
   width: 2px;
   height: calc(110px);
   top: -10px;
+}
+
+.storytelling-selected-script-container-time {
+  background-color: #17599cef!important;
+  z-index: 5;
+  position: absolute;
+  width: 2px;
+  height: calc(150px);
+  bottom: -10px;
 }
 
 .storytelling-media-preview-container-time {
@@ -257,12 +292,12 @@
 
 .storytelling-image-library-time {
     background-color: #2e3030;
-    width: 304px;
+    width: 21vw;
     height: 171px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    margin: 5px 5px;
+    margin: 0.5vh 0.4vw;
 }
 
 .storytelling-media-image-time {

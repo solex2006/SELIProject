@@ -28,7 +28,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 import StorytellingObject from './StorytellingObject';
-import StorytellingPlayer from './StorytellingPlayer';
+import StorytellingPlayerTime from './StorytellingPlayerTime';
 import { Activities } from '../../../lib/ActivitiesCollection';
 import { Courses } from '../../../lib/CourseCollection';
 import Paper from '@material-ui/core/Paper';
@@ -130,7 +130,7 @@ class StorytellingToolTime extends React.Component {
     }
   }
   
-  filterRepitedFiles=(data)=>{
+  filterRepitedFiles = (data) => {
     let filteredArr = data.reduce((acc, current) => {
       let x = acc.find(item => item.name === current.name);
       if (!x) {
@@ -139,7 +139,7 @@ class StorytellingToolTime extends React.Component {
         return acc;
       }
     }, []);
-    const filteredItems = filteredArr.filter(item => item != "")
+    const filteredItems = filteredArr.filter(item => item !== "")
     return filteredItems //Return filtered values
   }
 
@@ -196,30 +196,30 @@ class StorytellingToolTime extends React.Component {
 
   updateLibraryContent= () =>{ 
     this.setState({
-      dataImages:[],
-      dataAudio:[],
+      dataImages: [],
+      dataAudio: [],
     })
     let dataLibraryContent=Activities.find({}).fetch()
-    
     var dataLibraryContentCopy = dataLibraryContent.filter(function(value, index, arr){
       if (value.activity.user == Meteor.userId()){
         return value
       }
     });
-
-    dataLibraryContentCopy.map((data)=>{
-      if (data.activity.type === "storytelling"){
-        let LibraryContent = data.activity.data
-        LibraryContent.map((data2)=>{
-        let dataImg=data2.image
-        let dataAud=data2.audio 
-        this.state.dataImages.push(dataImg)
-        this.state.dataAudio.push(dataAud)
+    dataLibraryContentCopy.map((data) => {
+      if (data.activity.type === "storytelling" || data.activity.type === "storytelling-time"){
+        data.activity.data.map((data2) => {
+          this.state.dataAudio.push(data2.audio)
+          if (data.activity.type === "storytelling") {
+            this.state.dataImages.push(data2.image)
+          } else {
+            data2.images.map((image) => {
+              this.state.dataImages.push(image.file)
+            })
+          }
         })
       }
     })
   }
-  
 
   handleClose = () => {
     this.setState({ open: false });
@@ -241,20 +241,8 @@ class StorytellingToolTime extends React.Component {
     if (name === 'name') {
       story.nodes[this.state.selectedNode].audio.name = event.target.value;
     }
-    if (name === 'description-english') {
-      story.nodes[this.state.selectedNode].description.english = event.target.value;
-    }
-    if (name === 'description-spanish') {
-      story.nodes[this.state.selectedNode].description.spanish = event.target.value;
-    }
-    if (name === 'description-portuguese') {
-      story.nodes[this.state.selectedNode].description.portuguese = event.target.value;
-    }
-    if (name === 'description-polish') {
-      story.nodes[this.state.selectedNode].description.polish = event.target.value;
-    }
-    if (name === 'description-turkish') {
-      story.nodes[this.state.selectedNode].description.turkish = event.target.value;
+    if (name === 'script') {
+      story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType] = event.target.value;
     }
     if (name === "public") {
       story.isPublic = !story.isPublic;
@@ -308,7 +296,32 @@ class StorytellingToolTime extends React.Component {
   }
 
   addSingleScript = (timestamp) => {
-    
+    let scriptNode = {
+      _id: Math.random(),
+      timestamp: timestamp,
+      script: {
+        english: '',
+        spanish: '',
+        portuguese: '',
+        polish: '',
+        turkish: '',
+      },
+    };
+    let story = this.state.story;
+    let scriptIndex = story.nodes[this.state.selectedNode].scripts.findIndex(item => item.timestamp > timestamp);
+    if (scriptIndex === -1) {
+      story.nodes[this.state.selectedNode].scripts.push(scriptNode);
+    } else {
+      story.nodes[this.state.selectedNode].scripts.splice(scriptIndex, 0, scriptNode);
+    }
+    this.setState({
+      story: story,
+      scriptDisabled: false,
+    }, () => {
+      this.setState({
+        selectedScript: story.nodes[this.state.selectedNode].scripts.findIndex(item => item._id === scriptNode._id),
+      })
+    });
   }
 
   handleNode = (index, action) => {
@@ -332,33 +345,39 @@ class StorytellingToolTime extends React.Component {
     this.handleNode(index);
     let story = this.state.story;
     if (type === "image") {
-      this.setState({
-        selectedImage: childIndex,
-      }, () => {
-        if (action) {
-          if (action === 'delete'){
-            story.nodes[index].images.splice(childIndex, 1);
-            if (childIndex > 0) {
-              this.setState({
-                selectedImage: childIndex-1,
-              })
-            }
-          }
-          if (action === 'edit'){
-            this.openDialog('image')
+      if (action) {
+        if (action === 'delete'){
+          story.nodes[index].images.splice(childIndex, 1);
+          if (childIndex > 0) {
+            this.setState({
+              selectedImage: childIndex - 1,
+              story,
+            })
           }
         }
-      })
+        if (action === 'edit'){
+          this.openDialog('image')
+        }
+      } else {
+        this.setState({
+          selectedImage: childIndex,
+        })
+      }
     } else {
-      this.setState({
-        selectedScript: childIndex,
-      }, () => {
-        
-      })
+      if (action && action === 'delete') {
+        story.nodes[index].scripts.splice(childIndex, 1);
+        if (childIndex > 0) {
+          this.setState({
+            selectedScript: childIndex - 1,
+            story,
+          })
+        }
+      } else {
+        this.setState({
+          selectedScript: childIndex,
+        })
+      }
     }
-    this.setState({
-      story,
-    })
   }
 
   openDialog = (action) => {
@@ -401,10 +420,10 @@ class StorytellingToolTime extends React.Component {
   //This function returns the information of the items of the data base depending on the file type 
   getFileInformation(file){  
     let story = this.state.story;
-    if (this.state.action === "image") {
+    if (this.state.action === "image" || this.state.action === "reuse") {
       story.nodes[this.state.selectedNode].images[this.state.selectedImage].file = file;
     } else {
-      story.nodes[this.state.selectedNode][this.state.action] = file;
+      story.nodes[this.state.selectedNode].audio = file;
     }
     this.setState({
       story: story,
@@ -733,7 +752,7 @@ class StorytellingToolTime extends React.Component {
   moveNodeUp(index) {
     this.changeNodeOrdinal(index, index - 1);
   }
- 
+
   moveNodeDown(index) {
     this.changeNodeOrdinal(index, index + 1);
   }
@@ -762,7 +781,7 @@ class StorytellingToolTime extends React.Component {
 
   selectColor = (language) => {
     if (  this.state.story.nodes[this.state.selectedNode].scripts.length &&
-          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript][language] !== ""){
+          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[language] !== ""){
       return "secondary.main"
     } else {
       return ""
@@ -854,9 +873,10 @@ class StorytellingToolTime extends React.Component {
                           node={node}
                           length={this.state.story.nodes.length}
                           index={index}
-                          /* selectedNode={this.state.selectedNode}
+                          selectedNode={this.state.selectedNode}
                           selectedImage={this.state.selectedImage}
-                          selectedScript={this.state.selectedScript} */
+                          selectedScript={this.state.selectedScript}
+                          languageType={this.state.languageType}
                           addSingleNode={this.addSingleNode.bind(this)}
                           addSingleImage={this.addSingleImage.bind(this)}
                           addSingleScript={this.addSingleScript.bind(this)}
@@ -933,10 +953,10 @@ class StorytellingToolTime extends React.Component {
                       disabled={this.state.scriptDisabled}
                       value={
                         this.state.story.nodes[this.state.selectedNode].scripts.length ?
-                          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript][this.state.languageType]
+                          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType]
                         : undefined}
-                      onChange={this.handleChange(`description-${this.state.languageType}`)}
-                      error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                      onChange={this.handleChange("script")}
+                      error={this.state.showError && this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script === ''}
                       helperText={this.props.language.sceneDescriptionHelper}
                     />
                   </div>
@@ -972,7 +992,7 @@ class StorytellingToolTime extends React.Component {
             </div>
           :
             <React.Fragment>
-              <StorytellingPlayer
+              <StorytellingPlayerTime
                 story={this.state.story}
                 comments={false}
                 link={false}
@@ -1093,7 +1113,6 @@ class StorytellingToolTime extends React.Component {
             :
               undefined
           }   
-          
           { 
             this.state.action === "reuse" || this.state.action === "reuseAudio" || this.state.action === "image" || this.state.action === "audio" ?
               <React.Fragment>

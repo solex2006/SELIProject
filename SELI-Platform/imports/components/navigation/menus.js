@@ -58,7 +58,7 @@ export default function SimpleMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-         <MenuItem
+          <MenuItem
             className="language-selector-menu-item"
             key='English (US)'
             selected={0 === selectedIndex}

@@ -83,7 +83,7 @@ export default class StorytellingObject extends React.Component {
                         className="storytelling-selected-empty-container-time"
                         style={{left: `calc(${this.getPosition(image.timestamp)}% - 2px)`}}
                       ></Paper>
-                      <ContextMenu className="right-click-menu" hideOnLeave={true} id={`i${this.props.index}${imageIndex}`}>
+                      <ContextMenu className="right-click-menu" id={`i${this.props.index}${imageIndex}`}>
                         <Paper elevation={8}>
                           <List className="navigation-options-list" dense={true} component="nav" aria-label="navigation-options">
                             <ListItem onClick={() => this.props.handleContent(this.props.index, imageIndex, 'image', 'edit')} button>
@@ -135,7 +135,7 @@ export default class StorytellingObject extends React.Component {
             }
           </Paper>
         </ContextMenuTrigger>
-        <ContextMenu className="right-click-menu" hideOnLeave={true} id={`a${this.props.index}`}>
+        <ContextMenu className="right-click-menu" id={`a${this.props.index}`}>
           <Paper elevation={8}>
             <List className="navigation-options-list" dense={true} component="nav" aria-label="navigation-options">
               <ListItem onClick={() => this.props.handleNode(this.props.index, 'edit')} button>
@@ -242,6 +242,51 @@ export default class StorytellingObject extends React.Component {
             </Fab>
           </Tooltip>
         </div>
+        {
+          this.props.node.scripts.length ?
+            <div className="storytelling-item-actions-time">
+              {
+                this.props.node.scripts.map((script, scriptIndex) => {
+                  return(
+                    <React.Fragment>
+                      <Paper
+                        tabIndex="0"
+                        elevation={8}
+                        className="storytelling-selected-script-container-time"
+                        style={{left: `calc(${this.getPosition(script.timestamp)}% - 2px)`}}
+                      ></Paper>
+                      <ContextMenuTrigger id={`s${this.props.index}${scriptIndex}`}>
+                        <Paper
+                          tabIndex="0"
+                          elevation={8}
+                          className="storytelling-item-scripts-scene-time"
+                          onClick={() => this.props.handleContent(this.props.index, scriptIndex, 'script')}
+                          onKeyDown={() => this.props.handleContent(this.props.index, scriptIndex, 'script')}
+                          style={{left: `calc(${this.getPosition(script.timestamp)}% - 96px)`}}
+                        >
+                          <p className="storytelling-script-time">{script.script[this.props.languageType]}</p>
+                        </Paper>
+                      </ContextMenuTrigger>
+                      <ContextMenu className="right-click-menu" id={`s${this.props.index}${scriptIndex}`}>
+                        <Paper elevation={8}>
+                          <List className="navigation-options-list" dense={true} component="nav" aria-label="navigation-options">
+                            <ListItem onClick={() => this.props.handleContent(this.props.index, scriptIndex, 'script', 'delete')} button>
+                              <ListItemIcon>
+                                <CancelIcon />
+                              </ListItemIcon>
+                              <ListItemText primary={this.props.language.delete} />
+                            </ListItem>
+                          </List>
+                        </Paper>
+                      </ContextMenu>
+                    </React.Fragment>
+                  )
+                })
+              }
+            </div>
+          :
+            undefined
+        }
       </div>
     )
   }

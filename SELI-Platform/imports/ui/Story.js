@@ -21,6 +21,7 @@ import { Comments } from '../../lib/CommentsCollection';
 import english from '../../lib/translation/english';
 import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
+import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
 
 export default class Story extends React.Component {
@@ -28,6 +29,7 @@ export default class Story extends React.Component {
     super(props);
     this.state = {
       story: undefined,
+      type: "",
     }
   }
 
@@ -47,6 +49,7 @@ export default class Story extends React.Component {
           story.nodes = story.activity.data;
           this.setState({
             story: story,
+            type: story.activity.type,
             loadingStory: false,
           });
         }
@@ -118,7 +121,11 @@ export default class Story extends React.Component {
     else if (option === 'Spanish (ES)') {
       Session.set({language: spanish});
       language = spanish;
-    } 
+    }
+    else if (option === 'Polish (PL)') {
+      Session.set({language: polish});
+      language = polish;
+    }
     else if (option === 'Turkish (TR)') {
       Session.set({language: turkish});
       language = turkish;
@@ -130,7 +137,6 @@ export default class Story extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return(
       <div>
         <MuiThemeProvider theme={theme}>
@@ -151,14 +157,23 @@ export default class Story extends React.Component {
                                 {this.state.language.seliStories}
                               </Typography>
                             </Toolbar>
-                          </AppBar>
-                          <StorytellingPlayer
-                            story={this.state.story}
-                            comments={true}
-                            link={true}
-                            showCommentDialog={this.showCommentDialog.bind(this)}
-                            language={this.state.language}
-                          />
+                          </AppBar>             
+                          {
+                            this.state.type === "storytelling" ?
+                              <StorytellingPlayer
+                                story={this.state.story}
+                                comments={false}
+                                link={false}
+                                language={this.props.language}
+                              />
+                            :
+                              <StorytellingPlayerTime
+                                story={this.state.story}
+                                comments={false}
+                                link={false}
+                                language={this.props.language}
+                              />
+                          }
                         </div>
                       }
                     </React.Fragment>
