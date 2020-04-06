@@ -83,7 +83,7 @@ jobs:
 #         uses: peter-evans/create-or-update-comment@v1
 #         if: |
 #           github.event_name == 'project_card' && 
-#           github.event.project_card.project_url == 'https://github.com/solex2006/SELIProject/projects/6' &&
+#           github.event.project_card.project_url == 'https://github.com/ecureuill/SELIProject/projects/6' &&
 #           github.event.project_card.column_id == 8389382
 #         with:
 #           token: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +96,7 @@ jobs:
 #         uses: peter-evans/create-or-update-comment@v1
 #         if: |
 #           github.event_name == 'project_card' && 
-#           github.event.project_card.project_url == 'https://github.com/solex2006/SELIProject/projects/6' &&
+#           github.event.project_card.project_url == 'https://github.com/ecureuill/SELIProject/projects/6' &&
 #           github.event.project_card.column_id == 8389386
 #         with:
 #           token: ${{ secrets.GITHUB_TOKEN }}
@@ -114,14 +114,14 @@ jobs:
         with:
           project: 'https://github.com/solex2006/SELIProject/projects/6'
           column_name: 'NEEDS TRIAGE'
-      - name: Assign 'BUG', 'ISSUE',' BUG ON NEXT RELEASE' label to 'TRIAGE - Bugs'
+      - name: Assign 'bug' label to 'TRIAGE - Bugs'
         uses: srggrs/assign-one-project-github-action@1.2.0
         if: |
           github.event_name == 'issues' && 
-          github.event.action == 'labeled' &&  (
-          contains(github.event.issue.labels.*.name, ':bug:bug') ||
-          contains(github.event.issue.labels.*.name, ':beetle:bug-next') ||
-          contains(github.event.issue.labels.*.name, ':ant:issue'))
+          github.event.action == 'labeled' &&
+          contains(github.event.issue.labels.*.name, 'bug')
+=======
+
         with:
           project: 'https://github.com/solex2006/SELIProject/projects/7'
           column_name: 'NEEDS TRIAGE'
