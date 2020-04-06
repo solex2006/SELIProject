@@ -122,12 +122,8 @@ jobs:
           contains(github.event.issue.labels.*.name, 'bug')
 =======
 
-          contains(github.event.issue.labels.*.name, 'bug') ||
-          contains(github.event.issue.labels.*.name, 'bug on next release') ||
-          contains(github.event.issue.labels.*.name, 'issues'))
->>>>>>> 8e62ccf86425a1d6ee9ce8920222483800ab848e
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/1'
+          project: 'https://github.com/solex2006/SELIProject/projects/7'
           column_name: 'NEEDS TRIAGE'
         
       - name: Assign '1 - PLANNING' label to 'FEATURE SPECIFICATION'
@@ -138,7 +134,7 @@ jobs:
           contains(github.event.issue.labels.*.name, '1 - Planning') ||
           contains(github.event.issue.labels.*.name, 'need specification'))
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/4'
+          project: 'https://github.com/solex2006/SELIProject/projects/8'
           column_name: 'PENDING FEATURE REQUEST'
 
       - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE'
@@ -148,7 +144,7 @@ jobs:
           github.event.action == 'labeled' &&  
           contains(github.event.issue.labels.*.name, '2 - Ready')
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/2'
+          project: 'https://github.com/solex2006/SELIProject/projects/9'
           column_name: 'TO-DO'
 
       - name: Assign 'need tester' label to 'FUNCTIONALITY TEST CYCLE'
@@ -158,7 +154,7 @@ jobs:
           github.event.action == 'labeled' &&  
           contains(github.event.issue.labels.*.name, 'need tester')
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/6'
+          project: 'https://github.com/solex2006/SELIProject/projects/10'
           column_name: 'TO-DO'
 
       - name: Assign 'Pull Request' to 'PULL REQUEST CYCLE'
@@ -167,5 +163,5 @@ jobs:
           github.event_name == 'pull_request' &&
           github.event.action == 'opened'
         with:
-          project: 'https://github.com/ecureuill/SELIProject/projects/7'
-          column_name: 'In progress'
+          project: 'https://github.com/solex2006/SELIProject/projects/11'
+          column_name: 'Review in progress'
