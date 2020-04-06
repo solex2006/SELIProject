@@ -110,7 +110,7 @@ jobs:
         if: |
           github.event_name == 'issues' && 
           github.event.action == 'labeled' &&  
-          contains(github.event.issue.labels.*.name, 'Feature Request')
+          contains(github.event.issue.labels.*.name, ':bulb:Feature Request')
         with:
           project: 'https://github.com/ecureuill/SELIProject/projects/3'
           column_name: 'NEEDS TRIAGE'
