@@ -4,9 +4,9 @@ name: main
 # events but only for the master branch
 on:
   issues:
-    types: [edited, labeled, unlabeled]
+    types: [opened, labeled, unlabeled]
   pull_request:
-    types: [opened]
+    types: [opened, labeled, unlabeled]
   project_card:
     types: [moved]
 env:
@@ -105,12 +105,13 @@ jobs:
 #             :large_blue_circle: @${{ github.event.issue.assignee.login }} your solution passed Functional Test
 # #           reaction-type: '+1'
 
+
       - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
         uses: srggrs/assign-one-project-github-action@1.2.0
         if: |
           github.event_name == 'issues' && 
           github.event.action == 'labeled' &&  
-          contains(github.event.issue.labels.*.name, ':bulb:Feature Request')
+          contains(github.event.issue.labels.*.name, 'Feature Request :bulb:')
         with:
           project: 'https://github.com/solex2006/SELIProject/projects/6'
           column_name: 'NEEDS TRIAGE'
@@ -119,7 +120,7 @@ jobs:
         if: |
           github.event_name == 'issues' && 
           github.event.action == 'labeled' &&
-          contains(github.event.issue.labels.*.name, 'bug')
+          contains(github.event.issue.labels.*.name, ':bug:bug')
         with:
           project: 'https://github.com/solex2006/SELIProject/projects/7'
           column_name: 'NEEDS TRIAGE'
@@ -162,4 +163,4 @@ jobs:
           github.event.action == 'opened'
         with:
           project: 'https://github.com/solex2006/SELIProject/projects/11'
-          column_name: 'Review in progress'
+          column_name: 'TO-DO'
