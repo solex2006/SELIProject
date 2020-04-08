@@ -293,6 +293,7 @@ var TURKISH = {
   extension: "Uzantı",
   play: "Oynat",
   pause: "Duraklat",
+  stop: "Dur",
   errorDeleting: "Dosya silinirken bir hata oluştu, daha sonra tekrar deneyin",
   fileDeletedS: "Dosya başarıyla silindi",
   courseWillDisabilities: "Bu ders aşağıdaki engelleri destekleyecektir:",
@@ -764,7 +765,7 @@ var TURKISH = {
   storyMustHave: 'Hikayenizde mutlaka başlangıç, 1 sahne, bitiş olmalı.',
   allScenesMust: 'Hikayenin tüm sahnelerinin bir adı olmalı',
   allScenesAudio: 'Hikayenin tüm sahnelerinde ses kaydı olmalı',
-  allScenesAudio: 'Hikayenin tüm sahnelerinde bir resim olmalı',
+  allScenesImage: 'Hikayenin tüm sahnelerinde bir resim olmalı',
   storyMustEnd: 'Hikayenizin bir sonu olmalı',
   storySaved: 'Hikaye başarıyla kaydedildi ',
   storyPublished: 'Hikaye başarıyla yayınlandı',
@@ -885,5 +886,7 @@ var TURKISH = {
   addAudio: "Add audio",
   noAudioUploaded: "No audio",
   gettingCourseInf: "Getting course information",
+  zoomIn: "Zoom in",
+  zoomOut: "Zoom out",
 }
 export default TURKISH;

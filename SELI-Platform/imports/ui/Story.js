@@ -7,8 +7,6 @@ import theme from '../style/theme';
 import Loading from '../components/tools/Loading';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 import CommentDialog from '../components/student/comments/CommentDialog';
-
-
 import StorytellingPlayer from '../components/storytelling/StorytellingPlayer';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -164,14 +162,14 @@ export default class Story extends React.Component {
                                 story={this.state.story}
                                 comments={false}
                                 link={false}
-                                language={this.props.language}
+                                language={this.state.language}
                               />
                             :
                               <StorytellingPlayerTime
                                 story={this.state.story}
                                 comments={false}
                                 link={false}
-                                language={this.props.language}
+                                language={this.state.language}
                               />
                           }
                         </div>

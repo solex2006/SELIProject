@@ -293,6 +293,7 @@ var ENGLISH = {
   extension: "Extension",
   play: "Play",
   pause: "Pause",
+  stop: "Stop",
   errorDeleting: "There was an error deleting the file, try again later",
   fileDeletedS: "File deleted sucessfully",
   courseWillDisabilities: "This course will support the following special requirements:",
@@ -764,7 +765,7 @@ var ENGLISH = {
   storyMustHave: 'Your story must have: start, 1 scene, end',
   allScenesMust: 'All the scenes of the story must have a name',
   allScenesAudio: 'All the scenes of the story must have an audio record',
-  allScenesAudio: 'All the scenes of the story must have an image',
+  allScenesImage: 'All the scenes of the story must have an image',
   storyMustEnd: 'Your story must have an end',
   storySaved: 'Story saved successfully',
   storyPublished: 'Story published successfully',
@@ -885,5 +886,7 @@ var ENGLISH = {
   addAudio: "Add audio",
   noAudioUploaded: "No audio",
   gettingCourseInf: "Getting course information",
+  zoomIn: "Zoom in",
+  zoomOut: "Zoom out",
 }
 export default ENGLISH;

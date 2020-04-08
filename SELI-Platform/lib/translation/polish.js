@@ -293,6 +293,7 @@
   extension: "Rozszerzenie",
   play: "Uruchom",
   pause: "Pauza",
+  stop: "Przestań",
   errorDeleting: "Wystąpił błąd podczas usuwania pliku, spróbuj ponownie później.",
   fileDeletedS: "Plik usunięto z sukcesem",
   courseWillDisabilities: "Kurs wspomaga następujące niepełnosprawności",
@@ -764,7 +765,7 @@
   storyMustHave: 'Twoja historia musi mieć: początek, 1 scenę, koniec',
   allScenesMust: 'Wszystkie sceny tej historii muszą mieć nazwę',
   allScenesAudio: 'Wszystkie sceny tej historii muszą mieć nagranie audio',
-  allScenesAudio: 'Wszystkie sceny tej historii muszą mieć obraz',
+  allScenesImage: 'Wszystkie sceny tej historii muszą mieć obraz',
   storyMustEnd: 'Twoja historia musi mieć swój koniec',
   storySaved: 'Historia zapisana pomyślnie',
   storyPublished: 'Historia opublikowana z powodzeniem',
@@ -885,5 +886,7 @@
   addAudio: "Add audio",
   noAudioUploaded: "No audio",
   gettingCourseInf: "Getting course information",
+  zoomIn: "Zoom in",
+  zoomOut: "Zoom out",
 }
 export default POLISH;

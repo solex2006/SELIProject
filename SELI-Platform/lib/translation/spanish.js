@@ -293,6 +293,7 @@ var SPANISH = {
   extension: "Extensión",
   play: "Reproducir",
   pause: "Pausar",
+  stop: "Parar",
   errorDeleting: "Se produjo un error al eliminar el archivo, intente nuevamente más tarde",
   fileDeletedS: "Archivo eliminado con éxito",
   courseWillDisabilities: "Este curso admitirá los siguientes requerimientos especiales:",
@@ -764,7 +765,7 @@ var SPANISH = {
   storyMustHave: "Tu historia debe tener: inicio, 1 escena, final",
   allScenesMust: "Todas las escenas de la historia deben tener un nombre.",
   allScenesAudio: "Todas las escenas de la historia deben tener un registro de audio.",
-  allScenesAudio: "Todas las escenas de la historia deben tener una imagen.",
+  allScenesImage: "Todas las escenas de la historia deben tener una imagen.",
   storyMustEnd: "Tu historia debe tener un final",
   storySaved: "Historia guardada con éxito",
   storyPublished: "Historia publicada con éxito",
@@ -885,6 +886,8 @@ var SPANISH = {
   addAudio: "Agregar audio",
   noAudioUploaded: "Sin audio",
   gettingCourseInf: "Obteniendo información del curso",
+  zoomIn: "Acercar",
+  zoomOut: "Alejar",
 }
 export default SPANISH
 

@@ -137,10 +137,16 @@
   font-size: 1.25em;
 }
 
-.storytelling-delete-button-time {
+.storytelling-actions-button-time {
   position: absolute !important;
-  left: calc(100vw - 581.75px)!important;
-  bottom: 5vh !important;
+  left: 2vw !important;
+  bottom: calc(var(--actions-height) + 2vh) !important;
+  display: flex;
+  z-index: 12;
+}
+
+.storytelling-action-button-time {
+  margin-right: 0.5vw !important;
   animation: zoomIn 1s;
 }
 
@@ -184,7 +190,6 @@
 }
 
 .storytelling-wave {
-  width: auto;
   z-index: 10;
 }
 

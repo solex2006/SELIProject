@@ -25,6 +25,7 @@ export default class StorytellingObject extends React.Component {
     super(props);
     this.state = {
       audioDuration: 0,
+      parentZoom: 0,
     }
   }
 
@@ -34,6 +35,12 @@ export default class StorytellingObject extends React.Component {
   getSingleDuration = (audioDuration) => {
     this.setState({
       audioDuration,
+    })
+  }
+
+  setZoom = (zoom) => {
+    this.setState({
+      parentZoom: zoom,
     })
   }
 
@@ -52,6 +59,26 @@ export default class StorytellingObject extends React.Component {
     } else {
       this.props.addSingleScript(time);
     }
+  }
+
+  play = () => {
+    this.refs.wave.play();
+  }
+
+  pause = () => {
+    this.refs.wave.pause();
+  }
+
+  stop = () => {
+    this.refs.wave.stop();
+  }
+
+  zoomIn = () => {
+    this.refs.wave.zoomIn();
+  }
+
+  zoomOut = () => {
+    this.refs.wave.zoomOut();
   }
 
   render() {
@@ -109,12 +136,6 @@ export default class StorytellingObject extends React.Component {
           :
             undefined
         }
-        {/* <p
-          className="storytelling-item-name-time"
-          onClick={() => this.props.handleNode(this.props.index)}
-        >
-          {`${this.props.node.audio !== "" ? this.props.node.audio.name : this.props.language.noAudioUploaded}`}
-        </p> */}
         <ContextMenuTrigger id={`a${this.props.index}`}>
           <Paper
             tabIndex="0"
@@ -125,10 +146,12 @@ export default class StorytellingObject extends React.Component {
           >
             {
               this.props.node.audio === "" ? undefined :
-                <div className="storytelling-wave">
+                <div className="storytelling-wave" style={{width: `${this.state.audioDuration * this.state.parentZoom}px`}}>
                   <Waveform 
                     ref="wave"
-                    src={this.props.node.audio.link} 
+                    src={this.props.node.audio.link}
+                    sendAction={this.props.sendAction.bind(this)}
+                    setZoom={this.setZoom.bind(this)}
                     getSingleDuration={this.getSingleDuration.bind(this)}
                   />
                 </div>

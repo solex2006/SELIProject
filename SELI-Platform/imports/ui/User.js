@@ -712,7 +712,6 @@ export default class User extends React.Component {
                         pathname: "/coursePreview",
                         hash: this.state.course,
                         state: { fromDashboard: true },
-                        query: {language: this.state.language}
                       }}
                     >
                       <Button color="primary" autoFocus>

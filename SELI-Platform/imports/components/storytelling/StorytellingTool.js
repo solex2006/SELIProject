@@ -412,7 +412,7 @@ class StorytellingTool extends React.Component {
     });
   }
 
-  validateStory = () => {
+  validateStory = (publish) => {
     let story = this.state.story;
     if (story.nodes.length < 3) {
       this.props.handleControlMessage(true, this.props.language.storyMustHave);
@@ -427,15 +427,15 @@ class StorytellingTool extends React.Component {
         });
         return false;
       }
-      if (story.nodes[i].audio === undefined) {
-        this.props.handleControlMessage(true, this.props.allScenesAudio);
+      if (story.nodes[i].audio === "" && i + 1 < story.nodes.length && publish) {
+        this.props.handleControlMessage(true, this.props.language.allScenesAudio);
         this.setState({
           selectedNode: i,
         });
         return false;
       }
-      if (story.nodes[i].image === undefined) {
-        this.props.handleControlMessage(true, this.props.allScenesImage);
+      if (story.nodes[i].image === "" && publish) {
+        this.props.handleControlMessage(true, this.props.language.allScenesImage);
         this.setState({
           selectedNode: i,
         });
@@ -512,7 +512,7 @@ class StorytellingTool extends React.Component {
   }
 
   handlePublishStory = () => {
-    if (this.validateStory()) {
+    if (this.validateStory("publish")) {
       this.openDialog("publish");
     }
   }

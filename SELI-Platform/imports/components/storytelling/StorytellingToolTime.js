@@ -47,8 +47,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import ImageIcon from '@material-ui/icons/Image';
-import AudiotrackIcon from '@material-ui/icons/Audiotrack';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
+import StopIcon from '@material-ui/icons/Stop';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 
 import { 
   FacebookShareButton, FacebookIcon,
@@ -83,6 +88,7 @@ class StorytellingToolTime extends React.Component {
   
   constructor(props) {
     super(props);
+    this.waveObjects = [];
     this.state = {
       story: {
         name: "",
@@ -102,6 +108,7 @@ class StorytellingToolTime extends React.Component {
         ],
         isPublic: true,
       },
+      playing: false,
       saved: undefined,
       selectedNode: 0,
       selectedImage: 0,
@@ -441,15 +448,8 @@ class StorytellingToolTime extends React.Component {
   validateStory = () => {
     let story = this.state.story;
     for (var i = 0; i < story.nodes.length; i++) {
-      if (story.nodes[i].audio === undefined) {
-        this.props.handleControlMessage(true, this.props.allScenesAudio);
-        this.setState({
-          selectedNode: i,
-        });
-        return false;
-      }
-      if (story.nodes[i].images.length === 0) {
-        this.props.handleControlMessage(true, this.props.allScenesImage);
+      if (story.nodes[i].audio === "") {
+        this.props.handleControlMessage(true, this.props.language.allScenesAudio);
         this.setState({
           selectedNode: i,
         });
@@ -842,6 +842,63 @@ class StorytellingToolTime extends React.Component {
     this.handleCloseRename();
   }
 
+  manageScenes = (index, step) => {
+    if (this.state.playing) {
+      this.waveObjects[index].stop();
+      this.waveObjects[index + step].play();
+    }
+    this.setState({
+      selectedNode: index + step,
+    })
+  }
+
+  sendAction = (action) => {
+    if (action === "playPause") {
+      if (!this.state.playing) {
+        this.waveObjects[this.state.selectedNode].play();
+      } else {
+        this.waveObjects[this.state.selectedNode].pause();
+      }
+      this.setState({
+        playing: !this.state.playing,
+      })
+    } else if (action === "stop") {
+      for (let i = 0; i < this.state.story.nodes.length; i++) {
+        this.waveObjects[i].stop();
+      }
+      this.setState({
+        selectedNode: 0,
+        playing: false,
+      })
+    } else if (action === "previous") {
+      if (this.state.selectedNode > 0) {
+        this.manageScenes(this.state.selectedNode, -1);
+      } else {
+        if (this.state.playing) {
+          this.waveObjects[0].stop();
+          this.waveObjects[0].play();
+        }
+      }
+    }
+    else if (action === "next") {
+      if (this.state.selectedNode + 1 < this.state.story.nodes.length) {
+        this.manageScenes(this.state.selectedNode, 1);
+      } else {
+        this.sendAction("stop");
+      }
+    }
+    else if (action === "zoomIn") {
+      for (let i = 0; i < this.state.story.nodes.length; i++) {
+        this.waveObjects[i].zoomIn();
+      }
+    }
+    else if (action === "zoomOut") {
+      for (let i = 0; i < this.state.story.nodes.length; i++) {
+        this.waveObjects[i].zoomOut();
+      }
+    }
+  }
+
   render() {
     const { classes } = this.props;
     return(
@@ -853,7 +910,7 @@ class StorytellingToolTime extends React.Component {
                 <div className="storytelling-title-area-time">
                   <h2 className="storytelling-work-area-title-time">{this.props.language.storyFlow}</h2>
                   {
-                    this.state.story.nodes.length >= 2 ?
+                    this.state.saved ?
                       <Button
                         color="primary"
                         className="storytelling-work-preview-button-time"
@@ -870,13 +927,12 @@ class StorytellingToolTime extends React.Component {
                     this.state.story.nodes.map((node, index) => {
                       return(
                         <StorytellingObject
+                          ref={(ref) => this.waveObjects[index] = ref}
                           node={node}
-                          length={this.state.story.nodes.length}
                           index={index}
-                          selectedNode={this.state.selectedNode}
-                          selectedImage={this.state.selectedImage}
-                          selectedScript={this.state.selectedScript}
+                          length={this.state.story.nodes.length}
                           languageType={this.state.languageType}
+                          sendAction={this.sendAction.bind(this)}
                           addSingleNode={this.addSingleNode.bind(this)}
                           addSingleImage={this.addSingleImage.bind(this)}
                           addSingleScript={this.addSingleScript.bind(this)}
@@ -891,6 +947,59 @@ class StorytellingToolTime extends React.Component {
                   }
                 </div>
               </div>
+              {
+                this.state.story.nodes[this.state.selectedNode].audio === "" ? undefined :
+                  <div className="storytelling-actions-button-time">
+                    <Tooltip title={this.state.playing ? this.props.language.pause : this.props.language.play}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('playPause')}
+                      >
+                        {this.state.playing ? <PauseIcon /> : <PlayArrowIcon />}
+                      </Fab>
+                    </Tooltip>
+                    <Tooltip title={this.props.language.stop}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('stop')}
+                      >
+                        <StopIcon />
+                      </Fab>
+                    </Tooltip>
+                    <Tooltip title={this.props.language.back}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('previous')}
+                      >
+                        <SkipPreviousIcon />
+                      </Fab>
+                    </Tooltip>
+                    <Tooltip title={this.props.language.next}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('next')}
+                      >
+                        <SkipNextIcon />
+                      </Fab>
+                    </Tooltip>
+                    <Tooltip title={this.props.language.zoomIn}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('zoomIn')}
+                      >
+                        <ZoomInIcon />
+                      </Fab>
+                    </Tooltip>
+                    <Tooltip title={this.props.language.zoomOut}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('zoomOut')}
+                      >
+                        <ZoomOutIcon />
+                      </Fab>
+                    </Tooltip>
+                  </div>
+              }
               <div className="storytelling-menu-container-time">
                 <div className="storytelling-menu-body-full-time">
                   <TextField

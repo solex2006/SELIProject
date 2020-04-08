@@ -8,16 +8,15 @@ import CourseMenu from '../components/student/CourseMenu';
 import CoursePresentation from '../components/student/CoursePresentation';
 import CourseContent from '../components/student/CourseContent';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import { Courses } from '../../lib/CourseCollection';
 
 import english from '../../lib/translation/english';
@@ -36,14 +35,16 @@ export default class CoursePreview extends React.Component {
   }
 
   componentDidMount() {
+    Session.set({language: Session.get('language') ? Session.get('language') : english});
+    this.setState({
+      language: Session.get('language') ? Session.get('language') : english,
+    });
     this.setState({
       loadingCourse: true,
     }, () => {
       let _id = this.props.location.hash.substr(1);
       Tracker.autorun(() => {
         let course = Courses.find({_id: _id}).fetch();
-        
-        console.log("TOMA LOS CURSOS", course )
         course.length ?
         this.setState({
           course: course[0],
@@ -102,6 +103,7 @@ export default class CoursePreview extends React.Component {
     this.setState({
       language: language,
     });
+    Meteor.call("ChangeLanguague", Meteor.userId(), option, (error, response) =>  {});
   }
 
   showComponent = (component) => {
@@ -138,44 +140,60 @@ export default class CoursePreview extends React.Component {
     return(
       <div>
         <MuiThemeProvider theme={theme}>
-          <div id="outer-container">
-            <main id="page-wrap">
-              <div className="no-app-bar-container">
-                {
-                  this.state.course === undefined ?
-                    undefined
-                  :
-                  <CoursePresentation
-                    course={this.state.course}
-                    navigateTo={this.navigateTo.bind(this)}
-                    selected={this.state.selected}
-                    language={this.props.location.query.language}
-                  />
-                }
-              </div>
-            </main>
-          </div>
-          <ControlSnackbar
-            showControlMessage={this.state.showControlMessage}
-            showControlAction={this.state.showControlAction}
-            controlMessage={this.state.controlMessage}
-            controlAction={this.state.controlAction}
-            controlActionMessage={this.state.controlActionMessage}
-            handleControlMessage={this.handleControlMessage.bind(this)}
-          />
-          <Dialog
-            open={this.state.loadingCourse}
-            onClose={this.handleClose}
-            aria-labelledby="alert-dialog-confirmation"
-            aria-describedby="alert-dialog-confirmation"
-            disableBackdropClick={true}
-            disableEscapeKeyDown={true}
-          >
-            <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.location.query.language.gettingCourseInf}</DialogTitle>
-            <DialogContent className="success-dialog-content">
-              <Loading message='Loading course...'/>
-            </DialogContent>
-          </Dialog>
+          {  
+            this.state.language && Session.get('language') ?  
+              <React.Fragment>  
+                <div id="outer-container">
+                  <main id="page-wrap">
+                    <React.Fragment>
+                      {
+                        this.state.course === undefined ?
+                          undefined
+                        :
+                          <div>
+                            <AppBar position="static" className="course-dialog-app-bar">
+                              <Toolbar style={{position: 'relative'}}>
+                                <Typography className="course-dialog-title" variant="h6">
+                                  {this.state.language.coursePreview}
+                                </Typography>
+                              </Toolbar>
+                            </AppBar> 
+                            <CoursePresentation
+                              course={this.state.course}
+                              navigateTo={this.navigateTo.bind(this)}
+                              selected={this.state.selected}
+                              language={this.state.language}
+                            />
+                          </div>
+                      }
+                    </React.Fragment>
+                  </main>
+                </div>
+                <ControlSnackbar
+                  showControlMessage={this.state.showControlMessage}
+                  showControlAction={this.state.showControlAction}
+                  controlMessage={this.state.controlMessage}
+                  controlAction={this.state.controlAction}
+                  controlActionMessage={this.state.controlActionMessage}
+                  handleControlMessage={this.handleControlMessage.bind(this)}
+                />
+                <Dialog
+                  open={this.state.loadingCourse}
+                  onClose={this.handleClose}
+                  aria-labelledby="alert-dialog-confirmation"
+                  aria-describedby="alert-dialog-confirmation"
+                  disableBackdropClick={true}
+                  disableEscapeKeyDown={true}
+                >
+                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.gettingCourseInf}</DialogTitle>
+                  <DialogContent className="success-dialog-content">
+                    <Loading message='Loading course...'/>
+                  </DialogContent>
+                </Dialog>
+              </React.Fragment>
+            :
+              undefined
+          }
         </MuiThemeProvider>
       </div>
     )

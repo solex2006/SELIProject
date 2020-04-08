@@ -118,7 +118,7 @@ export default class CourseSubscription extends React.Component {
                     {this.props.language.unsubscribe}
                   </Button>
                   {
-                    this.props.progress === 0 ?
+                    this.props.progress <= 0 ?
                       <Button
                         tabIndex="1"
                         onClick={() => this.props.handleClickCourse(this.props.course._id)}
@@ -148,7 +148,7 @@ export default class CourseSubscription extends React.Component {
                     undefined
                   }
                   {
-                    this.props.progress === 100 ?
+                    this.props.progress >= 100 ?
                       <Button
                         tabIndex="1"
                         onClick={() => this.props.handleClickCourse(this.props.course._id)}

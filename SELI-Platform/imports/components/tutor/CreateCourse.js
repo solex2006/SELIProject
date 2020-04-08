@@ -399,7 +399,6 @@ export default class CreateCourse extends React.Component {
                     pathname: "/coursePreview",
                     hash: this.state.saved,
                     state: { fromDashboard: true },
-                    query: {language: this.props.language}
                   }}
                 >
                   <Button color="primary" autoFocus>
