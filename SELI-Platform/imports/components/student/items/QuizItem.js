@@ -153,6 +153,7 @@ export default class QuizItem extends React.Component {
               onChange={this.handleChange('activity-panel')}
               className="item-quiz-panel"
             >
+              
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1c-content"

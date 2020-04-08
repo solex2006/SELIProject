@@ -158,19 +158,17 @@ export default class QuizForm extends React.Component {
     else if(name==='numberofAnswers'){
       
       let questions=this.state.attributes.questions;
-      //console.log("event-->", event, "this.state.numberofAnswers-->",this.state.numberofAnswers, "length", index)
-       
+      
       if(event>index){
-          ///questions.map((value, index)=>{
+       
             questions[this.state.questionSelected].answersText.push('');
             questions[this.state.questionSelected].correctAnswers.push(false);
-           //})
+ 
         }
       else if (event<index){
-        //questions.map((value, index)=>{
+
           questions[this.state.questionSelected].answersText.pop();
-          questions[this.state.questionSelected].correctAnswers.pop();
-        //})
+
       }
     
       this.setState({
@@ -183,9 +181,6 @@ export default class QuizForm extends React.Component {
       attributes.questions[this.state.questionSelected].answersText[index] = event.target.value;
     }
     else if (name === 'correctAnswers') {
-      /* for (var i = 0; i < attributes.questions[this.state.questionSelected].correctAnswers.length; i++) {
-        attributes.questions[this.state.questionSelected].correctAnswers[i] = !event.target.checked;
-      } */
       attributes.questions[this.state.questionSelected].correctAnswers[index] = event.target.checked;
     }
     this.setState({
