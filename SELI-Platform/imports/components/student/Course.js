@@ -201,6 +201,7 @@ export default class Course extends React.Component {
   }
 
   completeActivity = (id, activity) => {
+    console.log("complete Activity", id, activity)
     let toComplete = this.state.toComplete;
     let toResolve = this.state.toResolve;
     let activityInserted;

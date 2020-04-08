@@ -95,6 +95,8 @@ export default class QuizItem extends React.Component {
   }
 
   showScore = () => {
+   // console.log("Activity results", this.props, Activities.find({ 'activity.course': this.props.course,'_id': this.props.toResolve[0].activityId}).fetch())
+   // console.log("consultas",Activities.find({}).fetch())
     let activity;
     this.setState({
       openScore: true,
@@ -105,7 +107,7 @@ export default class QuizItem extends React.Component {
           {
             'activity.user': this.props.fromTutor,
             'activity.course': this.props.course,
-            'activity.activityId': this.props.item.id,
+            '_id':  this.props.toResolve[0].activityId,
           }
         ).fetch();
       } else {
@@ -113,10 +115,12 @@ export default class QuizItem extends React.Component {
           {
             'activity.user': Meteor.userId(),
             'activity.course': this.props.course,
-            'activity.activityId': this.props.item.id,
+            '_id': this.props.toResolve[0].activityId,//this.props.item.id,
           }
         ).fetch();
       }
+
+      
       if (activity.length) {
         activity = activity[activity.length-1];
         this.setState({
@@ -263,37 +267,39 @@ export default class QuizItem extends React.Component {
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.quizResults}</DialogTitle>
           <DialogContent className="success-dialog-content">
+
+            {console.log("this.state.quizResult",this.state)}
             {
               this.state.loadingScore ?
-                <Loading message={this.props.language.loadingScore}/>
-              :
-              <div>
-                {
-                  !this.state.result ?
-                    <DialogContentText className="success-dialog-content-text">
-                      {this.props.language.noResults}
-                    </DialogContentText>
-                  :
-                  <div key={Math.random()}>
-                    <DialogContentText id={this.state.quizResult.activity.approved ? "approved-text" : "non-approved-text"} className="quiz-result-dialog-content-text">
-                      {this.state.quizResult.activity.approved ? this.props.language.quizApproved : this.props.language.quizNotApproved}
-                    </DialogContentText>
-                    <DialogContentText id={this.state.quizResult.activity.approved ? "approved-text" : "non-approved-text"} className="quiz-result-dialog-content-text">
-                      {`${this.props.language.score}: ${this.state.quizResult.activity.score}`}
-                    </DialogContentText>
-                    <DialogContentText  className="quiz-result-dialog-content-text">
-                      {`${this.props.language.correctAnswers}: ${this.state.quizResult.activity.hits}`}
-                    </DialogContentText>
-                 
-                    {/* <DialogContentText  className="quiz-result-dialog-content-text">
-                      {`${this.props.language.wrongAnswers}: ${(this.state.quizResult.activity.Incorrect)}`}
-                    </DialogContentText> */}
-                    <DialogContentText className="quiz-result-dialog-content-text">
-                      {`${this.props.language.approvalPercentage}: ${this.props.item.attributes.approvalPercentage}%`}
-                    </DialogContentText>
-                  </div>
-                }
-              </div>
+              <Loading message={this.props.language.loadingScore}/>
+            :
+            <div>
+              {
+                !this.state.result ?
+                  <DialogContentText className="success-dialog-content-text">
+                    {this.props.language.noResults}
+                  </DialogContentText>
+                :
+                <div key={Math.random()}>
+                  <DialogContentText id={this.state.quizResult.activity.approved ? "approved-text" : "non-approved-text"} className="quiz-result-dialog-content-text">
+                    {this.state.quizResult.activity.approved ? this.props.language.quizApproved : this.props.language.quizNotApproved}
+                  </DialogContentText>
+                  <DialogContentText id={this.state.quizResult.activity.approved ? "approved-text" : "non-approved-text"} className="quiz-result-dialog-content-text">
+                    {`${this.props.language.score}: ${this.state.quizResult.activity.score}`}
+                  </DialogContentText>
+                  <DialogContentText  className="quiz-result-dialog-content-text">
+                    {`${this.props.language.correctAnswers}: ${this.state.quizResult.activity.hits}`}
+                  </DialogContentText>
+               
+                  {/* <DialogContentText  className="quiz-result-dialog-content-text">
+                    {`${this.props.language.wrongAnswers}: ${(this.state.quizResult.activity.Incorrect)}`}
+                  </DialogContentText> */}
+                  <DialogContentText className="quiz-result-dialog-content-text">
+                    {`${this.props.language.approvalPercentage}: ${this.props.item.attributes.approvalPercentage}%`}
+                  </DialogContentText>
+                </div>
+              }
+            </div>
             }
           </DialogContent>
           <DialogActions>

@@ -25,14 +25,15 @@ export default class QuizForm extends React.Component {
     super(props);
     this.state = {
       numberofAnswers: 1,
-      showCheckBox:true,
       timeLimits: ['5', '10', '20', '30', '60', '90', '120', 'Without time limit'],
       approvalPercentages: ['50', '60', '70', '80', '90'],
       questionSelected: 0,
       addedQuestions: 0,
       attributes: {
+        showCheckBox:false,
         quizTitle: '',
         timeLimit: '60',
+        extendtime:'0',
         approvalPercentage: '50',
         numberofQuestions: 0,
         //creditResources: '',
@@ -115,11 +116,18 @@ export default class QuizForm extends React.Component {
     }
     else if (name === 'timeLimit') {
       if(event >0){
-        //console.log(event)
         attributes.timeLimit = event; ///save the value of aproval percentage
       }else{
         console.log("Time quiz Incorrect default 60", event) //save default aproval percentage of 100
         attributes.timeLimit = 60;
+      }
+    }
+    else if (name === 'extendedTime') {
+      if(event >0){
+        attributes.extendtime = event; ///save the value of extendTime
+      }else{
+        console.log("Time quiz Incorrect default 60", event) //save default aproval percentage of 100
+        attributes.extendtime = 0;
       }
     }
     else if (name === 'approvalPercentage') {
@@ -131,19 +139,16 @@ export default class QuizForm extends React.Component {
       }
     }
     else if (name === 'checkTime') {
-     // console.log("Evento del checkbox", event.target.checked)
+      console.log("Evento del checkbox", event.target.checked)
       if (event.target.checked===true){
         //console.log("cambia a false")
-        this.setState({
-          showCheckBox: false
-        })
-        attributes.timeLimit='Without time limit';
+
+        attributes.showCheckBox= true
+    
+        //attributes.timeLimit='Without time limit';
       }
       else{   
-        //console.log("cambia a true")
-        this.setState({
-          showCheckBox: true
-        })
+          attributes.showCheckBox= false
       }
     
     } 
@@ -351,39 +356,55 @@ myFormatminutes=(num)=> {
             />
           </div>
           <div className="quiz-input-container">
-            <FormControlLabel control={
+          <p className="form-dialog-question-button-container-text">{this.props.language.notime}</p> 
+            <FormControlLabel 
+            control={
               <Checkbox
+              checked={this.state.attributes.showCheckBox}
               value="checkedTime" 
               onChange={this.handleChange('checkTime')}
               inputProps={{
                 'aria-label': 'primary checkbox',
               }}
             />
-            } label={this.props.language.notime} />
-  
-              <NumericInput
+            } 
+            //label={this.props.language.notime} 
+            />
+            <NumericInput
               className="quiz-inputnumeric"
-              defaultValue={1}
-              disabled={!(this.state.showCheckBox)}
-              min={1}
+              defaultValue={0}
+              min={0}
               max={1000}
-              format={this.myFormatminutes}
-              id="outlined-select-currency"
-              label={this.props.language.timeLimit}
-              required
               value={this.state.attributes.timeLimit} //por defecto 60
               onChange={this.handleChange('timeLimit')}
-            />  
-            <NumericInput
-            className="quiz-inputnumeric"
-            defaultValue={0}
-            min={0}
-            max={100}
-            value={this.state.attributes.approvalPercentage}
-            onChange={this.handleChange('approvalPercentage')}
-            format={this.myFormat}
-            />
+              format={this.myFormatminutes}
+            /> 
           </div>
+          
+          <div className="quiz-input-container">
+            <p className="form-dialog-question-button-container-text">{this.props.language.approvalPercentage}</p> 
+            
+              <NumericInput
+                className="quiz-inputnumeric"
+                defaultValue={0}
+                min={0}
+                max={100}
+                value={this.state.attributes.approvalPercentage}
+                onChange={this.handleChange('approvalPercentage')}
+                format={this.myFormat}
+              />
+              <p className="form-dialog-question-button-container-text">Extended Time*</p>
+              <NumericInput
+                className="quiz-inputnumeric"
+                defaultValue={0}
+                min={0}
+                max={300}
+                value={this.state.attributes.extendtime}
+                onChange={this.handleChange('extendedTime')}
+                format={this.myFormatminutes}
+              />
+          </div>
+
           <div className="center-row">
             <FormControl className="quiz-form-control" component="fieldset">
               <FormGroup>
@@ -437,15 +458,17 @@ myFormatminutes=(num)=> {
             console.log("Numeric Input", this.state.attributes.questions[this.state.questionSelected].correctAnswers.length)
            
           }
-          <NumericInput 
-            key={Math.random()}
-            mobile
-            defaultValue={this.state.attributes.questions[this.state.questionSelected].correctAnswers.length}
-            min={1}
-            max={500}
-            onChange={this.handleChange('numberofAnswers', this.state.attributes.questions[this.state.questionSelected].correctAnswers.length)}
-            required
-          /> 
+           <div className="quiz-input-container">
+            <NumericInput 
+              key={Math.random()}
+              mobile
+              defaultValue={this.state.attributes.questions[this.state.questionSelected].correctAnswers.length}
+              min={1}
+              max={500}
+              onChange={this.handleChange('numberofAnswers', this.state.attributes.questions[this.state.questionSelected].correctAnswers.length)}
+              required
+            /> 
+          </div>
            <div className="form-dialog-question-input-container">         
              {
               this.state.attributes.questions[this.state.questionSelected].correctAnswers.map((value,index)=>{
