@@ -352,6 +352,9 @@ class StorytellingToolTime extends React.Component {
     this.handleNode(index);
     let story = this.state.story;
     if (type === "image") {
+      this.setState({
+        selectedImage: childIndex,
+      })
       if (action) {
         if (action === 'delete'){
           story.nodes[index].images.splice(childIndex, 1);
@@ -365,12 +368,11 @@ class StorytellingToolTime extends React.Component {
         if (action === 'edit'){
           this.openDialog('image')
         }
-      } else {
-        this.setState({
-          selectedImage: childIndex,
-        })
       }
     } else {
+      this.setState({
+        selectedScript: childIndex,
+      })
       if (action && action === 'delete') {
         story.nodes[index].scripts.splice(childIndex, 1);
         if (childIndex > 0) {
@@ -379,10 +381,6 @@ class StorytellingToolTime extends React.Component {
             story,
           })
         }
-      } else {
-        this.setState({
-          selectedScript: childIndex,
-        })
       }
     }
   }

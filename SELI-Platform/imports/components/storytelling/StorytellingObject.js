@@ -25,7 +25,8 @@ export default class StorytellingObject extends React.Component {
     super(props);
     this.state = {
       audioDuration: 0,
-      parentZoom: 0,
+      parentZoom: 25,
+      scale: 5,
     }
   }
 
@@ -38,10 +39,22 @@ export default class StorytellingObject extends React.Component {
     })
   }
 
-  setZoom = (zoom) => {
-    this.setState({
-      parentZoom: zoom,
-    })
+  zoomIn = () => {
+    let zoom = this.state.parentZoom + this.state.scale;
+    this.scaling(zoom);
+  }
+
+  zoomOut = () => {
+    let zoom = this.state.parentZoom - this.state.scale;
+    this.scaling(zoom);
+  }
+
+  scaling = (scaleRate) => {
+    if (scaleRate >=10 && scaleRate <=200) {
+      this.setState({
+        parentZoom: scaleRate,
+      })
+    }
   }
 
   getPosition = (timestamp) => {
@@ -71,14 +84,6 @@ export default class StorytellingObject extends React.Component {
 
   stop = () => {
     this.refs.wave.stop();
-  }
-
-  zoomIn = () => {
-    this.refs.wave.zoomIn();
-  }
-
-  zoomOut = () => {
-    this.refs.wave.zoomOut();
   }
 
   render() {
@@ -151,7 +156,7 @@ export default class StorytellingObject extends React.Component {
                     ref="wave"
                     src={this.props.node.audio.link}
                     sendAction={this.props.sendAction.bind(this)}
-                    setZoom={this.setZoom.bind(this)}
+                    zoom={this.state.parentZoom}
                     getSingleDuration={this.getSingleDuration.bind(this)}
                   />
                 </div>
