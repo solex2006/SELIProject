@@ -8,6 +8,7 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 import ReactPanZoom from 'react-image-pan-zoom-rotate';
 import ResizableContent from './ResizableContent';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Link from '@material-ui/core/Link';
 
 export default class ImagePreview extends React.Component {
   constructor(props) {
@@ -78,9 +79,9 @@ export default class ImagePreview extends React.Component {
           </div>
           <div className="file-preview-actions">
             <Tooltip title={this.props.language.open} placement="left">
-              <IconButton onClick={() => this.open()} color="secondary" aria-label="open">
+              <Link onClick={() => this.open()} color="secondary" aria-label="open" className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorSecondary">
                 <img src="openNew.svg"/>
-              </IconButton>
+              </Link>
             </Tooltip>
             <Tooltip title={this.props.language.uploadAnother} placement="left">
               <IconButton onClick={() => this.props.unPickFile()} color="secondary" aria-label="another">

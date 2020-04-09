@@ -11,6 +11,7 @@ import ItemFeedback from '../../accessibility/ItemFeedback';
 import MenuItem from './MenuItem';
 import DragItem from './DragItem'
 import Divider from '@material-ui/core/Divider';
+import Link from '@material-ui/core/Link';
 
 export default class AudioItem extends React.Component {
   constructor(props) {
@@ -51,14 +52,20 @@ export default class AudioItem extends React.Component {
                 <audio controls className="storytelling-media-audio">
                   <source src={this.props.item.attributes.audio.link}></source>
                 </audio>
-                <IconButton className="course-item-audio-card-icon-button" aria-label="add to favorites">
+                <Link 
+                  className="course-item-audio-card-icon-button MuiButtonBase-root MuiIconButton-root course-item-audio-card-icon-button" 
+                  aria-label="add to favorites">
                   <FolderSpecialIcon className="course-item-audio-card-icon"/>
-                </IconButton>
+                </Link>
                 {
                   this.props.item.attributes.externalLink !== '' ?
-                    <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
+                    <Link 
+                      onClick={() => this.openExternalLink()} 
+                      className="course-item-video-card-media-button MuiButtonBase-root MuiButton-root MuiButton-text course-item-video-card-media-button MuiButton-textPrimary MuiButton-textSizeSmall MuiButton-sizeSmall" 
+                      size="small" 
+                      color="primary">
                       {this.props.language.learnMore}
-                    </Button>
+                    </Link>
                   :
                     undefined
                 }

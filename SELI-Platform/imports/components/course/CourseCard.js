@@ -168,7 +168,7 @@ export default class CourseCard extends React.Component {
       <div>
         <Fade force top delay={this.props.index * 350}>
           <Card className="course-card">
-            <CardActionArea>
+            <CardContent className="">
               <CardHeader
                 avatar={
                   <Avatar
@@ -258,7 +258,7 @@ export default class CourseCard extends React.Component {
                   </IconButton>
                 </Tooltip>
               </CardActions>
-            </CardActionArea>
+            </CardContent>
           </Card>
         </Fade>
         <Dialog
