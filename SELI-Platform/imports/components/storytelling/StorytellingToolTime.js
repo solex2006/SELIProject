@@ -803,7 +803,7 @@ class StorytellingToolTime extends React.Component {
   }
 
   rotateangle= (rotate)=>{
-    this.state.story.nodes[this.state.selectedNode].rotate=rotate
+    this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].rotate = rotate;
   }
 
   changeFileName = (fileName, _id) => {
@@ -1009,7 +1009,7 @@ class StorytellingToolTime extends React.Component {
                     disabled={this.state.story.nodes[this.state.selectedNode].audio !== "" ? false : true}
                     multiline
                     autoComplete={"off"}
-                    rows={4}
+                    rows={3}
                     value={this.state.story.nodes[this.state.selectedNode].audio !== "" ? this.state.story.nodes[this.state.selectedNode].audio.name : ""}
                     onChange={this.handleChange('name')}
                     error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
@@ -1419,10 +1419,10 @@ class StorytellingToolTime extends React.Component {
                           this.state.story.nodes[this.state.selectedNode].images.length &&
                           this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage]["file"] !== '' ?
                             <ImagePreview
-                              key={this.state.story.nodes[this.state.selectedNode].rotate}
+                              key={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].rotate}
                               file={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage]["file"]}
                               rotateangle={this.rotateangle}
-                              rotateAngle={this.state.story.nodes[this.state.selectedNode].rotate}
+                              rotateAngle={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].rotate}
                             />
                           :
                             undefined
@@ -1634,6 +1634,9 @@ class StorytellingToolTime extends React.Component {
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                   {this.props.language.sendAsActivity}
                 </DialogTitle>
+                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
+                  {`${this.props.language.publishStoryActivityText}:`}
+                </DialogContentText>
                 {
                   this.state.activities.map(activity => {
                     return(
@@ -1642,14 +1645,12 @@ class StorytellingToolTime extends React.Component {
                         className="storytelling-course-activity-publish-button-time"
                         onClick={() => this.completeActivity(activity.activityId, this.props.language.storySent, activity.courseId)}
                       >
-                        {`- ${activity.course} at: ${activity.source} | ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
+                        {`${activity.course} - ${activity.source} | ${this.props.language.instructions} 
+                        ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
                       </Button>
                     )
                   })
                 }
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {this.props.language.publishStoryActivityText}
-                </DialogContentText>
                 <DialogActions>
                   <Button onClick={() => this.handleyes()} color="primary" autoFocus>
                     {this.props.language.back}

@@ -94,7 +94,7 @@ export default class ActivityItem extends React.Component {
     Tracker.autorun(() => {
       let myStories = Activities.find({
         'activity.user': Meteor.userId(),
-        'activity.type': "storytelling",
+        'activity.type': { $in: [ "storytelling", "storytelling-time" ] },
       }).fetch();
       this.setState({
         myStories: myStories,
@@ -360,20 +360,22 @@ export default class ActivityItem extends React.Component {
                               undefined
                           }
                           {
-                            this.state.activityInformation && this.state.activityInformation.activity.type === 'storytelling' ?
-                              <div>
-                                <p className="activity-instruction-title">{`${this.props.language.story}:`}</p>
-                                <div className="activity-item-container-instruction">
-                                  <Link style={{"text-decoration": "none"}}
-                                    //target="_blank"
-                                    to={`/story#${this.state.activityInformation._id}`}
-                                  >
-                                    {this.state.activityInformation.activity.name}
-                                  </Link>
+                            !this.state.activityInformation ? undefined :
+                              this.state.activityInformation.activity.type === 'storytelling' ||
+                              this.state.activityInformation.activity.type === 'storytelling-time'  ?
+                                <div>
+                                  <p className="activity-instruction-title">{`${this.props.language.story}:`}</p>
+                                  <div className="activity-item-container-instruction">
+                                    <Link style={{"text-decoration": "none"}}
+                                      //target="_blank"
+                                      to={`/story#${this.state.activityInformation._id}`}
+                                    >
+                                      {this.state.activityInformation.activity.name}
+                                    </Link>
+                                  </div>
                                 </div>
-                              </div>
-                            :
-                              undefined
+                              :
+                                undefined
                           }
                           {
                             this.state.activityInformation && this.state.activityInformation.activity.type === 'section' ?

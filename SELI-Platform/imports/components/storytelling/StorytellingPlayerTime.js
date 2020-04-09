@@ -24,7 +24,7 @@ import ReactPlayer from 'react-player';
 import { Activities } from '../../../lib/ActivitiesCollection';
 //import Size from './Size'
 
-export default class StorytellingPlayer extends React.Component {
+export default class StorytellingPlayerTime extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -125,7 +125,7 @@ export default class StorytellingPlayer extends React.Component {
     let selectedScripts = this.props.story.nodes[indexSelected].scripts;
     if (selectedImages.length){
       this.setState({
-        imageValue: selectedImages[selectedImages.length - 1].file.link,
+        imageValue: selectedImages[selectedImages.length - 1],
       });
     }
     if (selectedScripts.length){
@@ -174,7 +174,7 @@ export default class StorytellingPlayer extends React.Component {
     {
       this.setState({
         imagePlaying: this.state.imagePlaying + 1,
-        imageValue: this.state.images[this.state.imagePlaying].file.link,
+        imageValue: this.state.images[this.state.imagePlaying],
       })
     }
     if (
@@ -235,8 +235,8 @@ export default class StorytellingPlayer extends React.Component {
               <div
                 className="file-image-preview"
                 style={{
-                  backgroundImage: this.state.imageValue === "" ? "none" : `url(${this.state.imageValue})`,
-                  /* transform: `rotate(${this.state.images[this.state.imagePlaying].rotate}deg)`, */
+                  backgroundImage: this.state.imageValue && this.state.imageValue.file !== "" ? `url(${this.state.imageValue.file.link})` : "none",
+                  transform: `rotate(${this.state.imageValue.rotation}deg)`,
                 }}
               ></div>
             </div>

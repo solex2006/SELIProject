@@ -1877,6 +1877,9 @@ class StorytellingTool extends React.Component {
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                   {this.props.language.sendAsActivity}
                 </DialogTitle>
+                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
+                  {`${this.props.language.publishStoryActivityText}:`}
+                </DialogContentText>
                 {
                   this.state.activities.map(activity => {
                     return(
@@ -1885,14 +1888,12 @@ class StorytellingTool extends React.Component {
                         className="storytelling-course-activity-publish-button"
                         onClick={() => this.completeActivity(activity.activityId, this.props.language.storySent, activity.courseId)}
                       >
-                        {`- ${activity.course} at: ${activity.source} | ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
+                        {`${activity.course} - ${activity.source} | ${this.props.language.instructions} 
+                        ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
                       </Button>
                     )
                   })
                 }
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {this.props.language.publishStoryActivityText}
-                </DialogContentText>
                 <DialogActions>
                   <Button onClick={() => this.handleyes()} color="primary" autoFocus>
                     {this.props.language.back}

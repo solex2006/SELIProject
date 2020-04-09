@@ -8,6 +8,7 @@ import Loading from '../components/tools/Loading';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 import CommentDialog from '../components/student/comments/CommentDialog';
 import StorytellingPlayer from '../components/storytelling/StorytellingPlayer';
+import StorytellingPlayerTime from '../components/storytelling/StorytellingPlayerTime';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -27,7 +28,6 @@ export default class Story extends React.Component {
     super(props);
     this.state = {
       story: undefined,
-      type: "",
     }
   }
 
@@ -145,34 +145,33 @@ export default class Story extends React.Component {
                   <main id="page-wrap">
                     <React.Fragment>
                       {
-                        this.state.story === undefined ?
-                          undefined
-                        :
-                        <div className="storytelling-link-container">
-                          <AppBar position="static" className="course-dialog-app-bar">
-                            <Toolbar style={{position: 'relative'}}>
-                              <Typography className="course-dialog-title" variant="h6">
-                                {this.state.language.seliStories}
-                              </Typography>
-                            </Toolbar>
-                          </AppBar>             
-                          {
-                            this.state.type === "storytelling" ?
-                              <StorytellingPlayer
-                                story={this.state.story}
-                                comments={false}
-                                link={false}
-                                language={this.state.language}
-                              />
-                            :
-                              <StorytellingPlayerTime
-                                story={this.state.story}
-                                comments={false}
-                                link={false}
-                                language={this.state.language}
-                              />
-                          }
-                        </div>
+                        !this.state.story ? undefined :
+                          <div className="storytelling-link-container">
+                            <AppBar position="static" className="course-dialog-app-bar">
+                              <Toolbar style={{position: 'relative'}}>
+                                <Typography className="course-dialog-title" variant="h6">
+                                  {this.state.language.seliStories}
+                                </Typography>
+                              </Toolbar>
+                            </AppBar>             
+                            {
+                              !this.state.type ? undefined :
+                                this.state.type === "storytelling" ?
+                                  <StorytellingPlayer
+                                    story={this.state.story}
+                                    comments={false}
+                                    link={true}
+                                    language={this.state.language}
+                                  />
+                                :
+                                  <StorytellingPlayerTime
+                                    story={this.state.story}
+                                    comments={false}
+                                    link={true}
+                                    language={this.state.language}
+                                  />
+                            }
+                          </div>
                       }
                     </React.Fragment>
                   </main>
