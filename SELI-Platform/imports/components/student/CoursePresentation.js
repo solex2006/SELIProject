@@ -14,7 +14,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import Typography from '@material-ui/core/Typography';
-
+import { Link } from 'react-router-dom';
 import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';
 import Roll from 'react-reveal/Roll';
@@ -172,14 +172,14 @@ export default class CoursePresentation extends React.Component {
                 {this.props.language.estimatedCourseDuration}
               </div>
               <div className="course-card-presentation-content">
-                <IconButton className="course-card-presentation-icon-button">
-                  <TimerIcon
-                    className="course-card-presentation-icon"
+              <TimerIcon
+                    className="course-card-presentation-icon MuiButtonBase-root MuiIconButton-root course-card-presentation-icon-button"
                     style={{
                       color: this.state.palette[0].textColor,
                     }}
-                  />
-                </IconButton>
+              />
+               {/*  <IconButton className="course-card-presentation-icon-button">
+                </IconButton> */}
                 <p className="course-card-large-text">{`${this.props.course.duration} ${this.props.language.hours}`}</p>
                 <p className="course-card-large-text">{`${this.props.course.durationweeks} ${this.props.language.week}`}</p>
               </div>
@@ -199,14 +199,14 @@ export default class CoursePresentation extends React.Component {
                 {this.props.language.courseSyllabus}
               </div>
               <div className="course-card-presentation-content">
-                <IconButton className="course-card-presentation-icon-button">
-                  <BookIcon
-                    className="course-card-presentation-icon"
+              <BookIcon
+                    className="course-card-presentation-icon MuiButtonBase-root MuiIconButton-root course-card-presentation-icon-button"
                     style={{
                       color: this.state.palette[0].textColor,
                     }}
                   />
-                </IconButton>
+               {/*  <IconButton className="course-card-presentation-icon-button">
+                </IconButton> */}
                 <p className="course-card-medium-text">{this.props.language.clickToRead}</p>
               </div>
             </Paper>
@@ -225,14 +225,14 @@ export default class CoursePresentation extends React.Component {
                 {this.props.language.courseOrganization}
               </div>
               <div className="course-card-presentation-content">
-                <IconButton className="course-card-presentation-icon-button">
-                  <AssignmentIcon
-                    className="course-card-presentation-icon"
+              <AssignmentIcon
+                    className="course-card-presentation-icon MuiButtonBase-root MuiIconButton-root course-card-presentation-icon-button"
                     style={{
                       color: this.state.palette[0].textColor,
                     }}
                   />
-                </IconButton>
+               {/*  <IconButton className="course-card-presentation-icon-button">  
+                </IconButton> */}
                 <p className="course-card-small-text">{`${this.props.course.organization.subunit ? this.props.language.clickToSeeAllUnitsAndSubunits : this.props.language.clickToSeeAllTopics}`}</p>
               </div>
             </Paper>
@@ -323,7 +323,14 @@ export default class CoursePresentation extends React.Component {
                 <div className="course-requirements-disabilities-container">
                   <p className="course-requirements-disabilities-title">{this.props.language.seliOverview}</p>
                   <p className="course-requirements-disabilities-description">{this.props.language.seliOverviewText}</p>
-                  <Button onClick={() => this.learnMore()} className="course-requirements-accessibility-button" color="secondary">{this.props.language.learnMore}</Button>
+                  <Link 
+                    onClick={() => this.learnMore()} 
+                    className="course-requirements-accessibility-button MuiButton-root MuiButton-outlined course-card-button" 
+                    color="secondary"
+                  >
+                    {this.props.language.learnMore}
+                  </Link> 
+                  {/* <Button onClick={() => this.learnMore()} className="course-requirements-accessibility-button" color="secondary">{this.props.language.learnMore}</Button> */}
                   <div className="course-requirements-accessibility-image"></div>
                 </div>
               </Fade>

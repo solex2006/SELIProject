@@ -174,8 +174,6 @@ export default class QuizForm extends React.Component {
       this.setState({
         numberofAnswers: index,
       })
-      
-      
     }
     else if (name === 'answersText') {
       attributes.questions[this.state.questionSelected].answersText[index] = event.target.value;
@@ -311,7 +309,6 @@ myFormatminutes=(num)=> {
   }
 
   componentWillMount(){ //se llama antes del render
-    
     if (this.props.contentToEdit !== undefined) {
       this.setState({
         attributes: this.props.contentToEdit.attributes,
