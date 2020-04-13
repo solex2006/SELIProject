@@ -47,7 +47,6 @@ class FileUpload extends Component {
           ||(this.props.type==='word')){
          
             if (file) {
-      
             //console.log("type de archivo a subir---", this.props.type, file)
             let uploadInstance = CourseFilesCollection.insert({
               file: file,
