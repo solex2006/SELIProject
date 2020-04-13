@@ -241,22 +241,31 @@ class StorytellingToolTime extends React.Component {
   }
 
   handleChange = name => event => {
-    let story = this.state.story;
-    if (name === 'storyName') {
-      story.name = event.target.value;
-    }
-    if (name === 'name') {
-      story.nodes[this.state.selectedNode].audio.name = event.target.value;
-    }
     if (name === 'script') {
-      story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType] = event.target.value;
+      let value = event.target.value;
+      this.setState(state => {
+        const story = state.story;
+        story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType] = value; 
+        return {
+          story,
+        };
+      });
+    } else {
+      let story = this.state.story;
+      if (name === 'storyName') {
+        story.name = event.target.value;
+      }
+      if (name === 'name') {
+        story.nodes[this.state.selectedNode].audio.name = event.target.value;
+      }
+      
+      if (name === "public") {
+        story.isPublic = !story.isPublic;
+      }
+      this.setState({
+        story: story,
+      })
     }
-    if (name === "public") {
-      story.isPublic = !story.isPublic;
-    }
-    this.setState({
-      story: story,
-    })
   }
 
   addSingleNode = (index) => {

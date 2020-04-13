@@ -138,6 +138,7 @@ export default class StorytellingPlayerTime extends React.Component {
   handleReplay = () => {
     this.settingStates(0);
     this.cleanData();
+    this.refs.storytellingPlayer.seekTo(0, 'seconds');
   }
 
   settingStates = (indexSelected) => {
@@ -223,7 +224,7 @@ export default class StorytellingPlayerTime extends React.Component {
         <div className={this.props.link ? "storytelling-tool-link-container-time" : "storytelling-tool-play-container-time"}>
           <div>
             <ReactPlayer
-              ref="storytelling-player"
+              ref="storytellingPlayer"
               className="storytelling-tool-audio-player-time"
               url={this.props.story.nodes[this.state.scenePlaying].audio.link}
               playing={this.state.playing}
@@ -236,7 +237,7 @@ export default class StorytellingPlayerTime extends React.Component {
                 className="file-image-preview"
                 style={{
                   backgroundImage: this.state.imageValue && this.state.imageValue.file !== "" ? `url(${this.state.imageValue.file.link})` : "none",
-                  transform: `rotate(${this.state.imageValue.rotation}deg)`,
+                  transform: `rotate(${this.state.imageValue.rotate}deg)`,
                 }}
               ></div>
             </div>

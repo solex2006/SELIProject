@@ -134,6 +134,7 @@ export default class StorytellingPlayer extends React.Component {
     this.setState({
       scenePlaying: 0,
     })
+    this.refs.storytellingPlayer.seekTo(0, 'seconds');
   }
 
   componentDidMount() {
@@ -172,6 +173,7 @@ export default class StorytellingPlayer extends React.Component {
             this.props.story.nodes[this.state.scenePlaying].video === "" ?
               <div>
                 <ReactPlayer
+                  ref="storytellingPlayer"
                   className="storytelling-tool-audio-player"
                   url={this.props.story.nodes[this.state.scenePlaying].audio.link}
                   playing={this.state.playing}
@@ -188,7 +190,8 @@ export default class StorytellingPlayer extends React.Component {
                 </div>
               </div>
             :
-              <ReactPlayer 
+              <ReactPlayer
+                ref="storytellingPlayer"
                 className="course-creator-preview-player-storytelling" 
                 url={this.props.story.nodes[this.state.scenePlaying].video.link}
                 playing={this.state.playing}
