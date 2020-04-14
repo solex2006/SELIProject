@@ -156,8 +156,8 @@ export default class QuizItem extends React.Component {
                 className="item-quiz-expansion-summary"
               >
                 <div className="item-quiz-expansion-summary-text-container">
-                  <Typography className="quiz-panel-title">{this.props.language.quiz}</Typography>
-                  <Typography className="quiz-panel-subtitle">{this.props.item.attributes.title}</Typography>
+                  <h1 className="quiz-panel-title MuiTypography-root quiz-panel-title MuiTypography-body1">{this.props.language.quiz}</h1>
+                  <h2 className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">{this.props.item.attributes.title}</h2>
                 </div>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className="item-quiz-detail">
