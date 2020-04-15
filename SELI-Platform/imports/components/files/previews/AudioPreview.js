@@ -56,7 +56,6 @@ export default class AudioPreview extends React.Component {
             :
             undefined
           }
-         
           <div className="file-preview-actions">
             <Tooltip title={this.props.language.open} placement="left">
               <IconButton onClick={() => this.open()} color="secondary" aria-label="open">

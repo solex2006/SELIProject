@@ -112,11 +112,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 	const [showPreviewSignal, setshowPreviewSignal] = useState(false);
 	const [newCaption, setnewCaption] = useState(false);
 	const getFileInformationCaption=(file)=>{		
-		if( file.name.split(".")[1]==='vtt'){
-			console.log("archivo de subtitulos", file.name.split(".")[1])
-			//captionValidator("vttvalido")
-			handleRadioButtonOnChangeValidator('captionsEmbebed','no')
-		}
+	    handleRadioButtonOnChangeValidator('captionsEmbebed','no')
 		dataField.fileTranscription[0]=file
 		setshowPreviewSignal(true)
 		setnewCaption(false)
@@ -167,8 +163,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 				<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbebedError} tip={captionsTip}/>
 			</FormControl>
 
-				{//languages signal part
-
+			{//languages signal part
 				(dataField.captionsEmbebed === "no" || newCaption===true )?
 				<div>
 					{dataField.fileTranscription[0]===undefined?
@@ -221,11 +216,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 	//console.log("disabled_necAudioDesc",disabled_necAudioDesc)
 
 	const getFileInformationAudioDescription=(file)=>{
-		if( file.name.split(".")[1]==='mp3' || file.name.split(".")[1]==='wav'){
-			console.log("archivo de subtitulos de audio", file.name.split(".")[1])
-			//captionValidator("vttvalido")
-			handleRadioButtonOnChangeValidator('audioDescription','no')
-		}
+		handleRadioButtonOnChangeValidator('audioDescription','no')
 		dataField.fileAudioDescription[0]=file
 		setshowPreviewSignal(true)
 		setnewAudioSignal(false)
@@ -416,12 +407,7 @@ export function VideoMediaSignLanguageA11Y(props){
 	//console.log("signLanguageTip",signLanguageTip)
 	
 	const  getFileInformationsignal=(file)=>{
-		console.log("File to uploadvideosignal", file)
-		if( file.name.split(".")[1]==='mp4' || file.name.split(".")[1]==='avi' || file.name.split(".")[1]==='mov'){
-			//console.log("archivo de lenfuaje de sennas", file.name.split(".")[1])
-			//captionValidator("vttvalido")
-			handleRadioButtonOnChangeValidator('signLanguage','no')
-		}
+		handleRadioButtonOnChangeValidator('signLanguage','no')
 		dataField.fileVideoSignal[0]=file
 		setshowPreviewSignal(true)
 		setnewVideoSignal(false)

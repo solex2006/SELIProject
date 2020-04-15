@@ -219,7 +219,7 @@ export default class AudioForm extends React.Component {
                       !this.state.showPreview ?
                         <div>
                           {
-                            this.state.attributes.source === 'upload' ?
+                             this.state.attributes.source === 'upload' ?
                               <FileUpload
                                 type="audio"
                                 accept={'audio/*'}
@@ -231,7 +231,7 @@ export default class AudioForm extends React.Component {
                             <AudioRecorder
                               getFileInformation={this.getFileInformation.bind(this)}
                               language={this.props.language}
-                            />
+                            /> 
                           }
                         </div>
                       :
