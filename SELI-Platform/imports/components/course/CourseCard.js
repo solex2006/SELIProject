@@ -278,7 +278,7 @@ export default class CourseCard extends React.Component {
                   </IconButton>
                 </Tooltip>
               </CardActions>
-            </CardContent>
+            </CardActionArea>
           </Card>
         </Fade>
         <Dialog
