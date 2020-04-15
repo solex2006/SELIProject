@@ -85,13 +85,13 @@ export default class CourseSubscription extends React.Component {
                 image={this.props.course.image.link}
                 title={this.state.label}
               />
-              <div tabIndex="-1" className="subscription-card-column">
-                <CardHeader
-                  tabIndex="-1"
-                  className="subscription-card-header"
-                  title={this.props.course.title}
-                  subheader={this.props.course.subtitle}
-                />
+              <div  className="subscription-card-column">
+                <div className="MuiCardHeader-root subscription-card-header subscription-card-header">
+                  <div className="MuiCardHeader-content">
+                    <h2 className="MuiTypography-root MuiCardHeader-title MuiTypography-h5 MuiTypography-displayBlock">{this.props.course.title}</h2>
+                    <h3 className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body1 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
+                  </div>
+                </div>
                 <CardContent tabIndex="-1" className="subscription-card-content">
                   <div tabIndex="-1" className="subscription-card-progress-container">
                     <LinearProgress

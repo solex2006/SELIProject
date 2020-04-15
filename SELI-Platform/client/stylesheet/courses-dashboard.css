@@ -59,7 +59,29 @@
 .course-card-header {
   max-width: 345px !important;
 }
-
+.course-card-header-1{
+  max-width: 345px !important;
+  display: inline-block;
+}
+.card-header-1{
+  display: block;
+}
+.course-card-header-title{
+ color: #9e9e9e;
+  padding: 0 5%;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  text-align: center;
+  display: flex;
+}
+.course-card-header-subtitle{
+  color: #9e9e9e;
+   padding: 0 5%;
+   font-size: 1em;
+   letter-spacing: 1px;
+   text-align: center;
+   display: flex;
+ }
 .course-card-header .MuiCardHeader-content{
   max-width: 280px !important;
 }

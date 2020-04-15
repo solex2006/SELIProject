@@ -3,6 +3,7 @@ import MenuItem from './MenuItem';
 import Code  from '../../tools/Code';
 import DragItem from './DragItem'
 import Divider from '@material-ui/core/Divider';
+
 export default class TextItem extends React.Component {
   constructor(props) {
     super(props);
@@ -19,13 +20,38 @@ export default class TextItem extends React.Component {
     return(
       <div className="content-box">
         <div className="text-content-item">
+
+          {console.log(" this.props.item.attributes",  this.props.item.attributes)}
           {
             this.props.item.attributes.type === 'title' ?
-              <h2 className="text-item-title" style={{textAlign: this.props.item.attributes.alignment, fontSize: this.props.item.attributes.size}}>
-                {this.props.item.attributes.content}
-              </h2>
-            :
-            undefined
+                <div>
+                {
+                  this.props.item.attributes.size==="1.5em"?
+                    <h1 className="text-item-title" style={{textAlign: this.props.item.attributes.alignment, fontSize: '2em'}}>
+                      {this.props.item.attributes.content}
+                    </h1>
+                  :
+                  undefined
+                }
+                {
+                  this.props.item.attributes.size==="1.15em"?
+                    <h2 className="text-item-title" style={{textAlign: this.props.item.attributes.alignment,fontSize: '1.5em'}}>
+                      {this.props.item.attributes.content}
+                    </h2>
+                  :
+                  undefined
+                }
+                {
+                  this.props.item.attributes.size==="0.9em"?
+                    <h3 className="text-item-title" style={{textAlign: this.props.item.attributes.alignment,fontSize: '1.17em'}}>
+                      {this.props.item.attributes.content}
+                    </h3>
+                  :
+                  undefined
+                }
+              </div>
+              :
+              undefined
           }
           {
             this.props.item.attributes.type === 'section' ?

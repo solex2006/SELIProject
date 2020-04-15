@@ -21,6 +21,7 @@
   width: calc(50% - 1vw);
   margin-left: 5vw;
   padding: 1vw;
+  letter-spacing: 1px;
 }
 
 .dashboard-text-large {

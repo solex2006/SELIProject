@@ -118,14 +118,14 @@ export default class CoursePresentation extends React.Component {
         <div className="course-presentation-hero-container">
           <div className="course-presentation-hero-column">
             <Fade duration={2000} cascade>
-              <h1 className="course-presentation-hero-title"><p>{this.props.course.title}</p></h1>
+              <h1 className="course-presentation-hero-title">{this.props.course.title}</h1>
             </Fade>
             <Fade delay={1000}>
               {
                 this.props.course.subtitle === "-----"?
                   undefined
                 :
-                  <h4 className="course-presentation-hero-subtitle">{this.props.course.subtitle}</h4>
+                  <h2 className="course-presentation-hero-subtitle">{this.props.course.subtitle}</h2>
               }
               <p className="course-presentation-hero-normal">{`${this.props.language.createdBy}: ${this.props.course.createdBy}`}</p>
             </Fade>

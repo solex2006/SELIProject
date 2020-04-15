@@ -428,7 +428,7 @@ console.log("validate", validate, "type", type)
           undefined
           :
           <Paper elevation={10} className="quiz-dashboard-side" >
-          <p className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</p>
+          <h2 className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</h2>
           <QuestionAnswerIcon className="quiz-dashboard-icon"/>
           <p className="quiz-dashboard-label-text">{this.props.language.timeLeft}</p>
           
@@ -486,7 +486,7 @@ console.log("validate", validate, "type", type)
 
            <div className="question-dashboard-container">
             <FormControl component="fieldset" className="question-dashboard-form-control">
-              <FormLabel component="legend" className="question-dashboard-form-label">{this.props.quiz.attributes.questions[this.state.selected].questionTitle}</FormLabel>
+              <h3 component="legend" className="question-dashboard-form-label MuiFormLabel-root question-dashboard-form-label">{this.props.quiz.attributes.questions[this.state.selected].questionTitle}</h3>
               <RadioGroup
                 aria-label="answer"
                 name="answer"

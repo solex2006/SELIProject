@@ -433,6 +433,7 @@
 }
 
 .quiz-panel-title {
+  color: #1976d2 !important;
   font-size: 1.85em !important;
   text-transform: uppercase !important;
   letter-spacing: 2px !important;
@@ -440,8 +441,9 @@
 }
 
 .quiz-panel-subtitle {
-  font-size: 1.25em !important;
-  color: #616161 !important;
+  color:#1976d2 !important;
+  font-size: 1.1em !important;
+  text-transform :capitalize !important;
 }
 
 .item-quiz-detail-container {

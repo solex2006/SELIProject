@@ -103,7 +103,7 @@ export default class SubscribedCourses extends React.Component {
   render() {
     return(
       <div  tabIndex="-1" className="subscriptions-dashboard-container">
-        <p  tabIndex="-1" className="management-title">{this.props.language.mySubscriptions}<SchoolIcon className="management-title-icon"/></p>
+        <h1  className="management-title">{this.props.language.mySubscriptions}<SchoolIcon className="management-title-icon"/></h1>
         <Divider/>
         {
           this.state.loading ?

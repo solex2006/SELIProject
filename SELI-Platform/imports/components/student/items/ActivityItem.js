@@ -340,13 +340,19 @@ export default class ActivityItem extends React.Component {
                         className="item-quiz-expansion-summary"
                       >
                         <div className="item-quiz-expansion-summary-text-container">
-                          <Typography className="activity-panel-title">{this.props.language.activity}</Typography>
-                          <Typography className="quiz-panel-subtitle">
-                            { this.props.item.attributes.type === 'storyboard' ? this.props.language.storyboardActivity : undefined }
-                            { this.props.item.attributes.type === 'upload' ? this.props.language.uploaddActivity : undefined }
-                            { this.props.item.attributes.type === 'section' ? this.props.language.textSectionActivity : undefined }
-                            { this.props.item.attributes.type === 'forum' ? this.props.language.forum : undefined }
-                          </Typography>
+                          <h2 className="activity-panel-title  MuiTypography-root activity-panel-title MuiTypography-body1">{this.props.language.activity}</h2>
+                          <h3 className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">
+                            <Button className="quiz-panel-subtitle " aria-expanded="true" aria-controls="sect1" id="acc1id"  size="large" >
+                      
+                              { this.props.item.attributes.type === 'forum' ? this.props.language.forum : undefined }
+                              { this.props.item.attributes.type === 'storyboard' ? this.props.language.storyboardActivity : undefined }
+                              { this.props.item.attributes.type === 'upload' ? this.props.language.uploaddActivity : undefined }
+                              { this.props.item.attributes.type === 'section' ? this.props.language.textSectionActivity : undefined }
+                              { this.props.item.attributes.type === 'forum' ? this.props.language.forum : undefined }
+                       
+                            
+                            </Button>
+                          </h3>
                         </div>
                       </ExpansionPanelSummary>
                       <ExpansionPanelDetails className="item-quiz-detail">
