@@ -108,15 +108,15 @@ export default class Presentation extends React.Component {
             <Swiper getSwiper={(swiper) => this.updateSwiper(swiper)} {...this.state.params}>
               <div id="dashboard-1" className="dashboard">
                 <div className="dashboard-center-container">
-                  <h1 className="dashboard-text-large">
+                  <h2 className="dashboard-text-large">
                     {this.props.language.seliFullText}
-                  </h1>
-                  <h2 className="dashboard-text-medium">
-                    {this.props.language.learningPlatform}
                   </h2>
-                  <h3 className="dashboard-paragraph">
-                    {this.props.language.seliPresentation}
+                  <h3 className="dashboard-text-medium">
+                    {this.props.language.learningPlatform}
                   </h3>
+                  <p className="dashboard-paragraph">
+                    {this.props.language.seliPresentation}
+                  </p>
                   <Link
                     className="dashboard-link-button MuiButtonBase-root MuiButton-root MuiButton-text dashboard-link-button"
                     onClick={() => this.redirect('http://seliproject.org/description', true)}
@@ -215,7 +215,7 @@ export default class Presentation extends React.Component {
           </div>
           <Rotate top left cascade>
             <div className="about-presentation-container">
-              <p className="h1-primary-title">{this.props.language.whatIsSeli}</p>
+              <h2 className="h1-primary-title">{this.props.language.whatIsSeli}</h2>
               <Divider />
             </div>
           </Rotate>

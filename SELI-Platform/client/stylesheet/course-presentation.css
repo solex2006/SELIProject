@@ -24,6 +24,10 @@
 .course-presentation-hero-title {
   font-size: 7.5vh;
   word-wrap: break-word;
+  animation-fill-mode: both; 
+  animation-duration: 2000ms; 
+  animation-delay: 0ms; animation-iteration-count: 1; 
+  opacity: 1; 
 }
 
 .course-presentation-hero-subtitle {

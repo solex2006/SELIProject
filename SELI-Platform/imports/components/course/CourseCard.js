@@ -169,20 +169,40 @@ export default class CourseCard extends React.Component {
         <Fade force top delay={this.props.index * 350}>
           <Card className="course-card">
             <CardActionArea>
-              <CardHeader
+             <CardHeader
                 avatar={
                   <Avatar
                     style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
                     aria-label="recipe"
                     className="course-card-avatar"
                   >
-                    {this.props.course.title.charAt(0).toUpperCase()}
+                    <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
                   </Avatar>
                 }
                 className="course-card-header"
-                title={this.props.course.title}
-                subheader={this.props.course.subtitle}
-              />
+                title={
+                  <h2 className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{this.props.course.title}</h2>
+                }
+                subheader={
+                  <h3 className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
+                }
+              /> 
+
+              {/* <div className="MuiCardHeader-content">
+                <div className="course-card-header-1">
+                  <Avatar
+                    style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
+                    aria-label="recipe"
+                    className="course-card-avatar"
+                  >
+                    <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
+                  </Avatar>
+                  <div className="card-header-1">
+                    <h2 className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{this.props.course.title}</h2>
+                    <h3 className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
+                  </div>
+                </div>
+              </div> */}
               <CardMedia
                 className="course-card-media"
                 image={this.props.course.image.link}

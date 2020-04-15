@@ -86,7 +86,7 @@ export default class CoursesDashboard extends React.Component {
     return(
       <div className="courses-dashboard-container">
         <div className="courses-dashboard-title-container">
-          <p className="courses-dashboard-title-text">{this.props.language.seliCourses}</p>
+          <h1 className="courses-dashboard-title-text">{this.props.language.seliCourses}</h1>
         </div>
         <Divider/>
         {

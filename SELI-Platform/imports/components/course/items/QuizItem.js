@@ -47,8 +47,13 @@ export default class QuizItem extends React.Component {
                 className="item-quiz-expansion-summary"
               >
                 <div className="item-quiz-expansion-summary-text-container">
-                  <h1 className="quiz-panel-title MuiTypography-root quiz-panel-title MuiTypography-body1">{this.props.language.quiz}</h1>
-                  <h2 className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">{this.props.item.attributes.quizTitle}</h2>
+                  <h2 className="quiz-panel-title MuiTypography-root  MuiTypography-body1">
+                    <Button className="quiz-panel-subtitle " aria-expanded="true" aria-controls="sect1" id="acc1id"  size="large" >
+                    {this.props.language.quiz}
+                    </Button>
+                  </h2>
+                
+                  <h3 className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">{this.props.item.attributes.quizTitle}</h3>
                 </div>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className="item-quiz-detail">
