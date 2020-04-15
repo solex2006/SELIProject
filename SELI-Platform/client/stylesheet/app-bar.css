@@ -36,6 +36,20 @@
   letter-spacing: 1px !important;
 }
 
+.bar-button {
+  margin: 0 0.25vw !important;
+  letter-spacing: 1px !important;
+
+}
+
+.bar-button1 {
+  margin: 23px 0px 2px !important;
+  letter-spacing: 1px !important;
+  background-color: #e0e0e0 !important;
+  font-size: 0.64rem !important;
+  padding: 1px 1px;
+}
+
 .no-text-button {
   padding: calc(var(--app-bar-height) / 2.95) !important;
   border-radius: 100% !important;

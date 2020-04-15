@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,13 +61,15 @@ export default function FileDial(props) {
         }}
       >
         {props.actions.map(action => (
-          <SpeedDialAction
+          <Link
+            className="MuiButtonBase-root MuiFab-root MuiSpeedDial-fab MuiFab-primary"
             key={action.name}
-            icon={action.icon}
             tooltipTitle={action.name}
             onClick={action.action}
             tooltipPlacement="bottom"
-          />
+          >
+            {action.icon}
+          </Link>
         ))}
       </SpeedDial>
     </div>

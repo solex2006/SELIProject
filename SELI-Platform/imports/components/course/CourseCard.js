@@ -168,7 +168,7 @@ export default class CourseCard extends React.Component {
       <div>
         <Fade force top delay={this.props.index * 350}>
           <Card className="course-card">
-            <CardActionArea>
+            <CardContent className="">
               <CardHeader
                 avatar={
                   <Avatar
@@ -197,15 +197,21 @@ export default class CourseCard extends React.Component {
                 </Typography>
               </CardContent>
               <CardActions className="course-card-actions" disableSpacing>
-                <Link className="button-link"
+                <Link className="button-link MuiButtonBase-root MuiButton-root MuiButton-outlined course-card-button"
                   to={{
                     pathname: "/coursePreview",
                     hash: this.props.course._id,
                     state: { fromDashboard: true },
                     query: {language: this.props.language}
                   }}
+                  onClick={() => 
+                    {
+                      StudentLog.insert({ "UserId": Meteor.userId(), "CourseId" : this.props.course._id, 
+                      "Datetime": new Date(), "Action": "Course Preview" });
+                    }}
                 >
-                  <Button
+                  {this.props.language.coursePreview}
+                  {/*<Button
                     className="course-card-button"
                     aria-label="see preview"
                     variant="outlined"
@@ -216,7 +222,7 @@ export default class CourseCard extends React.Component {
                     }}
                   >
                     {this.props.language.coursePreview}
-                  </Button>
+                  </Button> */}
                 </Link>
                 {
                   !this.state.subscribed ?
@@ -252,7 +258,7 @@ export default class CourseCard extends React.Component {
                   </IconButton>
                 </Tooltip>
               </CardActions>
-            </CardActionArea>
+            </CardContent>
           </Card>
         </Fade>
         <Dialog

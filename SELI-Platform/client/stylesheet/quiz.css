@@ -89,7 +89,7 @@
   font-size: 0.85em;
   letter-spacing: 1px;
   color: #616161;
-  margin-right: 1vw;
+  margin-right: 0.5vw;
 }
 
 .form-dialog-question-button-container-text-select {
@@ -160,6 +160,7 @@ display: flex
 .quiz-dashboard-primary-text {
   color: var(--primary);
   font-size: 1.85em;
+  font-size: 0.75vw;
   letter-spacing: 1px;
   width: 80%;
   padding: 2vh 10%;

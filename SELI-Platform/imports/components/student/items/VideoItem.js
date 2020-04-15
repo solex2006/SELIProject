@@ -149,7 +149,7 @@ export default class VideoItem extends React.Component {
         <div className="image-content-item">
           <Card className="course-item-video-card2">
             {this.checkBoxLabels()}
-            <CardActionArea className="course-item-video-card-media-action-area">
+            <Card className="course-item-video-card-media-action-area">
                  {
                   (this.props.item.attributes.video.name==="External video" )?
                   <ReactPlayer 
@@ -245,7 +245,7 @@ export default class VideoItem extends React.Component {
                   undefined
                 }
               </CardContent>
-            </CardActionArea>
+            </Card>
             <div>
 
             {//For text Alternatives

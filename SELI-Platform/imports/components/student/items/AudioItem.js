@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from '@material-ui/core/Link';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -191,15 +192,15 @@ export default class AudioItem extends React.Component {
                   
                 />
                   <Tooltip title={this.props.language.addToMyLibrary}>
-                    <IconButton className="course-item-audio-card-icon-button" aria-label="add to favorites">
+                    <Link className="course-item-audio-card-icon-button" aria-label="add to favorites">
                       <FolderSpecialIcon className="course-item-audio-card-icon"/>
-                    </IconButton>
+                    </Link>
                   </Tooltip> 
                   {
                     this.props.item.attributes.externalLink !== '' ?
-                      <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
+                      <Link onClick={() => this.openExternalLink()} className="course-item-video-card-media-button MuiButtonBase-root MuiButton-root MuiButton-text course-item-video-card-media-button MuiButton-textPrimary MuiButton-textSizeSmall MuiButton-sizeSmall" size="small" color="primary">
                         {this.props.language.externalLink}
-                      </Button>
+                      </Link>
                     :
                       undefined
                   }
