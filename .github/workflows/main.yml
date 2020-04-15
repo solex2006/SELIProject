@@ -106,11 +106,26 @@ jobs:
 # #           reaction-type: '+1'
       - name: Move "Passed" to   "PASSED FUNCTIONAL TEST" column
         uses: konradpabjan/move-labeled-or-milestoned-issue@v2.0
+        if: |
+          github.event_name == 'issues' && 
+          github.event.action == 'labeled'
         with:
           action-token: "${{ secrets.MY_PERSONAL_ACTION_TOKEN }}"
           project-url: "https://github.com/solex2006/SELIProject/projects/9"
           column-name: "PASSED FUNCTIONAL TEST"
           label-name: "passed :large_blue_circle:"
+#         columns-to-ignore: "In Review,Ready to deploy,Done"
+
+      - name: Move "Failed" to "FAILED" column
+        uses: konradpabjan/move-labeled-or-milestoned-issue@v2.0
+        if: |
+          github.event_name == 'issues' && 
+          github.event.action == 'labeled'
+        with:
+          action-token: "${{ secrets.MY_PERSONAL_ACTION_TOKEN }}"
+          project-url: "https://github.com/solex2006/SELIProject/projects/9"
+          column-name: "FAILED"
+          label-name: "failed :red_circle:"
 #         columns-to-ignore: "In Review,Ready to deploy,Done"
 
       - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
