@@ -23,22 +23,21 @@ DEVELOPMENT CYCLE:
   'CODING':
     - '3 - Working'   
   'CODED':
-    - '3 - Working' #after functionaly test 
     - 'need tester'
+  'FAILED':
+    - 'failed :red_circle:'
+  'PASSED FUNCTIONAL TEST':
+    - 'passed :large_blue_circle:'
   'PULL REQUESTED':
     - '4 - In Review'
-    - 'passed :large_blue_circle:'
     #    'MERGED':
 
 FUNCTIONALITY TEST:
   'TO-DO':
     - 'need tester'
-    - '3 - Working'
   'IN PROGRESS':
     - '4 - In Review'
-  'FAILED':
-    - '3 - Working'   
+  'FAILED': 
     - 'failed :red_circle:' 
   'SUCCESSFUL':
-    - '4 - In Review'
     - 'passed :large_blue_circle:'
