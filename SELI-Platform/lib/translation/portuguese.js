@@ -884,5 +884,7 @@ var PORTUGUESE = {
   addScript: "Add script",
   addAudio: "Add audio",
   noAudioUploaded: "No audio",
+  textEditor_a11y_title: "title",
+  textEditor_a11y_subtitle: "subtitle",
 }
 export default PORTUGUESE;
