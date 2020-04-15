@@ -34,8 +34,8 @@ export default class StorytellingPlayerTime extends React.Component {
       scriptPlaying: 0,
       images: [],
       scripts: [],
-      imageValue: "",
-      scriptValue: "",
+      imageValue: undefined,
+      scriptValue: undefined,
       showDescription: true,
       autoPlay: true,
       playing: true,
@@ -100,9 +100,10 @@ export default class StorytellingPlayerTime extends React.Component {
   handlePrevious = () => {
     if (this.state.scenePlaying - 1 >= 0) {
       this.settingStates(this.state.scenePlaying - 1);
-      this.handleSelect(this.state.scenePlaying - 1);
       if (this.state.scenePlaying === 1) {
         this.cleanData();
+      } else {
+        this.handleSelect(this.state.scenePlaying - 1);
       }
     }
   }
@@ -121,8 +122,8 @@ export default class StorytellingPlayerTime extends React.Component {
   }
 
   handleSelect = (indexSelected) => {
-    let selectedImages = this.props.story.nodes[indexSelected].images;
-    let selectedScripts = this.props.story.nodes[indexSelected].scripts;
+    let selectedImages = this.props.story.nodes[indexSelected - 1].images;
+    let selectedScripts = this.props.story.nodes[indexSelected - 1].scripts;
     if (selectedImages.length){
       this.setState({
         imageValue: selectedImages[selectedImages.length - 1],
@@ -153,8 +154,8 @@ export default class StorytellingPlayerTime extends React.Component {
 
   cleanData = () => {
     this.setState({
-      imageValue: "",
-      scriptValue: "",
+      imageValue: undefined,
+      scriptValue: undefined,
     })
   }
 
@@ -237,7 +238,7 @@ export default class StorytellingPlayerTime extends React.Component {
                 className="file-image-preview"
                 style={{
                   backgroundImage: this.state.imageValue && this.state.imageValue.file !== "" ? `url(${this.state.imageValue.file.link})` : "none",
-                  transform: `rotate(${this.state.imageValue.rotate}deg)`,
+                  transform: `rotate(${this.state.imageValue && this.state.imageValue.rotate ? this.state.imageValue.rotate : 0}deg)`,
                 }}
               ></div>
             </div>
