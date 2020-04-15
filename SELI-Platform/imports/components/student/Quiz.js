@@ -444,10 +444,10 @@ class Quiz extends React.Component {
                 aria-label="answer"
                 name="answer"
                 className="question-dashboard-radio-group-student"
+                aria-required="true"
               >
                 {
                   this.props.quiz.attributes.questions[this.state.selected].answersText.map((text, index)=>{ 
-                   // console.log("answertTesxt", text)
                     return(
                       <FormControlLabel
                         control={
