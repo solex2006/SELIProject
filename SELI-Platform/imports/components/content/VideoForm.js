@@ -235,7 +235,7 @@ export default class VideoForm extends React.Component {
         else {
           this.setState({
             validUrl: true,
-            url: this.state.attributes.video.link,
+            url: (this.state.attributes.video!=undefined)? (this.state.attributes.video.link): (undefined),
             helperColor: "#4caf50",
             urlMessage: this.props.language.thePlayerCan,
             showHelperText: true,

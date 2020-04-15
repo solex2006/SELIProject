@@ -40,10 +40,10 @@ export default class VideoItem extends React.Component {
                 this.props.item.source === 'upload' ?
                   <CardMedia
                     className="course-item-video-card-media"
-                    src={this.props.item.video.link}
+                    src={(this.props.item.video)?(this.props.item.video.link):(undefined)}
                     component="video"
-                    video={this.props.item.video.link}
-                    title={this.props.item.video.name}
+                    video={(this.props.item.video)?(this.props.item.video.link):(undefined)}
+                    title={(this.props.item.video)?(this.props.item.video.name):(undefined)}
                   />
                 :
                 <ReactPlayer className="course-creator-item-video-card-preview-player" url={this.props.item.video.link}/>
