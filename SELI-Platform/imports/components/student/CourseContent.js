@@ -189,7 +189,6 @@ export default class CourseContent extends React.Component {
                       }
                       {
                         item.type === "quiz" ?
-                   
                           <QuizItem
                             fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
                             item={item}

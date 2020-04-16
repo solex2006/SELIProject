@@ -62,6 +62,22 @@ export default class ActivityItem extends React.Component {
   }
 
   componentDidMount(){
+    let dialogText;
+    if (this.props.item.attributes.type === 'forum') {
+      dialogText = `<p>${this.props.item.attributes.instruction}</p>`
+    }
+    if (this.props.item.attributes.type === 'upload') {
+      dialogText = `<p>${this.props.language.toActivityUpload}.</p></br><p>${this.props.item.attributes.instruction}</p>`
+    }
+    if (this.props.item.attributes.type === 'section') {
+      dialogText = `<p>${this.props.language.toActivityWrite}.</p></br><p>${this.props.item.attributes.instruction}</p>`
+    }
+    if (this.props.item.attributes.type === 'storyboard') {
+      dialogText = `<p>${this.props.language.toActivityStoryboard}.</p></br><p>${this.props.item.attributes.instruction}</p>`
+    }
+    this.setState({
+      dialogText,
+    });
     this.getStories();
     this.getIndex();
   }
@@ -122,22 +138,17 @@ export default class ActivityItem extends React.Component {
   doActivity = () => {
     if (this.props.item.attributes.type !== 'forum') {
       this.handleClickOpen();
-      let dialogText;
       let confirmAction;
       if (this.props.item.attributes.type === 'upload') {
-        dialogText = this.props.language.toActivityUpload,
         confirmAction = () => this.sendFile();
       }
       if (this.props.item.attributes.type === 'section') {
-        dialogText = this.props.language.toActivityWrite,
         confirmAction = () => this.sendSection();
       }
       if (this.props.item.attributes.type === 'storyboard') {
-        dialogText = this.props.language.toActivityStoryboard,
         confirmAction = () => this.sendStoryboard();
       }
       this.setState({
-        dialogText: dialogText,
         confirmAction: confirmAction,
       });
     } else {
@@ -331,7 +342,7 @@ export default class ActivityItem extends React.Component {
                       defaultExpanded
                       expanded={this.props.item.attributes.expanded}
                       onChange={this.handleChangePanel('activity-panel')}
-                      className="item-quiz-panel"
+                      className="activity-parent-panel"
                     >
                       <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -343,14 +354,10 @@ export default class ActivityItem extends React.Component {
                           <h2 className="activity-panel-title  MuiTypography-root activity-panel-title MuiTypography-body1">{this.props.language.activity}</h2>
                           <h3 className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">
                             <Button className="quiz-panel-subtitle " aria-expanded="true" aria-controls="sect1" id="acc1id"  size="large" >
-                      
-                              { this.props.item.attributes.type === 'forum' ? this.props.language.forum : undefined }
                               { this.props.item.attributes.type === 'storyboard' ? this.props.language.storyboardActivity : undefined }
                               { this.props.item.attributes.type === 'upload' ? this.props.language.uploaddActivity : undefined }
                               { this.props.item.attributes.type === 'section' ? this.props.language.textSectionActivity : undefined }
                               { this.props.item.attributes.type === 'forum' ? this.props.language.forum : undefined }
-                       
-                            
                             </Button>
                           </h3>
                         </div>
@@ -359,7 +366,7 @@ export default class ActivityItem extends React.Component {
                         <div className="item-quiz-detail-container">
                           <p className="activity-instruction-title">{this.props.language.instructions}</p>
                           <div className="activity-item-container-instruction"
-                            dangerouslySetInnerHTML={{__html:this.props.item.attributes.instruction}}>
+                            dangerouslySetInnerHTML={{__html: this.state.dialogText}}>
                           </div>
                           {
                             this.props.item.attributes.type === 'upload' ?
@@ -412,11 +419,9 @@ export default class ActivityItem extends React.Component {
                                 {/* <div className="activity-item-container-instruction"
                                   dangerouslySetInnerHTML={{__html: this.state.activityInformation.activity.textSection}}>
                                 </div> */}
-                           { console.log("getCurrentContentt",this.state.activityInformation)}
-                            <Editor 
-                              editorState={this.Texteditor()} readOnly={false} 
-                              />  
-                      
+                                <Editor 
+                                  editorState={this.Texteditor()} readOnly={false} 
+                                /> 
                               </div>
                             :
                               undefined
@@ -510,9 +515,12 @@ export default class ActivityItem extends React.Component {
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.doActivity}</DialogTitle>
           <DialogContent className="stories-dialog-content">
-            <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+            {/* <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
               {this.state.dialogText}
-            </DialogContentText>
+            </DialogContentText> */}
+            <div className="success-dialog-content-text" id="alert-dialog-description"
+              dangerouslySetInnerHTML={{__html: this.state.dialogText}}>
+            </div>
             {
               this.props.item.attributes.type === 'upload' ?
                 <div style={{width: '100%'}}>
@@ -547,16 +555,13 @@ export default class ActivityItem extends React.Component {
               :
               undefined
             }
-
             {
               this.props.item.attributes.type === 'section' ?
-
-              <ImageCaptionEditor
-                getEditorState={this.getEditorState}
-                language={this.props.language}
-                value={this.Texteditor()}
-              />
-             
+                <ImageCaptionEditor
+                  getEditorState={this.getEditorState}
+                  language={this.props.language}
+                  value={this.Texteditor()}
+                />
             :
               undefined
             }

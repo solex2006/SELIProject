@@ -77,29 +77,23 @@ export default class CommentItem extends React.Component {
               >
                 {this.state.profile.username.charAt(0).toUpperCase()}
               </Avatar>
-              <div className="student-profile-container">
-                  <div>
-                    <Paper
-                      className="student-profile-information-container-comment"
-                      elevation={4}
-                    >
-                      <div>
-                        <p className="student-profile-information-text-secondary-comment">
-                          {`${this.props.language.date}: ${this.props.comment.date.getHours()}:${
-                            this.props.comment.date.getMinutes() < 10 ? 
-                            `0${this.props.comment.date.getMinutes()}` : 
-                            this.props.comment.date.getMinutes()} - ${this.props.comment.date.toLocaleDateString('en-US')}`}
-                        </p>
-                        <p className="student-profile-information-text-secondary-comment">
-                          {`${this.props.language.name}: ${this.state.profile.profile.fullname}`}
-                        </p>
-                        <div className="activity-item-container-instruction"
-                          dangerouslySetInnerHTML={{__html: this.props.comment.label}}>
-                        </div>
-                      </div>
-                    </Paper>
-                  </div>
-              </div>
+              <Paper
+                className="student-profile-information-container-comment"
+                elevation={4}
+              >
+                <p className="student-profile-information-text-secondary-comment">
+                  {`${this.props.language.date}: ${this.props.comment.date.getHours()}:${
+                    this.props.comment.date.getMinutes() < 10 ? 
+                    `0${this.props.comment.date.getMinutes()}` : 
+                    this.props.comment.date.getMinutes()} - ${this.props.comment.date.toLocaleDateString('en-US')}`}
+                </p>
+                <p className="student-profile-information-text-secondary-comment">
+                  {`${this.props.language.name}: ${this.state.profile.profile.fullname}`}
+                </p>
+                <div className="activity-item-container-instruction"
+                  dangerouslySetInnerHTML={{__html: this.props.comment.label}}>
+                </div>
+              </Paper>
               {
                 this.props.comment.userId === Meteor.userId() ?
                   <Tooltip onClick={() => this.props.deleteComment(this.props.comment)} title={this.props.language.delete}>
