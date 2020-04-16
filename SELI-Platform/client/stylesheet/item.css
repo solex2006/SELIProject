@@ -51,6 +51,7 @@
   display: flex;
   position: relative;
 }
+
 .content-boxstudent {
   width: 100%;
   height: auto;
@@ -425,6 +426,10 @@
   background-color: transparent !important;
 }
 
+.activity-parent-panel {
+  background-color: transparent !important;
+}
+
 .item-quiz-expansion-summary-text-container {
   position: relative;
   left: 2.5%;
@@ -448,6 +453,7 @@
 
 .item-quiz-detail-container {
   position: relative;
+  width: 88%;
   left: 5vw;
   padding: 2.5vh 0;
 }
@@ -496,7 +502,7 @@
 }
 
 .activity-item-container-instruction {
-  width: 88%;
+  width: 100%;
   padding: 1.5vh 2.5%;
   color: #616161;
 }

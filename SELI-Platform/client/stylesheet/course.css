@@ -16,12 +16,12 @@
 }
 
 .course-content-container {
-  width: calc(100% - 130px);
+  width: calc(100vw - 130px);
   padding: 5vh 65px;
 }
 
 .course-content-container-quiz {
-  width: calc(100% - 130px);
+  width: calc(100vw - 130px);
   padding: 0vh 65px;
 }
 
