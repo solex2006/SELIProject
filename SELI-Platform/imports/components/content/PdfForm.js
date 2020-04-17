@@ -12,6 +12,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Library from '../tools/Library';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab'
+import AccessibilityIcon from '@material-ui/icons/Accessibility';
+import InfoIcon from '@material-ui/icons/Info';
+import PositionedSnackbar from "./ContentAlert"
 
 export default class PdfForm extends React.Component {
   constructor(props) {
@@ -48,13 +51,21 @@ export default class PdfForm extends React.Component {
   }
 
   getFileInformation(file){
-    let attributes = this.state.attributes;
-    attributes.pdf = file;
-    this.setState({
-      attributes: attributes,
-      showPreview: true,
-      showGallery: false,
-    });
+    if(file==="nofile"){
+      this.setState({
+        showPreview: false,
+        alert:"alert"
+      });
+    }else{
+      let attributes = this.state.attributes;
+      attributes.pdf = file;
+      this.setState({
+        attributes: attributes,
+        showPreview: true,
+        showGallery: false,
+        alert:"Noalert"
+      });
+    }
   }
 
   unPickFile(){
@@ -100,6 +111,11 @@ export default class PdfForm extends React.Component {
             showPreview: true,
           })
         }
+        else{
+          this.setState({
+            showPreview: false,
+          })
+        }
       })
     }
   }
@@ -116,6 +132,7 @@ export default class PdfForm extends React.Component {
                 </Fab>
                 <p className="media-fab-text">{this.props.language.library}</p>
               </div>
+
               {
                 !this.state.showPreview ?
                   <div className="form-file-container">
@@ -126,16 +143,45 @@ export default class PdfForm extends React.Component {
                       label={this.props.language.uploadPdfButtonLabel}
                       getFileInformation={this.getFileInformation.bind(this)}
                     />
+                    
                   </div>
                 :
+                
                 <PdfPreview
                   file={this.state.attributes.pdf}
                   unPickFile={this.unPickFile.bind(this)}
                   language={this.props.language}
                 />
               }
+
               <div>
+              
+
+              <div className="accessibility-form-helper-text">
+                
+                  {/* <AccessibilityHelp 
+                    id={'short-description-help-container'} 
+                    name={'shortDescriptionHelpContainer'} 
+                    error={props.error} 
+                    tip={props.tip} 
+                    //step={props.step}
+                    //stepLabel={props.stepLabel}
+                    language={props.language}
+                  /> */}
+                  <PositionedSnackbar
+                    alert={this.state.alert}
+                    language={this.props.language}
+                    type={"pdf"}
+                  />
+                 {/*  <InfoIcon aria-label='Accessibilit tip'/>
+                  <span className={this.state.showPreview ? 'accessibError' : 'accessibValid'}>
+                    Subir un archivo pdf
+                  </span> */}
+                </div>
                 <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
+                
+                
+
                 <div className="editor-block">
                   <Editor
                     areaHeight="25vh"

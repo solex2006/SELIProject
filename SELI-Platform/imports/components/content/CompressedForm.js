@@ -12,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Library from '../tools/Library';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab'
-
+import PositionedSnackbar from "./ContentAlert"
 export default class CompressedForm extends React.Component {
   constructor(props) {
     super(props);
@@ -49,13 +49,22 @@ export default class CompressedForm extends React.Component {
   }
 
   getFileInformation(file){
-    let attributes = this.state.attributes;
-    attributes.compressed = file;
-    this.setState({
-      attributes: attributes,
-      showPreview: true,
-      showGallery: false,
-    });
+   
+    if(file==="nofile"){
+      this.setState({
+        showPreview: false,
+        alert:"alert"
+      });
+    }else{
+      let attributes = this.state.attributes;
+      attributes.compressed = file;
+      this.setState({
+        attributes: attributes,
+        showPreview: true,
+        showGallery: false,
+        alert:"Noalert"
+      });
+    }
   }
 
   unPickFile(){
@@ -100,6 +109,10 @@ export default class CompressedForm extends React.Component {
           this.setState({
             showPreview: true,
           })
+        }else {
+          this.setState({
+            showPreview: false,
+          })
         }
       })
     }
@@ -135,6 +148,11 @@ export default class CompressedForm extends React.Component {
                   language={this.props.language}
                 />
               }
+              <PositionedSnackbar
+                alert={this.state.alert}
+                language={this.props.language}
+                type={"compressed"}
+              />
               <div>
                 <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
                 <div className="editor-block">

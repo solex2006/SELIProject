@@ -24,7 +24,7 @@ import MicIcon from '@material-ui/icons/Mic';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import AudioRecorder from '../tools/AudioRecorder';
 import TextField from '@material-ui/core/TextField';
-
+import PositionedSnackbar from "./ContentAlert"
 
 export default class AudioForm extends React.Component {
   constructor(props) {
@@ -104,22 +104,29 @@ export default class AudioForm extends React.Component {
   }
 
   getFileInformation(file){
-    console.log("fileAudio", file)
-    let attributes = this.state.attributes;
-    attributes.audio = file;
-    
-    this.setState({
-      attributes: attributes,
-      showPreview: true,
-      showGallery: false,
-    });
+    if(file==="nofile"){
+      this.setState({
+        showPreview: false,
+        alert:"alert"
+      });
+    }else{
+      let attributes = this.state.attributes;
+      attributes.audio = file;
+      this.setState({
+        attributes: attributes,
+        showPreview: true,
+        showGallery: false,
+        alert:"Noalert"
+      });
+    }
   }
   
+
   getFileInformationVideo(file){
     console.log("filevideo", file)
     let attributes = this.state.attributes;
     attributes.videosignal = file;
-    
+
     this.setState({
       attributes: attributes,
      // showPreview: true,
@@ -161,6 +168,10 @@ export default class AudioForm extends React.Component {
         if (this.state.attributes.audio !== undefined) {
           this.setState({
             showPreview: true,
+          })
+        }else{
+          this.setState({
+            showPreview: false,
           })
         }
       })
@@ -241,6 +252,11 @@ export default class AudioForm extends React.Component {
                         language={this.props.language}
                       />
                     }
+                    <PositionedSnackbar
+                      alert={this.state.alert}
+                      language={this.props.language}
+                      type={"audio"}
+                    />
                   </div>
 
 

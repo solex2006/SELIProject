@@ -33,6 +33,7 @@ import { Tracker } from 'meteor/tracker';
 import { Activities } from '../../../../lib/ActivitiesCollection';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 import ImageCaptionEditor from './Editordraft'
+import PositionedSnackbar from "../../content/ContentAlert"
 
 
 export default class ActivityItem extends React.Component {
@@ -232,10 +233,18 @@ export default class ActivityItem extends React.Component {
   };
 
   getFileInformation = (file) => {
-    this.setState({
-      file: file,
-      showPreview: true,
-    });
+    if(file==="nofile"){
+      this.setState({
+        showPreview: false,
+        alert:"alert"
+      });
+    }else{;
+      this.setState({
+        file: file,
+        showPreview: true,
+        alert:"Noalert"
+      });
+    }    
   }
 
   unPickFile(){
@@ -516,6 +525,7 @@ export default class ActivityItem extends React.Component {
             {
               this.props.item.attributes.type === 'upload' ?
                 <div style={{width: '100%'}}>
+                  
                   {
                     !this.state.showPreview ?
                       <FileUpload
@@ -532,6 +542,13 @@ export default class ActivityItem extends React.Component {
                         language={this.props.language}
                       />
                   }
+
+                  {console.log("tipo de archivo qu se va subor---",this.state, this.props, this.props.item.attributes.instruction)}
+                  <PositionedSnackbar
+                      alert={this.state.alert}
+                      language={this.props.language}
+                      type={this.props.item.attributes.instruction}
+                    />
                   <TextField
                     id="biography-input"
                     label={`${this.props.language.additionalNotes}:`}

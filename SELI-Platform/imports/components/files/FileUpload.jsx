@@ -105,7 +105,7 @@ class FileUpload extends Component {
             uploadInstance.start(); // Must manually start the upload
           }
        }else{
-        return undefined
+        return (this.props.getFileInformation("nofile"))
        }
         
     }
