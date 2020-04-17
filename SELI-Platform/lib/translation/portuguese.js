@@ -293,6 +293,7 @@ var PORTUGUESE = {
   extension: "Extensão",
   play: "Reproduzir",
   pause: "Pausar",
+  stop: "Parar",
   errorDeleting: "Ocorreu um erro para apagar o arquivo, tente novamente mais tarde",
   fileDeletedS: "Arquivo apagado com sucesso",
   courseWillDisabilities: "Este curso dará suporte aos seguintes requisitos especiais:",
@@ -764,7 +765,7 @@ var PORTUGUESE = {
   storyMustHave: 'Sua história deve ter: início, 1 cena, fim',
   allScenesMust: 'Todas as cenas da história devem ter um nome',
   allScenesAudio: 'Todas as cenas da história devem ter um registro de áudio',
-  allScenesAudio: 'Todas as cenas da história devem ter uma imagem',
+  allScenesImage: 'Todas as cenas da história devem ter uma imagem',
   storyMustEnd: 'Sua história deve ter um fim',
   storySaved: 'História salva com sucesso',
   storyPublished: 'História publicada com sucesso',
@@ -886,5 +887,8 @@ var PORTUGUESE = {
   noAudioUploaded: "No audio",
   textEditor_a11y_title: "title",
   textEditor_a11y_subtitle: "subtitle",
+  gettingCourseInf: "Getting course information",
+  zoomIn: "Zoom in",
+  zoomOut: "Zoom out",
 }
 export default PORTUGUESE;

@@ -412,7 +412,7 @@ class StorytellingTool extends React.Component {
     });
   }
 
-  validateStory = () => {
+  validateStory = (publish) => {
     let story = this.state.story;
     if (story.nodes.length < 3) {
       this.props.handleControlMessage(true, this.props.language.storyMustHave);
@@ -427,15 +427,15 @@ class StorytellingTool extends React.Component {
         });
         return false;
       }
-      if (story.nodes[i].audio === undefined) {
-        this.props.handleControlMessage(true, this.props.allScenesAudio);
+      if (story.nodes[i].audio === "" && i + 1 < story.nodes.length && publish) {
+        this.props.handleControlMessage(true, this.props.language.allScenesAudio);
         this.setState({
           selectedNode: i,
         });
         return false;
       }
-      if (story.nodes[i].image === undefined) {
-        this.props.handleControlMessage(true, this.props.allScenesImage);
+      if (story.nodes[i].image === "" && publish) {
+        this.props.handleControlMessage(true, this.props.language.allScenesImage);
         this.setState({
           selectedNode: i,
         });
@@ -512,7 +512,7 @@ class StorytellingTool extends React.Component {
   }
 
   handlePublishStory = () => {
-    if (this.validateStory()) {
+    if (this.validateStory("publish")) {
       this.openDialog("publish");
     }
   }
@@ -1877,6 +1877,9 @@ class StorytellingTool extends React.Component {
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                   {this.props.language.sendAsActivity}
                 </DialogTitle>
+                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
+                  {`${this.props.language.publishStoryActivityText}:`}
+                </DialogContentText>
                 {
                   this.state.activities.map(activity => {
                     return(
@@ -1885,14 +1888,12 @@ class StorytellingTool extends React.Component {
                         className="storytelling-course-activity-publish-button"
                         onClick={() => this.completeActivity(activity.activityId, this.props.language.storySent, activity.courseId)}
                       >
-                        {`- ${activity.course} at: ${activity.source} | ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
+                        {`${activity.course} - ${activity.source} | ${this.props.language.instructions} 
+                        ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
                       </Button>
                     )
                   })
                 }
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {this.props.language.publishStoryActivityText}
-                </DialogContentText>
                 <DialogActions>
                   <Button onClick={() => this.handleyes()} color="primary" autoFocus>
                     {this.props.language.back}

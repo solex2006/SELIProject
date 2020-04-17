@@ -2,7 +2,7 @@
 
 :root {
   /* Colors */
-  --primary: #0288d1;
+  --primary: #1976d2;
   --secondary: #00897b;
   --normal-text: #333333;
   --white: #FFFFFF;
@@ -55,7 +55,7 @@
   --navigation-color:  #e0e0e0;
 
   /* Picker */
-  --color1: #0288d1;
+  --color1: #1976d2;
   --color2: #e53935;
   --color3: #ffa000;
   --color4: #03a9f4;
@@ -93,5 +93,5 @@
   --subscription-card-height: 25vh;
 
    /* Storytelling-time */
-  --actions-height: 165px;
+  --actions-height: 145px;
 }

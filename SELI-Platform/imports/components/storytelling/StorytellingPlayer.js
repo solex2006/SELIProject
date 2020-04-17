@@ -110,8 +110,6 @@ export default class StorytellingPlayer extends React.Component {
         scenePlaying: this.state.scenePlaying + 1,
       });
     }
-    //console.log("AAAAAAAAAAAAAAAAAA")
-    //console.log(this.state)
   }
 
   handleAutoPlay = () => {
@@ -136,6 +134,7 @@ export default class StorytellingPlayer extends React.Component {
     this.setState({
       scenePlaying: 0,
     })
+    this.refs.storytellingPlayer.seekTo(0, 'seconds');
   }
 
   componentDidMount() {
@@ -158,13 +157,14 @@ export default class StorytellingPlayer extends React.Component {
     }
   }
 
-size = (width, height)=>{
-  //console.log(width, height)
-  this.setState({
-    width:width,
-    height:height
-  })
-}
+  size = (width, height)=>{
+    //console.log(width, height)
+    this.setState({
+      width:width,
+      height:height
+    })
+  }
+
   render() {
     return(
       <div>
@@ -173,6 +173,7 @@ size = (width, height)=>{
             this.props.story.nodes[this.state.scenePlaying].video === "" ?
               <div>
                 <ReactPlayer
+                  ref="storytellingPlayer"
                   className="storytelling-tool-audio-player"
                   url={this.props.story.nodes[this.state.scenePlaying].audio.link}
                   playing={this.state.playing}
@@ -189,7 +190,8 @@ size = (width, height)=>{
                 </div>
               </div>
             :
-              <ReactPlayer 
+              <ReactPlayer
+                ref="storytellingPlayer"
                 className="course-creator-preview-player-storytelling" 
                 url={this.props.story.nodes[this.state.scenePlaying].video.link}
                 playing={this.state.playing}

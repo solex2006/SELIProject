@@ -1,20 +1,20 @@
 var OPTIONS = [
   {
     label: [
-      "Dashboard",
-      "Dashboard",
-      "Dashboard",
-      "",
-      "Dashboard",
+      "Learning analytics",
+      "Analíticas de aprendizaje",
+      "Análise de aprendizado",
+      "Nauka analityki",
+      "Analitiği öğrenme",
     ],
     suboptions: [
       {
         label: [
           "My Dashboard",
-          "Mi Dashboard",
-          "My Dashboard",
-          "",
-          "My Dashboard",
+          "Mi tablero",
+          "Meu painel",
+          "Moja tablica",
+          "Gösterge Panelim",
         ],
         component: 'dashboard',
       }

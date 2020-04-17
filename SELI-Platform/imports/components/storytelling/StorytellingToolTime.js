@@ -28,7 +28,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 import StorytellingObject from './StorytellingObject';
-import StorytellingPlayer from './StorytellingPlayer';
+import StorytellingPlayerTime from './StorytellingPlayerTime';
 import { Activities } from '../../../lib/ActivitiesCollection';
 import { Courses } from '../../../lib/CourseCollection';
 import Paper from '@material-ui/core/Paper';
@@ -47,8 +47,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import ImageIcon from '@material-ui/icons/Image';
-import AudiotrackIcon from '@material-ui/icons/Audiotrack';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
+import StopIcon from '@material-ui/icons/Stop';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 
 import { 
   FacebookShareButton, FacebookIcon,
@@ -83,6 +88,7 @@ class StorytellingToolTime extends React.Component {
   
   constructor(props) {
     super(props);
+    this.waveObjects = [];
     this.state = {
       story: {
         name: "",
@@ -102,6 +108,7 @@ class StorytellingToolTime extends React.Component {
         ],
         isPublic: true,
       },
+      playing: false,
       saved: undefined,
       selectedNode: 0,
       selectedImage: 0,
@@ -130,7 +137,7 @@ class StorytellingToolTime extends React.Component {
     }
   }
   
-  filterRepitedFiles=(data)=>{
+  filterRepitedFiles = (data) => {
     let filteredArr = data.reduce((acc, current) => {
       let x = acc.find(item => item.name === current.name);
       if (!x) {
@@ -139,7 +146,7 @@ class StorytellingToolTime extends React.Component {
         return acc;
       }
     }, []);
-    const filteredItems = filteredArr.filter(item => item != "")
+    const filteredItems = filteredArr.filter(item => item !== "")
     return filteredItems //Return filtered values
   }
 
@@ -196,30 +203,30 @@ class StorytellingToolTime extends React.Component {
 
   updateLibraryContent= () =>{ 
     this.setState({
-      dataImages:[],
-      dataAudio:[],
+      dataImages: [],
+      dataAudio: [],
     })
     let dataLibraryContent=Activities.find({}).fetch()
-    
     var dataLibraryContentCopy = dataLibraryContent.filter(function(value, index, arr){
       if (value.activity.user == Meteor.userId()){
         return value
       }
     });
-
-    dataLibraryContentCopy.map((data)=>{
-      if (data.activity.type === "storytelling"){
-        let LibraryContent = data.activity.data
-        LibraryContent.map((data2)=>{
-        let dataImg=data2.image
-        let dataAud=data2.audio 
-        this.state.dataImages.push(dataImg)
-        this.state.dataAudio.push(dataAud)
+    dataLibraryContentCopy.map((data) => {
+      if (data.activity.type === "storytelling" || data.activity.type === "storytelling-time"){
+        data.activity.data.map((data2) => {
+          this.state.dataAudio.push(data2.audio)
+          if (data.activity.type === "storytelling") {
+            this.state.dataImages.push(data2.image)
+          } else {
+            data2.images.map((image) => {
+              this.state.dataImages.push(image.file)
+            })
+          }
         })
       }
     })
   }
-  
 
   handleClose = () => {
     this.setState({ open: false });
@@ -234,34 +241,31 @@ class StorytellingToolTime extends React.Component {
   }
 
   handleChange = name => event => {
-    let story = this.state.story;
-    if (name === 'storyName') {
-      story.name = event.target.value;
+    if (name === 'script') {
+      let value = event.target.value;
+      this.setState(state => {
+        const story = state.story;
+        story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType] = value; 
+        return {
+          story,
+        };
+      });
+    } else {
+      let story = this.state.story;
+      if (name === 'storyName') {
+        story.name = event.target.value;
+      }
+      if (name === 'name') {
+        story.nodes[this.state.selectedNode].audio.name = event.target.value;
+      }
+      
+      if (name === "public") {
+        story.isPublic = !story.isPublic;
+      }
+      this.setState({
+        story: story,
+      })
     }
-    if (name === 'name') {
-      story.nodes[this.state.selectedNode].audio.name = event.target.value;
-    }
-    if (name === 'description-english') {
-      story.nodes[this.state.selectedNode].description.english = event.target.value;
-    }
-    if (name === 'description-spanish') {
-      story.nodes[this.state.selectedNode].description.spanish = event.target.value;
-    }
-    if (name === 'description-portuguese') {
-      story.nodes[this.state.selectedNode].description.portuguese = event.target.value;
-    }
-    if (name === 'description-polish') {
-      story.nodes[this.state.selectedNode].description.polish = event.target.value;
-    }
-    if (name === 'description-turkish') {
-      story.nodes[this.state.selectedNode].description.turkish = event.target.value;
-    }
-    if (name === "public") {
-      story.isPublic = !story.isPublic;
-    }
-    this.setState({
-      story: story,
-    })
   }
 
   addSingleNode = (index) => {
@@ -308,7 +312,32 @@ class StorytellingToolTime extends React.Component {
   }
 
   addSingleScript = (timestamp) => {
-    
+    let scriptNode = {
+      _id: Math.random(),
+      timestamp: timestamp,
+      script: {
+        english: '',
+        spanish: '',
+        portuguese: '',
+        polish: '',
+        turkish: '',
+      },
+    };
+    let story = this.state.story;
+    let scriptIndex = story.nodes[this.state.selectedNode].scripts.findIndex(item => item.timestamp > timestamp);
+    if (scriptIndex === -1) {
+      story.nodes[this.state.selectedNode].scripts.push(scriptNode);
+    } else {
+      story.nodes[this.state.selectedNode].scripts.splice(scriptIndex, 0, scriptNode);
+    }
+    this.setState({
+      story: story,
+      scriptDisabled: false,
+    }, () => {
+      this.setState({
+        selectedScript: story.nodes[this.state.selectedNode].scripts.findIndex(item => item._id === scriptNode._id),
+      })
+    });
   }
 
   handleNode = (index, action) => {
@@ -334,31 +363,35 @@ class StorytellingToolTime extends React.Component {
     if (type === "image") {
       this.setState({
         selectedImage: childIndex,
-      }, () => {
-        if (action) {
-          if (action === 'delete'){
-            story.nodes[index].images.splice(childIndex, 1);
-            if (childIndex > 0) {
-              this.setState({
-                selectedImage: childIndex-1,
-              })
-            }
-          }
-          if (action === 'edit'){
-            this.openDialog('image')
+      })
+      if (action) {
+        if (action === 'delete'){
+          story.nodes[index].images.splice(childIndex, 1);
+          if (childIndex > 0) {
+            this.setState({
+              selectedImage: childIndex - 1,
+              story,
+            })
           }
         }
-      })
+        if (action === 'edit'){
+          this.openDialog('image')
+        }
+      }
     } else {
       this.setState({
         selectedScript: childIndex,
-      }, () => {
-        
       })
+      if (action && action === 'delete') {
+        story.nodes[index].scripts.splice(childIndex, 1);
+        if (childIndex > 0) {
+          this.setState({
+            selectedScript: childIndex - 1,
+            story,
+          })
+        }
+      }
     }
-    this.setState({
-      story,
-    })
   }
 
   openDialog = (action) => {
@@ -401,10 +434,10 @@ class StorytellingToolTime extends React.Component {
   //This function returns the information of the items of the data base depending on the file type 
   getFileInformation(file){  
     let story = this.state.story;
-    if (this.state.action === "image") {
+    if (this.state.action === "image" || this.state.action === "reuse") {
       story.nodes[this.state.selectedNode].images[this.state.selectedImage].file = file;
     } else {
-      story.nodes[this.state.selectedNode][this.state.action] = file;
+      story.nodes[this.state.selectedNode].audio = file;
     }
     this.setState({
       story: story,
@@ -422,15 +455,8 @@ class StorytellingToolTime extends React.Component {
   validateStory = () => {
     let story = this.state.story;
     for (var i = 0; i < story.nodes.length; i++) {
-      if (story.nodes[i].audio === undefined) {
-        this.props.handleControlMessage(true, this.props.allScenesAudio);
-        this.setState({
-          selectedNode: i,
-        });
-        return false;
-      }
-      if (story.nodes[i].images.length === 0) {
-        this.props.handleControlMessage(true, this.props.allScenesImage);
+      if (story.nodes[i].audio === "") {
+        this.props.handleControlMessage(true, this.props.language.allScenesAudio);
         this.setState({
           selectedNode: i,
         });
@@ -733,7 +759,7 @@ class StorytellingToolTime extends React.Component {
   moveNodeUp(index) {
     this.changeNodeOrdinal(index, index - 1);
   }
- 
+
   moveNodeDown(index) {
     this.changeNodeOrdinal(index, index + 1);
   }
@@ -762,7 +788,7 @@ class StorytellingToolTime extends React.Component {
 
   selectColor = (language) => {
     if (  this.state.story.nodes[this.state.selectedNode].scripts.length &&
-          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript][language] !== ""){
+          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[language] !== ""){
       return "secondary.main"
     } else {
       return ""
@@ -786,7 +812,7 @@ class StorytellingToolTime extends React.Component {
   }
 
   rotateangle= (rotate)=>{
-    this.state.story.nodes[this.state.selectedNode].rotate=rotate
+    this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].rotate = rotate;
   }
 
   changeFileName = (fileName, _id) => {
@@ -823,6 +849,63 @@ class StorytellingToolTime extends React.Component {
     this.handleCloseRename();
   }
 
+  manageScenes = (index, step) => {
+    if (this.state.playing) {
+      this.waveObjects[index].stop();
+      this.waveObjects[index + step].play();
+    }
+    this.setState({
+      selectedNode: index + step,
+    })
+  }
+
+  sendAction = (action) => {
+    if (action === "playPause") {
+      if (!this.state.playing) {
+        this.waveObjects[this.state.selectedNode].play();
+      } else {
+        this.waveObjects[this.state.selectedNode].pause();
+      }
+      this.setState({
+        playing: !this.state.playing,
+      })
+    } else if (action === "stop") {
+      for (let i = 0; i < this.state.story.nodes.length; i++) {
+        this.waveObjects[i].stop();
+      }
+      this.setState({
+        selectedNode: 0,
+        playing: false,
+      })
+    } else if (action === "previous") {
+      if (this.state.selectedNode > 0) {
+        this.manageScenes(this.state.selectedNode, -1);
+      } else {
+        if (this.state.playing) {
+          this.waveObjects[0].stop();
+          this.waveObjects[0].play();
+        }
+      }
+    }
+    else if (action === "next") {
+      if (this.state.selectedNode + 1 < this.state.story.nodes.length) {
+        this.manageScenes(this.state.selectedNode, 1);
+      } else {
+        this.sendAction("stop");
+      }
+    }
+    else if (action === "zoomIn") {
+      for (let i = 0; i < this.state.story.nodes.length; i++) {
+        this.waveObjects[i].zoomIn();
+      }
+    }
+    else if (action === "zoomOut") {
+      for (let i = 0; i < this.state.story.nodes.length; i++) {
+        this.waveObjects[i].zoomOut();
+      }
+    }
+  }
+
   render() {
     const { classes } = this.props;
     return(
@@ -834,7 +917,7 @@ class StorytellingToolTime extends React.Component {
                 <div className="storytelling-title-area-time">
                   <h2 className="storytelling-work-area-title-time">{this.props.language.storyFlow}</h2>
                   {
-                    this.state.story.nodes.length >= 2 ?
+                    this.state.saved ?
                       <Button
                         color="primary"
                         className="storytelling-work-preview-button-time"
@@ -851,12 +934,12 @@ class StorytellingToolTime extends React.Component {
                     this.state.story.nodes.map((node, index) => {
                       return(
                         <StorytellingObject
+                          ref={(ref) => this.waveObjects[index] = ref}
                           node={node}
-                          length={this.state.story.nodes.length}
                           index={index}
-                          /* selectedNode={this.state.selectedNode}
-                          selectedImage={this.state.selectedImage}
-                          selectedScript={this.state.selectedScript} */
+                          length={this.state.story.nodes.length}
+                          languageType={this.state.languageType}
+                          sendAction={this.sendAction.bind(this)}
                           addSingleNode={this.addSingleNode.bind(this)}
                           addSingleImage={this.addSingleImage.bind(this)}
                           addSingleScript={this.addSingleScript.bind(this)}
@@ -871,6 +954,59 @@ class StorytellingToolTime extends React.Component {
                   }
                 </div>
               </div>
+              {
+                this.state.story.nodes[this.state.selectedNode].audio === "" ? undefined :
+                  <div className="storytelling-actions-button-time">
+                    <Tooltip title={this.state.playing ? this.props.language.pause : this.props.language.play}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('playPause')}
+                      >
+                        {this.state.playing ? <PauseIcon /> : <PlayArrowIcon />}
+                      </Fab>
+                    </Tooltip>
+                    <Tooltip title={this.props.language.stop}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('stop')}
+                      >
+                        <StopIcon />
+                      </Fab>
+                    </Tooltip>
+                    <Tooltip title={this.props.language.back}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('previous')}
+                      >
+                        <SkipPreviousIcon />
+                      </Fab>
+                    </Tooltip>
+                    <Tooltip title={this.props.language.next}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('next')}
+                      >
+                        <SkipNextIcon />
+                      </Fab>
+                    </Tooltip>
+                    <Tooltip title={this.props.language.zoomIn}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('zoomIn')}
+                      >
+                        <ZoomInIcon />
+                      </Fab>
+                    </Tooltip>
+                    <Tooltip title={this.props.language.zoomOut}>
+                      <Fab
+                        className="storytelling-action-button-time"
+                        onClick={() => this.sendAction('zoomOut')}
+                      >
+                        <ZoomOutIcon />
+                      </Fab>
+                    </Tooltip>
+                  </div>
+              }
               <div className="storytelling-menu-container-time">
                 <div className="storytelling-menu-body-full-time">
                   <TextField
@@ -882,7 +1018,7 @@ class StorytellingToolTime extends React.Component {
                     disabled={this.state.story.nodes[this.state.selectedNode].audio !== "" ? false : true}
                     multiline
                     autoComplete={"off"}
-                    rows={4}
+                    rows={3}
                     value={this.state.story.nodes[this.state.selectedNode].audio !== "" ? this.state.story.nodes[this.state.selectedNode].audio.name : ""}
                     onChange={this.handleChange('name')}
                     error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
@@ -933,10 +1069,10 @@ class StorytellingToolTime extends React.Component {
                       disabled={this.state.scriptDisabled}
                       value={
                         this.state.story.nodes[this.state.selectedNode].scripts.length ?
-                          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript][this.state.languageType]
+                          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType]
                         : undefined}
-                      onChange={this.handleChange(`description-${this.state.languageType}`)}
-                      error={this.state.showError && this.state.story.nodes[this.state.selectedNode].description === ''}
+                      onChange={this.handleChange("script")}
+                      error={this.state.showError && this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script === ''}
                       helperText={this.props.language.sceneDescriptionHelper}
                     />
                   </div>
@@ -972,7 +1108,7 @@ class StorytellingToolTime extends React.Component {
             </div>
           :
             <React.Fragment>
-              <StorytellingPlayer
+              <StorytellingPlayerTime
                 story={this.state.story}
                 comments={false}
                 link={false}
@@ -1093,7 +1229,6 @@ class StorytellingToolTime extends React.Component {
             :
               undefined
           }   
-          
           { 
             this.state.action === "reuse" || this.state.action === "reuseAudio" || this.state.action === "image" || this.state.action === "audio" ?
               <React.Fragment>
@@ -1293,10 +1428,10 @@ class StorytellingToolTime extends React.Component {
                           this.state.story.nodes[this.state.selectedNode].images.length &&
                           this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage]["file"] !== '' ?
                             <ImagePreview
-                              key={this.state.story.nodes[this.state.selectedNode].rotate}
+                              key={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].rotate}
                               file={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage]["file"]}
                               rotateangle={this.rotateangle}
-                              rotateAngle={this.state.story.nodes[this.state.selectedNode].rotate}
+                              rotateAngle={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].rotate}
                             />
                           :
                             undefined
@@ -1508,6 +1643,9 @@ class StorytellingToolTime extends React.Component {
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                   {this.props.language.sendAsActivity}
                 </DialogTitle>
+                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
+                  {`${this.props.language.publishStoryActivityText}:`}
+                </DialogContentText>
                 {
                   this.state.activities.map(activity => {
                     return(
@@ -1516,14 +1654,12 @@ class StorytellingToolTime extends React.Component {
                         className="storytelling-course-activity-publish-button-time"
                         onClick={() => this.completeActivity(activity.activityId, this.props.language.storySent, activity.courseId)}
                       >
-                        {`- ${activity.course} at: ${activity.source} | ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
+                        {`${activity.course} - ${activity.source} | ${this.props.language.instructions} 
+                        ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
                       </Button>
                     )
                   })
                 }
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {this.props.language.publishStoryActivityText}
-                </DialogContentText>
                 <DialogActions>
                   <Button onClick={() => this.handleyes()} color="primary" autoFocus>
                     {this.props.language.back}

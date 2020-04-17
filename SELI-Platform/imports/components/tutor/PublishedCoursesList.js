@@ -639,7 +639,6 @@ export default class PublishedCoursesList extends React.Component {
                     pathname: "/coursePreview",
                     hash: this.state.course_id,
                     state: { fromDashboard: true },
-                    query: {language: this.props.language}
                   }}
                 >
                   <Button color="primary" autoFocus>

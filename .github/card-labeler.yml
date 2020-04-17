@@ -23,21 +23,21 @@ DEVELOPMENT CYCLE:
   'CODING':
     - '3 - Working'   
   'CODED':
-    - '3 - Working' #after functionaly test 
     - 'need tester'
-  'PULL REQUEST':
+  'FAILED':
+    - 'failed :red_circle:'
+  'PASSED FUNCTIONAL TEST':
+    - 'passed :large_blue_circle:'
+  'PULL REQUESTED':
     - '4 - In Review'
-#    'MERGED':
+    #    'MERGED':
 
 FUNCTIONALITY TEST:
   'TO-DO':
     - 'need tester'
-    - '3 - Working'
   'IN PROGRESS':
     - '4 - In Review'
-  'FAILED':
-    - '3 - Working'   
-    - ':red_circle:failed' #fix actions to label add by bot also trigger others actions
+  'FAILED': 
+    - 'failed :red_circle:' 
   'SUCCESSFUL':
-    - '4 - In Review'
-    - ':large_blue_circle:passed'
+    - 'passed :large_blue_circle:'

@@ -7,9 +7,8 @@ import theme from '../style/theme';
 import Loading from '../components/tools/Loading';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 import CommentDialog from '../components/student/comments/CommentDialog';
-
-
 import StorytellingPlayer from '../components/storytelling/StorytellingPlayer';
+import StorytellingPlayerTime from '../components/storytelling/StorytellingPlayerTime';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -21,6 +20,7 @@ import { Comments } from '../../lib/CommentsCollection';
 import english from '../../lib/translation/english';
 import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
+import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
 
 export default class Story extends React.Component {
@@ -47,6 +47,7 @@ export default class Story extends React.Component {
           story.nodes = story.activity.data;
           this.setState({
             story: story,
+            type: story.activity.type,
             loadingStory: false,
           });
         }
@@ -118,7 +119,11 @@ export default class Story extends React.Component {
     else if (option === 'Spanish (ES)') {
       Session.set({language: spanish});
       language = spanish;
-    } 
+    }
+    else if (option === 'Polish (PL)') {
+      Session.set({language: polish});
+      language = polish;
+    }
     else if (option === 'Turkish (TR)') {
       Session.set({language: turkish});
       language = turkish;
@@ -130,7 +135,6 @@ export default class Story extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return(
       <div>
         <MuiThemeProvider theme={theme}>
@@ -141,25 +145,33 @@ export default class Story extends React.Component {
                   <main id="page-wrap">
                     <React.Fragment>
                       {
-                        this.state.story === undefined ?
-                          undefined
-                        :
-                        <div className="storytelling-link-container">
-                          <AppBar position="static" className="course-dialog-app-bar">
-                            <Toolbar style={{position: 'relative'}}>
-                              <Typography className="course-dialog-title" variant="h6">
-                                {this.state.language.seliStories}
-                              </Typography>
-                            </Toolbar>
-                          </AppBar>
-                          <StorytellingPlayer
-                            story={this.state.story}
-                            comments={true}
-                            link={true}
-                            showCommentDialog={this.showCommentDialog.bind(this)}
-                            language={this.state.language}
-                          />
-                        </div>
+                        !this.state.story ? undefined :
+                          <div className="storytelling-link-container">
+                            <AppBar position="static" className="course-dialog-app-bar">
+                              <Toolbar style={{position: 'relative'}}>
+                                <Typography className="course-dialog-title" variant="h6">
+                                  {this.state.language.seliStories}
+                                </Typography>
+                              </Toolbar>
+                            </AppBar>             
+                            {
+                              !this.state.type ? undefined :
+                                this.state.type === "storytelling" ?
+                                  <StorytellingPlayer
+                                    story={this.state.story}
+                                    comments={false}
+                                    link={true}
+                                    language={this.state.language}
+                                  />
+                                :
+                                  <StorytellingPlayerTime
+                                    story={this.state.story}
+                                    comments={false}
+                                    link={true}
+                                    language={this.state.language}
+                                  />
+                            }
+                          </div>
                       }
                     </React.Fragment>
                   </main>

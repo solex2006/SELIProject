@@ -18,6 +18,7 @@ import {checkUserType} from '../../lib/userSesions';
 import english from '../../lib/translation/english';
 import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
+import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
 
 export default class Home extends React.Component {
@@ -86,7 +87,11 @@ export default class Home extends React.Component {
     else if (option === 'Spanish (ES)') {
       Session.set({language: spanish});
       language = spanish;
-    } 
+    }
+    else if (option === 'Polish (PL)') {
+      Session.set({language: polish});
+      language = polish;
+    }
     else if (option === 'Turkish (TR)') {
       Session.set({language: turkish});
       language = turkish;

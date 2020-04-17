@@ -222,7 +222,6 @@ export default class CourseCard extends React.Component {
                     pathname: "/coursePreview",
                     hash: this.props.course._id,
                     state: { fromDashboard: true },
-                    query: {language: this.props.language}
                   }}
                   onClick={() => 
                     {

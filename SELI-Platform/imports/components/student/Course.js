@@ -359,7 +359,10 @@ export default class Course extends React.Component {
       loadingStories: true,
     }, () => {
       Tracker.autorun(() => {
-        let stories = Activities.find({'activity.type': 'storytelling', 'activity.courseId': this.state.course._id}).fetch();
+        let stories = Activities.find({
+          'activity.type': { $in: [ "storytelling", "storytelling-time" ] }, 
+          'activity.courseId': this.state.course._id,
+        }).fetch();
         this.buildStories(stories);
       });
     });
