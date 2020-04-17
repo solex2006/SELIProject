@@ -32,8 +32,8 @@ import InfoIcon from '@material-ui/icons/Info';
 import { Tracker } from 'meteor/tracker';
 import { Activities } from '../../../../lib/ActivitiesCollection';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
-import ImageCaptionEditor from './Editordraft'
-
+import A11yEditor from './Editordraft';
+import EditorLinks from '../../inputs/editor/Editor';
 
 export default class ActivityItem extends React.Component {
   constructor(props) {
@@ -45,11 +45,8 @@ export default class ActivityItem extends React.Component {
       resolved: false,
       textSection: '',
       myStories: [],
-      insertText: false,
-      commentText: '',
       index: 0,
       activityId: '',
-      editorText:''
     }
   }
 
@@ -136,26 +133,23 @@ export default class ActivityItem extends React.Component {
   }
 
   doActivity = () => {
-    if (this.props.item.attributes.type !== 'forum') {
-      this.handleClickOpen();
-      let confirmAction;
-      if (this.props.item.attributes.type === 'upload') {
-        confirmAction = () => this.sendFile();
-      }
-      if (this.props.item.attributes.type === 'section') {
-        confirmAction = () => this.sendSection();
-      }
-      if (this.props.item.attributes.type === 'storyboard') {
-        confirmAction = () => this.sendStoryboard();
-      }
-      this.setState({
-        confirmAction: confirmAction,
-      });
-    } else {
-      this.setState({
-        insertText: true,
-      });
+    this.handleClickOpen();
+    let confirmAction;
+    if (this.props.item.attributes.type === 'forum') {
+      confirmAction = () => this.sendComment();
     }
+    if (this.props.item.attributes.type === 'upload') {
+      confirmAction = () => this.sendFile();
+    }
+    if (this.props.item.attributes.type === 'section') {
+      confirmAction = () => this.sendSection();
+    }
+    if (this.props.item.attributes.type === 'storyboard') {
+      confirmAction = () => this.sendStoryboard();
+    }
+    this.setState({
+      confirmAction: confirmAction,
+    });
   }
 
   sendComment = () => {
@@ -165,7 +159,7 @@ export default class ActivityItem extends React.Component {
     comment.id = Math.random();
     comment.userId = Meteor.userId();
     comment.date = new Date();
-    comment.label = this.state.commentText;
+    comment.label = this.state.textSection;
     comment.media = [];
     data.push(comment);
     Activities.update(
@@ -177,7 +171,7 @@ export default class ActivityItem extends React.Component {
           this.props.completeActivity(this.props.item.id, activity.activity);
         }
         this.setState({
-          commentText: '',
+          textSection: '',
         })
       }
     );
@@ -225,7 +219,6 @@ export default class ActivityItem extends React.Component {
     if (this.validateSectionActivity()) {
       let activity = {
         textSection: this.state.textSection,
-        editorText:this.state.editorText,
         type: 'section',
         public: true,
       }
@@ -262,11 +255,6 @@ export default class ActivityItem extends React.Component {
         additionalNotes: event.target.value,
       });
     }
-    if (name === 'forum') {
-      this.setState({
-        commentText: event.target.value,
-      });
-    }
   }
 
   validateStoryboard = () => {
@@ -286,10 +274,10 @@ export default class ActivityItem extends React.Component {
   }
 
   validateSectionActivity = () => {
-    /* if (this.state.textSection === '') {
+    if (this.state.textSection === '') {
       this.props.handleControlMessage(true, this.props.language.completeActivityWrite)
       return false;
-    } */
+    }
     return true;
   }
 
@@ -306,28 +294,20 @@ export default class ActivityItem extends React.Component {
 
 
   getEditorState=(editorState)=>{
-    console.log("editorState en ActivityItem",editorState)    
-    this.state.editorText=editorState
-
+    //console.log("editorState en ActivityItem",editorState)    
+    this.state.textSection = editorState;
   }
 
   Texteditor=()=>{
     if(this.state.activityInformation===undefined){
       return ("")
     }else{
-      const contentState = convertFromRaw(this.state.activityInformation.activity.editorText);
+      const contentState = convertFromRaw(this.state.activityInformation.activity.textSection);
       const editorState =  EditorState.createWithContent(contentState);
       return editorState
     }
     
   }
-/*   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.item.id !== this.props.item.id) {
-      this.getIndex();
-    }
-  } */
-
-  
 
   render() {
     return(
@@ -450,34 +430,7 @@ export default class ActivityItem extends React.Component {
                       <Divider />
                       <ExpansionPanelActions className="quiz-item-actions">
                         {
-                          this.props.item.attributes.type === 'forum' ?
-                            this.state.insertText || this.props.fromTutor || this.state.resolved ?
-                              <div className="activity-comment">
-                                <TextField
-                                  id="name-input"
-                                  label={this.props.language.reply}
-                                  margin="normal"
-                                  variant="outlined"
-                                  multiline
-                                  fullWidth
-                                  autoComplete={"off"}
-                                  required
-                                  value={this.state.commentText}
-                                  onChange={this.handleChange('forum')}
-                                />
-                                <Tooltip onClick={() => this.sendComment()} title={this.props.language.send}>
-                                  <Fab className="course-item-comment-card-media-fab" size="small">
-                                    <SendIcon color="primary"/>
-                                  </Fab>
-                                </Tooltip>
-                              </div>
-                            :
-                              undefined
-                          :
-                            undefined
-                        }
-                        {
-                          this.props.fromTutor || this.state.insertText ? undefined : 
+                          this.props.fromTutor ? undefined : 
                             <div>
                               <Button size="medium">
                                 {this.props.language.setReminder}
@@ -557,7 +510,7 @@ export default class ActivityItem extends React.Component {
             }
             {
               this.props.item.attributes.type === 'section' ?
-                <ImageCaptionEditor
+                <A11yEditor
                   getEditorState={this.getEditorState}
                   language={this.props.language}
                   value={this.Texteditor()}
@@ -566,8 +519,9 @@ export default class ActivityItem extends React.Component {
               undefined
             }
             {
-              /* this.props.item.attributes.type === 'section' ?
-                <Editor
+              this.props.item.attributes.type === 'forum' ?
+                <EditorLinks
+                  id="comment-input"
                   areaHeight='20vh'
                   innerHTML={this.state.textSection}
                   buttonLabels={false}
@@ -576,7 +530,7 @@ export default class ActivityItem extends React.Component {
                   language={this.props.language}
                 />
               :
-              undefined */
+                undefined
             }
             {
               this.props.item.attributes.type === 'storyboard' ?
