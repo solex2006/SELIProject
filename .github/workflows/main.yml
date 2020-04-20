@@ -101,16 +101,30 @@ jobs:
           project: 'https://github.com/solex2006/SELIProject/projects/8'
           column_name: 'PENDING FEATURE REQUEST'
 
-      - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE'
+      - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE - TO-DO'
         uses: srggrs/assign-one-project-github-action@1.2.0
         if: |
           github.event_name == 'issues' && 
           github.event.action == 'labeled' &&  
-          contains(github.event.issue.labels.*.name, '2 - Ready')
+          contains(github.event.issue.labels.*.name, '2 - Ready') &&
+          ( contains(github.event.issue.labels.*.name, 'Feature Specification') ||
+          contains(github.event.issue.labels.*.name, 'Feature Story'))  
         with:
           project: 'https://github.com/solex2006/SELIProject/projects/9'
           column_name: 'TO-DO'
 
+
+      - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE - DESIGN NOTES'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: |
+          github.event_name == 'issues' && 
+          github.event.action == 'labeled' &&  
+          contains(github.event.issue.labels.*.name, '2 - Ready') &&
+          contains(github.event.issue.labels.*.name, 'Feature Design Notes :notebook:')
+        with:
+          project: 'https://github.com/solex2006/SELIProject/projects/9'
+          column_name: 'DESIGN NOTES'
+      
       - name: Assign 'need tester' label to 'FUNCTIONALITY TEST CYCLE'
         uses: srggrs/assign-one-project-github-action@1.2.0
         if: |
