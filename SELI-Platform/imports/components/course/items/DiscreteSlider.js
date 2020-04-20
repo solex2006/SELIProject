@@ -22,13 +22,11 @@ export default DiscreteSlider=(props)=> {
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
-    console.log("EL valor", value)
     props.adjust(value, value)
   };
 
   const handleInputChange = event => {
     setValue(event.target.value === '' ? '' : Number(event.target.value));
-    console.log("EL valor", value)
     props.adjust(value, value)
   };
 
@@ -40,7 +38,6 @@ export default DiscreteSlider=(props)=> {
       setValue(310);
     }
   };
-//sconsole.log("PROPS", props)
   return (
     <div className={classes.root}>
       <Grid container spacing={2} alignItems="center">

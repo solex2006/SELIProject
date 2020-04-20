@@ -105,7 +105,7 @@ export default class QuizForm extends React.Component {
   }
 
   handleChange = (name, index) => event => {
-    console.log("Metodo HANDLE (name e index)", name, index, "evento-->", event)
+    //console.log("Metodo HANDLE (name e index)", name, index, "evento-->", event)
     let attributes = this.state.attributes;
     if (name === 'quizTitle') {
       attributes.quizTitle = event.target.value;
@@ -118,7 +118,7 @@ export default class QuizForm extends React.Component {
       if(event >0){
         attributes.timeLimit = event; ///save the value of aproval percentage
       }else{
-        console.log("Time quiz Incorrect default 60", event) //save default aproval percentage of 100
+        //console.log("Time quiz Incorrect default 60", event) //save default aproval percentage of 100
         attributes.timeLimit = 60;
       }
     }
@@ -126,7 +126,7 @@ export default class QuizForm extends React.Component {
       if(event >0){
         attributes.extendtime = event; ///save the value of extendTime
       }else{
-        console.log("Time quiz Incorrect default 60", event) //save default aproval percentage of 100
+        //console.log("Time quiz Incorrect default 60", event) //save default aproval percentage of 100
         attributes.extendtime = 0;
       }
     }
@@ -139,7 +139,7 @@ export default class QuizForm extends React.Component {
       }
     }
     else if (name === 'checkTime') {
-      console.log("Evento del checkbox", event.target.checked)
+      //console.log("Evento del checkbox", event.target.checked)
       if (event.target.checked===true){
         //console.log("cambia a false")
 
@@ -447,7 +447,7 @@ myFormatminutes=(num)=> {
             <p className="form-dialog-question-button-container-text-select">{this.props.language.numberofAnswers}</p>
           </div>
           {
-            console.log("Numeric Input", this.state.attributes.questions[this.state.questionSelected].correctAnswers.length)
+            //console.log("Numeric Input", this.state.attributes.questions[this.state.questionSelected].correctAnswers.length)
            
           }
            <div className="quiz-input-container">
@@ -465,7 +465,7 @@ myFormatminutes=(num)=> {
              {
               this.state.attributes.questions[this.state.questionSelected].correctAnswers.map((value,index)=>{
                 //value.answersText.map((answer,index)=>{
-                  console.log("question selected", this.state.attributes.questions[this.state.questionSelected])
+                  //console.log("question selected", this.state.attributes.questions[this.state.questionSelected])
                    return(
                     <div className="questions">
                       <TextField

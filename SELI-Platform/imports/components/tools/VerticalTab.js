@@ -90,7 +90,7 @@ export default function VerticalTabs(props) {
 	}
 
 	useEffect(() => {
-		console.log("props.support",props.support)
+		//console.log("props.support",props.support)
 		let supportAux = [];
 		props.support.map((option) => {
 			supportAux.push(option)

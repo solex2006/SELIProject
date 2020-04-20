@@ -111,6 +111,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 	//console.log("datos de video--",captionsTip, dataField)
 	const [showPreviewSignal, setshowPreviewSignal] = useState(false);
 	const [newCaption, setnewCaption] = useState(false);
+	
 	const getFileInformationCaption=(file)=>{		
 	    handleRadioButtonOnChangeValidator('captionsEmbebed','no')
 		dataField.fileTranscription[0]=file
@@ -162,7 +163,6 @@ export function VideoMediaCaptionsAltA11Y(props){
 				</RadioGroup>
 				<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbebedError} tip={captionsTip}/>
 			</FormControl>
-
 			{//languages signal part
 				(dataField.captionsEmbebed === "no" || newCaption===true )?
 				<div>

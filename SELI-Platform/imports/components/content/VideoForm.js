@@ -20,7 +20,8 @@ import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab'
 import AudioPreview from '../files/previews/AudioPreview';
 import AudioRecorder from '../tools/AudioRecorder';
-
+import PositionedSnackbar from "./ContentAlert"
+import AccessibilityHelp from '../tools/AccessibilityHelp'
 
 export default class VideoForm extends React.Component {
   constructor(props) {
@@ -96,13 +97,21 @@ export default class VideoForm extends React.Component {
   }
 
   getFileInformation(file){
-    let attributes = this.state.attributes;
-    attributes.video = file;
-    this.setState({
-      attributes: attributes,
-      showPreview: true,
-      showGallery: false,
-    });
+    if(file==="nofile"){
+      this.setState({
+        showPreview: false,
+        alert:"alert"
+      });
+    }else{
+      let attributes = this.state.attributes;
+      attributes.video = file;
+      this.setState({
+        attributes: attributes,
+        showPreview: true,
+        showGallery: false,
+        alert:"Noalert"
+      });
+    }
   }
 
   getFileInformationAudioDescription(file){
@@ -239,6 +248,7 @@ export default class VideoForm extends React.Component {
             helperColor: "#4caf50",
             urlMessage: this.props.language.thePlayerCan,
             showHelperText: true,
+            showPreview: false,
           })
         }
       })
@@ -330,6 +340,22 @@ export default class VideoForm extends React.Component {
                           </div>
                         </div>
                     }
+                    <PositionedSnackbar
+                      alert={this.state.alert}
+                      language={this.props.language}
+                      type={"video"}
+                    />
+                     <div className="form-editor-label">
+                      <AccessibilityHelp 
+                        id={'short-description-help-container'} 
+                        name={'shortDescriptionHelpContainer'} 
+                        error={!this.state.showPreview} 
+                        tip={!this.state.showPreview? this.props.language.uploadVideo: this.props.language.uploadVideoCorrect} 
+                        //step={props.step}
+                        //stepLabel={props.stepLabel}
+                        language={this.props.language}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="course-creator-form-column">
