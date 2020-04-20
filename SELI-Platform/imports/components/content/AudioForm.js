@@ -25,7 +25,8 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import AudioRecorder from '../tools/AudioRecorder';
 import TextField from '@material-ui/core/TextField';
 import PositionedSnackbar from "./ContentAlert"
-
+import AccessibilityHelp from '../tools/AccessibilityHelp'
+                   
 export default class AudioForm extends React.Component {
   constructor(props) {
     super(props);
@@ -123,7 +124,6 @@ export default class AudioForm extends React.Component {
   
 
   getFileInformationVideo(file){
-    console.log("filevideo", file)
     let attributes = this.state.attributes;
     attributes.videosignal = file;
 
@@ -157,7 +157,7 @@ export default class AudioForm extends React.Component {
 
   componentDidMount(){
     this.props.getAudioAttributesFunction(() => this.getAudioAttributes());
-    console.log("ContnetToedit",this.props.contentToEdit)
+    //console.log("ContnetToedit",this.props.contentToEdit)
   }
 
   componentWillMount(){
@@ -252,6 +252,17 @@ export default class AudioForm extends React.Component {
                         language={this.props.language}
                       />
                     }
+                     <div className="form-editor-label">
+                      <AccessibilityHelp 
+                        id={'short-description-help-container'} 
+                        name={'shortDescriptionHelpContainer'} 
+                        error={!this.state.showPreview} 
+                        tip={!this.state.showPreview? this.props.language.uploadAudio: this.props.language.uploadAudioCorrect} 
+                        //step={props.step}
+                        //stepLabel={props.stepLabel}
+                        language={this.props.language}
+                      />
+                    </div>
                     <PositionedSnackbar
                       alert={this.state.alert}
                       language={this.props.language}

@@ -13,6 +13,8 @@ import Library from '../tools/Library';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab'
 import PositionedSnackbar from "./ContentAlert"
+import AccessibilityHelp from '../tools/AccessibilityHelp'
+
 export default class CompressedForm extends React.Component {
   constructor(props) {
     super(props);
@@ -49,7 +51,6 @@ export default class CompressedForm extends React.Component {
   }
 
   getFileInformation(file){
-   
     if(file==="nofile"){
       this.setState({
         showPreview: false,
@@ -148,6 +149,18 @@ export default class CompressedForm extends React.Component {
                   language={this.props.language}
                 />
               }
+              <div className="form-editor-label">
+                <AccessibilityHelp 
+                  id={'short-description-help-container'} 
+                  name={'shortDescriptionHelpContainer'} 
+                  error={!this.state.showPreview} 
+                  tip={!this.state.showPreview? this.props.language.uploadCompressed: this.props.language.uploadCompressedCorrect} 
+                  //step={props.step}
+                  //stepLabel={props.stepLabel}
+                  language={this.props.language}
+                />
+              </div>
+
               <PositionedSnackbar
                 alert={this.state.alert}
                 language={this.props.language}

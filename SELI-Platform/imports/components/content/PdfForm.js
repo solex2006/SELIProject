@@ -15,6 +15,7 @@ import Fab from '@material-ui/core/Fab'
 import AccessibilityIcon from '@material-ui/icons/Accessibility';
 import InfoIcon from '@material-ui/icons/Info';
 import PositionedSnackbar from "./ContentAlert"
+import AccessibilityHelp from '../tools/AccessibilityHelp'
 
 export default class PdfForm extends React.Component {
   constructor(props) {
@@ -132,7 +133,6 @@ export default class PdfForm extends React.Component {
                 </Fab>
                 <p className="media-fab-text">{this.props.language.library}</p>
               </div>
-
               {
                 !this.state.showPreview ?
                   <div className="form-file-container">
@@ -146,42 +146,35 @@ export default class PdfForm extends React.Component {
                     
                   </div>
                 :
-                
                 <PdfPreview
                   file={this.state.attributes.pdf}
                   unPickFile={this.unPickFile.bind(this)}
                   language={this.props.language}
                 />
               }
-
-              <div>
+              <div className="form-editor-label">
+                <AccessibilityHelp 
+                  id={'short-description-help-container'} 
+                  name={'shortDescriptionHelpContainer'} 
+                  error={!this.state.showPreview} 
+                  tip={!this.state.showPreview? this.props.language.uploadPdf: this.props.language.uploadPdfCorrect} 
+                  //step={props.step}
+                  //stepLabel={props.stepLabel}
+                  language={this.props.language}
+                />
+              </div>
               
 
+              <div>
               <div className="accessibility-form-helper-text">
-                
-                  {/* <AccessibilityHelp 
-                    id={'short-description-help-container'} 
-                    name={'shortDescriptionHelpContainer'} 
-                    error={props.error} 
-                    tip={props.tip} 
-                    //step={props.step}
-                    //stepLabel={props.stepLabel}
-                    language={props.language}
-                  /> */}
                   <PositionedSnackbar
                     alert={this.state.alert}
                     language={this.props.language}
                     type={"pdf"}
                   />
-                 {/*  <InfoIcon aria-label='Accessibilit tip'/>
-                  <span className={this.state.showPreview ? 'accessibError' : 'accessibValid'}>
-                    Subir un archivo pdf
-                  </span> */}
+               
                 </div>
                 <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
-                
-                
-
                 <div className="editor-block">
                   <Editor
                     areaHeight="25vh"

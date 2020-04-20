@@ -19,7 +19,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import StorytellingPlayer from '../../storytelling/StorytellingPlayer';
-
+import AccessibilityHelp from '../../tools/AccessibilityHelp'
 import AttachmentPreview from '../../files/previews/AttachmentPreview';
 import FileUpload from '../../files/FileUpload';
 //import Editor from '../../inputs/editor/Editor';
@@ -34,6 +34,7 @@ import { Activities } from '../../../../lib/ActivitiesCollection';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 import ImageCaptionEditor from './Editordraft'
 import PositionedSnackbar from "../../content/ContentAlert"
+
 
 
 export default class ActivityItem extends React.Component {
@@ -304,7 +305,7 @@ export default class ActivityItem extends React.Component {
 
 
   getEditorState=(editorState)=>{
-    console.log("editorState en ActivityItem",editorState)    
+    //console.log("editorState en ActivityItem",editorState)    
     this.state.editorText=editorState
 
   }
@@ -421,7 +422,7 @@ export default class ActivityItem extends React.Component {
                                 {/* <div className="activity-item-container-instruction"
                                   dangerouslySetInnerHTML={{__html: this.state.activityInformation.activity.textSection}}>
                                 </div> */}
-                           { console.log("getCurrentContentt",this.state.activityInformation)}
+             
                             <Editor 
                               editorState={this.Texteditor()} readOnly={false} 
                               />  
@@ -542,13 +543,143 @@ export default class ActivityItem extends React.Component {
                         language={this.props.language}
                       />
                   }
+                  
+                  <div>
+                      {
+                          this.props.item.attributes.fileTypes.label==="Compressed"?
+                          <div className="form-editor-label">
+                            <AccessibilityHelp 
+                              id={'short-description-help-container'} 
+                              name={'shortDescriptionHelpContainer'} 
+                              error={!this.state.showPreview} 
+                              tip={!this.state.showPreview? this.props.language.uploadCompressed: this.props.language.uploadCompressedCorrect} 
+                              //step={props.step}
+                              //stepLabel={props.stepLabel}
+                              language={this.props.language}
+                            />
+                          </div>
+                          :
+                          undefined
+                      }
+                      {
+                          this.props.item.attributes.fileTypes.label==="Audio"?
+                          <div className="form-editor-label">
+                            <AccessibilityHelp 
+                              id={'short-description-help-container'} 
+                              name={'shortDescriptionHelpContainer'} 
+                              error={!this.state.showPreview} 
+                              tip={!this.state.showPreview? this.props.language.uploadAudio: this.props.language.uploadAudioCorrect} 
+                              //step={props.step}
+                              //stepLabel={props.stepLabel}
+                              language={this.props.language}
+                            />
+                          </div>
+                          :
+                          undefined
+                      }
+                      {
+                          this.props.item.attributes.fileTypes.label==="Video"?
+                          <div className="form-editor-label">
+                            <AccessibilityHelp 
+                              id={'short-description-help-container'} 
+                              name={'shortDescriptionHelpContainer'} 
+                              error={!this.state.showPreview} 
+                              tip={!this.state.showPreview? this.props.language.uploadVideo: this.props.language.uploadVideoCorrect} 
+                              //step={props.step}
+                              //stepLabel={props.stepLabel}
+                              language={this.props.language}
+                            />
+                          </div>
+                          :
+                          undefined
+                      }
+                      {
+                          this.props.item.attributes.fileTypes.label==="Word"?
+                          <div className="form-editor-label">
+                            <AccessibilityHelp 
+                              id={'short-description-help-container'} 
+                              name={'shortDescriptionHelpContainer'} 
+                              error={!this.state.showPreview} 
+                              tip={!this.state.showPreview? this.props.language.uploadWord: this.props.language.uploadWordCorrect} 
+                              //step={props.step}
+                              //stepLabel={props.stepLabel}
+                              language={this.props.language}
+                            />
+                          </div>
+                          :
+                          undefined
+                      }
+                      {
+                          this.props.item.attributes.fileTypes.label==="Pdf"?
+                          <div className="form-editor-label">
+                            <AccessibilityHelp 
+                              id={'short-description-help-container'} 
+                              name={'shortDescriptionHelpContainer'} 
+                              error={!this.state.showPreview} 
+                              tip={!this.state.showPreview? this.props.language.uploadPdf: this.props.language.uploadPdfCorrect} 
+                              //step={props.step}
+                              //stepLabel={props.stepLabel}
+                              language={this.props.language}
+                            />
+                          </div>
+                          :
+                          undefined
+                      }
+                      {
+                          this.props.item.attributes.fileTypes.label==="Image"?
+                          <div className="form-editor-label">
+                            <AccessibilityHelp 
+                              id={'short-description-help-container'} 
+                              name={'shortDescriptionHelpContainer'} 
+                              error={!this.state.showPreview} 
+                              tip={!this.state.showPreview? this.props.language.uploadImage: this.props.language.uploadImageCorrect} 
+                              //step={props.step}
+                              //stepLabel={props.stepLabel}
+                              language={this.props.language}
+                            />
+                          </div>
+                          :
+                          undefined
+                      }
+                      {
+                          this.props.item.attributes.fileTypes.label==="Power point"?
+                          <div className="form-editor-label">
+                            <AccessibilityHelp 
+                              id={'short-description-help-container'} 
+                              name={'shortDescriptionHelpContainer'} 
+                              error={!this.state.showPreview} 
+                              tip={!this.state.showPreview? this.props.language.uploadPowerPoint: this.props.language.uploadPowerPointCorrect} 
+                              //step={props.step}
+                              //stepLabel={props.stepLabel}
+                              language={this.props.language}
+                            />
+                          </div>
+                          :
+                          undefined
+                      }
+                      {
+                          this.props.item.attributes.fileTypes.label==="Excel"?
+                          <div className="form-editor-label">
+                            <AccessibilityHelp 
+                              id={'short-description-help-container'} 
+                              name={'shortDescriptionHelpContainer'} 
+                              error={!this.state.showPreview} 
+                              tip={!this.state.showPreview? this.props.language.uploadExcel: this.props.language.uploadExcelCorrect} 
+                              //step={props.step}
+                              //stepLabel={props.stepLabel}
+                              language={this.props.language}
+                            />
+                          </div>
+                          :
+                          undefined
+                      }
+                  </div>
 
-                  {console.log("tipo de archivo qu se va subor---",this.state, this.props, this.props.item.attributes.instruction)}
                   <PositionedSnackbar
                       alert={this.state.alert}
                       language={this.props.language}
                       type={this.props.item.attributes.instruction}
-                    />
+                  />
                   <TextField
                     id="biography-input"
                     label={`${this.props.language.additionalNotes}:`}
@@ -572,8 +703,7 @@ export default class ActivityItem extends React.Component {
                 getEditorState={this.getEditorState}
                 language={this.props.language}
                 value={this.Texteditor()}
-              />
-             
+              />  
             :
               undefined
             }

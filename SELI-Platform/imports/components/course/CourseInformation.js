@@ -246,7 +246,7 @@ export default class CourseInformation extends React.Component {
   }
 
   courseDuration=(hourWeek)=>{
-    console.log("Semana u hora: ",hourWeek)
+    //console.log("Semana u hora: ",hourWeek)
     if(hourWeek==="weeks"){
       this.setState({
         weekHourOption:'weeks'

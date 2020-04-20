@@ -19,13 +19,13 @@ const PositionedSnackbar =(props)=> {
 
 
   useEffect(() => {
-    console.log("propiedades del sanckAR", props.alert)
+    //console.log("propiedades del sanckAR", props.alert)
     props.alert==="alert"?
     setOpen(true)
     :
     setOpen(false)
     // Actualiza el título del documento usando la API del navegador 
-  },[props.alert]);
+  });
 
  handleClose = (event, reason) => {
     setOpen(false);
@@ -41,7 +41,7 @@ const PositionedSnackbar =(props)=> {
             horizontal: 'left',
             }}
             open={open}
-            autoHideDuration={5000}
+            autoHideDuration={17000}
             onClose={handleClose}
             message={message}
             action={
@@ -92,8 +92,6 @@ const PositionedSnackbar =(props)=> {
             :
             undefined
         }
-
-     
     </div>
   );
 }

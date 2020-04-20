@@ -32,7 +32,7 @@ class FileUpload extends Component {
       var file = e.currentTarget.files[0];
       let type=file.type.split("/")
      // file.tipo=this.props.type;
-     console.log("type de archivo a subir---", this.props.type, file, type)
+     //console.log("type de archivo a subir---", this.props.type, file, type)
 
         if((type[0]==='image' && this.props.type==='image')|| (type[0]==='video'&& this.props.type==='video')
           ||(type[0]==='audio'&& this.props.type==='audio')||(type[1]==='vtt' && this.props.type==='vtt')
@@ -173,7 +173,7 @@ class FileUpload extends Component {
     }
   }
   handleKeyPress = (event) => {
-    console.log('enter press here! ')
+    //console.log('enter press here! ')
     if(event.key === 'Enter'){
       console.log('enter press here! ')
     }
@@ -233,7 +233,6 @@ class FileUpload extends Component {
 
 export default withTracker( ( props ) => {
 
-console.log("propiedades--->",props)
 
     const filesHandle = Meteor.subscribe('files.all');
     const docsReadyYet = filesHandle.ready();

@@ -18,7 +18,7 @@ const CourseFilesCollection = new FilesCollection({
     // to check file's "magic-numbers" use `mmmagic` or `file-type` package
     // real extension and mime-type can be checked on client (untrusted side)
     // and on server at `onAfterUpload` hook (trusted side)
-    console.log("enCoursefilescollection",file ,file.type, file.isImage, file.ext, file.meta.tipo)
+    //console.log("enCoursefilescollection",file ,file.type, file.isImage, file.ext, file.meta.tipo)
     let type=file.type.split("/")
     if(type[0]==='image' && file.meta.tipo==='image'){
       if (file.size <= 2097152000 && /png|jpg|tif|gif|jpeg|bmp|psd|ai|cdr|svg|raw|nef/i.test(file.extension)) { //for images only

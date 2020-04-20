@@ -236,7 +236,7 @@ export const useImageDataField = (props) => {
 
 
 	const handleImagePurposeOnChange = event => {
-		console.log("event and target-----------------", event.target)
+		//console.log("event and target-----------------", event.target)
 		const { name, value } = event.target;
 	
 		let data = {
@@ -252,7 +252,7 @@ export const useImageDataField = (props) => {
 		if(toogleLong != longToogle)
 			setToogleLong(longToogle);
 
-		console.log("event and target-----------------", event.target)
+		//console.log("event and target-----------------", event.target)
 		updateAccessibilityProgress(shortToogle, longToogle, name );
 
 		// let arr = [...isA11Y];
@@ -285,7 +285,7 @@ export const useImageDataField = (props) => {
 	
 	}
 	function updateAccessibilityProgress( shortToogle, longToogle ,toogleValue ){
-		console.log("shortToogle, longToogle----",shortToogle, longToogle, toogleValue ,props)
+		//console.log("shortToogle, longToogle----",shortToogle, longToogle, toogleValue ,props)
 		if(!shortToogle && longToogle) //hide shortDescription === hideLongDescription
 		{	
 				if(toogleValue==='info'){

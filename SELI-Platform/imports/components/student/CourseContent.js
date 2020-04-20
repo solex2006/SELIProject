@@ -33,11 +33,8 @@ export default class CourseContent extends React.Component {
   }
 
   showControlMessage(){
-
   }
-
   componentDidMount() {
-
   }
 
   render() {

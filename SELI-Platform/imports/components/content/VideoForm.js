@@ -21,6 +21,7 @@ import Fab from '@material-ui/core/Fab'
 import AudioPreview from '../files/previews/AudioPreview';
 import AudioRecorder from '../tools/AudioRecorder';
 import PositionedSnackbar from "./ContentAlert"
+import AccessibilityHelp from '../tools/AccessibilityHelp'
 
 export default class VideoForm extends React.Component {
   constructor(props) {
@@ -344,6 +345,17 @@ export default class VideoForm extends React.Component {
                       language={this.props.language}
                       type={"video"}
                     />
+                     <div className="form-editor-label">
+                      <AccessibilityHelp 
+                        id={'short-description-help-container'} 
+                        name={'shortDescriptionHelpContainer'} 
+                        error={!this.state.showPreview} 
+                        tip={!this.state.showPreview? this.props.language.uploadVideo: this.props.language.uploadVideoCorrect} 
+                        //step={props.step}
+                        //stepLabel={props.stepLabel}
+                        language={this.props.language}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="course-creator-form-column">
