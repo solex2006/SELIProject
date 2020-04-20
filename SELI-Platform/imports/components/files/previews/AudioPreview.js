@@ -17,19 +17,16 @@ export default class AudioPreview extends React.Component {
   }
 
   componentDidMount(){
-    let file = this.props.file;
+    
+
+  let file = this.props.file;
     this.setState({
       nameWithoutExtension: true,
     });
-    if(typeof file===null){
-      //file.name = '';
-      console.log("sdfsdf",file)
-    }
-    else{
       file.name = file.name.toString().split('.');
       file.name = file.name[0];
-  }
-  }
+    }
+    
 
   delete(){
     Meteor.call("RemoveCourseFile", this.props.file._id, function (err) {

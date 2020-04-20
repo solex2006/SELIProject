@@ -12,6 +12,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Library from '../tools/Library';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab'
+import AccessibilityIcon from '@material-ui/icons/Accessibility';
+import InfoIcon from '@material-ui/icons/Info';
+import PositionedSnackbar from "./ContentAlert"
+import AccessibilityHelp from '../tools/AccessibilityHelp'
 
 export default class PdfForm extends React.Component {
   constructor(props) {
@@ -48,13 +52,21 @@ export default class PdfForm extends React.Component {
   }
 
   getFileInformation(file){
-    let attributes = this.state.attributes;
-    attributes.pdf = file;
-    this.setState({
-      attributes: attributes,
-      showPreview: true,
-      showGallery: false,
-    });
+    if(file==="nofile"){
+      this.setState({
+        showPreview: false,
+        alert:"alert"
+      });
+    }else{
+      let attributes = this.state.attributes;
+      attributes.pdf = file;
+      this.setState({
+        attributes: attributes,
+        showPreview: true,
+        showGallery: false,
+        alert:"Noalert"
+      });
+    }
   }
 
   unPickFile(){
@@ -100,6 +112,11 @@ export default class PdfForm extends React.Component {
             showPreview: true,
           })
         }
+        else{
+          this.setState({
+            showPreview: false,
+          })
+        }
       })
     }
   }
@@ -126,6 +143,7 @@ export default class PdfForm extends React.Component {
                       label={this.props.language.uploadPdfButtonLabel}
                       getFileInformation={this.getFileInformation.bind(this)}
                     />
+                    
                   </div>
                 :
                 <PdfPreview
@@ -134,7 +152,28 @@ export default class PdfForm extends React.Component {
                   language={this.props.language}
                 />
               }
+              <div className="form-editor-label">
+                <AccessibilityHelp 
+                  id={'short-description-help-container'} 
+                  name={'shortDescriptionHelpContainer'} 
+                  error={!this.state.showPreview} 
+                  tip={!this.state.showPreview? this.props.language.uploadPdf: this.props.language.uploadPdfCorrect} 
+                  //step={props.step}
+                  //stepLabel={props.stepLabel}
+                  language={this.props.language}
+                />
+              </div>
+              
+
               <div>
+              <div className="accessibility-form-helper-text">
+                  <PositionedSnackbar
+                    alert={this.state.alert}
+                    language={this.props.language}
+                    type={"pdf"}
+                  />
+               
+                </div>
                 <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
                 <div className="editor-block">
                   <Editor

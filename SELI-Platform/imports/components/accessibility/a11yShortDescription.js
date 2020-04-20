@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import EditorA11Y from '../tools/a11yEditor';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
 import TextField from '@material-ui/core/TextField';
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // props {                                                                   			//
 // 	handleOnChange (fn) [optional],                                                     //
@@ -39,6 +40,7 @@ export default function a11yShortDescription(props){
 					onChange={(event) => {props.handleOnChange(event);}}
 					error={props.error}
 				/>
+				{console.log("error", props.error, "Tip", props.tip)}
 				<AccessibilityHelp 
 					id={'short-description-help-container'} 
 					name={'shortDescriptionHelpContainer'} 

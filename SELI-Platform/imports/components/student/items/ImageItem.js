@@ -44,7 +44,7 @@ export default class ImageItem extends React.Component {
   }
 
   checkbox=(event, name)=>{
-    console.log("event and name", event, name)
+   // console.log("event and name", event, name)
     if(event===true && name==='shortLongDescription'){
       this.setState({
         shortlongDescription:'shortlongDescription',
@@ -113,7 +113,7 @@ export default class ImageItem extends React.Component {
     )
   }
   render() {
-    console.log("DESDEiMAGEITEMDELCURSOESTUDIANTE", this.props.item.attributes.accessibility.dataField)
+    //console.log("DESDEiMAGEITEMDELCURSOESTUDIANTE", this.props.item.attributes.accessibility.dataField)
     return(
       <div className="content-boxstudent">
         {this.checkBoxLabels()}

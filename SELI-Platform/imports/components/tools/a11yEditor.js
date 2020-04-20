@@ -298,7 +298,7 @@ const useEditor =(props) => {
 	const [classNameAsterisk, setClassNameAsterisk] = React.useState('a11yEditor-asterisk');
 
 	 useEffect(() => {
-		 console.log("<-------props.value----->",props.value)
+		 //console.log("<-------props.value----->",props.value)
 		 if(props.value!=""){
 			 const contentState = convertFromRaw(props.value);
 			const editorState =  EditorState.createWithContent(contentState);

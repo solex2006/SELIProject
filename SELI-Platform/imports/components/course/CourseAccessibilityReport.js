@@ -123,8 +123,6 @@ const useStyles =theme => ({
       })
       //here make the calculation of percentages by unit
       this.percentages(Unid.name)
-      //console.log("Unidad q se va pasar" , Unid.name)
-      console.log("estado" , this.state) 
     })
     this.totalpercentages()
   }
