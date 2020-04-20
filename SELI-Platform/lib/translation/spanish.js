@@ -346,7 +346,7 @@ var SPANISH = {
   smallNormal: "Pequeño (Normal)",
   alignment: "Alineación",
   titleSubtitle: "Título/Subtítulo",
-  textSection: "Sección de texto",
+  section: "Sección de texto",
   code: "Codigo",
   leftAlign: "Alinear a la Izquierda",
   centerAlign: "Alinear al Centro",

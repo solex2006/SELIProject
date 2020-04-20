@@ -346,7 +346,7 @@
   smallNormal: "Mały (Normalny)",
   alignment: "Wyrównanie",
   titleSubtitle: "Tytuł/Podtytuł",
-  textSection: "Tekst Sekcja",
+  section: "Tekst Sekcja",
   code: "Kod",
   leftAlign: "Wyrównanie do lewej",
   centerAlign: "Wyśrodkowanie",

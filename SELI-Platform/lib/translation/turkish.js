@@ -346,7 +346,7 @@ var TURKISH = {
   smallNormal: "Küçük (Normal)",
   alignment: "Hizalanma",
   titleSubtitle: "Başlık / Altyazı",
-  textSection: "Metin Bölümü",
+  section: "Metin Bölümü",
   code: "kod",
   leftAlign: "Sola hizalama",
   centerAlign: "Ortaya hizalama",

@@ -148,7 +148,7 @@ export default class TextForm extends React.Component {
             centered={true}
           >
             <Tab value={'title'} onClick={() => this.selectType('title')} className="form-tab" label={this.props.language.titleSubtitle} icon={<TextFieldsIcon />} />
-            <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.textSection} icon={<SubjectIcon />} />
+            <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.section} icon={<SubjectIcon />} />
             <Tab value={'code'} onClick={() => this.selectType('code')} className="form-tab" label={this.props.language.code} icon={<CodeIcon />} />
           </Tabs>
         </Paper>

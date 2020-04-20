@@ -483,11 +483,11 @@
   z-index: 10;
 }
 
-.story-item-container {
+.story-item-container-link {
   display: flex !important;
   position: relative !important;
   align-items: center !important;
-  width: 40vw !important;
+  width: calc(100% - 2vw) !important;
   margin-top: 1vh !important;
   padding: 1.5vh 1vw !important;
   transition: 0.5s !important;
@@ -502,7 +502,7 @@
   animation: fadeInLeft 0.5s;
 }
 
-.story-item-container:hover {
+.story-item-container-link:hover {
   background-color: #f5f5f5;
   cursor: pointer;
 }
