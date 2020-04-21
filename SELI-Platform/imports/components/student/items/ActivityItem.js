@@ -25,6 +25,8 @@ import InfoIcon from '@material-ui/icons/Info';
 import { Tracker } from 'meteor/tracker';
 import { Activities } from '../../../../lib/ActivitiesCollection';
 import EditorLinks from '../../inputs/editor/Editor';
+import AccessibilityHelp from '../../tools/AccessibilityHelp'
+import PositionedSnackbar from "../../content/ContentAlert"
 /* import { Editor, EditorState, convertFromRaw } from "draft-js";
 import A11yEditor from './Editordraft'; */
 
@@ -478,6 +480,7 @@ export default class ActivityItem extends React.Component {
             {
               this.props.item.attributes.type === 'upload' ?
                 <div style={{width: '100%'}}>
+                  <br></br>
                   
                   {
                     !this.state.showPreview ?
