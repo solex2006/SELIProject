@@ -307,12 +307,8 @@ export default class ActivityItem extends React.Component {
 
   getEditorState=(editorState)=>{
     //console.log("editorState en ActivityItem",editorState)    
-<<<<<<< HEAD
-    this.state.textSection = editorState;
-=======
     this.state.editorText=editorState
 
->>>>>>> bugfix/68-70
   }
 
   Texteditor=()=>{
