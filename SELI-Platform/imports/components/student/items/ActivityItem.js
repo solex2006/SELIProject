@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -16,28 +15,18 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import StorytellingPlayer from '../../storytelling/StorytellingPlayer';
-import AccessibilityHelp from '../../tools/AccessibilityHelp'
 import AttachmentPreview from '../../files/previews/AttachmentPreview';
 import FileUpload from '../../files/FileUpload';
 //import Editor from '../../inputs/editor/Editor';
 import Paper from '@material-ui/core/Paper';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
-import SendIcon from '@material-ui/icons/Send';
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
 import InfoIcon from '@material-ui/icons/Info';
 import { Tracker } from 'meteor/tracker';
 import { Activities } from '../../../../lib/ActivitiesCollection';
-import { Editor, EditorState, convertFromRaw } from "draft-js";
-import A11yEditor from './Editordraft';
 import EditorLinks from '../../inputs/editor/Editor';
-import ImageCaptionEditor from './Editordraft'
-import PositionedSnackbar from "../../content/ContentAlert"
-
-
+/* import { Editor, EditorState, convertFromRaw } from "draft-js";
+import A11yEditor from './Editordraft'; */
 
 export default class ActivityItem extends React.Component {
   constructor(props) {
@@ -66,20 +55,19 @@ export default class ActivityItem extends React.Component {
     let dialogText;
     if (this.props.item.attributes.type === 'forum') {
       dialogText = `<p>${this.props.item.attributes.instruction}</p>`
-    }
-    if (this.props.item.attributes.type === 'upload') {
+    } else if (this.props.item.attributes.type === 'upload') {
       dialogText = `<p>${this.props.language.toActivityUpload}.</p></br><p>${this.props.item.attributes.instruction}</p>`
-    }
-    if (this.props.item.attributes.type === 'section') {
+    } else if (this.props.item.attributes.type === 'section') {
       dialogText = `<p>${this.props.language.toActivityWrite}.</p></br><p>${this.props.item.attributes.instruction}</p>`
-    }
-    if (this.props.item.attributes.type === 'storyboard') {
+    } else if (this.props.item.attributes.type === 'storyboard') {
       dialogText = `<p>${this.props.language.toActivityStoryboard}.</p></br><p>${this.props.item.attributes.instruction}</p>`
     }
     this.setState({
       dialogText,
     });
-    this.getStories();
+    if (this.props.item.attributes.type === 'forum' || this.props.item.attributes.type === 'storyboard') {
+      this.getStories();
+    }
     this.getIndex();
   }
 
@@ -305,10 +293,9 @@ export default class ActivityItem extends React.Component {
   }
 
 
-  getEditorState=(editorState)=>{
+/*   getEditorState=(editorState)=>{
     //console.log("editorState en ActivityItem",editorState)    
-    this.state.editorText=editorState
-
+    this.state.textSection = editorState;
   }
 
   Texteditor=()=>{
@@ -319,8 +306,7 @@ export default class ActivityItem extends React.Component {
       const editorState =  EditorState.createWithContent(contentState);
       return editorState
     }
-    
-  }
+  } */
 
   render() {
     return(
@@ -411,20 +397,12 @@ export default class ActivityItem extends React.Component {
                             this.state.activityInformation && this.state.activityInformation.activity.type === 'section' ?
                               <div>
                                 <p className="activity-instruction-title">{`${this.props.language.text}:`}</p>
-                                {/* <div className="activity-item-container-instruction"
+                                <div className="activity-item-container-instruction"
                                   dangerouslySetInnerHTML={{__html: this.state.activityInformation.activity.textSection}}>
-                                </div> */}
-<<<<<<< HEAD
-                                <Editor 
+                                </div>
+                                {/* <Editor 
                                   editorState={this.Texteditor()} readOnly={false} 
-                                /> 
-=======
-             
-                            <Editor 
-                              editorState={this.Texteditor()} readOnly={false} 
-                              />  
-                      
->>>>>>> bugfix/68-70
+                                />  */}
                               </div>
                             :
                               undefined
@@ -669,33 +647,25 @@ export default class ActivityItem extends React.Component {
               :
               undefined
             }
-            {
+            {/* {
               this.props.item.attributes.type === 'section' ?
-<<<<<<< HEAD
                 <A11yEditor
                   getEditorState={this.getEditorState}
                   language={this.props.language}
                   value={this.Texteditor()}
                 />
-=======
-
-              <ImageCaptionEditor
-                getEditorState={this.getEditorState}
-                language={this.props.language}
-                value={this.Texteditor()}
-              />  
->>>>>>> bugfix/68-70
             :
               undefined
-            }
+            } */}
             {
-              this.props.item.attributes.type === 'forum' ?
+              this.props.item.attributes.type === 'section'  || this.props.item.attributes.type === 'forum' ?
                 <EditorLinks
                   id="comment-input"
                   areaHeight='20vh'
                   innerHTML={this.state.textSection}
                   buttonLabels={false}
                   addLinks={true}
+                  stories={this.state.myStories}
                   getInnerHtml={this.getInnerHtml.bind(this)}
                   language={this.props.language}
                 />

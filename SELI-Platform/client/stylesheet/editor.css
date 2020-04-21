@@ -115,6 +115,12 @@
   border: solid 1px #e0e0e0 !important;
 }
 
+.editor-link-button-story {
+  height: 40px !important;
+  color: #757575 !important;
+  border: solid 1px #e0e0e0 !important;
+}
+
 .editor-icon-link {
   color: #757575 !important;
   fill: #757575 !important;

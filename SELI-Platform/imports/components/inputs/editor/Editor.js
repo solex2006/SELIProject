@@ -7,6 +7,7 @@ import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
 import LinkButton from './LinkButton';
+import StoryButton from './StoryButton';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
@@ -247,6 +248,14 @@ export default class Editor extends React.Component {
                     <ToggleButtonGroup size="small">
                       <LinkButton buttonLabels={this.props.buttonLabels} language={this.props.language}/>
                     </ToggleButtonGroup>
+                    { 
+                      this.props.stories ?
+                        <ToggleButtonGroup size="small">
+                          <StoryButton stories={this.props.stories} buttonLabels={this.props.buttonLabels} language={this.props.language}/>
+                        </ToggleButtonGroup>
+                      : 
+                        undefined
+                    }
                   </Grid>
                 :
                 undefined

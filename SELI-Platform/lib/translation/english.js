@@ -346,7 +346,7 @@ var ENGLISH = {
   smallNormal: "Small (Normal)",
   alignment: "Alignment",
   titleSubtitle: "Title/Subtitle",
-  textSection: "Text Section",
+  section: "Text Section",
   code: "Code",
   leftAlign: "Left alignment",
   centerAlign: "Center alignment",

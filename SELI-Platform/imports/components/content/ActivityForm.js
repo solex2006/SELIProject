@@ -216,7 +216,7 @@ export default class ActivityForm extends React.Component {
             >
               <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} />
               <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} />
-              <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.textSection} icon={<SubjectIcon />} />
+              <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.section} icon={<SubjectIcon />} />
               <Tab value={'forum'} onClick={() => this.selectType('forum')} className="form-tab" label={this.props.language.forum} icon={<ForumIcon />} />
             </Tabs>
           </Paper>

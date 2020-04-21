@@ -346,7 +346,7 @@ var PORTUGUESE = {
   smallNormal: "Pequeno (Normal)",
   alignment: "Alinhamento",
   titleSubtitle: "Título/Subtítulo",
-  textSection: "Seção de texto",
+  section: "Seção de texto",
   code: "Código",
   leftAlign: "Alinhamento à esquerda",
   centerAlign: "Alinhamento ao centro",
