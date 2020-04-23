@@ -6,21 +6,12 @@
   top: var(--app-bar-height);
 }
 
-.storytelling-tool-link-container-time {
-  width: 100vw;
-  height: calc(100vh - var(--app-bar-height));
-  max-height: calc(100vh - var(--app-bar-height));
-  position: relative;
-  display: flex;
-  background-color: #000000;
-}
-
 .storytelling-tool-play-container-time {
   width: 100vw;
   height: calc(100vh - var(--app-bar-height));
   max-height: calc(100vh - var(--app-bar-height));
-  position: relative;
   top: var(--app-bar-height);
+  position: relative;
   display: flex;
   background-color: #000000;
 }

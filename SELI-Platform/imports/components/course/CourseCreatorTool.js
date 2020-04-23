@@ -1,16 +1,13 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
-import BottomMenu from '../navigation/BottomMenu';
 import ContentMenuItem from './ContentMenuItem';
 import ContentItem from './ContentItem';
 import SortItem from './items/SortItem';
@@ -26,9 +23,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-/* Trasitions */
-import Slide from '@material-ui/core/Slide';
-import Grow from '@material-ui/core/Grow';
 /* Content Forms */
 import TextForm from '../content/TextForm';
 import ImageForm from '../content/ImageForm';
@@ -52,22 +46,9 @@ import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Tooltip from '@material-ui/core/Tooltip';
-/* Accessibility Forms */
-import VideoAccessibilityForm from '../accessibility/VideoAccessibilityForm';
-/* Snackbar */
-import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import InfoIcon from '@material-ui/icons/Info';
-import { FaThumbsDown } from 'react-icons/fa';
 import WarningIcon from '@material-ui/icons/Warning';
-
-function TransitionRight(props) {
-  return <Slide {...props} direction="right" />;
-}
-const GrowTransition = React.forwardRef(function Transition(props, ref) {
-  return <Grow ref={ref} {...props} />;
-});
 
 export default class CourseCreatorTool extends React.Component {
   constructor(props) {
@@ -408,9 +389,6 @@ export default class CourseCreatorTool extends React.Component {
   validateOrganization(value) {
     this.setState({
       correctOrganization: value,
-    }, () => {
-      !this.state.correctOrganization ? this.showCreatorToolMessage('navigation') : undefined
-      this.state.correctOrganization ? this.handleCloseSnackbar() : undefined
     });
   }
 
@@ -428,31 +406,12 @@ export default class CourseCreatorTool extends React.Component {
         showCourseOrganization: false,
         contentOpen: false,
       });
-      this.showCreatorToolMessage("navigation");
     }
   }
   
   reRender(){
     this.forceUpdate();
     this.setState({ state: this.state });
-  }
-  handleSnackbar = () => {
-    this.setState({ openSnackbar: true });
-  };
-
-  handleCloseSnackbar = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    this.setState({ openSnackbar: false });
-  };
-
-  showCreatorToolMessage(type) {
-    this.setState({
-      snackbarType: type,
-    }, () => {
-      this.handleSnackbar();
-    });
   }
 
   getAccessibilityPercentage = (value) => {
@@ -725,7 +684,6 @@ export default class CourseCreatorTool extends React.Component {
                           reRender={this.reRender.bind(this)}
                           turnOffSortMode={this.turnOffSortMode.bind(this)}
                           setMenuTab={this.setMenuTab.bind(this)}
-                          showCreatorToolMessage={this.showCreatorToolMessage.bind(this)}
                           dialog={true}
                           language={this.props.language}
                         />
@@ -909,7 +867,6 @@ export default class CourseCreatorTool extends React.Component {
                           reRender={this.reRender.bind(this)}
                           turnOffSortMode={this.turnOffSortMode.bind(this)}
                           setMenuTab={this.setMenuTab.bind(this)}
-                          showCreatorToolMessage={this.showCreatorToolMessage.bind(this)}
                           dialog={true}
                           language={this.props.language}
                         />

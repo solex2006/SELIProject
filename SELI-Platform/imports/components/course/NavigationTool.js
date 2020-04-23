@@ -98,7 +98,6 @@ export default class NavigationTool extends React.Component {
       }, () => {
         this.props.reRender();
         this.props.turnOffSortMode();
-        this.props.showCreatorToolMessage("navigation");
       });
     }
   }
@@ -126,7 +125,6 @@ export default class NavigationTool extends React.Component {
       }, () => {
         this.props.reRender();
         this.props.turnOffSortMode();
-        this.props.showCreatorToolMessage("navigation");
       });
     }
   }

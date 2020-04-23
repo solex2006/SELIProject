@@ -168,7 +168,7 @@ export default class StorytellingPlayer extends React.Component {
   render() {
     return(
       <div>
-        <div className={this.props.link ? "storytelling-tool-link-container" : "storytelling-tool-play-container"}>
+        <div className="storytelling-tool-play-container">
           {
             this.props.story.nodes[this.state.scenePlaying].video === "" ?
               <div>

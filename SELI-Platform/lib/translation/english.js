@@ -908,6 +908,8 @@ var ENGLISH = {
   uploadExcelCorrect: "Correct, you have uploaded an excel file",
   uploadPowerPointCorrect: "Correct, you have uploaded a power point file",
   uploadVttCorrect: "Correct, you have uploaded a vtt file",
-
+  dstHelper1: "You need to record, upload, or reuse audio in order to start your digital story.",
+  dstHelper2: "Click over the sound track to move the cursor in the desired position.",
+  dstHelper3: "You can add images and subtitles by clicking the buttons below the cursor.",
 }
 export default ENGLISH;

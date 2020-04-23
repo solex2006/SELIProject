@@ -7,21 +7,12 @@
   display: flex;
 }
 
-.storytelling-tool-link-container {
-  width: 100vw;
-  height: calc(100vh - var(--app-bar-height));
-  max-height: calc(100vh - var(--app-bar-height));
-  position: relative;
-  display: flex;
-  background-color: #000000;
-}
-
 .storytelling-tool-play-container {
   width: 100vw;
   height: calc(100vh - var(--app-bar-height));
   max-height: calc(100vh - var(--app-bar-height));
-  position: relative;
   top: var(--app-bar-height);
+  position: relative;  
   display: flex;
   background-color: #000000;
 }
@@ -450,14 +441,6 @@
   letter-spacing: 1px !important;
   text-decoration: none !important;
   right: 1vw !important;
-}
-
-.storytelling-link-container {
-  width: 100vw;
-  max-width: 100vw;
-  height: 100vh;
-  max-height: 100vh;
-  overflow: hidden;
 }
 
 .storytelling-share-btn-group .storytelling-share-btn {

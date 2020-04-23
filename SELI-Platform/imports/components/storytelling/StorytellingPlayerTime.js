@@ -222,7 +222,7 @@ export default class StorytellingPlayerTime extends React.Component {
   render() {
     return(
       <div>
-        <div className={this.props.link ? "storytelling-tool-link-container-time" : "storytelling-tool-play-container-time"}>
+        <div className="storytelling-tool-play-container-time">
           <div>
             <ReactPlayer
               ref="storytellingPlayer"

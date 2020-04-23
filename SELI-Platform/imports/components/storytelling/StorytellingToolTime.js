@@ -31,7 +31,6 @@ import StorytellingObject from './StorytellingObject';
 import StorytellingPlayerTime from './StorytellingPlayerTime';
 import { Activities } from '../../../lib/ActivitiesCollection';
 import { Courses } from '../../../lib/CourseCollection';
-import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
@@ -39,8 +38,8 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import { withStyles } from '@material-ui/core/styles';
 import AudioPlayer from 'react-h5-audio-player';
-import ReactPlayer from 'react-player';
 import 'react-h5-audio-player/lib/styles.css';
+import SnackbarItem from '../navigation/Snackbar';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -63,7 +62,6 @@ import {
 
 import { Link } from "react-router-dom";
 
-
 const useStyles = theme => ({
   root: {
     display: 'flex',
@@ -85,7 +83,6 @@ const useStyles = theme => ({
 });
 
 class StorytellingToolTime extends React.Component {
-  
   constructor(props) {
     super(props);
     this.waveObjects = [];
@@ -907,9 +904,21 @@ class StorytellingToolTime extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return(
       <div>
+        {
+          [this.props.language.dstHelper2, this.props.language.dstHelper3].map((item, index) => {
+            return(
+              <SnackbarItem
+                index={index}
+                fromTop={130}
+                flag={this.props.storyToEdit ? true : false}
+                label={item}
+                title={this.props.language.editing}
+              />
+            )
+          })
+        }
         {
           !this.state.showPreview ?
             <div className="storytelling-tool-container-time">
@@ -1303,7 +1312,7 @@ class StorytellingToolTime extends React.Component {
                         <Tab value={'upload'} onClick={() => this.selectAudioType('upload')} className="form-tab" label={this.props.language.upload} />
                         <Tab value={'reuse'} onClick={() => this.selectAudioType('reuse')} className="form-tab" label={this.props.language.reuse} />
                       </Tabs>
-                      <div className="center-row-audio-time"> 
+                      <div className="center-row-audio-time">
                         {
                           this.state.audioType === 'record' ?
                             this.state.story.nodes[this.state.selectedNode].audio !== '' ?
@@ -1367,6 +1376,14 @@ class StorytellingToolTime extends React.Component {
                           :
                             undefined
                         }
+                        {
+                          this.state.saved ? undefined :
+                            <DialogContent className="success-dialog-content">
+                              <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                                {this.props.language.dstHelper1}
+                              </DialogContentText>
+                            </DialogContent>
+                        }
                       </div>
                     </div>
                   :
@@ -1427,12 +1444,14 @@ class StorytellingToolTime extends React.Component {
                         {
                           this.state.story.nodes[this.state.selectedNode].images.length &&
                           this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage]["file"] !== '' ?
-                            <ImagePreview
-                              key={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].rotate}
-                              file={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage]["file"]}
-                              rotateangle={this.rotateangle}
-                              rotateAngle={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].rotate}
-                            />
+                            <div><br/><br/>
+                              <ImagePreview
+                                key={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].rotate}
+                                file={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage]["file"]}
+                                rotateangle={this.rotateangle}
+                                rotateAngle={this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].rotate}
+                              />
+                            </div>
                           :
                             undefined
                         }

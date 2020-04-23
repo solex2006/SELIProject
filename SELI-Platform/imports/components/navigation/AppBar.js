@@ -160,25 +160,25 @@ export default class AppBar extends React.Component {
               undefined
             }
             {
-              this.props.user === undefined ?
-                <div tabIndex="1">
-                  <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
-                    {this.props.language.signIn}
-                  </Button>
-                  <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
-                    {this.props.language.signUp}
-                  </Button>
-                </div>
-              :
-              <UserMenu
-                language={this.props.language}
-                user={this.props.user}
-                showComponent={this.props.showComponent.bind(this)}
-                logOut={this.props.logOut.bind(this)}
-              />
+              this.props.fromAnotherSource ? undefined :
+                this.props.user === undefined ?
+                  <div tabIndex="1">
+                    <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
+                      {this.props.language.signIn}
+                    </Button>
+                    <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
+                      {this.props.language.signUp}
+                    </Button>
+                  </div>
+                :
+                <UserMenu
+                  language={this.props.language}
+                  user={this.props.user}
+                  showComponent={this.props.showComponent.bind(this)}
+                  logOut={this.props.logOut.bind(this)}
+                />
             }
             <LanguageSelector
-            
               language={this.props.language}
               setLanguage={this.props.setLanguage.bind(this)}
             />
