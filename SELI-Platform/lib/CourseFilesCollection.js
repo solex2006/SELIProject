@@ -20,39 +20,36 @@ const CourseFilesCollection = new FilesCollection({
     // and on server at `onAfterUpload` hook (trusted side)
     //console.log("enCoursefilescollection",file ,file.type, file.isImage, file.ext, file.meta.tipo)
     let type=file.type.split("/")
-    if(type[0]==='image' && file.meta.tipo==='image'){
-      if (file.size <= 2097152000 && /png|jpg|tif|gif|jpeg|bmp|psd|ai|cdr|svg|raw|nef/i.test(file.extension)) { //for images only
+    if (file.size <= 2097152000) {
+      if(type[0]==='image'){
+        if (/png|jpg|tif|gif|jpeg|bmp|psd|ai|cdr|svg|raw|nef/i.test(file.extension)) { //for images only
+          return true;
+        }
+      } else if(type[0]==='video'){
+        if (/mkv|mp4|webm|webm|m4v|mov|mpg|mpeg|avi|asf|asx|lsf|swf|wmv|div|divx|dvd|wob|ivt|m1v|mp2v|mpa|mpe|mpv2/i.test(file.extension)) { //for video only
+          return true;
+        }
+      } else if(type[0]==='audio'){
+        if (/mp3|wav|m4a|mp4|aiff|au|mid|midi|wav|wma|cda|ogg|ogm|acc|ac3|flag|aym/i.test(file.extension)) { //for audio only
+          return true;
+        }
+      } else if(type[0]==='text'){
+        if (/vtt|srt/i.test(file.extension)) { //for vtt only
+          return true;
+        }
+      } else if(type[0]==='application'){
+        if (/pdf|rar|zip|7z|tar.gz|xz|gz|exe|tar|war|tar.xz|jar|odt|vnd.rar/i.test(file.extension)) { //for compressed and pdf only
+          return true;
+        }
+      } else if((type[0]==="excel" || type[0]==="word" || type[0]==="power point") ){ // && (type[1]==='vnd.ms-excel'||type[1]==='docx')
         return true;
+      } else {
+        console.log("false")
+        return false
       }
-     }else if(type[0]==='video'&& file.meta.tipo==='video'){
-      if (file.size <= 2097152000 && /mkv|mp4|webm|webm|m4v|mov|mpg|mpeg|avi|asf|asx|lsf|swf|wmv|div|divx|dvd|wob|ivt|m1v|mp2v|mpa|mpe|mpv2/i.test(file.extension)) { //for images only
-        return true;
-      }
-     }else if(type[0]==='audio'&& file.meta.tipo==='audio'){
-      if (file.size <= 2097152000 && /mp3|wav|m4a|mp4|aiff|au|mid|midi|wav|wma|cda|ogg|ogm|acc|ac3|flag|aym/i.test(file.extension)) { //for images only
-        return true;
-      }
-     }else if(type[1]==='vtt' && file.meta.tipo==='vtt'){
-      if (file.size <= 2097152000 && /vtt|srt/i.test(file.extension)) { //for vtt only
-        return true;
-      }
-     }else if(type[1]==='pdf' && file.meta.tipo==='pdf'){
-      if (file.size <= 2097152000 && /pdf/i.test(file.extension)) { //for pdf only
-        return true;
-      }
-     }else if((type[1]==='rar' || type[1]==='zip' || type[1]==='7z' || type[1]==='tar.gz'|| type[1]==='xz'|| type[1]==='gz'|| type[1]==='exe'
-              || type[1]==='tar'|| type[1]==='war'|| type[1]==='tar.xz'|| type[1]==='jar'|| type[1]==='odt' || type[1]==='vnd.rar') && file.meta.tipo==='compressed'){
-      if (file.size <= 2097152000 && /rar|zip|7z|tar.gz|xz|gz|exe|tar|war|tar.xz|jar|odt|vnd.rar/i.test(file.extension)) { //for pdf only
-        return true;
-      }
-     }else if((file.meta.tipo==="excel" || file.meta.tipo==="word" || file.meta.tipo==="power point") ){ // && (type[1]==='vnd.ms-excel'||type[1]==='docx')
-      if (file.size <= 2097152000 ) { //for pdf only
-        return true;
-      }
-     }else{
-      return false
-     }
-     return 'Please upload image, with size equal or less than 10MB';
+    } else {
+      return 'Please upload a file with size equal or less than 10MB'; 
+    }
   },
   downloadCallback(fileObj) {
     if (this.params.query.download == 'true') {

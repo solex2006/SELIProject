@@ -154,18 +154,20 @@ export default class CourseInformation extends React.Component {
   }
 
   getFileInformation(file){
-    this.state.fileType === "image" ?
-    this.setState({
-      image: file,
-      showPreview: true,
-      showLibrary: false,
-    })
-    :
-    this.setState({
-      sylabus: file,
-      showPreview: true,
-      showLibrary: false,
-    })
+    if (file !== "nofile") {
+      this.state.fileType === "image" ?
+      this.setState({
+        image: file,
+        showPreview: true,
+        showLibrary: false,
+      })
+      :
+      this.setState({
+        sylabus: file,
+        showPreview: true,
+        showLibrary: false,
+      })
+    }
   }
 
   unPickFile(){

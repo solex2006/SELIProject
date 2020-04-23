@@ -179,7 +179,7 @@ export default class AudioRecorder extends React.Component {
           {
             this.state.saveButton ?
               <Tooltip title="Save audio">
-                <Fab size="small" onClick={() => this.saveRecordedAudio()} color="secondary" className="recorder-button" onClick={() => this.saveRecordedAudio()}>
+                <Fab size="small" onClick={() => this.saveRecordedAudio()} color="secondary" className="recorder-button">
                   <SaveIcon/>
                 </Fab>
               </Tooltip>

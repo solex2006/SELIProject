@@ -30,84 +30,78 @@ class FileUpload extends Component {
       // We upload only one file, in case
       // there was multiple files selected
       var file = e.currentTarget.files[0];
-      let type=file.type.split("/")
-     // file.tipo=this.props.type;
-     //console.log("type de archivo a subir---", this.props.type, file, type)
-
-        if((type[0]==='image' && this.props.type==='image')|| (type[0]==='video'&& this.props.type==='video')
-          ||(type[0]==='audio'&& this.props.type==='audio')||(type[1]==='vtt' && this.props.type==='vtt')
-          ||(type[1]==='pdf' && this.props.type==='pdf')   ||(type[1]==='zip' && this.props.type==='compressed')
-          ||(type[1]==='vnd.rar' && this.props.type==='compressed')||(type[1]==='rar' && this.props.type==='compressed')
-          ||(type[1]==='7z' && this.props.type==='compressed')||(type[1]==='tar' && this.props.type==='compressed')
-          ||(type[1]==='tar.gz' && this.props.type==='compressed')||(type[1]==='war' && this.props.type==='compressed')
-          ||(type[1]==='xz' && this.props.type==='compressed')||(type[1]==='tar.xz' && this.props.type==='compressed')
-          ||(type[1]==='gz' && this.props.type==='compressed')||(type[1]==='jar' && this.props.type==='compressed')
-          ||(type[1]==='exe' && this.props.type==='compressed')||(type[1]==='odt' && this.props.type==='compressed')
-          ||(this.props.type==='excel')||(this.props.type==='power point')
-          ||(this.props.type==='word')){
-         
-            if (file) {
-            //console.log("type de archivo a subir---", this.props.type, file)
-            let uploadInstance = CourseFilesCollection.insert({
-              file: file,
-              meta: {
-                tipo:this.props.type,
-                locator: self.props.fileLocator,
-                dateAdded: new Date(),
-                isFavorite: false,
-                usedInCourse: false,
-                userId: self.props.user,
-                //userId: Meteor.userId() // Optional, used to check on server for file tampering
-              },
-              streams: 'dynamic',
-              chunkSize: 'dynamic',
-              allowWebWorkers: true // If you see issues with uploads, change this to false
-            }, false)
-    
+      let type=file.type.split("/");
+      if((type[0]==='image' && this.props.type==='image')|| (type[0]==='video'&& this.props.type==='video')
+        ||(type[0]==='audio'&& this.props.type==='audio')||(type[1]==='vtt' && this.props.type==='vtt')
+        ||(type[1]==='pdf' && this.props.type==='pdf')   ||(type[1]==='zip' && this.props.type==='compressed')
+        ||(type[1]==='vnd.rar' && this.props.type==='compressed')||(type[1]==='rar' && this.props.type==='compressed')
+        ||(type[1]==='7z' && this.props.type==='compressed')||(type[1]==='tar' && this.props.type==='compressed')
+        ||(type[1]==='tar.gz' && this.props.type==='compressed')||(type[1]==='war' && this.props.type==='compressed')
+        ||(type[1]==='xz' && this.props.type==='compressed')||(type[1]==='tar.xz' && this.props.type==='compressed')
+        ||(type[1]==='gz' && this.props.type==='compressed')||(type[1]==='jar' && this.props.type==='compressed')
+        ||(type[1]==='exe' && this.props.type==='compressed')||(type[1]==='odt' && this.props.type==='compressed')
+        ||(this.props.type==='excel')||(this.props.type==='power point')
+        ||(this.props.type==='word')){
+          if (file) {
+          //console.log("type de archivo a subir---", this.props.type, file)
+          let uploadInstance = CourseFilesCollection.insert({
+            file: file,
+            meta: {
+              locator: self.props.fileLocator,
+              dateAdded: new Date(),
+              isFavorite: false,
+              usedInCourse: false,
+              userId: self.props.user,
+              //userId: Meteor.userId() // Optional, used to check on server for file tampering
+            },
+            streams: 'dynamic',
+            chunkSize: 'dynamic',
+            allowWebWorkers: true // If you see issues with uploads, change this to false
+          }, false)
+  
+          self.setState({
+            uploading: uploadInstance, // Keep track of this instance to use below
+            inProgress: true // Show the progress bar now
+          });
+  
+          // These are the event functions, don't need most of them, it shows where we are in the process
+          uploadInstance.on('start', function () {
+            //console.log('Starting');
+          })
+  
+          uploadInstance.on('end', function (error, fileObj) {
+            //console.log('On end File Object: ', fileObj);
+          })
+  
+          uploadInstance.on('uploaded', function (error, fileObj) {
+            // Reset our state for the next file
             self.setState({
-              uploading: uploadInstance, // Keep track of this instance to use below
-              inProgress: true // Show the progress bar now
+              uploading: [],
+              progress: 0,
+              inProgress: false
+            }, () => {
+              // Remove the filename from the upload box
+              self.refs['fileinput' + self.props.type].value = '';
             });
-    
-            // These are the event functions, don't need most of them, it shows where we are in the process
-            uploadInstance.on('start', function () {
-              //console.log('Starting');
-            })
-    
-            uploadInstance.on('end', function (error, fileObj) {
-              //console.log('On end File Object: ', fileObj);
-            })
-    
-            uploadInstance.on('uploaded', function (error, fileObj) {
-              // Reset our state for the next file
-              self.setState({
-                uploading: [],
-                progress: 0,
-                inProgress: false
-              }, () => {
-                // Remove the filename from the upload box
-                self.refs['fileinput' + self.props.type].value = '';
-              });
-              self.getFileInformation(fileObj);
-            })
-    
-            uploadInstance.on('error', function (error, fileObj) {
-              console.log('Error during upload: ' + error)
+            self.getFileInformation(fileObj);
+          })
+  
+          uploadInstance.on('error', function (error, fileObj) {
+            console.log('Error during upload: ' + error)
+          });
+  
+          uploadInstance.on('progress', function (progress, fileObj) {
+            // Update our progress bar
+            self.setState({
+              progress: progress
             });
-    
-            uploadInstance.on('progress', function (progress, fileObj) {
-              // Update our progress bar
-              self.setState({
-                progress: progress
-              });
-            });
-    
-            uploadInstance.start(); // Must manually start the upload
-          }
-       }else{
+          });
+  
+          uploadInstance.start(); // Must manually start the upload
+        }
+      } else {
         return (this.props.getFileInformation("nofile"))
-       }
-        
+      }
     }
   }
   getFileInformation(file){

@@ -21,8 +21,8 @@ export default class PdfPreview extends React.Component {
     this.setState({
       nameWithoutExtension: true,
     });
-    file.name = file.name.toString().split('.');
-    file.name = file.name[0];
+    //file.name = file.name.toString().split('.');
+    //file.name = file.name[0];
   }
 
   delete(){
