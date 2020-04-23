@@ -890,7 +890,7 @@ var TURKISH = {
   gettingCourseInf: "Getting course information",
   zoomIn: "Zoom in",
   zoomOut: "Zoom out",
-  uploadPdf: "It seems you have not choosen an pdf file",
+  uploadPdf: "It seems you have not choosen a pdf file",
   uploadImage: "It seems you have not choosen an Image file",
   uploadVideo: "It seems you have not choosen a Video file",
   uploadAudio: "It seems you have not choosen an Audio file",
