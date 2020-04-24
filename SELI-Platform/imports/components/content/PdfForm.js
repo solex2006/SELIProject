@@ -176,6 +176,7 @@ export default class PdfForm extends React.Component {
                 </div>
                 <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
                 <div className="editor-block">
+                  <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
                   <Editor
                     areaHeight="25vh"
                     buttonLabels={false}

@@ -211,6 +211,7 @@ export default class TextForm extends React.Component {
           {
             this.state.attributes.type === 'section' ?
               <div className="editor-block">
+                <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
                 <Editor
                   areaHeight="20vh"
                   buttonLabels={false}

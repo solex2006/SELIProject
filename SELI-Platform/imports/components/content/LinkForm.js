@@ -79,6 +79,7 @@ export default class LinkForm extends React.Component {
           <p className="form-message">{this.props.language.textDescribingLink}</p>
         </div>
         <div className="editor-block">
+          <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
           <Editor
             areaHeight='20vh'
             innerHTML={this.state.attributes.description}

@@ -303,6 +303,7 @@ export default class AudioForm extends React.Component {
                       </FormGroup>
                     </div>
                     <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
+                      <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
                       <Editor
                         areaHeight='20vh'
                         buttonLabels={false}

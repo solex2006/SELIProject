@@ -194,6 +194,7 @@ export default class ActivityForm extends React.Component {
     return(
       <div className="dialog-form-container">
         <div className="editor-block">
+          <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
           <Editor
             areaHeight='20vh'
             innerHTML={this.state.attributes.instruction}

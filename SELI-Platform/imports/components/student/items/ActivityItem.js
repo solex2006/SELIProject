@@ -668,7 +668,7 @@ export default class ActivityItem extends React.Component {
                   innerHTML={this.state.textSection}
                   buttonLabels={false}
                   addLinks={true}
-                  stories={this.state.myStories}
+                  stories={this.props.item.attributes.type === 'forum' ? this.state.myStories : undefined}
                   getInnerHtml={this.getInnerHtml.bind(this)}
                   language={this.props.language}
                 />

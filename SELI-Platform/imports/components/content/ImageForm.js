@@ -250,6 +250,7 @@ export default class ImageForm extends React.Component {
                   </Grid>
                 </div>
                 <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
+                  <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
                   <Editor
                     areaHeight="18.5vh"
                     buttonLabels={false}
