@@ -2,8 +2,6 @@ import React, {useState, useEffect, useCallback} from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/styles';
-import { EditorFormatColorFill } from 'material-ui/svg-icons';
-
 
 //props{
 //	a11yFields: {name: string, is_a11y: boolean}
