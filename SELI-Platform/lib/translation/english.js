@@ -908,6 +908,16 @@ var ENGLISH = {
   uploadExcelCorrect: "Correct, you have uploaded an excel file",
   uploadPowerPointCorrect: "Correct, you have uploaded a power point file",
   uploadVttCorrect: "Correct, you have uploaded a vtt file",
-
+  noTimeRestrictions: "Does this content require the option for remove time restrictions?",
+  noTimeTip:"Disabling the time of a quiz is useful for people with motor, visual or intellectual disabilities who require more time to take the exam.",
+  extraTimeQuiz:"Does this quiz require extra time?",
+  extraTimeTip:"Allows you to add an additional period of time in the quiz, useful for students with disabilities",
+  alertMoment:"Moment of alert",
+  alertMomentTip:"It allows configuring the time in which an alert message about the completion of the quiz will be displayed (30 sec by default)",
+  extendedTime:"Extended Time",
+  warningTime: "Warning time",
+  helpTimeRestriction:"Configure the time restriction (00:00 min disables all time restrictions)",
+  helpPercentage:"Setting the percentage needed to pass the quiz",
+  quizAccessibility:"accessibility settings"
 }
 export default ENGLISH;

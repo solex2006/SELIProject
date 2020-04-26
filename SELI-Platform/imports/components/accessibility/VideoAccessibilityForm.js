@@ -670,7 +670,7 @@ export default function VideoA11Y(props){
 }
 
 export const useDataField = (props) => {
-	//console.log("props de ingreso", props)
+	console.log("props de ingreso en video", props)
 	const [dataField, setDataField] = React.useState({
 		signLanguage: 'no',
 		seizures: 'no',
@@ -748,7 +748,6 @@ export const useDataField = (props) => {
 	}
 
 	function handleInputOnChange ({ target: { name, value } }){
-
 		console.log(" handleInputOnChange", name, value )
 		let errField = name + 'Error';
 		let errValue = false;
@@ -761,12 +760,9 @@ export const useDataField = (props) => {
 				errValue = false
 			}
 		}
-
 		if(name === 'shortDescription'){
 			errValue = value === '';
 		}
-
-		
 
 		setDataField(dataField => ({...dataField,
 			[name]: value,
@@ -774,7 +770,6 @@ export const useDataField = (props) => {
 		}));
 
 		console.log("dataFieldVideo",dataField)
-
 		let arr = [...isA11Y];
 		arr.find(a => a.name == name).is_a11y = !errValue;
 		setIsA11Y(arr)

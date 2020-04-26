@@ -128,7 +128,7 @@ export default function MenuItem(props) {
             <ListItemText primary={props.language.edit} />
           </ListItem>
           {
-            props.item.type === "audio" || props.item.type === "image" || props.item.type === "video" ?
+            props.item.type === "audio" || props.item.type === "image" || props.item.type === "video" ||props.item.type === "quiz" ?
               <React.Fragment>
                 <ListItem button onClick={handleClickList}>
                   <ListItemIcon>
