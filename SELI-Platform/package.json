@@ -87,6 +87,7 @@
     "react-stopwatch": "^2.0.4",
     "react-swipeable-views": "^0.13.3",
     "react-swipeable-views-utils": "^0.13.3",
+    "react-time-picker": "^4.0.1",
     "react-timer-machine": "^1.0.2",
     "react-unity-webgl": "^7.1.9",
     "react-viewer": "^3.1.0",

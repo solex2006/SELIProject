@@ -911,6 +911,17 @@ var SPANISH = {
   dstHelper1: "Debe grabar, cargar o reutilizar audio para comenzar su narrativa digital.",
   dstHelper2: "Haga clic sobre la pista de sonido para mover el cursor a la posición deseada.",
   dstHelper3: "Puede agregar imágenes y subtítulos haciendo clic en los botones debajo del cursor.",
+  noTimeRestrictions: "¿Requiere este contenido habilitar la opción para que un estudiante quite las restricciones de tiempo?",
+  noTimeTip:"Deshabilitar el tiempo de una prueba es de utilidad para personas con discapacidades motoras, visuales o intelectuales las mismas que requieren mas tiempo para hacer el examen.",
+  extraTimeQuiz:"¿Esta quiz requiere tiempo extra?",
+  extraTimeTip:"Permite anadir un periodo de tiempo adicional en la quiz, util para estudiantes en con discapacidades",
+  alertMoment:"Momento de alerta",
+  alertMomentTip:"Permite configurar el tiempo en el cual se vizualizara un mensaje de alerta acerca de la finalizacion de la quiz. (30 seg por defecto)",
+  extendedTime:"Tiempo Extendido",
+  warningTime: "Tiempo de advertencia",
+  helpTimeRestriction:"Permite configurar la restriccion de tiempo, (0 min deshabilita toda restriccion de teimpo",
+  helpPercentage:"Configuración del porcentaje necesario para aprobar la prueba",
+  quizAccessibility:"Configuración de Accesibilidad"
 }
 export default SPANISH
 
