@@ -45,6 +45,19 @@
   background-color: #e0e0e0;
 }
 
+.menu-content-accessibility {
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  transition: 0.5s;
+}
+
+.menu-content-accessibility-item {
+  width: 230px !important;
+  margin-left: 10px !important;
+  background-color: #ffffff !important;
+}
+
 .content-box {
   width: 100%;
   height: auto;
