@@ -40,15 +40,17 @@ This states all of the scenarios of the users involved.
 [ ] 
 
 ## WORKFLOW
-This should include a picture of the screens involved. 
+<!-- This should include a picture of the screens involved. 
 Error states and view changes based on role should be documented. 
-This picture is worth a thousand words, as the details of the flow through the feature can be quite complex, and this is hard to spell out the details in the next section. We have been using Gliffy, a confluence plugin, and it rocks. It is a flash app that allows us to create and edit the workflows with eases.
+This picture is worth a thousand words, as the details of the flow through the feature can be quite complex, and this is hard to spell out the details in the next section. We have been using Gliffy, a confluence plugin, and it rocks. It is a flash app that allows us to create and edit the workflows with eases.-->
 
 ## REQUIREMENT DETAILS
-These are the details of the feature. Document all screen(s) and every field, label, validation, message, and action. This is essentially the functional specification of the details of the screen(s) involved. Because it is in the context of the wireframe (next section), it is more concise. You can simply reference the field name, rather than verbosely state everything about the field. You can keep the details to field length, required, etc.
+
+<!-- These are the details of the feature. Document all screen(s) and every field, label, validation, message, and action. This is essentially the functional specification of the details of the screen(s) involved. Because it is in the context of the wireframe (next section), it is more concise. You can simply reference the field name, rather than verbosely state everything about the field. You can keep the details to field length, required, etc.-->
 
 ## WIREFRAMES
-A picture is required for each screen involved. Wireframes can be simple drawings on a whiteboard that are photographed, or a set of boxes created in Visio or OmniGraffle (or anything really). Some are photoshop-ed, and others are HTML. We have found that the best approach is HTML if that’s your end result. Recreating HTML that looks the exact same as a picture can be quite painful. Usually, a visual designer is involved in creating the mock ups, and can easily do this work in HTML. The developers can therefore take the exact HTML that is requested, and fill in their code as needed.
+
+<!-- A picture is required for each screen involved. Wireframes can be simple drawings on a whiteboard that are photographed, or a set of boxes created in Visio or OmniGraffle (or anything really). Some are photoshop-ed, and others are HTML. We have found that the best approach is HTML if that’s your end result. Recreating HTML that looks the exact same as a picture can be quite painful. Usually, a visual designer is involved in creating the mock ups, and can easily do this work in HTML. The developers can therefore take the exact HTML that is requested, and fill in their code as needed.-->
 
 *******
 
