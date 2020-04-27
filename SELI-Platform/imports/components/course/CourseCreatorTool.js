@@ -50,14 +50,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import WarningIcon from '@material-ui/icons/Warning';
 
-
-function TransitionRight(props) {
-  return <Slide {...props} direction="right" />;
-}
-const GrowTransition = React.forwardRef(function Transition(props, ref) {
-  return <Grow ref={ref} {...props} />;
-});
-
 export default class CourseCreatorTool extends React.Component {
   constructor(props) {
     super(props);
@@ -921,7 +913,7 @@ export default class CourseCreatorTool extends React.Component {
                   //disabled={this.state.showCourseOrganization || this.state.showAccessibilityOptions || this.state.showAccessibilityForm}
                   onClick={() => {
                     this.contentHandleClose();
-                    if (this.state.contentToEdit === undefined) {
+                    if (this.state.contentToEdit === undefined && !this.state.showAccessibilityOptions) {
                       this.cancelContentCreation();
                     }
                   }}
