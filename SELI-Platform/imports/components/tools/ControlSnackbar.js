@@ -5,6 +5,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
+
 export default class ControlSnackbar extends React.Component {
   constructor(props) {
     super(props);
@@ -12,6 +13,7 @@ export default class ControlSnackbar extends React.Component {
 
     }
   }
+ 
 
   handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
@@ -30,7 +32,7 @@ export default class ControlSnackbar extends React.Component {
               horizontal: 'left',
           }}
           open={this.props.showControlMessage}
-          autoHideDuration={8000}
+          autoHideDuration={this.props.time}
           onClose={this.handleCloseSnackbar}
           ContentProps={{
               'aria-describedby': 'message-id',

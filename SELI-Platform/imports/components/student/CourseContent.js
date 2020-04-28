@@ -184,6 +184,7 @@ export default class CourseContent extends React.Component {
                         :
                         undefined
                       }
+                     
                       {
                         item.type === "quiz" ?
                           <QuizItem

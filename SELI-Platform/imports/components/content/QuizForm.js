@@ -118,7 +118,6 @@ export default class QuizForm extends React.Component {
     
     if (name === 'timeLimit') {
       if(value[0] >0 || value[1]>0){
-        console.log("moyorqu.e cero///" ,value[0], value[1])
         this.setState({
           limitHelp:false
         })
@@ -129,9 +128,8 @@ export default class QuizForm extends React.Component {
         this.setState({
           limitHelp:true
         })
-        attributes.timeLimit = "01:00"
+        attributes.timeLimit = "00:00"
       }
-      
     }
 
   }
@@ -341,6 +339,18 @@ myFormatminutes=(num)=> {
 
   componentDidMount(){ //despues del render
     this.props.getQuizAttributesFunction(() => this.getQuizAttributes());
+    console.log("nuevo", this.state)
+    if(this.state.attributes.approvalPercentage <50 || this.state.attributes.timeLimit ){
+      this.setState({
+        percentageHelp:true,
+        timeLimit:true
+      })
+    }else{
+      this.setState({
+        percentageHelp:false,
+        timeLimit:false
+      })
+    }
   }
 
   componentWillMount(){ //se llama antes del render

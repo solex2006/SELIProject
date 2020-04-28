@@ -201,10 +201,11 @@ export default class Course extends React.Component {
   }
 
   completeActivity = (id, activity) => {
-    //console.log("complete Activity", id, activity)
+   
     let toComplete = this.state.toComplete;
     let toResolve = this.state.toResolve;
     let activityInserted;
+   
     for (var i = 0; i < toResolve.length; i++) {
       if (toResolve[i]._id === id) {
         if (activity.type === "forum") { 
@@ -214,6 +215,7 @@ export default class Course extends React.Component {
           toResolve[i].activityId = activity.activityId;
         } else {
           if (toResolve[i].resolved === true){
+         
             activity.date = new Date();
             activity.user = Meteor.userId();
             activity.course = this.state.course._id;
@@ -232,7 +234,7 @@ export default class Course extends React.Component {
             toResolve[i].activityId = activityInserted;
           }
         }
-        break;
+        //break;
       }
     }
     let progress = this.calculateProgress(toComplete, toResolve);

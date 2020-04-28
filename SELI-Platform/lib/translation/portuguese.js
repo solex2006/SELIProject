@@ -919,7 +919,7 @@ var PORTUGUESE = {
   alertMomentTip:"It allows configuring the time in which an alert message about the completion of the quiz will be displayed (30 sec by default)",
   extendedTime:"Extended Time",
   warningTime: "Warning time",
-  helpTimeRestriction:"Configure the time restriction (00:00 min disables all time restrictions)",
+  helpTimeRestriction:"Configure the time restriction (00:00 hh:min disables all time restrictions)",
   helpPercentage:"Setting the percentage needed to pass the quiz",
   quizAccessibility:"accessibility settings"
 }
