@@ -70,7 +70,7 @@ class Quiz extends React.Component {
   }
 
   componentDidMount() {
-    //console.log("numero de respuetas por pregunta", this.props.quiz.attributes.questions)
+    console.log("datos de quiz", this.props)
     this.setState({
       start:false,
      // selectedtime: this.props.quiz.attributes.extendtime
@@ -112,6 +112,10 @@ class Quiz extends React.Component {
           this.setState({alertTimeValue:warningtime })
         }
       }
+    }else { //time is zero we need without time for all students
+      this.setState({
+        panelshow: 'stop'
+      })
     }
     
   }
@@ -342,10 +346,7 @@ class Quiz extends React.Component {
   };
 
   cambio=()=>{
-
-   
     const { classes } = this.props;
-    
     return(
       <div key={this.state.selectedtime}>
         <TimerMachine 
@@ -375,9 +376,6 @@ class Quiz extends React.Component {
     )
   
   }
-
-  
-
   alerta =() =>{
     return(
       <Dialog

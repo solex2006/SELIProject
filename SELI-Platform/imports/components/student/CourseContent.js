@@ -184,7 +184,7 @@ export default class CourseContent extends React.Component {
                         :
                         undefined
                       }
-                      {console.log("this.props.fromTutor",this.props.fromTutor,this.props.completeActivity.bind(this))}
+                     
                       {
                         item.type === "quiz" ?
                           <QuizItem

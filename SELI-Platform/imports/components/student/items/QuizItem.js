@@ -74,7 +74,6 @@ export default class QuizItem extends React.Component {
     this.setState({
       time: timeLimit* 60 * 1000
     })
-   
     this.checkResolved();
   }
 

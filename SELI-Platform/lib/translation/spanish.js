@@ -919,7 +919,7 @@ var SPANISH = {
   alertMomentTip:"Permite configurar el tiempo en el cual se vizualizara un mensaje de alerta acerca de la finalizacion de la quiz. (30 seg por defecto)",
   extendedTime:"Tiempo Extendido",
   warningTime: "Tiempo de advertencia",
-  helpTimeRestriction:"Permite configurar la restriccion de tiempo, (0 min deshabilita toda restriccion de teimpo",
+  helpTimeRestriction:"Permite configurar la restriccion de tiempo, (00:00 hh:min deshabilita toda restriccion de teimpo",
   helpPercentage:"Configuración del porcentaje necesario para aprobar la prueba",
   quizAccessibility:"Configuración de Accesibilidad"
 }
