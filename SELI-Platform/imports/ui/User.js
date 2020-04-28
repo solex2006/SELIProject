@@ -46,6 +46,8 @@ import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
 import WarningIcon from '@material-ui/icons/Warning';
 
+
+
 export default class User extends React.Component {
   constructor(props) {
     super(props);
@@ -56,6 +58,7 @@ export default class User extends React.Component {
       savedCourseWindow: false,
       accountType: '',
       selected: [-1, -1],
+    
     }
   }
 
@@ -149,6 +152,8 @@ export default class User extends React.Component {
   }
 
   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
+   
+    
     if (show) {
       if (action === 'savedList') {
         action = () => this.showComponent('saved');
@@ -164,7 +169,11 @@ export default class User extends React.Component {
       }
       if (action === 'dashboard'){
         action = () => this.showComponent('dashboard');
+        
       }
+      
+
+      
 
       this.setState({
         showControlMessage: show,
@@ -662,6 +671,8 @@ export default class User extends React.Component {
                     }
                   </main>
                 </div>
+              
+              
                 <ControlSnackbar
                   showControlMessage={this.state.showControlMessage}
                   showControlAction={this.state.showControlAction}
@@ -669,6 +680,7 @@ export default class User extends React.Component {
                   controlAction={this.state.controlAction}
                   controlActionMessage={this.state.controlActionMessage}
                   handleControlMessage={this.handleControlMessage.bind(this)}
+                  time={this.state.controlMessage==="Quiz successfully done" ? 800: 8000}
                 />
                 <LoadingSnackbar
                   showLoadingMessage={this.state.showLoadingMessage}

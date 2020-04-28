@@ -1,8 +1,6 @@
 import React from 'react';
-
 import Quiz from '../Quiz';
 import Loading from '../../tools/Loading';
-
 import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -13,7 +11,6 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -23,10 +20,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
 import Slide from '@material-ui/core/Slide';
-
 import {Activities} from '../../../../lib/ActivitiesCollection';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -38,7 +34,7 @@ export default class QuizItem extends React.Component {
     this.state = {
       expanded: 'quiz-panel',
       resolved: false,
-      time: this.props.item.attributes.timeLimit * 60 * 1000,
+      time:'',
     }
   }
 
@@ -72,6 +68,13 @@ export default class QuizItem extends React.Component {
   }
 
   componentDidMount(){
+    //update the time in a quiz
+    let timeHourMin=this.props.item.attributes.timeLimit.split(":") 
+    let timeLimit=(parseInt(timeHourMin[0])*60+parseInt(timeHourMin[1])) 
+    this.setState({
+      time: timeLimit* 60 * 1000
+    })
+   
     this.checkResolved();
   }
 
@@ -95,44 +98,49 @@ export default class QuizItem extends React.Component {
   }
 
   showScore = () => {
-   // console.log("Activity results", this.props, Activities.find({ 'activity.course': this.props.course,'_id': this.props.toResolve[0].activityId}).fetch())
-   // console.log("consultas",Activities.find({}).fetch())
+    //console.log("Activity results", this.props, Activities.find({ 'activity.course': this.props.course,'_id': this.props.toResolve[0].activityId}).fetch())
+    //console.log("consultas",Activities.find({}).fetch())
+    //console.log(this.props.toResolve[0].activityId,this.props)
     let activity;
     this.setState({
       openScore: true,
       loadingScore: true,
     }, () => {
-      if (this.props.fromTutor) {
-        activity = Activities.find(
-          {
-            'activity.user': this.props.fromTutor,
-            'activity.course': this.props.course,
-            '_id':  this.props.toResolve[0].activityId,
-          }
-        ).fetch();
-      } else {
-        activity = Activities.find(
-          {
-            'activity.user': Meteor.userId(),
-            'activity.course': this.props.course,
-            '_id': this.props.toResolve[0].activityId,//this.props.item.id,
-          }
-        ).fetch();
-      }
 
-      
-      if (activity.length) {
-        activity = activity[activity.length-1];
-        this.setState({
-          quizResult: activity,
-          loadingScore: false,
-          result: true,
-        })
-      }
-      else {
-        this.setState({
-          result: false,
-        })
+      for (var i = 0; i < this.props.toResolve.length; i++) {
+        if (this.props.toResolve[i]._id === this.props.item.id) {
+              
+          if (this.props.fromTutor) {
+                activity = Activities.find(
+                  {
+                    'activity.user': this.props.fromTutor,
+                    'activity.course': this.props.course,
+                    '_id':  this.props.toResolve[i].activityId,
+                  }
+                ).fetch();
+              } else {
+                activity = Activities.find(
+                  {
+                    'activity.user': Meteor.userId(),
+                    'activity.course': this.props.course,
+                    '_id': this.props.toResolve[i].activityId,//this.props.item.id,
+                  }
+                ).fetch();
+              }
+              if (activity.length) {
+                activity = activity[activity.length-1];
+                this.setState({
+                  quizResult: activity,
+                  loadingScore: false,
+                  result: true,
+                })
+              }
+              else {
+                this.setState({
+                  result: false,
+                })
+              }
+        }
       }
     }
     
@@ -151,8 +159,7 @@ export default class QuizItem extends React.Component {
               expanded={this.props.item.attributes.expanded}
               onChange={this.handleChange('activity-panel')}
               className="item-quiz-panel"
-            >
-              
+            >   
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1c-content"
@@ -247,6 +254,7 @@ export default class QuizItem extends React.Component {
               :
               undefined
             }
+          
             {
               this.state.showQuiz ?
                 <Quiz
@@ -272,7 +280,7 @@ export default class QuizItem extends React.Component {
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.quizResults}</DialogTitle>
           <DialogContent className="success-dialog-content">
 
-            {console.log("this.state.quizResult",this.state)}
+         
             {
               this.state.loadingScore ?
               <Loading message={this.props.language.loadingScore}/>
