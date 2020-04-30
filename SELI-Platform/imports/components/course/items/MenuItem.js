@@ -93,7 +93,7 @@ export default function MenuItem(props) {
             <ListSubheader component="div" id="nested-list-subheader" className="list-subheader">
               {props.language[props.item.type].toUpperCase()}
             </ListSubheader>
-          }list-subheader
+          }
           className="menu-item-list"
         >
           <Divider light={false}/>

@@ -911,6 +911,7 @@ var SPANISH = {
   dstHelper1: "Debe grabar, cargar o reutilizar audio para comenzar su narrativa digital.",
   dstHelper2: "Haga clic sobre la pista de sonido para mover el cursor a la posición deseada.",
   dstHelper3: "Puede agregar imágenes y subtítulos haciendo clic en los botones debajo del cursor.",
+  dstHelper4: "Puede editar o eliminar contenido haciendo clic derecho sobre los elementos.",
   noTimeRestrictions: "¿Requiere este contenido habilitar la opción para que un estudiante quite las restricciones de tiempo?",
   noTimeTip:"Deshabilitar el tiempo de una prueba es de utilidad para personas con discapacidades motoras, visuales o intelectuales las mismas que requieren mas tiempo para hacer el examen.",
   extraTimeQuiz:"¿Esta quiz requiere tiempo extra?",
