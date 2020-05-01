@@ -1,9 +1,6 @@
-import React, { Component, Fragment } from 'react';
-
-import Loading from '../tools/Loading';
+import React from 'react';
 
 import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
 import Popover from '@material-ui/core/Popover';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
@@ -14,15 +11,13 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import ReplayIcon from '@material-ui/icons/Replay';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import VideoPreview from './VideoPreview';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Checkbox from '@material-ui/core/Checkbox';
+import StorytelingFrames from './StorytellingFrames';
 import ReactPlayer from 'react-player';
-import { Activities } from '../../../lib/ActivitiesCollection';
-//import Size from './Size'
 
 export default class StorytellingPlayerTime extends React.Component {
   constructor(props) {
@@ -48,7 +43,8 @@ export default class StorytellingPlayerTime extends React.Component {
       },
       languages: ['turkish', 'polish', 'portuguese', 'spanish', 'english'],
       width: 500,
-      height: 500
+      height: 500,
+      intervalFrame: "start"
     }
   }
 
@@ -103,6 +99,7 @@ export default class StorytellingPlayerTime extends React.Component {
       if (this.state.scenePlaying === 1) {
         this.cleanData();
       } else {
+        this.handleFrame("scenes");
         this.handleSelect(this.state.scenePlaying - 1);
       }
     }
@@ -110,14 +107,19 @@ export default class StorytellingPlayerTime extends React.Component {
 
   handleNext = () => {
     if (this.state.scenePlaying + 1 < this.props.story.nodes.length) {
+      this.handleFrame("scenes");
       this.settingStates(this.state.scenePlaying + 1);
       this.handleSelect(this.state.scenePlaying + 1);
     }
   }
 
   handleAutoPlay = () => {
-    if (this.state.scenePlaying + 1 < this.props.story.nodes.length && this.state.autoPlay) {
-      this.settingStates(this.state.scenePlaying + 1);
+    if (this.state.autoPlay) {
+      if (this.state.scenePlaying + 1 < this.props.story.nodes.length) {
+        this.settingStates(this.state.scenePlaying + 1);
+      } else {
+        this.handleFrame("end");
+      }
     }
   }
 
@@ -137,9 +139,8 @@ export default class StorytellingPlayerTime extends React.Component {
   }
 
   handleReplay = () => {
-    this.settingStates(0);
     this.cleanData();
-    this.refs.storytellingPlayer.seekTo(0, 'seconds');
+    /* this.refs.storytellingPlayer.seekTo(0, 'seconds'); */
   }
 
   settingStates = (indexSelected) => {
@@ -156,6 +157,9 @@ export default class StorytellingPlayerTime extends React.Component {
     this.setState({
       imageValue: undefined,
       scriptValue: undefined,
+    }, () => {
+      this.handleFrame("start");
+      this.settingStates(0);
     })
   }
 
@@ -165,7 +169,10 @@ export default class StorytellingPlayerTime extends React.Component {
     })
   }
 
-  handleEnd = () => {
+  handleFrame = (intervalFrame) => {
+    this.setState({
+      intervalFrame,
+    })
   }
 
   onProgress = ({ playedSeconds }) => {
@@ -214,40 +221,52 @@ export default class StorytellingPlayerTime extends React.Component {
 
   size = (width, height)=>{
     this.setState({
-      width:width,
-      height:height
+      width,
+      height,
     })
   }
 
   render() {
     return(
       <div>
-        <div className="storytelling-tool-play-container-time">
-          <div>
-            <ReactPlayer
-              ref="storytellingPlayer"
-              className="storytelling-tool-audio-player-time"
-              url={this.props.story.nodes[this.state.scenePlaying].audio.link}
-              playing={this.state.playing}
-              progressInterval={100}
-              onProgress={this.onProgress}
-              onEnded={this.state.scenePlaying + 1 === this.props.story.nodes[this.state.scenePlaying] ? this.handleEnd() : () => this.handleAutoPlay()}
-            />
-            <div className="storytelling-player-image-container-time">
-              <div
-                className="file-image-preview"
-                style={{
-                  backgroundImage: this.state.imageValue && this.state.imageValue.file !== "" ? `url(${this.state.imageValue.file.link})` : "none",
-                  transform: `rotate(${this.state.imageValue && this.state.imageValue.rotate ? this.state.imageValue.rotate : 0}deg)`,
-                }}
-              ></div>
-            </div>
-          </div>
-          <Slide direction="down" in={this.state.showDescription} mountOnEnter unmountOnExit>
-            <div className="storytelling-player-description-time">
-              {this.state.scriptValue}
-            </div>
-          </Slide>
+        <div className="storytelling-tool-play-container-time" style={this.state.intervalFrame === "end" ? {"background-color": "#ffffff"} : undefined}>
+          {
+            this.state.intervalFrame === "scenes" ?
+              <div>
+                <ReactPlayer
+                  ref="storytellingPlayer"
+                  className="storytelling-tool-audio-player-time"
+                  url={this.props.story.nodes[this.state.scenePlaying].audio.link}
+                  playing={this.state.playing}
+                  progressInterval={100}
+                  onProgress={this.onProgress}
+                  onEnded={() => this.handleAutoPlay()}
+                />
+                <div className="storytelling-player-image-container-time">
+                  <div
+                    className="file-image-preview"
+                    style={{
+                      backgroundImage: this.state.imageValue && this.state.imageValue.file !== "" ? `url(${this.state.imageValue.file.link})` : "none",
+                      transform: `rotate(${this.state.imageValue && this.state.imageValue.rotate ? this.state.imageValue.rotate : 0}deg)`,
+                    }}
+                  ></div>
+                </div>
+                <Slide direction="down" in={this.state.showDescription} mountOnEnter unmountOnExit>
+                  <div className="storytelling-player-description-time">
+                    {this.state.scriptValue}
+                  </div>
+                </Slide>
+              </div>
+            : 
+              <StorytelingFrames
+                user={this.props.story.user}
+                name={this.props.story.name}
+                playing={this.state.playing}
+                intervalFrame={this.state.intervalFrame}
+                handleFrame={this.handleFrame.bind(this)}
+                language={this.props.language}
+              />
+          }
           <div className="storytelling-player-actions-time">
             {
               this.props.comments ?

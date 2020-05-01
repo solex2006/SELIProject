@@ -42,6 +42,8 @@ export default class Story extends React.Component {
         if (story.length) {
           story = story[0];
           story.nodes = story.activity.data;
+          story.user = story.activity.user;
+          story.name = story.activity.name;
           this.setState({
             story: story,
             type: story.activity.type,
