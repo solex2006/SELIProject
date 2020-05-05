@@ -40,7 +40,6 @@ export default function a11yShortDescription(props){
 					onChange={(event) => {props.handleOnChange(event);}}
 					error={props.error}
 				/>
-				{console.log("error", props.error, "Tip", props.tip)}
 				<AccessibilityHelp 
 					id={'short-description-help-container'} 
 					name={'shortDescriptionHelpContainer'} 

@@ -23,7 +23,8 @@ export default class AudioItem extends React.Component {
       signalShow:'',
       autoplay:false,
       key:78,
-      shortlongDescription:''
+      shortlongDescription:'',
+      captions:'nocaptions'
     }
   }
 
@@ -31,7 +32,6 @@ export default class AudioItem extends React.Component {
     var win = window.open(this.props.item.attributes.externalLink, '_blank');
     win.focus();
   }
-
   checkboxaudio=(event,name)=>{
     console.log("event and name", event, name)
     if(event===true && name==='signLanguage'){//Videosignal
@@ -45,7 +45,6 @@ export default class AudioItem extends React.Component {
       })
     }
   }
-
   playAudio=(event)=>{
      if(this.state.signalShow==='signalShow'){
       this.setState({
@@ -54,8 +53,6 @@ export default class AudioItem extends React.Component {
       })
      }
   }
-
-
   checkBoxLabelsaudio=()=>{
     return(
       <div>
@@ -83,7 +80,6 @@ export default class AudioItem extends React.Component {
       </div>
     )
   }
-
   checkBoxLabels=()=>{
     return(
       <div className="checkBoxItem">
@@ -100,8 +96,17 @@ export default class AudioItem extends React.Component {
                             label={this.props.language.textAlternatives}
                         />
                       </div>
+                      <div className="checkboxstyle">
+                        <CheckboxLabels
+                            language={this.props.language}
+                            checkbox={this.checkbox}
+                            type="captions"
+                            label={this.props.language.audioTranscription}
+                        />
+                      </div>
                   </div>
         }
+        
       </div>
     )
   }
@@ -116,6 +121,17 @@ export default class AudioItem extends React.Component {
       this.setState({
         shortlongDescription:'noshortlongDescription'
       })
+    }else if(event===true && name==='captions'){
+      this.setState({
+        captions:'captions'
+      })
+    }else if(event===false && name==='captions'){
+      this.setState({
+        captions:'nocaptions'
+      })
+      var player = document.getElementById("audio"); 
+      player.pause()
+        
     }
   }
   signalText=()=>{
@@ -145,29 +161,9 @@ export default class AudioItem extends React.Component {
     )
   }
 
-  render() {
-    console.log("ATRIBUTOSDEAUDIO", this.props.item.attributes)
-
+  audioPlayer=()=>{
     return(
-      <div className="content-box">
-        <div className="image-content-item">
-          <Card className="course-item-video-card2">
-            {this.checkBoxLabels()}
-            {
-
-              this.props.item.attributes.accessibility.dataField!=undefined?
-              <div>
-              {
-               this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
-               this.textAlternatives()
-               :
-               undefined
-              }
-            </div>
-              :
-              undefined
-            }
-            <Card raised className="course-item-audio-card">
+      <Card raised className="course-item-audio-card">
               <div className="course-item-audio-card-details">
                 <CardContent className="course-item-audio-card-content">
                   <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
@@ -205,19 +201,177 @@ export default class AudioItem extends React.Component {
                       undefined
                   }
               </div>
-            </Card>
-            {
-            this.props.item.attributes.accessibility.dataField !=undefined?
-            <div>
-            {
-             this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
-             this.textAlternatives()
-             :
-             undefined
+            </Card> 
+    )
+  }
+
+  //Functions for  Transcription
+  audioCaption=(event)=>{
+    var cues = Array.prototype.slice.call(document.querySelectorAll(".cue"));
+    console.log(cues)
+    var player = document.getElementById("audio");
+    console.log("PALYER",player)
+    
+        var target = event.target;
+        var key = event.which.toString();
+        console.log("target", target, "key", key);
+    
+         if (key.match(/38|40/)) { //ARRIBA O ABAJO
+          var index = cues.indexOf(target);
+          var direction = key.match(/40/) ? 1 : -1;
+          var length = cues.length;
+
+          if (index + direction < length && index + direction >= 0) {
+            cues[index + direction].focus();
+          }
+        } else if (key.match(/32|13/)) {
+          //space or enter
+          console.log("enter", target.getAttribute("data-time"));
+          var start = parseFloat(target.getAttribute("data-time"));
+          player.currentTime = start;
+          player.play(); 
+        } 
+  }
+
+  mouseClick=(event)=>{
+    var player = document.getElementById("audio");
+    var target = event.target;
+    var start = parseFloat(target.getAttribute("data-time"));
+    player.currentTime = start;
+    player.play(); 
+  }
+  
+  componentDidMount=()=>{
+        var cues = Array.prototype.slice.call(document.querySelectorAll(".cue"));
+        var player = document.getElementById("audio");
+        console.log("audio update------------------------", this.state.captions)
+        var speaking = document.getElementById("speaking");
+
+       /*  if(this.state.captions==='nocaptions'){
+          player.pause()
+        } */
+        player.addEventListener("timeupdate", function() {
+          if (player.paused || player.ended) {
+            return;
+          }
+          // scroll to currently playing time offset
+          var current = 0;
+          for (var i = 0; i < cues.length; i++) {
+            var cueTime = cues[i].getAttribute("data-time");
+          // console.log("cueTime", cueTime);
+            if (i + 1 === cues.length && player.currentTime >= parseFloat(cueTime)) {
+              current = i;
+        
+            } else if (
+              player.currentTime >= parseFloat(cueTime) &&
+              player.currentTime < parseFloat(cues[i + 1].getAttribute("data-time"))
+            ) {
+              current = i;
+        
+            } else {
+              cues[i].classList.remove("current");
             }
+          }
+        
+          if (cues[current].className.indexOf("current") === -1)
+            cues[current].className += " current";
+        
+          if (cues[current].getAttribute("aria-live") === "rude") {
+            speaking.innerHTML = "[Captions]" + cues[current].innerHTML;
+          }
+        });
+      
+}
+
+  allTranscription=()=>{
+    return(
+      <div style={{display: this.state.captions==='captions'? "block" : "none"}}>
+          <div id="id_video_box">
+            <h3>{ this.props.item.attributes.audio.name}</h3>
+              <audio id="audio" controls 
+              aria-describedby="transcriptText" 
+              aria-label={this.props.language.ariaLabelTranscription}
+              src={this.props.item.attributes.audio.link} type='audio/mpeg'>
+              <p>{this.props.language.alertCompatibility} <code>audio</code></p>
+            </audio>
           </div>
-            :
-            undefined
+          <br/>
+          <p id="speaking" aria-live="rude"></p>
+          <br/>
+          <details>
+              <summary aria-controls="transcriptBox" tabindex="0" aria-expanded="false" id="show-hide-transcript">{this.props.language.showHideTranscription}</summary>
+              <div id="transcriptBox" aria-expanded="false">
+                </div>
+                <div id="transcriptText">
+                  {
+                    this.props.item.attributes.accessibility.dataField.text.map((text,index)=>{
+                      let timeDetail=this.props.item.attributes.accessibility.dataField.time[index].split(":");
+                      let timeSeconds=parseInt(timeDetail[0])*60*60+parseInt(timeDetail[1])*60+parseInt(timeDetail[2])
+                      console.log(this.props.item.attributes.accessibility.dataField.time[index].split(":"))
+                      return(
+                        <p key={index} id={"c"+(index+1)} data-time={timeSeconds} class="cue" aria-live="rude" tabindex="1" dangerouslySetInnerHTML={{ __html: text }} onKeyDown={this.audioCaption} onClick={this.mouseClick} ontimeupdate={this.updateAudio} />
+                      )
+                    })
+                  }
+                </div>
+          </details>  
+      </div>
+    )
+  }
+
+
+  render() {
+    console.log("ATRIBUTOSDEAUDIO", this.props.item.attributes)
+    return(
+      <div className="content-box">
+        <div className="image-content-item">
+          <Card className="course-item-video-card2">
+            {this.checkBoxLabels()}
+           
+            {
+              this.props.item.attributes.accessibility.dataField!=undefined?
+              <div>
+              {
+               this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+               this.textAlternatives()
+               :
+               undefined
+              }
+            </div>
+              :
+              undefined
+            }
+             
+            
+             
+              {
+                this.allTranscription()
+              }
+            
+
+            
+            
+          
+          
+            {
+              this.state.captions==="nocaptions"?
+              this.audioPlayer()
+              :
+              undefined
+            }
+             
+            {
+                this.props.item.attributes.accessibility.dataField !=undefined?
+                <div>
+                  {
+                    this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+                    this.textAlternatives()
+                    :
+                    undefined
+                  }
+                </div>
+                :
+                undefined
             }
             {
               this.props.item.attributes.hasDescription ?
@@ -229,6 +383,7 @@ export default class AudioItem extends React.Component {
               :
                 undefined
             }
+
             </Card>
           </div>
         </div>

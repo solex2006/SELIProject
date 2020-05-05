@@ -921,6 +921,15 @@ var ENGLISH = {
   warningTime: "Warning time",
   helpTimeRestriction:"Configure the time restriction (00:00 hh:min disables all time restrictions)",
   helpPercentage:"Setting the percentage needed to pass the quiz",
-  quizAccessibility:"accessibility settings"
+  quizAccessibility:"accessibility settings",
+  removeTranscription:"Remove Transcription",
+  tipTranscription:"Put the transcription and time (hh:mm:ss)",
+  addTranscription:"Add transcription",
+  audioTranscription:"Audio Transcription",
+  audioTranscriptionTip:" Audio transcription transforms any video or audio file into text creating a complete experience for your audience",
+  ariaLabelTranscription:"This is the short description (identify content). This audio content has the folowing accessibility resources: Transcription",
+  alertCompatibility:"your browser is not compatible",
+  showHideTranscription:"Show/Hide Transcript",
+
 }
 export default ENGLISH;

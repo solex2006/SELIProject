@@ -358,3 +358,19 @@
   border-color: #f44336;
 
 }
+
+.timepicker{
+  display: flex;
+  flex-wrap: wrap;
+
+}
+.ButtomPickerstyle{
+  text-transform: capitalize !important;
+}
+.textareaPicker{
+margin-right: 5px 
+}
+
+.butttomPicker{
+margin-left:  10px;
+}

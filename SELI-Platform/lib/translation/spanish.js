@@ -921,7 +921,15 @@ var SPANISH = {
   warningTime: "Tiempo de advertencia",
   helpTimeRestriction:"Permite configurar la restriccion de tiempo, (00:00 hh:min deshabilita toda restriccion de teimpo",
   helpPercentage:"Configuración del porcentaje necesario para aprobar la prueba",
-  quizAccessibility:"Configuración de Accesibilidad"
+  quizAccessibility:"Configuración de Accesibilidad",
+  removeTranscription:"Remover Transcripcion",
+  tipTranscription:"Agregar la transcripción y tiempo (hh:mm:ss)",
+  addTranscription:"Agregar transcripción",
+  audioTranscription:"Transcripción de Audio",
+  audioTranscriptionTip:"La transcripción de audio transforma cualquier video o archivo de audio en texto creando una experiencia completa para su audiencia",
+  ariaLabelTranscription:"This is the short description (identify content). This audio content has the folowing accessibility resources: Transcription",
+  alertCompatibility:"Tu navegador no es compatible",
+  showHideTranscription:"Mostrar/Ocultar Transcripcion",
 }
 export default SPANISH
 

@@ -608,3 +608,12 @@
   display: flex;
   align-items: center;
 }
+.cue:focus,
+summary:focus,
+summary:hover {
+  background: hsl(216, 94%, 94%);
+}
+
+.current {
+  font-weight: 600;
+}

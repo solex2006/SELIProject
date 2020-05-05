@@ -28,6 +28,8 @@ export default class TimePickers extends Component {
         this.props.handleChange("WarningAlert", time)
       }else if(this.props.type==="extendedTime"){
         this.props.handleChange("extendedTime", time)
+      }else if(this.props.type==="captions"){
+        this.props.time(time, this.props.index)
       }else{
         this.props.handleChangeTimes("timeLimit", time)
       }
