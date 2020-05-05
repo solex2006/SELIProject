@@ -111,7 +111,7 @@ export default class AudioItem extends React.Component {
     )
   }
   checkbox=(event, name)=>{
-    console.log("event and name", event, name)
+    //console.log("event and name", event, name)
     if(event===true && name==='shortLongDescription'){
       this.setState({
         shortlongDescription:'shortlongDescription',
@@ -321,13 +321,12 @@ export default class AudioItem extends React.Component {
 
 
   render() {
-    console.log("ATRIBUTOSDEAUDIO", this.props.item.attributes)
+    //console.log("ATRIBUTOSDEAUDIO", this.props.item.attributes)
     return(
       <div className="content-box">
         <div className="image-content-item">
           <Card className="course-item-video-card2">
-            {this.checkBoxLabels()}
-           
+            {this.checkBoxLabels()}          
             {
               this.props.item.attributes.accessibility.dataField!=undefined?
               <div>
@@ -340,19 +339,10 @@ export default class AudioItem extends React.Component {
             </div>
               :
               undefined
-            }
-             
-            
-             
-              {
-                this.allTranscription()
-              }
-            
-
-            
-            
-          
-          
+            }            
+            {
+              this.allTranscription()
+            }            
             {
               this.state.captions==="nocaptions"?
               this.audioPlayer()
@@ -383,7 +373,6 @@ export default class AudioItem extends React.Component {
               :
                 undefined
             }
-
             </Card>
           </div>
         </div>
