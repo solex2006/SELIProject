@@ -13,7 +13,6 @@ import Radio from '@material-ui/core/Radio';
 import AccessibilityFileUpload from '../files/AccessibilityFileUpload';
 import Link from '@material-ui/core/Link';
 //a11y
-
 import TimePickers from '../content/TimePicker'
 import Button from '@material-ui/core/Button';
 
@@ -83,9 +82,6 @@ export const AudioA11YCaptions= (props)=> {
 		longDescriptionTip,
 	} = props.data;
 
-	
-	
-
 	return (
 		<React.Fragment>
 			<section id='audio-text-alternatives'>
@@ -99,8 +95,7 @@ export const AudioA11YCaptions= (props)=> {
 					aria-describedby='captions-exp'
 					name='captionsEmbebed'
 					value={dataField.captionsEmbebed}
-					row
-					
+					row	
 					onChange={React.useCallback(handleRadioButtonOnChange)}
 				>
 					<FormControlLabel
@@ -124,7 +119,6 @@ export const AudioA11YCaptions= (props)=> {
 				</RadioGroup>
 				<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbebedError} tip={captionsTip}/> 
 			</FormControl>
-
 			{//Trnascription signal part
 				(dataField.captionsEmbebed === "yes")?
 				<Grid item id='short-description-container' role='grid'>
@@ -157,7 +151,6 @@ export const AudioA11YCaptions= (props)=> {
 							)
 						})
 					}
-
 					<Button onClick={()=>addTranscription()} 
 						variant="outlined" 
 						size="medium" 
@@ -174,7 +167,6 @@ export const AudioA11YCaptions= (props)=> {
 		</React.Fragment>
 	);
 }
-
 
 
 export const useAudioDataField = (props) =>{
@@ -265,7 +257,6 @@ export const useAudioDataField = (props) =>{
 		}));
 	}
 
-
 	function handleRadioButtonOnChange ({ target: { name, value } }){
 		let data = {
 			[name]: value,
@@ -319,8 +310,7 @@ export const useAudioDataField = (props) =>{
 		}));
 		console.log("en addtranscription el estado***", dataField)
 	}
-   
-  
+     
 	function handleSubmit(event){
 	  event.preventDefault()
 	  console.log(this.state)
