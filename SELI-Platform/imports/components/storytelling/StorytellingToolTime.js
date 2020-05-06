@@ -907,7 +907,7 @@ class StorytellingToolTime extends React.Component {
     return(
       <div>
         {
-          [this.props.language.dstHelper2, this.props.language.dstHelper3].map((item, index) => {
+          [this.props.language.dstHelper2, this.props.language.dstHelper3, this.props.language.dstHelper4].map((item, index) => {
             return(
               <SnackbarItem
                 index={index}

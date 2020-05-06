@@ -470,10 +470,6 @@
   margin-right: 1vw !important;
 }
 
-.right-click-menu {
-  z-index: 10;
-}
-
 .story-item-container-link {
   display: flex !important;
   position: relative !important;
@@ -485,42 +481,9 @@
   animation: fadeInLeft 0.5s !important;
 }
 
-.story-rename-container {
-  align-items: center;
-  width: 100%-2vw;
-  padding: 0 1vw;
-  transition: 0.5s;
-  animation: fadeInLeft 0.5s;
-}
-
 .story-item-container-link:hover {
   background-color: #f5f5f5;
   cursor: pointer;
-}
-
-.story-item-icon {
-  margin-right: 0.5vw !important;
-}
-
-.story-item-text-primary {
-  letter-spacing: 1px;
-  font-size: 0.95em;
-  margin-left: 0.5vw;
-  color: #333;
-}
-
-.story-item-text-secondary {
-  letter-spacing: 1px;
-  font-size: 0.85em;
-  color: #616161;
-  margin-left: 1vw;
-}
-
-.story-item-button {
-  position: absolute !important;
-  letter-spacing: 1px !important;
-  text-decoration: none !important;
-  right: 1vw !important;
 }
 
 .storytelling-share-btn-group-time .storytelling-share-btn-time {
@@ -533,4 +496,66 @@
   content: "";
   clear: both;
   display: table;
+}
+
+.storytelling-player-frame-container {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.storytelling-player-title {
+  margin-bottom: 2vh;
+  letter-spacing: 1px;
+  font-size: 6em;
+  color: rgba(255, 255, 255);
+}
+
+.storytelling-player-full-name {
+  margin-top: 2vh;
+  letter-spacing: 1px;
+  font-size: 2em;
+  color: rgba(255, 255, 255);
+}
+
+.storytelling-player-end-image {
+  width: 100vw;
+  height: 25vh;
+  margin-bottom: 8vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.storytelling-player-end-title {
+  letter-spacing: 1px;
+  font-size: 3em;
+}
+
+.storytelling-player-end-subtitle {
+  letter-spacing: 1px;
+  font-size: 2em;
+}
+
+.storytelling-player-end-footer {
+  margin-top: 8vh;
+  display: flex;
+  align-items: center;
+}
+
+.storytelling-player-end-tutor {
+  width: 50vw;
+  letter-spacing: 1px;
+  font-size: 1.5em;
+}
+
+.storytelling-player-end-copyright {
+  width: 50vw;
+  height: 8vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
