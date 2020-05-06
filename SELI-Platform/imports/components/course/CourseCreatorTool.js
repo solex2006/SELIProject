@@ -1129,8 +1129,6 @@ export default class CourseCreatorTool extends React.Component {
             undefined
           }
 
-          
-
           {
             this.state.showAccessibilityOptions && (this.state.contentTypeAdded === 'quiz' || this.state.contentTypeAdded === 'image' || this.state.contentTypeAdded === 'audio' || this.state.contentTypeAdded === 'video') ?  
              //this.contentHandleClose()  // uncomment for view accessibility Menu
@@ -1157,7 +1155,7 @@ export default class CourseCreatorTool extends React.Component {
             :
               undefined
           }
-          {console.log("para,etros de configuracion importantes--",this.state.showAccessibilityOptions ,this.state.contentTypeAdded,this.state.contentToConfigureAccessibility )}
+          {console.log("parametros de configuracion importantes--",this.state.showAccessibilityOptions ,this.state.contentTypeAdded,this.state.contentToConfigureAccessibility )}
           {
             this.state.showAccessibilityForm ?
               <React.Fragment>

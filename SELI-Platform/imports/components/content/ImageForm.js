@@ -210,7 +210,7 @@ export default class ImageForm extends React.Component {
                       alert={this.state.alert}
                       language={this.props.language}
                       type={"image"}
-                    />
+                  />
               <div className="scroll-media-input-container">
                 <div className="margin-center-row">
                   <br/>

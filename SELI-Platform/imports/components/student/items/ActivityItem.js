@@ -230,12 +230,15 @@ export default class ActivityItem extends React.Component {
   };
 
   getFileInformation = (file) => {
+   
     if(file==="nofile"){
+      console.log("nofile  alert")
       this.setState({
         showPreview: false,
         alert:"alert"
       });
-    }else{;
+    }else{
+      console.log(file, "NOalrt")
       this.setState({
         file: file,
         showPreview: true,
@@ -294,25 +297,31 @@ export default class ActivityItem extends React.Component {
     this.getIndex()
   }
 
-
-/*   getEditorState=(editorState)=>{
-    //console.log("editorState en ActivityItem",editorState)    
-    this.state.textSection = editorState;
+  componentDidUpdate(){
+    
   }
 
-  Texteditor=()=>{
-    if(this.state.activityInformation===undefined){
-      return ("")
-    }else{
-      const contentState = convertFromRaw(this.state.activityInformation.activity.textSection);
-      const editorState =  EditorState.createWithContent(contentState);
-      return editorState
-    }
-  } */
+ closeer=()=>{
+  this.setState({
+    alert:"Noalert"
+  })
+ }
 
   render() {
     return(
       <div className="content-box">
+        {
+          this.state.alert==="alert"?
+            <PositionedSnackbar
+                alert={this.state.alert}
+                language={this.props.language}
+                type={this.props.item.attributes.fileTypes.label}
+                close={this.closeer}
+            />
+            :
+            undefined
+        }
+
         {
           this.props.item.attributes !== undefined ?
             <div className="activity-content-item">
@@ -481,7 +490,6 @@ export default class ActivityItem extends React.Component {
               this.props.item.attributes.type === 'upload' ?
                 <div style={{width: '100%'}}>
                   <br></br>
-                  
                   {
                     !this.state.showPreview ?
                       <FileUpload
@@ -629,12 +637,8 @@ export default class ActivityItem extends React.Component {
                           undefined
                       }
                   </div>
-
-                  <PositionedSnackbar
-                      alert={this.state.alert}
-                      language={this.props.language}
-                      type={this.props.item.attributes.instruction}
-                  />
+                  
+                
                   <TextField
                     id="biography-input"
                     label={`${this.props.language.additionalNotes}:`}

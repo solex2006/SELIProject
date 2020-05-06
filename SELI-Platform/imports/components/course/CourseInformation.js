@@ -24,7 +24,6 @@ import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldValidations';
 import Audiences from './Audiences';
 import FormLabel from '@material-ui/core/FormLabel';
-
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
@@ -34,7 +33,10 @@ import Fab from '@material-ui/core/Fab';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Tooltip from '@material-ui/core/Tooltip';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
-import RadioButtonsGroup from './CheckBox'
+import RadioButtonsGroup from './CheckBox';
+import AccessibilityHelp from '../tools/AccessibilityHelp';
+import PositionedSnackbar from "../content/ContentAlert";
+
 
 
 export default class CourseInformation extends React.Component {
@@ -43,6 +45,8 @@ export default class CourseInformation extends React.Component {
     this.state = {
       courseInformation: this.props.courseInformation,
       weekHourOption: 'hours',
+      alert:"Noalert"
+   
     }
   }
 
@@ -155,18 +159,30 @@ export default class CourseInformation extends React.Component {
 
   getFileInformation(file){
     if (file !== "nofile") {
+      this.setState({
+        alert:"Noalert",
+        showPreview: true,
+      })
       this.state.fileType === "image" ?
       this.setState({
         image: file,
-        showPreview: true,
+        //showPreview: true,
         showLibrary: false,
+       
       })
       :
       this.setState({
         sylabus: file,
-        showPreview: true,
+       // showPreview: true,
         showLibrary: false,
       })
+    }
+
+    if(file==="nofile"){
+      this.setState({
+        showPreview: false,
+        alert:"alert"
+      });
     }
   }
 
@@ -259,6 +275,12 @@ export default class CourseInformation extends React.Component {
       })
     }
   }
+
+  closeer=()=>{
+    this.setState({
+      //alert:"Noalert"
+    })
+   }
 
   render() {
     return(
@@ -388,20 +410,20 @@ export default class CourseInformation extends React.Component {
             { 
               this.state.weekHourOption==='weeks'?
                   <TextField
-                        id="duration-input"
-                        label={this.props.language.estimatedCourseDuration}
-                        margin="normal"
-                        variant="outlined"
-                        type="number"
-                        fullWidth
-                        required
-                        InputProps={{
-                          endAdornment: <InputAdornment position="end">{this.props.language.week}</InputAdornment>,
-                        }}
-                        inputProps={{min: "1", max: "999", step: "1" }}
-                        value={this.state.courseInformation.durationweeks}
-                        onChange={this.handleChange('durationWeeks')}
-                        onKeyPress={() => validateOnlyNumbers(event)}
+                    id="duration-input"
+                    label={this.props.language.estimatedCourseDuration}
+                    margin="normal"
+                    variant="outlined"
+                    type="number"
+                    fullWidth
+                    required
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end">{this.props.language.week}</InputAdornment>,
+                    }}
+                    inputProps={{min: "1", max: "999", step: "1" }}
+                    value={this.state.courseInformation.durationweeks}
+                    onChange={this.handleChange('durationWeeks')}
+                    onKeyPress={() => validateOnlyNumbers(event)}
                   /> 
                 :
                 undefined
@@ -500,12 +522,12 @@ export default class CourseInformation extends React.Component {
                         <div className="form-preview-container">
                           {
                             this.state.fileType === "image" ?
-                              <ImagePreview
-                                file={this.state.image}
-                                unPickFile={this.unPickFile.bind(this)}
-                                language={this.props.language}
-                                tipo={"Course"}
-                              />
+                            <ImagePreview
+                              file={this.state.image}
+                              unPickFile={this.unPickFile.bind(this)}
+                              language={this.props.language}
+                              tipo={"Course"}
+                            /> 
                             :
                             <PdfPreview
                               file={this.state.sylabus}
@@ -513,6 +535,7 @@ export default class CourseInformation extends React.Component {
                               language={this.props.language}
                             />
                           }
+                          
                         </div>
                       :
                       <div className="form-file-container">
@@ -527,8 +550,29 @@ export default class CourseInformation extends React.Component {
                     }
                   </div>
               }
+              
             </div>
           </DialogContent>
+          {console.log("this.state.fileType",this.state.fileType)}
+
+                
+              <PositionedSnackbar
+                    alert={this.state.alert}
+                    language={this.props.language}
+                    type={this.state.fileType}
+                    close={this.closeer}
+              />
+              <div className="form-editor-label">
+            <AccessibilityHelp 
+                id={'short-description-help-container'} 
+                name={'shortDescriptionHelpContainer'} 
+                error={!this.state.showPreview} 
+                tip={this.state.fileType === 'image' ? (!this.state.showPreview ? this.props.language.uploadImage: this.props.language.uploadImageCorrect):(!this.state.showPreview ? this.props.language.uploadPdf: this.props.language.uploadPdfCorrect)}
+                //step={props.step}
+                //stepLabel={props.stepLabel}
+                language={this.props.language}
+            />
+        </div>
           <div className="dialog-actions-container">
             <Tooltip title={this.props.language.done}>
               <Fab onClick={() => this.selectFile(this.state.fileType)} disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} className="dialog-fab" color="primary">
