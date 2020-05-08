@@ -25,8 +25,9 @@ import InfoIcon from '@material-ui/icons/Info';
 import { Tracker } from 'meteor/tracker';
 import { Activities } from '../../../../lib/ActivitiesCollection';
 import EditorLinks from '../../inputs/editor/Editor';
-import AccessibilityHelp from '../../tools/AccessibilityHelp'
-import PositionedSnackbar from "../../content/ContentAlert"
+import AccessibilityHelp from '../../tools/AccessibilityHelp';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 /* import { Editor, EditorState, convertFromRaw } from "draft-js";
 import A11yEditor from './Editordraft'; */
 
@@ -230,21 +231,10 @@ export default class ActivityItem extends React.Component {
   };
 
   getFileInformation = (file) => {
-   
-    if(file==="nofile"){
-      console.log("nofile  alert")
-      this.setState({
-        showPreview: false,
-        alert:"alert"
-      });
-    }else{
-      console.log(file, "NOalrt")
-      this.setState({
-        file: file,
-        showPreview: true,
-        alert:"Noalert"
-      });
-    }    
+    this.setState({
+      file: file,
+      showPreview: true,
+    });   
   }
 
   unPickFile(){
@@ -310,18 +300,6 @@ export default class ActivityItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        {
-          this.state.alert==="alert"?
-            <PositionedSnackbar
-                alert={this.state.alert}
-                language={this.props.language}
-                type={this.props.item.attributes.fileTypes.label}
-                close={this.closeer}
-            />
-            :
-            undefined
-        }
-
         {
           this.props.item.attributes !== undefined ?
             <div className="activity-content-item">
@@ -496,8 +474,10 @@ export default class ActivityItem extends React.Component {
                         type={this.props.item.attributes.fileTypes.label.toLowerCase()}
                         user={Meteor.userId()}
                         accept={this.props.item.attributes.fileTypes.accept}
+                        handleControlMessage={this.props.handleControlMessage.bind(this)}
                         getFileInformation={this.getFileInformation.bind(this)}
                         label={this.props.language.clickUploadFile}
+                        language={this.props.language}
                       />
                     :
                       <AttachmentPreview
@@ -697,12 +677,14 @@ export default class ActivityItem extends React.Component {
                         <LibraryBooksIcon className="story-item-icon"/>
                         <p className="story-item-text-primary">{story.activity.name}</p>
                         <Link className="story-item-button"
-                          //target="_blank"
+                          target="_blank"
                           to={`/story#${story._id}`}
                         >
-                          <Button variant="contained" color="secondary">
-                            {this.props.language.open}
-                          </Button>
+                          <Tooltip title={this.props.language.open} placement="left">
+                            <IconButton color="secondary" aria-label="open">
+                              <img src="openNew.svg"/>
+                            </IconButton>
+                          </Tooltip>
                         </Link>
                       </Paper>
                     )

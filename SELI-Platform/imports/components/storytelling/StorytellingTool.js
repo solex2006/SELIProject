@@ -1257,6 +1257,8 @@ class StorytellingTool extends React.Component {
                                 accept={'audio/*'}
                                 label={this.props.language.uploadAudioButtonLabel}
                                 getFileInformation={this.getFileInformation.bind(this)}
+                                handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                language={this.props.language}
                               /> 
                           : 
                             undefined                     
@@ -1321,6 +1323,8 @@ class StorytellingTool extends React.Component {
                                 accept={'image/*'}
                                 label={this.props.language.uploadImageButtonLabel}
                                 getFileInformation={this.getFileInformation.bind(this)}
+                                handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                language={this.props.language}
                               />
                           : 
                             undefined                     
@@ -1416,6 +1420,8 @@ class StorytellingTool extends React.Component {
                                 accept={'video/*'}
                                 label={this.props.language.uploadVideoButtonLabel}
                                 getFileInformation={this.getFileInformation.bind(this)}
+                                handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                language={this.props.language}
                               /> 
                           : 
                             undefined                     

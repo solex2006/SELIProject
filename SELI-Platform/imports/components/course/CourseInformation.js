@@ -4,15 +4,11 @@ import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import ErrorIcon from '@material-ui/icons/Error';
-import ImageIcon from '@material-ui/icons/Image';
 import ImageSharpIcon from '@material-ui/icons/ImageSharp';
 import PictureAsPdfSharpIcon from '@material-ui/icons/PictureAsPdfSharp';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import MenuItem from '@material-ui/core/MenuItem';
 import FileUpload from '../files/FileUpload';
 import ImagePreview from '../files/previews/ImagePreview';
@@ -20,7 +16,6 @@ import PdfPreview from '../files/previews/PdfPreview';
 import Library from '../tools/Library';
 import Help from '../tools/Help';
 import FormPreview from '../files/previews/FormPreview';
-import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldValidations';
 import Audiences from './Audiences';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -35,9 +30,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import RadioButtonsGroup from './CheckBox';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
-import PositionedSnackbar from "../content/ContentAlert";
-
-
 
 export default class CourseInformation extends React.Component {
   constructor(props) {
@@ -158,32 +150,21 @@ export default class CourseInformation extends React.Component {
   }
 
   getFileInformation(file){
-    if (file !== "nofile") {
-      this.setState({
-        alert:"Noalert",
-        showPreview: true,
-      })
-      this.state.fileType === "image" ?
+    this.setState({
+      showPreview: true,
+    })
+    this.state.fileType === "image" ?
       this.setState({
         image: file,
         //showPreview: true,
         showLibrary: false,
-       
       })
-      :
+    :
       this.setState({
         sylabus: file,
-       // showPreview: true,
+        // showPreview: true,
         showLibrary: false,
       })
-    }
-
-    if(file==="nofile"){
-      this.setState({
-        showPreview: false,
-        alert:"alert"
-      });
-    }
   }
 
   unPickFile(){
@@ -543,8 +524,10 @@ export default class CourseInformation extends React.Component {
                           type={this.state.fileType}
                           user={Meteor.userId()}
                           accept={this.state.accept}
+                          handleControlMessage={this.props.handleControlMessage.bind(this)}
                           getFileInformation={this.getFileInformation.bind(this)}
                           label={this.state.fileType === 'image' ? this.props.language.uploadImageButtonLabel : this.props.language.uploadPdfButtonLabel }
+                          language={this.props.language}
                         />
                       </div>
                     }
@@ -553,16 +536,7 @@ export default class CourseInformation extends React.Component {
               
             </div>
           </DialogContent>
-          {console.log("this.state.fileType",this.state.fileType)}
-
-                
-              <PositionedSnackbar
-                    alert={this.state.alert}
-                    language={this.props.language}
-                    type={this.state.fileType}
-                    close={this.closeer}
-              />
-              <div className="form-editor-label">
+            <div className="form-editor-label">
             <AccessibilityHelp 
                 id={'short-description-help-container'} 
                 name={'shortDescriptionHelpContainer'} 

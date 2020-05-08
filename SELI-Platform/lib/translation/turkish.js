@@ -172,7 +172,7 @@ var TURKISH = {
   description: "Metin",
   descriptionIn: "Açıklama yeri:",
   sceneDescriptionHelper: "Bu sahnenin metnidir(sesin transkripsiyonunu farklı dillerde alt yazı olarak ekleyebilirsiniz).",
-  recordAgaing: "Tekrar kaydet",
+  recordAgain: "Tekrar kaydet",
   changeAudio: "Sesi değiştir",
   changeImage: "Resmi değiştir",
   deleteThisScene: "Bu sahneyi sil",
@@ -911,6 +911,7 @@ var TURKISH = {
   dstHelper1: "You need to record, upload, or reuse audio in order to start your digital story.",
   dstHelper2: "Click over the sound track to move the cursor in the desired position.",
   dstHelper3: "You can add images and subtitles by clicking the buttons below the cursor.",
+  dstHelper4: "Can edit or delete content by right clicking over the items.",
   noTimeRestrictions: "Does this content require the option for remove time restrictions?",
   noTimeTip:"Disabling the time of a quiz is useful for people with motor, visual or intellectual disabilities who require more time to take the exam.",
   extraTimeQuiz:"Does this quiz require extra time?",
@@ -930,5 +931,6 @@ var TURKISH = {
   ariaLabelTranscription:"This is the short description (identify content). This audio content has the folowing accessibility resources: Transcription",
   alertCompatibility:"your browser is not compatible",
   showHideTranscription:"Show/Hide Transcript",
+  sizeLessThan: "Please, upload a file with size less than 100 MB.",
 }
 export default TURKISH;
