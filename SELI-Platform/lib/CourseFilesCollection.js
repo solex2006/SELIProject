@@ -20,7 +20,7 @@ const CourseFilesCollection = new FilesCollection({
     // and on server at `onAfterUpload` hook (trusted side)
     //console.log("enCoursefilescollection",file ,file.type, file.isImage, file.ext, file.meta.tipo)
     let type=file.type.split("/")
-    if (file.size <= 2097152000) {
+    if (file.size <= 104857600) {
       if(type[0]==='image'){
         if (/png|jpg|tif|gif|jpeg|bmp|psd|ai|cdr|svg|raw|nef/i.test(file.extension)) { //for images only
           return true;
@@ -44,11 +44,10 @@ const CourseFilesCollection = new FilesCollection({
       } else if((type[0]==="excel" || type[0]==="word" || type[0]==="power point") ){ // && (type[1]==='vnd.ms-excel'||type[1]==='docx')
         return true;
       } else {
-        console.log("false")
-        return false
+        return false;
       }
     } else {
-      return 'Please upload a file with size equal or less than 10MB'; 
+      return false;
     }
   },
   downloadCallback(fileObj) {

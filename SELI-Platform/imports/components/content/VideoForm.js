@@ -4,8 +4,6 @@ import VideoPreview from '../files/previews/VideoPreview';
 import Editor from '../inputs/editor/Editor';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
 import Library from '../tools/Library';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import HttpIcon from '@material-ui/icons/Http';
@@ -14,14 +12,10 @@ import TextField from '@material-ui/core/TextField';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
 import Switch from '@material-ui/core/Switch';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
-import Fab from '@material-ui/core/Fab'
-import AudioPreview from '../files/previews/AudioPreview';
-import AudioRecorder from '../tools/AudioRecorder';
-import PositionedSnackbar from "./ContentAlert"
-import AccessibilityHelp from '../tools/AccessibilityHelp'
+import Fab from '@material-ui/core/Fab';
+import AccessibilityHelp from '../tools/AccessibilityHelp';
 
 export default class VideoForm extends React.Component {
   constructor(props) {
@@ -97,21 +91,13 @@ export default class VideoForm extends React.Component {
   }
 
   getFileInformation(file){
-    if(file==="nofile"){
-      this.setState({
-        showPreview: false,
-        alert:"alert"
-      });
-    }else{
-      let attributes = this.state.attributes;
-      attributes.video = file;
-      this.setState({
-        attributes: attributes,
-        showPreview: true,
-        showGallery: false,
-        alert:"Noalert"
-      });
-    }
+    let attributes = this.state.attributes;
+    attributes.video = file;
+    this.setState({
+      attributes: attributes,
+      showPreview: true,
+      showGallery: false,
+    });
   }
 
   getFileInformationAudioDescription(file){
@@ -301,7 +287,9 @@ export default class VideoForm extends React.Component {
                                 user={Meteor.userId()}
                                 accept={'video/*'}
                                 label={this.props.language.uploadVideoButtonLabel}
+                                handleControlMessage={this.props.handleControlMessage.bind(this)}
                                 getFileInformation={this.getFileInformation.bind(this)}
+                                language={this.props.language}
                               />
                             :
                               <div>
@@ -340,12 +328,7 @@ export default class VideoForm extends React.Component {
                           </div>
                         </div>
                     }
-                    <PositionedSnackbar
-                      alert={this.state.alert}
-                      language={this.props.language}
-                      type={"video"}
-                    />
-                     <div className="form-editor-label">
+                    <div className="form-editor-label">
                       <AccessibilityHelp 
                         id={'short-description-help-container'} 
                         name={'shortDescriptionHelpContainer'} 

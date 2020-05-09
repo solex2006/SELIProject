@@ -516,8 +516,9 @@ export default class UserInformation extends React.Component {
                         user={"guest"}
                         accept={this.state.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
+                        handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        language={this.props.language}
                         label={this.props.language.uploadImageButtonLabel}
-                        
                       />
                     </div>
                   }

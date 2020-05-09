@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import Loading from '../tools/Loading';
-import { Courses } from '../../../lib/CourseCollection';
 import { Activities } from '../../../lib/ActivitiesCollection';
 import { Comments } from '../../../lib/CommentsCollection';
 import CourseMenu from './CourseMenu';
@@ -27,6 +25,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import DoneIcon from '@material-ui/icons/Done';
 import AppsIcon from '@material-ui/icons/Apps';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import Slide from '@material-ui/core/Slide';
 
@@ -554,12 +553,14 @@ export default class Course extends React.Component {
                     <p className="story-item-text-primary">{story.activity.name}</p>
                     <p className="story-item-text-secondary">{`By: ${story.userInformation.username}`}</p>
                     <Link className="story-item-button"
-                      //target="_blank"
+                      target="_blank"
                       to={`/story#${story._id}`}
                     >
-                      <Button variant="contained" color="primary">
-                        {this.props.language.open}
-                      </Button>
+                      <Tooltip title={this.props.language.open} placement="left">
+                        <IconButton color="secondary" aria-label="open">
+                          <img src="openNew.svg"/>
+                        </IconButton>
+                      </Tooltip>
                     </Link>
                   </Paper>
                 )

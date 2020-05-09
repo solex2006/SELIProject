@@ -931,6 +931,7 @@ var SPANISH = {
   ariaLabelTranscription:"This is the short description (identify content). This audio content has the folowing accessibility resources: Transcription",
   alertCompatibility:"Tu navegador no es compatible",
   showHideTranscription:"Mostrar/Ocultar Transcripcion",
+  sizeLessThan: "Por favor, suba un archivo con un tamaño inferior a 100 MB",
 }
 export default SPANISH
 

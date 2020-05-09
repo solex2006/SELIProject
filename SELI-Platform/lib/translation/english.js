@@ -934,5 +934,6 @@ var ENGLISH = {
   selectYourBadgeImage: "Select your badge image",
   verifyBadge: "Verify the badge",
   badgeVerification: "Badge verification",
+  sizeLessThan: "Please, upload a file with size less than 100 MB.",
 }
 export default ENGLISH;

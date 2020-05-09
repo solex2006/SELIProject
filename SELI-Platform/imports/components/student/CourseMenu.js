@@ -99,7 +99,10 @@ export default function CourseMenu(props) {
           lesson={props.language.lesson}
         />
       </div>
-      <Button onClick={() => showCourseStories()} className="course-menu-stories-button">{props.language.courseStories}</Button>
+      {
+        !props.showCourseStories ? undefined :
+          <Button onClick={() => showCourseStories()} className="course-menu-stories-button">{props.language.courseStories}</Button>
+      }
     </div>
   );
 

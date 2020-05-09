@@ -1,22 +1,13 @@
 import React from 'react';
 import FileUpload from '../files/FileUpload';
 import AudioPreview from '../files/previews/AudioPreview';
-import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
-import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
-import Grid from '@material-ui/core/Grid';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Editor from '../inputs/editor/Editor';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
 import Library from '../tools/Library';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
 import Switch from '@material-ui/core/Switch';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab';
@@ -24,9 +15,8 @@ import MicIcon from '@material-ui/icons/Mic';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import AudioRecorder from '../tools/AudioRecorder';
 import TextField from '@material-ui/core/TextField';
-import PositionedSnackbar from "./ContentAlert"
 import AccessibilityHelp from '../tools/AccessibilityHelp'
-                   
+
 export default class AudioForm extends React.Component {
   constructor(props) {
     super(props);
@@ -105,21 +95,13 @@ export default class AudioForm extends React.Component {
   }
 
   getFileInformation(file){
-    if(file==="nofile"){
-      this.setState({
-        showPreview: false,
-        alert:"alert"
-      });
-    }else{
-      let attributes = this.state.attributes;
-      attributes.audio = file;
-      this.setState({
-        attributes: attributes,
-        showPreview: true,
-        showGallery: false,
-        alert:"Noalert"
-      });
-    }
+    let attributes = this.state.attributes;
+    attributes.audio = file;
+    this.setState({
+      attributes: attributes,
+      showPreview: true,
+      showGallery: false,
+    });
   }
   
 
@@ -230,13 +212,15 @@ export default class AudioForm extends React.Component {
                       !this.state.showPreview ?
                         <div>
                           {
-                             this.state.attributes.source === 'upload' ?
+                            this.state.attributes.source === 'upload' ?
                               <FileUpload
                                 type="audio"
                                 accept={'audio/*'}
                                 user={Meteor.userId()}
                                 label={this.props.language.uploadAudioButtonLabel}
+                                handleControlMessage={this.props.handleControlMessage.bind(this)}
                                 getFileInformation={this.getFileInformation.bind(this)}
+                                language={this.props.language}
                               />
                             :
                             <AudioRecorder
@@ -252,7 +236,7 @@ export default class AudioForm extends React.Component {
                         language={this.props.language}
                       />
                     }
-                     <div className="form-editor-label">
+                    <div className="form-editor-label">
                       <AccessibilityHelp 
                         id={'short-description-help-container'} 
                         name={'shortDescriptionHelpContainer'} 
@@ -263,15 +247,7 @@ export default class AudioForm extends React.Component {
                         language={this.props.language}
                       />
                     </div>
-                    <PositionedSnackbar
-                      alert={this.state.alert}
-                      language={this.props.language}
-                      type={"audio"}
-                    />
                   </div>
-
-
-
                 </div>
                 <div className="course-creator-form-column">
                   <div className="course-creator-input-container">
