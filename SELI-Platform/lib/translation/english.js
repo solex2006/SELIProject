@@ -931,6 +931,8 @@ var ENGLISH = {
   ariaLabelTranscription:"This is the short description (identify content). This audio content has the folowing accessibility resources: Transcription",
   alertCompatibility:"your browser is not compatible",
   showHideTranscription:"Show/Hide Transcript",
-
+  selectYourBadgeImage: "Select your badge image",
+  verifyBadge: "Verify the badge",
+  badgeVerification: "Badge verification",
 }
 export default ENGLISH;

@@ -94,6 +94,38 @@ var OPTIONS = [
   },
   {
     label: [
+      "Badges",
+      "Badges",
+      "Badges",
+      "",
+      "Badges",
+    ],
+    
+    suboptions: [
+      {
+        label: [
+          "My badges",
+          "My badges",
+          "My badges",
+          "",
+          "My badges",
+        ],
+        component: 'badgeCollection',
+      },
+      {
+        label: [
+          "Verificate badge",
+          "Verificate badge",
+          "Verificate badge",
+          "",
+          "Verificate badge",
+        ],
+        component: 'badgeVerification',
+      },
+    ],
+  },
+  {
+    label: [
       "Support",
       "Soporte",
       "Suporte",

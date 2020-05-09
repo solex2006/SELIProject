@@ -25,6 +25,10 @@ import Select from '@material-ui/core/Select';
 import moment, { min } from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
 import Checkbox from '@material-ui/core/Checkbox';
+import CourseFilesCollection from '../../../lib/CourseFilesCollection';
+
+const bakery=require('openbadges-bakery-v2'); 
+
 momentDurationFormatSetup(moment);
 const useStyles = theme => ({
   root: {
@@ -273,7 +277,22 @@ class Quiz extends React.Component {
           this.props.completeActivity(this.props.quiz.id, quiz);
         }
         this.props.handleClose(); 
-      
+        let score = this.getQuizResults(this.state.answers);
+        console.log(score.score);
+        console.log(this.props.quiz.attributes.approvalPercentage);
+        if(score.score >= this.props.quiz.attributes.approvalPercentage){
+          console.log('baking after succesful quiz'); 
+          let badgeImage = this.props.quiz.attributes.badgeInformation.image;
+          this.issueBadge(badgeImage);
+          // Meteor.call("UpdateCourses", Meteor.userId, user.profile.b);
+        }
+        else{
+          console.log("no approved");
+        }
+        let approved;
+        score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
+        console.log(approved);
+        
   }
 
   showFinishConfirmation = () => {
@@ -421,6 +440,142 @@ class Quiz extends React.Component {
       let moreTime=(this.state.handleTick+ (parseInt(extendedtime[0])*60*60)+(parseInt(extendedtime[1])*60)+parseInt(extendedtime[2])) //seconds
       this.setState({selectedtime: moreTime*1000})
       
+  }
+
+  // OpenBadge
+
+  async bake(options) {
+    return new Promise((resolve,reject) => {
+      bakery.bake(options, function(err, data){
+        if(err)
+         return reject(err)
+        else
+         resolve(data);
+      })
+    })
+    
+  }
+  async saveBadge(data,image){
+    let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
+    user = user[0];
+    var file = new File([data],image._id+".png",{ type: "image/png", 
+                                                  ext: "png",
+                                                  extension: "png",
+                                                  extensionWithDot: ".png"});
+    let uploadInstance = CourseFilesCollection.insert({
+      file: file,
+      meta: {
+          locator: '',
+          dateAdded: new Date(),
+          isFavorite: false,
+          usedInCourse: false,
+          userId: '', 
+          buffer: '',
+        //userId: Meteor.userId() // Optional, used to check on server for file tampering
+      },
+      streams: 'dynamic',
+      chunkSize: 'dynamic',
+      allowWebWorkers: true // If you see issues with uploads, change this to false
+    }, false )
+
+    uploadInstance.start(); 
+    console.log(file); 
+    console.log(uploadInstance);
+    let currentId = uploadInstance.config.fileId+"";
+    let newName = uploadInstance.config.fileId+".jpg";
+    console.log(currentId);
+    console.log(newName);
+    let result = CourseFilesCollection.update({
+       _id : currentId } , 
+       {$set:  {name : "LOL"}},
+       { upsert: true }
+    );
+    console.log(result);
+    let today = new Date();
+    let certificateInfo = {
+      idStudent: user._id,
+      name: user.profile.fullname,
+      tutor: 'Maestro',
+      date: today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear(),
+      course: this.props.quiz.attributes.badgeInformation.name,
+      description: this.props.quiz.attributes.badgeInformation.description,
+      duration: '10',
+    };
+    if (this._isMounted) {
+      this.setState({badgeWin:true});
+    }
+    console.log(this.state);
+    this.saveUserBadge();
+  }
+  saveUserBadge = () => {
+    console.log('saving user badge in collection');
+    Meteor.call('addBadgeStudent',
+      Meteor.userId(),
+      this.props.quiz.attributes.badgeInformation,
+      (error, response) =>  {}
+    )
+  };
+
+
+  async issueBadge(image){
+    let buffer = CourseFilesCollection.findOne({_id: image._id });
+    buffer = buffer.meta.buffer;
+    var theAssertion ={
+      "uid": "123456789abcdefghi987654321jklmnopqr",
+      "recipient": {
+        "identity": "sha256$98765edcba98765edcba98765edcba",
+        "type": "email",
+        "hashed": true,
+        "badgeName": this.props.quiz.attributes.badgeInformation.name,
+        "badgeDescription": this.props.quiz.attributes.badgeInformation.description,
+        "badgeTeacher": "Teacher 1",
+        "badgeCourse": "Test Course",
+        "badgeStudent": "student1",
+      },
+      "badge": "http://issuersite.com/badge",
+      "verify": {
+        "url": "http://issuersite.com/assertion",
+        "type": "hosted"
+      },
+      "issuedOn": new Date().toISOString().substring(0, 10),
+      };
+    var options = {
+      image: buffer,
+      assertion: theAssertion,
+    };
+
+    await this.bake(options)
+    .then(data => {
+      this.saveBadge(data,image);
+      this.setState({badgeWin:true});
+    })
+    .catch(err => {console.log(err)})
+  }
+  persistBadge(badgeInfo){
+    fetch('https://201.159.223.92/datos', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(badgeInfo)
+    }).then(res => res.json())
+    .then(res => {
+      console.log(res);
+      if(res === "se genero el certificado con exito en 201.159.223.92"){
+        this.setState({
+          certificateCreated: true,
+          certificateError: false,
+          certificateDialogOpen: true,
+        });
+      }else{
+        this.setState({
+          certificateCreated: false,
+          certificateError: true,
+          certificateErrorDialogOpen: true,
+        });
+      }
+    });
   }
 
   render() {

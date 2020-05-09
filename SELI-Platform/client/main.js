@@ -22,6 +22,7 @@ import MediaPlayer from '../imports/components/student/MediaPlayer';
 import CoursesDashboard from '../imports/ui/CoursesDashboard';
 import TutorRequestList from '../imports/components/administrator/TutorRequestList';
 import CertificateValidation from '../imports/ui/CertificateValidation';
+import BadgeVerification from '../imports/ui/BadgeVerification';
 
 const history = createBrowserHistory();
 
@@ -48,6 +49,7 @@ Meteor.startup(() => {
         <Route exact path="/dashboard" component={CoursesDashboard} history={history}/>
         <Route exact path="/tutorRequests" component={TutorRequestList} history={history}/>
         <Route exact path="/certificatesValidation" component={CertificateValidation} history={history}/>
+        <Route exact path="/badgeVerification" component={BadgeVerification} history={history}/>
       </Switch>
     </Router>, document.getElementById('render-target')
   );

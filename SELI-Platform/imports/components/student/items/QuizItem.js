@@ -22,7 +22,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Slide from '@material-ui/core/Slide';
 import {Activities} from '../../../../lib/ActivitiesCollection';
-
+import { BadgeNotification } from '../BadgeNotification';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -35,6 +35,7 @@ export default class QuizItem extends React.Component {
       expanded: 'quiz-panel',
       resolved: false,
       time:'',
+      winBadge: false,
     }
   }
 
@@ -63,7 +64,7 @@ export default class QuizItem extends React.Component {
 
   checkResolved = () => {
     this.props.toResolve.map(activity => {
-      (activity._id === this.props.item.id && activity.resolved) ? this.setState({resolved: true}) : undefined
+      (activity._id === this.props.item.id && activity.resolved) ? this.setState({resolved: true,winBadge: true}) : undefined
     })
   }
 
@@ -319,6 +320,17 @@ export default class QuizItem extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <div>
+          {
+          
+          this.state.winBadge  &&
+            <BadgeNotification
+              modalOpen = {true} 
+              badgeInformation={this.props.item.attributes.badgeInformation}
+            />
+
+          }
+        </div>
       </div>
       );
     }

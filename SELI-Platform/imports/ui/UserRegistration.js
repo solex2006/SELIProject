@@ -223,6 +223,7 @@ export default class UserRegistration extends React.Component {
         courses: [],
         type: 'student',
         certificates: [],
+        badge: [],
         configuration: {
           language: 'English (US)',
         },

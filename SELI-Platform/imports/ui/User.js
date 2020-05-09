@@ -45,6 +45,8 @@ import portuguese from '../../lib/translation/portuguese';
 import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
 import WarningIcon from '@material-ui/icons/Warning';
+import BadgeVerification from './BadgeVerification';
+import BadgeCollection from '../components/student/BadgeCollection';
 
 
 
@@ -644,6 +646,18 @@ export default class User extends React.Component {
                           handleClickCourse={this.handleClickCourse.bind(this)}
                           showComponent={this.showComponent.bind(this)}
                         />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'badgeVerification' ?
+                      <BadgeVerification/>
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'badgeCollection' ?
+                      <BadgeCollection/>
                       :
                       undefined
                     }
