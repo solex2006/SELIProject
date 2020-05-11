@@ -8,8 +8,6 @@ import Table from '../data_display/Table';
 import StudentProfile from './StudentProfile';
 import CourseMenu from '../student/CourseMenu';
 import CourseContent from '../student/CourseContent';
-import { Activities } from '../../../lib/ActivitiesCollection';
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 
 import SchoolIcon from '@material-ui/icons/School';
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
@@ -32,9 +30,7 @@ import Typography from '@material-ui/core/Typography';
 import AppsIcon from '@material-ui/icons/Apps';
 import DenseTable from './DenseTable';
 import Paper from '@material-ui/core/Paper';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -46,6 +42,7 @@ import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
 import MoodBadIcon from '@material-ui/icons/MoodBad';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+
 export default class PublishedCoursesList extends React.Component {
   constructor(props) {
     super(props);
@@ -55,7 +52,6 @@ export default class PublishedCoursesList extends React.Component {
       studentInformation: '',
       studentScores: [],
       course: [],
-      stories: [],
       indexquiz:'',
       valuesofScores:[]
     }
@@ -475,48 +471,6 @@ export default class PublishedCoursesList extends React.Component {
     });
   }
 
-  handleCloseStories = () => {
-    this.setState({
-      openStories: false,
-    });
-  };
-
-
-  showCourseStories = () => {
-    this.setState({
-      loadingStories: true,
-    }, () => {
-      Tracker.autorun(() => {
-        let stories = Activities.find({'activity.type': 'storytelling', 'activity.courseId': this.state.course._id}).fetch();
-        this.buildStories(stories);
-      });
-    });
-  }
-
-  buildStories = (stories) => {
-    if (stories.length) {
-      let users = [];
-      stories.map(story => {
-        let user = Meteor.users.find({_id: story.activity.user}).fetch();
-        story.userInformation = user[0];
-      })
-      this.setState({
-        stories: stories,
-        results: true,
-        loadingStories: false,
-        openStories: true,
-      })
-    }
-    else {
-      this.setState({
-        results: false,
-        loadingStories: false,
-      }, () => {
-        this.props.handleControlMessage(true, this.props.language.notStoriesMessage)
-      })
-    }
-  }
-
   menu = () => {
     return(
       <div className="course-content-container-quiz">
@@ -729,7 +683,7 @@ export default class PublishedCoursesList extends React.Component {
                                   navigateTo={this.navigateTo.bind(this)}
                                   selected={this.state.selected}
                                   showPresentation={this.showPresentation.bind(this)}
-                                  showCourseStories={this.showCourseStories.bind(this)}
+                                  //showCourseStories={this.showCourseStories.bind(this)}
                                   handleView={this.handleView.bind(this)}
                                   language={this.props.language}
                                 />
@@ -768,51 +722,6 @@ export default class PublishedCoursesList extends React.Component {
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
               </div>
-            }
-          </DialogContent>
-        </Dialog>
-        <Dialog
-          open={this.state.openStories}
-          onClose={this.handleCloseStories}
-          aria-labelledby="alert-dialog-confirmation"
-          aria-describedby="alert-dialog-confirmation"
-          className="media-dialog"
-        >
-          <DialogTitle className="dialog-title">
-            <AppBar className="dialog-app-bar" color="primary" position="static">
-              <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
-                <AppsIcon/>
-                <h4 className="dialog-label-title">{this.props.language.courseStories}</h4>     
-                <IconButton
-                  id="close-icon"
-                  edge="end"
-                  className="dialog-toolbar-icon"
-                  onClick={this.handleCloseStories}
-                >
-                  <CloseIcon/>
-                </IconButton>
-              </Toolbar>
-            </AppBar>
-          </DialogTitle>
-          <DialogContent className="stories-dialog-content">
-            {
-              this.state.stories.map(story => {
-                return(
-                  <Paper elevation={5} className="story-item-container">
-                    <LibraryBooksIcon className="story-item-icon"/>
-                    <p className="story-item-text-primary">{story.activity.name}</p>
-                    <p className="story-item-text-secondary">{`By: ${story.userInformation.username}`}</p>
-                    <Link className="story-item-button"
-                      //target="_blank"
-                      to={`/story#${story._id}`}
-                    >
-                      <Button variant="contained" color="primary">
-                        {this.props.language.open}
-                      </Button>
-                    </Link>
-                  </Paper>
-                )
-              })
             }
           </DialogContent>
         </Dialog>

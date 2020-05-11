@@ -492,6 +492,10 @@
   float: left;
 }
 
+.right-click-menu {
+  z-index: 1000 !important;
+}
+
 .storytelling-share-btn-group-time:after {
   content: "";
   clear: both;

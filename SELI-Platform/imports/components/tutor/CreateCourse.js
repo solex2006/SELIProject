@@ -211,7 +211,7 @@ export default class CreateCourse extends React.Component {
         let topicIndex = index;
         topic.items.map((item, index) => {
           if (item.type === "activity" && item.attributes.type === "forum" && item.attributes.activityId === undefined){
-            this.createForumItem(item.id, courseId, topicIndex, index);
+            this.createForumItem(item.id, courseId, topicIndex, index, -1);
           }
         })
       })
@@ -235,8 +235,7 @@ export default class CreateCourse extends React.Component {
       });
     }
     let program = Courses.findOne({_id: courseId}).program;
-    console.log("el programa a publicar -------------", program)
-    if (childIndex) {
+    if (childIndex >= 0) {
       program[parentIndex].lessons[childIndex].items[index].attributes.activityId = activityId;
     } else {
       program[parentIndex].items[index].attributes.activityId = activityId;

@@ -595,6 +595,8 @@ export default class AccountManagement extends React.Component {
                         user={Meteor.userId()}
                         accept={this.state.accept}
                         getFileInformation={this.getFileInformation.bind(this)}
+                        handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        language={this.props.language}
                         label={this.props.language.uploadYourProfilePhoto}
                       />
                     </div>

@@ -20,8 +20,8 @@ export default class DashboardComponent extends React.Component {
       let user = response;
       if (user.length) {
         let jwt = require("jsonwebtoken");
-        let METABASE_SITE_URL = "https://metabase.ddns.net";
-        let METABASE_SECRET_KEY = "790ed9c1e1154c0072716babff490b51b2fd36df6322d9efd225c37a99fe6dc7";
+        let METABASE_SITE_URL = Meteor.settings.public.METABASE_DOMAIN;
+        let METABASE_SECRET_KEY = Meteor.settings.public.METABASE_KEY;
         let token;
         let payload;
 

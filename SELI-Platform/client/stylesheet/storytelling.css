@@ -438,8 +438,6 @@
 
 .story-item-button {
   position: absolute !important;
-  letter-spacing: 1px !important;
-  text-decoration: none !important;
   right: 1vw !important;
 }
 

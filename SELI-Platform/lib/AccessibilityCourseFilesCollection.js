@@ -21,7 +21,7 @@ const AccessibilityCourseFilesCollection = new FilesCollection({
     // and on server at `onAfterUpload` hook (trusted side)
 
     console.log("desde AccessibilitieCourseFilesCollection",file)
-    if (file.size <= 2097152000) {
+    if (file.size <= 104857600) {
       return true;
     }
     return 'Please upload image, with size equal or less than 10MB';

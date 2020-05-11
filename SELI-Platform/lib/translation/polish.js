@@ -931,5 +931,6 @@
   ariaLabelTranscription:"This is the short description (identify content). This audio content has the folowing accessibility resources: Transcription",
   alertCompatibility:"your browser is not compatible",
   showHideTranscription:"Show/Hide Transcript",
+  sizeLessThan: "Please, upload a file with size less than 100MB.",
 }
 export default POLISH;
