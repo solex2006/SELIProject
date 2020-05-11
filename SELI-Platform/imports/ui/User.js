@@ -152,8 +152,6 @@ export default class User extends React.Component {
   }
 
   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
-   
-    
     if (show) {
       if (action === 'savedList') {
         action = () => this.showComponent('saved');
@@ -171,10 +169,6 @@ export default class User extends React.Component {
         action = () => this.showComponent('dashboard');
         
       }
-      
-
-      
-
       this.setState({
         showControlMessage: show,
         controlMessage: message,
