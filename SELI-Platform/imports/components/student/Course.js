@@ -114,6 +114,7 @@ export default class Course extends React.Component {
     }
     toResolve.map(activity => activity.resolved ? progress += unitPercentage : undefined);
     progress = progress.toFixed(2);
+    console.log("*******************************************************El progreso total del curso****************************************************************",progress)
     if (progress === 99.99) {
       progress = 100;
     }
@@ -312,6 +313,7 @@ export default class Course extends React.Component {
       description: description,
       duration: duration,
     };
+    console.log("se envia a generar el certificado",  certificateInfo)
     this.sendCertificate(certificateInfo);
   }
 
