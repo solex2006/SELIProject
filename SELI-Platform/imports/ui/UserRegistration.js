@@ -4,7 +4,6 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
 import FormStepper from '../components/navigation/FormStepper';
-import MainMenu from '../components/navigation/MainMenu';
 import AppBar from '../components/navigation/AppBar';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 
@@ -14,7 +13,6 @@ import theme from '../style/theme';
 import UserInformation from './UserInformation';
 
 import InfoIcon from '@material-ui/icons/Info';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 import Button from '@material-ui/core/Button';
@@ -103,6 +101,7 @@ export default class UserRegistration extends React.Component {
             userInformation={this.state.userInformation}
             handleEmail={this.handleEmail.bind(this)}
             handlePassword={this.handlePassword.bind(this)}
+            handleControlMessage={this.handleControlMessage.bind(this)}
             language={this.state.language}
             type={this.props.location.type}
           />,
@@ -120,6 +119,7 @@ export default class UserRegistration extends React.Component {
             userInformation={this.state.userInformation}
             handleEmail={this.handleEmail.bind(this)}
             handlePassword={this.handlePassword.bind(this)}
+            handleControlMessage={this.handleControlMessage.bind(this)}
             language={this.state.language}
             type={this.props.location.type}
           />,
