@@ -256,9 +256,7 @@ export default class AudioItem extends React.Component {
         console.log("audio update------------------------", this.state.captions)
         var speaking = document.getElementById("speaking");
 
-       /*  if(this.state.captions==='nocaptions'){
-          player.pause()
-        } */
+       
         console.log("PLAYER",player)
         
           player.addEventListener("timeupdate", function() {
