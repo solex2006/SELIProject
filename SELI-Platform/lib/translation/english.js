@@ -176,9 +176,9 @@ var ENGLISH = {
   changeAudio: "Change audio",
   changeImage: "Change image",
   deleteThisScene: "Delete this scene",
-  storyName: "Story name",
+  storyName: "Story title",
   storyNameHelper: "We know sometimes inspiration and names comes at the end",
-  storyNameText: "Add the name of the story to save it",
+  storyNameText: "Add the title of the story to save it",
   save: "Save",
   storySavedSuccess: "Story saved successfully",
   seeList: "See list",
@@ -932,5 +932,11 @@ var ENGLISH = {
   alertCompatibility:"your browser is not compatible",
   showHideTranscription:"Show/Hide Transcript",
   sizeLessThan: "Please, upload a file with size less than 100 MB.",
+  editEndFrame: "Edit end frame",
+  workshop1: "This digital story is created in the Digital Storytelling Workshop named",
+  nameOfCorW: "Name of the course or the workshop",
+  workshop2: "facilitated in the scope of",
+  nameOfProject: "Name of the project",
+  facilitators: "Facilitators",
 }
 export default ENGLISH;

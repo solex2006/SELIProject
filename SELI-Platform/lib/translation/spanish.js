@@ -176,9 +176,9 @@ var SPANISH = {
   changeAudio: "Cambiar audio",
   changeImage: "Cambiar imagen",
   deleteThisScene: "Eliminar esta escena",
-  storyName: "Nombre de la historia",
+  storyName: "Título de la historia",
   storyNameHelper: "Sabemos que a veces llega la inspiración y los nombres al final",
-  storyNameText: "Agrega el nombre de la historia para guardarla",
+  storyNameText: "Agrega el título de la historia para guardarla",
   save: "Guardar",
   storySavedSuccess: "Historia guardada con éxito",
   seeList: "Ver lista",
@@ -932,6 +932,12 @@ var SPANISH = {
   alertCompatibility:"Tu navegador no es compatible",
   showHideTranscription:"Mostrar/Ocultar Transcripcion",
   sizeLessThan: "Por favor, suba un archivo con un tamaño inferior a 100 MB",
+  editEndFrame: "Editar marco final",
+  workshop1: "Esta narrativa digital es creada en el Taller de Narración Digital llamado",
+  nameOfCorW: "Nombre del curso o taller",
+  workshop2: "facilitado en el ámbito de",
+  nameOfProject: "Nombre del proyecto",
+  facilitators: "Facilitadores",
 }
 export default SPANISH
 

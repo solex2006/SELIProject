@@ -932,5 +932,11 @@ var TURKISH = {
   alertCompatibility:"your browser is not compatible",
   showHideTranscription:"Show/Hide Transcript",
   sizeLessThan: "Please, upload a file with size less than 100 MB.",
+  editEndFrame: "Edit end frame",
+  workshop1: "This digital story is created in the Digital Storytelling Workshop named",
+  nameOfCorW: "Name of the course or the workshop",
+  workshop2: "facilitated in the scope of",
+  nameOfProject: "Name of the project",
+  facilitators: "Facilitators",
 }
 export default TURKISH;
