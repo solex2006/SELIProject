@@ -886,7 +886,7 @@ var TURKISH = {
   addAudio: "Ses ekle",
   noAudioUploaded: "Ses yüklenmedi",
   gettingCourseInf: "Ders bilgisi getiriliyor",
-  zoomIn: "Zoom in",
-  zoomOut: "Zoom out",
+  zoomIn: "Yakınlaştır",
+  zoomOut: "Uzaklaştır",
 }
 export default TURKISH;
