@@ -54,6 +54,17 @@ export default class Course extends React.Component {
 
   componentDidMount() {
     this.resumeNavigation();
+    this.setState({
+      progress: this.calculateProgress(this.props.activeCourse.toComplete, this.props.activeCourse.toResolve, "notCertificate")
+    }, () => {
+      Meteor.call(
+        "UpdateProgress",
+        Meteor.userId(),
+        this.state.course._id,
+        this.state.progress,
+        (error, response) =>  {}
+      );
+    });
   }
 
   resumeNavigation = () => {
@@ -87,7 +98,7 @@ export default class Course extends React.Component {
     });
   }
 
-  calculateProgress = (toComplete, toResolve) => {
+  calculateProgress = (toComplete, toResolve, notCertificate) => {
     let total;
     if (this.state.course.organization.subunit) {
       let totalSubunits = 0;
@@ -113,11 +124,13 @@ export default class Course extends React.Component {
     }
     toResolve.map(activity => activity.resolved ? progress += unitPercentage : undefined);
     progress = progress.toFixed(2);
-    console.log("*******************************************************El progreso total del curso****************************************************************",progress)
-    if (progress === 99.99) {
-      progress = 100;
+    if (!notCertificate) {
+      console.log("*******************************************************El progreso total del curso****************************************************************",progress)
+      if (progress === 99.99) {
+        progress = 100;
+      }
+      parseInt(progress) === 100 ? this.createCertificate() : undefined
     }
-    parseInt(progress) === 100 ? this.createCertificate() : undefined
     return progress;
   }
 

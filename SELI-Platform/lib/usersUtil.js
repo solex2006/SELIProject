@@ -94,6 +94,21 @@ Meteor.methods({
 });
 
 Meteor.methods({
+  'UpdateProgress'(_id, courseId, progress){
+    let user = Meteor.users.find({_id: _id}).fetch();
+    user = user[0];
+    let index = user.profile.courses.findIndex(course => course.courseId === courseId);
+    user.profile.courses[index].progress = progress;
+    Meteor.users.update(
+      { _id: _id },
+      { $set: {
+        profile: user.profile,
+      }}
+    )
+  }
+});
+
+Meteor.methods({
   'CompleteSection'(_id, toComplete, courseId, progress){
     let user = Meteor.users.find({_id: _id}).fetch();
     user = user[0];

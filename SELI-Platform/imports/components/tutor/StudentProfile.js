@@ -130,12 +130,6 @@ export default class StudentProfile extends React.Component {
   render() {
     return(
       <div className="student">
-        <Avatar
-          style={{backgroundColor: this.state.color}}
-          className="student-profile-avatar"
-        >
-          {this.props.profile.studentInformation.username.charAt(0).toUpperCase()}
-        </Avatar>
         <div className="student-profile-container">
           <Paper
             className="student-profile-information-container"
@@ -151,6 +145,9 @@ export default class StudentProfile extends React.Component {
               </p>
               <p className="student-profile-information-text-secondary">
                 {`${this.props.language.studentName}: ${this.props.profile.studentInformation.fullname}`}
+              </p>
+              <p className="student-profile-information-text-secondary">
+                {`${this.props.language.email}: ${this.props.profile.studentInformation.email}`}
               </p>
               <p className="student-profile-information-text-secondary">
                 {`${this.props.language.progress}: ${this.props.profile.courseProfile.progress}%`}
@@ -185,13 +182,13 @@ export default class StudentProfile extends React.Component {
             {
               this.state.expanded ?
                 <div className="student-profile-actions-container">
-                  <Button
+                  {/* <Button
                     className="student-profile-button"
                     color="primary"
                     variant="outlined"
                   >
                     {this.props.language.sendMessage}
-                  </Button>
+                  </Button> */}
                   <Button
                     className="student-profile-button"
                     color="primary"
@@ -239,6 +236,14 @@ export default class StudentProfile extends React.Component {
                 undefined
             }
           </Paper>
+        </div>
+        <div className="student-profile-container">
+          <Avatar
+            style={{backgroundColor: this.state.color}}
+            className="student-profile-avatar"
+          >
+            {this.props.profile.studentInformation.username.charAt(0).toUpperCase()}
+          </Avatar>
         </div>  
       </div>
     )

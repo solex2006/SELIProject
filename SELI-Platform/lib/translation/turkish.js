@@ -938,5 +938,7 @@ var TURKISH = {
   workshop2: "adındaki dijital hikâye anlatım atölyesinde aşağıdaki kapsamda gerçekleştirilmiştir",
   nameOfProject: "Name of the project",
   facilitators: "Kolaylaştırıcı/lar",
+  defaultFrame: "Default frame",
+  customImage: "Custom image",
 }
 export default TURKISH;

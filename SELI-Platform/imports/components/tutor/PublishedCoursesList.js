@@ -168,6 +168,7 @@ export default class PublishedCoursesList extends React.Component {
                   studentInformation: {
                     fullname: response[0].profile.fullname,
                     username: response[0].username,
+                    email: response[0].emails[0].address,
                     dateJoined: response[0].createdAt,
                   }
                 });

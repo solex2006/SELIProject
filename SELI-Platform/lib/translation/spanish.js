@@ -938,6 +938,8 @@ var SPANISH = {
   workshop2: "facilitado en el ámbito de",
   nameOfProject: "Nombre del proyecto",
   facilitators: "Facilitadores",
+  defaultFrame: "Marco predeterminado",
+  customImage: "Imagen personalizada",
 }
 export default SPANISH
 

@@ -490,7 +490,7 @@ var PORTUGUESE = {
   studendRemoved: "O estudante foi removido deste curso",
   selectSubjectMesg: "Selecione o assunto de sua mensagem",
   startCourse: "Iniciar curso",
-  reviewCourse: "Avaliar curso",
+  reviewCourse: "Rever o curso",
   courseUnderMaintenance: "Curso em manutenção, quando estiver ativo novamente você poderá continuar.",
   courseRemovedSubs: "Curso removido de suas inscrições",
   joiningClassWait: "Ingressando na sala de aula, por favor aguarde",
@@ -938,5 +938,7 @@ var PORTUGUESE = {
   workshop2: "facilitated in the scope of",
   nameOfProject: "Name of the project",
   facilitators: "Facilitators",
+  defaultFrame: "Default frame",
+  customImage: "Custom image",
 }
 export default PORTUGUESE;

@@ -79,38 +79,48 @@ export default class StorytellingFrames extends React.Component {
         }
         {
           this.props.intervalFrame === "end" ?
-            <div className="storytelling-player-frame-container">
-              <div>
-                <div 
-                  className="storytelling-player-end-image"
-                  style={{backgroundImage: "url(seli-logo.png)"}}
-                />
-                <div className="storytelling-player-end-subtitle">{this.props.language.workshop1}</div>
-                <div className="storytelling-player-end-subtitle">
-                  <b><i>{`"${this.props.story.workshop ? this.props.story.workshop : ""}"`}</i></b>
-                  &nbsp;&nbsp;
-                  {this.props.language.workshop2}
-                </div>
-                <div className="storytelling-player-end-subtitle">{this.props.story.project ? `${this.props.story.project}.` : ""}</div>
-                <div className="storytelling-player-end-footer">
-                  <div className="storytelling-player-end-tutor">
-                    {
-                      this.props.story.facilitators && this.props.story.facilitators.enabled ?
-                        <div>
-                          <b>{`${this.props.language.facilitators}:\n`}</b>
-                          {this.props.story.facilitators.label}
-                        </div>
-                      : ""
-                    }
-                  </div>
-                  <div className="storytelling-player-end-date">{this.props.story.lastModified ? this.props.story.lastModified.toLocaleDateString('en-US') : ""}</div>
+            this.props.story.endType && this.props.story.endType === 'image'?
+              <div className="storytelling-player-image-container-time">
+                <div
+                  className="file-image-preview"
+                  style={{
+                    backgroundImage: this.props.story.endFrame ? `url(${this.props.story.endFrame.link})` : "none",
+                  }}
+                ></div>
+              </div>
+            :
+              <div className="storytelling-player-frame-container">
+                <div>
                   <div 
-                    className="storytelling-player-end-copyright"
-                    style={{backgroundImage: "url(cc.png)"}}
+                    className="storytelling-player-end-image"
+                    style={{backgroundImage: "url(seli-logo.png)"}}
                   />
+                  <div className="storytelling-player-end-subtitle">{this.props.language.workshop1}</div>
+                  <div className="storytelling-player-end-subtitle">
+                    <b><i>{`"${this.props.story.workshop ? this.props.story.workshop : ""}"`}</i></b>
+                    &nbsp;&nbsp;
+                    {this.props.language.workshop2}
+                  </div>
+                  <div className="storytelling-player-end-subtitle">{this.props.story.project ? `${this.props.story.project}.` : ""}</div>
+                  <div className="storytelling-player-end-footer">
+                    <div className="storytelling-player-end-tutor">
+                      {
+                        this.props.story.facilitators && this.props.story.facilitators.enabled ?
+                          <div>
+                            <b>{`${this.props.language.facilitators}:\n`}</b>
+                            {this.props.story.facilitators.label}
+                          </div>
+                        : ""
+                      }
+                    </div>
+                    <div className="storytelling-player-end-date">{this.props.story.lastModified ? this.props.story.lastModified.toLocaleDateString('en-US') : ""}</div>
+                    <div 
+                      className="storytelling-player-end-copyright"
+                      style={{backgroundImage: "url(cc.png)"}}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
           : undefined
         }
       </div>

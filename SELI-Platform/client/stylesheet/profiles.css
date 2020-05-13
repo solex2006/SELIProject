@@ -1,8 +1,8 @@
 .student{
-  display: flex;
-  padding: 1vh 0;
   align-items: center;
-  transition: 0.35s;
+  animation: fadeInLeft 0.75s;
+  /* margin-bottom: 40px; */
+  margin-left: 40px;
 }
 
 .student-comment {
@@ -13,10 +13,8 @@
 }
 
 .student-profile-container {
-  padding: 1vh 0;
   display: flex;
-  align-items: center;
-  transition: 0.35s;
+  position: relative;
   flex-wrap: wrap;
 }
 
@@ -32,7 +30,7 @@
 }
 
 .student-profile-information-container {
-  padding: 2vh 1vw !important;
+  padding: 1vh 1vw !important;
   display: flex;
 }
 
@@ -82,12 +80,12 @@
 }
 
 .student-profile-avatar {
+  position: absolute;
   width: 50px !important;
   height: 50px !important;
   font-size: 25px!important;
-  position: absolute;
-  margin-top: 130px;
-  left: 25px;
+  top: -20px;
+  left: -30px;
 }
 
 .student-profile-avatar-comment {

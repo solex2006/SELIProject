@@ -938,5 +938,7 @@ var ENGLISH = {
   workshop2: "facilitated in the scope of",
   nameOfProject: "Name of the project",
   facilitators: "Facilitators",
+  defaultFrame: "Default frame",
+  customImage: "Custom image",
 }
 export default ENGLISH;
