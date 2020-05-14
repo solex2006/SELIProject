@@ -22,6 +22,10 @@ export default class StudentProfile extends React.Component {
       showQuizDetails:'',
       index: '',
       expanded: false,
+      certificateCreated: false,
+      certificateError: false,
+      certificateDialogOpen: false,
+      certificateErrorDialogOpen: false,
     }
   }
 
@@ -67,9 +71,10 @@ export default class StudentProfile extends React.Component {
     })
   }
 
-  handleClick = event => {
+  handleClick = (type) => {
     this.setState({
-      anchorEl: event.currentTarget,
+      anchorEl: true,
+      action: type,
     })
   }
 
@@ -127,7 +132,65 @@ export default class StudentProfile extends React.Component {
     }
   }
 
+    //certificate creation
+  createCertificate(){
+    let idStudent = this.props.profile.studentId;
+    let student = this.props.profile.studentInformation.fullname;
+    let tutor = this.props.course.createdBy;
+    let today = new Date();
+    let date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+    let course = this.props.course.title;
+    let description = this.props.course.description;
+    let duration = this.props.course.duration;
+    let certificateInfo = {
+      idStudent: idStudent,
+      name: student,
+      tutor: tutor,
+      date: date,
+      course: course,
+      description: description,
+      duration: duration,
+    };
+    console.log("se envia a generar el certificado",  certificateInfo)
+    this.sendCertificate(certificateInfo);
+  }
+
+  sendCertificate(certificateInfo){
+    fetch('https://201.159.223.92/datos', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(certificateInfo)
+    }).then(res => res.json())
+    .then(res => {
+      console.log(res);
+      if(res === "se genero el certificado con exito en 201.159.223.92"){
+        this.setState({
+          certificateCreated: true,
+          certificateError: false,
+          certificateDialogOpen: true,
+        });
+      }else{
+        this.setState({
+          certificateCreated: false,
+          certificateError: true,
+          certificateErrorDialogOpen: true,
+        });
+      }
+    });
+  }
+
+  handleCloseCertificate = () => {
+    this.setState({
+      certificateDialogOpen: false,
+      certificateErrorDialogOpen: false,
+    });
+  };
+
   render() {
+    console.log(this.props)
     return(
       <div className="student">
         <div className="student-profile-container">
@@ -135,7 +198,6 @@ export default class StudentProfile extends React.Component {
             className="student-profile-information-container"
             elevation={4}
           >
-            {console.log("DATOS DEL ALUMNO--->", this.props.profile)}
             <div>
               <p className="student-profile-information-text-primary">
                 {this.props.profile.studentInformation.username}
@@ -193,7 +255,16 @@ export default class StudentProfile extends React.Component {
                     className="student-profile-button"
                     color="primary"
                     variant="outlined"
-                    onClick={(event) => this.handleClick(event)}
+                    onClick={() => this.handleClick("certificate")}
+                    disabled={this.props.profile.courseProfile.progress < 99.99}
+                  >
+                    {this.props.language.generateCertificate}
+                  </Button>
+                  <Button
+                    className="student-profile-button"
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => this.handleClick("subscription")}
                   >
                     {this.props.language.cancelSubscription}
                   </Button>
@@ -211,11 +282,16 @@ export default class StudentProfile extends React.Component {
                     }}
                   >
                     <div className="confirmation-popover-container">
-                      <p>{this.props.language.cancelSubscriptionStudent}</p>
+                      <p>{
+                        this.state.action === "subscription" ? 
+                          this.props.language.cancelSubscriptionStudent
+                        :
+                          this.props.language.areSureCertificate
+                      }</p>
                       <div>
                         <Button
                           className="student-confirmation-button"
-                          onClick={() => this.handleUnsubscription()}
+                          onClick={this.state.action === "subscription" ? () => this.handleAction() : () => this.createCertificate()}
                           variant="contained" color="primary"
                         >
                           {this.props.language.yes}
@@ -244,7 +320,57 @@ export default class StudentProfile extends React.Component {
           >
             {this.props.profile.studentInformation.username.charAt(0).toUpperCase()}
           </Avatar>
-        </div>  
+        </div>
+        {
+          this.state.certificateCreated ?
+            <div>
+              <Dialog
+                open={this.state.certificateDialogOpen}
+                onClose={this.handleCloseCertificate}
+                aria-labelledby="alert-dialog-confirmation"
+                aria-describedby="alert-dialog-confirmation"
+              >
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateGenerated}</DialogTitle>
+                <DialogContent className="success-dialog-content">
+                  <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                    {this.props.language.pleaseGoCertificates}
+                  </DialogContentText>
+                  <DoneIcon className="warning-dialog-icon"/>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => this.handleCloseCertificate()} color="primary" autoFocus>
+                  {this.props.language.close}
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </div>
+          :
+          this.state.certificateError ?
+            <div>
+              <Dialog
+                open={this.state.certificateErrorDialogOpen}
+                onClose={this.handleCloseCertificate}
+                aria-labelledby="alert-dialog-confirmation"
+                aria-describedby="alert-dialog-confirmation"
+              >
+                <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateNotGenerated}</DialogTitle>
+                <DialogContent className="success-dialog-content">
+                  <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                    {this.props.language.pleaseContactAdmin}
+                  </DialogContentText>
+                  <InfoIcon className="warning-dialog-icon"/>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => this.handleCloseCertificate()} color="primary" autoFocus>
+                    {this.props.language.close}
+                  </Button>
+                </DialogActions>
+              </Dialog>
+
+            </div>
+          :
+          undefined
+        }
       </div>
     )
   }

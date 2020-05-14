@@ -940,6 +940,8 @@ var SPANISH = {
   facilitators: "Facilitadores",
   defaultFrame: "Marco predeterminado",
   customImage: "Imagen personalizada",
+  generateCertificate: "Generar certificado",
+  areSureCertificate: "¿Está seguro de que desea generar el certificado?",
 }
 export default SPANISH
 

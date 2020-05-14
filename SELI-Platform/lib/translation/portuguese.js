@@ -940,5 +940,7 @@ var PORTUGUESE = {
   facilitators: "Facilitators",
   defaultFrame: "Default frame",
   customImage: "Custom image",
+  generateCertificate: "Generate certificate",
+  areSureCertificate: "Are you sure you want to generate the certificate?",
 }
 export default PORTUGUESE;
