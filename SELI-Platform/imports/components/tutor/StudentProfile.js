@@ -138,7 +138,6 @@ export default class StudentProfile extends React.Component {
     }
   }
 
-  
   ////NEW
   createCertificate(){
     let idStudent = this.props.profile.studentId;
