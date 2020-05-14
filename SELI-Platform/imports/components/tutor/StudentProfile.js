@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import MessageIcon from '@material-ui/icons/Message';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Checkbox from '@material-ui/core/Checkbox';
 import { Meteor } from 'meteor/meteor';
 import Popover from '@material-ui/core/Popover';
 import { Courses } from '../../../lib/CourseCollection';
 import { Activities } from '../../../lib/ActivitiesCollection';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import { Divider } from 'material-ui';
 
 export default class StudentProfile extends React.Component {
   constructor(props) {
@@ -291,7 +287,7 @@ export default class StudentProfile extends React.Component {
                       <div>
                         <Button
                           className="student-confirmation-button"
-                          onClick={this.state.action === "subscription" ? () => this.handleAction() : () => this.createCertificate()}
+                          onClick={this.state.action === "subscription" ? () => this.handleUnsubscription() : () => this.createCertificate()}
                           variant="contained" color="primary"
                         >
                           {this.props.language.yes}
@@ -323,7 +319,6 @@ export default class StudentProfile extends React.Component {
         </div>
         {
           this.state.certificateCreated ?
-            <div>
               <Dialog
                 open={this.state.certificateDialogOpen}
                 onClose={this.handleCloseCertificate}
@@ -343,10 +338,8 @@ export default class StudentProfile extends React.Component {
                   </Button>
                 </DialogActions>
               </Dialog>
-            </div>
           :
           this.state.certificateError ?
-            <div>
               <Dialog
                 open={this.state.certificateErrorDialogOpen}
                 onClose={this.handleCloseCertificate}
@@ -366,8 +359,6 @@ export default class StudentProfile extends React.Component {
                   </Button>
                 </DialogActions>
               </Dialog>
-
-            </div>
           :
           undefined
         }
