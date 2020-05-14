@@ -30,6 +30,7 @@ import AppsIcon from '@material-ui/icons/Apps';
 
 import Slide from '@material-ui/core/Slide';
 
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -303,6 +304,13 @@ export default class Course extends React.Component {
     let course = this.props.activeCourse.information.title;
     let description = this.props.activeCourse.information.description;
     let duration = this.props.activeCourse.information.duration;
+
+    let registerData={ //useful for regsiter users in blockchain network
+      email: this.props.user.emails[0].address,
+      displayName: this.props.user.profile.fullname,
+      password: this.props.user._id 
+    }
+
     let certificateInfo = {
       idStudent: idStudent,
       name: student,
@@ -312,35 +320,81 @@ export default class Course extends React.Component {
       description: description,
       duration: duration,
     };
-    this.sendCertificate(certificateInfo);
+    this.sendCertificate(certificateInfo,registerData);
   }
 
-  sendCertificate(certificateInfo){
-    fetch('https://201.159.223.92/datos', {
+  sendCertificate(certificateInfo, registerData){
+    let TokenUser=Meteor.users.find({_id : this.props.user._id  }).fetch()[0].profile.token;
+    if(TokenUser===undefined){//register the token
+      fetch('https://localhost/login/user', {
       method: 'post',
       headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(certificateInfo)
-    }).then(res => res.json())
-    .then(res => {
-      console.log(res);
-      if(res === "se genero el certificado con exito en 201.159.223.92"){
-        this.setState({
-          certificateCreated: true,
-          certificateError: false,
-          certificateDialogOpen: true,
-        });
-      }else{
-        this.setState({
-          certificateCreated: false,
-          certificateError: true,
-          certificateErrorDialogOpen: true,
-        });
-      }
-    });
+      body: JSON.stringify(registerData)
+      }).then(res => res.json()).then(res => {
+        console.log("Respuesta del registro o token: ",res);
+        Meteor.users.update(
+          {_id : res.idStudent },
+          { $push : 
+            { "profile.token" : res.token }}
+        );
+        fetch('https://localhost/datos', {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${res.token}`
+          },
+          body: JSON.stringify(certificateInfo)
+            }).then(res => res.json())
+            .then(res => {
+              console.log("response",res);
+              if(res === "se genero el certificado con exito en 201.159.223.92"){
+                this.setState({
+                  certificateCreated: true,
+                  certificateError: false,
+                  certificateDialogOpen: true,
+                });
+              }else{
+                this.setState({
+                  certificateCreated: false,
+                  certificateError: true,
+                  certificateErrorDialogOpen: true,
+                });
+              }
+            });
 
+      })
+    }else{
+      console.log("ya no regsitra de nuevo la usuiario")
+      fetch('https://localhost/datos', {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${TokenUser}`
+          },
+          body: JSON.stringify(certificateInfo)
+            }).then(res => res.json())
+            .then(res => {
+              console.log("response",res);
+              if(res === "se genero el certificado con exito en 201.159.223.92"){
+                this.setState({
+                  certificateCreated: true,
+                  certificateError: false,
+                  certificateDialogOpen: true,
+                });
+              }else{
+                this.setState({
+                  certificateCreated: false,
+                  certificateError: true,
+                  certificateErrorDialogOpen: true,
+                });
+              }
+          });
+    }
   }
 
   handleClose = () => {

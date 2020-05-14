@@ -51,11 +51,7 @@ if (Meteor.isServer) {
       url: "certificate-result",
       getArgsFromRequest: function (request) {
         var content = request.body;
-        // Since form enconding doesn't distinguish numbers and strings, we need
-        // to parse it manually
-        //console.log(parseInt(content.certificateNumber,10));
-        //console.log(content.certificateHash);
-        return [ content.idStudent, content.certificateHash ];
+        return [content.idStudent, content.certificateHash];
       } 
     }
     
@@ -63,20 +59,18 @@ if (Meteor.isServer) {
 
     Meteor.methods({
       'certificate-result': function (idStudent,certificateHash) {
-
-        console.log(idStudent);
-        console.log(certificateHash);
+        console.log("id",idStudent);
+        console.log("cert",certificateHash);
 
         let updateResult= Meteor.users.update(
           {_id : idStudent },
           { $push : 
             { "profile.certificates" : certificateHash }}
         );
-
         if(updateResult){
-          return "Certificado registrado";
+          return "Certificado registrado--------------------";
         } else{
-          return "Error de registro";
+          return "Error de registro--------------------------";
         }
     },
     });

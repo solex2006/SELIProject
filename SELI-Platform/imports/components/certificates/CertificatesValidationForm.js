@@ -64,7 +64,6 @@ export default class CertificatesValidationForm extends React.Component {
   }
 
   validateCertificate(certificateInfo){
-      
     fetch('https://201.159.223.92/datos', {
     method: 'post',
     headers: {
@@ -91,9 +90,7 @@ export default class CertificatesValidationForm extends React.Component {
             hash: ''});
         }
       });
-
     //this.onCertificateLoad();
-
   }
 
   componentWillUnmount(){
