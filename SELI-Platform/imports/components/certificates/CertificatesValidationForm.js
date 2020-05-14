@@ -64,7 +64,7 @@ export default class CertificatesValidationForm extends React.Component {
   }
 
   validateCertificate(certificateInfo){
-    fetch('https://201.159.223.92/datos', {
+    fetch(`${Meteor.settings.public.BLOCKCHAIN_DOMAIN}/datos`, {
     method: 'post',
     headers: {
       'Accept': 'application/json, text/plain, */*',
@@ -90,9 +90,7 @@ export default class CertificatesValidationForm extends React.Component {
             hash: ''});
         }
       });
-
     //this.onCertificateLoad();
-
   }
 
   componentWillUnmount(){
@@ -144,7 +142,7 @@ export default class CertificatesValidationForm extends React.Component {
                     <h2 className="input-container">Your certificate is valid!</h2>
                     <div className="form-separator"></div>
                     <div className="embeb-certificate-container">
-                        <iframe src={"httpa://201.159.223.92/vows/"+this.state.hash} alt="Certificate" padding-left="100px" height="800" width="1400"/>
+                        <iframe src={`${Meteor.settings.public.BLOCKCHAIN_DOMAIN}/vows/${this.state.hash}`} alt="Certificate" padding-left="100px" height="800" width="1400"/>
                     </div>
                 </div>)
                 :

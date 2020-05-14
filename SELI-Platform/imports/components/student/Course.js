@@ -23,11 +23,12 @@ import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import DoneIcon from '@material-ui/icons/Done';
+
 import AppsIcon from '@material-ui/icons/Apps';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import Slide from '@material-ui/core/Slide';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

@@ -9,6 +9,16 @@ import { Activities } from '../../../lib/ActivitiesCollection';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 
+//Dialogs
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DoneIcon from '@material-ui/icons/Done';
+import InfoIcon from '@material-ui/icons/Info';
+
+
 export default class StudentProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -128,7 +138,8 @@ export default class StudentProfile extends React.Component {
     }
   }
 
-    //certificate creation
+  
+  ////NEW
   createCertificate(){
     let idStudent = this.props.profile.studentId;
     let student = this.props.profile.studentInformation.fullname;
@@ -138,6 +149,13 @@ export default class StudentProfile extends React.Component {
     let course = this.props.course.title;
     let description = this.props.course.description;
     let duration = this.props.course.duration;
+
+    let registerData={ //useful for regsiter users in blockchain network
+      email: this.props.profile.studentInformation.email,
+      displayName: this.props.profile.studentInformation.fullname,
+      password: this.props.profile.studentId 
+    }
+
     let certificateInfo = {
       idStudent: idStudent,
       name: student,
@@ -147,35 +165,81 @@ export default class StudentProfile extends React.Component {
       description: description,
       duration: duration,
     };
-    console.log("se envia a generar el certificado",  certificateInfo)
-    this.sendCertificate(certificateInfo);
+    this.sendCertificate(certificateInfo,registerData);
   }
 
-  sendCertificate(certificateInfo){
-    fetch('https://201.159.223.92/datos', {
+  sendCertificate(certificateInfo, registerData){
+    let TokenUser=Meteor.users.find({_id : this.props.profile.studentId  }).fetch()[0].profile.token;
+    if(TokenUser===undefined){//register the token
+      fetch(`${Meteor.settings.public.BLOCKCHAIN_DOMAIN}/login/user`, {
       method: 'post',
       headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(certificateInfo)
-    }).then(res => res.json())
-    .then(res => {
-      console.log(res);
-      if(res === "se genero el certificado con exito en 201.159.223.92"){
-        this.setState({
-          certificateCreated: true,
-          certificateError: false,
-          certificateDialogOpen: true,
-        });
-      }else{
-        this.setState({
-          certificateCreated: false,
-          certificateError: true,
-          certificateErrorDialogOpen: true,
-        });
-      }
-    });
+      body: JSON.stringify(registerData)
+      }).then(res => res.json()).then(res => {
+        console.log("Respuesta del registro o token: ",res);
+        Meteor.users.update(
+          {_id : res.idStudent },
+          { $push : 
+            { "profile.token" : res.token }}
+        );
+        fetch(`${Meteor.settings.public.BLOCKCHAIN_DOMAIN}/datos`, {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${res.token}`
+          },
+          body: JSON.stringify(certificateInfo)
+            }).then(res => res.json())
+            .then(res => {
+              console.log("response",res);
+              if(res === "se genero el certificado con exito en 201.159.223.92"){
+                this.setState({
+                  certificateCreated: true,
+                  certificateError: false,
+                  certificateDialogOpen: true,
+                });
+              }else{
+                this.setState({
+                  certificateCreated: false,
+                  certificateError: true,
+                  certificateErrorDialogOpen: true,
+                });
+              }
+            });
+
+      })
+    }else{
+      console.log("ya no regsitra de nuevo la usuiario")
+      fetch(`${Meteor.settings.public.BLOCKCHAIN_DOMAIN}/datos`, {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${TokenUser}`
+          },
+          body: JSON.stringify(certificateInfo)
+            }).then(res => res.json())
+            .then(res => {
+              console.log("response",res);
+              if(res === "se genero el certificado con exito en 201.159.223.92"){
+                this.setState({
+                  certificateCreated: true,
+                  certificateError: false,
+                  certificateDialogOpen: true,
+                });
+              }else{
+                this.setState({
+                  certificateCreated: false,
+                  certificateError: true,
+                  certificateErrorDialogOpen: true,
+                });
+              }
+          });
+    }
   }
 
   handleCloseCertificate = () => {
@@ -247,12 +311,13 @@ export default class StudentProfile extends React.Component {
                   >
                     {this.props.language.sendMessage}
                   </Button> */}
+                  {console.log("datos----------",Meteor.userId(),this.props.profile.studentId)}
                   <Button
                     className="student-profile-button"
                     color="primary"
                     variant="outlined"
                     onClick={() => this.handleClick("certificate")}
-                    disabled={this.props.profile.courseProfile.progress < 99.99}
+                    disabled={this.props.profile.courseProfile.progress < 99.99 || Meteor.userId()===this.props.profile.studentId  }
                   >
                     {this.props.language.generateCertificate}
                   </Button>

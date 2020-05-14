@@ -51,10 +51,6 @@ if (Meteor.isServer) {
       url: "certificate-result",
       getArgsFromRequest: function (request) {
         var content = request.body;
-        // Since form enconding doesn't distinguish numbers and strings, we need
-        // to parse it manually
-        console.log(parseInt("-------Contenido de vuelta del certificado-------",content));
-        //console.log(content.certificateHash);
         return [content.idStudent, content.certificateHash];
       } 
     }
@@ -71,7 +67,6 @@ if (Meteor.isServer) {
           { $push : 
             { "profile.certificates" : certificateHash }}
         );
-
         if(updateResult){
           return "Certificado registrado--------------------";
         } else{
