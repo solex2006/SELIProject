@@ -41,12 +41,13 @@ export default class Story extends React.Component {
         let story = Activities.find({_id: _id}).fetch();
         if (story.length) {
           story = story[0];
-          story.nodes = story.activity.data;
-          story.user = story.activity.user;
-          story.name = story.activity.name;
+          let type = story.activity.type;
+          story = story.activity;
+          story.nodes = story.data;
+          story.data = null;
           this.setState({
-            story: story,
-            type: story.activity.type,
+            story,
+            type,
             loadingStory: false,
           });
         }

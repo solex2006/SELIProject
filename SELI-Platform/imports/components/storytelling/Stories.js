@@ -45,7 +45,6 @@ export default class Stories extends React.Component {
       Tracker.autorun(() => {
         let myStories = Activities.find({
           'activity.user': Meteor.userId(),
-          'activity.type': "storytelling",
           'activity.type': { $in: [ "storytelling", "storytelling-time" ] },
         }).fetch();
         this.setState({

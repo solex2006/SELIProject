@@ -40,6 +40,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import SnackbarItem from '../navigation/Snackbar';
+import ImagePreviewFrame from '../files/previews/ImagePreview';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -53,6 +54,7 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import { 
   FacebookShareButton, FacebookIcon,
@@ -104,6 +106,12 @@ class StorytellingToolTime extends React.Component {
           },
         ],
         isPublic: true,
+        workshop: undefined,
+        project: this.props.language.seliProject,
+        facilitators: {enabled: false, label: undefined},
+        lastModified: undefined,
+        endType: "default",
+        endFrame: undefined,
       },
       playing: false,
       saved: undefined,
@@ -176,6 +184,12 @@ class StorytellingToolTime extends React.Component {
           creationDate: this.props.storyToEdit.activity.date,
           nodes: this.props.storyToEdit.activity.data,
           isPublic: this.props.storyToEdit.activity.public,
+          workshop: this.props.storyToEdit.activity.workshop,
+          project: this.props.storyToEdit.activity.project,
+          facilitators: this.props.storyToEdit.activity.facilitators ? this.props.storyToEdit.activity.facilitators : undefined,
+          lastModified: this.props.storyToEdit.activity.lastModified,
+          endType: this.props.storyToEdit.activity.endType,
+          endFrame: this.props.storyToEdit.activity.endFrame,
         },
         saved: this.props.storyToEdit._id,
       })
@@ -251,13 +265,24 @@ class StorytellingToolTime extends React.Component {
       let story = this.state.story;
       if (name === 'storyName') {
         story.name = event.target.value;
-      }
-      if (name === 'name') {
+      } else if (name === 'name') {
         story.nodes[this.state.selectedNode].audio.name = event.target.value;
-      }
-      
-      if (name === "public") {
+      } else if (name === "public") {
         story.isPublic = !story.isPublic;
+      } else if (name === "workshop") {
+        story.workshop = event.target.value;
+      } else if (name === "facilitators" || name === "enableFacilitators") {
+        if (story.facilitators) {
+          if (name === "facilitators") {
+            story.facilitators.label = event.target.value;
+          } else {
+            story.facilitators.enabled = !story.facilitators.enabled;
+          }
+        } else {
+          story.facilitators = {enabled: false, label: undefined};
+        }
+      } else if (name === "seliProject") {
+        story.project = event.target.value;
       }
       this.setState({
         story: story,
@@ -433,6 +458,8 @@ class StorytellingToolTime extends React.Component {
     let story = this.state.story;
     if (this.state.action === "image" || this.state.action === "reuse") {
       story.nodes[this.state.selectedNode].images[this.state.selectedImage].file = file;
+    } else if (this.state.action === "save" || this.state.action === "storyEndFrame") {
+      story.endFrame = file;
     } else {
       story.nodes[this.state.selectedNode].audio = file;
     }
@@ -444,6 +471,14 @@ class StorytellingToolTime extends React.Component {
   unPickImageFile(){
     let story = this.state.story;
     story.nodes[this.state.selectedNode].images[this.state.selectedImage].file = '';
+    this.setState({
+      story: story,
+    });
+  }
+
+  unPickEndFrame = () => {
+    let story = this.state.story;
+    story.endFrame = undefined;
     this.setState({
       story: story,
     });
@@ -479,6 +514,12 @@ class StorytellingToolTime extends React.Component {
             'activity.name': this.state.story.name,
             'activity.data': this.state.story.nodes,
             'activity.public': this.state.story.isPublic,
+            'activity.workshop': this.state.story.workshop,
+            'activity.project': this.state.story.project,
+            'activity.facilitators': this.state.story.facilitators,
+            'activity.lastModified': new Date(),
+            'activity.endType': this.state.story.endType,
+            'activity.endFrame': this.state.story.endFrame
           }}
           , () => {
             this.props.handleControlMessage(true, this.props.language.storySaved, true, "stories", this.props.language.seeList);
@@ -499,10 +540,13 @@ class StorytellingToolTime extends React.Component {
             data: this.state.story.nodes,
             type: "storytelling-time",
             public: this.state.story.isPublic,
-            activityId: this.state.story.activityId,
             date: this.state.story.creationDate,
             user: this.state.story.user,
             course: this.state.story.courseId,
+            workshop: this.state.story.workshop,
+            project: this.state.story.project,
+            facilitators: this.state.story.facilitators,
+            lastModified: new Date()
           }
         }, () => {
           this.props.handleControlMessage(true, this.props.language.storySaved, true, "stories", this.props.language.seeList);
@@ -531,6 +575,10 @@ class StorytellingToolTime extends React.Component {
         showPreview: true,
       });
     }
+  }
+
+  showEndFrame = () => {
+    this.openDialog("storyEndFrame");
   }
 
   handleReturn = () => {
@@ -779,6 +827,18 @@ class StorytellingToolTime extends React.Component {
     })
   };
 
+  selectEndFrame = (newValue) => {
+    let story = this.state.story;
+    if (story.endType) {
+      story.endType = newValue;
+    } else {
+      story.endType = "default"
+    }
+    this.setState({
+      story,
+    })
+  };
+
   handleOnDragStart = (e) => {
     e.preventDefault()
   }
@@ -927,13 +987,22 @@ class StorytellingToolTime extends React.Component {
                   <h2 className="storytelling-work-area-title-time">{this.props.language.storyFlow}</h2>
                   {
                     this.state.saved ?
-                      <Button
-                        color="primary"
-                        className="storytelling-work-preview-button-time"
-                        onClick={() => this.showPreview()}
-                      >
-                        {this.props.language.storyPreview}
-                      </Button>
+                      <div>
+                        <Button
+                          color="primary"
+                          className="storytelling-work-preview-button-time"
+                          onClick={() => this.showPreview()}
+                        >
+                          {this.props.language.storyPreview}
+                        </Button>
+                        <Button
+                          color="primary"
+                          className="storytelling-work-preview-button-time"
+                          onClick={() => this.showEndFrame()}
+                        >
+                          {this.props.language.editEndFrame}
+                        </Button>
+                      </div>
                     :
                     undefined
                   }
@@ -1077,11 +1146,12 @@ class StorytellingToolTime extends React.Component {
                       rows={2}
                       disabled={this.state.scriptDisabled}
                       value={
-                        this.state.story.nodes[this.state.selectedNode].scripts.length ?
+                        this.state.story.nodes[this.state.selectedNode].scripts.length &&
+                          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType] !== "" ?
                           this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType]
-                        : undefined}
+                        : ""}
                       onChange={this.handleChange("script")}
-                      error={this.state.showError && this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script === ''}
+                      error={this.state.showError && this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType] === ''}
                       helperText={this.props.language.sceneDescriptionHelper}
                     />
                   </div>
@@ -1161,31 +1231,132 @@ class StorytellingToolTime extends React.Component {
               undefined
           }
           {
-            this.state.action === "save" ?
+            this.state.action === "save" || this.state.action === "storyEndFrame" ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {this.props.language.saveStory}
+                  {this.state.action === "save" ? this.props.language.saveStory : this.props.language.editEndFrame}
                 </DialogTitle>
-                <DialogContent className="success-dialog-content">
-                  <TextField
-                    id="story-name-input"
-                    label={this.props.language.storyName}
-                    placeholder={this.props.language.myStory}
-                    margin="normal"
-                    variant="outlined"
-                    fullWidth
-                    autoComplete={"off"}
-                    required
-                    value={this.state.story.name}
-                    onChange={this.handleChange('storyName')}
-                    helperText={this.props.language.storyNameHelper}
-                  />
-                  <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                    {this.props.language.storyNameText}
-                  </DialogContentText>
-                  <WarningIcon className="warning-dialog-icon"/>
+                {this.state.action === "save" ? <Divider light/> : undefined}
+                {this.state.action === "save" ? <p className="editor-label">{`${this.props.language.editEndFrame}:`}</p> : undefined}
+                <Tabs
+                  color="secondary"
+                  value={this.state.story.endType ? this.state.story.endType : "default"}
+                  indicatorColor="secondary"
+                  textColor="secondary"
+                  className="form-tabs-container-media-time"
+                  variant="fullWidth"
+                  centered={true}
+                >
+                  <Tab value={'default'} onClick={() => this.selectEndFrame('default')} className="form-tab" label={this.props.language.defaultFrame} />
+                  <Tab value={'image'} onClick={() => this.selectEndFrame('image')} className="form-tab" label={this.props.language.customImage} />
+                </Tabs>
+                <DialogContent className="success-dialog-content-storytelling-time">
+                {
+                  this.state.story.endType && this.state.story.endType === 'image' ?
+                    <React.Fragment>
+                      {
+                        this.state.story.endFrame ?
+                          <ImagePreviewFrame
+                            file={this.state.story.endFrame}
+                            unPickFile={this.unPickEndFrame.bind(this)}
+                            language={this.props.language}
+                            tipo={"Course"}
+                          /> 
+                        :
+                          <FileUpload
+                            color='primary'
+                            type='image'
+                            user={Meteor.userId()}
+                            accept={'image/*'}
+                            label={this.props.language.uploadImageButtonLabel}
+                            getFileInformation={this.getFileInformation.bind(this)}
+                            handleControlMessage={this.props.handleControlMessage.bind(this)}
+                            language={this.props.language}
+                          />
+                      }
+                    </React.Fragment>
+                  :
+                    <React.Fragment>
+                      <TextField
+                        id="story-project-input"
+                        label={this.props.language.seliProject}
+                        margin="normal"
+                        variant="outlined"
+                        fullWidth
+                        multiline
+                        autoComplete={"off"}
+                        required
+                        value={this.state.story.project ? this.state.story.project : ""}
+                        onChange={this.handleChange('seliProject')}
+                      />
+                      <TextField
+                        id="story-workshop-input"
+                        label={this.props.language.nameOfCorW}
+                        margin="normal"
+                        variant="outlined"
+                        fullWidth
+                        multiline
+                        autoComplete={"off"}
+                        required
+                        value={this.state.story.workshop ? this.state.story.workshop : ""}
+                        onChange={this.handleChange('workshop')}
+                      />
+                      <div className="storytelling-facilitators">
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={this.state.story.facilitators ? this.state.story.facilitators.enabled : false}
+                              onChange={this.handleChange('enableFacilitators')}
+                              value="enableFacilitators"
+                              color="primary"
+                            />
+                          }
+                        />
+                        <TextField
+                          id="story-fascilitators-input"
+                          label={this.props.language.facilitators}
+                          margin="normal"
+                          variant="outlined"
+                          fullWidth
+                          multiline
+                          autoComplete={"off"}
+                          required
+                          disabled={this.state.story.facilitators ? !this.state.story.facilitators.enabled : true}
+                          value={this.state.story.facilitators && this.state.story.facilitators.label ? this.state.story.facilitators.label : ""}
+                          onChange={this.handleChange('facilitators')}
+                        />
+                      </div>
+                    </React.Fragment>
+                }
                 </DialogContent>
-
+                {this.state.action === "save" ? <Divider light/> : undefined}
+                <DialogContent className="success-dialog-content-storytelling-time">
+                {
+                  this.state.action === "storyEndFrame" ? undefined :
+                    <React.Fragment>
+                      <p className="editor-label">{`${this.props.language.storyName}:`}</p>
+                      <TextField
+                        id="story-name-input"
+                        label={this.props.language.title}
+                        placeholder={this.props.language.myStory}
+                        margin="normal"
+                        variant="outlined"
+                        fullWidth
+                        multiline
+                        autoComplete={"off"}
+                        required
+                        value={this.state.story.name}
+                        onChange={this.handleChange('storyName')}
+                        helperText={this.props.language.storyNameHelper}
+                      />
+                      {/* <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                        {this.props.language.storyNameText}
+                      </DialogContentText>
+                      <WarningIcon className="warning-dialog-icon"/> */}
+                    </React.Fragment>
+                }
+                </DialogContent>
+                {this.state.action === "save" ? <Divider light/> : undefined}
                 <DialogActions>
                   <Button onClick={() => this.handleClose()} color="primary" autoFocus>
                     {this.props.language.cancel}
@@ -1194,7 +1365,6 @@ class StorytellingToolTime extends React.Component {
                     {this.props.language.save}
                   </Button>
                 </DialogActions>
-
               </React.Fragment>
             :
               undefined

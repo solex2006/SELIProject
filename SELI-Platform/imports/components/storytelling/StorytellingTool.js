@@ -491,7 +491,6 @@ class StorytellingTool extends React.Component {
             data: this.state.story.nodes,
             type: "storytelling",
             public: this.state.story.isPublic,
-            activityId: this.state.story.activityId,
             date: this.state.story.creationDate,
             user: this.state.story.user,
             course: this.state.story.courseId,

@@ -168,6 +168,7 @@ export default class PublishedCoursesList extends React.Component {
                   studentInformation: {
                     fullname: response[0].profile.fullname,
                     username: response[0].username,
+                    email: response[0].emails[0].address,
                     dateJoined: response[0].createdAt,
                   }
                 });
@@ -185,11 +186,17 @@ export default class PublishedCoursesList extends React.Component {
     else {
       results = false;
     }
+    let summaryCourse = {};
+    summaryCourse.title = course.title;
+    summaryCourse.description = course.description;
+    summaryCourse.createdBy = course.createdBy;
+    summaryCourse.duration = course.duration;
     this.setState({
       openClassroom: true,
       studentInformation: '',
       studentScores: [],
       course,
+      summaryCourse,
       classroomResults: results,
     });
   }
@@ -644,6 +651,7 @@ export default class PublishedCoursesList extends React.Component {
                                     return(
                                       <StudentProfile
                                         profile={profile}
+                                        course={this.state.summaryCourse}
                                         handleControlMessage={this.props.handleControlMessage.bind(this)}
                                         handleView={this.handleView}
                                         reload={this.openClassroomManagement.bind(this)}
