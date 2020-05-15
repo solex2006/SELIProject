@@ -18,7 +18,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DoneIcon from '@material-ui/icons/Done';
 import InfoIcon from '@material-ui/icons/Info';
 
-
+var key =Meteor.settings.public.USERKEY ;
+var encryptor = require('simple-encryptor')(key);
 export default class StudentProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -149,11 +150,17 @@ export default class StudentProfile extends React.Component {
     let description = this.props.course.description;
     let duration = this.props.course.duration;
 
-    let registerData={ //useful for regsiter users in blockchain network
+    let registerDataSinCode={ //useful for regsiter users in blockchain network
       email: this.props.profile.studentInformation.email,
       displayName: this.props.profile.studentInformation.fullname,
       password: this.props.profile.studentId 
     }
+
+    var registerData = {data: encryptor.encrypt(registerDataSinCode)};
+    // Should print gibberish:
+    //console.log('obj encrypted:', registerData);
+
+  
 
     let certificateInfo = {
       idStudent: idStudent,
@@ -182,7 +189,7 @@ export default class StudentProfile extends React.Component {
         Meteor.users.update(
           {_id : res.idStudent },
           { $push : 
-            { "profile.token" : res.token }}
+          { "profile.token" : res.token }}
         );
         fetch(`${Meteor.settings.public.BLOCKCHAIN_DOMAIN}/datos`, {
           method: 'post',
