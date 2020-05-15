@@ -27,6 +27,7 @@ export default class CreateCourse extends React.Component {
     this.state = {
       courseSteps: [
         {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
+        {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
         {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
         {label: this.props.language.program, icon: <SchoolIcon className="step-icon"/>},
       ],
@@ -86,6 +87,11 @@ export default class CreateCourse extends React.Component {
   loadingData = () => {
     this.setState({
       courseForms: [
+        <CourseInformation
+          courseInformation={this.state.courseInformation}
+          handleControlMessage={this.props.handleControlMessage.bind(this)}
+          language={this.props.language}
+        />,
         <CourseInformation
           courseInformation={this.state.courseInformation}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
@@ -272,18 +278,6 @@ export default class CreateCourse extends React.Component {
       this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-   /*  else if (courseInformation.duration < 5) {
-      this.props.handleControlMessage(true, `${this.props.language.minimumCourseDuration} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
-      return false;
-    } */
-    /* else if (!courseInformation.requirements.length) {
-      this.props.handleControlMessage(true, `${this.props.language.technicalRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
-      return false;
-    }
-    else if (!courseInformation.support.length) {
-      this.props.handleControlMessage(true, `${this.props.language.disabilitieRequirement} (${this.props.language.step} 2: ${this.props.language.requirements})`, false, '', '');
-      return false;
-    } */
     else if (courseInformation.organization === '') {
       this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step} 3: ${this.props.language.program})`, false, '', '');
       return false;
