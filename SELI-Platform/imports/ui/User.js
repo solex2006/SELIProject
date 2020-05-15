@@ -46,8 +46,6 @@ import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
 import WarningIcon from '@material-ui/icons/Warning';
 
-
-
 export default class User extends React.Component {
   constructor(props) {
     super(props);
@@ -58,7 +56,7 @@ export default class User extends React.Component {
       savedCourseWindow: false,
       accountType: '',
       selected: [-1, -1],
-    
+      chekingSesion: true,
     }
   }
 
@@ -67,35 +65,39 @@ export default class User extends React.Component {
     this.setState({
       language: Session.get('language') ? Session.get('language') : english,
     });
-    this.setState({
-      chekingSesion: true,
-    }, () => {
+    if (this.props.history.location.user) {
+      this.setInitVariables(this.props.history.location.user);
+    } else {
       Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
-        let language = {};
-        if (response[0].profile.configuration.language === 'us') {
-          language = english;
-        }
-        else if (response[0].profile.configuration.language === 'pt') {
-          language = portuguese;
-        } 
-        else if (response[0].profile.configuration.language === 'es') {
-          language = spanish;
-        }
-        else if (response[0].profile.configuration.language === 'pl') {
-          language = polish;
-        }
-        else if (response[0].profile.configuration.language === 'tr') {
-          language = turkish;
-        }
-        this.setState({
-          language: language,
-          user: response[0],
-          chekingSesion: false,
-        }, () => {
-          checkUserType(Meteor.userId(), this.state.user.profile.type, this.props.history);
-          this.setLanguage(this.state.user.profile.configuration.language);
-        });
+        this.setInitVariables(response);
       });
+    }
+  }
+
+  setInitVariables = (response) => {
+    let language = {};
+    if (response.profile.configuration.language === 'us') {
+      language = english;
+    }
+    else if (response.profile.configuration.language === 'pt') {
+      language = portuguese;
+    } 
+    else if (response.profile.configuration.language === 'es') {
+      language = spanish;
+    }
+    else if (response.profile.configuration.language === 'pl') {
+      language = polish;
+    }
+    else if (response.profile.configuration.language === 'tr') {
+      language = turkish;
+    }
+    this.setState({
+      language: language,
+      user: response,
+      chekingSesion: false,
+    }, () => {
+      checkUserType(response, this.state.user.profile.type, this.props.history);
+      this.setLanguage(this.state.user.profile.configuration.language);
     });
   }
 

@@ -161,15 +161,15 @@ export default class PublishedCoursesList extends React.Component {
         Tracker.autorun(() => {
           Meteor.call("GetUserById", student, (error, response) =>  {
               if (response) {
-                let courseProfile = response[0].profile.courses.find(course => course.courseId === _id);
+                let courseProfile = response.profile.courses.find(course => course.courseId === _id);
                 courseProfiles.push({
                   studentId: student,
                   courseProfile: courseProfile,
                   studentInformation: {
-                    fullname: response[0].profile.fullname,
-                    username: response[0].username,
-                    email: response[0].emails[0].address,
-                    dateJoined: response[0].createdAt,
+                    fullname: response.profile.fullname,
+                    username: response.username,
+                    email: response.emails[0].address,
+                    dateJoined: response.createdAt,
                   }
                 });
               }

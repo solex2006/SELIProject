@@ -70,8 +70,7 @@ Meteor.methods({
 
 Meteor.methods({
   'GetUserById'(_id){
-    let user = Meteor.users.find({_id: _id}).fetch();
-    return user;
+    return Meteor.users.findOne({_id: _id});
   }
 });
 
