@@ -9,7 +9,7 @@
     "debug": "meteor run --inspect-brk=9229 --settings ./.deploy/settings.json"
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.4",
+    "@babel/runtime": "^7.9.6",
     "@date-io/date-fns": "^1.3.13",
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@ffprobe-installer/ffprobe": "^1.0.12",
@@ -19,6 +19,7 @@
     "@mcabreradev/filter": "^1.3.5",
     "@monaco-editor/react": "^1.2.3",
     "@mrblenny/react-flow-chart": "0.0.7",
+    "@react-pdf/renderer": "^1.6.8",
     "bcrypt": "^3.0.8",
     "bind-decorator": "^1.0.11",
     "bootstrap": "^4.4.1",
