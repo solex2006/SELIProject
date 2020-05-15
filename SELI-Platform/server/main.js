@@ -27,11 +27,21 @@ Meteor.methods({
       return ip;
   }
 });
-Meteor.users.allow({  
-  update: function() {
-        return true;
-  }
-});
+if (Meteor.isServer) {
+  Meteor.users.allow({  
+    update: function(userId, doc, fields, modifier) {
+          return true;
+    }
+  });
+}
+if (Meteor.isClient) {
+  Meteor.users.allow({  
+    update: function(userId, doc, fields, modifier) {
+          return true;
+    }
+  });
+}
+
 
 
 if (Meteor.isServer) {
