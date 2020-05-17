@@ -23,11 +23,12 @@ import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import DoneIcon from '@material-ui/icons/Done';
+
 import AppsIcon from '@material-ui/icons/Apps';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import Slide from '@material-ui/core/Slide';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -54,6 +55,17 @@ export default class Course extends React.Component {
 
   componentDidMount() {
     this.resumeNavigation();
+    this.setState({
+      progress: this.calculateProgress(this.props.activeCourse.toComplete, this.props.activeCourse.toResolve)
+    }, () => {
+      Meteor.call(
+        "UpdateProgress",
+        Meteor.userId(),
+        this.state.course._id,
+        this.state.progress,
+        (error, response) =>  {}
+      );
+    });
   }
 
   resumeNavigation = () => {
@@ -87,7 +99,7 @@ export default class Course extends React.Component {
     });
   }
 
-  calculateProgress = (toComplete, toResolve) => {
+  calculateProgress = (toComplete, toResolve, notCertificate) => {
     let total;
     if (this.state.course.organization.subunit) {
       let totalSubunits = 0;
@@ -113,10 +125,6 @@ export default class Course extends React.Component {
     }
     toResolve.map(activity => activity.resolved ? progress += unitPercentage : undefined);
     progress = progress.toFixed(2);
-    if (progress === 99.99) {
-      progress = 100;
-    }
-    parseInt(progress) === 100 ? this.createCertificate() : undefined
     return progress;
   }
 
@@ -292,63 +300,6 @@ export default class Course extends React.Component {
     })
   }
 
-  //certificate creation
-  createCertificate(){
-    let idStudent = this.props.user._id;
-    let student = this.props.user.profile.fullname;
-    let tutor = this.props.activeCourse.information.createdBy;
-    let today = new Date();
-    let date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
-    let course = this.props.activeCourse.information.title;
-    let description = this.props.activeCourse.information.description;
-    let duration = this.props.activeCourse.information.duration;
-    let certificateInfo = {
-      idStudent: idStudent,
-      name: student,
-      tutor: tutor,
-      date: date,
-      course: course,
-      description: description,
-      duration: duration,
-    };
-    this.sendCertificate(certificateInfo);
-  }
-
-  sendCertificate(certificateInfo){
-    fetch('https://201.159.223.92/datos', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(certificateInfo)
-    }).then(res => res.json())
-    .then(res => {
-      console.log(res);
-      if(res === "se genero el certificado con exito en 201.159.223.92"){
-        this.setState({
-          certificateCreated: true,
-          certificateError: false,
-          certificateDialogOpen: true,
-        });
-      }else{
-        this.setState({
-          certificateCreated: false,
-          certificateError: true,
-          certificateErrorDialogOpen: true,
-        });
-      }
-    });
-
-  }
-
-  handleClose = () => {
-    this.setState({
-      certificateDialogOpen: false,
-      certificateErrorDialogOpen: false,
-    });
-  };
-
   handleCloseStories = () => {
     this.setState({
       openStories: false,
@@ -438,56 +389,6 @@ export default class Course extends React.Component {
               toResolve={this.state.toResolve}
               language={this.props.language}
             />
-          :
-          undefined
-        }
-        {
-          this.state.certificateCreated ?
-            <div>
-              <Dialog
-                open={this.state.certificateDialogOpen}
-                onClose={this.handleClose}
-                aria-labelledby="alert-dialog-confirmation"
-                aria-describedby="alert-dialog-confirmation"
-              >
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateGenerated}</DialogTitle>
-                <DialogContent className="success-dialog-content">
-                  <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                    {this.props.language.pleaseGoCertificates}
-                  </DialogContentText>
-                  <DoneIcon className="warning-dialog-icon"/>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                  {this.props.language.close}
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </div>
-          :
-          this.state.certificateError ?
-            <div>
-              <Dialog
-                open={this.state.certificateErrorDialogOpen}
-                onClose={this.handleClose}
-                aria-labelledby="alert-dialog-confirmation"
-                aria-describedby="alert-dialog-confirmation"
-              >
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateNotGenerated}</DialogTitle>
-                <DialogContent className="success-dialog-content">
-                  <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                    {this.props.language.pleaseContactAdmin}
-                  </DialogContentText>
-                  <InfoIcon className="warning-dialog-icon"/>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                    {this.props.language.close}
-                  </Button>
-                </DialogActions>
-              </Dialog>
-
-            </div>
           :
           undefined
         }

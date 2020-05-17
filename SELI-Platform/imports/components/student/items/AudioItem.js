@@ -96,14 +96,22 @@ export default class AudioItem extends React.Component {
                             label={this.props.language.textAlternatives}
                         />
                       </div>
-                      <div className="checkboxstyle">
-                        <CheckboxLabels
-                            language={this.props.language}
-                            checkbox={this.checkbox}
-                            type="captions"
-                            label={this.props.language.audioTranscription}
-                        />
+                      <div>
+                        {
+                          this.props.item.attributes.accessibility.isA11Y[2].is_a11y===true?
+                            <div className="checkboxstyle">
+                              <CheckboxLabels
+                                  language={this.props.language}
+                                  checkbox={this.checkbox}
+                                  type="captions"
+                                  label={this.props.language.audioTranscription}
+                              />
+                            </div>
+                            :
+                            undefined
+                        }
                       </div>
+                     
                   </div>
         }
         
@@ -238,6 +246,7 @@ export default class AudioItem extends React.Component {
     var target = event.target;
     var start = parseFloat(target.getAttribute("data-time"));
     player.currentTime = start;
+    console.log("el player", player, start)
     player.play(); 
   }
   
@@ -247,39 +256,40 @@ export default class AudioItem extends React.Component {
         console.log("audio update------------------------", this.state.captions)
         var speaking = document.getElementById("speaking");
 
-       /*  if(this.state.captions==='nocaptions'){
-          player.pause()
-        } */
-        player.addEventListener("timeupdate", function() {
-          if (player.paused || player.ended) {
-            return;
-          }
-          // scroll to currently playing time offset
-          var current = 0;
-          for (var i = 0; i < cues.length; i++) {
-            var cueTime = cues[i].getAttribute("data-time");
-          // console.log("cueTime", cueTime);
-            if (i + 1 === cues.length && player.currentTime >= parseFloat(cueTime)) {
-              current = i;
+       
+        console.log("PLAYER",player)
         
-            } else if (
-              player.currentTime >= parseFloat(cueTime) &&
-              player.currentTime < parseFloat(cues[i + 1].getAttribute("data-time"))
-            ) {
-              current = i;
-        
-            } else {
-              cues[i].classList.remove("current");
+          player.addEventListener("timeupdate", function() {
+            if (player.paused || player.ended) {
+              return;
             }
-          }
+            // scroll to currently playing time offset
+            var current = 0;
+            for (var i = 0; i < cues.length; i++) {
+              var cueTime = cues[i].getAttribute("data-time");
+            // console.log("cueTime", cueTime);
+              if (i + 1 === cues.length && player.currentTime >= parseFloat(cueTime)) {
+                current = i;
+          
+              } else if (
+                player.currentTime >= parseFloat(cueTime) &&
+                player.currentTime < parseFloat(cues[i + 1].getAttribute("data-time"))
+              ) {
+                current = i;
+          
+              } else {
+                cues[i].classList.remove("current");
+              }
+            }
+          
+            if (cues[current].className.indexOf("current") === -1)
+              cues[current].className += " current";
+          
+            if (cues[current].getAttribute("aria-live") === "rude") {
+              speaking.innerHTML = "[Captions]" + cues[current].innerHTML;
+            }
+          });
         
-          if (cues[current].className.indexOf("current") === -1)
-            cues[current].className += " current";
-        
-          if (cues[current].getAttribute("aria-live") === "rude") {
-            speaking.innerHTML = "[Captions]" + cues[current].innerHTML;
-          }
-        });
       
 }
 
@@ -341,7 +351,10 @@ export default class AudioItem extends React.Component {
               undefined
             }            
             {
+              this.props.item.attributes.accessibility.dataField!=undefined ?
               this.allTranscription()
+              :
+              undefined
             }            
             {
               this.state.captions==="nocaptions"?

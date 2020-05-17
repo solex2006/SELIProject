@@ -21,7 +21,8 @@ const CourseFilesCollection = new FilesCollection({
     //console.log("enCoursefilescollection",file ,file.type, file.isImage, file.ext, file.meta.tipo)
     let type=file.type.split("/")
     if (file.size <= 104857600) {
-      if(type[0]==='image'){
+      return true;
+      /* if(type[0]==='image'){
         if (/png|jpg|tif|gif|jpeg|bmp|psd|ai|cdr|svg|raw|nef/i.test(file.extension)) { //for images only
           return true;
         }
@@ -45,7 +46,7 @@ const CourseFilesCollection = new FilesCollection({
         return true;
       } else {
         return false;
-      }
+      } */
     } else {
       return false;
     }

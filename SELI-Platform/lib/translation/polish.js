@@ -932,5 +932,15 @@
   alertCompatibility:"your browser is not compatible",
   showHideTranscription:"Show/Hide Transcript",
   sizeLessThan: "Please, upload a file with size less than 100MB.",
+  editEndFrame: "Edit end frame",
+  workshop1: "This digital story is created in the Digital Storytelling Workshop named",
+  nameOfCorW: "Name of the course or the workshop",
+  workshop2: "facilitated in the scope of",
+  nameOfProject: "Name of the project",
+  facilitators: "Facilitators",
+  defaultFrame: "Default frame",
+  customImage: "Custom image",
+  generateCertificate: "Generate certificate",
+  areSureCertificate: "Are you sure you want to generate the certificate?",
 }
 export default POLISH;

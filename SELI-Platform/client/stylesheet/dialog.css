@@ -234,6 +234,14 @@
   justify-content: center;
 }
 
+.success-dialog-content-storytelling-time {
+  width: 30vw !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .success-dialog-icon {
   margin-top: 2.5vh !important;
   font-size: 3.75em !important;

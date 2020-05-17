@@ -8,12 +8,8 @@ import Presentation from '../components/navigation/Presentation';
 import Loading from '../components/tools/Loading';
 
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
-import {checkUserType} from '../../lib/userSesions';
 
 import english from '../../lib/translation/english';
 import spanish from '../../lib/translation/spanish';
@@ -26,6 +22,7 @@ export default class Home extends React.Component {
     super(props);
     this.state = {
       language: english,
+      chekingSesion: true,
     }
   }
 
@@ -38,6 +35,25 @@ export default class Home extends React.Component {
     this.setState({
       language: Session.get('language') ? Session.get('language') : english,
     });
+    Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
+      if (response) {
+        this.setState({
+          user: response,
+          chekingSesion: false,
+        }, () => {
+          if (this.state.user.profile.type === 'tutor' || this.state.user.profile.type === 'student') {
+            this.props.history.push({pathname: "/user", user: response});
+          }
+          else if (this.state.user.profile.type === 'administrator') {
+            this.props.history.push('/administrator');
+          }
+        });
+      } else {
+        this.setState({
+          chekingSesion: false,
+        })
+      }
+    });
     Meteor.call('CheckForAdmin', function(error, response) {
       if (error) {
         console.log('CheckForAdmin: Error: ', error);
@@ -46,32 +62,6 @@ export default class Home extends React.Component {
         console.log('CheckForAdmin: Response: ', response);
       }
     });
-    if (Meteor.userId()) {
-      this.setState({
-        chekingSesion: true,
-      }, () => {
-        Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
-          if (response.length) {
-            this.setState({
-              user: response[0],
-              chekingSesion: false,
-            }, () => {
-              if (this.state.user.profile.type === 'tutor' || this.state.user.profile.type === 'student') {
-                this.props.history.push("/user");
-              }
-              else if (this.state.user.profile.type === 'administrator') {
-                this.props.history.push('/administrator');
-              }
-            });
-          }
-          else {
-            this.setState({
-              chekingSesion: false,
-            })
-          }
-        });
-      });
-    }
   }
 
   setLanguage = (option) => {

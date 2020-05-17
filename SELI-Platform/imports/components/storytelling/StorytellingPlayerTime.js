@@ -259,8 +259,7 @@ export default class StorytellingPlayerTime extends React.Component {
               </div>
             : 
               <StorytelingFrames
-                user={this.props.story.user}
-                name={this.props.story.name}
+                story={this.props.story}
                 playing={this.state.playing}
                 intervalFrame={this.state.intervalFrame}
                 handleFrame={this.handleFrame.bind(this)}
@@ -290,7 +289,6 @@ export default class StorytellingPlayerTime extends React.Component {
                 :
                 <PlayArrowIcon className="storytelling-player-fab-icon-time"/>
               }
-
             </Fab>
             <Fab
               className="storytelling-player-fab-time"

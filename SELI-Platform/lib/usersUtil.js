@@ -70,8 +70,7 @@ Meteor.methods({
 
 Meteor.methods({
   'GetUserById'(_id){
-    let user = Meteor.users.find({_id: _id}).fetch();
-    return user;
+    return Meteor.users.findOne({_id: _id});
   }
 });
 
@@ -90,6 +89,21 @@ Meteor.methods({
       }}
     )
     return true;
+  }
+});
+
+Meteor.methods({
+  'UpdateProgress'(_id, courseId, progress){
+    let user = Meteor.users.find({_id: _id}).fetch();
+    user = user[0];
+    let index = user.profile.courses.findIndex(course => course.courseId === courseId);
+    user.profile.courses[index].progress = progress;
+    Meteor.users.update(
+      { _id: _id },
+      { $set: {
+        profile: user.profile,
+      }}
+    )
   }
 });
 

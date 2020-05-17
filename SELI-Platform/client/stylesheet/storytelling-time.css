@@ -496,6 +496,12 @@
   z-index: 1000 !important;
 }
 
+.storytelling-facilitators {
+  display: flex;
+  width: calc(100% - 1.5vw);
+  margin-left: 1.5vw;
+}
+
 .storytelling-share-btn-group-time:after {
   content: "";
   clear: both;
@@ -527,21 +533,16 @@
 
 .storytelling-player-end-image {
   width: 100vw;
-  height: 25vh;
+  height: 250px;
   margin-bottom: 8vh;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-.storytelling-player-end-title {
-  letter-spacing: 1px;
-  font-size: 3em;
-}
-
 .storytelling-player-end-subtitle {
   letter-spacing: 1px;
-  font-size: 2em;
+  font-size: 25px;
 }
 
 .storytelling-player-end-footer {
@@ -551,14 +552,21 @@
 }
 
 .storytelling-player-end-tutor {
-  width: 50vw;
+  width: 33.33vw;
+  white-space: pre-wrap;
   letter-spacing: 1px;
-  font-size: 1.5em;
+  font-size: 25px;
+}
+
+.storytelling-player-end-date {
+  width: 33.33vw;
+  letter-spacing: 1px;
+  font-size: 35px;
 }
 
 .storytelling-player-end-copyright {
-  width: 50vw;
-  height: 8vh;
+  width: 33.33vw;
+  height: 80px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
