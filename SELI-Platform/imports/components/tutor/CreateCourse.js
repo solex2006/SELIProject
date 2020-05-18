@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AudienceStep from '../course/AudienceStep'
 import FormStepper from '../navigation/FormStepper'; '../'
+
+import FormStepperID from '../navigation/FormStepperID'; '../'
 import CourseInformation from '../course/CourseInformation';
 import CourseRequirements from '../course/CourseRequirements';
 import CourseCreatorTool from '../course/CourseCreatorTool';
@@ -374,7 +376,7 @@ export default class CreateCourse extends React.Component {
       <div>
         {
           this.state.courseForms !== undefined ?
-            <FormStepper
+            <FormStepperID
               language={this.props.language}
               title={this.props.courseToEdit ? this.props.language.editing : this.props.language.createCourse}
               color="primary"

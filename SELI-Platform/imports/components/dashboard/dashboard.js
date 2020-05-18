@@ -18,14 +18,14 @@ export default class DashboardComponent extends React.Component {
     Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  
     {
       let user = response;
-      if (user.length) {
+      if (user) {
         let jwt = require("jsonwebtoken");
         let METABASE_SITE_URL = Meteor.settings.public.METABASE_DOMAIN;
         let METABASE_SECRET_KEY = Meteor.settings.public.METABASE_KEY;
         let token;
         let payload;
 
-        if(user[0].profile.type === 'tutor'){
+        if(user.profile.type === 'tutor'){
           payload = {
             resource: { dashboard: 2 },
             params: {
@@ -34,7 +34,7 @@ export default class DashboardComponent extends React.Component {
             exp: Math.round(Date.now() / 1000) + (10 * 60) // 10 minute expiration
           };
         }
-        else if(user[0].profile.type === 'administrator'){
+        else if(user.profile.type === 'administrator'){
           payload = {
             resource: { dashboard: 1 },
             params: {},
