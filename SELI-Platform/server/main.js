@@ -27,6 +27,12 @@ Meteor.methods({
       return ip;
   }
 });
+Meteor.users.allow({  
+  update: function() {
+        return true;
+  }
+});
+
 
 if (Meteor.isServer) {
   Meteor.startup(() => {
@@ -77,5 +83,7 @@ if (Meteor.isServer) {
 
   });
 }
+
+
 
 // meteor --settings settings.json
