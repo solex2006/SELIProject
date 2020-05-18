@@ -942,6 +942,8 @@ var SPANISH = {
   customImage: "Imagen personalizada",
   generateCertificate: "Generar certificado",
   areSureCertificate: "¿Está seguro de que desea generar el certificado?",
+  desingPhase:"Fase de Diseño",
+  template:"Plantilla"
 }
 export default SPANISH
 
