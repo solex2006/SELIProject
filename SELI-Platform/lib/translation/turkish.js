@@ -942,5 +942,7 @@ var TURKISH = {
   customImage: "Custom image",
   generateCertificate: "Generate certificate",
   areSureCertificate: "Are you sure you want to generate the certificate?",
+  desingPhase:"Design Phase",
+  template:"Template" 
 }
 export default TURKISH;

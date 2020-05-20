@@ -177,6 +177,7 @@ export default class StudentProfile extends React.Component {
 
   sendCertificate(certificateInfo, registerData){
     let TokenUser=Meteor.users.find({_id : this.props.profile.studentId  }).fetch()[0].profile.token;
+   
     if(TokenUser===undefined){//register the token
       fetch(`${Meteor.settings.public.BLOCKCHAIN_DOMAIN}/login/user`, {
       method: 'post',

@@ -222,10 +222,10 @@ export default class CourseInformation extends React.Component {
 
   componentDidMount() {
     this.setState({
-      image: this.state.courseInformation.image,
+      image:   this.state.courseInformation.image,
       sylabus: this.state.courseInformation.sylabus,
     })
-    //console.log("CourseInformation",this.props.courseInformation)
+    console.log("CourseInformation",this.props.courseInformation,this.props)
   }
 
   getAudiences=(audiences, name)=>{
@@ -276,7 +276,7 @@ export default class CourseInformation extends React.Component {
                 changeFile={this.changeFile.bind(this)}
                 courseSyllabus={this.props.language.courseSyllabus}
               />
-            :
+              :
               <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>
                 {this.props.language.selectCourseImage} <br/>
                 {this.props.language.required}

@@ -13,7 +13,14 @@
 }
 
 .form-input-column {
-  width: calc(100vw - var(--file-column-width) - 12vw);
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  padding: 2.5vh 6vw;
+}
+
+
+.form-input-audiences {
   max-height: calc(100% - 5vh);
   overflow-y: scroll;
   padding: 2.5vh 6vw;

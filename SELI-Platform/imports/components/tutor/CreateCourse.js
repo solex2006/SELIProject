@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import AudienceStep from '../course/AudienceStep'
+import FormStepper from '../navigation/FormStepper'; '../'
 
 import FormStepperID from '../navigation/FormStepperID'; '../'
 import CourseInformation from '../course/CourseInformation';
 import CourseRequirements from '../course/CourseRequirements';
 import CourseCreatorTool from '../course/CourseCreatorTool';
+import TemplateTool from '../course/TemplateTool'
+import CourseDesingTool from '../course/CourseDesingTool';
 import { Meteor } from 'meteor/meteor';
 import InfoIcon from '@material-ui/icons/Info';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
@@ -23,13 +27,16 @@ import { Activities } from '../../../lib/ActivitiesCollection';
 
 export default class CreateCourse extends React.Component {
   constructor(props) {
+    console.log("props en craetor tool",props)
     super(props);
     this.state = {
       courseSteps: [
         {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
-        {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
+        {label: 'Audience', icon: <PlaylistAddCheckIcon className="step-icon"/>},
         {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
-        {label: this.props.language.program, icon: <SchoolIcon className="step-icon"/>},
+        {label: this.props.language.desingPhase, icon: <SchoolIcon className="step-icon"/>},
+        {label: this.props.language.template, icon: <SchoolIcon className="step-icon"/>},
+        {label: this.props.language.program, icon: <SchoolIcon className="step-icon"/>}
       ],
       courseInformation: {
         title: '',
@@ -58,10 +65,10 @@ export default class CreateCourse extends React.Component {
     }
   }
 
-  showControlMessage(){
-  }
+ 
 
   componentDidMount() {
+    console.log("this.props.courseToEdit",this.props.courseToEdit)
     if (this.props.courseToEdit){
       this.setState({
         courseInformation: {
@@ -92,7 +99,7 @@ export default class CreateCourse extends React.Component {
           handleControlMessage={this.props.handleControlMessage.bind(this)}
           language={this.props.language}
         />,
-        <CourseInformation
+        <AudienceStep
           courseInformation={this.state.courseInformation}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
           language={this.props.language}
@@ -104,6 +111,23 @@ export default class CreateCourse extends React.Component {
           handleControlMessage={this.props.handleControlMessage.bind(this)}
           language={this.props.language}
         />,
+        <CourseDesingTool
+          courseInformation={this.state.courseInformation}
+          expandedNodes={this.state.expandedNodes}
+          selected={this.state.selected}
+          handleControlMessage={this.props.handleControlMessage.bind(this)}
+          handlePreview={this.handlePreview.bind(this)}
+          language={this.props.language}
+        />,
+        <TemplateTool
+          courseInformation={this.state.courseInformation}
+          expandedNodes={this.state.expandedNodes}
+          selected={this.state.selected}
+          handleControlMessage={this.props.handleControlMessage.bind(this)}
+          handlePreview={this.handlePreview.bind(this)}
+          language={this.props.language}
+        />,
+        
         <CourseCreatorTool
           courseInformation={this.state.courseInformation}
           expandedNodes={this.state.expandedNodes}
@@ -151,6 +175,8 @@ export default class CreateCourse extends React.Component {
       let course;
       let valueSubtitle = courseInformation.subtitle;
       let valueduration = courseInformation.duration;
+
+      console.log("curso q se va a guardar***",this.state.courseInformation )
       if (valueSubtitle === undefined) {
         valueSubtitle = "-----"
       }
