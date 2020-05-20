@@ -266,7 +266,7 @@ export default class CourseInformation extends React.Component {
   render() {
     return(
       <div className="course-information-container">
-        <div className="form-file-column">
+        {/* <div className="form-file-column">
           {
             this.state.courseInformation.image !== undefined ?
               <FormPreview
@@ -297,7 +297,7 @@ export default class CourseInformation extends React.Component {
                 {this.props.language.required}
               </Button>
           }
-        </div>
+        </div> */}
         <div className="form-input-column">
           <TextField
             id="title-input"
@@ -435,13 +435,28 @@ export default class CourseInformation extends React.Component {
               courseDuration={this.courseDuration}
             />
           </div>
-          <div className="sub-course-information">
+          {
+            this.state.courseInformation.image !== undefined ?
+              <FormPreview
+                file={this.state.courseInformation.image}
+                type="image"
+                unPickFile={this.unPickFile.bind(this)}
+                changeFile={this.changeFile.bind(this)}
+                courseSyllabus={this.props.language.courseSyllabus}
+              />
+              :
+              <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>
+                {this.props.language.selectCourseImage} <br/>
+                {this.props.language.required}
+              </Button>
+          }
+          {/* <div className="sub-course-information">
             <FormLabel component="legend">{`${this.props.language.audiences}:`}</FormLabel>
             <Audiences
               language={this.props.language}
               getAudiences={this.getAudiences}
             />
-          </div>
+          </div> */}
           {/* <Button className={"buttomAudiences"} onClick={this.audiences} variant="outlined" color="primary">Audiences</Button>
           {
             this.state.audiences==="audiences" ?

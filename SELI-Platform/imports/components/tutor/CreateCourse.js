@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AudienceStep from '../course/AudienceStep'
-import FormStepper from '../navigation/FormStepper'; '../'
 
 import FormStepperID from '../navigation/FormStepperID'; '../'
 import CourseInformation from '../course/CourseInformation';
@@ -10,10 +9,6 @@ import CourseCreatorTool from '../course/CourseCreatorTool';
 import TemplateTool from '../course/TemplateTool'
 import CourseDesingTool from '../course/CourseDesingTool';
 import { Meteor } from 'meteor/meteor';
-import InfoIcon from '@material-ui/icons/Info';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import SchoolIcon from '@material-ui/icons/School';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -23,21 +18,21 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Courses } from '../../../lib/CourseCollection';
 import { Activities } from '../../../lib/ActivitiesCollection';
 
-
+import InfoIcon from '@material-ui/icons/Info'; //information
+import GroupIcon from "@material-ui/icons/Group"; //audience
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck'; //requirements
+import AssistantIcon from "@material-ui/icons/Assignment"; //course plan
+import SchoolIcon from '@material-ui/icons/School'; //analysis
+import AssignmentIcon from "@material-ui/icons/Assignment"; //design
+import MenuBookIcon from "@material-ui/icons/MenuBook"; //program
+import AccessibilityIcon from "@material-ui/icons/AccessibilityNew"; //accessibility
 
 export default class CreateCourse extends React.Component {
   constructor(props) {
     console.log("props en craetor tool",props)
     super(props);
     this.state = {
-      courseSteps: [
-        {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
-        {label: 'Audience', icon: <PlaylistAddCheckIcon className="step-icon"/>},
-        {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
-        {label: this.props.language.desingPhase, icon: <SchoolIcon className="step-icon"/>},
-        {label: this.props.language.template, icon: <SchoolIcon className="step-icon"/>},
-        {label: this.props.language.program, icon: <SchoolIcon className="step-icon"/>}
-      ],
+      courseSteps: undefined,
       courseInformation: {
         title: '',
         subtitle: "",
@@ -65,10 +60,8 @@ export default class CreateCourse extends React.Component {
     }
   }
 
- 
-
   componentDidMount() {
-    console.log("this.props.courseToEdit",this.props.courseToEdit)
+    this.loadingHeaders();
     if (this.props.courseToEdit){
       this.setState({
         courseInformation: {
@@ -89,6 +82,26 @@ export default class CreateCourse extends React.Component {
         saved: this.props.courseToEdit._id,
       }, () => {this.loadingData()})
     } else {this.loadingData()}
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.language.languageIndex !== this.props.language.languageIndex) {
+      this.loadingHeaders();
+      this.loadingData();
+    }
+  }
+
+  loadingHeaders = () => {
+    this.setState({
+      courseSteps: [
+        {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
+        {label: this.props.language.audiences, icon: <GroupIcon className="step-icon"/>},
+        {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
+        {label: this.props.language.desingPhase, icon: <AssignmentIcon className="step-icon"/>},
+        {label: this.props.language.template, icon: <SchoolIcon className="step-icon"/>},
+        {label: this.props.language.program, icon: <MenuBookIcon className="step-icon"/>}
+      ]
+    });
   }
 
   loadingData = () => {
@@ -138,18 +151,6 @@ export default class CreateCourse extends React.Component {
         />,
       ],
     });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.language.languageIndex !== this.props.language.languageIndex) {
-      this.setState({
-        courseSteps: [
-          {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
-          {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
-          {label: this.props.language.program, icon: <SchoolIcon className="step-icon"/>},
-        ]});
-      this.loadingData();
-    }
   }
 
   publishCourse() {
