@@ -59,7 +59,6 @@ export default function AudienceApp(props) {
     if(courseInformation.support.length!=0){
       setAudiences(courseInformation.support[0])
       setAudiencesGol(courseInformation.support[1])
-      console.log("position 2",courseInformation.support[2])
       if(courseInformation.support[2]===undefined){
         setOtherAudiences([])
       }else{

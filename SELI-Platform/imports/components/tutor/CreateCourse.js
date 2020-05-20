@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AudienceStep from '../course/AudienceStep'
+import RequirementStep from '../course/RequirementStep'
 import FormStepper from '../navigation/FormStepper'; '../'
 
 import FormStepperID from '../navigation/FormStepperID'; '../'
@@ -22,7 +23,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Courses } from '../../../lib/CourseCollection';
 import { Activities } from '../../../lib/ActivitiesCollection';
-
+import GroupIcon from "@material-ui/icons/Group";
 
 
 export default class CreateCourse extends React.Component {
@@ -32,7 +33,7 @@ export default class CreateCourse extends React.Component {
     this.state = {
       courseSteps: [
         {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
-        {label: 'Audience', icon: <PlaylistAddCheckIcon className="step-icon"/>},
+        {label: 'Audience', icon: <GroupIcon  className="step-icon"/>},
         {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
         {label: this.props.language.desingPhase, icon: <SchoolIcon className="step-icon"/>},
         {label: this.props.language.template, icon: <SchoolIcon className="step-icon"/>},
@@ -104,7 +105,7 @@ export default class CreateCourse extends React.Component {
           handleControlMessage={this.props.handleControlMessage.bind(this)}
           language={this.props.language}
         />,
-        <CourseRequirements
+        <RequirementStep
           courseInformation={this.state.courseInformation}
           lists={this.state.lists}
           buildedItems={this.state.buildedItems}
