@@ -15,6 +15,17 @@
   animation: fadeInDown 0.5s;
 }
 
+.form-stepper-navigation-bottom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: var(--form-stepper-height);
+  position: relative;
+  padding-left: 1vw;
+  background-color: #f5f5f5;
+  animation: fadeInDown 0.5s;
+}
+
 .form-stepper-information {
   padding: 0 2vw;
 }
@@ -41,6 +52,13 @@
   background-color: #f5f5f5 !important;
 }
 
+.form-stepper-id {
+  width: calc(100% - 350px);
+  position: absolute !important;
+  right: 0 !important;
+  background-color: #f5f5f5 !important;
+}
+
 .form-step {
 
 }
@@ -53,8 +71,15 @@
   animation: fadeInDown 0.5s;
 }
 
-.form-step-button:hover {
+.form-step-button,
+.form-step-button-id:hover {
   text-indent: 0.5vw;
+}
+
+.form-step-button-id {
+  padding: 0.5vh 1vw !important;
+  transition: 0.5s;
+  animation: fadeInDown 0.5s;
 }
 
 .form-stepper-selector-button {
@@ -70,6 +95,11 @@
 .form-stepper-actions {
   position: absolute;
   right: 0;
+}
+
+.form-stepper-actions-id {
+  position: absolute !important;
+  right: 2vw !important;
 }
 
 .form-stepper-complete-button {
