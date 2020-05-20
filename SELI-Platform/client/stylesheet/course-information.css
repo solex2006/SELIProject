@@ -21,11 +21,14 @@
 
 
 .form-input-audiences {
-  max-height: calc(100% - 5vh);
+  max-height: calc(100% - 15vh);
   overflow-y: scroll;
-  padding: 2.5vh 6vw;
+  padding: 4vh 6vw;
 }
 
+.hardware{
+  display: inline;
+}
 .buttomAudiences{
   border-radius: 35px !important;
 }

@@ -225,7 +225,7 @@ export default function RequirementStep(props) {
   }
 
   return (
-    <React.Fragment>
+    <div className="form-input-audiences">
       {/* <SimulateButtons
         handleComplete={handleComplete}
         handleSkip={handleSkip}
@@ -238,7 +238,7 @@ export default function RequirementStep(props) {
         <List component="ul" key={"li04"}>
           {softwares.map((category, index) => (
             <React.Fragment>
-              <ListSubheader>{category.label}</ListSubheader>
+              <ListSubheader disableSticky={true}>{category.label}</ListSubheader>
               {softwaresCategReq(category, index)}
             </React.Fragment>
           ))}
@@ -379,15 +379,15 @@ export default function RequirementStep(props) {
 
 
       <h3 id="soft_title">Hardware requirements</h3>
-      <div role="group" aria-labelledby="soft_title">
+      <div role="group" aria-labelledby="soft_title" className="hardware">
         <List component="ul" key={"li04"}>
           {hardware.map((category, index) => (
             <React.Fragment>
-              <ListSubheader>{category.label}</ListSubheader>
+              <ListSubheader disableSticky={true}>{category.label}</ListSubheader>
               {softwaresCategReq(category, index)}
             </React.Fragment>
           ))}
-          <ListSubheader>Others</ListSubheader>
+          <ListSubheader disableSticky={true}>Others</ListSubheader>
           {otherHardware.map((software, index) => (
             <ListItem
               // button={!audience.editing}
@@ -517,16 +517,18 @@ export default function RequirementStep(props) {
             disabled={controlEdit.editing}
             className={classes.addButton}
           >
-            <AddIcon /> <ListItemText primary="Add other software" />
+            <AddIcon /> <ListItemText primary="Add other Hardware" />
           </ListItem>
         </List>
       </div>
-     {/*  <SimulateButtons
+       {/*  <SimulateButtons
         handleComplete={handleComplete}
         handleSkip={handleSkip}
         completed={completed}
         skiped={skiped}
       /> */}
-    </React.Fragment>
+    </div>
+    
+  
   );
 }
