@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AudienceStep from '../course/AudienceStep'
-<<<<<<< HEAD
-=======
 import RequirementStep from '../course/RequirementStep'
-import FormStepper from '../navigation/FormStepper'; '../'
->>>>>>> 355ef9a75bd02e4b6df124c70419255e6d4a15d9
 
 import FormStepperID from '../navigation/FormStepperID'; '../'
 import CourseInformation from '../course/CourseInformation';
-import CourseRequirements from '../course/CourseRequirements';
 import CourseCreatorTool from '../course/CourseCreatorTool';
 import TemplateTool from '../course/TemplateTool'
 import CourseDesingTool from '../course/CourseDesingTool';
