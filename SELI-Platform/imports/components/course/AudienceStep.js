@@ -13,8 +13,12 @@ import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import DoneIcon from "@material-ui/icons/Done";
+import Paper from "@material-ui/core/Paper";
 
-import SimulateButtons from "./simulate";
+
+
+
+//import SimulateButtons from "./simulate";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,10 +55,25 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AudienceApp(props) {
-  const { handleComplete, handleSkip, completed, skiped } = props;
+  const { handleComplete, handleSkip, completed, skiped, courseInformation } = props;
 
   const classes = useStyles();
 
+  //update state of checkboxes
+  useEffect(() => {
+    console.log("comppnentDidMount", courseInformation, audiences)
+    setAudiences(courseInformation.support[0])
+    setAudiencesGol(courseInformation.support[1])
+    console.log("position 2",courseInformation.support[2])
+    if(courseInformation.support[2]===undefined){
+      setOtherAudiences([])
+    }else{
+      setOtherAudiences(courseInformation.support[2])
+    }
+  }, []); 
+
+  //course information
+  const [courseinformation, setcourseInformation]= useState(courseInformation)
   const [audiences, setAudiences] = useState([
     {
       id: 0,
@@ -76,15 +95,46 @@ export default function AudienceApp(props) {
     },
     { id: 3, value: "Kids", label: "Preschool kids", isChecked: false }
   ]);
-  const [otherAudiences, setOtherAudiences] = useState([
+  const [audiencesGol,setAudiencesGol]=useState([
+    
     {
-      label: "Greys",
-      editing: false
+      id: 0,
+      value: "cog",
+      label: "Cognitive",
+      isChecked: false
     },
     {
-      label: "Repitilians",
-      editing: false
+      id: 1,
+      value: "Eld",
+      label: "Elderly",
+      isChecked: false
+    },
+    {
+      id: 2,
+      value: "Hear",
+      label: "Hearing",
+      isChecked: false
+    },
+    {
+      id: 3,
+      value: "Lan",
+      label: "Language",
+      isChecked: false
+    },
+    {
+      id: 4,
+      value: "Spee",
+      label: "Speech",
+      isChecked: false
+    },
+    {
+      id: 5,
+      value: "Vis",
+      label: "Visual",
+      isChecked: false
     }
+  ]);
+  const [otherAudiences, setOtherAudiences] = useState([
   ]);
 
   const [controlEdit, setControlEdit] = useState({
@@ -107,9 +157,13 @@ export default function AudienceApp(props) {
     let newAudiences = [...otherAudiences];
     newAudiences[index].editing = false;
     newAudiences[index].label = controlEdit.tempValue;
-
     setOtherAudiences(newAudiences);
     setControlEdit({ tempValue: "", adding: false, editing: false });
+
+    let addNewAudiences=courseinformation;
+    addNewAudiences.support.splice(2,3,otherAudiences)
+    setcourseInformation(addNewAudiences)
+    console.log('courseinformation---',courseinformation)
   };
 
   function deleteAudience(index) {
@@ -123,8 +177,12 @@ export default function AudienceApp(props) {
         ...newAudiences.slice(0, index),
         ...newAudiences.slice(index + 1)
       ];
-
     setOtherAudiences(newAudiences);
+    let addNewAudiences=courseinformation;
+    addNewAudiences.support.splice(2,3,newAudiences)
+    setcourseInformation(addNewAudiences)
+    console.log('courseinformation---',courseinformation)
+    
   }
   const handleDeleteAudience = index => () => {
     if (
@@ -159,11 +217,31 @@ export default function AudienceApp(props) {
     });
   };
 
-  const handleCheck = index => {
-    let newAudiences = [...audiences];
-    newAudiences[index].isChecked = !newAudiences[index].isChecked;
-    setAudiences(newAudiences);
+  const handleCheck = (index) => {
+      let newAudiences = [...audiences];
+      newAudiences[index].isChecked = !newAudiences[index].isChecked;
+      setAudiences(newAudiences);
+      let addAudicences=courseinformation;
+      addAudicences.support.splice(0, 1, newAudiences)
+      setcourseInformation(addAudicences) 
+      
+
+      
+     
+      //setcourseInformation(prevState => ({courseInformation: {...prevState.courseInformation, support: audiences}}))
+
   };
+
+  const handleCheckGol = (index) => {
+    let newAudiences = [...audiencesGol];
+    newAudiences[index].isChecked = !newAudiences[index].isChecked;
+    setAudiencesGol(newAudiences);
+    let addAudicencesGol=courseinformation;
+    addAudicencesGol.support.splice(1, 2, newAudiences)
+    setcourseInformation(addAudicencesGol) 
+    
+  };
+
 
   function updateTempValue(value) {
     setControlEdit(prev => {
@@ -171,16 +249,21 @@ export default function AudienceApp(props) {
     });
   }
 
+  //methods to saave in the database
+
+
+
+
   return (
-    <React.Fragment>
-      <SimulateButtons
+   
+    <div className="form-input-audiences">
+      {/*  <SimulateButtons
         handleComplete={handleComplete}
         handleSkip={handleSkip}
         completed={completed}
         skiped={skiped}
-      />
+      />  */}
       <h2 id="aud_title">Audience</h2>
-
       <h3 id="aud_title">Intended Audience</h3>
       <div role="group" aria-labelledby="aud_title">
         <List component="ul" key={"li03"}>
@@ -309,8 +392,61 @@ export default function AudienceApp(props) {
         </List>
       </div>
      
-      <h3 id="aud_title">Intended Inclusion</h3>
+      <h3 id="aud_title"><h3 id="aud_title">Inclusion Goals</h3></h3>
+      <div role="group" aria-labelledby="aud_title2">
+        <List component="ul" key={"li03"}>
+          <ListItem key="aud_SelectAll2" dense>
+            {/* <ListItemIcon> */}
+            <Checkbox
+              color="secondary"
+              edge="start"
+              checked={
+                !audiencesGol.some(audience => audience.isChecked === false)
+              }
+              onClick={event => {
+                let newAudiences = [...audiencesGol];
+                newAudiences.forEach(
+                  audience => (audience.isChecked = event.target.checked)
+                );
+                setAudiencesGol(newAudiences);
+              }}
+              disableRipple
+              inputProps={{
+                "aria-labelledby": "checkbox-list-labelGol-selectAll"
+              }}
+            />
+            {/* </ListItemIcon> */}
+            <ListItemText
+              id="checkbox-list-labelGol-selectAll"
+              primary="Select All"
+            />
+          </ListItem>
+          
+          {audiencesGol.map((audienceGol, index) => (
+            <ListItem key={audiences.id} dense>
+              {/* <ListItemIcon> */}
+              <Checkbox
+                color="primary"
+                edge="start"
+                checked={audienceGol.isChecked}
+                value={audienceGol.value}
+                onClick={() => handleCheckGol(audienceGol.id)}
+                disableRipple
+                inputProps={{
+                  "aria-labelledby": `checkboxgol-list-label-${audienceGol.id}`
+                }}
+              />
+              {/* </ListItemIcon> */}
+              <ListItemText
+                id={`checkboxgol-list-label-${audienceGol.id}`}
+                primary={audienceGol.label}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </div>
 
-    </React.Fragment>
+    </div>
+    
   );
 }

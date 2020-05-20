@@ -27,6 +27,7 @@ import { Activities } from '../../../lib/ActivitiesCollection';
 
 export default class CreateCourse extends React.Component {
   constructor(props) {
+    console.log("props en craetor tool",props)
     super(props);
     this.state = {
       courseSteps: [
@@ -64,10 +65,10 @@ export default class CreateCourse extends React.Component {
     }
   }
 
-  showControlMessage(){
-  }
+ 
 
   componentDidMount() {
+    console.log("this.props.courseToEdit",this.props.courseToEdit)
     if (this.props.courseToEdit){
       this.setState({
         courseInformation: {
@@ -100,8 +101,6 @@ export default class CreateCourse extends React.Component {
         />,
         <AudienceStep
           courseInformation={this.state.courseInformation}
-          lists={this.state.lists}
-          buildedItems={this.state.buildedItems}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
           language={this.props.language}
         />,
@@ -176,6 +175,8 @@ export default class CreateCourse extends React.Component {
       let course;
       let valueSubtitle = courseInformation.subtitle;
       let valueduration = courseInformation.duration;
+
+      console.log("curso q se va a guardar***",this.state.courseInformation )
       if (valueSubtitle === undefined) {
         valueSubtitle = "-----"
       }

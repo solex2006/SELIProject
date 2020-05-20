@@ -147,7 +147,7 @@ export default function FormStepperID(props) {
           :
           undefined
         }
-        <div className="form-stepper-actions">
+         <div className="form-stepper-actions">
           {
             props.saveLabel !== undefined ?
               <Button onClick={() => props.saveAction()} className="form-stepper-complete-button" color={props.color}>
@@ -159,7 +159,7 @@ export default function FormStepperID(props) {
           <Button onClick={() => props.finalAction()} id="form-stepper-final-button" className="form-stepper-complete-button" color={props.color}>
             {props.finalLabel}
           </Button>
-        </div>
+        </div> 
       </div>
       <div>
         {allStepsCompleted() ? (
