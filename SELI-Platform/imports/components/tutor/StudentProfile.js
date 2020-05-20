@@ -18,8 +18,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DoneIcon from '@material-ui/icons/Done';
 import InfoIcon from '@material-ui/icons/Info';
 
-var key =Meteor.settings.public.USERKEY ;
+var key = Meteor.settings.public.BLOCKCHAIN_USERKEY;
 var encryptor = require('simple-encryptor')(key);
+
 export default class StudentProfile extends React.Component {
   constructor(props) {
     super(props);

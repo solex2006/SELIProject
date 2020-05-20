@@ -1,25 +1,39 @@
-import React from 'react';
+import React, { useLayoutEffect, useEffect, useState } from 'react';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
+import StepLabel from "@material-ui/core/StepLabel";
 import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Popover from '@material-ui/core/Popover';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import Divider from '@material-ui/core/Divider';
-import DoneIcon from '@material-ui/icons/Done';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
-import InfoIcon from '@material-ui/icons/Info';
+
+import Grid from "@material-ui/core/Grid";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+
+function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+  return size;
+}
 
 export default function FormStepperID(props) {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState({});
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [activeStep, setActiveStep] = useState(0);
+  const [completed, setCompleted] = useState({});
+  const [anchorEl, setAnchorEl] = useState(null);
   const steps = props.steps;
+
+  const [width, height] = useWindowSize();
 
   function getStepContent(step) {
     return(props.forms[step]);
@@ -97,69 +111,50 @@ export default function FormStepperID(props) {
         </div>
         {
           props.steps.length > 1 ?
-            <div className="form-stepper-navigation-actions">
-              <Tooltip title={props.language.previousStep}>
-                <IconButton className="form-stepper-navigation-button" onClick={handleBack} edge="end" aria-label="back">
-                  <NavigateBeforeIcon className="form-stepper-navigation-icon"/>
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={props.language.nextStep}>
-                <IconButton className="form-stepper-navigation-button" onClick={handleNext} edge="end" aria-label="next">
-                  <NavigateNextIcon className="form-stepper-navigation-icon"/>
-                </IconButton>
-              </Tooltip>
-            </div>
-          :
-          undefined
-        }
-        {
-          props.steps.length > 1 ?
-            <div>
-              <Button className="form-stepper-selector-button" color={props.color} aria-describedby={id} onClick={handleClick}>
-              {props.language.selectStep}
-                <KeyboardArrowDownIcon className="form-stepper-selector-button-icon"/>
-              </Button>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center',
-                }}
-              >
-                <Stepper className="form-stepper" orientation="vertical" nonLinear activeStep={activeStep}>
-                  {steps.map((step, index) => (
-                    <Step completed={true} className="form-step" key={step.label}>
-                      <StepButton icon={step.icon} className="form-step-button" onClick={handleStep(index)} completed={completed[index]}>
-                        {step.label}
-                      </StepButton>
-                    </Step>
-                  ))}
-                </Stepper>
-              </Popover>
-            </div>
-          :
-          undefined
-        }
-        <div className="form-stepper-actions">
-          {
-            props.saveLabel !== undefined ?
-              <Button onClick={() => props.saveAction()} className="form-stepper-complete-button" color={props.color}>
-                {props.saveLabel}
-              </Button>
+            width < 1200 ?
+              <div>      
+                <Button className="form-stepper-selector-button" color={props.color} aria-describedby={id} onClick={handleClick}>
+                {props.language.selectStep}
+                  <KeyboardArrowDownIcon className="form-stepper-selector-button-icon"/>
+                </Button>              
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }}
+                >
+                  <Stepper className="form-stepper" orientation="vertical" nonLinear activeStep={activeStep}>
+                    {steps.map((step, index) => (
+                      <Step completed={true} className="form-step" key={step.label}>
+                        <StepButton icon={step.icon} className="form-step-button" onClick={handleStep(index)} completed={completed[index]}>
+                          {step.label}
+                        </StepButton>
+                      </Step>
+                    ))}
+                  </Stepper>
+                </Popover>
+              </div>
             :
+              <Stepper className="form-stepper-id" nonLinear activeStep={activeStep}>
+                {steps.map((step, index) => (
+                  <Step completed={true} className="form-step" key={step.label}>
+                    <StepButton icon={step.icon} className="form-step-button-id" onClick={handleStep(index)} completed={completed[index]}>
+                      {step.label}
+                    </StepButton>
+                  </Step>
+                ))}
+              </Stepper>
+          :
             undefined
-          }
-          <Button onClick={() => props.finalAction()} id="form-stepper-final-button" className="form-stepper-complete-button" color={props.color}>
-            {props.finalLabel}
-          </Button>
-        </div>
+        }
       </div>
       <div>
         {allStepsCompleted() ? (
@@ -171,6 +166,52 @@ export default function FormStepperID(props) {
             {getStepContent(activeStep)}
           </div>
         )}
+      </div>
+      <div className="form-stepper-navigation-bottom">
+        {
+          props.steps.length > 1 ?
+            <Grid item>
+              <ButtonGroup
+                variant="text"
+                size="large"
+                aria-label="Course creation step navigation"
+              >
+                <Button
+                  color="secondary"
+                  onClick={handleBack}
+                >
+                  {props.language.previousStep}
+                </Button>
+                <Button
+                  color="secondary"
+                  onClick={handleNext}
+                >
+                  {props.language.nextStep}
+                </Button>
+              </ButtonGroup>
+            </Grid>
+          :
+          undefined
+        }
+        <Grid className="form-stepper-actions-id" item>
+          <Grid container direction="row" spacing={2}>
+            <Grid item>
+              <Button variant="outlined" >
+                {props.language.cancel}
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button onClick={() => props.saveAction()} variant="outlined" color="primary">
+                {props.saveLabel}
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button onClick={() => props.finalAction()} variant="contained" color="primary">
+                {props.finalLabel}
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );
