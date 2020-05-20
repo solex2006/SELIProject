@@ -15,11 +15,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import DoneIcon from "@material-ui/icons/Done";
 import Paper from "@material-ui/core/Paper";
 
-
-
-
 //import SimulateButtons from "./simulate";
-
 const useStyles = makeStyles(theme => ({
   root: {
     "& $deleteButton:hover": {
@@ -56,9 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function AudienceApp(props) {
   const { handleComplete, handleSkip, completed, skiped, courseInformation } = props;
-
   const classes = useStyles();
-
   //update state of checkboxes
   useEffect(() => {
     console.log("comppnentDidMount", courseInformation, audiences)
