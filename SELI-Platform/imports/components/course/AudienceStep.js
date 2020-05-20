@@ -56,14 +56,17 @@ export default function AudienceApp(props) {
   //update state of checkboxes
   useEffect(() => {
     console.log("comppnentDidMount", courseInformation, audiences)
-    setAudiences(courseInformation.support[0])
-    setAudiencesGol(courseInformation.support[1])
-    console.log("position 2",courseInformation.support[2])
-    if(courseInformation.support[2]===undefined){
-      setOtherAudiences([])
-    }else{
-      setOtherAudiences(courseInformation.support[2])
+    if(courseInformation.support.length!=0){
+      setAudiences(courseInformation.support[0])
+      setAudiencesGol(courseInformation.support[1])
+      console.log("position 2",courseInformation.support[2])
+      if(courseInformation.support[2]===undefined){
+        setOtherAudiences([])
+      }else{
+        setOtherAudiences(courseInformation.support[2])
+      }
     }
+ 
   }, []); 
 
   //course information
