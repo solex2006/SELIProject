@@ -191,6 +191,7 @@ export default class UserRegistration extends React.Component {
         profileImage: information.image,
         verified: false,
         courses: [],
+        badge: [],
         type: 'tutor',
         configuration: {
           language: 'English (US)',
