@@ -54,7 +54,6 @@ export default function RequirementStep(props) {
   const classes = useStyles();
 
   useEffect(() => {
-    console.log("comppnentDidMount-Requirement", courseInformation)
     if(courseInformation.requirements.length!=0){
       setSoftwares(courseInformation.requirements[0])
       setHardware(courseInformation.requirements[1])

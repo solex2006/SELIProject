@@ -13,10 +13,10 @@
 }
 
 .form-input-column {
-  display: flex;
-  flex-direction: column;
-  max-height: 100%;
-  padding: 2.5vh 6vw;
+  max-height: calc(100% - 15vh);
+  overflow-y: scroll;
+  padding: 4vh 6vw;
+  width: 100%;
 }
 
 

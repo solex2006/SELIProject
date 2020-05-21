@@ -75,7 +75,7 @@ export default function AudienceApp(props) {
     {
       id: 0,
       value: "StudentsGrad",
-      label: "Graduatade students",
+      label: "Graduate students",
       isChecked: false
     },
     {
@@ -150,12 +150,14 @@ export default function AudienceApp(props) {
   };
 
   const handleEditedAudience = index => () => {
+
+    validateAudiences()
+
     let newAudiences = [...otherAudiences];
     newAudiences[index].editing = false;
     newAudiences[index].label = controlEdit.tempValue;
     setOtherAudiences(newAudiences);
     setControlEdit({ tempValue: "", adding: false, editing: false });
-
     let addNewAudiences=courseinformation;
     addNewAudiences.support.splice(2,3,otherAudiences)
     setcourseInformation(addNewAudiences)
@@ -238,16 +240,20 @@ export default function AudienceApp(props) {
     
   };
 
-
   function updateTempValue(value) {
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
   }
 
-  //methods to saave in the database
+  //methods for validations no repeated values
 
-
+  const validateAudiences=()=>{
+    console.log("Se valida el campo de las Audiencias:")
+    audiences.map((audience, index)=>{
+      console.log(audience, )
+    })
+  }
 
 
   return (
