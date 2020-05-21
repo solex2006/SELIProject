@@ -59,6 +59,7 @@ export default function AudienceApp(props) {
     if(courseInformation.support.length!=0){
       setAudiences(courseInformation.support[0])
       setAudiencesGol(courseInformation.support[1])
+
       if(courseInformation.support[2]===undefined){
         setOtherAudiences([])
       }else{
@@ -132,7 +133,6 @@ export default function AudienceApp(props) {
   ]);
   const [otherAudiences, setOtherAudiences] = useState([
   ]);
-
   const [controlEdit, setControlEdit] = useState({
     tempValue: "",
     adding: false,
@@ -251,7 +251,6 @@ export default function AudienceApp(props) {
 
 
   return (
-   
     <div className="form-input-audiences">
       {/*  <SimulateButtons
         handleComplete={handleComplete}
