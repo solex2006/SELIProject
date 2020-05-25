@@ -3,9 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import ImageSharpIcon from '@material-ui/icons/ImageSharp';
-import PictureAsPdfSharpIcon from '@material-ui/icons/PictureAsPdfSharp';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -17,8 +15,9 @@ import Library from '../tools/Library';
 import Help from '../tools/Help';
 import FormPreview from '../files/previews/FormPreview';
 import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldValidations';
-import Audiences from './Audiences';
-import FormLabel from '@material-ui/core/FormLabel';
+import Paper from "@material-ui/core/Paper";
+import InputMask from "react-input-mask";
+import Input from "@material-ui/core/TextField";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
@@ -28,7 +27,6 @@ import Fab from '@material-ui/core/Fab';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Tooltip from '@material-ui/core/Tooltip';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
-import RadioButtonsGroup from './CheckBox';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
 
 export default class CourseInformation extends React.Component {
@@ -301,7 +299,7 @@ export default class CourseInformation extends React.Component {
         <div className="form-input-column">
           <TextField
             id="title-input"
-            label={this.props.language.courseTitle}
+            label={`${this.props.language.courseTitle} ${this.props.language.required}`}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -321,7 +319,7 @@ export default class CourseInformation extends React.Component {
           />
           <TextField
             id="description-input"
-            label={this.props.language.courseDescription}
+            label={`${this.props.language.courseDescription} ${this.props.language.required}`}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -334,10 +332,11 @@ export default class CourseInformation extends React.Component {
           <TextField
             id="subject-select-currency"
             select
-            label={this.props.language.language}
+            label={`${this.props.language.language} ${this.props.language.required}`}
             value={this.state.courseInformation.language}
             onChange={this.handleChange('language')}
             fullWidth
+            required
             helperText={this.props.language.selectLanguageCourse}
             margin="normal"
             variant="outlined"
@@ -351,10 +350,10 @@ export default class CourseInformation extends React.Component {
           <div className="row-input">
             <TextField
               id="keyWord-input"
-              label={this.props.language.courseKeyWords}
+              label={`${this.props.language.courseKeyWords} ${this.props.language.required}`}
+              required
               margin="normal"
               variant="outlined"
-              required
               className="button-input"
               helperText={this.props.language.courseKeyWordsHelper}
               onKeyPress={() => this.keyController(event)}
@@ -387,8 +386,20 @@ export default class CourseInformation extends React.Component {
               language={this.props.language}
             />
           </p>
-          <div className="sub-course-information">
-            { 
+          <Paper className="sub-course-information" elevation={5} component="form">
+            <InputMask mask="999:99:99" value={this.state.courseInformation.duration} onChange={this.handleChange('duration')}>
+              {() => (
+                <Input
+                  id="filled-secondary"
+                  label={`${this.props.language.estimatedCourseDuration} ${this.props.language.required}*`}
+                  size="small"
+                  className="duration-course-information"
+                  // variant="outlined"
+                />
+              )}
+            </InputMask>
+          </Paper>
+            {/* { 
               this.state.weekHourOption==='weeks'?
                   <TextField
                     id="duration-input"
@@ -433,8 +444,7 @@ export default class CourseInformation extends React.Component {
             <RadioButtonsGroup
               language={this.props.language}
               courseDuration={this.courseDuration}
-            />
-          </div>
+            /> */}
           {
             this.state.courseInformation.image !== undefined ?
               <FormPreview

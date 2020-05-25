@@ -41,8 +41,7 @@ export default class CreateCourse extends React.Component {
         keyWords: [],
         image: undefined,
         sylabus: undefined,
-        duration: 0,
-        durationweeks: 0,
+        duration: '001:00:00',
         requirements: [],
         support: [],
         accessibility:[],
@@ -304,7 +303,7 @@ export default class CreateCourse extends React.Component {
       this.props.handleControlMessage(true, `${this.props.language.chooseCourseSyllabus} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
-    else if (!courseInformation.keyWords.length) {
+    else if (courseInformation.keyWords.length < 3 || courseInformation.keyWords.length > 5) {
       this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
       return false;
     }
@@ -351,20 +350,21 @@ export default class CreateCourse extends React.Component {
     return true;
   }
 
-  handlePreview = () => {
+  handleOpen = (action) => {
     if (this.validatePublishCourse()) {
       this.setState({
         open: true,
-        action: "preview",
+        action,
       })
     }
   }
 
+  handlePreview = () => {
+    this.handleOpen("preview");
+  }
+
   handlePublish = () => {
-    this.setState({
-      open: true,
-      action: "publish",
-    })
+    this.handleOpen("publish");
   }
 
   handleClose = () => {
@@ -417,7 +417,7 @@ export default class CreateCourse extends React.Component {
             {
               this.state.action === "preview" ?
                 <Link className="button-link"
-                  //target="_blank"
+                  target="_blank"
                   onClick={() => this.confirmPreview()} 
                   to={{
                     pathname: "/coursePreview",

@@ -269,7 +269,7 @@
   coursePublishedS: "Kurs opublikowany z sukcesem!",
   seePreview: "Zobacz podgląd",
   courseSavedS: "Kurs zachowany z sukcesem!",
-  addOneOrMore: "Dodaj jedno lub więcej słów kluczowych, aby użytkownicy mogli przeszukiwać Twoje kursy",
+  addOneOrMore: "Minimalna i maksymalna liczba słów kluczowych wynosi odpowiednio 3 i 5",
   technicalRequirement: "Wybierz wymagania techniczne, których będzie wymagał Twój kurs",
   disabilitieRequirement: "Wybierz odbiorców, których Twój kurs będzie wspierał.",
   organizationRequirement: "Wybierz organizację kursu aby zapisać treści",

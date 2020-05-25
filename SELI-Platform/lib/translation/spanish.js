@@ -269,7 +269,7 @@ var SPANISH = {
   coursePublishedS: "¡Curso publicado con éxito!",
   seePreview: "Ver vista previa",
   courseSavedS: "¡Curso guardado con éxito!",
-  addOneOrMore: "Agregue una o más palabras clave para que los usuarios puedan buscar sus cursos",
+  addOneOrMore: "El mínimo y el máximo de palabras clave son 3 y 5 respectivamente",
   technicalRequirement: "Seleccione los requerimientos técnicos para su curso",
   disabilitieRequirement: "Seleccione a qué tipo requerimiento(s) especial(es) admitirá su curso",
   organizationRequirement: "Elija la organización del curso para guardarlo",

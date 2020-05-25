@@ -269,7 +269,7 @@ var TURKISH = {
   coursePublishedS: "Ders başarıyla yayınlandı!",
   seePreview: "Önizlemeye bakın",
   courseSavedS: "Ders başarıyla kaydedildi!",
-  addOneOrMore: "Kullanıcıların kurslarınızı arayabilmesi için bir veya daha fazla anahtar kelime ekleyin",
+  addOneOrMore: "Anahtar kelimelerin minimum ve maksimum değerleri sırasıyla 3 ve 5'tir",
   technicalRequirement: "Dersinizin gerektireceği teknik gereksinimleri seçin",
   disabilitieRequirement: "Dersinizin destekleyeceği öğrenenleri seçin",
   organizationRequirement: "Dersi kaydetmek için organizasyonu seçin",

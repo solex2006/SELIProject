@@ -269,7 +269,7 @@ var ENGLISH = {
   coursePublishedS: "Course published successfully!",
   seePreview: "See preview",
   courseSavedS: "Course saved successfully!",
-  addOneOrMore: "Add one or more keywords so users can search your courses",
+  addOneOrMore: "The minimum and maximum of keywords are 3 and 5 respectively",
   technicalRequirement: "Select the technical requirements that your course will require",
   disabilitieRequirement: "Select what special requirement(s) your course will support",
   organizationRequirement: "Chose the organization of the course to save it",
