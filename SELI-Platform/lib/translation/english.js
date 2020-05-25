@@ -943,6 +943,7 @@ var ENGLISH = {
   generateCertificate: "Generate certificate",
   areSureCertificate: "Are you sure you want to generate the certificate?",
   desingPhase:"Design Phase",
-  template:"Template"
+  template:"Template",
+  plan:"Course Plan"
 }
 export default ENGLISH;

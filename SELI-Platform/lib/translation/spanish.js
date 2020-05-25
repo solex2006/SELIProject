@@ -943,7 +943,8 @@ var SPANISH = {
   generateCertificate: "Generar certificado",
   areSureCertificate: "¿Está seguro de que desea generar el certificado?",
   desingPhase:"Fase de Diseño",
-  template:"Plantilla"
+  template:"Plantilla",
+  plan:"Plan del Curso"
 }
 export default SPANISH
 

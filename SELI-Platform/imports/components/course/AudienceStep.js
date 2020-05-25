@@ -566,8 +566,6 @@ export default function AudienceApp(props) {
                 className={audience.editing ? classes.hidden : ""}
               />
               
-
-
               <div className={!audience.editing ? classes.hidden : ""}>
                 <TextField
                   key={"li_aud" + index + "txtField"}
@@ -590,11 +588,6 @@ export default function AudienceApp(props) {
                     }} */
                   />
               </div>
-
-
-
-
-
 
               <ListItemSecondaryAction key={"li_aud" + index + "secAc"}>
                 {audience.editing ? (
