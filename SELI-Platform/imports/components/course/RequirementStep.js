@@ -65,18 +65,19 @@ export default function RequirementStep(props) {
   const classes = useStyles();
 
   useEffect(() => {
+    console.log("comppnentDidMountRequirments", courseInformation)
     if(courseInformation.requirements.length!=0){
-      setSoftwares(courseInformation.requirements[0])
-      setHardware(courseInformation.requirements[1])
-       if(courseInformation.requirements[2]===undefined){
+      //setSoftwares(courseInformation.requirements[0])
+      //setHardware(courseInformation.requirements[1])
+       if(courseInformation.requirements[0]===undefined){
         setOtherSoftwares([])
       }else{
-        setOtherSoftwares(courseInformation.requirements[2])
+        setOtherSoftwares(courseInformation.requirements[0])
       }
-      if(courseInformation.requirements[3]===undefined){
+      if(courseInformation.requirements[1]===undefined){
         setOtherHardware([])
       }else{
-        setOtherHardware(courseInformation.requirements[3])
+        setOtherHardware(courseInformation.requirements[1])
       }
     }
   }, []);
@@ -92,6 +93,7 @@ export default function RequirementStep(props) {
 
   })///messages
 
+  const [open, setopen]= useState(false)
   const [message, setmessage]=useState(requirementTooltip.errorMsg)
 
   const [tooltipalert, settootipalert]=useState({
@@ -377,6 +379,17 @@ export default function RequirementStep(props) {
     }   
   }
 
+  const handleClose = () => {  
+    setopen(false)
+  };
+///delete dialog
+  const handleDeleteAudience = (index) => () => {
+    setopen(true)
+    setindexdelete(index)
+    setlabelindexdelete(otherSoftwares[index].label)
+  
+ };
+
   return (
     <div className="form-input-audiences">
       {/* <SimulateButtons
@@ -513,15 +526,8 @@ export default function RequirementStep(props) {
                       edge="end"
                       onClick={
                         () => {
-                          if (
-                            window.confirm(
-                              "delete audience " +
-                                otherSoftwares[index].label +
-                                "?"
-                            )
-                          ) {
-                            deleteSoftware(index);
-                          }
+
+                            //deleteSoftware(index);
                         }
 
                         // handleDeleteAudience(index)
@@ -740,6 +746,23 @@ export default function RequirementStep(props) {
         completed={completed}
         skiped={skiped}
       /> */}
+
+      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting audience</DialogTitle>
+            <DialogContent className="success-dialog-content">
+              <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
+              <WarningIcon className="warning-dialog-icon"/> 
+            </DialogContent>
+              <DialogActions>
+                <Button onClick={() => handleClose} color="primary">No</Button>
+                <Button onClick={() => {
+                  //setdeleteDialog(true)
+                  deleteAudience(indexdelete);
+                  setopen(false)
+                }} 
+                color="primary"><em>Yes</em></Button> 
+              </DialogActions>
+      </Dialog>
     </div>
     
   

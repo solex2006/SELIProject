@@ -216,10 +216,7 @@ export default function AudienceApp(props) {
      setopen(true)
      setindexdelete(index)
      setlabelindexdelete(otherAudiences[index].label)
-     //if (deleteDialog===true) {
-      //window.confirm("delete audience " + otherAudiences[index].label + "?")
-      //deleteAudience(index);
-  //  }
+   
   };
 
   const handleNewAudience = () => {
