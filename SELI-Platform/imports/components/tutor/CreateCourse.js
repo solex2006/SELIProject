@@ -292,26 +292,35 @@ export default class CreateCourse extends React.Component {
       courseInformation.description === '' ||
       courseInformation.duration === ''
     ) {
-      this.props.handleControlMessage(true, `${this.props.language.fieldsMarkedWith} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.fieldsMarkedWith} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
       return false;
     }
     else if (courseInformation.image === undefined) {
-      this.props.handleControlMessage(true, `${this.props.language.chooseCourseImage} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.chooseCourseImage} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
       return false;
     }
     else if (courseInformation.sylabus === undefined) {
-      this.props.handleControlMessage(true, `${this.props.language.chooseCourseSyllabus} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.chooseCourseSyllabus} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
       return false;
     }
     else if (courseInformation.keyWords.length < 3 || courseInformation.keyWords.length > 5) {
-      this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step} 1: ${this.props.language.information})`, false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
       return false;
     }
     else if (courseInformation.organization === '') {
-      this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step} 3: ${this.props.language.program})`, false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step}: ${this.props.language.program}).`, false, '', '');
       return false;
+    } 
+    if (courseInformation.duration.indexOf('_') !== -1) {
+      this.props.handleControlMessage(true, `${this.props.language.durationInvalidEntry}`, false, '', '');
+      return false;
+    } else {
+      let duration = courseInformation.duration.split(':');
+      if (duration[0] < 5) {
+        this.props.handleControlMessage(true, `${this.props.language.minimumCourseDuration}.`, false, '', '');
+        return false;
+      } 
     }
-
     let emptyContent = false;
     if (courseInformation.organization.subunit) {
       courseInformation.program.map(unit => {
@@ -340,11 +349,11 @@ export default class CreateCourse extends React.Component {
   validateSaveCourse = () => {
     let courseInformation = this.state.courseInformation;
     if (courseInformation.title === '') {
-      this.props.handleControlMessage(true, `${this.props.language.titleRequirement} (${this.props.language.step} 1 ${this.props.language.information})`, false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.titleRequirement} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
       return false;
     }
     if (courseInformation.organization === '') {
-      this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step} 3 ${this.props.language.program})`, false, '', '');
+      this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step}: ${this.props.language.program}).`, false, '', '');
       return false;
     }
     return true;

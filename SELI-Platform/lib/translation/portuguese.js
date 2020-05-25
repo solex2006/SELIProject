@@ -231,7 +231,7 @@ var PORTUGUESE = {
   courseSubtitle: "Subtítulo do curso",
   courseDescription: "Descrição do curso",
   courseKeyWords: "Palavras-chave do curso",
-  courseKeyWordsHelper: "Pressione enter para adicionar uma palavra-chave",
+  courseKeyWordsHelper: "Pressione enter para adicionar uma palavra-chave. Digite pelo menos 3 palavras-chave e não mais que 5 que representem o curso e as habilidades que o aluno adquirirá. Uma palavra-chave não deve ter caracteres especiais (#%+...)",
   courseKeyWordsHelp: "O que são palavras-chave",
   hours: "Horas",
   chooseCourseImage: "Enviar imagem do curso",
@@ -827,7 +827,6 @@ var PORTUGUESE = {
   renameFileTitle: "Rename file title",
   minimumCourseDuration: "A duração do curso deve ser de no mínimo 5 horas",
   ifYouWantPC: "You are going to publish your course. After this, you will not be able to edit the course until you unpublish it.",
-  minimumCourseDuration: 'A duração do curso deve ser de no mínimo 5 horas',
   numberofAnswers: "Select the number of answers",
   toActivityStoryboard: "To complete this activity, select a story",
   completeActivityStoryboard: "Select a story to complete the activity",
@@ -943,6 +942,10 @@ var PORTUGUESE = {
   generateCertificate: "Generate certificate",
   areSureCertificate: "Are you sure you want to generate the certificate?",
   desingPhase:"Design Phase",
-  template:"Template"
+  template:"Template",
+  courseTitleInformation: "Type the course title, e.g. \"Computer Science\"",
+  courseSubtitleInformation: "Type the course subtitle, e.g \"Programming with a Purpose\"",
+  courseDescriptionInformation: "Type a brief description of the course",
+  durationInvalidEntry: "Course duration has a invalid entry. Please, insert a value with a time format 000:00:00 (HH:MM:SS)",
 }
 export default PORTUGUESE;

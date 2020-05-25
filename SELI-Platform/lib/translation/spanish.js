@@ -231,7 +231,7 @@ var SPANISH = {
   courseSubtitle: "Subtítulo del curso",
   courseDescription: "Descripción del curso",
   courseKeyWords: "Palabras clave del curso",
-  courseKeyWordsHelper: "Presione enter para agregar una palabra clave",
+  courseKeyWordsHelper: "Presione enter para agregar una palabra clave. Ingrese al menos 3 palabras clave y no más de 5 que representen el curso y las habilidades que adquirirá el alumno. Una palabra clave no debe tener caracteres especiales (#% + ...)",
   courseKeyWordsHelp: "¿Qué son las palabras clave?",
   hours: "Horas",
   chooseCourseImage: "Cargar la imagen del curso",
@@ -827,7 +827,6 @@ var SPANISH = {
   renameFileTitle: "Cambiar el título del archivo",
   minimumCourseDuration: "La duración del curso debe ser mínimo de 5 horas",
   ifYouWantPC: "Esta iendo a publicar su curso. Después de esto, no podrá editar el curso hasta que cancele su publicación.",
-  minimumCourseDuration: 'La duración del curso debe ser mínimo de 5 horas',
   numberofAnswers: "Selecciona el número de Respuestas",
   toActivityStoryboard: "Para completar esta actividad, seleccione una historia",
   completeActivityStoryboard: "Seleccione una historia para completar la actividad",
@@ -943,7 +942,11 @@ var SPANISH = {
   generateCertificate: "Generar certificado",
   areSureCertificate: "¿Está seguro de que desea generar el certificado?",
   desingPhase:"Fase de Diseño",
-  template:"Plantilla"
+  template:"Plantilla",
+  courseTitleInformation: "Escriba el título del curso, por ejemplo, \"Ciencias de la computación\"",
+  courseSubtitleInformation: "Escriba el subtítulo del curso, por ejemplo, \"Programación con un propósito\"",
+  courseDescriptionInformation: "Escriba una breve descripción del curso",
+  durationInvalidEntry: "La duración del curso tiene una entrada no válida. Por favor, inserte un valor con un formato de hora 000:00:00 (HH:MM:SS)",
 }
 export default SPANISH
 

@@ -231,7 +231,7 @@
   courseSubtitle: "Dodatkowy - szczegółowy tytuł kursu",
   courseDescription: "Opis kursu",
   courseKeyWords: "Słowa kluczowe w kursie",
-  courseKeyWordsHelper: "Naciśnij enter aby dodać słowo kluczowe",
+  courseKeyWordsHelper: "Naciśnij enter aby dodać słowo kluczowe. Wpisz co najmniej 3 słowa kluczowe i nie więcej niż 5, które reprezentują kurs i umiejętności nabyte przez studenta. Słowo kluczowe nie powinno mieć znaków specjalnych (#%+...)",
   courseKeyWordsHelp: "Jakie są słowa kluczowe?",
   hours: "Godziny",
   chooseCourseImage: "Dodaj zdjęcie do kursu",
@@ -827,7 +827,6 @@
   renameFileTitle: "Rename file title",
   minimumCourseDuration: "The duration of the course must be a minimum of 5 hours",
   ifYouWantPC: 'You are going to publish your course. After this, you will not be able to edit the course until you unpublish it.',
-  minimumCourseDuration: 'The duration of the course must be a minimum of 5 hours',
   numberofAnswers: " Select the number of answers",
   toActivityStoryboard: "To complete this activity, select a story",
   completeActivityStoryboard: "Select a story to complete the activity",
@@ -943,6 +942,10 @@
   generateCertificate: "Generate certificate",
   areSureCertificate: "Are you sure you want to generate the certificate?",
   desingPhase:"Design Phase",
-  template:"Template"
+  template:"Template",
+  courseTitleInformation: "Type the course title, e.g. \"Computer Science\"",
+  courseSubtitleInformation: "Type the course subtitle, e.g \"Programming with a Purpose\"",
+  courseDescriptionInformation: "Type a brief description of the course",
+  durationInvalidEntry: "Course duration has a invalid entry. Please, insert a value with a time format 000:00:00 (HH:MM:SS)",
 }
 export default POLISH;
