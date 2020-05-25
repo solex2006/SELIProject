@@ -21,11 +21,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import WarningIcon from '@material-ui/icons/Warning';
-import { set } from "date-fns";
-
 import Snackbar from '@material-ui/core/Snackbar';
-
 import CloseIcon from '@material-ui/icons/Close';
+import FeedbackHelp from "./feedback";
 //import AccessibilityDialog from '../../components/accessibility/AccessibilityDialog'
 
 //import SimulateButtons from "./simulate";
@@ -80,18 +78,10 @@ export default function AudienceApp(props) {
       }
     }
 
-    //Update tooltip
-    /* audiences.map((error, index)=>{
-      if(error.isChecked===false){
-        let tooltip=audienceTooltip;
-        tooltip.audienceError=true;
-        setaudienceTooltip(tooltip)
-      }else{
-        let tooltip=audienceTooltip;
-        tooltip.audienceError=false;
-        setaudienceTooltip(tooltip)
-      }
-    }) */
+   //update accessibilty
+   if(courseInformation.accessibility.length!=0){
+    setaudienceTooltip(courseInformation.accessibility[0])
+  }
  
   }, []); 
   //course information
@@ -283,10 +273,15 @@ export default function AudienceApp(props) {
       if(newAudiences[index].isChecked===true){
         tooltip.audienceError=false;
         setaudienceTooltip(tooltip)
+        let checks=courseinformation;
+        checks.accessibility.splice(0, 1, tooltip)
+        setcourseInformation(checks)
       }else if (newAudiences[index].isChecked===false){
         tooltip.audienceError=true;
-        
         setaudienceTooltip(tooltip)
+        let checks=courseinformation;
+        checks.accessibility.splice(0, 1, tooltip)
+        setcourseInformation(checks)
       }
       let count=0;
       audiences.map((audience, index)=>{
@@ -295,14 +290,19 @@ export default function AudienceApp(props) {
           tooltip.audienceError=false;
           setaudienceTooltip(tooltip)
           console.log("count", count,audiences.length)
-          if(count===audiences.length){
-            
+          if(count===audiences.length){ 
             tooltip.audienceallError=false;
             setaudienceTooltip(tooltip)
+            let checks=courseinformation;
+            checks.accessibility.splice(0, 1, tooltip)
+            setcourseInformation(checks)
           }
         }else{
           tooltip.audienceallError=true;
           setaudienceTooltip(tooltip)
+          let checks=courseinformation;
+          checks.accessibility.splice(0, 1, tooltip)
+          setcourseInformation(checks)
         }
       })
      
@@ -322,11 +322,21 @@ export default function AudienceApp(props) {
     if(newAudiences[index].isChecked===true){
       tooltip.audiencegolError=false;
       setaudienceTooltip(tooltip)
+      let checksgol=courseinformation;
+      console.log("checksgol",checksgol)
+      checksgol.accessibility.splice(2, 3, tooltip)
+      setcourseInformation(checksgol)
     }else if (newAudiences[index].isChecked===false){
       tooltip.audiencegolError=true;
-      
       setaudienceTooltip(tooltip)
+      let checksgol=courseinformation;
+      console.log("checksgol",checksgol)
+     checksgol.accessibility.splice(0, 1, tooltip)
+     setcourseInformation(checksgol)
     }
+    //save to database 
+    
+    ///
     let count=0;
     audiencesGol.map((audience, index)=>{
       if(audience.isChecked===true){
@@ -438,18 +448,23 @@ export default function AudienceApp(props) {
         completed={completed}
         skiped={skiped}
       />  */}
-
-      {/* <AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbebedError} tip={captionsTip}/>  */}
-
-    
       <h2 id="aud_title">Audience</h2>
       <h3 id="aud_title">Intended Audience</h3>
       <div role="group" aria-labelledby="aud_title">
 
         <List component="ul" key={"li03"}>
-        <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audienceallError} tip={"Select all options"}/>
+       {/*  <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audienceallError} tip={"Select all options"}/> */}
+          <FeedbackHelp
+            validation={{
+              error: false,
+              errorMsg: "",
+              errorType: "a11y",
+              a11y: { valid: !audienceTooltip.audienceallError }
+            }}
+            tipMsg="Select all options."
+            describedBy={"i04-helper-text"}     
+          />
           <ListItem key="aud_SelectAll" dense>
-            {/* <ListItemIcon> */}
             <Checkbox
               color="secondary"
               edge="start"
@@ -468,10 +483,16 @@ export default function AudienceApp(props) {
                   tooltip.audienceallError=false;
                   tooltip.audienceError=false;
                   setaudienceTooltip(tooltip)
+                  let checks=courseinformation;
+                  checks.accessibility.splice(0, 1, tooltip)
+                  setcourseInformation(checks)
                 }else{
                   tooltip.audienceallError=true;
                   tooltip.audienceError=true;
                   setaudienceTooltip(tooltip)
+                  let checks=courseinformation;
+                  checks.accessibility.splice(0, 1, tooltip)
+                  setcourseInformation(checks)
                 } 
               }}
               disableRipple
@@ -485,7 +506,18 @@ export default function AudienceApp(props) {
               primary="Select All"
             />
           </ListItem>
-          <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audienceError} tip={"	Select your target audience. You can select as many as you want. You can also add others target audience not listed above, by selecting 'Add Audience' button."}/>
+{/*           <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audienceError} tip={"	Select your target audience. You can select as many as you want. You can also add others target audience not listed above, by selecting 'Add Audience' button."}/>
+ */}      
+          <FeedbackHelp
+            validation={{
+              error: false,
+              errorMsg: "",
+              errorType: "a11y",
+              a11y: { valid: !audienceTooltip.audienceError }
+            }}
+            tipMsg="Select your target audience. You can select as many as you want. You can also add others target audience not listed, by selecting 'Add Audience' button."
+            describedBy={"i04-helper-text"}     
+          /> 
           {audiences.map((audience, index) => (
             <ListItem key={audience.id} dense>
               {/* <ListItemIcon> */}
@@ -507,6 +539,7 @@ export default function AudienceApp(props) {
               />
             </ListItem>
           ))}
+          
           {otherAudiences.map((audience, index) => (
             <ListItem
               // button={!audience.editing}
@@ -571,6 +604,7 @@ export default function AudienceApp(props) {
               </ListItemSecondaryAction>
             </ListItem>
           ))}
+          
           <ListItem
             key="addaudience"
             button
@@ -581,13 +615,23 @@ export default function AudienceApp(props) {
           >
             <AddIcon /> <ListItemText primary="Add other audience" />
           </ListItem>
+
         </List>
       </div>
      
       <h3 id="aud_title"><h3 id="aud_title">Inclusion Goals</h3></h3>
       <div role="group" aria-labelledby="aud_title2">
         <List component="ul" key={"li03"}>
-        <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audienceallgolError} tip={"Select all options"}/>
+          <FeedbackHelp
+            validation={{
+              error: false,
+              errorMsg: "",
+              errorType: "a11y",
+              a11y: { valid: !audienceTooltip.audienceallgolError }
+            }}
+            tipMsg="Select all options."
+            describedBy={"i04-helper-text"}     
+          />
           <ListItem key="aud_SelectAll2" dense>
             <Checkbox
               color="secondary"
@@ -624,7 +668,17 @@ export default function AudienceApp(props) {
               primary="Select All"
             />
           </ListItem>
-          <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audiencegolError} tip={"If you desire to validate the inclusion of your course for some specific diversity group, select them from the list above. You can select as many as you want."}/>
+{/*           <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audiencegolError} tip={"If you desire to validate the inclusion of your course for some specific diversity group, select them from the list above. You can select as many as you want."}/>
+ */}       <FeedbackHelp
+              validation={{
+                error: false,
+                errorMsg: "",
+                errorType: "a11y",
+                a11y: { valid: !audienceTooltip.audiencegolError}
+              }}
+              tipMsg="If you desire to validate the inclusion of your course for some specific diversity group, select them from the list below . You can select as many as you want."
+              describedBy={"i04-helper-text"}     
+            />
           {audiencesGol.map((audienceGol, index) => (
             <ListItem key={audiences.id} dense>
               <Checkbox
@@ -663,7 +717,7 @@ export default function AudienceApp(props) {
                     }} 
                     color="primary"><em>Yes</em></Button> 
                   </DialogActions>
-        </Dialog>
+      </Dialog>
 
         {
           tooltip===true?
