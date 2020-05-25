@@ -596,6 +596,7 @@ export default class PublishedCoursesList extends React.Component {
                 </Button>
               :
                 <Link className="button-link"
+                  target="_blank"
                   to={{
                     pathname: "/coursePreview",
                     hash: this.state.course_id,

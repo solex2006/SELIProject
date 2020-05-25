@@ -1,8 +1,17 @@
-.course-information-container {
+.user-information-container {
   width: 100%;
   height: 100%;
   display: flex;
   position: relative;
+  animation: fadeIn 1s;
+}
+
+.course-information-container {
+  width: 100%;
+  height: calc(100% - var(--form-stepper-height));
+  display: flex;
+  position: relative;
+  overflow-y: scroll;
   animation: fadeIn 1s;
 }
 
@@ -15,6 +24,7 @@
 .form-input-column {
   display: flex;
   flex-direction: column;
+  min-width: 40vw;
   max-height: 100%;
   padding: 2.5vh 6vw;
 }
@@ -34,10 +44,18 @@
 }
 
 .sub-course-information {
-  width: 100%;
-  justify-content: center;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-top: 1vh;
   align-items: center;
   display: flex;
+}
+
+.duration-course-information {
+  width: 100%;
+  height: 100%;
 }
 
 .buttomAudiencesSend{
@@ -210,7 +228,7 @@
 
 .form-file-selected-image-container {
   width: 100%;
-  height: calc((100vh - var(--form-stepper-height) - var(--app-bar-height))* 0.6)  !important;
+  height: 40vw;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;

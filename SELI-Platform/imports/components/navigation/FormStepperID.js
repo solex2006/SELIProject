@@ -107,14 +107,14 @@ export default function FormStepperID(props) {
       <div className="form-stepper-navigation">
         <div className="form-stepper-information">
           <h1 style={{color: getComputedStyle(document.documentElement).getPropertyValue('--' + props.color)}} className="form-stepper-title">{props.title}</h1>
-          <p className="form-stepper-active-step">{`${props.language.step}  ${parseInt(activeStep + 1)} ${props.language.of} ${steps.length}: ${steps[activeStep].label}`}</p>
+          {width >= 1200 && <p className="form-stepper-active-step">{`${props.language.step}  ${parseInt(activeStep + 1)} ${props.language.of} ${steps.length}: ${steps[activeStep].label}`}</p>}
         </div>
         {
           props.steps.length > 1 ?
             width < 1200 ?
               <div>      
                 <Button className="form-stepper-selector-button" color={props.color} aria-describedby={id} onClick={handleClick}>
-                {props.language.selectStep}
+                  {`${props.language.step}  ${parseInt(activeStep + 1)} ${props.language.of} ${steps.length}: ${steps[activeStep].label}`}
                   <KeyboardArrowDownIcon className="form-stepper-selector-button-icon"/>
                 </Button>              
                 <Popover
@@ -156,16 +156,8 @@ export default function FormStepperID(props) {
             undefined
         }
       </div>
-      <div>
-        {allStepsCompleted() ? (
-          <div className="form-stepper-all-completed-container">
-
-          </div>
-        ) : (
-          <div className="form-stepper-content">
-            {getStepContent(activeStep)}
-          </div>
-        )}
+      <div className="form-stepper-content">
+        {getStepContent(activeStep)}
       </div>
       <div className="form-stepper-navigation-bottom">
         {

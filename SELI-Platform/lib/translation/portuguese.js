@@ -269,7 +269,7 @@ var PORTUGUESE = {
   coursePublishedS: "Curso publicado com sucesso!",
   seePreview: "Pré-visualizar",
   courseSavedS: "Curso salvo com sucesso!",
-  addOneOrMore: "Adicione uma ou mais palavras-chave para que usuários possam buscar seu curso",
+  addOneOrMore: "O mínimo e o máximo de palavras-chave são 3 e 5, respectivamente",
   technicalRequirement: "Selecione os requisitos técnicos necessários para seu curso",
   disabilitieRequirement: "Selecione a(s) deficiência(s) que seu curso acomodará",
   organizationRequirement: "Escolha a organização do curso para salvá-lo",

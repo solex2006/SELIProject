@@ -372,7 +372,7 @@ export default class ActivityItem extends React.Component {
                                   <p className="activity-instruction-title">{`${this.props.language.story}:`}</p>
                                   <div className="activity-item-container-instruction">
                                     <Link style={{"text-decoration": "none"}}
-                                      //target="_blank"
+                                      target="_blank"
                                       to={`/story#${this.state.activityInformation._id}`}
                                     >
                                       {this.state.activityInformation.activity.name}

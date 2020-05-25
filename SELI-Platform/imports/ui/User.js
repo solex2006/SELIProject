@@ -713,6 +713,7 @@ export default class User extends React.Component {
                       {this.state.language.cancel}
                     </Button>
                     <Link className="button-link"
+                      target="_blank"
                       to={{
                         pathname: "/coursePreview",
                         hash: this.state.course,
