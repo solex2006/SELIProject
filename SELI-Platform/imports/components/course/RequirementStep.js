@@ -24,6 +24,7 @@ import Button from '@material-ui/core/Button';
 import WarningIcon from '@material-ui/icons/Warning';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import FeedbackHelp from "./feedback";
 const useStyles = makeStyles(theme => ({
@@ -82,6 +83,17 @@ export default function RequirementStep(props) {
     }
   }, []);
 
+  const [tooltipmessages, settooltipmessages] = useState({
+    SaveAddHardware:"Save hardware inclusion",
+    CancelAddHardware:"Cancel hardware inclusion",
+    EditHardware:"Edit hardware",
+    DeleteHardware:"Delete hardware",
+    SaveAddSoftware:"Save software inclusion",
+    CancelAddSoftware:"Cancel software inclusion",
+    EditSoftware:"Edit software",
+    DeleteSoftware:"Delete software"
+
+  })
   const [labelindexdelete, setlabelindexdelete]=useState("")
   const [indexdelete,  setindexdelete]=useState(0)
   const [requirementTooltip, setrequirementTooltip]= useState({
@@ -457,6 +469,7 @@ export default function RequirementStep(props) {
               <ListItemSecondaryAction key={"li_sft" + index + "secAc"}>
                 {software.editing ? (
                   <React.Fragment>
+                    <Tooltip title={tooltipmessages.SaveAddSoftware}>
                     <IconButton
                       key={"li_sft" + index + "btnEditSaveSoft"}
                       edge="end"
@@ -480,6 +493,8 @@ export default function RequirementStep(props) {
                     >
                       <DoneIcon />
                     </IconButton>
+                    </Tooltip>
+                    <Tooltip title={tooltipmessages.CancelAddSoftware}>
                     <IconButton
                       key={"li_sft" + index + "btnEditCancelSoft"}
                       edge="end"
@@ -501,9 +516,11 @@ export default function RequirementStep(props) {
                     >
                       <ClearIcon />
                     </IconButton>
+                    </Tooltip>
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
+                    <Tooltip title={tooltipmessages.EditSoftware}>
                     <IconButton
                       key={"li_sft" + index + "btnEditSoft"}
                       edge="end"
@@ -523,6 +540,8 @@ export default function RequirementStep(props) {
                     >
                       <EditIcon />
                     </IconButton>
+                    </Tooltip>
+                    <Tooltip title={tooltipmessages.DeleteSoftware}>
                     <IconButton
                       key={"li_sft" + index + "btnDeleteSoft"}
                       edge="end"
@@ -531,6 +550,7 @@ export default function RequirementStep(props) {
                     >
                       <RemoveIcon />
                     </IconButton>
+                    </Tooltip>
                   </React.Fragment>
                 )}
               </ListItemSecondaryAction>
@@ -618,6 +638,7 @@ export default function RequirementStep(props) {
               <ListItemSecondaryAction key={"li_sft" + index + "secAc"}>
                 {hardware.editing ? (
                   <React.Fragment>
+                    <Tooltip title={tooltipmessages.SaveAddHardware}>
                     <IconButton
                       key={"li_sft" + index + "btnEditSaveSoft"}
                       edge="end"
@@ -641,6 +662,8 @@ export default function RequirementStep(props) {
                     >
                       <DoneIcon />
                     </IconButton>
+                    </Tooltip>
+                    <Tooltip title={tooltipmessages.CancelAddHardware}>
                     <IconButton
                       key={"li_sft" + index + "btnEditCancelSoft"}
                       edge="end"
@@ -662,9 +685,11 @@ export default function RequirementStep(props) {
                     >
                       <ClearIcon />
                     </IconButton>
+                    </Tooltip>
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
+                    <Tooltip title={tooltipmessages.EditHardware}>
                     <IconButton
                       key={"li_sft" + index + "btnEditSoft"}
                       edge="end"
@@ -684,6 +709,8 @@ export default function RequirementStep(props) {
                     >
                       <EditIcon />
                     </IconButton>
+                    </Tooltip>
+                    <Tooltip title={tooltipmessages.DeleteHardware}>
                     <IconButton
                       key={"li_sft" + index + "btnDeleteSoft"}
                       edge="end"
@@ -706,6 +733,7 @@ export default function RequirementStep(props) {
                     >
                       <RemoveIcon />
                     </IconButton>
+                    </Tooltip>
                   </React.Fragment>
                 )}
               </ListItemSecondaryAction>
