@@ -44,6 +44,7 @@ export default class CreateCourse extends React.Component {
         duration: '001:00:00',
         requirements: [],
         support: [],
+        accessibility:[],
         organization: '',
         signature:'',
         level:'',
@@ -76,6 +77,7 @@ export default class CreateCourse extends React.Component {
           support: this.props.courseToEdit.support,
           organization: this.props.courseToEdit.organization,
           program: this.props.courseToEdit.program,
+          accessibility: this.props.courseToEdit.accessibility,
           classroom: this.props.courseToEdit.classroom,
         },
         saved: this.props.courseToEdit._id,
@@ -213,6 +215,7 @@ export default class CreateCourse extends React.Component {
               support: courseInformation.support,
               organization: courseInformation.organization,
               program: courseInformation.program,
+              accessibility:courseInformation.accessibility,
               classroom: courseInformation.classroom,
               creationDate: new Date(),
             }

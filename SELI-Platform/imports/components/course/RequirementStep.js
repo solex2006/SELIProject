@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import AccessibilityHelp from '../../components/tools/AccessibilityHelp'
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -14,7 +15,17 @@ import DoneIcon from "@material-ui/icons/Done";
 import TextField from "@material-ui/core/TextField";
 //import SimulateButtons from "./simulate";
 import Checkbox from "@material-ui/core/Checkbox";
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Button from '@material-ui/core/Button';
+import WarningIcon from '@material-ui/icons/Warning';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 
+import FeedbackHelp from "./feedback";
 const useStyles = makeStyles(theme => ({
   root: {
     "& $deleteButton:hover": {
@@ -54,7 +65,6 @@ export default function RequirementStep(props) {
   const classes = useStyles();
 
   useEffect(() => {
-    console.log("comppnentDidMount-Requirement", courseInformation)
     if(courseInformation.requirements.length!=0){
       setSoftwares(courseInformation.requirements[0])
       setHardware(courseInformation.requirements[1])
@@ -71,15 +81,33 @@ export default function RequirementStep(props) {
     }
   }, []);
 
+  const [requirementTooltip, setrequirementTooltip]= useState({
+    newsoftware:"Add new software",
+    newhardware:"Add new hardware",
+    AddHardware:"Add hardwares that are mandatory to take this course.",
+    AddSoftware:"Add softwares that are mandatory to take this course.",
+    errorMsg:"This field is required. Please complete it",
+    openHardware:"You already add this item before.",
+    openSoftware:"You already add this item before.",
 
+  })///messages
+
+  const [message, setmessage]=useState(requirementTooltip.errorMsg)
+
+  const [tooltipalert, settootipalert]=useState({
+    hardware:false,
+    software:false
+  })
+
+  const [feedbackError, setfeedbackError]=useState(true)
+  const [feedbackErrorH, setfeedbackErrorH]=useState(true)
   const [courseinformation, setcourseInformation]= useState(courseInformation)
-  const [controlEdit, setControlEdit] = useState({
+  const [controlEdit,setControlEdit] = useState({
     tempValue: "",
     adding: false,
     editing: false
   });
-
-  const [softwares, setSoftwares] = useState([
+  const [softwares,setSoftwares] = useState([
     {
       key: "OS",
       label: "Operational System",
@@ -146,8 +174,8 @@ export default function RequirementStep(props) {
       },
       
   ]);
-  
-  const [hardware, setHardware] = useState([
+
+  const [hardware,setHardware] = useState([
     {
         key: "DS",
         label: "options",
@@ -173,16 +201,16 @@ export default function RequirementStep(props) {
       },
   ]);
 
-  const [otherSoftwares, setOtherSoftwares] = useState([
+  const [otherSoftwares,setOtherSoftwares] = useState([
     {
-      label: "MATLAB",
+      label: "MSOffice (example)",
       editing: false
     }
   ]);
 
-  const [otherHardware, setOtherHardware] = useState([
+  const [otherHardware,setOtherHardware] = useState([
     {
-      label: "Raspberry Pi",
+      label: "WebCam (example)",
       editing: false
     }
   ]);
@@ -259,10 +287,17 @@ export default function RequirementStep(props) {
     );
   }
 
-  function updateTempValue(value) {
+  function updateTempValue(value, type) {
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
+    if(value!="") {
+      if(type==="software"){ setfeedbackError(false)}
+      else{setfeedbackErrorH(false)}
+    }else{
+      if(type==="software"){  setfeedbackError(true) }
+      else{ setfeedbackErrorH(true) }
+      setmessage(requirementTooltip.errorMsg)}
   }
 
   function deleteSoftware(index) {
@@ -299,6 +334,49 @@ export default function RequirementStep(props) {
     setcourseInformation(addNewHardwares)
   }
 
+  /* const numberAudiences=()=>{
+    let numberSoftwares=otherSoftwares.length;
+    if (numberSoftwares>=5){
+      return "invalid"
+    }else return "valid"
+  } */
+
+  const validateSoftwares=()=>{
+    let othersoftwareArray=[]
+    otherSoftwares.map((audience, index)=>{
+    othersoftwareArray.push(audience.label.toLowerCase())
+    })
+    
+    let valueinOtherArray=othersoftwareArray.find((audience)=>{return audience===controlEdit.tempValue.toLowerCase() })
+    if(valueinOtherArray!=undefined){
+      console.log("coincide")
+       setfeedbackError(true)
+       setmessage(requirementTooltip.openSoftware)
+       return "equal"
+    }else{
+        console.log("no coincide")
+        return "noequal"
+    }   
+  }
+
+  const validateHardwares=()=>{
+    let othershardwareArray=[]
+    otherHardware.map((audience, index)=>{
+    othershardwareArray.push(audience.label.toLowerCase())
+    })
+    
+    let valueinOtherArray=othershardwareArray.find((audience)=>{return audience===controlEdit.tempValue.toLowerCase() })
+    if(valueinOtherArray!=undefined){
+      console.log("coincideH")
+       setfeedbackErrorH(true)
+       setmessage(requirementTooltip.openHardware)
+       return "equal"
+    }else{
+        console.log("no coincide")
+        return "noequal"
+    }   
+  }
+
   return (
     <div className="form-input-audiences">
       {/* <SimulateButtons
@@ -311,30 +389,56 @@ export default function RequirementStep(props) {
       <h3 id="soft_title">Software requirements</h3>
       <div role="group" aria-labelledby="soft_title">
         <List component="ul" key={"li04"}>
-          {softwares.map((category, index) => (
-            <React.Fragment>
-              <ListSubheader disableSticky={true}>{category.label}</ListSubheader>
-              {softwaresCategReq(category, index)}
-            </React.Fragment>
-          ))}
-          <ListSubheader>Others</ListSubheader>
+          <FeedbackHelp
+            validation={{
+              error: false,
+              errorMsg: requirementTooltip.errorMsg,
+              errorType: "required",
+              a11y: null
+            }}
+            tipMsg={requirementTooltip.AddSoftware}
+            describedBy={"i02-helper-text"}
+            /* stepHelp={{
+              step: "textHelper",
+              stepLabel: "a title"
+            }} */
+          />
           {otherSoftwares.map((software, index) => (
-            <ListItem
-              // button={!audience.editing}
-              component="li"
-              key={"li_sft" + index}
-            >
+          <ListItem
+            component="li"
+            key={"li_sft" + index}
+          >
+          <div className="feedbackRequirement">
               <ListItemText
-                key={"li_sft" + index + "listeItemTxt"}
-                primary={software.label}
-                className={software.editing ? classes.hidden : ""}
+                  key={"li_sft" + index + "listeItemTxt"}
+                  primary={software.label}
+                  className={software.editing ? classes.hidden : ""}
               />
-              <TextField
-                key={"li_sft" + index + "txtField"}
-                className={!software.editing ? classes.hidden : ""}
-                value={controlEdit.tempValue}
-                onChange={event => updateTempValue(event.target.value)}
-              />
+              <div className={!software.editing ? classes.hidden : ""}>
+                <TextField
+                  key={"li_sft" + index + "txtField"}
+                  className={!software.editing ? classes.hidden : ""}
+                  value={controlEdit.tempValue}
+                  onChange={event => updateTempValue(event.target.value,"software")}
+                />
+                <FeedbackHelp
+                    validation={{
+                      error: feedbackError,
+                      errorMsg: message,
+                      errorType: "required",
+                      a11y: null
+                    }}
+                    tipMsg={requirementTooltip.newsoftware}
+                    describedBy={"i02-helper-text"}
+                    /* stepHelp={{
+                      step: "textHelper",
+                      stepLabel: "a title"
+                    }} */
+                  />
+              </div>    
+          </div>
+
+               
               <ListItemSecondaryAction key={"li_sft" + index + "secAc"}>
                 {software.editing ? (
                   <React.Fragment>
@@ -343,19 +447,18 @@ export default function RequirementStep(props) {
                       edge="end"
                       aria-label={"Save changes"}
                       onClick={() => {
-                        let newSoftwares = [...otherSoftwares];
-                        newSoftwares[index].editing = false;
-                        newSoftwares[index].label = controlEdit.tempValue;
-                        setOtherSoftwares(newSoftwares);
-
-                        let addNewSoftwares=courseinformation;
-                        addNewSoftwares.requirements.splice(2,3,newSoftwares)
-                        setcourseInformation(addNewSoftwares)
-                        setControlEdit({
-                          tempValue: "",
-                          adding: false,
-                          editing: false
-                        });
+                        let validateSoftware= validateSoftwares()
+                        if(validateSoftware==="noequal"){
+                          let newSoftwares = [...otherSoftwares];
+                          newSoftwares[index].editing = false;
+                          newSoftwares[index].label = controlEdit.tempValue;
+                          setOtherSoftwares(newSoftwares);
+                          let addNewSoftwares=courseinformation;
+                          addNewSoftwares.requirements.splice(2,3,newSoftwares)
+                          setcourseInformation(addNewSoftwares)
+                          setControlEdit({tempValue: "", adding: false, editing: false});
+                          setfeedbackError(false)
+                        }
                       }}
                       className={classes.saveButton}
                       disabled={controlEdit.tempValue === ""}
@@ -436,16 +539,18 @@ export default function RequirementStep(props) {
             key="addsoft"
             button
             onClick={() => {
-              setOtherSoftwares(prev => [
-                ...prev,
-                { label: "New Software", editing: true }
-              ]);
+              
+                setOtherSoftwares(prev => [
+                  ...prev,
+                  { label: "New Software", editing: true }
+                ]);
 
-              setControlEdit({
-                tempValue: "",
-                adding: true,
-                editing: true
-              });
+                setControlEdit({
+                  tempValue: "",
+                  adding: true,
+                  editing: true
+                });
+                setfeedbackError(true)
             }}
             id="addsoft"
             disabled={controlEdit.editing}
@@ -460,29 +565,55 @@ export default function RequirementStep(props) {
       <h3 id="soft_title">Hardware requirements</h3>
       <div role="group" aria-labelledby="soft_title" className="hardware">
         <List component="ul" key={"li04"}>
-          {hardware.map((category, index) => (
-            <React.Fragment>
-              <ListSubheader disableSticky={true}>{category.label}</ListSubheader>
-              {hardwareCategReq(category, index)}
-            </React.Fragment>
-          ))}
-          <ListSubheader disableSticky={true}>Others</ListSubheader>
+          <FeedbackHelp
+              validation={{
+                error: false,
+                errorMsg: requirementTooltip.errorMsg,
+                errorType: "required",
+                a11y: null
+              }}
+              tipMsg={requirementTooltip.AddHardware}
+              describedBy={"i02-helper-text"}
+          />
           {otherHardware.map((hardware, index) => (
             <ListItem
               component="li"
               key={"li_sft" + index}
             >
-              <ListItemText
-                key={"li_sft" + index + "listeItemTxt"}
-                primary={hardware.label}
-                className={hardware.editing ? classes.hidden : ""}
-              />
-              <TextField
-                key={"li_sft" + index + "txtField"}
-                className={!hardware.editing ? classes.hidden : ""}
-                value={controlEdit.tempValue}
-                onChange={event => updateTempValue(event.target.value)}
-              />
+              <div className="feedbackRequirement">
+                  <ListItemText
+                    key={"li_sft" + index + "listeItemTxt"}
+                    primary={hardware.label}
+                    className={hardware.editing ? classes.hidden : ""}
+                  />   
+                  <div className={!hardware.editing ? classes.hidden : ""}>
+                      <TextField
+                        key={"li_sft" + index + "txtField"}
+                        className={!hardware.editing ? classes.hidden : ""}
+                        value={controlEdit.tempValue}
+                        onChange={event => updateTempValue(event.target.value, "hardware")}
+                      />
+                      <FeedbackHelp
+                          validation={{
+                            error: feedbackErrorH,
+                            errorMsg: message,
+                            errorType: "required",
+                            a11y: null
+                          }}
+                          tipMsg={requirementTooltip.newhardware}
+                          describedBy={"i02-helper-text"}
+                          /* stepHelp={{
+                            step: "textHelper",
+                            stepLabel: "a title"
+                          }} */
+                        />
+                  </div>    
+              </div>
+
+
+
+
+
               <ListItemSecondaryAction key={"li_sft" + index + "secAc"}>
                 {hardware.editing ? (
                   <React.Fragment>
@@ -491,18 +622,18 @@ export default function RequirementStep(props) {
                       edge="end"
                       aria-label={"Save changes"}
                       onClick={() => {
-                        let newHardwares = [...otherHardware];
-                        newHardwares[index].editing = false;
-                        newHardwares[index].label = controlEdit.tempValue;
-                        setOtherHardware(newHardwares);
-                        let addNewHardwares=courseinformation;
-                        addNewHardwares.requirements.splice(3,4,newHardwares)
-                        setcourseInformation(addNewHardwares)
-                        setControlEdit({
-                          tempValue: "",
-                          adding: false,
-                          editing: false
-                        });
+                        let validateHardware= validateHardwares()
+                        if(validateHardware==="noequal"){
+                          let newHardwares = [...otherHardware];
+                          newHardwares[index].editing = false;
+                          newHardwares[index].label = controlEdit.tempValue;
+                          setOtherHardware(newHardwares);
+                          let addNewHardwares=courseinformation;
+                          addNewHardwares.requirements.splice(3,4,newHardwares)
+                          setcourseInformation(addNewHardwares)
+                          setControlEdit({ tempValue: "", adding: false, editing: false});
+                          setfeedbackErrorH(false)
+                        }
                       }}
                       className={classes.saveButton}
                       disabled={controlEdit.tempValue === ""}
@@ -514,7 +645,7 @@ export default function RequirementStep(props) {
                       edge="end"
                       aria-label={"Cancel changes"}
                       onClick={() => {
-                        if (controlEdit.adding) deleteSoftware(index);
+                        if (controlEdit.adding) deleteHardware(index);
                         else {
                           let newHardwares = [...otherHardware];
                           newHardwares[index].editing = false;
@@ -593,6 +724,7 @@ export default function RequirementStep(props) {
                 adding: true,
                 editing: true
               });
+              setfeedbackErrorH(true)
             }}
             id="addsoft"
             disabled={controlEdit.editing}
