@@ -89,7 +89,6 @@ export default function AudienceApp(props) {
   const [opensnack, setopensnack]= useState(true)
   const [feedbackError, setfeedbackError]=useState(true)
   const [labelindexdelete, setlabelindexdelete]=useState("")
-  const [message, setmessage]=useState(requirementTooltip.errorMsg)
   const [indexdelete,  setindexdelete]=useState(0)
   const [tooltip, settooltip]=useState(false)
   const [courseinformation, setcourseInformation]= useState(courseInformation)
@@ -177,7 +176,7 @@ export default function AudienceApp(props) {
     openSoftware:"You already add this item before.",
 
   })///messages
-
+  const [message, setmessage]=useState(requirementTooltip.errorMsg)
   const handleCancelEditAudience = index => () => {
     if (controlEdit.adding) deleteAudience(index);
     else {
