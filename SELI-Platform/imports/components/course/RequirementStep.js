@@ -82,6 +82,8 @@ export default function RequirementStep(props) {
     }
   }, []);
 
+  const [labelindexdelete, setlabelindexdelete]=useState("")
+  const [indexdelete,  setindexdelete]=useState(0)
   const [requirementTooltip, setrequirementTooltip]= useState({
     newsoftware:"Add new software",
     newhardware:"Add new hardware",
@@ -304,7 +306,6 @@ export default function RequirementStep(props) {
 
   function deleteSoftware(index) {
     let newSoftware = [...otherSoftwares];
-
     if (index === 0) newSoftware = [...newSoftware.slice(1)];
     else if (index === softwares.length - 1)
       newSoftware = [...newSoftware.slice(0, index)];
@@ -383,7 +384,8 @@ export default function RequirementStep(props) {
     setopen(false)
   };
 ///delete dialog
-  const handleDeleteAudience = (index) => () => {
+  const handleDeleteSoftwares = (index) => () => {
+    console.log("handleDeleteSoftwares", index)
     setopen(true)
     setindexdelete(index)
     setlabelindexdelete(otherSoftwares[index].label)
@@ -524,14 +526,7 @@ export default function RequirementStep(props) {
                     <IconButton
                       key={"li_sft" + index + "btnDeleteSoft"}
                       edge="end"
-                      onClick={
-                        () => {
-
-                            //deleteSoftware(index);
-                        }
-
-                        // handleDeleteAudience(index)
-                      }
+                      onClick={ handleDeleteSoftwares(index)}
                       className={classes.deleteButton}
                     >
                       <RemoveIcon />
@@ -754,10 +749,10 @@ export default function RequirementStep(props) {
               <WarningIcon className="warning-dialog-icon"/> 
             </DialogContent>
               <DialogActions>
-                <Button onClick={() => handleClose} color="primary">No</Button>
+                <Button onClick={() => setopen(false)} color="primary">No</Button>
                 <Button onClick={() => {
                   //setdeleteDialog(true)
-                  deleteAudience(indexdelete);
+                  deleteSoftware(indexdelete);
                   setopen(false)
                 }} 
                 color="primary"><em>Yes</em></Button> 

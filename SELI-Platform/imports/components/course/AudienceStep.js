@@ -87,8 +87,9 @@ export default function AudienceApp(props) {
   //course information
   const [open, setopen]= useState(false)
   const [opensnack, setopensnack]= useState(true)
+  const [feedbackError, setfeedbackError]=useState(true)
   const [labelindexdelete, setlabelindexdelete]=useState("")
-  const [message, setmessage]=useState("")
+  const [message, setmessage]=useState(requirementTooltip.errorMsg)
   const [indexdelete,  setindexdelete]=useState(0)
   const [tooltip, settooltip]=useState(false)
   const [courseinformation, setcourseInformation]= useState(courseInformation)
@@ -159,7 +160,6 @@ export default function AudienceApp(props) {
     adding: false,
     editing: false
   });
-
   //tooltips
   const [audienceTooltip, setaudienceTooltip]= useState({
     audienceError: true,
@@ -167,6 +167,16 @@ export default function AudienceApp(props) {
     audiencegolError: true,
     audienceallgolError:true,
   })
+
+  const [requirementTooltip, setrequirementTooltip]= useState({
+    newaudience:"Add new audience",
+    AddHardware:"Add hardwares that are mandatory to take this course.",
+    AddSoftware:"Add softwares that are mandatory to take this course.",
+    errorMsg:"This field is required. Please complete it",
+    openHardware:"You already add this item before.",
+    openSoftware:"You already add this item before.",
+
+  })///messages
 
   const handleCancelEditAudience = index => () => {
     if (controlEdit.adding) deleteAudience(index);
@@ -358,6 +368,12 @@ export default function AudienceApp(props) {
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
+    if(value!="") {
+       setfeedbackError(false)
+    }
+    else{ setfeedbackError(true)}
+
+    setmessage(requirementTooltip.errorMsg)
   }
   //methods for validations no repeated values
   const validateAudiences=()=>{
@@ -374,14 +390,16 @@ export default function AudienceApp(props) {
     if((valueinArray!=undefined) || (valueinOtherArray!=undefined)){
       if(valueinArray===undefined){
         console.log("coincide",valueinOtherArray )
-        setmessage(`You already add ${valueinOtherArray} before.`)
-        setopensnack(true)
-        settooltip(true)
+        //setmessage(`You already add ${valueinOtherArray} before.`)
+        //setopensnack(true)
+        //settooltip(true)
+        setfeedbackError(true)
+        setmessage(requirementTooltip.openSoftware)
         return "equal"
       }else{
-        setmessage(`${valueinArray} already exist in the list of audiences. Please, select it from the list.`)
-        setopensnack(true)
-        settooltip(true)
+        //setmessage(`${valueinArray} already exist in the list of audiences. Please, select it from the list.`)
+        //setopensnack(true)
+        //settooltip(true)
         return "equal"
         
       }
@@ -548,12 +566,37 @@ export default function AudienceApp(props) {
                 primary={audience.label}
                 className={audience.editing ? classes.hidden : ""}
               />
-              <TextField
-                key={"li_aud" + index + "txtField"}
-                className={!audience.editing ? classes.hidden : ""}
-                value={controlEdit.tempValue}
-                onChange={event => updateTempValue(event.target.value)}
-              />
+              
+
+
+              <div className={!audience.editing ? classes.hidden : ""}>
+                <TextField
+                  key={"li_aud" + index + "txtField"}
+                  className={!audience.editing ? classes.hidden : ""}
+                  value={controlEdit.tempValue}
+                  onChange={event => updateTempValue(event.target.value)}
+                />
+                <FeedbackHelp
+                    validation={{
+                      error: feedbackError,
+                      errorMsg: message,
+                      errorType: "required",
+                      a11y: null
+                    }}
+                    tipMsg={requirementTooltip.newaudience}
+                    describedBy={"i02-helper-text"}
+                    /* stepHelp={{
+                      step: "textHelper",
+                      stepLabel: "a title"
+                    }} */
+                  />
+              </div>
+
+
+
+
+
+
               <ListItemSecondaryAction key={"li_aud" + index + "secAc"}>
                 {audience.editing ? (
                   <React.Fragment>
@@ -706,7 +749,7 @@ export default function AudienceApp(props) {
               <WarningIcon className="warning-dialog-icon"/> 
             </DialogContent>
                   <DialogActions>
-                    <Button onClick={() => handleClose} color="primary">No</Button>
+                    <Button onClick={() => setopen(false)} color="primary">No</Button>
                     <Button onClick={() => {
                       //setdeleteDialog(true)
                       deleteAudience(indexdelete);
@@ -717,10 +760,10 @@ export default function AudienceApp(props) {
       </Dialog>
 
         {
-          tooltip===true?
+          /* tooltip===true?
           <SnackbarAudiences/>
           :
-          undefined
+          undefined */
         }
         
 
