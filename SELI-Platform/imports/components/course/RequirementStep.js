@@ -726,7 +726,6 @@ export default function RequirementStep(props) {
                             deleteHardware(index);
                           }
                         }
-
                         // handleDeleteAudience(index)
                       }
                       className={classes.deleteButton}

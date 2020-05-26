@@ -63,11 +63,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function CoursePlanStep(props) {
-  const { skiped, handleSkip, completed, handleComplete, handleAddie, courseInformation } = props;
+  const { skiped, handleSkip, completed, handleComplete, handleAddie,courseInformation } = props;
   const classes = useStyles();
 
   useEffect(() => {
-    console.log("courseinformation",courseInformation)
+    console.log("courseinformationPlanStep",courseInformation)
   }, [])
 
   const [courseinformation, setcourseInformation]=React.useState(courseInformation)
@@ -103,10 +103,11 @@ export default function CoursePlanStep(props) {
         name="coursePlan"
         value={coursePlan}
         onChange={event => {
-          //setCoursePlan(event.target.value);
+          setCoursePlan(event.target.value);
           let cinformation=courseinformation
           cinformation.coursePlan.guidedCoursePlan=event.target.value
-          setcourseInformation(cinformation)         
+          setcourseInformation(cinformation) 
+          //updateStep(event.target.value)        
         }}
       >
         <FormControlLabel value="guided" control={<Radio />} label="Guided" />
@@ -127,171 +128,7 @@ export default function CoursePlanStep(props) {
       />
 
 
-      {coursePlan === "free" && (
-        <Grid item>
-          <Grid
-            container
-            direction="row"
-            className={classes.upload}
-            alignItems="center"
-          >
-            <Grid item xs={12}>
-              <Typography>Course Syllabus (required)</Typography>
-            </Grid>
-            <Grid item>
-              <PublishIcon />
-            </Grid>
-            <Grid item>
-              <Grid container direction="column">
-                <Grid item>
-                  <input
-                    accept="image/*"
-                    className={classes.input}
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                    // onChange={handleInputFile}
-                    onClick={event => {
-                      if (event.which === 32 || event.which === 13) {
-                        // alert("button click redirects to input click")
-                        event.preventDefault();
-                        inputFile.click();
-                        return false;
-                      }
-                    }}
-                    name="fileUpload"
-                    ref={input => {
-                      // assigns a reference so we can trigger it later
-                      inputFile = input;
-                    }}
-                  />
-                  <label htmlFor="contained-button-file">
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      component="span"
-                      className={classes.button}
-                      onClick={handleUploadButton}
-                    >
-                      Upload Syllabus
-                    </Button>
-                  </label>
-                </Grid>
-                <Grid item>
-                  <Typography
-                    variant="caption"
-                    className={classes.uploadCaption}
-                  >
-                    Any file limitations
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid>
-            <FeedbackHelp
-              validation={{
-                error: false,
-                errorMsg: "",
-                errorType: "",
-                a11y: null
-              }}
-              tipMsg="Instructions goes here."
-              describedBy={"i05-helper-text"}
-            />
-          </Grid>
-        </Grid>
-      )}
-     
-     
-     
-      {/* <FormLabel component="legend">
-        Would you like to use a template?
-      </FormLabel>
-      <RadioGroup
-        aria-label="Course Template"
-        name="courseTemplate"
-        value={courseTemplate}
-        onChange={event => {
-          setCourseTemplate(event.target.value);
-        }}
-      >
-        <FormControlLabel
-          value="spiral"
-          control={<Radio />}
-          label="Spiral Model"
-        />
-        <FormControlLabel
-          value="consistent"
-          control={<Radio />}
-          label="Consistent"
-        />
-        <FormControlLabel value="toyBox" control={<Radio />} label="ToyBox" />
-        <FormControlLabel
-          value="without"
-          control={<Radio />}
-          label="Without template"
-        />
-      </RadioGroup>
-
-      <FeedbackHelp
-        validation={{
-          error: false,
-          errorMsg: "",
-          errorType: "",
-          a11y: null
-        }}
-        tipMsg="Instructions goes here."
-        describedBy={"i05-helper-text"}
-        stepHelp={{
-          step: "textHelper",
-          stepLabel: "a title"
-        }}
-        decisionHelp={{
-          name: "cplx"
-        }}
-      />
-      {courseTemplate === "without" && (
-        <React.Fragment>
-          <FormLabel component="legend">
-            How would you like to structure your course?
-          </FormLabel>
-          <RadioGroup
-            aria-label="Course Structure"
-            name="courseStructure"
-            value={courseStruct}
-            onChange={event => {
-              setCourseStruct(event.target.value);
-            }}
-          >
-            <FormControlLabel
-              value="unit"
-              control={<Radio />}
-              label="by Unit"
-            />
-            <FormControlLabel
-              value="topic"
-              control={<Radio />}
-              label="by Topic"
-            />
-          </RadioGroup>
-
-          <FeedbackHelp
-            validation={{
-              error: false,
-              errorMsg: "",
-              errorType: "",
-              a11y: null
-            }}
-            tipMsg="Instructions goes here."
-            describedBy={"i05-helper-text"}
-            stepHelp={{
-              step: "textHelper",
-              stepLabel: "a title"
-            }}
-          /> */}
-        {/* </React.Fragment> */}
-      //)}
+      
     </React.Fragment>
   );
 }
