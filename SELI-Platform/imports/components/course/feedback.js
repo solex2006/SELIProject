@@ -26,9 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
   helperText: {
     color: "rgba(0, 0, 0, 0.54)",
-    margin: "0",
     fontSize: "0.75rem",
-    marginTop: "3px",
     textAlign: "left",
     fontWeight: "400",
     lineHeight: "1.66",
@@ -59,7 +57,9 @@ export default function FeedbackHelp(props) {
     <React.Fragment>
       <div className={classes.helperText} id={describedBy} component="span">
         <span>
-          <InfoIcon aria-label="Tip" /> {tipMsg}
+          <div className="feedback-container">
+            <InfoIcon aria-label="Tip" /> {tipMsg}
+          </div>
         </span>
         {validation.a11y && (
           <div
@@ -67,15 +67,19 @@ export default function FeedbackHelp(props) {
               validation.a11y.valid ? classes.a11yValid : classes.a11yInvalid
             }
           >
-            <AccessibilityIcon />
-            {validation.a11y.valid
-              ? "Passed accessibility validation"
-              : "Accessibility fault"}
+            <div className="feedback-container">
+              <AccessibilityIcon />
+              {validation.a11y.valid
+                ? "Passed accessibility validation"
+                : "Accessibility fault"}
+            </div>
           </div>
         )}
         {validation.error && (
           <div role="alert" className={classes.error}>
-            <WarningIcon aria-label="Error" /> {validation.errorMsg}
+            <div className="feedback-container">
+              <WarningIcon aria-label="Error" /> {validation.errorMsg}
+            </div>
           </div>
         )}
       </div>

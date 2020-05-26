@@ -361,6 +361,12 @@
   background-color: #f5f5f5 !important;
 }
 
-.feedbackRequirement{
+.feedbackRequirement {
   display: block;
+}
+
+.feedback-container {
+  display: flex;
+  align-items: center;
+  width: 40vw;
 }

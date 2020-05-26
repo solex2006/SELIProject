@@ -28,6 +28,7 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Tooltip from '@material-ui/core/Tooltip';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
+import FeedbackHelp from "./feedback";
 
 export default class CourseInformation extends React.Component {
   constructor(props) {
@@ -36,7 +37,6 @@ export default class CourseInformation extends React.Component {
       courseInformation: this.props.courseInformation,
       weekHourOption: 'hours',
       alert:"Noalert"
-   
     }
   }
 
@@ -307,6 +307,14 @@ export default class CourseInformation extends React.Component {
             value={this.state.courseInformation.title}
             onChange={this.handleChange('title')}
           />
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.courseTitleInformation}.`}
+            describedBy={"i01-helper-text"}
+          />
           <TextField
             id="subtitle-input"
             label={this.props.language.courseSubtitle}
@@ -316,6 +324,14 @@ export default class CourseInformation extends React.Component {
             //required
             value={this.state.courseInformation.subtitle}
             onChange={this.handleChange('subtitle')}
+          />
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.courseSubtitleInformation}.`}
+            describedBy={"i01-helper-text"}
           />
           <TextField
             id="description-input"
@@ -329,6 +345,14 @@ export default class CourseInformation extends React.Component {
             value={this.state.courseInformation.description}
             onChange={this.handleChange('description')}
           />
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.courseDescriptionInformation}.`}
+            describedBy={"i01-helper-text"}
+          />
           <TextField
             id="subject-select-currency"
             select
@@ -337,7 +361,6 @@ export default class CourseInformation extends React.Component {
             onChange={this.handleChange('language')}
             fullWidth
             required
-            helperText={this.props.language.selectLanguageCourse}
             margin="normal"
             variant="outlined"
           >
@@ -347,6 +370,14 @@ export default class CourseInformation extends React.Component {
             <MenuItem value={3}>{`${this.props.language.polish} (PL)`}</MenuItem>
             <MenuItem value={4}>{`${this.props.language.turkish} (TR)`}</MenuItem>
           </TextField>
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.selectLanguageCourse}.`}
+            describedBy={"i01-helper-text"}
+          />
           <div className="row-input">
             <TextField
               id="keyWord-input"
@@ -355,7 +386,6 @@ export default class CourseInformation extends React.Component {
               margin="normal"
               variant="outlined"
               className="button-input"
-              helperText={this.props.language.courseKeyWordsHelper}
               onKeyPress={() => this.keyController(event)}
             />
           </div>
@@ -379,6 +409,14 @@ export default class CourseInformation extends React.Component {
             :
             undefined
           }
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.courseKeyWordsHelper}.`}
+            describedBy={"i01-helper-text"}
+          />
           <p className="form-message"> {this.props.language.courseKeyWordsHelp}
             <Help
               helper="default"
@@ -391,7 +429,7 @@ export default class CourseInformation extends React.Component {
               {() => (
                 <Input
                   id="filled-secondary"
-                  label={`${this.props.language.estimatedCourseDuration} ${this.props.language.required}*`}
+                  label={`${this.props.language.duration} ${this.props.language.required} *`}
                   size="small"
                   className="duration-course-information"
                   // variant="outlined"
@@ -399,6 +437,14 @@ export default class CourseInformation extends React.Component {
               )}
             </InputMask>
           </Paper>
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.estimatedCourseDuration}. ${this.props.language.minimumCourseDuration}.`}
+            describedBy={"i01-helper-text"}
+          />
             {/* { 
               this.state.weekHourOption==='weeks'?
                   <TextField
@@ -457,7 +503,7 @@ export default class CourseInformation extends React.Component {
               :
               <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>
                 {this.props.language.selectCourseImage} <br/>
-                {this.props.language.required}
+                {this.props.language.required} *
               </Button>
           }
           {/* <div className="sub-course-information">
@@ -478,7 +524,6 @@ export default class CourseInformation extends React.Component {
               undefined
           }  */}
         </div>
-        
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

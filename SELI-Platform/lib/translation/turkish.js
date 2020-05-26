@@ -231,7 +231,7 @@ var TURKISH = {
   courseSubtitle: "Ders alt başlığı",
   courseDescription: "Ders Tanımı",
   courseKeyWords: "Ders anahtar kelimeleri",
-  courseKeyWordsHelper: "Anahtar kelime eklemek için enter tuşuna basın",
+  courseKeyWordsHelper: "Anahtar kelime eklemek için enter tuşuna basın. Öğrencinin kazanacağı dersi ve becerileri temsil eden en az 3 anahtar kelime ve en fazla 5 anahtar kelime girin. Bir anahtar kelimenin (#%+...) özel karakteri olmamalıdır",
   courseKeyWordsHelp: "Anahtar kelimeler nelerdir?",
   hours: "Saat",
   chooseCourseImage: "Ders resmini yükle",
@@ -827,7 +827,6 @@ var TURKISH = {
   renameFileTitle: "Dosya başlığını yeniden adlandır",
   minimumCourseDuration: "Kurs süresi en az 5 saat olmalıdır",
   ifYouWantPC: "Dersinizi yayınlayacaksınız. Bundan sonra, dersi yayından kaldırıncaya kadar dersi düzenleyemezsiniz.",
-  minimumCourseDuration: 'Ders süresi en az 5 saat olmalıdır',
   numberofAnswers: "Cevap sayısını seçin",
   toActivityStoryboard: "Bu etkinliği tamamlamak için bir hikaye seçin",
   completeActivityStoryboard: "Etkinliği tamamlamak için bir hikaye seçin",
@@ -944,6 +943,10 @@ var TURKISH = {
   areSureCertificate: "Are you sure you want to generate the certificate?",
   desingPhase:"Design Phase",
   template:"Template",
-  plan:"Course Plan"
+  courseTitleInformation: "Type the course title, e.g. \"Computer Science\"",
+  courseSubtitleInformation: "Type the course subtitle, e.g \"Programming with a Purpose\"",
+  courseDescriptionInformation: "Type a brief description of the course",
+  durationInvalidEntry: "Course duration has a invalid entry. Please, insert a value with a time format 000:00:00 (HH:MM:SS)",
+  plan: "Course Plan",
 }
 export default TURKISH;
