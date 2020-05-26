@@ -106,6 +106,12 @@ export default class CreateCourse extends React.Component {
     });
   }
 
+
+  handleAddie =(value)=> {
+    setAddie(value);
+    updateAddieSteps();
+  }
+
   loadingData = () => {
     this.setState({
       courseForms: [
