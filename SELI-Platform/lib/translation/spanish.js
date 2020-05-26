@@ -825,7 +825,7 @@ var SPANISH = {
   videoLibraryMessage: "Haga doble clic sobre el título del elemento para seleccionar",
   fileTitle: "Título del archivo",
   renameFileTitle: "Cambiar el título del archivo",
-  minimumCourseDuration: "La duración del curso debe ser mínimo de 5 horas",
+  minimumCourseDuration: "La duración del curso debe tener un mínimo de 5 horas",
   ifYouWantPC: "Esta iendo a publicar su curso. Después de esto, no podrá editar el curso hasta que cancele su publicación.",
   numberofAnswers: "Selecciona el número de Respuestas",
   toActivityStoryboard: "Para completar esta actividad, seleccione una historia",
