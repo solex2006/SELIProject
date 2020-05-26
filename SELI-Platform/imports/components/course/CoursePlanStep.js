@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useEffect}from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import FeedbackHelp from "./feedback";
+
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -62,8 +63,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function CoursePlanStep(props) {
-  const { skiped, handleSkip, completed, handleComplete, handleAddie } = props;
+  const { skiped, handleSkip, completed, handleComplete, handleAddie, courseInformation } = props;
   const classes = useStyles();
+
+  useEffect(() => {
+    console.log("courseinformation",courseInformation)
+  }, [])
+
+  const [courseinformation, setcourseInformation]=React.useState(courseInformation)
 
   const [coursePlan, setCoursePlan] = React.useState("free");
   const [courseTemplate, setCourseTemplate] = React.useState("without");
@@ -96,8 +103,10 @@ export default function CoursePlanStep(props) {
         name="coursePlan"
         value={coursePlan}
         onChange={event => {
-          setCoursePlan(event.target.value);
-          handleAddie(event.target.value !== "free");
+          //setCoursePlan(event.target.value);
+          let cinformation=courseinformation
+          cinformation.coursePlan.guidedCoursePlan=event.target.value
+          setcourseInformation(cinformation)         
         }}
       >
         <FormControlLabel value="guided" control={<Radio />} label="Guided" />
@@ -116,6 +125,8 @@ export default function CoursePlanStep(props) {
         tipMsg="Instructions goes here."
         describedBy={"i05-helper-text"}
       />
+
+
       {coursePlan === "free" && (
         <Grid item>
           <Grid
