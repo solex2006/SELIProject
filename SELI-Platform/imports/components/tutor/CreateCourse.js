@@ -42,8 +42,9 @@ export default class CreateCourse extends React.Component {
         image: undefined,
         sylabus: undefined,
         duration: '001:00:00',
-        requirements: [],
         support: [],
+        requirements: [],
+        coursePlan:{guidedCoursePlan:'free', templateCourse:undefined, structureCourse: undefined},
         accessibility:[],
         organization: '',
         signature:'',
@@ -75,6 +76,7 @@ export default class CreateCourse extends React.Component {
           duration: this.props.courseToEdit.duration,
           requirements: this.props.courseToEdit.requirements,
           support: this.props.courseToEdit.support,
+          coursePlan:this.props.courseToEdit.coursePlan,
           organization: this.props.courseToEdit.organization,
           program: this.props.courseToEdit.program,
           accessibility: this.props.courseToEdit.accessibility,
@@ -106,6 +108,12 @@ export default class CreateCourse extends React.Component {
     });
   }
 
+
+  handleAddie =(value)=> {
+    setAddie(value);
+    updateAddieSteps();
+  }
+
   loadingData = () => {
     this.setState({
       courseForms: [
@@ -127,6 +135,7 @@ export default class CreateCourse extends React.Component {
           language={this.props.language}
         />,
         <CoursePlanStep
+
           courseInformation={this.state.courseInformation}
           lists={this.state.lists}
           buildedItems={this.state.buildedItems}
