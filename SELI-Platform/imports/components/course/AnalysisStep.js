@@ -50,7 +50,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import WarningIcon from '@material-ui/icons/Warning';
 
-export default class TemplateTool extends React.Component {
+export default class AnalysisStep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
