@@ -197,7 +197,7 @@ export default function AudienceApp(props) {
       setOtherAudiences(newAudiences);
       setControlEdit({ tempValue: "", adding: false, editing: false });
       let addNewAudiences=courseinformation;
-      addNewAudiences.support.splice(2,3,otherAudiences)
+      addNewAudiences.support[2]=otherAudiences
       setcourseInformation(addNewAudiences)
       console.log('courseinformation---',courseinformation)
     }
@@ -216,7 +216,7 @@ export default function AudienceApp(props) {
       ];
     setOtherAudiences(newAudiences);
     let addNewAudiences=courseinformation;
-    addNewAudiences.support.splice(2,3,newAudiences)
+    addNewAudiences.support[2]=newAudiences
     setcourseInformation(addNewAudiences)
     console.log('courseinformation---',courseinformation)
   }
@@ -272,7 +272,7 @@ export default function AudienceApp(props) {
       newAudiences[index].isChecked = !newAudiences[index].isChecked;
       setAudiences(newAudiences);
       let addAudicences=courseinformation;
-      addAudicences.support.splice(0, 1, newAudiences)
+      addAudicences.support[0]=newAudiences
       setcourseInformation(addAudicences) 
 
       let tooltip=audienceTooltip;
@@ -280,13 +280,13 @@ export default function AudienceApp(props) {
         tooltip.audienceError=false;
         setaudienceTooltip(tooltip)
         let checks=courseinformation;
-        checks.accessibility.splice(0, 1, tooltip)
+        checks.accessibility[0]=tooltip
         setcourseInformation(checks)
       }else if (newAudiences[index].isChecked===false){
         tooltip.audienceError=true;
         setaudienceTooltip(tooltip)
         let checks=courseinformation;
-        checks.accessibility.splice(0, 1, tooltip)
+        checks.accessibility[0]=tooltip
         setcourseInformation(checks)
       }
       let count=0;
@@ -300,14 +300,14 @@ export default function AudienceApp(props) {
             tooltip.audienceallError=false;
             setaudienceTooltip(tooltip)
             let checks=courseinformation;
-            checks.accessibility.splice(0, 1, tooltip)
+            checks.accessibility[0]=tooltip
             setcourseInformation(checks)
           }
         }else{
           tooltip.audienceallError=true;
           setaudienceTooltip(tooltip)
           let checks=courseinformation;
-          checks.accessibility.splice(0, 1, tooltip)
+          checks.accessibility[0]=tooltip
           setcourseInformation(checks)
         }
       })
@@ -320,7 +320,7 @@ export default function AudienceApp(props) {
     newAudiences[index].isChecked = !newAudiences[index].isChecked;
     setAudiencesGol(newAudiences);
     let addAudicencesGol=courseinformation;
-    addAudicencesGol.support.splice(1, 2, newAudiences)
+    addAudicencesGol.support[1]=newAudiences
     setcourseInformation(addAudicencesGol) 
     
     console.log("pone ne verde tooltip")
@@ -330,14 +330,14 @@ export default function AudienceApp(props) {
       setaudienceTooltip(tooltip)
       let checksgol=courseinformation;
       console.log("checksgol",checksgol)
-      checksgol.accessibility.splice(2, 3, tooltip)
+      checksgol.accessibility[1]=tooltip
       setcourseInformation(checksgol)
     }else if (newAudiences[index].isChecked===false){
       tooltip.audiencegolError=true;
       setaudienceTooltip(tooltip)
       let checksgol=courseinformation;
       console.log("checksgol",checksgol)
-     checksgol.accessibility.splice(0, 1, tooltip)
+     checksgol.accessibility[1]=tooltip
      setcourseInformation(checksgol)
     }
     //save to database 
@@ -387,11 +387,13 @@ export default function AudienceApp(props) {
     let valueinArray=audiencesArray.find((audience)=>{return audience===controlEdit.tempValue.toLowerCase() })
     let valueinOtherArray=otheraudiencesArray.find((audience)=>{return audience===controlEdit.tempValue.toLowerCase() })
     if((valueinArray!=undefined) || (valueinOtherArray!=undefined)){
+      
       if(valueinArray===undefined){
         console.log("coincide",valueinOtherArray )
-        //setmessage(`You already add ${valueinOtherArray} before.`)
-        //setopensnack(true)
-        //settooltip(true)
+        setfeedbackError(true)
+        setmessage(requirementTooltip.openSoftware)
+        return "equal"
+      }else if(valueinOtherArray===undefined){
         setfeedbackError(true)
         setmessage(requirementTooltip.openSoftware)
         return "equal"
@@ -498,14 +500,14 @@ export default function AudienceApp(props) {
                   tooltip.audienceError=false;
                   setaudienceTooltip(tooltip)
                   let checks=courseinformation;
-                  checks.accessibility.splice(0, 1, tooltip)
+                  checks.accessibility[0]=tooltip
                   setcourseInformation(checks)
                 }else{
                   tooltip.audienceallError=true;
                   tooltip.audienceError=true;
                   setaudienceTooltip(tooltip)
                   let checks=courseinformation;
-                  checks.accessibility.splice(0, 1, tooltip)
+                  checks.accessibility[0]=tooltip
                   setcourseInformation(checks)
                 } 
               }}
@@ -546,7 +548,7 @@ export default function AudienceApp(props) {
                   "aria-labelledby": `checkbox-list-label-${audience.id}`
                 }}
               />
-              {/* </ListItemIcon> */}
+              {console.log("audiencias///", audience)}
               <ListItemText
                 id={`checkbox-list-label-${audience.id}`}
                 primary={audience.label}
@@ -651,7 +653,8 @@ export default function AudienceApp(props) {
         </List>
       </div>
      
-      <h3 id="aud_title"><h3 id="aud_title">Inclusion Goals</h3></h3>
+   
+      <h3 id="aud_title">Inclusion Goals</h3>
       <div role="group" aria-labelledby="aud_title2">
         <List component="ul" key={"li03"}>
           <FeedbackHelp
@@ -669,15 +672,20 @@ export default function AudienceApp(props) {
               color="secondary"
               edge="start"
               checked={
-                !audiencesGol.some(audience => audience.isChecked === false)
+                !audiencesGol.some(audiencegol => audiencegol.isChecked === false)
               }
               onClick={event => {
-                let newAudiences = [...audiencesGol];
-                newAudiences.forEach(
-                  audience => (audience.isChecked = event.target.checked)
+                let newAudiencesgol = [...audiencesGol];
+                newAudiencesgol.forEach(
+                  audiencegol => (audiencegol.isChecked = event.target.checked)
                 );
-                setAudiencesGol(newAudiences);
+                setAudiencesGol(newAudiencesgol);
                 console.log(event.target.checked)
+                
+                let addAudicencesGol=courseinformation;
+                addAudicencesGol.support[1]=newAudiencesgol
+                setcourseInformation(addAudicencesGol)
+
                 let tooltip=audienceTooltip;
                  if(event.target.checked===true){
                   tooltip.audienceallgolError=false;
@@ -712,7 +720,7 @@ export default function AudienceApp(props) {
               describedBy={"i04-helper-text"}     
             />
           {audiencesGol.map((audienceGol, index) => (
-            <ListItem key={audiences.id} dense>
+            <ListItem key={audiencesGol.id} dense>
               <Checkbox
                 color="primary"
                 edge="start"
@@ -751,12 +759,6 @@ export default function AudienceApp(props) {
                   </DialogActions>
       </Dialog>
 
-        {
-          /* tooltip===true?
-          <SnackbarAudiences/>
-          :
-          undefined */
-        }
         
 
     </div>

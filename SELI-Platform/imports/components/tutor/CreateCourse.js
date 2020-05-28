@@ -177,10 +177,6 @@ export default class CreateCourse extends React.Component {
         />,
         <AnalysisStep
           courseInformation={this.state.courseInformation}
-          expandedNodes={this.state.expandedNodes}
-          selected={this.state.selected}
-          handleControlMessage={this.props.handleControlMessage.bind(this)}
-          handlePreview={this.handlePreview.bind(this)}
           language={this.props.language}
         />,
         <CourseDesingTool
