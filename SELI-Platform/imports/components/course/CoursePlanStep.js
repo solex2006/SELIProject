@@ -67,7 +67,7 @@ export default function CoursePlanStep(props) {
 
   const [courseInformation, setCourseInformation]=React.useState(props.courseInformation)
 
-  const [coursePlan, setCoursePlan] = React.useState("free");
+  const [coursePlan, setCoursePlan] = React.useState("guided");
   const [courseTemplate, setCourseTemplate] = React.useState("without");
   const [courseStruct, setCourseStruct] = React.useState("unit");
 

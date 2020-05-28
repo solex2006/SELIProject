@@ -6,7 +6,7 @@ import CoursePlanStep from '../course/CoursePlanStep'
 import FormStepperID from '../navigation/FormStepperID'; '../'
 import CourseInformation from '../course/CourseInformation';
 import CourseCreatorTool from '../course/CourseCreatorTool';
-import TemplateTool from '../course/TemplateTool'
+import AnalysisStep from '../course/AnalysisStep'
 import CourseDesingTool from '../course/CourseDesingTool';
 import { Meteor } from 'meteor/meteor';
 import Button from '@material-ui/core/Button';
@@ -21,7 +21,7 @@ import { Activities } from '../../../lib/ActivitiesCollection';
 import InfoIcon from '@material-ui/icons/Info'; //information
 import GroupIcon from "@material-ui/icons/Group"; //audience
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck'; //requirements
-import AssistantIcon from "@material-ui/icons/Assignment"; //course plan
+import AssistantIcon from "@material-ui/icons/Assistant"; //course plan
 import SchoolIcon from '@material-ui/icons/School'; //analysis
 import AssignmentIcon from "@material-ui/icons/Assignment"; //design
 import MenuBookIcon from "@material-ui/icons/MenuBook"; //program
@@ -44,7 +44,7 @@ export default class CreateCourse extends React.Component {
         support: [],
         requirements: [],
         coursePlan:{
-          guidedCoursePlan: 'free', 
+          guidedCoursePlan: 'guided', 
           templateCourse: undefined, 
           structureCourse: undefined
         },
@@ -85,7 +85,6 @@ export default class CreateCourse extends React.Component {
           program: this.props.courseToEdit.program,
           accessibility: this.props.courseToEdit.accessibility,
           classroom: this.props.courseToEdit.classroom,
-       
         },
         saved: this.props.courseToEdit._id,
       }, () => {this.loadingData()})
@@ -106,8 +105,8 @@ export default class CreateCourse extends React.Component {
         {label: this.props.language.audiences, icon: <GroupIcon className="step-icon"/>},
         {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
         {label: this.props.language.plan, icon: <AssistantIcon className="step-icon"/>},
+        {label: this.props.language.analysis, icon: <SchoolIcon className="step-icon"/>},
         {label: this.props.language.desingPhase, icon: <AssignmentIcon className="step-icon"/>},
-        {label: this.props.language.template, icon: <SchoolIcon className="step-icon"/>},
         {label: this.props.language.program, icon: <MenuBookIcon className="step-icon"/>}
       ]
     });
@@ -147,6 +146,10 @@ export default class CreateCourse extends React.Component {
           updateCourseInformation={this.updateCourseInformation.bind(this)}
           language={this.props.language}
         />,
+        <AnalysisStep
+          courseInformation={this.state.courseInformation}
+          language={this.props.language}
+        />,
         <CourseDesingTool
           courseInformation={this.state.courseInformation}
           expandedNodes={this.state.expandedNodes}
@@ -155,15 +158,6 @@ export default class CreateCourse extends React.Component {
           handlePreview={this.handlePreview.bind(this)}
           language={this.props.language}
         />,
-        <TemplateTool
-          courseInformation={this.state.courseInformation}
-          expandedNodes={this.state.expandedNodes}
-          selected={this.state.selected}
-          handleControlMessage={this.props.handleControlMessage.bind(this)}
-          handlePreview={this.handlePreview.bind(this)}
-          language={this.props.language}
-        />,
-        
         <CourseCreatorTool
           courseInformation={this.state.courseInformation}
           expandedNodes={this.state.expandedNodes}
