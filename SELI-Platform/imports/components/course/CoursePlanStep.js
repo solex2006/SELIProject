@@ -63,14 +63,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function CoursePlanStep(props) {
-  const { skiped, handleSkip, completed, handleComplete, handleAddie,courseInformation } = props;
   const classes = useStyles();
 
-  useEffect(() => {
-    console.log("courseinformationPlanStep",courseInformation)
-  }, [])
-
-  const [courseinformation, setcourseInformation]=React.useState(courseInformation)
+  const [courseInformation, setCourseInformation]=React.useState(props.courseInformation)
 
   const [coursePlan, setCoursePlan] = React.useState("free");
   const [courseTemplate, setCourseTemplate] = React.useState("without");
@@ -78,6 +73,14 @@ export default function CoursePlanStep(props) {
 
   // will hold a reference for our real input file
   let inputFile = "";
+
+  const changeCoursePlan = event => {
+    let cinformation=courseInformation;
+    cinformation.coursePlan.guidedCoursePlan=event.target.value;
+    setCoursePlan(event.target.value);
+    setCourseInformation(cinformation);
+    props.updateCourseInformation(cinformation);
+  }
 
   const handleUploadButton = event => {
     if (event.which === 32 || event.which === 13) {
@@ -88,47 +91,33 @@ export default function CoursePlanStep(props) {
     }
   };
 
-
-
-
   return (
     <React.Fragment>
-
-      <h3>Guided Course Plan</h3>
-      <FormLabel component="legend">
-        How would you like to create your course?
-      </FormLabel>
-      <RadioGroup
-        aria-label="Course Plan"
-        name="coursePlan"
-        value={coursePlan}
-        onChange={event => {
-          setCoursePlan(event.target.value);
-          let cinformation=courseinformation
-          cinformation.coursePlan.guidedCoursePlan=event.target.value
-          setcourseInformation(cinformation) 
-          //updateStep(event.target.value)        
-        }}
-      >
-        <FormControlLabel value="guided" control={<Radio />} label="Guided" />
-        <FormControlLabel value="free" control={<Radio />} label="Free" />
-      </RadioGroup>
-
-
-      
-      <FeedbackHelp
-        validation={{
-          error: false,
-          errorMsg: "",
-          errorType: "",
-          a11y: null
-        }}
-        tipMsg="Instructions goes here."
-        describedBy={"i05-helper-text"}
-      />
-
-
-      
+      <div className="form-input-column">
+        <h3>Guided Course Plan</h3>
+        <FormLabel component="legend">
+          How would you like to create your course?
+        </FormLabel>
+        <RadioGroup
+          aria-label="Course Plan"
+          name="coursePlan"
+          value={coursePlan}
+          onChange={changeCoursePlan}      
+        >
+          <FormControlLabel value="guided" control={<Radio />} label="Guided" />
+          <FormControlLabel value="free" control={<Radio />} label="Free" />
+        </RadioGroup>
+        <FeedbackHelp
+          validation={{
+            error: false,
+            errorMsg: "",
+            errorType: "",
+            a11y: null
+          }}
+          tipMsg="Instructions goes here."
+          describedBy={"i05-helper-text"}
+        />
+      </div>
     </React.Fragment>
   );
 }
