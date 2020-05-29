@@ -73,10 +73,33 @@ export default function AnalysisStep(props) {
 
   useEffect(()=>{
     console.log("courseInformationAnalysisStep", courseInformation )
+    //updatemodalityradiobutton
+    setmodality(courseInformation.analysis[1]);
+    //updatetextEditor
+    setpedagogical(courseInformation.analysis[2]);
+    //update the tooltips
+    if(courseInformation.accessibility[2].length!=0){
+      setanalysisTooltip(courseInformation.accessibility[2])
+    }
+    
+    //update leaesrning objectives
+  
+    setGoals(courseInformation.analysis[3])
+    console.log(goals)
+   
   },[])
 
-
+  const [analysisTooltip, setanalysisTooltip]= useState({
+    pedagogical: true,
+    modality: true,
+  })
   const [courseinformation, setcourseInformation]=useState(courseInformation)
+  const [modality, setmodality]=useState('');
+  const [pedagogical, setpedagogical]=useState('');
+  //for save he accesibility status
+
+  const [typetodelete ,settypetodelete]=useState('');
+ 
   const classes = useStyles();
   const [data, setData] = useState({
     courseTitle: "Computer Science 101",
@@ -138,7 +161,8 @@ export default function AnalysisStep(props) {
     modality:'Modality',
     delivercontent:'How the content will be delivered',
     pedagogical:' Pedagogical Considerations and Opportunities for Teaching and Learning on the Web concentrates on theory, application, and the development of web-based technologies for teaching and learning and its influence on the education system',
-
+    pedagogicalconsiderations:'Pedagogical Considerations',
+    learningCon:'A constraint is a boundary which encourages the learner to emerge with certain behaviours',
   })
   const [message, setmessage]=useState(labels.errorMsg)
   const [open, setopen]= useState(false)
@@ -251,6 +275,9 @@ export default function AnalysisStep(props) {
       let newGoals = goals;
       newGoals.knowledges = atts;
       setGoals(newGoals);
+      let addNewknowledges=courseinformation;
+      addNewknowledges.analysis[3]=goals;
+      setcourseInformation(addNewknowledges)
     }
     if (category === "skills") {
       let atts = goals.skills;
@@ -263,6 +290,9 @@ export default function AnalysisStep(props) {
       let newGoals = goals;
       newGoals.skills = atts;
       setGoals(newGoals);
+      let addNewknowledges=courseinformation;
+      addNewknowledges.analysis[3]=goals;
+      setcourseInformation(addNewknowledges)
     }
     if (category === "attitudes") {
       let atts = goals.attitudes;
@@ -275,13 +305,14 @@ export default function AnalysisStep(props) {
       let newGoals = goals;
       newGoals.attitudes = atts;
       setGoals(newGoals);
+      let addNewknowledges=courseinformation;
+      addNewknowledges.analysis[3]=goals;
+      setcourseInformation(addNewknowledges)
     }
-
-    // setData(prev => {
-    //   prev.constraints = newRequisites.map(req => req.label);
-    //   return prev;
-    // });
   }
+
+
+      
 
   const handleEditedLearning = (index, category) => {
     if (category === "knowledges") {
@@ -295,29 +326,34 @@ export default function AnalysisStep(props) {
       let newGoals = goals;
       newGoals.knowledges = atts;
       setGoals(newGoals);
+
+      let addNewknowledges=courseinformation;
+      addNewknowledges.analysis[3]=goals;
+      setcourseInformation(addNewknowledges)
     }
     if (category === "skills") {
       let atts = goals.skills;
       atts[index].editing = false;
       let newGoals = goals;
       atts[index].label = controlEdit.tempValue;
-      atts[index].aux =
-        goalsTaxonomy.skills.find(item => item.key === controlEdit.tempAuxValue)
-          .label + " ";
+      atts[index].aux =''  //goalsTaxonomy.skills.find(item => item.key === controlEdit.tempAuxValue).label + " ";
       newGoals.skills = atts;
       setGoals(newGoals);
+      let addNewknowledges=courseinformation;
+      addNewknowledges.analysis[3]=goals;
+      setcourseInformation(addNewknowledges)
     }
     if (category === "attitudes") {
       let atts = goals.attitudes;
       atts[index].editing = false;
       let newGoals = goals;
       atts[index].label = controlEdit.tempValue;
-      atts[index].aux =
-        goalsTaxonomy.attitudes.find(
-          item => item.key === controlEdit.tempAuxValue
-        ).label + " ";
+      atts[index].aux =''; //goalsTaxonomy.attitudes.find(item => item.key === controlEdit.tempAuxValue).label + " ";
       newGoals.attitudes = atts;
       setGoals(newGoals);
+      let addNewknowledges=courseinformation;
+      addNewknowledges.analysis[3]=goals;
+      setcourseInformation(addNewknowledges)
     }
 
     // setData(prev => {
@@ -375,9 +411,11 @@ export default function AnalysisStep(props) {
   };
 
   const handleDeleteLearning = (index, category) => {
-    if (window.confirm("delete objective ?")) {
-      deleteLearning(index, category);
-    }
+      //deleteLearning(index, category);
+      console.log("se va a borrar este tipo", category)
+      setopen(true)
+     setindexdelete(index)
+     settypetodelete(category)
   };
 
   const handleNewOutcomes = category => {
@@ -410,6 +448,7 @@ export default function AnalysisStep(props) {
   };
 
   const handleDeleteRequisite = index => () => {
+    
      setopen(true)
      setindexdelete(index)
      setlabelindexdelete(constraints[index].label)
@@ -434,10 +473,6 @@ export default function AnalysisStep(props) {
       newRequisites[index].editing = false;
       newRequisites[index].label = controlEdit.tempValue;
       setConstraints(newRequisites);
-      setData(prev => {
-        prev.constraints = newRequisites.map(req => req.label);
-        return prev;
-      });
       setControlEdit({ tempValue: "", adding: false, editing: false });
       let addNewRequisites=courseinformation;
       addNewRequisites.analysis[0]=newRequisites
@@ -464,7 +499,7 @@ export default function AnalysisStep(props) {
     }   
   }
   const handleCancelEditRequisite = index => () => {
-    if (controlEdit.adding) deleteRequisite(index);
+    if (controlEdit.adding) deleteRequisite(index,'requisite');
     else {
       let newUnits = [...constraints];
       newUnits[index].editing = false;
@@ -473,25 +508,63 @@ export default function AnalysisStep(props) {
     setControlEdit({ tempValue: "", adding: false, editing: false });
   };
 
-  function deleteRequisite(index) {
-    let newRequisites = [...constraints];
-    if (index === 0) newRequisites = [...newRequisites.slice(1)];
-    else if (index === constraints.length - 1)
-      newRequisites = [...newRequisites.slice(0, index)];
-    else
-      newRequisites = [
-        ...newRequisites.slice(0, index),
-        ...newRequisites.slice(index + 1)
-      ];
-    setConstraints(newRequisites);
-    setData(prev => {
-      prev.constraints = newRequisites.map(req => req.label);
-      return prev;
-    });
-    let addNewRequisites=courseinformation;
-    addNewRequisites.analysis[0]=newRequisites
-    setcourseInformation(addNewRequisites)
+  
 
+  function deleteRequisite(index ,category) {
+    if (category === "knowledges") {
+      let atts = goals.knowledges;
+
+      if (index === 0) atts = [...atts.slice(1)];
+      else if (index === goals.knowledges.length - 1)
+        atts = [...atts.slice(0, index)];
+      else atts = [...atts.slice(0, index), ...atts.slice(index + 1)];
+
+      let newGoals = goals;
+      newGoals.knowledges = atts;
+      setGoals(newGoals);
+    }
+    if (category === "skills") {
+      let atts = goals.skills;
+
+      if (index === 0) atts = [...atts.slice(1)];
+      else if (index === goals.skills.length - 1)
+        atts = [...atts.slice(0, index)];
+      else atts = [...atts.slice(0, index), ...atts.slice(index + 1)];
+
+      let newGoals = goals;
+      newGoals.skills = atts;
+      setGoals(newGoals);
+    }
+    if (category === "attitudes") {
+      let atts = goals.attitudes;
+
+      if (index === 0) atts = [...atts.slice(1)];
+      else if (index === goals.attitudes.length - 1)
+        atts = [...atts.slice(0, index)];
+      else atts = [...atts.slice(0, index), ...atts.slice(index + 1)];
+
+      let newGoals = goals;
+      newGoals.attitudes = atts;
+      setGoals(newGoals);
+    }else{
+      let newRequisites = [...constraints];
+      if (index === 0) newRequisites = [...newRequisites.slice(1)];
+      else if (index === constraints.length - 1)
+        newRequisites = [...newRequisites.slice(0, index)];
+      else
+        newRequisites = [
+          ...newRequisites.slice(0, index),
+          ...newRequisites.slice(index + 1)
+        ];
+      setConstraints(newRequisites);
+      setData(prev => {
+        prev.constraints = newRequisites.map(req => req.label);
+        return prev;
+      });
+      let addNewRequisites=courseinformation;
+      addNewRequisites.analysis[0]=newRequisites
+      setcourseInformation(addNewRequisites)
+      }
   }
 
   function updateTempValue(value) {
@@ -542,7 +615,6 @@ export default function AnalysisStep(props) {
            <Grid item>
              <form>
                <List component="ul" key={"li0"} id="li0">
-                
                  {goals.knowledges.map((goal, index) => (
                    <ListItem
                      button={!goal.editing}
@@ -554,6 +626,7 @@ export default function AnalysisStep(props) {
                        key={"u2" + index + "listeItemTxt"}
                        primary={goal.aux + goal.label}
                        className={goal.editing ? classes.hidden : ""}
+                       
                      />
                        <Paper className={!goal.editing ? classes.hidden : ""}>
                          <TextField
@@ -662,8 +735,8 @@ export default function AnalysisStep(props) {
                </List>
                <FeedbackHelp
                validation={{
-                 error: false,
-                 errorMsg: "",
+                 error: true,
+                 errorMsg: "mandatory",
                  errorType: "",
                  a11y: null
                }}
@@ -679,7 +752,7 @@ export default function AnalysisStep(props) {
      )
    }
 
-   const skills =(tipmsg, subtitle)=>{
+  const skills =(tipmsg, subtitle)=>{
      return(
       <Grid item xs={12}>
           <Grid item xs={12} className="MuiFormLabel-root">
@@ -702,7 +775,7 @@ export default function AnalysisStep(props) {
                     />
 
                     <Paper className={!goal.editing ? classes.hidden : ""}>
-                      <TextField
+                      {/* <TextField
                         id="standard-select-currency"
                         select
                         SelectProps={{
@@ -720,7 +793,7 @@ export default function AnalysisStep(props) {
                             {option.label}
                           </option>
                         ))}
-                      </TextField>
+                      </TextField> */}
                       <TextField
                         key={"u2" + index + "txtField"}
                         value={controlEdit.tempValue}
@@ -804,8 +877,8 @@ export default function AnalysisStep(props) {
               </List>
               <FeedbackHelp
               validation={{
-                error: false,
-                errorMsg: "",
+                error: true,
+                errorMsg: "mandatory",
                 errorType: "",
                 a11y: null
               }}
@@ -818,7 +891,7 @@ export default function AnalysisStep(props) {
      )
    }
 
-   const attitudes =(tipmsg, subtitle)=>{
+  const attitudes =(tipmsg, subtitle)=>{
      return(
       <Grid item xs={12}>
       <Grid item xs={12} className="MuiFormLabel-root">
@@ -841,7 +914,7 @@ export default function AnalysisStep(props) {
                 />
 
                 <Paper className={!goal.editing ? classes.hidden : ""}>
-                  <TextField
+                  {/* <TextField
                     id="standard-select-currency"
                     select
                     SelectProps={{
@@ -859,7 +932,7 @@ export default function AnalysisStep(props) {
                         {option.label}
                       </option>
                     ))}
-                  </TextField>
+                  </TextField> */}
                   <TextField
                     key={"u2" + index + "txtField"}
                     value={controlEdit.tempValue}
@@ -945,8 +1018,8 @@ export default function AnalysisStep(props) {
           </List>
           <FeedbackHelp
           validation={{
-            error: false,
-            errorMsg: "",
+            error: true,
+            errorMsg: "obligatorio",
             errorType: "",
             a11y: null
           }}
@@ -1543,16 +1616,18 @@ export default function AnalysisStep(props) {
           </form>
           <FeedbackHelp
             validation={{
-              error: false,
-              errorMsg: "",
+              error: true,
+              errorMsg: "obligatorio",
               errorType: "",
               a11y: null
             }}
-            tipMsg="Instructions"
+            tipMsg={labels.learningCon}
             describedBy={"learnConstraint-helper-text"}
           />
         </Grid>
       </Grid>
+    
+    
       <Grid container className={classes.formGroup}>
         <Grid item xs={12}  className="MuiFormLabel-root">
         <Typography variant="h6" className={classes.title}>{labels.modality}</Typography>
@@ -1563,12 +1638,16 @@ export default function AnalysisStep(props) {
             <RadioGroup
               aria-label="Course delivery"
               name="coursePlan"
-              // value={coursePlan}
+              value={modality}
                onChange={event => {
-                 console.log("modality",event.target.value)
-                 let modality=courseinformation;
-                 modality.analysis[1]=event.target.value;
-                 setcourseInformation(modality)
+                 setmodality(event.target.value)
+                 let analisis=analysisTooltip;
+                 analisis.modality=false;
+                 setanalysisTooltip(analisis)               
+                 let modal=courseinformation;
+                 modal.accessibility[2]=analysisTooltip;
+                 modal.analysis[1]=event.target.value;
+                 setcourseInformation(modal);
                  }}
             >
               <FormControlLabel
@@ -1584,7 +1663,7 @@ export default function AnalysisStep(props) {
             </RadioGroup>
             <FeedbackHelp
               validation={{
-                error: feedbackError,
+                error: analysisTooltip.modality,
                 errorMsg: labels.errorMsg,
                 errorType: "",
                 a11y: null
@@ -1603,29 +1682,41 @@ export default function AnalysisStep(props) {
         <Typography variant="h6" className={classes.title }>Pedagogical considerations</Typography>
         <form className={classes.root}>
           <TextField
-            required={feedbackError}
-            label="Pedagogical Considerations"
+            value={pedagogical}
+            required
+            label={labels.pedagogicalconsiderations}
             variant="outlined"
             multiline
             rowsMax={5}
             id="i02"
             aria-describedby="i02-helper-text"
             type="text"
-            error
+            error={analysisTooltip.pedagogical}
             fullWidth
             onChange={(event)=>{
-              console.log(event.target.value)
+              setpedagogical(event.target.value)
+              
+              if(event.target.value!=''){
+                setanalysisTooltip((prevState)=>{
+                  return{...prevState, pedagogical: false}
+                })
+              }else{
+                 let analisis=analysisTooltip;
+                 analisis.pedagogical=true;
+                 setanalysisTooltip(analisis)
+              }
+              //save feedback
+            
               let text=courseinformation;
               text.analysis[2]= event.target.value;
+              text.accessibility[2]=analysisTooltip;
               setcourseInformation(text);
-              if(event.target.value!=''){
-                setfeedbackError(false)
-              }
+
             }}
           />
           <FeedbackHelp
             validation={{
-              error: feedbackError,
+              error: analysisTooltip.pedagogical,
               errorMsg: labels.errorMsg,
               errorType: "",
               a11y: null
@@ -1646,7 +1737,16 @@ export default function AnalysisStep(props) {
             <DialogActions>
               <Button onClick={() => setopen(false)} color="primary">No</Button>
               <Button onClick={() => {
-                deleteRequisite(indexdelete)
+                console.log("tipo a borrar", typetodelete)
+                if(typetodelete==='knowledges'){
+                  deleteLearning(indexdelete,'knowledges')
+                }else if(typetodelete==='skills'){
+                  deleteLearning(indexdelete,'skills')
+                }else if(typetodelete==='attitudes'){
+                  deleteLearning(indexdelete,'attitudes')
+                }else{
+                  deleteRequisite(indexdelete,'requisite')
+                }       
                 setopen(false)
               }} 
               color="primary"><em>Yes</em></Button> 
