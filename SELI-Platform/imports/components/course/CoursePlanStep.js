@@ -1,16 +1,16 @@
-import React , {useEffect}from "react";
+import React , {useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
+import FormPreview from '../files/previews/FormPreview';
 import FormLabel from "@material-ui/core/FormLabel";
 //import SimulateButtons from "./simulate";
 import Grid from "@material-ui/core/Grid";
 import PublishIcon from "@material-ui/icons/Publish";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
+import PictureAsPdfSharpIcon from '@material-ui/icons/PictureAsPdfSharp';
 import FeedbackHelp from "./feedback";
 
 
@@ -65,21 +65,29 @@ const useStyles = makeStyles(theme => ({
 export default function CoursePlanStep(props) {
   const classes = useStyles();
 
-  const [courseInformation, setCourseInformation]=React.useState(props.courseInformation)
+  const [courseInformation, setCourseInformation]=React.useState(props.courseInformation);
 
   const [coursePlan, setCoursePlan] = React.useState("guided");
   const [courseTemplate, setCourseTemplate] = React.useState("without");
-  const [courseStruct, setCourseStruct] = React.useState("unit");
+  const [courseStructure, setCourseStructure] = React.useState("unit");
 
   // will hold a reference for our real input file
   let inputFile = "";
 
-  const changeCoursePlan = event => {
+  const handleChange = type => event => {
     let cinformation=courseInformation;
-    cinformation.coursePlan.guidedCoursePlan=event.target.value;
-    setCoursePlan(event.target.value);
+    if (type === 'coursePlan') {
+      cinformation.coursePlan.guidedCoursePlan=event.target.value;
+      setCoursePlan(event.target.value);
+      props.updateCourseInformation(cinformation);
+    } else if (type === 'courseTemplate') {
+      cinformation.coursePlan.courseTemplate=event.target.value;
+      setCourseTemplate(event.target.value);
+    } else {
+      cinformation.coursePlan.courseStructure=event.target.value;
+      setCourseStructure(event.target.value);
+    }
     setCourseInformation(cinformation);
-    props.updateCourseInformation(cinformation);
   }
 
   const handleUploadButton = event => {
@@ -92,9 +100,10 @@ export default function CoursePlanStep(props) {
   };
 
   return (
-    <React.Fragment>
+    <div className="course-information-container">
       <div className="form-input-column">
         <h3>Guided Course Plan</h3>
+        <br/>
         <FormLabel component="legend">
           How would you like to create your course?
         </FormLabel>
@@ -102,7 +111,7 @@ export default function CoursePlanStep(props) {
           aria-label="Course Plan"
           name="coursePlan"
           value={coursePlan}
-          onChange={changeCoursePlan}      
+          onChange={handleChange("coursePlan")}      
         >
           <FormControlLabel value="guided" control={<Radio />} label="Guided" />
           <FormControlLabel value="free" control={<Radio />} label="Free" />
@@ -117,7 +126,106 @@ export default function CoursePlanStep(props) {
           tipMsg="Instructions goes here."
           describedBy={"i05-helper-text"}
         />
+        {courseInformation.coursePlan.guidedCoursePlan === "free" && (
+            courseInformation.sylabus !== undefined ?
+              <FormPreview
+                file={courseInformation.sylabus}
+                type="pdf"
+                unPickFile={props.unPickFile.bind(this)}
+                changeFile={props.changeFile.bind(this)}
+                courseSyllabus={props.language.courseSyllabus}
+              />
+            :
+              <Button onClick={() => props.openFileSelector("pdf", ".pdf")} className="form-file-button" fullWidth color="secondary"><PictureAsPdfSharpIcon className="form-image-icon"/>
+                {props.language.selectCourseSyllabus} <br/>
+                {props.language.required}
+              </Button>
+        )} 
+        <br/>
+        <FormLabel component="legend">
+          Would you like to use a template?
+        </FormLabel>
+        <RadioGroup
+          aria-label="Course Template"
+          name="courseTemplate"
+          value={courseTemplate}
+          onChange={handleChange("courseTemplate")}
+        >
+          <FormControlLabel
+            value="spiral"
+            control={<Radio />}
+            label="Spiral Model"
+          />
+          <FormControlLabel
+            value="consistent"
+            control={<Radio />}
+            label="Consistent"
+          />
+          <FormControlLabel value="toyBox" control={<Radio />} label="ToyBox" />
+          <FormControlLabel
+            value="without"
+            control={<Radio />}
+            label="Without template"
+          />
+        </RadioGroup>
+        <FeedbackHelp
+          validation={{
+            error: false,
+            errorMsg: "",
+            errorType: "",
+            a11y: null
+          }}
+          tipMsg="Instructions goes here."
+          describedBy={"i05-helper-text"}
+          stepHelp={{
+            step: "textHelper",
+            stepLabel: "a title"
+          }}
+          decisionHelp={{
+            name: "cplx"
+          }}
+        />
+        <br/>
+        {courseInformation.coursePlan.courseTemplate === "without" && (
+          <React.Fragment>
+            <FormLabel component="legend">
+              How would you like to structure your course?
+            </FormLabel>
+            <RadioGroup
+              aria-label="Course Structure"
+              name="courseStructure"
+              value={courseStructure}
+              onChange={handleChange('courseStructure')}
+            >
+              <FormControlLabel
+                value="unit"
+                control={<Radio />}
+                label="by Unit"
+              />
+              <FormControlLabel
+                value="topic"
+                control={<Radio />}
+                label="by Topic"
+              />
+            </RadioGroup>
+            <FeedbackHelp
+              validation={{
+                error: false,
+                errorMsg: "",
+                errorType: "",
+                a11y: null
+              }}
+              tipMsg="Instructions goes here."
+              describedBy={"i05-helper-text"}
+              stepHelp={{
+                step: "textHelper",
+                stepLabel: "a title"
+              }}
+            />
+          </React.Fragment>
+        )}
+        <br/><br/><br/><br/>
       </div>
-    </React.Fragment>
+    </div>
   );
 }

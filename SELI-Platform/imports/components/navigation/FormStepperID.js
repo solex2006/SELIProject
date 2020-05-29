@@ -128,7 +128,7 @@ export default function FormStepperID(props) {
                 >
                   <Stepper className="form-stepper" orientation="vertical" nonLinear activeStep={activeStep}>
                     {steps.map((step, index) => (
-                      (props.coursePlan === "guided" || index < 4 || index > 5) && (
+                      (props.coursePlan.guidedCoursePlan === "guided" || index < 4 || index > 5) && (
                         <Step completed={true} className="form-step" key={step.label}>
                           <StepButton icon={step.icon} className="form-step-button" onClick={handleStep(index)} completed={completed[index]}>
                             {step.label}
@@ -142,7 +142,7 @@ export default function FormStepperID(props) {
             :
               <Stepper className="form-stepper-id" nonLinear activeStep={activeStep}>
                 {steps.map((step, index) => (
-                  (props.coursePlan === "guided" || index < 4 || index > 5) && (
+                  (props.coursePlan.guidedCoursePlan === "guided" || index < 4 || index > 5) && (
                     <Step completed={true} className="form-step" key={step.label}>
                       <StepButton icon={step.icon} className="form-step-button-id" onClick={handleStep(index)} completed={completed[index]}>
                         {step.label}
