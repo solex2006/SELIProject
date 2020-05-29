@@ -92,26 +92,27 @@ export default function FeedbackHelp(props) {
       >
         More details
       </Button> */}
-      {stepHelp && (
-        <Help
-          helper={stepHelp.step}
-          aria-label="Accessibilit tip"
-          text={stepHelp.stepLabel}
-          color="primary"
-          buttonLabel="More details"
-          useStyle={classes.iconButton}
-        />
-      )}
-
-      {decisionHelp && (
-        <Decision
-          caller={decisionHelp.name}
-          buttonLabel="Help me decide"
-          useStyle={classes.iconButton}
-          ariaLabel="Accessibilit help"
-          // color="secondary"
-        />
-      )}
+      <div className="feedback-container">
+        {stepHelp && (
+          <Help
+            helper={stepHelp.step}
+            aria-label="Accessibilit tip"
+            text={stepHelp.stepLabel}
+            color="primary"
+            buttonLabel="More details"
+            useStyle={classes.iconButton}
+          />
+        )}
+        {decisionHelp && (
+          <Decision
+            caller={decisionHelp.name}
+            buttonLabel="Help me decide"
+            useStyle={classes.iconButton}
+            ariaLabel="Accessibilit help"
+            // color="secondary"
+          />
+        )}
+      </div>
     </React.Fragment>
   );
 }
