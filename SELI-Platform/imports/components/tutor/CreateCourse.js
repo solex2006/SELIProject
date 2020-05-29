@@ -21,7 +21,7 @@ import { Activities } from '../../../lib/ActivitiesCollection';
 import InfoIcon from '@material-ui/icons/Info'; //information
 import GroupIcon from "@material-ui/icons/Group"; //audience
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck'; //requirements
-import AssistantIcon from "@material-ui/icons/Assignment"; //course plan
+import AssistantIcon from "@material-ui/icons/Assistant"; //course plan
 import SchoolIcon from '@material-ui/icons/School'; //analysis
 import AssignmentIcon from "@material-ui/icons/Assignment"; //design
 import MenuBookIcon from "@material-ui/icons/MenuBook"; //program
@@ -29,7 +29,6 @@ import AccessibilityIcon from "@material-ui/icons/AccessibilityNew"; //accessibi
 
 export default class CreateCourse extends React.Component {
   constructor(props) {
-    console.log("props en craetor tool",props)
     super(props);
     this.state = {
       courseSteps: undefined,
@@ -44,7 +43,11 @@ export default class CreateCourse extends React.Component {
         duration: '001:00:00',
         support: [],
         requirements: [],
-        coursePlan:{guidedCoursePlan:'guided', templateCourse:undefined, structureCourse: undefined},
+        coursePlan:{
+          guidedCoursePlan: 'guided', 
+          templateCourse: undefined, 
+          structureCourse: undefined
+        },
         accessibility:[],
         analysis:[],
         organization: '',
@@ -92,62 +95,30 @@ export default class CreateCourse extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('compnentdisupdatecreatcourse', prevProps, prevState, this.state)
     if (prevProps.language.languageIndex !== this.props.language.languageIndex) {
       this.loadingHeaders();
       this.loadingData();
     }
-    //para el esatdo
-    if (prevState.courseInformation.coursePlan.guidedCoursePlan!= this.state.courseInformation.coursePlan.guidedCoursePlan) {
-      console.log('a cambiado el stepper')
-      
-    }
   }
 
   loadingHeaders = () => {
-    console.log('seleccion de stepers', this.state.courseInformation)
-    if(this.state.courseInformation.coursePlan.guidedCoursePlan==='free'){
-      this.setState({
-        courseSteps: [
-          {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
-          {label: this.props.language.audiences, icon: <GroupIcon className="step-icon"/>},
-          {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
-          {label: this.props.language.plan, icon: <PlaylistAddCheckIcon className="step-icon"/>},
-          {label: this.props.language.program, icon: <MenuBookIcon className="step-icon"/>}
-        ]
-      });
-
-    }else if(this.state.courseInformation.coursePlan.guidedCoursePlan==='guided'){
-      this.setState({
-        courseSteps: [
-          {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
-          {label: this.props.language.audiences, icon: <GroupIcon className="step-icon"/>},
-          {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
-          {label: this.props.language.plan, icon: <PlaylistAddCheckIcon className="step-icon"/>},
-          {label: "analysis", icon: <SchoolIcon className="step-icon"/>},
-          {label: this.props.language.desingPhase, icon: <AssignmentIcon className="step-icon"/>},
-          {label: this.props.language.program, icon: <MenuBookIcon className="step-icon"/>}
-        ]
-      });
-
-    }
-    /* this.setState({
+    this.setState({
       courseSteps: [
         {label: this.props.language.information, icon: <InfoIcon className="step-icon"/>},
         {label: this.props.language.audiences, icon: <GroupIcon className="step-icon"/>},
         {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
-        {label: this.props.language.plan, icon: <PlaylistAddCheckIcon className="step-icon"/>},
+        {label: this.props.language.plan, icon: <AssistantIcon className="step-icon"/>},
+        {label: this.props.language.analysis, icon: <SchoolIcon className="step-icon"/>},
         {label: this.props.language.desingPhase, icon: <AssignmentIcon className="step-icon"/>},
-        {label: this.props.language.template, icon: <SchoolIcon className="step-icon"/>},
         {label: this.props.language.program, icon: <MenuBookIcon className="step-icon"/>}
       ]
-    }) */;
+    });
   }
 
-
-  handleAddie =(value)=> {
-    setAddie(value);
-    updateAddieSteps();
+  updateCourseInformation = (newValue) => {
+    this.setState({
+      courseInformation: newValue
+    })
   }
 
   loadingData = () => {
@@ -175,6 +146,7 @@ export default class CreateCourse extends React.Component {
           lists={this.state.lists}
           buildedItems={this.state.buildedItems}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
+          updateCourseInformation={this.updateCourseInformation.bind(this)}
           language={this.props.language}
         />,
         <AnalysisStep
@@ -444,6 +416,7 @@ export default class CreateCourse extends React.Component {
               color="primary"
               steps={this.state.courseSteps}
               forms={this.state.courseForms}
+              coursePlan={this.state.courseInformation.coursePlan.guidedCoursePlan}
               finalLabel={this.props.language.publishCourse}
               saveLabel={this.props.language.saveCourse}
               finalAction={this.handlePublish.bind(this)}

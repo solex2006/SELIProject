@@ -1753,8 +1753,8 @@ class StorytellingToolTime extends React.Component {
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                   {this.props.language.publishOnSocialNetwork}
                 </DialogTitle>
-                <div class="storytelling-share-btn-group-time">
-                  <div class="storytelling-share-btn-time">
+                <div className="storytelling-share-btn-group-time">
+                  <div className="storytelling-share-btn-time">
                     <FacebookShareButton
                       url={this.state.shareUrl}
                       quote={this.state.title}>

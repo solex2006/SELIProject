@@ -1,13 +1,8 @@
 import React, { useLayoutEffect, useEffect, useState } from 'react';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
-import StepLabel from "@material-ui/core/StepLabel";
 import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import Popover from '@material-ui/core/Popover';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
@@ -133,11 +128,13 @@ export default function FormStepperID(props) {
                 >
                   <Stepper className="form-stepper" orientation="vertical" nonLinear activeStep={activeStep}>
                     {steps.map((step, index) => (
-                      <Step completed={true} className="form-step" key={step.label}>
-                        <StepButton icon={step.icon} className="form-step-button" onClick={handleStep(index)} completed={completed[index]}>
-                          {step.label}
-                        </StepButton>
-                      </Step>
+                      (props.coursePlan === "guided" || index < 4 || index > 5) && (
+                        <Step completed={true} className="form-step" key={step.label}>
+                          <StepButton icon={step.icon} className="form-step-button" onClick={handleStep(index)} completed={completed[index]}>
+                            {step.label}
+                          </StepButton>
+                        </Step>
+                      )
                     ))}
                   </Stepper>
                 </Popover>
@@ -145,11 +142,13 @@ export default function FormStepperID(props) {
             :
               <Stepper className="form-stepper-id" nonLinear activeStep={activeStep}>
                 {steps.map((step, index) => (
-                  <Step completed={true} className="form-step" key={step.label}>
-                    <StepButton icon={step.icon} className="form-step-button-id" onClick={handleStep(index)} completed={completed[index]}>
-                      {step.label}
-                    </StepButton>
-                  </Step>
+                  (props.coursePlan === "guided" || index < 4 || index > 5) && (
+                    <Step completed={true} className="form-step" key={step.label}>
+                      <StepButton icon={step.icon} className="form-step-button-id" onClick={handleStep(index)} completed={completed[index]}>
+                        {step.label}
+                      </StepButton>
+                    </Step>
+                  )
                 ))}
               </Stepper>
           :

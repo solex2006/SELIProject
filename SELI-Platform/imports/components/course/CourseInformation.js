@@ -223,7 +223,6 @@ export default class CourseInformation extends React.Component {
       image:   this.state.courseInformation.image,
       sylabus: this.state.courseInformation.sylabus,
     })
-    console.log("CourseInformation",this.props.courseInformation,this.props)
   }
 
   getAudiences=(audiences, name)=>{
