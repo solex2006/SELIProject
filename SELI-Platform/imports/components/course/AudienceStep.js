@@ -371,7 +371,6 @@ export default function AudienceApp(props) {
        setfeedbackError(false)
     }
     else{ setfeedbackError(true)}
-
     setmessage(requirementTooltip.errorMsg)
   }
   //methods for validations no repeated values
@@ -567,7 +566,6 @@ export default function AudienceApp(props) {
                 primary={audience.label}
                 className={audience.editing ? classes.hidden : ""}
               />
-              
               <div className={!audience.editing ? classes.hidden : ""}>
                 <TextField
                   key={"li_aud" + index + "txtField"}

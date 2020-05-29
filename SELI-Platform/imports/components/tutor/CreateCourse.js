@@ -46,6 +46,7 @@ export default class CreateCourse extends React.Component {
         requirements: [],
         coursePlan:{guidedCoursePlan:'guided', templateCourse:undefined, structureCourse: undefined},
         accessibility:[],
+        analysis:[],
         organization: '',
         signature:'',
         level:'',
@@ -82,6 +83,7 @@ export default class CreateCourse extends React.Component {
           program: this.props.courseToEdit.program,
           accessibility: this.props.courseToEdit.accessibility,
           classroom: this.props.courseToEdit.classroom,
+          analysis:this.props.courseToEdit.analysis,
        
         },
         saved: this.props.courseToEdit._id,
@@ -122,7 +124,7 @@ export default class CreateCourse extends React.Component {
           {label: this.props.language.audiences, icon: <GroupIcon className="step-icon"/>},
           {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
           {label: this.props.language.plan, icon: <PlaylistAddCheckIcon className="step-icon"/>},
-          {label: this.props.language.analysis, icon: <SchoolIcon className="step-icon"/>},
+          {label: "analysis", icon: <SchoolIcon className="step-icon"/>},
           {label: this.props.language.desingPhase, icon: <AssignmentIcon className="step-icon"/>},
           {label: this.props.language.program, icon: <MenuBookIcon className="step-icon"/>}
         ]
@@ -261,6 +263,7 @@ export default class CreateCourse extends React.Component {
               organization: courseInformation.organization,
               program: courseInformation.program,
               accessibility:courseInformation.accessibility,
+              analysis:courseInformation.analysis,
               classroom: courseInformation.classroom,
               creationDate: new Date(),
             }
