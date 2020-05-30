@@ -805,7 +805,7 @@ var TURKISH = {
   basicItems: "Temel özellikler",
   advancedItems: "Gelişmiş öğeler",
   saveCourseLost: "Dersiniz kaydedilmedi. Başka bir bölüme gidiyorsanız, yazılan bilgiler kaybolacaktır. Kaydetmek ister misiniz?",
-  author: "Yazar",
+  author: "Hikaye Anlatıcısı",
   feedback_a11y_accessibility_pure_decorative: "Bu içerik saf dekoratiftir",
   image_a11y_provide_text: "Metin alternatifi olarak görüntüde sağlanan verilerin veya bilgilerin tam metin eşdeğerini sağlayın. Sonuç olarak, görüntü içeriğini kaldırmak ve metin alternatifiyle değiştirmek mümkündür ve hiçbir işlevsellik veya bilgi kaybolmaz.",
   longDescription_a11y_delopment_purpose: "GELİŞTİRME AMACI: anlamsal html olarak çıktı (erişilebilirlik)",
