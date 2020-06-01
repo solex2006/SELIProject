@@ -5,7 +5,7 @@ import RequirementStep from '../course/RequirementStep'
 import CoursePlanStep from '../course/CoursePlanStep'
 import FormStepperID from '../navigation/FormStepperID'; '../'
 import CourseInformation from '../course/CourseInformation';
-import CourseCreatorTool from '../course/CourseCreatorTool';
+import CourseProgram from '../course/CourseProgram';
 import AnalysisStep from '../course/AnalysisStep'
 import CourseDesingTool from '../course/CourseDesingTool';
 import { Meteor } from 'meteor/meteor';
@@ -96,8 +96,8 @@ export default class CreateCourse extends React.Component {
           image: this.props.courseToEdit.image,
           sylabus: this.props.courseToEdit.sylabus,
           duration: this.props.courseToEdit.duration,
-          requirements: this.props.courseToEdit.requirements,
-          support: this.props.courseToEdit.support,
+          requirements: this.props.courseToEdit.requirements ? this.props.courseToEdit.requirements : [],
+          support: this.props.courseToEdit.support ? this.props.courseToEdit.support : [],
           coursePlan: this.props.courseToEdit.coursePlan ? this.props.courseToEdit.coursePlan : 
           {
             guidedCoursePlan: 'guided', 
@@ -108,7 +108,7 @@ export default class CreateCourse extends React.Component {
           program: this.props.courseToEdit.program,
           accessibility: this.props.courseToEdit.accessibility,
           classroom: this.props.courseToEdit.classroom,
-          analysis:this.props.courseToEdit.analysis,
+          analysis: this.props.courseToEdit.analysis ? this.props.courseToEdit.analysis : [],
         },
         saved: this.props.courseToEdit._id,
       }, () => {this.loadingData()})
@@ -188,7 +188,7 @@ export default class CreateCourse extends React.Component {
           handlePreview={this.handlePreview.bind(this)}
           language={this.props.language}
         />,
-        <CourseCreatorTool
+        <CourseProgram
           courseInformation={this.state.courseInformation}
           expandedNodes={this.state.expandedNodes}
           selected={this.state.selected}

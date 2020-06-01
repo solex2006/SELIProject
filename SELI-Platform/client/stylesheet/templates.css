@@ -1,0 +1,12 @@
+/* General Styles */
+
+.spiral-image {
+  width: calc(50vw - var(--course-tool-menu-size));
+  overflow-y: scroll;
+  background-color: var(--white);
+  background-repeat: no-repeat;
+  background-size: 500px;
+  background-position: center;
+}
+
+/* Spiral Model */
