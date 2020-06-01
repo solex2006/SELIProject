@@ -493,6 +493,11 @@ export default function AudienceApp(props) {
                   audience => (audience.isChecked = event.target.checked)
                 );
                 setAudiences(newAudiences);
+                let addAudicences=courseinformation;
+                addAudicences.support[0]=newAudiences
+                setcourseInformation(addAudicences)
+
+
                 let tooltip=audienceTooltip;
                  if(event.target.checked===true){
                   tooltip.audienceallError=false;
@@ -508,7 +513,7 @@ export default function AudienceApp(props) {
                   let checks=courseinformation;
                   checks.accessibility[0]=tooltip
                   setcourseInformation(checks)
-                } 
+                }
               }}
               disableRipple
               inputProps={{
