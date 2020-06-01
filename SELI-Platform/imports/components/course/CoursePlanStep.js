@@ -67,10 +67,10 @@ export default function CoursePlanStep(props) {
 
   const [courseInformation, setCourseInformation]=React.useState(props.courseInformation);
 
-  const [coursePlan, setCoursePlan] = React.useState("guided");
-  const [courseTemplate, setCourseTemplate] = React.useState("without");
-  const [courseStructure, setCourseStructure] = React.useState("unit");
-
+  const [coursePlan, setCoursePlan] = React.useState(courseInformation.coursePlan.guidedCoursePlan);
+  const [courseTemplate, setCourseTemplate] = React.useState(courseInformation.coursePlan.courseTemplate);
+  const [courseStructure, setCourseStructure] = React.useState(courseInformation.coursePlan.courseStructure);
+  
   // will hold a reference for our real input file
   let inputFile = "";
 

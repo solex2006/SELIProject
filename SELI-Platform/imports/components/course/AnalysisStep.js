@@ -5,6 +5,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import AccessibilityIcon from '@material-ui/icons/Accessibility';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import RemoveIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
@@ -26,8 +28,19 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import WarningIcon from '@material-ui/icons/Warning';
+import Collapse from '@material-ui/core/Collapse';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import StarBorder from '@material-ui/icons/StarBorder';
+import DescriptionSharpIcon from '@material-ui/icons/DescriptionSharp';
 
 const useStyles = makeStyles(theme => ({
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1)
@@ -78,7 +91,7 @@ export default function AnalysisStep(props) {
     //updatetextEditor
     setpedagogical(courseInformation.analysis[2]);
     //update the tooltips
-    if(courseInformation.accessibility[2].length!=0){
+    if(courseInformation.accessibility[2]!=undefined){
       setanalysisTooltip(courseInformation.accessibility[2])
     }
     
@@ -89,6 +102,11 @@ export default function AnalysisStep(props) {
    
   },[])
 
+
+  const [openT, setOpenT] = React.useState(false);
+  const [openA, setOpenA] = React.useState(false);
+  const [openS, setOpenS] = React.useState(false);
+  const [openI, setOpenI] = React.useState(false);
   const [analysisTooltip, setanalysisTooltip]= useState({
     pedagogical: true,
     modality: true,
@@ -99,7 +117,6 @@ export default function AnalysisStep(props) {
   //for save he accesibility status
 
   const [typetodelete ,settypetodelete]=useState('');
- 
   const classes = useStyles();
   const [data, setData] = useState({
     courseTitle: "Computer Science 101",
@@ -145,6 +162,10 @@ export default function AnalysisStep(props) {
   });
 
   const [labels, setlables]=useState({
+    IntendedAudience:'Intended Audience',
+    IntendedInclusion:'Intended Inclusion',
+    CourseTitle:'Course Title',
+    CourseSubtitle:'Course Subtitle',
     errorMsg:'This field is required. Please complete it',
     completeObjective:'Complete the objective',
     analysisphase:'The analysis phase consists of understanding the educational problem,covering the survey of educational needs, the characterization of students and the verification of constraints.',
@@ -735,7 +756,7 @@ export default function AnalysisStep(props) {
                </List>
                <FeedbackHelp
                validation={{
-                 error: true,
+                 error: false,
                  errorMsg: "mandatory",
                  errorType: "",
                  a11y: null
@@ -877,7 +898,7 @@ export default function AnalysisStep(props) {
               </List>
               <FeedbackHelp
               validation={{
-                error: true,
+                error: false,
                 errorMsg: "mandatory",
                 errorType: "",
                 a11y: null
@@ -1018,7 +1039,7 @@ export default function AnalysisStep(props) {
           </List>
           <FeedbackHelp
           validation={{
-            error: true,
+            error: false,
             errorMsg: "obligatorio",
             errorType: "",
             a11y: null
@@ -1438,6 +1459,21 @@ export default function AnalysisStep(props) {
   const handleClose = () => {  
     setopen(false)
   };
+
+  const handleClickT = () => {
+    setOpenT(!openT);
+  };
+  const handleClickS = () => {
+    setOpenS(!openS);
+  };
+  const handleClickA = () => {
+    setOpenA(!openA);
+  };
+  const handleClickI = () => {
+    setOpenI(!openI);
+  };
+
+  
   return (
     <div className="form-input-audiences">
      <h2>Analysis Phase</h2>
@@ -1445,63 +1481,112 @@ export default function AnalysisStep(props) {
       <p>
         {labels.analysisphase}
       </p>
-      <details>
-        <summary>Course summary</summary>
-        <Grid container className={classes.formGroup}>
-          <Grid item xs={12}>
-            <Grid item className="MuiFormLabel-root">
-              Course Title
-            </Grid>
-            <Grid item>{courseinformation.title}</Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid item className="MuiFormLabel-root">
-              Course Subtitle
-            </Grid>
-            <Grid item>{courseinformation.subtitle}</Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid item className="MuiFormLabel-root">
-              Intended Audience
-            </Grid>
-            <Grid item xs={12}>
-              <ul key={"liAud"} className={classes.listBullet}>
-                {courseinformation.support[0].map((audience, index) => (
+        <List
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+          subheader={
+            <ListSubheader disableSticky={true} component="div" id="nested-list-subheader">
+              Course summary
+            </ListSubheader>
+          }
+          className={classes.root}
+        >
+          <ListItem button onClick={handleClickT}>
+              <ListAltIcon>
+                <InboxIcon />
+              </ListAltIcon>
+              <ListItemText primary={labels.CourseTitle} />
+              {openT ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={openT} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem button className={classes.nested}>
+                <DescriptionSharpIcon>
+                  <StarBorder />
+                </DescriptionSharpIcon>
+                <ListItemText primary={courseinformation.title} />
+              </ListItem>
+            </List>
+          </Collapse>
+
+          <ListItem button onClick={handleClickS}>
+              <ListAltIcon>
+                <InboxIcon />
+              </ListAltIcon>
+              <ListItemText primary={labels.CourseSubtitle} />
+              {openS ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={openS} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem button className={classes.nested}>
+                <DescriptionSharpIcon>
+                  <StarBorder />
+                </DescriptionSharpIcon>
+                <ListItemText primary={courseinformation.subtitle} />
+              </ListItem>
+            </List>
+          </Collapse>
+
+
+          <ListItem button onClick={handleClickA}>
+              <ListAltIcon>
+                <InboxIcon />
+              </ListAltIcon>
+              <ListItemText primary={labels.IntendedAudience} />
+              {openA ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={openA} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+            {courseinformation.support[0].map((audience, index) => (
                   audience.isChecked==true?
-                    <li id={`listAud-label-${index}`}> {audience.label} </li>
+                  <ListItem button className={classes.nested}>
+                      <LocalLibraryIcon>
+                          <StarBorder />
+                        </LocalLibraryIcon>
+                    <ListItemText primary={audience.label} />
+                  </ListItem>
                     :
                     undefined
                 ))}
-                {courseinformation.support[2]!=undefined?
+            {courseinformation.support[2]!=undefined?
                   courseinformation.support[2].map((audience, index) => (
-                    <li id={`listAud-label-${index}`}> {audience.label} </li>
+                    <ListItem button className={classes.nested}>
+                        <LocalLibraryIcon>
+                          <StarBorder />
+                        </LocalLibraryIcon>
+                      <ListItemText primary={audience.label} />
+                   </ListItem>
                   ))
                 :
                 undefined
-                }
-             
+            }
+            </List>
+          </Collapse>
 
-              </ul>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid item className="MuiFormLabel-root">
-              Intended Inclusion
-            </Grid>
-            <Grid item xs={12}>
-              <ul key={"liIncl"} className={classes.listBullet}>
-                {courseinformation.support[1].map((audience, index) => (
-                  audience.isChecked==true?
-                    <li id={`listAud-label-${index}`}> {audience.label} </li>
-                    :
-                    undefined
-                ))}
-              </ul>
-            </Grid>
-          </Grid>
-        </Grid>
-      </details>
-
+          <ListItem button onClick={handleClickI}>
+              <ListAltIcon>
+                <InboxIcon />
+              </ListAltIcon>
+              <ListItemText primary={labels.IntendedAudience} />
+              {openI ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={openI} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {courseinformation.support[1].map((audience, index) => (
+                    audience.isChecked==true?
+                    <ListItem button className={classes.nested}>
+                      <AccessibilityIcon>
+                        <StarBorder />
+                      </AccessibilityIcon>
+                      <ListItemText primary={audience.label} />
+                    </ListItem>
+                      :
+                      undefined
+              ))}     
+            </List>
+          </Collapse>
+        </List>
+    
       <Grid container className={classes.formGroup}>
       {knowledges(labels.titleLO, labels.tipmsgLO, labels.subtitleLO)}
       {skills(labels.skillsobjectives, labels.subtitleSO)}
@@ -1616,7 +1701,7 @@ export default function AnalysisStep(props) {
           </form>
           <FeedbackHelp
             validation={{
-              error: true,
+              error: false,
               errorMsg: "obligatorio",
               errorType: "",
               a11y: null

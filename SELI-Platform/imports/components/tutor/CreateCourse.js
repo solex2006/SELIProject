@@ -7,7 +7,6 @@ import FormStepperID from '../navigation/FormStepperID'; '../'
 import CourseInformation from '../course/CourseInformation';
 import CourseProgram from '../course/CourseProgram';
 import AnalysisStep from '../course/AnalysisStep'
-import CourseDesingTool from '../course/CourseDesingTool';
 import { Meteor } from 'meteor/meteor';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -32,7 +31,7 @@ import FileUpload from '../files/FileUpload';
 import ImagePreview from '../files/previews/ImagePreview';
 import PdfPreview from '../files/previews/PdfPreview';
 import Library from '../tools/Library';
-
+import DesignStep from '../course/DesignStep'
 import InfoIcon from '@material-ui/icons/Info'; //information
 import GroupIcon from "@material-ui/icons/Group"; //audience
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck'; //requirements
@@ -40,7 +39,7 @@ import AssistantIcon from "@material-ui/icons/Assistant"; //course plan
 import SchoolIcon from '@material-ui/icons/School'; //analysis
 import AssignmentIcon from "@material-ui/icons/Assignment"; //design
 import MenuBookIcon from "@material-ui/icons/MenuBook"; //program
-import AccessibilityIcon from "@material-ui/icons/AccessibilityNew"; //accessibility
+
 
 export default class CreateCourse extends React.Component {
   constructor(props) {
@@ -129,7 +128,7 @@ export default class CreateCourse extends React.Component {
         {label: this.props.language.audiences, icon: <GroupIcon className="step-icon"/>},
         {label: this.props.language.requirements, icon: <PlaylistAddCheckIcon className="step-icon"/>},
         {label: this.props.language.plan, icon: <AssistantIcon className="step-icon"/>},
-        {label: this.props.language.analysis, icon: <SchoolIcon className="step-icon"/>},
+        {label: this.props.language.analysisstep, icon: <SchoolIcon className="step-icon"/>},
         {label: this.props.language.desingPhase, icon: <AssignmentIcon className="step-icon"/>},
         {label: this.props.language.program, icon: <MenuBookIcon className="step-icon"/>}
       ]
@@ -180,13 +179,10 @@ export default class CreateCourse extends React.Component {
           courseInformation={this.state.courseInformation}
           language={this.props.language}
         />,
-        <CourseDesingTool
+        <DesignStep
           courseInformation={this.state.courseInformation}
-          expandedNodes={this.state.expandedNodes}
-          selected={this.state.selected}
-          handleControlMessage={this.props.handleControlMessage.bind(this)}
-          handlePreview={this.handlePreview.bind(this)}
-          language={this.props.language}
+          template={this.state.courseInformation.coursePlan.courseTemplate}
+          organization={this.state.courseInformation.coursePlan.courseStructure}
         />,
         <CourseProgram
           courseInformation={this.state.courseInformation}

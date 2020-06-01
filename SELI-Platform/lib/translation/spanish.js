@@ -948,6 +948,7 @@ var SPANISH = {
   courseDescriptionInformation: "Escriba una breve descripción del curso",
   durationInvalidEntry: "La duración del curso tiene una entrada no válida. Por favor, inserte un valor con un formato de hora 000:00:00 (HH:MM:SS)",
   plan: "Plan del Curso",
+  analysisstep: 'Analysis'
 }
 export default SPANISH
 
