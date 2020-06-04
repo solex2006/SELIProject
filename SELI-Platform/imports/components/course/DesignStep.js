@@ -257,7 +257,7 @@ export default function DesignStep(props) {
                       adding: false,
                       editing: false
                     });
-                    return {...prev};
+                    return [...prev];
                   });
                 }}
                 className={classes.saveButton}
