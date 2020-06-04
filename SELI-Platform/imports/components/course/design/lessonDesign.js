@@ -16,6 +16,7 @@ import React, { useState } from "react";
 import ActivityDesign from "./activityDesign";
 import FeedbackHelp from "../feedback";
 
+
 const useStyles = makeStyles(theme => ({
   root: {
     "& $deleteButton:hover": {
@@ -54,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DesignCourseApp(props) {
-  const { template, organization, lessons } = props;
+  const {unit,unitIndex,handleUnitChange, template, organization, lessons } = props;
   const classes = useStyles();
   const [controlEdit, setControlEdit] = useState({
     tempValue: "",
@@ -70,9 +71,12 @@ export default function DesignCourseApp(props) {
   const [data, setData] = useState(lessons);
 
   const handleActivities = (lessonIndex, activities) => {
+    console.log("En el activities----",activities )
     let prev = [...data];
     prev[lessonIndex].activities = activities;
     setData(prev);
+   // unit.lessons=data;
+    //handleUnitChange(unit, unitIndex)
   };
 
   return (
@@ -90,6 +94,7 @@ export default function DesignCourseApp(props) {
             <h3 className={lesson.editing ? classes.hidden : ""}>
               {lesson.title}
             </h3>
+    
             <div className={!lesson.editing ? classes.hidden : ""}>
               <TextField
                 id={"lesson_" + lessonIndex + "txtField"}
@@ -105,10 +110,10 @@ export default function DesignCourseApp(props) {
                 edge="end"
                 aria-label={"Save changes"}
                 onClick={event => {
+                  console.log("click en save")
                   setData(prev => {
                     prev[lessonIndex].editing = false;
                     prev[lessonIndex].title = controlEdit.tempValue;
-
                     setControlEdit({
                       tempValue: "",
                       adding: false,
@@ -152,9 +157,13 @@ export default function DesignCourseApp(props) {
                 tipMsg="instructions"
                 describedBy={"i05-helper-text"}
               />
-            </div>
+            </div>     
           </ExpansionPanelSummary>
+
+
+
           <ExpansionPanelActions>
+           
             <Button
               id={"lesson_" + lessonIndex + "btnEdit"}
               onClick={() => {
@@ -201,6 +210,8 @@ export default function DesignCourseApp(props) {
             >
               Delete lesson
             </Button>
+
+
             {lessonIndex !== 0 && (
               <IconButton
                 id={"lesson_" + lessonIndex + "btnMoveUp"}
@@ -212,8 +223,10 @@ export default function DesignCourseApp(props) {
               </IconButton>
             )}
           </ExpansionPanelActions>
+
+
           <ExpansionPanelDetails className={classes.panelDtls}>
-            <ActivityDesign
+           <ActivityDesign
               activities={lesson.activities}
               handleActivities={handleActivities}
               parentIndex={lessonIndex}
@@ -222,6 +235,8 @@ export default function DesignCourseApp(props) {
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}
+
+
       <Button
         variant="outlined"
         color="secondary"
@@ -263,6 +278,9 @@ export default function DesignCourseApp(props) {
             });
             return [...prev];
           });
+          //update units array
+          unit.lessons=data;
+          handleUnitChange(unit, unitIndex)
         }}
       >
         Add lesson

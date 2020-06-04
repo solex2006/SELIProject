@@ -4,16 +4,21 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
 import MaterialTable from "material-table";
-import React from "react";
+import React ,{useEffect} from "react";
 import FeedbackHelp from "../feedback";
+import tableIcons from '../design/icons'
+
 
 const useStyles = makeStyles(theme => ({}));
 
 export default function Presentation(props) {
-  const { template, unit } = props;
-
+  useEffect(()=>{
+    let update=state;
+    update.data=courseInformation[parentIndex].tools[3].items;
+    setState(update) 
+  },[])
+  const {courseInformation,handleSelectResources, parentIndex, tools}=props
   const classes = useStyles();
-  const { supplementary } = props;
 
   const itemsTypes = { 1: "file (ex: ppt, pdf)", 2: "h5p", 3: "other" };
 
@@ -152,23 +157,13 @@ export default function Presentation(props) {
         options={{ search: true }}
         columns={state.columns}
         data={state.data}
-        icons={{
-          Add: () => (
-            <Button
-              id="addRow"
-              variant="outlined"
-              color="secondary"
-              startIcon={<AddIcon />}
-            >
-              Add item
-            </Button>
-          )
-        }}
+        icons={tableIcons}
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
+              setTimeout(() => {
               newData.submitted = true;
-              if (!newData.activity) {
+              if (!newData.title) {
                 newData.error = true;
                 newData.label = "required";
                 newData.helperText = "Name is required.";
@@ -180,9 +175,12 @@ export default function Presentation(props) {
               setState(prevState => {
                 const data = [...prevState.data];
                 data.push(newData);
+                let tool=tools;
+                tool[3].items=data;
+                handleSelectResources(parentIndex, tool)
                 return { ...prevState, data };
               });
-              // }, 600);
+              }, 600);
             }),
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
@@ -201,6 +199,9 @@ export default function Presentation(props) {
                   setState(prevState => {
                     const data = [...prevState.data];
                     data[data.indexOf(oldData)] = newData;
+                    let tool=tools;
+                    tool[3].items=data;
+                    handleSelectResources(parentIndex, tool)
                     return { ...prevState, data };
                   });
                 }
@@ -213,6 +214,9 @@ export default function Presentation(props) {
                 setState(prevState => {
                   const data = [...prevState.data];
                   data.splice(data.indexOf(oldData), 1);
+                  let tool=tools;
+                  tool[3].items=data;
+                  handleSelectResources(parentIndex, tool)
                   return { ...prevState, data };
                 });
               }, 600);

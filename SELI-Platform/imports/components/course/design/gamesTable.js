@@ -5,17 +5,31 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
 import MaterialTable from "material-table";
-import React from "react";
+import React,{useEffect} from "react";
 import FeedbackHelp from "../feedback";
 
-const useStyles = makeStyles(theme => ({}));
+import tableIcons from '../design/icons'
 
+
+
+
+  const useStyles = makeStyles(theme => ({}));
 export default function Presentation(props) {
-  const { template, unit } = props;
 
+  useEffect(()=>{
+    setState(prev=>{
+      //let Resdata=[... prev.data];
+      let Restoredata=courseInformation[parentIndex].tools[1].items;
+      return {... prev, Restoredata}
+    })
+
+  },[])
+  const {courseInformation,handleSelectResources, parentIndex, tools}=props
+  console.log("propsenGamesTable****",props)
+
+  
   const classes = useStyles();
   const { supplementary } = props;
-
   const itemsTypes = { 1: "unity", 2: "h5p", 3: "other" };
 
   function selectOptions(options) {
@@ -59,7 +73,6 @@ export default function Presentation(props) {
                 if (props.rowData.validateInput) {
                   props.rowData.validateInput = false;
                 }
-
                 props.onChange(e.target.value);
               }}
             />
@@ -71,7 +84,7 @@ export default function Presentation(props) {
         lookup: itemsTypes,
         editComponent: props => {
           return (
-            <React.Fragment>
+           
               <NativeSelect
                 value={props.value ? props.value : ""}
                 onChange={e => {
@@ -88,7 +101,7 @@ export default function Presentation(props) {
               >
                 {selectOptions(itemsTypes)}
               </NativeSelect>
-            </React.Fragment>
+          
           );
         }
       },
@@ -96,17 +109,18 @@ export default function Presentation(props) {
         title: "External Resource",
         field: "external",
         type: "boolean",
-        editComponent: props => (
-          <React.Fragment>
+         editComponent: props => (
+       
             <Checkbox
               {...props}
-              disabled={props.rowData.type !== 3}
+              disabled={props.rowData.type != 3}
               onChange={e => {
-                props.onChange(e.targetValue);
+                props.rowData.external=e.target.checked;
+                props.onChange(e.target.checked);
               }}
             />
-          </React.Fragment>
-        )
+         
+        ) 
       },
       {
         title: "External URL",
@@ -120,7 +134,7 @@ export default function Presentation(props) {
                   "/https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/"
               }}
               required={!props.rowData.external}
-              disabled={!props.rowData.external}
+              disabled={props.rowData.type==='3'? false:!props.rowData.external?true:false}
               error={
                 props.rowData.external &&
                 !props.value &&
@@ -190,27 +204,18 @@ export default function Presentation(props) {
   return (
     <React.Fragment>
       <MaterialTable
+       icons={tableIcons}
         title="Games"
         options={{ search: true }}
         columns={state.columns}
         data={state.data}
-        icons={{
-          Add: () => (
-            <Button
-              id="addRow"
-              variant="outlined"
-              color="secondary"
-              startIcon={<AddIcon />}
-            >
-              Add item
-            </Button>
-          )
-        }}
+     
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
+              setTimeout(() => {
               newData.submitted = true;
-              if (!newData.activity) {
+              if (!newData.title) {
                 newData.error = true;
                 newData.label = "required";
                 newData.helperText = "Name is required.";
@@ -222,15 +227,24 @@ export default function Presentation(props) {
               setState(prevState => {
                 const data = [...prevState.data];
                 data.push(newData);
+                console.log("save",newData)
+               // save to databse
+                let tool=tools;
+                tool[1].items=data;
+                handleSelectResources(parentIndex, tool)
                 return { ...prevState, data };
               });
-              // }, 600);
+              
+               }, 600);
             }),
+
+
+
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 newData.submitted = true;
-                if (!newData.activity) {
+                if (!newData.title) {
                   newData.error = true;
                   newData.label = "required";
                   newData.helperText = "Name is required.";
@@ -243,6 +257,9 @@ export default function Presentation(props) {
                   setState(prevState => {
                     const data = [...prevState.data];
                     data[data.indexOf(oldData)] = newData;
+                    let tool=tools;
+                    tool[1].items=data;
+                    handleSelectResources(parentIndex, tool)
                     return { ...prevState, data };
                   });
                 }
@@ -255,6 +272,9 @@ export default function Presentation(props) {
                 setState(prevState => {
                   const data = [...prevState.data];
                   data.splice(data.indexOf(oldData), 1);
+                  let tool=tools;
+                  tool[1].items=data;
+                  handleSelectResources(parentIndex, tool)
                   return { ...prevState, data };
                 });
               }, 600);

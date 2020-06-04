@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import TextField from "@material-ui/core/TextField";
@@ -40,7 +40,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DesignCourseCommons(props) {
+  const classes = useStyles();
   const {
+    courseInformation,
     key,
     learnGols,
     preKnowledge,
@@ -51,22 +53,22 @@ export default function DesignCourseCommons(props) {
     unitIndex,
     handleUnitChange,
     handleSelectResources,
-    organization
   } = props;
-  const [controlEdit, setControlEdit] = useState({
-    tempValue: "",
-    adding: false,
-    editing: false
-  });
 
-  function updateTempValue(value) {
-    setControlEdit(prev => {
-      return { ...prev, tempValue: value };
-    });
-  }
+  useEffect(() => {
+    console.log("actaliza el estado",learnGols)
+    setLearning(learnGols)
+    setpreKnow(preKnowledge)
+    setMain(mainContent)
+    setEvaluation(evaluation)
+  }, [])
 
-  const classes = useStyles();
 
+  const [learning, setLearning]=useState(learnGols);
+  const [preKnow, setpreKnow]=useState(preKnowledge);
+  const [main, setMain]=useState(mainContent);
+  const [eval, setEvaluation]=useState(evaluation);
+  
   return (
     <React.Fragment>
       <TextField
@@ -76,14 +78,16 @@ export default function DesignCourseCommons(props) {
         required
         fullWidth
         multiline
-        value={learnGols}
+        value={ learning!='' ?learning : learnGols}
         onChange={event => {
+          setLearning(event.target.value)
+          console.log('Unit en el common', unit, unitIndex)
           unit.learnGols = event.target.value;
           handleUnitChange(unit, unitIndex);
+          
         }}
       />
-
-      <FeedbackHelp
+       <FeedbackHelp
         validation={{
           error: false,
           errorMsg: "",
@@ -93,14 +97,17 @@ export default function DesignCourseCommons(props) {
         tipMsg="instructions here"
         describedBy={key + "-helper-text_Obj"}
       />
+
+
       <TextField
         id={key + "_Obj"}
         label="Pre-existing knowlegde"
         aria-describedBy={key + "-helper-text_preKnowledge"}
-        value={preKnowledge}
+        value={preKnow!=''? preKnow :preKnowledge}
         fullWidth
         multiline
         onChange={event => {
+          setpreKnow(event.target.value)
           unit.preKnowledge = event.target.value;
           handleUnitChange(unit, unitIndex);
         }}
@@ -120,15 +127,13 @@ export default function DesignCourseCommons(props) {
         id={key + "_Obj"}
         label="Main content"
         aria-describedBy={key + "-helper-text_mainContent"}
-        value={mainContent}
+        value={main!='' ? main : mainContent }
         fullWidth
         required
         onChange={event => {
-          // console.log(event.target.value);
-          // handleUnitChange(
-          //   { ... preKnowledge: event.target.value },
-          //   unitIndex
-          // );
+          setMain(event.target.value)
+          unit.mainContent = event.target.value;
+          handleUnitChange(unit, unitIndex);
         }}
       />
       <FeedbackHelp
@@ -146,15 +151,13 @@ export default function DesignCourseCommons(props) {
         id={key + "_Obj"}
         label="Evaluation"
         aria-describedBy={key + "-helper-text_mainContent"}
-        value={evaluation}
+        value={eval!= ''? eval : evaluation}
         fullWidth
         required
         onChange={event => {
-          // console.log(event.target.value);
-          // handleUnitChange(
-          //   { ... preKnowledge: event.target.value },
-          //   unitIndex
-          // );
+          setEvaluation(event.target.value)
+          unit.evaluation = event.target.value;
+          handleUnitChange(unit, unitIndex);
         }}
       />
       <FeedbackHelp
@@ -168,11 +171,12 @@ export default function DesignCourseCommons(props) {
         describedBy={key + "-helper-text_mainContent"}
       />
       <Resources
+        courseInformation={courseInformation}
         tools={tools}
         key={key}
         handleSelectResources={handleSelectResources}
         parentIndex={unitIndex}
-      />
+      /> 
     </React.Fragment>
   );
 }

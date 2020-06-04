@@ -10,6 +10,7 @@ import Games from "./gamesTable.js";
 import Presentation from "./presentationTable";
 import SupplementaryTexts from "./supplementaryTable";
 
+
 const useStyles = makeStyles(theme => ({
   root: {
     "& $deleteButton:hover": {
@@ -45,21 +46,30 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ActivityResources(props) {
+  
+  useEffect(()=>{
+    console.log("resources*************",courseInformation,parentIndex, props )
+    if(courseInformation.length!=0){
+      setToolsOptions(courseInformation[parentIndex].tools)
+    }
+    
+    //
+
+  },[])
   const classes = useStyles();
 
-  const { key, tools, handleSelectResources, parentIndex } = props;
+  const {courseInformation, key, tools, handleSelectResources, parentIndex } = props;
   const presentItemsTypes = ["file", "h5p"];
   const gameItemsTypes = ["unity", "h5p", "reference"];
 
   const initialValue = tools;
 
   const [toolsOptions, setToolsOptions] = useState(tools);
-
-  const handleSuppItems = () => {};
-
-  const handlePresItems = () => {};
+;
 
   const handleGamesItems = () => {};
+
+
 
   function showTable(id) {
     return toolsOptions.some(tool => {
@@ -84,6 +94,7 @@ export default function ActivityResources(props) {
                 <Checkbox
                   checked={option.checked}
                   onChange={() => {
+                    console.log("se dio click al checkbox")
                     let t = toolsOptions;
                     t[index].checked = !t[index].checked;
 
@@ -113,13 +124,34 @@ export default function ActivityResources(props) {
           describedBy={key + "-helper-text_mainContent"}
         />
       </FormControl>
-      {showTable("games") && <Games handleGamesItems={handleGamesItems} />}
+
+
+      {showTable("games") && 
+        <Games  
+         courseInformation={courseInformation}
+          tools={toolsOptions}
+          handleSelectResources={handleSelectResources}
+          parentIndex={parentIndex}
+          />}
+      
       {showTable("presentation") && (
-        <Presentation handlePresItems={handlePresItems} />
+        <Presentation
+        courseInformation={courseInformation}
+        tools={toolsOptions}
+        handleSelectResources={handleSelectResources}
+        parentIndex={parentIndex}
+          />
       )}
       {showTable("supplemantary") && (
-        <SupplementaryTexts handleSuppItems={handleSuppItems} />
+        <SupplementaryTexts
+        courseInformation={courseInformation}
+        tools={toolsOptions}
+        handleSelectResources={handleSelectResources}
+        parentIndex={parentIndex}
+          />
       )}
+
+
     </React.Fragment>
   );
 }

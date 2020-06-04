@@ -4,16 +4,26 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
 import MaterialTable from "material-table";
-import React from "react";
+import React, {useEffect}from "react";
 import Resources from "./resources";
 import FeedbackHelp from "../feedback";
+import tableIcons from '../design/icons'
 
 const useStyles = makeStyles(theme => ({}));
 
 export default function ActivityDesign(props) {
-  const classes = useStyles();
-  const { activities, handleActivities, parentIndex, template } = props;
 
+  useEffect(()=>{
+    if(courseInformation.length!=0){
+      setState(prevState=>{
+        return {...prevState, data:courseInformation[parentIndex].activities}
+      })
+    }
+   
+    
+  },[])
+  const classes = useStyles();
+  const {courseInformation, activities, handleActivities, parentIndex, template } = props;
   const spiralTasks = { 1: "Activity", 3: "Quiz" };
   const ConsistentTasks = { 1: "Activity", 2: "Problem", 3: "Quiz" };
   const ToyBoxTasks = { 1: "Activity", 2: "Problem", 3: "Quiz", 4: "Forum" };
@@ -40,7 +50,6 @@ export default function ActivityDesign(props) {
 
     return rows;
   }
-
   const [state, setState] = React.useState({
     columns: [
       {
@@ -60,7 +69,7 @@ export default function ActivityDesign(props) {
               !props.value &&
               props.rowData.validateInput &&
               props.rowData.submitted
-                ? "Required"
+                ? "Requiredaaa"
                 : ""
             }
             value={props.value ? props.value : ""}
@@ -108,45 +117,27 @@ export default function ActivityDesign(props) {
     data: activities
   });
 
-  const handleSelectResources = (activityIndex, resources) => {
-    console.log("handleSelectResources");
+
+
+  const handleSelectResources = (activityIndex, resources) => {  
     let prev = [...state.data];
-    console.log(prev);
     prev[activityIndex].tools = resources;
-    console.log(prev);
-
-    // setData(prev);
-
-    // setState(prevState => {
-    //   return { ...prevState, prev };
-    // });
-
     handleActivities(parentIndex, prev);
   };
 
   return (
     <React.Fragment>
       <MaterialTable
+        icons={tableIcons}
         title="Tasks list"
         options={{ search: false }}
         columns={state.columns}
         data={state.data}
-        icons={{
-          Add: () => (
-            <Button
-              id="addRow"
-              variant="outlined"
-              color="secondary"
-              startIcon={<AddIcon />}
-            >
-              Add task
-            </Button>
-          )
-        }}
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
+                console.log("NewDataActivityDesign",newData)
                 newData.submitted = true;
                 if (!newData.activity) {
                   newData.error = true;
@@ -208,6 +199,7 @@ export default function ActivityDesign(props) {
                   render: rowData => {
                     return (
                       <Resources
+                      courseInformation={courseInformation}
                         tools={rowData.tools}
                         key={"act"}
                         handleSelectResources={handleSelectResources}
@@ -234,6 +226,8 @@ export default function ActivityDesign(props) {
           }
         }}
       />
+
+
       <FeedbackHelp
         validation={{
           error: false,

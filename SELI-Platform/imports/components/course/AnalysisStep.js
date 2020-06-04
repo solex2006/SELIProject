@@ -1588,12 +1588,18 @@ export default function AnalysisStep(props) {
         </List>
     
       <Grid container className={classes.formGroup}>
-      {knowledges(labels.titleLO, labels.tipmsgLO, labels.subtitleLO)}
-      {skills(labels.skillsobjectives, labels.subtitleSO)}
-      {attitudes(labels.attitudesobjectives, labels.subtitleAO)}
+
+      Not defined yet (Learning constraint)
+      
+      {
+       // this.goals.knowledges.length >=0?
+        //knowledges(labels.titleLO, labels.tipmsgLO, labels.subtitleLO)
+     
+      //skills(labels.skillsobjectives, labels.subtitleSO)}
+      //attitudes(labels.attitudesobjectives, labels.subtitleAO)}
+    }
       </Grid>
      
-
      <br/>
      <div>
         BehavioralOutcome not defined yet
@@ -1602,7 +1608,6 @@ export default function AnalysisStep(props) {
     
       <Grid container className={classes.formGroup}>
         <Grid item xs={12} className="MuiFormLabel-root">
-          {/* <label>Learning constraint</label> */}
           <Typography variant="h6" className={classes.title}>{labels.learningconstraint}</Typography>
         </Grid>
         <Grid item xs={12}>

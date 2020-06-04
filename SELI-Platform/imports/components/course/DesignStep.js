@@ -12,7 +12,7 @@ import RemoveIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 import EditIcon from "@material-ui/icons/Edit";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ActivityDesign from "./design/activityDesign";
 import DesignCourseCommons from "./design/common";
 import LessonDesign from "./design/lessonDesign";
@@ -56,56 +56,58 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DesignStep(props) {
+  const {courseInformation } = props;
+  useEffect(() => {
+
+    if(courseInformation.design.length!=0){
+      setData(courseInformation.design)
+    }
+    
+ 
+  }, []); 
+
   
   console.log("CourseInformation-DesignStep", props.courseInformation) 
- 
+  const classes = useStyles();
   const template = props.courseInformation.coursePlan.courseTemplate;
   const organization = props.courseInformation.coursePlan.courseStructure;
 
-  const classes = useStyles();
+  console.log("tempalte and organization", template, organization);
+  const [courseinformation, setcourseInformation]= useState(courseInformation)
+  
   const [controlEdit, setControlEdit] = useState({
     tempValue: "",
     adding: false,
     editing: false
   });
+
   function updateTempValue(value) {
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
   }
-
   const [expanded, setExpanded] = React.useState(false);
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const [data, setData] = useState({
-    units: [
+  const [data, setData] = useState([
       {
         key: "topic1",
         title: organization === "unit" ? "Unit 01" : "Topic 01",
-        learnGols: "",
-        preKnowledge: "",
-        mainContent: "",
-        tools: [
+        learnGols: '',
+        preKnowledge: '',
+        mainContent: '',
+        evaluation:'',
+        tools: [//este nivale cuando sleccionas todos menos without template by unit
           { checked: false, key: "audio", label: "Audios" },
           { checked: false, key: "games", label: "Games", items: [] },
           { checked: false, key: "images", label: "Images" },
-          {
-            checked: false,
-            key: "presentation",
-            label: "Presentation",
-            items: []
-          },
-          {
-            checked: false,
-            key: "supplemantary",
-            label: "Supplementary Text",
-            items: []
-          },
+          { checked: false, key: "presentation", label: "Presentation", items: []},
+          { checked: false, key: "supplemantary",label: "Supplementary Text", items: []},
           { checked: false, key: "videos", label: "Videos" }
         ],
-        activities: [
+        activities: [////este nivale cuando sleccionas todos menos without template by units
           {
             activity: "Mehmet",
             type: 1,
@@ -146,18 +148,8 @@ export default function DesignStep(props) {
               { checked: false, key: "audio", label: "Audios" },
               { checked: false, key: "games", label: "Games", items: [] },
               { checked: false, key: "images", label: "Images" },
-              {
-                checked: false,
-                key: "presentation",
-                label: "Presentation",
-                items: []
-              },
-              {
-                checked: false,
-                key: "supplemantary",
-                label: "Supplementary Text",
-                items: []
-              },
+              { checked: false,key: "presentation",label: "Presentation",items: []},
+              { checked: false,key: "supplemantary",label: "Supplementary Text",items: []},
               { checked: false, key: "videos", label: "Videos" }
             ],
             activities: [
@@ -198,30 +190,43 @@ export default function DesignStep(props) {
         editing: false
       }
     ]
-  });
+  );
 
   const handleUnitChange = (unit, unitIndex) => {
+    console.log("unidad and unitIndex",unit, unitIndex )
     let prev = data;
-    prev.units[unitIndex] = unit;
+    prev[unitIndex] = unit;
     setData(prev);
+    //guardar en el courseInformation
+    let courseInfo=courseinformation;
+    courseInfo.design=data;
+    setcourseInformation(courseInfo);
   };
 
   const handleSelectResources = (unitIndex, resourceIndex) => {
-    let prev = { ...data };
-    prev.units[unitIndex].tools = resourceIndex;
-    setData(prev);
+    console.log("checkboxes", unitIndex, resourceIndex)
+    let prev = [ ...data ];
+    prev[unitIndex].tools = resourceIndex;
+    console.log("prev-----------------------------------",prev)
+    setData(prev); 
+    let courseInfo=courseinformation;
+    courseInfo.design=data;
+    setcourseInformation(courseInfo)
   };
-
   const handleActivities = (unitIndex, activities) => {
-    let prev = { ...data };
-    prev.units[unitIndex].activities = activities;
+    let prev = [ ...data ];
+    prev[unitIndex].activities = activities;
     setData(prev);
   };
 
-  return (
-    <React.Fragment>
+  
+
+
+  return(
+    <div className="form-input-audiences">
       <p>Some introductory explanation ....</p>
-      {data.units.map((unit, unitIndex) => (
+      {console.log("dataMAP---------------",data)}
+      {data.map((unit, unitIndex) => (
         <ExpansionPanel
           expanded={expanded === unit.key}
           onChange={handleChange(unit.key)}
@@ -231,7 +236,7 @@ export default function DesignStep(props) {
             aria-controls="panel1bh-content"
             id={"panel1bh-header-" + unit.key}
           >
-            <h3 className={unit.editing ? classes.hidden : ""}>{unit.title}</h3>
+            <h3 className={unit.editing ? classes.hidden : ""}>{unit.title}</h3>        
             <div className={!unit.editing ? classes.hidden : ""}>
               <TextField
                 id={"unit_" + unitIndex + "txtField"}
@@ -245,15 +250,14 @@ export default function DesignStep(props) {
                 aria-label={"Save changes"}
                 onClick={event => {
                   setData(prev => {
-                    prev.units[unitIndex].editing = false;
-                    prev.units[unitIndex].title = controlEdit.tempValue;
-
+                    prev[unitIndex].editing = false;
+                    prev[unitIndex].title = controlEdit.tempValue;
                     setControlEdit({
                       tempValue: "",
                       adding: false,
                       editing: false
                     });
-                    return { ...prev };
+                    return {...prev};
                   });
                 }}
                 className={classes.saveButton}
@@ -267,7 +271,7 @@ export default function DesignStep(props) {
                 aria-label={"Cancel changes"}
                 onClick={event => {
                   setData(prev => {
-                    prev.units[unitIndex].editing = false;
+                    prev[unitIndex].editing = false;
 
                     setControlEdit({
                       tempValue: "",
@@ -293,14 +297,18 @@ export default function DesignStep(props) {
               />
             </div>
           </ExpansionPanelSummary>
+
+
+
+
           <ExpansionPanelActions>
             <Button
               id={"unit_" + unitIndex + "btnEdit"}
               onClick={() => {
                 setData(prev => {
-                  prev.units[unitIndex].editing = true;
+                  prev.unit[unitIndex].editing = true;
                   setControlEdit({
-                    tempValue: prev.units[unitIndex].title,
+                    tempValue: prev.unit[unitIndex].title,
                     adding: false,
                     editing: true
                   });
@@ -319,15 +327,15 @@ export default function DesignStep(props) {
               id={"unit_" + unitIndex + "btnDelete"}
               onClick={() => {
                 if (window.confirm("delete " + unit.title + "?")) {
-                  let prev = { ...data };
+                  let prev = [ ...data ];
 
-                  if (unitIndex === 0) prev.units = [...prev.units.slice(1)];
-                  else if (unitIndex === prev.units.length - 1)
-                    prev.units = [...prev.units.slice(0, unitIndex)];
+                  if (unitIndex === 0) prev.unit = [...prev.unit.slice(1)];
+                  else if (unitIndex === prev.unit.length - 1)
+                    prev.unit = [...prev.unit.slice(0, unitIndex)];
                   else
-                    prev.units = [
-                      ...prev.units.slice(0, unitIndex),
-                      ...prev.units.slice(unitIndex + 1)
+                    prev.unit = [
+                      ...prev.unit.slice(0, unitIndex),
+                      ...prev.unit.slice(unitIndex + 1)
                     ];
 
                   setData({ ...prev });
@@ -351,37 +359,49 @@ export default function DesignStep(props) {
               </IconButton>
             )}
           </ExpansionPanelActions>
+
+
+
+
+
           <ExpansionPanelDetails className={classes.panelDtls}>
             <DesignCourseCommons
+              courseInformation={courseinformation.design}
               key={unit.key}
               learnGols={unit.learnGols}
               preKnowledge={unit.preKnowledge}
               mainContent={unit.mainContent}
               tools={unit.tools}
               otherTools={unit.otherTools}
-              evaluation={unit.evaluation}
               unit={unit}
               unitIndex={unitIndex}
-              handleUnitChange={() => handleUnitChange}
+              handleUnitChange={handleUnitChange}
               handleSelectResources={handleSelectResources}
               template={template}
               organization={organization}
+              evaluation={unit.evaluation}
             />
+            {console.log("organization",organization)}
             {organization === "unit" && (
               <LessonDesign
+                unit={unit}
+                unitIndex={unitIndex}
                 lessons={unit.lessons}
                 template={template}
                 organization={organization}
               />
             )}
+            {console.log("organizationdos",organization)}
             {organization !== "unit" && (
               <ActivityDesign
+                courseInformation={courseinformation.design}
                 activities={unit.activities}
                 handleActivities={handleActivities}
                 parentIndex={unitIndex}
                 template={template}
               />
             )}
+           
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}
@@ -391,45 +411,38 @@ export default function DesignStep(props) {
         fullWidth
         onClick={() => {
           let unit = {
-            key: "topic" + data.units.length,
+            key: "topic" + data.length,
             title: organization === "unit" ? "Unit 01" : "Topic 01",
             learnGols: "",
             preKnowledge: "",
             mainContent: "",
-            tools: [
+            evaluation:'',
+            tools: [//este nivale cuando sleccionas todos menos without template by unit
               { checked: false, key: "audio", label: "Audios" },
               { checked: false, key: "games", label: "Games", items: [] },
               { checked: false, key: "images", label: "Images" },
-              {
-                checked: false,
-                key: "presentation",
-                label: "Presentation",
-                items: []
-              },
-              {
-                checked: false,
-                key: "supplemantary",
-                label: "Supplementary Text",
-                items: []
-              },
+              { checked: false, key: "presentation", label: "Presentation", items: []},
+              { checked: false, key: "supplemantary",label: "Supplementary Text", items: []},
               { checked: false, key: "videos", label: "Videos" }
             ],
             activities: [],
             lessons: [],
             editing: true
           };
-          console.log("Design");
-          console.log(unit);
-          console.log(data);
-          let prev = { ...data };
-          prev.units.push(unit);
-          console.log({ ...prev });
+
+          let prev = [ ...data ];
+          prev.push(unit);
+          console.log("prevState111111111111111111111111", prev)
+          setData(prev);
+          let courseInfo=courseinformation;
+          courseInfo.design=prev;
+          setcourseInformation(courseInfo);
           setControlEdit({
             tempValue: "",
             adding: true,
             editing: true
           });
-          setData(prev);
+          
         }}
       >
         Add {organization === "unit" ? "unit" : "topic"}
@@ -444,6 +457,6 @@ export default function DesignStep(props) {
         tipMsg="instructions"
         describedBy={"i05-helper-text"}
       />
-    </React.Fragment>
+    </div>
   );
 }
