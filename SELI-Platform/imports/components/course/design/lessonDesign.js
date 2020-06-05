@@ -12,10 +12,11 @@ import RemoveIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 import EditIcon from "@material-ui/icons/Edit";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ActivityDesign from "./activityDesign";
 import FeedbackHelp from "../feedback";
-
+import Resources from './resources'
+import { wrap } from "module";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,7 +30,17 @@ const useStyles = makeStyles(theme => ({
     }
   },
   panelDtls: {
-    display: "block"
+    display: 'flex',
+    flexDirection: "column",
+    flexWrap: 'wrap',
+    justifyContent:'space-between',
+    alignItems:'center'
+  },
+  resources:{
+   
+  },
+  activitydesign:{
+  
   },
   nested: {
     paddingLeft: theme.spacing(4)
@@ -55,8 +66,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DesignCourseApp(props) {
-  const {unit,unitIndex,handleUnitChange, template, organization, lessons } = props;
+  const {courseInformation, unit,unitIndex,handleUnitChange, template, lessons, tools,key, handleSelectResourcesLessons,handleSelectResourcesActivities } = props;
   const classes = useStyles();
+ 
+ useEffect(() => {
+   console.log("lessonDesign-props",courseInformation, lessons)
+  setData(courseInformation[unitIndex].lessons)
+  
+ }, [])
+ 
   const [controlEdit, setControlEdit] = useState({
     tempValue: "",
     adding: false,
@@ -81,6 +99,7 @@ export default function DesignCourseApp(props) {
 
   return (
     <React.Fragment>
+      {console.log("El error", data)}
       {data.map((lesson, lessonIndex) => (
         <ExpansionPanel
           expanded={expanded === lesson.key}
@@ -226,12 +245,30 @@ export default function DesignCourseApp(props) {
 
 
           <ExpansionPanelDetails className={classes.panelDtls}>
-           <ActivityDesign
-              activities={lesson.activities}
-              handleActivities={handleActivities}
-              parentIndex={lessonIndex}
-              template={template}
-            />
+            <div className={classes.resources}>
+              <Resources
+                type='lesson'
+                courseInformation={courseInformation}
+                tools={tools}
+                key={key}
+                handleSelectResourcesLessons={handleSelectResourcesLessons}
+                parentIndex={unitIndex}
+                lessonIndex={lessonIndex}
+              />
+            </div>
+          <div className={classes.activitydesign}>
+            <ActivityDesign
+                type='lesson'
+                handleSelectResourcesActivities={handleSelectResourcesActivities}
+                courseInformation={courseInformation}
+                activities={lesson.activities}
+                handleActivities={handleActivities}
+                parentIndex={unitIndex}
+                lessonIndex={lessonIndex}
+                template={template}
+              />
+          </div>
+           
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}

@@ -53,6 +53,7 @@ export default function DesignCourseCommons(props) {
     unitIndex,
     handleUnitChange,
     handleSelectResources,
+    organization,
   } = props;
 
   useEffect(() => {
@@ -170,13 +171,19 @@ export default function DesignCourseCommons(props) {
         tipMsg="instructions..."
         describedBy={key + "-helper-text_mainContent"}
       />
-      <Resources
-        courseInformation={courseInformation}
-        tools={tools}
-        key={key}
-        handleSelectResources={handleSelectResources}
-        parentIndex={unitIndex}
-      /> 
+      {
+        organization!='unit' && (
+          <Resources
+            type='topic'
+            courseInformation={courseInformation}
+            tools={tools}
+            key={key}
+            handleSelectResources={handleSelectResources}
+            parentIndex={unitIndex}
+          />
+        )
+      }
+       
     </React.Fragment>
   );
 }

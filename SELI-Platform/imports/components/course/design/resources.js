@@ -28,6 +28,13 @@ const useStyles = makeStyles(theme => ({
   hidden: {
     display: "none"
   },
+  intoresources:{
+    display: 'flex',
+    flexDirection:'column',
+    flexWrap:'wrap',
+    justifyContent:'space-between',
+    alignItems:'center'
+  },
   addButton: {
     color: theme.palette.secondary.main
   },
@@ -46,29 +53,26 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ActivityResources(props) {
-  
   useEffect(()=>{
     console.log("resources*************",courseInformation,parentIndex, props )
     if(courseInformation.length!=0){
       setToolsOptions(courseInformation[parentIndex].tools)
     }
-    
-    //
-
   },[])
   const classes = useStyles();
 
-  const {courseInformation, key, tools, handleSelectResources, parentIndex } = props;
+  const {type, courseInformation, key, tools, handleSelectResources, parentIndex,lessonIndex ,handleSelectResourcesLessons } = props;
+  console.log("resources",type,tools)
   const presentItemsTypes = ["file", "h5p"];
   const gameItemsTypes = ["unity", "h5p", "reference"];
 
   const initialValue = tools;
 
   const [toolsOptions, setToolsOptions] = useState(tools);
-;
+  
+  
 
-  const handleGamesItems = () => {};
-
+  
 
 
   function showTable(id) {
@@ -78,7 +82,7 @@ export default function ActivityResources(props) {
   }
 
   return (
-    <React.Fragment>
+    <div className={classes.intoresources}>
       {/* <h4>Resources</h4> */}
       <FormControl
         required
@@ -97,14 +101,13 @@ export default function ActivityResources(props) {
                     console.log("se dio click al checkbox")
                     let t = toolsOptions;
                     t[index].checked = !t[index].checked;
-
-                    handleSelectResources(parentIndex, t);
-                    // setTimeout(() => {
-                    // setToolsOptions(prev => {
-                    // prev[index].checked = !prev[index].checked;
-                    // return [...prev];
-                    // });
-                    // }, 600);
+                    {
+                      type==='lesson'?
+                      handleSelectResourcesLessons(parentIndex, t, lessonIndex)
+                      :
+                      handleSelectResources(parentIndex, t)
+                    }
+                    
                   }}
                   name={option.key}
                 />
@@ -132,7 +135,7 @@ export default function ActivityResources(props) {
           tools={toolsOptions}
           handleSelectResources={handleSelectResources}
           parentIndex={parentIndex}
-          />}
+        />}
       
       {showTable("presentation") && (
         <Presentation
@@ -150,8 +153,6 @@ export default function ActivityResources(props) {
         parentIndex={parentIndex}
           />
       )}
-
-
-    </React.Fragment>
+    </div>
   );
 }

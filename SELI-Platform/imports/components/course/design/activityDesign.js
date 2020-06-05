@@ -12,18 +12,25 @@ import tableIcons from '../design/icons'
 const useStyles = makeStyles(theme => ({}));
 
 export default function ActivityDesign(props) {
-
+  const {type,courseInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
+ 
   useEffect(()=>{
-    if(courseInformation.length!=0){
-      setState(prevState=>{
-        return {...prevState, data:courseInformation[parentIndex].activities}
-      })
-    }
-   
-    
+    console.log("courseInformation-activity-design",courseInformation, type,lessonIndex,parentIndex)
+     if(courseInformation.length!=0){
+      if(type=='lesson'){
+        setState(prevState=>{
+          return {...prevState, data: courseInformation[parentIndex].lessons[lessonIndex].activities}
+        })
+      }else{
+        setState(prevState=>{
+          return {...prevState, data:courseInformation[parentIndex].activities}
+        })
+      }   
+    } 
   },[])
+
   const classes = useStyles();
-  const {courseInformation, activities, handleActivities, parentIndex, template } = props;
+ 
   const spiralTasks = { 1: "Activity", 3: "Quiz" };
   const ConsistentTasks = { 1: "Activity", 2: "Problem", 3: "Quiz" };
   const ToyBoxTasks = { 1: "Activity", 2: "Problem", 3: "Quiz", 4: "Forum" };
@@ -150,9 +157,14 @@ export default function ActivityDesign(props) {
                 resolve();
                 setState(prevState => {
                   const data = [...prevState.data];
-                  console.log("aqui");
                   data.push(newData);
-                  handleActivities(parentIndex, data);
+                  if(type==='lesson'){
+                    
+                    handleSelectResourcesActivities(parentIndex, data, lessonIndex)
+                  }else{
+                    handleActivities(parentIndex, data);
+                  }
+                  
                   return { ...prevState, data };
                 });
               }, 600);
@@ -174,6 +186,11 @@ export default function ActivityDesign(props) {
                   setState(prevState => {
                     const data = [...prevState.data];
                     data[data.indexOf(oldData)] = newData;
+                    if(type=='lesson'){
+                      handleSelectResourcesActivities(parentIndex, data, lessonIndex)
+                    }else{
+                      handleActivities(parentIndex, data);
+                    }
                     return { ...prevState, data };
                   });
                 }
@@ -186,6 +203,11 @@ export default function ActivityDesign(props) {
                 setState(prevState => {
                   const data = [...prevState.data];
                   data.splice(data.indexOf(oldData), 1);
+                  if(type=='lesson'){
+                    handleSelectResourcesActivities(parentIndex, data, lessonIndex)
+                  }else{
+                    handleActivities(parentIndex, data);
+                  }
                   return { ...prevState, data };
                 });
               }, 600);
@@ -199,7 +221,7 @@ export default function ActivityDesign(props) {
                   render: rowData => {
                     return (
                       <Resources
-                      courseInformation={courseInformation}
+                        courseInformation={courseInformation}
                         tools={rowData.tools}
                         key={"act"}
                         handleSelectResources={handleSelectResources}

@@ -154,30 +154,12 @@ export default function DesignStep(props) {
             ],
             activities: [
               {
-                activity: "Mehmet",
+                activity: "Activity within lesson",
                 type: 1,
                 graded: true,
                 group: 0,
                 project: false,
                 preeReview: false,
-                tools: [
-                  { checked: false, key: "audio", label: "Audios" },
-                  { checked: false, key: "games", label: "Games", items: [] },
-                  { checked: false, key: "images", label: "Images" },
-                  {
-                    checked: false,
-                    key: "presentation",
-                    label: "Presentation",
-                    items: []
-                  },
-                  {
-                    checked: false,
-                    key: "supplemantary",
-                    label: "Supplementary Text",
-                    items: []
-                  },
-                  { checked: false, key: "videos", label: "Videos" }
-                ],
                 submitted: true,
                 error: true,
                 label: "required",
@@ -207,12 +189,35 @@ export default function DesignStep(props) {
     console.log("checkboxes", unitIndex, resourceIndex)
     let prev = [ ...data ];
     prev[unitIndex].tools = resourceIndex;
-    console.log("prev-----------------------------------",prev)
     setData(prev); 
     let courseInfo=courseinformation;
     courseInfo.design=data;
     setcourseInformation(courseInfo)
   };
+
+  const handleSelectResourcesLessons = (unitIndex, resourceIndex, lessonIndex) => {
+    console.log("Las lecciones a guardar en la unidad", unitIndex, resourceIndex,lessonIndex)
+     let prev = [ ...data ];
+     prev[unitIndex].lessons[lessonIndex].tools = resourceIndex;
+    console.log("prevlesson-----------------------------------",prev)
+    setData(prev); 
+    let courseInfo=courseinformation;
+    courseInfo.design=data;
+    setcourseInformation(courseInfo) 
+  };
+
+  const handleSelectResourcesActivities = (unitIndex, resourceIndex, lessonIndex) => {
+    console.log("Las lecciones a guardar en la unidad", unitIndex, resourceIndex,lessonIndex)
+     let prev = [ ...data ];
+     prev[unitIndex].lessons[lessonIndex].activities = resourceIndex;
+    console.log("prevActivities-----------------------------------",prev)
+    setData(prev); 
+    let courseInfo=courseinformation;
+    courseInfo.design=data;
+    setcourseInformation(courseInfo) 
+  };
+
+
   const handleActivities = (unitIndex, activities) => {
     let prev = [ ...data ];
     prev[unitIndex].activities = activities;
@@ -220,7 +225,6 @@ export default function DesignStep(props) {
   };
 
   
-
 
   return(
     <div className="form-input-audiences">
@@ -363,7 +367,6 @@ export default function DesignStep(props) {
 
 
 
-
           <ExpansionPanelDetails className={classes.panelDtls}>
             <DesignCourseCommons
               courseInformation={courseinformation.design}
@@ -384,6 +387,11 @@ export default function DesignStep(props) {
             {console.log("organization",organization)}
             {organization === "unit" && (
               <LessonDesign
+                handleSelectResourcesActivities={handleSelectResourcesActivities}
+                handleSelectResourcesLessons={handleSelectResourcesLessons}
+                tools={unit.tools}
+                key={unit.key}
+                courseInformation={courseinformation.design}
                 unit={unit}
                 unitIndex={unitIndex}
                 lessons={unit.lessons}
@@ -391,7 +399,7 @@ export default function DesignStep(props) {
                 organization={organization}
               />
             )}
-            {console.log("organizationdos",organization)}
+    
             {organization !== "unit" && (
               <ActivityDesign
                 courseInformation={courseinformation.design}
