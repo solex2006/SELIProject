@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
 import MaterialTable from "material-table";
-import React, {useEffect}from "react";
+import React, {useEffect,  useState}from "react";
 import Resources from "./resources";
 import FeedbackHelp from "../feedback";
 import tableIcons from '../design/icons'
@@ -12,7 +12,7 @@ import tableIcons from '../design/icons'
 const useStyles = makeStyles(theme => ({}));
 
 export default function ActivityDesign(props) {
-  const {type,courseInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
+  const {handleToolActivity,type,courseInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
  
   useEffect(()=>{
     console.log("courseInformation-activity-design",courseInformation, type,lessonIndex,parentIndex)
@@ -124,8 +124,16 @@ export default function ActivityDesign(props) {
     data: activities
   });
 
-
-
+ const [newtools, setnewtools]=useState(
+  [
+    { checked: false, key: "audio", label: "Audios" },
+    { checked: false, key: "games", label: "Games", items: [] },
+    { checked: false, key: "images", label: "Images" },
+    { checked: false, key: "presentation", label: "Presentation", items: []},
+    { checked: false, key: "supplemantary",label: "Supplementary Text", items: []},
+    { checked: false, key: "videos", label: "Videos" }
+  ]
+ )
   const handleSelectResources = (activityIndex, resources) => {  
     let prev = [...state.data];
     prev[activityIndex].tools = resources;
@@ -157,6 +165,7 @@ export default function ActivityDesign(props) {
                 resolve();
                 setState(prevState => {
                   const data = [...prevState.data];
+                  newData.tools=newtools;
                   data.push(newData);
                   if(type==='lesson'){
                     
@@ -221,11 +230,14 @@ export default function ActivityDesign(props) {
                   render: rowData => {
                     return (
                       <Resources
+                        handleToolActivity={handleToolActivity}
+                        type="subActivity"
                         courseInformation={courseInformation}
-                        tools={rowData.tools}
+                        tools={state.data}
                         key={"act"}
                         handleSelectResources={handleSelectResources}
                         parentIndex={parentIndex}
+                        activityIndex={rowData}
                       />
                     );
                   }

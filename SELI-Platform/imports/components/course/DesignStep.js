@@ -66,11 +66,19 @@ export default function DesignStep(props) {
  
   }, []); 
 
+  useEffect(() => {
+
+    if(organization==='unit' && template!='without') {
+      setOrganization('topic')
+    }
+    
+ 
+  }); 
   
   console.log("CourseInformation-DesignStep", props.courseInformation) 
   const classes = useStyles();
-  const template = props.courseInformation.coursePlan.courseTemplate;
-  const organization = props.courseInformation.coursePlan.courseStructure;
+  const [template, setTemplate] = useState(props.courseInformation.coursePlan.courseTemplate);
+  const [organization,setOrganization] =  useState(props.courseInformation.coursePlan.courseStructure);
 
   console.log("tempalte and organization", template, organization);
   const [courseinformation, setcourseInformation]= useState(courseInformation)
@@ -108,37 +116,7 @@ export default function DesignStep(props) {
           { checked: false, key: "videos", label: "Videos" }
         ],
         activities: [////este nivale cuando sleccionas todos menos without template by units
-          {
-            activity: "Mehmet",
-            type: 1,
-            graded: true,
-            group: 0,
-            project: false,
-            preeReview: false,
-            tools: [
-              { checked: false, key: "audio", label: "Audios" },
-              { checked: false, key: "games", label: "Games", items: [] },
-              { checked: false, key: "images", label: "Images" },
-              {
-                checked: false,
-                key: "presentation",
-                label: "Presentation",
-                items: []
-              },
-              {
-                checked: false,
-                key: "supplemantary",
-                label: "Supplementary Text",
-                items: []
-              },
-              { checked: false, key: "videos", label: "Videos" }
-            ],
-            submitted: true,
-            error: true,
-            label: "required",
-            helperText: "Name is required.",
-            validateInput: true
-          }
+          
         ],
         lessons: [
           {
@@ -154,12 +132,20 @@ export default function DesignStep(props) {
             ],
             activities: [
               {
-                activity: "Activity within lesson",
+                activity: "Example",
                 type: 1,
                 graded: true,
                 group: 0,
                 project: false,
                 preeReview: false,
+                tools: [
+                  { checked: false, key: "audio", label: "Audios" },
+                  { checked: false, key: "games", label: "Games", items: [] },
+                  { checked: false, key: "images", label: "Images" },
+                  { checked: false,  key: "presentation",label: "Presentation",items: []},
+                  { checked: false, key: "supplemantary",label: "Supplementary Text",items: []},
+                  { checked: false, key: "videos", label: "Videos" }
+                ],
                 submitted: true,
                 error: true,
                 label: "required",
@@ -224,7 +210,17 @@ export default function DesignStep(props) {
     setData(prev);
   };
 
-  
+  const handleToolActivity=(unitIndex, resourceIndex, lessonIndex)=>{
+    console.log("Las tools dentro de una activity", unitIndex, resourceIndex,lessonIndex)
+    let prev = [ ...data ];
+    prev[unitIndex].activities[lessonIndex].tools = resourceIndex;
+    console.log("prevTools-----------------------------------",prev)
+    setData(prev); 
+    let courseInfo=courseinformation;
+    courseInfo.design=data;
+    setcourseInformation(courseInfo) 
+
+  }
 
   return(
     <div className="form-input-audiences">
@@ -384,8 +380,8 @@ export default function DesignStep(props) {
               organization={organization}
               evaluation={unit.evaluation}
             />
-            {console.log("organization",organization)}
-            {organization === "unit" && (
+            {console.log("organization",organization,template)}
+            {(organization === "unit") && (
               <LessonDesign
                 handleSelectResourcesActivities={handleSelectResourcesActivities}
                 handleSelectResourcesLessons={handleSelectResourcesLessons}
@@ -405,10 +401,13 @@ export default function DesignStep(props) {
                 courseInformation={courseinformation.design}
                 activities={unit.activities}
                 handleActivities={handleActivities}
+                handleToolActivity={handleToolActivity}
                 parentIndex={unitIndex}
                 template={template}
               />
             )}
+
+            
            
           </ExpansionPanelDetails>
         </ExpansionPanel>

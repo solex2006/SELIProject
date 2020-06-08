@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
     alignItems:'center'
   },
   resources:{
+    alignSelf:'flex-start'
    
   },
   activitydesign:{
@@ -70,8 +71,11 @@ export default function DesignCourseApp(props) {
   const classes = useStyles();
  
  useEffect(() => {
-   console.log("lessonDesign-props",courseInformation, lessons)
-  setData(courseInformation[unitIndex].lessons)
+   if(courseInformation.length!=0){
+    console.log("lessonDesign-props",courseInformation, lessons)
+    setData(courseInformation[unitIndex].lessons)
+   }
+   
   
  }, [])
  

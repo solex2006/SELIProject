@@ -10,7 +10,6 @@ import Games from "./gamesTable.js";
 import Presentation from "./presentationTable";
 import SupplementaryTexts from "./supplementaryTable";
 
-
 const useStyles = makeStyles(theme => ({
   root: {
     "& $deleteButton:hover": {
@@ -54,24 +53,32 @@ const useStyles = makeStyles(theme => ({
 
 export default function ActivityResources(props) {
   useEffect(()=>{
-    console.log("resources*************",courseInformation,parentIndex, props )
-    if(courseInformation.length!=0){
+    console.log("resources*************",courseInformation,parentIndex, tools, props.activityIndex ,type)
+      if(courseInformation.length!=0){
       setToolsOptions(courseInformation[parentIndex].tools)
-    }
+    }  
   },[])
-  const classes = useStyles();
 
-  const {type, courseInformation, key, tools, handleSelectResources, parentIndex,lessonIndex ,handleSelectResourcesLessons } = props;
-  console.log("resources",type,tools)
+  useEffect(()=>{
+     if(props.activityIndex!=undefined && type==='subActivity'){
+      console.log("resources--->",props.activityIndex.tableData.id)
+      setToolsOptionsSub(courseInformation[parentIndex].activities[props.activityIndex.tableData.id].tools)
+    } 
+    
+  })
+
+  const classes = useStyles();
+  const {handleToolActivity,type, courseInformation, key, tools, handleSelectResources, parentIndex,lessonIndex ,handleSelectResourcesLessons } = props;
+  
   const presentItemsTypes = ["file", "h5p"];
   const gameItemsTypes = ["unity", "h5p", "reference"];
 
   const initialValue = tools;
 
   const [toolsOptions, setToolsOptions] = useState(tools);
+  const [toolsOptionsSub, setToolsOptionsSub] = useState([]);
   
   
-
   
 
 
@@ -81,9 +88,10 @@ export default function ActivityResources(props) {
     });
   }
 
-  return (
-    <div className={classes.intoresources}>
-      {/* <h4>Resources</h4> */}
+  const subActivityTool=()=>{
+    return(
+
+      <div className={classes.intoresources}>
       <FormControl
         required
         // error={error}
@@ -91,6 +99,62 @@ export default function ActivityResources(props) {
         className={classes.formControl}
       >
         <FormLabel component="legend">Resources</FormLabel>
+        {console.log("propiedades111subtools",props)}
+        <FormGroup>
+          {toolsOptionsSub.map((option, index) => (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={option.checked}
+                  onChange={() => {
+                    console.log("se dio click al checkbox")
+                    let t = toolsOptionsSub;
+                    t[index].checked = !t[index].checked;
+                    
+                      
+                      handleToolActivity(parentIndex, t, props.activityIndex.tableData.id)
+                  
+                    
+                  }}
+                  name={option.key}
+                />
+              }
+              label={option.label}
+            />
+          ))}
+        </FormGroup>
+        <FeedbackHelp
+          validation={{
+            error: false,
+            errorMsg: "",
+            errorType: "",
+            a11y: null
+          }}
+          tipMsg="Select the resources tool you are goint to ue in this topic"
+          describedBy={key + "-helper-text_mainContent"}
+        />
+      </FormControl>
+
+      </div>
+
+    )
+  }
+
+  return (
+    <div>
+      {
+      type==='subActivity'?
+      subActivityTool()
+      :
+      <div className={classes.intoresources}> 
+      <FormControl
+        required
+        // error={error}
+        component="fieldset"
+        className={classes.formControl}
+      >
+        <FormLabel component="legend">Resources</FormLabel>
+        {console.log("propiedades111",props)}
         <FormGroup>
           {toolsOptions.map((option, index) => (
             <FormControlLabel
@@ -104,6 +168,8 @@ export default function ActivityResources(props) {
                     {
                       type==='lesson'?
                       handleSelectResourcesLessons(parentIndex, t, lessonIndex)
+                      :type==='subActivity'?
+                      handleToolActivity(parentIndex, t, props.activityIndex.tableData.id)
                       :
                       handleSelectResources(parentIndex, t)
                     }
@@ -154,5 +220,10 @@ export default function ActivityResources(props) {
           />
       )}
     </div>
+
+      }
+    </div>
+    
+    
   );
 }
