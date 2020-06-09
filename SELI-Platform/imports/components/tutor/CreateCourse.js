@@ -59,7 +59,7 @@ export default class CreateCourse extends React.Component {
         requirements: [],
         coursePlan:{
           guidedCoursePlan: 'guided', 
-          courseTemplate: 'without', 
+          courseTemplate: 'spiral', 
           courseStructure: 'unit'
         },
         accessibility:[],
@@ -101,7 +101,7 @@ export default class CreateCourse extends React.Component {
           coursePlan: this.props.courseToEdit.coursePlan ? this.props.courseToEdit.coursePlan : 
           {
             guidedCoursePlan: 'guided', 
-            courseTemplate: 'without', 
+            courseTemplate: 'spiral', 
             courseStructure: 'unit'
           },
           organization: this.props.courseToEdit.organization,
@@ -259,6 +259,7 @@ export default class CreateCourse extends React.Component {
               analysis:courseInformation.analysis,
               design:courseInformation.design,
               classroom: courseInformation.classroom,
+              coursePlan:courseInformation.coursePlan,
               creationDate: new Date(),
             }
           }

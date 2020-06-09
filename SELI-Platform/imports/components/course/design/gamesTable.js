@@ -16,13 +16,12 @@ import tableIcons from '../design/icons'
   const useStyles = makeStyles(theme => ({}));
 export default function Presentation(props) {
 
-  useEffect(()=>{
-    setState(prev=>{
-      //let Resdata=[... prev.data];
-      let Restoredata=courseInformation[parentIndex].tools[1].items;
-      return {... prev, Restoredata}
-    })
 
+
+  useEffect(()=>{
+    let update=state;
+    update.data=courseInformation[parentIndex].tools[1].items;
+    setState(update) 
   },[])
   const {courseInformation,handleSelectResources, parentIndex, tools}=props
   console.log("propsenGamesTable****",props)
@@ -165,39 +164,7 @@ export default function Presentation(props) {
       }
     ],
     data: [
-      {
-        title: "Some unity game",
-        type: 1,
-        external: false,
-        url: "",
-        validateInput: true,
-        submitted: true,
-        error: false,
-        label: "",
-        helperText: ""
-      },
-      {
-        title: "Some h5p game",
-        type: 2,
-        external: false,
-        url: "",
-        validateInput: true,
-        submitted: true,
-        error: false,
-        label: "",
-        helperText: ""
-      },
-      {
-        title: "Some external game",
-        type: 3,
-        external: true,
-        url: "https://www.minecraft.net/en-us/",
-        validateInput: true,
-        submitted: true,
-        error: false,
-        label: "",
-        helperText: ""
-      }
+      
     ]
   });
 

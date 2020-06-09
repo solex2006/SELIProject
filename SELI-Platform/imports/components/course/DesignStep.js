@@ -107,7 +107,7 @@ export default function DesignStep(props) {
         preKnowledge: '',
         mainContent: '',
         evaluation:'',
-        tools: [//este nivale cuando sleccionas todos menos without template by unit
+        tools: [
           { checked: false, key: "audio", label: "Audios" },
           { checked: false, key: "games", label: "Games", items: [] },
           { checked: false, key: "images", label: "Images" },
