@@ -43,7 +43,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import WarningIcon from '@material-ui/icons/Warning';
 //Teamplates
 import FreeWithout from './templates/FreeWithout';
-import SpiralModel from './templates/SpiralModel';
+import TemplateParent from './templates/TemplateParent';
 
 export default class CourseProgram extends React.Component {
   constructor(props) {
@@ -533,7 +533,7 @@ export default class CourseProgram extends React.Component {
       )
     } else if (this.props.courseInformation.coursePlan.courseTemplate === 'spiral') {
       return (
-        <SpiralModel
+        <TemplateParent
           courseInformation={this.props.courseInformation}
           selected={this.props.selected}
           menuTab={this.state.menuTab}
@@ -553,7 +553,7 @@ export default class CourseProgram extends React.Component {
           handlePreview={this.props.handlePreview.bind(this)}
           warningOrganization={this.warningOrganization.bind(this)}
           language={this.props.language}
-        ></SpiralModel>
+        ></TemplateParent>
       )
     }
   }
