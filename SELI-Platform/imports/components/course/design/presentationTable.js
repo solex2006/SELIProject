@@ -136,17 +136,7 @@ export default function Presentation(props) {
       }
     ],
     data: [
-      {
-        title: "What's Instructional Design",
-        type: 1,
-        external: false,
-        url: "",
-        validateInput: true,
-        submitted: true,
-        error: false,
-        label: "",
-        helperText: ""
-      }
+      
     ]
   });
 

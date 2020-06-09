@@ -62,10 +62,16 @@ export default function ActivityResources(props) {
   useEffect(()=>{
      if(props.activityIndex!=undefined && type==='subActivity'){
       console.log("resources--->",props.activityIndex.tableData.id)
-      setToolsOptionsSub(courseInformation[parentIndex].activities[props.activityIndex.tableData.id].tools)
+      let arrayActivities=[];
+      courseInformation[parentIndex].activities.map((tools, index)=>{
+          console.log("LAs tools***************", tools.tools)
+          arrayActivities.push(tools.tools);
+          setToolsOptionsSub(arrayActivities);
+      })
+      //setToolsOptionsSub(courseInformation[parentIndex].activities[props.activityIndex.tableData.id].tools)
     } 
     
-  })
+  },[])
 
   const classes = useStyles();
   const {handleToolActivity,type, courseInformation, key, tools, handleSelectResources, parentIndex,lessonIndex ,handleSelectResourcesLessons } = props;
@@ -88,32 +94,33 @@ export default function ActivityResources(props) {
     });
   }
 
-  const subActivityTool=()=>{
+  const subActivityTool=(indexActivitie)=>{
     return(
-
       <div className={classes.intoresources}>
-      <FormControl
+      {
+      toolsOptionsSub.length!=0?
+        <FormControl
         required
-        // error={error}
+        //error={error}
         component="fieldset"
         className={classes.formControl}
       >
         <FormLabel component="legend">Resources</FormLabel>
-        {console.log("propiedades111subtools",props)}
+        {console.log("toolsOptionsSub",toolsOptionsSub,indexActivitie)}
         <FormGroup>
-          {toolsOptionsSub.map((option, index) => (
+          {toolsOptionsSub[indexActivitie].map((option, index) => (
             <FormControlLabel
               control={
                 <Checkbox
                   checked={option.checked}
                   onChange={() => {
-                    console.log("se dio click al checkbox")
-                    let t = toolsOptionsSub;
+                    console.log("se dio click al checkbox dela subactivity",index)
+                    let t = toolsOptionsSub[indexActivitie];
                     t[index].checked = !t[index].checked;
                     
                       
                       handleToolActivity(parentIndex, t, props.activityIndex.tableData.id)
-                  
+                      console.log("se dio click al checkbox dela subactivity",index)
                     
                   }}
                   name={option.key}
@@ -134,9 +141,10 @@ export default function ActivityResources(props) {
           describedBy={key + "-helper-text_mainContent"}
         />
       </FormControl>
-
+        :
+        undefined     
+    }
       </div>
-
     )
   }
 
@@ -144,7 +152,7 @@ export default function ActivityResources(props) {
     <div>
       {
       type==='subActivity'?
-      subActivityTool()
+      subActivityTool(props.activityIndex.tableData.id)
       :
       <div className={classes.intoresources}> 
       <FormControl
@@ -154,7 +162,7 @@ export default function ActivityResources(props) {
         className={classes.formControl}
       >
         <FormLabel component="legend">Resources</FormLabel>
-        {console.log("propiedades111",props)}
+        {console.log("toolsOption",toolsOptions)}
         <FormGroup>
           {toolsOptions.map((option, index) => (
             <FormControlLabel
@@ -172,8 +180,7 @@ export default function ActivityResources(props) {
                       handleToolActivity(parentIndex, t, props.activityIndex.tableData.id)
                       :
                       handleSelectResources(parentIndex, t)
-                    }
-                    
+                    }       
                   }}
                   name={option.key}
                 />

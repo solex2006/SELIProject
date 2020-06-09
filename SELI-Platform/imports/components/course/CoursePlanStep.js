@@ -64,16 +64,23 @@ const useStyles = makeStyles(theme => ({
 
 export default function CoursePlanStep(props) {
   const classes = useStyles();
+  
+
+  useEffect(()=>{
+    console.log("CoursePlanStep:", props)
+    setCoursePlan(courseInformation.coursePlan.guidedCoursePlan);
+    setCourseTemplate(courseInformation.coursePlan.courseTemplate);
+    setCourseStructure(courseInformation.coursePlan.courseStructure);
+
+  },[])
 
   const [courseInformation, setCourseInformation]=React.useState(props.courseInformation);
-
-  const [coursePlan, setCoursePlan] = React.useState(courseInformation.coursePlan.guidedCoursePlan);
-  const [courseTemplate, setCourseTemplate] = React.useState(courseInformation.coursePlan.courseTemplate);
-  const [courseStructure, setCourseStructure] = React.useState(courseInformation.coursePlan.courseStructure);
+  const [coursePlan, setCoursePlan] = React.useState('');
+  const [courseTemplate, setCourseTemplate] = React.useState('');
+  const [courseStructure, setCourseStructure] = React.useState('');
   
   // will hold a reference for our real input file
   let inputFile = "";
-
   const handleChange = type => event => {
     let cinformation=courseInformation;
     if (type === 'coursePlan') {

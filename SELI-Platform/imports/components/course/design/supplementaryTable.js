@@ -177,20 +177,7 @@ export default function SupplementaryTexts(props) {
       }
     ],
     data: [
-      {
-        title:
-          "Software engineering design principles applied to instructional design: What can we learn from our sister discipline?",
-        type: 1,
-        copy: 2,
-        external: true,
-        url: "https://doi.org/10.1007/s11528-017-0238-5",
-        validateInput: true,
-        external: true,
-        submitted: true,
-        error: false,
-        label: "",
-        helperText: ""
-      }
+     
     ]
   });
 
