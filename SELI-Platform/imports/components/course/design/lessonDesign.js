@@ -72,7 +72,6 @@ export default function DesignCourseApp(props) {
  
  useEffect(() => {
    if(courseInformation.length!=0){
-    console.log("lessonDesign-props",courseInformation, lessons)
     setData(courseInformation[unitIndex].lessons)
    }
    
@@ -93,7 +92,6 @@ export default function DesignCourseApp(props) {
   const [data, setData] = useState(lessons);
 
   const handleActivities = (lessonIndex, activities) => {
-    console.log("En el activities----",activities )
     let prev = [...data];
     prev[lessonIndex].activities = activities;
     setData(prev);

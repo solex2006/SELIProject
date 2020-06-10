@@ -55,13 +55,13 @@ export default function ActivityResources(props) {
   useEffect(()=>{
 
     if(type==='lesson'){//for tool into lessons unit type
-      console.log("resources*************",courseInformation,parentIndex, tools, props.activityIndex ,type)
-      let arrayTools=[];
+      //console.log("resources*************",courseInformation,parentIndex, tools, props.activityIndex ,type)
+      /* let arrayTools=[];
       courseInformation[parentIndex].lessons.map((lesson, index)=>{
           console.log("Las tools en lessons***************", lesson.tools)
           arrayTools.push(lesson.tools);
           setToolsOptions(arrayTools);
-      })
+      }) */
 
     }else{//for topics
       if(courseInformation.length!=0){
@@ -73,7 +73,7 @@ export default function ActivityResources(props) {
     if(props.activityIndex!=undefined && type==='subActivity'){
       let arrayActivities=[];
       courseInformation[parentIndex].activities.map((tools, index)=>{
-          console.log("LAs tools***************", tools.tools)
+          //console.log("LAs tools***************", tools.tools)
           arrayActivities.push(tools.tools);
           setToolsOptionsSub(arrayActivities);
       })
@@ -86,7 +86,7 @@ export default function ActivityResources(props) {
   
  console.log("resources++++++++++++++++++++++++++++++++++++++++++",props)
 
-  const initialValue = tools;
+  
 
   const [toolsOptions, setToolsOptions] = useState(
     type==='lessonInto'?(courseInformation[parentIndex]===undefined? tools 
@@ -183,7 +183,7 @@ export default function ActivityResources(props) {
                       <Checkbox
                         checked={option.checked}
                         onChange={() => {
-                          console.log("se dio click al checkbox")
+                          console.log("se dio click al checkbox",type)
                           let t = toolsOptionsIntoLesson;
                           t[index].checked = !t[index].checked;
                           {
@@ -220,7 +220,7 @@ export default function ActivityResources(props) {
                 type={type}
                 handleSelectResourcesLessons={handleSelectResourcesLessons}
                 courseInformation={courseInformation}
-                tools={toolsOptions}
+                tools={toolsOptionsIntoLesson}
                 handleSelectResources={handleSelectResources}
                 parentIndex={parentIndex}
                 lessonIndex={lessonIndex}
@@ -233,7 +233,7 @@ export default function ActivityResources(props) {
               type={type}
               handleSelectResourcesLessons={handleSelectResourcesLessons}
               courseInformation={courseInformation}
-              tools={toolsOptions}
+              tools={toolsOptionsIntoLesson}
               handleSelectResources={handleSelectResources}
               parentIndex={parentIndex}
                 />
@@ -245,7 +245,7 @@ export default function ActivityResources(props) {
               type={type}
               handleSelectResourcesLessons={handleSelectResourcesLessons}
               courseInformation={courseInformation}
-              tools={toolsOptions}
+              tools={toolsOptionsIntoLesson}
               handleSelectResources={handleSelectResources}
               parentIndex={parentIndex}
                 />

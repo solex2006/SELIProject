@@ -24,14 +24,14 @@ export default function Presentation(props) {
       update.data=courseInformation[parentIndex].lessons[lessonIndex].tools[1].items;
       setState(update) 
     }else{
-      let update=state;
-      update.data=courseInformation[parentIndex].tools[1].items;
+    let update=state;
+    update.data=courseInformation[parentIndex].tools[1].items;
      setState(update) 
     }
     
   },[])
   const {handleSelectResourcesIntoLessons,type, handleSelectResourcesLessons, courseInformation,handleSelectResources, parentIndex, tools, lessonIndex}=props
-  console.log("propsenGamesTable****",props)
+  //console.log("propsenGamesTable****",props)
 
   
   const classes = useStyles();
@@ -204,7 +204,6 @@ export default function Presentation(props) {
                 console.log("save",newData)
                // save to databse
                 let tool=tools;
-                console.log("ERoorrorrrrrrrrrrrrrrrrrrrrrrrrrrr444r",tool,type,lessonIndex)
                   if(type==='lessonInto'){
                    // tool[1].items=data;
                     handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
@@ -260,7 +259,7 @@ export default function Presentation(props) {
                   const data = [...prevState.data];
                   data.splice(data.indexOf(oldData), 1);
                   let tool=tools;
-                  console.log("ERoorrorrrrrrrrrrrrrrrrrrrrrrrrrrr444r",tool,type,lessonIndex)
+                 
                   
                   if(type==='lessonInto'){
                    // tool[1].items=data;

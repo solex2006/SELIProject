@@ -210,7 +210,6 @@ export default function DesignStep(props) {
     console.log("Las lecciones a guardar en la unidad", unitIndex, resourceIndex,lessonIndex)
      let prev = [ ...data ];
      prev[unitIndex].lessons[lessonIndex].activities = resourceIndex;
-    console.log("prevActivities-----------------------------------",prev)
     setData(prev); 
     let courseInfo=courseinformation;
     courseInfo.design=data;
@@ -228,7 +227,6 @@ export default function DesignStep(props) {
     console.log("Las tools dentro de una activity", unitIndex, resourceIndex,lessonIndex)
     let prev = [ ...data ];
     prev[unitIndex].activities[lessonIndex].tools = resourceIndex;
-    console.log("prevTools-----------------------------------",prev)
     setData(prev); 
     let courseInfo=courseinformation;
     courseInfo.design=data;
@@ -239,7 +237,6 @@ export default function DesignStep(props) {
   return(
     <div className="form-input-audiences">
       <p>Some introductory explanation ....</p>
-      {console.log("dataMAP---------------",data)}
       {data.map((unit, unitIndex) => (
         <ExpansionPanel
           expanded={expanded === unit.key}
@@ -394,7 +391,7 @@ export default function DesignStep(props) {
               organization={organization}
               evaluation={unit.evaluation}
             />
-            {console.log("organization",organization,template)}
+            
             {(organization === "unit") && (
               <LessonDesign
                 handleSelectResourcesActivities={handleSelectResourcesActivities}
