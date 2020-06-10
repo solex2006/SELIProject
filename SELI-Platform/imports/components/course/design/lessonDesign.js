@@ -67,7 +67,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DesignCourseApp(props) {
-  const {courseInformation, unit,unitIndex,handleUnitChange, template, lessons, tools,key, handleSelectResourcesLessons,handleSelectResourcesActivities } = props;
+  const {handleSelectResourcesIntoLessons,courseInformation, unit,unitIndex,handleUnitChange, template, lessons, tools,key, handleSelectResourcesLessons,handleSelectResourcesActivities } = props;
   const classes = useStyles();
  
  useEffect(() => {
@@ -103,7 +103,6 @@ export default function DesignCourseApp(props) {
 
   return (
     <React.Fragment>
-      {console.log("El error", data)}
       {data.map((lesson, lessonIndex) => (
         <ExpansionPanel
           expanded={expanded === lesson.key}
@@ -251,7 +250,8 @@ export default function DesignCourseApp(props) {
           <ExpansionPanelDetails className={classes.panelDtls}>
             <div className={classes.resources}>
               <Resources
-                type='lesson'
+              handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+                type='lessonInto'
                 courseInformation={courseInformation}
                 tools={tools}
                 key={key}
@@ -294,18 +294,8 @@ export default function DesignCourseApp(props) {
                 { checked: false, key: "audio", label: "Audios" },
                 { checked: false, key: "games", label: "Games", items: [] },
                 { checked: false, key: "images", label: "Images" },
-                {
-                  checked: false,
-                  key: "presentation",
-                  label: "Presentation",
-                  items: []
-                },
-                {
-                  checked: false,
-                  key: "supplemantary",
-                  label: "Supplementary Text",
-                  items: []
-                },
+                { checked: false, key: "presentation",  label: "Presentation",items: []},
+                { checked: false, key: "supplemantary", label: "Supplementary Text", items: []},
                 { checked: false, key: "videos", label: "Videos" }
               ],
               activities: [],
@@ -321,7 +311,7 @@ export default function DesignCourseApp(props) {
           });
           //update units array
           unit.lessons=data;
-          handleUnitChange(unit, unitIndex)
+         // handleUnitChange(unit, unitIndex)
         }}
       >
         Add lesson

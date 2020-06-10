@@ -64,14 +64,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function CoursePlanStep(props) {
   const classes = useStyles();
-  
-
   useEffect(()=>{
     console.log("CoursePlanStep:", props)
     setCoursePlan(courseInformation.coursePlan.guidedCoursePlan);
     setCourseTemplate(courseInformation.coursePlan.courseTemplate);
     setCourseStructure(courseInformation.coursePlan.courseStructure);
-
   },[])
 
   const [courseInformation, setCourseInformation]=React.useState(props.courseInformation);

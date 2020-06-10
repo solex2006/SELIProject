@@ -53,43 +53,60 @@ const useStyles = makeStyles(theme => ({
 
 export default function ActivityResources(props) {
   useEffect(()=>{
-    console.log("resources*************",courseInformation,parentIndex, tools, props.activityIndex ,type)
-      if(courseInformation.length!=0){
-      setToolsOptions(courseInformation[parentIndex].tools)
-    }  
-  },[])
 
-  useEffect(()=>{
-     if(props.activityIndex!=undefined && type==='subActivity'){
-      console.log("resources--->",props.activityIndex.tableData.id)
+    if(type==='lesson'){//for tool into lessons unit type
+      console.log("resources*************",courseInformation,parentIndex, tools, props.activityIndex ,type)
+      let arrayTools=[];
+      courseInformation[parentIndex].lessons.map((lesson, index)=>{
+          console.log("Las tools en lessons***************", lesson.tools)
+          arrayTools.push(lesson.tools);
+          setToolsOptions(arrayTools);
+      })
+
+    }else{//for topics
+      if(courseInformation.length!=0){
+     // setToolsOptionsIntoLesson(courseInformation[parentIndex].tools)
+     setToolsOptionsIntoLesson(courseInformation[parentIndex].tools)
+    }  
+    }
+
+    if(props.activityIndex!=undefined && type==='subActivity'){
       let arrayActivities=[];
       courseInformation[parentIndex].activities.map((tools, index)=>{
           console.log("LAs tools***************", tools.tools)
           arrayActivities.push(tools.tools);
           setToolsOptionsSub(arrayActivities);
       })
-      //setToolsOptionsSub(courseInformation[parentIndex].activities[props.activityIndex.tableData.id].tools)
-    } 
-    
+    }
   },[])
 
+
   const classes = useStyles();
-  const {handleToolActivity,type, courseInformation, key, tools, handleSelectResources, parentIndex,lessonIndex ,handleSelectResourcesLessons } = props;
+  const {handleSelectResourcesIntoLessons,handleToolActivity,type, courseInformation, key, tools, handleSelectResources, parentIndex,lessonIndex ,handleSelectResourcesLessons } = props;
   
-  const presentItemsTypes = ["file", "h5p"];
-  const gameItemsTypes = ["unity", "h5p", "reference"];
+ console.log("resources++++++++++++++++++++++++++++++++++++++++++",props)
 
   const initialValue = tools;
 
-  const [toolsOptions, setToolsOptions] = useState(tools);
+  const [toolsOptions, setToolsOptions] = useState(
+    type==='lessonInto'?(courseInformation[parentIndex]===undefined? tools 
+    :courseInformation[parentIndex].lessons[lessonIndex].tools):tools
+    );
   const [toolsOptionsSub, setToolsOptionsSub] = useState([]);
-  
+  const [toolsOptionsIntoLesson, setToolsOptionsIntoLesson] = useState(tools);
   
   
 
 
   function showTable(id) {
-    return toolsOptions.some(tool => {
+    return (courseInformation[parentIndex]===undefined? tools :courseInformation[parentIndex].lessons[lessonIndex].tools).some(tool => {
+      //console.log("toooooooooooool",tool)
+      return tool.key === id && tool.checked;
+    });
+  }
+  function showTableIntoLesson(id) {
+    return toolsOptionsIntoLesson.some(tool => {
+      //console.log("toooooooooooool",tool)
       return tool.key === id && tool.checked;
     });
   }
@@ -148,12 +165,106 @@ export default function ActivityResources(props) {
     )
   }
 
+  const toolsIntoLessons=(lessonIndex)=>{
+    return(
+        <div className={classes.intoresources}> 
+            <FormControl
+              required
+              // error={error}
+              component="fieldset"
+              className={classes.formControl}
+            >
+              <FormLabel component="legend">Resources</FormLabel>
+              {/* console.log("toolsOption",toolsOptions, lessonIndex,courseInformation[parentIndex]) */}
+              <FormGroup>
+                {toolsOptionsIntoLesson.map((option, index) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={option.checked}
+                        onChange={() => {
+                          console.log("se dio click al checkbox")
+                          let t = toolsOptionsIntoLesson;
+                          t[index].checked = !t[index].checked;
+                          {
+                            type==='lessonInto'?
+                            handleSelectResourcesLessons(parentIndex, t, lessonIndex)
+                            :type==='subActivity'?
+                            handleToolActivity(parentIndex, t, props.activityIndex.tableData.id)
+                            :
+                            handleSelectResources(parentIndex, t)
+                          }       
+                        }}
+                        name={option.key}
+                      />
+                    }
+                    label={option.label}
+                  />
+                ))}
+              </FormGroup>
+              <FeedbackHelp
+                validation={{
+                  error: false,
+                  errorMsg: "",
+                  errorType: "",
+                  a11y: null
+                }}
+                tipMsg="Select the resources tool you are goint to ue in this topic"
+                describedBy={key + "-helper-text_mainContent"}
+              />
+            </FormControl>
+
+            {showTableIntoLesson("games") && 
+              <Games  
+              handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+                type={type}
+                handleSelectResourcesLessons={handleSelectResourcesLessons}
+                courseInformation={courseInformation}
+                tools={toolsOptions}
+                handleSelectResources={handleSelectResources}
+                parentIndex={parentIndex}
+                lessonIndex={lessonIndex}
+              />}
+            
+            {showTableIntoLesson("presentation") && (
+              <Presentation
+              handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+              lessonIndex={lessonIndex}
+              type={type}
+              handleSelectResourcesLessons={handleSelectResourcesLessons}
+              courseInformation={courseInformation}
+              tools={toolsOptions}
+              handleSelectResources={handleSelectResources}
+              parentIndex={parentIndex}
+                />
+            )}
+            {showTableIntoLesson("supplemantary") && (
+              <SupplementaryTexts
+              handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+              lessonIndex={lessonIndex}
+              type={type}
+              handleSelectResourcesLessons={handleSelectResourcesLessons}
+              courseInformation={courseInformation}
+              tools={toolsOptions}
+              handleSelectResources={handleSelectResources}
+              parentIndex={parentIndex}
+                />
+            )}
+    </div>
+     
+    )
+  }
+
   return (
     <div>
       {
       type==='subActivity'?
       subActivityTool(props.activityIndex.tableData.id)
       :
+      type==='topic'?
+      toolsIntoLessons()
+      :
+      type==='lessonInto'?  
       <div className={classes.intoresources}> 
       <FormControl
         required
@@ -162,19 +273,19 @@ export default function ActivityResources(props) {
         className={classes.formControl}
       >
         <FormLabel component="legend">Resources</FormLabel>
-        {console.log("toolsOption",toolsOptions)}
+        {/* console.log("toolsOption",toolsOptions, lessonIndex,courseInformation[parentIndex]) */}
         <FormGroup>
-          {toolsOptions.map((option, index) => (
+          {(courseInformation[parentIndex]===undefined? tools :courseInformation[parentIndex].lessons[lessonIndex].tools).map((option, index) => (
             <FormControlLabel
               control={
                 <Checkbox
                   checked={option.checked}
                   onChange={() => {
                     console.log("se dio click al checkbox")
-                    let t = toolsOptions;
+                    let t = (courseInformation[parentIndex]===undefined? tools :courseInformation[parentIndex].lessons[lessonIndex].tools);
                     t[index].checked = !t[index].checked;
                     {
-                      type==='lesson'?
+                      type==='lessonInto'?
                       handleSelectResourcesLessons(parentIndex, t, lessonIndex)
                       :type==='subActivity'?
                       handleToolActivity(parentIndex, t, props.activityIndex.tableData.id)
@@ -201,17 +312,24 @@ export default function ActivityResources(props) {
         />
       </FormControl>
 
-
       {showTable("games") && 
         <Games  
-         courseInformation={courseInformation}
+        handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+          type={type}
+          handleSelectResourcesLessons={handleSelectResourcesLessons}
+          courseInformation={courseInformation}
           tools={toolsOptions}
           handleSelectResources={handleSelectResources}
           parentIndex={parentIndex}
+          lessonIndex={lessonIndex}
         />}
       
       {showTable("presentation") && (
         <Presentation
+        handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+        lessonIndex={lessonIndex}
+        type={type}
+        handleSelectResourcesLessons={handleSelectResourcesLessons}
         courseInformation={courseInformation}
         tools={toolsOptions}
         handleSelectResources={handleSelectResources}
@@ -220,6 +338,10 @@ export default function ActivityResources(props) {
       )}
       {showTable("supplemantary") && (
         <SupplementaryTexts
+        handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+        lessonIndex={lessonIndex}
+        type={type}
+        handleSelectResourcesLessons={handleSelectResourcesLessons}
         courseInformation={courseInformation}
         tools={toolsOptions}
         handleSelectResources={handleSelectResources}
@@ -227,7 +349,8 @@ export default function ActivityResources(props) {
           />
       )}
     </div>
-
+      :
+      undefined
       }
     </div>
     

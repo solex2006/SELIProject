@@ -13,11 +13,17 @@ const useStyles = makeStyles(theme => ({}));
 
 export default function Presentation(props) {
   useEffect(()=>{
-    let update=state;
-    update.data=courseInformation[parentIndex].tools[3].items;
-    setState(update) 
+    if(type==='lessonInto'){
+      let update=state;
+      update.data=courseInformation[parentIndex].lessons[lessonIndex].tools[3].items;
+      setState(update) 
+    }else{
+      let update=state;
+      update.data=courseInformation[parentIndex].tools[3].items;
+     setState(update) 
+    }
   },[])
-  const {courseInformation,handleSelectResources, parentIndex, tools}=props
+  const {handleSelectResourcesIntoLessons,lessonIndex,type, handleSelectResourcesLessons,courseInformation,handleSelectResources, parentIndex, tools}=props
   const classes = useStyles();
 
   const itemsTypes = { 1: "file (ex: ppt, pdf)", 2: "h5p", 3: "other" };
@@ -166,8 +172,13 @@ export default function Presentation(props) {
                 const data = [...prevState.data];
                 data.push(newData);
                 let tool=tools;
-                tool[3].items=data;
-                handleSelectResources(parentIndex, tool)
+                if(type==='lessonInto'){
+                 // tool[lessonIndex][3].items=data;
+                 handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 3)
+                }else{
+                  tool[3].items=data;
+                  handleSelectResources(parentIndex, tool)
+                }
                 return { ...prevState, data };
               });
               }, 600);
@@ -190,8 +201,13 @@ export default function Presentation(props) {
                     const data = [...prevState.data];
                     data[data.indexOf(oldData)] = newData;
                     let tool=tools;
-                    tool[3].items=data;
-                    handleSelectResources(parentIndex, tool)
+                    if(type==='lessonInto'){
+                     // tool[lessonIndex][3].items=data;
+                     handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
+                    }else{
+                      tool[3].items=data;
+                      handleSelectResources(parentIndex, tool)
+                    }
                     return { ...prevState, data };
                   });
                 }
@@ -205,8 +221,13 @@ export default function Presentation(props) {
                   const data = [...prevState.data];
                   data.splice(data.indexOf(oldData), 1);
                   let tool=tools;
-                  tool[3].items=data;
-                  handleSelectResources(parentIndex, tool)
+                  if(type==='lessonInto'){
+                    //tool[lessonIndex][3].items=data;
+                    handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 3)
+                  }else{
+                    tool[3].items=data;
+                    handleSelectResources(parentIndex, tool)
+                  }
                   return { ...prevState, data };
                 });
               }, 600);

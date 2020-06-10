@@ -24,12 +24,19 @@ const useStyles = makeStyles(theme => ({}));
 
 export default function SupplementaryTexts(props) {
   useEffect(()=>{
-    setState(prevState=>{
-      return {...prevState, data:courseInformation[parentIndex].tools[4].items}
-    })
+ 
+    if(type==='lessonInto'){
+      let update=state;
+      update.data=courseInformation[parentIndex].lessons[lessonIndex].tools[4].items;
+      setState(update) 
+    }else{
+      let update=state;
+      update.data=courseInformation[parentIndex].tools[4].items;
+     setState(update) 
+    }
   },[])
 
-  const {courseInformation,handleSelectResources, parentIndex, tools}=props
+  const {handleSelectResourcesIntoLessons,lessonIndex,type, handleSelectResourcesLessons,courseInformation,handleSelectResources, parentIndex, tools}=props
  
 
   const classes = useStyles();
@@ -207,8 +214,13 @@ export default function SupplementaryTexts(props) {
                 const data = [...prevState.data];
                 data.push(newData);
                 let tool=tools;
-                tool[4].items=data;
-                handleSelectResources(parentIndex, tool)
+                if(type==='lessonInto'){
+                  //tool[lessonIndex][4].items=data;
+                  handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 4)
+                }else{
+                  tool[4].items=data;
+                  handleSelectResources(parentIndex, tool)
+                }
                 return { ...prevState, data };
               });
                }, 600);
@@ -231,8 +243,14 @@ export default function SupplementaryTexts(props) {
                     const data = [...prevState.data];
                     data[data.indexOf(oldData)] = newData;
                     let tool=tools;
-                    tool[4].items=data;
-                    handleSelectResources(parentIndex, tool)
+                    tool[lessonIndex].tools[4].items=data;
+                    if(type==='lessonInto'){
+                      //tool[lessonIndex][4].items=data;
+                      handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 4)
+                    }else{
+                      tool[4].items=data;
+                      handleSelectResources(parentIndex, tool)
+                    }
                     return { ...prevState, data };
                   });
                 }
@@ -246,8 +264,14 @@ export default function SupplementaryTexts(props) {
                   const data = [...prevState.data];
                   data.splice(data.indexOf(oldData), 1);
                   let tool=tools;
-                  tool[4].items=data;
-                  handleSelectResources(parentIndex, tool)
+                  tool[lessonIndex].tools[4].items=data;
+                  if(type==='lessonInto'){
+                   // tool[lessonIndex][4].items=data;
+                   handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 4)
+                  }else{
+                    tool[4].items=data;
+                    handleSelectResources(parentIndex, tool)
+                  }
                   return { ...prevState, data };
                 });
               }, 600);

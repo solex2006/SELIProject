@@ -222,7 +222,7 @@ export default function ActivityDesign(props) {
               }, 600);
             })
         }}
-        detailPanel={
+        /* detailPanel={
           template !== "without"
             ? [
                 {
@@ -244,7 +244,7 @@ export default function ActivityDesign(props) {
                 }
               ]
             : null
-        }
+        } */
         localization={{
           pagination: {
             // labelDisplayedRows: '{from}-{to} of {count}'

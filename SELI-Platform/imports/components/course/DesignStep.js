@@ -182,9 +182,23 @@ export default function DesignStep(props) {
   };
 
   const handleSelectResourcesLessons = (unitIndex, resourceIndex, lessonIndex) => {
-    console.log("Las lecciones a guardar en la unidad", unitIndex, resourceIndex,lessonIndex)
-     let prev = [ ...data ];
-     prev[unitIndex].lessons[lessonIndex].tools = resourceIndex;
+    console.log("Las lecciones a guardar en la unidad************************************", unitIndex, resourceIndex,lessonIndex)
+    let prev = [ ...data ];
+    prev[unitIndex].lessons[lessonIndex].tools = resourceIndex;
+    console.log("prevlesson-----------------------------------",prev)
+    setData(prev); 
+    let courseInfo=courseinformation;
+    courseInfo.design=data;
+    setcourseInformation(courseInfo)  
+  };
+
+  const handleSelectResourcesIntoLessons = (unitIndex, resourceIndex, lessonIndex, subindex) => {
+    console.log("lo que va dentro de tools************************************", unitIndex, resourceIndex,lessonIndex)
+    let prev = [ ...data ];
+   
+      prev[unitIndex].lessons[lessonIndex].tools[subindex].items = resourceIndex;
+    
+   
     console.log("prevlesson-----------------------------------",prev)
     setData(prev); 
     let courseInfo=courseinformation;
@@ -385,6 +399,7 @@ export default function DesignStep(props) {
               <LessonDesign
                 handleSelectResourcesActivities={handleSelectResourcesActivities}
                 handleSelectResourcesLessons={handleSelectResourcesLessons}
+                handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
                 tools={unit.tools}
                 key={unit.key}
                 courseInformation={courseinformation.design}

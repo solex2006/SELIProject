@@ -19,11 +19,18 @@ export default function Presentation(props) {
 
 
   useEffect(()=>{
-    let update=state;
-    update.data=courseInformation[parentIndex].tools[1].items;
-    setState(update) 
+    if(type==='lessonInto'){
+      let update=state;
+      update.data=courseInformation[parentIndex].lessons[lessonIndex].tools[1].items;
+      setState(update) 
+    }else{
+      let update=state;
+      update.data=courseInformation[parentIndex].tools[1].items;
+     setState(update) 
+    }
+    
   },[])
-  const {courseInformation,handleSelectResources, parentIndex, tools}=props
+  const {handleSelectResourcesIntoLessons,type, handleSelectResourcesLessons, courseInformation,handleSelectResources, parentIndex, tools, lessonIndex}=props
   console.log("propsenGamesTable****",props)
 
   
@@ -197,8 +204,15 @@ export default function Presentation(props) {
                 console.log("save",newData)
                // save to databse
                 let tool=tools;
-                tool[1].items=data;
-                handleSelectResources(parentIndex, tool)
+                console.log("ERoorrorrrrrrrrrrrrrrrrrrrrrrrrrrr444r",tool,type,lessonIndex)
+                  if(type==='lessonInto'){
+                   // tool[1].items=data;
+                    handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
+                  }else{
+                    tool[1].items=data;
+                    handleSelectResources(parentIndex, tool)
+                  }
+                
                 return { ...prevState, data };
               });
               
@@ -225,8 +239,14 @@ export default function Presentation(props) {
                     const data = [...prevState.data];
                     data[data.indexOf(oldData)] = newData;
                     let tool=tools;
-                    tool[1].items=data;
-                    handleSelectResources(parentIndex, tool)
+                   
+                    if(type==='lessonInto' ){
+                      //tool[1].items=data;
+                      handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
+                    }else{
+                      tool[1].items=data;
+                      handleSelectResources(parentIndex, tool)
+                    }
                     return { ...prevState, data };
                   });
                 }
@@ -240,8 +260,16 @@ export default function Presentation(props) {
                   const data = [...prevState.data];
                   data.splice(data.indexOf(oldData), 1);
                   let tool=tools;
-                  tool[1].items=data;
-                  handleSelectResources(parentIndex, tool)
+                  console.log("ERoorrorrrrrrrrrrrrrrrrrrrrrrrrrrr444r",tool,type,lessonIndex)
+                  
+                  if(type==='lessonInto'){
+                   // tool[1].items=data;
+                   handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
+                  }else{
+                    tool[1].items=data;
+                    handleSelectResources(parentIndex, tool)
+                  }
+                  
                   return { ...prevState, data };
                 });
               }, 600);
