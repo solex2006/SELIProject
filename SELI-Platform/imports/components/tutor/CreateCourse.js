@@ -106,7 +106,7 @@ export default class CreateCourse extends React.Component {
           },
           organization: this.props.courseToEdit.organization,
           program: this.props.courseToEdit.program,
-          design:this.props.courseToEdit.design,
+          design: this.props.courseToEdit.design ? this.props.courseToEdit.design : [],
           accessibility: this.props.courseToEdit.accessibility,
           classroom: this.props.courseToEdit.classroom,
           analysis: this.props.courseToEdit.analysis ? this.props.courseToEdit.analysis : [],
@@ -220,14 +220,10 @@ export default class CreateCourse extends React.Component {
       let courseInformation = this.state.courseInformation;
       let course;
       let valueSubtitle = courseInformation.subtitle;
-      let valueduration = courseInformation.duration;
 
       console.log("curso q se va a guardar***",this.state.courseInformation )
       if (valueSubtitle === undefined) {
         valueSubtitle = "-----"
-      }
-      if (valueduration === undefined) {
-        valueduration = "0"
       }
       if (!this.state.saved) {
         courseInformation.creationDate = new Date();
@@ -253,11 +249,11 @@ export default class CreateCourse extends React.Component {
               keyWords: courseInformation.keyWords,
               image: courseInformation.image,
               sylabus: courseInformation.sylabus,
-              duration: valueduration,
-              durationweeks: courseInformation.durationweeks,
+              duration: courseInformation.duration,
               requirements: courseInformation.requirements,
               support: courseInformation.support,
               organization: courseInformation.organization,
+              coursePlan: courseInformation.coursePlan,
               program: courseInformation.program,
               accessibility:courseInformation.accessibility,
               analysis:courseInformation.analysis,
