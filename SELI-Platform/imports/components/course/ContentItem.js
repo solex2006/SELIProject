@@ -38,6 +38,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}
                     language={this.props.language}
                   />
                 :
@@ -51,6 +52,7 @@ export default class ContentItem extends React.Component {
                     editItem={this.props.editItem.bind(this)}
                     handleDecorative={this.props.handleDecorative.bind(this)}
                     editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+                    fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}
                     language={this.props.language}
                   />
                 :
@@ -64,6 +66,7 @@ export default class ContentItem extends React.Component {
                     editItem={this.props.editItem.bind(this)}
                     handleDecorative={this.props.handleDecorative.bind(this)}
                     editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+                    fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}
                     language={this.props.language}
                   />
                 :
@@ -78,6 +81,7 @@ export default class ContentItem extends React.Component {
                     editItem={this.props.editItem.bind(this)}
                     handleDecorative={this.props.handleDecorative.bind(this)}
                     editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+                    fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}
                     language={this.props.language}
                   />
                 :
@@ -89,6 +93,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}
                     language={this.props.language}
                   />
                 :
@@ -100,6 +105,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}
                     language={this.props.language}
                   />
                 :
@@ -111,6 +117,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}
                     language={this.props.language}
                   />
                 :
@@ -122,6 +129,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}
                     language={this.props.language}
                   />
                 :
@@ -135,6 +143,7 @@ export default class ContentItem extends React.Component {
                     editItem={this.props.editItem.bind(this)}
                     handleDecorative={this.props.handleDecorative.bind(this)}
                     editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+                    fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}
                     language={this.props.language}
                   />
                 :
@@ -146,6 +155,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}
                     language={this.props.language}
                   />
                 :
@@ -157,6 +167,7 @@ export default class ContentItem extends React.Component {
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}
+                    fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}
                     language={this.props.language}
                   />
                 :

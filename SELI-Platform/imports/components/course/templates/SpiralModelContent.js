@@ -1,6 +1,5 @@
 import React from 'react';
 import ContentItem from '../ContentItem';
-import SortItem from '../items/SortItem';
 import { Container, Draggable, dropHandlers } from 'react-smooth-dnd';
 
 export default class SpiralModelContent extends React.Component {
@@ -33,11 +32,11 @@ export default class SpiralModelContent extends React.Component {
               lockAxis="y"
               dragBeginDelay={500}
               dragClass="drag-class"
-              style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
               groupName="1"
               getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
               onDrop={e => this.props.openDialog(e)}>
               <ContentItem
+                fromTemplate
                 item={this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[0]}
                 removeItem={this.props.removeItem.bind(this)}
                 editItem={this.props.editItem.bind(this)}
@@ -78,11 +77,11 @@ export default class SpiralModelContent extends React.Component {
               lockAxis="y"
               dragBeginDelay={500}
               dragClass="drag-class"
-              style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
               groupName="1"
               getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
               onDrop={e => this.props.openDialog(e)}>
               <ContentItem
+                fromTemplate
                 item={this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[1]}
                 removeItem={this.props.removeItem.bind(this)}
                 editItem={this.props.editItem.bind(this)}
@@ -110,11 +109,11 @@ export default class SpiralModelContent extends React.Component {
               lockAxis="y"
               dragBeginDelay={500}
               dragClass="drag-class"
-              style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
               groupName="1"
               getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
               onDrop={e => this.props.openDialog(e)}>
               <ContentItem
+                fromTemplate
                 item={this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[2]}
                 removeItem={this.props.removeItem.bind(this)}
                 editItem={this.props.editItem.bind(this)}
@@ -139,11 +138,12 @@ export default class SpiralModelContent extends React.Component {
               lockAxis="y"
               dragBeginDelay={500}
               dragClass="drag-class"
-              style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
+              /* style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}} */
               groupName="1"
               getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
               onDrop={e => this.props.openDialog(e)}>
               <ContentItem
+                fromTemplate
                 item={this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[3]}
                 removeItem={this.props.removeItem.bind(this)}
                 editItem={this.props.editItem.bind(this)}

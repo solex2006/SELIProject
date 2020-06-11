@@ -259,7 +259,6 @@ export default class CreateCourse extends React.Component {
               analysis:courseInformation.analysis,
               design:courseInformation.design,
               classroom: courseInformation.classroom,
-              coursePlan:courseInformation.coursePlan,
               creationDate: new Date(),
             }
           }

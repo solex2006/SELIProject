@@ -34,6 +34,25 @@
   overflow: hidden;
 }
 
+.general-content-item {
+  width: 100%;
+  height: auto;
+  display: flex;
+}
+
+.template-image-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.template-video-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
 /* Spiral Model */
 
 .spiral-row-1 {
@@ -47,7 +66,7 @@
 }
 
 .spiral-main-content {
-  width: 70%;
+  width: 60%;
   background-color: var(--white);
   background-repeat: no-repeat;
   background-size: 200px;
@@ -56,7 +75,7 @@
 }
 
 .spiral-image-top {
-  width: 30%;
+  width: 40%;
   background-color: var(--white);
   background-repeat: no-repeat;
   background-size: 200px;
@@ -65,7 +84,7 @@
 }
 
 .spiral-image-video {
-  width: 30%;
+  width: 40%;
   background-color: var(--white);
   background-repeat: no-repeat;
   background-size: 200px;
@@ -74,7 +93,7 @@
 }
 
 .spiral-sub-content {
-  width: 70%;
+  width: 60%;
   background-color: var(--white);
   background-repeat: no-repeat;
   background-size: 200px;
