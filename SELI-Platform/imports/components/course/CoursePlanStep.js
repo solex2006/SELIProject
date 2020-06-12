@@ -80,10 +80,10 @@ export default function CoursePlanStep(props) {
           props.validate('passCoursePlan')
         }
         else if(coursePlan==='free' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
-          props.validate('passCoursePlan')
+          props.validate('passCoursePlanFree')
         }
         else if(coursePlan==='free' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
-          props.validate('passCoursePlan')
+          props.validate('passCoursePlanFree')
        }
         else{
           props.validate('NopassCoursePlan')

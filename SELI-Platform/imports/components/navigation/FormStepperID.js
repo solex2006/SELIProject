@@ -401,7 +401,9 @@ useEffect(()=>{
       return {... prev, completed:prev.completed.add(2)}
     })
   }
-  if(props.updateSteps==='passCoursePlan'){
+
+
+  if(props.updateSteps==='passCoursePlan' || props.updateSteps==='passCoursePlanFree'){
     let newStatus=stepStatus;
     let newFailed = new Set(stepStatus.failed.values());
     newFailed.delete(3);
@@ -409,6 +411,14 @@ useEffect(()=>{
       return {... prev, completed:prev.completed.add(3), failed:newFailed}
     })
     handleCompletenew(stepStatus.active)
+    if(props.updateSteps==='passCoursePlanFree'){
+      let newDisabled = new Set(stepStatus.disabled.values());
+      newDisabled.delete(stepStatus.active + 3);
+      newStatus = { ...newStatus, disabled: newDisabled };
+      setStepStatus(newStatus);
+     
+    }
+    
   }else if(props.updateSteps==='NopassCoursePlan'){
     setStepStatus(prev=>{
       let newCompleted = new Set(stepStatus.completed.values());
@@ -465,12 +475,8 @@ useEffect(()=>{
 useEffect(()=>{
   console.log("ACTUALIZA UN PASO  para VER el nuevo stpeaqui v",stepStatus)
   handleCompletenew()
-  
 },[stepStatus.active])
-  
-  //audiences step
 
-  //requirements step
 
   
 
@@ -504,15 +510,100 @@ useEffect(()=>{
                   }}
                 >
                   <Stepper className="form-stepper" orientation="vertical" nonLinear activeStep={activeStep}>
-                    {steps.map((step, index) => (
+                    {steps.map((step, index) => {
+                        const stepProps = {
+                          active: false,
+                          completed: false,
+                          disabled: false,
+                          classes: {
+                            completed: classes.completed,
+                            alternativeLabel: classes.alternativeLabel
+                          }
+                        };
+                        const iconProps = {
+                          active: false,
+                          completed: false,
+                          error: false,
+                          classes: {
+                            completed: classes.completed,
+                            active: classes.active,
+                            error: classes.error
+                          }
+                        };
+                        let labelProps = {
+                          disabled: false,
+                          error: false,
+                          icon: icons()[index],
+                          classes: {
+                            completed: classes.completed,
+                            active: classes.active,
+                            disabled: classes.disabled,
+                            error: classes.error,
+                            iconContainer: classes.iconContainer,
+                            alternativeLabel: classes.alternativeLabel,
+                            labelContainer: classes.labelContainer,
+                            label: classes.label
+                          }
+                        };
+                        const buttonProps = {
+                          icon: icons()[index]
+                          // optional
+                        };  
+                        if (isStepActive(index)) {
+                          iconProps.active = stepProps.active = true;
+                        }
+                        if (isStepOptional(index)) {
+                          buttonProps.optional = labelProps.optional = (
+                            <Typography variant="caption">Optional</Typography>
+                          );
+                        }
+                        if (isStepCompleted(index)) {
+                          iconProps.completed = labelProps.completed = stepProps.completed = true;
+                          buttonProps.icon = labelProps.icon = icons()["completed"];
+                          buttonProps.optional = labelProps.optional = (
+                            <Typography variant="caption">Completed</Typography>
+                          );
+                        }
+                        if (isStepFailed(index)) {
+                          iconProps.error = true;
+                          labelProps.error = true;
+                          buttonProps.icon = labelProps.icon = icons()["error"];
+                          buttonProps.optional = labelProps.optional = (
+                            <Typography variant="caption">Required steped</Typography>
+                          );
+                        } 
+                        if (isStepDisabled(index)) {
+                          stepProps.disabled = labelProps.disabled = true;
+                        }
+                        labelProps.StepIconProps = iconProps;
+                        buttonProps.children = (
+                          <StepLabel {...labelProps}>{step.label}</StepLabel>
+                        );
+                      return(
                       (props.coursePlan.guidedCoursePlan === "guided" || index < 4 || index > 5) && (
                         <Step completed={true} className="form-step" key={step.label}>
-                          <StepButton icon={step.icon} className="form-step-button" onClick={handleStep(index)} completed={completed[index]}>
-                            {step.label}
-                          </StepButton>
+                          <StepButton
+                            completed={completed[index]}
+                            focusRipple={true}
+                            onClick={handleStep(index)}
+                            {...buttonProps}
+                            // hidden={isStepDisabled(index)}
+                            focusVisibleClassName="stepperFocused"
+                            className={`${
+                              isStepActive(index)
+                                ? isStepCompleted(index)
+                                  ? classes.completed
+                                  : isStepFailed(index)
+                                  ? classes.error
+                                  : isStepDisabled(index)
+                                  ? classes.disabled
+                                  : classes.selected
+                                : ""
+                            } ${isStepActive(index) ? classes.selected : ""}`}
+                       />
                         </Step>
-                      )
-                    ))}
+                       ))
+                    })}
                   </Stepper>
                 </Popover>
               </div>
@@ -557,12 +648,9 @@ useEffect(()=>{
                       icon: icons()[index]
                       // optional
                     };  
-                   
-                    
                     if (isStepActive(index)) {
                       iconProps.active = stepProps.active = true;
                     }
-
                     if (isStepOptional(index)) {
                       buttonProps.optional = labelProps.optional = (
                         <Typography variant="caption">Optional</Typography>
@@ -575,7 +663,6 @@ useEffect(()=>{
                         <Typography variant="caption">Completed</Typography>
                       );
                     }
-
                      if (isStepFailed(index)) {
                       iconProps.error = true;
                       labelProps.error = true;
@@ -587,7 +674,6 @@ useEffect(()=>{
                     if (isStepDisabled(index)) {
                       stepProps.disabled = labelProps.disabled = true;
                     }
-
                     labelProps.StepIconProps = iconProps;
                     buttonProps.children = (
                       <StepLabel {...labelProps}>{step.label}</StepLabel>
