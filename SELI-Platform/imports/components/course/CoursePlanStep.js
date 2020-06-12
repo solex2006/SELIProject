@@ -71,6 +71,25 @@ export default function CoursePlanStep(props) {
     setCourseStructure(courseInformation.coursePlan.courseStructure);
   },[])
 
+  useEffect(()=>{// guided spiral unit
+    console.log("INFO cOURSE pLAN", coursePlan, courseTemplate, courseStructure)
+       if(coursePlan==='guided' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
+            props.validate('passCoursePlan')
+        }
+        else if(coursePlan==='guided' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
+          props.validate('passCoursePlan')
+        }
+        else if(coursePlan==='free' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
+          props.validate('passCoursePlan')
+        }
+        else if(coursePlan==='free' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
+          props.validate('passCoursePlan')
+       }
+        else{
+          props.validate('NopassCoursePlan')
+        }
+  })
+
   const [courseInformation, setCourseInformation]=React.useState(props.courseInformation);
   const [coursePlan, setCoursePlan] = React.useState('');
   const [courseTemplate, setCourseTemplate] = React.useState('');

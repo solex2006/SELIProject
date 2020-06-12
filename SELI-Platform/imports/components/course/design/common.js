@@ -54,6 +54,7 @@ export default function DesignCourseCommons(props) {
     handleUnitChange,
     handleSelectResources,
     organization,
+    validate
   } = props;
 
   useEffect(() => {
@@ -63,6 +64,20 @@ export default function DesignCourseCommons(props) {
     setMain(mainContent)
     setEvaluation(evaluation)
   }, [])
+
+  useEffect(() => {
+    
+    //for validate the step
+    console.log("Validate desig STEP", learning,preKnow,main,eval )
+    
+    
+      if(learning!='' && main!='' && eval!=''){
+        props.validate('passCourseDesign')
+      }else{
+        props.validate('NopassCourseDesign')
+      }
+
+  });
 
 
   const [learning, setLearning]=useState(learnGols);
@@ -82,7 +97,7 @@ export default function DesignCourseCommons(props) {
         value={ learning!='' ?learning : learnGols}
         onChange={event => {
           setLearning(event.target.value)
-          console.log('Unit en el common', unit, unitIndex)
+          //console.log('Unit en el common', unit, unitIndex)
           unit.learnGols = event.target.value;
           handleUnitChange(unit, unitIndex);
           

@@ -107,6 +107,7 @@
     "swiper": "^5.2.1",
     "unrar-js": "^0.2.3",
     "unrar.js": "^0.2.5",
+    "var_dump-js": "0.0.1",
     "wavesurfer.js": "^3.3.1"
   },
   "meteor": {

@@ -58,31 +58,22 @@ const useStyles = makeStyles(theme => ({
 export default function DesignStep(props) {
   const {courseInformation } = props;
   useEffect(() => {
-
     if(courseInformation.design.length!=0){
       setData(courseInformation.design)
     }
-    
- 
   }, []); 
 
   useEffect(() => {
-
     if(organization==='unit' && template!='without') {
       setOrganization('topic')
     }
-    
- 
+   
   }); 
-  
   console.log("CourseInformation-DesignStep", props.courseInformation) 
   const classes = useStyles();
   const [template, setTemplate] = useState(props.courseInformation.coursePlan.courseTemplate);
   const [organization,setOrganization] =  useState(props.courseInformation.coursePlan.courseStructure);
-
-  console.log("tempalte and organization", template, organization);
   const [courseinformation, setcourseInformation]= useState(courseInformation)
-  
   const [controlEdit, setControlEdit] = useState({
     tempValue: "",
     adding: false,
@@ -161,7 +152,7 @@ export default function DesignStep(props) {
   );
 
   const handleUnitChange = (unit, unitIndex) => {
-    console.log("unidad and unitIndex",unit, unitIndex )
+    //console.log("unidad and unitIndex",unit, unitIndex )
     let prev = data;
     prev[unitIndex] = unit;
     setData(prev);
@@ -182,7 +173,7 @@ export default function DesignStep(props) {
   };
 
   const handleSelectResourcesLessons = (unitIndex, resourceIndex, lessonIndex) => {
-    console.log("Las lecciones a guardar en la unidad************************************", unitIndex, resourceIndex,lessonIndex)
+    //console.log("Las lecciones a guardar en la unidad************************************", unitIndex, resourceIndex,lessonIndex)
     let prev = [ ...data ];
     prev[unitIndex].lessons[lessonIndex].tools = resourceIndex;
     console.log("prevlesson-----------------------------------",prev)
@@ -193,13 +184,10 @@ export default function DesignStep(props) {
   };
 
   const handleSelectResourcesIntoLessons = (unitIndex, resourceIndex, lessonIndex, subindex) => {
-    console.log("lo que va dentro de tools************************************", unitIndex, resourceIndex,lessonIndex)
+   // console.log("lo que va dentro de tools************************************", unitIndex, resourceIndex,lessonIndex)
     let prev = [ ...data ];
-   
-      prev[unitIndex].lessons[lessonIndex].tools[subindex].items = resourceIndex;
-    
-   
-    console.log("prevlesson-----------------------------------",prev)
+    prev[unitIndex].lessons[lessonIndex].tools[subindex].items = resourceIndex;
+    //console.log("prevlesson-----------------------------------",prev)
     setData(prev); 
     let courseInfo=courseinformation;
     courseInfo.design=data;
@@ -207,7 +195,7 @@ export default function DesignStep(props) {
   };
 
   const handleSelectResourcesActivities = (unitIndex, resourceIndex, lessonIndex) => {
-    console.log("Las lecciones a guardar en la unidad", unitIndex, resourceIndex,lessonIndex)
+    //console.log("Las lecciones a guardar en la unidad", unitIndex, resourceIndex,lessonIndex)
      let prev = [ ...data ];
      prev[unitIndex].lessons[lessonIndex].activities = resourceIndex;
     setData(prev); 
@@ -224,7 +212,7 @@ export default function DesignStep(props) {
   };
 
   const handleToolActivity=(unitIndex, resourceIndex, lessonIndex)=>{
-    console.log("Las tools dentro de una activity", unitIndex, resourceIndex,lessonIndex)
+    //console.log("Las tools dentro de una activity", unitIndex, resourceIndex,lessonIndex)
     let prev = [ ...data ];
     prev[unitIndex].activities[lessonIndex].tools = resourceIndex;
     setData(prev); 
@@ -376,6 +364,7 @@ export default function DesignStep(props) {
 
           <ExpansionPanelDetails className={classes.panelDtls}>
             <DesignCourseCommons
+              validate={props.validate}
               courseInformation={courseinformation.design}
               key={unit.key}
               learnGols={unit.learnGols}
@@ -417,10 +406,7 @@ export default function DesignStep(props) {
                 parentIndex={unitIndex}
                 template={template}
               />
-            )}
-
-            
-           
+            )}       
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}

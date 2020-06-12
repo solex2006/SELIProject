@@ -16,7 +16,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Courses } from '../../../lib/CourseCollection';
 import { Activities } from '../../../lib/ActivitiesCollection';
-
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
@@ -58,9 +57,9 @@ export default class CreateCourse extends React.Component {
         support: [],
         requirements: [],
         coursePlan:{
-          guidedCoursePlan: 'guided', 
-          courseTemplate: 'spiral', 
-          courseStructure: 'unit'
+          guidedCoursePlan: '', 
+          courseTemplate: '', 
+          courseStructure: ''
         },
         accessibility:[],
         analysis:[],
@@ -78,6 +77,7 @@ export default class CreateCourse extends React.Component {
       selected: [0, 0],
       saved: false,
       action: "",
+      updateSteps:''
     }
   }
 
@@ -143,10 +143,21 @@ export default class CreateCourse extends React.Component {
     })
   }
 
+  validate=(data=>{
+
+    console.log("------------Validado desde CreateCourse-----------",data)
+    this.setState({
+      updateSteps:data,
+    })
+
+
+  })
+
   loadingData = () => {
     this.setState({
       courseForms: [
         <CourseInformation
+          validate={this.validate}
           courseInformation={this.state.courseInformation}
           unPickFile={this.unPickFile.bind(this)}
           changeFile={this.changeFile.bind(this)}
@@ -155,11 +166,13 @@ export default class CreateCourse extends React.Component {
           language={this.props.language}
         />,
         <AudienceStep
+          validate={this.validate}
           courseInformation={this.state.courseInformation}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
           language={this.props.language}
         />,
         <RequirementStep
+          validate={this.validate}
           courseInformation={this.state.courseInformation}
           lists={this.state.lists}
           buildedItems={this.state.buildedItems}
@@ -167,6 +180,7 @@ export default class CreateCourse extends React.Component {
           language={this.props.language}
         />,
         <CoursePlanStep
+          validate={this.validate}
           courseInformation={this.state.courseInformation}
           lists={this.state.lists}
           buildedItems={this.state.buildedItems}
@@ -178,10 +192,12 @@ export default class CreateCourse extends React.Component {
           language={this.props.language}
         />,
         <AnalysisStep
+          validate={this.validate}
           courseInformation={this.state.courseInformation}
           language={this.props.language}
         />,
         <DesignStep
+          validate={this.validate}
           courseInformation={this.state.courseInformation}
           template={this.state.courseInformation.coursePlan.courseTemplate}
           organization={this.state.courseInformation.coursePlan.courseStructure}
@@ -522,6 +538,7 @@ export default class CreateCourse extends React.Component {
         {
           this.state.courseForms !== undefined ?
             <FormStepperID
+              updateSteps={this.state.updateSteps}
               language={this.props.language}
               title={this.props.courseToEdit ? this.props.language.editing : this.props.language.createCourse}
               color="primary"

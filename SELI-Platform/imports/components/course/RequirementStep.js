@@ -83,6 +83,21 @@ export default function RequirementStep(props) {
     }
   }, []);
 
+  useEffect(()=>{
+    //ve si al menos uno esta en true
+      if(otherHardware.length==2){
+         if(otherHardware[1].editing===false ){
+          props.validate('passRequirements')
+        } 
+       
+      }else if(otherSoftwares.length==2){
+        if(otherSoftwares[1].editing===false ){
+          props.validate('passRequirements')
+        } 
+
+      }
+  })
+
   const [tooltipmessages, settooltipmessages] = useState({
     SaveAddHardware:"Save hardware inclusion",
     CancelAddHardware:"Cancel hardware inclusion",

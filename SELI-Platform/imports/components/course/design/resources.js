@@ -84,7 +84,7 @@ export default function ActivityResources(props) {
   const classes = useStyles();
   const {handleSelectResourcesIntoLessons,handleToolActivity,type, courseInformation, key, tools, handleSelectResources, parentIndex,lessonIndex ,handleSelectResourcesLessons } = props;
   
- console.log("resources++++++++++++++++++++++++++++++++++++++++++",props)
+ //console.log("resources++++++++++++++++++++++++++++++++++++++++++",props)
 
   
 

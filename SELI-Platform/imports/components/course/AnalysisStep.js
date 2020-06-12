@@ -94,14 +94,21 @@ export default function AnalysisStep(props) {
     if(courseInformation.accessibility[2]!=undefined){
       setanalysisTooltip(courseInformation.accessibility[2])
     }
-    
-    //update leaesrning objectives
-  
     setGoals(courseInformation.analysis[3])
     console.log(goals)
    
   },[])
 
+  useEffect(()=>{// 
+    console.log("INFO cOURSE Analysis",modality,  typeof(pedagogical),constraints)
+        if(modality!=undefined && pedagogical!=undefined ){
+            props.validate('passCourseAnalysis')
+        } 
+        if(modality===undefined || pedagogical===''){
+          props.validate('NopassCourseAnalysis')
+          
+        }
+  })
 
   const [openT, setOpenT] = React.useState(false);
   const [openA, setOpenA] = React.useState(false);

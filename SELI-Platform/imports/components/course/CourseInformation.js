@@ -23,6 +23,23 @@ export default class CourseInformation extends React.Component {
     }
   }
 
+componentDidUpdate() {
+    let validate=false; 
+    //props.validate('passAudience')
+    console.log("en el step information***",this.state.courseInformation)
+    if(this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
+     && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
+     && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
+     ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3)){
+      this.props.validate('passInformation')
+      }else{
+        this.props.validate('NopassInformation')
+      }
+      
+
+    //if(validate===false){ props.validate('NopassAudience')}
+}
+
   handleChange = name => event => {
     let courseInformation = this.state.courseInformation;
     if (name === 'title') {

@@ -66,7 +66,7 @@ export default function AudienceApp(props) {
   const classes = useStyles();
   //update state of checkboxes
   useEffect(() => {
-    console.log("comppnentDidMount", courseInformation, audiences)
+    console.log("comppnentDidMountAudiencias", courseInformation, audiences, props)
     if(courseInformation.support.length!=0){
       setAudiences(courseInformation.support[0])
       setAudiencesGol(courseInformation.support[1])
@@ -80,10 +80,25 @@ export default function AudienceApp(props) {
 
    //update accessibilty
    if(courseInformation.accessibility.length!=0){
-    setaudienceTooltip(courseInformation.accessibility[0])
+    setaudienceTooltip(courseInformation.accessibility[0]) 
   }
- 
   }, []); 
+
+  useEffect(()=>{
+    //ve si al menos uno esta en true
+    let validate=false;
+    audiences.map((value, index)=>{
+      if(value.isChecked===true){
+        audiencesGol.map((value, index)=>{
+          if(value.isChecked===true){
+            validate=true;
+            props.validate('passAudience')
+          }
+        })
+      }
+    })
+    if(validate===false){ props.validate('NopassAudience')}
+  })
   //course information
   const [open, setopen]= useState(false)
   const [opensnack, setopensnack]= useState(true)
@@ -166,7 +181,6 @@ export default function AudienceApp(props) {
     audiencegolError: true,
     audienceallgolError:true,
   })
-
   const [requirementTooltip, setrequirementTooltip]= useState({
     newaudience:"Add new audience",
     AddHardware:"Add hardwares that are mandatory to take this course.",
@@ -186,7 +200,6 @@ export default function AudienceApp(props) {
     }
     setControlEdit({ tempValue: "", adding: false, editing: false });
   };
-
   const handleEditedAudience = index => () => {
 
     let validAudiences= validateAudiences()
@@ -203,7 +216,6 @@ export default function AudienceApp(props) {
     }
     
   };
-
   function deleteAudience(index) {
     let newAudiences = [...otherAudiences];
     if (index === 0) newAudiences = [...newAudiences.slice(1)];
@@ -220,14 +232,12 @@ export default function AudienceApp(props) {
     setcourseInformation(addNewAudiences)
     console.log('courseinformation---',courseinformation)
   }
-
   const handleDeleteAudience = (index) => () => {
      setopen(true)
      setindexdelete(index)
      setlabelindexdelete(otherAudiences[index].label)
    
   };
-
   const handleNewAudience = () => {
     let pass= numberAudiences()
     console.log("pass****",pass)
@@ -254,7 +264,6 @@ export default function AudienceApp(props) {
     }
      
   };
-
   const handleEditAudience = index => () => {
     let newAudiences = [...otherAudiences];
     newAudiences[index].editing = true;
@@ -266,7 +275,6 @@ export default function AudienceApp(props) {
       editing: true
     });
   };
-
   const handleCheck = (index) => {
       let newAudiences = [...audiences];
       newAudiences[index].isChecked = !newAudiences[index].isChecked;
@@ -313,8 +321,6 @@ export default function AudienceApp(props) {
       })
      
   };
-
-
   const handleCheckGol = (index) => {
     let newAudiences = [...audiencesGol];
     newAudiences[index].isChecked = !newAudiences[index].isChecked;
@@ -362,7 +368,6 @@ export default function AudienceApp(props) {
     })
     
   };
-
   function updateTempValue(value) {
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
@@ -415,15 +420,12 @@ export default function AudienceApp(props) {
       return "invalid"
     }else return "valid"
   }
-
   const handleClose = () => {  
       setopen(false)
   };
-
   function handleClosesnack(){
       settooltip(false)
   }
-
   function SnackbarAudiences(){
     return(
       <Snackbar
@@ -454,6 +456,7 @@ export default function AudienceApp(props) {
   }
 
 
+  
   return (
     <div className="form-input-audiences">
 
@@ -552,7 +555,6 @@ export default function AudienceApp(props) {
                   "aria-labelledby": `checkbox-list-label-${audience.id}`
                 }}
               />
-              {console.log("audiencias///", audience)}
               <ListItemText
                 id={`checkbox-list-label-${audience.id}`}
                 primary={audience.label}
