@@ -38,11 +38,11 @@ export default class VideoItem extends React.Component {
     return(
       <div className="content-box">
         <div className="image-content-item">
-          <Card className="course-item-video-card">
+          <Card className={!this.props.fromTemplate ? "course-item-video-card" : "template-video-item"}>
             <Card className="course-item-video-card-media-action-area">
               {
                 this.props.item.attributes.source === 'upload' ?
-                  <VideoPreview file={this.props.item.attributes.video}/>
+                  <VideoPreview file={this.props.item.attributes.video} fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}/>
                 :
                   <ReactPlayer className="course-creator-item-video-card-preview-player" url={this.props.item.attributes.video.link}/>
               }
@@ -87,10 +87,16 @@ export default class VideoItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
+        {
+          !this.props.fromTemplate && (
+            <React.Fragment>
+              <Divider orientation="vertical" />
+              <DragItem
+                holdanddrag={this.props.language.holdanddrag}
+              />
+            </React.Fragment>
+          )
+        }
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
           language={this.props.language}
