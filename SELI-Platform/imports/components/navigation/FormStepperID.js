@@ -192,22 +192,24 @@ export default function FormStepperID(props) {
       newStatus.failed=newFailed;
       setStepStatus(newStatus)
     }
-    if (
+    /* if (
       newStatus.active < 3 &&
       newStatus.completed.has(0) &&
-      newStatus.completed.has(1) &&
-      (newStatus.skipped.has(2) || newStatus.completed.has(2))
+      newStatus.completed.has(1) 
+      //&& (newStatus.skipped.has(2) || newStatus.completed.has(2))
     ) {
+      console.log("desabilita-------")
       let newDisabled = new Set(stepStatus.disabled.values());
       newDisabled.delete(3);
       newStatus = { ...newStatus, disabled: newDisabled };
-      setStepStatus(newStatus);
-    }  else if ((stepStatus.active > 2 && stepStatus.completed.has(stepStatus.active))) {
+      setStepStatus(newStatus); 
+    }   else if ((stepStatus.active > 2 && stepStatus.completed.has(stepStatus.active) 
+                  && stepStatus.completed.has(0) && stepStatus.completed.has(1))) {
       let newDisabled = new Set(stepStatus.disabled.values());
       newDisabled.delete(stepStatus.active + 1);
       newStatus = { ...newStatus, disabled: newDisabled };
       setStepStatus(newStatus);
-    }
+    }  */
     // } */
 
    // newStatus = { ...newStatus, active: stepStatus.active + 1 };
@@ -308,7 +310,30 @@ export default function FormStepperID(props) {
           // find the first step that has been completed
           steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
-    setActiveStep(newActiveStep);
+    console.log("paso actual*****************", newActiveStep)
+   
+   if(props.coursePlan==='free'){
+      if(newActiveStep!=3){
+        setActiveStep(newActiveStep+3);
+      }
+   }else{
+      if(newActiveStep!=3 && newActiveStep!=5){
+        setActiveStep(newActiveStep);
+      }else {
+        if(newActiveStep==3 && stepStatus.completed.has(0) && stepStatus.completed.has(1)){
+          setActiveStep(newActiveStep);
+        }else if(newActiveStep==5 && stepStatus.completed.has(4)){
+          setActiveStep(newActiveStep);
+        }
+      }
+   }
+   
+    
+    
+  }
+
+  function handleSkip(){
+
   }
 
   function handleBack() {
@@ -357,21 +382,37 @@ useEffect(()=>{
     setStepStatus(prev=>{
       let newFailed = new Set(stepStatus.failed.values());
       newFailed.delete(0);
-      //newStatus = { ...newStatus, disabled: newDisabled };
+      let newDisabled = new Set(stepStatus.disabled.values());
+      if(stepStatus.completed.has(1)){    
+        newDisabled.delete(3);
+      }
       return {
         ...prev, 
         completed:prev.completed.add(0),
-        failed: newFailed
+        failed: newFailed,
+        disabled:newDisabled
       }
     })
   }else if(props.updateSteps==='NopassInformation'){
     setStepStatus(prev=>{
       let newCompleted = new Set(stepStatus.completed.values());
       newCompleted.delete(0);
+      newCompleted.delete(3);
+      newCompleted.delete(6);
+      newCompleted.delete(4);
+      newCompleted.delete(5);
+      let newDisabled = new Set(stepStatus.disabled.values());
+      newDisabled.add(3);
+      newDisabled.add(6);
+      newDisabled.add(4);
+      newDisabled.add(5);
+      let newFailed = new Set(stepStatus.failed.values());
+      newFailed.add(0)
       return {
         ...prev, 
-        failed:prev.failed.add(0),
-        completed: newCompleted
+        failed:newFailed,
+        completed: newCompleted,
+        disabled:newDisabled
        }
     })
   }
@@ -379,23 +420,41 @@ useEffect(()=>{
   //////
   
   if(props.updateSteps==='passAudience'){
-      console.log("completado", stepStatus.failed)
+      console.log("completado", stepStatus.failed)   
+      let newDisabled = new Set(stepStatus.disabled.values());
+      if(stepStatus.completed.has(0)){
+        newDisabled.delete(3);
+      }
+      
       setStepStatus(prev=>{
         let newFailed = new Set(stepStatus.failed.values());
         newFailed.delete(1);
-        return {... prev, completed:prev.completed.add(1), failed:newFailed}
+        return {... prev, completed:prev.completed.add(1), failed:newFailed, disabled:newDisabled}
       })
+      
   }else if(props.updateSteps==='NopassAudience'){
     setStepStatus(prev=>{
       let newCompleted = new Set(stepStatus.completed.values());
       newCompleted.delete(1);
+      newCompleted.delete(3);
+      newCompleted.delete(6);
+      newCompleted.delete(4);
+      newCompleted.delete(5);
+      let newDisabled = new Set(stepStatus.disabled.values());
+      newDisabled.add(3);
+      newDisabled.add(6);
+      newDisabled.add(4);
+      newDisabled.add(5);
       return {
         ...prev, 
         failed:prev.failed.add(1),
-        completed: newCompleted
+        completed: newCompleted,
+        disabled:newDisabled
        }
     })
   }
+
+
   if(props.updateSteps==='passRequirements'){
     setStepStatus(prev=>{
       return {... prev, completed:prev.completed.add(2)}
@@ -407,10 +466,12 @@ useEffect(()=>{
     let newStatus=stepStatus;
     let newFailed = new Set(stepStatus.failed.values());
     newFailed.delete(3);
+    let newDisabled = new Set(stepStatus.disabled.values());
+    newDisabled.delete(4);
     setStepStatus(prev=>{
-      return {... prev, completed:prev.completed.add(3), failed:newFailed}
+      return {... prev, completed:prev.completed.add(3), failed:newFailed, disabled:newDisabled}
     })
-    handleCompletenew(stepStatus.active)
+    //handleCompletenew(stepStatus.active)
     if(props.updateSteps==='passCoursePlanFree'){
       let newDisabled = new Set(stepStatus.disabled.values());
       newDisabled.delete(stepStatus.active + 3);
@@ -434,19 +495,24 @@ useEffect(()=>{
    
   if(props.updateSteps==='passCourseAnalysis'){
     setStepStatus(prev=>{
+      let newDisabled = new Set(stepStatus.disabled.values());
+      newDisabled.delete(5);
       let newFailed = new Set(stepStatus.failed.values());
       newFailed.delete(4);
-      return {... prev, completed:prev.completed.add(4), failed:newFailed}
+      return {... prev, completed:prev.completed.add(4), failed:newFailed, disabled:newDisabled}
     })
-    handleCompletenew(stepStatus.active)
+    //handleCompletenew(stepStatus.active)
   }else if(props.updateSteps==='NopassCourseAnalysis'){
     setStepStatus(prev=>{
       let newCompleted = new Set(stepStatus.completed.values());
       newCompleted.delete(4);
+      let newDisabled = new Set(stepStatus.disabled.values());
+      newDisabled.add(5);
       return {
         ...prev, 
         failed:prev.failed.add(4),
-        completed: newCompleted
+        completed: newCompleted,
+        disabled:newDisabled
        }
     })
   }
@@ -739,7 +805,14 @@ useEffect(()=>{
                 >
                   {props.language.nextStep}
                 </Button>
+                <Button
+                  color="secondary"
+                  onClick={handleSkip}
+                >
+                  {props.language.skipStep}
+                </Button>
               </ButtonGroup>
+              
             </Grid>
           :
           undefined

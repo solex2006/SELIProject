@@ -64,12 +64,20 @@ export default function DesignStep(props) {
   }, []); 
 
   useEffect(() => {
+    console.log("CourseInformation-DesignStep", props.courseInformation) 
     if(organization==='unit' && template!='without') {
       setOrganization('topic')
-    }
-   
+    } 
+
+    props.courseInformation.design.map((unit, index)=>{
+      if(unit.learnGols!='' && unit.mainContent!='' && unit.evaluation!=''){
+        props.validate('passCourseDesign')
+      }else{
+        props.validate('NopassCourseDesign')
+      }
+    })
   }); 
-  console.log("CourseInformation-DesignStep", props.courseInformation) 
+ 
   const classes = useStyles();
   const [template, setTemplate] = useState(props.courseInformation.coursePlan.courseTemplate);
   const [organization,setOrganization] =  useState(props.courseInformation.coursePlan.courseStructure);

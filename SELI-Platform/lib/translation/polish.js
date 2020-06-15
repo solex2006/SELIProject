@@ -948,6 +948,7 @@
   courseDescriptionInformation: "Type a brief description of the course",
   durationInvalidEntry: "Course duration has a invalid entry. Please, insert a value with a time format 000:00:00 (HH:MM:SS)",
   plan: "Course Plan",
-  analysisstep: 'Analysis'
+  analysisstep: 'Analysis',
+  skipStep:'skipStep'
 }
 export default POLISH;

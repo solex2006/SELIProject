@@ -101,7 +101,7 @@ export default function AnalysisStep(props) {
 
   useEffect(()=>{// 
     console.log("INFO cOURSE Analysis",modality, pedagogical,constraints)
-        if(modality!='' && pedagogical!='' ){
+        if(modality!=undefined && pedagogical!=undefined ){
             props.validate('passCourseAnalysis')
         } 
         if(modality===undefined || pedagogical===''){
