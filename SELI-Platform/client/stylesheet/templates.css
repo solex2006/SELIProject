@@ -5,6 +5,7 @@
 }
 
 .template-container {
+  overflow-y: scroll;
   width: calc(100vw - var(--course-tool-menu-size));
 }
 
@@ -34,9 +35,9 @@
   overflow: hidden;
 }
 
-.general-content-item {
+.template-general-item {
   width: 100%;
-  height: auto;
+  height: calc(var(--template-row) / 2);
   display: flex;
 }
 

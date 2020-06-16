@@ -85,7 +85,7 @@ export default class ImageItem extends React.Component {
 
     return(
       <div className="content-box">
-        <div className="image-content-item">
+        <div className={!this.props.fromTemplate ? "image-content-item" : "template-general-item"}>
           <div style={{flexDirection: this.props.item.attributes.alignment}} className={!this.props.fromTemplate ? "image-item-container" : "template-image-item"}>
             <div>
               <DiscreteSlider adjust={this.adjust}/> 

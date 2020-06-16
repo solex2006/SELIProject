@@ -93,7 +93,8 @@ export default class CourseProgram extends React.Component {
     });
   };
 
-  openDialog(e){
+  openDialog(e, templateCode){
+    console.log(templateCode)
     let type = e.payload.type;
     let courseInformation = this.state.courseInformation;
     let languageTypeAdded = "";
@@ -112,21 +113,24 @@ export default class CourseProgram extends React.Component {
     this.setState({
       contentTypeAdded: type,
       languageType: languageTypeAdded,
+      templateCode: templateCode,
       addedId: e.payload.id,
       showCourseOrganization: false,
       showContentEditor: true,
     });
-    if(e.addedIndex !== null && e.removedIndex !== null) {
-
-    }
+    if(e.addedIndex !== null && e.removedIndex !== null) {}
     else {
       this.contentHandleClickOpen();
     }
+    let a = e;
+    if (templateCode) {
+      a.payload.code = templateCode;
+    }
     if (courseInformation.organization.subunit) {
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = applyDrag(courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items, e);
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = applyDrag(courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items, a);
     }
     else {
-      courseInformation.program[this.props.selected[0]].items = applyDrag(courseInformation.program[this.props.selected[0]].items, e);
+      courseInformation.program[this.props.selected[0]].items = applyDrag(courseInformation.program[this.props.selected[0]].items, a);
     }
     this.setState({
       contentaAdded: true,
@@ -139,7 +143,7 @@ export default class CourseProgram extends React.Component {
     let courseInformation = this.state.courseInformation;
     let index;
     let itemContent = this.getItemAttributes();
-    console.log("boton de crear el contenido",itemContent,courseInformation)
+    console.log(itemContent)
 
     //console.log("courseInformation",courseInformation)
     //console.log("courseInformation",itemContent)

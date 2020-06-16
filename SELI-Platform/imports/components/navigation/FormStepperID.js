@@ -139,7 +139,7 @@ export default function FormStepperID(props) {
  /*  useEffect(()=>(
     console.log('Actualiza Step-informacion',)
   ),[]) */
-  console.log("Form stpper", props)
+  //console.log("Form stpper", props)
 
   const [validateInformation,setvalidateInformation]=useState({
     informationStep:props.forms[0].props.courseInformation,
@@ -183,7 +183,7 @@ export default function FormStepperID(props) {
 
     // if (stepStatus.active > 1 && stepStatus.active < getSteps(addie).length) {
       let newStatus = stepStatus;
-      console.log("dentro del newfailed",stepStatus)
+      //console.log("dentro del newfailed",stepStatus)
 
     if(step){
       let newStatus=stepStatus;
@@ -310,7 +310,7 @@ export default function FormStepperID(props) {
           // find the first step that has been completed
           steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
-    console.log("paso actual*****************", newActiveStep)
+    //console.log("paso actual*****************", newActiveStep)
    
    if(props.coursePlan==='free'){
       if(newActiveStep!=3){
@@ -377,7 +377,7 @@ export default function FormStepperID(props) {
 
 
 useEffect(()=>{
-  console.log("PROPS EN id", props.updateSteps, props)
+  //console.log("PROPS EN id", props.updateSteps, props)
   if(props.updateSteps==='passInformation'){
     setStepStatus(prev=>{
       let newFailed = new Set(stepStatus.failed.values());
@@ -420,7 +420,7 @@ useEffect(()=>{
   //////
   
   if(props.updateSteps==='passAudience'){
-      console.log("completado", stepStatus.failed)   
+      //console.log("completado", stepStatus.failed)   
       let newDisabled = new Set(stepStatus.disabled.values());
       if(stepStatus.completed.has(0)){
         newDisabled.delete(3);
@@ -539,7 +539,7 @@ useEffect(()=>{
 
 
 useEffect(()=>{
-  console.log("ACTUALIZA UN PASO  para VER el nuevo stpeaqui v",stepStatus)
+  //console.log("ACTUALIZA UN PASO  para VER el nuevo stpeaqui v",stepStatus)
   handleCompletenew()
 },[stepStatus.active])
 
