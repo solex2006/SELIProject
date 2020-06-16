@@ -35,7 +35,6 @@ export default function Presentation(props) {
   const classes = useStyles();
   const { supplementary } = props;
   const itemsTypes = { 1: "unity", 2: "h5p", 3: "other" };
-
   function selectOptions(options) {
     let rows = [];
     for (let [key, value] of Object.entries(options)) {
@@ -53,7 +52,7 @@ export default function Presentation(props) {
   const [state, setState] = React.useState({
     columns: [
       {
-        title: "Title",
+        title: language.title,
         field: "title",
         editComponent: props => (
             <TextField
@@ -83,7 +82,7 @@ export default function Presentation(props) {
         )
       },
       {
-        title: "Type",
+        title: language.audiencetype,
         field: "type",
         lookup: itemsTypes,
         editComponent: props => {
@@ -110,7 +109,7 @@ export default function Presentation(props) {
         }
       },
       {
-        title: "External Resource",
+        title: language.ExternalResource,
         field: "external",
         type: "boolean",
          editComponent: props => (
@@ -127,7 +126,7 @@ export default function Presentation(props) {
         ) 
       },
       {
-        title: "External URL",
+        title: language.ExternalURL,
         field: "url",
         editComponent: props => (
           <React.Fragment>
@@ -282,7 +281,7 @@ export default function Presentation(props) {
             actions: "" //removed title of action column
           },
           body: {
-            emptyDataSourceMessage: "No games"
+            emptyDataSourceMessage: language.Nogames
           }
         }}
       />

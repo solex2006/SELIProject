@@ -1054,8 +1054,9 @@ var ENGLISH = {
   paper:"paper",
   book:"book",
   printed:"printed",
-  digital:"digital"
-
+  digital:"digital",
+  Nogames:'No games',
+  Nopresentation:'No presentation'
 
 }
 export default ENGLISH;

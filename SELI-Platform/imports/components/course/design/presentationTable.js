@@ -245,7 +245,7 @@ export default function Presentation(props) {
             actions: "" //removed title of action column
           },
           body: {
-            emptyDataSourceMessage: "No presentation"
+            emptyDataSourceMessage: language.Nopresentation
           }
         }}
       />
