@@ -51,7 +51,7 @@ export default function FeedbackHelp(props) {
   const classes = useStyles();
   //console.log("Accesibility HELP ERROR",props.error)
 
-  const { validation, tipMsg, describedBy, stepHelp, decisionHelp } = props;
+  const { validation, tipMsg, describedBy, stepHelp, decisionHelp, language } = props;
 
   return (
     <React.Fragment>
@@ -70,8 +70,8 @@ export default function FeedbackHelp(props) {
             <div className="feedback-container">
               <AccessibilityIcon />
               {validation.a11y.valid
-                ? "Passed accessibility validation"
-                : "Accessibility fault"}
+                ? language.Passedaccessibilityvalidation
+                : language.Accessibilityfault}
             </div>
           </div>
         )}

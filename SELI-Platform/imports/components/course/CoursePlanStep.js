@@ -64,6 +64,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function CoursePlanStep(props) {
   const classes = useStyles();
+  const {language}=props;
   useEffect(()=>{
     console.log("CoursePlanStep:", props)
     setCoursePlan(courseInformation.coursePlan.guidedCoursePlan);
@@ -125,10 +126,10 @@ export default function CoursePlanStep(props) {
   return (
     <div className="course-information-container">
       <div className="form-input-column">
-        <h3>Guided Course Plan</h3>
+        <h3>{language.GuidedCoursePlan}</h3>
         <br/>
         <FormLabel component="legend">
-          How would you like to create your course?
+          {language.PlanCreate}
         </FormLabel>
         <RadioGroup
           aria-label="Course Plan"
@@ -146,7 +147,7 @@ export default function CoursePlanStep(props) {
             errorType: "",
             a11y: null
           }}
-          tipMsg="Instructions goes here."
+          tipMsg={language.documentupload}
           describedBy={"i05-helper-text"}
         />
         {courseInformation.coursePlan.guidedCoursePlan === "free" && (
@@ -166,7 +167,7 @@ export default function CoursePlanStep(props) {
         )} 
         <br/>
         <FormLabel component="legend">
-          Would you like to use a template?
+          {language.PlanTemplate}
         </FormLabel>
         <RadioGroup
           aria-label="Course Template"
@@ -177,18 +178,18 @@ export default function CoursePlanStep(props) {
           <FormControlLabel
             value="spiral"
             control={<Radio />}
-            label="Spiral Model"
+            label={language.SpiralModel}
           />
           <FormControlLabel
             value="consistent"
             control={<Radio />}
-            label="Consistent"
+            label={language.Consistent}
           />
-          <FormControlLabel value="toyBox" control={<Radio />} label="ToyBox" />
+          <FormControlLabel value="toyBox" control={<Radio />} label={language.ToyBox} />
           <FormControlLabel
             value="without"
             control={<Radio />}
-            label="Without template"
+            label={language.Withouttemplate}
           />
         </RadioGroup>
         <FeedbackHelp
@@ -198,7 +199,7 @@ export default function CoursePlanStep(props) {
             errorType: "",
             a11y: null
           }}
-          tipMsg="Instructions goes here."
+          tipMsg={language.appropriateOption}
           describedBy={"i05-helper-text"}
           stepHelp={{
             step: "textHelper",
@@ -212,7 +213,7 @@ export default function CoursePlanStep(props) {
         {courseInformation.coursePlan.courseTemplate === "without" && (
           <React.Fragment>
             <FormLabel component="legend">
-              How would you like to structure your course?
+              {language.PlanStructure}
             </FormLabel>
             <RadioGroup
               aria-label="Course Structure"
@@ -238,7 +239,7 @@ export default function CoursePlanStep(props) {
                 errorType: "",
                 a11y: null
               }}
-              tipMsg="Instructions goes here."
+              tipMsg={language.appropriateOption}
               describedBy={"i05-helper-text"}
               stepHelp={{
                 step: "textHelper",

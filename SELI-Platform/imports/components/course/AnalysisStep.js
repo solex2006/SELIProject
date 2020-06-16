@@ -82,7 +82,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AnalysisStep(props) {
-  const {courseInformation } = props;
+  const {courseInformation,language } = props;
 
   useEffect(()=>{
     console.log("courseInformationAnalysisStep", courseInformation )
@@ -169,28 +169,28 @@ export default function AnalysisStep(props) {
   });
 
   const [labels, setlables]=useState({
-    IntendedAudience:'Intended Audience',
-    IntendedInclusion:'Intended Inclusion',
-    CourseTitle:'Course Title',
-    CourseSubtitle:'Course Subtitle',
-    errorMsg:'This field is required. Please complete it',
-    completeObjective:'Complete the objective',
-    analysisphase:'The analysis phase consists of understanding the educational problem,covering the survey of educational needs, the characterization of students and the verification of constraints.',
-    knowledgeObjectives: "KnowledgeObjectives are the intended learning aims or goals of the Learning Element identified and grouped in terms of the primary focus of each aim or goal – so the teacher is prompted to identify Experiential, Conceptual, Analytical and Applied objectives",
-    skillsobjectives: 'Refers to a wide range of cognitive (mental), physical and emotional skills including science processes, critical thinking, problem solving, decision making, communication, research, mathematical, psychomotor and interpersonal relations.',
-    attitudesobjectives:'Refers to feelings, beliefs, dispositions, opinions, and values.',
-    titleLO:'Learning Objectives',
-    tipmsgLO:'Add a Learning Objectives that show what the students will know and why they are doing it on three areas of learning: knowledge, skills and attitudes.',
-    subtitleLO:'Knowledge objectives',
-    subtitleSO:'Skills objectives',
-    subtitleAO:'Attitud objectives',
-    learningconstraint:'Learning constraint',
-    repeated:"You already add this item before.",
-    modality:'Modality',
-    delivercontent:'How the content will be delivered',
-    pedagogical:' Pedagogical Considerations and Opportunities for Teaching and Learning on the Web concentrates on theory, application, and the development of web-based technologies for teaching and learning and its influence on the education system',
-    pedagogicalconsiderations:'Pedagogical Considerations',
-    learningCon:'A constraint is a boundary which encourages the learner to emerge with certain behaviours',
+    IntendedAudience:language.IntendedAudience,
+    IntendedInclusion:language.IntendedInclusion,
+    CourseTitle:language.CourseTitle,
+    CourseSubtitle:language.CourseSubtitle,
+    errorMsg:language.errorMsg,
+    completeObjective:language.completeObjective,
+    analysisphase:language.analysisphase,
+    knowledgeObjectives:language.knowledgeObjectives ,
+    skillsobjectives:language.skillsobjectives,
+    attitudesobjectives:language.attitudesobjectives,
+    titleLO:language.titleLO,
+    tipmsgLO:language.tipmsgLO,
+    subtitleLO:language.subtitleLO,
+    subtitleSO:language.subtitleSO,
+    subtitleAO:language.subtitleAO,
+    learningconstraint:language.learningconstraint,
+    repeated:language.repeated,
+    modality:language.modality,
+    delivercontent:language.delivercontent,
+    pedagogical:language.pedagogical,
+    pedagogicalconsiderations:language.pedagogicalconsiderations,
+    learningCon:language.learningCon,
   })
   const [message, setmessage]=useState(labels.errorMsg)
   const [open, setopen]= useState(false)

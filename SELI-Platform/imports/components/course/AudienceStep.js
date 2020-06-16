@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AudienceApp(props) {
-  const { handleComplete, handleSkip, completed, skiped, courseInformation } = props;
+  const { handleComplete, handleSkip, completed, skiped, courseInformation,language } = props;
   const classes = useStyles();
   //update state of checkboxes
   useEffect(() => {
@@ -111,59 +111,59 @@ export default function AudienceApp(props) {
     {
       id: 0,
       value: "StudentsGrad",
-      label: "Graduate students",
+      label: language.Graduatestudents,
       isChecked: false
     },
     {
       id: 1,
       value: "StudentsInfor",
-      label: "Informal students",
+      label: language.Informalstudents,
       isChecked: false
     },
     {
       id: 2,
       value: "Teachers",
-      label: "Teachers and Professors",
+      label: language.TeachersandProfessors,
       isChecked: false
     },
-    { id: 3, value: "Kids", label: "Preschool kids", isChecked: false }
+    { id: 3, value: "Kids", label: language.Preschoolkids, isChecked: false }
   ]);
   const [audiencesGol,setAudiencesGol]=useState([
     
     {
       id: 0,
       value: "cog",
-      label: "Cognitive",
+      label: language.Cognitive,
       isChecked: false
     },
     {
       id: 1,
       value: "Eld",
-      label: "Elderly",
+      label: language.Elderly,
       isChecked: false
     },
     {
       id: 2,
       value: "Hear",
-      label: "Hearing",
+      label: language.Hearing,
       isChecked: false
     },
     {
       id: 3,
       value: "Lan",
-      label: "Language",
+      label: language.Language,
       isChecked: false
     },
     {
       id: 4,
       value: "Spee",
-      label: "Speech",
+      label: language.Speech,
       isChecked: false
     },
     {
       id: 5,
       value: "Vis",
-      label: "Visual",
+      label: language.Visual,
       isChecked: false
     }
   ]);
@@ -459,20 +459,14 @@ export default function AudienceApp(props) {
   
   return (
     <div className="form-input-audiences">
-
-      {/*  <SimulateButtons
-        handleComplete={handleComplete}
-        handleSkip={handleSkip}
-        completed={completed}
-        skiped={skiped}
-      />  */}
-      <h2 id="aud_title">Audience</h2>
-      <h3 id="aud_title">Intended Audience</h3>
+      <h2 id="aud_title">{language.audiences}</h2>
+      <h3 id="aud_title">{language.IntendedAudience}</h3>
       <div role="group" aria-labelledby="aud_title">
 
         <List component="ul" key={"li03"}>
        {/*  <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audienceallError} tip={"Select all options"}/> */}
           <FeedbackHelp
+            language={language}
             validation={{
               error: false,
               errorMsg: "",
@@ -526,19 +520,20 @@ export default function AudienceApp(props) {
             {/* </ListItemIcon> */}
             <ListItemText
               id="checkbox-list-label-selectAll"
-              primary="Select All"
+              primary={language.SelectAll}
             />
           </ListItem>
 {/*           <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audienceError} tip={"	Select your target audience. You can select as many as you want. You can also add others target audience not listed above, by selecting 'Add Audience' button."}/>
  */}      
           <FeedbackHelp
+            language={language}
             validation={{
               error: false,
               errorMsg: "",
               errorType: "a11y",
               a11y: { valid: !audienceTooltip.audienceError }
             }}
-            tipMsg="Select your target audience. You can select as many as you want. You can also add others target audience not listed, by selecting 'Add Audience' button."
+            tipMsg={language.targetAudience}
             describedBy={"i04-helper-text"}     
           /> 
           {audiences.map((audience, index) => (
@@ -581,6 +576,7 @@ export default function AudienceApp(props) {
                   onChange={event => updateTempValue(event.target.value)}
                 />
                 <FeedbackHelp
+                    language={language}
                     validation={{
                       error: feedbackError,
                       errorMsg: message,
@@ -659,17 +655,18 @@ export default function AudienceApp(props) {
       </div>
      
    
-      <h3 id="aud_title">Inclusion Goals</h3>
+      <h3 id="aud_title">{language.InclusionGoals}</h3>
       <div role="group" aria-labelledby="aud_title2">
         <List component="ul" key={"li03"}>
           <FeedbackHelp
+            language={language}
             validation={{
               error: false,
               errorMsg: "",
               errorType: "a11y",
               a11y: { valid: !audienceTooltip.audienceallgolError }
             }}
-            tipMsg="Select all options."
+            tipMsg={language.SelectAlloptions}
             describedBy={"i04-helper-text"}     
           />
           <ListItem key="aud_SelectAll2" dense>
@@ -710,18 +707,19 @@ export default function AudienceApp(props) {
             {/* </ListItemIcon> */}
             <ListItemText
               id="checkbox-list-labelGol-selectAll"
-              primary="Select All"
+              primary={language.selectAll}
             />
           </ListItem>
 {/*           <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audiencegolError} tip={"If you desire to validate the inclusion of your course for some specific diversity group, select them from the list above. You can select as many as you want."}/>
  */}       <FeedbackHelp
+              language={language}
               validation={{
                 error: false,
                 errorMsg: "",
                 errorType: "a11y",
                 a11y: { valid: !audienceTooltip.audiencegolError}
               }}
-              tipMsg="If you desire to validate the inclusion of your course for some specific diversity group, select them from the list below . You can select as many as you want."
+              tipMsg={language.Validatetheinclusion}
               describedBy={"i04-helper-text"}     
             />
           {audiencesGol.map((audienceGol, index) => (

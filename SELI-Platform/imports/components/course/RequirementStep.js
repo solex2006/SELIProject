@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function RequirementStep(props) {
-  const { handleComplete, handleSkip, completed, skiped, courseInformation } = props;
+  const { language, courseInformation } = props;
   const classes = useStyles();
 
   useEffect(() => {
@@ -99,26 +99,26 @@ export default function RequirementStep(props) {
   })
 
   const [tooltipmessages, settooltipmessages] = useState({
-    SaveAddHardware:"Save hardware inclusion",
-    CancelAddHardware:"Cancel hardware inclusion",
-    EditHardware:"Edit hardware",
-    DeleteHardware:"Delete hardware",
-    SaveAddSoftware:"Save software inclusion",
-    CancelAddSoftware:"Cancel software inclusion",
-    EditSoftware:"Edit software",
-    DeleteSoftware:"Delete software"
+    SaveAddHardware:language.SaveAddHardware,
+    CancelAddHardware:language.CancelAddHardware,
+    EditHardware:language.EditHardware,
+    DeleteHardware:language.DeleteHardware,
+    SaveAddSoftware:language.SaveAddSoftware,
+    CancelAddSoftware:language.CancelAddSoftware,
+    EditSoftware:language.EditSoftware,
+    DeleteSoftware:language.DeleteSoftware
 
   })
   const [labelindexdelete, setlabelindexdelete]=useState("")
   const [indexdelete,  setindexdelete]=useState(0)
   const [requirementTooltip, setrequirementTooltip]= useState({
-    newsoftware:"Add new software",
-    newhardware:"Add new hardware",
-    AddHardware:"Add hardwares that are mandatory to take this course.",
-    AddSoftware:"Add softwares that are mandatory to take this course.",
-    errorMsg:"This field is required. Please complete it",
-    openHardware:"You already add this item before.",
-    openSoftware:"You already add this item before.",
+    newsoftware:language.newSoftware,
+    newhardware:language.newhardware,
+    AddHardware:language.AddHardware,
+    AddSoftware:language.AddSoftware,
+    errorMsg:language.errorMsg,
+    openHardware:language.openHardware,
+    openSoftware:language.openSoftware,
 
   })///messages
 
@@ -234,14 +234,14 @@ export default function RequirementStep(props) {
 
   const [otherSoftwares,setOtherSoftwares] = useState([
     {
-      label: "MSOffice (example)",
+      label: language.MSOffice,
       editing: false
     }
   ]);
 
   const [otherHardware,setOtherHardware] = useState([
     {
-      label: "WebCam (example)",
+      label: language.WebCam,
       editing: false
     }
   ]);
@@ -427,8 +427,8 @@ export default function RequirementStep(props) {
         completed={completed}
         skiped={skiped}
       /> */}
-      <h2>Course Requirements</h2>
-      <h3 id="soft_title">Software requirements</h3>
+      <h2>{language.CourseRequirements}</h2>
+      <h3 id="soft_title">{language.Softwarerequirements}</h3>
       <div role="group" aria-labelledby="soft_title">
         <List component="ul" key={"li04"}>
           <FeedbackHelp

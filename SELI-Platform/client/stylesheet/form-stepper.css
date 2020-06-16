@@ -3,7 +3,6 @@
   position: fixed;
   height: calc(100vh - var(--app-bar-height));
 }
-
 .form-stepper-navigation {
   width: 100%;
   display: flex;
@@ -14,7 +13,6 @@
   background-color: #f5f5f5;
   animation: fadeInDown 0.5s;
 }
-
 .form-stepper-navigation-bottom {
   width: 100%;
   display: flex;
@@ -29,7 +27,7 @@
 .navBar{
   display: flex;
   justify-content: flex-end;
-  padding-right: 71%;
+  padding-right: 5% !important ;
 }
 .parentNavBar{
   display: flex;
@@ -42,7 +40,6 @@
   display: flex;
   flex-wrap: wrap;
 }
-
 .form-stepper-title {
   font-size: 28.5px;
   font-weight: 100;
