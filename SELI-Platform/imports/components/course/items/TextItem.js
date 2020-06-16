@@ -19,9 +19,7 @@ export default class TextItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        <div className="text-content-item">
-
-          {console.log(" this.props.item.attributes",  this.props.item.attributes)}
+        <div className={!this.props.fromTemplate ? "text-content-item" : "template-general-item"}>
           {
             this.props.item.attributes.type === 'title' ?
                 <div>

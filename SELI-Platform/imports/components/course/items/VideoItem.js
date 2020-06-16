@@ -37,7 +37,7 @@ export default class VideoItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        <div className="image-content-item">
+        <div className={!this.props.fromTemplate ? "image-content-item" : "template-general-item"}>
           <Card className={!this.props.fromTemplate ? "course-item-video-card" : "template-video-item"}>
             <Card className="course-item-video-card-media-action-area">
               {
