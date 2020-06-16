@@ -67,7 +67,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DesignCourseApp(props) {
-  const {handleSelectResourcesIntoLessons,courseInformation, unit,unitIndex,handleUnitChange, template, lessons, tools,key, handleSelectResourcesLessons,handleSelectResourcesActivities } = props;
+  const {language, handleSelectResourcesIntoLessons,courseInformation, unit,unitIndex,handleUnitChange, template, lessons, tools,key, handleSelectResourcesLessons,handleSelectResourcesActivities } = props;
   const classes = useStyles();
  
  useEffect(() => {
@@ -202,7 +202,7 @@ export default function DesignCourseApp(props) {
               color="secondary"
               startIcon={<EditIcon />}
             >
-              Edit lesson name
+             {language.Editlessonname}
             </Button>
 
             <Button
@@ -228,7 +228,7 @@ export default function DesignCourseApp(props) {
               color="secondary"
               startIcon={<RemoveIcon />}
             >
-              Delete lesson
+              {language.Deletelesson}
             </Button>
 
 
@@ -248,6 +248,7 @@ export default function DesignCourseApp(props) {
           <ExpansionPanelDetails className={classes.panelDtls}>
             <div className={classes.resources}>
               <Resources
+              language={language}
               handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
                 type='lessonInto'
                 courseInformation={courseInformation}
@@ -260,6 +261,7 @@ export default function DesignCourseApp(props) {
             </div>
           <div className={classes.activitydesign}>
             <ActivityDesign
+                language={language}
                 type='lesson'
                 handleSelectResourcesActivities={handleSelectResourcesActivities}
                 courseInformation={courseInformation}
@@ -289,12 +291,12 @@ export default function DesignCourseApp(props) {
               preKnowledge: "",
               mainContent: "",
               tools: [
-                { checked: false, key: "audio", label: "Audios" },
-                { checked: false, key: "games", label: "Games", items: [] },
-                { checked: false, key: "images", label: "Images" },
-                { checked: false, key: "presentation",  label: "Presentation",items: []},
-                { checked: false, key: "supplemantary", label: "Supplementary Text", items: []},
-                { checked: false, key: "videos", label: "Videos" }
+                { checked: false, key: "audio", label: language.Audios },
+                { checked: false, key: "games", label: language.Games, items: [] },
+                { checked: false, key: "images", label: language.Images },
+                { checked: false, key: "presentation", label: language.Presentation, items: []},
+                { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+                { checked: false, key: "videos", label: language.Videos }
               ],
               activities: [],
               editing: true
@@ -312,7 +314,7 @@ export default function DesignCourseApp(props) {
          // handleUnitChange(unit, unitIndex)
         }}
       >
-        Add lesson
+        {language.Addlesson}
       </Button>
 
       <FeedbackHelp
@@ -322,7 +324,7 @@ export default function DesignCourseApp(props) {
           errorType: "",
           a11y: null
         }}
-        tipMsg="instructions"
+        tipMsg={language.Addlesson}
         describedBy={"i05-helper-text"}
       />
     </React.Fragment>

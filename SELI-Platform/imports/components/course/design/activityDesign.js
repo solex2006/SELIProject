@@ -12,7 +12,7 @@ import tableIcons from '../design/icons'
 const useStyles = makeStyles(theme => ({}));
 
 export default function ActivityDesign(props) {
-  const {handleToolActivity,type,courseInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
+  const {language,type,courseInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
  
   useEffect(()=>{
     console.log("courseInformation-activity-design",courseInformation, type,lessonIndex,parentIndex)
@@ -144,7 +144,7 @@ export default function ActivityDesign(props) {
     <React.Fragment>
       <MaterialTable
         icons={tableIcons}
-        title="Tasks list"
+        title={language.Taskslist}
         options={{ search: false }}
         columns={state.columns}
         data={state.data}
@@ -152,12 +152,11 @@ export default function ActivityDesign(props) {
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                console.log("NewDataActivityDesign",newData)
                 newData.submitted = true;
                 if (!newData.activity) {
                   newData.error = true;
-                  newData.label = "required";
-                  newData.helperText = "Name is required.";
+                  newData.label = language.required;
+                  newData.helperText = language.Namerequired;
                   newData.validateInput = true;
                   reject();
                   return;
@@ -184,8 +183,8 @@ export default function ActivityDesign(props) {
                 newData.submitted = true;
                 if (!newData.activity) {
                   newData.error = true;
-                  newData.label = "required";
-                  newData.helperText = "Name is required.";
+                  newData.label = language.required;
+                  newData.helperText = language.Namerequired;
                   newData.validateInput = true;
                   reject();
                   return;
@@ -269,7 +268,7 @@ export default function ActivityDesign(props) {
           errorType: "",
           a11y: null
         }}
-        tipMsg="instructions"
+        tipMsg={language.TableTaskslist}
         describedBy={"i05-helper-text"}
       />
     </React.Fragment>

@@ -473,9 +473,11 @@ useEffect(()=>{
     })
     //handleCompletenew(stepStatus.active)
     if(props.updateSteps==='passCoursePlanFree'){
+      let newFailed = new Set(stepStatus.failed.values());
+      newFailed.delete(3);
       let newDisabled = new Set(stepStatus.disabled.values());
       newDisabled.delete(stepStatus.active + 3);
-      newStatus = { ...newStatus, disabled: newDisabled };
+      newStatus = { ...newStatus, disabled: newDisabled, failed:newFailed };
       setStepStatus(newStatus);
      
     }

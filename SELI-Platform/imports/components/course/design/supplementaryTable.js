@@ -19,10 +19,13 @@ import Select from "@material-ui/core/Select";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import FeedbackHelp from "../feedback";
 import tableIcons from '../design/icons'
+import { Language } from "material-ui-icons";
 
 const useStyles = makeStyles(theme => ({}));
 
 export default function SupplementaryTexts(props) {
+  const {language,handleSelectResourcesIntoLessons,lessonIndex,type, handleSelectResourcesLessons,courseInformation,handleSelectResources, parentIndex, tools}=props
+
   useEffect(()=>{
  
     if(type==='lessonInto'){
@@ -36,14 +39,13 @@ export default function SupplementaryTexts(props) {
     }
   },[])
 
-  const {handleSelectResourcesIntoLessons,lessonIndex,type, handleSelectResourcesLessons,courseInformation,handleSelectResources, parentIndex, tools}=props
  
 
   const classes = useStyles();
-;
 
-  const suplementaryItemsTypes = ["paper", "book", "other"];
-  const copyTypes = ["printed", "digital"];
+
+  const suplementaryItemsTypes = [language.paper, language.book, language.other];
+  const copyTypes = [language.printed, language.digital];
 
   function selectOptions(options) {
     let rows = [];
@@ -62,7 +64,7 @@ export default function SupplementaryTexts(props) {
   const [state, setState] = React.useState({
     columns: [
       {
-        title: "Title",
+        title: language.title,
         field: "title",
         editComponent: props => (
           <TextField
@@ -93,7 +95,7 @@ export default function SupplementaryTexts(props) {
         )
       },
       {
-        title: "Type",
+        title: language.audiencetype,
         field: "type",
         lookup: suplementaryItemsTypes,
         editComponent: props => {
@@ -118,7 +120,7 @@ export default function SupplementaryTexts(props) {
         }
       },
       {
-        title: "Copy Version",
+        title: language.CopyVersion,
         field: "copy",
         lookup: copyTypes,
         editComponent: props => {
@@ -142,9 +144,9 @@ export default function SupplementaryTexts(props) {
           );
         }
       },
-      { title: "External Resource", field: "external", type: "boolean" },
+      { title: language.ExternalResource, field: "external", type: "boolean" },
       {
-        title: "External URL",
+        title: language.ExternalURL,
         field: "url",
         editComponent: props => (
           <TextField
@@ -191,7 +193,7 @@ export default function SupplementaryTexts(props) {
   return (
     <React.Fragment>
       <MaterialTable
-        title="Supplementary Text"
+        title={language.SupplementaryText}
         options={{ search: true }}
         columns={state.columns}
         data={state.data}
@@ -203,8 +205,8 @@ export default function SupplementaryTexts(props) {
               setTimeout(() => {
               if (!newData.title) {
                 newData.error = true;
-                newData.label = "required";
-                newData.helperText = "Name is required.";
+                newData.label = language.required;
+                newData.helperText = language.Namerequired;
                 newData.validateInput = true;
                 reject();
                 return;
@@ -231,8 +233,8 @@ export default function SupplementaryTexts(props) {
                 newData.submitted = true;
                 if (!newData.activity) {
                   newData.error = true;
-                  newData.label = "required";
-                  newData.helperText = "Name is required.";
+                  newData.label = language.required;
+                  newData.helperText = language.Namerequired;
                   newData.validateInput = true;
                   reject();
                   return;
@@ -288,7 +290,7 @@ export default function SupplementaryTexts(props) {
             actions: "" //removed title of action column
           },
           body: {
-            emptyDataSourceMessage: "No presentations"
+            emptyDataSourceMessage: language.Nopresentations
           }
         }}
       />
@@ -299,7 +301,7 @@ export default function SupplementaryTexts(props) {
           errorType: "",
           a11y: null
         }}
-        tipMsg="instructions"
+        tipMsg={language.SuplemantaryMaterial}
         describedBy={"i05-helper-text"}
       />
     </React.Fragment>

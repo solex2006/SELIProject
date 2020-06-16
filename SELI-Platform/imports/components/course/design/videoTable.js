@@ -196,7 +196,7 @@ export default function Presentation(props) {
               color="secondary"
               startIcon={<AddIcon />}
             >
-              Add item
+              {language.Additem}
             </Button>
           )
         }}

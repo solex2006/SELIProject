@@ -197,6 +197,7 @@ export default class CreateCourse extends React.Component {
           language={this.props.language}
         />,
         <DesignStep
+         language={this.props.language}
           validate={this.validate}
           courseInformation={this.state.courseInformation}
           template={this.state.courseInformation.coursePlan.courseTemplate}

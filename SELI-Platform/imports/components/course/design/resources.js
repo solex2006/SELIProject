@@ -52,8 +52,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ActivityResources(props) {
-  useEffect(()=>{
+  const {language, handleSelectResourcesIntoLessons,handleToolActivity,type, courseInformation, key, tools, handleSelectResources, parentIndex,lessonIndex ,handleSelectResourcesLessons } = props;
 
+  useEffect(()=>{
     if(type==='lesson'){//for tool into lessons unit type
       //console.log("resources*************",courseInformation,parentIndex, tools, props.activityIndex ,type)
       /* let arrayTools=[];
@@ -82,9 +83,8 @@ export default function ActivityResources(props) {
 
 
   const classes = useStyles();
-  const {handleSelectResourcesIntoLessons,handleToolActivity,type, courseInformation, key, tools, handleSelectResources, parentIndex,lessonIndex ,handleSelectResourcesLessons } = props;
   
- //console.log("resources++++++++++++++++++++++++++++++++++++++++++",props)
+  console.log("resources++++++++++++++++++++++++++++++++++++++++++",props)
 
   
 
@@ -122,8 +122,7 @@ export default function ActivityResources(props) {
         component="fieldset"
         className={classes.formControl}
       >
-        <FormLabel component="legend">Resources</FormLabel>
-        {console.log("toolsOptionsSub",toolsOptionsSub,indexActivitie)}
+        <FormLabel component="legend">{language.Resources}</FormLabel>
         <FormGroup>
           {toolsOptionsSub[indexActivitie].map((option, index) => (
             <FormControlLabel
@@ -131,14 +130,9 @@ export default function ActivityResources(props) {
                 <Checkbox
                   checked={option.checked}
                   onChange={() => {
-                    console.log("se dio click al checkbox dela subactivity",index)
                     let t = toolsOptionsSub[indexActivitie];
                     t[index].checked = !t[index].checked;
-                    
-                      
                       handleToolActivity(parentIndex, t, props.activityIndex.tableData.id)
-                      console.log("se dio click al checkbox dela subactivity",index)
-                    
                   }}
                   name={option.key}
                 />
@@ -154,7 +148,7 @@ export default function ActivityResources(props) {
             errorType: "",
             a11y: null
           }}
-          tipMsg="Select the resources tool you are goint to ue in this topic"
+          tipMsg={language.instructionsResources}
           describedBy={key + "-helper-text_mainContent"}
         />
       </FormControl>
@@ -174,7 +168,7 @@ export default function ActivityResources(props) {
               component="fieldset"
               className={classes.formControl}
             >
-              <FormLabel component="legend">Resources</FormLabel>
+              <FormLabel component="legend">{language.Resources}</FormLabel>
               {/* console.log("toolsOption",toolsOptions, lessonIndex,courseInformation[parentIndex]) */}
               <FormGroup>
                 {toolsOptionsIntoLesson.map((option, index) => (
@@ -183,7 +177,6 @@ export default function ActivityResources(props) {
                       <Checkbox
                         checked={option.checked}
                         onChange={() => {
-                          console.log("se dio click al checkbox",type)
                           let t = toolsOptionsIntoLesson;
                           t[index].checked = !t[index].checked;
                           {
@@ -209,14 +202,15 @@ export default function ActivityResources(props) {
                   errorType: "",
                   a11y: null
                 }}
-                tipMsg="Select the resources tool you are goint to ue in this topic"
+                tipMsg={language.instructionsResources}
                 describedBy={key + "-helper-text_mainContent"}
               />
             </FormControl>
 
             {showTableIntoLesson("games") && 
               <Games  
-              handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+                language={language}
+                handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
                 type={type}
                 handleSelectResourcesLessons={handleSelectResourcesLessons}
                 courseInformation={courseInformation}
@@ -228,27 +222,29 @@ export default function ActivityResources(props) {
             
             {showTableIntoLesson("presentation") && (
               <Presentation
-              handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
-              lessonIndex={lessonIndex}
-              type={type}
-              handleSelectResourcesLessons={handleSelectResourcesLessons}
-              courseInformation={courseInformation}
-              tools={toolsOptionsIntoLesson}
-              handleSelectResources={handleSelectResources}
-              parentIndex={parentIndex}
-                />
+                language={language}
+                handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+                lessonIndex={lessonIndex}
+                type={type}
+                handleSelectResourcesLessons={handleSelectResourcesLessons}
+                courseInformation={courseInformation}
+                tools={toolsOptionsIntoLesson}
+                handleSelectResources={handleSelectResources}
+                parentIndex={parentIndex}
+              />
             )}
             {showTableIntoLesson("supplemantary") && (
               <SupplementaryTexts
-              handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
-              lessonIndex={lessonIndex}
-              type={type}
-              handleSelectResourcesLessons={handleSelectResourcesLessons}
-              courseInformation={courseInformation}
-              tools={toolsOptionsIntoLesson}
-              handleSelectResources={handleSelectResources}
-              parentIndex={parentIndex}
-                />
+                language={language}
+                handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+                lessonIndex={lessonIndex}
+                type={type}
+                handleSelectResourcesLessons={handleSelectResourcesLessons}
+                courseInformation={courseInformation}
+                tools={toolsOptionsIntoLesson}
+                handleSelectResources={handleSelectResources}
+                parentIndex={parentIndex}
+              />
             )}
     </div>
      
@@ -313,7 +309,8 @@ export default function ActivityResources(props) {
       </FormControl>
 
       {showTable("games") && 
-        <Games  
+        <Games 
+        language={language} 
         handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
           type={type}
           handleSelectResourcesLessons={handleSelectResourcesLessons}
@@ -326,6 +323,7 @@ export default function ActivityResources(props) {
       
       {showTable("presentation") && (
         <Presentation
+        language={language}
         handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
         lessonIndex={lessonIndex}
         type={type}
@@ -338,6 +336,7 @@ export default function ActivityResources(props) {
       )}
       {showTable("supplemantary") && (
         <SupplementaryTexts
+        language={language}
         handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
         lessonIndex={lessonIndex}
         type={type}

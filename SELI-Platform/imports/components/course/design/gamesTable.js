@@ -13,10 +13,9 @@ import tableIcons from '../design/icons'
 
 
 
-  const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({}));
 export default function Presentation(props) {
-
-
+  const {language,handleSelectResourcesIntoLessons,type, handleSelectResourcesLessons, courseInformation,handleSelectResources, parentIndex, tools, lessonIndex}=props
 
   useEffect(()=>{
     if(type==='lessonInto'){
@@ -30,8 +29,7 @@ export default function Presentation(props) {
     }
     
   },[])
-  const {handleSelectResourcesIntoLessons,type, handleSelectResourcesLessons, courseInformation,handleSelectResources, parentIndex, tools, lessonIndex}=props
-  //console.log("propsenGamesTable****",props)
+  console.log("propsenGamesTable****",language)
 
   
   const classes = useStyles();
@@ -179,7 +177,7 @@ export default function Presentation(props) {
     <React.Fragment>
       <MaterialTable
        icons={tableIcons}
-        title="Games"
+        title={language.Games}
         options={{ search: true }}
         columns={state.columns}
         data={state.data}
@@ -191,8 +189,8 @@ export default function Presentation(props) {
               newData.submitted = true;
               if (!newData.title) {
                 newData.error = true;
-                newData.label = "required";
-                newData.helperText = "Name is required.";
+                newData.label = language.required;
+                newData.helperText = language.Namerequired;
                 newData.validateInput = true;
                 reject();
                 return;
@@ -210,8 +208,7 @@ export default function Presentation(props) {
                   }else{
                     tool[1].items=data;
                     handleSelectResources(parentIndex, tool)
-                  }
-                
+                  }   
                 return { ...prevState, data };
               });
               
@@ -226,8 +223,8 @@ export default function Presentation(props) {
                 newData.submitted = true;
                 if (!newData.title) {
                   newData.error = true;
-                  newData.label = "required";
-                  newData.helperText = "Name is required.";
+                  newData.label = language.required;
+                  newData.helperText = language.Namerequired;
                   newData.validateInput = true;
                   reject();
                   return;
@@ -296,7 +293,7 @@ export default function Presentation(props) {
           errorType: "",
           a11y: null
         }}
-        tipMsg="instructions"
+        tipMsg={language.GamesMatarial}
         describedBy={"i05-helper-text"}
       />
     </React.Fragment>

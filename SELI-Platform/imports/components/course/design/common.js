@@ -54,7 +54,8 @@ export default function DesignCourseCommons(props) {
     handleUnitChange,
     handleSelectResources,
     organization,
-    validate
+    validate,
+    language
   } = props;
 
   useEffect(() => {
@@ -89,7 +90,7 @@ export default function DesignCourseCommons(props) {
     <React.Fragment>
       <TextField
         id={key + "_Obj"}
-        label="Learning objectives"
+        label={language.Learningobjectives}
         aria-describedBy={key + "-helper-text_Obj"}
         required
         fullWidth
@@ -110,14 +111,14 @@ export default function DesignCourseCommons(props) {
           errorType: "",
           a11y: null
         }}
-        tipMsg="instructions here"
+        tipMsg={language.instructionslearning}
         describedBy={key + "-helper-text_Obj"}
       />
 
 
       <TextField
         id={key + "_Obj"}
-        label="Pre-existing knowlegde"
+        label={language.Preexistingknowlegde}
         aria-describedBy={key + "-helper-text_preKnowledge"}
         value={preKnow!=''? preKnow :preKnowledge}
         fullWidth
@@ -135,13 +136,13 @@ export default function DesignCourseCommons(props) {
           errorType: "",
           a11y: null
         }}
-        tipMsg="previous knowledge to understand the unit"
+        tipMsg={language.instructionsPreExisting}
         describedBy={key + "-helper-text_preKnowledge"}
       />
 
       <TextField
         id={key + "_Obj"}
-        label="Main content"
+        label={language.Maincontent}
         aria-describedBy={key + "-helper-text_mainContent"}
         value={main!='' ? main : mainContent }
         fullWidth
@@ -159,13 +160,13 @@ export default function DesignCourseCommons(props) {
           errorType: "",
           a11y: null
         }}
-        tipMsg="themes to be addressed, fundamental or complementary materials, learning objects"
+        tipMsg={language.instructionsMainContent}
         describedBy={key + "-helper-text_mainContent"}
       />
 
       <TextField
         id={key + "_Obj"}
-        label="Evaluation"
+        label={language.Evaluation}
         aria-describedBy={key + "-helper-text_mainContent"}
         value={eval!= ''? eval : evaluation}
         fullWidth
@@ -183,12 +184,13 @@ export default function DesignCourseCommons(props) {
           errorType: "",
           a11y: null
         }}
-        tipMsg="instructions..."
+        tipMsg={language.instructionsEvaluation}
         describedBy={key + "-helper-text_mainContent"}
       />
       {
         organization!='unit' && (
           <Resources
+            language={language}
             type='topic'
             courseInformation={courseInformation}
             tools={tools}

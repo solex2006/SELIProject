@@ -12,6 +12,8 @@ import tableIcons from '../design/icons'
 const useStyles = makeStyles(theme => ({}));
 
 export default function Presentation(props) {
+  const {handleSelectResourcesIntoLessons,lessonIndex,type, language,courseInformation,handleSelectResources, parentIndex, tools}=props
+
   useEffect(()=>{
     if(type==='lessonInto'){
       let update=state;
@@ -23,7 +25,6 @@ export default function Presentation(props) {
      setState(update) 
     }
   },[])
-  const {handleSelectResourcesIntoLessons,lessonIndex,type, handleSelectResourcesLessons,courseInformation,handleSelectResources, parentIndex, tools}=props
   const classes = useStyles();
 
   const itemsTypes = { 1: "file (ex: ppt, pdf)", 2: "h5p", 3: "other" };
@@ -149,7 +150,7 @@ export default function Presentation(props) {
   return (
     <React.Fragment>
       <MaterialTable
-        title="Presentations"
+        title={language.Presentations}
         options={{ search: true }}
         columns={state.columns}
         data={state.data}
@@ -161,8 +162,8 @@ export default function Presentation(props) {
               newData.submitted = true;
               if (!newData.title) {
                 newData.error = true;
-                newData.label = "required";
-                newData.helperText = "Name is required.";
+                newData.label = language.required;
+                newData.helperText = language.Namerequired;
                 newData.validateInput = true;
                 reject();
                 return;
@@ -189,8 +190,8 @@ export default function Presentation(props) {
                 newData.submitted = true;
                 if (!newData.activity) {
                   newData.error = true;
-                  newData.label = "required";
-                  newData.helperText = "Name is required.";
+                  newData.label = language.required;
+                  newData.helperText = language.Namerequired;
                   newData.validateInput = true;
                   reject();
                   return;
@@ -256,7 +257,7 @@ export default function Presentation(props) {
           errorType: "",
           a11y: null
         }}
-        tipMsg="instructions"
+        tipMsg={language.PresentationMaterial}
         describedBy={"i05-helper-text"}
       />
     </React.Fragment>

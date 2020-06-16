@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DesignStep(props) {
-  const {courseInformation } = props;
+  const {courseInformation,language } = props;
   useEffect(() => {
     if(courseInformation.design.length!=0){
       setData(courseInformation.design)
@@ -107,12 +107,12 @@ export default function DesignStep(props) {
         mainContent: '',
         evaluation:'',
         tools: [
-          { checked: false, key: "audio", label: "Audios" },
-          { checked: false, key: "games", label: "Games", items: [] },
-          { checked: false, key: "images", label: "Images" },
-          { checked: false, key: "presentation", label: "Presentation", items: []},
-          { checked: false, key: "supplemantary",label: "Supplementary Text", items: []},
-          { checked: false, key: "videos", label: "Videos" }
+          { checked: false, key: "audio", label: language.Audios },
+          { checked: false, key: "games", label: language.Games, items: [] },
+          { checked: false, key: "images", label: language.Images },
+          { checked: false, key: "presentation", label: language.Presentation, items: []},
+          { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+          { checked: false, key: "videos", label: language.Videos }
         ],
         activities: [////este nivale cuando sleccionas todos menos without template by units
           
@@ -122,12 +122,12 @@ export default function DesignStep(props) {
             key: "lesson1",
             title: "Lesson 01",
             tools: [
-              { checked: false, key: "audio", label: "Audios" },
-              { checked: false, key: "games", label: "Games", items: [] },
-              { checked: false, key: "images", label: "Images" },
-              { checked: false,key: "presentation",label: "Presentation",items: []},
-              { checked: false,key: "supplemantary",label: "Supplementary Text",items: []},
-              { checked: false, key: "videos", label: "Videos" }
+              { checked: false, key: "audio", label: language.Audios },
+              { checked: false, key: "games", label: language.Games, items: [] },
+              { checked: false, key: "images", label: language.Images },
+              { checked: false, key: "presentation", label: language.Presentation, items: []},
+              { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+              { checked: false, key: "videos", label: language.Videos }
             ],
             activities: [
               {
@@ -138,12 +138,12 @@ export default function DesignStep(props) {
                 project: false,
                 preeReview: false,
                 tools: [
-                  { checked: false, key: "audio", label: "Audios" },
-                  { checked: false, key: "games", label: "Games", items: [] },
-                  { checked: false, key: "images", label: "Images" },
-                  { checked: false,  key: "presentation",label: "Presentation",items: []},
-                  { checked: false, key: "supplemantary",label: "Supplementary Text",items: []},
-                  { checked: false, key: "videos", label: "Videos" }
+                  { checked: false, key: "audio", label: language.Audios },
+                  { checked: false, key: "games", label: language.Games, items: [] },
+                  { checked: false, key: "images", label: language.Images },
+                  { checked: false, key: "presentation", label: language.Presentation, items: []},
+                  { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+                  { checked: false, key: "videos", label: language.Videos }
                 ],
                 submitted: true,
                 error: true,
@@ -372,6 +372,7 @@ export default function DesignStep(props) {
 
           <ExpansionPanelDetails className={classes.panelDtls}>
             <DesignCourseCommons
+              language={language}
               validate={props.validate}
               courseInformation={courseinformation.design}
               key={unit.key}
@@ -391,6 +392,7 @@ export default function DesignStep(props) {
             
             {(organization === "unit") && (
               <LessonDesign
+                language={language}
                 handleSelectResourcesActivities={handleSelectResourcesActivities}
                 handleSelectResourcesLessons={handleSelectResourcesLessons}
                 handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
@@ -406,7 +408,8 @@ export default function DesignStep(props) {
             )}
     
             {organization !== "unit" && (
-              <ActivityDesign
+               <ActivityDesign
+                language={language}
                 courseInformation={courseinformation.design}
                 activities={unit.activities}
                 handleActivities={handleActivities}
@@ -425,18 +428,18 @@ export default function DesignStep(props) {
         onClick={() => {
           let unit = {
             key: "topic" + data.length,
-            title: organization === "unit" ? "Unit 01" : "Topic 01",
+            title: organization === "unit" ? language.unit01 : language.topic01,
             learnGols: "",
             preKnowledge: "",
             mainContent: "",
             evaluation:'',
             tools: [//este nivale cuando sleccionas todos menos without template by unit
-              { checked: false, key: "audio", label: "Audios" },
-              { checked: false, key: "games", label: "Games", items: [] },
-              { checked: false, key: "images", label: "Images" },
-              { checked: false, key: "presentation", label: "Presentation", items: []},
-              { checked: false, key: "supplemantary",label: "Supplementary Text", items: []},
-              { checked: false, key: "videos", label: "Videos" }
+              { checked: false, key: "audio", label: language.Audios },
+              { checked: false, key: "games", label: language.Games, items: [] },
+              { checked: false, key: "images", label: language.Images },
+              { checked: false, key: "presentation", label: language.Presentation, items: []},
+              { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+              { checked: false, key: "videos", label: language.Videos }
             ],
             activities: [],
             lessons: [],
@@ -445,7 +448,6 @@ export default function DesignStep(props) {
 
           let prev = [ ...data ];
           prev.push(unit);
-          console.log("prevState111111111111111111111111", prev)
           setData(prev);
           let courseInfo=courseinformation;
           courseInfo.design=prev;
@@ -467,7 +469,7 @@ export default function DesignStep(props) {
           errorType: "",
           a11y: null
         }}
-        tipMsg="instructions"
+        tipMsg={organization === "unit" ? language.addUnit : language.addTopic}
         describedBy={"i05-helper-text"}
       />
     </div>
