@@ -784,10 +784,11 @@ useEffect(()=>{
 
 
 
-      <div className="form-stepper-navigation-bottom">
+      <div className='form-stepper-navigation-bottom' >
+      <Grid container className='parentNavBar' spacing={6} >
         {
           props.steps.length > 1 ?
-            <Grid item>
+            <Grid item xs={12} sm={6}>
               <ButtonGroup
                 variant="text"
                 size="large"
@@ -805,12 +806,12 @@ useEffect(()=>{
                 >
                   {props.language.nextStep}
                 </Button>
-                <Button
+                {/* <Button
                   color="secondary"
                   onClick={handleSkip}
                 >
                   {props.language.skipStep}
-                </Button>
+                </Button> */}
               </ButtonGroup>
               
             </Grid>
@@ -818,27 +819,28 @@ useEffect(()=>{
           undefined
         }
 
-
-
-        <Grid className="form-stepper-actions-id" item>
-          <Grid container direction="row" spacing={2}>
-            <Grid item>
+          <Grid className='navBar' item xs={12} sm={6}>
+          <ButtonGroup
+                variant="text"
+                size="large"
+                aria-label="Course creation step navigation"
+              >
               <Button variant="outlined" >
                 {props.language.cancel}
               </Button>
-            </Grid>
-            <Grid item>
+            
+            
               <Button onClick={() => props.saveAction()} variant="outlined" color="primary">
                 {props.saveLabel}
               </Button>
-            </Grid>
-            <Grid item>
+            
+           
               <Button onClick={() => props.finalAction()} variant="contained" color="primary">
                 {props.finalLabel}
               </Button>
+              </ButtonGroup>
             </Grid>
           </Grid>
-        </Grid>
       </div>
     </div>
   );

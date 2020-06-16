@@ -18,6 +18,7 @@
 .form-stepper-navigation-bottom {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   height: var(--form-stepper-height);
   position: relative;
@@ -25,9 +26,21 @@
   background-color: #f5f5f5;
   animation: fadeInDown 0.5s;
 }
-
+.navBar{
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 71%;
+}
+.parentNavBar{
+  display: flex;
+  justify-content: space-between;
+}
 .form-stepper-information {
   padding: 0 2vw;
+  background-color: #e8e8e8;
+  padding: 18px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .form-stepper-title {
