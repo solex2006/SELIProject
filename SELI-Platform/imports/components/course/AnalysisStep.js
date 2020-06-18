@@ -85,7 +85,7 @@ export default function AnalysisStep(props) {
   const {courseInformation,language } = props;
 
   useEffect(()=>{
-    console.log("courseInformationAnalysisStep", courseInformation )
+    console.log("courseInformationAnalysisStep y Accesibility", courseInformation,courseInformation.accessibility )
     //updatemodalityradiobutton
     setmodality(courseInformation.analysis[1]);
     //updatetextEditor
@@ -94,18 +94,26 @@ export default function AnalysisStep(props) {
     if(courseInformation.accessibility[2]!=undefined){
       setanalysisTooltip(courseInformation.accessibility[2])
     }
-    setGoals(courseInformation.analysis[3])
-    console.log(goals)
+    if(courseInformation.analysis[3]!=undefined){
+      setGoals(courseInformation.analysis[3])
+    }
+    if(courseInformation.analysis[4]!=undefined){
+      setOutcomes(courseInformation.analysis[4])
+    }
    
   },[])
 
+  
+
   useEffect(()=>{// 
-    console.log("INFO cOURSE Analysis",modality, pedagogical,constraints)
-        if(modality!=undefined && pedagogical!=undefined ){
+    console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,constraints)
+        if(modality!=undefined && pedagogical!=undefined &&
+           analysisTooltip.learningobjectives===false  && analysisTooltip.outcomes===false ){
             props.validate('passCourseAnalysis')
         } 
-        if(modality===undefined || pedagogical===''){
-          props.validate('NopassCourseAnalysis')
+        if(modality===undefined || pedagogical==='' || 
+           analysisTooltip.learningobjectives===true  || analysisTooltip.outcomes===true){
+           props.validate('NopassCourseAnalysis')
           
         }
   })
@@ -117,6 +125,8 @@ export default function AnalysisStep(props) {
   const [analysisTooltip, setanalysisTooltip]= useState({
     pedagogical: true,
     modality: true,
+    learningobjectives: true,
+    outcomes:true
   })
   const [courseinformation, setcourseInformation]=useState(courseInformation)
   const [modality, setmodality]=useState('');
@@ -140,27 +150,61 @@ export default function AnalysisStep(props) {
     editing: false
   });
   const [feedbackError, setfeedbackError]=useState(true)
+  const [feedbackErrorLearningO, setfeedbackErrorLearningO]=useState(true)
   const [constraints, setConstraints] = useState([
     {
-      label: "Math 101",
+      label: "Math 101 (example)",
       editing: false
     }
   ]);
 
+  
   const [goals, setGoals] = useState({
-    knowledges: [],
-    skills: [],
-    attitudes: []
-  });
+		creating: [],
+		evaluating: [],
+		analyzing: [],
+		understand: [],
+		remembering: []
+	});
+
 
   const [goalsTaxonomy, setGoalsTaxonomy] = useState({
-    knowledges: [
-      { key: "calculate", label: "to calculate" },
-      { key: "analyse", label: "to analyse" }
-    ],
-    skills: [],
-    attitudes: []
-  });
+		creating: [
+			{ key: "build", label: "to build" },
+			{ key: "develop", label: "to develop" },
+			{ key: "combine", label: "to combine" },
+			{ key: "design", label: "to design" },
+			{ key: "elaborate", label: "to elaborate" }
+		],
+		evaluating: [
+			{ key: "conclude", label: "to conclude" },
+			{ key: "critique", label: "to critique" },
+			{ key: "justify", label: "to justify" },
+			{ key: "prove", label: "to prove" },
+			{ key: "judge", label: "to judge" }
+		],
+		analyzing: [
+			{ key: "constrast", label: "to constrast" },
+			{ key: "categorize", label: "to categorize" },
+			{ key: "classify", label: "to classify" },
+			{ key: "list", label: "to list" },
+			{ key: "compare", label: "to compare" }
+		],
+		understand: [
+			{ key: "explain", label: "to explain" },
+			{ key: "summarize", label: "to summarize" },
+			{ key: "paraphrase", label: "to paraphrase" },
+			{ key: "illustrate", label: "to illustrate" },
+			{ key: "extend", label: "to extend" }
+		],
+		remembering: [
+			{ key: "duplicate", label: "to duplicate" },
+			{ key: "match", label: "to match" },
+			{ key: "describe", label: "to describe" },
+			{ key: "show", label: "to show" },
+			{ key: "choose", label: "to choose" }
+		]
+	});
 
   const [outcomes, setOutcomes] = useState({
     contents: [],
@@ -168,12 +212,37 @@ export default function AnalysisStep(props) {
     values: []
   });
 
+  const [outcomesTaxonomy, setOutcomesTaxonomy] = useState({
+		contents: [
+			{ key: "understand", label: "to understand" },
+			{ key: "categorize", label: "to categorize" },
+			{ key: "describe", label: "to describe" },
+			{ key: "reproduce", label: "to reproduce" },
+			{ key: "compare", label: "to compare" }
+		],
+		skills: [
+			{ key: "design", label: "to design" },
+			{ key: "conduct", label: "to conduct" },
+			{ key: "evaluate", label: "to evaluate" },
+			{ key: "analyse", label: "to analyse" },
+			{ key: "measure", label: "to measure" }
+		],
+		values: [
+			{ key: "appreciate", label: "to appreciate" },
+			{ key: "act", label: "to act" },
+			{ key: "work", label: "to work" },
+			{ key: "aware", label: "to aware" },
+			{ key: "value", label: "to value" }
+		]
+	});
+
   const [labels, setlables]=useState({
     IntendedAudience:language.IntendedAudience,
     IntendedInclusion:language.IntendedInclusion,
     CourseTitle:language.CourseTitle,
     CourseSubtitle:language.CourseSubtitle,
     errorMsg:language.errorMsg,
+    errorMsgleast:language.errorMsgleast,
     completeObjective:language.completeObjective,
     analysisphase:language.analysisphase,
     knowledgeObjectives:language.knowledgeObjectives ,
@@ -191,11 +260,13 @@ export default function AnalysisStep(props) {
     pedagogical:language.pedagogical,
     pedagogicalconsiderations:language.pedagogicalconsiderations,
     learningCon:language.learningCon,
+    errorMsgall:language.errorMsgall
   })
   const [message, setmessage]=useState(labels.errorMsg)
   const [open, setopen]= useState(false)
   const [labelindexdelete, setlabelindexdelete]=useState("")
   const [indexdelete,  setindexdelete]=useState(0)
+  const [categori, setcategory]=useState('');
 
   const handleNewConstraint = () => {
     setConstraints([
@@ -208,275 +279,279 @@ export default function AnalysisStep(props) {
       editing: true
     });
   };
-  const handleNewLearning = category => {
-    console.log(category);
-    if (category === "knowledges") {
-      setGoals({
-        knowledges: [
-          ...goals.knowledges,
-          { label: "New Learning", aux: "analyse", editing: true }
-        ],
-        skills: [...goals.skills],
-        attitudes: [...goals.attitudes]
-      });
-    }
-    if (category === "skills") {
-      // console.log({
-      //   knowledges: [...goals.knowledges],
-      //   skills: [
-      //     ...goals.skills,
-      //     { label: "New Learning", aux: "analyse", editing: true }
-      //   ],
-      //   attitudes: [...goals.attitudes]
-      // });
-      setGoals({
-        knowledges: [...goals.knowledges],
-        skills: [
-          ...goals.skills,
-          { label: "New Learning", aux: "analyse", editing: true }
-        ],
-        attitudes: [...goals.attitudes]
-      });
-    }
-    if (category === "attitudes") {
-      setGoals({
-        knowledges: [...goals.knowledges],
-        skills: [...goals.skills],
-        attitudes: [
-          ...goals.attitudes,
-          { label: "New Learning", aux: "analyse", editing: true }
-        ]
-      });
-    }
-    setControlEdit({
-      tempValue: "",
-      tempAuxValue: "analyse",
-      adding: true,
-      editing: true
-    });
-  };
-
+ 
   const handleCancelEditLearning = (index, category) => {
     if (controlEdit.adding) deleteLearning(index, category);
-    else {
-      if (category === "knowledges") {
-        let atts = goals.knowledges;
-        atts[index].editing = false;
-        let newGoals = goals;
-        newGoals.knowledges = atts;
-        setGoals(newGoals);
-      }
-      if (category === "skills") {
-        let atts = goals.skills;
-        atts[index].editing = false;
-        let newGoals = goals;
-        newGoals.skills = atts;
-        setGoals(newGoals);
-      }
-      if (category === "attitudes") {
-        let atts = goals.attitudes;
-        atts[index].editing = false;
-        let newGoals = goals;
-        newGoals.attitudes = atts;
-        setGoals(newGoals);
-      }
-    }
-    setControlEdit({
-      tempValue: "",
-      tempAuxValue: "",
-      adding: false,
-      editing: false
-    });
+		else {
+			let atts = goals[category];
+			atts[index].editing = false;
+			let newGoals = goals;
+			newGoals[category] = atts;
+			setGoals(newGoals);
+		}
+		setControlEdit({
+			tempValue: "",
+			tempAuxValue: "",
+			adding: false,
+			editing: false
+		});
   };
 
   function deleteLearning(index, category) {
-    console.log(goals);
+    let atts = goals[category];
+		if (index === 0) atts = [...atts.slice(1)];
+		else if (index === goals[category].length - 1)
+			atts = [...atts.slice(0, index)];
+		else atts = [...atts.slice(0, index), ...atts.slice(index + 1)];
+    
+		let newGoals = goals;
+		newGoals[category] = atts;
+    setGoals(newGoals);
+    let addNewknowledges=courseinformation;
+    addNewknowledges.analysis[3]=newGoals;
+    setcourseInformation(addNewknowledges) 
 
-    if (category === "knowledges") {
-      let atts = goals.knowledges;
+    let countError=0
+    Object.keys(goals).map((category, index) => {
+      if(goals[category].length===0){
+        countError+=1;
+      }
+      if(countError===5){
+        setanalysisTooltip(prev=>{
+          return {...prev, learningobjectives:false}
+        })
+        setanalysisTooltip(prev=>{
+          return {...prev, learningobjectives: true}
+        })
+        let learningobj=courseinformation;
+        learningobj.accessibility[2]=analysisTooltip;
+        setcourseInformation(learningobj);
+      }
+    })
 
-      if (index === 0) atts = [...atts.slice(1)];
-      else if (index === goals.knowledges.length - 1)
-        atts = [...atts.slice(0, index)];
-      else atts = [...atts.slice(0, index), ...atts.slice(index + 1)];
-
-      let newGoals = goals;
-      newGoals.knowledges = atts;
-      setGoals(newGoals);
-      let addNewknowledges=courseinformation;
-      addNewknowledges.analysis[3]=goals;
-      setcourseInformation(addNewknowledges)
-    }
-    if (category === "skills") {
-      let atts = goals.skills;
-
-      if (index === 0) atts = [...atts.slice(1)];
-      else if (index === goals.skills.length - 1)
-        atts = [...atts.slice(0, index)];
-      else atts = [...atts.slice(0, index), ...atts.slice(index + 1)];
-
-      let newGoals = goals;
-      newGoals.skills = atts;
-      setGoals(newGoals);
-      let addNewknowledges=courseinformation;
-      addNewknowledges.analysis[3]=goals;
-      setcourseInformation(addNewknowledges)
-    }
-    if (category === "attitudes") {
-      let atts = goals.attitudes;
-
-      if (index === 0) atts = [...atts.slice(1)];
-      else if (index === goals.attitudes.length - 1)
-        atts = [...atts.slice(0, index)];
-      else atts = [...atts.slice(0, index), ...atts.slice(index + 1)];
-
-      let newGoals = goals;
-      newGoals.attitudes = atts;
-      setGoals(newGoals);
-      let addNewknowledges=courseinformation;
-      addNewknowledges.analysis[3]=goals;
-      setcourseInformation(addNewknowledges)
-    }
   }
 
-
-      
-
   const handleEditedLearning = (index, category) => {
-    if (category === "knowledges") {
-      let atts = goals.knowledges;
-      atts[index].editing = false;
-      atts[index].label = controlEdit.tempValue;
-      atts[index].aux =
-        goalsTaxonomy.knowledges.find(
-          item => item.key === controlEdit.tempAuxValue
-        ).label + " ";
-      let newGoals = goals;
-      newGoals.knowledges = atts;
-      setGoals(newGoals);
+    console.log("manda a gaurdar learning", index, category )
+    let atts = goals[category];
+		atts[index].editing = false;
+		atts[index].label = controlEdit.tempValue;
+		atts[index].aux = controlEdit.tempAuxValue;
 
-      let addNewknowledges=courseinformation;
-      addNewknowledges.analysis[3]=goals;
-      setcourseInformation(addNewknowledges)
-    }
-    if (category === "skills") {
-      let atts = goals.skills;
-      atts[index].editing = false;
-      let newGoals = goals;
-      atts[index].label = controlEdit.tempValue;
-      atts[index].aux =''  //goalsTaxonomy.skills.find(item => item.key === controlEdit.tempAuxValue).label + " ";
-      newGoals.skills = atts;
-      setGoals(newGoals);
-      let addNewknowledges=courseinformation;
-      addNewknowledges.analysis[3]=goals;
-      setcourseInformation(addNewknowledges)
-    }
-    if (category === "attitudes") {
-      let atts = goals.attitudes;
-      atts[index].editing = false;
-      let newGoals = goals;
-      atts[index].label = controlEdit.tempValue;
-      atts[index].aux =''; //goalsTaxonomy.attitudes.find(item => item.key === controlEdit.tempAuxValue).label + " ";
-      newGoals.attitudes = atts;
-      setGoals(newGoals);
-      let addNewknowledges=courseinformation;
-      addNewknowledges.analysis[3]=goals;
-      setcourseInformation(addNewknowledges)
-    }
+		console.log(controlEdit.tempAuxValue);
+		console.log(controlEdit.tempValue);
 
-    // setData(prev => {
-    //   prev.constraints = newRequisites.map(req => req.label);
-    //   return prev;
-    // });
-    setControlEdit({
-      tempValue: "",
-      tempAuxValue: "",
-      adding: false,
-      editing: false
-    });
+		let newGoals = goals;
+		newGoals[category] = atts;
+		console.log(newGoals);
+    setGoals(newGoals);
+
+    if(event.target.value!=''){
+      setanalysisTooltip((prevState)=>{
+        return{...prevState, learningobjectives: false}
+      })
+    }
+    let addNewknowledges=courseinformation;
+    addNewknowledges.analysis[3]=newGoals;
+    addNewknowledges.accessibility[2]=analysisTooltip;
+    setcourseInformation(addNewknowledges)
+
+  
+
+		setControlEdit({
+			tempValue: "",
+			tempAuxValue: "",
+			adding: false,
+			editing: false
+		});
   };
 
   const handleEditLearning = (index, category) => {
-    if (category === "knowledges") {
-      let atts = goals.knowledges;
-      atts[index].editing = true;
-      let newGoals = goals;
-      newGoals.knowledges = atts;
-      setGoals(newGoals);
-      setControlEdit({
-        tempValue: atts[index].label,
-        tempAuxValue: atts[index].aux,
-        adding: false,
-        editing: true
-      });
-    }
-    if (category === "skills") {
-      let atts = goals.skills;
-      atts[index].editing = true;
-      let newGoals = goals;
-      newGoals.skills = atts;
-      setGoals(newGoals);
-      setControlEdit({
-        tempValue: atts[index].label,
-        tempAuxValue: atts[index].aux,
-        adding: false,
-        editing: true
-      });
-    }
-    if (category === "attitudes") {
-      let atts = goals.attitudes;
-      atts[index].editing = true;
-      let newGoals = goals;
-      newGoals.attitudes = atts;
-      setGoals(newGoals);
-      setControlEdit({
-        tempValue: atts[index].label,
-        tempAuxValue: atts[index].aux,
-        adding: false,
-        editing: true
-      });
-    }
+    let atts = goals[category];
+		atts[index].editing = true;
+		let newGoals = goals;
+		newGoals[category] = atts;
+    setGoals(newGoals);
+    let addNewknowledges=courseinformation;
+    addNewknowledges.analysis[3]=goals;
+    setcourseInformation(addNewknowledges)
+
+		setControlEdit({
+			tempValue: atts[index].label,
+			tempAuxValue: atts[index].aux,
+			adding: false,
+			editing: true
+		});
   };
 
   const handleDeleteLearning = (index, category) => {
-      //deleteLearning(index, category);
-      console.log("se va a borrar este tipo", category)
-      setopen(true)
+		setopen(true)
      setindexdelete(index)
-     settypetodelete(category)
-  };
+     setlabelindexdelete(goals[category][index].label)
+     setcategory(category)
+     settypetodelete('LearningObjectives')
+		 //deleteLearning(index, category);
+		
+	};
 
   const handleNewOutcomes = category => {
-    if (category === "contents")
-      setOutcomes({
-        contents: [
-          ...outcomes.contents,
-          { label: "New outcomes", editing: true }
-        ],
-        skills: [...outcomes.skills],
-        attitudes: [...outcomes.values]
-      });
-    if (category === "skills")
-      setOutcomes({
-        contents: [...outcomes.contents],
-        skills: [...outcomes.skills, { label: "New outcomes", editing: true }],
-        attitudes: [...outcomes.values]
-      });
-    if (category === "values")
-      setOutcomes({
-        contents: [...outcomes.contents],
-        skills: [...outcomes.skills],
-        values: [...outcomes.values, { label: "New outcomes", editing: true }]
-      });
-    setControlEdit({
-      tempValue: "The student will be able to ",
-      adding: true,
-      editing: true
-    });
+		console.log(category);
+		setOutcomes({
+			...outcomes,
+			[category]: [
+				...outcomes[category],
+				{
+					label: "New outcomes",
+					aux: outcomesTaxonomy[category][0].key,
+					editing: true
+				}
+			]
+		});
+		setControlEdit({
+			tempValue: "",
+			tempAuxValue: outcomesTaxonomy[category][0].key,
+			adding: true,
+			editing: true
+		});
   };
+  
+  const handleCancelEditOutcome = (index, category) => {
+		if (controlEdit.adding) deleteOutcome(index, category);
+		else {
+			let atts = outcomes[category];
+			atts[index].editing = false;
+			let newOutcomes = outcomes;
+			newOutcomes[category] = atts;
+			setOutcomes(newOutcomes);
+		}
+		setControlEdit({
+			tempValue: "",
+			tempAuxValue: "",
+			adding: false,
+			editing: false
+		});
+	};
 
-  const handleDeleteRequisite = index => () => {
+	function deleteOutcome(index, category) {
+		let atts = outcomes[category];
+		if (index === 0) atts = [...atts.slice(1)];
+		else if (index === outcomes[category].length - 1)
+			atts = [...atts.slice(0, index)];
+		else atts = [...atts.slice(0, index), ...atts.slice(index + 1)];
+
+		let newGoals = outcomes;
+		newGoals[category] = atts;
+    setOutcomes(newGoals);
+    let countError=0
+    Object.keys(outcomes).map((category, index) => {
+      if(outcomes[category].length===0){
+        countError+=1;
+      }
+      if(countError>=1){
+        setanalysisTooltip(prev=>{
+          return {...prev, outcomes: true}
+        })
+        let learningobj=courseinformation;
+        learningobj.accessibility[2]=analysisTooltip;
+        setcourseInformation(learningobj);
+      }
+    }) 
+      let learningobj=courseinformation;
+      learningobj.accessibility[2]=analysisTooltip;
+      learningobj.analysis[4]=newGoals;
+      setcourseInformation(learningobj);
+	}
+
+	const handleEditedOutcome = (index, category) => {
+		let atts = outcomes[category];
+		atts[index].editing = false;
+		atts[index].label = controlEdit.tempValue;
+		atts[index].aux = controlEdit.tempAuxValue;
+		let newGoals = outcomes;
+		newGoals[category] = atts;
+    setOutcomes(newGoals);
     
+    let countError=0
+    Object.keys(outcomes).map((category, index) => {
+      if(outcomes[category].length!=0){
+        countError+=1;
+      }
+      if(countError===3){
+        setanalysisTooltip(prev=>{
+          return {...prev, outcomes: false}
+        })
+        let learningobj=courseinformation;
+        learningobj.accessibility[2]=analysisTooltip;
+        setcourseInformation(learningobj);
+      }
+    })
+
+    let addNewknowledges=courseinformation;
+    addNewknowledges.analysis[4]=newGoals;
+    addNewknowledges.accessibility[2]=analysisTooltip;
+    setcourseInformation(addNewknowledges)
+
+		setControlEdit({
+			tempValue: "",
+			tempAuxValue: "",
+			adding: false,
+			editing: false
+		});
+	};
+
+	const handleEditOutcome = (index, category) => {
+		let atts = outcomes[category];
+		atts[index].editing = true;
+		let newGoals = outcomes;
+		newGoals[category] = atts;
+    setOutcomes(newGoals);
+    let addNewknowledges=courseinformation;
+    addNewknowledges.analysis[4]=goals;
+    setcourseInformation(addNewknowledges)
+
+		setControlEdit({
+			tempValue: atts[index].label,
+			tempAuxValue: atts[index].aux,
+			adding: false,
+			editing: true
+		});
+	};
+
+	const handleDeleteOutcome = (index, category) => {
+    setopen(true)
+     setindexdelete(index)
+     setlabelindexdelete(outcomes[category][index].label)
+     setcategory(category)
+     settypetodelete('outcomes')
+	};
+
+  const handleNewLearning = category => {
+		console.log("la categoria.....",category);
+		setGoals({
+			...goals,
+			[category]: [
+				...goals[category],
+				{
+					label: "New Learning",
+					aux: goalsTaxonomy[category][0].key,
+					editing: true
+				}
+			]
+    });
+    
+    let addNewknowledges=courseinformation;
+    addNewknowledges.analysis[3]=goals;
+    setcourseInformation(addNewknowledges) 
+
+		setControlEdit({
+			tempValue: "",
+			tempAuxValue: goalsTaxonomy[category][0].key,
+			adding: true,
+			editing: true
+		});
+	};
+
+  const handleDeleteRequisite = index => () => {   
      setopen(true)
      setindexdelete(index)
      setlabelindexdelete(constraints[index].label)
@@ -536,8 +611,6 @@ export default function AnalysisStep(props) {
     setControlEdit({ tempValue: "", adding: false, editing: false });
   };
 
-  
-
   function deleteRequisite(index ,category) {
     if (category === "knowledges") {
       let atts = goals.knowledges;
@@ -596,6 +669,7 @@ export default function AnalysisStep(props) {
   }
 
   function updateTempValue(value) {
+    console.log("updateTempValue",value)
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
@@ -607,866 +681,14 @@ export default function AnalysisStep(props) {
   }
 
   function updateTempAuxValue(value) {
+    console.log("updateTempAuxValue",value)
     setControlEdit(prev => {
       return { ...prev, tempAuxValue: value };
     });
   }
-
-  
-  const knowledges = (title, tipmsg, subtitle)=>{
-    // objectives('knowledges',labels.titleLO, labels.tipmsgLO, labels.subtitle1LO, labels.subtitle2LO, labels.subtitle3LO)
-     return(
-       <Grid container className={classes.formGroup}>
-         <Grid item xs={12}>
-           <Grid item className="MuiFormLabel-root">
-             <Typography variant="h6" className={classes.title}>{title}</Typography>
-           </Grid>
-           <Grid item>
-             <FeedbackHelp
-               validation={{
-                 error: false,
-                 errorMsg: "",
-                 errorType: "",
-                 a11y: null
-               }}
-               tipMsg={tipmsg}
-               describedBy={"i05-helper-text"}
-             />
-             <br/>
-           </Grid>
-         </Grid>
-         
-         <Grid item xs={12}>
-           <Grid item className="MuiFormLabel-root">
-             <label>{subtitle}</label>
-           </Grid>
-           <Grid item>
-             <form>
-               <List component="ul" key={"li0"} id="li0">
-                 {goals.knowledges.map((goal, index) => (
-                   <ListItem
-                     button={!goal.editing}
-                     component="li"
-                     key={"li" + index}
-                     className={classes.listItem}
-                   >
-                     <ListItemText
-                       key={"u2" + index + "listeItemTxt"}
-                       primary={goal.aux + goal.label}
-                       className={goal.editing ? classes.hidden : ""}
-                       
-                     />
-                       <Paper className={!goal.editing ? classes.hidden : ""}>
-                         <TextField
-                           id="standard-select-currency"
-                           select
-                           SelectProps={{
-                             native: true
-                           }}
-                           // variant="outlined"
-                           value={controlEdit.tempAuxValue}
-                           onChange={event =>
-                             updateTempAuxValue(event.target.value)
-                           }
-                           className={classes.input}
-                         >
-                           {goalsTaxonomy.knowledges.map(option => (
-                             <option key={option.key} value={option.key}>
-                               {option.label}
-                             </option>
-                           ))}
-                         </TextField>
-                         <TextField
-                           key={"u2" + index + "txtField"}
-                           value={controlEdit.tempValue}
-                           onChange={event => updateTempValue(event.target.value)}
-                         />
-                         <FeedbackHelp
-                           validation={{
-                             error: feedbackError,
-                             errorMsg: message,
-                             errorType: "required",
-                             a11y: null
-                           }}
-                           tipMsg={labels.completeObjective}
-                           describedBy={"i02-helper-text"}
-                         />
-                       </Paper>
- 
- 
-                     <ListItemSecondaryAction key={"u2" + index + "secAc"}>
-                       {goal.editing ? (
-                         <React.Fragment>
-                           <IconButton
-                             key={"u2" + index + "btnEditSaveUnit"}
-                             edge="end"
-                             aria-label={"Save changes"}
-                             onClick={() =>
-                               handleEditedLearning(index, "knowledges")
-                             }
-                             className={classes.saveButton}
-                             disabled={controlEdit.tempValue === ""}
-                           >
-                             <DoneIcon />
-                           </IconButton>
-                           <IconButton
-                             key={"u2" + index + "btnEditCancelUnit"}
-                             edge="end"
-                             aria-label={"Cancel changes"}
-                             onClick={() =>
-                               handleCancelEditLearning(index, "knowledges")
-                             }
-                             className={classes.deleteButton}
-                           >
-                             <ClearIcon />
-                           </IconButton>
-                         </React.Fragment>
-                       ) : (
-                         <React.Fragment>
-                           <IconButton
-                             key={"u2" + index + "btnEditUnit"}
-                             edge="end"
-                             aria-label={"Edit unit name"}
-                             onClick={() =>
-                               handleEditLearning(index, "knowledges")
-                             }
-                             disabled={controlEdit.editing}
-                           >
-                             <EditIcon />
-                           </IconButton>
-                           <IconButton
-                             key={"u2" + index + "btnDeleteUnit"}
-                             edge="end"
-                             // aria-label={"Delete constraint " + constraint.label}
-                             onClick={() =>
-                               handleDeleteLearning(index, "knowledges")
-                             }
-                             className={classes.deleteButton}
-                           >
-                             <RemoveIcon />
-                           </IconButton>
-                         </React.Fragment>
-                       )}
-                     </ListItemSecondaryAction>
-                   </ListItem>
-                 ))}
-                 <ListItem
-                   key="addrequisite"
-                   button
-                   onClick={() => handleNewLearning("knowledges")}
-                   id="addrequisite"
-                   disabled={controlEdit.editing}
-                   className={classes.addButton}
-                 >
-                   <AddIcon /> <ListItemText primary="Add" />
-                 </ListItem>
-               </List>
-               <FeedbackHelp
-               validation={{
-                 error: false,
-                 errorMsg: "mandatory",
-                 errorType: "",
-                 a11y: null
-               }}
-               tipMsg={labels.knowledgeObjectives}
-               describedBy={"i05-helper-text"}
-             />
-             <br/>
-             </form>
-           </Grid>
-         </Grid>
-      </Grid>
-
-     )
-   }
-
-  const skills =(tipmsg, subtitle)=>{
-     return(
-      <Grid item xs={12}>
-          <Grid item xs={12} className="MuiFormLabel-root">
-            <label>{subtitle}</label>
-          </Grid>
-          <Grid item xs={12}>
-            <form>
-              <List component="ul" key={"li0"} id="li0">
-                {goals.skills.map((goal, index) => (
-                  <ListItem
-                    button={!goal.editing}
-                    component="li"
-                    key={"li" + index}
-                    className={classes.listItem}
-                  >
-                    <ListItemText
-                      key={"u2" + index + "listeItemTxt"}
-                      primary={goal.aux + goal.label}
-                      className={goal.editing ? classes.hidden : ""}
-                    />
-
-                    <Paper className={!goal.editing ? classes.hidden : ""}>
-                      {/* <TextField
-                        id="standard-select-currency"
-                        select
-                        SelectProps={{
-                          native: true
-                        }}
-                        // variant="outlined"
-                        value={controlEdit.tempAuxValue}
-                        onChange={event =>
-                          updateTempAuxValue(event.target.value)
-                        }
-                        className={classes.input}
-                      >
-                        {goalsTaxonomy.knowledges.map(option => (
-                          <option key={option.key} value={option.key}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </TextField> */}
-                      <TextField
-                        key={"u2" + index + "txtField"}
-                        value={controlEdit.tempValue}
-                        onChange={event => updateTempValue(event.target.value)}
-                      />
-                      <FeedbackHelp
-                           validation={{
-                             error: feedbackError,
-                             errorMsg: message,
-                             errorType: "required",
-                             a11y: null
-                           }}
-                           tipMsg={labels.completeObjective}
-                           describedBy={"i02-helper-text"}
-                      />
-                    </Paper>
-                    <ListItemSecondaryAction key={"u2" + index + "secAc"}>
-                      {goal.editing ? (
-                        <React.Fragment>
-                          <IconButton
-                            key={"u2" + index + "btnEditSaveUnit"}
-                            edge="end"
-                            aria-label={"Save changes"}
-                            onClick={() =>
-                              handleEditedLearning(index, "skills")
-                            }
-                            className={classes.saveButton}
-                            disabled={controlEdit.tempValue === ""}
-                          >
-                            <DoneIcon />
-                          </IconButton>
-                          <IconButton
-                            key={"u2" + index + "btnEditCancelUnit"}
-                            edge="end"
-                            aria-label={"Cancel changes"}
-                            onClick={() =>
-                              handleCancelEditLearning(index, "skills")
-                            }
-                            className={classes.deleteButton}
-                          >
-                            <ClearIcon />
-                          </IconButton>
-                        </React.Fragment>
-                      ) : (
-                        <React.Fragment>
-                          <IconButton
-                            key={"u2" + index + "btnEditUnit"}
-                            edge="end"
-                            aria-label={"Edit unit name"}
-                            onClick={() => handleEditLearning(index, "skills")}
-                            disabled={controlEdit.editing}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            key={"u2" + index + "btnDeleteUnit"}
-                            edge="end"
-                            // aria-label={"Delete constraint " + constraint.label}
-                            onClick={() =>
-                              handleDeleteLearning(index, "skills")
-                            }
-                            className={classes.deleteButton}
-                          >
-                            <RemoveIcon />
-                          </IconButton>
-                        </React.Fragment>
-                      )}
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))}
-                <ListItem
-                  key="addrequisite"
-                  button
-                  onClick={() => handleNewLearning("skills")}
-                  id="addrequisite"
-                  disabled={controlEdit.editing}
-                  className={classes.addButton}
-                >
-                  <AddIcon /> <ListItemText primary="Add" />
-                </ListItem>
-              </List>
-              <FeedbackHelp
-              validation={{
-                error: false,
-                errorMsg: "mandatory",
-                errorType: "",
-                a11y: null
-              }}
-              tipMsg={tipmsg}
-              describedBy={"i05-helper-text"}
-            />
-            </form>
-          </Grid>
-        </Grid>  
-     )
-   }
-
-  const attitudes =(tipmsg, subtitle)=>{
-     return(
-      <Grid item xs={12}>
-      <Grid item xs={12} className="MuiFormLabel-root">
-        <label>{subtitle}</label>
-      </Grid>
-      <Grid item xs={12}>
-        <form>
-          <List component="ul" key={"li0"} id="li0">
-            {goals.attitudes.map((goal, index) => (
-              <ListItem
-                button={!goal.editing}
-                component="li"
-                key={"li" + index}
-                className={classes.listItem}
-              >
-                <ListItemText
-                  key={"u2" + index + "listeItemTxt"}
-                  primary={goal.aux + goal.label}
-                  className={goal.editing ? classes.hidden : ""}
-                />
-
-                <Paper className={!goal.editing ? classes.hidden : ""}>
-                  {/* <TextField
-                    id="standard-select-currency"
-                    select
-                    SelectProps={{
-                      native: true
-                    }}
-                    // variant="outlined"
-                    value={controlEdit.tempAuxValue}
-                    onChange={event =>
-                      updateTempAuxValue(event.target.value)
-                    }
-                    className={classes.input}
-                  >
-                    {goalsTaxonomy.knowledges.map(option => (
-                      <option key={option.key} value={option.key}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </TextField> */}
-                  <TextField
-                    key={"u2" + index + "txtField"}
-                    value={controlEdit.tempValue}
-                    onChange={event => updateTempValue(event.target.value)}
-                  />
-                  <FeedbackHelp
-                    validation={{
-                      error: feedbackError,
-                      errorMsg: message,
-                      errorType: "required",
-                      a11y: null
-                    }}
-                    tipMsg={labels.completeObjective}
-                    describedBy={"i02-helper-text"}
-                  />
-                </Paper>
-                <ListItemSecondaryAction key={"u2" + index + "secAc"}>
-                  {goal.editing ? (
-                    <React.Fragment>
-                      <IconButton
-                        key={"u2" + index + "btnEditSaveUnit"}
-                        edge="end"
-                        aria-label={"Save changes"}
-                        onClick={() =>
-                          handleEditedLearning(index, "attitudes")
-                        }
-                        className={classes.saveButton}
-                        disabled={controlEdit.tempValue === ""}
-                      >
-                        <DoneIcon />
-                      </IconButton>
-                      <IconButton
-                        key={"u2" + index + "btnEditCancelUnit"}
-                        edge="end"
-                        aria-label={"Cancel changes"}
-                        onClick={() =>
-                          handleCancelEditLearning(index, "attitudes")
-                        }
-                        className={classes.deleteButton}
-                      >
-                        <ClearIcon />
-                      </IconButton>
-                    </React.Fragment>
-                  ) : (
-                    <React.Fragment>
-                      <IconButton
-                        key={"u2" + index + "btnEditUnit"}
-                        edge="end"
-                        aria-label={"Edit unit name"}
-                        onClick={() =>
-                          handleEditLearning(index, "attitudes")
-                        }
-                        disabled={controlEdit.editing}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        key={"u2" + index + "btnDeleteUnit"}
-                        edge="end"
-                        // aria-label={"Delete constraint " + constraint.label}
-                        onClick={() =>
-                          handleDeleteLearning(index, "attitudes")
-                        }
-                        className={classes.deleteButton}
-                      >
-                        <RemoveIcon />
-                      </IconButton>
-                    </React.Fragment>
-                  )}
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-            <ListItem
-              key="addrequisite"
-              button
-              onClick={() => handleNewLearning("attitudes")}
-              id="addrequisite"
-              disabled={controlEdit.editing}
-              className={classes.addButton}
-            >
-              <AddIcon /> <ListItemText primary="Add" />
-            </ListItem>
-          </List>
-          <FeedbackHelp
-          validation={{
-            error: false,
-            errorMsg: "obligatorio",
-            errorType: "",
-            a11y: null
-          }}
-          tipMsg={tipmsg}
-          describedBy={"i05-helper-text"}
-        />
-        </form>
-      </Grid>
-    </Grid>
-     )
-   }
-
-   const outcomesstep =()=>{
-    return(
-        <Grid container className={classes.formGroup}>
-        <Grid item xs={12}>
-          <Grid item className="MuiFormLabel-root">
-          {/*  <label>Behavioral Outcomes</label> */}
-            <Typography variant="h6" className={classes.title}>Behavioral Outcomes</Typography>
-          </Grid>
-          <Grid item>
-            <FeedbackHelp
-              validation={{
-                error: false,
-                errorMsg: "",
-                errorType: "",
-                a11y: null
-              }}
-              tipMsg="Add behavioral outcomes that shows what the student needs to know or be able to do like abilities that combine content, skills and values."
-              describedBy={"i05-helper-text"}
-            />
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Grid item className="MuiFormLabel-root">
-            <label>Contents outcomes</label>
-          </Grid>
-          <Grid item>
-            <form>
-              <List component="ul" key={"li0"} id="li0">
-                {outcomes.contents.map((goal, index) => (
-                  <ListItem
-                    button={!goal.editing}
-                    component="li"
-                    key={"li" + index}
-                    className={classes.listItem}
-                  >
-                    <ListItemText
-                      key={"u2" + index + "listeItemTxt"}
-                      primary={goal.aux + goal.label}
-                      className={goal.editing ? classes.hidden : ""}
-                    />
-
-                    <Paper className={!goal.editing ? classes.hidden : ""}>
-                      <TextField
-                        id="standard-select-currency"
-                        select
-                        SelectProps={{
-                          native: true
-                        }}
-                        // variant="outlined"
-                        // value={controlEdit.tempAuxValue}
-                        // onChange={event =>
-                        //   updateTempAuxValue(event.target.value)
-                        // }
-                        className={classes.input}
-                      >
-                        {goalsTaxonomy.knowledges.map(option => (
-                          <option key={option.key} value={option.key}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </TextField>
-                      <TextField
-                        key={"u2" + index + "txtField"}
-                        // value={controlEdit.tempValue}
-                        // onChange={event => updateTempValue(event.target.value)}
-                      />
-                    </Paper>
-                    <ListItemSecondaryAction key={"u2" + index + "secAc"}>
-                      {goal.editing ? (
-                        <React.Fragment>
-                          <IconButton
-                            key={"u2" + index + "btnEditSaveUnit"}
-                            edge="end"
-                            aria-label={"Save changes"}
-                            // onClick={() =>
-                            //   handleEditedLearning(index, "knowledges")
-                            // }
-                            className={classes.saveButton}
-                            disabled={controlEdit.tempValue === ""}
-                          >
-                            <DoneIcon />
-                          </IconButton>
-                          <IconButton
-                            key={"u2" + index + "btnEditCancelUnit"}
-                            edge="end"
-                            aria-label={"Cancel changes"}
-                            // onClick={() =>
-                            //   handleCancelEditLearning(index, "knowledges")
-                            // }
-                            className={classes.deleteButton}
-                          >
-                            <ClearIcon />
-                          </IconButton>
-                        </React.Fragment>
-                      ) : (
-                        <React.Fragment>
-                          <IconButton
-                            key={"u2" + index + "btnEditUnit"}
-                            edge="end"
-                            aria-label={"Edit unit name"}
-                            // onClick={() =>
-                            //   handleEditLearning(index, "knowledges")
-                            // }
-                            disabled={controlEdit.editing}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            key={"u2" + index + "btnDeleteUnit"}
-                            edge="end"
-                            // aria-label={"Delete constraint " + constraint.label}
-                            // onClick={() =>
-                            //   handleDeleteLearning(index, "knowledges")
-                            // }
-                            className={classes.deleteButton}
-                          >
-                            <RemoveIcon />
-                          </IconButton>
-                        </React.Fragment>
-                      )}
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))}
-                <ListItem
-                  key="addrequisite"
-                  button
-                  // onClick={() => handleNewLearning("knowledges")}
-                  id="addrequisite"
-                  disabled={controlEdit.editing}
-                  className={classes.addButton}
-                >
-                  <AddIcon /> <ListItemText primary="Add" />
-                </ListItem>
-              </List>
-              <FeedbackHelp
-              validation={{
-                error: false,
-                errorMsg: "",
-                errorType: "",
-                a11y: null
-              }}
-              tipMsg="Contents outcomes are ...."
-              describedBy={"i05-helper-text"}
-            />
-            </form>
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Grid item xs={12} className="MuiFormLabel-root">
-            <label>Skills outcomes</label>
-          </Grid>
-          <Grid item xs={12}>
-            <form>
-              <List component="ul" key={"li0"} id="li0">
-                {outcomes.skills.map((goal, index) => (
-                  <ListItem
-                    button={!goal.editing}
-                    component="li"
-                    key={"li" + index}
-                    className={classes.listItem}
-                  >
-                    <ListItemText
-                      key={"u2" + index + "listeItemTxt"}
-                      primary={goal.aux + goal.label}
-                      className={goal.editing ? classes.hidden : ""}
-                    />
-
-                    <Paper className={!goal.editing ? classes.hidden : ""}>
-                      <TextField
-                        id="standard-select-currency"
-                        select
-                        SelectProps={{
-                          native: true
-                        }}
-                        // variant="outlined"
-                        // value={controlEdit.tempAuxValue}
-                        // onChange={event =>
-                        //   updateTempAuxValue(event.target.value)
-                        // }
-                        className={classes.input}
-                      >
-                        {goalsTaxonomy.knowledges.map(option => (
-                          <option key={option.key} value={option.key}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </TextField>
-                      <TextField
-                        key={"u2" + index + "txtField"}
-                        // value={controlEdit.tempValue}
-                        // onChange={event => updateTempValue(event.target.value)}
-                      />
-                    </Paper>
-                    <ListItemSecondaryAction key={"u2" + index + "secAc"}>
-                      {goal.editing ? (
-                        <React.Fragment>
-                          <IconButton
-                            key={"u2" + index + "btnEditSaveUnit"}
-                            edge="end"
-                            aria-label={"Save changes"}
-                            // onClick={() =>
-                            //   handleEditedLearning(index, "knowledges")
-                            // }
-                            className={classes.saveButton}
-                            disabled={controlEdit.tempValue === ""}
-                          >
-                            <DoneIcon />
-                          </IconButton>
-                          <IconButton
-                            key={"u2" + index + "btnEditCancelUnit"}
-                            edge="end"
-                            aria-label={"Cancel changes"}
-                            // onClick={() =>
-                            //   handleCancelEditLearning(index, "knowledges")
-                            // }
-                            className={classes.deleteButton}
-                          >
-                            <ClearIcon />
-                          </IconButton>
-                        </React.Fragment>
-                      ) : (
-                        <React.Fragment>
-                          <IconButton
-                            key={"u2" + index + "btnEditUnit"}
-                            edge="end"
-                            aria-label={"Edit unit name"}
-                            // onClick={() =>
-                            //   handleEditLearning(index, "knowledges")
-                            // }
-                            disabled={controlEdit.editing}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            key={"u2" + index + "btnDeleteUnit"}
-                            edge="end"
-                            // aria-label={"Delete constraint " + constraint.label}
-                            // onClick={() =>
-                            //   handleDeleteLearning(index, "knowledges")
-                            // }
-                            className={classes.deleteButton}
-                          >
-                            <RemoveIcon />
-                          </IconButton>
-                        </React.Fragment>
-                      )}
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))}
-                <ListItem
-                  key="addrequisite"
-                  button
-                  // onClick={() => handleNewLearning("knowledges")}
-                  id="addrequisite"
-                  disabled={controlEdit.editing}
-                  className={classes.addButton}
-                >
-                  <AddIcon /> <ListItemText primary="Add" />
-                </ListItem>
-              </List>
-              <FeedbackHelp
-              validation={{
-                error: false,
-                errorMsg: "",
-                errorType: "",
-                a11y: null
-              }}
-              tipMsg="Skills outcomes are ...."
-              describedBy={"i05-helper-text"}
-            />
-            </form>
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Grid item xs={12} className="MuiFormLabel-root">
-            <label>Values outcomes</label>
-          </Grid>
-          <Grid item xs={12}>
-            <form>
-              <List component="ul" key={"li0"} id="li0">
-                {outcomes.values.map((goal, index) => (
-                  <ListItem
-                    button={!goal.editing}
-                    component="li"
-                    key={"li" + index}
-                    className={classes.listItem}
-                  >
-                    <ListItemText
-                      key={"u2" + index + "listeItemTxt"}
-                      primary={goal.aux + goal.label}
-                      className={goal.editing ? classes.hidden : ""}
-                    />
-
-                    <Paper className={!goal.editing ? classes.hidden : ""}>
-                      <TextField
-                        id="standard-select-currency"
-                        select
-                        SelectProps={{
-                          native: true
-                        }}
-                        // variant="outlined"
-                        // value={controlEdit.tempAuxValue}
-                        // onChange={event =>
-                        //   updateTempAuxValue(event.target.value)
-                        // }
-                        className={classes.input}
-                      >
-                        {goalsTaxonomy.knowledges.map(option => (
-                          <option key={option.key} value={option.key}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </TextField>
-                      <TextField
-                        key={"u2" + index + "txtField"}
-                        // value={controlEdit.tempValue}
-                        // onChange={event => updateTempValue(event.target.value)}
-                      />
-                    </Paper>
-                    <ListItemSecondaryAction key={"u2" + index + "secAc"}>
-                      {goal.editing ? (
-                        <React.Fragment>
-                          <IconButton
-                            key={"u2" + index + "btnEditSaveUnit"}
-                            edge="end"
-                            aria-label={"Save changes"}
-                            // onClick={() =>
-                            //   handleEditedLearning(index, "knowledges")
-                            // }
-                            className={classes.saveButton}
-                            disabled={controlEdit.tempValue === ""}
-                          >
-                            <DoneIcon />
-                          </IconButton>
-                          <IconButton
-                            key={"u2" + index + "btnEditCancelUnit"}
-                            edge="end"
-                            aria-label={"Cancel changes"}
-                            // onClick={() =>
-                            //   handleCancelEditLearning(index, "knowledges")
-                            // }
-                            className={classes.deleteButton}
-                          >
-                            <ClearIcon />
-                          </IconButton>
-                        </React.Fragment>
-                      ) : (
-                        <React.Fragment>
-                          <IconButton
-                            key={"u2" + index + "btnEditUnit"}
-                            edge="end"
-                            aria-label={"Edit unit name"}
-                            // onClick={() =>
-                            //   handleEditLearning(index, "knowledges")
-                            // }
-                            disabled={controlEdit.editing}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            key={"u2" + index + "btnDeleteUnit"}
-                            edge="end"
-                            // aria-label={"Delete constraint " + constraint.label}
-                            // onClick={() =>
-                            //   handleDeleteLearning(index, "knowledges")
-                            // }
-                            className={classes.deleteButton}
-                          >
-                            <RemoveIcon />
-                          </IconButton>
-                        </React.Fragment>
-                      )}
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))}
-                <ListItem
-                  key="addrequisite"
-                  button
-                  // onClick={() => handleNewLearning("knowledges")}
-                  id="addrequisite"
-                  disabled={controlEdit.editing}
-                  className={classes.addButton}
-                >
-                  <AddIcon /> <ListItemText primary="Add" />
-                </ListItem>
-              </List>
-              <FeedbackHelp
-              validation={{
-                error: false,
-                errorMsg: "",
-                errorType: "",
-                a11y: null
-              }}
-              tipMsg="Values outcomes are ...."
-              describedBy={"i05-helper-text"}
-            />
-            </form>
-          </Grid>
-        </Grid>
-      </Grid>
-    ) 
-  }
-
   const handleClose = () => {  
     setopen(false)
   };
-
   const handleClickT = () => {
     setOpenT(!openT);
   };
@@ -1488,12 +710,12 @@ export default function AnalysisStep(props) {
       <p>
         {labels.analysisphase}
       </p>
-        <List
+      <List
           component="nav"
           aria-labelledby="nested-list-subheader"
           subheader={
-            <ListSubheader disableSticky={true} component="div" id="nested-list-subheader">
-              Course summary
+            <ListSubheader disableSticky={true} component="div" id="nested-list-subheader">      
+                <Typography variant="h6" className={classes.title}>Course summary</Typography>	
             </ListSubheader>
           }
           className={classes.root}
@@ -1593,25 +815,326 @@ export default function AnalysisStep(props) {
             </List>
           </Collapse>
         </List>
-    
-      <Grid container className={classes.formGroup}>
-
-      Not defined yet (Learning constraint)
       
-      {
-       // this.goals.knowledges.length >=0?
-        //knowledges(labels.titleLO, labels.tipmsgLO, labels.subtitleLO)
+      <Grid container className={classes.formGroup}>
+          <Grid item xs={12} className="MuiFormLabel-root">
+            <Typography variant="h6" className={classes.title}>Learning Objectives</Typography>	
+				  </Grid>       
+				{Object.keys(goals).map((category, index) => (
+					<Grid item xs={12}>
+						<Grid item className="MuiFormLabel-root">
+							<label>
+								{Object.getOwnPropertyNames(goals)[index]} objectives
+							</label>
+						</Grid>
+						<Grid item>
+							<form>
+								<List component="ul" key={"li0"} id="li0">
+									{goals[category].map((goal, index) => (
+										<ListItem
+											button={!goal.editing}
+											component="li"
+											key={"li" + index}
+											className={classes.listItem}
+										>
+											<ListItemText
+												key={"u2" + index + "listeItemTxt"}
+												primary={
+													goalsTaxonomy[category].find(
+														item => item.key === goal.aux
+													).label +
+													" " +
+													goal.label
+												}
+												className={goal.editing ? classes.hidden : ""}
+											/>
+											<Paper className={!goal.editing ? classes.hidden : ""}>		
+                      	<TextField
+													id="standard-select-currency"
+													select
+													SelectProps={{
+														native: true
+													}}
+													// variant="outlined"
+													value={controlEdit.tempAuxValue}
+													onChange={event =>
+														updateTempAuxValue(event.target.value)
+													}
+													className={classes.input}
+												>
+													{goalsTaxonomy[category].map(option => (
+														<option key={option.key} value={option.key}>
+															{option.label}
+														</option>
+													))}
+												</TextField>
+												<TextField
+													key={"u2" + index + "txtField"}
+													value={controlEdit.tempValue}
+													onChange={event =>
+														updateTempValue(event.target.value)
+													}
+												/>
+											</Paper>
+											<ListItemSecondaryAction key={"u2" + index + "secAc"}>
+												{goal.editing ? (
+													<React.Fragment>
+														<IconButton
+															key={"u2" + index + "btnEditSaveUnit"}
+															edge="end"
+															aria-label={"Save changes"}
+															onClick={() =>
+																handleEditedLearning(index, category)
+															}
+															className={classes.saveButton}
+															disabled={controlEdit.tempValue === ""}
+														>
+															<DoneIcon />
+														</IconButton>
+														<IconButton
+															key={"u2" + index + "btnEditCancelUnit"}
+															edge="end"
+															aria-label={"Cancel changes"}
+															onClick={() =>
+																handleCancelEditLearning(index, category)
+															}
+															className={classes.deleteButton}
+														>
+															<ClearIcon />
+														</IconButton>
+													</React.Fragment>
+												) : (
+													<React.Fragment>
+														<IconButton
+															key={"u2" + index + "btnEditUnit"}
+															edge="end"
+															aria-label={"Edit unit name"}
+															onClick={() =>
+																handleEditLearning(index, category)
+															}
+															disabled={controlEdit.editing}
+														>
+															<EditIcon />
+														</IconButton>
+														<IconButton
+															key={"u2" + index + "btnDeleteUnit"}
+															edge="end"
+															// aria-label={"Delete constraint " + constraint.label}
+															onClick={() =>
+																handleDeleteLearning(index, category)
+															}
+															className={classes.deleteButton}
+														>
+															<RemoveIcon />
+														</IconButton>
+													</React.Fragment>
+												)}
+											</ListItemSecondaryAction>
+										</ListItem>
+									))}
+									<ListItem
+										key="addrequisite"
+										button
+										onClick={() => handleNewLearning(category)}
+										id="addrequisite"
+										disabled={controlEdit.editing}
+										className={classes.addButton}
+									>
+										<AddIcon /> <ListItemText primary="Add" />
+									</ListItem>
+								</List>
+								<FeedbackHelp
+									validation={{
+										error: false,
+										errorMsg: "",
+										errorType: "",
+										a11y: null
+									}}
+									tipMsg={category + " objectives are ...."}
+									describedBy={"i05-helper-text"}
+								/>
+							</form>
+						</Grid>
+					</Grid>
+				))}
+         <Grid item>
+                <FeedbackHelp
+                  validation={{
+                    error: analysisTooltip.learningobjectives,
+                    errorMsg: labels.errorMsgleast,
+                    errorType: "",
+                    a11y: null
+                  }}
+                  tipMsg="Add a Learning Objectives that show what the students will know and why they are doing it on three areas of learning: knowledge, skills and attitudes."
+                  describedBy={"i05-helper-text"}
+                />
+              </Grid>
+			</Grid>
+
+      <Grid container className={classes.formGroup}>
+          <Grid item xs={12} className="MuiFormLabel-root">
+            <Typography variant="h6" className={classes.title}>Behavioral Outcomes</Typography>	
+				  </Grid>
+				{Object.keys(outcomes).map((category, index) => (
+					<Grid item xs={12}>
+						<Grid item className="MuiFormLabel-root">
+							<label>
+								{Object.getOwnPropertyNames(outcomes)[index]} objectives
+							</label>
+						</Grid>
+						<Grid item>
+							<form>
+								<List component="ul" key={"li0"} id="li0">
+									{outcomes[category].map((outcome, index) => (
+										<ListItem
+											button={!outcome.editing}
+											component="li"
+											key={"li" + index}
+											className={classes.listItem}
+										>
+											<ListItemText
+												key={"u2" + index + "listeItemTxt"}
+												primary={
+													outcomesTaxonomy[category].find(
+														item => item.key === outcome.aux
+													).label +
+													" " +
+													outcome.label
+												}
+												className={outcome.editing ? classes.hidden : ""}
+											/>
+
+											<Paper className={!outcome.editing ? classes.hidden : ""}>
+												<TextField
+													id="standard-select-currency"
+													select
+													SelectProps={{
+														native: true
+													}}
+													// variant="outlined"
+													value={controlEdit.tempAuxValue}
+													onChange={event =>
+														updateTempAuxValue(event.target.value)
+													}
+													className={classes.input}
+												>
+													{outcomesTaxonomy[category].map(option => (
+														<option key={option.key} value={option.key}>
+															{option.label}
+														</option>
+													))}
+												</TextField>
+												<TextField
+													key={"u2" + index + "txtField"}
+													value={controlEdit.tempValue}
+													onChange={event =>
+														updateTempValue(event.target.value)
+													}
+												/>
+											</Paper>
+											<ListItemSecondaryAction key={"u2" + index + "secAc"}>
+												{outcome.editing ? (
+													<React.Fragment>
+														<IconButton
+															key={"u2" + index + "btnEditSaveUnit"}
+															edge="end"
+															aria-label={"Save changes"}
+															onClick={() =>
+																handleEditedOutcome(index, category)
+															}
+															className={classes.saveButton}
+															disabled={controlEdit.tempValue === ""}
+														>
+															<DoneIcon />
+														</IconButton>
+														<IconButton
+															key={"u2" + index + "btnEditCancelUnit"}
+															edge="end"
+															aria-label={"Cancel changes"}
+															onClick={() =>
+																handleCancelEditOutcome(index, category)
+															}
+															className={classes.deleteButton}
+														>
+															<ClearIcon />
+														</IconButton>
+													</React.Fragment>
+												) : (
+													<React.Fragment>
+														<IconButton
+															key={"u2" + index + "btnEditUnit"}
+															edge="end"
+															aria-label={"Edit outcome name"}
+															onClick={() => handleEditOutcome(index, category)}
+															disabled={controlEdit.editing}
+														>
+															<EditIcon />
+														</IconButton>
+														<IconButton
+															key={"u2" + index + "btnDeleteUnit"}
+															edge="end"
+															aria-label={"Delete outcome "}
+															onClick={() =>
+																handleDeleteOutcome(index, category)
+															}
+															className={classes.deleteButton}
+														>
+															<RemoveIcon />
+														</IconButton>
+													</React.Fragment>
+												)}
+											</ListItemSecondaryAction>
+										</ListItem>
+									))}
+									<ListItem
+										key="addrequisite"
+										button
+										onClick={() => handleNewOutcomes(category)}
+										id="addrequisite"
+										disabled={controlEdit.editing}
+										className={classes.addButton}
+									>
+										<AddIcon /> <ListItemText primary="Add" />
+									</ListItem>
+								</List>
+								<FeedbackHelp
+									validation={{
+										error: false,
+										errorMsg: "",
+										errorType: "",
+										a11y: null
+									}}
+									tipMsg={category + " objectives are ...."}
+									describedBy={"i05-helper-text"}
+								/>
+							</form>
+						</Grid>
+					</Grid>
+				))}
+          <Grid item>
+            <FeedbackHelp
+              validation={{
+                error: analysisTooltip.outcomes,
+                errorMsg: labels.errorMsgall,
+                errorType: "",
+                a11y: null
+              }}
+              tipMsg="By the end of this course, students will be able..."
+              describedBy={"i05-helper-text"}
+            />
+          </Grid>
+			</Grid>
+
+
+
+
+
+
+
+
+
      
-      //skills(labels.skillsobjectives, labels.subtitleSO)}
-      //attitudes(labels.attitudesobjectives, labels.subtitleAO)}
-    }
-      </Grid>
-     
-     <br/>
-     <div>
-        BehavioralOutcome not defined yet
-     </div>
-     <br/>
+
     
       <Grid container className={classes.formGroup}>
         <Grid item xs={12} className="MuiFormLabel-root">
@@ -1772,8 +1295,6 @@ export default function AnalysisStep(props) {
         </Grid>
       </Grid>
 
-
-
       <Grid container className={classes.formGroup}>
         <Grid item xs={12}  className="MuiFormLabel-root">
         <Typography variant="h6" className={classes.title }>Pedagogical considerations</Typography>
@@ -1835,12 +1356,10 @@ export default function AnalysisStep(props) {
               <Button onClick={() => setopen(false)} color="primary">No</Button>
               <Button onClick={() => {
                 console.log("tipo a borrar", typetodelete)
-                if(typetodelete==='knowledges'){
-                  deleteLearning(indexdelete,'knowledges')
-                }else if(typetodelete==='skills'){
-                  deleteLearning(indexdelete,'skills')
-                }else if(typetodelete==='attitudes'){
-                  deleteLearning(indexdelete,'attitudes')
+                if(typetodelete==='LearningObjectives'){
+                  deleteLearning(indexdelete,categori)
+                }else if(typetodelete==='outcomes'){
+                  deleteOutcome(indexdelete,categori)
                 }else{
                   deleteRequisite(indexdelete,'requisite')
                 }       

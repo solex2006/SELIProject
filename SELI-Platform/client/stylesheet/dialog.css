@@ -368,6 +368,5 @@
 .feedback-container {
   display: flex;
   align-items: center;
-  width: 40vw;
   max-width: 100vw;
 }
