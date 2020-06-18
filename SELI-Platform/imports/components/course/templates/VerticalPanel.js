@@ -85,24 +85,10 @@ export default class VerticalPanel extends React.Component {
           this.props.menuTab === 1 ?
             <div>
               <div className="button-row">
-                {
-                  this.props.courseInformation.organization.unit === "Unit" ?
-                    <Button onClick={() => this.props.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
-                      <Avatar id="orange-avatar" className="avatar">U</Avatar>
-                      {this.props.language.byUnitsAndLessons}
-                    </Button>
-                  :
-                  undefined
-                }
-                {
-                  this.props.courseInformation.organization.unit === "Topic" ?
-                    <Button onClick={() => this.props.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
-                      <Avatar id="blue-avatar" className="avatar">T</Avatar>
-                      {this.props.language.byTopics}
-                    </Button>
-                  :
-                  undefined
-                }
+                <Button onClick={() => this.props.warningOrganization()} fullWidth className="row-list-selected-button">
+                  <Avatar id={this.props.language.byTopics ? "orange-avatar": "blue-avatar"} className="avatar">{this.props.language.byTopics ? "U" : "T"}</Avatar>
+                  {this.props.courseInformation.organization.unit === "Unit" ? this.props.language.byUnitsAndLessons : this.props.language.byTopics}
+                </Button>
               </div>
               <NavigationTool
                 program={this.props.courseInformation.program}

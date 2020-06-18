@@ -53,7 +53,7 @@ export default class CreateCourse extends React.Component {
         keyWords: [],
         image: undefined,
         sylabus: undefined,
-        duration: '001:00:00',
+        duration: '005:00:00',
         support: [],
         requirements: [],
         coursePlan:{
@@ -409,10 +409,10 @@ export default class CreateCourse extends React.Component {
       this.props.handleControlMessage(true, `${this.props.language.titleRequirement} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
       return false;
     }
-    if (courseInformation.organization === '') {
+    /* if (courseInformation.organization === '') {
       this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step}: ${this.props.language.program}).`, false, '', '');
       return false;
-    }
+    } */
     return true;
   }
 
