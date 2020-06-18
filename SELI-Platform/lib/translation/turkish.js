@@ -938,8 +938,8 @@ var TURKISH = {
   workshop2: "adındaki dijital hikâye anlatım atölyesinde aşağıdaki kapsamda gerçekleştirilmiştir",
   nameOfProject: "Atölye adı",
   facilitators: "Kolaylaştırıcı/lar",
-  defaultFrame: "Varsayılan Çerçeve",
-  customImage: "Resim seç",
+  defaultFrame: "Varsayılan Bitiş çerçevesi",
+  customImage: "Özel Bitiş Çerçevesi",
   generateCertificate: "Sertifika oluştur",
   areSureCertificate: "Sertifika oluşturmak istediğinizden emin misiniz?",
 }
