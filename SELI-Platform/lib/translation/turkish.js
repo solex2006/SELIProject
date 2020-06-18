@@ -860,7 +860,7 @@ var TURKISH = {
   Noregistered:"Kayıtlı değil",
   quizdetails:"Test Detayları",
   courseNotHaveQuizes: "Bu derste sınav yoktur.",
-  questionpublishstory001: "SELI projesi kapsamında, dijital hikayemi oluştururken etik ve ahlaki kurallara uyduğumu beyan ederim. Kullanılan içerik için gerekli izinleri aldım ve dijital hikayemi yayınlamak ve paylaşmak için izin veriyorum.",
+  questionpublishstory001: "Dijital hikayemi oluştururken etik ve ahlaki kurallara uyduğumu beyan ederim. Kullanılan içerik için gerekli izinleri aldım ve dijital hikayemi belirttiğim telif hakları çerçevesinde yayınlamak ve paylaşmak için izin veriyorum.",
   questionpublishstory003: "Dijital Hikayenin Adı",
   questionpublishstory004: "Dijital Hikaye Sahibinin Kullanıcı Adı",
   questionpublishstory005: "Dijital Hikaye Sahibinin tam adı",
