@@ -1054,7 +1054,13 @@ var SPANISH = {
   paper:"paper",
   book:"book",
   printed:"printed",
-  digital:"digital"
+  digital:"digital",
+  Nogames:'No games',
+  Nopresentation:'No presentation',
+  errorMsgleast:'This field is required (at least one of the items)',
+  errorMsgall:'All these fields are required, please complete them.',
+  Deleteunit:'Delete unit',
+  Editunitname:'Edit unit name',
 }
 export default SPANISH
 

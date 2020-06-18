@@ -59,6 +59,7 @@ export default function DesignStep(props) {
   const {courseInformation,language } = props;
   useEffect(() => {
     if(courseInformation.design.length!=0){
+      console.log("CourseInformation-Ddesogn uodate", props.courseInformation) 
       setData(courseInformation.design)
     }
   }, []); 
@@ -266,6 +267,9 @@ export default function DesignStep(props) {
                     });
                     return [...prev];
                   });
+                  let courseInfo=courseinformation;
+                  courseInfo.design=data;
+                  setcourseInformation(courseInfo)  
                 }}
                 className={classes.saveButton}
                 disabled={controlEdit.tempValue === ""}
@@ -285,7 +289,7 @@ export default function DesignStep(props) {
                       adding: false,
                       editing: false
                     });
-                    return { ...prev };
+                    return [ ...prev ];
                   });
                 }}
                 className={classes.deleteButton}
@@ -313,48 +317,73 @@ export default function DesignStep(props) {
               id={"unit_" + unitIndex + "btnEdit"}
               onClick={() => {
                 setData(prev => {
-                  prev.unit[unitIndex].editing = true;
+                  prev[unitIndex].editing = true;
                   setControlEdit({
-                    tempValue: prev.unit[unitIndex].title,
+                    tempValue: prev[unitIndex].title,
                     adding: false,
                     editing: true
                   });
-                  return { ...prev };
+                  return [ ...prev ];
                 });
+                let courseInfo=courseinformation;
+                courseInfo.design=data;
+                setcourseInformation(courseInfo)  
+
               }}
               disabled={controlEdit.editing}
               variant="outlined"
               color="secondary"
               startIcon={<EditIcon />}
             >
-              Edit unit name
+              {language.Editunitname}
             </Button>
 
             <Button
               id={"unit_" + unitIndex + "btnDelete"}
               onClick={() => {
-                if (window.confirm("delete " + unit.title + "?")) {
+                if (window.confirm("Delete " + unit.title + "?")) {
                   let prev = [ ...data ];
 
-                  if (unitIndex === 0) prev.unit = [...prev.unit.slice(1)];
-                  else if (unitIndex === prev.unit.length - 1)
-                    prev.unit = [...prev.unit.slice(0, unitIndex)];
-                  else
-                    prev.unit = [
-                      ...prev.unit.slice(0, unitIndex),
-                      ...prev.unit.slice(unitIndex + 1)
-                    ];
+                  if (unitIndex === 0) {
+                    newPrev=prev.slice(1)
+                    setData(newPrev);
+                    console.log("if",data, newPrev)
+                  }
+                  else if (unitIndex === prev.length - 1){
+                    newPrev=prev.slice(0, unitIndex);
+                    setData(newPrev);
+                    console.log("else id",data, newPrev)
+                  }
+                  
+                  else{
+                    newPrev = [
+                      ...prev.slice(0, unitIndex),
+                      ...prev.slice(unitIndex + 1)
+                    ];  
+                    setData(newPrev);
+                    console.log("else",data, newPrev)
+                  }
+                  
+                  setData(newPrev);
+                  //console.log("nueva data",data, newPrev)
+                  let courseInfo=courseinformation;
+                  courseInfo.design=newPrev;
+                  setcourseInformation(courseInfo) 
 
-                  setData({ ...prev });
+            
+    
+
                 }
+                
               }}
               disabled={controlEdit.deleteButton}
               variant="outlined"
               color="secondary"
               startIcon={<RemoveIcon />}
             >
-              Delete unit
+              {language.Deleteunit}
             </Button>
+            
             {unitIndex !== 0 && (
               <IconButton
                 id={"unit_" + unitIndex + "btnMoveUp"}
@@ -460,7 +489,7 @@ export default function DesignStep(props) {
           
         }}
       >
-        Add {organization === "unit" ? "unit" : "topic"}
+        {organization === "unit" ? language.addUnit : language.addTopic}
       </Button>
       <FeedbackHelp
         validation={{

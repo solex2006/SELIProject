@@ -89,7 +89,7 @@ export default function ActivityResources(props) {
   
 
   const [toolsOptions, setToolsOptions] = useState(
-    type==='lessonInto'?(courseInformation[parentIndex]===undefined? tools 
+    type==='lessonInto'?((courseInformation[parentIndex]===undefined || courseInformation[parentIndex].lessons[lessonIndex]===undefined)? tools 
     :courseInformation[parentIndex].lessons[lessonIndex].tools):tools
     );
   const [toolsOptionsSub, setToolsOptionsSub] = useState([]);
@@ -99,7 +99,7 @@ export default function ActivityResources(props) {
 
 
   function showTable(id) {
-    return (courseInformation[parentIndex]===undefined? tools :courseInformation[parentIndex].lessons[lessonIndex].tools).some(tool => {
+    return ((courseInformation[parentIndex]===undefined || courseInformation[parentIndex].lessons[lessonIndex]===undefined)? tools :courseInformation[parentIndex].lessons[lessonIndex].tools).some(tool => {
       //console.log("toooooooooooool",tool)
       return tool.key === id && tool.checked;
     });
@@ -271,7 +271,7 @@ export default function ActivityResources(props) {
         <FormLabel component="legend">Resources</FormLabel>
         {/* console.log("toolsOption",toolsOptions, lessonIndex,courseInformation[parentIndex]) */}
         <FormGroup>
-          {(courseInformation[parentIndex]===undefined? tools :courseInformation[parentIndex].lessons[lessonIndex].tools).map((option, index) => (
+          {((courseInformation[parentIndex]===undefined || courseInformation[parentIndex].lessons[lessonIndex]===undefined)? tools :courseInformation[parentIndex].lessons[lessonIndex].tools).map((option, index) => (
             <FormControlLabel
               control={
                 <Checkbox
