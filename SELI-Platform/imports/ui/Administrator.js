@@ -24,14 +24,8 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
 
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 
 import {checkUserType} from '../../lib/userSesions';
 
@@ -55,8 +49,8 @@ export default class Tutor extends React.Component {
     this.setState({
       chekingSesion: true,
     }, () => {
-      checkUserType(Meteor.userId(), 'administrator', this.props.history);
       Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
+        checkUserType(response, 'administrator', this.props.history);
         this.setState({
           user: response,
           chekingSesion: false,
