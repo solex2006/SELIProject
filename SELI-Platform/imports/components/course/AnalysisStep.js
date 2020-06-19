@@ -41,18 +41,33 @@ const useStyles = makeStyles(theme => ({
   nested: {
     paddingLeft: theme.spacing(4),
   },
+  Behavioral:{
+    marginBottom:'15px'
+  },
+  inputText:{
+    display: 'block',
+    width:'100%'
+  },
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1)
       // width: "100ch"
     }
   },
+  psychomotorDomain:{
+    marginBottom: '15px',
+    width:'100%'
+  },
+  affectiveDomain:{
+    marginBottom: '15px',
+    marginTop:'15px'
+  },
   hidden: {
     display: "none"
   },
   formGroup: {
-    marginTop: theme.spacing(2)
-  },
+      marginTop: theme.spacing(2)
+	},
   listBullet: {
     listStyleType: "disc",
     display: "list-item"
@@ -100,7 +115,12 @@ export default function AnalysisStep(props) {
     if(courseInformation.analysis[4]!=undefined){
       setOutcomes(courseInformation.analysis[4])
     }
-   
+    if(courseInformation.analysis[5]!=undefined){
+      setaffectiveDomain(courseInformation.analysis[5])
+    }
+    if(courseInformation.analysis[6]!=undefined){
+      setpsychomotorDomain(courseInformation.analysis[6])
+    }
   },[])
 
   
@@ -113,8 +133,7 @@ export default function AnalysisStep(props) {
         } 
         if(modality===undefined || pedagogical==='' || 
            analysisTooltip.learningobjectives===true  || analysisTooltip.outcomes===true){
-           props.validate('NopassCourseAnalysis')
-          
+           props.validate('NopassCourseAnalysis')    
         }
   })
 
@@ -131,6 +150,8 @@ export default function AnalysisStep(props) {
   const [courseinformation, setcourseInformation]=useState(courseInformation)
   const [modality, setmodality]=useState('');
   const [pedagogical, setpedagogical]=useState('');
+  const [affectiveDomain, setaffectiveDomain]=useState('');
+  const [psychomotorDomain, setpsychomotorDomain]=useState('');
   //for save he accesibility status
 
   const [typetodelete ,settypetodelete]=useState('');
@@ -152,10 +173,6 @@ export default function AnalysisStep(props) {
   const [feedbackError, setfeedbackError]=useState(true)
   const [feedbackErrorLearningO, setfeedbackErrorLearningO]=useState(true)
   const [constraints, setConstraints] = useState([
-    {
-      label: "Math 101 (example)",
-      editing: false
-    }
   ]);
 
   
@@ -260,7 +277,17 @@ export default function AnalysisStep(props) {
     pedagogical:language.pedagogical,
     pedagogicalconsiderations:language.pedagogicalconsiderations,
     learningCon:language.learningCon,
-    errorMsgall:language.errorMsgall
+    errorMsgall:language.errorMsgall,
+    affectiveDomain:language.affectiveDomain,
+    psychomotorDomain:language.psychomotorDomain,
+    Coursesummary:language.Coursesummary,
+    learningObjectivesDefinition:language.learningObjectivesDefinition,
+    CognitiveDomain:language.CognitiveDomain,
+    AnalysisPhaseTitle:language.AnalysisPhaseTitle,
+    Deletingaudience:language.Deletingaudience,
+    dialog1:language.dialog1,
+    dialog2:language.dialog2
+
   })
   const [message, setmessage]=useState(labels.errorMsg)
   const [open, setopen]= useState(false)
@@ -702,22 +729,60 @@ export default function AnalysisStep(props) {
     setOpenI(!openI);
   };
 
+  const InputText=(label, value)=>{
+    return(
+      <div className={classes.psychomotorDomain}>
+          <TextField
+            value={value}
+            //required
+            label={label==="affectiveDomain" ? labels.pffectiveDomain: labels.psychomotorDomain}
+            variant="outlined"
+            multiline
+            rowsMax={5}
+            id="i02"
+            aria-describedby="i02-helper-text"
+            type="text"
+            //error={analysisTooltip.pedagogical}
+            fullWidth
+            onChange={(event)=>{   
+              let text=courseinformation;
+              if(label==="affectiveDomain"){
+                setaffectiveDomain(event.target.value)
+                text.analysis[5]= event.target.value;
+                setcourseInformation(text);
+              }else{
+                setpsychomotorDomain(event.target.value) 
+                text.analysis[6]= event.target.value;
+                setcourseInformation(text);
+              }
+              
+              }}
+        />
+        <FeedbackHelp
+          validation={{
+            error: false,
+            errorMsg: "",
+            errorType: "",
+            a11y: null
+          }}
+          tipMsg={label==="affectiveDomain" ? "Affective domain is....":"Psychomotor domain is...." }
+          describedBy={"i05-helper-text"}
+        />
+      </div>
+    )
+  }
   
   return (
     <div className="form-input-audiences">
-     <h2>Analysis Phase</h2>
+     <h1 className={classes.psychomotorDomain}>{labels.AnalysisPhaseTitle}</h1>
       {/* <Typography variant="h6" className={classes.title}>Analysis Phase</Typography> */}
-      <p>
+      <p className={classes.psychomotorDomain}>
         {labels.analysisphase}
       </p>
+  <h3 className={classes.psychomotorDomain}>{labels.Coursesummary}</h3>
       <List
           component="nav"
           aria-labelledby="nested-list-subheader"
-          subheader={
-            <ListSubheader disableSticky={true} component="div" id="nested-list-subheader">      
-                <Typography variant="h6" className={classes.title}>Course summary</Typography>	
-            </ListSubheader>
-          }
           className={classes.root}
         >
           <ListItem button onClick={handleClickT}>
@@ -817,8 +882,15 @@ export default function AnalysisStep(props) {
         </List>
       
       <Grid container className={classes.formGroup}>
-          <Grid item xs={12} className="MuiFormLabel-root">
-            <Typography variant="h6" className={classes.title}>Learning Objectives</Typography>	
+          <Grid item xs={12} >
+          <h2>Learning Objectives</h2>
+          < br/>
+            <p>
+              {labels.learningObjectivesDefinition}
+            </p>
+            < br/>
+              <h3>{labels.CognitiveDomain}</h3>
+          < br/>
 				  </Grid>       
 				{Object.keys(goals).map((category, index) => (
 					<Grid item xs={12}>
@@ -957,23 +1029,32 @@ export default function AnalysisStep(props) {
 						</Grid>
 					</Grid>
 				))}
-         <Grid item>
-                <FeedbackHelp
-                  validation={{
-                    error: analysisTooltip.learningobjectives,
-                    errorMsg: labels.errorMsgleast,
-                    errorType: "",
-                    a11y: null
-                  }}
-                  tipMsg="Add a Learning Objectives that show what the students will know and why they are doing it on three areas of learning: knowledge, skills and attitudes."
-                  describedBy={"i05-helper-text"}
-                />
-              </Grid>
+       
+       <div className={classes.inputText}>
+        <h3 className={classes.affectiveDomain}>{labels.affectiveDomain}</h3>
+          {InputText('affectiveDomain',affectiveDomain)}
+        
+        <h3 className={classes.psychomotorDomain}>{labels.psychomotorDomain}</h3>
+          {InputText('psychomotorDomain',psychomotorDomain)}
+          <Grid item>
+            <FeedbackHelp
+              validation={{
+                error: analysisTooltip.learningobjectives,
+                errorMsg: labels.errorMsgleast,
+                errorType: "",
+                a11y: null
+              }}
+              tipMsg={"Learning objectives are..."}
+              describedBy={"i05-helper-text"}
+            />
+        </Grid>
+       </div>   
 			</Grid>
 
       <Grid container className={classes.formGroup}>
-          <Grid item xs={12} className="MuiFormLabel-root">
-            <Typography variant="h6" className={classes.title}>Behavioral Outcomes</Typography>	
+          <Grid item xs={12} className={classes.Behavioral}>
+            <h2 className={classes.Behavioral}>Behavioral Outcomes</h2>
+            <p className={classes.Behavioral}>By the end of this course, students will be able...</p>
 				  </Grid>
 				{Object.keys(outcomes).map((category, index) => (
 					<Grid item xs={12}>
@@ -1111,36 +1192,13 @@ export default function AnalysisStep(props) {
 						</Grid>
 					</Grid>
 				))}
-          <Grid item>
-            <FeedbackHelp
-              validation={{
-                error: analysisTooltip.outcomes,
-                errorMsg: labels.errorMsgall,
-                errorType: "",
-                a11y: null
-              }}
-              tipMsg="By the end of this course, students will be able..."
-              describedBy={"i05-helper-text"}
-            />
-          </Grid>
 			</Grid>
-
-
-
-
-
-
-
-
-
-     
-
     
       <Grid container className={classes.formGroup}>
-        <Grid item xs={12} className="MuiFormLabel-root">
-          <Typography variant="h6" className={classes.title}>{labels.learningconstraint}</Typography>
-        </Grid>
-        <Grid item xs={12}>
+          <Grid item xs={12} className={classes.Behavioral}>
+            <h2 className={classes.Behavioral}>{labels.learningconstraint}</h2>
+          </Grid>
+         <Grid item xs={12}>
           <form>
             <List component="ul" key={"li0"} id="li0">
               {constraints.map((constraint, index) => (
@@ -1249,8 +1307,10 @@ export default function AnalysisStep(props) {
     
     
       <Grid container className={classes.formGroup}>
-        <Grid item xs={12}  className="MuiFormLabel-root">
-        <Typography variant="h6" className={classes.title}>{labels.modality}</Typography>
+          <Grid item xs={12} className={classes.Behavioral}>
+              <h2 className={classes.Behavioral}>{labels.modality}</h2>
+          </Grid>
+          <Grid item xs={12} >
           <form className={classes.root}>
             <FormLabel component="legend">
               {labels.delivercontent}
@@ -1296,8 +1356,10 @@ export default function AnalysisStep(props) {
       </Grid>
 
       <Grid container className={classes.formGroup}>
-        <Grid item xs={12}  className="MuiFormLabel-root">
-        <Typography variant="h6" className={classes.title }>Pedagogical considerations</Typography>
+          <Grid item xs={12} className={classes.Behavioral}>
+              <h2 className={classes.Behavioral}>{labels.pedagogicalconsiderations}</h2>
+          </Grid>
+        <Grid item xs={12} >
         <form className={classes.root}>
           <TextField
             value={pedagogical}
@@ -1312,8 +1374,7 @@ export default function AnalysisStep(props) {
             error={analysisTooltip.pedagogical}
             fullWidth
             onChange={(event)=>{
-              setpedagogical(event.target.value)
-              
+              setpedagogical(event.target.value) 
               if(event.target.value!=''){
                 setanalysisTooltip((prevState)=>{
                   return{...prevState, pedagogical: false}
@@ -1347,9 +1408,9 @@ export default function AnalysisStep(props) {
       </Grid>
    
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting audience</DialogTitle>
+          <DialogTitle className="success-dialog-title" id="simple-dialog-title">{labels.Deletingaudience}</DialogTitle>
             <DialogContent className="success-dialog-content">
-              <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
+          <DialogContentText style={{padding: "0 1vw"}}> {labels.dialog1} {labelindexdelete}. {labels.dialog2}</DialogContentText>
               <WarningIcon className="warning-dialog-icon"/> 
             </DialogContent>
             <DialogActions>
