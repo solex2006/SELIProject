@@ -1061,6 +1061,15 @@ var ENGLISH = {
   errorMsgall:'All these fields are required, please complete them.',
   Deleteunit:'Delete unit',
   Editunitname:'Edit unit name',
-
+  affectiveDomain:'Affective Domain',
+  psychomotorDomain:'Psychomotor Domain',
+  Coursesummary:'Course summary',
+  learningObjectivesDefinition:'Add a Learning Objectives that show what the students will know and why they are doing it on three areas of learning: knowledge, skillsand attitudes.',
+  CognitiveDomain:'Cognitive Domain',
+  AnalysisPhaseTitle:'Analysis Phase',
+  Deletingaudience:'Deleting audience',
+  dialog1:'You requested to delete: ',
+  dialog2: 'Do you want to proceed?',
+  
 }
 export default ENGLISH;
