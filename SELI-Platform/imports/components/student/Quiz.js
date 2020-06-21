@@ -292,6 +292,8 @@ class Quiz extends React.Component {
         let approved;
         score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
         console.log(approved);
+        //adding badge
+        this.persistBadge(this.props.quiz.attributes.badgeInformation);
         
   }
 
@@ -548,11 +550,14 @@ class Quiz extends React.Component {
     .then(data => {
       this.saveBadge(data,image);
       this.setState({badgeWin:true});
+
     })
     .catch(err => {console.log(err)})
   }
   persistBadge(badgeInfo){
-    fetch('https://201.159.223.92/datos', {
+    console.log('sending badge to blockchain')
+    console.log(JSON.stringify(badgeInfo))
+    fetch('http://localhost:80/badges/issue', {
       method: 'post',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -562,19 +567,7 @@ class Quiz extends React.Component {
     }).then(res => res.json())
     .then(res => {
       console.log(res);
-      if(res === "se genero el certificado con exito en 201.159.223.92"){
-        this.setState({
-          certificateCreated: true,
-          certificateError: false,
-          certificateDialogOpen: true,
-        });
-      }else{
-        this.setState({
-          certificateCreated: false,
-          certificateError: true,
-          certificateErrorDialogOpen: true,
-        });
-      }
+
     });
   }
 
