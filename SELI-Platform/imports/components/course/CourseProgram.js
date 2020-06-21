@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -8,20 +7,11 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
-import ContentMenuItem from './ContentMenuItem';
-import ContentItem from './ContentItem';
-import SortItem from './items/SortItem';
-import DisabilitieMenu from './DisabilitieMenu';
-import CourseCreatorMenu from './CourseCreatorMenu';
 import VerticalTab from '../tools/VerticalTab';
-import { Container, Draggable, dropHandlers } from 'react-smooth-dnd';
 import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
 import { createContentItems } from '../../../lib/contentMenuItemsCreator';
 /* Dialog */
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 /* Content Forms */
 import TextForm from '../content/TextForm';
@@ -36,21 +26,20 @@ import QuizForm from '../content/QuizForm';
 import ActivityForm from '../content/ActivityForm';
 import EmbebedForm from '../content/EmbebedForm';
 import UnityForm from '../content/UnityForm';
-import CourseOrganization from './CourseOrganization';
-import NavigationTool from './NavigationTool';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
 import Fab from '@material-ui/core/Fab';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
-import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import WarningIcon from '@material-ui/icons/Warning';
+//Teamplates
+import FreeWithout from './templates/FreeWithout';
+import TemplateParent from './templates/TemplateParent';
 
-export default class CourseCreatorTool extends React.Component {
+export default class CourseProgram extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,7 +59,6 @@ export default class CourseCreatorTool extends React.Component {
       ],
       menuTab: 0,
       sortMode: false,
-      correctOrganization: false,
       courseInformation: this.props.courseInformation,
     }
   }
@@ -93,12 +81,11 @@ export default class CourseCreatorTool extends React.Component {
       contentToEdit: undefined, 
       contentTypeAdded: '', 
       showAccessibilityForm: false,
-      showCourseOrganization: false,
-      showWarningOrganization: false,
     });
   };
 
-  openDialog(e){
+  openDialog(e, templateCode){
+    console.log(templateCode)
     let type = e.payload.type;
     let courseInformation = this.state.courseInformation;
     let languageTypeAdded = "";
@@ -117,21 +104,23 @@ export default class CourseCreatorTool extends React.Component {
     this.setState({
       contentTypeAdded: type,
       languageType: languageTypeAdded,
+      templateCode: templateCode,
       addedId: e.payload.id,
-      showCourseOrganization: false,
       showContentEditor: true,
     });
-    if(e.addedIndex !== null && e.removedIndex !== null) {
-
-    }
+    if(e.addedIndex !== null && e.removedIndex !== null) {}
     else {
       this.contentHandleClickOpen();
     }
+    let a = e;
+    if (templateCode) {
+      a.payload.code = templateCode;
+    }
     if (courseInformation.organization.subunit) {
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = applyDrag(courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items, e);
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = applyDrag(courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items, a);
     }
     else {
-      courseInformation.program[this.props.selected[0]].items = applyDrag(courseInformation.program[this.props.selected[0]].items, e);
+      courseInformation.program[this.props.selected[0]].items = applyDrag(courseInformation.program[this.props.selected[0]].items, a);
     }
     this.setState({
       contentaAdded: true,
@@ -144,7 +133,7 @@ export default class CourseCreatorTool extends React.Component {
     let courseInformation = this.state.courseInformation;
     let index;
     let itemContent = this.getItemAttributes();
-    console.log("boton de crear el contenido",itemContent,courseInformation)
+    console.log(itemContent)
 
     //console.log("courseInformation",courseInformation)
     //console.log("courseInformation",itemContent)
@@ -192,7 +181,6 @@ export default class CourseCreatorTool extends React.Component {
       console.log("showAccessibilityOptions",showAccessibilityOptions,showAccessibilityOptions)
       this.setState({
         showAccessibilityOptions: showAccessibilityOptions,
-        showCourseOrganization: false,
         showContentEditor: false,
         contentOpen: showAccessibilityOptions,
         contentToConfigureAccessibility: itemContent,
@@ -286,7 +274,6 @@ export default class CourseCreatorTool extends React.Component {
     this.setState({
       contentTypeAdded: item.type,
       showAccessibilityOptions: false,
-      showCourseOrganization: false,
       showContentEditor: true,
       contentOpen: true,
       contentaAdded: true,
@@ -361,54 +348,8 @@ export default class CourseCreatorTool extends React.Component {
     });
   }
 
-  manageOrganization() {
-    this.setState({
-      showWarningOrganization: false,
-      showCourseOrganization: true,
-      contentOpen: true,
-    });
-  }
-
-  warningOrganization() {
-    this.contentHandleClickOpen();
-    this.setState({
-      showContentEditor: false,
-      contentaAdded: false,
-      showWarningOrganization: true,
-    });
-  }
-
-  setOrganization() {
-    this.refs.CourseOrganization.addUnit()
-    this.refs.CourseOrganization.addSubunit()
-    this.contentHandleClose()
-    this.setState({
-      showCourseOrganization: false,
-      correctOrganization: true,
-    });
-  }
-
-  validateOrganization(value) {
-    this.setState({
-      correctOrganization: value,
-    });
-  }
 
   componentDidMount(){
-    if (this.props.courseInformation.organization === '') {
-      this.setState({
-        showWarningOrganization: false,
-        showCourseOrganization: true,
-        contentOpen: true,
-        correctOrganization: true,
-      })
-    }
-    else {
-      this.setState({
-        showCourseOrganization: false,
-        contentOpen: false,
-      });
-    }
   }
   
   reRender(){
@@ -511,378 +452,60 @@ export default class CourseCreatorTool extends React.Component {
     }
   }
 
+  choosingTemplate = () => {
+    if (this.props.courseInformation.coursePlan.courseTemplate === 'without') {
+      return (
+        <FreeWithout
+          courseInformation={this.props.courseInformation}
+          selected={this.props.selected}
+          menuTab={this.state.menuTab}
+          sortMode={this.state.sortMode}
+          contentItems={this.state.contentItems}
+          expandedNodes={this.props.expandedNodes}
+          reRender={this.reRender.bind(this)}
+          turnOffSortMode={this.turnOffSortMode.bind(this)}
+          openDialog={this.openDialog.bind(this)}
+          removeItem={this.removeItem.bind(this)}
+          editItem={this.editItem.bind(this)}
+          handleDecorative={this.handleDecorative.bind(this)}
+          editAccessibilityForm={this.editAccessibilityForm.bind(this)}
+          setMenuTab={this.setMenuTab.bind(this)}
+          setDisabilitieOption={this.setDisabilitieOption.bind(this)}
+          toggleSortMode={this.toggleSortMode.bind(this)}
+          handlePreview={this.props.handlePreview.bind(this)}
+          language={this.props.language}
+        ></FreeWithout>
+      )
+    } else if (this.props.courseInformation.coursePlan.courseTemplate === 'spiral') {
+      return (
+        <TemplateParent
+          courseInformation={this.props.courseInformation}
+          selected={this.props.selected}
+          menuTab={this.state.menuTab}
+          sortMode={this.state.sortMode}
+          contentItems={this.state.contentItems}
+          expandedNodes={this.props.expandedNodes}
+          reRender={this.reRender.bind(this)}
+          turnOffSortMode={this.turnOffSortMode.bind(this)}
+          openDialog={this.openDialog.bind(this)}
+          removeItem={this.removeItem.bind(this)}
+          editItem={this.editItem.bind(this)}
+          handleDecorative={this.handleDecorative.bind(this)}
+          editAccessibilityForm={this.editAccessibilityForm.bind(this)}
+          setMenuTab={this.setMenuTab.bind(this)}
+          setDisabilitieOption={this.setDisabilitieOption.bind(this)}
+          toggleSortMode={this.toggleSortMode.bind(this)}
+          handlePreview={this.props.handlePreview.bind(this)}
+          language={this.props.language}
+        ></TemplateParent>
+      )
+    }
+  }
+
   render() {
     return(
       <div>
-        <div className="course-creator-container">   
-          {
-            this.props.courseInformation.organization.subunit ?
-            <div>
-              <div className="course-creator-work-area">
-                <div
-                  style={
-                    !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
-                      {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1"}
-                    :
-                    {backgroundImage: "url()"}} className="course-creator-drop-area"
-                >
-                  <div className="title-course">
-                    <div className="subtitle">{`${this.props.courseInformation.title} -
-                    ${this.props.language.unit}: `+`${this.props.courseInformation.program[this.props.selected[0]].name} -
-                    ${this.props.language.lesson}: ` +`${this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}</div>
-                  </div>
-                  {
-                    !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
-                      <div className="background">
-                        {this.props.language.dropHereLabel.toUpperCase()}
-                      </div>
-                    :
-                      undefined
-                  }
-                  {
-                    !this.state.sortMode ?
-                      <Container
-                        lockAxis="y"
-                        dragBeginDelay={500}
-                        dragClass="drag-class"
-                        style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
-                        groupName="1"
-                        getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
-                        onDrop={e => this.openDialog(e)}>
-                        {
-                          this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
-                            return (
-                              <Draggable key={i}>
-                                <ContentItem
-                                  item={p}
-                                  removeItem={this.removeItem.bind(this)}
-                                  editItem={this.editItem.bind(this)}
-                                  handleDecorative={this.handleDecorative.bind(this)}
-                                  editAccessibilityForm={this.editAccessibilityForm.bind(this)}
-                                  language={this.props.language}
-                                />
-                              </Draggable>
-                            );
-                          })
-                        }
-                      </Container>
-                    :
-                      <Container
-                        lockAxis="y"
-                        dragBeginDelay={0}
-                        dragClass="drag-class"
-                        style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
-                        groupName="1"
-                        getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
-                        onDrop={e => this.openDialog(e)}
-                      >
-                        {
-                          this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
-                            return (
-                              <Draggable key={i}>
-                                <SortItem
-                                  item={p}
-                                  removeItem={this.removeItem.bind(this)}
-                                  index={i}
-                                  language={this.props.language}
-                                />
-                              </Draggable>
-                            );
-                          })
-                        }
-                      </Container>
-                  }
-                </div>
-                <div className="course-creator-menu-area">
-                  <CourseCreatorMenu
-                    setMenuTab={this.setMenuTab.bind(this)}
-                    menuTab={this.state.menuTab}
-                    language={this.props.language}
-                  />
-                  {
-                    this.state.menuTab === 0 ?
-                      <div>
-                        <DisabilitieMenu
-                          disabilitieOptions={this.state.courseInformation.support}
-                          setOption={this.setDisabilitieOption.bind(this)}
-                          language={this.props.language}
-                        />
-                        <Divider light/><Divider light/><Divider light/>
-                        <div className="course-creator-menu-actions">
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
-                        </div>
-                        <Divider light/>
-                        <Container
-                          orientation="horizontal"
-                          groupName="1"
-                          behaviour="copy"
-                          getChildPayload={i => this.state.contentItems[i]}
-                          onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
-                        >
-                          {
-                            this.state.contentItems.map((p,i) => {
-                              return (
-                                <Draggable key={i}>
-                                  <ContentMenuItem type={p.type} language={this.props.language}/>
-                                </Draggable>
-                              );
-                            })
-                          }
-                        </Container>
-                        <div className="course-creator-menu-actions-container">
-                          <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
-                            <Divider light/><Divider light/><Divider light/>
-                            <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
-                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
-                            </ListItem>
-                            <Divider light/>
-                            <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
-                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.seePreview}/>
-                            </ListItem>
-                            <Divider light/>
-                          </List>
-                        </div>
-                      </div>
-                    :
-                    undefined
-                  }
-                  {
-                    this.state.menuTab === 1 ?
-                      <div>
-                        <div className="button-row">
-                          {
-                            this.props.courseInformation.organization.unit === "Unit" ?
-                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
-                                <Avatar id="orange-avatar" className="avatar">U</Avatar>
-                                {this.props.language.byUnitsAndLessons}
-                              </Button>
-                            :
-                            undefined
-                          }
-                          {
-                            this.props.courseInformation.organization.unit === "Topic" ?
-                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
-                                <Avatar id="blue-avatar" className="avatar">T</Avatar>
-                                {this.props.language.byTopics}
-                              </Button>
-                            :
-                            undefined
-                          }
-                          {
-                            this.props.courseInformation.organization.unit === "Season" ?
-                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Season" ? "row-list-selected-button" : "row-list-button"}>
-                                <Avatar id="teal-avatar" className="avatar">D</Avatar>
-                                {this.props.language.byDates}
-                              </Button>
-                            :
-                            undefined
-                          }
-                        </div>
-                        <NavigationTool
-                          program={this.props.courseInformation.program}
-                          organization={this.props.courseInformation.organization}
-                          hasSubunits={this.props.courseInformation.organization.subunit}
-                          selected={this.props.selected}
-                          expandedNodes={this.props.expandedNodes}
-                          reRender={this.reRender.bind(this)}
-                          turnOffSortMode={this.turnOffSortMode.bind(this)}
-                          setMenuTab={this.setMenuTab.bind(this)}
-                          dialog={true}
-                          language={this.props.language}
-                        />
-                      </div>
-                    :
-                    undefined
-                  }
-                </div>
-              </div>
-            </div>
-            :
-            undefined
-          }
-          {
-            !this.props.courseInformation.organization.subunit && this.props.courseInformation.organization ?
-              <div className="course-creator-work-area">
-                <div
-                  style={
-                    !this.props.courseInformation.program[this.props.selected[0]].items.length ?
-                      {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1"}
-                    :
-                    {backgroundImage: "url()"}} className="course-creator-drop-area"
-                >
-                  <div className="title-course">  
-                    <div className="subtitle">{`${this.props.courseInformation.title} - 
-                      ${this.props.language.topic}: ` +`${this.props.courseInformation.program[this.props.selected[0]].name}`}</div>
-                  </div>
-                  {
-                    !this.props.courseInformation.program[this.props.selected[0]].items.length ?
-                      <div className="background">
-                        {this.props.language.dropHereLabel.toUpperCase()}
-                      </div>
-                    :
-                      undefined
-                  }
-                  {
-                    !this.state.sortMode ?
-                      <Container
-                        lockAxis="y"
-                        dragBeginDelay={500}
-                        dragClass="drag-class"
-                        style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
-                        groupName="1"
-                        getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].items[i]}
-                        onDrop={e => this.openDialog(e)}>
-                        {
-                          this.props.courseInformation.program[this.props.selected[0]].items.map((p, i) => {
-                            return (
-                              <Draggable key={i}>
-                                <ContentItem
-                                  item={p}
-                                  removeItem={this.removeItem.bind(this)}
-                                  editItem={this.editItem.bind(this)}
-                                  handleDecorative={this.handleDecorative.bind(this)}
-                                  editAccessibilityForm={this.editAccessibilityForm.bind(this)}
-                                  language={this.props.language}
-                                />
-                              </Draggable>
-                            );
-                          })
-                        }
-                      </Container>
-                    :
-                      <Container
-                        lockAxis="y"
-                        dragBeginDelay={0}
-                        dragClass="drag-class"
-                        style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
-                        groupName="1"
-                        getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].items[i]}
-                        onDrop={e => this.openDialog(e)}
-                      >
-                        {
-                          this.props.courseInformation.program[this.props.selected[0]].items.map((p, i) => {
-                            return (
-                              <Draggable key={i}>
-                                <SortItem
-                                  item={p}
-                                  removeItem={this.removeItem.bind(this)}
-                                  index={i}
-                                  language={this.props.language}
-                                />
-                              </Draggable>
-                            );
-                          })
-                        }
-                      </Container>
-                  }
-                </div>
-                <div className="course-creator-menu-area">
-                  <CourseCreatorMenu
-                    setMenuTab={this.setMenuTab.bind(this)}
-                    menuTab={this.state.menuTab}
-                    language={this.props.language}
-                  />
-                  {
-                    this.state.menuTab === 0 ?
-                      <div>
-                        <DisabilitieMenu
-                          disabilitieOptions={this.state.courseInformation.support}
-                          setOption={this.setDisabilitieOption.bind(this)}
-                          language={this.props.language}
-                        />
-                        <Divider light/><Divider light/><Divider light/>
-                        <div className="course-creator-menu-actions">
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.dragDropItems}/>
-                        </div>
-                        <Divider light/>
-                        <Container
-                          orientation="horizontal"
-                          groupName="1"
-                          behaviour="copy"
-                          getChildPayload={i => this.state.contentItems[i]}
-                          onDrop={e => this.setState({ contentItems: applyDrag(this.state.contentItems, e) })}
-                        >
-                          {
-                            this.state.contentItems.map((p,i) => {
-                              return (
-                                <Draggable key={i}>
-                                  <ContentMenuItem type={p.type} language={this.props.language}/>
-                                </Draggable>
-                              );
-                            })
-                          }
-                        </Container>
-                        <div className="course-creator-menu-actions-container">
-                          <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
-                            <Divider light/><Divider light/><Divider light/>
-                            <ListItem onClick={() => this.toggleSortMode()} selected={this.state.sortMode} className="course-creator-menu-action" button>
-                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
-                            </ListItem>
-                            <Divider light/>
-                            <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
-                              <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.seePreview}/>
-                            </ListItem>
-                            <Divider light/>
-                          </List>
-                        </div>
-                      </div>
-                    :
-                    undefined
-                  }
-                  {
-                    this.state.menuTab === 1 ?
-                      <div>
-                        <div className="button-row">
-                          {
-                            this.props.courseInformation.organization.unit === "Unit" ?
-                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Unit" ? "row-list-selected-button" : "row-list-button"}>
-                                <Avatar id="orange-avatar" className="avatar">U</Avatar>
-                                {this.props.language.byUnitsAndLessons}
-                              </Button>
-                            :
-                            undefined
-                          }
-                          {
-                            this.props.courseInformation.organization.unit === "Topic" ?
-                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Topic" ? "row-list-selected-button" : "row-list-button"}>
-                                <Avatar id="blue-avatar" className="avatar">T</Avatar>
-                                {this.props.language.byTopics}
-                              </Button>
-                            :
-                            undefined
-                          }
-                          {
-                            this.props.courseInformation.organization.unit === "Season" ?
-                              <Button onClick={() => this.warningOrganization()} fullWidth className={this.props.courseInformation.organization.unit === "Season" ? "row-list-selected-button" : "row-list-button"}>
-                                <Avatar id="teal-avatar" className="avatar">D</Avatar>
-                                {this.props.language.byDates}
-                              </Button>
-                            :
-                            undefined
-                          }
-                        </div>
-                        <NavigationTool
-                          program={this.props.courseInformation.program}
-                          organization={this.props.courseInformation.organization}
-                          hasSubunits={this.props.courseInformation.organization.subunit}
-                          selected={this.props.selected}
-                          expandedNodes={this.props.expandedNodes}
-                          reRender={this.reRender.bind(this)}
-                          turnOffSortMode={this.turnOffSortMode.bind(this)}
-                          setMenuTab={this.setMenuTab.bind(this)}
-                          dialog={true}
-                          language={this.props.language}
-                        />
-                      </div>
-                    :
-                    undefined
-                  }
-                </div>
-              </div>
-            :
-            undefined
-          }
-        </div>
+        {this.choosingTemplate()}
         <Dialog
           open={this.state.contentOpen}
           onClose={this.contentHandleClose}
@@ -898,13 +521,13 @@ export default class CourseCreatorTool extends React.Component {
             <AppBar className="dialog-app-bar" color="primary" position="static">
               <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
                 <AppsIcon/>
-                <h4 className="dialog-label-title">{ 
-                  this.state.contentaAdded ? 
+                <h4 className="dialog-label-title">
+                  { 
                     this.state.showAccessibilityForm ?
                       `${this.props.language.accessibility} - ${this.state.languageType}` 
                     :
                       `${this.props.language.contentEditor} - ${this.state.languageType}` 
-                  : this.props.language.courseOrganization}
+                  }
                 </h4>
                 <IconButton
                   id="close-icon"
@@ -924,51 +547,6 @@ export default class CourseCreatorTool extends React.Component {
             </AppBar>
           </DialogTitle>
           {
-            this.state.showWarningOrganization ?
-              <div>
-                <DialogContent className="success-dialog-content">
-                  <div className="organization-form">
-                    <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                      {this.props.language.courseOrganizationChangeWarning}
-                    </DialogContentText>
-                  </div>
-                  <WarningIcon className="warning-dialog-icon"/>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={() => this.contentHandleClose()} color="primary" autoFocus>
-                    {this.props.language.cancel}
-                  </Button>
-                  <Button onClick={() => this.manageOrganization()} color="primary" autoFocus>
-                    {this.props.language.continue}
-                  </Button>
-                </DialogActions>
-              </div>
-            :
-              undefined
-          }
-          {
-            this.state.showCourseOrganization ?
-              <div>
-                <CourseOrganization 
-                  ref="CourseOrganization"
-                  courseInformation={this.props.courseInformation}
-                  validateOrganization={this.validateOrganization.bind(this)}
-                  reRender={this.reRender.bind(this)}
-                  selected={this.props.selected}
-                  language={this.props.language}
-                />
-                <div className="dialog-actions-container">
-                  <Tooltip title={this.props.language.done}>
-                    <Fab disabled={this.state.correctOrganization} onClick={() => this.setOrganization()} aria-label={this.props.language.startCreatingCourse} className="dialog-fab" color="primary">
-                      <AssignmentTurnedInIcon/>
-                    </Fab>
-                  </Tooltip>
-                </div>
-              </div>
-            :
-            undefined
-          }
-          {
             this.state.showContentEditor ?
               <div>
                 {
@@ -983,7 +561,6 @@ export default class CourseCreatorTool extends React.Component {
                   :
                   undefined
                 }
-                
                 {
                   this.state.contentTypeAdded === 'image' && !this.state.showAccessibilityOptions ?
                     <ImageForm
@@ -995,7 +572,6 @@ export default class CourseCreatorTool extends React.Component {
                   :
                   undefined
                 }
-
                 {
                   this.state.contentTypeAdded === 'video' && !this.state.showAccessibilityOptions && !this.state.showAccessibilityForm ?
                     <VideoForm
@@ -1128,7 +704,6 @@ export default class CourseCreatorTool extends React.Component {
             :
             undefined
           }
-
           {
             this.state.showAccessibilityOptions && (this.state.contentTypeAdded === 'quiz' || this.state.contentTypeAdded === 'image' || this.state.contentTypeAdded === 'audio' || this.state.contentTypeAdded === 'video') ?  
              //this.contentHandleClose()  // uncomment for view accessibility Menu
@@ -1155,7 +730,6 @@ export default class CourseCreatorTool extends React.Component {
             :
               undefined
           }
-          {console.log("parametros de configuracion importantes--",this.state.showAccessibilityOptions ,this.state.contentTypeAdded,this.state.contentToConfigureAccessibility )}
           {
             this.state.showAccessibilityForm ?
               <React.Fragment>

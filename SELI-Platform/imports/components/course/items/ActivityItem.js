@@ -102,10 +102,16 @@ export default class ActivityItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
+        {
+          !this.props.fromTemplate && (
+            <React.Fragment>
+              <Divider orientation="vertical" />
+              <DragItem
+                holdanddrag={this.props.language.holdanddrag}
+              />
+            </React.Fragment>
+          )
+        }
       </div>
       );
     }

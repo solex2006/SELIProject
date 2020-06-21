@@ -191,7 +191,7 @@ class FileUpload extends Component {
           {
             !this.state.inProgress ?
               <div  className="upload-container">
-                <div class="upload-btn-wrapper center-row">
+                <div className="upload-btn-wrapper center-row">
                   {
                     this.props.color ?
                       <Button onClick={this.triggerInputFile} id="da" className="sign-button" color={this.props.color} variant="outlined">{this.props.label}</Button>

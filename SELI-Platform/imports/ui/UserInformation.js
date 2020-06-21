@@ -256,7 +256,7 @@ export default class UserInformation extends React.Component {
 
   render() {
     return(
-      <div className="course-information-container">
+      <div className="user-information-container">
         <div className="form-file-column">
           {
             this.state.userInformation.image !== undefined ?

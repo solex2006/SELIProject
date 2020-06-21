@@ -19,9 +19,7 @@ export default class TextItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        <div className="text-content-item">
-
-          {console.log(" this.props.item.attributes",  this.props.item.attributes)}
+        <div className={!this.props.fromTemplate ? "text-content-item" : "template-general-item"}>
           {
             this.props.item.attributes.type === 'title' ?
                 <div>
@@ -80,10 +78,16 @@ export default class TextItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
+        {
+          !this.props.fromTemplate && (
+            <React.Fragment>
+              <Divider orientation="vertical" />
+              <DragItem
+                holdanddrag={this.props.language.holdanddrag}
+              />
+            </React.Fragment>
+          )
+        }
       </div>
       );
     }

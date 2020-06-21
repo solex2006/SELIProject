@@ -17,11 +17,11 @@
 }
 
 .course-creator-work-area {
-  width: 100%;
+  width: 100vw;
   overflow-x: hidden;
   display: flex;
   position: relative;
-  height: calc(100vh - var(--app-bar-height) - var(--form-stepper-height));
+  height: calc(100vh - var(--app-bar-height) - 2*var(--form-stepper-height));
   background-color: #f5f5f5;
 }
 
@@ -69,6 +69,8 @@
 
 .course-creator-menu-area {
   width: var(--course-tool-menu-size);
+  height: calc(100vh - var(--app-bar-height) - 2*var(--form-stepper-height));
+  overflow-y: scroll;
   position: absolute;
   right: 0;
   background-color: #f5f5f5;
@@ -109,7 +111,7 @@
 }
 
 .course-creator-menu-option {
-  width: calc(var(--course-tool-menu-size) / 3);
+  width: calc(var(--course-tool-menu-size) / 3 - 3px);
   height: 100%;
   opacity: 0.9;
   transition: 0.5s;

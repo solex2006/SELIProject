@@ -18,8 +18,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DoneIcon from '@material-ui/icons/Done';
 import InfoIcon from '@material-ui/icons/Info';
 
-var key =Meteor.settings.public.USERKEY ;
+var key = Meteor.settings.public.BLOCKCHAIN_USERKEY;
 var encryptor = require('simple-encryptor')(key);
+
 export default class StudentProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -176,6 +177,7 @@ export default class StudentProfile extends React.Component {
 
   sendCertificate(certificateInfo, registerData){
     let TokenUser=Meteor.users.find({_id : this.props.profile.studentId  }).fetch()[0].profile.token;
+   
     if(TokenUser===undefined){//register the token
       fetch(`${Meteor.settings.public.BLOCKCHAIN_DOMAIN}/login/user`, {
       method: 'post',

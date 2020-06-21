@@ -39,7 +39,6 @@ const PositionedSnackbar =(props)=> {
   };
 
   snackbar=(message)=>{
-    
       return(
         <Snackbar
             key={Math.random()}

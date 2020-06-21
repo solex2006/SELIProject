@@ -384,7 +384,6 @@ export default class NavigationTool extends React.Component {
   };
 
   render() {
-    console.log(this.state.nameLabels)
     return(
       <div>
         {
