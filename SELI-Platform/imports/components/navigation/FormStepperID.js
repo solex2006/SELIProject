@@ -648,7 +648,7 @@ useEffect(()=>{
                           <StepLabel {...labelProps}>{step.label}</StepLabel>
                         );
                       return(
-                      (props.coursePlan.guidedCoursePlan === "guided" || index < 4 || index > 5) && (
+                      (props.coursePlan.guidedCoursePlan === "guided" || index < 4 || index > 4) && (
                         <Step completed={true} className="form-step" key={step.label}>
                           <StepButton
                             completed={completed[index]}
@@ -748,16 +748,16 @@ useEffect(()=>{
                     );
 
                 return(
-                  (props.coursePlan.guidedCoursePlan === "guided" || index < 4 || index > 5) && (
+                  (props.coursePlan.guidedCoursePlan === "guided" || index < 4 || index > 4) && (
                     <Step completed={true} className="form-step" key={step.label} {...stepProps}>
                       <StepButton
-                       completed={completed[index]}
-                       focusRipple={true}
-                       onClick={handleStep(index)}
-                       {...buttonProps}
+                        completed={completed[index]}
+                        focusRipple={true}
+                        onClick={handleStep(index)}
+                        {...buttonProps}
                       // hidden={isStepDisabled(index)}
-                       focusVisibleClassName="stepperFocused"
-                       className={`${
+                        focusVisibleClassName="stepperFocused"
+                        className={`${
                         isStepActive(index)
                           ? isStepCompleted(index)
                             ? classes.completed
@@ -768,8 +768,7 @@ useEffect(()=>{
                             : classes.selected
                           : ""
                       } ${isStepActive(index) ? classes.selected : ""}`}
-                       />
-                        
+                      />
                     </Step>
                   ))
                   })}
@@ -777,15 +776,10 @@ useEffect(()=>{
           :
             undefined
         }
-      </div>
-
-      
+      </div>      
       <div valor={"valor"} className="form-stepper-content">
         { getStepContent(activeStep) }
       </div>
-
-
-
       <div className='form-stepper-navigation-bottom' >
       <Grid container className='parentNavBar' spacing={6} >
         {
