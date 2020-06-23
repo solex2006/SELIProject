@@ -67,19 +67,14 @@ export default function DesignCourseCommons(props) {
   }, [])
 
   useEffect(() => {
-    
     //for validate the step
-    console.log("Validate desig STEP", learning,preKnow,main,eval )
-    
-    
-      if(learning!='' && main!='' && eval!=''){
-        props.validate('passCourseDesign')
-      }else{
-        props.validate('NopassCourseDesign')
-      }
-
+    //console.log("Validate desig STEP", learning,preKnow,main,eval )
+    if(learning!='' && main!='' && eval!=''){
+      props.validate('passCourseDesign')
+    } else {
+      props.validate('NopassCourseDesign')
+    }
   });
-
 
   const [learning, setLearning]=useState(learnGols);
   const [preKnow, setpreKnow]=useState(preKnowledge);
@@ -104,7 +99,7 @@ export default function DesignCourseCommons(props) {
           
         }}
       />
-       <FeedbackHelp
+      <FeedbackHelp
         validation={{
           error: false,
           errorMsg: "",
@@ -114,8 +109,6 @@ export default function DesignCourseCommons(props) {
         tipMsg={language.instructionslearning}
         describedBy={key + "-helper-text_Obj"}
       />
-
-
       <TextField
         id={key + "_Obj"}
         label={language.Preexistingknowlegde}
@@ -139,7 +132,6 @@ export default function DesignCourseCommons(props) {
         tipMsg={language.instructionsPreExisting}
         describedBy={key + "-helper-text_preKnowledge"}
       />
-
       <TextField
         id={key + "_Obj"}
         label={language.Maincontent}
@@ -163,7 +155,6 @@ export default function DesignCourseCommons(props) {
         tipMsg={language.instructionsMainContent}
         describedBy={key + "-helper-text_mainContent"}
       />
-
       <TextField
         id={key + "_Obj"}
         label={language.Evaluation}
@@ -200,7 +191,6 @@ export default function DesignCourseCommons(props) {
           />
         )
       }
-       
     </React.Fragment>
   );
 }

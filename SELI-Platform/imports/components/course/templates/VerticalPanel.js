@@ -93,7 +93,7 @@ export default class VerticalPanel extends React.Component {
               </div>
               <NavigationTool
                 program={this.props.courseInformation.program}
-                organization={this.props.courseInformation.organization}
+                coursePlan={this.props.courseInformation.coursePlan}
                 hasSubunits={this.props.courseInformation.organization.subunit}
                 selected={this.props.selected}
                 expandedNodes={this.props.expandedNodes}

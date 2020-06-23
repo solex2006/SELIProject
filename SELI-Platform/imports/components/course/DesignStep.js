@@ -57,32 +57,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function DesignStep(props) {
   const {courseInformation,language } = props;
-  useEffect(() => {
-    if(courseInformation.design.length!=0){
-      console.log("CourseInformation-Ddesogn uodate", props.courseInformation) 
-      setData(courseInformation.design)
-    }
-  }, []); 
-
-  useEffect(() => {
-    //console.log("CourseInformation-DesignStep", props.courseInformation) 
-    if(organization==='unit' && template!='without') {
-      setOrganization('topic')
-    } 
-
-    props.courseInformation.design.map((unit, index)=>{
-      if(unit.learnGols!='' && unit.mainContent!='' && unit.evaluation!=''){
-        props.validate('passCourseDesign')
-      }else{
-        props.validate('NopassCourseDesign')
-      }
-    })
-  }); 
 
   const classes = useStyles();
   const [template, setTemplate] = useState(props.courseInformation.coursePlan.courseTemplate);
-  const [organization,setOrganization] =  useState(props.courseInformation.coursePlan.courseStructure);
-  const [courseinformation, setcourseInformation]= useState(courseInformation)
+  const [organization, setOrganization] =  useState(props.courseInformation.coursePlan.courseStructure);
+  const [courseinformation, setcourseInformation] = useState(courseInformation)
   const [controlEdit, setControlEdit] = useState({
     tempValue: "",
     adding: false,
@@ -102,7 +81,7 @@ export default function DesignStep(props) {
   const [data, setData] = useState([
       {
         key: "topic1",
-        title: organization === "unit" ? "Unit 01" : "Topic 01",
+        title: organization === "unit" ? language.unit01 : language.topic01,
         learnGols: '',
         preKnowledge: '',
         mainContent: '',
@@ -159,6 +138,33 @@ export default function DesignStep(props) {
       }
     ]
   );
+
+  useEffect(() => {
+    if (courseInformation.design.length !=0 ) {
+      //console.log("CourseInformation-Ddesogn update", props.courseInformation) 
+      setData(courseInformation.design)
+    } else {
+      let courseInfo = courseinformation;
+      courseInfo.design = data;
+      courseInfo.program.push({name: data[0].title, items: []});
+      setcourseInformation(courseInfo);
+    }
+    console.log(courseInformation)
+  }, []); 
+
+  useEffect(() => {
+    //console.log("CourseInformation-DesignStep", props.courseInformation) 
+    if(organization==='unit' && template!='without') {
+      setOrganization('topic')
+    }
+    props.courseInformation.design.map((unit, index)=>{
+      if (unit.learnGols!='' && unit.mainContent!='' && unit.evaluation!='') {
+        props.validate('passCourseDesign')
+      } else {
+        props.validate('NopassCourseDesign')
+      }
+    })
+  }); 
 
   const handleUnitChange = (unit, unitIndex) => {
     //console.log("unidad and unitIndex",unit, unitIndex )
@@ -254,7 +260,9 @@ export default function DesignStep(props) {
     setData(prev);
     let courseInfo=courseinformation;
     courseInfo.design=prev;
+    courseInfo.program.push({name: prev[prev.length - 1].title, items: []});
     setcourseInformation(courseInfo);
+    console.log(courseInformation)
     setControlEdit({
       tempValue: "",
       adding: true,
@@ -333,6 +341,8 @@ export default function DesignStep(props) {
       return [ ...prev ];
     });
   }
+
+  //Program Step methods ---------------------------------------------------------------
 
   const addUnit = (type) => {
     let languageTypeAdded = "";

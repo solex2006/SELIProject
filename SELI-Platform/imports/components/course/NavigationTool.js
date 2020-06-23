@@ -177,15 +177,12 @@ export default class NavigationTool extends React.Component {
   finishAddUnit() {
     let name = this.state.nameLabels.nameUnit;
     let program = this.props.program;
-    if (this.props.organization.unit === "Unit") {
+    if (this.props.coursePlan.courseStructure === "unit") {
       let addedUnit = program.push({name: name, lessons: []});
       program[addedUnit-1].lessons.push({name: name, _id: `${Math.random()}${name}`, items: []});
       document.getElementById('subunit-input').value = "";
     }
-    else if (this.props.organization.unit === "Topic") {
-      program.push({name: name, items: []});
-    }
-    else if (this.props.organization.unit === "Season") {
+    else if (this.props.coursePlan.courseStructure === "topic") {
       program.push({name: name, items: []});
     }
     document.getElementById('unit-input').value = "";
@@ -194,7 +191,7 @@ export default class NavigationTool extends React.Component {
   finishAddSubunit () {
     let name = this.state.nameLabels.nameSubunit;
     let program = this.props.program;
-    if (this.props.organization.unit === "Unit") {
+    if (this.props.coursePlan.courseStructure === "unit") {
       program[this.state.selectedUnit].lessons.push({name: name, _id: `${Math.random()}${name}`, items: []});
     }
     document.getElementById('subunit-input').value = "";
@@ -214,7 +211,7 @@ export default class NavigationTool extends React.Component {
   finishEditSubunit() {
     let name = this.state.nameLabels.nameSubunit;
     let program = this.props.program;
-    if (this.props.organization.unit === "Unit") {
+    if (this.props.coursePlan.courseStructure === "unit") {
       program[this.state.unitToEdit].lessons[this.state.subunitToEdit].name = name;
     }
     this.setState({
@@ -229,7 +226,7 @@ export default class NavigationTool extends React.Component {
     let selected = this.state.selected;
     if (program.length - 1 >= 1) {
       program.splice(index, 1);
-      if (this.props.selected[0] === index && this.props.organization.subunit) {
+      if (this.props.selected[0] === index && this.props.coursePlan.courseStructure === "unit") {
         this.selectSubunit(program[index].lessons[0]._id);
       }
     }
@@ -305,7 +302,7 @@ export default class NavigationTool extends React.Component {
   }
 
   checkOrganizationStructure() {
-    if (this.props.organization.subunit) {
+    if (this.props.coursePlan.courseStructure === "unit") {
       let program = this.props.program;
       for (var i = 0; i < program.length; i++) {
         if (program[i].lessons.length === 0) {
@@ -321,7 +318,7 @@ export default class NavigationTool extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.totalLength !== this.state.totalLength) {
       if (this.state.action === "addUnit" ) {
-        if (this.props.organization.unit === "Unit") {
+        if (this.props.coursePlan.courseStructure === "unit") {
           if (this.state.nameLabels.nameUnit.length !== 0 && this.state.nameLabels.nameSubunit.length !== 0 ){
             this.setState({
               disableButton: false
@@ -387,7 +384,7 @@ export default class NavigationTool extends React.Component {
     return(
       <div>
         {
-          this.props.organization.subunit ?
+          this.props.coursePlan.courseStructure === "unit" ?
             <div>
               <TreeView
                 defaultCollapseIcon={<ArrowDropDownIcon fontSize="small" style={{animation: "fadeIn 0.5s"}}/>}
@@ -436,21 +433,21 @@ export default class NavigationTool extends React.Component {
                                   )
                                 })
                               }
-                              {
-                                this.props.organization.subunit ?
+                              {/* {
+                                this.props.coursePlan.courseStructure === "unit" ?
                                   <ContextMenuTrigger disabled={true} id={`noMenu${index}`}>
                                     <TreeItem onClick={() => this.addSubunit(index)} icon={<AddIcon fontSize="small"/>} className="child-node-add" nodeId={`c${index}AddChild`} label={this.props.language.addLesson}/>
                                   </ContextMenuTrigger>
                                 :
                                 undefined
-                              }
+                              } */}
                             </div>
                           </TreeItem>
                         </ContextMenuTrigger>
                         <ContextMenu className="right-click-menu" hideOnLeave={true} id={`p${index}`}>
                           <Paper elevation={8}>
                             <List className="navigation-options-list" dense={true} component="nav" aria-label="navigation-options">
-                              <ListItem onClick={() => this.editUnit(index, this.props.organization.unit)} button>
+                              <ListItem onClick={() => this.editUnit(index, this.props.coursePlan.courseStructure)} button>
                                 <ListItemIcon>
                                   <EditIcon />
                                 </ListItemIcon>
@@ -469,7 +466,7 @@ export default class NavigationTool extends React.Component {
                     )
                   })
                 }
-                <TreeItem onClick={() => this.addUnit(this.props.organization.unit)} icon={<AddBoxIcon fontSize="small"/>} className="parent-node-add" nodeId={`pAddUnit`} label={this.props.language.addUnit}/>
+                {/* <TreeItem onClick={() => this.addUnit(this.props.coursePlan.courseStructure)} icon={<AddBoxIcon fontSize="small"/>} className="parent-node-add" nodeId={`pAddUnit`} label={this.props.language.addUnit}/> */}
               </TreeView>
             </div>
           :
@@ -495,7 +492,7 @@ export default class NavigationTool extends React.Component {
                     <ContextMenu className="right-click-menu" hideOnLeave={true} id={`p${index}`}>
                       <Paper elevation={8}>
                         <List className="navigation-options-list" dense={true} component="nav" aria-label="navigation-options">
-                          <ListItem onClick={() => this.editUnit(index, this.props.organization.unit)} button>
+                          <ListItem onClick={() => this.editUnit(index, this.props.coursePlan.courseStructure)} button>
                             <ListItemIcon>
                               <EditIcon />
                             </ListItemIcon>
@@ -514,7 +511,7 @@ export default class NavigationTool extends React.Component {
                 )
               })
             }
-            <TreeItem onClick={() => this.addUnit(this.props.organization.unit)} icon={<AddBoxIcon fontSize="small"/>} className="parent-node-add" nodeId={`pAddUnit`} label={this.props.language.addTopic}/>
+            {/* <TreeItem onClick={() => this.addUnit(this.props.coursePlan.courseStructure)} icon={<AddBoxIcon fontSize="small"/>} className="parent-node-add" nodeId={`pAddUnit`} label={this.props.language.addTopic}/> */}
           </TreeView>
         }
         <Dialog
@@ -561,7 +558,7 @@ export default class NavigationTool extends React.Component {
                       onChange={this.handleChange('unit')}
                     />
                     {
-                      this.props.organization.unit === "Unit" ?
+                      this.props.coursePlan.courseStructure === "unit" ?
                         <div>
                           <p className="navigation-label">
                             {this.props.language.atLeastAdd}

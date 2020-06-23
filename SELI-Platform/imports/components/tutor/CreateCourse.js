@@ -280,7 +280,7 @@ export default class CreateCourse extends React.Component {
           }
         );
         this.props.savedCourseState();
-        this.createForum(courseInformation, this.state.saved);
+        //this.createForum(courseInformation, this.state.saved);
       }
       this.props.handleControlMessage(true, this.props.language.courseSavedS, true, 'savedList', this.props.language.seeList);
     }

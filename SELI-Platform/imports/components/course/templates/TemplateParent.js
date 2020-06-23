@@ -34,7 +34,6 @@ export default class TemplateParent extends React.Component {
             toggleSortMode={this.props.toggleSortMode.bind(this)}
             handlePreview={this.props.handlePreview.bind(this)}
             setDisabilitieOption={this.props.setDisabilitieOption.bind(this)}
-            warningOrganization={this.props.warningOrganization.bind(this)}
             reRender={this.props.reRender.bind(this)}
             turnOffSortMode={this.props.turnOffSortMode.bind(this)}
             language={this.props.language}
