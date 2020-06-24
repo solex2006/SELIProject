@@ -6,13 +6,22 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormPreview from '../files/previews/FormPreview';
 import FormLabel from "@material-ui/core/FormLabel";
 //import SimulateButtons from "./simulate";
-import Grid from "@material-ui/core/Grid";
-import PublishIcon from "@material-ui/icons/Publish";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import PictureAsPdfSharpIcon from '@material-ui/icons/PictureAsPdfSharp';
 import FeedbackHelp from "./feedback";
-
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppsIcon from '@material-ui/icons/Apps';
+//Dialog
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import CourseOrganization from './CourseOrganization';
+import WarningIcon from '@material-ui/icons/Warning';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -66,14 +75,14 @@ export default function CoursePlanStep(props) {
   const classes = useStyles();
   const {language}=props;
   useEffect(()=>{
-    console.log("CoursePlanStep:", props)
+    //console.log("CoursePlanStep:", props)
     setCoursePlan(courseInformation.coursePlan.guidedCoursePlan);
     setCourseTemplate(courseInformation.coursePlan.courseTemplate);
     setCourseStructure(courseInformation.coursePlan.courseStructure);
   },[])
 
   useEffect(()=>{// guided spiral unit
-    console.log("INFO cOURSE pLAN", coursePlan, courseTemplate, courseStructure)
+    //console.log("INFO cOURSE pLAN", coursePlan, courseTemplate, courseStructure)
        if(coursePlan==='guided' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
             props.validate('passCoursePlan')
         }
@@ -95,23 +104,51 @@ export default function CoursePlanStep(props) {
   const [coursePlan, setCoursePlan] = React.useState('');
   const [courseTemplate, setCourseTemplate] = React.useState('');
   const [courseStructure, setCourseStructure] = React.useState('');
+  const [changeStructure, setChangeStructure] = React.useState(false);
   
   // will hold a reference for our real input file
   let inputFile = "";
   const handleChange = type => event => {
     let cinformation=courseInformation;
     if (type === 'coursePlan') {
-      cinformation.coursePlan.guidedCoursePlan=event.target.value;
+      cinformation.coursePlan.guidedCoursePlan = event.target.value;
       setCoursePlan(event.target.value);
+      if (event.target.value === "free") {
+        cinformation.coursePlan.courseTemplate = "without";
+        setCourseTemplate("without");
+      }
       props.updateCourseInformation(cinformation);
     } else if (type === 'courseTemplate') {
-      cinformation.coursePlan.courseTemplate=event.target.value;
+      cinformation.coursePlan.courseTemplate = event.target.value;
       setCourseTemplate(event.target.value);
-    } else {
-      cinformation.coursePlan.courseStructure=event.target.value;
-      setCourseStructure(event.target.value);
     }
     setCourseInformation(cinformation);
+  }
+
+  const warningOrganization = (structure) => {
+    if (courseStructure !== structure) {
+      handleOpen();
+    }
+  }
+
+  const deleteOrganization = () => {
+    let cInformation = courseInformation;
+    let cStructure;
+    if (courseStructure === "unit") {cStructure = "topic"} else {cStructure = "unit"}
+    cInformation.coursePlan.courseStructure = cStructure;
+    cInformation.program = [];
+    cInformation.design = [];
+    setCourseInformation(cInformation);
+    setCourseStructure(cStructure);
+    handleClose();
+  }
+
+  const handleOpen = () => {
+    setChangeStructure(true);
+  }
+
+  const handleClose = () => {
+    setChangeStructure(false);
   }
 
   const handleUploadButton = event => {
@@ -175,17 +212,25 @@ export default function CoursePlanStep(props) {
           value={courseTemplate}
           onChange={handleChange("courseTemplate")}
         >
-          <FormControlLabel
-            value="spiral"
-            control={<Radio />}
-            label={language.SpiralModel}
-          />
-          <FormControlLabel
-            value="consistent"
-            control={<Radio />}
-            label={language.Consistent}
-          />
-          <FormControlLabel value="toyBox" control={<Radio />} label={language.ToyBox} />
+          {courseInformation.coursePlan.guidedCoursePlan === "guided" && (
+            <React.Fragment>
+              <FormControlLabel
+                value="spiral"
+                control={<Radio />}
+                label={language.SpiralModel}
+              />
+              <FormControlLabel
+                value="consistent"
+                control={<Radio />}
+                label={language.Consistent}
+              />
+              <FormControlLabel 
+                value="toyBox" 
+                control={<Radio />} 
+                label={language.ToyBox} 
+              />
+            </React.Fragment>
+          )}
           <FormControlLabel
             value="without"
             control={<Radio />}
@@ -219,17 +264,18 @@ export default function CoursePlanStep(props) {
               aria-label="Course Structure"
               name="courseStructure"
               value={courseStructure}
-              onChange={handleChange('courseStructure')}
             >
               <FormControlLabel
-                value="unit"
-                control={<Radio />}
-                label="by Unit"
-              />
-              <FormControlLabel
+                onClick={() => warningOrganization("topic")}
                 value="topic"
                 control={<Radio />}
                 label="by Topic"
+              />
+              <FormControlLabel
+                onClick={() => warningOrganization("unit")}
+                value="unit"
+                control={<Radio />}
+                label="by Unit"
               />
             </RadioGroup>
             <FeedbackHelp
@@ -250,6 +296,68 @@ export default function CoursePlanStep(props) {
         )}
         <br/><br/><br/><br/>
       </div>
+      <Dialog
+        open={changeStructure}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        className="dialog"
+        disableBackdropClick={true}
+        disableEscapeKeyDown={true}
+        keepMounted
+        maxWidth={false}
+      >
+        <DialogTitle className="dialog-title">
+          <AppBar className="dialog-app-bar" color="primary" position="static">
+            <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
+              <AppsIcon/>
+              <h4 className="dialog-label-title">{language.courseOrganization}</h4>
+              <IconButton
+                id="close-icon"
+                edge="end"
+                className="dialog-toolbar-icon"
+                //disabled={this.state.showCourseOrganization || this.state.showAccessibilityOptions || this.state.showAccessibilityForm}
+                onClick={() => {handleClose()}}
+              >
+                <CloseIcon/>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+        </DialogTitle>
+        <div>
+          <DialogContent className="success-dialog-content">
+            <div className="organization-form">
+              <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                {language.courseOrganizationChangeWarning}
+              </DialogContentText>
+            </div>
+            <WarningIcon className="warning-dialog-icon"/>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => handleClose()} color="primary" autoFocus>
+              {language.cancel}
+            </Button>
+            <Button onClick={() => deleteOrganization()} color="primary" autoFocus>
+              {language.continue}
+            </Button>
+          </DialogActions>
+        </div>
+        {/* <CourseOrganization 
+          ref="CourseOrganization"
+          courseInformation={this.props.courseInformation}
+          validateOrganization={this.validateOrganization.bind(this)}
+          reRender={this.reRender.bind(this)}
+          selected={this.props.selected}
+          language={this.props.language}
+        />
+        <div className="dialog-actions-container">
+          <Tooltip title={this.props.language.done}>
+            <Fab disabled={this.state.correctOrganization} onClick={() => setOrganization()} aria-label={this.props.language.startCreatingCourse} className="dialog-fab" color="primary">
+              <AssignmentTurnedInIcon/>
+            </Fab>
+          </Tooltip>
+        </div> */}
+      </Dialog>
     </div>
   );
 }

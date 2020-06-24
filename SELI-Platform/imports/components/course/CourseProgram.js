@@ -12,9 +12,6 @@ import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
 import { createContentItems } from '../../../lib/contentMenuItemsCreator';
 /* Dialog */
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 /* Content Forms */
 import TextForm from '../content/TextForm';
@@ -29,18 +26,15 @@ import QuizForm from '../content/QuizForm';
 import ActivityForm from '../content/ActivityForm';
 import EmbebedForm from '../content/EmbebedForm';
 import UnityForm from '../content/UnityForm';
-import CourseOrganization from './CourseOrganization';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
 import Fab from '@material-ui/core/Fab';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
-import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import WarningIcon from '@material-ui/icons/Warning';
 //Teamplates
 import FreeWithout from './templates/FreeWithout';
 import TemplateParent from './templates/TemplateParent';
@@ -65,7 +59,6 @@ export default class CourseProgram extends React.Component {
       ],
       menuTab: 0,
       sortMode: false,
-      correctOrganization: false,
       courseInformation: this.props.courseInformation,
     }
   }
@@ -88,8 +81,6 @@ export default class CourseProgram extends React.Component {
       contentToEdit: undefined, 
       contentTypeAdded: '', 
       showAccessibilityForm: false,
-      showCourseOrganization: false,
-      showWarningOrganization: false,
     });
   };
 
@@ -115,7 +106,6 @@ export default class CourseProgram extends React.Component {
       languageType: languageTypeAdded,
       templateCode: templateCode,
       addedId: e.payload.id,
-      showCourseOrganization: false,
       showContentEditor: true,
     });
     if(e.addedIndex !== null && e.removedIndex !== null) {}
@@ -126,7 +116,7 @@ export default class CourseProgram extends React.Component {
     if (templateCode) {
       a.payload.code = templateCode;
     }
-    if (courseInformation.organization.subunit) {
+    if (courseInformation.coursePlan.courseStructure === "unit") {
       courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = applyDrag(courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items, a);
     }
     else {
@@ -148,7 +138,7 @@ export default class CourseProgram extends React.Component {
     //console.log("courseInformation",courseInformation)
     //console.log("courseInformation",itemContent)
     if (itemContent !== undefined) {
-      if (courseInformation.organization.subunit) {
+      if (courseInformation.coursePlan.courseStructure === "unit") {
         for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
           if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
             index = i;
@@ -164,7 +154,7 @@ export default class CourseProgram extends React.Component {
           }
         }
       }
-      if (courseInformation.organization.subunit) {
+      if (courseInformation.coursePlan.courseStructure === "unit") {
         courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = itemContent;
       }
       else {
@@ -175,7 +165,7 @@ export default class CourseProgram extends React.Component {
           width: 500,
           height: 300,
         }
-        if (courseInformation.organization.subunit) {
+        if (courseInformation.coursePlan.courseStructure === "unit") {
           courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.size = size;
         }
         else {
@@ -191,7 +181,6 @@ export default class CourseProgram extends React.Component {
       console.log("showAccessibilityOptions",showAccessibilityOptions,showAccessibilityOptions)
       this.setState({
         showAccessibilityOptions: showAccessibilityOptions,
-        showCourseOrganization: false,
         showContentEditor: false,
         contentOpen: showAccessibilityOptions,
         contentToConfigureAccessibility: itemContent,
@@ -206,7 +195,7 @@ export default class CourseProgram extends React.Component {
     let index;
     let itemContent = this.getItemAttributes();
     if (itemContent !== undefined) {
-      if (courseInformation.organization.subunit) {
+      if (courseInformation.coursePlan.courseStructure === "unit") {
         for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
           if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.contentToEdit.id) {
             index = i;
@@ -222,7 +211,7 @@ export default class CourseProgram extends React.Component {
           }
         }
       }
-      if (courseInformation.organization.subunit) {
+      if (courseInformation.coursePlan.courseStructure === "unit") {
         courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes = itemContent;
       }
       else {
@@ -243,7 +232,7 @@ export default class CourseProgram extends React.Component {
   cancelContentCreation(){
     let courseInformation = this.state.courseInformation;
     let index;
-    if (courseInformation.organization.subunit) {
+    if (courseInformation.coursePlan.courseStructure === "unit") {
       for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
         if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
           index = i;
@@ -268,7 +257,7 @@ export default class CourseProgram extends React.Component {
 
   removeItem(item){
     let courseInformation = this.state.courseInformation;
-    if (courseInformation.organization.subunit) {
+    if (courseInformation.coursePlan.courseStructure === "unit") {
       let removeIndex = this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.indexOf(item);
       this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.splice(removeIndex, 1);
     }
@@ -285,7 +274,6 @@ export default class CourseProgram extends React.Component {
     this.setState({
       contentTypeAdded: item.type,
       showAccessibilityOptions: false,
-      showCourseOrganization: false,
       showContentEditor: true,
       contentOpen: true,
       contentaAdded: true,
@@ -331,7 +319,7 @@ export default class CourseProgram extends React.Component {
   }
 
   toggleSortMode(){
-    if (this.props.courseInformation.organization.subunit) {
+    if (this.props.courseInformation.coursePlan.courseStructure === "unit") {
       if (this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length) {
         this.setState({
           sortMode: !this.state.sortMode,
@@ -360,54 +348,8 @@ export default class CourseProgram extends React.Component {
     });
   }
 
-  manageOrganization() {
-    this.setState({
-      showWarningOrganization: false,
-      showCourseOrganization: true,
-      contentOpen: true,
-    });
-  }
-
-  warningOrganization() {
-    this.contentHandleClickOpen();
-    this.setState({
-      showContentEditor: false,
-      contentaAdded: false,
-      showWarningOrganization: true,
-    });
-  }
-
-  setOrganization() {
-    this.refs.CourseOrganization.addUnit()
-    this.refs.CourseOrganization.addSubunit()
-    this.contentHandleClose()
-    this.setState({
-      showCourseOrganization: false,
-      correctOrganization: true,
-    });
-  }
-
-  validateOrganization(value) {
-    this.setState({
-      correctOrganization: value,
-    });
-  }
 
   componentDidMount(){
-    if (this.props.courseInformation.organization === '') {
-      this.setState({
-        showWarningOrganization: false,
-        showCourseOrganization: true,
-        contentOpen: true,
-        correctOrganization: true,
-      })
-    }
-    else {
-      this.setState({
-        showCourseOrganization: false,
-        contentOpen: false,
-      });
-    }
   }
   
   reRender(){
@@ -418,7 +360,7 @@ export default class CourseProgram extends React.Component {
   getAccessibilityPercentage = (value) => {
     let courseInformation = this.state.courseInformation;
     let index;
-    if (courseInformation.organization.subunit) {
+    if (courseInformation.coursePlan.courseStructure === "unit") {
       for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
         if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
           index = i;
@@ -434,7 +376,7 @@ export default class CourseProgram extends React.Component {
         }
       }
     }
-    if (courseInformation.organization.subunit) {
+    if (courseInformation.coursePlan.courseStructure === "unit") {
       courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.percentage = value;
     }
     else {
@@ -448,7 +390,7 @@ export default class CourseProgram extends React.Component {
   handleDecorative = (_id) => {
     let courseInformation = this.state.courseInformation;
     let index;
-    if (courseInformation.organization.subunit) {
+    if (courseInformation.coursePlan.courseStructure === "unit") {
       for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
         if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === _id) {
           index = i;
@@ -465,7 +407,7 @@ export default class CourseProgram extends React.Component {
       }
     }
     
-    if (courseInformation.organization.subunit) {
+    if (courseInformation.coursePlan.courseStructure === "unit") {
       courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.pureDecorative = !courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.pureDecorative;
     }
     else {
@@ -480,7 +422,7 @@ export default class CourseProgram extends React.Component {
     if (!this.state.configuringAccessibility) {
       let courseInformation = this.state.courseInformation;
       let index;
-      if (courseInformation.organization.subunit) {
+      if (courseInformation.coursePlan.courseStructure === "unit") {
         for (var i = 0; i < courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length; i++) {
           if (courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i].id === this.state.addedId) {
             index = i;
@@ -496,7 +438,7 @@ export default class CourseProgram extends React.Component {
           }
         }
       }
-      if (courseInformation.organization.subunit) {
+      if (courseInformation.coursePlan.courseStructure === "unit") {
         courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.dataField = data.dataField;
         courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[index].attributes.accessibility.isA11Y= data.isA11Y;
       }
@@ -531,7 +473,6 @@ export default class CourseProgram extends React.Component {
           setDisabilitieOption={this.setDisabilitieOption.bind(this)}
           toggleSortMode={this.toggleSortMode.bind(this)}
           handlePreview={this.props.handlePreview.bind(this)}
-          warningOrganization={this.warningOrganization.bind(this)}
           language={this.props.language}
         ></FreeWithout>
       )
@@ -555,7 +496,6 @@ export default class CourseProgram extends React.Component {
           setDisabilitieOption={this.setDisabilitieOption.bind(this)}
           toggleSortMode={this.toggleSortMode.bind(this)}
           handlePreview={this.props.handlePreview.bind(this)}
-          warningOrganization={this.warningOrganization.bind(this)}
           language={this.props.language}
         ></TemplateParent>
       )
@@ -581,13 +521,13 @@ export default class CourseProgram extends React.Component {
             <AppBar className="dialog-app-bar" color="primary" position="static">
               <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
                 <AppsIcon/>
-                <h4 className="dialog-label-title">{ 
-                  this.state.contentaAdded ? 
+                <h4 className="dialog-label-title">
+                  { 
                     this.state.showAccessibilityForm ?
                       `${this.props.language.accessibility} - ${this.state.languageType}` 
                     :
                       `${this.props.language.contentEditor} - ${this.state.languageType}` 
-                  : this.props.language.courseOrganization}
+                  }
                 </h4>
                 <IconButton
                   id="close-icon"
@@ -607,51 +547,6 @@ export default class CourseProgram extends React.Component {
             </AppBar>
           </DialogTitle>
           {
-            this.state.showWarningOrganization ?
-              <div>
-                <DialogContent className="success-dialog-content">
-                  <div className="organization-form">
-                    <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                      {this.props.language.courseOrganizationChangeWarning}
-                    </DialogContentText>
-                  </div>
-                  <WarningIcon className="warning-dialog-icon"/>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={() => this.contentHandleClose()} color="primary" autoFocus>
-                    {this.props.language.cancel}
-                  </Button>
-                  <Button onClick={() => this.manageOrganization()} color="primary" autoFocus>
-                    {this.props.language.continue}
-                  </Button>
-                </DialogActions>
-              </div>
-            :
-              undefined
-          }
-          {
-            this.state.showCourseOrganization ?
-              <div>
-                <CourseOrganization 
-                  ref="CourseOrganization"
-                  courseInformation={this.props.courseInformation}
-                  validateOrganization={this.validateOrganization.bind(this)}
-                  reRender={this.reRender.bind(this)}
-                  selected={this.props.selected}
-                  language={this.props.language}
-                />
-                <div className="dialog-actions-container">
-                  <Tooltip title={this.props.language.done}>
-                    <Fab disabled={this.state.correctOrganization} onClick={() => this.setOrganization()} aria-label={this.props.language.startCreatingCourse} className="dialog-fab" color="primary">
-                      <AssignmentTurnedInIcon/>
-                    </Fab>
-                  </Tooltip>
-                </div>
-              </div>
-            :
-            undefined
-          }
-          {
             this.state.showContentEditor ?
               <div>
                 {
@@ -666,7 +561,6 @@ export default class CourseProgram extends React.Component {
                   :
                   undefined
                 }
-                
                 {
                   this.state.contentTypeAdded === 'image' && !this.state.showAccessibilityOptions ?
                     <ImageForm
@@ -678,7 +572,6 @@ export default class CourseProgram extends React.Component {
                   :
                   undefined
                 }
-
                 {
                   this.state.contentTypeAdded === 'video' && !this.state.showAccessibilityOptions && !this.state.showAccessibilityForm ?
                     <VideoForm

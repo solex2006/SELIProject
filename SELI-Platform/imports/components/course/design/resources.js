@@ -81,12 +81,7 @@ export default function ActivityResources(props) {
     }
   },[])
 
-
   const classes = useStyles();
-  
-  console.log("resources++++++++++++++++++++++++++++++++++++++++++",props)
-
-  
 
   const [toolsOptions, setToolsOptions] = useState(
     type==='lessonInto'?((courseInformation[parentIndex]===undefined || courseInformation[parentIndex].lessons[lessonIndex]===undefined)? tools 
