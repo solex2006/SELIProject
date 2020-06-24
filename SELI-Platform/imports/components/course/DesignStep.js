@@ -17,6 +17,17 @@ import ActivityDesign from "./design/activityDesign";
 import DesignCourseCommons from "./design/common";
 import LessonDesign from "./design/lessonDesign";
 import FeedbackHelp from "./feedback";
+//Dialog
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppsIcon from '@material-ui/icons/Apps';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import WarningIcon from '@material-ui/icons/Warning';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -67,6 +78,8 @@ export default function DesignStep(props) {
     adding: false,
     editing: false
   });
+  const [openDialog, setOpenDialog] = useState(false);
+  const [indexUnitTopic, setIndexUnitTopic] = useState(-1);
 
   function updateTempValue(value) {
     setControlEdit(prev => {
@@ -149,11 +162,10 @@ export default function DesignStep(props) {
       courseInfo.program.push({name: data[0].title, items: []});
       setcourseInformation(courseInfo);
     }
-    console.log(courseInformation)
   }, []); 
 
   useEffect(() => {
-    //console.log("CourseInformation-DesignStep", props.courseInformation) 
+    console.log("CourseInformation-DesignStep", props.courseInformation) 
     if(organization==='unit' && template!='without') {
       setOrganization('topic')
     }
@@ -178,7 +190,7 @@ export default function DesignStep(props) {
   };
 
   const handleSelectResources = (unitIndex, resourceIndex) => {
-    console.log("checkboxes", unitIndex, resourceIndex)
+    //console.log("checkboxes", unitIndex, resourceIndex)
     let prev = [ ...data ];
     prev[unitIndex].tools = resourceIndex;
     setData(prev); 
@@ -191,7 +203,7 @@ export default function DesignStep(props) {
     //console.log("Las lecciones a guardar en la unidad************************************", unitIndex, resourceIndex,lessonIndex)
     let prev = [ ...data ];
     prev[unitIndex].lessons[lessonIndex].tools = resourceIndex;
-    console.log("prevlesson-----------------------------------",prev)
+    //console.log("prevlesson-----------------------------------",prev)
     setData(prev); 
     let courseInfo=courseinformation;
     courseInfo.design=data;
@@ -262,7 +274,6 @@ export default function DesignStep(props) {
     courseInfo.design=prev;
     courseInfo.program.push({name: prev[prev.length - 1].title, items: []});
     setcourseInformation(courseInfo);
-    console.log(courseInformation)
     setControlEdit({
       tempValue: "",
       adding: true,
@@ -270,33 +281,34 @@ export default function DesignStep(props) {
     });
   }
 
-  const deleteUnitTopic = (unitIndex) => {
-    if (window.confirm("Delete " + unit.title + "?")) {
-      let prev = [ ...data ];
-      if (unitIndex === 0) {
-        newPrev=prev.slice(1)
-        setData(newPrev);
-        console.log("if",data, newPrev)
-      }
-      else if (unitIndex === prev.length - 1){
-        newPrev=prev.slice(0, unitIndex);
-        setData(newPrev);
-        console.log("else id",data, newPrev)
-      }
-      else{
-        newPrev = [
-          ...prev.slice(0, unitIndex),
-          ...prev.slice(unitIndex + 1)
-        ];  
-        setData(newPrev);
-        console.log("else",data, newPrev)
-      }
+  const handleDeleteUnitTopic = (unitIndex) => {
+    handleOpen();
+    setIndexUnitTopic(unitIndex);
+  }
+
+  const deleteUnitTopic = () => {
+    let prev = [ ...data ];
+    let courseInfo=courseinformation;
+    if (indexUnitTopic === 0) {
+      newPrev=prev.slice(1);
       setData(newPrev);
-      //console.log("nueva data",data, newPrev)
-      let courseInfo=courseinformation;
-      courseInfo.design=newPrev;
-      setcourseInformation(courseInfo) 
     }
+    else if (indexUnitTopic === prev.length - 1){
+      newPrev=prev.slice(0, indexUnitTopic);
+      setData(newPrev);
+    }
+    else{
+      newPrev = [
+        ...prev.slice(0, indexUnitTopic),
+        ...prev.slice(indexUnitTopic + 1)
+      ];
+      setData(newPrev);
+    }
+    setData(newPrev);
+    courseInfo.design=newPrev;
+    courseInfo.program.splice(indexUnitTopic, 1);
+    setcourseInformation(courseInfo);
+    handleClose();
   }
 
   const editUnitTopicName = (unitIndex) => {
@@ -325,8 +337,9 @@ export default function DesignStep(props) {
       });
       return [...prev];
     });
-    let courseInfo=courseinformation;
-    courseInfo.design=data;
+    let courseInfo = courseinformation;
+    courseInfo.design = data;
+    courseInfo.program[unitIndex].name = controlEdit.tempValue;
     setcourseInformation(courseInfo)
   }
 
@@ -342,69 +355,15 @@ export default function DesignStep(props) {
     });
   }
 
+  const handleOpen = () => {
+    setOpenDialog(true);
+  }
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  }
+
   //Program Step methods ---------------------------------------------------------------
-
-  const addUnit = (type) => {
-    let languageTypeAdded = "";
-    if (type === 'Unit'){ languageTypeAdded = this.props.language.unitName }
-    if (type === 'Topic'){ languageTypeAdded = this.props.language.topicName }
-    if (this.props.dialog) {
-      this.setState({
-        action: "addUnit",
-        languageType: languageTypeAdded,
-      }, () => {
-        this.handleClickOpen();
-        document.getElementById('unit-input').value = "";
-        document.getElementById('unit-input').focus();
-      });
-    }
-  }
-
-  const addSubunit = (index) => {
-    if (this.props.dialog) {
-      this.setState({
-        action: "addSubunit",
-        selectedUnit: index,
-      }, () => {
-        this.handleClickOpen();
-        document.getElementById('subunit-input').value = "";
-        document.getElementById('subunit-input').focus();
-      });
-    }
-  }
-
-  const unitController = () => {
-    if (this.state.action === "addUnit" ) {
-      this.finishAddUnit();
-    }
-    if (this.state.action === "addSubunit" ) {
-      this.finishAddSubunit();
-    }
-    if (this.state.action === "editUnit" ) {
-      this.finishEditUnit();
-    }
-    if (this.state.action === "editSubunit" ) {
-      this.finishEditSubunit();
-    }
-    this.handleClose();
-  }
-
-  const finishAddUnit = () => {
-    let name = this.state.nameLabels.nameUnit;
-    let program = this.props.program;
-    if (this.props.organization.unit === "Unit") {
-      let addedUnit = program.push({name: name, lessons: []});
-      program[addedUnit-1].lessons.push({name: name, _id: `${Math.random()}${name}`, items: []});
-      document.getElementById('subunit-input').value = "";
-    }
-    else if (this.props.organization.unit === "Topic") {
-      program.push({name: name, items: []});
-    }
-    else if (this.props.organization.unit === "Season") {
-      program.push({name: name, items: []});
-    }
-    document.getElementById('unit-input').value = "";
-  }
 
   const finishAddSubunit = () => {
     let name = this.state.nameLabels.nameSubunit;
@@ -413,17 +372,6 @@ export default function DesignStep(props) {
       program[this.state.selectedUnit].lessons.push({name: name, _id: `${Math.random()}${name}`, items: []});
     }
     document.getElementById('subunit-input').value = "";
-  }
-
-  const finishEditUnit = () => {
-    let name = this.state.nameLabels.nameUnit;
-    let program = this.props.program;
-    program[this.state.unitToEdit].name = name;
-    this.setState({
-      edited: true,
-    }, () => {
-      this.props.reRender();
-    })
   }
 
   const finishEditSubunit = () => {
@@ -437,25 +385,6 @@ export default function DesignStep(props) {
     }, () => {
       this.props.reRender();
     })
-  }
-
-  const deletUnit = (index) => {
-    let program = this.state.program;
-    let selected = this.state.selected;
-    if (program.length - 1 >= 1) {
-      program.splice(index, 1);
-      if (this.props.selected[0] === index && this.props.organization.subunit) {
-        this.selectSubunit(program[index].lessons[0]._id);
-      }
-    }
-    else {
-      console.log("At least one unit with one lesson");
-    }
-    this.setState({
-      deleted: true,
-    }, () => {
-      this.props.reRender();
-    });
   }
 
   const deletSubunit = (_id) => {
@@ -481,55 +410,6 @@ export default function DesignStep(props) {
     }
     this.setState({
       deleted: true,
-    });
-  }
-
-  const editUnit = (index, type) => {
-    let program = this.state.program;
-    let languageTypeAdded = "";
-    if (type === 'Unit'){ languageTypeAdded = this.props.language.unitName }
-    if (type === 'Topic'){ languageTypeAdded = this.props.language.topicName }
-    this.setState({
-      unitToEdit: index,
-      action: "editUnit",
-      languageType: languageTypeAdded,
-    }, () => {
-      this.handleClickOpen();
-      document.getElementById('unit-input').value = this.props.program[this.state.unitToEdit].name;
-      document.getElementById('unit-input').focus();
-    });
-  }
-
-  const editSubunit = (_id) => {
-    let program = this.state.program;
-    for (var i = 0; i < program.length; i++) {
-      for (var j = 0; j < program[i].lessons.length; j++) {
-        if (program[i].lessons[j]._id === _id) {
-          this.setState({
-            unitToEdit: i,
-            subunitToEdit: j,
-            action: "editSubunit",
-          }, () => {
-            this.handleClickOpen();
-            document.getElementById('subunit-input').value = this.props.program[this.state.unitToEdit].lessons[this.state.subunitToEdit].name;
-            document.getElementById('subunit-input').focus();
-          });
-        }
-      }
-    }
-  }
-
-  const checkOrganizationStructure = () => {
-    if (this.props.organization.subunit) {
-      let program = this.props.program;
-      for (var i = 0; i < program.length; i++) {
-        if (program[i].lessons.length === 0) {
-          program.splice(i, 1);
-        }
-      }
-    }
-    this.setState({
-      checked: true,
     });
   }
 
@@ -598,7 +478,7 @@ export default function DesignStep(props) {
             </Button>
             <Button
               id={"unit_" + unitIndex + "btnDelete"}
-              onClick={() => deleteUnitTopic(unitIndex)}
+              onClick={() => handleDeleteUnitTopic(unitIndex)}
               disabled={controlEdit.deleteButton}
               variant="outlined"
               color="secondary"
@@ -685,6 +565,52 @@ export default function DesignStep(props) {
         tipMsg={organization === "unit" ? language.addUnit : language.addTopic}
         describedBy={"i05-helper-text"}
       />
+      <Dialog
+        open={openDialog}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        className="dialog"
+        disableBackdropClick={true}
+        disableEscapeKeyDown={true}
+        keepMounted
+        maxWidth={false}
+      >
+        <DialogTitle className="dialog-title">
+          <AppBar className="dialog-app-bar" color="primary" position="static">
+            <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
+              <AppsIcon/>
+              <h4 className="dialog-label-title">{language.Deleteunit}</h4>
+              <IconButton
+                id="close-icon"
+                edge="end"
+                className="dialog-toolbar-icon"
+                onClick={() => {handleClose()}}
+              >
+                <CloseIcon/>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+        </DialogTitle>
+        <div>
+          <DialogContent className="success-dialog-content">
+            <div className="organization-form">
+              <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                Are you sure you want to delete this unit/topic ?
+              </DialogContentText>
+            </div>
+            <WarningIcon className="warning-dialog-icon"/>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => handleClose()} color="primary" autoFocus>
+              {language.cancel}
+            </Button>
+            <Button onClick={() => deleteUnitTopic()} color="primary" autoFocus>
+              {language.continue}
+            </Button>
+          </DialogActions>
+        </div>
+      </Dialog>
     </div>
   );
 }
