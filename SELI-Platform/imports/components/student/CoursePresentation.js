@@ -18,11 +18,11 @@ import { Link } from 'react-router-dom';
 import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';
 import Roll from 'react-reveal/Roll';
-
 import CourseCarousel from './CourseCarousel';
 import TechnicalRequirement from './TechnicalRequirement';
 import CourseNavigation from './CourseNavigation';
 import AccessibilityIcon from '@material-ui/icons/Accessibility';
+import SyllabusButton from './CourseSyllabus'
 
 var ColorThief = require('color-thief');
 
@@ -185,6 +185,8 @@ export default class CoursePresentation extends React.Component {
               </div>
             </Paper>
           </Fade>
+
+
           <Fade up>
             <Paper
               elevation={12}
@@ -193,24 +195,41 @@ export default class CoursePresentation extends React.Component {
                 backgroundColor: this.state.palette[0].bgColor,
                 color: this.state.palette[0].textColor,
               }}
-              onClick={() => this.handleClickOpenSylabus()}
+              onClick={
+                this.state.course.coursePlan.guidedCoursePlan==="free"?
+                () => this.handleClickOpenSylabus()
+                :
+                undefined
+              }
             >
-              <div className="course-card-title">
-                {this.props.language.courseSyllabus}
-              </div>
+              {console.log("Course syllabus----->", this.state.course)}
+              <div className="course-card-title">{this.props.language.courseSyllabus}</div>
               <div className="course-card-presentation-content">
-              <BookIcon
-                    className="course-card-presentation-icon MuiButtonBase-root MuiIconButton-root course-card-presentation-icon-button"
-                    style={{
-                      color: this.state.palette[0].textColor,
-                    }}
-                  />
-               {/*  <IconButton className="course-card-presentation-icon-button">
-                </IconButton> */}
-                <p className="course-card-medium-text">{this.props.language.clickToRead}</p>
+                {
+                  this.state.course.coursePlan.guidedCoursePlan==="free"?
+                  <div>
+                    <BookIcon
+                      className="course-card-presentation-icon MuiButtonBase-root MuiIconButton-root course-card-presentation-icon-button"
+                      style={{color: this.state.palette[0].textColor,}}
+                    />
+                    <p className="course-card-medium-text">{this.props.language.clickToRead}</p>
+                  </div>
+                    
+                    :
+                    <SyllabusButton
+                      style={{
+                        backgroundColor: this.state.palette[0].bgColor,
+                        color: this.state.palette[0].textColor,
+                      }}
+                      courseInformation={this.state.course}
+                      language={this.props.language}
+                    />
+                }
               </div>
             </Paper>
           </Fade>
+
+
           <Fade right>
             <Paper
               elevation={12}
