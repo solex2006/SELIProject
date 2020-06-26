@@ -29,66 +29,49 @@ export default function Lista(props) {
 
   const Audiences=()=>{
       return(
-        <React.Fragment>
-            <div className='liststyle'>
-             <h4>Intended Audience</h4>
-                {props.data[0].map((value,index)=>(
-                    <ListItem key={value.id}>
-                        {value.isChecked===true ?
-                            <ListItemText
-                                key={value.id}
-                                primary={value.label}
-                                //secondary={secondary ? 'Secondary text' : null}
-                            />
-                        :
-                        undefined
-                        }
-                        
-                    </ListItem>
-                ))}
+        <div>
+            <div className='crnheading'>
+                <h4>This course is designed for these target audience:</h4>
             </div>
-            
-            <div>
-              <h4>Other Audiences</h4>
+            <ul className='resources'>
                 {
-                props.data[2]!=undefined ?
+                    props.data[0].map((value,index)=>(
+                        value.isChecked===true ?
+                            <li key={value.id}>{value.label}</li>
+                        :
+                        undefined    
+                    ))
+                }
+                {
+                    props.data[2]!=undefined ?
                     props.data[2].map((value,index)=>(//other Audiences
-                        <ListItem
-                        key={value.label}
-                        dense={true}
-                        >
-                            <ListItemText
-                                key={value.label}
-                                //primary={value.value}
-                                primary={value.label}
-                            />  
-                        </ListItem>
+                        <li  key={value.label}>
+                            {value.label}
+                        </li>    
                     ))
                     :
                     undefined
-                }
+                }   
+             </ul>
+        <div>
+            <div className='crnheading'>
+                <h4>This course is designed to be inclusive for:</h4>
             </div>
-            <div>
-                <h4>Inclusion Goals</h4>
-                {
-                    props.data[1].map((value,index)=>(//Inclusion Goals
-                        <ListItem key={value.id}>
-                            {value.isChecked===true ?
-                                <ListItemText
-                                    key={value.id}
-                                    //primary={value.value}
-                                    primary={value.label}
-                                />
+            </div> 
+                <ul className='resources'>
+                    {
+                        props.data[1].map((value,index)=>(//Inclusion Goals  
+                            value.isChecked===true ?
+                                <li key={value.id}>
+                                    {value.label}
+                                </li>
                             :
-                            undefined
-                            }      
-                        </ListItem>
-                    ))
-                }
-            </div>
-
-
-        </React.Fragment>
+                            undefined    
+                        ))
+                    }
+                </ul>
+        </div>
+        
       )
   }
   
@@ -183,13 +166,13 @@ export default function Lista(props) {
                     props.data.contents.length!=0?
                     props.data.contents.map((value,index)=>(
                         <ul className='resources'>
-                            {
-                                props.data.contents.map((value,index)=>(
+                            
+                               
                                     <li >
                                         {value.aux+': '+value.label}
                                     </li>
-                                ))
-                            }
+                               
+                            
                         </ul>
                     ))
                     :
@@ -199,13 +182,12 @@ export default function Lista(props) {
                     props.data.skills.length!=0?
                     props.data.skills.map((value,index)=>(
                         <ul className='resources'>
-                            {
-                                props.data.skills.map((value,index)=>(
+                            
+                                
                                     <li >
                                         {value.aux+': '+value.label}
                                     </li>
-                                ))
-                            }
+                                
                         </ul>
                     ))
                     :
@@ -215,13 +197,11 @@ export default function Lista(props) {
                      props.data.values.length!=0?
                      props.data.values.map((value,index)=>(
                         <ul className='resources'>
-                            {
-                                props.data.values.map((value,index)=>(
+                           
                                     <li >
                                         {value.aux+': '+value.label}
                                     </li>
-                                ))
-                            }
+                            
                         </ul>
                      ))
                      :

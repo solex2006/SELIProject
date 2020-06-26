@@ -21,6 +21,19 @@ Meteor.methods({
     return users;
   }
 });
+Meteor.methods({
+  'GetTutorsCourse'(name){
+    var users = Meteor.users.find({username:name ,'profile.type': 'tutor'}).fetch();
+    return users;
+  }
+});
+
+Meteor.methods({
+  'GetTutorsCourseDetails'(name){
+    var users = Meteor.courses.find({createdBy:name}).fetch();
+    return users;
+  }
+})
 
 Meteor.methods({
   'GetStudents'(){
