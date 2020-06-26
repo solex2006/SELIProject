@@ -1020,8 +1020,8 @@ var ENGLISH = {
   pedagogical:' Pedagogical Considerations and Opportunities for Teaching and Learning on the Web concentrates on theory, application, and the development of web-based technologies for teaching and learning and its influence on the education system',
   pedagogicalconsiderations:'Pedagogical Considerations',
   learningCon:'A constraint is a boundary which encourages the learner to emerge with certain behaviours',
-  unit01:'Unit 01',
-  topic01:'Topic 01',
+  unit01:'New Unit',
+  topic01:'New Topic',
   Learningobjectives:'Learning Objectives (required)',
   Preexistingknowlegde:"Pre-existing knowlegde",
   Maincontent:'Main content (required)',
@@ -1073,6 +1073,7 @@ var ENGLISH = {
   Deletingaudience:'Deleting audience',
   dialog1:'You requested to delete: ',
   dialog2: 'Do you want to proceed?',
+  outcomeslegend:'By the end of this course, students will be able..',
   
 }
 export default ENGLISH;

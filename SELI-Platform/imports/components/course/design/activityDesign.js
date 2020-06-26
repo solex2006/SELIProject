@@ -1,11 +1,8 @@
-import Button from "@material-ui/core/Button";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import AddIcon from "@material-ui/icons/Add";
 import MaterialTable from "material-table";
 import React, {useEffect,  useState}from "react";
-import Resources from "./resources";
 import FeedbackHelp from "../feedback";
 import tableIcons from '../design/icons'
 
@@ -13,10 +10,10 @@ const useStyles = makeStyles(theme => ({}));
 
 export default function ActivityDesign(props) {
   const {language,type,courseInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
- 
+
   useEffect(()=>{
-    console.log("courseInformation-activity-design",courseInformation, type,lessonIndex,parentIndex)
-     if(courseInformation.length!=0){
+    //console.log("courseInformation-activity-design",courseInformation, type,lessonIndex,parentIndex)
+    if(courseInformation.length!=0){
       if(type=='lesson'){
         setState(prevState=>{
           return {...prevState, data: courseInformation[parentIndex].lessons[lessonIndex].activities}
@@ -30,7 +27,7 @@ export default function ActivityDesign(props) {
   },[])
 
   const classes = useStyles();
- 
+
   const spiralTasks = { 1: "Activity", 3: "Quiz" };
   const ConsistentTasks = { 1: "Activity", 2: "Problem", 3: "Quiz" };
   const ToyBoxTasks = { 1: "Activity", 2: "Problem", 3: "Quiz", 4: "Forum" };

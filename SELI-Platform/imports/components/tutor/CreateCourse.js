@@ -144,8 +144,7 @@ export default class CreateCourse extends React.Component {
   }
 
   validate=(data=>{
-
-    console.log("------------Validado desde CreateCourse-----------",data)
+    //console.log("------------Validado desde CreateCourse-----------",data)
     this.setState({
       updateSteps:data,
     })
@@ -197,7 +196,7 @@ export default class CreateCourse extends React.Component {
           language={this.props.language}
         />,
         <DesignStep
-         language={this.props.language}
+          language={this.props.language}
           validate={this.validate}
           courseInformation={this.state.courseInformation}
           template={this.state.courseInformation.coursePlan.courseTemplate}
@@ -281,7 +280,7 @@ export default class CreateCourse extends React.Component {
           }
         );
         this.props.savedCourseState();
-        this.createForum(courseInformation, this.state.saved);
+        //this.createForum(courseInformation, this.state.saved);
       }
       this.props.handleControlMessage(true, this.props.language.courseSavedS, true, 'savedList', this.props.language.seeList);
     }

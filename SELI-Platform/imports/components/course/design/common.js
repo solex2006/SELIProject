@@ -59,7 +59,7 @@ export default function DesignCourseCommons(props) {
   } = props;
 
   useEffect(() => {
-    console.log("actaliza el estado",learnGols)
+    //console.log("actaliza el estado",learnGols)
     setLearning(learnGols)
     setpreKnow(preKnowledge)
     setMain(mainContent)
@@ -67,19 +67,14 @@ export default function DesignCourseCommons(props) {
   }, [])
 
   useEffect(() => {
-    
     //for validate the step
-    console.log("Validate desig STEP", learning,preKnow,main,eval )
-    
-    
-      if(learning!='' && main!='' && eval!=''){
-        props.validate('passCourseDesign')
-      }else{
-        props.validate('NopassCourseDesign')
-      }
-
+    //console.log("Validate desig STEP", learning,preKnow,main,eval )
+    if(learning!='' && main!='' && eval!=''){
+      props.validate('passCourseDesign')
+    } else {
+      props.validate('NopassCourseDesign')
+    }
   });
-
 
   const [learning, setLearning]=useState(learnGols);
   const [preKnow, setpreKnow]=useState(preKnowledge);
@@ -89,7 +84,7 @@ export default function DesignCourseCommons(props) {
   return (
     <React.Fragment>
       <TextField
-        id={key + "_Obj"}
+        id={key + "_ObjLearning"}
         label={language.Learningobjectives}
         aria-describedBy={key + "-helper-text_Obj"}
         required
@@ -104,7 +99,7 @@ export default function DesignCourseCommons(props) {
           
         }}
       />
-       <FeedbackHelp
+      <FeedbackHelp
         validation={{
           error: false,
           errorMsg: "",
@@ -114,10 +109,8 @@ export default function DesignCourseCommons(props) {
         tipMsg={language.instructionslearning}
         describedBy={key + "-helper-text_Obj"}
       />
-
-
       <TextField
-        id={key + "_Obj"}
+        id={key + "_ObjPreexisting"}
         label={language.Preexistingknowlegde}
         aria-describedBy={key + "-helper-text_preKnowledge"}
         value={preKnow!=''? preKnow :preKnowledge}
@@ -139,9 +132,8 @@ export default function DesignCourseCommons(props) {
         tipMsg={language.instructionsPreExisting}
         describedBy={key + "-helper-text_preKnowledge"}
       />
-
       <TextField
-        id={key + "_Obj"}
+        id={key + "_ObjMain"}
         label={language.Maincontent}
         aria-describedBy={key + "-helper-text_mainContent"}
         value={main!='' ? main : mainContent }
@@ -163,9 +155,8 @@ export default function DesignCourseCommons(props) {
         tipMsg={language.instructionsMainContent}
         describedBy={key + "-helper-text_mainContent"}
       />
-
       <TextField
-        id={key + "_Obj"}
+        id={key + "_ObjEvaluation"}
         label={language.Evaluation}
         aria-describedBy={key + "-helper-text_mainContent"}
         value={eval!= ''? eval : evaluation}
@@ -200,7 +191,6 @@ export default function DesignCourseCommons(props) {
           />
         )
       }
-       
     </React.Fragment>
   );
 }

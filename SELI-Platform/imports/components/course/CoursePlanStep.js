@@ -18,7 +18,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import CourseOrganization from './CourseOrganization';
 import WarningIcon from '@material-ui/icons/Warning';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -111,11 +110,15 @@ export default function CoursePlanStep(props) {
   const handleChange = type => event => {
     let cinformation=courseInformation;
     if (type === 'coursePlan') {
-      cinformation.coursePlan.guidedCoursePlan=event.target.value;
+      cinformation.coursePlan.guidedCoursePlan = event.target.value;
       setCoursePlan(event.target.value);
+      if (event.target.value === "free") {
+        cinformation.coursePlan.courseTemplate = "without";
+        setCourseTemplate("without");
+      }
       props.updateCourseInformation(cinformation);
     } else if (type === 'courseTemplate') {
-      cinformation.coursePlan.courseTemplate=event.target.value;
+      cinformation.coursePlan.courseTemplate = event.target.value;
       setCourseTemplate(event.target.value);
     }
     setCourseInformation(cinformation);
@@ -208,17 +211,25 @@ export default function CoursePlanStep(props) {
           value={courseTemplate}
           onChange={handleChange("courseTemplate")}
         >
-          <FormControlLabel
-            value="spiral"
-            control={<Radio />}
-            label={language.SpiralModel}
-          />
-          <FormControlLabel
-            value="consistent"
-            control={<Radio />}
-            label={language.Consistent}
-          />
-          <FormControlLabel value="toyBox" control={<Radio />} label={language.ToyBox} />
+          {courseInformation.coursePlan.guidedCoursePlan === "guided" && (
+            <React.Fragment>
+              <FormControlLabel
+                value="spiral"
+                control={<Radio />}
+                label={language.SpiralModel}
+              />
+              <FormControlLabel
+                value="consistent"
+                control={<Radio />}
+                label={language.Consistent}
+              />
+              <FormControlLabel 
+                value="toyBox" 
+                control={<Radio />} 
+                label={language.ToyBox} 
+              />
+            </React.Fragment>
+          )}
           <FormControlLabel
             value="without"
             control={<Radio />}

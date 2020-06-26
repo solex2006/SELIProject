@@ -16,10 +16,10 @@ export default class FreeWithout extends React.Component {
     return(
       <div className="course-creator-container">
         {
-          this.props.courseInformation.organization ?
+          this.props.courseInformation.coursePlan.courseStructure ?
             <div className="course-creator-work-area">
               {
-                this.props.courseInformation.organization.subunit ?
+                this.props.courseInformation.coursePlan.courseStructure === 'unit' ?
                   <div
                     style={
                       !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
@@ -179,7 +179,6 @@ export default class FreeWithout extends React.Component {
                 toggleSortMode={this.props.toggleSortMode.bind(this)}
                 handlePreview={this.props.handlePreview.bind(this)}
                 setDisabilitieOption={this.props.setDisabilitieOption.bind(this)}
-                warningOrganization={this.props.warningOrganization.bind(this)}
                 reRender={this.props.reRender.bind(this)}
                 turnOffSortMode={this.props.turnOffSortMode.bind(this)}
                 language={this.props.language}

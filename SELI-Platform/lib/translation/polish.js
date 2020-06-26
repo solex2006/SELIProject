@@ -1070,5 +1070,6 @@
   Deletingaudience:'Deleting audience',
   dialog1:'You requested to delete: ',
   dialog2: 'Do you want to proceed?',
+  outcomeslegend:'By the end of this course, students will be able..',
 }
 export default POLISH;
