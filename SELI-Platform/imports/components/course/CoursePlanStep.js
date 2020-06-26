@@ -82,21 +82,21 @@ export default function CoursePlanStep(props) {
 
   useEffect(()=>{// guided spiral unit
     //console.log("INFO cOURSE pLAN", coursePlan, courseTemplate, courseStructure)
-       if(coursePlan==='guided' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
-            props.validate('passCoursePlan')
-        }
-        else if(coursePlan==='guided' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
-          props.validate('passCoursePlan')
-        }
-        else if(coursePlan==='free' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
-          props.validate('passCoursePlanFree')
-        }
-        else if(coursePlan==='free' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
-          props.validate('passCoursePlanFree')
-       }
-        else{
-          props.validate('NopassCoursePlan')
-        }
+    if(coursePlan==='guided' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
+        props.validate('passCoursePlan')
+    }
+    else if(coursePlan==='guided' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
+      props.validate('passCoursePlan')
+    }
+    else if(coursePlan==='free' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
+      props.validate('passCoursePlanFree')
+    }
+    else if(coursePlan==='free' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
+      props.validate('passCoursePlanFree')
+    }
+    else{
+      props.validate('NopassCoursePlan')
+    }
   })
 
   const [courseInformation, setCourseInformation]=React.useState(props.courseInformation);
@@ -268,13 +268,13 @@ export default function CoursePlanStep(props) {
                 onClick={() => warningOrganization("topic")}
                 value="topic"
                 control={<Radio />}
-                label="by Topic"
+                label={language.byTopics}
               />
               <FormControlLabel
                 onClick={() => warningOrganization("unit")}
                 value="unit"
                 control={<Radio />}
-                label="by Unit"
+                label={language.byUnitsAndLessons}
               />
             </RadioGroup>
             <FeedbackHelp

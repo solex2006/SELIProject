@@ -9,18 +9,26 @@ import tableIcons from '../design/icons'
 const useStyles = makeStyles(theme => ({}));
 
 export default function ActivityDesign(props) {
-  const {language,type,courseInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
+  const {language, type, courseInformation, programInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
 
   useEffect(()=>{
     //console.log("courseInformation-activity-design",courseInformation, type,lessonIndex,parentIndex)
     if(courseInformation.length!=0){
       if(type=='lesson'){
         setState(prevState=>{
-          return {...prevState, data: courseInformation[parentIndex].lessons[lessonIndex].activities}
+          return {
+            ...prevState,
+            data: courseInformation[parentIndex].lessons[lessonIndex].activities,
+            programActivities: programInformation[parentIndex].lessons[lessonIndex].activities
+          }
         })
       }else{
         setState(prevState=>{
-          return {...prevState, data:courseInformation[parentIndex].activities}
+          return {
+            ...prevState, 
+            data: courseInformation[parentIndex].activities,
+            programActivities: programInformation[parentIndex].activities,
+          }
         })
       }   
     } 
@@ -161,16 +169,17 @@ export default function ActivityDesign(props) {
                 resolve();
                 setState(prevState => {
                   const data = [...prevState.data];
+                  const programActivities = [...prevState.programActivities];
+                  const programActivity = {_id: Math.random(), name: newData.activity, items: []};
                   newData.tools=newtools;
+                  programActivities.push(programActivity);
                   data.push(newData);
                   if(type==='lesson'){
-                    
-                    handleSelectResourcesActivities(parentIndex, data, lessonIndex)
+                    handleSelectResourcesActivities(parentIndex, data, lessonIndex, programActivities);
                   }else{
-                    handleActivities(parentIndex, data);
+                    handleActivities(parentIndex, data, programActivities);
                   }
-                  
-                  return { ...prevState, data };
+                  return { ...prevState, data, programActivities};
                 });
               }, 600);
             }),
@@ -190,13 +199,16 @@ export default function ActivityDesign(props) {
                 if (oldData) {
                   setState(prevState => {
                     const data = [...prevState.data];
-                    data[data.indexOf(oldData)] = newData;
+                    const programActivities = [...prevState.programActivities];
+                    const taskIndex = data.indexOf(oldData);
+                    data[taskIndex] = newData;
+                    programActivities[taskIndex].name = newData.activity;
                     if(type=='lesson'){
-                      handleSelectResourcesActivities(parentIndex, data, lessonIndex)
+                      handleSelectResourcesActivities(parentIndex, data, lessonIndex, programActivities)
                     }else{
-                      handleActivities(parentIndex, data);
+                      handleActivities(parentIndex, data, programActivities);
                     }
-                    return { ...prevState, data };
+                    return { ...prevState, data, programActivities};
                   });
                 }
               }, 600);
@@ -207,13 +219,16 @@ export default function ActivityDesign(props) {
                 resolve();
                 setState(prevState => {
                   const data = [...prevState.data];
-                  data.splice(data.indexOf(oldData), 1);
+                  const programActivities = [...prevState.programActivities];
+                  const taskIndex = data.indexOf(oldData);
+                  data.splice(taskIndex, 1);
+                  programActivities.splice(taskIndex, 1);
                   if(type=='lesson'){
-                    handleSelectResourcesActivities(parentIndex, data, lessonIndex)
+                    handleSelectResourcesActivities(parentIndex, data, lessonIndex, programActivities)
                   }else{
-                    handleActivities(parentIndex, data);
+                    handleActivities(parentIndex, data, programActivities);
                   }
-                  return { ...prevState, data };
+                  return { ...prevState, data, programActivities};
                 });
               }, 600);
             })

@@ -104,7 +104,6 @@ export default class CreateCourse extends React.Component {
             courseTemplate: 'spiral', 
             courseStructure: 'topic'
           },
-          organization: this.props.courseToEdit.organization,
           program: this.props.courseToEdit.program,
           design: this.props.courseToEdit.design ? this.props.courseToEdit.design : [],
           accessibility: this.props.courseToEdit.accessibility,
@@ -237,7 +236,6 @@ export default class CreateCourse extends React.Component {
       let course;
       let valueSubtitle = courseInformation.subtitle;
 
-      console.log("curso q se va a guardar***",this.state.courseInformation )
       if (valueSubtitle === undefined) {
         valueSubtitle = "-----"
       }

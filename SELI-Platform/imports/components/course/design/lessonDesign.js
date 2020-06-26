@@ -17,6 +17,17 @@ import ActivityDesign from "./activityDesign";
 import FeedbackHelp from "../feedback";
 import Resources from './resources'
 import { wrap } from "module";
+//Dialog
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppsIcon from '@material-ui/icons/Apps';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import WarningIcon from '@material-ui/icons/Warning';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -67,17 +78,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DesignCourseApp(props) {
-  const {language, handleSelectResourcesIntoLessons,courseInformation, unit,unitIndex,handleUnitChange, template, lessons, tools,key, handleSelectResourcesLessons,handleSelectResourcesActivities } = props;
+  const {language, guidedCoursePlan, handleSelectResourcesIntoLessons, designInformation, programInformation, unitIndex, handleUnitChange, template, tools,key, handleSelectResourcesLessons,handleSelectResourcesActivities } = props;
   const classes = useStyles();
- 
- useEffect(() => {
-   if(courseInformation.length!=0){
-    setData(courseInformation[unitIndex].lessons)
-   }
-   
-  
- }, [])
- 
+
   const [controlEdit, setControlEdit] = useState({
     tempValue: "",
     adding: false,
@@ -89,15 +92,108 @@ export default function DesignCourseApp(props) {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const [data, setData] = useState(lessons);
+  const [data, setData] = useState([]);
+  const [programActivities, setProgramActivities] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [indexStateLesson, setIndexStateLesson] = useState(-1);
 
-  const handleActivities = (lessonIndex, activities) => {
+  useEffect(() => {
+    if(designInformation.length !== 0){
+      setData(designInformation[unitIndex].lessons);
+      setProgramActivities(programInformation[unitIndex].lessons);
+    }
+  }, [])
+
+  const handleActivities = (lessonIndex, activities, pActivities) => {
     let prev = [...data];
+    let courseInfo = [...programActivities];
     prev[lessonIndex].activities = activities;
+    courseInfo[lessonIndex].activities = pActivities;
     setData(prev);
-   // unit.lessons=data;
+    setProgramActivities(courseInfo);
     //handleUnitChange(unit, unitIndex)
   };
+
+  function updateTempValue(value) {
+    setControlEdit(prev => {
+      return { ...prev, tempValue: value };
+    });
+  }
+
+  const addLesson = () => {
+    let prev = data;
+    let programInfo = programActivities;
+    let lesson = {
+      key: "lesson" + data.length + unitIndex,
+      title: "",
+      learnGols: "",
+      preKnowledge: "",
+      mainContent: "",
+      tools: [
+        { checked: false, key: "audio", label: language.Audios },
+        { checked: false, key: "games", label: language.Games, items: [] },
+        { checked: false, key: "images", label: language.Images },
+        { checked: false, key: "presentation", label: language.Presentation, items: []},
+        { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+        { checked: false, key: "videos", label: language.Videos }
+      ],
+      activities: [],
+      editing: true
+    };
+    let activity = {_id: Math.random(), name: "", items: [], activities: []};
+    prev.push(lesson);
+    programInfo.push(activity);
+    setData(prev);
+    setProgramActivities(programInfo);
+    setControlEdit({
+      tempValue: "",
+      adding: true,
+      editing: true
+    });
+    //update units array
+    //unit.lessons=data;
+    // handleUnitChange(unit, unitIndex)
+  }
+
+  const editLesson = (lessonIndex) => {
+    setData(prev => {
+      prev[lessonIndex].editing = false;
+      prev[lessonIndex].title = controlEdit.tempValue;
+      return [...prev];
+    });
+    setProgramActivities(prev => {
+      prev[lessonIndex].name = controlEdit.tempValue;
+      setControlEdit({
+        tempValue: "",
+        adding: false,
+        editing: false
+      });
+      return [...prev];
+    });
+  }
+
+  const warningLesson = (lessonIndex) => {
+    handleOpen();
+    setIndexStateLesson(lessonIndex);
+  }
+
+  const deleteLesson = () => {
+    let prev = data;
+    let programInfo = programActivities;
+    prev.splice(indexStateLesson, 1);
+    programInfo.splice(indexStateLesson, 1);
+    setProgramActivities(programInfo);
+    setData(prev);
+    handleClose();
+  }
+
+  const handleOpen = () => {
+    setOpenDialog(true);
+  }
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  }
 
   return (
     <React.Fragment>
@@ -114,34 +210,17 @@ export default function DesignCourseApp(props) {
             <h3 className={lesson.editing ? classes.hidden : ""}>
               {lesson.title}
             </h3>
-    
             <div className={!lesson.editing ? classes.hidden : ""}>
               <TextField
                 id={"lesson_" + lessonIndex + "txtField"}
                 value={controlEdit.tempValue}
-                onChange={event =>
-                  setControlEdit(prev => {
-                    return { ...prev, tempValue: event.target.value };
-                  })
-                }
+                onChange={event => updateTempValue(event.target.value)}
               />
               <IconButton
                 id={"lesson_" + lessonIndex + "btnSaveEdit"}
                 edge="end"
                 aria-label={"Save changes"}
-                onClick={event => {
-                  console.log("click en save")
-                  setData(prev => {
-                    prev[lessonIndex].editing = false;
-                    prev[lessonIndex].title = controlEdit.tempValue;
-                    setControlEdit({
-                      tempValue: "",
-                      adding: false,
-                      editing: false
-                    });
-                    return [...prev];
-                  });
-                }}
+                onClick={event => editLesson(lessonIndex)}
                 className={classes.saveButton}
                 disabled={controlEdit.tempValue === ""}
               >
@@ -154,7 +233,6 @@ export default function DesignCourseApp(props) {
                 onClick={event => {
                   setData(prev => {
                     prev[lessonIndex].editing = false;
-
                     setControlEdit({
                       tempValue: "",
                       adding: false,
@@ -179,11 +257,7 @@ export default function DesignCourseApp(props) {
               />
             </div>     
           </ExpansionPanelSummary>
-
-
-
           <ExpansionPanelActions>
-           
             <Button
               id={"lesson_" + lessonIndex + "btnEdit"}
               onClick={() => {
@@ -202,27 +276,11 @@ export default function DesignCourseApp(props) {
               color="secondary"
               startIcon={<EditIcon />}
             >
-             {language.Editlessonname}
+              {language.Editlessonname}
             </Button>
-
             <Button
               id={"lesson_" + lessonIndex + "btnDelete"}
-              onClick={() => {
-                if (window.confirm("delete lesson " + lesson.title + "?")) {
-                  let prev = [...data];
-
-                  if (lessonIndex === 0) prev = [...prev.slice(1)];
-                  else if (lessonIndex === prev.length - 1)
-                    prev = [...prev.slice(0, lessonIndex)];
-                  else
-                    prev = [
-                      ...prev.slice(0, lessonIndex),
-                      ...prev.slice(lessonIndex + 1)
-                    ];
-
-                  setData([...prev]);
-                }
-              }}
+              onClick={() => warningLesson(lessonIndex)}
               disabled={controlEdit.deleteButton}
               variant="outlined"
               color="secondary"
@@ -230,8 +288,6 @@ export default function DesignCourseApp(props) {
             >
               {language.Deletelesson}
             </Button>
-
-
             {lessonIndex !== 0 && (
               <IconButton
                 id={"lesson_" + lessonIndex + "btnMoveUp"}
@@ -243,80 +299,47 @@ export default function DesignCourseApp(props) {
               </IconButton>
             )}
           </ExpansionPanelActions>
-
-
-          <ExpansionPanelDetails className={classes.panelDtls}>
-            <div className={classes.resources}>
-              <Resources
-              language={language}
-              handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
-                type='lessonInto'
-                courseInformation={courseInformation}
-                tools={tools}
-                key={key}
-                handleSelectResourcesLessons={handleSelectResourcesLessons}
-                parentIndex={unitIndex}
-                lessonIndex={lessonIndex}
-              />
-            </div>
-          <div className={classes.activitydesign}>
-            <ActivityDesign
-                language={language}
-                type='lesson'
-                handleSelectResourcesActivities={handleSelectResourcesActivities}
-                courseInformation={courseInformation}
-                activities={lesson.activities}
-                handleActivities={handleActivities}
-                parentIndex={unitIndex}
-                lessonIndex={lessonIndex}
-                template={template}
-              />
-          </div>
-           
-          </ExpansionPanelDetails>
+          {guidedCoursePlan === "guided" && (
+            <ExpansionPanelDetails className={classes.panelDtls}>
+              <div className={classes.resources}>
+                <Resources
+                  language={language}
+                  handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+                  type='lessonInto'
+                  courseInformation={designInformation}
+                  tools={tools}
+                  key={key}
+                  handleSelectResourcesLessons={handleSelectResourcesLessons}
+                  parentIndex={unitIndex}
+                  lessonIndex={lessonIndex}
+                />
+              </div>
+              <div className={classes.activitydesign}>
+                <ActivityDesign
+                  language={language}
+                  type='lesson'
+                  handleSelectResourcesActivities={handleSelectResourcesActivities}
+                  courseInformation={designInformation}
+                  programInformation={programInformation}
+                  activities={lesson.activities}
+                  handleActivities={handleActivities}
+                  parentIndex={unitIndex}
+                  lessonIndex={lessonIndex}
+                  template={template}
+                />
+              </div>
+            </ExpansionPanelDetails>
+          )}
         </ExpansionPanel>
       ))}
-
-
       <Button
         variant="outlined"
         color="secondary"
         fullWidth
-        onClick={() => {
-          setData(prev => {
-            let lesson = {
-              key: "lesson" + prev.length + 1,
-              title: "",
-              learnGols: "",
-              preKnowledge: "",
-              mainContent: "",
-              tools: [
-                { checked: false, key: "audio", label: language.Audios },
-                { checked: false, key: "games", label: language.Games, items: [] },
-                { checked: false, key: "images", label: language.Images },
-                { checked: false, key: "presentation", label: language.Presentation, items: []},
-                { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
-                { checked: false, key: "videos", label: language.Videos }
-              ],
-              activities: [],
-              editing: true
-            };
-            prev.push(lesson);
-            setControlEdit({
-              tempValue: "",
-              adding: true,
-              editing: true
-            });
-            return [...prev];
-          });
-          //update units array
-          unit.lessons=data;
-         // handleUnitChange(unit, unitIndex)
-        }}
+        onClick={() => addLesson()}
       >
         {language.Addlesson}
       </Button>
-
       <FeedbackHelp
         validation={{
           error: false,
@@ -327,6 +350,52 @@ export default function DesignCourseApp(props) {
         tipMsg={language.Addlesson}
         describedBy={"i05-helper-text"}
       />
+      <Dialog
+        open={openDialog}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        className="dialog"
+        disableBackdropClick={true}
+        disableEscapeKeyDown={true}
+        keepMounted
+        maxWidth={false}
+      >
+        <DialogTitle className="dialog-title">
+          <AppBar className="dialog-app-bar" color="primary" position="static">
+            <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
+              <AppsIcon/>
+              <h4 className="dialog-label-title">{language.Deleteunit}</h4>
+              <IconButton
+                id="close-icon"
+                edge="end"
+                className="dialog-toolbar-icon"
+                onClick={() => {handleClose()}}
+              >
+                <CloseIcon/>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+        </DialogTitle>
+        <div>
+          <DialogContent className="success-dialog-content">
+            <div className="organization-form">
+              <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                Are you sure you want to delete this lesson ?
+              </DialogContentText>
+            </div>
+            <WarningIcon className="warning-dialog-icon"/>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => handleClose()} color="primary" autoFocus>
+              {language.cancel}
+            </Button>
+            <Button onClick={() => deleteLesson()} color="primary" autoFocus>
+              {language.continue}
+            </Button>
+          </DialogActions>
+        </div>
+      </Dialog>
     </React.Fragment>
   );
 }

@@ -106,7 +106,8 @@ export default class CoursesList extends React.Component {
     let tableData = [];
     let headRows = [
       { id: 'title', numeric: false, disablePadding: true, label: this.props.language.title },
-      { id: 'organization', numeric: true, disablePadding: false, label: this.props.language.organization },
+      { id: 'template', numeric: true, disablePadding: false, label: this.props.language.template },
+      { id: 'organization', numeric: true, disablePadding: false, label: this.props.language.courseOrganization },
       { id: 'actions', numeric: true, disablePadding: false, label: this.props.language.actions },
     ];
     let menuOptions = [
@@ -114,7 +115,16 @@ export default class CoursesList extends React.Component {
       {label: this.props.language.deleteCourse , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
     ];
     myCourses.map(course => {
-      tableData.push({title: course.title, organization: course.organization.label, _id: course._id})
+      tableData.push({
+        title: course.title,
+        template: course.coursePlan ?
+            course.coursePlan.courseTemplate === "without" ? this.props.language.Withouttemplate :
+            course.coursePlan.courseTemplate === "spiral" ? this.props.language.SpiralModel :
+            course.coursePlan.courseTemplate === "consistent" ? this.props.language.Consistent :
+            this.props.language.ToyBox
+        : "",
+        organization: course.coursePlan ? course.coursePlan.courseStructure === "unit" ? this.props.language.byUnitsAndLessons : this.props.language.byTopics : "", 
+        _id: course._id})
     })
     this.setState({
       headRows: headRows,
