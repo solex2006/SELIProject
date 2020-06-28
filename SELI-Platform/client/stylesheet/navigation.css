@@ -18,6 +18,23 @@
   user-select: none;
 }
 
+.task-node-add {
+  color: #868686;
+}
+
+.task-node {
+  align-items: center;
+  transition: 0.5s;
+  user-select: none;
+}
+
+.tree-label-view {
+  height: 35px;
+  padding-left: 5px;
+  display: flex;
+  align-items: center;
+}
+
 .parent-node .MuiTreeItem-content .MuiTypography-body1 {
   letter-spacing: 0.5px !important;
   font-size: 0.90em !important;

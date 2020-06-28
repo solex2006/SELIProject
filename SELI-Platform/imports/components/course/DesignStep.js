@@ -72,7 +72,8 @@ export default function DesignStep(props) {
   const classes = useStyles();
   const [template, setTemplate] = useState(props.courseInformation.coursePlan.courseTemplate);
   const [organization, setOrganization] =  useState(props.courseInformation.coursePlan.courseStructure);
-  const [courseinformation, setcourseInformation] = useState(courseInformation)
+  const [courseinformation, setcourseInformation] = useState(courseInformation);
+  const [guidedCoursePlan, setGuidedCoursePlan] = useState(props.courseInformation.coursePlan.guidedCoursePlan);
   const [controlEdit, setControlEdit] = useState({
     tempValue: "",
     adding: false,
@@ -91,81 +92,97 @@ export default function DesignStep(props) {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const [data, setData] = useState([
-      {
-        key: "topic1",
-        title: organization === "unit" ? language.unit01 : language.topic01,
-        learnGols: '',
-        preKnowledge: '',
-        mainContent: '',
-        evaluation:'',
-        tools: [
-          { checked: false, key: "audio", label: language.Audios },
-          { checked: false, key: "games", label: language.Games, items: [] },
-          { checked: false, key: "images", label: language.Images },
-          { checked: false, key: "presentation", label: language.Presentation, items: []},
-          { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
-          { checked: false, key: "videos", label: language.Videos }
-        ],
-        activities: [////este nivale cuando sleccionas todos menos without template by units
-          
-        ],
-        lessons: [
-          {
-            key: "lesson1",
-            title: "Lesson 01",
-            tools: [
-              { checked: false, key: "audio", label: language.Audios },
-              { checked: false, key: "games", label: language.Games, items: [] },
-              { checked: false, key: "images", label: language.Images },
-              { checked: false, key: "presentation", label: language.Presentation, items: []},
-              { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
-              { checked: false, key: "videos", label: language.Videos }
-            ],
-            activities: [
-              {
-                activity: "Example",
-                type: 1,
-                graded: true,
-                group: 0,
-                project: false,
-                preeReview: false,
-                tools: [
-                  { checked: false, key: "audio", label: language.Audios },
-                  { checked: false, key: "games", label: language.Games, items: [] },
-                  { checked: false, key: "images", label: language.Images },
-                  { checked: false, key: "presentation", label: language.Presentation, items: []},
-                  { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
-                  { checked: false, key: "videos", label: language.Videos }
-                ],
-                submitted: true,
-                error: true,
-                label: "required",
-                helperText: "Name is required.",
-                validateInput: true
-              }
-            ]
-          }
-        ],
-        editing: false
-      }
-    ]
+  const [data, setData] = useState([]);
+  const [firstData, setFirstData] = useState(
+    {
+      key: organization === "unit" ? "unit1" : "topic1",
+      title: organization === "unit" ? language.unit01 : language.topic01,
+      learnGols: '',
+      preKnowledge: '',
+      mainContent: '',
+      evaluation:'',
+      tools: [
+        { checked: false, key: "audio", label: language.Audios },
+        { checked: false, key: "games", label: language.Games, items: [] },
+        { checked: false, key: "images", label: language.Images },
+        { checked: false, key: "presentation", label: language.Presentation, items: []},
+        { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+        { checked: false, key: "videos", label: language.Videos }
+      ],
+      activities: [////este nivale cuando sleccionas todos menos without template by units
+        
+      ],
+      lessons: [
+        {
+          key: "lesson1",
+          title: "Lesson 01",
+          tools: [
+            { checked: false, key: "audio", label: language.Audios },
+            { checked: false, key: "games", label: language.Games, items: [] },
+            { checked: false, key: "images", label: language.Images },
+            { checked: false, key: "presentation", label: language.Presentation, items: []},
+            { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+            { checked: false, key: "videos", label: language.Videos }
+          ],
+          activities: [
+            {
+              activity: "Example",
+              type: 1,
+              graded: true,
+              group: 0,
+              project: false,
+              preeReview: false,
+              tools: [
+                { checked: false, key: "audio", label: language.Audios },
+                { checked: false, key: "games", label: language.Games, items: [] },
+                { checked: false, key: "images", label: language.Images },
+                { checked: false, key: "presentation", label: language.Presentation, items: []},
+                { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+                { checked: false, key: "videos", label: language.Videos }
+              ],
+              submitted: true,
+              error: true,
+              label: "required",
+              helperText: "Name is required.",
+              validateInput: true
+            }
+          ]
+        }
+      ],
+      editing: false
+    }
+  );
+  const [firstProgramData, setFirstProgramData] = useState(
+    {
+      name: firstData.title, 
+      items: [], activities: [], 
+      lessons: [
+        {
+          _id: Math.random(), 
+          name: firstData.lessons[0].title, 
+          items: [], 
+          activities: [
+            {_id: Math.random(), name: firstData.lessons[0].activities[0].activity, items: []}
+          ]
+        }
+      ]
+    }
   );
 
   useEffect(() => {
-    if (courseInformation.design.length !=0 ) {
-      //console.log("CourseInformation-Ddesogn update", props.courseInformation) 
+    if (courseInformation.design.length !== 0 ) {
       setData(courseInformation.design)
     } else {
       let courseInfo = courseinformation;
-      courseInfo.design = data;
-      courseInfo.program.push({name: data[0].title, items: []});
+      courseInfo.design.push(firstData);
+      courseInfo.program.push(firstProgramData);
       setcourseInformation(courseInfo);
+      setData(courseInfo.design);
     }
   }, []); 
 
   useEffect(() => {
-    console.log("CourseInformation-DesignStep", props.courseInformation) 
+    //console.log(courseInformation)
     if(organization==='unit' && template!='without') {
       setOrganization('topic')
     }
@@ -221,20 +238,25 @@ export default function DesignStep(props) {
     setcourseInformation(courseInfo) 
   };
 
-  const handleSelectResourcesActivities = (unitIndex, resourceIndex, lessonIndex) => {
+  const handleSelectResourcesActivities = (unitIndex, resourceIndex, lessonIndex, programActivities) => {
     //console.log("Las lecciones a guardar en la unidad", unitIndex, resourceIndex,lessonIndex)
     let prev = [ ...data ];
+    let courseInfo=courseinformation;
     prev[unitIndex].lessons[lessonIndex].activities = resourceIndex;
     setData(prev); 
-    let courseInfo=courseinformation;
     courseInfo.design=data;
-    setcourseInformation(courseInfo) 
+    courseInfo.program[unitIndex].lessons[lessonIndex].activities = programActivities;
+    setcourseInformation(courseInfo);
   };
 
-  const handleActivities = (unitIndex, activities) => {
+  const handleActivities = (unitIndex, activities, programActivities) => {
     let prev = [ ...data ];
+    let courseInfo=courseinformation;
     prev[unitIndex].activities = activities;
     setData(prev);
+    courseInfo.design=data;
+    courseInfo.program[unitIndex].activities = programActivities;
+    setcourseInformation(courseInfo);
   };
 
   const handleToolActivity=(unitIndex, resourceIndex, lessonIndex)=>{
@@ -248,31 +270,21 @@ export default function DesignStep(props) {
   }
 
   const addUnitTopic = () => {
-    let unit = {
-      key: "topic" + data.length,
-      title: organization === "unit" ? language.unit01 : language.topic01,
-      learnGols: "",
-      preKnowledge: "",
-      mainContent: "",
-      evaluation:'',
-      tools: [//este nivale cuando sleccionas todos menos without template by unit
-        { checked: false, key: "audio", label: language.Audios },
-        { checked: false, key: "games", label: language.Games, items: [] },
-        { checked: false, key: "images", label: language.Images },
-        { checked: false, key: "presentation", label: language.Presentation, items: []},
-        { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
-        { checked: false, key: "videos", label: language.Videos }
-      ],
-      activities: [],
-      lessons: [],
-      editing: true
-    };
-    let prev = [ ...data ];
-    prev.push(unit);
+    let unit = firstData;
+    unit.key = `${organization === "unit" ? "unit1" : "topic1"}${data.length}`;
+    unit.editing = true;
+    setFirstData(unit);
+    let prev = data;
+    prev.push(firstData);
     setData(prev);
+    //Course Program Information
     let courseInfo=courseinformation;
     courseInfo.design=prev;
-    courseInfo.program.push({name: prev[prev.length - 1].title, items: []});
+    let unitProgram = firstProgramData;
+    unitProgram.lessons[0]._id = Math.random();
+    unitProgram.lessons[0].activities[0]._id = Math.random();
+    setFirstProgramData(unitProgram);
+    courseInfo.program.push(firstProgramData);
     setcourseInformation(courseInfo);
     setControlEdit({
       tempValue: "",
@@ -287,24 +299,10 @@ export default function DesignStep(props) {
   }
 
   const deleteUnitTopic = () => {
-    let prev = [ ...data ];
+    let prev = data;
     let courseInfo=courseinformation;
-    if (indexUnitTopic === 0) {
-      newPrev=prev.slice(1);
-      setData(newPrev);
-    }
-    else if (indexUnitTopic === prev.length - 1){
-      newPrev=prev.slice(0, indexUnitTopic);
-      setData(newPrev);
-    }
-    else{
-      newPrev = [
-        ...prev.slice(0, indexUnitTopic),
-        ...prev.slice(indexUnitTopic + 1)
-      ];
-      setData(newPrev);
-    }
-    setData(newPrev);
+    prev.splice(indexUnitTopic, 1);
+    setData(prev);
     courseInfo.design=newPrev;
     courseInfo.program.splice(indexUnitTopic, 1);
     setcourseInformation(courseInfo);
@@ -363,192 +361,146 @@ export default function DesignStep(props) {
     setOpenDialog(false);
   }
 
-  //Program Step methods ---------------------------------------------------------------
-
-  const finishAddSubunit = () => {
-    let name = this.state.nameLabels.nameSubunit;
-    let program = this.props.program;
-    if (this.props.organization.unit === "Unit") {
-      program[this.state.selectedUnit].lessons.push({name: name, _id: `${Math.random()}${name}`, items: []});
-    }
-    document.getElementById('subunit-input').value = "";
-  }
-
-  const finishEditSubunit = () => {
-    let name = this.state.nameLabels.nameSubunit;
-    let program = this.props.program;
-    if (this.props.organization.unit === "Unit") {
-      program[this.state.unitToEdit].lessons[this.state.subunitToEdit].name = name;
-    }
-    this.setState({
-      edited: true,
-    }, () => {
-      this.props.reRender();
-    })
-  }
-
-  const deletSubunit = (_id) => {
-    let program = this.state.program;
-    let selected = this.state.selected;
-    let unitIndex;
-    let subunitIndex;
-    for (var i = 0; i < program.length; i++) {
-      for (var j = 0; j < program[i].lessons.length; j++) {
-        if (program[i].lessons[j]._id === _id) {
-          if (program[i].lessons.length - 1 >= 1) {
-            program[i].lessons.splice(j, 1);
-            if (this.props.selected[0] === i && this.props.selected[1] === j) {
-              this.selectSubunit(program[i].lessons[j]._id);
-            }
-          }
-          else {
-            console.log("At least one lesson");
-          }
-          break;
-        }
-      }
-    }
-    this.setState({
-      deleted: true,
-    });
-  }
-
   return(
     <div className="form-input-audiences">
-      <p>Some introductory explanation ....</p><br/>
+      <p>Some introductory explanation ....</p>
       {data.map((unit, unitIndex) => (
-        <ExpansionPanel
-          expanded={expanded === unit.key}
-          onChange={handleChange(unit.key)}
-        >
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id={"panel1bh-header-" + unit.key}
+        <React.Fragment>
+          <br/>
+          <ExpansionPanel
+            expanded={expanded === unit.key}
+            onChange={handleChange(unit.key)}
           >
-            <h3 className={unit.editing ? classes.hidden : ""}>{unit.title}</h3>        
-            <div className={!unit.editing ? classes.hidden : ""}>
-              <TextField
-                id={"unit_" + unitIndex + "txtField"}
-                label={"Title"}
-                value={controlEdit.tempValue}
-                onChange={event => updateTempValue(event.target.value)}
-              />
-              <IconButton
-                id={"unit_" + unitIndex + "btnSaveEdit"}
-                edge="end"
-                aria-label={"Save changes"}
-                onClick={event => saveEdit(unitIndex)}
-                className={classes.saveButton}
-                disabled={controlEdit.tempValue === ""}
-              >
-                <DoneIcon />
-              </IconButton>
-              <IconButton
-                id={"unit_" + unitIndex + "btnCancelEdit"}
-                edge="end"
-                aria-label={"Cancel changes"}
-                onClick={event => cancelEdit(unitIndex)}
-                className={classes.deleteButton}
-              >
-                <ClearIcon />
-              </IconButton>
-              <FeedbackHelp
-                validation={{
-                  error: false,
-                  errorMsg: "",
-                  errorType: "",
-                  a11y: null
-                }}
-                tipMsg="instructions"
-                describedBy={"i05-helper-text"}
-              />
-            </div>
-          </ExpansionPanelSummary>
-          <ExpansionPanelActions>
-            <Button
-              id={"unit_" + unitIndex + "btnEdit"}
-              onClick={() => editUnitTopicName(unitIndex)}
-              disabled={controlEdit.editing}
-              variant="outlined"
-              color="secondary"
-              startIcon={<EditIcon />}
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id={"panel1bh-header-" + unit.key}
             >
-              {language.Editunitname}
-            </Button>
-            <Button
-              id={"unit_" + unitIndex + "btnDelete"}
-              onClick={() => handleDeleteUnitTopic(unitIndex)}
-              disabled={controlEdit.deleteButton}
-              variant="outlined"
-              color="secondary"
-              startIcon={<RemoveIcon />}
-            >
-              {language.Deleteunit}
-            </Button>
-            {unitIndex !== 0 && (
-              <IconButton
-                id={"unit_" + unitIndex + "btnMoveUp"}
-                edge="end"
-                aria-label={"Move unit up"}
-                // onClick={handleMoveUnit(unitIndex)}
+              <h3 className={unit.editing ? classes.hidden : ""}>{unit.title}</h3>        
+              <div className={!unit.editing ? classes.hidden : ""}>
+                <TextField
+                  id={"unit_" + unitIndex + "txtField"}
+                  label={"Title"}
+                  value={controlEdit.tempValue}
+                  onChange={event => updateTempValue(event.target.value)}
+                />
+                <IconButton
+                  id={"unit_" + unitIndex + "btnSaveEdit"}
+                  edge="end"
+                  aria-label={"Save changes"}
+                  onClick={event => saveEdit(unitIndex)}
+                  className={classes.saveButton}
+                  disabled={controlEdit.tempValue === ""}
+                >
+                  <DoneIcon />
+                </IconButton>
+                <IconButton
+                  id={"unit_" + unitIndex + "btnCancelEdit"}
+                  edge="end"
+                  aria-label={"Cancel changes"}
+                  onClick={event => cancelEdit(unitIndex)}
+                  className={classes.deleteButton}
+                >
+                  <ClearIcon />
+                </IconButton>
+                <FeedbackHelp
+                  validation={{
+                    error: false,
+                    errorMsg: "",
+                    errorType: "",
+                    a11y: null
+                  }}
+                  tipMsg="instructions"
+                  describedBy={"i05-helper-text"}
+                />
+              </div>
+            </ExpansionPanelSummary>
+            <ExpansionPanelActions>
+              <Button
+                id={"unit_" + unitIndex + "btnEdit"}
+                onClick={() => editUnitTopicName(unitIndex)}
+                disabled={controlEdit.editing}
+                variant="outlined"
+                color="secondary"
+                startIcon={<EditIcon />}
               >
-                <ArrowDropUpIcon />
-              </IconButton>
-            )}
-          </ExpansionPanelActions>
-          <ExpansionPanelDetails className={classes.panelDtls}>
-            <DesignCourseCommons
-              language={language}
-              validate={props.validate}
-              courseInformation={courseinformation.design}
-              key={unit.key}
-              learnGols={unit.learnGols}
-              preKnowledge={unit.preKnowledge}
-              mainContent={unit.mainContent}
-              tools={unit.tools}
-              otherTools={unit.otherTools}
-              unit={unit}
-              unitIndex={unitIndex}
-              handleUnitChange={handleUnitChange}
-              handleSelectResources={handleSelectResources}
-              template={template}
-              organization={organization}
-              evaluation={unit.evaluation}
-            />
-            
-            {(organization === "unit") && (
-              <LessonDesign
+                {language.Editunitname}
+              </Button>
+              <Button
+                id={"unit_" + unitIndex + "btnDelete"}
+                onClick={() => handleDeleteUnitTopic(unitIndex)}
+                disabled={controlEdit.deleteButton}
+                variant="outlined"
+                color="secondary"
+                startIcon={<RemoveIcon />}
+              >
+                {language.Deleteunit}
+              </Button>
+              {unitIndex !== 0 && (
+                <IconButton
+                  id={"unit_" + unitIndex + "btnMoveUp"}
+                  edge="end"
+                  aria-label={"Move unit up"}
+                  // onClick={handleMoveUnit(unitIndex)}
+                >
+                  <ArrowDropUpIcon />
+                </IconButton>
+              )}
+            </ExpansionPanelActions>
+            <ExpansionPanelDetails className={classes.panelDtls}>
+              {guidedCoursePlan === "guided" && (<DesignCourseCommons
                 language={language}
-                handleSelectResourcesActivities={handleSelectResourcesActivities}
-                handleSelectResourcesLessons={handleSelectResourcesLessons}
-                handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
-                tools={unit.tools}
-                key={unit.key}
+                validate={props.validate}
                 courseInformation={courseinformation.design}
+                key={unit.key}
+                learnGols={unit.learnGols}
+                preKnowledge={unit.preKnowledge}
+                mainContent={unit.mainContent}
+                tools={unit.tools}
+                otherTools={unit.otherTools}
                 unit={unit}
                 unitIndex={unitIndex}
-                lessons={unit.lessons}
+                handleUnitChange={handleUnitChange}
+                handleSelectResources={handleSelectResources}
                 template={template}
                 organization={organization}
-              />
-            )}
-            {organization !== "unit" && (
-              <ActivityDesign
-                language={language}
-                courseInformation={courseinformation.design}
-                activities={unit.activities}
-                handleActivities={handleActivities}
-                handleToolActivity={handleToolActivity}
-                parentIndex={unitIndex}
-                template={template}
-              />
-            )}       
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+                evaluation={unit.evaluation}
+              />)}
+              <br/>
+              {organization === "unit" ?
+                <LessonDesign
+                  language={language}
+                  guidedCoursePlan={guidedCoursePlan}
+                  handleSelectResourcesActivities={handleSelectResourcesActivities}
+                  handleSelectResourcesLessons={handleSelectResourcesLessons}
+                  handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+                  tools={unit.tools}
+                  key={unit.key}
+                  designInformation={courseinformation.design}
+                  programInformation={courseinformation.program}
+                  unitIndex={unitIndex}
+                  template={template}
+                  organization={organization}
+                />
+              :
+                guidedCoursePlan === "guided" && <ActivityDesign
+                  language={language}
+                  courseInformation={courseinformation.design}
+                  programInformation={courseinformation.program}
+                  activities={unit.activities}
+                  handleActivities={handleActivities}
+                  handleToolActivity={handleToolActivity}
+                  parentIndex={unitIndex}
+                  template={template}
+                />
+              }       
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        </React.Fragment>
       ))}
+      <br/>
       <Button
-        variant="outlined"
+        variant="contained"
         color="secondary"
         fullWidth
         onClick={() => addUnitTopic()}

@@ -87,14 +87,16 @@ export default class VerticalPanel extends React.Component {
             <div>
               <div className="button-row">
                 <div fullWidth className="row-list-selected-button">
-                  <Avatar id={this.props.language.byTopics ? "orange-avatar": "blue-avatar"} className="avatar">{this.props.language.byTopics ? "U" : "T"}</Avatar>
-                  {this.props.courseInformation.organization.unit === "Unit" ? this.props.language.byUnitsAndLessons : this.props.language.byTopics}
+                  <Avatar 
+                    id={this.props.courseInformation.coursePlan.courseStructure === "unit" ? "orange-avatar": "blue-avatar"} 
+                    className="avatar">{this.props.courseInformation.coursePlan.courseStructure === "unit" ? "U" : "T"}
+                  </Avatar>
+                  {this.props.courseInformation.coursePlan.courseStructure === "unit" ? this.props.language.byUnitsAndLessons : this.props.language.byTopics}
                 </div>
               </div>
               <NavigationTool
                 program={this.props.courseInformation.program}
                 coursePlan={this.props.courseInformation.coursePlan}
-                hasSubunits={this.props.courseInformation.organization.subunit}
                 selected={this.props.selected}
                 expandedNodes={this.props.expandedNodes}
                 reRender={this.props.reRender.bind(this)}

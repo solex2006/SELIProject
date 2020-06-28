@@ -104,7 +104,6 @@ export default class CreateCourse extends React.Component {
             courseTemplate: 'spiral', 
             courseStructure: 'topic'
           },
-          organization: this.props.courseToEdit.organization,
           program: this.props.courseToEdit.program,
           design: this.props.courseToEdit.design ? this.props.courseToEdit.design : [],
           accessibility: this.props.courseToEdit.accessibility,
@@ -237,7 +236,6 @@ export default class CreateCourse extends React.Component {
       let course;
       let valueSubtitle = courseInformation.subtitle;
 
-      console.log("curso q se va a guardar***",this.state.courseInformation )
       if (valueSubtitle === undefined) {
         valueSubtitle = "-----"
       }
@@ -355,18 +353,18 @@ export default class CreateCourse extends React.Component {
       this.props.handleControlMessage(true, `${this.props.language.chooseCourseImage} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
       return false;
     }
-    else if (courseInformation.sylabus === undefined) {
+    /* else if (courseInformation.sylabus === undefined) {
       this.props.handleControlMessage(true, `${this.props.language.chooseCourseSyllabus} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
       return false;
-    }
+    } */
     else if (courseInformation.keyWords.length < 3 || courseInformation.keyWords.length > 5) {
       this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
       return false;
     }
-    else if (courseInformation.organization === '') {
+    /* else if (courseInformation.organization === '') {
       this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step}: ${this.props.language.program}).`, false, '', '');
       return false;
-    } 
+    }  */
     if (courseInformation.duration.indexOf('_') !== -1) {
       this.props.handleControlMessage(true, `${this.props.language.durationInvalidEntry}`, false, '', '');
       return false;
@@ -378,7 +376,7 @@ export default class CreateCourse extends React.Component {
       } 
     }
     let emptyContent = false;
-    if (courseInformation.organization.subunit) {
+    /* if (courseInformation.organization.subunit) {
       courseInformation.program.map(unit => {
         unit.lessons.map(lesson => {
           if (!lesson.items.length) {
@@ -395,7 +393,7 @@ export default class CreateCourse extends React.Component {
           emptyContent = true;
         }
       })
-    }
+    } */
     if (emptyContent) {
       return false;
     }
