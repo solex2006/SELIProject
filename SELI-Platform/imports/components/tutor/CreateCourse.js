@@ -143,12 +143,9 @@ export default class CreateCourse extends React.Component {
   }
 
   validate=(data=>{
-    //console.log("------------Validado desde CreateCourse-----------",data)
     this.setState({
       updateSteps:data,
     })
-
-
   })
 
   loadingData = () => {
