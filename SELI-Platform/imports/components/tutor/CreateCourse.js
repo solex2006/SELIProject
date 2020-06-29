@@ -246,7 +246,7 @@ export default class CreateCourse extends React.Component {
           saved: course,
         });
         this.props.savedCourseState();
-        this.props.createForum(courseInformation, course);
+        //this.props.createForum(courseInformation, course);
       }
       else {
         Courses.update(

@@ -93,91 +93,90 @@ export default function DesignStep(props) {
   };
 
   const [data, setData] = useState([]);
-  const [firstData, setFirstData] = useState(
-    {
-      key: organization === "unit" ? "unit1" : "topic1",
-      title: organization === "unit" ? language.unit01 : language.topic01,
-      learnGols: '',
-      preKnowledge: '',
-      mainContent: '',
-      evaluation:'',
-      tools: [
-        { checked: false, key: "audio", label: language.Audios },
-        { checked: false, key: "games", label: language.Games, items: [] },
-        { checked: false, key: "images", label: language.Images },
-        { checked: false, key: "presentation", label: language.Presentation, items: []},
-        { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
-        { checked: false, key: "videos", label: language.Videos }
-      ],
-      activities: [////este nivale cuando sleccionas todos menos without template by units
-        
-      ],
-      lessons: [
-        {
-          key: "lesson1",
-          title: "Lesson 01",
-          tools: [
-            { checked: false, key: "audio", label: language.Audios },
-            { checked: false, key: "games", label: language.Games, items: [] },
-            { checked: false, key: "images", label: language.Images },
-            { checked: false, key: "presentation", label: language.Presentation, items: []},
-            { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
-            { checked: false, key: "videos", label: language.Videos }
-          ],
-          activities: [
-            {
-              activity: "Example",
-              type: 1,
-              graded: true,
-              group: 0,
-              project: false,
-              preeReview: false,
-              tools: [
-                { checked: false, key: "audio", label: language.Audios },
-                { checked: false, key: "games", label: language.Games, items: [] },
-                { checked: false, key: "images", label: language.Images },
-                { checked: false, key: "presentation", label: language.Presentation, items: []},
-                { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
-                { checked: false, key: "videos", label: language.Videos }
-              ],
-              submitted: true,
-              error: true,
-              label: "required",
-              helperText: "Name is required.",
-              validateInput: true
-            }
-          ]
-        }
-      ],
-      editing: false
-    }
-  );
-  const [firstProgramData, setFirstProgramData] = useState(
-    {
-      name: firstData.title, 
-      items: [], activities: [], 
-      lessons: [
-        {
-          _id: Math.random(), 
-          name: firstData.lessons[0].title, 
-          items: [], 
-          activities: [
-            {_id: Math.random(), name: firstData.lessons[0].activities[0].activity, items: []}
-          ]
-        }
-      ]
-    }
-  );
+  const firstData = {
+    key: organization === "unit" ? "unit1" : "topic1",
+    title: organization === "unit" ? language.unit01 : language.topic01,
+    learnGols: '',
+    preKnowledge: '',
+    mainContent: '',
+    evaluation:'',
+    tools: [
+      { checked: false, key: "audio", label: language.Audios },
+      { checked: false, key: "games", label: language.Games, items: [] },
+      { checked: false, key: "images", label: language.Images },
+      { checked: false, key: "presentation", label: language.Presentation, items: []},
+      { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+      { checked: false, key: "videos", label: language.Videos }
+    ],
+    activities: [////este nivale cuando sleccionas todos menos without template by units
+      
+    ],
+    lessons: [
+      {
+        key: "lesson1",
+        title: "Lesson 01",
+        tools: [
+          { checked: false, key: "audio", label: language.Audios },
+          { checked: false, key: "games", label: language.Games, items: [] },
+          { checked: false, key: "images", label: language.Images },
+          { checked: false, key: "presentation", label: language.Presentation, items: []},
+          { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+          { checked: false, key: "videos", label: language.Videos }
+        ],
+        activities: [
+          {
+            activity: "Example",
+            type: 1,
+            graded: true,
+            group: 0,
+            project: false,
+            preeReview: false,
+            tools: [
+              { checked: false, key: "audio", label: language.Audios },
+              { checked: false, key: "games", label: language.Games, items: [] },
+              { checked: false, key: "images", label: language.Images },
+              { checked: false, key: "presentation", label: language.Presentation, items: []},
+              { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+              { checked: false, key: "videos", label: language.Videos }
+            ],
+            submitted: true,
+            error: true,
+            label: "required",
+            helperText: "Name is required.",
+            validateInput: true
+          }
+        ]
+      }
+    ],
+    editing: false
+  };
+
+  const firstProgramData = {
+    name: firstData.title, 
+    items: [], activities: [], 
+    lessons: [
+      {
+        _id: Math.random(), 
+        name: firstData.lessons[0].title, 
+        items: [], 
+        activities: [
+          {_id: Math.random(), name: firstData.lessons[0].activities[0].activity, items: []}
+        ]
+      }
+    ]
+  };
 
   useEffect(() => {
     if (courseInformation.design.length !== 0 ) {
       setData(courseInformation.design)
     } else {
       let courseInfo = courseinformation;
-      courseInfo.design.push(firstData);
-      courseInfo.program.push(firstProgramData);
-      setcourseInformation(courseInfo);
+      var newFirstData = firstData;
+      var newFirstProgramData = firstData;
+      courseInfo.design.push(newFirstData);
+      courseInfo.program.push(newFirstProgramData);
       setData(courseInfo.design);
+      setcourseInformation(courseInfo);
     }
   }, []); 
 
@@ -270,21 +269,19 @@ export default function DesignStep(props) {
   }
 
   const addUnitTopic = () => {
-    let unit = firstData;
-    unit.key = `${organization === "unit" ? "unit1" : "topic1"}${data.length}`;
-    unit.editing = true;
-    setFirstData(unit);
+    var newFirstData = firstData;
+    newFirstData.key = `${organization === "unit" ? "unit1" : "topic1"}${data.length ? data.length : "0"}`;
+    newFirstData.editing = true;
     let prev = data;
-    prev.push(firstData);
+    prev.push(newFirstData);
     setData(prev);
     //Course Program Information
     let courseInfo=courseinformation;
     courseInfo.design=prev;
-    let unitProgram = firstProgramData;
-    unitProgram.lessons[0]._id = Math.random();
-    unitProgram.lessons[0].activities[0]._id = Math.random();
-    setFirstProgramData(unitProgram);
-    courseInfo.program.push(firstProgramData);
+    var newFirstProgramData = firstProgramData;
+    newFirstProgramData.lessons[0]._id = Math.random();
+    newFirstProgramData.lessons[0].activities[0]._id = Math.random();
+    courseInfo.program.push(newFirstProgramData);
     setcourseInformation(courseInfo);
     setControlEdit({
       tempValue: "",
@@ -303,53 +300,50 @@ export default function DesignStep(props) {
     let courseInfo=courseinformation;
     prev.splice(indexUnitTopic, 1);
     setData(prev);
-    courseInfo.design=newPrev;
+    courseInfo.design=prev;
     courseInfo.program.splice(indexUnitTopic, 1);
     setcourseInformation(courseInfo);
     handleClose();
   }
 
   const editUnitTopicName = (unitIndex) => {
-    setData(prev => {
-      prev[unitIndex].editing = true;
-      setControlEdit({
-        tempValue: prev[unitIndex].title,
-        adding: false,
-        editing: true
-      });
-      return [ ...prev ];
-    });
+    let prev = data;
+    prev[unitIndex].editing = true;
+    setData(prev);
     let courseInfo=courseinformation;
     courseInfo.design=data;
-    setcourseInformation(courseInfo)  
+    setcourseInformation(courseInfo);
+    setControlEdit({
+      tempValue: prev[unitIndex].title,
+      adding: false,
+      editing: true
+    });
   }
 
   const saveEdit = (unitIndex) => {
-    setData(prev => {
-      prev[unitIndex].editing = false;
-      prev[unitIndex].title = controlEdit.tempValue;
-      setControlEdit({
-        tempValue: "",
-        adding: false,
-        editing: false
-      });
-      return [...prev];
-    });
+    let prev = data;
+    prev[unitIndex].editing = false;
+    prev[unitIndex].title = controlEdit.tempValue;
+    setData(prev);
     let courseInfo = courseinformation;
     courseInfo.design = data;
     courseInfo.program[unitIndex].name = controlEdit.tempValue;
-    setcourseInformation(courseInfo)
+    setcourseInformation(courseInfo);
+    setControlEdit({
+      tempValue: "",
+      adding: false,
+      editing: false
+    });
   }
 
   const cancelEdit = (unitIndex) => {
-    setData(prev => {
-      prev[unitIndex].editing = false;
-      setControlEdit({
-        tempValue: "",
-        adding: false,
-        editing: false
-      });
-      return [ ...prev ];
+    let prev = data;
+    prev[unitIndex].editing = false;
+    setData(prev);
+    setControlEdit({
+      tempValue: "",
+      adding: false,
+      editing: false
     });
   }
 
