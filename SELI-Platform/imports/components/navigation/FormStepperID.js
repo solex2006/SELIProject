@@ -476,7 +476,7 @@ useEffect(()=>{
       let newFailed = new Set(stepStatus.failed.values());
       newFailed.delete(3);
       let newDisabled = new Set(stepStatus.disabled.values());
-      newDisabled.delete(stepStatus.active + 3);
+      newDisabled.delete(stepStatus.active + 2);
       newStatus = { ...newStatus, disabled: newDisabled, failed:newFailed };
       setStepStatus(newStatus);
      
@@ -523,9 +523,11 @@ useEffect(()=>{
     setStepStatus(prev=>{
       let newFailed = new Set(stepStatus.failed.values());
       newFailed.delete(5);
-      return {... prev, completed:prev.completed.add(5), failed:newFailed}
+      let newDisabled = new Set(stepStatus.disabled.values());
+      newDisabled.delete(6);
+      return {... prev, completed:prev.completed.add(5), failed:newFailed, disabled:newDisabled}
     })
-    handleCompletenew(stepStatus.active)
+    //handleCompletenew(stepStatus.active)
   }else if(props.updateSteps==='NopassCourseDesign'){
     setStepStatus(prev=>{
       let newCompleted = new Set(stepStatus.completed.values());

@@ -69,6 +69,8 @@ const useStyles = makeStyles(theme => ({
 export default function DesignStep(props) {
   const {courseInformation,language } = props;
 
+  
+
   const classes = useStyles();
   const [template, setTemplate] = useState(props.courseInformation.coursePlan.courseTemplate);
   const [organization, setOrganization] =  useState(props.courseInformation.coursePlan.courseStructure);
@@ -181,17 +183,21 @@ export default function DesignStep(props) {
   }, []); 
 
   useEffect(() => {
-    //console.log(courseInformation)
+    //console.log("En el CourseInformation-------------->", courseInformation)
     if(organization==='unit' && template!='without') {
       setOrganization('topic')
     }
-    props.courseInformation.design.map((unit, index)=>{
-      if (unit.learnGols!='' && unit.mainContent!='' && unit.evaluation!='') {
-        props.validate('passCourseDesign')
-      } else {
-        props.validate('NopassCourseDesign')
-      }
-    })
+    if(guidedCoursePlan==='free' && template==='without' && (organization==='unit' || organization==='topic')){
+      props.validate('passCourseDesign')
+    }else{
+      props.courseInformation.design.map((unit, index)=>{
+        if (unit.learnGols!='' && unit.mainContent!='' && unit.evaluation!='') {
+          props.validate('passCourseDesign')
+        } else {
+          props.validate('NopassCourseDesign')
+        }
+      })
+    }
   }); 
 
   const handleUnitChange = (unit, unitIndex) => {
@@ -359,7 +365,7 @@ export default function DesignStep(props) {
     <div className="form-input-audiences">
       <p>Some introductory explanation ....</p>
       {data.map((unit, unitIndex) => (
-        <React.Fragment>
+        <div key={unitIndex}>
           <br/>
           <ExpansionPanel
             expanded={expanded === unit.key}
@@ -490,7 +496,7 @@ export default function DesignStep(props) {
               }       
             </ExpansionPanelDetails>
           </ExpansionPanel>
-        </React.Fragment>
+        </div>
       ))}
       <br/>
       <Button

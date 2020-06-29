@@ -352,7 +352,15 @@ export default function MainPage(props) {
 				<p>
 					Read the course syllabus for a complete view of the course program
 				</p>
-				 <SyllabusButton />  
+
+				{console.log("ourse Information*******************************",)}
+				<div className='crnheading'>
+					<SyllabusButton
+						courseInformation={props.course}
+						language={props.language}
+					/>
+				</div>
+				    
 			</Paper>
 		
 			<Paper component="article" elevation={0} className={classes.paper1}> 
