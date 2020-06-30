@@ -13,6 +13,8 @@ import FileUpload from '../components/files/FileUpload';
 import ImagePreview from '../components/files/previews/ImagePreview';
 import Library from '../components/tools/Library';
 import FormPreview from '../components/files/previews/FormPreview';
+import AccessibilityRegistration from '../components/student/AccessibilityRegistration';
+
 
 import EmailIcon from '@material-ui/icons/Email';
 import {validateOnlyLetters, validateOnlyNumbers} from '../../lib/textFieldValidations';
@@ -398,6 +400,16 @@ export default class UserInformation extends React.Component {
                 </div>
               }
             />
+            {
+              this.props.type === "tutor" ? 
+              undefined
+              :
+              <AccessibilityRegistration
+                inEdition={false}
+                language={this.props.language}
+                userInformation={this.state.userInformation}
+              ></AccessibilityRegistration>
+            }
           </div>
           {
             this.props.type === "tutor" ?

@@ -45,6 +45,7 @@ export default class UserRegistration extends React.Component {
         countryCode: '',
         phoneNumber: '',
         image: undefined,
+        disabilities: []
       },
       emailValidated: false,
       typeState: '',
@@ -226,7 +227,8 @@ export default class UserRegistration extends React.Component {
         configuration: {
           language: 'English (US)',
         },
-      },
+        disabilities: information.disabilities
+      }
     }, (error) => {
       if (error) {
         this.handleError(error);
