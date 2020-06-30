@@ -102,7 +102,6 @@ export default class VerticalPanel extends React.Component {
                 reRender={this.props.reRender.bind(this)}
                 turnOffSortMode={this.props.turnOffSortMode.bind(this)}
                 setMenuTab={this.props.setMenuTab.bind(this)}
-                dialog={true}
                 language={this.props.language}
               />
             </div>

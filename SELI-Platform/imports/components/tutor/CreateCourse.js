@@ -74,7 +74,7 @@ export default class CreateCourse extends React.Component {
       lists: [],
       buildedItems: false,
       expandedNodes: [],
-      selected: [0, 0],
+      selected: [0, 0, 0, 0],
       saved: false,
       action: "",
       updateSteps:''

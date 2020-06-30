@@ -8,7 +8,6 @@ export default class FreeWithout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      
     }
   }
 
@@ -18,157 +17,78 @@ export default class FreeWithout extends React.Component {
         {
           this.props.courseInformation.coursePlan.courseStructure ?
             <div className="course-creator-work-area">
-              {
-                this.props.courseInformation.coursePlan.courseStructure === 'unit' ?
-                  <div
-                    style={
-                      !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
-                        {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1"}
-                      :
-                      {backgroundImage: "url()"}} className="course-creator-drop-area"
-                  >
-                    <div className="title-course">
-                      <div className="subtitle">{`${this.props.courseInformation.title} -
-                      ${this.props.language.unit}: `+`${this.props.courseInformation.program[this.props.selected[0]].name} -
-                      ${this.props.language.lesson}: ` +`${this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}</div>
+              <div
+                style={
+                  !this.props.arrayOfItems.length ?
+                    {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1"}
+                  :
+                  {backgroundImage: "url()"}} className="course-creator-drop-area"
+              >
+                <div className="title-course">  
+                  <div className="subtitle">{this.props.titleTop}</div>
+                </div>
+                {
+                  !this.props.arrayOfItems.length ?
+                    <div className="background">
+                      {this.props.language.dropHereLabel.toUpperCase()}
                     </div>
-                    {
-                      !this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.length ?
-                        <div className="background">
-                          {this.props.language.dropHereLabel.toUpperCase()}
-                        </div>
-                      :
-                        undefined
-                    }
-                    {
-                      !this.props.sortMode ?
-                        <Container
-                          lockAxis="y"
-                          dragBeginDelay={500}
-                          dragClass="drag-class"
-                          style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
-                          groupName="1"
-                          getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
-                          onDrop={e => this.props.openDialog(e)}>
-                          {
-                            this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
-                              return (
-                                <Draggable key={i}>
-                                  <ContentItem
-                                    item={p}
-                                    removeItem={this.props.removeItem.bind(this)}
-                                    editItem={this.props.editItem.bind(this)}
-                                    handleDecorative={this.props.handleDecorative.bind(this)}
-                                    editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-                                    language={this.props.language}
-                                  />
-                                </Draggable>
-                              );
-                            })
-                          }
-                        </Container>
-                      :
-                        <Container
-                          lockAxis="y"
-                          dragBeginDelay={0}
-                          dragClass="drag-class"
-                          style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
-                          groupName="1"
-                          getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items[i]}
-                          onDrop={e => this.props.openDialog(e)}
-                        >
-                          {
-                            this.props.courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items.map((p, i) => {
-                              return (
-                                <Draggable key={i}>
-                                  <SortItem
-                                    item={p}
-                                    removeItem={this.props.removeItem.bind(this)}
-                                    index={i}
-                                    language={this.props.language}
-                                  />
-                                </Draggable>
-                              );
-                            })
-                          }
-                        </Container>
-                    }
-                  </div>
-                :
-                  <div
-                    style={
-                      !this.props.courseInformation.program[this.props.selected[0]].items.length ?
-                        {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1"}
-                      :
-                      {backgroundImage: "url()"}} className="course-creator-drop-area"
-                  >
-                    <div className="title-course">  
-                      <div className="subtitle">{`${this.props.courseInformation.title} - 
-                        ${this.props.language.topic}: ` +`${this.props.courseInformation.program[this.props.selected[0]].name}`}</div>
-                    </div>
-                    {
-                      !this.props.courseInformation.program[this.props.selected[0]].items.length ?
-                        <div className="background">
-                          {this.props.language.dropHereLabel.toUpperCase()}
-                        </div>
-                      :
-                        undefined
-                    }
-                    {
-                      !this.props.sortMode ?
-                        <Container
-                          lockAxis="y"
-                          dragBeginDelay={500}
-                          dragClass="drag-class"
-                          style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
-                          groupName="1"
-                          getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].items[i]}
-                          onDrop={e => this.props.openDialog(e)}>
-                          {
-                            this.props.courseInformation.program[this.props.selected[0]].items.map((p, i) => {
-                              return (
-                                <Draggable key={i}>
-                                  <ContentItem
-                                    item={p}
-                                    removeItem={this.props.removeItem.bind(this)}
-                                    editItem={this.props.editItem.bind(this)}
-                                    handleDecorative={this.props.handleDecorative.bind(this)}
-                                    editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-                                    language={this.props.language}
-                                  />
-                                </Draggable>
-                              );
-                            })
-                          }
-                        </Container>
-                      :
-                        <Container
-                          lockAxis="y"
-                          dragBeginDelay={0}
-                          dragClass="drag-class"
-                          style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
-                          groupName="1"
-                          getChildPayload={i => this.props.courseInformation.program[this.props.selected[0]].items[i]}
-                          onDrop={e => this.props.openDialog(e)}
-                        >
-                          {
-                            this.props.courseInformation.program[this.props.selected[0]].items.map((p, i) => {
-                              return (
-                                <Draggable key={i}>
-                                  <SortItem
-                                    item={p}
-                                    removeItem={this.props.removeItem.bind(this)}
-                                    index={i}
-                                    language={this.props.language}
-                                  />
-                                </Draggable>
-                              );
-                            })
-                          }
-                        </Container>
-                    }
-                  </div>
-              }
+                  :
+                    undefined
+                }
+                {
+                  !this.props.sortMode ?
+                    <Container
+                      lockAxis="y"
+                      dragBeginDelay={500}
+                      dragClass="drag-class"
+                      style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
+                      groupName="1"
+                      getChildPayload={i => this.props.arrayOfItems[i]}
+                      onDrop={e => this.props.openDialog(e)}>
+                      {
+                        this.props.arrayOfItems.map((p, i) => {
+                          return (
+                            <Draggable key={i}>
+                              <ContentItem
+                                item={p}
+                                removeItem={this.props.removeItem.bind(this)}
+                                editItem={this.props.editItem.bind(this)}
+                                handleDecorative={this.props.handleDecorative.bind(this)}
+                                editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+                                language={this.props.language}
+                              />
+                            </Draggable>
+                          );
+                        })
+                      }
+                    </Container>
+                  :
+                    <Container
+                      lockAxis="y"
+                      dragBeginDelay={0}
+                      dragClass="drag-class"
+                      style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
+                      groupName="1"
+                      getChildPayload={i => this.props.arrayOfItems[i]}
+                      onDrop={e => this.props.openDialog(e)}
+                    >
+                      {
+                        this.props.arrayOfItems.map((p, i) => {
+                          return (
+                            <Draggable key={i}>
+                              <SortItem
+                                item={p}
+                                removeItem={this.props.removeItem.bind(this)}
+                                index={i}
+                                language={this.props.language}
+                              />
+                            </Draggable>
+                          );
+                        })
+                      }
+                    </Container>
+                }
+              </div>
               <VerticalPanel
                 courseInformation={this.props.courseInformation}
                 menuTab={this.props.menuTab}

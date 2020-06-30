@@ -59,7 +59,7 @@
 
 .background {
   position: absolute;
-  padding-top: calc(50vh - 250px);
+  padding-top: calc(50vh - 300px);
   font-size: 25px;
   text-align: center; 
   width: calc(100vw - var(--course-tool-menu-size));
