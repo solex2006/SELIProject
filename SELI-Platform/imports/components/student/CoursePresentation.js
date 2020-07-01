@@ -176,10 +176,10 @@ const CourseSummary = ({coursedata}) => {
 							<CastForEducationIcon />
 						</Avatar>
 					</ListItemIcon>
+					{console.log("coursedataInfo",coursedata)}
 					<ListItemText
 						secondary={"Course modality"}
-						primary={coursedata.coursePlan.guidedCoursePlan +'-'+coursedata.coursePlan.courseTemplate
-									+'-'+coursedata.coursePlan.courseStructure}  //guidedCoursePlan: "guided", courseTemplate: "spiral", courseStructure: "topic"
+						primary={coursedata.analysis[1]}  
 					/>
 				</ListItem>
 				{/* <ListItem>
@@ -353,7 +353,7 @@ export default function MainPage(props) {
 					Read the course syllabus for a complete view of the course program
 				</p>
 
-				{console.log("ourse Information*******************************",)}
+				
 				<div className='crnheading'>
 					<SyllabusButton
 						courseInformation={props.course}
