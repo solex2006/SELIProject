@@ -3,6 +3,7 @@ import FileDial from '../../tools/FileDial';
 import StarRateIcon from '@material-ui/icons/StarRate';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import ArchiveIcon from '@material-ui/icons/Archive';
+import StudentEventType from '../../../../lib/StudentEventType';
 
 export default class CompressedItem extends React.Component {
   constructor(props) {
@@ -20,6 +21,10 @@ export default class CompressedItem extends React.Component {
   }
 
   download = () => {
+    if(this.props.logStudentInteraction !== undefined){
+      this.props.logStudentInteraction(StudentEventType.itemType.compressed
+        , StudentEventType.actionType.download);
+    }
     var win = window.open(this.props.item.attributes.compressed.link, '_blank');
     win.focus();
   }

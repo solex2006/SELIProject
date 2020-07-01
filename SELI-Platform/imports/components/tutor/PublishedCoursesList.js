@@ -42,6 +42,7 @@ import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
 import MoodBadIcon from '@material-ui/icons/MoodBad';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+import { StudentEventLog } from '../../../lib/StudentEventCollection';
 
 export default class PublishedCoursesList extends React.Component {
   constructor(props) {
@@ -467,6 +468,16 @@ export default class PublishedCoursesList extends React.Component {
     });
   }
 
+  logStudentInteraction(type, action){
+    StudentEventLog.insert({ 
+      UserId: Meteor.userId(), 
+      CourseId : this.state.course._id, 
+      Datetime: new Date(), 
+      Resource: type,
+      Action: action
+    });
+  }
+
   showPresentation() {
     let selected = this.state.selected;
     selected.splice(0, selected.length)
@@ -714,6 +725,7 @@ export default class PublishedCoursesList extends React.Component {
                                   toComplete={this.state.student.courseProfile.toComplete}
                                   toResolve={this.state.student.courseProfile.toResolve}
                                   language={this.props.language}
+                                  logStudentInteraction={this.logStudentInteraction.bind(this)}
                                 />
                               </div>
                             :

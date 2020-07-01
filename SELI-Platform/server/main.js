@@ -14,13 +14,8 @@ import '../lib/sendVerificationEmail';
 import '../lib/changeAccountInformation';
 import '../lib/StudentLogCollection';
 import '../lib/storyTellingVideo';
+import '../lib/StudentEventCollection';
 
-/**
- * SELI - Learning Analytics
- * This method is used to obtain the client's IP address.
- * @author Bernardo Caussin
- * @returns {string} public internet IP address
- */
 Meteor.methods({
   getIP: function(){
       var ip = this.connection.clientAddress;

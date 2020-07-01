@@ -28,6 +28,7 @@ import EditorLinks from '../../inputs/editor/Editor';
 import AccessibilityHelp from '../../tools/AccessibilityHelp';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+import StudentEventType from '../../../../lib/StudentEventType';
 /* import { Editor, EditorState, convertFromRaw } from "draft-js";
 import A11yEditor from './Editordraft'; */
 
@@ -128,6 +129,10 @@ export default class ActivityItem extends React.Component {
   }
 
   doActivity = () => {
+    if(this.props.logStudentInteraction !== undefined){
+      this.props.logStudentInteraction(StudentEventType.itemType.activity
+        , StudentEventType.actionType.do);
+    }
     this.handleClickOpen();
     let confirmAction;
     if (this.props.item.attributes.type === 'forum') {

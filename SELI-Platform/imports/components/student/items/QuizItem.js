@@ -22,6 +22,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Slide from '@material-ui/core/Slide';
 import {Activities} from '../../../../lib/ActivitiesCollection';
+import StudentEventType from '../../../../lib/StudentEventType';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -82,6 +83,10 @@ export default class QuizItem extends React.Component {
   }
 
   startQuiz = () => {
+    if(this.props.logStudentInteraction !== undefined){
+      this.props.logStudentInteraction(StudentEventType.itemType.quiz
+        , StudentEventType.actionType.open);
+    }
     this.setState({
       showConfirmation: true,
       open: true,
@@ -89,6 +94,10 @@ export default class QuizItem extends React.Component {
   }
 
   confirmStartQuiz = () => {
+    if(this.props.logStudentInteraction !== undefined){
+      this.props.logStudentInteraction(StudentEventType.itemType.quiz
+        , StudentEventType.actionType.do);
+    }
     this.setState({
       showConfirmation: false,
       showQuiz: true,

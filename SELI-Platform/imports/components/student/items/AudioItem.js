@@ -15,6 +15,7 @@ import VideoPreview from '../../storytelling/VideoPreview';
 import CheckboxLabels from './CheckBox'
 import Grid from '@material-ui/core/Grid';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
+import StudentEventType from '../../../../lib/StudentEventType';
 
 export default class AudioItem extends React.Component {
   constructor(props) {
@@ -29,6 +30,10 @@ export default class AudioItem extends React.Component {
   }
 
   openExternalLink = () => {
+    if(this.props.logStudentInteraction !== undefined){
+      this.props.logStudentInteraction(StudentEventType.itemType.audio
+        , StudentEventType.actionType.open);
+    }
     var win = window.open(this.props.item.attributes.externalLink, '_blank');
     win.focus();
   }
@@ -46,6 +51,10 @@ export default class AudioItem extends React.Component {
     }
   }
   playAudio=(event)=>{
+    if(this.props.logStudentInteraction !== undefined){
+      this.props.logStudentInteraction(StudentEventType.itemType.audio
+        , StudentEventType.actionType.play);
+    }
      if(this.state.signalShow==='signalShow'){
       this.setState({
         autoplay:true,

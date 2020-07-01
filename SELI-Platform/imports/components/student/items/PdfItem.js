@@ -20,6 +20,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 import Slide from '@material-ui/core/Slide';
+import StudentEventType from '../../../../lib/StudentEventType';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -40,6 +41,11 @@ export default class PdfItem extends React.Component {
   }
 
   printPdf = () => {
+    if(this.props.logStudentInteraction !== undefined){
+      this.props.logStudentInteraction(StudentEventType.itemType.pdf
+        , StudentEventType.actionType.print);
+    }
+
     var iframe = document.createElement('iframe');
     // iframe.id = 'pdfIframe'
     iframe.className='pdfIframe'
@@ -59,6 +65,10 @@ export default class PdfItem extends React.Component {
 
   download = () => {
     // for non-IE
+    if(this.props.logStudentInteraction !== undefined){
+      this.props.logStudentInteraction(StudentEventType.itemType.pdf
+        , StudentEventType.actionType.download);
+    }
     if (!window.ActiveXObject) {
       var save = document.createElement('a');
       save.href = this.props.item.attributes.pdf.link;
@@ -89,11 +99,19 @@ export default class PdfItem extends React.Component {
   }
 
   openNewTab = () => {
+    if(this.props.logStudentInteraction !== undefined){
+      this.props.logStudentInteraction(StudentEventType.itemType.pdf
+        , StudentEventType.actionType.open);
+    }
     var win = window.open(this.props.item.attributes.pdf.link, '_blank');
     win.focus();
   }
 
   read = () => {
+    if(this.props.logStudentInteraction !== undefined){
+      this.props.logStudentInteraction(StudentEventType.itemType.pdf
+        , StudentEventType.actionType.read);
+    }
     this.setState({ open: true });
   }
 

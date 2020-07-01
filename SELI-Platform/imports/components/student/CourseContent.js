@@ -115,6 +115,7 @@ export default class CourseContent extends React.Component {
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             key={Math.random()}
                             language={this.props.language}
+                            logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                           />
                         :
                         undefined
@@ -125,6 +126,7 @@ export default class CourseContent extends React.Component {
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             key={Math.random()}
+                            logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                           />
                         :
                         undefined
@@ -157,6 +159,7 @@ export default class CourseContent extends React.Component {
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             key={Math.random()}
                             language={this.props.language}
+                            logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                           />
                         :
                         undefined
@@ -168,6 +171,7 @@ export default class CourseContent extends React.Component {
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
                             key={Math.random()}
                             language={this.props.language}
+                            logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                           />
                         :
                         undefined
@@ -196,6 +200,7 @@ export default class CourseContent extends React.Component {
                             completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
                             key={Math.random()}
                             language={this.props.language}
+                            logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                           />
                         :
                         undefined
@@ -210,6 +215,7 @@ export default class CourseContent extends React.Component {
                             completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
                             key={Math.random()}
                             language={this.props.language}
+                            logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                           />
                         :
                         undefined
@@ -345,6 +351,7 @@ export default class CourseContent extends React.Component {
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           key={Math.random()}
                           language={this.props.language}
+                          logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                         />
                       :
                       undefined
@@ -355,6 +362,7 @@ export default class CourseContent extends React.Component {
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           key={Math.random()}
+                          logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                         />
                       :
                       undefined
@@ -387,6 +395,7 @@ export default class CourseContent extends React.Component {
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           key={Math.random()}
                           language={this.props.language}
+                          logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                         />
                       :
                       undefined
@@ -398,6 +407,7 @@ export default class CourseContent extends React.Component {
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
                           key={Math.random()}
                           language={this.props.language}
+                          logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                         />
                       :
                       undefined
@@ -427,6 +437,7 @@ export default class CourseContent extends React.Component {
                           completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
                           key={Math.random()}
                           language={this.props.language}
+                          logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                         />
                       </div>
                         
@@ -443,6 +454,7 @@ export default class CourseContent extends React.Component {
                           completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
                           key={Math.random()}
                           language={this.props.language}
+                          logStudentInteraction={this.props.logStudentInteraction.bind(this)}
                         />
                       :
                       undefined
