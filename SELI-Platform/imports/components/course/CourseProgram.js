@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -35,6 +34,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import VerticalPanel from './templates/VerticalPanel';
 //Teamplates
 import FreeWithout from './templates/FreeWithout';
 import TemplateParent from './templates/TemplateParent';
@@ -60,7 +60,6 @@ export default class CourseProgram extends React.Component {
       menuTab: 0,
       sortMode: false,
       courseInformation: this.props.courseInformation,
-      arrayOfItems: [],
       titleTop: "",
     }
   }
@@ -88,7 +87,6 @@ export default class CourseProgram extends React.Component {
 
   openDialog(e, templateCode){
     let type = e.payload.type;
-    let courseInformation = this.state.courseInformation;
     let languageTypeAdded = "";
     if    (type === 'text'){ languageTypeAdded = this.props.language.text }
     else if (type === 'image'){ languageTypeAdded = this.props.language.image }
@@ -117,27 +115,16 @@ export default class CourseProgram extends React.Component {
     if (templateCode) {
       a.payload.code = templateCode;
     }
-    if (this.props.selected[3] === 0) {
-      courseInformation.program[this.props.selected[0]].items = applyDrag(courseInformation.program[this.props.selected[0]].items, a);
-    } else if (this.props.selected[3] === 1) {
-      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = applyDrag(courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items, a);
-    } else {
-      if (courseInformation.coursePlan.courseStructure === "unit") {
-        courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items = applyDrag(courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items, a);
-      }
-      else {
-        courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items = applyDrag(courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items, a);
-      }
-    }
+    this.relativeProgramCommons("drag", a)
     this.setState({
       contentaAdded: true,
     });
-    //console.log(this.state.courseInformation.program)
   }
 
   getItemAttributes(){}
 
   relativeProgramCommons = (action, itemValue) => {
+    console.log(this.state.courseInformation.program[this.props.selected[0]])
     let courseInformation = this.state.courseInformation;
     let index;
     let arrayOfItems;
@@ -152,8 +139,7 @@ export default class CourseProgram extends React.Component {
     } else if (action === "decorative"){
       stateId = itemValue;
     }
-    if (itemContent !== undefined) {
-
+    if (itemContent !== undefined || action !== "create" || action !== "edit") {
       if (this.props.selected[3] === 0) {
         arrayOfItems = courseInformation.program[this.props.selected[0]].items;
         
@@ -162,16 +148,21 @@ export default class CourseProgram extends React.Component {
       } else {
         if (courseInformation.coursePlan.courseStructure === "unit") {
           arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items;
-        }
-        else {
+        } else {
           arrayOfItems = courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items;
         }
       }
       //Processing Array of Items
-      for (var i = 0; i < arrayOfItems.length; i++) {
-        if (arrayOfItems[i].id === stateId) {
-          index = i;
-          break;
+      if (action === "drag"){
+        console.log(arrayOfItems)
+        arrayOfItems = applyDrag(arrayOfItems, itemValue);
+        console.log(arrayOfItems)
+      } else {
+        for (var i = 0; i < arrayOfItems.length; i++) {
+          if (arrayOfItems[i].id === stateId) {
+            index = i;
+            break;
+          }
         }
       }
       if (action === "create" || action === "edit") {
@@ -184,9 +175,7 @@ export default class CourseProgram extends React.Component {
             }
             arrayOfItems[index].attributes.size = size;
           }
-          this.setState({
-            contentToConfigureAccessibility: itemContent,
-          });
+          this.finishCreateContent(itemContent);
         }
       } else if (action === "cancel" || action === "remove") {
         arrayOfItems.splice(index, 1);
@@ -218,8 +207,10 @@ export default class CourseProgram extends React.Component {
   }
 
   createContent(){
-    //console.log(this.state.courseInformation.program)
     this.relativeProgramCommons("create");
+  }
+
+  finishCreateContent = (itemContent) => {
     let showAccessibilityOptions = false;
     if (this.state.contentTypeAdded === "audio" || this.state.contentTypeAdded === "image" || this.state.contentTypeAdded === "video" ||   this.state.contentTypeAdded==='quiz') {
       showAccessibilityOptions = true;
@@ -230,6 +221,7 @@ export default class CourseProgram extends React.Component {
       showAccessibilityOptions: showAccessibilityOptions,
       showContentEditor: false,
       contentOpen: showAccessibilityOptions,
+      contentToConfigureAccessibility: itemContent,
     });
     this.resetMenuItems();
   }
@@ -331,35 +323,37 @@ export default class CourseProgram extends React.Component {
     let arrayOfItems;
     let titleTop;
     let courseInformation = this.state.courseInformation;
-    if (this.props.selected[3] === 0) {
-      arrayOfItems = courseInformation.program[this.props.selected[0]].items;
-      if (courseInformation.coursePlan.courseStructure === "unit") {
-        titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}`
+    if (courseInformation.program.length) {
+      if (this.props.selected[3] === 0) {
+        arrayOfItems = courseInformation.program[this.props.selected[0]].items;
+        if (courseInformation.coursePlan.courseStructure === "unit") {
+          titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}`
+        }
+        else {
+          titleTop = `${this.props.language.topic}: ${this.props.courseInformation.program[this.props.selected[0]].name}`
+        }
+      } else if (this.props.selected[3] === 1) {
+        arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items;
+        titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}
+        - ${this.props.language.lesson}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`
+      } else {
+        if (courseInformation.coursePlan.courseStructure === "unit") {
+          arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items;
+          titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}
+          - ${this.props.language.lesson}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}
+          - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}`
+        }
+        else {
+          arrayOfItems = courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items;
+          titleTop = `${this.props.language.topic}: ${this.props.courseInformation.program[this.props.selected[0]].name} 
+          - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].name}`
+        }
       }
-      else {
-        titleTop = `${this.props.language.topic}: ${this.props.courseInformation.program[this.props.selected[0]].name}`
-      }
-    } else if (this.props.selected[3] === 1) {
-      arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items;
-      titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name} 
-      - ${this.props.language.lesson}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`
-    } else {
-      if (courseInformation.coursePlan.courseStructure === "unit") {
-        arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items;
-        titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name} 
-        - ${this.props.language.lesson}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}
-        - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}`
-      }
-      else {
-        arrayOfItems = courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items;
-        titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name} 
-        - ${this.props.language.lesson}: ${courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].name}`
-      }
+      this.setState({
+        arrayOfItems,
+        titleTop,
+      })
     }
-    this.setState({
-      arrayOfItems,
-      titleTop,
-    })
   }
 
   componentDidMount(){
@@ -399,48 +393,28 @@ export default class CourseProgram extends React.Component {
     if (this.props.courseInformation.coursePlan.courseTemplate === 'without') {
       return (
         <FreeWithout
-          courseInformation={this.props.courseInformation}
           arrayOfItems={this.state.arrayOfItems}
           titleTop={this.state.titleTop}
           selected={this.props.selected}
-          menuTab={this.state.menuTab}
-          sortMode={this.state.sortMode}
-          contentItems={this.state.contentItems}
-          expandedNodes={this.props.expandedNodes}
-          reRender={this.reRender.bind(this)}
-          turnOffSortMode={this.turnOffSortMode.bind(this)}
-          openDialog={this.openDialog.bind(this)}
-          removeItem={this.removeItem.bind(this)}
           editItem={this.editItem.bind(this)}
+          removeItem={this.removeItem.bind(this)}
+          openDialog={this.openDialog.bind(this)}
           handleDecorative={this.handleDecorative.bind(this)}
           editAccessibilityForm={this.editAccessibilityForm.bind(this)}
-          setMenuTab={this.setMenuTab.bind(this)}
-          setDisabilitieOption={this.setDisabilitieOption.bind(this)}
-          toggleSortMode={this.toggleSortMode.bind(this)}
-          handlePreview={this.props.handlePreview.bind(this)}
           language={this.props.language}
         ></FreeWithout>
       )
     } else if (this.props.courseInformation.coursePlan.courseTemplate === 'spiral') {
       return (
         <TemplateParent
-          courseInformation={this.props.courseInformation}
+          arrayOfItems={this.state.arrayOfItems}
+          titleTop={this.state.titleTop}
           selected={this.props.selected}
-          menuTab={this.state.menuTab}
-          sortMode={this.state.sortMode}
-          contentItems={this.state.contentItems}
-          expandedNodes={this.props.expandedNodes}
-          reRender={this.reRender.bind(this)}
-          turnOffSortMode={this.turnOffSortMode.bind(this)}
-          openDialog={this.openDialog.bind(this)}
-          removeItem={this.removeItem.bind(this)}
           editItem={this.editItem.bind(this)}
+          removeItem={this.removeItem.bind(this)}
+          openDialog={this.openDialog.bind(this)}
           handleDecorative={this.handleDecorative.bind(this)}
           editAccessibilityForm={this.editAccessibilityForm.bind(this)}
-          setMenuTab={this.setMenuTab.bind(this)}
-          setDisabilitieOption={this.setDisabilitieOption.bind(this)}
-          toggleSortMode={this.toggleSortMode.bind(this)}
-          handlePreview={this.props.handlePreview.bind(this)}
           language={this.props.language}
         ></TemplateParent>
       )
@@ -450,7 +424,27 @@ export default class CourseProgram extends React.Component {
   render() {
     return(
       <div>
-        {this.choosingTemplate()}
+        {this.state.arrayOfItems && (
+          <div className="course-creator-container">
+            <div className="course-creator-work-area">
+              {this.choosingTemplate()}
+              <VerticalPanel
+                courseInformation={this.props.courseInformation}
+                menuTab={this.state.menuTab}
+                selected={this.props.selected}
+                expandedNodes={this.props.expandedNodes}
+                contentItems={this.state.contentItems}
+                setMenuTab={this.setMenuTab.bind(this)}
+                toggleSortMode={this.toggleSortMode.bind(this)}
+                handlePreview={this.props.handlePreview.bind(this)}
+                setDisabilitieOption={this.setDisabilitieOption.bind(this)}
+                reRender={this.reRender.bind(this)}
+                turnOffSortMode={this.turnOffSortMode.bind(this)}
+                language={this.props.language}
+              ></VerticalPanel>
+            </div>
+          </div>
+        )}
         <Dialog
           open={this.state.contentOpen}
           onClose={this.contentHandleClose}

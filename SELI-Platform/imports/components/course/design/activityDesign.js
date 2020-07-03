@@ -129,8 +129,7 @@ export default function ActivityDesign(props) {
     data: activities
   });
 
- const [newtools, setnewtools]=useState(
-  [
+  const newtools = [
     { checked: false, key: "audio", label: "Audios" },
     { checked: false, key: "games", label: "Games", items: [] },
     { checked: false, key: "images", label: "Images" },
@@ -138,7 +137,7 @@ export default function ActivityDesign(props) {
     { checked: false, key: "supplemantary",label: "Supplementary Text", items: []},
     { checked: false, key: "videos", label: "Videos" }
   ]
- )
+
   const handleSelectResources = (activityIndex, resources) => {  
     let prev = [...state.data];
     prev[activityIndex].tools = resources;
@@ -171,7 +170,7 @@ export default function ActivityDesign(props) {
                   const data = [...prevState.data];
                   const programActivities = [...prevState.programActivities];
                   const programActivity = {_id: Math.random(), name: newData.activity, items: []};
-                  newData.tools=newtools;
+                  newData.tools = newtools;
                   programActivities.push(programActivity);
                   data.push(newData);
                   if(type==='lesson'){
