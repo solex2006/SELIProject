@@ -110,8 +110,28 @@ export default function DesignStep(props) {
       { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
       { checked: false, key: "videos", label: language.Videos }
     ],
-    activities: [////este nivale cuando sleccionas todos menos without template by units
-      
+    activities: [
+      {
+        activity: "Example",
+        type: 1,
+        graded: true,
+        group: 0,
+        project: false,
+        preeReview: false,
+        tools: [
+          { checked: false, key: "audio", label: language.Audios },
+          { checked: false, key: "games", label: language.Games, items: [] },
+          { checked: false, key: "images", label: language.Images },
+          { checked: false, key: "presentation", label: language.Presentation, items: []},
+          { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+          { checked: false, key: "videos", label: language.Videos }
+        ],
+        submitted: true,
+        error: true,
+        label: "required",
+        helperText: "Name is required.",
+        validateInput: true
+      }
     ],
     lessons: [
       {
@@ -155,7 +175,10 @@ export default function DesignStep(props) {
 
   const firstProgramData = {
     name: firstData.title, 
-    items: [], activities: [], 
+    items: [], 
+    activities: [
+      {_id: Math.random(), name: firstData.activities[0].activity, items: []}
+    ], 
     lessons: [
       {
         _id: Math.random(), 
@@ -174,7 +197,7 @@ export default function DesignStep(props) {
     } else {
       let courseInfo = courseinformation;
       var newFirstData = firstData;
-      var newFirstProgramData = firstData;
+      var newFirstProgramData = firstProgramData;
       courseInfo.design.push(newFirstData);
       courseInfo.program.push(newFirstProgramData);
       setData(courseInfo.design);
@@ -183,7 +206,6 @@ export default function DesignStep(props) {
   }, []); 
 
   useEffect(() => {
-    //console.log("En el CourseInformation-------------->", courseInformation)
     if(organization==='unit' && template!='without') {
       setOrganization('topic')
     }
@@ -285,6 +307,7 @@ export default function DesignStep(props) {
     let courseInfo=courseinformation;
     courseInfo.design=prev;
     var newFirstProgramData = firstProgramData;
+    newFirstProgramData.activities[0]._id = Math.random();
     newFirstProgramData.lessons[0]._id = Math.random();
     newFirstProgramData.lessons[0].activities[0]._id = Math.random();
     courseInfo.program.push(newFirstProgramData);
