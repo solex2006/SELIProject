@@ -126,7 +126,37 @@ export default function AudienceApp(props) {
       label: language.TeachersandProfessors,
       isChecked: false
     },
-    { id: 3, value: "Kids", label: language.Preschoolkids, isChecked: false }
+    { id: 3, 
+      value: "Kids", 
+      label: language.Preschoolkids, 
+      isChecked: false 
+    },
+    { id: 4, 
+      value: "post graduate student", 
+      label: language.Postgraduatestudent, 
+      isChecked: false 
+    },
+    { id: 5, 
+      value: "pregrade student", 
+      label: language.Pregradestudent, 
+      isChecked: false 
+    },
+    { id: 6, 
+      value: "High School Students", 
+      label: language.HighSchoolStudents, 
+      isChecked: false 
+    },
+    { id: 7, 
+      value: "Middle School Students", 
+      label: language.MiddleSchoolStudents, 
+      isChecked: false 
+    },
+    { id: 8, 
+      value: "Elementary School Students", 
+      label: language.ElementarySchoolStudents, 
+      isChecked: false 
+    }
+    
   ]);
   const [audiencesGol,setAudiencesGol]=useState([
     
@@ -464,14 +494,13 @@ export default function AudienceApp(props) {
       <div role="group" aria-labelledby="aud_title">
 
         <List component="ul" key={"li03"}>
-       {/*  <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audienceallError} tip={"Select all options"}/> */}
           <FeedbackHelp
             language={language}
             validation={{
               error: false,
               errorMsg: "",
               errorType: "a11y",
-              a11y: { valid: !audienceTooltip.audienceallError }
+              //a11y: { valid: !audienceTooltip.audienceallError }
             }}
             tipMsg="Select all options."
             describedBy={"i04-helper-text"}     
@@ -493,8 +522,6 @@ export default function AudienceApp(props) {
                 let addAudicences=courseinformation;
                 addAudicences.support[0]=newAudiences
                 setcourseInformation(addAudicences)
-
-
                 let tooltip=audienceTooltip;
                  if(event.target.checked===true){
                   tooltip.audienceallError=false;
@@ -522,16 +549,14 @@ export default function AudienceApp(props) {
               id="checkbox-list-label-selectAll"
               primary={language.SelectAll}
             />
-          </ListItem>
-{/*           <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audienceError} tip={"	Select your target audience. You can select as many as you want. You can also add others target audience not listed above, by selecting 'Add Audience' button."}/>
- */}      
+          </ListItem>      
           <FeedbackHelp
             language={language}
             validation={{
               error: false,
               errorMsg: "",
               errorType: "a11y",
-              a11y: { valid: !audienceTooltip.audienceError }
+             // a11y: { valid: !audienceTooltip.audienceError }
             }}
             tipMsg={language.targetAudience}
             describedBy={"i04-helper-text"}     
@@ -581,14 +606,10 @@ export default function AudienceApp(props) {
                       error: feedbackError,
                       errorMsg: message,
                       errorType: "required",
-                      a11y: null
+                     // a11y: null
                     }}
                     tipMsg={requirementTooltip.newaudience}
                     describedBy={"i02-helper-text"}
-                    /* stepHelp={{
-                      step: "textHelper",
-                      stepLabel: "a title"
-                    }} */
                   />
               </div>
 
@@ -664,7 +685,7 @@ export default function AudienceApp(props) {
               error: false,
               errorMsg: "",
               errorType: "a11y",
-              a11y: { valid: !audienceTooltip.audienceallgolError }
+              //a11y: { valid: !audienceTooltip.audienceallgolError }
             }}
             tipMsg={language.SelectAlloptions}
             describedBy={"i04-helper-text"}     
@@ -710,14 +731,13 @@ export default function AudienceApp(props) {
               primary={language.selectAll}
             />
           </ListItem>
-{/*           <AccessibilityHelp id='audiences-radiogroup' error={audienceTooltip.audiencegolError} tip={"If you desire to validate the inclusion of your course for some specific diversity group, select them from the list above. You can select as many as you want."}/>
- */}       <FeedbackHelp
+        <FeedbackHelp
               language={language}
               validation={{
                 error: false,
                 errorMsg: "",
                 errorType: "a11y",
-                a11y: { valid: !audienceTooltip.audiencegolError}
+                //a11y: { valid: !audienceTooltip.audiencegolError}
               }}
               tipMsg={language.Validatetheinclusion}
               describedBy={"i04-helper-text"}     
