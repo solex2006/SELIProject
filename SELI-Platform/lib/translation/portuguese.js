@@ -1071,5 +1071,6 @@ var PORTUGUESE = {
   dialog1:'Você requisitou deletar: ',
   dialog2: 'Deseja continuar?',
   outcomeslegend:'Ao final deste curso, os alunos poderão..',
+  repeatedkeywords:'keywords can not be repeated',
 }
 export default PORTUGUESE;

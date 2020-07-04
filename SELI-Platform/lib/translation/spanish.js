@@ -1071,6 +1071,7 @@ var SPANISH = {
   dialog1:'You requested to delete: ',
   dialog2: 'Do you want to proceed?',
   outcomeslegend:'By the end of this course, students will be able..',
+  repeatedkeywords:'No se pueden repetir las palabras clave.',
 }
 export default SPANISH
 

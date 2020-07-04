@@ -12,7 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import InputMask from "react-input-mask";
 import Input from "@material-ui/core/TextField";
 import FeedbackHelp from "./feedback";
-
+import PositionedSnackbar from './../../../imports/components/content/ContentAlert'
 export default class CourseInformation extends React.Component {
   constructor(props) {
     super(props);
@@ -91,10 +91,16 @@ componentDidUpdate() {
             finalKeyWord = finalKeyWord + " ";
           }
         }
-        courseInformation.keyWords.push(finalKeyWord);
-        this.setState({
-          courseInformation: courseInformation,
-        });
+        let duplicate=courseInformation.keyWords.includes(finalKeyWord)
+        if(duplicate){
+          this.props.handleControlMessage(true, this.props.language.repeatedkeywords)
+       
+        }else{
+          courseInformation.keyWords.push(finalKeyWord);
+          this.setState({
+            courseInformation: courseInformation,
+          });
+        }
       }
       else {
         this.props.handleControlMessage(true, this.props.language.keywordsMaximumMessage);
@@ -133,7 +139,6 @@ componentDidUpdate() {
             margin="normal"
             variant="outlined"
             fullWidth
-            required
             value={this.state.courseInformation.title}
             onChange={this.handleChange('title')}
           />
@@ -169,7 +174,7 @@ componentDidUpdate() {
             margin="normal"
             variant="outlined"
             fullWidth
-            required
+            //required
             multiline
             rows={3}
             value={this.state.courseInformation.description}
@@ -190,7 +195,7 @@ componentDidUpdate() {
             value={this.state.courseInformation.language}
             onChange={this.handleChange('language')}
             fullWidth
-            required
+           // required
             margin="normal"
             variant="outlined"
           >
@@ -212,7 +217,6 @@ componentDidUpdate() {
             <TextField
               id="keyWord-input"
               label={`${this.props.language.courseKeyWords} ${this.props.language.required}`}
-              required
               margin="normal"
               variant="outlined"
               className="button-input"

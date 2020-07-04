@@ -113,10 +113,10 @@ export default function CourseContent(props) {
                                             <div className='crnheading'>
                                               <h3>Tasks list of {lesson.title}</h3>
                                             </div>
-                                            <ul className='resourcesbox'>
+                                            <ul >
                                                 {
                                                     topic.lessons[index].activities.map((activity,indextool)=>(
-                                                        <li className='listresources' key={indextool}> 
+                                                        <li key={indextool}> 
                                                             {activity.activity}
                                                         </li> 
                                                     ))
@@ -148,10 +148,10 @@ export default function CourseContent(props) {
                                             <div className='crnheading'>
                                               <h3>Tasks list of {topic.title}</h3>
                                             </div>
-                                            <ul className='resourcesbox'>
+                                            <ul >
                                                 {
                                                     topic.activities.map((activity,indextool)=>(
-                                                        <li className='listresources' key={indextool}> 
+                                                        <li  key={indextool}> 
                                                             {activity.activity}
                                                         </li> 
                                                     ))
@@ -222,10 +222,11 @@ export default function CourseContent(props) {
                                 Assessment Methods
                             </h3>
                         </div>
-                        <ul className='resourcesbox'>
-                            <li className='listresources'>
+                        <ul className='resources'>
+                            <li >
                                 <MenuBookIcon/>
-                                Total of Quiz tasks: 
+                                {" "}
+                                Total of Quiz tasks:{" "} 
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  &&
                                      coursePlan.courseTemplate==='without' &&
@@ -237,9 +238,10 @@ export default function CourseContent(props) {
                                 }
                               
                             </li>
-                            <li className='listresources'>
+                            <li >
                                 <AssignmentOutlinedIcon/>
-                                Total of Activities: 
+                                {" "}
+                                Total of Activities:{" "} 
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  &&
                                      coursePlan.courseTemplate==='without' &&
@@ -250,9 +252,10 @@ export default function CourseContent(props) {
                                       
                                 }
                             </li>
-                            <li className='listresources'>
+                            <li >
                                 <ForumIcon/>
-                                Total of Forums: 
+                                {" "}
+                                Total of Forums: {" "}
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  &&
                                      coursePlan.courseTemplate==='without' &&
