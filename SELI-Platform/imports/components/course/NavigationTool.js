@@ -12,9 +12,7 @@ export default class NavigationTool extends React.Component {
       expandedNodes: this.props.expandedNodes,
       program: this.props.program,
       selected: this.props.selected,
-      addedUnit: undefined,
-      nameLabels: { nameUnit: "", nameSubunit: "", nameTask: ""},
-      disableButton: true,
+      coursePlan: this.props.coursePlan
     }
   }
 
@@ -114,7 +112,7 @@ export default class NavigationTool extends React.Component {
     return(
       <div>
         {
-          this.props.coursePlan.courseStructure === "unit" ?
+          this.state.coursePlan.courseStructure === "unit" ?
             <TreeView
               defaultCollapseIcon={<ArrowDropDownIcon fontSize="small" style={{animation: "fadeIn 0.5s"}}/>}
               defaultExpandIcon={<ArrowRightIcon fontSize="small" style={{animation: "fadeIn 0.5s"}}/>}
@@ -122,7 +120,7 @@ export default class NavigationTool extends React.Component {
               onNodeToggle={(nodeId, expanded) => {this.expandNode(nodeId, expanded)}}
             >
               {
-                this.props.program.map((node, index) => {
+                this.state.program.map((node, index) => {
                   return(
                     <TreeItem
                       /* onDoubleClick={() => {this.selectUnit(index); this.props.setMenuTab(0)}} */
@@ -139,7 +137,7 @@ export default class NavigationTool extends React.Component {
                               onClick={() => this.selectSubunit(childNode._id)} className="child-node" nodeId={`c${index} c${childNode._id}`}
                               label={<div className="tree-label-view">{childNode.name}</div>}
                             >
-                              {
+                              { this.state.coursePlan.courseTemplate !== "without" ?
                                 childNode.activities.map((activityNode, activityIndex) => {
                                   return(
                                     <TreeItem
@@ -151,6 +149,7 @@ export default class NavigationTool extends React.Component {
                                     />
                                   )
                                 })
+                                : undefined
                               }
                             </TreeItem>
                           )
@@ -169,7 +168,7 @@ export default class NavigationTool extends React.Component {
               onNodeToggle={(nodeId, expanded) => {this.expandNode(nodeId, expanded)}}
             >
               {
-                this.props.program.map((node, index) => {
+                this.state.program.map((node, index) => {
                   return(
                     <TreeItem
                       /* onDoubleClick={() => {this.selectUnit(index); this.props.setMenuTab(0)}} */
@@ -178,7 +177,7 @@ export default class NavigationTool extends React.Component {
                       nodeId={`p${index}`} 
                       label={<div className="tree-label-view">{node.name}</div>}
                     >
-                      {
+                      { this.state.coursePlan.courseTemplate !== "without" ?
                         node.activities.map((activityNode, activityIndex) => {
                           return(
                             <TreeItem
@@ -190,6 +189,7 @@ export default class NavigationTool extends React.Component {
                             />
                           )
                         })
+                        : undefined
                       }
                     </TreeItem>
                   )

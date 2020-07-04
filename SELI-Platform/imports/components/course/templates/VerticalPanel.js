@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,7 +10,6 @@ import CourseCreatorMenu from '../CourseCreatorMenu';
 import { Container, Draggable, dropHandlers } from 'react-smooth-dnd';
 import { applyDrag, generateItems } from '../../../../lib/dragAndDropUtils';
 import NavigationTool from '../NavigationTool';
-import { DiVim } from 'react-icons/di';
 
 export default class VerticalPanel extends React.Component {
   constructor(props) {

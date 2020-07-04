@@ -321,11 +321,13 @@ export default class CourseProgram extends React.Component {
 
   loadingData = () => {
     let arrayOfItems;
+    let arrayOfDesignItems;
     let titleTop;
     let courseInformation = this.state.courseInformation;
     if (courseInformation.program.length) {
       if (this.props.selected[3] === 0) {
         arrayOfItems = courseInformation.program[this.props.selected[0]].items;
+        arrayOfDesignItems = courseInformation.design[this.props.selected[0]].tools;
         if (courseInformation.coursePlan.courseStructure === "unit") {
           titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}`
         }
@@ -334,23 +336,27 @@ export default class CourseProgram extends React.Component {
         }
       } else if (this.props.selected[3] === 1) {
         arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items;
+        arrayOfDesignItems = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]].tools;
         titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}
         - ${this.props.language.lesson}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`
       } else {
         if (courseInformation.coursePlan.courseStructure === "unit") {
           arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items;
+          arrayOfDesignItems = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].tools;
           titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}
           - ${this.props.language.lesson}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}
           - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}`
         }
         else {
           arrayOfItems = courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items;
+          arrayOfDesignItems = courseInformation.design[this.props.selected[0]].activities[this.props.selected[2]].tools;
           titleTop = `${this.props.language.topic}: ${this.props.courseInformation.program[this.props.selected[0]].name} 
           - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].name}`
         }
       }
       this.setState({
         arrayOfItems,
+        arrayOfDesignItems,
         titleTop,
       })
     }
@@ -394,8 +400,6 @@ export default class CourseProgram extends React.Component {
       return (
         <FreeWithout
           arrayOfItems={this.state.arrayOfItems}
-          titleTop={this.state.titleTop}
-          selected={this.props.selected}
           editItem={this.editItem.bind(this)}
           removeItem={this.removeItem.bind(this)}
           openDialog={this.openDialog.bind(this)}
@@ -404,12 +408,11 @@ export default class CourseProgram extends React.Component {
           language={this.props.language}
         ></FreeWithout>
       )
-    } else if (this.props.courseInformation.coursePlan.courseTemplate === 'spiral') {
+    } else {
       return (
         <TemplateParent
           arrayOfItems={this.state.arrayOfItems}
-          titleTop={this.state.titleTop}
-          selected={this.props.selected}
+          arrayOfDesignItems={this.state.arrayOfDesignItems}
           editItem={this.editItem.bind(this)}
           removeItem={this.removeItem.bind(this)}
           openDialog={this.openDialog.bind(this)}
@@ -427,7 +430,12 @@ export default class CourseProgram extends React.Component {
         {this.state.arrayOfItems && (
           <div className="course-creator-container">
             <div className="course-creator-work-area">
-              {this.choosingTemplate()}
+              <div className="general-container-drop-area">
+                <div className="title-course">  
+                  <div className="subtitle">{this.state.titleTop}</div>
+                </div>
+                {this.choosingTemplate()}
+              </div>
               <VerticalPanel
                 courseInformation={this.props.courseInformation}
                 menuTab={this.state.menuTab}

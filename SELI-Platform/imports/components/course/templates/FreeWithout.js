@@ -19,9 +19,6 @@ export default class FreeWithout extends React.Component {
           :
           {backgroundImage: "url()"}} className="course-creator-drop-area"
       >
-        <div className="title-course">  
-          <div className="subtitle">{this.props.titleTop}</div>
-        </div>
         {
           !this.props.arrayOfItems.length ?
             <div className="background">
@@ -36,7 +33,7 @@ export default class FreeWithout extends React.Component {
               lockAxis="y"
               dragBeginDelay={500}
               dragClass="drag-class"
-              style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
+              style={{width: "100%", height: "100%"}}
               groupName="1"
               getChildPayload={i => this.props.arrayOfItems[i]}
               onDrop={e => this.props.openDialog(e)}>
@@ -62,7 +59,7 @@ export default class FreeWithout extends React.Component {
               lockAxis="y"
               dragBeginDelay={0}
               dragClass="drag-class"
-              style={{width: "100%", height: "calc(100% - 3.2vh)", "margin-top": "3.2vh"}}
+              style={{width: "100%", height: "100%"}}
               groupName="1"
               getChildPayload={i => this.props.arrayOfItems[i]}
               onDrop={e => this.props.openDialog(e)}
