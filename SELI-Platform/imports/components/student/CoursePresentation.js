@@ -29,7 +29,7 @@ import {
 } from "./userCard";
 import Lista from './shared/ListComponent';
 import CourseContent from './shared/ContentPreview'
-//import Syllabus from "./syllabus"
+import SyllabusButton from './CourseSyllabus'
 import HardwareSoftwareReq from './shared/HardwareSoftwareReq'
 
 const useStyles = makeStyles(theme => ({
@@ -176,10 +176,10 @@ const CourseSummary = ({coursedata}) => {
 							<CastForEducationIcon />
 						</Avatar>
 					</ListItemIcon>
+					{console.log("coursedataInfo",coursedata)}
 					<ListItemText
 						secondary={"Course modality"}
-						primary={coursedata.coursePlan.guidedCoursePlan +'-'+coursedata.coursePlan.courseTemplate
-									+'-'+coursedata.coursePlan.courseStructure}  //guidedCoursePlan: "guided", courseTemplate: "spiral", courseStructure: "topic"
+						primary={coursedata.analysis[1]}  
 					/>
 				</ListItem>
 				{/* <ListItem>
@@ -349,14 +349,20 @@ export default function MainPage(props) {
 					data={props.course.design}
 					coursePlan={props.course.coursePlan}
 				/>
-
 				<p>
 					Read the course syllabus for a complete view of the course program
 				</p>
-				 {/* <Syllabus />  */}
+
+				
+				<div className='crnheading'>
+					<SyllabusButton
+						courseInformation={props.course}
+						language={props.language}
+					/>
+				</div>
+				    
 			</Paper>
-			
-			
+		
 			<Paper component="article" elevation={0} className={classes.paper1}> 
 				<div className='crnheading'>
 					<h2 className={classes.header2}>Requirements</h2>

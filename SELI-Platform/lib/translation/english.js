@@ -1074,6 +1074,14 @@ var ENGLISH = {
   dialog1:'You requested to delete: ',
   dialog2: 'Do you want to proceed?',
   outcomeslegend:'By the end of this course, students will be able..',
+  repeatedkeywords:'keywords can not be repeated',
+  Informalstudent:'Informal student',
+  Postgraduatestudent:'Post graduate student',
+  Pregradestudent:'Pregrade student',
+  HighSchoolStudents:'High School Students',
+  MiddleSchoolStudents:'Middle School Students',
+  ElementarySchoolStudents:'Elementary School Students',
+
   
 }
 export default ENGLISH;

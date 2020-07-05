@@ -28,7 +28,7 @@ export default function HardwareSoftwareReq(props) {
 								))
 								:
 								<div className='descriptiontext'>
-									Information not available.
+									No hardware requirement.
 								</div>
 								 
 							}
@@ -38,7 +38,6 @@ export default function HardwareSoftwareReq(props) {
 				:
 				undefined
 			}
-
 			<div className='crnheading'>
 				<h4  id="tech-soft">Software requirements</h4 >
 			</div>
@@ -54,7 +53,7 @@ export default function HardwareSoftwareReq(props) {
 							)) 
 						:
 						<div>
-							Information not available.
+							No software requirement.
 						</div>
 						   
 					}

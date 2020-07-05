@@ -83,17 +83,20 @@ function Syllabus(props) {
 
 	return (
 		<div className='crnoutcomeinfo'>
+			
 			<div className='crnheading'>
 				<h1 className='title'>Course Syllabus</h1>
 			</div>
 			
 			<div className='info'>
-				<div className='info'>{props.courseInformation.title}</div>
-				<div className='info'>{props.courseInformation.subtitle}</div>
-				<div className='info'>Instructor: {props.courseInformation.createdBy}</div>
-			</div>
 				
-		
+				<div className='info'>{props.courseInformation.title}</div>
+				<div className='infosub'>{props.courseInformation.subtitle}</div>
+				<div className='infocreated'>Instructor: {props.courseInformation.createdBy}</div>
+			</div>
+			<img style={{padding:'15px', display:'block', marginLeft:'auto', marginRight: 'auto'}} src="seli-logo.png" alt="logo" width="120" height="70"></img>
+				
+			{/* style={{backgroundImage: "url(seli-logo.png)"}} */}
 
 			<nav aria-labelledby="toc">
 				<details>

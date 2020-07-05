@@ -85,16 +85,17 @@ export default function CourseContent(props) {
       let games=0
       let presentations=0
       let Supplementary =0
-      
       if(course[unit].lessons[lesson].tools[1].checked===true && course[unit].lessons[lesson].tools[1].items!=undefined){
-         games=course[unit].lessons[lesson].tools[1].length;
+         
+         games=course[unit].lessons[lesson].tools[1].items.length;
+
       }if(course[unit].lessons[lesson].tools[3].checked===true && course[unit].lessons[lesson].tools[3].items!=undefined){
-         presentations=course[unit].lessons[lesson].tools[3].length;
+         presentations=course[unit].lessons[lesson].tools[3].items.length;
+         console.log("presentaciones",presentations)
       }if(course[unit].lessons[lesson].tools[4].checked===true && course[unit].lessons[lesson].tools[4].items!=undefined){
-         Supplementary=course[unit].lessons[lesson].tools[4].length;
+         Supplementary=course[unit].lessons[lesson].tools[4].items.length;
       }
-      console.log("valores------>", games, presentations, Supplementary)
-      if(games==undefined){games=0} else if(presentations===undefined){presentations=0}else if(Supplementary===undefined){Supplementary=0}
+      if(games===undefined){games=0} else if(presentations===undefined){presentations=0}else if(Supplementary===undefined){Supplementary=0}
       return {games, presentations, Supplementary} 
 
    }

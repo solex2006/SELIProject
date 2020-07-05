@@ -12,9 +12,7 @@ export default class NavigationTool extends React.Component {
       expandedNodes: this.props.expandedNodes,
       program: this.props.program,
       selected: this.props.selected,
-      addedUnit: undefined,
-      nameLabels: { nameUnit: "", nameSubunit: ""},
-      disableButton: true,
+      coursePlan: this.props.coursePlan
     }
   }
 
@@ -33,53 +31,88 @@ export default class NavigationTool extends React.Component {
   }
 
   selectUnit(index) {
-    if (this.props.dialog) {
-      let program = this.state.program;
-      let selected = this.state.selected;
-      selected.splice(0, selected.length);
-      selected.push(index);
-      selected.push(0);
-      this.setState({
-        update: true,
-      }, () => {
-        this.props.reRender();
-        this.props.turnOffSortMode();
-      });
-    }
+    let selected = this.state.selected;
+    selected.splice(0, selected.length);
+    selected.push(index);
+    selected.push(0);
+    selected.push(0);
+    selected.push(0);
+    this.doCommons();
   }
 
   selectSubunit(_id) {
-    if (this.props.dialog) {
-      let program = this.state.program;
-      let selected = this.state.selected;
-      let unitIndex;
-      let subunitIndex;
-      for (var i = 0; i < program.length; i++) {
+    let program = this.state.program;
+    let selected = this.state.selected;
+    let unitIndex;
+    let subunitIndex;
+    for (var i = 0; i < program.length; i++) {
+      for (var j = 0; j < program[i].lessons.length; j++) {
+        if (program[i].lessons[j]._id === _id) {
+          unitIndex = i;
+          subunitIndex = j;
+          break;
+        }
+      }
+    }
+    selected.splice(0, selected.length);
+    selected.push(unitIndex);
+    selected.push(subunitIndex);
+    selected.push(0);
+    selected.push(1);
+    this.doCommons();
+  }
+
+  selectTask(_id, type) {
+    let program = this.state.program;
+    let selected = this.state.selected;
+    let unitIndex;
+    let subunitIndex;
+    let taskIndex;
+    for (var i = 0; i < program.length; i++) {
+      if (type === "unit") {
         for (var j = 0; j < program[i].lessons.length; j++) {
-          if (program[i].lessons[j]._id === _id) {
+          for (var k = 0; k < program[i].lessons[j].activities.length; k++) {
+            if (program[i].lessons[j].activities[k]._id === _id) {
+              unitIndex = i;
+              subunitIndex = j;
+              taskIndex = k;
+              break;
+            }
+          }
+        }
+      } else {
+        for (var j = 0; j < program[i].activities.length; j++) {
+          if (program[i].activities[j]._id === _id) {
             unitIndex = i;
-            subunitIndex = j;
+            subunitIndex = 0;
+            taskIndex = j;
             break;
           }
         }
       }
-      selected.splice(0, selected.length);
-      selected.push(unitIndex);
-      selected.push(subunitIndex);
-      this.setState({
-        update: true,
-      }, () => {
-        this.props.reRender();
-        this.props.turnOffSortMode();
-      });
     }
+    selected.splice(0, selected.length);
+    selected.push(unitIndex);
+    selected.push(subunitIndex);
+    selected.push(taskIndex);
+    selected.push(2);
+    this.doCommons();
+  }
+
+  doCommons = () => {
+    this.setState({
+      update: true,
+    }, () => {
+      this.props.reRender();
+      this.props.turnOffSortMode();
+    });
   }
 
   render() {
     return(
       <div>
         {
-          this.props.coursePlan.courseStructure === "unit" ?
+          this.state.coursePlan.courseStructure === "unit" ?
             <TreeView
               defaultCollapseIcon={<ArrowDropDownIcon fontSize="small" style={{animation: "fadeIn 0.5s"}}/>}
               defaultExpandIcon={<ArrowRightIcon fontSize="small" style={{animation: "fadeIn 0.5s"}}/>}
@@ -87,9 +120,11 @@ export default class NavigationTool extends React.Component {
               onNodeToggle={(nodeId, expanded) => {this.expandNode(nodeId, expanded)}}
             >
               {
-                this.props.program.map((node, index) => {
+                this.state.program.map((node, index) => {
                   return(
-                    <TreeItem 
+                    <TreeItem
+                      /* onDoubleClick={() => {this.selectUnit(index); this.props.setMenuTab(0)}} */
+                      onClick={() => this.selectUnit(index)}
                       className="parent-node" 
                       nodeId={`p${index}`} 
                       label={<div className="tree-label-view">{node.name}</div>}
@@ -98,21 +133,23 @@ export default class NavigationTool extends React.Component {
                         node.lessons.map((childNode, index) => {
                           return(
                             <TreeItem
-                              onDoubleClick={() => {this.selectSubunit(childNode._id); this.props.setMenuTab(0)}}
+                              /* onDoubleClick={() => {this.selectSubunit(childNode._id); this.props.setMenuTab(0)}} */
                               onClick={() => this.selectSubunit(childNode._id)} className="child-node" nodeId={`c${index} c${childNode._id}`}
                               label={<div className="tree-label-view">{childNode.name}</div>}
                             >
-                              {
+                              { this.state.coursePlan.courseTemplate !== "without" ?
                                 childNode.activities.map((activityNode, activityIndex) => {
                                   return(
                                     <TreeItem
                                       icon={<LabelIcon fontSize="small"/>}
-                                      /* onDoubleClick={() => {this.selectSubunit(activityNode._id); this.props.setMenuTab(0)}}
-                                      onClick={() => this.selectSubunit(activityNode._id)} className="task-node" nodeId={`t${activityIndex} t${activityNode._id}`} */
+                                      /* onDoubleClick={() => {this.selectTask(activityNode._id, "unit"); this.props.setMenuTab(0)}} */
+                                      onClick={() => this.selectTask(activityNode._id, "unit")} 
+                                      className="task-node" nodeId={`t${activityIndex} t${activityNode._id}`}
                                       label={<div className="tree-label-view">{activityNode.name}</div>}
                                     />
                                   )
                                 })
+                                : undefined
                               }
                             </TreeItem>
                           )
@@ -131,26 +168,28 @@ export default class NavigationTool extends React.Component {
               onNodeToggle={(nodeId, expanded) => {this.expandNode(nodeId, expanded)}}
             >
               {
-                this.props.program.map((node, index) => {
+                this.state.program.map((node, index) => {
                   return(
                     <TreeItem
-                      onDoubleClick={() => {this.selectUnit(index); this.props.setMenuTab(0)}}
+                      /* onDoubleClick={() => {this.selectUnit(index); this.props.setMenuTab(0)}} */
                       onClick={() => this.selectUnit(index)}
                       className="parent-node"
                       nodeId={`p${index}`} 
                       label={<div className="tree-label-view">{node.name}</div>}
                     >
-                      {
+                      { this.state.coursePlan.courseTemplate !== "without" ?
                         node.activities.map((activityNode, activityIndex) => {
                           return(
                             <TreeItem
                               icon={<LabelIcon fontSize="small"/>}
-                              /* onDoubleClick={() => {this.selectSubunit(activityNode._id); this.props.setMenuTab(0)}}
-                              onClick={() => this.selectSubunit(activityNode._id)} className="task-node" nodeId={`t${activityIndex} t${activityNode._id}`} */
+                              /* onDoubleClick={() => {this.selectTask(activityNode._id, "topic"); this.props.setMenuTab(0)}} */
+                              onClick={() => this.selectTask(activityNode._id, "topic")} 
+                              className="task-node" nodeId={`t${activityIndex} t${activityNode._id}`}
                               label={<div className="tree-label-view">{activityNode.name}</div>}
                             />
                           )
                         })
+                        : undefined
                       }
                     </TreeItem>
                   )

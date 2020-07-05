@@ -62,6 +62,8 @@ export default class CreateCourse extends React.Component {
           courseStructure: 'topic'
         },
         accessibility:[],
+        stepscompleted:[],
+        stepsNocompleted:[],
         analysis:[],
         design:[],
         organization: '',
@@ -74,7 +76,7 @@ export default class CreateCourse extends React.Component {
       lists: [],
       buildedItems: false,
       expandedNodes: [],
-      selected: [0, 0],
+      selected: [0, 0, 0, 0],
       saved: false,
       action: "",
       updateSteps:''
@@ -107,6 +109,8 @@ export default class CreateCourse extends React.Component {
           program: this.props.courseToEdit.program,
           design: this.props.courseToEdit.design ? this.props.courseToEdit.design : [],
           accessibility: this.props.courseToEdit.accessibility,
+          stepscompleted: this.props.courseToEdit.stepscompleted,
+          stepsNocompleted: this.props.courseToEdit.stepsNocompleted,
           classroom: this.props.courseToEdit.classroom,
           analysis: this.props.courseToEdit.analysis ? this.props.courseToEdit.analysis : [],
         },
@@ -143,12 +147,9 @@ export default class CreateCourse extends React.Component {
   }
 
   validate=(data=>{
-    //console.log("------------Validado desde CreateCourse-----------",data)
     this.setState({
       updateSteps:data,
     })
-
-
   })
 
   loadingData = () => {
@@ -249,7 +250,7 @@ export default class CreateCourse extends React.Component {
           saved: course,
         });
         this.props.savedCourseState();
-        this.props.createForum(courseInformation, course);
+        //this.props.createForum(courseInformation, course);
       }
       else {
         Courses.update(
@@ -270,6 +271,8 @@ export default class CreateCourse extends React.Component {
               coursePlan: courseInformation.coursePlan,
               program: courseInformation.program,
               accessibility:courseInformation.accessibility,
+              stepscompleted:courseInformation.stepscompleted,
+              stepsNocompleted:courseInformation.stepsNocompleted,
               analysis:courseInformation.analysis,
               design:courseInformation.design,
               classroom: courseInformation.classroom,

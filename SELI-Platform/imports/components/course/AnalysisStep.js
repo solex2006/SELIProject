@@ -126,7 +126,7 @@ export default function AnalysisStep(props) {
   
 
   useEffect(()=>{// 
-    console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,constraints)
+    console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,analysisTooltip)
         if(modality!=undefined && pedagogical!=undefined &&
            analysisTooltip.learningobjectives===false  && analysisTooltip.outcomes===false ){
             props.validate('passCourseAnalysis')
@@ -344,12 +344,9 @@ export default function AnalysisStep(props) {
         countError+=1;
       }
       if(countError===5){
-        setanalysisTooltip(prev=>{
-          return {...prev, learningobjectives:false}
-        })
-        setanalysisTooltip(prev=>{
-          return {...prev, learningobjectives: true}
-        })
+        let newAnalysis=analysisTooltip;
+        newAnalysis.learningobjectives=true;
+        setanalysisTooltip(newAnalysis)
         let learningobj=courseinformation;
         learningobj.accessibility[2]=analysisTooltip;
         setcourseInformation(learningobj);
@@ -365,8 +362,7 @@ export default function AnalysisStep(props) {
 		atts[index].label = controlEdit.tempValue;
 		atts[index].aux = controlEdit.tempAuxValue;
 
-		console.log(controlEdit.tempAuxValue);
-		console.log(controlEdit.tempValue);
+	
 
 		let newGoals = goals;
 		newGoals[category] = atts;
@@ -374,15 +370,19 @@ export default function AnalysisStep(props) {
     setGoals(newGoals);
 
     if(event.target.value!=''){
-      setanalysisTooltip((prevState)=>{
+      /* setanalysisTooltip((prevState)=>{
         return{...prevState, learningobjectives: false}
-      })
+      }) */
+      let newAnalysis=analysisTooltip;
+      newAnalysis.learningobjectives=false;
+      setanalysisTooltip(newAnalysis)
     }
     let addNewknowledges=courseinformation;
     addNewknowledges.analysis[3]=newGoals;
     addNewknowledges.accessibility[2]=analysisTooltip;
     setcourseInformation(addNewknowledges)
 
+    
   
 
 		setControlEdit({
@@ -475,9 +475,10 @@ export default function AnalysisStep(props) {
         countError+=1;
       }
       if(countError>=1){
-        setanalysisTooltip(prev=>{
-          return {...prev, outcomes: true}
-        })
+        
+        let newAnalysis=analysisTooltip;
+        newAnalysis.outcomes=true;
+        setanalysisTooltip(newAnalysis)
         let learningobj=courseinformation;
         learningobj.accessibility[2]=analysisTooltip;
         setcourseInformation(learningobj);
@@ -504,12 +505,16 @@ export default function AnalysisStep(props) {
         countError+=1;
       }
       if(countError===3){
-        setanalysisTooltip(prev=>{
+        console.log("completo lso tres")
+        /* setanalysisTooltip(prev=>{
           return {...prev, outcomes: false}
-        })
-        let learningobj=courseinformation;
+        }) */
+        let newoutcome=analysisTooltip
+        newoutcome.outcomes=false;
+        setanalysisTooltip(newoutcome)
+        /* let learningobj=courseinformation;
         learningobj.accessibility[2]=analysisTooltip;
-        setcourseInformation(learningobj);
+        setcourseInformation(learningobj); */
       }
     })
 
@@ -517,6 +522,7 @@ export default function AnalysisStep(props) {
     addNewknowledges.analysis[4]=newGoals;
     addNewknowledges.accessibility[2]=analysisTooltip;
     setcourseInformation(addNewknowledges)
+    console.log("el analysistolltip", analysisTooltip)
 
 		setControlEdit({
 			tempValue: "",
@@ -774,12 +780,12 @@ export default function AnalysisStep(props) {
   
   return (
     <div className="form-input-audiences">
-     <h1 className={classes.psychomotorDomain}>{labels.AnalysisPhaseTitle}</h1>
+    <h1 className={classes.psychomotorDomain}>{labels.AnalysisPhaseTitle}</h1>
       {/* <Typography variant="h6" className={classes.title}>Analysis Phase</Typography> */}
       <p className={classes.psychomotorDomain}>
         {labels.analysisphase}
       </p>
-  <h3 className={classes.psychomotorDomain}>{labels.Coursesummary}</h3>
+    <h3 className={classes.psychomotorDomain}>{labels.Coursesummary}</h3>
       <List
           component="nav"
           aria-labelledby="nested-list-subheader"
@@ -1029,14 +1035,7 @@ export default function AnalysisStep(props) {
 						</Grid>
 					</Grid>
 				))}
-       
-       <div className={classes.inputText}>
-        <h3 className={classes.affectiveDomain}>{labels.affectiveDomain}</h3>
-          {InputText('affectiveDomain',affectiveDomain)}
-        
-        <h3 className={classes.psychomotorDomain}>{labels.psychomotorDomain}</h3>
-          {InputText('psychomotorDomain',psychomotorDomain)}
-          <Grid item>
+         <Grid item>
             <FeedbackHelp
               validation={{
                 error: analysisTooltip.learningobjectives,
@@ -1048,6 +1047,14 @@ export default function AnalysisStep(props) {
               describedBy={"i05-helper-text"}
             />
         </Grid>
+       
+       <div className={classes.inputText}>
+        <h3 className={classes.affectiveDomain}>{labels.affectiveDomain}</h3>
+          {InputText('affectiveDomain',affectiveDomain)}
+        
+        <h3 className={classes.psychomotorDomain}>{labels.psychomotorDomain}</h3>
+          {InputText('psychomotorDomain',psychomotorDomain)}
+         
        </div>   
 			</Grid>
 
@@ -1178,20 +1185,21 @@ export default function AnalysisStep(props) {
 										<AddIcon /> <ListItemText primary="Add" />
 									</ListItem>
 								</List>
-								<FeedbackHelp
-									validation={{
-										error: false,
-										errorMsg: "",
-										errorType: "",
-										a11y: null
-									}}
-									tipMsg={category + " objectives are ...."}
-									describedBy={"i05-helper-text"}
-								/>
+								
 							</form>
 						</Grid>
 					</Grid>
 				))}
+        <FeedbackHelp
+          validation={{
+            error: analysisTooltip.outcomes,
+            errorMsg: labels.errorMsgall,
+            errorType: "",
+            a11y: null
+          }}
+          tipMsg={"Behavioral Outcomes are ...."}
+          describedBy={"i05-helper-text"}
+        />
 			</Grid>
     
       <Grid container className={classes.formGroup}>
@@ -1376,9 +1384,9 @@ export default function AnalysisStep(props) {
             onChange={(event)=>{
               setpedagogical(event.target.value) 
               if(event.target.value!=''){
-                setanalysisTooltip((prevState)=>{
-                  return{...prevState, pedagogical: false}
-                })
+                let analisis=analysisTooltip;
+                 analisis.pedagogical=false;
+                 setanalysisTooltip(analisis)
               }else{
                  let analisis=analysisTooltip;
                  analisis.pedagogical=true;

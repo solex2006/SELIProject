@@ -68,6 +68,7 @@ const PositionedSnackbar =(props)=> {
   const classes = useStyles();
   return (
     <div>
+      {console.log("snackbar",props)}
         {
             (props.type==="pdf" || props.type==="Pdf")?
             snackbar(props.language.noPdfFounded)
@@ -94,6 +95,12 @@ const PositionedSnackbar =(props)=> {
         }
         {
             (props.type==="compressed" || props.type==="Compressed")?
+            snackbar(props.language.noCompressedFounded)
+            :
+            undefined
+        }
+        {
+            (props.type==="keywords")?
             snackbar(props.language.noCompressedFounded)
             :
             undefined
