@@ -28,7 +28,7 @@ import portuguese from '../../lib/translation/portuguese';
 import turkish from "../../lib/translation/turkish";
 import CourseFilesCollection from '../../lib/CourseFilesCollection';
 import TitleButton from './TitleButton';
-
+import SchoolIcon from '@material-ui/icons/School';
 var bakery=require('openbadges-bakery-v2');
 export default class BadgeVerification extends React.Component {
   constructor(props) {
@@ -195,12 +195,12 @@ export default class BadgeVerification extends React.Component {
               language={this.state.language}
               setLanguage={this.setLanguage.bind(this)}
             />
-            <TitleButton
-              showErrorFunction={showError => this.showError = showError}
-              language={this.state.language}
-              color="secondary"
-              onClick={()=>this.verifyBadge()}
-            />
+            <div className="title-badge-registration">
+              <h1  className="management-title">{"Verificate Badge"}<SchoolIcon className="management-title-icon"/></h1>
+              {/* <Button onClick={()=>this.verifyBadge()} className="form-stepper-complete-button" color={this.props.color}>
+                {"Extraer Datos"}
+              </Button> */}
+            </div>    
             <BadgeInformation
                showErrorFunction={showError => this.showError = showError}
                badgeInformation={this.state.badgeInformation}

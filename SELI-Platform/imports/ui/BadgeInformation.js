@@ -175,7 +175,7 @@ export default class BadgeInformation extends React.Component {
  }
   render() {
     return(
-      <div className="course-information-container">
+      <div className="badge-verification-container">
         <div className="form-file-column">
           {
             this.state.badgeInformation.image !== undefined ?
@@ -288,6 +288,12 @@ export default class BadgeInformation extends React.Component {
               onKeyPress={() => this.keyController(event, 'username')}
               error={this.state.showError && this.state.badgeInformation  .username === ''}
             />
+            <Button  variant="outlined" color="primary">
+                Verify
+            </Button>
+            <Button  variant="outlined" color="secondary">
+                Clean
+            </Button>
           </div>
         </div>
         <Dialog

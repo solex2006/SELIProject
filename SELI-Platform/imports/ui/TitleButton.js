@@ -29,6 +29,7 @@ export default class TitleButton extends React.Component {
     this.setState({
       chekingSesion: true,
     }, () => {
+      console.log(this.props.history);
       checkUserType(Meteor.userId(), 'tutor', this.props.history);
       Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
         let language = {};

@@ -63,6 +63,8 @@ export default class User extends React.Component {
   }
 
   componentDidMount(){
+
+    console.log(this.props.history)
     Session.set({language: Session.get('language') ? Session.get('language') : english});
     this.setState({
       language: Session.get('language') ? Session.get('language') : english,
@@ -647,7 +649,11 @@ export default class User extends React.Component {
                     }
                     {
                       this.state.component === 'badgeVerification' ?
-                      <BadgeVerification/>
+                      <BadgeVerification
+                          language={this.state.language}
+                          user={this.state.user}
+                          history={this.props.history}
+                      />
                       :
                       undefined
                     }
