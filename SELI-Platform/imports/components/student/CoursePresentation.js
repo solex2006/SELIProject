@@ -348,6 +348,7 @@ export default function MainPage(props) {
 				<CourseContent
 					data={props.course.design}
 					coursePlan={props.course.coursePlan}
+					program={props.course.program}
 				/>
 				<p>
 					Read the course syllabus for a complete view of the course program
