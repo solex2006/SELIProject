@@ -206,6 +206,7 @@ export default function DesignStep(props) {
   }, []); 
 
   useEffect(() => {
+    console.log("enel design",  guidedCoursePlan, template,organization)
     if(organization==='unit' && template!='without') {
       setOrganization('topic')
     }

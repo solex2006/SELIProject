@@ -63,7 +63,7 @@ export default class CreateCourse extends React.Component {
         },
         accessibility:[],
         stepscompleted:[],
-        stepsNocompleted:[],
+        stepsflag:'',
         analysis:[],
         design:[],
         organization: '',
@@ -110,7 +110,7 @@ export default class CreateCourse extends React.Component {
           design: this.props.courseToEdit.design ? this.props.courseToEdit.design : [],
           accessibility: this.props.courseToEdit.accessibility,
           stepscompleted: this.props.courseToEdit.stepscompleted,
-          stepsNocompleted: this.props.courseToEdit.stepsNocompleted,
+          stepsflag: this.props.courseToEdit.stepsflag,
           classroom: this.props.courseToEdit.classroom,
           analysis: this.props.courseToEdit.analysis ? this.props.courseToEdit.analysis : [],
         },
@@ -231,11 +231,13 @@ export default class CreateCourse extends React.Component {
   }
 
   saveCourse() {
+    console.log("se va a guadar------------")
     if (this.validateSaveCourse()) {
       let user = Meteor.user();
       let courseInformation = this.state.courseInformation;
       let course;
       let valueSubtitle = courseInformation.subtitle;
+      courseInformation.stepsflag="saved";
 
       if (valueSubtitle === undefined) {
         valueSubtitle = "-----"
@@ -272,7 +274,7 @@ export default class CreateCourse extends React.Component {
               program: courseInformation.program,
               accessibility:courseInformation.accessibility,
               stepscompleted:courseInformation.stepscompleted,
-              stepsNocompleted:courseInformation.stepsNocompleted,
+              stepsflag:courseInformation.stepsflag,
               analysis:courseInformation.analysis,
               design:courseInformation.design,
               classroom: courseInformation.classroom,
