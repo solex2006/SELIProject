@@ -10,38 +10,16 @@ export default class TemplateParent extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.loadingData();
+  getTemplatePayload = (i) => {
+    if (i > -1) {
+      return this.props.arrayOfItems[i]
+    }
   }
 
-  loadingData = () => {
-    let txtmain = -1;
-    let imgmain = -1;
-    let iovsub = -1;
-    let txtsub = -1;
-    this.props.arrayOfItems.map((item, index) => {
-      if (item.code) {
-        if (item.code === "txtmain") {
-          txtmain = index;
-        } else if (item.code === "imgmain") {
-          imgmain = index;
-        } else if (item.code === "iovsub") {
-          iovsub = index;
-        } else if (item.code === "txtsub") {
-          txtsub = index;
-        }       
-      }
-    })
-    this.setState({
-      txtmain,
-      imgmain,
-      iovsub,
-      txtsub,
-    })
-  }
-
-  templateItem = (contentIndex, contentCode, label, type) => {
-    var classNameTemplate;
+  templateItem = (contentCode, label, type) => {
+    let contentIndex;
+    let classNameTemplate;
+    contentIndex = this.props.arrayOfItems.findIndex(item => item.code === contentCode)
     if (type === 0) {
       classNameTemplate = "template-column-item";
     } else {
@@ -49,6 +27,7 @@ export default class TemplateParent extends React.Component {
     }
     return(
       <div
+        id={contentCode}
         style={
           contentIndex === -1 ?
             {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1"} : {backgroundImage: "none"}
@@ -60,15 +39,15 @@ export default class TemplateParent extends React.Component {
           </div> 
         )}
         <Container
-          lockAxis="y"
+          //lockAxis="y"
           dragBeginDelay={500}
           dragClass="drag-class"
-          style={{width: "100%", height: "200px"}}
+          style={{width: "100%", height: "calc(100% - 37px"}}
           groupName="1"
-          getChildPayload={i => this.props.arrayOfItems[i]}
+          getChildPayload={i => this.getTemplatePayload(contentIndex)}
           onDrop={e => this.props.openDialog(e, contentCode)}>
           {
-            contentIndex > -1 && (
+            this.props.arrayOfItems.length && this.props.arrayOfItems.length > contentIndex && contentIndex > -1 && (
               <Draggable key={contentIndex}>
                 <ContentItem
                   fromTemplate
@@ -90,90 +69,18 @@ export default class TemplateParent extends React.Component {
   render() {
     return(
       <div className="template-container">
-        {this.templateItem(this.state.txtmain, "txtmain", "Main Content", 0)}
-        {this.templateItem(this.state.imgmain, "imgmain", this.props.language.image, 1)}
-        {/* <TemplateItem
-          contentIndex={this.state.txtmain}
-          contentCode={"txtmain"}
-          label={"Main Content"}
-          classNameTemplate={"template-column-item"}
-          arrayOfItems={this.props.arrayOfItems}
-          openDialog={this.props.openDialog.bind(this)}
-          removeItem={this.props.removeItem.bind(this)}
-          editItem={this.props.editItem.bind(this)}
-          handleDecorative={this.props.handleDecorative.bind(this)}
-          editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-          language={this.props.language}
-        ></TemplateItem>
-        <TemplateItem
-          contentIndex={this.state.imgmain}
-          contentCode={"imgmain"}
-          label={this.props.language.image}
-          classNameTemplate={"template-column-item"}
-          arrayOfItems={this.props.arrayOfItems}
-          openDialog={this.props.openDialog.bind(this)}
-          removeItem={this.props.removeItem.bind(this)}
-          editItem={this.props.editItem.bind(this)}
-          handleDecorative={this.props.handleDecorative.bind(this)}
-          editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-          language={this.props.language}
-        ></TemplateItem> */}
+        {this.templateItem("txtContent", "Main Content", 0)}
         {/* <div className="template-row">
-          <TemplateItem
-            contentIndex={this.state.txtmain}
-            contentCode={"txtmain"}
-            label={"Main Content"}
-            classNameTemplate={"template-row-item"}
-            arrayOfItems={this.props.arrayOfItems}
-            openDialog={this.props.openDialog.bind(this)}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-            language={this.props.language}
-          ></TemplateItem>
-          <TemplateItem
-            contentIndex={this.state.imgmain}
-            contentCode={"imgmain"}
-            label={this.props.language.image}
-            classNameTemplate={"template-row-item"}
-            arrayOfItems={this.props.arrayOfItems}
-            openDialog={this.props.openDialog.bind(this)}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-            language={this.props.language}
-          ></TemplateItem>
+          {this.templateItem("fileContent", "File", 1)}
+          {this.templateItem("linkContent", "Links", 1)}
         </div>
         <div className="template-row">
-          <TemplateItem
-            contentIndex={this.state.iovsub}
-            contentCode={"iovsub"}
-            label={`${this.props.language.image} ${this.props.language.or} ${this.props.language.video}`}
-            classNameTemplate={"template-row-item"}
-            arrayOfItems={this.props.arrayOfItems}
-            openDialog={this.props.openDialog.bind(this)}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-            language={this.props.language}
-          ></TemplateItem>
-          <TemplateItem
-            contentIndex={this.state.txtsub}
-            contentCode={"txtsub"}
-            label={"Subcontent"}
-            classNameTemplate={"template-row-item"}
-            arrayOfItems={this.props.arrayOfItems}
-            openDialog={this.props.openDialog.bind(this)}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-            language={this.props.language}
-          ></TemplateItem>
+          {this.templateItem("imgContent", "Image", 1)}
+          {this.templateItem("videoContent", "Video", 1)}
         </div> */}
+        {this.templateItem("audContent", "Audio", 0)}
+        {/* {this.templateItem("embContent", "Embeded", 0)}
+        {this.templateItem("untContent", "Unity", 0)} */}
       </div>
     );
   }

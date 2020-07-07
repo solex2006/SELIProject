@@ -543,11 +543,11 @@ useEffect(()=>{
 
 
 useEffect(()=>{
-  console.log("ESTE ES EL STEPSTATUS:1",stepStatus,validateInformation)
+  //console.log("ESTE ES EL STEPSTATUS:1",stepStatus,validateInformation)
   //steps aprobados
   
-   validateInformation.informationStep.stepscompleted.map((aprobed,index)=>{
-    console.log("paso",aprobed)
+    validateInformation.informationStep.stepscompleted.map((aprobed,index)=>{
+    //console.log("paso",aprobed)
     
     let estado= stepStatus
     
@@ -559,7 +559,7 @@ useEffect(()=>{
   }) 
     
   handleCompletenew()
-  console.log("ESTE ES EL STEPSTATUS:2",stepStatus,validateInformation)
+  //console.log("ESTE ES EL STEPSTATUS:2",stepStatus,validateInformation)
 },[stepStatus.active])
 
 

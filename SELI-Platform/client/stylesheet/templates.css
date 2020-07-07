@@ -70,7 +70,7 @@
 }
 
 .template-column-item {
-  width: 100%;
+  width: calc(100% - 2px);
   height: var(--template-row);
   background-color: var(--white);
   background-repeat: no-repeat;

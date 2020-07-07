@@ -61,6 +61,7 @@ export default class CourseProgram extends React.Component {
       sortMode: false,
       courseInformation: this.props.courseInformation,
       titleTop: "",
+      prevIndexState: 0,
     }
   }
 
@@ -124,7 +125,6 @@ export default class CourseProgram extends React.Component {
   getItemAttributes(){}
 
   relativeProgramCommons = (action, itemValue) => {
-    console.log(this.state.courseInformation.program[this.props.selected[0]])
     let courseInformation = this.state.courseInformation;
     let index;
     let arrayOfItems;
@@ -142,7 +142,6 @@ export default class CourseProgram extends React.Component {
     if (itemContent !== undefined || action !== "create" || action !== "edit") {
       if (this.props.selected[3] === 0) {
         arrayOfItems = courseInformation.program[this.props.selected[0]].items;
-        
       } else if (this.props.selected[3] === 1) {
         arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items;
       } else {
@@ -154,9 +153,7 @@ export default class CourseProgram extends React.Component {
       }
       //Processing Array of Items
       if (action === "drag"){
-        console.log(arrayOfItems)
         arrayOfItems = applyDrag(arrayOfItems, itemValue);
-        console.log(arrayOfItems)
       } else {
         for (var i = 0; i < arrayOfItems.length; i++) {
           if (arrayOfItems[i].id === stateId) {
@@ -180,7 +177,7 @@ export default class CourseProgram extends React.Component {
       } else if (action === "cancel" || action === "remove") {
         arrayOfItems.splice(index, 1);
       } else if (action === "getA11y") {
-        arrrayOfItems[index].attributes.accessibility.percentage = itemValue;
+        arrayOfItems[index].attributes.accessibility.percentage = itemValue;
       } else if (action === "decorative") {
         arrayOfItems[index].attributes.accessibility.pureDecorative = !arrayOfItems[index].attributes.accessibility.pureDecorative;
       } else if (action === "setA11y") {
@@ -197,12 +194,13 @@ export default class CourseProgram extends React.Component {
           courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items = arrayOfItems
         }
         else {
-          courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items[i] = arrayOfItems;
+          courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items = arrayOfItems;
         }
       }
       this.setState({
         arrayOfItems,
       })
+      if (arrayOfItems.length) {console.log(arrayOfItems[0])}
     }
   }
 
@@ -374,24 +372,16 @@ export default class CourseProgram extends React.Component {
 
   getAccessibilityPercentage = (value) => {
     this.relativeProgramCommons("getA11y", value);
-    this.setState({
-      courseInformation: courseInformation,
-    });
   }
 
   handleDecorative = (_id) => {
     this.relativeProgramCommons("decorative", _id);
-    this.setState({
-      courseInformation: courseInformation,
-    });
   }
 
   setContentAccessibilityData = (data) => {
     if (!this.state.configuringAccessibility) {
       this.relativeProgramCommons("setA11y", data);
-      this.setState({
-        courseInformation: courseInformation,
-      }, () => {this.contentHandleClose()});
+      this.contentHandleClose();
     }
   }
 
