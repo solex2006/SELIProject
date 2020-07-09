@@ -8,7 +8,6 @@ import ContentMenuItem from '../ContentMenuItem';
 import DisabilitieMenu from '../DisabilitieMenu';
 import CourseCreatorMenu from '../CourseCreatorMenu';
 import { Container, Draggable, dropHandlers } from 'react-smooth-dnd';
-import { applyDrag, generateItems } from '../../../../lib/dragAndDropUtils';
 import NavigationTool from '../NavigationTool';
 
 export default class VerticalPanel extends React.Component {
@@ -45,7 +44,6 @@ export default class VerticalPanel extends React.Component {
                 groupName="1"
                 behaviour="copy"
                 getChildPayload={i => this.props.contentItems[i]}
-                onDrop={e => this.setState({ contentItems: applyDrag(this.props.contentItems, e) })}
               >
                 { 
                   this.props.contentItems.map((p,i) => {

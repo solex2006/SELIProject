@@ -349,7 +349,7 @@ useEffect(()=>{
     })
 
     let stepstatus1=props.forms[0].props.courseInformation
-    console.log("stepstaus",stepstatus1,props)
+    //console.log("stepstaus",stepstatus1,props)
     stepstatus1.stepscompleted.push(0)
     stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
     setvalidateInformation(stepstatus1)
@@ -595,7 +595,7 @@ useEffect(()=>{
       }
       if(props.forms[0].props.courseInformation.stepscompleted.includes(4)===false){
 
-        console.log("ene l step 4: ",props.forms[0].props.courseInformation)
+        //console.log("ene l step 4: ",props.forms[0].props.courseInformation)
         if(props.forms[0].props.courseInformation.coursePlan.guidedCoursePlan==="free" &&
            props.forms[0].props.courseInformation.coursePlan.courseTemplate=== "without" && 
           (props.forms[0].props.courseInformation.coursePlan.courseStructure=== "topic"

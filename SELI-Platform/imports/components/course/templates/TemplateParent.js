@@ -10,16 +10,10 @@ export default class TemplateParent extends React.Component {
     }
   }
 
-  getTemplatePayload = (i) => {
-    if (i > -1) {
-      return this.props.arrayOfItems[i]
-    }
-  }
-
   templateItem = (contentCode, label, type) => {
-    let contentIndex;
-    let classNameTemplate;
-    contentIndex = this.props.arrayOfItems.findIndex(item => item.code === contentCode)
+    var contentIndex;
+    var classNameTemplate;
+    contentIndex = this.props.arrayOfItems.findIndex(item => item.code === contentCode);
     if (type === 0) {
       classNameTemplate = "template-column-item";
     } else {
@@ -27,7 +21,6 @@ export default class TemplateParent extends React.Component {
     }
     return(
       <div
-        id={contentCode}
         style={
           contentIndex === -1 ?
             {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1"} : {backgroundImage: "none"}
@@ -39,15 +32,15 @@ export default class TemplateParent extends React.Component {
           </div> 
         )}
         <Container
-          //lockAxis="y"
           dragBeginDelay={500}
           dragClass="drag-class"
-          style={{width: "100%", height: "calc(100% - 37px"}}
+          style={{width: "100%", height: "calc(100% - 37px)"}}
           groupName="1"
-          getChildPayload={i => this.getTemplatePayload(contentIndex)}
-          onDrop={e => this.props.openDialog(e, contentCode)}>
+          behaviour="drop-zone"
+          onDrop={e => this.props.openDialog(e, contentCode)}
+        >
           {
-            this.props.arrayOfItems.length && this.props.arrayOfItems.length > contentIndex && contentIndex > -1 && (
+            this.props.arrayOfItems.length > 0 && this.props.arrayOfItems.length > contentIndex && contentIndex > -1 && (
               <Draggable key={contentIndex}>
                 <ContentItem
                   fromTemplate
@@ -70,17 +63,17 @@ export default class TemplateParent extends React.Component {
     return(
       <div className="template-container">
         {this.templateItem("txtContent", "Main Content", 0)}
-        {/* <div className="template-row">
+        <div className="template-row">
           {this.templateItem("fileContent", "File", 1)}
           {this.templateItem("linkContent", "Links", 1)}
         </div>
         <div className="template-row">
           {this.templateItem("imgContent", "Image", 1)}
           {this.templateItem("videoContent", "Video", 1)}
-        </div> */}
+        </div>
         {this.templateItem("audContent", "Audio", 0)}
-        {/* {this.templateItem("embContent", "Embeded", 0)}
-        {this.templateItem("untContent", "Unity", 0)} */}
+        {this.templateItem("embContent", "Embeded", 0)}
+        {this.templateItem("untContent", "Unity", 0)}
       </div>
     );
   }
