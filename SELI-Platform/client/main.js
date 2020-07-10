@@ -22,6 +22,7 @@ import MediaPlayer from '../imports/components/student/MediaPlayer';
 import CoursesDashboard from '../imports/ui/CoursesDashboard';
 import TutorRequestList from '../imports/components/administrator/TutorRequestList';
 import CertificateValidation from '../imports/ui/CertificateValidation';
+import {Helmet} from "react-helmet";
 
 const history = createBrowserHistory();
 
@@ -35,6 +36,11 @@ Tracker.autorun(() => {
 Meteor.startup(() => {
   ReactDOM.render(
     <Router  history={history}>
+    <Helmet>
+      <meta charset="utf-8" />
+      <title>SELI-Platform</title>
+      <meta name="description" content="THE SELI learning platform provides the opportunity tot create courses for various types of disabilities, taking into consideration accessibility standards, interaction between students and stimulating the creativity of tutors and students." />
+      </Helmet>
       <Switch >
         <Route exact path="/" component={Home} history={history}/>
         <Route exact path="/user" component={User} history={history}/>
