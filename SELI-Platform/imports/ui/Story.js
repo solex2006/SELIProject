@@ -165,17 +165,15 @@ export default class Story extends React.Component {
       }
     }
     catch {}
-    return window.location.hostname + "/seli-logo.png";
+    return "http://" + window.location.hostname + "/seli-logo.png";
   }
   
-
   render() {
     return(
       <div>
         <Helmet>
           <meta charSet="utf-8" />
           <title>{this.getTitleOfStory()}</title>
-          <meta name="description" content="Helmet application" />
           <meta property="og:url"                content={window.location.href} />
           <meta property="og:type"               content="website" />
           <meta property="og:title"              content={this.getTitleOfStory()} />
