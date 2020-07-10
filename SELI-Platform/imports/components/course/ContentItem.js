@@ -12,7 +12,7 @@ import LinkItem from './items/LinkItem';
 import H5PItem from './items/H5PItem';
 import QuizItem from './items/QuizItem';
 import ActivityItem from './items/ActivityItem';
-import EmbebedItem from './items/EmbebedItem';
+import EmbeddedItem from './items/EmbeddedItem';
 
 export default class ContentItem extends React.Component {
   constructor(props) {
@@ -162,8 +162,8 @@ export default class ContentItem extends React.Component {
                 undefined
               }
               {
-                this.props.item.type === 'embebed' ?
-                  <EmbebedItem
+                this.props.item.type === 'embedded' ?
+                  <EmbeddedItem
                     item={this.props.item}
                     removeItem={this.props.removeItem.bind(this)}
                     editItem={this.props.editItem.bind(this)}

@@ -311,7 +311,7 @@ export const useQuizDataField = (props) => {
 			[name]: value,
         };
         
-        //captionsEmbebed - signLanguage - seizures
+        //captionsEmbedded - signLanguage - seizures
         let errField = name + 'Error';
         let errValue = value === 'no' ? true : false;
 

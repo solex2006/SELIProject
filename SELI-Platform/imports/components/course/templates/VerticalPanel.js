@@ -84,10 +84,40 @@ export default class VerticalPanel extends React.Component {
               <div className="button-row">
                 <div fullWidth className="row-list-selected-button">
                   <Avatar 
-                    id={this.props.courseInformation.coursePlan.courseStructure === "unit" ? "orange-avatar": "blue-avatar"} 
-                    className="avatar">{this.props.courseInformation.coursePlan.courseStructure === "unit" ? "U" : "T"}
+                    id={
+                      this.props.courseInformation.coursePlan.courseTemplate === "without" ?
+                        this.props.courseInformation.coursePlan.courseStructure === "unit" ? 
+                          "orange-avatar"
+                        : 
+                          "blue-avatar"
+                      :
+                        "green-avatar"
+                    }
+                    className="avatar"
+                  >
+                    {
+                      this.props.courseInformation.coursePlan.courseTemplate === "without" ?
+                        this.props.courseInformation.coursePlan.courseStructure === "unit" ? 
+                          this.props.language.byUnitsAndLessons[0]
+                        : 
+                          this.props.language.byTopics[0]
+                      :
+                        this.props.courseInformation.coursePlan.courseTemplate === "spiral" ? this.props.language.SpiralModel[0] :
+                        this.props.courseInformation.coursePlan.courseTemplate === "consistent" ? this.props.language.Consistent[0] :
+                        this.props.language.ToyBox[0]
+                    }
                   </Avatar>
-                  {this.props.courseInformation.coursePlan.courseStructure === "unit" ? this.props.language.byUnitsAndLessons : this.props.language.byTopics}
+                  {
+                    this.props.courseInformation.coursePlan.courseTemplate === "without" ?
+                      this.props.courseInformation.coursePlan.courseStructure === "unit" ? 
+                        this.props.language.byUnitsAndLessons 
+                      : 
+                        this.props.language.byTopics
+                    :
+                      this.props.courseInformation.coursePlan.courseTemplate === "spiral" ? this.props.language.SpiralModel :
+                      this.props.courseInformation.coursePlan.courseTemplate === "consistent" ? this.props.language.Consistent :
+                      this.props.language.ToyBox
+                  }
                 </div>
               </div>
               <NavigationTool

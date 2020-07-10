@@ -3,7 +3,7 @@ import MenuItem from './MenuItem';
 import Iframe from 'react-iframe'
 import DragItem from './DragItem'
 import Divider from '@material-ui/core/Divider';
-export default class EmbebedItem extends React.Component {
+export default class EmbeddedItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,22 +18,22 @@ export default class EmbebedItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        <div style={{flexDirection: this.props.item.attributes.alignment}} className="embebed-content-item">
+        <div style={{flexDirection: this.props.item.attributes.alignment}} className="embedded-content-item">
           {
             this.props.item.attributes.description ?
               <div
-                className="embebed-description-item-section"
+                className="embedded-description-item-section"
                 dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
               >
               </div>
             :
             undefined
           }
-          <div className="embebed-item-container-activity">
+          <div className="embedded-item-container-activity">
             <Iframe
               url={this.props.item.attributes.url}
               id={this.props.item.id}
-              className="embebed-iframe"
+              className="embedded-iframe"
               display="initial"
               position="relative"
               width={this.props.item.attributes.size.width}
