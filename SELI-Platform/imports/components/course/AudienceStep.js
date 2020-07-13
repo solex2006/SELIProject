@@ -89,12 +89,14 @@ export default function AudienceApp(props) {
     let validate=false;
     audiences.map((value, index)=>{
       if(value.isChecked===true){
-        audiencesGol.map((value, index)=>{
+        /* audiencesGol.map((value, index)=>{
           if(value.isChecked===true){
             validate=true;
             props.validate('passAudience')
           }
-        })
+        }) */
+        validate=true;
+        props.validate('passAudience')
       }
     })
     if(validate===false){ props.validate('NopassAudience')}

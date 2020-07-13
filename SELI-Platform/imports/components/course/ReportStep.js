@@ -44,10 +44,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	paper: {
 		marginBottom: theme.spacing(2),
-
-		"& + $paper": {
-			//marginLeft: theme.spacing(2)
-		}
+		display:'flex',
+		flexWrap:'wrap'
 	},
 	content: {},
 	card: {
@@ -88,7 +86,8 @@ const useStyles = makeStyles(theme => ({
 	chartLabel: {
 		...theme.typography.h5,
 		textAlign: "center",
-		color: theme.palette.secondary.main
+		color: theme.palette.secondary.main,
+		padding: '10px 10px',
 	},
 	container: {
 		// maxHeight: "60vh",
@@ -112,7 +111,9 @@ const useStyles = makeStyles(theme => ({
 	},
 	overallcard: {
 		textAlign: "center",
-		minHeight: "100%"
+		display: "flex",
+		flexDirection: "row",
+		flexWrap:'wrap'
 	},
 	avatar: {
 		width: "8em",
@@ -190,6 +191,12 @@ export default function ReportStep(props) {
 		todo:0,
 		NotAccessible:0,
 		averageCourse:0
+	})
+
+	
+	const [tasknoconfig, settasknoconfig]=useState({
+		unit:0,
+		lesson:0
 	})
  
    useEffect(()=>{
@@ -425,59 +432,69 @@ export default function ReportStep(props) {
 		let variablesLeccion=[]
 		let percentagebyUnit=[]
 		let percentagebyLesson=[]
-		let  contTotal=0
-		//let text=0
 		let contText=0; 
 		let contTextFalse=0; let contCaptions=0; let contCaptionsFalse=0; let contwarningAlert=0
 		let contwarningAlertFalse=0; let contextendedTime=0; let contextendedTimeFalse=0; let contnoTime=0;let contnoTimeFalse=0; 
 		let contseizures=0; let contseizuresFalse=0; let contaudioDescription=0; let contaudioDescriptionFalse=0; 
 		let contsignLanguage=0; let contsignLanguageFalse=0
-		let totalconfig=0
-		let totalnoconfig=0
+	
     
       props.courseInformation.program.map((unit, indexUnit)=>{
          //cabezera de la unidad
          unit.items.map((item,indexItem)=>{
             if(item.type==='image' ){
-               item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-                  if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
-                     if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-						}
-					})
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+1
 				}else if(item.type==='audio'){
-					item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-                  if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-                     if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-						}else if(isa11y.name==='captionsEmbebed'){
-							if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
-						}
-					})
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							} if(isa11y.name==='captionsEmbedded'){
+								if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+3
 				}else if(item.type==='quiz'){
-					item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-                  if(isa11y.name==='noTime'){
-                     if(isa11y.is_a11y===true){contnoTime+=1}else{contnoTimeFalse+=1}
-						}else if(isa11y.name==='extendedTime'){
-							if(isa11y.is_a11y===true){contextendedTime+=1}else{contextendedTimeFalse+=1}
-						}else if(isa11y.name==='warningAlert'){
-							if(isa11y.is_a11y===true){contwarningAlert+=1}else{contwarningAlertFalse+=1}
-						}
-					})
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='noTime'){
+								if(isa11y.is_a11y===true){contnoTime+=1}else{contnoTimeFalse+=1}
+							} if(isa11y.name==='extendedTime'){
+								if(isa11y.is_a11y===true){contextendedTime+=1}else{contextendedTimeFalse+=1}
+							} if(isa11y.name==='warningAlert'){
+								if(isa11y.is_a11y===true){contwarningAlert+=1}else{contwarningAlertFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+3
 				}else if(item.type==='video'){
-					item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-                  if(isa11y.name==='seizures'){
-                     if(isa11y.is_a11y===true){contseizures+=1}else{contseizuresFalse+=1}
-						}else if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-							if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-						}else if(isa11y.name==='captionsEmbebed'){
-							if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
-						}else if(isa11y.name==='audioDescription'){
-							if(isa11y.is_a11y===true){contaudioDescription+=1}else{contaudioDescriptionFalse+=1}
-						}else if(isa11y.name==='signLanguage'){
-							if(isa11y.is_a11y===true){contsignLanguage+=1}else{contsignLanguageFalse+=1}
-						}
-					})
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='seizures'){
+								if(isa11y.is_a11y===true){contseizures+=1}else{contseizuresFalse+=1}
+							} if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							} if(isa11y.name==='captionsEmbedded'){
+								if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
+							} if(isa11y.name==='audioDescription'){
+								if(isa11y.is_a11y===true){contaudioDescription+=1}else{contaudioDescriptionFalse+=1}
+							} if(isa11y.name==='signLanguage'){
+								if(isa11y.is_a11y===true){contsignLanguage+=1}else{contsignLanguageFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+6
 				}
-         })
+			})
+	
 			variablesUnidad.push({
 				title: unit.name, 
 				contText:contText,
@@ -508,45 +525,59 @@ export default function ReportStep(props) {
 			unit.lessons.map((lesson,indexLesson)=>{
 				lesson.items.map((item,indexItem)=>{
 					if(item.type==='image' ){
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-						})
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}
+							})
+							:
+							tasknoconfig.lesson=tasknoconfig.lesson+1
+
 					}else if(item.type==='audio'){
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}else if(isa11y.name==='captionsEmbebed'){
-								if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
-							}
-						})
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{
+								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}if(isa11y.name==='captionsEmbedded'){
+									if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
+								}
+							})
+							:
+							tasknoconfig.lesson=tasknoconfig.lesson+3
 					}else if(item.type==='quiz'){
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='noTime'){
-								if(isa11y.is_a11y===true){contnoTime+=1}else{contnoTimeFalse+=1}
-							}else if(isa11y.name==='extendedTime'){
-								if(isa11y.is_a11y===true){contextendedTime+=1}else{contextendedTimeFalse+=1}
-							}else if(isa11y.name==='warningAlert'){
-								if(isa11y.is_a11y===true){contwarningAlert+=1}else{contwarningAlertFalse+=1}
-							}
-						})
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='noTime'){
+									if(isa11y.is_a11y===true){contnoTime+=1}else{contnoTimeFalse+=1}
+								}if(isa11y.name==='extendedTime'){
+									if(isa11y.is_a11y===true){contextendedTime+=1}else{contextendedTimeFalse+=1}
+								}if(isa11y.name==='warningAlert'){
+									if(isa11y.is_a11y===true){contwarningAlert+=1}else{contwarningAlertFalse+=1}
+								}
+							})
+							:
+							tasknoconfig.lesson=tasknoconfig.lesson+3
 					}else if(item.type==='video'){
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='seizures'){
-								if(isa11y.is_a11y===true){contseizures+=1}else{contseizuresFalse+=1}
-							}else if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}else if(isa11y.name==='captionsEmbebed'){
-								if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
-							}else if(isa11y.name==='audioDescription'){
-								if(isa11y.is_a11y===true){contaudioDescription+=1}else{contaudioDescriptionFalse+=1}
-							}else if(isa11y.name==='signLanguage'){
-								if(isa11y.is_a11y===true){contsignLanguage+=1}else{contsignLanguageFalse+=1}
-							}
-						})
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='seizures'){
+									if(isa11y.is_a11y===true){contseizures+=1}else{contseizuresFalse+=1}
+								}if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}if(isa11y.name==='captionsEmbedded'){
+									if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
+								}if(isa11y.name==='audioDescription'){
+									if(isa11y.is_a11y===true){contaudioDescription+=1}else{contaudioDescriptionFalse+=1}
+								}if(isa11y.name==='signLanguage'){
+									if(isa11y.is_a11y===true){contsignLanguage+=1}else{contsignLanguageFalse+=1}
+								}
+							})
+							:
+						tasknoconfig.lesson=tasknoconfig.lesson+6
 					}
 				})
+				
 				variablesLeccion.push({
 					title: lesson.name, 
 					contText:contText,
@@ -575,7 +606,7 @@ export default function ReportStep(props) {
 		
 		//calcula {title: "Topic 1", a11yValid: 70.52506403352295, a11yMisConfig: 20, a11yNotConfig: 9.474935966477052}
 		//{title: "Topic 1", a11yValid: 70.52506403352295, a11yMisConfig: 0, a11yNotConfig: 0}
-
+		console.log("Variables unidad----tasknoconfigUnit",variablesUnidad, tasknoconfig )
 		variablesUnidad.map((value,index)=>{
 			//para visual
 			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse)
@@ -598,8 +629,14 @@ export default function ReportStep(props) {
 			let totaldiversity=(noconfigdiversity+configdiversity)
 			let diversity=((configdiversity*100)/totaldiversity)
 			
-			totalconfig=(totalconfig+configvisual+confighearing+configcognitive+configdiversity)
-			totalnoconfig=(totalnoconfig+noconfigvisual+noconfighearing+noconfigcognitive+noconfigdiversity)
+			let totalconfig=(value.contText+value.contaudioDescription+value.contsignLanguage+ 
+				value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert+value.contCaptions)
+			let totalnoconfig=(value.contTextFalse+value.contaudioDescriptionFalse+value.contsignLanguageFalse+ 
+							value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse+value.contCaptionsFalse)
+			contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
+			contWithInclusionGol.NotAccessible=contWithInclusionGol.NotAccessible+totalnoconfig
+			setWithInclusionGol(contWithInclusionGol)
+			console.log("EN unidades:", contWithInclusionGol, totalconfig, totalnoconfig)
 			
 			
 			percentagebyUnit.push([
@@ -611,7 +648,7 @@ export default function ReportStep(props) {
 			visual=0, hearing=0, cognitive=0, diversity=0
 		})
 		
-		
+		console.log("Variables Lecciones---tasknoconfigLesson",variablesLeccion, tasknoconfig)
 		variablesLeccion.map((value,index)=>{
 			//para visual
 			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse)
@@ -634,8 +671,14 @@ export default function ReportStep(props) {
 			let totaldiversity=(noconfigdiversity+configdiversity)
 			let diversity=((configdiversity*100)/totaldiversity)
 
-			totalconfig=(totalconfig+configvisual+confighearing+configcognitive+configdiversity)
-			totalnoconfig=(totalnoconfig+noconfigvisual+noconfighearing+noconfigcognitive+noconfigdiversity)
+			let totalconfig=(value.contText+value.contaudioDescription+value.contsignLanguage+ 
+				value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert+value.contCaptions)
+			let totalnoconfig=(value.contTextFalse+value.contaudioDescriptionFalse+value.contsignLanguageFalse+ 
+							value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse+value.contCaptionsFalse)
+			contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
+			contWithInclusionGol.NotAccessible=contWithInclusionGol.NotAccessible+totalnoconfig
+			setWithInclusionGol(contWithInclusionGol)
+			console.log("EN LECCIONES:", contWithInclusionGol, totalconfig, totalnoconfig)
 			
 			percentagebyLesson.push([
 				{title: value.title, a11yValid:isNaN(visual)?100:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
@@ -648,18 +691,12 @@ export default function ReportStep(props) {
 
 		let byUnit=(percentagebyUnit[0].map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur) / 4)
 		let byLesson=(percentagebyLesson[1].map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur) / 4)
-
 		let sum=((byUnit+byLesson)/2)
 		if(sum===100){setSimulate("allAchieved")}
-		
-		//setSimulate("allAchieved")
 
-		//para el ultimo paso
-		console.log("SUMA DE TOTALES: UNIT-LESSONS:", totalnoconfig, totalconfig)
-		/* contWithInclusionGol.done=totalconfig
-			contWithInclusionGol.NotAccessible=totalnoconfig
-			setWithInclusionGol(contWithInclusionGol) */
-		
+		contWithInclusionGol.todo=(tasknoconfig.unit+tasknoconfig.lesson)
+		contWithInclusionGol.averageCourse=sum
+		setWithInclusionGol(contWithInclusionGol)
 		withoutInclusionGol.percentagebyUnit=percentagebyUnit
 		withoutInclusionGol.percentagebyLesson=percentagebyLesson
 		setwithoutInclusionGol(withoutInclusionGol)
@@ -676,48 +713,59 @@ export default function ReportStep(props) {
 		let contseizures=0; let contseizuresFalse=0; let contaudioDescription=0; let contaudioDescriptionFalse=0; 
 		let contsignLanguage=0; let contsignLanguageFalse=0
 		
-    
       props.courseInformation.program.map((unit, indexUnit)=>{
          //cabezera de la unidad
          unit.items.map((item,indexItem)=>{
             if(item.type==='image' ){
-               item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-                  if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
-                     if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-						}
-					})
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+1
 				}else if(item.type==='audio'){
-					item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-                  if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-                     if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-						}else if(isa11y.name==='captionsEmbebed'){
-							if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
-						}
-					})
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							} if(isa11y.name==='captionsEmbedded"'){
+								if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+3
 				}else if(item.type==='quiz'){
-					item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-                  if(isa11y.name==='noTime'){
-                     if(isa11y.is_a11y===true){contnoTime+=1}else{contnoTimeFalse+=1}
-						}else if(isa11y.name==='extendedTime'){
-							if(isa11y.is_a11y===true){contextendedTime+=1}else{contextendedTimeFalse+=1}
-						}else if(isa11y.name==='warningAlert'){
-							if(isa11y.is_a11y===true){contwarningAlert+=1}else{contwarningAlertFalse+=1}
-						}
-					})
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='noTime'){
+								if(isa11y.is_a11y===true){contnoTime+=1}else{contnoTimeFalse+=1}
+							} if(isa11y.name==='extendedTime'){
+								if(isa11y.is_a11y===true){contextendedTime+=1}else{contextendedTimeFalse+=1}
+							} if(isa11y.name==='warningAlert'){
+								if(isa11y.is_a11y===true){contwarningAlert+=1}else{contwarningAlertFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+3
 				}else if(item.type==='video'){
-					item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-                  if(isa11y.name==='seizures'){
-                     if(isa11y.is_a11y===true){contseizures+=1}else{contseizuresFalse+=1}
-						}else if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-							if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-						}else if(isa11y.name==='captionsEmbebed'){
-							if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
-						}else if(isa11y.name==='audioDescription'){
-							if(isa11y.is_a11y===true){contaudioDescription+=1}else{contaudioDescriptionFalse+=1}
-						}else if(isa11y.name==='signLanguage'){
-							if(isa11y.is_a11y===true){contsignLanguage+=1}else{contsignLanguageFalse+=1}
-						}
-					})
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='seizures'){
+								if(isa11y.is_a11y===true){contseizures+=1}else{contseizuresFalse+=1}
+							}if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}if(isa11y.name==='captionsEmbedded'){
+								if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
+							}if(isa11y.name==='audioDescription'){
+								if(isa11y.is_a11y===true){contaudioDescription+=1}else{contaudioDescriptionFalse+=1}
+							}if(isa11y.name==='signLanguage'){
+								if(isa11y.is_a11y===true){contsignLanguage+=1}else{contsignLanguageFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+6
 				}
          })
 			variablesUnidad.push({
@@ -745,7 +793,7 @@ export default function ReportStep(props) {
 			 contsignLanguage=0;  contsignLanguageFalse=0
       })
 	  
-
+		
 		variablesUnidad.map((value,index)=>{
 			//para visual
 			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse)
@@ -778,8 +826,6 @@ export default function ReportStep(props) {
 			setWithInclusionGol(contWithInclusionGol)
 
 		//	console.log("En topicos totalconfig", totalconfig, totalnoconfig, contWithInclusionGol )
-		
-			
 			percentagebyUnit.push([
 				{title: value.title, a11yValid:isNaN(visual)?100:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
 				{title: value.title, a11yValid:isNaN(hearing)?100:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
@@ -791,10 +837,11 @@ export default function ReportStep(props) {
 		
 		let byUnit=(percentagebyUnit[0].map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur) / 4)
 		contWithInclusionGol.averageCourse=byUnit
+		contWithInclusionGol.todo=(tasknoconfig.unit)
 		setWithInclusionGol(contWithInclusionGol)
 		
-		console.log("variablesbytopic:",byUnit)
-		//setSimulate("allAchieved")
+		
+	
 		withoutInclusionGol.percentagebyUnit=percentagebyUnit
 		withoutInclusionGol.percentagebyLesson=[]
 		setwithoutInclusionGol(withoutInclusionGol)
@@ -850,7 +897,8 @@ export default function ReportStep(props) {
 	
 
 	return (
-		<React.Fragment>
+		<div className="course-information-container">
+			<div className="form-input-column">
 			
 			<h1>Accessibility Report</h1>
          {console.log("TopicsCourse----------", withoutInclusionGol, simulate,categories)}
@@ -918,18 +966,17 @@ export default function ReportStep(props) {
 			) }
 			
 			{  simulate === "inclusionGolAchieved" && (
-				<React.Fragment>
+				<div>
 					<p className={classes.chartLabel}>
-					You have achieved your Inclusion Goal!
-				</p>
+						You have achieved your Inclusion Goal!
+					</p>
 					<Grid
 						container
 						spacing={4}
 						direction="row"
 						justify="center"
 						alignItems="stretch"
-				>
-					
+					>
 							<Grid
 								item
 								xl={4}
@@ -964,10 +1011,10 @@ export default function ReportStep(props) {
 								</Grid>
 							))}
 					</Grid>
-				</React.Fragment>
+				</div>
 			)  }
 			{ simulate === "inclusionGol" && (
-				<React.Fragment>
+				<div>
 					<Grid
 						container
 						spacing={4}
@@ -988,15 +1035,15 @@ export default function ReportStep(props) {
 								tip="Accessiblity Resources configured"
 							/>
 						</Grid>
-						{/* <Grid item xl={2} lg={6} md={6} sm={4} xs={12} component={Paper}>
+						 <Grid item xl={2} lg={6} md={6} sm={4} xs={12} component={Paper}>
 							<OverallCard
 								className={classes.notConfig}
 								Icon={<AssignmentLateIcon />}
-								value={Math.round((a11yNotConfigValue * 50) / 100)}
+								value={contWithInclusionGol.todo}
 								caption="TO-DO"
 								tip="Configure them to make the content accessible"
 							/>
-						</Grid> */}
+						</Grid> 
 						<Grid item xl={2} lg={6} md={6} sm={4} xs={12} component={Paper}>
 							<OverallCard
 								className={classes.misConfig}
@@ -1029,10 +1076,11 @@ export default function ReportStep(props) {
 								</Grid>
 							))}
 						</Grid>
-					</Container> }
-				</React.Fragment>
+					</Container> 
+				</div>
 			) }
-		</React.Fragment>
+			</div>
+		</div>
 	);
 }
 
@@ -1158,7 +1206,7 @@ function AccessibilityAchieved({ Icon, caption, className }) {
 		<React.Fragment>
 			<Grid
 				container
-				direction="column"
+				direction="row"
 				alignItems="center"
 				justify="center"
 				className={clsx(classes.overallcard, classes.valid)}
