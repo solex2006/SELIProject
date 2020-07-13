@@ -1,16 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormLabel from '@material-ui/core/FormLabel';
-import Divider from '@material-ui/core/Divider';
 import FileTypeSelector from '../tools/FileTypeSelector';
 import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import BackupIcon from '@material-ui/icons/Backup';
@@ -61,7 +49,7 @@ export default class ActivityForm extends React.Component {
         },
       ],
       attributes: {
-        type: 'storyboard',
+        type: this.props.arrayOfDesignItems.type === "4" ? 'forum' : 'section',
         instruction: '',
         expanded: true,
       }
@@ -215,10 +203,14 @@ export default class ActivityForm extends React.Component {
               className="form-tabs-container"
               centered={true}
             >
-              <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} />
-              <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} />
-              <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.section} icon={<SubjectIcon />} />
-              <Tab value={'forum'} onClick={() => this.selectType('forum')} className="form-tab" label={this.props.language.forum} icon={<ForumIcon />} />
+              { this.props.arrayOfDesignItems.type === "4" &&
+                  <Tab value={'forum'} onClick={() => this.selectType('forum')} className="form-tab" label={this.props.language.forum} icon={<ForumIcon />} /> }
+              { this.props.arrayOfDesignItems.type !== "4" &&
+                    <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.section} icon={<SubjectIcon />} /> }
+              { this.props.arrayOfDesignItems.type !== "4" &&
+                    <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} /> }
+              { this.props.arrayOfDesignItems.type !== "4" &&
+                    <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} /> }
             </Tabs>
           </Paper>
         </div>

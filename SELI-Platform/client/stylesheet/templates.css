@@ -6,6 +6,8 @@
 
 .template-container {
   overflow-y: scroll;
+  width: 100%;
+  height: 100%;
 }
 
 .template-background-text {
@@ -20,12 +22,12 @@
 
 .template-row {
   display: flex;
+  width: 100%;
 }
 
 .template-row-item {
-  width: 50%;
+  width: 50% !important;
   min-height: var(--template-row) !important;
-  background-color: var(--white);
   background-repeat: no-repeat;
   background-size: 200px;
   background-position: center;
@@ -33,9 +35,8 @@
 }
 
 .template-column-item {
-  width: calc(100% - 2px);
+  width: calc(100% - 2px) !important;
   min-height: var(--template-row) !important;
-  background-color: var(--white);
   background-repeat: no-repeat;
   background-size: 200px;
   background-position: center;

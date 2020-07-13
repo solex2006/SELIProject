@@ -109,15 +109,16 @@ export default class CourseProgram extends React.Component {
         addedId: e.payload.id,
         showContentEditor: true,
       });
-      if (e.addedIndex !== null && e.removedIndex !== null) {}
-      else {
+      if (e.addedIndex !== null && e.removedIndex !== null) {
+        this.relativeProgramCommons("drag", e);
+      } else {
         if (e.addedIndex !== null) {
           this.contentHandleClickOpen();
           let a = e;
           if (templateCode) {
             a.payload.code = templateCode;
           }
-          this.relativeProgramCommons("drag", a)
+          this.relativeProgramCommons("drag", a);
           this.setState({
             contentaAdded: true,
           });
@@ -324,12 +325,14 @@ export default class CourseProgram extends React.Component {
   loadingData = () => {
     let arrayOfItems;
     let arrayOfDesignItems;
+    let tools;
     let titleTop;
     let courseInformation = this.state.courseInformation;
     if (courseInformation.program.length) {
       if (this.props.selected[3] === 0) {
         arrayOfItems = courseInformation.program[this.props.selected[0]].items;
         arrayOfDesignItems = courseInformation.design[this.props.selected[0]];
+        tools = courseInformation.design[this.props.selected[0]].tools;
         if (courseInformation.coursePlan.courseStructure === "unit") {
           titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}`
         }
@@ -339,12 +342,14 @@ export default class CourseProgram extends React.Component {
       } else if (this.props.selected[3] === 1) {
         arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items;
         arrayOfDesignItems = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]];
+        tools = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]].tools;
         titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}
         - ${this.props.language.lesson}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`
       } else {
         if (courseInformation.coursePlan.courseStructure === "unit") {
           arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items;
           arrayOfDesignItems = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]];
+          tools = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]].tools;
           titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}
           - ${this.props.language.lesson}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}
           - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}`
@@ -352,6 +357,7 @@ export default class CourseProgram extends React.Component {
         else {
           arrayOfItems = courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items;
           arrayOfDesignItems = courseInformation.design[this.props.selected[0]].activities[this.props.selected[2]];
+          tools = courseInformation.design[this.props.selected[0]].tools;
           titleTop = `${this.props.language.topic}: ${this.props.courseInformation.program[this.props.selected[0]].name} 
           - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].name}`
         }
@@ -359,6 +365,7 @@ export default class CourseProgram extends React.Component {
       this.setState({
         arrayOfItems,
         arrayOfDesignItems,
+        tools,
         titleTop,
       })
     }
@@ -407,6 +414,7 @@ export default class CourseProgram extends React.Component {
         <TemplateParent
           arrayOfItems={this.state.arrayOfItems}
           arrayOfDesignItems={this.state.arrayOfDesignItems}
+          tools={this.state.tools}
           selected={this.props.selected}
           editItem={this.editItem.bind(this)}
           removeItem={this.removeItem.bind(this)}
@@ -594,6 +602,7 @@ export default class CourseProgram extends React.Component {
                 {
                   this.state.contentTypeAdded === 'activity' && !this.state.showAccessibilityOptions ?
                     <ActivityForm
+                      arrayOfDesignItems={this.state.arrayOfDesignItems}
                       getActivityAttributesFunction={activityAttributes => this.getItemAttributes = activityAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}

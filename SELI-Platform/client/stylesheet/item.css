@@ -32,6 +32,11 @@
   transition: 0.5s;
 }
 
+.draggable-item {
+  width: 100%;
+  display: flex;
+}
+
 .menu-content-item {
   height: auto;
   display: flex;
@@ -59,7 +64,7 @@
 }
 
 .content-box {
-  width: 100%;
+  width: 100% !important;
   height: auto;
   display: flex;
   position: relative;
@@ -80,10 +85,21 @@
   text-align: center !important;
 }
 
+.item-drag-handle {
+  height: auto;
+  padding-left: 4px;
+  padding-right: 4px;
+  display: flex;
+  align-items: center;
+  cursor: move;
+  background-color: #eeeeee;
+  transition: 0.5s;
+}
+
 /* Text */
 
 .text-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
@@ -116,7 +132,7 @@
 /* Image */
 
 .image-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
   display: flex;
 }
@@ -128,8 +144,8 @@
 }
 
 .image-item-container {
-  width: 95%;
-  padding: 1.5vh 2.5%;
+  width: 98%;
+  padding: 1.5vh 1vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -208,7 +224,7 @@
 
 /* Video */
 .video-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
@@ -240,7 +256,7 @@
 /* Audio */
 
 .audio-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
@@ -274,7 +290,7 @@
 /* Link */
 
 .link-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
   cursor: pointer;
   transition: 0.5s;
@@ -307,19 +323,18 @@
 /* Pdf compressed */
 
 .file-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
 .pdf-item-container {
   width: 100%;
-  display: flex;
   align-items: center;
 }
 
 .pdf-item {
-  width: 650px;
-  height: 20vh;
+  width: auto;
+  height: 100px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -338,12 +353,12 @@
 }
 
 .item-instruction-column {
-  width: calc(100% - 650px);
+  width: auto;
 }
 
 .pdf-item-instruction {
   width: 90%;
-  padding: 1vh 30px;
+  padding: 0.5vh 1vw;
   font-size: 1em;
   letter-spacing: 1px;
   color: #757575;
@@ -352,13 +367,13 @@
 
 .instruction-title {
   width: 90%;
-  margin: 2.5vh 5%;
+  margin: 0vh 2vw;
 }
 
 /* H5P */
 
 .h5p-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
@@ -424,7 +439,7 @@
 /* Quiz */
 
 .quiz-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
@@ -485,7 +500,7 @@
 /* Activity */
 
 .activity-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
@@ -552,7 +567,7 @@
 /* Activity */
 
 .embedded-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
   display: flex;
   position: relative;

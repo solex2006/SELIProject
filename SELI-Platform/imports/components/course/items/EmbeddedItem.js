@@ -1,8 +1,7 @@
 import React from 'react';
 import MenuItem from './MenuItem';
 import Iframe from 'react-iframe'
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
+
 export default class EmbeddedItem extends React.Component {
   constructor(props) {
     super(props);
@@ -49,16 +48,6 @@ export default class EmbeddedItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        {
-          !this.props.fromTemplate && (
-            <React.Fragment>
-              <Divider orientation="vertical" />
-              <DragItem
-                holdanddrag={this.props.language.holdanddrag}
-              />
-            </React.Fragment>
-          )
-        }
       </div>
       );
     }

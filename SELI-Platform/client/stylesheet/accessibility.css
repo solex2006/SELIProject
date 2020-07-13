@@ -1,6 +1,6 @@
 .item-accessibility-feedback-fab {
   position: absolute !important;
-  right: calc(var(--menu-item-width) + 1.1vw) !important;
+  right: 35px !important;
   top: 0.25vw !important;
   opacity: 0.75;
   transition: 0.5s !important;
