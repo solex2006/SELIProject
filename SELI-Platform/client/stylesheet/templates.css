@@ -1,29 +1,11 @@
 /* General Styles */
 
 :root {
-  --template-row: 350px;
+  --template-row: 200px;
 }
 
 .template-container {
   overflow-y: scroll;
-  width: 100%;
-  height: 100%;
-}
-
-.template-title {
-  z-index: 1;
-  width: calc(100% - 2vw - 2px);
-  height: 40px;
-  text-align: left;
-  padding-left: 2vw;
-  align-items: center;
-  display: flex;
-  background-color: #e0e0e0;
-  font-size: 18.5px;
-  font-weight: 100;
-  letter-spacing: 1px;
-  color:#333;
-  border: 1px solid black;
 }
 
 .template-background-text {
@@ -36,32 +18,13 @@
   overflow: hidden;
 }
 
-.template-general-item {
-  width: 100%;
-  height: calc(var(--template-row) / 2);
-  display: flex;
-}
-
-.template-image-item {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.template-video-item {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
 .template-row {
   display: flex;
 }
 
 .template-row-item {
   width: 50%;
-  height: var(--template-row);
+  min-height: var(--template-row) !important;
   background-color: var(--white);
   background-repeat: no-repeat;
   background-size: 200px;
@@ -71,7 +34,7 @@
 
 .template-column-item {
   width: calc(100% - 2px);
-  height: var(--template-row);
+  min-height: var(--template-row) !important;
   background-color: var(--white);
   background-repeat: no-repeat;
   background-size: 200px;
