@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import AudienceStep from '../course/AudienceStep'
 import RequirementStep from '../course/RequirementStep'
 import CoursePlanStep from '../course/CoursePlanStep'
+import ReportStep     from '../course/ReportStep'
 import FormStepperID from '../navigation/FormStepperID'; '../'
 import CourseInformation from '../course/CourseInformation';
 import CourseProgram from '../course/CourseProgram';
@@ -135,7 +136,8 @@ export default class CreateCourse extends React.Component {
         {label: this.props.language.plan, icon: <AssistantIcon className="step-icon"/>},
         {label: this.props.language.analysisstep, icon: <SchoolIcon className="step-icon"/>},
         {label: this.props.language.desingPhase, icon: <AssignmentIcon className="step-icon"/>},
-        {label: this.props.language.program, icon: <MenuBookIcon className="step-icon"/>}
+        {label: this.props.language.program, icon: <MenuBookIcon className="step-icon"/>},
+        {label: this.props.language.reportstep, icon: <MenuBookIcon className="step-icon"/>}
       ]
     });
   }
@@ -210,6 +212,11 @@ export default class CreateCourse extends React.Component {
           handlePreview={this.handlePreview.bind(this)}
           language={this.props.language}
         />,
+        <ReportStep
+          language={this.props.language}
+          validate={this.validate}
+          courseInformation={this.state.courseInformation}
+        />,
       ],
     });
   }
@@ -231,7 +238,6 @@ export default class CreateCourse extends React.Component {
   }
 
   saveCourse() {
-    console.log("se va a guadar------------")
     if (this.validateSaveCourse()) {
       let user = Meteor.user();
       let courseInformation = this.state.courseInformation;

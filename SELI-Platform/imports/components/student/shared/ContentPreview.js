@@ -131,8 +131,7 @@ export default function CourseContent(props) {
    }
 
    const TotalofResourcesFreeUnitLesson=(unit,lesson)=>{
-      //only by units
-    
+
       let text=0
       let image=0
       let audio=0
@@ -155,11 +154,35 @@ export default function CourseContent(props) {
                quiz+=1
             }
          })
-     
-    //
-   // console.log([text, image, audio, video, activity, quiz])
-
     return [text, image, audio, video, activity, quiz]
+   }
+
+   const TotalofResourcesFreeTopic=(topic)=>{
+      let text=0
+      let image=0
+      let audio=0
+      let video=0
+      let activity=0
+      let quiz=0
+      
+      console.log("por topicos",props.program[topic])
+      props.program[topic].items.map((item,indexitem)=>{  
+         if(item.type==='text'){
+            text+=1
+         }else if(item.type==='image'){
+            image+=1
+         }else if(item.type==='video'){
+            video+=1
+         }else if(item.type==='audio'){
+            audio+=1
+         }else if(item.type==='activity'){
+            activity+=1
+         }else if(item.type==='quiz'){
+            quiz+=1
+         }
+      })
+
+      return [text, image, audio, video, activity, quiz]
    }
 
 
@@ -230,7 +253,7 @@ export default function CourseContent(props) {
 
                <div>
                   {
-                     (coursePlan.guidedCoursePlan==='free'  && coursePlan.courseTemplate==='without' && (coursePlan.courseStructure==='topic' || coursePlan.courseStructure==='unit'))?       
+                     (coursePlan.guidedCoursePlan==='free'  && coursePlan.courseTemplate==='without' && (coursePlan.courseStructure==='unit'))?       
                      <div>  
                         <div className='crnheading'>
                         <section aria-label="units">
@@ -270,7 +293,32 @@ export default function CourseContent(props) {
                      :
                      undefined                        
                   }
-               </div>       
+               </div> 
+
+               <div>
+                  {
+                     (coursePlan.guidedCoursePlan==='free'  && coursePlan.courseTemplate==='without' && coursePlan.courseStructure==='topic')?       
+                     <div className='crnheading'>
+                        <section aria-label="TOPIC 1: Introduction to ISD">
+                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">TOPIC: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
+                           <div className='descriptiontext'>{topic.mainContent}</div>
+                           <div className='previewcontent'>
+                           <CollectionsBookmarkIcon />
+                           <span className='boxResource'>Readings: {TotalofResourcesFreeTopic(indexUnit)[0]} </span>
+                           <span className='boxResource'>Images: {TotalofResourcesFreeTopic(indexUnit)[1]} </span>
+                           <span className='boxResource'>Audios: {TotalofResourcesFreeTopic(indexUnit)[2]} </span>
+                           <span className='boxResource'>Videos: {TotalofResourcesFreeTopic(indexUnit)[3]} </span> 
+                           <span className='boxResource'>Activities: {TotalofResourcesFreeTopic(indexUnit)[4]} </span> 
+                           <span className='boxResource'>Quizes: {TotalofResourcesFreeTopic(indexUnit)[5]} </span> 
+                              
+                           </div>
+                           
+                        </section>
+                     </div>
+                     :
+                     undefined                        
+                  }
+               </div>      
             </div>
              ))
             

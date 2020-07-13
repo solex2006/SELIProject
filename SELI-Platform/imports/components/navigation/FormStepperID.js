@@ -135,12 +135,6 @@ function useWindowSize() {
 }
 
 export default function FormStepperID(props) {
-
- /*  useEffect(()=>(
-    console.log('Actualiza Step-informacion',)
-  ),[]) */
-  //console.log("Form stpper", props)
-
   const [validateInformation,setvalidateInformation]=useState({
     informationStep:props.forms[0].props.courseInformation,
   });
@@ -150,8 +144,7 @@ export default function FormStepperID(props) {
   const steps = props.steps;
   const [width, height] = useWindowSize();
 
-
-  //nuvos parametros
+  //nuevos parametros
   const [addie, setAddie] = React.useState(false);
   const [stepStatus, setStepStatus] = React.useState({
     active: activeStep,
@@ -195,8 +188,9 @@ export default function FormStepperID(props) {
       2: <PlaylistAddCheckIcon />,
       3: <AssistantIcon />,
       4: <BallotIcon />,
-      5: <MenuBookIcon />,
-      6: <AccessibilityIcon />,
+      5: <SchoolIcon />,
+      6: <MenuBookIcon />,
+      7: <AccessibilityIcon />,
       completed: <CheckCircleIcon />,
       error: <ReportProblemIcon />
     };

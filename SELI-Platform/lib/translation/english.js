@@ -1078,6 +1078,7 @@ var ENGLISH = {
   HighSchoolStudents:'High School Students',
   MiddleSchoolStudents:'Middle School Students',
   ElementarySchoolStudents:'Elementary School Students',
+  reportstep:'Accessibility report'
 
   
 }
