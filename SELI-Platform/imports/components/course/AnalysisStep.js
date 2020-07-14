@@ -872,7 +872,9 @@ export default function AnalysisStep(props) {
           </ListItem>
           <Collapse in={openI} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {courseinformation.support[1].map((audience, index) => (
+              {
+                courseinformation.support[1]!=undefined?
+              courseinformation.support[1].map((audience, index) => (
                     audience.isChecked==true?
                     <ListItem button className={classes.nested}>
                       <AccessibilityIcon>
@@ -882,7 +884,10 @@ export default function AnalysisStep(props) {
                     </ListItem>
                       :
                       undefined
-              ))}     
+              ))
+              :
+              undefined
+              }     
             </List>
           </Collapse>
         </List>
