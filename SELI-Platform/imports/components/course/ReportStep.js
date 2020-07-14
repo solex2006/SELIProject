@@ -44,8 +44,11 @@ const useStyles = makeStyles(theme => ({
 	},
 	paper: {
 		marginBottom: theme.spacing(2),
-		display:'flex',
-		flexWrap:'wrap'
+		
+	},
+	allachieved:{
+		justifyContent:'center',
+		padding:'20px 20px'
 	},
 	content: {},
 	card: {
@@ -113,7 +116,7 @@ const useStyles = makeStyles(theme => ({
 		textAlign: "center",
 		display: "flex",
 		flexDirection: "row",
-		flexWrap:'wrap'
+		//flexWrap:'wrap'
 	},
 	avatar: {
 		width: "8em",
@@ -909,27 +912,18 @@ export default function ReportStep(props) {
 					<p>Your course is fully accessible</p>
 					<Grid
 						container
-						spacing={4}
+						spacing={2}
 						direction="row"
-						justify="center"
-						alignItems="stretch"
+						justify="space-between"
+						alignItems="flex-start"
 					>
 						{categories.map(category => (
-							<Grid
-								item
-								xl={4}
-								lg={6}
-								md={6}
-								sm={6}
-								xs={12}
-								component={Paper}
-								className={classes.paper}
-							>
+							
 								<AccessibilityAchieved
 									Icon={category.icon}
 									caption={category.label}
 								/>
-							</Grid>
+							
 						))}
 					</Grid>
 				</React.Fragment>
@@ -966,38 +960,31 @@ export default function ReportStep(props) {
 			) }
 			
 			{  simulate === "inclusionGolAchieved" && (
-				<div>
+				<div className={classes.allachieved}>
 					<p className={classes.chartLabel}>
 						You have achieved your Inclusion Goal!
 					</p>
-					<Grid
-						container
-						spacing={4}
-						direction="row"
-						justify="center"
-						alignItems="stretch"
+					 
+					<Grid 
+						container 
+						spacing={2}
+						className={classes.allachieved}
 					>
-							<Grid
-								item
-								xl={4}
-								lg={6}
-								md={6}
-								sm={6}
-								xs={12}
-								component={Paper}
-								className={classes.paper}
-							>
-								{
-									categories.filter(goals=>goals.selected).map((category)=>(
-											<AccessibilityAchieved
-												Icon={category.icon}
-												caption={category.label}
-											/>
-									))
-								}
-							</Grid>
-						
+						{
+							categories.filter(goals=>goals.selected).map((category)=>(
+									<AccessibilityAchieved
+										Icon={category.icon}
+										caption={category.label}
+									/>
+							))
+						}
+
 					</Grid>
+							
+								
+					
+						
+				
 					<p className={classes.subtitle}>
 						Now you have finished the accessibility set up for your Inclusion
 						Gol, considere review accessibility for others impairments groups.
@@ -1013,6 +1000,9 @@ export default function ReportStep(props) {
 					</Grid>
 				</div>
 			)  }
+
+
+
 			{ simulate === "inclusionGol" && (
 				<div>
 					<Grid
@@ -1119,10 +1109,7 @@ function AccessibilityCard({ category }) {
 			.map(topic => topic.a11yValid)
 			.reduce((acc, cur) => acc + cur) / category.topics.length
 	);
-	
-
    console.log("Max en AccessibilityCard:", max )
-
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -1203,22 +1190,27 @@ function AccessibilityAchieved({ Icon, caption, className }) {
 	const classes = useStyles();
 
 	return (
-		<React.Fragment>
+	
+		<div className={classes.content}>
+			<CardContent>
 			<Grid
 				container
+				spacing={2}
 				direction="row"
-				alignItems="center"
 				justify="center"
-				className={clsx(classes.overallcard, classes.valid)}
+				alignItems="center"
 			>
-				<Grid item xs={6}>
+				<Grid item xs={12} sm={6} md={8}>
 					<Avatar className={classes.avatar}>{Icon}</Avatar>
 				</Grid>
-				<Grid item>
+				<Grid item  xs={12} sm={6} md={8}>
 					<p className={classes.caption}>{caption}</p>
 				</Grid>
+			
 			</Grid>
-		</React.Fragment>
+			</CardContent>
+		</div>
+		
 	);
 }
 
