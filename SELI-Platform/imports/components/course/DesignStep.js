@@ -69,8 +69,6 @@ const useStyles = makeStyles(theme => ({
 export default function DesignStep(props) {
   const {courseInformation,language } = props;
 
-  console.log(props)
-
   const classes = useStyles();
   const [template, setTemplate] = useState(props.courseInformation.coursePlan.courseTemplate);
   const [organization, setOrganization] =  useState(props.courseInformation.coursePlan.courseStructure);
@@ -190,7 +188,6 @@ export default function DesignStep(props) {
   }, []); 
 
   useEffect(() => {
-    console.log("enel design",  guidedCoursePlan, template,organization)
     if(organization==='unit' && template!='without') {
       setOrganization('topic')
     }

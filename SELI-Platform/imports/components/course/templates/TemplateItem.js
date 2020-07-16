@@ -13,7 +13,7 @@ export default class TemplateItem extends React.Component {
   onDragStart = ({isSource, payload, willAcceptDrop}) => {
     if (!willAcceptDrop) {
       this.setState({
-        backgroundColor: "#e46d6d"
+        backgroundColor: "#8d000034"
       })
     }
   }

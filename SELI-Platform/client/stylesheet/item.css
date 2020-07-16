@@ -135,6 +135,7 @@
   width: 100% !important;
   height: auto;
   display: flex;
+  justify-content: center;
 }
 
 .image-item-container2 {
@@ -144,8 +145,8 @@
 }
 
 .image-item-container {
-  width: 98%;
-  padding: 1.5vh 1vw;
+  width: 95%;
+  padding-top: 1.5vh;
   display: flex;
   align-items: center;
   justify-content: center;

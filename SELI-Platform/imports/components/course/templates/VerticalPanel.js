@@ -58,16 +58,10 @@ export default class VerticalPanel extends React.Component {
               <div className="course-creator-menu-actions-container">
                 <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
                   <Divider light/><Divider light/><Divider light/>
-                  {
-                    this.props.courseInformation.coursePlan.courseTemplate === 'without' && (
-                      <React.Fragment>
-                        <ListItem onClick={() => this.props.toggleSortMode()} selected={this.props.sortMode} className="course-creator-menu-action" button>
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
-                        </ListItem>
-                        <Divider light/>
-                      </React.Fragment>
-                    )
-                  }
+                  <ListItem onClick={() => this.props.toggleSortMode()} selected={this.props.sortMode} className="course-creator-menu-action" button>
+                    <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
+                  </ListItem>
+                  <Divider light/>
                   <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
                     <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.seePreview}/>
                   </ListItem>

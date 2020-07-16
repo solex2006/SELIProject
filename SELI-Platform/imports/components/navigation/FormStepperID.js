@@ -525,7 +525,6 @@ useEffect(()=>{
       newDisabled.delete(5);
       newDisabled.delete(6);
       newDisabled.delete(7);
-      console.log("pasdesignssssssssssss")
       return {... prev, completed:prev.completed.add(5), failed:newFailed, disabled:newDisabled}
     })
     //handleCompletenew(stepStatus.active)

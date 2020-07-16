@@ -400,6 +400,7 @@ export default class CourseProgram extends React.Component {
     if (this.props.courseInformation.coursePlan.courseTemplate === 'without') {
       return (
         <FreeWithout
+          sortMode={this.state.sortMode}
           arrayOfItems={this.state.arrayOfItems}
           editItem={this.editItem.bind(this)}
           removeItem={this.removeItem.bind(this)}
@@ -412,6 +413,7 @@ export default class CourseProgram extends React.Component {
     } else {
       return (
         <TemplateParent
+          sortMode={this.state.sortMode}
           arrayOfItems={this.state.arrayOfItems}
           arrayOfDesignItems={this.state.arrayOfDesignItems}
           tools={this.state.tools}

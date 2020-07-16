@@ -104,34 +104,6 @@ export default class ImageItem extends React.Component {
                 ></div>
               </ResizableContent>
             </div>
-          {/*  <Resizable
-              size={{
-                width: this.props.item.attributes.size.width,
-                height: this.props.item.attributes.size.height,
-              }}
-              className="resizable-item"
-              onResize={(e, direction, ref, d) => {
-                this.changeImageSize();
-              }}
-              onResizeStop={(e, direction, ref, d) => {
-                this.setImageSize(e, direction, ref, d);
-              }}
-              handleComponent={{
-                bottomRight: <div className="bottom-right-resize"></div>,
-                topRight: <div className="top-right-resize"></div>,
-                bottomLeft: <div className="bottom-left-resize"></div>,
-                topLeft: <div className="top-left-resize"></div>,
-                centerLeft: <div className="top-left-resize"></div>,
-              }}
-            >
-              <div
-                id={ this.props.item.attributes.image._id + this.props.item.id }
-                className="image-item"
-                style={{
-                  backgroundImage: `url(${this.props.item.attributes.image.link})`,
-                  backgroundSize: `${this.props.item.attributes.size.width}px`,
-                }}></div>
-            </Resizable> */}
             {
               this.props.item.attributes.hasDescription ?
                 <div
