@@ -1,8 +1,6 @@
 import React from 'react';
 import MenuItem from './MenuItem';
-import Link from '@material-ui/core/Link';
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
+
 export default class LinkItem extends React.Component {
   constructor(props) {
     super(props);
@@ -38,16 +36,6 @@ export default class LinkItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        {
-          !this.props.fromTemplate && (
-            <React.Fragment>
-              <Divider orientation="vertical" />
-              <DragItem
-                holdanddrag={this.props.language.holdanddrag}
-              />
-            </React.Fragment>
-          )
-        }
       </div>
       );
     }

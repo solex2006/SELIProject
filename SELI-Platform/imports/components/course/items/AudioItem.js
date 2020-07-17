@@ -2,15 +2,10 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import MenuItem from './MenuItem';
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
 import Link from '@material-ui/core/Link';
 
 
@@ -99,16 +94,6 @@ export default class AudioItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        {
-          !this.props.fromTemplate && (
-            <React.Fragment>
-              <Divider orientation="vertical" />
-              <DragItem
-                holdanddrag={this.props.language.holdanddrag}
-              />
-            </React.Fragment>
-          )
-        }
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
           language={this.props.language}

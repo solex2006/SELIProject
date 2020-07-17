@@ -93,14 +93,14 @@ export const AudioA11YCaptions= (props)=> {
 					id='captions-radiogroup'
 					aria-labelledby='captions-radiogroup-label'
 					aria-describedby='captions-exp'
-					name='captionsEmbebed'
-					value={dataField.captionsEmbebed}
+					name='captionsEmbedded'
+					value={dataField.captionsEmbedded}
 					row	
 					onChange={React.useCallback(handleRadioButtonOnChange)}
 				>
 					<FormControlLabel
 						id='captions-yes'
-						name='captionsEmbebed'
+						name='captionsEmbedded'
 						label={props.language.yes}
 						value='yes'
 						control={<Radio color='primary' />}
@@ -109,7 +109,7 @@ export const AudioA11YCaptions= (props)=> {
 					/>
 					<FormControlLabel
 						id='captions-no'
-						name='captionsEmbebed'
+						name='captionsEmbedded'
 						label={props.language.no}
 						value='no'
 						control={<Radio color='secondary' />}
@@ -117,10 +117,10 @@ export const AudioA11YCaptions= (props)=> {
 						role='radio'
 					/>
 				</RadioGroup>
-				<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbebedError} tip={captionsTip}/> 
+				<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbeddedError} tip={captionsTip}/> 
 			</FormControl>
 			{//Trnascription signal part
-				(dataField.captionsEmbebed === "yes")?
+				(dataField.captionsEmbedded === "yes")?
 				<Grid item id='short-description-container' role='grid'>
 					{
 						dataField.text.map((value,index)=>{
@@ -176,7 +176,7 @@ export const useAudioDataField = (props) =>{
 		longDescriptionPosition: 'bottom',
 		signLanguage: 'no',
 		seizures: 'no',
-		captionsEmbebed: 'no',
+		captionsEmbedded: 'no',
 		audioDescription: 'no',
 		audioDescriptionRequired:'yes',
 		hasAudioDescriptionFile: false,
@@ -191,7 +191,7 @@ export const useAudioDataField = (props) =>{
 		shortDescriptionError : true,
 		longDescriptionError : true,
 		seizuresError : true,
-		captionsEmbebedError : true,
+		captionsEmbeddedError : true,
 		audioDescriptionError : true,
 		signLanguageError : true,
 	});
@@ -199,7 +199,7 @@ export const useAudioDataField = (props) =>{
 	const a11yInitial = [
 		{name: 'longDescription', is_a11y: false},
 		{name: 'shortDescription', is_a11y: false},
-		{name: 'captionsEmbebed', is_a11y: false}
+		{name: 'captionsEmbedded', is_a11y: false}
 	];
 	const [isA11Y, setIsA11Y] = React.useState(a11yInitial);
 

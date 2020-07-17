@@ -31,11 +31,12 @@ export default class FreeWithout extends React.Component {
           !this.props.sortMode ?
             <Container
               lockAxis="y"
-              dragBeginDelay={500}
+              //dragBeginDelay={500}
               dragClass="drag-class"
               style={{width: "100%", height: "100%"}}
               groupName="1"
               getChildPayload={i => this.props.arrayOfItems[i]}
+              dragHandleSelector=".item-drag-handle"
               onDrop={e => this.props.openDialog(e)}>
               {
                 this.props.arrayOfItems.map((p, i) => {

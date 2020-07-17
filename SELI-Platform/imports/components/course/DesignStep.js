@@ -69,8 +69,6 @@ const useStyles = makeStyles(theme => ({
 export default function DesignStep(props) {
   const {courseInformation,language } = props;
 
-  
-
   const classes = useStyles();
   const [template, setTemplate] = useState(props.courseInformation.coursePlan.courseTemplate);
   const [organization, setOrganization] =  useState(props.courseInformation.coursePlan.courseStructure);
@@ -113,19 +111,11 @@ export default function DesignStep(props) {
     activities: [
       {
         activity: "Example",
-        type: 1,
+        type: "1",
         graded: true,
         group: 0,
         project: false,
         preeReview: false,
-        tools: [
-          { checked: false, key: "audio", label: language.Audios },
-          { checked: false, key: "games", label: language.Games, items: [] },
-          { checked: false, key: "images", label: language.Images },
-          { checked: false, key: "presentation", label: language.Presentation, items: []},
-          { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
-          { checked: false, key: "videos", label: language.Videos }
-        ],
         submitted: true,
         error: true,
         label: "required",
@@ -148,19 +138,11 @@ export default function DesignStep(props) {
         activities: [
           {
             activity: "Example",
-            type: 1,
+            type: "1",
             graded: true,
             group: 0,
             project: false,
             preeReview: false,
-            tools: [
-              { checked: false, key: "audio", label: language.Audios },
-              { checked: false, key: "games", label: language.Games, items: [] },
-              { checked: false, key: "images", label: language.Images },
-              { checked: false, key: "presentation", label: language.Presentation, items: []},
-              { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
-              { checked: false, key: "videos", label: language.Videos }
-            ],
             submitted: true,
             error: true,
             label: "required",

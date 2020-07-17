@@ -1,10 +1,8 @@
 import React from 'react';
-import { Resizable } from "re-resizable";
 import MenuItem from './MenuItem';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import ResizableContent from './ResizableContent'
 import DiscreteSlider from './DiscreteSlider'
-import DragItem from './DragItem'
 import Divider from '@material-ui/core/Divider';
 
 export default class ImageItem extends React.Component {
@@ -13,8 +11,6 @@ export default class ImageItem extends React.Component {
     this.state = {
       width: this.props.item.attributes.size.width,
       height: this.props.item.attributes.size.height,
-      //width: 200,
-      //height: 200
     }
   }
 
@@ -73,20 +69,16 @@ export default class ImageItem extends React.Component {
 
 
   render() {
-    //console.log("ImageItem---", this.props.item,this.props.item.attributes.image.link)
-    //console.log("---Coordenada a Renderizar---",this.props.item.attributes.image.coordenada)
-
     if(this.state.width != this.state.height){
       this.setState({
-        width: 300 ,
+        width: 300,
         height: 300,
       });
     }
-
     return(
       <div className="content-box">
-        <div className={!this.props.fromTemplate ? "image-content-item" : "template-general-item"}>
-          <div style={{flexDirection: this.props.item.attributes.alignment}} className={!this.props.fromTemplate ? "image-item-container" : "template-image-item"}>
+        <div className="image-content-item">
+          <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
             <div>
               <DiscreteSlider adjust={this.adjust}/> 
               <ResizableContent
@@ -102,37 +94,16 @@ export default class ImageItem extends React.Component {
                 //coordenada={this.props.coordenada}
               //coordenadaCursos={this.coordenadaCursos}
               > 
-                <img  style={{ width: `${this.state.width}px`, height: `${this.state.height}px`}}  src={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())}></img>
+                {/* <img  style={{ width: `${this.state.width}px`, height: `${this.state.height}px`, }}  src={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())}></img> */}
+                <div 
+                  style={{
+                    width: `${this.state.width}px`, height: `${this.state.height}px`, 
+                    backgroundImage: `url(${(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())})`
+                  }} 
+                  className="file-image-preview"
+                ></div>
               </ResizableContent>
             </div>
-          {/*  <Resizable
-              size={{
-                width: this.props.item.attributes.size.width,
-                height: this.props.item.attributes.size.height,
-              }}
-              className="resizable-item"
-              onResize={(e, direction, ref, d) => {
-                this.changeImageSize();
-              }}
-              onResizeStop={(e, direction, ref, d) => {
-                this.setImageSize(e, direction, ref, d);
-              }}
-              handleComponent={{
-                bottomRight: <div className="bottom-right-resize"></div>,
-                topRight: <div className="top-right-resize"></div>,
-                bottomLeft: <div className="bottom-left-resize"></div>,
-                topLeft: <div className="top-left-resize"></div>,
-                centerLeft: <div className="top-left-resize"></div>,
-              }}
-            >
-              <div
-                id={ this.props.item.attributes.image._id + this.props.item.id }
-                className="image-item"
-                style={{
-                  backgroundImage: `url(${this.props.item.attributes.image.link})`,
-                  backgroundSize: `${this.props.item.attributes.size.width}px`,
-                }}></div>
-            </Resizable> */}
             {
               this.props.item.attributes.hasDescription ?
                 <div
@@ -164,16 +135,6 @@ export default class ImageItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        {
-          !this.props.fromTemplate && (
-            <React.Fragment>
-              <Divider orientation="vertical" />
-              <DragItem
-                holdanddrag={this.props.language.holdanddrag}
-              />
-            </React.Fragment>
-          )
-        }
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
           language={this.props.language}

@@ -1,10 +1,12 @@
 .course-item-video-card {
   width: 100% !important;
-  padding: 1.5vh 2.5%;
+  padding: 1.5vh 1vw;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba(255, 255, 255, 0);
 }
+
 .course-item-video-card2 {
   width: 100% !important;
 
@@ -13,6 +15,7 @@
 .course-item-video-card-media-action-area {
   display: flex !important;
   padding: 1vh 0;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .course-item-video-card-media {
@@ -120,7 +123,7 @@
 }
 
 .course-item-audio-card-content {
-  width: calc(80% - 120px) !important;
+  width: 95% !important;
 }
 
 .course-item-audio-card-image {

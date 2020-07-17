@@ -327,7 +327,7 @@ var SPANISH = {
   audioInfoHelp: "Cargue o seleccione audios para crear contenido con secciones de texto opcionalment.",
   linkInfoHelp: "Insertar enlace o texto personalizado con enlaces.",
   unityInfoHelp: "Seleccione un juego de la unidad de nuestra biblioteca.",
-  embebedInfoHelp: "Embebed.",
+  embeddedInfoHelp: "Embedded.",
   pdfInfoHelp: "Cargue o seleccione archivos PDF. Además agregue una instrucción sobre lo que el alumno tiene que hacer con él.",
   compressedInfoHelp: "Cargue o seleccione archivos comprimidos (.rar, .zip, 7z, etc.), Además agregue una instrucción sobre lo que el alumno tiene que hacer con él.",
   h5pInfoHelp: "Insertar cualquier contenido H5P.",
@@ -406,7 +406,7 @@ var SPANISH = {
   noFolferJs: "No se encontro el archivo Folder.json",
   noUnityJs: "No se encontro el archivo UnityLoader.js",
   textPosition: "Posición del texto:",
-  enterDescriptionEmbebed: "Ingrese la descripción del contenido incrustado o desactive esta función",
+  enterDescriptionEmbedded: "Ingrese la descripción del contenido incrustado o desactive esta función",
   writeTheInstructions: "Escriba las instrucciones que el alumno debe seguir a continuación:",
   instructions: "Instrucciones:",
   download: "Descargar",
@@ -505,7 +505,7 @@ var SPANISH = {
   addToLibrary: "Agregar a la biblioteca",
   seliMediaPlayer: "Reproductor Multimedia SELI",
   pressEscCourse: "Presione Escape para volver al contenido del curso",
-  loadingEmbebed: "Cargando contenido incrustado...",
+  loadingEmbedded: "Cargando contenido incrustado...",
   seliPdfReader: "Lector de PDF SELI",
   loadingH5p: "Cargando contenido h5p...",
   setReminder: "Establecer recordatorio",
@@ -581,7 +581,7 @@ var SPANISH = {
   audio: "Audio",
   link: "Enlace",
   unity: "Unity",
-  embebed: "Incrustado",
+  embedded: "Incrustado",
   pdf: "Pdf",
   compressed: "Comprimido",
   quiz: "Cuestionario",
@@ -1072,6 +1072,7 @@ var SPANISH = {
   dialog2: 'Do you want to proceed?',
   outcomeslegend:'By the end of this course, students will be able..',
   repeatedkeywords:'No se pueden repetir las palabras clave.',
+  reportstep:'Reporte de Accesibilidad'
 }
 export default SPANISH
 

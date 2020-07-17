@@ -1,20 +1,12 @@
 import React from 'react';
 import MenuItem from './MenuItem';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import ReactPlayer from 'react-player';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import ItemFeedback from '../../accessibility/ItemFeedback';
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
 import VideoPreview from '../../storytelling/VideoPreview';
 
 export default class VideoItem extends React.Component {
@@ -37,12 +29,12 @@ export default class VideoItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        <div className={!this.props.fromTemplate ? "image-content-item" : "template-general-item"}>
-          <Card className={!this.props.fromTemplate ? "course-item-video-card" : "template-video-item"}>
+        <div className="image-content-item">
+          <Card className="course-item-video-card">
             <Card className="course-item-video-card-media-action-area">
               {
                 this.props.item.attributes.source === 'upload' ?
-                  <VideoPreview file={this.props.item.attributes.video} fromTemplate={this.props.fromTemplate ? this.props.fromTemplate : undefined}/>
+                  <VideoPreview file={this.props.item.attributes.video}/>
                 :
                   <ReactPlayer className="course-creator-item-video-card-preview-player" url={this.props.item.attributes.video.link}/>
               }
@@ -87,16 +79,6 @@ export default class VideoItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        {
-          !this.props.fromTemplate && (
-            <React.Fragment>
-              <Divider orientation="vertical" />
-              <DragItem
-                holdanddrag={this.props.language.holdanddrag}
-              />
-            </React.Fragment>
-          )
-        }
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
           language={this.props.language}

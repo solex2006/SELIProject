@@ -327,7 +327,7 @@
   audioInfoHelp: "Prześlij lub wybierz nagrania dźwiękowe, aby utworzyć zawartość z sekcjami tekstowymi opcjonalnie.",
   linkInfoHelp: "Wstawić link lub niestandardowy tekst z linkami.",
   unityInfoHelp: "Wybierz grę z naszej bilbioteki.",
-  embebedInfoHelp: "Osadzony.",
+  embeddedInfoHelp: "Osadzony.",
   pdfInfoHelp: "Prześlij lub wybierz pdf, dodając instrukcję dotyczącą tego, co uczeń ma z tym zrobić.",
   compressedInfoHelp: "Prześlij lub wybierz pliki skompresowane (.rar, .zip, 7z, itp.), dodając instrukcję, co uczeń ma z nimi zrobić.",
   h5pInfoHelp: "Włóż jakąś H5P zawartość.",
@@ -406,7 +406,7 @@
   noFolferJs: "Folder.json nie istnieje",
   noUnityJs: "UnityLoader.js nie istnieje",
   textPosition: "Pozycja tekstu:",
-  enterDescriptionEmbebed: "Wprowadź opis zawartości osadzonej lub wyłącz tę funkcję.",
+  enterDescriptionEmbedded: "Wprowadź opis zawartości osadzonej lub wyłącz tę funkcję.",
   writeTheInstructions: "Napisz instrukcje, których uczeń musi przestrzegać poniżej:",
   instructions: "Instrukcje:",
   download: "Pobierz",
@@ -505,7 +505,7 @@
   addToLibrary: "Dodaj do biblioteki",
   seliMediaPlayer: "SELI Odtwarzacz Mediów",
   pressEscCourse: "Naciśnij Esc, aby powrócić do treści kursu",
-  loadingEmbebed: "Ładowanie osadzonej zawartości...",
+  loadingEmbedded: "Ładowanie osadzonej zawartości...",
   seliPdfReader: "SELI czytnik PDF",
   loadingH5p: "Ładowanie zawartości h5p...",
   setReminder: "Wyślij przypomnienie",
@@ -581,7 +581,7 @@
   audio: "Audio",
   link: "Link",
   unity: "Dział",
-  embebed: "Osadzenie",
+  embedded: "Osadzenie",
   pdf: "Pdf",
   compressed: "Skompresowane",
   quiz: "Quiz",
@@ -1072,5 +1072,7 @@
   dialog2: 'Do you want to proceed?',
   outcomeslegend:'By the end of this course, students will be able..',
   repeatedkeywords:'keywords can not be repeated',
+  reportstep:'Accessibility report',
+  
 }
 export default POLISH;

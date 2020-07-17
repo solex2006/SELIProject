@@ -100,15 +100,97 @@ export default function CourseContent(props) {
 
    }
 
+   const TotalofResourcesFreeUnit=(unit)=>{
+      //only by units
+      let text=0
+      let image=0
+      let audio=0
+      let video=0
+      let activity=0
+      let quiz=0
+
+      props.program[unit].items.map((intoUnit, indexInto)=>{
+         if(intoUnit.type==='text'){
+            text+=1
+         }else if(intoUnit.type==='image'){
+            image+=1
+         }else if(intoUnit.type==='video'){
+            video+=1
+         }else if(intoUnit.type==='audio'){
+            audio+=1
+         }else if(intoUnit.type==='activity'){
+            activity+=1
+         }else if(intoUnit.type==='quiz'){
+            quiz+=1
+         }
+      })
+      
+      //console.log("TotalofResourcesFreeUnit",text,image,audio,video,activity,quiz)
+    return [text, image, audio, video, activity, quiz]
+    //
+   }
+
+   const TotalofResourcesFreeUnitLesson=(unit,lesson)=>{
+
+      let text=0
+      let image=0
+      let audio=0
+      let video=0
+      let activity=0
+      let quiz=0
+
+      props.program[unit].lessons[lesson].items.map((item,indexitem)=>{  
+            if(item.type==='text'){
+               text+=1
+            }else if(item.type==='image'){
+               image+=1
+            }else if(item.type==='video'){
+               video+=1
+            }else if(item.type==='audio'){
+               audio+=1
+            }else if(item.type==='activity'){
+               activity+=1
+            }else if(item.type==='quiz'){
+               quiz+=1
+            }
+         })
+    return [text, image, audio, video, activity, quiz]
+   }
+
+   const TotalofResourcesFreeTopic=(topic)=>{
+      let text=0
+      let image=0
+      let audio=0
+      let video=0
+      let activity=0
+      let quiz=0
+      
+      console.log("por topicos",props.program[topic])
+      props.program[topic].items.map((item,indexitem)=>{  
+         if(item.type==='text'){
+            text+=1
+         }else if(item.type==='image'){
+            image+=1
+         }else if(item.type==='video'){
+            video+=1
+         }else if(item.type==='audio'){
+            audio+=1
+         }else if(item.type==='activity'){
+            activity+=1
+         }else if(item.type==='quiz'){
+            quiz+=1
+         }
+      })
+
+      return [text, image, audio, video, activity, quiz]
+   }
 
 
-    
     return (
         <div>
             {
             course.map((topic, indexUnit)=>(
             <div key={indexUnit}>
-
                <div> 
                   {
                      (coursePlan.guidedCoursePlan==='guided'  &&
@@ -171,23 +253,35 @@ export default function CourseContent(props) {
 
                <div>
                   {
-                     (coursePlan.guidedCoursePlan==='free'  && coursePlan.courseTemplate==='without' && (coursePlan.courseStructure==='topic' || coursePlan.courseStructure==='unit'))?       
+                     (coursePlan.guidedCoursePlan==='free'  && coursePlan.courseTemplate==='without' && (coursePlan.courseStructure==='unit'))?       
                      <div>  
                         <div className='crnheading'>
-                        <section aria-label="TOPIC 1: Introduction to ISD">
+                        <section aria-label="units">
                            <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">UNIT: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
                            <div className='descriptiontext'>{topic.mainContent}</div>
                            <div className='previewcontent'>
+                              <CollectionsBookmarkIcon />
+                                 <span className='boxResource'>Readings: {TotalofResourcesFreeUnit(indexUnit)[0]} </span>
+                                 <span className='boxResource'>Images: {TotalofResourcesFreeUnit(indexUnit)[1]} </span>
+                                 <span className='boxResource'>Audios: {TotalofResourcesFreeUnit(indexUnit)[2]} </span>
+                                 <span className='boxResource'>Videos: {TotalofResourcesFreeUnit(indexUnit)[3]} </span> 
+                                 <span className='boxResource'>Activities: {TotalofResourcesFreeUnit(indexUnit)[4]} </span> 
+                                 <span className='boxResource'>Quizes: {TotalofResourcesFreeUnit(indexUnit)[5]} </span> 
+                           </div>
+                           
+                           <div className='previewcontent'>
                               {
                                  topic.lessons.map((lesson,index)=>(
-                                    <div key={index}>
+                                    <div key={index}>       
                                        <div className='crnheading' key={index}><h3 id="content-topic-n" tabIndex="-1">Lesson: {' '+(parseInt(index)+1)}: {lesson.title}</h3></div>
                                        <div className='previewcontent'>
                                        <CollectionsBookmarkIcon />
-                                          <span className='boxResource'>Games: {TotalofResourcesLessons(indexUnit,index).games} </span>
-                                          <span className='boxResource'>Presentations: {TotalofResourcesLessons(indexUnit,index).presentations} </span>
-                                          <span className='boxResource'>Readings: {TotalofResourcesLessons(indexUnit,index).Supplementary} </span>
-                                          <span className='boxResource'>Activities: {course[indexUnit].lessons[index].activities.length} </span> 
+                                          <span className='boxResource'>Readings: {TotalofResourcesFreeUnitLesson(indexUnit,index)[0]} </span>
+                                          <span className='boxResource'>Images: {TotalofResourcesFreeUnitLesson(indexUnit,index)[1]} </span>
+                                          <span className='boxResource'>Audios: {TotalofResourcesFreeUnitLesson(indexUnit,index)[2]} </span>
+                                          <span className='boxResource'>Videos: {TotalofResourcesFreeUnitLesson(indexUnit,index)[3]} </span> 
+                                          <span className='boxResource'>Activities: {TotalofResourcesFreeUnitLesson(indexUnit,index)[4]} </span> 
+                                          <span className='boxResource'>Quizes: {TotalofResourcesFreeUnitLesson(indexUnit,index)[5]} </span> 
                                        </div>
                                     </div>
                                  ))
@@ -199,7 +293,32 @@ export default function CourseContent(props) {
                      :
                      undefined                        
                   }
-               </div>       
+               </div> 
+
+               <div>
+                  {
+                     (coursePlan.guidedCoursePlan==='free'  && coursePlan.courseTemplate==='without' && coursePlan.courseStructure==='topic')?       
+                     <div className='crnheading'>
+                        <section aria-label="TOPIC 1: Introduction to ISD">
+                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">TOPIC: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
+                           <div className='descriptiontext'>{topic.mainContent}</div>
+                           <div className='previewcontent'>
+                           <CollectionsBookmarkIcon />
+                           <span className='boxResource'>Readings: {TotalofResourcesFreeTopic(indexUnit)[0]} </span>
+                           <span className='boxResource'>Images: {TotalofResourcesFreeTopic(indexUnit)[1]} </span>
+                           <span className='boxResource'>Audios: {TotalofResourcesFreeTopic(indexUnit)[2]} </span>
+                           <span className='boxResource'>Videos: {TotalofResourcesFreeTopic(indexUnit)[3]} </span> 
+                           <span className='boxResource'>Activities: {TotalofResourcesFreeTopic(indexUnit)[4]} </span> 
+                           <span className='boxResource'>Quizes: {TotalofResourcesFreeTopic(indexUnit)[5]} </span> 
+                              
+                           </div>
+                           
+                        </section>
+                     </div>
+                     :
+                     undefined                        
+                  }
+               </div>      
             </div>
              ))
             

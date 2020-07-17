@@ -7,8 +7,7 @@ import StarRateIcon from '@material-ui/icons/StarRate';
 import PrintIcon from '@material-ui/icons/Print';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import MenuItem from './MenuItem';
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
+
 export default class PdfItem extends React.Component {
   constructor(props) {
     super(props);
@@ -54,16 +53,6 @@ export default class PdfItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        {
-          !this.props.fromTemplate && (
-            <React.Fragment>
-              <Divider orientation="vertical" />
-              <DragItem
-                holdanddrag={this.props.language.holdanddrag}
-              />
-            </React.Fragment>
-          )
-        }
       </div>
     );
   }

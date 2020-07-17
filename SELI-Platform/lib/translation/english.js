@@ -327,7 +327,7 @@ var ENGLISH = {
   audioInfoHelp: "Upload or select audios to create content with text sections optionally.",
   linkInfoHelp: "Insert link or custom text with links.",
   unityInfoHelp: "Select one unity game from our library.",
-  embebedInfoHelp: "Embedded.",
+  embeddedInfoHelp: "Embedded.",
   pdfInfoHelp: "Upload or select pdfs, adding an instruction about what the student has to do with it.",
   compressedInfoHelp: "Upload or select compressed files (.rar, .zip, 7z, etc.), adding an instruction about what the student has to do with it.",
   h5pInfoHelp: "Insert any H5P content.",
@@ -406,7 +406,7 @@ var ENGLISH = {
   noFolferJs: "No Folder.json founded",
   noUnityJs: "No UnityLoader.js founded",
   textPosition: "Text position:",
-  enterDescriptionEmbebed: "Enter the description of the embedded content or turn this feature off",
+  enterDescriptionEmbedded: "Enter the description of the embedded content or turn this feature off",
   writeTheInstructions: "Write the instructions that the student must follow below:",
   instructions: "Instructions:",
   download: "Download",
@@ -505,7 +505,7 @@ var ENGLISH = {
   addToLibrary: "Add to library",
   seliMediaPlayer: "SELI Media Player",
   pressEscCourse: "Press Esc to return to course content",
-  loadingEmbebed: "Loading embedded content...",
+  loadingEmbedded: "Loading embedded content...",
   seliPdfReader: "SELI PDF reader",
   loadingH5p: "Loading h5p content...",
   setReminder: "Set reminder",
@@ -581,7 +581,7 @@ var ENGLISH = {
   audio: "Audio",
   link: "Link",
   unity: "Unity",
-  embebed: "Embedded",
+  embedded: "Embedded",
   pdf: "Pdf",
   compressed: "Compressed",
   quiz: "Quiz",
@@ -1081,6 +1081,7 @@ var ENGLISH = {
   HighSchoolStudents:'High School Students',
   MiddleSchoolStudents:'Middle School Students',
   ElementarySchoolStudents:'Elementary School Students',
+  reportstep:'Accessibility report'
 
   
 }

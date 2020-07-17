@@ -315,13 +315,25 @@ export default function MainPage(props) {
 						<p className={classes.body2}>
 							{coursedata.description}
 						</p>
-						<p className={classes.body1}>
-							By the end of this course, you will be able to:
-						</p>
-						<Lista 
-							title='LearningOutcomes'
-							data={coursedata.analysis[4]}
-						/>
+						
+						{
+							(props.course.coursePlan.guidedCoursePlan==="free" && 
+							props.course.coursePlan.courseTemplate=== "without" && 
+							(props.course.coursePlan.courseStructure=== "unit" || 
+							props.course.coursePlan.courseStructure=== "topic" ))?
+							undefined
+							:
+							<div>
+								<p className={classes.body1}>
+									By the end of this course, you will be able to:
+								</p>
+								<Lista 
+									title='LearningOutcomes'
+									data={coursedata.analysis[4]}
+								/>
+							</div>
+							
+						}
 					</Grid>
 					<Grid item lg={4}>
 						<CourseSummary
@@ -329,7 +341,14 @@ export default function MainPage(props) {
 						/>
 					</Grid>
 				</Grid>
-				 <section aria-label="Course design">
+				{
+					(props.course.coursePlan.guidedCoursePlan==="free" && 
+					props.course.coursePlan.courseTemplate=== "without" && 
+					(props.course.coursePlan.courseStructure=== "unit" || 
+					props.course.coursePlan.courseStructure=== "topic" ))?
+					undefined
+					:
+					<section aria-label="Course design">
 					<h3 className={classes.header2}>Course Design</h3>			
 					<List dense={true}>
 						<Lista 
@@ -338,6 +357,8 @@ export default function MainPage(props) {
 						/>
 					</List>
 				</section> 
+				}
+				 
 			</Paper>
 			<Paper component="article" elevation={0} className={classes.paper1}>
 				<header>
@@ -348,6 +369,7 @@ export default function MainPage(props) {
 				<CourseContent
 					data={props.course.design}
 					coursePlan={props.course.coursePlan}
+					program={props.course.program}
 				/>
 				<p>
 					Read the course syllabus for a complete view of the course program

@@ -55,8 +55,8 @@ export default class VideoPreview extends React.Component {
   render() {
     return(
         <video 
-          width={!this.props.fromTemplate ? "640" : "300"} 
-          height={!this.props.fromTemplate ? "480" : undefined}
+          width={"350"} 
+          height={undefined}
           controls 
           id="video-preview-information" 
           className="file-preview-information" 

@@ -1,8 +1,6 @@
 import React from 'react';
 import MenuItem from './MenuItem';
 import Code  from '../../tools/Code';
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
 
 export default class TextItem extends React.Component {
   constructor(props) {
@@ -19,7 +17,7 @@ export default class TextItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        <div className={!this.props.fromTemplate ? "text-content-item" : "template-general-item"}>
+        <div className="text-content-item">
           {
             this.props.item.attributes.type === 'title' ?
                 <div>
@@ -78,16 +76,6 @@ export default class TextItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        {
-          !this.props.fromTemplate && (
-            <React.Fragment>
-              <Divider orientation="vertical" />
-              <DragItem
-                holdanddrag={this.props.language.holdanddrag}
-              />
-            </React.Fragment>
-          )
-        }
       </div>
       );
     }

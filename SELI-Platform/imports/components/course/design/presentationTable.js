@@ -1,13 +1,10 @@
-import Button from "@material-ui/core/Button";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import AddIcon from "@material-ui/icons/Add";
 import MaterialTable from "material-table";
 import React ,{useEffect} from "react";
 import FeedbackHelp from "../feedback";
 import tableIcons from '../design/icons'
-
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -22,9 +19,10 @@ export default function Presentation(props) {
     }else{
       let update=state;
       update.data=courseInformation[parentIndex].tools[3].items;
-     setState(update) 
+      setState(update) 
     }
   },[])
+  
   const classes = useStyles();
 
   const itemsTypes = { 1: "file (ex: ppt, pdf)", 2: "h5p", 3: "other" };
@@ -188,7 +186,7 @@ export default function Presentation(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 newData.submitted = true;
-                if (!newData.activity) {
+                if (!newData.title) {
                   newData.error = true;
                   newData.label = language.required;
                   newData.helperText = language.Namerequired;
@@ -203,8 +201,8 @@ export default function Presentation(props) {
                     data[data.indexOf(oldData)] = newData;
                     let tool=tools;
                     if(type==='lessonInto'){
-                     // tool[lessonIndex][3].items=data;
-                     handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
+                      // tool[lessonIndex][3].items=data;
+                      handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
                     }else{
                       tool[3].items=data;
                       handleSelectResources(parentIndex, tool)

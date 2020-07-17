@@ -203,71 +203,78 @@ function Syllabus(props) {
 				data={props.courseInformation.support}
 				/>
 			</div>
-				
-			<div>
-				<div className='crnheading'>
-					<h3 id="info-pedag" tabIndex="-1">
-						Pedagogical Considerations
-					</h3>
-				</div>
-				<div className='descriptiontext'>
-					{props.courseInformation.analysis[2]}
-				</div>
-			</div>
-			
-		
-			
 
-			<div>
-				<div className='crnheading'>
-					<h3 id="info-goals" tabIndex="-1">Learning Goals</h3>
-				</div>
-				<div className='descriptiontext'>{props.language.learningObjectivesDefinition}</div>
+			{
+				(props.courseInformation.coursePlan.guidedCoursePlan==="free" && 
+				props.courseInformation.coursePlan.courseTemplate=== "without" && 
+				(props.courseInformation.coursePlan.courseStructure=== "unit" || 
+				props.courseInformation.coursePlan.courseStructure=== "topic" ))?
+				undefined
+				:
 				<div>
-					<Lista 
-						title='LearningGoals'
-						data={props.courseInformation.analysis[3]}
-					/>
+					<div>
+					<div className='crnheading'>
+						<h3 id="info-pedag" tabIndex="-1">
+							Pedagogical Considerations
+						</h3>
+					</div>
+					<div className='descriptiontext'>
+						{props.courseInformation.analysis[2]}
+					</div>
 				</div>
-				<div className='crnheading'>
-					<h3>Learning Affective Objectives</h3>
-				</div>	
+
 				<div>
-					<div className='descriptiontext'>{props.courseInformation.analysis[5]}</div>
+					<div className='crnheading'>
+						<h3 id="info-goals" tabIndex="-1">Learning Goals</h3>
+					</div>
+					<div className='descriptiontext'>{props.language.learningObjectivesDefinition}</div>
+					<div>
+						<Lista 
+							title='LearningGoals'
+							data={props.courseInformation.analysis[3]}
+						/>
+					</div>
+						<div className='crnheading'>
+							<h3>Learning Affective Objectives</h3>
+						</div>	
+					<div>
+						<div className='descriptiontext'>{props.courseInformation.analysis[5]}</div>
+					</div>
+					<div className='crnheading'>
+						<h3>Learning Psychomotor Objectives</h3>
+					</div>
+					<div>
+						<div className='descriptiontext'>{props.courseInformation.analysis[6]}</div>
+					</div>
+					</div>
+
+					<div>
+						<div className='crnheading'>
+							<h3 id="info-outcomes" tabIndex="-1">Learning Outcomes</h3>
+						</div>
+						<div className='descriptiontext'>{props.language.outcomeslegend}</div>
+						<div>
+							<Lista 
+								title='LearningOutcomes'
+								data={props.courseInformation.analysis[4]}
+							/>
+						</div>
+					</div>
 				</div>
-				<div className='crnheading'>
-					<h3>Learning Psychomotor Objectives</h3>
-				</div>
-				<div>
-					<div className='descriptiontext'>{props.courseInformation.analysis[6]}</div>
-				</div>
-			</div>
+			}	
 			
 		
-			<div>
-				<div className='crnheading'>
-					<h3 id="info-outcomes" tabIndex="-1">Learning Outcomes</h3>
-				</div>
-				<div className='descriptiontext'>{props.language.outcomeslegend}</div>
-				<div>
-					<Lista 
-						title='LearningOutcomes'
-						data={props.courseInformation.analysis[4]}
-					/>
-				</div>
-			</div>
-			
-			
 			<div>
 				<div className='crnheading'>
 					<h2 id="info-content" tabIndex="-1">Course Content</h2>
 				</div>
 			</div>
-			<div className='descriptiontext'>Some section introduction...</div>
+			{/* <div className='descriptiontext'>Some section introduction...</div> */}
 			
 			<CourseContent
 				data={props.courseInformation.design}
 				coursePlan={props.courseInformation.coursePlan}
+				program={props.courseInformation.program}
 			/>
 			
 			<HardwareSoftwareReq

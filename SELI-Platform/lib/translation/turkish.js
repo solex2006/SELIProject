@@ -327,7 +327,7 @@ var TURKISH = {
   audioInfoHelp: "İsteğe bağlı olarak metin bölümleriyle içerik oluşturmak için ses yükleyin veya seçin.",
   linkInfoHelp: "Bağlantı veya bağlantı içeren özel metin ekleyin.",
   unityInfoHelp: "Kütüphanemizden bir unity motoru oyunu seçin.",
-  embebedInfoHelp: "Gömülü.",
+  embeddedInfoHelp: "Gömülü.",
   pdfInfoHelp: "Öğrencinin ne yapacağına dair bir yönerge ekleyerek pdf'i yükleyin veya seçin.",
   compressedInfoHelp: "Sıkıştırılmış dosyaları (.rar, .zip, 7z, vb.) Yükleyin veya seçin, öğrencinin onunla ne yapacağına dair bir yönerge ekleyin.",
   h5pInfoHelp: "Herhangi bir H5P içeriği ekleyin.",
@@ -406,7 +406,7 @@ var TURKISH = {
   noFolferJs: "folder.json dosyası bulunamadı",
   noUnityJs: "UnityLoader.js dosyası bulunamadı",
   textPosition: "Yazı Pozisyonu:",
-  enterDescriptionEmbebed: "Gömülü içeriğin açıklamasını girin veya bu özelliği kapatın",
+  enterDescriptionEmbedded: "Gömülü içeriğin açıklamasını girin veya bu özelliği kapatın",
   writeTheInstructions: "Öğrencinin uyması gereken talimatları aşağıya yazın:",
   instructions: "Talimatlar:",
   download: "İndir",
@@ -505,7 +505,7 @@ var TURKISH = {
   addToLibrary: "Kütüphaneye ekle",
   seliMediaPlayer: "SELI Medya Oynatıcı",
   pressEscCourse: "Ders içeriğine dönmek için Esc tuşuna basın",
-  loadingEmbebed: "Gömülü içerik yükleniyor...",
+  loadingEmbedded: "Gömülü içerik yükleniyor...",
   seliPdfReader: "SELI PDF okuyucu",
   loadingH5p: "H5p içeriği yükleniyor...",
   setReminder: "Hatırlatıcıyı Kur",
@@ -581,7 +581,7 @@ var TURKISH = {
   audio: "Ses",
   link: "Bağlantı",
   unity: "Unity",
-  embebed: "Gömülü",
+  embedded: "Gömülü",
   pdf: "Pdf",
   compressed: "Sıkıştırılmış",
   quiz: "Test",
@@ -1072,5 +1072,6 @@ var TURKISH = {
   dialog2: 'Do you want to proceed?',
   outcomeslegend:'By the end of this course, students will be able..',
   repeatedkeywords:'keywords can not be repeated',
+  reportstep:'Accessibility report'
 }
 export default TURKISH;

@@ -1,17 +1,11 @@
-import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import AddIcon from "@material-ui/icons/Add";
 import MaterialTable from "material-table";
 import React,{useEffect} from "react";
 import FeedbackHelp from "../feedback";
-
 import tableIcons from '../design/icons'
-
-
-
 
 const useStyles = makeStyles(theme => ({}));
 export default function Presentation(props) {
@@ -29,8 +23,6 @@ export default function Presentation(props) {
     }
     
   },[])
-  console.log("propsenGamesTable****",language)
-
   
   const classes = useStyles();
   const { supplementary } = props;
@@ -199,23 +191,19 @@ export default function Presentation(props) {
                 const data = [...prevState.data];
                 data.push(newData);
                 console.log("save",newData)
-               // save to databse
+                // save to databse
                 let tool=tools;
-                  if(type==='lessonInto'){
-                   // tool[1].items=data;
-                    handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
-                  }else{
-                    tool[1].items=data;
-                    handleSelectResources(parentIndex, tool)
-                  }   
+                if(type==='lessonInto'){
+                  // tool[1].items=data;
+                  handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
+                }else{
+                  tool[1].items=data;
+                  handleSelectResources(parentIndex, tool)
+                }   
                 return { ...prevState, data };
               });
-              
-               }, 600);
+              }, 600);
             }),
-
-
-
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
@@ -234,7 +222,6 @@ export default function Presentation(props) {
                     const data = [...prevState.data];
                     data[data.indexOf(oldData)] = newData;
                     let tool=tools;
-                   
                     if(type==='lessonInto' ){
                       //tool[1].items=data;
                       handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
@@ -255,11 +242,9 @@ export default function Presentation(props) {
                   const data = [...prevState.data];
                   data.splice(data.indexOf(oldData), 1);
                   let tool=tools;
-                 
-                  
                   if(type==='lessonInto'){
-                   // tool[1].items=data;
-                   handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
+                    // tool[1].items=data;
+                    handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 1)
                   }else{
                     tool[1].items=data;
                     handleSelectResources(parentIndex, tool)

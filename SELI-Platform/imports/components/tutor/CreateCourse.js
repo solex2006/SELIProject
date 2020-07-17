@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import AudienceStep from '../course/AudienceStep'
 import RequirementStep from '../course/RequirementStep'
 import CoursePlanStep from '../course/CoursePlanStep'
+import ReportStep     from '../course/ReportStep'
 import FormStepperID from '../navigation/FormStepperID'; '../'
 import CourseInformation from '../course/CourseInformation';
 import CourseProgram from '../course/CourseProgram';
@@ -63,7 +64,7 @@ export default class CreateCourse extends React.Component {
         },
         accessibility:[],
         stepscompleted:[],
-        stepsNocompleted:[],
+        stepsflag:'',
         analysis:[],
         design:[],
         organization: '',
@@ -110,7 +111,7 @@ export default class CreateCourse extends React.Component {
           design: this.props.courseToEdit.design ? this.props.courseToEdit.design : [],
           accessibility: this.props.courseToEdit.accessibility,
           stepscompleted: this.props.courseToEdit.stepscompleted,
-          stepsNocompleted: this.props.courseToEdit.stepsNocompleted,
+          stepsflag: this.props.courseToEdit.stepsflag,
           classroom: this.props.courseToEdit.classroom,
           analysis: this.props.courseToEdit.analysis ? this.props.courseToEdit.analysis : [],
         },
@@ -135,7 +136,8 @@ export default class CreateCourse extends React.Component {
         {label: this.props.language.plan, icon: <AssistantIcon className="step-icon"/>},
         {label: this.props.language.analysisstep, icon: <SchoolIcon className="step-icon"/>},
         {label: this.props.language.desingPhase, icon: <AssignmentIcon className="step-icon"/>},
-        {label: this.props.language.program, icon: <MenuBookIcon className="step-icon"/>}
+        {label: this.props.language.program, icon: <MenuBookIcon className="step-icon"/>},
+        {label: this.props.language.reportstep, icon: <MenuBookIcon className="step-icon"/>}
       ]
     });
   }
@@ -210,6 +212,11 @@ export default class CreateCourse extends React.Component {
           handlePreview={this.handlePreview.bind(this)}
           language={this.props.language}
         />,
+        <ReportStep
+          language={this.props.language}
+          validate={this.validate}
+          courseInformation={this.state.courseInformation}
+        />,
       ],
     });
   }
@@ -236,6 +243,7 @@ export default class CreateCourse extends React.Component {
       let courseInformation = this.state.courseInformation;
       let course;
       let valueSubtitle = courseInformation.subtitle;
+      courseInformation.stepsflag="saved";
 
       if (valueSubtitle === undefined) {
         valueSubtitle = "-----"
@@ -272,7 +280,7 @@ export default class CreateCourse extends React.Component {
               program: courseInformation.program,
               accessibility:courseInformation.accessibility,
               stepscompleted:courseInformation.stepscompleted,
-              stepsNocompleted:courseInformation.stepsNocompleted,
+              stepsflag:courseInformation.stepsflag,
               analysis:courseInformation.analysis,
               design:courseInformation.design,
               classroom: courseInformation.classroom,
@@ -558,7 +566,11 @@ export default class CreateCourse extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
-          className="form-dialog"
+          className="dialog"
+          disableBackdropClick={true}
+          disableEscapeKeyDown={true}
+          keepMounted
+          maxWidth={false}
         >
           {
             this.state.action === "preview" || this.state.action === "publish" ?
@@ -618,74 +630,72 @@ export default class CreateCourse extends React.Component {
                     </Toolbar>
                   </AppBar>
                 </DialogTitle>
-                <DialogContent>
-                  <div className="file-form-dialog">
-                    {
-                      this.state.showLibrary ?
-                        <Library
-                          user={Meteor.userId()}
-                          type={this.state.fileType}
-                          getFileInformation={this.getFileInformation.bind(this)}
-                          hideLibrary={this.hideLibrary.bind(this)}
-                          language={this.props.language}
-                        />
-                      :
-                        <div>
-                          <div className="library-button-container">
-                            <Fab onClick={() => this.showLibrary()}>
-                              <FolderSpecialIcon/>
-                            </Fab>
-                            <p className="media-fab-text">{this.props.language.library}</p>
-                          </div>
-                          {
-                            this.state.showPreview ?
-                              <div className="form-preview-container">
-                                {
-                                  this.state.fileType === "image" ?
-                                  <ImagePreview
-                                    file={this.state.image}
-                                    unPickFile={this.unPickFile.bind(this)}
-                                    language={this.props.language}
-                                    tipo={"Course"}
-                                  /> 
-                                  :
-                                  <PdfPreview
-                                    file={this.state.sylabus}
-                                    unPickFile={this.unPickFile.bind(this)}
-                                    language={this.props.language}
-                                  />
-                                }
-                                
-                              </div>
-                            :
-                            <div className="form-file-container">
-                              <FileUpload
-                                type={this.state.fileType}
-                                user={Meteor.userId()}
-                                accept={this.state.accept}
-                                handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                getFileInformation={this.getFileInformation.bind(this)}
-                                label={this.state.fileType === 'image' ? this.props.language.uploadImageButtonLabel : this.props.language.uploadPdfButtonLabel }
-                                language={this.props.language}
-                              />
-                            </div>
-                          }
-                        </div>
-                    }
-                    
-                  </div>
-                </DialogContent>
-                  <div className="form-editor-label">
-                    <AccessibilityHelp 
-                        id={'short-description-help-container'} 
-                        name={'shortDescriptionHelpContainer'} 
-                        error={!this.state.showPreview} 
-                        tip={this.state.fileType === 'image' ? (!this.state.showPreview ? this.props.language.uploadImage: this.props.language.uploadImageCorrect):(!this.state.showPreview ? this.props.language.uploadPdf: this.props.language.uploadPdfCorrect)}
-                        //step={props.step}
-                        //stepLabel={props.stepLabel}
+                <div className="file-form-dialog">
+                  {
+                    this.state.showLibrary ?
+                      <Library
+                        user={Meteor.userId()}
+                        type={this.state.fileType}
+                        getFileInformation={this.getFileInformation.bind(this)}
+                        hideLibrary={this.hideLibrary.bind(this)}
                         language={this.props.language}
-                    />
-                  </div>
+                      />
+                    :
+                      <div>
+                        <div className="library-button-container">
+                          <Fab onClick={() => this.showLibrary()}>
+                            <FolderSpecialIcon/>
+                          </Fab>
+                          <p className="media-fab-text">{this.props.language.library}</p>
+                        </div>
+                        {
+                          this.state.showPreview ?
+                            <div className="form-preview-container">
+                              {
+                                this.state.fileType === "image" ?
+                                <ImagePreview
+                                  file={this.state.image}
+                                  unPickFile={this.unPickFile.bind(this)}
+                                  language={this.props.language}
+                                  tipo={"Course"}
+                                /> 
+                                :
+                                <PdfPreview
+                                  file={this.state.sylabus}
+                                  unPickFile={this.unPickFile.bind(this)}
+                                  language={this.props.language}
+                                />
+                              }
+                              
+                            </div>
+                          :
+                          <div className="form-file-container">
+                            <FileUpload
+                              type={this.state.fileType}
+                              user={Meteor.userId()}
+                              accept={this.state.accept}
+                              handleControlMessage={this.props.handleControlMessage.bind(this)}
+                              getFileInformation={this.getFileInformation.bind(this)}
+                              label={this.state.fileType === 'image' ? this.props.language.uploadImageButtonLabel : this.props.language.uploadPdfButtonLabel }
+                              language={this.props.language}
+                            />
+                          </div>
+                        }
+                      </div>
+                  }
+                  
+                </div>
+                <div className="form-editor-label">
+                  <AccessibilityHelp 
+                      id={'short-description-help-container'} 
+                      name={'shortDescriptionHelpContainer'} 
+                      error={!this.state.showPreview} 
+                      tip={this.state.fileType === 'image' ? (!this.state.showPreview ? this.props.language.uploadImage: this.props.language.uploadImageCorrect):(!this.state.showPreview ? this.props.language.uploadPdf: this.props.language.uploadPdfCorrect)}
+                      //step={props.step}
+                      //stepLabel={props.stepLabel}
+                      language={this.props.language}
+                  />
+                </div>
                 <div className="dialog-actions-container">
                   <Tooltip title={this.props.language.done}>
                     <Fab 

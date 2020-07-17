@@ -1,25 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import AddIcon from "@material-ui/icons/Add";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Icon from "@material-ui/core/Icon";
 import MaterialTable from "material-table";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import FeedbackHelp from "../feedback";
 import tableIcons from '../design/icons'
-import { Language } from "material-ui-icons";
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -231,7 +216,7 @@ export default function SupplementaryTexts(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 newData.submitted = true;
-                if (!newData.activity) {
+                if (!newData.title) {
                   newData.error = true;
                   newData.label = language.required;
                   newData.helperText = language.Namerequired;
@@ -245,7 +230,6 @@ export default function SupplementaryTexts(props) {
                     const data = [...prevState.data];
                     data[data.indexOf(oldData)] = newData;
                     let tool=tools;
-                    tool[lessonIndex].tools[4].items=data;
                     if(type==='lessonInto'){
                       //tool[lessonIndex][4].items=data;
                       handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 4)
@@ -266,7 +250,6 @@ export default function SupplementaryTexts(props) {
                   const data = [...prevState.data];
                   data.splice(data.indexOf(oldData), 1);
                   let tool=tools;
-                  tool[lessonIndex].tools[4].items=data;
                   if(type==='lessonInto'){
                    // tool[lessonIndex][4].items=data;
                    handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 4)

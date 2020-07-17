@@ -5,7 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 export default class DragItem extends Component {
     render() {
         return (
-            <div className="menu-content-item">
+            <div className="item-drag-handle">
                 <Tooltip  title={this.props.holdanddrag}>
                     <OpenWithIcon/>
                 </Tooltip>

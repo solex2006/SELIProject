@@ -8,7 +8,6 @@ import ContentMenuItem from '../ContentMenuItem';
 import DisabilitieMenu from '../DisabilitieMenu';
 import CourseCreatorMenu from '../CourseCreatorMenu';
 import { Container, Draggable, dropHandlers } from 'react-smooth-dnd';
-import { applyDrag, generateItems } from '../../../../lib/dragAndDropUtils';
 import NavigationTool from '../NavigationTool';
 
 export default class VerticalPanel extends React.Component {
@@ -45,7 +44,6 @@ export default class VerticalPanel extends React.Component {
                 groupName="1"
                 behaviour="copy"
                 getChildPayload={i => this.props.contentItems[i]}
-                onDrop={e => this.setState({ contentItems: applyDrag(this.props.contentItems, e) })}
               >
                 { 
                   this.props.contentItems.map((p,i) => {
@@ -60,16 +58,10 @@ export default class VerticalPanel extends React.Component {
               <div className="course-creator-menu-actions-container">
                 <List className="course-creator-menu-actions" component="nav" aria-label="course-creator-menu-actions">
                   <Divider light/><Divider light/><Divider light/>
-                  {
-                    this.props.courseInformation.coursePlan.courseTemplate === 'without' && (
-                      <React.Fragment>
-                        <ListItem onClick={() => this.props.toggleSortMode()} selected={this.props.sortMode} className="course-creator-menu-action" button>
-                          <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
-                        </ListItem>
-                        <Divider light/>
-                      </React.Fragment>
-                    )
-                  }
+                  <ListItem onClick={() => this.props.toggleSortMode()} selected={this.props.sortMode} className="course-creator-menu-action" button>
+                    <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.sortMode}/>
+                  </ListItem>
+                  <Divider light/>
                   <ListItem onClick={() => this.props.handlePreview()} className="course-creator-menu-action" button>
                     <ListItemText style={{color: "var(--primary)"}} className="course-creator-menu-action-text" primary={this.props.language.seePreview}/>
                   </ListItem>
@@ -86,10 +78,40 @@ export default class VerticalPanel extends React.Component {
               <div className="button-row">
                 <div fullWidth className="row-list-selected-button">
                   <Avatar 
-                    id={this.props.courseInformation.coursePlan.courseStructure === "unit" ? "orange-avatar": "blue-avatar"} 
-                    className="avatar">{this.props.courseInformation.coursePlan.courseStructure === "unit" ? "U" : "T"}
+                    id={
+                      this.props.courseInformation.coursePlan.courseTemplate === "without" ?
+                        this.props.courseInformation.coursePlan.courseStructure === "unit" ? 
+                          "orange-avatar"
+                        : 
+                          "blue-avatar"
+                      :
+                        "green-avatar"
+                    }
+                    className="avatar"
+                  >
+                    {
+                      this.props.courseInformation.coursePlan.courseTemplate === "without" ?
+                        this.props.courseInformation.coursePlan.courseStructure === "unit" ? 
+                          this.props.language.byUnitsAndLessons[0]
+                        : 
+                          this.props.language.byTopics[0]
+                      :
+                        this.props.courseInformation.coursePlan.courseTemplate === "spiral" ? this.props.language.SpiralModel[0] :
+                        this.props.courseInformation.coursePlan.courseTemplate === "consistent" ? this.props.language.Consistent[0] :
+                        this.props.language.ToyBox[0]
+                    }
                   </Avatar>
-                  {this.props.courseInformation.coursePlan.courseStructure === "unit" ? this.props.language.byUnitsAndLessons : this.props.language.byTopics}
+                  {
+                    this.props.courseInformation.coursePlan.courseTemplate === "without" ?
+                      this.props.courseInformation.coursePlan.courseStructure === "unit" ? 
+                        this.props.language.byUnitsAndLessons 
+                      : 
+                        this.props.language.byTopics
+                    :
+                      this.props.courseInformation.coursePlan.courseTemplate === "spiral" ? this.props.language.SpiralModel :
+                      this.props.courseInformation.coursePlan.courseTemplate === "consistent" ? this.props.language.Consistent :
+                      this.props.language.ToyBox
+                  }
                 </div>
               </div>
               <NavigationTool

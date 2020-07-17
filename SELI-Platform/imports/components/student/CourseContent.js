@@ -3,7 +3,7 @@ import ImageItem from './items/ImageItem'
 import AudioItem from './items/AudioItem'
 import TextItem from './items/TextItem'
 import CompressedItem from './items/CompressedItem'
-import EmbebedItem from './items/EmbebedItem'
+import EmbeddedItem from './items/EmbeddedItem'
 import H5PItem from './items/H5PItem'
 import ActivityItem from './items/ActivityItem'
 import LinkItem from './items/LinkItem'
@@ -140,11 +140,11 @@ export default class CourseContent extends React.Component {
                         undefined
                       }
                       {
-                        item.type === "embebed" ?
-                          <EmbebedItem
+                        item.type === "embedded" ?
+                          <EmbeddedItem
                             item={item}
                             handleControlMessage={this.props.handleControlMessage.bind(this)}
-                            loadingEmbebed={this.props.language.loadingEmbebed}
+                            loadingEmbedded={this.props.language.loadingEmbedded}
                             key={Math.random()}
                           />
                         :
@@ -370,11 +370,11 @@ export default class CourseContent extends React.Component {
                       undefined
                     }
                     {
-                      item.type === "embebed" ?
-                        <EmbebedItem
+                      item.type === "embedded" ?
+                        <EmbeddedItem
                           item={item}
                           handleControlMessage={this.props.handleControlMessage.bind(this)}
-                          loadingEmbebed={this.props.language.loadingEmbebed}
+                          loadingEmbedded={this.props.language.loadingEmbedded}
                           key={Math.random()}
                         />
                       :

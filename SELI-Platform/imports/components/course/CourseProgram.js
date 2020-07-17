@@ -23,7 +23,7 @@ import CompressedForm from '../content/CompressedForm';
 import H5PForm from '../content/H5PForm';
 import QuizForm from '../content/QuizForm';
 import ActivityForm from '../content/ActivityForm';
-import EmbebedForm from '../content/EmbebedForm';
+import EmbeddedForm from '../content/EmbeddedForm';
 import UnityForm from '../content/UnityForm';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -53,7 +53,7 @@ export default class CourseProgram extends React.Component {
         { id: Math.random(), type: "link" },
         { id: Math.random(), type: "quiz" },
         { id: Math.random(), type: "activity" },
-        { id: Math.random(), type: "embebed" },
+        { id: Math.random(), type: "embedded" },
         { id: Math.random(), type: "h5p" },
         { id: Math.random(), type: "unity" },
       ],
@@ -61,6 +61,7 @@ export default class CourseProgram extends React.Component {
       sortMode: false,
       courseInformation: this.props.courseInformation,
       titleTop: "",
+      prevIndexState: 0,
     }
   }
 
@@ -86,86 +87,87 @@ export default class CourseProgram extends React.Component {
   };
 
   openDialog(e, templateCode){
-    let type = e.payload.type;
-    let languageTypeAdded = "";
-    if    (type === 'text'){ languageTypeAdded = this.props.language.text }
-    else if (type === 'image'){ languageTypeAdded = this.props.language.image }
-    else if (type === 'video'){ languageTypeAdded = this.props.language.video }
-    else if (type === 'audio'){ languageTypeAdded = this.props.language.audio }
-    else if (type === 'link'){ languageTypeAdded = this.props.language.link }
-    else if (type === 'unity'){ languageTypeAdded = this.props.language.unity }
-    else if (type === 'embebed'){ languageTypeAdded = this.props.language.embebed }
-    else if (type === 'pdf'){ languageTypeAdded = this.props.language.pdf }
-    else if (type === 'compressed'){ languageTypeAdded = this.props.language.compressed }
-    else if (type === 'h5p'){ languageTypeAdded = "h5p" }
-    else if (type === 'quiz'){ languageTypeAdded = this.props.language.quiz }
-    else if (type === 'activity'){ languageTypeAdded = this.props.language.activity }
-    this.setState({
-      contentTypeAdded: type,
-      languageType: languageTypeAdded,
-      templateCode: templateCode,
-      addedId: e.payload.id,
-      showContentEditor: true,
-    });
-    if(e.addedIndex !== null && e.removedIndex !== null) {}
-    else {
-      this.contentHandleClickOpen();
+    if (e.payload) {
+      let type = e.payload.type;
+      let languageTypeAdded = "";
+      if    (type === 'text'){ languageTypeAdded = this.props.language.text }
+      else if (type === 'image'){ languageTypeAdded = this.props.language.image }
+      else if (type === 'video'){ languageTypeAdded = this.props.language.video }
+      else if (type === 'audio'){ languageTypeAdded = this.props.language.audio }
+      else if (type === 'link'){ languageTypeAdded = this.props.language.link }
+      else if (type === 'unity'){ languageTypeAdded = this.props.language.unity }
+      else if (type === 'embedded'){ languageTypeAdded = this.props.language.embedded }
+      else if (type === 'pdf'){ languageTypeAdded = this.props.language.pdf }
+      else if (type === 'compressed'){ languageTypeAdded = this.props.language.compressed }
+      else if (type === 'h5p'){ languageTypeAdded = "h5p" }
+      else if (type === 'quiz'){ languageTypeAdded = this.props.language.quiz }
+      else if (type === 'activity'){ languageTypeAdded = this.props.language.activity }
+      this.setState({
+        contentTypeAdded: type,
+        languageType: languageTypeAdded,
+        templateCode: templateCode,
+        addedId: e.payload.id,
+        showContentEditor: true,
+      });
+      if (e.addedIndex !== null && e.removedIndex !== null) {
+        this.relativeProgramCommons("drag", e);
+      } else {
+        if (e.addedIndex !== null) {
+          this.contentHandleClickOpen();
+          let a = e;
+          if (templateCode) {
+            a.payload.code = templateCode;
+          }
+          this.relativeProgramCommons("drag", a);
+          this.setState({
+            contentaAdded: true,
+          });
+        }
+      }
     }
-    let a = e;
-    if (templateCode) {
-      a.payload.code = templateCode;
-    }
-    this.relativeProgramCommons("drag", a)
-    this.setState({
-      contentaAdded: true,
-    });
   }
 
   getItemAttributes(){}
 
   relativeProgramCommons = (action, itemValue) => {
-    console.log(this.state.courseInformation.program[this.props.selected[0]])
     let courseInformation = this.state.courseInformation;
     let index;
     let arrayOfItems;
-    let itemContent = this.getItemAttributes();
     let stateId;
     if (action === "create" || action === "cancel" || action === "getA11y" || action === "setA11y") {
       stateId = this.state.addedId;
     } else if (action === "edit") {
       stateId = this.state.contentToEdit.id;
     } else if (action === "remove"){
-      stateId = itemValue._id;
+      stateId = itemValue.id;
     } else if (action === "decorative"){
       stateId = itemValue;
     }
-    if (itemContent !== undefined || action !== "create" || action !== "edit") {
-      if (this.props.selected[3] === 0) {
-        arrayOfItems = courseInformation.program[this.props.selected[0]].items;
-        
-      } else if (this.props.selected[3] === 1) {
-        arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items;
+    if (this.props.selected[3] === 0) {
+      arrayOfItems = courseInformation.program[this.props.selected[0]].items;
+    } else if (this.props.selected[3] === 1) {
+      arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items;
+    } else {
+      if (courseInformation.coursePlan.courseStructure === "unit") {
+        arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items;
       } else {
-        if (courseInformation.coursePlan.courseStructure === "unit") {
-          arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items;
-        } else {
-          arrayOfItems = courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items;
+        arrayOfItems = courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items;
+      }
+    }
+    //Processing Array of Items
+    if (action === "drag"){
+      arrayOfItems = applyDrag(arrayOfItems, itemValue);
+    } else {
+      for (var i = 0; i < arrayOfItems.length; i++) {
+        if (arrayOfItems[i].id === stateId) {
+          index = i;
+          break;
         }
       }
-      //Processing Array of Items
-      if (action === "drag"){
-        console.log(arrayOfItems)
-        arrayOfItems = applyDrag(arrayOfItems, itemValue);
-        console.log(arrayOfItems)
-      } else {
-        for (var i = 0; i < arrayOfItems.length; i++) {
-          if (arrayOfItems[i].id === stateId) {
-            index = i;
-            break;
-          }
-        }
-      }
-      if (action === "create" || action === "edit") {
+    }
+    if (action === "create" || action === "edit") {
+      let itemContent = this.getItemAttributes();
+      if (itemContent != undefined) {
         arrayOfItems[index].attributes = itemContent;
         if (action === "create") {
           if (this.state.contentTypeAdded === 'image') {
@@ -177,33 +179,34 @@ export default class CourseProgram extends React.Component {
           }
           this.finishCreateContent(itemContent);
         }
-      } else if (action === "cancel" || action === "remove") {
-        arrayOfItems.splice(index, 1);
-      } else if (action === "getA11y") {
-        arrrayOfItems[index].attributes.accessibility.percentage = itemValue;
-      } else if (action === "decorative") {
-        arrayOfItems[index].attributes.accessibility.pureDecorative = !arrayOfItems[index].attributes.accessibility.pureDecorative;
-      } else if (action === "setA11y") {
-        arrayOfItems[index].attributes.accessibility.dataField = itemValue.dataField;
-        arrayOfItems[index].attributes.accessibility.isA11Y = itemValue.isA11Y;
       }
-      // Saving Changes
-      if (this.props.selected[3] === 0) {
-        courseInformation.program[this.props.selected[0]].items = arrayOfItems;
-      } else if (this.props.selected[3] === 1) {
-        courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = arrayOfItems;
-      } else {
-        if (courseInformation.coursePlan.courseStructure === "unit") {
-          courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items = arrayOfItems
-        }
-        else {
-          courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items[i] = arrayOfItems;
-        }
-      }
-      this.setState({
-        arrayOfItems,
-      })
+    } else if (action === "cancel" || action === "remove") {
+      arrayOfItems.splice(index, 1);
+    } else if (action === "getA11y") {
+      arrayOfItems[index].attributes.accessibility.percentage = itemValue;
+    } else if (action === "decorative") {
+      arrayOfItems[index].attributes.accessibility.pureDecorative = !arrayOfItems[index].attributes.accessibility.pureDecorative;
+    } else if (action === "setA11y") {
+      arrayOfItems[index].attributes.accessibility.dataField = itemValue.dataField;
+      arrayOfItems[index].attributes.accessibility.isA11Y = itemValue.isA11Y;
     }
+    // Saving Changes
+    if (this.props.selected[3] === 0) {
+      courseInformation.program[this.props.selected[0]].items = arrayOfItems;
+    } else if (this.props.selected[3] === 1) {
+      courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items = arrayOfItems;
+    } else {
+      if (courseInformation.coursePlan.courseStructure === "unit") {
+        courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items = arrayOfItems
+      }
+      else {
+        courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items = arrayOfItems;
+      }
+    }
+    this.setState({
+      arrayOfItems,
+    })
+    if (arrayOfItems.length) {console.log(arrayOfItems)}
   }
 
   createContent(){
@@ -322,12 +325,14 @@ export default class CourseProgram extends React.Component {
   loadingData = () => {
     let arrayOfItems;
     let arrayOfDesignItems;
+    let tools;
     let titleTop;
     let courseInformation = this.state.courseInformation;
     if (courseInformation.program.length) {
       if (this.props.selected[3] === 0) {
         arrayOfItems = courseInformation.program[this.props.selected[0]].items;
-        arrayOfDesignItems = courseInformation.design[this.props.selected[0]].tools;
+        arrayOfDesignItems = courseInformation.design[this.props.selected[0]];
+        tools = courseInformation.design[this.props.selected[0]].tools;
         if (courseInformation.coursePlan.courseStructure === "unit") {
           titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}`
         }
@@ -336,20 +341,23 @@ export default class CourseProgram extends React.Component {
         }
       } else if (this.props.selected[3] === 1) {
         arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].items;
-        arrayOfDesignItems = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]].tools;
+        arrayOfDesignItems = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]];
+        tools = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]].tools;
         titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}
         - ${this.props.language.lesson}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`
       } else {
         if (courseInformation.coursePlan.courseStructure === "unit") {
           arrayOfItems = courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items;
-          arrayOfDesignItems = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].tools;
+          arrayOfDesignItems = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]];
+          tools = courseInformation.design[this.props.selected[0]].lessons[this.props.selected[1]].tools;
           titleTop = `${this.props.language.unit}: ${this.props.courseInformation.program[this.props.selected[0]].name}
           - ${this.props.language.lesson}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].name}
           - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}`
         }
         else {
           arrayOfItems = courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items;
-          arrayOfDesignItems = courseInformation.design[this.props.selected[0]].activities[this.props.selected[2]].tools;
+          arrayOfDesignItems = courseInformation.design[this.props.selected[0]].activities[this.props.selected[2]];
+          tools = courseInformation.design[this.props.selected[0]].tools;
           titleTop = `${this.props.language.topic}: ${this.props.courseInformation.program[this.props.selected[0]].name} 
           - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].name}`
         }
@@ -357,6 +365,7 @@ export default class CourseProgram extends React.Component {
       this.setState({
         arrayOfItems,
         arrayOfDesignItems,
+        tools,
         titleTop,
       })
     }
@@ -374,24 +383,16 @@ export default class CourseProgram extends React.Component {
 
   getAccessibilityPercentage = (value) => {
     this.relativeProgramCommons("getA11y", value);
-    this.setState({
-      courseInformation: courseInformation,
-    });
   }
 
   handleDecorative = (_id) => {
     this.relativeProgramCommons("decorative", _id);
-    this.setState({
-      courseInformation: courseInformation,
-    });
   }
 
   setContentAccessibilityData = (data) => {
     if (!this.state.configuringAccessibility) {
       this.relativeProgramCommons("setA11y", data);
-      this.setState({
-        courseInformation: courseInformation,
-      }, () => {this.contentHandleClose()});
+      this.contentHandleClose();
     }
   }
 
@@ -399,6 +400,7 @@ export default class CourseProgram extends React.Component {
     if (this.props.courseInformation.coursePlan.courseTemplate === 'without') {
       return (
         <FreeWithout
+          sortMode={this.state.sortMode}
           arrayOfItems={this.state.arrayOfItems}
           editItem={this.editItem.bind(this)}
           removeItem={this.removeItem.bind(this)}
@@ -411,8 +413,11 @@ export default class CourseProgram extends React.Component {
     } else {
       return (
         <TemplateParent
+          sortMode={this.state.sortMode}
           arrayOfItems={this.state.arrayOfItems}
           arrayOfDesignItems={this.state.arrayOfDesignItems}
+          tools={this.state.tools}
+          selected={this.props.selected}
           editItem={this.editItem.bind(this)}
           removeItem={this.removeItem.bind(this)}
           openDialog={this.openDialog.bind(this)}
@@ -599,6 +604,7 @@ export default class CourseProgram extends React.Component {
                 {
                   this.state.contentTypeAdded === 'activity' && !this.state.showAccessibilityOptions ?
                     <ActivityForm
+                      arrayOfDesignItems={this.state.arrayOfDesignItems}
                       getActivityAttributesFunction={activityAttributes => this.getItemAttributes = activityAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
@@ -608,9 +614,9 @@ export default class CourseProgram extends React.Component {
                   undefined
                 }
                 {
-                  this.state.contentTypeAdded === 'embebed' && !this.state.showAccessibilityOptions ?
-                    <EmbebedForm
-                      getEmbebedAttributesFunction={embebedAttributes => this.getItemAttributes = embebedAttributes}
+                  this.state.contentTypeAdded === 'embedded' && !this.state.showAccessibilityOptions ?
+                    <EmbeddedForm
+                      getEmbeddedAttributesFunction={embeddedAttributes => this.getItemAttributes = embeddedAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                       language={this.props.language}

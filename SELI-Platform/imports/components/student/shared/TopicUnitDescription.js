@@ -52,11 +52,87 @@ export default function CourseContent(props) {
                 }
             })
            
-       
         return {quiz, actividad, forum} 
-
     }
     
+   
+
+    const TotaloFreeTopic=(topico)=>{
+          // console.log("props en TotaloFreeTopic", props) 
+      let text=0
+      let image=0
+      let audio=0
+      let video=0
+      let activity=0
+      let quiz=0
+      
+      props.program[topico].items.map((item,indexitem)=>{  
+            if(item.type==='text'){
+               text+=1
+            }else if(item.type==='image'){
+               image+=1
+            }else if(item.type==='video'){
+               video+=1
+            }else if(item.type==='audio'){
+               audio+=1
+            }else if(item.type==='activity'){
+               activity+=1
+            }else if(item.type==='quiz'){
+               quiz+=1
+            }
+         })
+      return [text, image, audio, video, activity, quiz]    
+    }
+
+    const TotaloFreeUnit=(unit)=>{
+    // console.log("props en TotaloFreeTopic", props) 
+    let text=0
+    let image=0
+    let audio=0
+    let video=0
+    let activity=0
+    let quiz=0
+
+    props.program[unit].items.map((item,indexitem)=>{  
+        if(item.type==='text'){
+           text+=1
+        }else if(item.type==='image'){
+           image+=1
+        }else if(item.type==='video'){
+           video+=1
+        }else if(item.type==='audio'){
+           audio+=1
+        }else if(item.type==='activity'){
+           activity+=1
+        }else if(item.type==='quiz'){
+           quiz+=1
+        }
+    })
+    
+    props.program[unit].lessons.map((lesson,index)=>{
+        lesson.items.map((item,indexitem)=>{  
+            if(item.type==='text'){
+               text+=1
+            }else if(item.type==='image'){
+               image+=1
+            }else if(item.type==='video'){
+               video+=1
+            }else if(item.type==='audio'){
+               audio+=1
+            }else if(item.type==='activity'){
+               activity+=1
+            }else if(item.type==='quiz'){
+               quiz+=1
+            }
+        })
+    })
+    
+    //console.log("TotaloFreeUnit",[text, image, audio, video, activity, quiz])
+    return [text, image, audio, video, activity, quiz]    
+  }
+
+ 
+
     return (
         <div>
             {
@@ -64,110 +140,120 @@ export default function CourseContent(props) {
                 <div>
                     <div className='crnheading'>
                         <h3 id="content-topic-n" tabIndex="-1">{topic.title}</h3>
-				    </div>
-                    
-                    <div>
-                        <div className='crnheading'>
-                            <h3 >Learning Goals</h3>
-                        </div>
-                        <div className='descriptiontext' >{topic.learnGols}</div>
                     </div>
-
-               
-                    <div>
-                        <div className='crnheading'>
-                            <h3> Prerequisites</h3>
-                        </div>
-                        <div className='descriptiontext'>{topic.preKnowledge}</div>
-                    </div>
-                    
-
-                    <div>
-                        <div className='crnheading'>
-                            <h3>Content</h3>
-                        </div>
-                        <div className='descriptiontext'>{topic.mainContent}</div>
-                    </div>
-
-                    <div>
-                    <div className='crnheading'>
-                        <h3>Materials</h3>
-                    </div>
-                        {
-                            (coursePlan.guidedCoursePlan==='guided'  && coursePlan.courseTemplate==='without' && coursePlan.courseStructure==='unit')?       
+                    {
+                        coursePlan.guidedCoursePlan!='free' ?
+                        <div>
+                             
                             <div>
+                            <div className='crnheading'>
+                                <h3 >Learning Goals</h3>
+                            </div>
+                            <div className='descriptiontext' >{topic.learnGols}</div>
+                            </div>
+
+                            <div>
+                                <div className='crnheading'>
+                                    <h3> Prerequisites</h3>
+                                </div>
+                                <div className='descriptiontext'>{topic.preKnowledge}</div>
+                            </div>
+                            
+
+                            <div>
+                                <div className='crnheading'>
+                                    <h3>Content</h3>
+                                </div>
+                                <div className='descriptiontext'>{topic.mainContent}</div>
+                            </div>
+                        </div>
+                        
+                        :
+                        undefined
+                    }
+                   
+                    
+                    {
+                        coursePlan.guidedCoursePlan!='free' ?
+                        <div>
+                            <div>
+                            <div className='crnheading'>
+                                <h3>Materials</h3>
+                            </div>
                                 {
-                                    topic.lessons.map((lesson,index)=>(
-                                        <div key ={index}>
-                                            <div className='crnheading'>
-                                                <h3>{lesson.title}</h3>
-                                            </div>
-                                            <ul className='resources'>
-                                                {lesson.tools.map((tool,indextool)=>(//the resources of the lesson
-                                                    tool.checked===true?
-                                                        <li  key={indextool}>{tool.label}</li>
-                                                    :
-                                                    undefined
-                                                ))}
-                                            </ul>
-                                            <div className='crnheading'>
-                                              <h3>Tasks list of {lesson.title}</h3>
-                                            </div>
-                                            <ul >
-                                                {
-                                                    topic.lessons[index].activities.map((activity,indextool)=>(
-                                                        <li key={indextool}> 
-                                                            {activity.activity}
-                                                        </li> 
-                                                    ))
-                                                }
-                                            </ul>  
-                                        </div>      
-                                    ))
-                                }
-                            </div>
-                            :
-                            undefined                        
-                        }
-                        {
-                            (coursePlan.guidedCoursePlan==='guided'  &&
-                             (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
-                             || coursePlan.courseTemplate==='consistent' || coursePlan.courseTemplate==='toyBox' ) && 
-                             coursePlan.courseStructure==='topic')?       
-                            <div>
-                                { 
+                                    (coursePlan.guidedCoursePlan==='guided'  && coursePlan.courseTemplate==='without' && coursePlan.courseStructure==='unit')?       
                                     <div>
-                                        <ul className='resources'>
-                                                {topic.tools.map((tool,indextool)=>(//the resources of the lesson
-                                                    tool.checked===true?
-                                                        <li  key={indextool}>{tool.label}</li>
-                                                    :
-                                                    undefined
-                                                ))}
-                                            </ul>
-                                            <div className='crnheading'>
-                                              <h3>Tasks list of {topic.title}</h3>
-                                            </div>
-                                            <ul >
-                                                {
-                                                    topic.activities.map((activity,indextool)=>(
-                                                        <li  key={indextool}> 
-                                                            {activity.activity}
-                                                        </li> 
-                                                    ))
-                                                }
-                                        </ul>
+                                        {
+                                            topic.lessons.map((lesson,index)=>(
+                                                <div key ={index}>
+                                                    <div className='crnheading'>
+                                                        <h3>{lesson.title}</h3>
+                                                    </div>
+                                                    <ul className='resources'>
+                                                        {lesson.tools.map((tool,indextool)=>(//the resources of the lesson
+                                                            tool.checked===true?
+                                                                <li  key={indextool}>{tool.label}</li>
+                                                            :
+                                                            undefined
+                                                        ))}
+                                                    </ul>
+                                                    <div className='crnheading'>
+                                                    <h3>Tasks list of {lesson.title}</h3>
+                                                    </div>
+                                                    <ul >
+                                                        {
+                                                            topic.lessons[index].activities.map((activity,indextool)=>(
+                                                                <li key={indextool}> 
+                                                                    {activity.activity}
+                                                                </li> 
+                                                            ))
+                                                        }
+                                                    </ul>  
+                                                </div>      
+                                            ))
+                                        }
+                                    </div>
+                                    :
+                                    undefined                        
+                                }
+                                {
+                                    (coursePlan.guidedCoursePlan==='guided'  &&
+                                    (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
+                                    || coursePlan.courseTemplate==='consistent' || coursePlan.courseTemplate==='toyBox' ) && 
+                                    coursePlan.courseStructure==='topic')?       
+                                    <div>
+                                        { 
+                                            <div>
+                                                <ul className='resources'>
+                                                        {topic.tools.map((tool,indextool)=>(//the resources of the lesson
+                                                            tool.checked===true?
+                                                                <li  key={indextool}>{tool.label}</li>
+                                                            :
+                                                            undefined
+                                                        ))}
+                                                    </ul>
+                                                    <div className='crnheading'>
+                                                    <h3>Tasks list of {topic.title}</h3>
+                                                    </div>
+                                                    <ul >
+                                                        {
+                                                            topic.activities.map((activity,indextool)=>(
+                                                                <li  key={indextool}> 
+                                                                    {activity.activity}
+                                                                </li> 
+                                                            ))
+                                                        }
+                                                </ul>
 
-                                    </div> 
+                                            </div> 
+                                        }
+                                    </div>
+                                    :
+                                    undefined                        
                                 }
                             </div>
-                            :
-                            undefined                        
-                        }
-                    </div>
 
-
-                    <div>
+                            <div>
                     
                         <div>
                             <div id='topic-n-readings' className='crnheading'>
@@ -214,7 +300,10 @@ export default function CourseContent(props) {
                             }
                         </div>
                     </div>
-
+                        </div>
+                        :
+                        undefined
+                    }
 
                     <div>
                         <div className='crnheading'>
@@ -229,9 +318,19 @@ export default function CourseContent(props) {
                                 Total of Quiz tasks:{" "} 
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  &&
-                                     coursePlan.courseTemplate==='without' &&
+                                     coursePlan.courseTemplate==='without'   &&
                                      coursePlan.courseStructure==='unit')? 
                                      TotalofQuizTypeUnit(indexUnit).quiz
+                                     :
+                                    (coursePlan.guidedCoursePlan==='free'    &&
+                                     coursePlan.courseTemplate==='without'   &&
+                                     coursePlan.courseStructure==='topic')?
+                                     TotaloFreeTopic(indexUnit)[5]
+                                     :
+                                     (coursePlan.guidedCoursePlan==='free'   &&
+                                     coursePlan.courseTemplate==='without'   &&
+                                     coursePlan.courseStructure==='unit')?
+                                     TotaloFreeUnit(indexUnit) [5]
                                      :
                                      TotalofQuizTypeTopic(indexUnit).quiz
                                       
@@ -247,31 +346,72 @@ export default function CourseContent(props) {
                                      coursePlan.courseTemplate==='without' &&
                                      coursePlan.courseStructure==='unit')? 
                                      TotalofQuizTypeUnit(indexUnit).actividad
+                                    :
+                                    (coursePlan.guidedCoursePlan==='free'  &&
+                                     coursePlan.courseTemplate==='without' &&
+                                     coursePlan.courseStructure==='topic')?
+                                     TotaloFreeTopic(indexUnit)[4]
+                                     :
+                                     (coursePlan.guidedCoursePlan==='free'   &&
+                                     coursePlan.courseTemplate==='without'   &&
+                                     coursePlan.courseStructure==='unit')?
+                                     TotaloFreeUnit(indexUnit)[4]
                                      :
                                      TotalofQuizTypeTopic(indexUnit).actividad
                                       
                                 }
                             </li>
-                            <li >
-                                <ForumIcon/>
-                                {" "}
-                                Total of Forums: {" "}
-                                {
-                                    (coursePlan.guidedCoursePlan==='guided'  &&
-                                     coursePlan.courseTemplate==='without' &&
-                                     coursePlan.courseStructure==='unit')? 
-                                     TotalofQuizTypeUnit(indexUnit).forum
-                                     :
-                                     TotalofQuizTypeTopic(indexUnit).forum
-                                      
-                                }
-                            </li>
+
+                            {
+                                (coursePlan.guidedCoursePlan!='free')? 
+                                    <li >
+                                        <ForumIcon/>
+                                        {" "}
+                                        Total of Forums: {" "}
+                                        {
+                                            (coursePlan.guidedCoursePlan==='guided'  &&
+                                            coursePlan.courseTemplate==='without' &&
+                                            coursePlan.courseStructure==='unit')? 
+                                            TotalofQuizTypeUnit(indexUnit).forum
+                                            :
+                                            TotalofQuizTypeTopic(indexUnit).forum
+                                            
+                                        }
+                                    </li>
+                                    :
+                                    undefined
+                            }
+                            {
+                                (coursePlan.guidedCoursePlan==='free'   &&
+                                coursePlan.courseTemplate==='without'   &&
+                                (coursePlan.courseStructure==='topic'))? 
+                                <li >
+                                    <ForumIcon/>
+                                    {" "}
+                                    Total of Readings: {" "} {TotaloFreeTopic(indexUnit)[0]}
+                                </li>
+
+                                :
+                                undefined
+                            }
+                            {
+                                (coursePlan.guidedCoursePlan==='free'   &&
+                                coursePlan.courseTemplate==='without'   &&
+                                (coursePlan.courseStructure==='unit'))? 
+                                <li >
+                                    <ForumIcon/>
+                                    {" "}
+                                    Total of Readings: {" "} {TotaloFreeUnit(indexUnit)[0]}
+                                </li>
+
+                                :
+                                undefined
+                            }
                         </ul>
                     </div>
-                    
-                       
                 </div>
-             ))
+            
+            ))
             
         }   
         </div>
