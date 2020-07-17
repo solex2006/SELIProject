@@ -593,8 +593,6 @@ export default class CreateCourse extends React.Component {
                       <Link className="button-link"
                         target="_blank"
                         onClick={() => this.confirmPreview()} 
-                  onClick={() => this.confirmPreview()} 
-                        onClick={() => this.confirmPreview()} 
                         to={{
                           pathname: "/coursePreview",
                           hash: this.state.saved,

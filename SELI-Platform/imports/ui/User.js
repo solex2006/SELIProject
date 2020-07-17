@@ -28,7 +28,7 @@ import DashboardComponent from '../components/dashboard/dashboard';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
-import InfoIcon from '@material-ui/icons/Info';
+import WarningIcon from '@material-ui/icons/Warning';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -37,14 +37,14 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
-import {checkUserType} from '../../lib/userSesions';
+import { checkUserType } from '../../lib/userSesions';
+import { StudentLog } from '../../lib/StudentLogCollection';
 
 import english from '../../lib/translation/english';
 import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
-import WarningIcon from '@material-ui/icons/Warning';
 
 export default class User extends React.Component {
   constructor(props) {
@@ -159,7 +159,7 @@ export default class User extends React.Component {
         action = () => this.showComponent('saved');
       }
       else if (action === 'preview') {
-        action = () => this.showPreview();
+        action = () => this.openDialogWindow("preview");
       }
       if (action === 'stories') {
         action = () => this.showComponent('stories');
@@ -196,17 +196,23 @@ export default class User extends React.Component {
     this.handleSubscription(course[0]);
   }
 
-  unsubscribe = (courseId) => {
+  unsubscribeFromCourse = (courseId, id) => {
     this.setState({
       showLoadingMessage: true,
       loadingMessage: this.state.language.leavingClassWait,
     })
     let course = Courses.find({_id: courseId}).fetch();
-    this.handleUnsubscription(course[0]);
+    this.handleUnsubscription(course[0], id);
   }
   
-  handleUnsubscription = (course) => {
-    let studentIndex = course.classroom.findIndex(students => students === Meteor.userId());
+  handleUnsubscription = (course, id) => {
+    let removeUserId;
+    if (id) {
+      removeUserId = id;
+    } else {
+      removeUserId = Meteor.userId();
+    }
+    let studentIndex = course.classroom.findIndex(students => students === removeUserId);
     course.classroom.splice(studentIndex, 1);
     Courses.update(
       { _id: course._id },
@@ -214,11 +220,11 @@ export default class User extends React.Component {
         classroom: course.classroom,
       }}
       , () => {
-        var user = Meteor.users.findOne({_id: Meteor.userId()});
+        var user = Meteor.users.findOne({_id: removeUserId});
         let courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === course._id);
         user.profile.courses.splice(courseIndex, 1);
         Meteor.users.update(
-          { _id: Meteor.userId() },
+          { _id: removeUserId },
           { $set: {
             'profile.courses': user.profile.courses,
           }}
@@ -230,9 +236,9 @@ export default class User extends React.Component {
               if (this.state.activeCourse !== undefined) {
                 this.state.activeCourse.courseId === course._id ? this.closeCourse() : undefined
               }
-              this.handleControlMessage(true, this.state.language.courseRemovedSubs, false, '', '', undefined);
+              this.handleControlMessage(true, id ? this.state.language.studendRemoved : this.state.language.courseRemovedSubs, false, '', '', undefined);
               this.state.component === 'subscribed' ? this.getSubscribedCourses() : undefined
-              let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
+              let user = Meteor.users.find({_id: removeUserId}).fetch();
               this.setState({
                 user: user[0],
               });
@@ -395,9 +401,15 @@ export default class User extends React.Component {
     return toComplete;
   }
 
+  openDialogWindow = (value) => {
+    this.setState({
+      actionType: value,
+    }, () => {this.showPreview()})
+  }
+
   showPreview = () => {
     this.setState({
-      courseToShow: true,
+      openDialog: true,
     })
   }
 
@@ -424,7 +436,7 @@ export default class User extends React.Component {
   handleClose = () => {
     this.setState({ 
       chekingSesion: false,
-      courseToShow: false, 
+      openDialog: false, 
     });
   };
 
@@ -467,6 +479,24 @@ export default class User extends React.Component {
       activeCourse: undefined,
       selected: [-1, -1],
     })
+  }
+
+  openUnsubscribe = (courseId) => {
+    this.setState({
+      courseToUnsubscribe: courseId,
+    }, () => {this.openDialogWindow("unsubscribe")});
+  }
+
+  confirmUnsubscribe = () => {
+    StudentLog.insert({ 
+      "UserId": Meteor.userId(), 
+      "CourseId" : this.state.courseToUnsubscribe, 
+      "Datetime": new Date(), 
+      "Action": "Course Unsubscribe" 
+    });
+    if (this.state.component === 'course') this.showComponent('subscribed');
+    this.unsubscribeFromCourse(this.state.courseToUnsubscribe);
+    this.handleClose();
   }
 
   render() {
@@ -512,6 +542,7 @@ export default class User extends React.Component {
                         <PublishedCoursesList
                           user={this.state.user}
                           language={this.state.language}
+                          unsubscribe={this.unsubscribeFromCourse.bind(this)}
                           showComponent={this.showComponent.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                         />
@@ -549,10 +580,11 @@ export default class User extends React.Component {
                         <Course
                           user={this.state.user}
                           language={this.state.language}
-                          reRender={this.forceUpdate.bind(this)}
                           selected={this.state.selected}
                           activeCourse={this.state.activeCourse}
+                          unsubscribe={this.openUnsubscribe.bind(this)}
                           showComponent={this.showComponent.bind(this)}
+                          reRender={this.forceUpdate.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                         />
                       :
@@ -564,7 +596,7 @@ export default class User extends React.Component {
                           user={this.state.user}
                           language={this.state.language}
                           subscribe={this.subscribe.bind(this)}
-                          unsubscribe={this.unsubscribe.bind(this)}
+                          unsubscribe={this.openUnsubscribe.bind(this)}
                           disabled={this.state.showLoadingMessage}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                           searchText={this.state.searchText ? this.state.searchText : undefined}
@@ -579,7 +611,7 @@ export default class User extends React.Component {
                           tabIndex="-1"
                           user={this.state.user}
                           language={this.state.language}
-                          unsubscribe={this.unsubscribe.bind(this)}
+                          unsubscribe={this.openUnsubscribe.bind(this)}
                           disabled={this.state.showLoadingMessage}
                           getSubscribedCourses={subscribedCourses => this.getSubscribedCourses = subscribedCourses}
                           handleControlMessage={this.handleControlMessage.bind(this)}
@@ -696,34 +728,43 @@ export default class User extends React.Component {
                   </DialogContent>
                 </Dialog>
                 <Dialog
-                  open={this.state.courseToShow}
+                  open={this.state.openDialog}
                   onClose={this.handleClose}
                   aria-labelledby="alert-dialog-confirmation"
                   aria-describedby="alert-dialog-confirmation"
                 >
-                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.coursePreview}</DialogTitle>
+                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                    {this.state.actionType === "preview" ?  this.state.language.coursePreview : this.state.language.unsubscribeCourse}
+                  </DialogTitle>
                   <DialogContent className="success-dialog-content">
                     <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                      {this.state.language.willBeRedirected}
+                      {this.state.actionType === "preview" ? this.state.language.willBeRedirected : this.state.language.sureLeaveClassroom}
                     </DialogContentText>
-                    <InfoIcon className="warning-dialog-icon"/>   
+                    <WarningIcon tabIndex="-1" className="warning-dialog-icon"/>  
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => this.handleClose()} color="primary" autoFocus>
                       {this.state.language.cancel}
                     </Button>
-                    <Link className="button-link"
-                      target="_blank"
-                      to={{
-                        pathname: "/coursePreview",
-                        hash: this.state.course,
-                        state: { fromDashboard: true },
-                      }}
-                    >
-                      <Button color="primary" autoFocus>
-                        {this.state.language.yes}
-                      </Button>
-                    </Link>
+                    {
+                      this.state.actionType === "preview" ?
+                        <Link className="button-link"
+                          target="_blank"
+                          to={{
+                            pathname: "/coursePreview",
+                            hash: this.state.course,
+                            state: { fromDashboard: true },
+                          }}
+                        >
+                          <Button color="primary" autoFocus onClick={() => this.handleClose()}>
+                            {this.state.language.yes}
+                          </Button>
+                        </Link>
+                      :
+                        <Button color="primary" autoFocus onClick={() => this.confirmUnsubscribe()}>
+                          {this.state.language.yes}
+                        </Button>
+                    }
                   </DialogActions>
                 </Dialog>
                 <Dialog

@@ -17,11 +17,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import LanguageIcon from "@material-ui/icons/Language";
 import CastForEducationIcon from "@material-ui/icons/CastForEducation";
 import SchoolIcon from "@material-ui/icons/School";
-import BubbleChartIcon from "@material-ui/icons/BubbleChart";
-import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
-import PeopleIcon from "@material-ui/icons/People";
-import CollectionsBookmarkIcon from "@material-ui/icons/CollectionsBookmark";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
 import {
 	InstructorProfileDialog,
 	InstructorProfileCard,
@@ -256,12 +251,12 @@ export default function MainPage(props) {
 	}, [])
 
 	getTutors = () => {
-		  Tracker.autorun(() => {
-			 Meteor.call("GetTutorsCourse",coursedata.createdBy ,(error, response) =>  {
+		Tracker.autorun(() => {
+			Meteor.call("GetTutorsCourse",coursedata.createdBy ,(error, response) =>  {
 				setTutordata(response)
-			 });
-		  });
-	 }
+			});
+		});
+	}
 	//tutordata=Meteor.users.find({username: coursedata.createdBy, 'profile.type': 'tutor'}).fetch()
 	//setTutordata(user)
 	return (
@@ -300,7 +295,7 @@ export default function MainPage(props) {
 					</React.Fragment>
 				)}
 			</Paper>
-			 <Paper component="article" elevation={0} className={classes.paper}>
+			<Paper component="article" elevation={0} className={classes.paper}>
 				<header>
 					<h2 className={classes.header2}>Course Information</h2>
 				</header>
@@ -358,7 +353,6 @@ export default function MainPage(props) {
 					</List>
 				</section> 
 				}
-				 
 			</Paper>
 			<Paper component="article" elevation={0} className={classes.paper1}>
 				<header>
@@ -374,17 +368,13 @@ export default function MainPage(props) {
 				<p>
 					Read the course syllabus for a complete view of the course program
 				</p>
-
-				
 				<div className='crnheading'>
 					<SyllabusButton
 						courseInformation={props.course}
 						language={props.language}
 					/>
 				</div>
-				    
 			</Paper>
-		
 			<Paper component="article" elevation={0} className={classes.paper1}> 
 				<div className='crnheading'>
 					<h2 className={classes.header2}>Requirements</h2>
@@ -393,6 +383,63 @@ export default function MainPage(props) {
 					data={coursedata.requirements}
 				/> 
 			</Paper>
+			<div className="course-presentation-actions-container">
+				<Button
+					tabIndex="1" 
+					onClick={() => this.props.unsubscribe(this.props.course._id)}
+					className="subscription-card-button"
+					variant="outlined"
+					color="primary"
+					disabled={this.props.disabled}
+				>
+					{this.props.language.unsubscribe}
+				</Button>
+				{
+					this.props.progress <= 0 ?
+						<Button
+							tabIndex="1"
+							onClick={() => this.props.handleClickCourse(this.props.course._id)}
+							className="subscription-card-button"
+							variant="outlined"
+							color="primary"
+							disabled={this.props.disabled}
+						>
+							{this.props.language.startCourse}
+						</Button>
+					:
+					undefined
+				}
+				{
+					this.props.progress > 0 && this.props.progress < 100 ?
+						<Button
+							tabIndex="1"
+							onClick={() => this.props.handleClickCourse(this.props.course._id)}
+							className="subscription-card-button"
+							variant="outlined"
+							color="primary"
+							disabled={this.props.disabled}
+						>
+							{this.props.language.resumeCourse}
+						</Button>
+					:
+					undefined
+				}
+				{
+					this.props.progress >= 100 ?
+						<Button
+							tabIndex="1"
+							onClick={() => this.props.handleClickCourse(this.props.course._id)}
+							className="subscription-card-button"
+							variant="outlined"
+							color="primary"
+							disabled={this.props.disabled}
+						>
+							{this.props.language.reviewCourse}
+						</Button>
+					:
+					undefined
+				}
+			</div>
 		</React.Fragment>
 	);
 }
