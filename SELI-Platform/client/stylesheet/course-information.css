@@ -29,6 +29,10 @@
   padding: 2.5vh 6vw;
 }
 
+.headAccessibility{
+  padding: 2.5vh 6vw;
+}
+
 .form-input-audiences {
   max-height: calc(100% - 15vh);
   overflow-y: scroll;

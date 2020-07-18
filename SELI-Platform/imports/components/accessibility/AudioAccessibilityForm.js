@@ -199,7 +199,7 @@ export const useAudioDataField = (props) =>{
 	const a11yInitial = [
 		{name: 'longDescription', is_a11y: false},
 		{name: 'shortDescription', is_a11y: false},
-		{name: 'captionsEmbedded', is_a11y: false}
+		//{name: 'captionsEmbedded', is_a11y: false}
 	];
 	const [isA11Y, setIsA11Y] = React.useState(a11yInitial);
 
@@ -341,7 +341,7 @@ export const useAudioDataField = (props) =>{
 		dataField,
 		shortDescriptionTip,
 		longDescriptionTip,
-		captionsTip,
+		//captionsTip,
 		isA11Y,
 	};
 };

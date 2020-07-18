@@ -69,8 +69,9 @@ export default function AudienceApp(props) {
     console.log("comppnentDidMountAudiencias", courseInformation, audiences, props)
     if(courseInformation.support.length!=0){
       setAudiences(courseInformation.support[0])
-      setAudiencesGol(courseInformation.support[1])
-
+      if(courseInformation.support[1]!=undefined){
+        setAudiencesGol(courseInformation.support[1])
+      }
       if(courseInformation.support[2]===undefined){
         setOtherAudiences([])
       }else{
@@ -182,18 +183,6 @@ export default function AudienceApp(props) {
     },
     {
       id: 3,
-      value: "Lan",
-      label: language.Language,
-      isChecked: false
-    },
-    {
-      id: 4,
-      value: "Spee",
-      label: language.Speech,
-      isChecked: false
-    },
-    {
-      id: 5,
       value: "Vis",
       label: language.Visual,
       isChecked: false

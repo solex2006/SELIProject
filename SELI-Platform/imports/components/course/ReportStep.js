@@ -203,7 +203,6 @@ export default function ReportStep(props) {
 	})
  
    useEffect(()=>{
-   
       if((props.courseInformation.coursePlan.guidedCoursePlan=== "guided" || props.courseInformation.coursePlan.guidedCoursePlan=== "free")&& 
       props.courseInformation.coursePlan.courseTemplate ==="without" && 
       props.courseInformation.coursePlan.courseStructure=== "topic"){
@@ -214,113 +213,15 @@ export default function ReportStep(props) {
       props.courseInformation.coursePlan.courseStructure=== "unit"){
 			//GuidedWithoutUnits() //for full acesibility
 			UnitsCourse() // for without Inclusion Gol
-      }
-   
-
+      }else if(props.courseInformation.coursePlan.courseTemplate ==="spiral" || 
+					 props.courseInformation.coursePlan.courseTemplate=== "toyBox"  ||
+					 props.courseInformation.coursePlan.courseTemplate=== "consistent"){
+			TemplateCourse()
+		}
 	},[])
 	
 
- 
-   const  GuidedWithoutUnits=()=>{
-      let units=0
-      let itemUnit=0
-      let accesibilidadUnit=[]
-      //for unit en el ebcabezado
-         props.courseInformation.program.map((unit, indexUnit)=>{
-            unit.items.map((item,indexItem)=>{
-               if(item.type==='image' ||item.type==='audio' || item.type==='quiz' || item.type==='video'){
-                  //console.log("-----percentage:",item.attributes.accessibility.percentage, "-----isA11Y:",item.attributes.accessibility.isA11Y)
-                  itemUnit=itemUnit+item.attributes.accessibility.percentage;
-                  units=units+1
-               }
-            })
-            let averageUnit=Math.round(itemUnit/units)
-            accesibilidadUnit.push(averageUnit)
-            itemUnit=0
-            units=0
-            setPercentagesWithoutUnit(prev=>{
-               return {...prev, guidedWithoutUnit:accesibilidadUnit}
-            })
-         })
-      
-      //for lessons into the units
-      
-      let lessons=0
-      let itemLesson=0
-      let accesibilidadLesson=[]
-      props.courseInformation.program.map((unit, indexUnit)=>{
-         unit.lessons.map((lesson,indexLesson)=>{
-            lesson.items.map((item, indexItem)=>{
-               if(item.type==='image' ||item.type==='audio' || item.type==='quiz' || item.type==='video'){
-                 // console.log("-----percentage:",item.attributes.accessibility.percentage, "-----isA11Y:",item.attributes.accessibility.isA11Y)
-                  itemLesson=itemLesson+item.attributes.accessibility.percentage;
-                  lessons=lessons+1
-               }
-            })     
-         })
-         let averageUnit=Math.round(itemLesson/lessons)
-         accesibilidadLesson.push(averageUnit)
-         itemLesson=0
-         lessons=0
-         setPercentagesWithoutUnit(prev=>{
-            return {...prev, guidedWithoutLessons:accesibilidadLesson}
-         })
-      })
-      ///saca el total
-      let totalUnitLesson=[]
-      accesibilidadUnit.map((value,index)=>{
-         totalUnitLesson.push((value+accesibilidadLesson[index])/2)
-      })
 
-      setPercentagesWithoutUnit(prev=>{
-         return {...prev, totalGuidedWithoutUL:totalUnitLesson}
-      })   
-      
-      //si es full accesible configura la bandera para mostrar
-      let allAchieved=0
-      totalUnitLesson.map((value,index)=>{
-         allAchieved=allAchieved+value
-      })
-      if((allAchieved/totalUnitLesson.length)===100){
-			console.log(' GuidedWithoutTopics full accesible',)
-         setSimulate("allAchieved")
-      }
-   }
- 
-   const  GuidedWithoutTopics=()=>{
-      let topics=0
-      let itemTopic=0
-      let accesibilidadTopic=[]
-      //for unit en el ebcabezado
-         props.courseInformation.program.map((unit, indexUnit)=>{
-            unit.items.map((item,indexItem)=>{
-               if(item.type==='image' ||item.type==='audio' || item.type==='quiz' || item.type==='video'){
-                  //console.log("-----percentage:",item.attributes.accessibility.percentage, "-----isA11Y:",item.attributes.accessibility.isA11Y)
-                  itemTopic=itemTopic+item.attributes.accessibility.percentage;
-                  topics=topics+1
-               }
-            })
-            let averageUnit=Math.round(itemTopic/topics)
-            accesibilidadTopic.push(averageUnit)
-            itemTopic=0
-            topics=0
-            setPercentagesWithoutTopic(prev=>{
-               return {...prev, guidedWithoutTopic:accesibilidadTopic}
-            })
-         })
-
-         console.log("Topicos",accesibilidadTopic)
-
-      let allAchieved=0
-      accesibilidadTopic.map((value,index)=>{
-         allAchieved=allAchieved+value
-      })
-      if((allAchieved/accesibilidadTopic.length)===100){
-			console.log(' GuidedWithoutTopics full accesible')
-         setSimulate("allAchieved")
-      }
-
-   }
 	const newRandomTopics = (type) => {
 		let visual=[]
 		let hearing=[]
@@ -328,6 +229,7 @@ export default function ReportStep(props) {
 		let diversity=[]
 		
 		if (type==='topic'){
+			console.log("en el topico---------------------", withoutInclusionGol.percentagebyUnit)
 			withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
 				visual.push(unit[0])
 			})
@@ -344,7 +246,7 @@ export default function ReportStep(props) {
 				diversity.push(unit[3])
 			})
 		}else if(type==='unitslessons'){
-			
+			console.log("en el Unidad-Lesson---------------------", withoutInclusionGol.percentagebyUnit,withoutInclusionGol.percentagebyLesson)
 			withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
 				visual.push(unit[0])
 			})
@@ -374,63 +276,119 @@ export default function ReportStep(props) {
 			})
 
 		}
-			
-
+	
 			categories[0].topics=visual
 			categories[1].topics=hearing
 			categories[2].topics=cognitive
 			categories[3].topics=diversity
+			setCategories(categories)
 			
-			console.log("dentro de ssssssssssssssnewRandomTopics :",withoutInclusionGol, props )
-			props.courseInformation.support[1].map((audience, index)=>{
-				if(audience.value==='Vis' && audience.isChecked===true ) {
-					let calculo=categories[0].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[0].topics.length
-					if(calculo===100){
-						categories[0].selected=true
-						setSimulate('inclusionGolAchieved')
+			console.log("dentro de ssssssssssssssnewRandomTopics :",withoutInclusionGol, categories )
+			
+			let checkaudience=props.courseInformation.support[1];
+			let check=0
+			if(checkaudience!=undefined){
+				checkaudience.map((audience, index)=>{
+
+					if((checkaudience[1].value==='Eld' && checkaudience[1].isChecked===false) && (checkaudience[0].value==='cog' && checkaudience[0].isChecked===false) &&
+					(checkaudience[2].value==='Hear' && checkaudience[2].isChecked===false) && (checkaudience[3].value==='Vis' && checkaudience[3].isChecked===false)){
+						setSimulate('noInclusionGol')
 					}else{
-						categories[0].selected=true
-						setSimulate('inclusionGol')
+						if(audience.value==='Vis' && audience.isChecked===true) {
+							let calculo=categories[0].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[0].topics.length
+							console.log("audience",audience, calculo)
+							if(calculo===100){
+								categories[0].selected=true
+								setSimulate('inclusionGolAchieved')
+							}else if(calculo!=100){
+								categories[0].selected=false
+								setSimulate('inclusionGol')
+							}else{
+								categories[0].selected=false
+								setSimulate('noInclusionGol')
+							}
+							
+						} 
+						if(audience.value==='Hear' && audience.isChecked===true){
+							let calculo=categories[1].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[1].topics.length
+							if(calculo===100){
+								categories[1].selected=true
+								setSimulate('inclusionGolAchieved')
+							}
+							else if(calculo!=100){
+								categories[1].selected=false
+								setSimulate('inclusionGol')
+							}else {
+								categories[1].selected=false
+								setSimulate('noInclusionGol')
+							}
+						}
+						if(audience.value==='cog' && audience.isChecked===true){
+							let calculo=categories[2].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[2].topics.length
+							
+							console.log("calculo", calculo)
+							if(calculo===100){
+								console.log("calculo----true", calculo, categories)
+								categories[2].selected=true
+								setSimulate('inclusionGolAchieved')
+							}else if(calculo!=100){
+								
+								categories[2].selected=false
+								console.log("calculo----", calculo, categories)
+								setSimulate('inclusionGol')
+							}else{
+								categories[2].selected=false
+								setSimulate('noInclusionGol')
+							}
+						}
+						if((audience.value==='Eld' && audience.isChecked===true)){
+							let calculo=categories[3].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[3].topics.length
+							console.log("audience",audience, calculo)
+							if(calculo===100){
+								categories[3].selected=true
+								setSimulate('inclusionGolAchieved')
+							}else if(calculo!=100){
+								categories[3].selected=false
+								setSimulate('inclusionGol')
+							}else{
+								categories[3].selected=false
+								setSimulate('noInclusionGol')
+							}
+						}
+						
+						//check="test"
+						
 					}
 					
-				}else if(audience.value==='Hear' && audience.isChecked===true){
-					let calculo=categories[1].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[0].topics.length
-					if(calculo===100){
-						categories[1].selected=true
-						setSimulate('inclusionGolAchieved')
-					}else{
-						categories[1].selected=true
-						setSimulate('inclusionGol')
-					}
-				}else if(audience.value==='cog' && audience.isChecked===true){
-					let calculo=categories[2].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[0].topics.length
-					if(calculo===100){
-						categories[2].selected=true
-						setSimulate('inclusionGolAchieved')
-					}else{
-						categories[2].selected=true
-						setSimulate('inclusionGol')
-					}
-				}else if((audience.value==='Eld' || audience.value==='Spee' || audience.value==='Lan') && audience.isChecked===true){
-					let calculo=categories[3].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[0].topics.length
-					if(calculo===100){
-						categories[3].selected=true
-						setSimulate('inclusionGolAchieved')
-					}else{
-						categories[3].selected=true
-						setSimulate('inclusionGol')
-					}
-				}else{
-					setSimulate("noInclusionGol")
+				})
+			}else{
+				setSimulate('noInclusionGol')
+			}
+			console.log("categorias antes----", categories)
+
+			 if(categories[0].selected===false && categories[1].selected===false && categories[2].selected===false && categories[3].selected===false){
+					
+				if((checkaudience[1].value==='Eld' && checkaudience[1].isChecked===true)){
+					categories[3].selected=true
 				}
-			})
-			
+				if((checkaudience[0].value==='cog' && checkaudience[0].isChecked===true)){
+					console.log("paso 2")
+					categories[2].selected=true
+				}
+				if((checkaudience[2].value==='Hear' && checkaudience[2].isChecked===true)){
+					categories[1].selected=true
+				}
+				if((checkaudience[3].value==='Vis' && checkaudience[3].isChecked===true)){
+					categories[0].selected=true
+				}
+			}
+			 
+		//	console.log("par ele caso no inclusion gol",checkaudience[1].value, checkaudience[1].isChecked)
 			setCategories(categories)
 			console.log("las categorias************", categories, visual, diversity,withoutInclusionGol)
 
    };
-
-   const UnitsCourse = () => {
+   const UnitsCourse=() => {
 		let variablesUnidad=[]
 		let variablesLeccion=[]
 		let percentagebyUnit=[]
@@ -440,8 +398,14 @@ export default function ReportStep(props) {
 		let contwarningAlertFalse=0; let contextendedTime=0; let contextendedTimeFalse=0; let contnoTime=0;let contnoTimeFalse=0; 
 		let contseizures=0; let contseizuresFalse=0; let contaudioDescription=0; let contaudioDescriptionFalse=0; 
 		let contsignLanguage=0; let contsignLanguageFalse=0
+		let NotAccessiblenoTime=0
+		let NotAccessibleextendTime=0
+		let NotAccessibleAlert=0
+		let NotAccessibleSeizures=0
+		let NotAccessibleCaptions=0
+		let NotAccessibleDescription=0
+		let NotAccessibleSign=0
 	
-    
       props.courseInformation.program.map((unit, indexUnit)=>{
          //cabezera de la unidad
          unit.items.map((item,indexItem)=>{
@@ -459,8 +423,6 @@ export default function ReportStep(props) {
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
 								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							} if(isa11y.name==='captionsEmbedded'){
-								if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
 							}
 						})
 						:
@@ -469,11 +431,11 @@ export default function ReportStep(props) {
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='noTime'){
-								if(isa11y.is_a11y===true){contnoTime+=1}else{contnoTimeFalse+=1}
+								if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
 							} if(isa11y.name==='extendedTime'){
-								if(isa11y.is_a11y===true){contextendedTime+=1}else{contextendedTimeFalse+=1}
+								if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
 							} if(isa11y.name==='warningAlert'){
-								if(isa11y.is_a11y===true){contwarningAlert+=1}else{contwarningAlertFalse+=1}
+								if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
 							}
 						})
 						:
@@ -482,22 +444,21 @@ export default function ReportStep(props) {
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='seizures'){
-								if(isa11y.is_a11y===true){contseizures+=1}else{contseizuresFalse+=1}
-							} if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+							}if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
 								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							} if(isa11y.name==='captionsEmbedded'){
-								if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
-							} if(isa11y.name==='audioDescription'){
-								if(isa11y.is_a11y===true){contaudioDescription+=1}else{contaudioDescriptionFalse+=1}
-							} if(isa11y.name==='signLanguage'){
-								if(isa11y.is_a11y===true){contsignLanguage+=1}else{contsignLanguageFalse+=1}
+							}if(isa11y.name==='captionsEmbedded'){
+								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+							}if(isa11y.name==='audioDescription'){
+								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+							}if(isa11y.name==='signLanguage'){
+								if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
 							}
 						})
 						:
 						tasknoconfig.unit=tasknoconfig.unit+6
 				}
-			})
-	
+         })
 			variablesUnidad.push({
 				title: unit.name, 
 				contText:contText,
@@ -515,12 +476,27 @@ export default function ReportStep(props) {
 				contaudioDescription:contaudioDescription,
 				contaudioDescriptionFalse:contaudioDescriptionFalse,
 				contsignLanguage:contsignLanguage,
-				contsignLanguageFalse:contsignLanguageFalse
+				contsignLanguageFalse:contsignLanguageFalse,
+				NotAccessiblenoTime,
+				NotAccessibleextendTime,
+				NotAccessibleAlert,
+				NotAccessibleSeizures,
+				NotAccessibleCaptions,
+				NotAccessibleDescription,
+				NotAccessibleSign,
 			})
+
 			 contText=0;  contTextFalse=0;  contCaptions=0;  contCaptionsFalse=0;  contwarningAlert=0
 			 contwarningAlertFalse=0;  contextendedTime=0;  contextendedTimeFalse=0;  contnoTime=0; contnoTimeFalse=0; 
 			 contseizures=0;  contseizuresFalse=0;  contaudioDescription=0;  contaudioDescriptionFalse=0; 
-			 contsignLanguage=0;  contsignLanguageFalse=0
+			 contsignLanguage=0;  contsignLanguageFalse=0; 
+			 NotAccessiblenoTime=0
+			 NotAccessibleextendTime=0
+			 NotAccessibleAlert=0
+			 NotAccessibleSeizures=0
+			 NotAccessibleCaptions=0
+			 NotAccessibleDescription=0
+			 NotAccessibleSign=0
       })
 	  
 		props.courseInformation.program.map((unit, indexUnit)=>{
@@ -539,41 +515,39 @@ export default function ReportStep(props) {
 
 					}else if(item.type==='audio'){
 						item.attributes.accessibility.isA11Y!=undefined?
-							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
 									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-								}if(isa11y.name==='captionsEmbedded'){
-									if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
 								}
 							})
 							:
 							tasknoconfig.lesson=tasknoconfig.lesson+3
 					}else if(item.type==='quiz'){
 						item.attributes.accessibility.isA11Y!=undefined?
-							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una quiz
 								if(isa11y.name==='noTime'){
-									if(isa11y.is_a11y===true){contnoTime+=1}else{contnoTimeFalse+=1}
-								}if(isa11y.name==='extendedTime'){
-									if(isa11y.is_a11y===true){contextendedTime+=1}else{contextendedTimeFalse+=1}
-								}if(isa11y.name==='warningAlert'){
-									if(isa11y.is_a11y===true){contwarningAlert+=1}else{contwarningAlertFalse+=1}
+									if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+								} if(isa11y.name==='extendedTime'){
+									if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+								} if(isa11y.name==='warningAlert'){
+									if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
 								}
 							})
 							:
 							tasknoconfig.lesson=tasknoconfig.lesson+3
 					}else if(item.type==='video'){
 						item.attributes.accessibility.isA11Y!=undefined?
-							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una video
 								if(isa11y.name==='seizures'){
-									if(isa11y.is_a11y===true){contseizures+=1}else{contseizuresFalse+=1}
+									if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
 								}if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
 									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
 								}if(isa11y.name==='captionsEmbedded'){
-									if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
+									if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
 								}if(isa11y.name==='audioDescription'){
-									if(isa11y.is_a11y===true){contaudioDescription+=1}else{contaudioDescriptionFalse+=1}
+									if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
 								}if(isa11y.name==='signLanguage'){
-									if(isa11y.is_a11y===true){contsignLanguage+=1}else{contsignLanguageFalse+=1}
+									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
 								}
 							})
 							:
@@ -598,116 +572,255 @@ export default function ReportStep(props) {
 					contaudioDescription:contaudioDescription,
 					contaudioDescriptionFalse:contaudioDescriptionFalse,
 					contsignLanguage:contsignLanguage,
-					contsignLanguageFalse:contsignLanguageFalse
+					contsignLanguageFalse:contsignLanguageFalse,
+					NotAccessiblenoTime,
+					NotAccessibleextendTime,
+					NotAccessibleAlert,
+					NotAccessibleSeizures,
+					NotAccessibleCaptions,
+					NotAccessibleDescription,
+					NotAccessibleSign,
 				})
 				contText=0;  contTextFalse=0;  contCaptions=0;  contCaptionsFalse=0;  contwarningAlert=0
 				contwarningAlertFalse=0;  contextendedTime=0;  contextendedTimeFalse=0;  contnoTime=0; contnoTimeFalse=0; 
 				contseizures=0;  contseizuresFalse=0;  contaudioDescription=0;  contaudioDescriptionFalse=0; 
 				contsignLanguage=0;  contsignLanguageFalse=0
+				NotAccessiblenoTime=0
+				NotAccessibleextendTime=0
+				NotAccessibleAlert=0
+				NotAccessibleSeizures=0
+				NotAccessibleCaptions=0
+				NotAccessibleDescription=0
+				NotAccessibleSign=0
 			})
       })
 		
 		//calcula {title: "Topic 1", a11yValid: 70.52506403352295, a11yMisConfig: 20, a11yNotConfig: 9.474935966477052}
 		//{title: "Topic 1", a11yValid: 70.52506403352295, a11yMisConfig: 0, a11yNotConfig: 0}
-		console.log("Variables unidad----tasknoconfigUnit",variablesUnidad, tasknoconfig )
 		variablesUnidad.map((value,index)=>{
 			//para visual
-			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse)
-			let configvisual=(value.contText+value.contaudioDescription)
-			let totalvisual=(noconfigvisual+configvisual)
+			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
+			value.contwarningAlertFalse)
+			let configvisual=(value.contText+value.contaudioDescription+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleVisual=(value.NotAccessibleDescription+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalvisual=(noconfigvisual+configvisual+notAccessibleVisual)
 			let visual=((configvisual*100)/totalvisual)
+			console.log("configvisual y noconfigvisual,",configvisual,noconfigvisual,notAccessibleVisual )
+			
 			//para hearing
-			let noconfighearing=(value.contTextFalse+value.contCaptionsFalse+value.contaudioDescriptionFalse+value.contsignLanguageFalse)
-			let confighearing=(value.contText+value.contCaptions+value.contaudioDescription+value.contsignLanguage)
-			let totalhearing=(noconfighearing+confighearing)
+			let noconfighearing=(value.contTextFalse+value.contCaptionsFalse+value.contsignLanguageFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let confighearing=(value.contText+value.contCaptions+value.contsignLanguage+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleHearing=(value.NotAccessibleCaptions+value.NotAccessibleSign+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalhearing=(noconfighearing+confighearing+notAccessibleHearing)
 			let hearing=((confighearing*100)/totalhearing)
+			console.log("confighearing y noconfighearing,",confighearing,noconfighearing,notAccessibleHearing)
+
 			//para cognitive
-			let noconfigcognitive=(value.contCaptionsFalse+value.contseizuresFalse+value.contaudioDescriptionFalse)
-			let configcognitive=(value.contCaptions+value.contseizures+value.contaudioDescription)
-			let totalcognitive=(noconfigcognitive+configcognitive)
+			let noconfigcognitive=(value.contTextFalse+value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let configcognitive=(value.contText+value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleCognitive=(value.NotAccessibleSeizures+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalcognitive=(noconfigcognitive+configcognitive+notAccessibleCognitive)
 			let cognitive=((configcognitive*100)/totalcognitive)
+			
 			//para diversity
-			let configdiversity=(value.contsignLanguage+ value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert)
-			let noconfigdiversity=(value.contsignLanguageFalse+ value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
-			let totaldiversity=(noconfigdiversity+configdiversity)
+			let noconfigdiversity=(value.contCaptionsFalse+value.contTextFalse+value.contsignLanguageFalse+ value.contaudioDescriptionFalse+
+			value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let configdiversity=(value.contCaptions+value.contText+value.contsignLanguage+ value.contseizures+
+			value.contnoTime+value.contextendedTime+value.contwarningAlert+value.contaudioDescription)
+			let notAccessibleDiversity=(value.NotAccessibleSeizures+value.NotAccessiblenoTime+value.NotAccessibleextendTime+
+				value.NotAccessibleAlert+value.NotAccessibleCaptions+value.NotAccessibleDescription+value.NotAccessibleSign)
+			let totaldiversity=(noconfigdiversity+configdiversity+notAccessibleDiversity)
 			let diversity=((configdiversity*100)/totaldiversity)
 			
-			let totalconfig=(value.contText+value.contaudioDescription+value.contsignLanguage+ 
-				value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert+value.contCaptions)
-			let totalnoconfig=(value.contTextFalse+value.contaudioDescriptionFalse+value.contsignLanguageFalse+ 
-							value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse+value.contCaptionsFalse)
+			console.log("configdiversity y noconfigdiversity,",configdiversity,noconfigdiversity,notAccessibleDiversity)
+			let totalconfig=0
+			let totalnoconfig=0
+			let totalnoaccessible=0
+
+			let audiences=props.courseInformation.support[1];
+			if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
+			&& audiences[3].isChecked===false ){//cognitive
+				totalconfig=  (totalconfig+configcognitive)    
+				totalnoconfig=(totalnoconfig+noconfigcognitive)  
+				totalnoaccessible=(totalnoaccessible+notAccessibleCognitive)
+			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true 
+				&& audiences[3].isChecked===false ){//hearing
+					totalconfig=  (totalconfig+confighearing)    
+					totalnoconfig=(totalnoconfig+noconfighearing) 
+					totalnoaccessible=(totalnoaccessible+notAccessibleHearing)  
+			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===false
+				&& audiences[3].isChecked===true ){//visual
+					totalconfig=  (totalconfig+configvisual)    
+					totalnoconfig=(totalnoconfig+noconfigvisual) 
+					totalnoaccessible=(totalnoaccessible+notAccessibleVisual)
+			}else if(audiences[0].isChecked===false && audiences[1].isChecked===true && audiences[2].isChecked===false
+				&& audiences[3].isChecked===false ){//eldery
+					totalconfig=  (totalconfig+configdiversity)    
+					totalnoconfig=(totalnoconfig+noconfigdiversity)  
+					totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true
+				&& audiences[3].isChecked===true ){//visual and hearing
+					totalconfig=  (totalconfig+confighearing+value.contaudioDescription)    
+					totalnoconfig=(totalnoconfig+noconfighearing+value.contaudioDescriptionFalse)   
+					totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleVisual)
+			}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false
+				   && audiences[3].isChecked===true ){//visual and cognitive-
+					totalconfig=  (totalconfig+configcognitive+value.contaudioDescription)    
+					totalnoconfig=(totalnoconfig+noconfigcognitive+value.contaudioDescriptionFalse)  
+					totalnoaccessible=(totalnoaccessible+notAccessibleVisual+notAccessibleCognitive) 
+			}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===true
+					&& audiences[3].isChecked===false ){//hearing and cognitive
+					totalconfig=  (totalconfig+confighearing+value.contseizures) 
+					totalnoconfig=(totalnoconfig+noconfighearing+value.contseizuresFalse)  
+					totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleCognitive) 
+			}else{//eldery
+					totalconfig=  (totalconfig+configdiversity)    
+					totalnoconfig=(totalnoconfig+noconfigdiversity)   
+					totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+			}
+		
 			contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
+			contWithInclusionGol.todo=contWithInclusionGol.todo+totalnoaccessible+totalnoconfig
 			contWithInclusionGol.NotAccessible=contWithInclusionGol.NotAccessible+totalnoconfig
 			setWithInclusionGol(contWithInclusionGol)
-			console.log("EN unidades:", contWithInclusionGol, totalconfig, totalnoconfig)
-			
+			totalconfig=0
+			totalnoconfig=0
+			totalnoaccessible=0
 			
 			percentagebyUnit.push([
-				{title: value.title, a11yValid:isNaN(visual)?100:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
-				{title: value.title, a11yValid:isNaN(hearing)?100:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
-				{title: value.title, a11yValid:isNaN(cognitive)?100:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
-				{title: value.title, a11yValid:isNaN(diversity)?100:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+				{title: value.title, a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+				{title: value.title, a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+				{title: value.title, a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+				{title: value.title, a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
 			])
 			visual=0, hearing=0, cognitive=0, diversity=0
 		})
 		
-		console.log("Variables Lecciones---tasknoconfigLesson",variablesLeccion, tasknoconfig)
+		
 		variablesLeccion.map((value,index)=>{
-			//para visual
-			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse)
-			let configvisual=(value.contText+value.contaudioDescription)
-			let totalvisual=(noconfigvisual+configvisual)
-			let visual=((configvisual*100)/totalvisual)
-			//para hearing
-			let noconfighearing=(value.contTextFalse+value.contCaptionsFalse+value.contaudioDescriptionFalse+value.contsignLanguageFalse)
-			let confighearing=(value.contText+value.contCaptions+value.contaudioDescription+value.contsignLanguage)
-			let totalhearing=(noconfighearing+confighearing)
-			let hearing=((confighearing*100)/totalhearing)
-			//para cognitive
-			let noconfigcognitive=(value.contCaptionsFalse+value.contseizuresFalse+value.contaudioDescriptionFalse)
-			let configcognitive=(value.contCaptions+value.contseizures+value.contaudioDescription)
-			let totalcognitive=(noconfigcognitive+configcognitive)
-			let cognitive=((configcognitive*100)/totalcognitive)
-			//para diversity
-			let configdiversity=(value.contsignLanguage+ value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert)
-			let noconfigdiversity=(value.contsignLanguageFalse+ value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
-			let totaldiversity=(noconfigdiversity+configdiversity)
-			let diversity=((configdiversity*100)/totaldiversity)
-
-			let totalconfig=(value.contText+value.contaudioDescription+value.contsignLanguage+ 
-				value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert+value.contCaptions)
-			let totalnoconfig=(value.contTextFalse+value.contaudioDescriptionFalse+value.contsignLanguageFalse+ 
-							value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse+value.contCaptionsFalse)
-			contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
-			contWithInclusionGol.NotAccessible=contWithInclusionGol.NotAccessible+totalnoconfig
-			setWithInclusionGol(contWithInclusionGol)
-			console.log("EN LECCIONES:", contWithInclusionGol, totalconfig, totalnoconfig)
+				//para visual
+				let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
+				value.contwarningAlertFalse)
+				let configvisual=(value.contText+value.contaudioDescription+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+				let notAccessibleVisual=(value.NotAccessibleDescription+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+				let totalvisual=(noconfigvisual+configvisual+notAccessibleVisual)
+				let visual=((configvisual*100)/totalvisual)
+				//para hearing
+				let noconfighearing=(value.contTextFalse+value.contCaptionsFalse+value.contsignLanguageFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+				let confighearing=(value.contText+value.contCaptions+value.contsignLanguage+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+				let notAccessibleHearing=(value.NotAccessibleCaptions+value.NotAccessibleSign+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+				let totalhearing=(noconfighearing+confighearing+notAccessibleHearing)
+				let hearing=((confighearing*100)/totalhearing)
+				//para cognitive
+				let noconfigcognitive=(value.contTextFalse+value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+				let configcognitive=(value.contText+value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+				let notAccessibleCognitive=(value.NotAccessibleSeizures+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+				let totalcognitive=(noconfigcognitive+configcognitive+notAccessibleCognitive)
+				let cognitive=((configcognitive*100)/totalcognitive)	
+				//para diversity
+				let noconfigdiversity=(value.contCaptionsFalse+value.contTextFalse+value.contsignLanguageFalse+ value.contaudioDescriptionFalse+
+				value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+				let configdiversity=(value.contCaptions+value.contText+value.contsignLanguage+ value.contseizures+
+				value.contnoTime+value.contextendedTime+value.contwarningAlert+value.contaudioDescription)
+				let notAccessibleDiversity=(value.NotAccessibleSeizures+value.NotAccessiblenoTime+value.NotAccessibleextendTime+
+					value.NotAccessibleAlert+value.NotAccessibleCaptions+value.NotAccessibleDescription+value.NotAccessibleSign)
+				let totaldiversity=(noconfigdiversity+configdiversity+notAccessibleDiversity)
+				let diversity=((configdiversity*100)/totaldiversity)
+				
+				let totalnoconfig=0
+				let totalnoaccessible=0
+				let audiences=props.courseInformation.support[1];
+				if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
+				&& audiences[3].isChecked===false ){//cognitive
+					totalconfig=  (totalconfig+configcognitive)    
+					totalnoconfig=(totalnoconfig+noconfigcognitive)  
+					totalnoaccessible=(totalnoaccessible+notAccessibleCognitive)
+				}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true 
+					&& audiences[3].isChecked===false ){//hearing
+						totalconfig=  (totalconfig+confighearing)    
+						totalnoconfig=(totalnoconfig+noconfighearing) 
+						totalnoaccessible=(totalnoaccessible+notAccessibleHearing)  
+				}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===false
+					&& audiences[3].isChecked===true ){//visual
+						totalconfig=  (totalconfig+configvisual)    
+						totalnoconfig=(totalnoconfig+noconfigvisual) 
+						totalnoaccessible=(totalnoaccessible+notAccessibleVisual)
+				}else if(audiences[0].isChecked===false && audiences[1].isChecked===true && audiences[2].isChecked===false
+					&& audiences[3].isChecked===false ){//eldery
+						totalconfig=  (totalconfig+configdiversity)    
+						totalnoconfig=(totalnoconfig+noconfigdiversity)  
+						totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+				}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true
+					&& audiences[3].isChecked===true ){//visual and hearing
+						totalconfig=  (totalconfig+confighearing+value.contaudioDescription)    
+						totalnoconfig=(totalnoconfig+noconfighearing+value.contaudioDescriptionFalse)   
+						totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleVisual)
+				}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false
+						&& audiences[3].isChecked===true ){//visual and cognitive-
+						totalconfig=  (totalconfig+configcognitive+value.contaudioDescription)    
+						totalnoconfig=(totalnoconfig+noconfigcognitive+value.contaudioDescriptionFalse)  
+						totalnoaccessible=(totalnoaccessible+notAccessibleVisual+notAccessibleCognitive) 
+				}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===true
+						&& audiences[3].isChecked===false ){//hearing and cognitive
+						totalconfig=  (totalconfig+confighearing+value.contseizures) 
+						totalnoconfig=(totalnoconfig+noconfighearing+value.contseizuresFalse)  
+						totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleCognitive) 
+				}else{//eldery
+						totalconfig=  (totalconfig+configdiversity)    
+						totalnoconfig=(totalnoconfig+noconfigdiversity)   
+						totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+				}
 			
-			percentagebyLesson.push([
-				{title: value.title, a11yValid:isNaN(visual)?100:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
-				{title: value.title, a11yValid:isNaN(hearing)?100:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
-				{title: value.title, a11yValid:isNaN(cognitive)?100:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
-				{title: value.title, a11yValid:isNaN(diversity)?100:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
-			])
-			visual=0, hearing=0, cognitive=0, diversity=0
+				contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
+				contWithInclusionGol.todo=contWithInclusionGol.todo+totalnoaccessible+totalnoconfig
+				contWithInclusionGol.NotAccessible=contWithInclusionGol.NotAccessible+totalnoconfig
+				setWithInclusionGol(contWithInclusionGol)
+				totalconfig=0
+				totalnoconfig=0
+				totalnoaccessible=0
+				
+				percentagebyLesson.push([
+					{title: value.title, a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+					{title: value.title, a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+					{title: value.title, a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+					{title: value.title, a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+				])
+				visual=0, hearing=0, cognitive=0, diversity=0
 		})
 
-		let byUnit=(percentagebyUnit[0].map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur) / 4)
-		let byLesson=(percentagebyLesson[1].map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur) / 4)
+		//console.log("percentagebyUnit y percentagebyLesson-------->",percentagebyUnit, percentagebyLesson )
+		let byUnit=0
+		let byLesson=0
+		percentagebyUnit.map((unit, indexUnit)=>{
+			unit.map((percentage, index)=>{
+				byUnit=byUnit+percentage.a11yValid
+			})
+		})
+		byUnit=((byUnit/4)/percentagebyUnit.length)
+		percentagebyLesson.map((unit, indexUnit)=>{
+			unit.map((percentage, index)=>{
+				byLesson=byLesson+percentage.a11yValid
+			})
+		})
+		byLesson=((byLesson/4)/percentagebyUnit.length)
+		console.log("percentagebyUnit y percentagebyLesson-------->",percentagebyUnit, percentagebyLesson, byUnit, byLesson )
 		let sum=((byUnit+byLesson)/2)
 		if(sum===100){setSimulate("allAchieved")}
 
-		contWithInclusionGol.todo=(tasknoconfig.unit+tasknoconfig.lesson)
+
+		//contWithInclusionGol.todo=(tasknoconfig.unit+tasknoconfig.lesson)
 		contWithInclusionGol.averageCourse=sum
 		setWithInclusionGol(contWithInclusionGol)
 		withoutInclusionGol.percentagebyUnit=percentagebyUnit
 		withoutInclusionGol.percentagebyLesson=percentagebyLesson
 		setwithoutInclusionGol(withoutInclusionGol)
 		newRandomTopics('unitslessons')
-	};
+
+		
 	
 
-	const TopicsCourse = () => {
+	};
+	const TopicsCourse=() => {
 		let variablesUnidad=[]
 		let percentagebyUnit=[]
 		let contText=0; 
@@ -715,7 +828,15 @@ export default function ReportStep(props) {
 		let contwarningAlertFalse=0; let contextendedTime=0; let contextendedTimeFalse=0; let contnoTime=0;let contnoTimeFalse=0; 
 		let contseizures=0; let contseizuresFalse=0; let contaudioDescription=0; let contaudioDescriptionFalse=0; 
 		let contsignLanguage=0; let contsignLanguageFalse=0
-		
+		let NotAccessiblenoTime=0
+		let NotAccessibleextendTime=0
+		let NotAccessibleAlert=0
+		let NotAccessibleSeizures=0
+		let NotAccessibleCaptions=0
+		let NotAccessibleDescription=0
+		let NotAccessibleSign=0
+
+
       props.courseInformation.program.map((unit, indexUnit)=>{
          //cabezera de la unidad
          unit.items.map((item,indexItem)=>{
@@ -733,8 +854,6 @@ export default function ReportStep(props) {
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
 								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							} if(isa11y.name==='captionsEmbedded"'){
-								if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
 							}
 						})
 						:
@@ -743,11 +862,11 @@ export default function ReportStep(props) {
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='noTime'){
-								if(isa11y.is_a11y===true){contnoTime+=1}else{contnoTimeFalse+=1}
+								if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
 							} if(isa11y.name==='extendedTime'){
-								if(isa11y.is_a11y===true){contextendedTime+=1}else{contextendedTimeFalse+=1}
+								if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
 							} if(isa11y.name==='warningAlert'){
-								if(isa11y.is_a11y===true){contwarningAlert+=1}else{contwarningAlertFalse+=1}
+								if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
 							}
 						})
 						:
@@ -756,15 +875,15 @@ export default function ReportStep(props) {
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='seizures'){
-								if(isa11y.is_a11y===true){contseizures+=1}else{contseizuresFalse+=1}
+								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
 							}if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
 								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
 							}if(isa11y.name==='captionsEmbedded'){
-								if(isa11y.is_a11y===true){contCaptions+=1}else{contCaptionsFalse+=1}
+								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
 							}if(isa11y.name==='audioDescription'){
-								if(isa11y.is_a11y===true){contaudioDescription+=1}else{contaudioDescriptionFalse+=1}
+								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
 							}if(isa11y.name==='signLanguage'){
-								if(isa11y.is_a11y===true){contsignLanguage+=1}else{contsignLanguageFalse+=1}
+								if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
 							}
 						})
 						:
@@ -788,77 +907,591 @@ export default function ReportStep(props) {
 				contaudioDescription:contaudioDescription,
 				contaudioDescriptionFalse:contaudioDescriptionFalse,
 				contsignLanguage:contsignLanguage,
-				contsignLanguageFalse:contsignLanguageFalse
+				contsignLanguageFalse:contsignLanguageFalse,
+				NotAccessiblenoTime,
+				NotAccessibleextendTime,
+				NotAccessibleAlert,
+				NotAccessibleSeizures,
+				NotAccessibleCaptions,
+				NotAccessibleDescription,
+				NotAccessibleSign,
 			})
+
 			 contText=0;  contTextFalse=0;  contCaptions=0;  contCaptionsFalse=0;  contwarningAlert=0
 			 contwarningAlertFalse=0;  contextendedTime=0;  contextendedTimeFalse=0;  contnoTime=0; contnoTimeFalse=0; 
 			 contseizures=0;  contseizuresFalse=0;  contaudioDescription=0;  contaudioDescriptionFalse=0; 
-			 contsignLanguage=0;  contsignLanguageFalse=0
+			 contsignLanguage=0;  contsignLanguageFalse=0; 
+			 NotAccessiblenoTime=0
+			 NotAccessibleextendTime=0
+			 NotAccessibleAlert=0
+			 NotAccessibleSeizures=0
+			 NotAccessibleCaptions=0
+			 NotAccessibleDescription=0
+			 NotAccessibleSign=0
       })
-	  
-		
+	  //let seizuresFix=0 // to count seizures
+		console.log("VARIABLES UNIDAD", variablesUnidad	)
 		variablesUnidad.map((value,index)=>{
 			//para visual
-			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse)
-			let configvisual=(value.contText+value.contaudioDescription)
-			let totalvisual=(noconfigvisual+configvisual)
+			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
+			value.contwarningAlertFalse)
+			let configvisual=(value.contText+value.contaudioDescription+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleVisual=(value.NotAccessibleDescription+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalvisual=(noconfigvisual+configvisual+notAccessibleVisual)
 			let visual=((configvisual*100)/totalvisual)
+			
+			
 			//para hearing
-			let noconfighearing=(value.contTextFalse+value.contCaptionsFalse+value.contaudioDescriptionFalse+value.contsignLanguageFalse)
-			let confighearing=(value.contText+value.contCaptions+value.contaudioDescription+value.contsignLanguage)
-			let totalhearing=(noconfighearing+confighearing)
+			let noconfighearing=(value.contTextFalse+value.contCaptionsFalse+value.contsignLanguageFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let confighearing=(value.contText+value.contCaptions+value.contsignLanguage+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleHearing=(value.NotAccessibleCaptions+value.NotAccessibleSign+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalhearing=(noconfighearing+confighearing+notAccessibleHearing)
 			let hearing=((confighearing*100)/totalhearing)
-			//para cognitive
-			let noconfigcognitive=(value.contCaptionsFalse+value.contseizuresFalse+value.contaudioDescriptionFalse)
-			let configcognitive=(value.contCaptions+value.contseizures+value.contaudioDescription)
-			let totalcognitive=(noconfigcognitive+configcognitive)
-			let cognitive=((configcognitive*100)/totalcognitive)
-			//para diversity
-			let configdiversity=(value.contsignLanguage+ value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert)
-			let noconfigdiversity=(value.contsignLanguageFalse+ value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
-			let totaldiversity=(noconfigdiversity+configdiversity)
-			let diversity=((configdiversity*100)/totaldiversity)
+			
 
-			//para with Inclusion Gol
-			let totalconfig=(value.contText+value.contaudioDescription+value.contsignLanguage+ 
-								  value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert+value.contCaptions)
-			let totalnoconfig=(value.contTextFalse+value.contaudioDescriptionFalse+value.contsignLanguageFalse+ 
-									value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse+value.contCaptionsFalse)
+			//para cognitive
+			let noconfigcognitive=(value.contTextFalse+value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let configcognitive=(value.contText+value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleCognitive=(value.NotAccessibleSeizures+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalcognitive=(noconfigcognitive+configcognitive+notAccessibleCognitive)
+			let cognitive=((configcognitive*100)/totalcognitive)
+			
+			//para diversity
+			let noconfigdiversity=(value.contCaptionsFalse+value.contTextFalse+value.contsignLanguageFalse+ value.contaudioDescriptionFalse+
+			value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let configdiversity=(value.contCaptions+value.contText+value.contsignLanguage+ value.contseizures+
+			value.contnoTime+value.contextendedTime+value.contwarningAlert+value.contaudioDescription)
+			let notAccessibleDiversity=(value.NotAccessibleSeizures+value.NotAccessiblenoTime+value.NotAccessibleextendTime+
+				value.NotAccessibleAlert+value.NotAccessibleCaptions+value.NotAccessibleDescription+value.NotAccessibleSign)
+			let totaldiversity=(noconfigdiversity+configdiversity+notAccessibleDiversity)
+			let diversity=((configdiversity*100)/totaldiversity)
+			
+			
+			let totalconfig=0
+			let totalnoconfig=0
+			let totalnoaccessible=0
+
+			let audiences=props.courseInformation.support[1];
+			if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
+			&& audiences[3].isChecked===false ){//cognitive
+				totalconfig=  (totalconfig+configcognitive)    
+				totalnoconfig=(totalnoconfig+noconfigcognitive)  
+				totalnoaccessible=(totalnoaccessible+notAccessibleCognitive)
+			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true 
+				&& audiences[3].isChecked===false ){//hearing
+					totalconfig=  (totalconfig+confighearing)    
+					totalnoconfig=(totalnoconfig+noconfighearing) 
+					totalnoaccessible=(totalnoaccessible+notAccessibleHearing)  
+			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===false
+				&& audiences[3].isChecked===true ){//visual
+					totalconfig=  (totalconfig+configvisual)    
+					totalnoconfig=(totalnoconfig+noconfigvisual) 
+					totalnoaccessible=(totalnoaccessible+notAccessibleVisual)
+			}else if(audiences[0].isChecked===false && audiences[1].isChecked===true && audiences[2].isChecked===false
+				&& audiences[3].isChecked===false ){//eldery
+					totalconfig=  (totalconfig+configdiversity)    
+					totalnoconfig=(totalnoconfig+noconfigdiversity)  
+					totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true
+				&& audiences[3].isChecked===true ){//visual and hearing
+					totalconfig=  (totalconfig+confighearing+value.contaudioDescription)    
+					totalnoconfig=(totalnoconfig+noconfighearing+value.contaudioDescriptionFalse)   
+					totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleVisual)
+			}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false
+				   && audiences[3].isChecked===true ){//visual and cognitive-
+					totalconfig=  (totalconfig+configcognitive+value.contaudioDescription)    
+					totalnoconfig=(totalnoconfig+noconfigcognitive+value.contaudioDescriptionFalse)  
+					totalnoaccessible=(totalnoaccessible+notAccessibleVisual+notAccessibleCognitive) 
+			}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===true
+					&& audiences[3].isChecked===false ){//hearing and cognitive
+					totalconfig=  (totalconfig+confighearing+value.contseizures) 
+					totalnoconfig=(totalnoconfig+noconfighearing+value.contseizuresFalse)  
+					totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleCognitive) 
+			}else{//eldery
+					totalconfig=  (totalconfig+configdiversity)    
+					totalnoconfig=(totalnoconfig+noconfigdiversity)   
+					totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+			}
+		
 			contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
+			contWithInclusionGol.todo=contWithInclusionGol.todo+totalnoaccessible+totalnoconfig
 			contWithInclusionGol.NotAccessible=contWithInclusionGol.NotAccessible+totalnoconfig
 			setWithInclusionGol(contWithInclusionGol)
-
-		//	console.log("En topicos totalconfig", totalconfig, totalnoconfig, contWithInclusionGol )
+			totalconfig=0
+			totalnoconfig=0
+			totalnoaccessible=0
+			
 			percentagebyUnit.push([
-				{title: value.title, a11yValid:isNaN(visual)?100:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
-				{title: value.title, a11yValid:isNaN(hearing)?100:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
-				{title: value.title, a11yValid:isNaN(cognitive)?100:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
-				{title: value.title, a11yValid:isNaN(diversity)?100:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+				{title: value.title, a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+				{title: value.title, a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+				{title: value.title, a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+				{title: value.title, a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
 			])
 			visual=0, hearing=0, cognitive=0, diversity=0
 		})
 		
-		let byUnit=(percentagebyUnit[0].map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur) / 4)
+		let byUnit=0
+		percentagebyUnit.map((unit, indexUnit)=>{
+			unit.map((percentage, index)=>{
+				byUnit=byUnit+percentage.a11yValid
+			})
+		})
+		byUnit=((byUnit/4)/percentagebyUnit.length)
 		contWithInclusionGol.averageCourse=byUnit
-		contWithInclusionGol.todo=(tasknoconfig.unit)
+		//contWithInclusionGol.todo=(tasknoconfig.unit)
+		
 		setWithInclusionGol(contWithInclusionGol)
-		
-		
-	
-		withoutInclusionGol.percentagebyUnit=percentagebyUnit
-		withoutInclusionGol.percentagebyLesson=[]
-		setwithoutInclusionGol(withoutInclusionGol)
-
 		if(byUnit===100){
 			setSimulate("allAchieved")
 		}
-		
-		
+		withoutInclusionGol.percentagebyUnit=percentagebyUnit
+		withoutInclusionGol.percentagebyLesson=[]
+		setwithoutInclusionGol(withoutInclusionGol)
+		//console.log("En topicos totalconfig", contWithInclusionGol,percentagebyUnit )
 		newRandomTopics('topic')
 	};
+	const TemplateCourse=() =>{
+		let variablesUnidad=[]
+		let variablesTemplate=[]
+		let percentagebyUnit=[]
+		let percentagebyTemplate=[]
+		let percentagebyLesson=[]
+		let contText=0; 
+		let contTextFalse=0; let contCaptions=0; let contCaptionsFalse=0; let contwarningAlert=0
+		let contwarningAlertFalse=0; let contextendedTime=0; let contextendedTimeFalse=0; let contnoTime=0;let contnoTimeFalse=0; 
+		let contseizures=0; let contseizuresFalse=0; let contaudioDescription=0; let contaudioDescriptionFalse=0; 
+		let contsignLanguage=0; let contsignLanguageFalse=0
+		let NotAccessiblenoTime=0
+		let NotAccessibleextendTime=0
+		let NotAccessibleAlert=0
+		let NotAccessibleSeizures=0
+		let NotAccessibleCaptions=0
+		let NotAccessibleDescription=0
+		let NotAccessibleSign=0
 
 
-   
+		props.courseInformation.program.map((unit, indexUnit)=>{
+         //cabezera de la unidad
+         unit.items.map((item,indexItem)=>{
+            if(item.type==='image' ){
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+1
+				}else if(item.type==='audio'){
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+3
+				}else if(item.type==='quiz'){
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='noTime'){
+								if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+							} if(isa11y.name==='extendedTime'){
+								if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+							} if(isa11y.name==='warningAlert'){
+								if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+3
+				}else if(item.type==='video'){
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='seizures'){
+								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+							}if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}if(isa11y.name==='captionsEmbedded'){
+								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+							}if(isa11y.name==='audioDescription'){
+								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+							}if(isa11y.name==='signLanguage'){
+								if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.unit=tasknoconfig.unit+6
+				}
+         })
+			variablesUnidad.push({
+				title: unit.name, 
+				contText:contText,
+				contTextFalse:contTextFalse,
+				contCaptions:contCaptions,
+				contCaptionsFalse:contCaptionsFalse,
+				contwarningAlert:contwarningAlert,
+				contwarningAlertFalse:contwarningAlertFalse,
+				contextendedTime:contextendedTime,
+				contextendedTimeFalse:contextendedTimeFalse,
+				contnoTime:contnoTime,
+				contnoTimeFalse:contnoTimeFalse,
+				contseizures:contseizures,
+				contseizuresFalse:contseizuresFalse,
+				contaudioDescription:contaudioDescription,
+				contaudioDescriptionFalse:contaudioDescriptionFalse,
+				contsignLanguage:contsignLanguage,
+				contsignLanguageFalse:contsignLanguageFalse,
+				NotAccessiblenoTime,
+				NotAccessibleextendTime,
+				NotAccessibleAlert,
+				NotAccessibleSeizures,
+				NotAccessibleCaptions,
+				NotAccessibleDescription,
+				NotAccessibleSign,
+			})
+
+			 contText=0;  contTextFalse=0;  contCaptions=0;  contCaptionsFalse=0;  contwarningAlert=0
+			 contwarningAlertFalse=0;  contextendedTime=0;  contextendedTimeFalse=0;  contnoTime=0; contnoTimeFalse=0; 
+			 contseizures=0;  contseizuresFalse=0;  contaudioDescription=0;  contaudioDescriptionFalse=0; 
+			 contsignLanguage=0;  contsignLanguageFalse=0; 
+			 NotAccessiblenoTime=0
+			 NotAccessibleextendTime=0
+			 NotAccessibleAlert=0
+			 NotAccessibleSeizures=0
+			 NotAccessibleCaptions=0
+			 NotAccessibleDescription=0
+			 NotAccessibleSign=0
+		})
+
+		props.courseInformation.program.map((unit, indexUnit)=>{
+         //cabezera de la unidad
+         unit.activities.map((items,indexItems)=>{
+				items.items.map((item, indexItem)=>{
+					if(item.type==='image' ){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}
+							})
+							:
+							tasknoconfig.unit=tasknoconfig.unit+1
+					}else if(item.type==='audio'){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}
+							})
+							:
+							tasknoconfig.unit=tasknoconfig.unit+3
+					}else if(item.type==='quiz'){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='noTime'){
+									if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+								} if(isa11y.name==='extendedTime'){
+									if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+								} if(isa11y.name==='warningAlert'){
+									if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+								}
+							})
+							:
+							tasknoconfig.unit=tasknoconfig.unit+3
+					}else if(item.type==='video'){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='seizures'){
+									if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+								}if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}if(isa11y.name==='captionsEmbedded'){
+									if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+								}if(isa11y.name==='audioDescription'){
+									if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+								}if(isa11y.name==='signLanguage'){
+									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+								}
+							})
+							:
+							tasknoconfig.unit=tasknoconfig.unit+6
+					}
+				}) 
+				variablesTemplate.push({
+					title: items.name, 
+					contText:contText,
+					contTextFalse:contTextFalse,
+					contCaptions:contCaptions,
+					contCaptionsFalse:contCaptionsFalse,
+					contwarningAlert:contwarningAlert,
+					contwarningAlertFalse:contwarningAlertFalse,
+					contextendedTime:contextendedTime,
+					contextendedTimeFalse:contextendedTimeFalse,
+					contnoTime:contnoTime,
+					contnoTimeFalse:contnoTimeFalse,
+					contseizures:contseizures,
+					contseizuresFalse:contseizuresFalse,
+					contaudioDescription:contaudioDescription,
+					contaudioDescriptionFalse:contaudioDescriptionFalse,
+					contsignLanguage:contsignLanguage,
+					contsignLanguageFalse:contsignLanguageFalse,
+					NotAccessiblenoTime,
+					NotAccessibleextendTime,
+					NotAccessibleAlert,
+					NotAccessibleSeizures,
+					NotAccessibleCaptions,
+					NotAccessibleDescription,
+					NotAccessibleSign,
+				})
+	
+				 contText=0;  contTextFalse=0;  contCaptions=0;  contCaptionsFalse=0;  contwarningAlert=0
+				 contwarningAlertFalse=0;  contextendedTime=0;  contextendedTimeFalse=0;  contnoTime=0; contnoTimeFalse=0; 
+				 contseizures=0;  contseizuresFalse=0;  contaudioDescription=0;  contaudioDescriptionFalse=0; 
+				 contsignLanguage=0;  contsignLanguageFalse=0; 
+				 NotAccessiblenoTime=0
+				 NotAccessibleextendTime=0
+				 NotAccessibleAlert=0
+				 NotAccessibleSeizures=0
+				 NotAccessibleCaptions=0
+				 NotAccessibleDescription=0
+				 NotAccessibleSign=0
+         })	
+		})
+
+		
+		variablesUnidad.map((value,index)=>{
+			//para visual
+			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
+			value.contwarningAlertFalse)
+			let configvisual=(value.contText+value.contaudioDescription+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleVisual=(value.NotAccessibleDescription+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalvisual=(noconfigvisual+configvisual+notAccessibleVisual)
+			let visual=((configvisual*100)/totalvisual)
+		
+			//para hearing
+			let noconfighearing=(value.contTextFalse+value.contCaptionsFalse+value.contsignLanguageFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let confighearing=(value.contText+value.contCaptions+value.contsignLanguage+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleHearing=(value.NotAccessibleCaptions+value.NotAccessibleSign+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalhearing=(noconfighearing+confighearing+notAccessibleHearing)
+			let hearing=((confighearing*100)/totalhearing)
+		
+			//para cognitive
+			let noconfigcognitive=(value.contTextFalse+value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let configcognitive=(value.contText+value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleCognitive=(value.NotAccessibleSeizures+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalcognitive=(noconfigcognitive+configcognitive+notAccessibleCognitive)
+			let cognitive=((configcognitive*100)/totalcognitive)
+						//para diversity
+			let noconfigdiversity=(value.contCaptionsFalse+value.contTextFalse+value.contsignLanguageFalse+ value.contaudioDescriptionFalse+
+			value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let configdiversity=(value.contCaptions+value.contText+value.contsignLanguage+ value.contseizures+
+			value.contnoTime+value.contextendedTime+value.contwarningAlert+value.contaudioDescription)
+			let notAccessibleDiversity=(value.NotAccessibleSeizures+value.NotAccessiblenoTime+value.NotAccessibleextendTime+
+				value.NotAccessibleAlert+value.NotAccessibleCaptions+value.NotAccessibleDescription+value.NotAccessibleSign)
+			let totaldiversity=(noconfigdiversity+configdiversity+notAccessibleDiversity)
+			let diversity=((configdiversity*100)/totaldiversity)
+			
+		
+			let totalconfig=0
+			let totalnoconfig=0
+			let totalnoaccessible=0
+
+			let audiences=props.courseInformation.support[1];
+			if(audiences!=undefined){
+				if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
+					&& audiences[3].isChecked===false ){//cognitive
+						totalconfig=  (totalconfig+configcognitive)    
+						totalnoconfig=(totalnoconfig+noconfigcognitive)  
+						totalnoaccessible=(totalnoaccessible+notAccessibleCognitive)
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true 
+						&& audiences[3].isChecked===false ){//hearing
+							totalconfig=  (totalconfig+confighearing)    
+							totalnoconfig=(totalnoconfig+noconfighearing) 
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing)  
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===false
+						&& audiences[3].isChecked===true ){//visual
+							totalconfig=  (totalconfig+configvisual)    
+							totalnoconfig=(totalnoconfig+noconfigvisual) 
+							totalnoaccessible=(totalnoaccessible+notAccessibleVisual)
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===true && audiences[2].isChecked===false
+						&& audiences[3].isChecked===false ){//eldery
+							totalconfig=  (totalconfig+configdiversity)    
+							totalnoconfig=(totalnoconfig+noconfigdiversity)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true
+						&& audiences[3].isChecked===true ){//visual and hearing
+							totalconfig=  (totalconfig+confighearing+value.contaudioDescription)    
+							totalnoconfig=(totalnoconfig+noconfighearing+value.contaudioDescriptionFalse)   
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleVisual)
+					}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false
+							&& audiences[3].isChecked===true ){//visual and cognitive-
+							totalconfig=  (totalconfig+configcognitive+value.contaudioDescription)    
+							totalnoconfig=(totalnoconfig+noconfigcognitive+value.contaudioDescriptionFalse)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleVisual+notAccessibleCognitive) 
+					}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===true
+							&& audiences[3].isChecked===false ){//hearing and cognitive
+							totalconfig=  (totalconfig+confighearing+value.contseizures) 
+							totalnoconfig=(totalnoconfig+noconfighearing+value.contseizuresFalse)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleCognitive) 
+					}else{//eldery
+							totalconfig=  (totalconfig+configdiversity)    
+							totalnoconfig=(totalnoconfig+noconfigdiversity)   
+							totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+					}
+			}else{
+				totalconfig=  (totalconfig+configdiversity)    
+				totalnoconfig=(totalnoconfig+noconfigdiversity)   
+				totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+			}
+		
+			contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
+			contWithInclusionGol.todo=contWithInclusionGol.todo+totalnoaccessible+totalnoconfig
+			contWithInclusionGol.NotAccessible=contWithInclusionGol.NotAccessible+totalnoconfig
+			setWithInclusionGol(contWithInclusionGol)
+			totalconfig=0
+			totalnoconfig=0
+			totalnoaccessible=0
+			
+			percentagebyUnit.push([
+				{title: value.title, a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+				{title: value.title, a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+				{title: value.title, a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+				{title: value.title, a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+			])
+			visual=0, hearing=0, cognitive=0, diversity=0
+		})
+
+		variablesTemplate.map((value,index)=>{
+			//para visual
+			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
+			value.contwarningAlertFalse)
+			let configvisual=(value.contText+value.contaudioDescription+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleVisual=(value.NotAccessibleDescription+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalvisual=(noconfigvisual+configvisual+notAccessibleVisual)
+			let visual=((configvisual*100)/totalvisual)
+			
+			//para hearing
+			let noconfighearing=(value.contTextFalse+value.contCaptionsFalse+value.contsignLanguageFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let confighearing=(value.contText+value.contCaptions+value.contsignLanguage+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleHearing=(value.NotAccessibleCaptions+value.NotAccessibleSign+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalhearing=(noconfighearing+confighearing+notAccessibleHearing)
+			let hearing=((confighearing*100)/totalhearing)
+		
+
+			//para cognitive
+			let noconfigcognitive=(value.contTextFalse+value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let configcognitive=(value.contText+value.contseizures+value.contnoTime+value.contextendedTime+value.contwarningAlert)
+			let notAccessibleCognitive=(value.NotAccessibleSeizures+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
+			let totalcognitive=(noconfigcognitive+configcognitive+notAccessibleCognitive)
+			let cognitive=((configcognitive*100)/totalcognitive)
+			
+			//para diversity
+			let noconfigdiversity=(value.contCaptionsFalse+value.contTextFalse+value.contsignLanguageFalse+ value.contaudioDescriptionFalse+
+			value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
+			let configdiversity=(value.contCaptions+value.contText+value.contsignLanguage+ value.contseizures+
+			value.contnoTime+value.contextendedTime+value.contwarningAlert+value.contaudioDescription)
+			let notAccessibleDiversity=(value.NotAccessibleSeizures+value.NotAccessiblenoTime+value.NotAccessibleextendTime+
+				value.NotAccessibleAlert+value.NotAccessibleCaptions+value.NotAccessibleDescription+value.NotAccessibleSign)
+			let totaldiversity=(noconfigdiversity+configdiversity+notAccessibleDiversity)
+			let diversity=((configdiversity*100)/totaldiversity)
+			
+			
+			let totalconfig=0
+			let totalnoconfig=0
+			let totalnoaccessible=0
+
+			let audiences=props.courseInformation.support[1];
+			if(audiences!=undefined){
+				if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
+					&& audiences[3].isChecked===false ){//cognitive
+						totalconfig=  (totalconfig+configcognitive)    
+						totalnoconfig=(totalnoconfig+noconfigcognitive)  
+						totalnoaccessible=(totalnoaccessible+notAccessibleCognitive)
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true 
+						&& audiences[3].isChecked===false ){//hearing
+							totalconfig=  (totalconfig+confighearing)    
+							totalnoconfig=(totalnoconfig+noconfighearing) 
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing)  
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===false
+						&& audiences[3].isChecked===true ){//visual
+							totalconfig=  (totalconfig+configvisual)    
+							totalnoconfig=(totalnoconfig+noconfigvisual) 
+							totalnoaccessible=(totalnoaccessible+notAccessibleVisual)
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===true && audiences[2].isChecked===false
+						&& audiences[3].isChecked===false ){//eldery
+							totalconfig=  (totalconfig+configdiversity)    
+							totalnoconfig=(totalnoconfig+noconfigdiversity)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true
+						&& audiences[3].isChecked===true ){//visual and hearing
+							totalconfig=  (totalconfig+confighearing+value.contaudioDescription)    
+							totalnoconfig=(totalnoconfig+noconfighearing+value.contaudioDescriptionFalse)   
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleVisual)
+					}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false
+							&& audiences[3].isChecked===true ){//visual and cognitive-
+							totalconfig=  (totalconfig+configcognitive+value.contaudioDescription)    
+							totalnoconfig=(totalnoconfig+noconfigcognitive+value.contaudioDescriptionFalse)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleVisual+notAccessibleCognitive) 
+					}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===true
+							&& audiences[3].isChecked===false ){//hearing and cognitive
+							totalconfig=  (totalconfig+confighearing+value.contseizures) 
+							totalnoconfig=(totalnoconfig+noconfighearing+value.contseizuresFalse)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleCognitive) 
+					}else{//eldery
+							totalconfig=  (totalconfig+configdiversity)    
+							totalnoconfig=(totalnoconfig+noconfigdiversity)   
+							totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+					}
+			}else{
+				totalconfig=  (totalconfig+configdiversity)    
+				totalnoconfig=(totalnoconfig+noconfigdiversity)   
+				totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+			}
+		
+			contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
+			contWithInclusionGol.todo=contWithInclusionGol.todo+totalnoaccessible+totalnoconfig
+			contWithInclusionGol.NotAccessible=contWithInclusionGol.NotAccessible+totalnoconfig
+			setWithInclusionGol(contWithInclusionGol)
+			totalconfig=0
+			totalnoconfig=0
+			totalnoaccessible=0
+			
+			percentagebyTemplate.push([
+				{title: value.title, a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+				{title: value.title, a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+				{title: value.title, a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+				{title: value.title, a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+			])
+			visual=0, hearing=0, cognitive=0, diversity=0
+	})
+		
+		let byUnit=0
+		let byTemplate=0
+		percentagebyUnit.map((unit, indexUnit)=>{
+			unit.map((percentage, index)=>{
+				byUnit=byUnit+percentage.a11yValid
+			})
+		})
+		byUnit=((byUnit/4)/percentagebyUnit.length)	
+		percentagebyTemplate.map((unit, indexUnit)=>{
+			unit.map((percentage, index)=>{
+				byTemplate=byTemplate+percentage.a11yValid
+			})
+		})
+		byTemplate=((byTemplate/4)/percentagebyTemplate.length)
+		let sum=((byUnit+byTemplate)/2)
+		if(sum===100){setSimulate("allAchieved")}
+
+		
+		contWithInclusionGol.averageCourse=sum
+		setWithInclusionGol(contWithInclusionGol)
+		withoutInclusionGol.percentagebyUnit=percentagebyUnit
+		withoutInclusionGol.percentagebyLesson=percentagebyTemplate
+		setwithoutInclusionGol(withoutInclusionGol)
+		console.log("Datos:",byTemplate,byUnit,percentagebyTemplate , percentagebyUnit, withoutInclusionGol)
+		newRandomTopics('unitslessons')
+
+	}
 	const [categories, setCategories] = React.useState([
 		{
 			key: "visual",
@@ -889,24 +1522,14 @@ export default function ReportStep(props) {
 			selected: false
 		}
 	]);
-
-	
-
 	const [simulate, setSimulate] = React.useState(false);
-
 	
-	
-
-	
-
 	return (
 		<div className="course-information-container">
 			<div className="form-input-column">
 			
-			<h1>Accessibility Report</h1>
+			<h1 className='headAccessibility'>Accessibility Report</h1>
          {console.log("TopicsCourse----------", withoutInclusionGol, simulate,categories)}
-
-
 			{simulate === "allAchieved" && (
 				<React.Fragment>
 					<p>Your course is fully accessible</p>
@@ -958,13 +1581,11 @@ export default function ReportStep(props) {
 					the accessibility results of your course.
 				</p>
 			) }
-			
 			{  simulate === "inclusionGolAchieved" && (
 				<div className={classes.allachieved}>
 					<p className={classes.chartLabel}>
 						You have achieved your Inclusion Goal!
-					</p>
-					 
+					</p>		 
 					<Grid 
 						container 
 						spacing={2}
@@ -978,13 +1599,7 @@ export default function ReportStep(props) {
 									/>
 							))
 						}
-
 					</Grid>
-							
-								
-					
-						
-				
 					<p className={classes.subtitle}>
 						Now you have finished the accessibility set up for your Inclusion
 						Gol, considere review accessibility for others impairments groups.
@@ -1000,8 +1615,6 @@ export default function ReportStep(props) {
 					</Grid>
 				</div>
 			)  }
-
-
 
 			{ simulate === "inclusionGol" && (
 				<div>
@@ -1046,8 +1659,7 @@ export default function ReportStep(props) {
 					</Grid>
 					<h2>Accessibility by inclusion goals</h2>
 					 <p>
-						Here is the result of accesibility grouped by impairments. You can
-						also check the accessibility of each topic or unit of your course.
+						Here is the result of accesibility grouped by impairments. You can also check the accessibility of each topic or unit of your course.
 					</p>
 					<Container>
 						<Grid
@@ -1058,9 +1670,7 @@ export default function ReportStep(props) {
 							alignItems="flex-start"
 						>
 							{console.log("categorias------->", categories)}
-							{categories
-							.filter(c => c.selected)
-							.map(category => (
+							{categories.filter(goals => goals.selected).map(category => (
 								<Grid item xs={12} md={6}>
 									<AccessibilityCard category={category} />
 								</Grid>

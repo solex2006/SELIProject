@@ -210,11 +210,11 @@ export default function VerticalTabs(props) {
 						/>
 					}
 					{
-							props.contentTypeAdded === 'audio' && support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
+							/* props.contentTypeAdded === 'audio' && support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
 						<Tab
 							label={props.language.audioTranscription}
 							{...a11yProps(indexTab++)}
-						/>
+						/> */
 					}
 					
 					{
@@ -388,7 +388,7 @@ export default function VerticalTabs(props) {
 											/>
 										</TabPanel>}
 
-										{support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
+										{/* support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
 										<TabPanel value={value} index={indexPanel++}>
 											<AudioA11YCaptions data={{
 												captionsTip:data.captionsTip,
@@ -407,7 +407,7 @@ export default function VerticalTabs(props) {
 											}}
 											language={props.language}
 											/>
-										</TabPanel>}
+										</TabPanel> */}
 
 
 										

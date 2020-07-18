@@ -219,9 +219,9 @@ export  function QuizAccessibilityWarningTime(props) {
 export const useQuizDataField = (props) => {
 	console.log("props de ingreso en quiz dtafiled", props)
 	const [dataField, setDataField] = React.useState({
-        noTime:'no',
-        extendedTime:'no',
-        warningAlert:'no',
+        noTime:null,
+        extendedTime:null,
+        warningAlert:null,
         extendedTimeValue:"00:10",
         warningAlertValue:"00:00:30",
 
@@ -236,9 +236,9 @@ export const useQuizDataField = (props) => {
 	const [alertMomentTip, setalertMomentTip] = React.useState(props.language.alertMomentTip);
 
 	const a11yInitial = [
-        {name: 'noTime', is_a11y: false},
-		{name: 'extendedTime', is_a11y: false},
-		{name: 'warningAlert', is_a11y: false},
+        {name: 'noTime', is_a11y: null},
+		{name: 'extendedTime', is_a11y: null},
+		{name: 'warningAlert', is_a11y: null},
 	];
 
 	useEffect(() => {
