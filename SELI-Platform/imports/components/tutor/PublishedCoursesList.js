@@ -113,7 +113,8 @@ export default class PublishedCoursesList extends React.Component {
     let tableData = [];
     let headRows = [
       { id: 'title', numeric: false, disablePadding: true, label: this.props.language.title },
-      { id: 'organization', numeric: true, disablePadding: false, label: this.props.language.organization },
+      { id: 'template', numeric: true, disablePadding: false, label: this.props.language.template },
+      { id: 'organization', numeric: true, disablePadding: false, label: this.props.language.courseOrganization },
       { id: 'duration', numeric: true, disablePadding: false, label: this.props.language.duration },
       { id: 'creationDate', numeric: true, disablePadding: false, label: this.props.language.creationDate },
       { id: 'actions', numeric: true, disablePadding: false, label: this.props.language.actions },
@@ -124,7 +125,18 @@ export default class PublishedCoursesList extends React.Component {
       {label: this.props.language.unpublishCourse , icon: <UnarchiveIcon/>, action: this.showUnpublishConfirmation.bind(this)},
     ];
     myCourses.map(course => {
-      tableData.push({title: course.title, organization: course.organization.label, duration: `${course.duration} hours`, creationDate: course.creationDate.toLocaleDateString('en-US'), _id: course._id})
+      tableData.push({
+        title: course.title,
+        template: course.coursePlan ?
+            course.coursePlan.courseTemplate === "without" ? this.props.language.Withouttemplate :
+            course.coursePlan.courseTemplate === "spiral" ? this.props.language.SpiralModel :
+            course.coursePlan.courseTemplate === "consistent" ? this.props.language.Consistent :
+            this.props.language.ToyBox
+        : "",
+        organization: course.coursePlan ? course.coursePlan.courseStructure === "unit" ? this.props.language.byUnitsAndLessons : this.props.language.byTopics : "", 
+        duration: course.duration,
+        creationDate: course.creationDate.toLocaleDateString('en-US'),
+        _id: course._id})
     })
     this.setState({
       headRows: headRows,
@@ -654,6 +666,7 @@ export default class PublishedCoursesList extends React.Component {
                                         profile={profile}
                                         course={this.state.summaryCourse}
                                         handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                        unsubscribe={this.props.unsubscribe.bind(this)}
                                         handleView={this.handleView}
                                         reload={this.openClassroomManagement.bind(this)}
                                         language={this.props.language}

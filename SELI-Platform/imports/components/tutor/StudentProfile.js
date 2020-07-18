@@ -108,28 +108,9 @@ export default class StudentProfile extends React.Component {
   }
 
   handleUnsubscription = () => {
-    let course = Courses.find({_id: this.props.profile.courseProfile.courseId}).fetch();
-    course = course[0];
-    let studentIndex = course.classroom.findIndex(students => students === this.props.profile.studentId);
-    course.classroom.splice(studentIndex, 1);
-    Courses.update(
-      { _id: course._id },
-      { $set: {
-        classroom: course.classroom,
-      }}
-      , () => {
-        var user = Meteor.users.findOne({_id: this.props.profile.studentId});
-        let courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === this.props.profile.courseProfile.courseId);
-        user.profile.courses.splice(courseIndex, 1);
-        Meteor.call("UpdateCourses", this.props.profile.studentId, user.profile.courses, (error, response) =>  {
-            if (response) {
-              this.props.handleControlMessage(true, this.props.language.studendRemoved);
-              this.handleClose();
-              this.props.reload(this.props.profile.courseProfile.courseId);
-            }
-        });
-      }
-    )
+    this.props.unsubscribe(this.props.profile.courseProfile.courseId, this.props.profile.studentId)
+    this.handleClose();
+    this.props.reload(this.props.profile.courseProfile.courseId);
   }
 
   handleChangePanel = () => {
@@ -258,7 +239,6 @@ export default class StudentProfile extends React.Component {
   };
 
   render() {
-    console.log(this.props)
     return(
       <div className="student">
         <div className="student-profile-container">
@@ -360,7 +340,9 @@ export default class StudentProfile extends React.Component {
                       <div>
                         <Button
                           className="student-confirmation-button"
-                          onClick={this.state.action === "subscription" ? () => this.handleUnsubscription() : () => this.createCertificate()}
+                          onClick={this.state.action === "subscription" ? 
+                            () => this.handleUnsubscription() : () => this.createCertificate()
+                          }
                           variant="contained" color="primary"
                         >
                           {this.props.language.yes}

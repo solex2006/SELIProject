@@ -4,18 +4,14 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
 
 import Loading from '../components/tools/Loading';
-import CourseMenu from '../components/student/CourseMenu';
 import CoursePresentation from '../components/student/CoursePresentation';
-import CourseContent from '../components/student/CourseContent';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Courses } from '../../lib/CourseCollection';
 import english from '../../lib/translation/english';
