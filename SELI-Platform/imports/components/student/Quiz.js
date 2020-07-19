@@ -26,8 +26,8 @@ import moment, { min } from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
 import Checkbox from '@material-ui/core/Checkbox';
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
-
-const bakery=require('openbadges-bakery-v2'); 
+import { Courses } from '../../../lib/CourseCollection';
+const bakery = require('openbadges-bakery-v2');
 
 momentDurationFormatSetup(moment);
 const useStyles = theme => ({
@@ -54,90 +54,90 @@ class Quiz extends React.Component {
     this.state = {
       selected: 0,
       answers: [], //should be load at start of the component
-      panelshow:'',
+      panelshow: '',
       age: '',
       open: false,
       alert: '',
       answertest: false,
-      average:'',
-      successTrue:'',
-      Incorrect:'',
-      extraTime:false,
-      start:false,
-      alertTimeValue:'',
-      handleTick:'',
-      extendedTime:"",
-      newaddTime:"",
-      selectedtime:'',
-      noTime:false
+      average: '',
+      successTrue: '',
+      Incorrect: '',
+      extraTime: false,
+      start: false,
+      alertTimeValue: '',
+      handleTick: '',
+      extendedTime: "",
+      newaddTime: "",
+      selectedtime: '',
+      noTime: false
     }
   }
 
   componentDidMount() {
     console.log("datos de quiz", this.props)
     this.setState({
-      start:false,
-     // selectedtime: this.props.quiz.attributes.extendtime
+      start: false,
+      // selectedtime: this.props.quiz.attributes.extendtime
     })
     //configure warningalerts must consider default alerts and teacher alerts
-    if(this.props.time>0){
-      if(this.props.quiz.attributes.accessibility.isA11Y===undefined){
-        let timeLimit=((this.props.time)/(60*1000))
-        if(timeLimit>19){
-          this.setState({alertTimeValue: 10})
-        }else{
-          this.setState({alertTimeValue: (timeLimit/2)})
+    if (this.props.time > 0) {
+      if (this.props.quiz.attributes.accessibility.isA11Y === undefined) {
+        let timeLimit = ((this.props.time) / (60 * 1000))
+        if (timeLimit > 19) {
+          this.setState({ alertTimeValue: 10 })
+        } else {
+          this.setState({ alertTimeValue: (timeLimit / 2) })
         }
-      }else{//when is no undefined
-        if(this.props.quiz.attributes.accessibility.isA11Y[1].is_a11y===true){
+      } else {//when is no undefined
+        if (this.props.quiz.attributes.accessibility.isA11Y[1].is_a11y === true) {
           this.setState({
-            extraTime:true, //see if there is extra time and put it into the state
-            extendedTime:this.props.quiz.attributes.accessibility.dataField.extendedTimeValue, // in th for "hh:mm:ss"
-            
+            extraTime: true, //see if there is extra time and put it into the state
+            extendedTime: this.props.quiz.attributes.accessibility.dataField.extendedTimeValue, // in th for "hh:mm:ss"
+
           })
         }
-        if(this.props.quiz.attributes.accessibility.isA11Y[0].is_a11y===true){
+        if (this.props.quiz.attributes.accessibility.isA11Y[0].is_a11y === true) {
           this.setState({
-           noTime:true
+            noTime: true
           })
         }
-        if (this.props.quiz.attributes.accessibility.isA11Y[2].is_a11y===false){//when warning alert is false
+        if (this.props.quiz.attributes.accessibility.isA11Y[2].is_a11y === false) {//when warning alert is false
           console.log("paso3")
-          let timeLimit=((this.props.time)/(60*1000))
-          if(timeLimit>19){
-            this.setState({alertTimeValue: 10})
-          }else{
-            this.setState({alertTimeValue: (timeLimit/2)})
+          let timeLimit = ((this.props.time) / (60 * 1000))
+          if (timeLimit > 19) {
+            this.setState({ alertTimeValue: 10 })
+          } else {
+            this.setState({ alertTimeValue: (timeLimit / 2) })
           }
         }
-        else{ //when is_a11y true
-          let warning=this.props.quiz.attributes.accessibility.dataField.warningAlertValue.split(":")
-          let warningtime=(parseInt(warning[0])*60+parseInt(warning[1])+(parseInt(warning[2])/60))
-          this.setState({alertTimeValue:warningtime })
+        else { //when is_a11y true
+          let warning = this.props.quiz.attributes.accessibility.dataField.warningAlertValue.split(":")
+          let warningtime = (parseInt(warning[0]) * 60 + parseInt(warning[1]) + (parseInt(warning[2]) / 60))
+          this.setState({ alertTimeValue: warningtime })
         }
       }
-    }else { //time is zero we need without time for all students
+    } else { //time is zero we need without time for all students
       this.setState({
         panelshow: 'stop'
       })
     }
-    
+
   }
-  componentDidUpdate(prevProps,prevState) {
-     if (prevState.selectedtime !== this.state.selectedtime) {
-       this.setState({start:false})
-     
-    } 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.selectedtime !== this.state.selectedtime) {
+      this.setState({ start: false })
+
+    }
   }
 
-  componentWillMount(){
+  componentWillMount() {
     let answers = this.state.answers;
     let controlAnswers = this.state.controlAnswers;
     let questions = this.props.quiz.attributes.questions;
-    
+
     questions.map(question => {
-      let answerlength=question.correctAnswers.length;
-      answers.push(Array.apply(null, new Array(answerlength)).map(Boolean.prototype.valueOf,false));
+      let answerlength = question.correctAnswers.length;
+      answers.push(Array.apply(null, new Array(answerlength)).map(Boolean.prototype.valueOf, false));
     })
     this.setState({
       answers: answers,
@@ -146,9 +146,9 @@ class Quiz extends React.Component {
     });
   }
 
-  handleChange = (check,event) => {
+  handleChange = (check, event) => {
     let answers = this.state.answers;
-    answers[this.state.selected][check]=event.target.checked;
+    answers[this.state.selected][check] = event.target.checked;
     this.setState({
       answers: answers,
     });
@@ -180,121 +180,121 @@ class Quiz extends React.Component {
       }
     }
     return true;
-    
+
   }
 
   getQuizResults = (answers) => {
     let hits = [];
-    let success=0;
-    let successTrue=0;
-    let Incorrect=0;
-    let appprovalPercentage=0;
-    let average=0;
-    let NumberAnswers=0;
-    let TotalAverage=0;
-    let TotalCorrectTrue=0;
-    let TotalIncorrect=0;
-   // console.log("Answers de llegada", answers)
+    let success = 0;
+    let successTrue = 0;
+    let Incorrect = 0;
+    let appprovalPercentage = 0;
+    let average = 0;
+    let NumberAnswers = 0;
+    let TotalAverage = 0;
+    let TotalCorrectTrue = 0;
+    let TotalIncorrect = 0;
+    // console.log("Answers de llegada", answers)
     //console.log("Answers verdaderas",this.props.quiz.attributes.questions)
-    answers.map(((answersgroup, index)=>{
-      success=0;
-      successTrue=0;
-      Incorrect=0;
-      NumberAnswers=0;
-      average=0
-        answersgroup.map((IndividualAnswer,Individualindex)=>{
-          NumberAnswers++
-          if(IndividualAnswer===this.props.quiz.attributes.questions[index].correctAnswers[Individualindex]){
-              success++;
-           // console.log("Coincide para prgunta ", index, "answer ", Individualindex,"exitos ",success  )
-            if((IndividualAnswer && this.props.quiz.attributes.questions[index].correctAnswers[Individualindex])===true){
-              successTrue++;
-            }
-          }else if(IndividualAnswer===true && this.props.quiz.attributes.questions[index].correctAnswers[Individualindex]===false){
-              Incorrect++;
+    answers.map(((answersgroup, index) => {
+      success = 0;
+      successTrue = 0;
+      Incorrect = 0;
+      NumberAnswers = 0;
+      average = 0
+      answersgroup.map((IndividualAnswer, Individualindex) => {
+        NumberAnswers++
+        if (IndividualAnswer === this.props.quiz.attributes.questions[index].correctAnswers[Individualindex]) {
+          success++;
+          // console.log("Coincide para prgunta ", index, "answer ", Individualindex,"exitos ",success  )
+          if ((IndividualAnswer && this.props.quiz.attributes.questions[index].correctAnswers[Individualindex]) === true) {
+            successTrue++;
           }
-        })
-        //calculate score
-        if (NumberAnswers===success){ //all answers correct
-            //console.log("100% Bien")
-             average=100;
-        }else if((successTrue===0) || (successTrue===Incorrect)){ //all answers incorrect
-          //console.log("0% mal")
-           average=0;
-        }else if((Incorrect-successTrue)>0){
-          //console.log("0% mal")
-           average=0;
-        }else if((Incorrect-successTrue)<0){
-          let correctquiz=(this.props.quiz.attributes.questions[index].correctAnswers.filter(x => x == true).length)
-          //console.log(correctquiz)
-           average=(((successTrue-Incorrect)*100)/correctquiz)
-         // console.log("Se calcula:", average)
+        } else if (IndividualAnswer === true && this.props.quiz.attributes.questions[index].correctAnswers[Individualindex] === false) {
+          Incorrect++;
         }
-        TotalAverage=average+TotalAverage;
-        TotalCorrectTrue=successTrue+TotalCorrectTrue;
-        TotalIncorrect=Incorrect+TotalIncorrect;
+      })
+      //calculate score
+      if (NumberAnswers === success) { //all answers correct
+        //console.log("100% Bien")
+        average = 100;
+      } else if ((successTrue === 0) || (successTrue === Incorrect)) { //all answers incorrect
+        //console.log("0% mal")
+        average = 0;
+      } else if ((Incorrect - successTrue) > 0) {
+        //console.log("0% mal")
+        average = 0;
+      } else if ((Incorrect - successTrue) < 0) {
+        let correctquiz = (this.props.quiz.attributes.questions[index].correctAnswers.filter(x => x == true).length)
+        //console.log(correctquiz)
+        average = (((successTrue - Incorrect) * 100) / correctquiz)
+        // console.log("Se calcula:", average)
+      }
+      TotalAverage = average + TotalAverage;
+      TotalCorrectTrue = successTrue + TotalCorrectTrue;
+      TotalIncorrect = Incorrect + TotalIncorrect;
 
     }))
-    TotalAverage=(TotalAverage/answers.length)
+    TotalAverage = (TotalAverage / answers.length)
     console.log("total", TotalAverage, TotalCorrectTrue, TotalIncorrect)
-    return({score: TotalAverage, hits: TotalCorrectTrue,  Incorrect: TotalIncorrect, answers: answers, trueAnswers: this.props.quiz.attributes.questions});
+    return ({ score: TotalAverage, hits: TotalCorrectTrue, Incorrect: TotalIncorrect, answers: answers, trueAnswers: this.props.quiz.attributes.questions });
   }
 
   handleFinish = (validate, type) => {
-        if(validate) {
-          if (this.validateQuiz()) { // always validate inclusive without any question resolved
-            let results = this.getQuizResults(this.state.answers);
-            let approved;
-            
-            results.score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
-            let quiz = {
-              score: results.score,
-              hits: results.hits,
-              approved: approved,
-              public: false,
-              type: 'quiz',
-              Incorrect: results.Incorrect,
-              answers:results.answers,
-              trueAnswers:results.trueAnswers
-            }
-            this.props.completeActivity(this.props.quiz.id, quiz); 
-          } 
-        }
-        else {
-          let score = this.getQuizResults(this.state.answers);
-          let approved;
-          score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
-          let quiz = {
-            score: results.score,
-              hits: results.hits,
-              approved: approved,
-              public: false,
-              type: 'quiz',
-              Incorrect: results.Incorrect,
-              answers:results.answers,
-              trueAnswers:results.trueAnswers
-          }
-          this.props.completeActivity(this.props.quiz.id, quiz);
-        }
-        this.props.handleClose(); 
-        let score = this.getQuizResults(this.state.answers);
-        console.log(score.score);
-        console.log(this.props.quiz.attributes.approvalPercentage);
-        if(score.score >= this.props.quiz.attributes.approvalPercentage){
-          console.log('baking after succesful quiz'); 
-          let badgeImage = this.props.quiz.attributes.badgeInformation.image;
-          this.issueBadge(badgeImage);
-          // Meteor.call("UpdateCourses", Meteor.userId, user.profile.b);
-        }
-        else{
-          console.log("no approved");
-        }
+    if (validate) {
+      if (this.validateQuiz()) { // always validate inclusive without any question resolved
+        let results = this.getQuizResults(this.state.answers);
         let approved;
-        score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
-        console.log(approved);
-        //adding badge
-        this.persistBadge(this.props.quiz.attributes.badgeInformation);
-        
+
+        results.score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
+        let quiz = {
+          score: results.score,
+          hits: results.hits,
+          approved: approved,
+          public: false,
+          type: 'quiz',
+          Incorrect: results.Incorrect,
+          answers: results.answers,
+          trueAnswers: results.trueAnswers
+        }
+        this.props.completeActivity(this.props.quiz.id, quiz);
+      }
+    }
+    else {
+      let score = this.getQuizResults(this.state.answers);
+      let approved;
+      score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
+      let quiz = {
+        score: results.score,
+        hits: results.hits,
+        approved: approved,
+        public: false,
+        type: 'quiz',
+        Incorrect: results.Incorrect,
+        answers: results.answers,
+        trueAnswers: results.trueAnswers
+      }
+      this.props.completeActivity(this.props.quiz.id, quiz);
+    }
+    this.props.handleClose();
+    let score = this.getQuizResults(this.state.answers);
+    console.log(score.score);
+    console.log(this.props.quiz.attributes.approvalPercentage);
+    if (score.score >= this.props.quiz.attributes.approvalPercentage) {
+      console.log('baking after succesful quiz');
+      let badgeInformation = this.props.quiz.attributes.badgeInformation;
+      this.issueBadge(badgeInformation);
+      // Meteor.call("UpdateCourses", Meteor.userId, user.profile.b);
+    }
+    else {
+      console.log("no approved");
+    }
+    let approved;
+    score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
+    console.log(approved);
+    //adding badge
+    this.persistBadge(this.props.quiz.attributes.badgeInformation);
+
   }
 
   showFinishConfirmation = () => {
@@ -321,17 +321,17 @@ class Quiz extends React.Component {
       progress: progress,
       handleTick: time
     })
-     if(time===(this.state.alertTimeValue*60)){
+    if (time === (this.state.alertTimeValue * 60)) {
       this.setState({
         alert: 'alert',
         open: true,
       })
-    } 
-    
+    }
+
 
   }
 
-  stoptime= ()=>{
+  stoptime = () => {
     this.setState({
       panelshow: 'stop'
     })
@@ -343,168 +343,166 @@ class Quiz extends React.Component {
     })
   }
 
- 
+
 
   closeExtraTime = () => {
     this.setState({
       panelshow: 'exitExtraTime'
     })
   }
-  
+
 
   handleClose = () => {
     this.setState({
-        open: false
-      })
-      console.log("se cerro")
+      open: false
+    })
+    console.log("se cerro")
   };
 
   handleOpen = () => {
     this.setState({
-        open: true
-      })
-      //console.log("se abrio")
+      open: true
+    })
+    //console.log("se abrio")
   };
 
-  cambio=()=>{
+  cambio = () => {
     const { classes } = this.props;
-    return(
+    return (
       <div key={this.state.selectedtime}>
-        <TimerMachine 
-            timeStart={this.state.selectedtime} // start at 10 seconds
-            timeEnd={0}       // end at 20 seconds
-            started={true}
-            paused={this.state.start}//false
-            countdown={true}  // use as stopwatch
-            interval={1000}   // tick every 1 second
-            formatTimer={(time, ms) =>
-              moment.duration(ms, "milliseconds").format("hh:mm:ss", {
-                trim: false
-              })
-            }
-            onTick={time =>
-              this.handleTick(time)
-            }
-            onComplete={time =>
-              this.handleFinish(true, "finish")
-            }
-          />
-          <div className={classes.root }>
-              <LinearProgress />
-              <LinearProgress color="secondary" />
-            </div>
+        <TimerMachine
+          timeStart={this.state.selectedtime} // start at 10 seconds
+          timeEnd={0}       // end at 20 seconds
+          started={true}
+          paused={this.state.start}//false
+          countdown={true}  // use as stopwatch
+          interval={1000}   // tick every 1 second
+          formatTimer={(time, ms) =>
+            moment.duration(ms, "milliseconds").format("hh:mm:ss", {
+              trim: false
+            })
+          }
+          onTick={time =>
+            this.handleTick(time)
+          }
+          onComplete={time =>
+            this.handleFinish(true, "finish")
+          }
+        />
+        <div className={classes.root}>
+          <LinearProgress />
+          <LinearProgress color="secondary" />
+        </div>
       </div>
     )
-  
+
   }
-  alerta =() =>{
-    return(
+  alerta = () => {
+    return (
       <Dialog
         open={this.state.open}
         onClose={this.handleClose}
         aria-labelledby="alert-dialog-confirmation"
         aria-describedby="alert-dialog-confirmation"
       >
-      <DialogTitle  tabIndex="-1" className="success-dialog-title" id="alert-dialog-title">{this.props.language.warningTime}</DialogTitle>
-      <DialogContent tabIndex="-1" className="success-dialog-content">
-        <DialogContentText tabIndex="-1" className="success-dialog-content-text" id="alert-dialog-description">
-          {this.state.dialogConfirmationContentText}
-        </DialogContentText>
-        <WarningIcon tabIndex="-1" className="warning-dialog-icon"/>
-      </DialogContent>
-      <DialogActions>
-        {
-          (this.state.extraTime===true && this.state.panelshow!='adjust')?
-          <Button onClick={()=>this.handleMoreTime()} variant="contained"  color="primary" className="bar-button">{this.props.language.moreTime}</Button>	  
-          :
-          undefined
-        } 
-        <Button  onClick={()=>this.handleClosepublish()} color="primary" autoFocus>
-        {this.props.language.continue}
-        </Button>
-      </DialogActions>
+        <DialogTitle tabIndex="-1" className="success-dialog-title" id="alert-dialog-title">{this.props.language.warningTime}</DialogTitle>
+        <DialogContent tabIndex="-1" className="success-dialog-content">
+          <DialogContentText tabIndex="-1" className="success-dialog-content-text" id="alert-dialog-description">
+            {this.state.dialogConfirmationContentText}
+          </DialogContentText>
+          <WarningIcon tabIndex="-1" className="warning-dialog-icon" />
+        </DialogContent>
+        <DialogActions>
+          {
+            (this.state.extraTime === true && this.state.panelshow != 'adjust') ?
+              <Button onClick={() => this.handleMoreTime()} variant="contained" color="primary" className="bar-button">{this.props.language.moreTime}</Button>
+              :
+              undefined
+          }
+          <Button onClick={() => this.handleClosepublish()} color="primary" autoFocus>
+            {this.props.language.continue}
+          </Button>
+        </DialogActions>
       </Dialog>
     )
   }
   handleClosepublish = () => {
     this.setState({ alert: 'cierra' });
   }
-  handleMoreTime = () =>{
-    
-      this.setState({ 
-        alert: 'cierra',//nf
-        open:false,
-        panelshow: 'adjust',
-        extraTime:false
-      });
-      //add more time
-      let extendedtime=(this.state.extendedTime.split(":") )
-      let moreTime=(this.state.handleTick+ (parseInt(extendedtime[0])*60*60)+(parseInt(extendedtime[1])*60)+parseInt(extendedtime[2])) //seconds
-      this.setState({selectedtime: moreTime*1000})
-      
+  handleMoreTime = () => {
+
+    this.setState({
+      alert: 'cierra',//nf
+      open: false,
+      panelshow: 'adjust',
+      extraTime: false
+    });
+    //add more time
+    let extendedtime = (this.state.extendedTime.split(":"))
+    let moreTime = (this.state.handleTick + (parseInt(extendedtime[0]) * 60 * 60) + (parseInt(extendedtime[1]) * 60) + parseInt(extendedtime[2])) //seconds
+    this.setState({ selectedtime: moreTime * 1000 })
+
   }
 
   // OpenBadge
 
   async bake(options) {
-    return new Promise((resolve,reject) => {
-      bakery.bake(options, function(err, data){
-        if(err)
-         return reject(err)
+    return new Promise((resolve, reject) => {
+      bakery.bake(options, function (err, data) {
+        if (err)
+          return reject(err)
         else
-         resolve(data);
+          resolve(data);
       })
     })
-    
+
   }
-  async saveBadge(data,image){
-    let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
+  async saveBadge(data, image) {
+    let user = Meteor.users.find({ _id: Meteor.userId() }).fetch();
     user = user[0];
-    var file = new File([data],image._id+".png",{ type: "image/png", 
-                                                  ext: "png",
-                                                  extension: "png",
-                                                  extensionWithDot: ".png"});
+    var file = new File([data], image._id + ".png", {
+      type: "image/png",
+      ext: "png",
+      extension: "png",
+      extensionWithDot: ".png"
+    });
     let uploadInstance = CourseFilesCollection.insert({
       file: file,
       meta: {
-          locator: '',
-          dateAdded: new Date(),
-          isFavorite: false,
-          usedInCourse: false,
-          userId: '', 
-          buffer: '',
+        locator: '',
+        dateAdded: new Date(),
+        isFavorite: false,
+        usedInCourse: false,
+        userId: '',
+        buffer: '',
         //userId: Meteor.userId() // Optional, used to check on server for file tampering
       },
       streams: 'dynamic',
       chunkSize: 'dynamic',
       allowWebWorkers: true // If you see issues with uploads, change this to false
-    }, false )
+    }, false)
 
-    uploadInstance.start(); 
-    console.log(file); 
+    uploadInstance.start();
+    console.log(file);
     console.log(uploadInstance);
-    let currentId = uploadInstance.config.fileId+"";
-    let newName = uploadInstance.config.fileId+".jpg";
+    let currentId = uploadInstance.config.fileId + "";
+    let newName = uploadInstance.config.fileId + ".jpg";
     console.log(currentId);
     console.log(newName);
-    let result = CourseFilesCollection.update({
-       _id : currentId } , 
-       {$set:  {name : "LOL"}},
-       { upsert: true }
-    );
+
     console.log(result);
     let today = new Date();
     let certificateInfo = {
       idStudent: user._id,
       name: user.profile.fullname,
       tutor: 'Maestro',
-      date: today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear(),
+      date: today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear(),
       course: this.props.quiz.attributes.badgeInformation.name,
       description: this.props.quiz.attributes.badgeInformation.description,
       duration: '10',
     };
     if (this._isMounted) {
-      this.setState({badgeWin:true});
+      this.setState({ badgeWin: true });
     }
     console.log(this.state);
     this.saveUserBadge();
@@ -514,47 +512,48 @@ class Quiz extends React.Component {
     Meteor.call('addBadgeStudent',
       Meteor.userId(),
       this.props.quiz.attributes.badgeInformation,
-      (error, response) =>  {}
+      (error, response) => { }
     )
   };
 
 
-  async issueBadge(image){
-    let buffer = CourseFilesCollection.findOne({_id: image._id });
+  async issueBadge(badgeInformation) {
+    console.log("issueBadge :  badgeInformation")
+    console.log(badgeInformation);
+    let user = Meteor.users.find({ _id: Meteor.userId() }).fetch();
+    user = user[0];
+    console.log("user")
+    console.log(user.profile.fullname);
+    console.log(this.props.quiz.id);//0.517584894190696
+    let course = Courses.find({ "program.items.id": this.props.quiz.id }).fetch();
+    course = course[0];
+    console.log(course);
+    let buffer = CourseFilesCollection.findOne({ _id: badgeInformation.image._id });
     buffer = buffer.meta.buffer;
-    var theAssertion ={
-      "uid": "123456789abcdefghi987654321jklmnopqr",
-      "recipient": {
-        "identity": "sha256$98765edcba98765edcba98765edcba",
-        "type": "email",
-        "hashed": true,
-        "badgeName": this.props.quiz.attributes.badgeInformation.name,
-        "badgeDescription": this.props.quiz.attributes.badgeInformation.description,
-        "badgeTeacher": "Teacher 1",
-        "badgeCourse": "Test Course",
-        "badgeStudent": "student1",
-      },
-      "badge": "http://issuersite.com/badge",
-      "verify": {
-        "url": "http://issuersite.com/assertion",
-        "type": "hosted"
-      },
+    var theAssertion = {
+      "_id": badgeInformation.image._id,
+      "_badgeName": badgeInformation.name,
+      "_studentName": user.profile.fullname,
+      "_courseId": course._id,
+      "_teacherId": course.createdBy,
+      "description": badgeInformation.description,
       "issuedOn": new Date().toISOString().substring(0, 10),
-      };
+    };
+    console.log(theAssertion);
     var options = {
       image: buffer,
       assertion: theAssertion,
     };
 
     await this.bake(options)
-    .then(data => {
-      this.saveBadge(data,image);
-      this.setState({badgeWin:true});
+      .then(data => {
+        this.saveBadge(data, badgeInformation.image);
+        this.setState({ badgeWin: true });
 
-    })
-    .catch(err => {console.log(err)})
+      })
+      .catch(err => { console.log(err) })
   }
-  persistBadge(badgeInfo){
+  persistBadge(badgeInfo) {
     console.log('sending badge to blockchain')
     console.log(JSON.stringify(badgeInfo))
     fetch('http://localhost:80/badges/issue', {
@@ -565,68 +564,68 @@ class Quiz extends React.Component {
       },
       body: JSON.stringify(badgeInfo)
     }).then(res => res.json())
-    .then(res => {
-      console.log(res);
+      .then(res => {
+        console.log(res);
 
-    });
+      });
   }
 
   render() {
     const { classes } = this.props;
-   
-    return(
+
+    return (
       <div className="quiz-dashboard-container">
         {
           Number.isNaN(this.state.selectedtime) || this.state.panelshow === 'stop' ?
-          undefined
-          :
-          <Paper elevation={10} className="quiz-dashboard-side" >
-          <h2 className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</h2>
-          <QuestionAnswerIcon className="quiz-dashboard-icon"/>
-          <p className="quiz-dashboard-label-text">{this.props.language.timeLeft}</p> 
-          {
-            this.cambio()
-          }
-
-          {
-            this.state.extraTime===true?
-              <Button onClick={()=>this.handleMoreTime()} variant="contained"  color="primary" className="bar-button1">{this.props.language.moreTime}</Button>	
-              :
             undefined
-          }
-        
-          {
-            (this.state.panelshow==='adjust' && this.state.extraTime===true) ?
-            <div className="more-time alert">
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                A time of {this.props.quiz.attributes.accessibility.dataField.extendedTimeValue} was assigned *
+            :
+            <Paper elevation={10} className="quiz-dashboard-side" >
+              <h2 className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</h2>
+              <QuestionAnswerIcon className="quiz-dashboard-icon" />
+              <p className="quiz-dashboard-label-text">{this.props.language.timeLeft}</p>
+              {
+                this.cambio()
+              }
+
+              {
+                this.state.extraTime === true ?
+                  <Button onClick={() => this.handleMoreTime()} variant="contained" color="primary" className="bar-button1">{this.props.language.moreTime}</Button>
+                  :
+                  undefined
+              }
+
+              {
+                (this.state.panelshow === 'adjust' && this.state.extraTime === true) ?
+                  <div className="more-time alert">
+                    <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                      A time of {this.props.quiz.attributes.accessibility.dataField.extendedTimeValue} was assigned *
                 </DialogTitle>
-                <div className="center-row">	         
-                </div>
-          
-            </div>
-              :
-            undefined
-          }
+                    <div className="center-row">
+                    </div>
 
-          {//option for no time
-            this.state.noTime===true?
-              <Button onClick={()=>this.stoptime()} className="course-item-video-card-media-button">{this.props.language.stopTime}</Button>
-              :
-              undefined
-          }
-        </Paper>
+                  </div>
+                  :
+                  undefined
+              }
+
+              {//option for no time
+                this.state.noTime === true ?
+                  <Button onClick={() => this.stoptime()} className="course-item-video-card-media-button">{this.props.language.stopTime}</Button>
+                  :
+                  undefined
+              }
+            </Paper>
         }
         {
-          this.state.alert==='alert' ?
+          this.state.alert === 'alert' ?
             this.alerta()
             :
             undefined
         }
         <Paper elevation={8} className="quiz-dashboard-questions-container">
           <p className="question-dashboard-label-text">{this.props.language.chooseCorrectAnswer}</p>
-          <Divider/>
-           <div className="question-dashboard-container">
+          <Divider />
+          <div className="question-dashboard-container">
             <FormControl component="fieldset" className="question-dashboard-form-control">
               <h3 component="legend" className="question-dashboard-form-label MuiFormLabel-root question-dashboard-form-label">{this.props.quiz.attributes.questions[this.state.selected].questionTitle}</h3>
               <RadioGroup
@@ -636,21 +635,21 @@ class Quiz extends React.Component {
                 aria-required="true"
               >
                 {
-                  this.props.quiz.attributes.questions[this.state.selected].answersText.map((text, index)=>{ 
-                    return(
+                  this.props.quiz.attributes.questions[this.state.selected].answersText.map((text, index) => {
+                    return (
                       <FormControlLabel
                         control={
                           <Checkbox
-                              className={"question-dashboard-form-control-label"}
-                              checked={this.state.answers[this.state.selected][index]===true}
-                              onChange={() => this.handleChange(index,event)}
-                              inputProps={{
-                                'aria-label': 'primary checkbox',
-                              }}  
+                            className={"question-dashboard-form-control-label"}
+                            checked={this.state.answers[this.state.selected][index] === true}
+                            onChange={() => this.handleChange(index, event)}
+                            inputProps={{
+                              'aria-label': 'primary checkbox',
+                            }}
                           />
                         }
                         label={text}
-                      />      
+                      />
                     )
                   })
                 }
@@ -671,47 +670,47 @@ class Quiz extends React.Component {
                 <Button
                   className="question-dashboard-button"
                   color="primary"
-                  onClick={() => this.handleFinish(true,"finish")}
+                  onClick={() => this.handleFinish(true, "finish")}
                 >
                   {this.props.language.yes}
                 </Button>
               </div>
-            :
-            <div className="question-dashboard-actions">
-              {
-                this.state.selected === 0 ?
-                  undefined
-                :
-                <Button
-                  className="question-dashboard-button"
-                  color="primary"
-                  variant="contained"
-                  onClick={() => this.handlePrevious()}
-                >
-                  {this.props.language.previousStep}
-                </Button>
-              }
-              {
-                this.state.selected === this.props.quiz.attributes.questions.length - 1 ?
-                  <Button
-                    className="question-dashboard-button"
-                    color="primary"
-                    variant="contained"
-                    onClick={() => this.showFinishConfirmation()}
-                  >
-                    {this.props.language.finish}
-                  </Button>
-                :
-                <Button
-                  className="question-dashboard-button"
-                  color="primary"
-                  variant="contained"
-                  onClick={() => this.handleNext()}
-                >
-                  {this.props.language.next}
-                </Button>
-              }
-            </div>
+              :
+              <div className="question-dashboard-actions">
+                {
+                  this.state.selected === 0 ?
+                    undefined
+                    :
+                    <Button
+                      className="question-dashboard-button"
+                      color="primary"
+                      variant="contained"
+                      onClick={() => this.handlePrevious()}
+                    >
+                      {this.props.language.previousStep}
+                    </Button>
+                }
+                {
+                  this.state.selected === this.props.quiz.attributes.questions.length - 1 ?
+                    <Button
+                      className="question-dashboard-button"
+                      color="primary"
+                      variant="contained"
+                      onClick={() => this.showFinishConfirmation()}
+                    >
+                      {this.props.language.finish}
+                    </Button>
+                    :
+                    <Button
+                      className="question-dashboard-button"
+                      color="primary"
+                      variant="contained"
+                      onClick={() => this.handleNext()}
+                    >
+                      {this.props.language.next}
+                    </Button>
+                }
+              </div>
           }
         </Paper>
       </div>
