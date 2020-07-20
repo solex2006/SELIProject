@@ -270,7 +270,7 @@ export default class CourseProgram extends React.Component {
 
   setDisabilitieOption(support){
     let courseInformation = this.state.courseInformation;
-    courseInformation.support = support;
+    courseInformation.support[1] = support;
     this.setState({
       courseInformation: courseInformation,
     });
