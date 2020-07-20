@@ -1281,7 +1281,7 @@ export default function ReportStep(props) {
 			let notAccessibleCognitive=(value.NotAccessibleSeizures+value.NotAccessiblenoTime+value.NotAccessibleextendTime+value.NotAccessibleAlert)
 			let totalcognitive=(noconfigcognitive+configcognitive+notAccessibleCognitive)
 			let cognitive=((configcognitive*100)/totalcognitive)
-						//para diversity
+			//para diversity
 			let noconfigdiversity=(value.contCaptionsFalse+value.contTextFalse+value.contsignLanguageFalse+ value.contaudioDescriptionFalse+
 			value.contseizuresFalse+value.contnoTimeFalse+value.contextendedTimeFalse+value.contwarningAlertFalse)
 			let configdiversity=(value.contCaptions+value.contText+value.contsignLanguage+ value.contseizures+
@@ -1291,11 +1291,9 @@ export default function ReportStep(props) {
 			let totaldiversity=(noconfigdiversity+configdiversity+notAccessibleDiversity)
 			let diversity=((configdiversity*100)/totaldiversity)
 			
-		
 			let totalconfig=0
 			let totalnoconfig=0
 			let totalnoaccessible=0
-
 			let audiences=props.courseInformation.support[1];
 			if(audiences!=undefined){
 				if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 

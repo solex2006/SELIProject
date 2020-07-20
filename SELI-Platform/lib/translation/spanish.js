@@ -1072,7 +1072,8 @@ var SPANISH = {
   dialog2: 'Do you want to proceed?',
   outcomeslegend:'By the end of this course, students will be able..',
   repeatedkeywords:'No se pueden repetir las palabras clave.',
-  reportstep:'Reporte de Accesibilidad'
+  reportstep:'Reporte de Accesibilidad',
+  imageTitle:'Titulo de la imagen'
 }
 export default SPANISH
 

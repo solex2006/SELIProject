@@ -1073,6 +1073,7 @@
   outcomeslegend:'By the end of this course, students will be able..',
   repeatedkeywords:'keywords can not be repeated',
   reportstep:'Accessibility report',
+  imageTitle:'Image Title'
   
 }
 export default POLISH;

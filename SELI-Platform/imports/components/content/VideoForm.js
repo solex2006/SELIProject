@@ -83,10 +83,10 @@ export default class VideoForm extends React.Component {
       this.props.handleControlMessage(true, this.props.language.uploadAddUrlVideo);
       return false;
     }
-    if (content.hasDescription && content.description === '') {
+    /* if (content.hasDescription && content.description === '') {
       this.props.handleControlMessage(true, this.props.language.enterDescriptionVide);
       return false;
-    }
+    } */
     return true;
   }
 
@@ -277,6 +277,18 @@ export default class VideoForm extends React.Component {
                     undefined
                   }
                   <div className="form-column-container">
+                    <div className="course-creator-input-container">
+                      <TextField
+                        id="title-input"
+                        label={this.props.language.videoTitle}
+                        margin="normal"
+                        variant="outlined"
+                        value={this.state.attributes.title}
+                        onChange={this.handleChange('title')}
+                        required
+                        className="form-padding-dialog-input"
+                      />
+                    </div>
                     {
                       !this.state.showPreview ?
                         <div>
@@ -336,39 +348,6 @@ export default class VideoForm extends React.Component {
                         tip={!this.state.showPreview? this.props.language.uploadVideo: this.props.language.uploadVideoCorrect} 
                         //step={props.step}
                         //stepLabel={props.stepLabel}
-                        language={this.props.language}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="course-creator-form-column">
-                  <div className="course-creator-input-container">
-                    <TextField
-                      id="title-input"
-                      label={this.props.language.videoTitle}
-                      margin="normal"
-                      variant="outlined"
-                      value={this.state.attributes.title}
-                      onChange={this.handleChange('title')}
-                      required
-                      className="form-padding-dialog-input"
-                    />
-                    <div className="margin-center-row">
-                      <FormGroup>
-                        <FormControlLabel
-                          control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
-                          label={<p className="form-label">{this.props.language.videoWithText}</p>}
-                        />
-                      </FormGroup>
-                    </div>
-                    <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
-                      <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
-                      <Editor
-                        areaHeight='20vh'
-                        innerHTML={this.state.attributes.description}
-                        buttonLabels={false}
-                        addLinks={true}
-                        getInnerHtml={this.getInnerHtml.bind(this)}
                         language={this.props.language}
                       />
                     </div>

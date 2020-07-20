@@ -152,7 +152,7 @@ export default class PdfForm extends React.Component {
               <div>
               <div className="accessibility-form-helper-text">
                 </div>
-                <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
+                {/* <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
                 <div className="editor-block">
                   <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
                   <Editor
@@ -163,7 +163,7 @@ export default class PdfForm extends React.Component {
                     getInnerHtml={this.getInnerHtml.bind(this)}
                     language={this.props.language}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           :
