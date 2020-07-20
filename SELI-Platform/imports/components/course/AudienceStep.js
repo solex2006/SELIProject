@@ -712,8 +712,8 @@ export default function AudienceApp(props) {
             />
             {/* </ListItemIcon> */}
             <ListItemText
-              id="checkbox-list-labelGol-selectAll"
-              primary={language.selectAll}
+              id="checkbox-list-label-selectAll"
+              primary={language.SelectAll}
             />
           </ListItem>
         <FeedbackHelp
