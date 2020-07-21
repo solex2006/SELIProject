@@ -55,7 +55,7 @@ export default class User extends React.Component {
       savedCourse: false,
       savedCourseWindow: false,
       accountType: '',
-      selected: [-1, -1],
+      selected: [-1, -1, -1, -1],
       chekingSesion: true,
     }
   }
@@ -322,7 +322,7 @@ export default class User extends React.Component {
     this.setState({
       activeCourse: course,
       showLoadingMessage: true,
-      selected: [-1, -1, -1, 0],
+      selected: [-1, -1, -1, -1],
       loadingMessage: this.state.language.startingCourse,
     }, () => {
       let course = Courses.find({_id: this.state.activeCourse.information._id}).fetch();
@@ -493,7 +493,7 @@ export default class User extends React.Component {
   closeCourse = () => {
     this.setState({
       activeCourse: undefined,
-      selected: [-1, -1],
+      selected: [-1, -1, -1, -1],
     })
   }
 
@@ -513,6 +513,38 @@ export default class User extends React.Component {
     if (this.state.component === 'course') this.showComponent('subscribed');
     this.unsubscribeFromCourse(this.state.courseToUnsubscribe);
     this.handleClose();
+  }
+
+  showPresentation() {
+    let selected = this.state.selected;
+    selected.splice(0, selected.length)
+    selected.push(-1, -1);
+    this.setState({
+      selected: selected,
+      coursePresentation: true,
+      courseContent: false,
+    });
+  }
+
+  navigateTo(level, to) {
+    let selected = this.state.selected;
+    selected.splice(0, selected.length)
+    selected.push(to[0], to[1]);
+    this.setState({
+      selected: selected,
+      coursePresentation: false,
+      courseContent: true,
+    });
+  }
+
+  handleNext = () => {
+    let index = this.state.selected[0];
+    this.navigateTo('unit', [(index + 1), undefined])
+  }
+
+  handlePrevious = () => {
+    let index = this.state.selected[0];
+    this.navigateTo('unit', [(index - 1), undefined])
   }
 
   render() {
@@ -557,10 +589,15 @@ export default class User extends React.Component {
                       this.state.component === 'published' ?
                         <PublishedCoursesList
                           user={this.state.user}
+                          selected={this.state.selected}
                           language={this.state.language}
                           unsubscribe={this.unsubscribeFromCourse.bind(this)}
                           showComponent={this.showComponent.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
+                          showPresentation={this.showPresentation.bind(this)}
+                          handlePrevious={this.handlePrevious.bind(this)}
+                          handleNext={this.handleNext.bind(this)}
+                          navigateTo={this.navigateTo.bind(this)}
                         />
                       :
                       undefined
@@ -602,6 +639,10 @@ export default class User extends React.Component {
                           showComponent={this.showComponent.bind(this)}
                           reRender={this.forceUpdate.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
+                          showPresentation={this.showPresentation.bind(this)}
+                          handlePrevious={this.handlePrevious.bind(this)}
+                          handleNext={this.handleNext.bind(this)}
+                          navigateTo={this.navigateTo.bind(this)}
                         />
                       :
                       undefined

@@ -1,31 +1,15 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import BuildIcon from '@material-ui/icons/Build';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import SettingsIcon from '@material-ui/icons/Settings';
-import CameraIcon from '@material-ui/icons/Camera';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-
-import { Disabilities } from '../../../lib/DisabilitiesCollection';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -111,7 +95,7 @@ export default function MenuItem(props) {
   return (
     <div>
       {
-        lists.length > 0 ?
+        lists && lists.length > 0 ?
           <div>
             <List className="list-menu-container" component="nav" aria-label={props.language.adienceMenu}>
               <ListItem
