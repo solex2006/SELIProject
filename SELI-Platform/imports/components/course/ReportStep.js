@@ -428,22 +428,26 @@ export default function ReportStep(props) {
 			}
 			console.log("categorias antes----", categories)
 
-			 if(categories[0].selected===false && categories[1].selected===false && categories[2].selected===false && categories[3].selected===false){
+			if(checkaudience!=undefined){
+				if(categories[0].selected===false && categories[1].selected===false && categories[2].selected===false && categories[3].selected===false){
 					
-				if((checkaudience[1].value==='Eld' && checkaudience[1].isChecked===true)){
-					categories[3].selected=true
+					if((checkaudience[1].value==='Eld' && checkaudience[1].isChecked===true)){
+						categories[3].selected=true
+					}
+					if((checkaudience[0].value==='cog' && checkaudience[0].isChecked===true)){
+						console.log("paso 2")
+						categories[2].selected=true
+					}
+					if((checkaudience[2].value==='Hear' && checkaudience[2].isChecked===true)){
+						categories[1].selected=true
+					}
+					if((checkaudience[3].value==='Vis' && checkaudience[3].isChecked===true)){
+						categories[0].selected=true
+					}
 				}
-				if((checkaudience[0].value==='cog' && checkaudience[0].isChecked===true)){
-					console.log("paso 2")
-					categories[2].selected=true
-				}
-				if((checkaudience[2].value==='Hear' && checkaudience[2].isChecked===true)){
-					categories[1].selected=true
-				}
-				if((checkaudience[3].value==='Vis' && checkaudience[3].isChecked===true)){
-					categories[0].selected=true
-				}
+
 			}
+			 
 			 
 		//	console.log("par ele caso no inclusion gol",checkaudience[1].value, checkaudience[1].isChecked)
 			setCategories(categories)
