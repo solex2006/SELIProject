@@ -5,57 +5,54 @@ import ForumIcon from '@material-ui/icons/Forum';
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import CollectionsBookmarkIcon from "@material-ui/icons/CollectionsBookmark";
 export default function CourseContent(props) {
-    console.log("props en Content----->" ,props)
-    const [course, setCourse]=useState(props.data)
-    const [coursePlan, setCoursePlan]=useState(props.coursePlan)
-    const [taskNumberActivities, setTaskNumberActivities]=useState({
-        quiz:0,
-        activity:0,
-        forum:0
-    })
+   //console.log("props en Content----->" ,props)
+   const [course, setCourse]=useState(props.data)
+   const [coursePlan, setCoursePlan]=useState(props.coursePlan)
+   const [taskNumberActivities, setTaskNumberActivities]=useState({
+      quiz:0,
+      activity:0,
+      forum:0
+   })
 
-    const TotalofQuizTypeUnit=(unit)=>{
-            let quiz=0
-            let actividad=0
-            let forum=0
-            course[unit].lessons.map((lesson,index)=>{
-                lesson.activities.map((activity,indextool)=>{
-                    if(activity.type!=undefined){
-                        if(activity.type=='3'){
-                            quiz+=1
-                         }else if (activity.type=='4'){
-                            forum+=1
-                         }else if(activity.type=='1'){
-                            actividad+=1
-                         }
-                    }
-                    })
-            })
-       
-        return {quiz, actividad, forum}    
-    }
-
-    const TotalofQuizTypeTopic=(unit)=>{
-            let quiz=0
-            let actividad=0
-            let forum=0
-            
-            course[unit].activities.map((activity,indextool)=>{
-                if(activity.type!=undefined){
-                    if(activity.type=='3'){
-                        quiz+=1
+   const TotalofQuizTypeUnit=(unit)=>{
+         let quiz=0
+         let actividad=0
+         let forum=0
+         course[unit].lessons.map((lesson,index)=>{
+               lesson.activities.map((activity,indextool)=>{
+                  if(activity.type!=undefined){
+                     if(activity.type=='3'){
+                           quiz+=1
                         }else if (activity.type=='4'){
-                        forum+=1
+                           forum+=1
                         }else if(activity.type=='1'){
-                        actividad+=1
+                           actividad+=1
                         }
-                }
-            })
-           
-       
-        return {quiz, actividad, forum} 
+                  }
+                  })
+         })
+      
+      return {quiz, actividad, forum}    
+   }
 
-    }
+   const TotalofQuizTypeTopic=(unit)=>{
+         let quiz=0
+         let actividad=0
+         let forum=0
+         
+         course[unit].activities.map((activity,indextool)=>{
+               if(activity.type!=undefined){
+                  if(activity.type=='3'){
+                     quiz+=1
+                     }else if (activity.type=='4'){
+                     forum+=1
+                     }else if(activity.type=='1'){
+                     actividad+=1
+                     }
+               }
+         })
+      return {quiz, actividad, forum} 
+   }
 
    const TotalofResources=(unit)=>{
       let audios=0

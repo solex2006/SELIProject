@@ -77,28 +77,6 @@ export default class Course extends React.Component {
     }
   }
 
-  navigateTo(level, to) {
-    let selected = this.state.selected;
-    selected.splice(0, selected.length)
-    selected.push(to[0], to[1]);
-    this.setState({
-      selected: selected,
-      coursePresentation: false,
-      courseContent: true,
-    });
-  }
-
-  showPresentation() {
-    let selected = this.state.selected;
-    selected.splice(0, selected.length)
-    selected.push(-1, -1);
-    this.setState({
-      selected: selected,
-      coursePresentation: true,
-      courseContent: false,
-    });
-  }
-
   calculateProgress = (toComplete, toResolve, notCertificate) => {
     let total;
     if (this.state.course.organization.subunit) {
@@ -175,44 +153,10 @@ export default class Course extends React.Component {
     });
   }
 
-  handleNextUnit = () => {
-    let index = this.state.selected[0];
-    this.navigateTo('unit', [(index + 1), undefined])
-  }
-
-  handlePreviousUnit = () => {
-    let index = this.state.selected[0];
-    this.navigateTo('unit', [(index - 1), undefined])
-  }
-
-  handleNextSubunit = () => {
-    let parent = this.state.selected[1];
-    let child = this.state.selected[0];
-    if (child + 1 === this.state.course.program[this.state.selected[1]].lessons.length) {
-      this.navigateTo('unit', [0, parent + 1])
-    }
-    else {
-      this.navigateTo('unit', [child + 1, parent])
-    }
-  }
-
-  handlePreviousSubunit = () => {
-    let parent = this.state.selected[1];
-    let child = this.state.selected[0];
-    if (child === 0) {
-      this.navigateTo('unit', [this.state.course.program[parent - 1].lessons.length - 1, parent - 1])
-    }
-    else {
-      this.navigateTo('unit', [child - 1, parent])
-    }
-  }
-
   completeActivity = (id, activity) => {
-   
     let toComplete = this.state.toComplete;
     let toResolve = this.state.toResolve;
     let activityInserted;
-   
     for (var i = 0; i < toResolve.length; i++) {
       if (toResolve[i]._id === id) {
         if (activity.type === "forum") { 
@@ -222,7 +166,6 @@ export default class Course extends React.Component {
           toResolve[i].activityId = activity.activityId;
         } else {
           if (toResolve[i].resolved === true){
-         
             activity.date = new Date();
             activity.user = Meteor.userId();
             activity.course = this.state.course._id;
@@ -350,9 +293,9 @@ export default class Course extends React.Component {
         <CourseMenu
           course={this.state.course}
           progress={this.state.progress}
-          navigateTo={this.navigateTo.bind(this)}
-          selected={this.state.selected}
-          showPresentation={this.showPresentation.bind(this)}
+          navigateTo={this.props.navigateTo.bind(this)}
+          selected={this.props.selected}
+          showPresentation={this.props.showPresentation.bind(this)}
           showCourseStories={this.showCourseStories.bind(this)}
           language={this.props.language}
         />
@@ -360,8 +303,9 @@ export default class Course extends React.Component {
           this.state.coursePresentation ?
             <CoursePresentation
               course={this.state.course}
-              navigateTo={this.navigateTo.bind(this)}
-              selected={this.state.selected}
+              progress={this.state.progress}
+              navigateTo={this.props.navigateTo.bind(this)}
+              selected={this.props.selected}
               language={this.props.language}
             />
           :
@@ -371,20 +315,18 @@ export default class Course extends React.Component {
           this.state.courseContent ?
             <CourseContent
               course={this.state.course}
-              showPresentation={this.showPresentation.bind(this)}
+              showPresentation={this.props.showPresentation.bind(this)}
               showComponent={this.props.showComponent.bind(this)}
               handleControlMessage={this.props.handleControlMessage.bind(this)}
-              handlePreviousUnit={this.handlePreviousUnit.bind(this)}
-              handleNextUnit={this.handleNextUnit.bind(this)}
-              handlePreviousSubunit={this.handlePreviousSubunit.bind(this)}
-              handleNextSubunit={this.handleNextSubunit.bind(this)}
+              handlePrevious={this.props.handlePrevious.bind(this)}
+              handleNext={this.props.handleNext.bind(this)}
+              navigateTo={this.props.navigateTo.bind(this)}
               completeActivity={this.completeActivity.bind(this)}
-              navigateTo={this.navigateTo.bind(this)}
               completeUnit={this.completeUnit.bind(this)}
               completeSubunit={this.completeSubunit.bind(this)}
               openMediaPlayer={this.openMediaPlayer.bind(this)}
               leaveComment={this.leaveComment.bind(this)}
-              selected={this.state.selected}
+              selected={this.props.selected}
               toComplete={this.state.toComplete}
               toResolve={this.state.toResolve}
               language={this.props.language}

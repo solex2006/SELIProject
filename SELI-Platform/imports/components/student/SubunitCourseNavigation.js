@@ -1,6 +1,5 @@
 import React, { useState, useEffect  } from 'react';
 import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -25,24 +24,19 @@ export default function SubunitCourseNavigation(props) {
     }
   }
 
-
-
-
   const clickKey = (event,index)=> {
     console.log("evento", event.key)
     if(event.key==="Enter"){
       if (props.navigate===true) { 
         selectSubunit(index, props.index) 
-     }
+      }
     } 
   };
 
   const handleToggle = (value,index) => () => {
-  
-   if (props.navigate===true) { 
+    if (props.navigate===true) { 
       selectSubunit(index, props.index) 
-   }
-     
+    } 
   };
 
 
