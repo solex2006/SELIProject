@@ -1079,7 +1079,8 @@ var ENGLISH = {
   MiddleSchoolStudents:'Middle School Students',
   ElementarySchoolStudents:'Elementary School Students',
   reportstep:'Accessibility report',
-  imageTitle:'Image Title'
+  imageTitle:'Image Title',
+  inclusionGolvalidation:'Your course is not accessible in the inclusion goal:'
 
   
 }

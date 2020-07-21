@@ -1073,6 +1073,7 @@ var TURKISH = {
   outcomeslegend:'By the end of this course, students will be able..',
   repeatedkeywords:'keywords can not be repeated',
   reportstep:'Accessibility report',
-  imageTitle:'Image Title'
+  imageTitle:'Image Title',
+  inclusionGolvalidation:'Your course is not accessible in the inclusion goal:'
 }
 export default TURKISH;

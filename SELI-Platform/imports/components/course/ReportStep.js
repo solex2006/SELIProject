@@ -37,6 +37,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
+import { he } from "date-fns/locale";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -170,9 +171,11 @@ const a11yCOLOR = [
 
 export default function ReportStep(props) {
    //console.clear()
-   const classes = useStyles();
+	const classes = useStyles();
+	const { courseInformation,language } = props;
    
-   console.log("Propiedades en el Report", props)
+	console.log("Propiedades en el Report", props)
+	const [courseinformation, setcourseInformation]= useState(courseInformation)
 
    const [percentagesWithoutUnit, setPercentagesWithoutUnit]=useState({
       guidedWithoutUnit:[],
@@ -201,6 +204,37 @@ export default function ReportStep(props) {
 		unit:0,
 		lesson:0
 	})
+
+	const [categories, setCategories] = React.useState([
+		{
+			key: "visual",
+			icon: <FontAwesomeIcon icon={faLowVision} />,
+			label: "Visual Disability",
+			topics: [],
+			selected: false
+		},
+		{
+			key: "hearing",
+			icon: <FontAwesomeIcon icon={faDeaf} />,
+			label: "Hearing Disability",
+			topics: [],
+			selected: false
+		},
+		{
+			key: "cognitive",
+			icon: <FontAwesomeIcon icon={faBrain} />,
+			label: "Cognitive Disability",
+			topics: [],
+			selected: false
+		},
+		{
+			key: "diversity",
+			icon: <FontAwesomeIcon icon={faUniversalAccess} />,
+			label: "Diversity of Abilities",
+			topics: [],
+			selected: false
+		}
+	]);
  
    useEffect(()=>{
       if((props.courseInformation.coursePlan.guidedCoursePlan=== "guided" || props.courseInformation.coursePlan.guidedCoursePlan=== "free")&& 
@@ -218,8 +252,36 @@ export default function ReportStep(props) {
 					 props.courseInformation.coursePlan.courseTemplate=== "consistent"){
 			TemplateCourse()
 		}
+	//	courseinformation.report=categories
+	//	setcourseInformation(courseinformation)
+		//validateReport()
+		
 	},[])
 	
+	const validateReport=()=>{
+		let hearing=0
+		let cognitive=0
+		let elderly=0
+		let visual=0
+		if(categories[0].selected){
+		  visual=categories[0].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / categories[0].topics.length
+		  console.log("visual", visual)
+		}
+		if(categories[1].selected){
+		  hearing=categories[1].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / categories[1].topics.length
+		  console.log("hearing", hearing)
+		}
+		if(categories[2].selected){
+		  cognitive=categories[2].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / categories[2].topics.length
+		  console.log("cognitive", cognitive)
+		}
+		if(categories[3].selected){
+		  elderly=categories[3].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / courseInformation.report[3].topics.length
+		  console.log("diversity", elderly)
+		}
+		courseinformation.report=[visual, hearing, cognitive, elderly]
+		setcourseInformation(courseinformation)
+	}
 
 
 	const newRandomTopics = (type) => {
@@ -1490,36 +1552,8 @@ export default function ReportStep(props) {
 		newRandomTopics('unitslessons')
 
 	}
-	const [categories, setCategories] = React.useState([
-		{
-			key: "visual",
-			icon: <FontAwesomeIcon icon={faLowVision} />,
-			label: "Visual Disability",
-			topics: [],
-			selected: false
-		},
-		{
-			key: "hearing",
-			icon: <FontAwesomeIcon icon={faDeaf} />,
-			label: "Hearing Disability",
-			topics: [],
-			selected: false
-		},
-		{
-			key: "cognitive",
-			icon: <FontAwesomeIcon icon={faBrain} />,
-			label: "Cognitive Disability",
-			topics: [],
-			selected: false
-		},
-		{
-			key: "diversity",
-			icon: <FontAwesomeIcon icon={faUniversalAccess} />,
-			label: "Diversity of Abilities",
-			topics: [],
-			selected: false
-		}
-	]);
+	
+
 	const [simulate, setSimulate] = React.useState(false);
 	
 	return (
@@ -1709,7 +1743,7 @@ function Chart({ percent, id }) {
 	);
 }
 function AccessibilityCard({ category }) {
-   console.log("newRandomTopics------------>", category)
+   //console.log("newRandomTopics------------>", category)
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const [max, setMax] = React.useState(
@@ -1717,7 +1751,7 @@ function AccessibilityCard({ category }) {
 			.map(topic => topic.a11yValid)
 			.reduce((acc, cur) => acc + cur) / category.topics.length
 	);
-   console.log("Max en AccessibilityCard:", max )
+   //console.log("Max en AccessibilityCard:", max )
 	const handleClick = () => {
 		setOpen(!open);
 	};

@@ -135,6 +135,7 @@ function useWindowSize() {
 }
 
 export default function FormStepperID(props) {
+  console.log("Active-STEP:------------>",props)
   const [validateInformation,setvalidateInformation]=useState({
     informationStep:props.forms[0].props.courseInformation,
   });
@@ -225,7 +226,7 @@ export default function FormStepperID(props) {
 
   function getDisabled() {
     //if (addie) return new Set([3, 4, 5, 6, 7, 8]);
-    return new Set([3, 4, 5, 6, 7]);
+    return new Set([3, 4, 5, 6]);
   }
 
 
@@ -322,11 +323,18 @@ const save=()=>{
     setvalidateInformation(stepstatus1)
 }
 
+/*  const [action, setAction]=useState(props.action)
+useEffect(()=>{
+  console.log("acccion////////////////////////",action)
+  if(action==='publish' || action==='publicar' || action==='' ){
+    setActiveStep(7)
+  }
+  setAction('')
+  
+},[action]) */
 
 useEffect(()=>{
-  //console.log("PROPS EN id", props.updateSteps, props)
   if(props.updateSteps==='passInformation'){
-
     setStepStatus(prev=>{
       let newFailed = new Set(stepStatus.failed.values());
       newFailed.delete(0);
@@ -341,7 +349,6 @@ useEffect(()=>{
         disabled:newDisabled
       }
     })
-
     let stepstatus1=props.forms[0].props.courseInformation
     //console.log("stepstaus",stepstatus1,props)
     stepstatus1.stepscompleted.push(0)
@@ -564,12 +571,12 @@ useEffect(()=>{
         setStepStatus(estado)
       }) 
       if(props.forms[0].props.courseInformation.stepscompleted.includes(0)===false || props.forms[0].props.courseInformation.stepscompleted.includes(1)===false){
-        estado.disabled=new Set([4,5,6,7])
+        estado.disabled=new Set([4,5,6])
         //estado.completed.delete(3)
         estado.completed.delete(4)
         estado.completed.delete(5)
         estado.completed.delete(6)
-        estado.completed.delete(7)
+       // estado.completed.delete(7)
         if(props.forms[0].props.courseInformation.stepscompleted.includes(0)===false){
           estado.failed.add(0)
         }else if(props.forms[0].props.courseInformation.stepscompleted.includes(1)===false){
@@ -579,11 +586,11 @@ useEffect(()=>{
 
       if(props.forms[0].props.courseInformation.stepscompleted.includes(3)===false){
         //console.log("---------------------")
-        estado.disabled=new Set([4,5,6,7])
+        estado.disabled=new Set([4,5,6])
         estado.completed.delete(4)
         estado.completed.delete(5)
         estado.completed.delete(6)
-        estado.completed.delete(7)
+        //estado.completed.delete(7)
         estado.failed.add(3)
       }
       if(props.forms[0].props.courseInformation.stepscompleted.includes(4)===false){
@@ -598,19 +605,19 @@ useEffect(()=>{
             estado.disabled.delete(6)
             estado.disabled.delete(5)
            }else{
-            estado.disabled=new Set([5,6,7])
+            estado.disabled=new Set([5,6])
             estado.completed.delete(5)
             estado.completed.delete(6)
-            estado.completed.delete(7)
+           // estado.completed.delete(7)
             estado.failed.add(4)
 
            }
         
       }
       if(props.forms[0].props.courseInformation.stepscompleted.includes(5)===false){
-        estado.disabled=new Set([6,7])
+        estado.disabled=new Set([6])
         estado.completed.delete(6)
-        estado.completed.delete(7)
+        //estado.completed.delete(7)
         estado.failed.add(5)
       }
   }

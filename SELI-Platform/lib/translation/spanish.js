@@ -1073,7 +1073,8 @@ var SPANISH = {
   outcomeslegend:'By the end of this course, students will be able..',
   repeatedkeywords:'No se pueden repetir las palabras clave.',
   reportstep:'Reporte de Accesibilidad',
-  imageTitle:'Titulo de la imagen'
+  imageTitle:'Titulo de la imagen',
+  inclusionGolvalidation:'Tu curso no es accesible en el objetivo de inclusion:'
 }
 export default SPANISH
 

@@ -72,6 +72,7 @@ export default class CreateCourse extends React.Component {
         level:'',
         type:'',
         program: [],
+        report:[]
     
       },
       lists: [],
@@ -110,6 +111,7 @@ export default class CreateCourse extends React.Component {
           program: this.props.courseToEdit.program,
           design: this.props.courseToEdit.design ? this.props.courseToEdit.design : [],
           accessibility: this.props.courseToEdit.accessibility,
+          report:this.props.courseToEdit.report,
           stepscompleted: this.props.courseToEdit.stepscompleted,
           stepsflag: this.props.courseToEdit.stepsflag,
           classroom: this.props.courseToEdit.classroom,
@@ -279,6 +281,7 @@ export default class CreateCourse extends React.Component {
               coursePlan: courseInformation.coursePlan,
               program: courseInformation.program,
               accessibility:courseInformation.accessibility,
+              report:courseInformation.report,
               stepscompleted:courseInformation.stepscompleted,
               stepsflag:courseInformation.stepsflag,
               analysis:courseInformation.analysis,
@@ -352,6 +355,11 @@ export default class CreateCourse extends React.Component {
 
   validatePublishCourse = () => {
     let courseInformation = this.state.courseInformation;
+    console.log("se va a publicar el curso",courseInformation)
+    this.setState({
+      action: "publicar"
+    })
+
     if (
       courseInformation.title === '' ||
       courseInformation.description === '' ||
@@ -387,27 +395,53 @@ export default class CreateCourse extends React.Component {
       } 
     }
     let emptyContent = false;
-    /* if (courseInformation.organization.subunit) {
-      courseInformation.program.map(unit => {
-        unit.lessons.map(lesson => {
-          if (!lesson.items.length) {
-            this.props.handleControlMessage(true, `${this.props.language[courseInformation.organization.unit.toLowerCase()]}: ${unit.name} - ${this.props.language[courseInformation.organization.subunit.toLowerCase()]}: ${lesson.name} ${this.props.language.contentRequirement}`, false, '', '');
-            emptyContent = true;
-          }
-        })
-      })
-    }
-    if (!courseInformation.organization.subunit) {
-      courseInformation.program.map(unit => {
-        if (!unit.items.length) {
-          this.props.handleControlMessage(true, `${this.props.language[courseInformation.organization.unit.toLowerCase()]} ${unit.name} ${this.props.language.contentRequirement}`, false, '', '');
-          emptyContent = true;
-        }
-      })
-    } */
     if (emptyContent) {
       return false;
     }
+
+    //validate the report step
+   
+    /* let visual=0
+    let hearing=0
+    let cognitive=0
+    let elderly=0
+
+    if(courseInformation.report[0].selected){
+      visual=courseInformation.report[0].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / courseInformation.report[0].topics.length
+      console.log("visual", visual)
+    }
+    if(courseInformation.report[1].selected){
+      hearing=courseInformation.report[1].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / courseInformation.report[1].topics.length
+      console.log("hearing", hearing)
+    }
+    if(courseInformation.report[2].selected){
+      cognitive=courseInformation.report[2].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / courseInformation.report[2].topics.length
+      console.log("cognitive", cognitive)
+    }
+    if(courseInformation.report[3].selected){
+      elderly=courseInformation.report[3].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / courseInformation.report[3].topics.length
+      console.log("diversity", elderly)
+    }
+   
+    if (courseInformation.support[1][3].isChecked===true && visual !=100) {
+      this.props.handleControlMessage(true, `${this.props.language.inclusionGolvalidation} ${this.props.language.visual}.`, false, '', '');
+      return false;
+    }
+    if (courseInformation.support[1][2].isChecked===true && hearing !=100) {
+      this.props.handleControlMessage(true, `${this.props.language.inclusionGolvalidation} ${this.props.language.hearing}.`, false, '', '');
+      return false;
+    }
+    if (courseInformation.support[1][0].isChecked===true && cognitive !=100) {
+      this.props.handleControlMessage(true, `${this.props.language.inclusionGolvalidation} ${this.props.language.cognitive}.`, false, '', '');
+      return false;
+    }
+    if (courseInformation.support[1][1].isChecked===true && elderly !=100) {
+      this.props.handleControlMessage(true, `${this.props.language.inclusionGolvalidation} ${this.props.language.Elderly}.`, false, '', '');
+      return false;
+    }  */
+    
+
+    //.reduce((acc, cur) => acc + cur) / category.topics.length
     return true;
   }
 
@@ -557,6 +591,7 @@ export default class CreateCourse extends React.Component {
               saveLabel={this.props.language.saveCourse}
               finalAction={this.handlePublish.bind(this)}
               saveAction={this.saveCourse.bind(this)}
+              action={this.state.action}
             />
           :
           undefined

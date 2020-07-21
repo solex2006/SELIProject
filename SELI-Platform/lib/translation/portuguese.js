@@ -1073,7 +1073,8 @@ var PORTUGUESE = {
   outcomeslegend:'Ao final deste curso, os alunos poderão..',
   repeatedkeywords:'keywords can not be repeated',
   reportstep:'Accessibility report',
-  imageTitle:'Image Title'
+  imageTitle:'Image Title',
+  inclusionGolvalidation:'Your course is not accessible in the inclusion goal:'
   
 }
 export default PORTUGUESE;
