@@ -171,78 +171,41 @@ const CourseSummary = ({coursedata}) => {
 							<CastForEducationIcon />
 						</Avatar>
 					</ListItemIcon>
-					{console.log("coursedataInfo",coursedata)}
 					<ListItemText
 						secondary={"Course modality"}
 						primary={coursedata.analysis[1]}  
 					/>
 				</ListItem>
-				{/* <ListItem>
-						<ListItemIcon>
-							<Avatar>
-								<BubbleChartIcon />
-							</Avatar>
-						</ListItemIcon>
-						<ListItemText
-							secondary={"Course keywords"}
-							primary={course.keywords.join("; ")}
-						/>
-					</ListItem>
-					<ListItem>
-						<ListItemIcon>
-							<Avatar>
-								<PeopleIcon />
-							</Avatar>
-						</ListItemIcon>
-						<ListItemText
-							primary={course.audience.join("; ")}
-							secondary={"Target audience"}
-						/>
-					</ListItem>
-					<ListItem>
-						<ListItemIcon>
-							<Avatar>
-								<AccessibilityNewIcon />
-							</Avatar>
-						</ListItemIcon>
-						<ListItemText
-							primary={course.disabilities.join("; ")}
-							secondary={"Target audience"}
-						/>
-					</ListItem> */}
 			</List>
 		</Paper>
 	);
 };
+
 const CourseHeader = ({classes, coursedata, tutordata}) => {
-	console.log("coursedata and props", coursedata,tutordata)
-	
-	
-		return (
-			<React.Fragment>
-				<h1>
-					{coursedata.title}
-					<span className={classes.subtitle1}>
-						<br />
-						{coursedata.subtitle}
-					</span>
-				</h1>
-				<InstructorProfileAvatar
-					name={"Created by " + coursedata.createdBy}
-					className={classes.caption}
-					coursedata={coursedata}
-					tutordata={tutordata}
-				/> 
-			</React.Fragment>
-		);
-	
+	//console.log("coursedata and props", coursedata,tutordata)
+	return (
+		<React.Fragment>
+			<h1>
+				{coursedata.title}
+				<span className={classes.subtitle1}>
+					<br />
+					{coursedata.subtitle}
+				</span>
+			</h1>
+			<InstructorProfileAvatar
+				name={"Created by " + coursedata.createdBy}
+				className={classes.caption}
+				coursedata={coursedata}
+				tutordata={tutordata}
+			/> 
+		</React.Fragment>
+	);
 };
 
 export default function MainPage(props) {
-  console.log("Propiedades en MainContenet", props)
-
-  const [coursedata, setCoursedata]=useState(props.course)
-  let [tutordata, setTutordata]=useState('')
+  //console.log("Propiedades en MainContenet", props)
+  const [coursedata, setCoursedata] = useState(props.course)
+  let [tutordata, setTutordata] = useState('')
 	const theme = useTheme();
 	const classes = useStyles();
 
@@ -260,7 +223,7 @@ export default function MainPage(props) {
 	//tutordata=Meteor.users.find({username: coursedata.createdBy, 'profile.type': 'tutor'}).fetch()
 	//setTutordata(user)
 	return (
-		<React.Fragment>
+		<div className="course-presentation-container">
 			<Paper component="header" elevation={3} className={classes.banner}>
 				{useMediaQuery(theme.breakpoints.up("lg")) ? (
 					<Grid
@@ -384,62 +347,71 @@ export default function MainPage(props) {
 				/> 
 			</Paper>
 			<div className="course-presentation-actions-container">
-				<Button
-					tabIndex="1" 
-					onClick={() => this.props.unsubscribe(this.props.course._id)}
-					className="subscription-card-button"
-					variant="outlined"
-					color="primary"
-					disabled={this.props.disabled}
-				>
-					{this.props.language.unsubscribe}
-				</Button>
 				{
-					this.props.progress <= 0 ?
-						<Button
-							tabIndex="1"
-							onClick={() => this.props.handleClickCourse(this.props.course._id)}
-							className="subscription-card-button"
-							variant="outlined"
-							color="primary"
-							disabled={this.props.disabled}
-						>
-							{this.props.language.startCourse}
-						</Button>
+					props.goToUser ?
+						props.progress === "noProgress" ?
+							<Button
+								tabIndex="1" 
+								onClick={() => props.goToUser("subscribe")}
+								className="subscription-card-button"
+								variant="contained"
+								color="primary"
+							>
+								{props.language.subscribeJoin}
+							</Button>
+						:
+							<React.Fragment>
+								<Button
+									tabIndex="1" 
+									onClick={() => props.goToUser("unsubscribe")}
+									className="subscription-card-button"
+									variant="contained"
+									color="primary"
+								>
+									{props.language.unsubscribe}
+								</Button>
+								<Button
+									tabIndex="1" 
+									onClick={() => props.goToUser("enter")}
+									className="subscription-card-button"
+									variant="contained"
+									color="primary"
+								>
+									{
+										
+										props.progress <= 0 ? props.language.startCourse :
+										props.progress > 0 && props.progress < 100 ? props.language.resumeCourse :
+										props.progress >= 100 ? props.language.reviewCourse : undefined
+									}
+								</Button>
+							</React.Fragment>
 					:
-					undefined
-				}
-				{
-					this.props.progress > 0 && this.props.progress < 100 ?
-						<Button
-							tabIndex="1"
-							onClick={() => this.props.handleClickCourse(this.props.course._id)}
-							className="subscription-card-button"
-							variant="outlined"
-							color="primary"
-							disabled={this.props.disabled}
-						>
-							{this.props.language.resumeCourse}
-						</Button>
-					:
-					undefined
-				}
-				{
-					this.props.progress >= 100 ?
-						<Button
-							tabIndex="1"
-							onClick={() => this.props.handleClickCourse(this.props.course._id)}
-							className="subscription-card-button"
-							variant="outlined"
-							color="primary"
-							disabled={this.props.disabled}
-						>
-							{this.props.language.reviewCourse}
-						</Button>
-					:
-					undefined
+						<React.Fragment>
+							<Button
+								tabIndex="1" 
+								onClick={() => props.unsubscribe(props.course._id)}
+								className="subscription-card-button"
+								variant="contained"
+								color="primary"
+							>
+								{props.language.unsubscribe}
+							</Button>
+							<Button
+								tabIndex="1" 
+								onClick={() => props.handleClickCourse(props.course._id)}
+								className="subscription-card-button"
+								variant="contained"
+								color="primary"
+							>
+								{
+									props.progress <= 0 ? props.language.startCourse :
+									props.progress > 0 && props.progress < 100 ? props.language.resumeCourse :
+									props.progress >= 100 ? props.language.reviewCourse : undefined
+								}
+							</Button>
+						</React.Fragment>
 				}
 			</div>
-		</React.Fragment>
+		</div>
 	);
 }

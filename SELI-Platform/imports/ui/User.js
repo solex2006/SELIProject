@@ -98,6 +98,16 @@ export default class User extends React.Component {
     }, () => {
       checkUserType(response, this.state.user.profile.type, this.props.history);
       this.setLanguage(this.state.user.profile.configuration.language);
+      if (this.props.history.location.action) {
+        if (this.props.history.location.action === "enter") {
+
+        } else if (this.props.history.location.action === "subscribe") {
+          this.subscribe(this.props.history.location.course.information._id, "fromPreview");
+        } else if (this.props.history.location.action === "unsubscribe") {
+          this.handleClickCourse(this.props.history.location.course);
+          this.openUnsubscribe(this.props.history.location.course.courseId);
+        }
+      }
     });
   }
 
@@ -187,13 +197,13 @@ export default class User extends React.Component {
     }
   }
 
-  subscribe = (courseId) => {
+  subscribe = (courseId, fromPreview) => {
     this.setState({
       showLoadingMessage: true,
       loadingMessage: this.state.language.joiningClassWait,
     });
     let course = Courses.find({_id: courseId}).fetch();
-    this.handleSubscription(course[0]);
+    this.handleSubscription(course[0], fromPreview);
   }
 
   unsubscribeFromCourse = (courseId, id) => {
@@ -251,7 +261,7 @@ export default class User extends React.Component {
 
   getSubscribedCourses = () => {}
 
-  handleSubscription = (course) => {
+  handleSubscription = (course, fromPreview) => {
     course.classroom.push(Meteor.userId());
     Courses.update(
       { _id: course._id },
@@ -262,12 +272,12 @@ export default class User extends React.Component {
         var user = Meteor.users.findOne({_id: Meteor.userId()});
         var toComplete = this.toComplete(course);
         var toResolve = this.toResolve(course);
-        user.profile.courses.push({
-          courseId: course._id,
-          progress: 0,
-          toComplete: toComplete,
-          toResolve: toResolve,
-        });
+        var courseToInsert = {};
+        courseToInsert.courseId = course._id;
+        courseToInsert.progress = 0;
+        courseToInsert.toComplete = toComplete;
+        courseToInsert.toResolve = toResolve;
+        user.profile.courses.push(courseToInsert);
         Meteor.users.update(
           { _id: Meteor.userId() },
           { $set: {
@@ -282,6 +292,11 @@ export default class User extends React.Component {
               let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
               this.setState({
                 user: user[0],
+              }, () => {
+                if (fromPreview) {
+                  courseToInsert.information = this.props.history.location.course.information;
+                  this.handleClickCourse(courseToInsert);
+                }
               });
             });
           }
@@ -291,7 +306,8 @@ export default class User extends React.Component {
   }
 
   handleClickCourse = (course) => {
-    var user = Meteor.users.findOne({_id: this.state.user._id});
+    console.log(course)
+    var user = this.state.user;
     var courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === course.courseId);
     var toComplete = this.toComplete(course.information, user.profile.courses[courseIndex].toComplete);
     var toResolve = this.toResolve(course.information, user.profile.courses[courseIndex].toResolve);
@@ -306,7 +322,7 @@ export default class User extends React.Component {
     this.setState({
       activeCourse: course,
       showLoadingMessage: true,
-      selected: [-1, -1],
+      selected: [-1, -1, -1, 0],
       loadingMessage: this.state.language.startingCourse,
     }, () => {
       let course = Courses.find({_id: this.state.activeCourse.information._id}).fetch();
@@ -699,8 +715,6 @@ export default class User extends React.Component {
                     }
                   </main>
                 </div>
-              
-              
                 <ControlSnackbar
                   showControlMessage={this.state.showControlMessage}
                   showControlAction={this.state.showControlAction}

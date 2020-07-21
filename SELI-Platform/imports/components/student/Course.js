@@ -360,6 +360,7 @@ export default class Course extends React.Component {
           this.state.coursePresentation ?
             <CoursePresentation
               course={this.state.course}
+              progress={this.state.progress}
               navigateTo={this.navigateTo.bind(this)}
               selected={this.state.selected}
               language={this.props.language}
