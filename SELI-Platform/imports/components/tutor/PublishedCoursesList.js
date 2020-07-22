@@ -648,6 +648,7 @@ export default class PublishedCoursesList extends React.Component {
                                 </DialogContentText>
                                 <div className="library-files-container-student">
                                   {this.state.courseProfiles.map((profile, index) => {
+                                    if (profile.courseProfile)
                                     return(
                                       <StudentProfile
                                         profile={profile}
