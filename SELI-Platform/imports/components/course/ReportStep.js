@@ -252,11 +252,16 @@ export default function ReportStep(props) {
 					 props.courseInformation.coursePlan.courseTemplate=== "consistent"){
 			TemplateCourse()
 		}
-	//	courseinformation.report=categories
-	//	setcourseInformation(courseinformation)
+		
 		//validateReport()
 		
 	},[])
+
+	/* useEffect(()=>{
+		console.log("report step",categories)
+		courseinformation.report=categories
+		setcourseInformation(courseinformation)
+	}) */
 	
 	const validateReport=()=>{
 		let hearing=0
@@ -308,7 +313,7 @@ export default function ReportStep(props) {
 				diversity.push(unit[3])
 			})
 		}else if(type==='unitslessons'){
-			console.log("en el Unidad-Lesson---------------------", withoutInclusionGol.percentagebyUnit,withoutInclusionGol.percentagebyLesson)
+			//console.log("en el Unidad-Lesson---------------------", withoutInclusionGol.percentagebyUnit,withoutInclusionGol.percentagebyLesson)
 			withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
 				visual.push(unit[0])
 			})
@@ -345,7 +350,7 @@ export default function ReportStep(props) {
 			categories[3].topics=diversity
 			setCategories(categories)
 			
-			console.log("dentro de ssssssssssssssnewRandomTopics :",withoutInclusionGol, categories )
+			//console.log("dentro de ssssssssssssssnewRandomTopics :",withoutInclusionGol, categories )
 			
 			let checkaudience=props.courseInformation.support[1];
 			let check=0
@@ -426,7 +431,7 @@ export default function ReportStep(props) {
 			}else{
 				setSimulate('noInclusionGol')
 			}
-			console.log("categorias antes----", categories)
+			//console.log("categorias antes----", categories)
 
 			if(checkaudience!=undefined){
 				if(categories[0].selected===false && categories[1].selected===false && categories[2].selected===false && categories[3].selected===false){
@@ -447,8 +452,6 @@ export default function ReportStep(props) {
 				}
 
 			}
-			 
-			 
 		//	console.log("par ele caso no inclusion gol",checkaudience[1].value, checkaudience[1].isChecked)
 			setCategories(categories)
 			console.log("las categorias************", categories, visual, diversity,withoutInclusionGol)

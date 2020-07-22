@@ -81,6 +81,7 @@ export default class CreateCourse extends React.Component {
       selected: [0, 0, 0, 0],
       saved: false,
       action: "",
+      reportflag:0,
       updateSteps:''
     }
   }
@@ -355,10 +356,10 @@ export default class CreateCourse extends React.Component {
 
   validatePublishCourse = () => {
     let courseInformation = this.state.courseInformation;
-    console.log("se va a publicar el curso",courseInformation)
-    this.setState({
-      action: "publicar"
-    })
+    console.log("se va a publicar el curso",courseInformation,this.state)
+    
+    /* this.state.reportflag=7
+    this.setState(this.state) */
 
     if (
       courseInformation.title === '' ||
@@ -405,8 +406,8 @@ export default class CreateCourse extends React.Component {
     let hearing=0
     let cognitive=0
     let elderly=0
-
-    if(courseInformation.report[0].selected){
+ */
+    /* if(courseInformation.report[0].selected){
       visual=courseInformation.report[0].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / courseInformation.report[0].topics.length
       console.log("visual", visual)
     }
@@ -438,9 +439,9 @@ export default class CreateCourse extends React.Component {
     if (courseInformation.support[1][1].isChecked===true && elderly !=100) {
       this.props.handleControlMessage(true, `${this.props.language.inclusionGolvalidation} ${this.props.language.Elderly}.`, false, '', '');
       return false;
-    }  */
+    }  
     
-
+ */
     //.reduce((acc, cur) => acc + cur) / category.topics.length
     return true;
   }
@@ -591,7 +592,7 @@ export default class CreateCourse extends React.Component {
               saveLabel={this.props.language.saveCourse}
               finalAction={this.handlePublish.bind(this)}
               saveAction={this.saveCourse.bind(this)}
-              action={this.state.action}
+              reportflag={this.state.reportflag}
             />
           :
           undefined

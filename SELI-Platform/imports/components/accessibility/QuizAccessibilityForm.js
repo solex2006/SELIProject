@@ -8,15 +8,9 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 //a11y components
-import A11YLongDescription from './a11yLongDescription';
-import A11YShortDescription from './a11yShortDescription';
-import EditorA11Y from '../tools/a11yEditor';
+
 import AccessibilityHelp from '../tools/AccessibilityHelp';
-import { Editor, EditorState, convertFromRaw } from "draft-js";
-import NumericInput from 'react-numeric-input';
-import FormGroup from '@material-ui/core/FormGroup';
-import Switch from '@material-ui/core/Switch';
-import Checkbox from '@material-ui/core/Checkbox';
+
 import TimePickers from '../content/TimePicker'
 
 export function QuizAccessibility(props) {
@@ -72,7 +66,7 @@ export function QuizAccessibility(props) {
                             </RadioGroup>
 
                             </div>
-				</FormControl>\
+				</FormControl>
                 <br></br>
                 <AccessibilityHelp idName='captions-radiogroup' error={dataField.noTimeError} tip={noTimeTip}/>
 			</section>
@@ -257,7 +251,6 @@ export const useQuizDataField = (props) => {
 	useEffect(() => {
 		setDisabled_necAudioDesc(!(dataField.audioDescription === 'no'));
 		setDisabled_uploadAudioDesc((disabled_necAudioDesc? disabled_necAudioDesc : (dataField.audioDescriptionRequired === undefined || dataField.audioDescriptionRequired ==='no')));
-
     }, [dataField]);
     myFormatminutes=(num)=> {
         return num + 'min';

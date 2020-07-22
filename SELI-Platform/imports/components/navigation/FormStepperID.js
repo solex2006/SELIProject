@@ -139,7 +139,7 @@ export default function FormStepperID(props) {
   const [validateInformation,setvalidateInformation]=useState({
     informationStep:props.forms[0].props.courseInformation,
   });
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(props.reportflag);
   const [completed, setCompleted] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const steps = props.steps;
@@ -323,15 +323,12 @@ const save=()=>{
     setvalidateInformation(stepstatus1)
 }
 
-/*  const [action, setAction]=useState(props.action)
-useEffect(()=>{
-  console.log("acccion////////////////////////",action)
-  if(action==='publish' || action==='publicar' || action==='' ){
-    setActiveStep(7)
-  }
-  setAction('')
+// let reportflag=props.reportflag
+/* useEffect(()=>{
   
-},[action]) */
+  setActiveStep(props.reportflag)
+  
+},[activeStep])  */ 
 
 useEffect(()=>{
   if(props.updateSteps==='passInformation'){

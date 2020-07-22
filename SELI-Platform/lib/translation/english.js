@@ -1080,8 +1080,29 @@ var ENGLISH = {
   ElementarySchoolStudents:'Elementary School Students',
   reportstep:'Accessibility report',
   imageTitle:'Image Title',
-  inclusionGolvalidation:'Your course is not accessible in the inclusion goal:'
-
-  
+  inclusionGolvalidation:'Your course is not accessible in the inclusion goal:',
+  hasImage:"Did this PDF contains images?",
+  hasAlt:"Did all images have text alternatives or are they marked as decorative?",
+  hasAltTip:'PDF documents may be enhanced by providing alternative descriptions for images, formulas, and other items that do not translate naturally into text',
+  hasImageTip:'Detects if the PDF file contains images that could have accessibility settings.',
+  hasBookmarksTip:"A table of contents is a list. In other words, it should have the same kind of list structure that other PDF lists have – just with different tags",
+  isBookmarksCorrectTip:"Bookmarks help users navigate the PDF document and find information",
+  hasBookmarks:"Did this pdf contain a table of contents displayed in the side panel?",
+  isBookmarksCorrect:"Are the bookmarks linked to the correct sections of the document?",
+  screenReader:"Are PDF contents read aloud in the correct order when using a screen reader?",
+  screenReaderTip:"A “screen reader” is a software application that converts the text displayed on a computer screen into synthesized speech.",
+  focusOrder:"Is the pdf content focused in the correct order when using the tab key?",
+  focusOrderTip:"The intent of this Success Criterion is to ensure that when users navigate sequentially through content, they encounter information in an order that is consistent with the meaning of the content and can be operated from the keyboard. ",
+  hasTitleTip:"Providing unique, concise HTML page titles helps users with disabilities quickly understand a web page’s content and purpose",
+  hasNumberingTip:"Help students with disabilities know the order in which the content is arranged",
+  hasLanguageTip:"Determines if the document language was configured correctly",
+  hasLanguagePartTip:"Allows you to mark the language in sentences that differ from the original language",
+  hasTitle:"Did the document have a title and is it correctly marked as a title element?",
+  hasNumbering:"Was the pdf document numbered, is the numbering consistent (same format) and is it read aloud correctly by the screen reader?",
+  hasLanguage:"Was the pdf document configured with the correct language?",
+  hasLanguagePart:"Was any passage, phrase or word that differs from the document's default language marked with the correct language?",
+  Form:"Form",
+  TextContent:"Text Content",
+  Structures:"Structures"
 }
 export default ENGLISH;
