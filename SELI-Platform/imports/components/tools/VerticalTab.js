@@ -461,7 +461,42 @@ export default function VerticalTabs(props) {
 											language={props.language}
 										/>
 									</TabPanel>}
-												
+									{support.some(object => ["Cognitive", "Hearing", "Speech"].includes(object)) &&
+									<TabPanel value={value} index={indexPanel++}>
+										<PdfAccessibilityForm
+											data={{
+												hasFormTip:data.hasFormTip,
+												hasRequiredFieldsTip:data.hasRequiredFieldsTip,
+												isRequiredFieldsTip:data.isRequiredFieldsTip,
+												hasLabelsTip:data.hasLabelsTip,
+												handleRadioButtonOnChange:data.handleRadioButtonOnChange,
+												disabled_Form:data.disabled_Form,
+												disabled_hasRequiredFields:data.disabled_hasRequiredFields,
+												dataField:data.dataField,
+											}}
+											item={props.item}
+											language={props.language}
+										/>
+									</TabPanel>}
+
+									{support.some(object => ["Cognitive", "Hearing", "Speech"].includes(object)) &&
+									<TabPanel value={value} index={indexPanel++}>
+										<PdfAccessibilitytextContent
+											data={{
+												isTableTip:data.isTableTip,
+												isListTip:data.isListTip,
+												isAbbreviationTip:data.isAbbreviationTip,
+												isHeadingsTip:data.isHeadingsTip,
+												isLinkTip:data.isLinkTip,
+												handleRadioButtonOnChange:data.handleRadioButtonOnChange,
+												dataField:data.dataField,
+											}}
+											item={props.item}
+											language={props.language}
+										/>
+									</TabPanel>}
+									
+							
 						</React.Fragment>
 					}
 					{
