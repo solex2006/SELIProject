@@ -79,7 +79,7 @@ export default class CourseContent extends React.Component {
     return(
       <React.Fragment>
         {
-          arrayOfItems.map((item, index) => {
+          arrayOfItems.map(item => {
             return(
               <div>
                 {
@@ -257,7 +257,7 @@ export default class CourseContent extends React.Component {
             <React.Fragment>
               {this.props.fromTutor ? undefined : <Button
                 disabled={toComplete}
-                onClick={() => this.props.completeUnit(this.props.selected)}
+                onClick={() => this.props.completeTopicLesson()}
                 variant="contained"
                 className="course-content-footer-button"
               >

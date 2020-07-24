@@ -223,7 +223,7 @@ export default function MainPage(props) {
 	//tutordata=Meteor.users.find({username: coursedata.createdBy, 'profile.type': 'tutor'}).fetch()
 	//setTutordata(user)
 	return (
-		<div className="course-presentation-container">
+		<div className={props.goToUser ? "course-presentation-container" : ""}>
 			<Paper component="header" elevation={3} className={classes.banner}>
 				{useMediaQuery(theme.breakpoints.up("lg")) ? (
 					<Grid

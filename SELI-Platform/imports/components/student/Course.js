@@ -10,15 +10,12 @@ import MediaPlayer from './MediaPlayer';
 import CommentDialog from '../student/comments/CommentDialog';
 
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -94,10 +91,14 @@ export default class Course extends React.Component {
     return progress;
   }
 
-  completeUnit = (index) => {
+  completeTopicLesson = () => {
     let toComplete = this.state.toComplete;
     let toResolve = this.state.toResolve;
-    toComplete[index] = true;
+    if (this.state.course.coursePlan.courseStructure === "unit") {
+      toComplete[this.props.selected[0]].subunits[this.props.selected[1]] = true;
+    } else {
+      toComplete[this.props.selected[0]] = true;
+    }
     let progress = this.calculateProgress(toComplete, toResolve);
     this.setState({
       toComplete: toComplete,
@@ -111,30 +112,11 @@ export default class Course extends React.Component {
         progress,
         (error, response) =>  {
           if (!error) {
-            this.props.handleControlMessage(true, this.props.language.topicCompletedText);
-          }
-        }
-      );
-    });
-  }
-
-  completeSubunit = (parent, child) => {
-    let toComplete = this.state.toComplete;
-    let toResolve = this.state.toResolve;
-    toComplete[parent].subunits[child] = true;
-    let progress = this.calculateProgress(toComplete, toResolve);
-    this.setState({
-      toComplete: toComplete,
-      progress: progress,
-    }, () => {
-      Meteor.call(
-        "CompleteSection",
-        Meteor.userId(),
-        this.state.toComplete,
-        this.state.course._id,
-        progress, (error, response) =>  {
-          if (!error) {
-            this.props.handleControlMessage(true, this.props.language.lessonCompletedText);
+            this.props.handleControlMessage(true,
+              this.state.course.coursePlan.courseStructue === "unit" ?
+              this.props.language.lessonCompletedText :
+              this.props.language.topicCompletedText
+            );
           }
         }
       );
@@ -292,8 +274,9 @@ export default class Course extends React.Component {
             <CoursePresentation
               course={this.state.course}
               progress={this.state.progress}
-              navigateTo={this.props.navigateTo.bind(this)}
               selected={this.props.selected}
+              navigateTo={this.props.navigateTo.bind(this)}
+              unsubscribe={this.props.unsubscribe.bind(this)}
               language={this.props.language}
             />
           :
@@ -305,8 +288,7 @@ export default class Course extends React.Component {
               handleNext={this.props.handleNext.bind(this)}
               navigateTo={this.props.navigateTo.bind(this)}
               completeActivity={this.completeActivity.bind(this)}
-              completeUnit={this.completeUnit.bind(this)}
-              completeSubunit={this.completeSubunit.bind(this)}
+              completeTopicLesson={this.completeTopicLesson.bind(this)}
               openMediaPlayer={this.openMediaPlayer.bind(this)}
               leaveComment={this.leaveComment.bind(this)}
               selected={this.props.selected}
