@@ -1036,6 +1036,7 @@ var PORTUGUESE = {
   Namerequired:'Nome é obrigatório',
   Presentations:'Apresentações',
   SupplementaryText:'Texto Suplementar',
+  task: "Tarefa",
   Taskslist:'Lista de tarefas',
   TableTaskslist:'Ações que o estudante deve tomar para atingir os objetivos educacionais',
   Audios:'Áudios',

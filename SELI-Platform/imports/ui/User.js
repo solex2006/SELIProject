@@ -56,6 +56,7 @@ export default class User extends React.Component {
       savedCourseWindow: false,
       accountType: '',
       selected: [-1, -1, -1, -1],
+      expandedNodes: [],
       chekingSesion: true,
     }
   }
@@ -100,7 +101,8 @@ export default class User extends React.Component {
       this.setLanguage(this.state.user.profile.configuration.language);
       if (this.props.history.location.action) {
         if (this.props.history.location.action === "enter") {
-
+          this.handleClickCourse(this.props.history.location.course);
+          this.navigateTo([0, 0, 0, 0]);
         } else if (this.props.history.location.action === "subscribe") {
           this.subscribe(this.props.history.location.course.information._id, "fromPreview");
         } else if (this.props.history.location.action === "unsubscribe") {
@@ -270,8 +272,7 @@ export default class User extends React.Component {
       }}
       , () => {
         var user = Meteor.users.findOne({_id: Meteor.userId()});
-        var toComplete = this.toComplete(course);
-        var toResolve = this.toResolve(course);
+        var {toComplete, toResolve} = this.toDos(course);
         var courseToInsert = {};
         courseToInsert.courseId = course._id;
         courseToInsert.progress = 0;
@@ -309,8 +310,7 @@ export default class User extends React.Component {
     console.log(course)
     var user = this.state.user;
     var courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === course.courseId);
-    var toComplete = this.toComplete(course.information, user.profile.courses[courseIndex].toComplete);
-    var toResolve = this.toResolve(course.information, user.profile.courses[courseIndex].toResolve);
+    var {toComplete, toResolve} = this.toDos(course.information, user.profile.courses[courseIndex]);
     user.profile.courses[courseIndex].toComplete = toComplete;
     course.toComplete = toComplete;
     user.profile.courses[courseIndex].toResolve = toResolve;
@@ -341,80 +341,71 @@ export default class User extends React.Component {
     });
   }
 
-  toResolve = (course, toResolveStudent) => {
+  toDos = (course, toDosStudent) => {
     let toResolve = [];
-    let userCourseIndex = -1;
-    if (course.organization.subunit) {
-      course.program.map(unit => {
-        unit.lessons.map(subunit => {
-          subunit.items.map(content => {
-            if (content.type === 'quiz' || content.type === 'activity') {
-              if (toResolveStudent) {
-                userCourseIndex = toResolveStudent.findIndex(item => item._id === content.id);
-              }
-              if (userCourseIndex >= 0) {
-                toResolve.push(toResolveStudent[userCourseIndex])
-              } else {
-                if (content.type === "activity" && content.attributes.type === "forum" && content.attributes.activityId){
-                  toResolve.push({resolved: false, _id: content.id, activityId: content.attributes.activityId});
-                } else {
-                  toResolve.push({resolved: false, _id: content.id});
-                }
-              }
-            }
-          })
-        })
-      })
-    }
-    else {
-      course.program.map(unit => {
-        unit.items.map(content => {
-          if (content.type === 'quiz' || content.type === 'activity') {
-            if (toResolveStudent) {
-              userCourseIndex = toResolveStudent.findIndex(item => item._id === content.id);
-            }
-            if (userCourseIndex >= 0) {
-              toResolve.push(toResolveStudent[userCourseIndex])
-            } else {
-              if (content.type === "activity" && content.attributes.type === "forum" && content.attributes.activityId){
-                toResolve.push({resolved: false, _id: content.id, activityId: content.attributes.activityId});
-              } else {
-                toResolve.push({resolved: false, _id: content.id});
-              }
-            }
-          }
-        })
-      })
-    }
-    return toResolve;
-  }
-
-  toComplete = (course, toCompleteStudent) => {
     let toComplete = [];
-    if (course.organization.subunit) {
-      let parentIndex = 0;
-      course.program.map((unit, index) => {
-        toComplete.push({subunits: []})
+    let parentIndex = 0;
+    course.program.map((unitTopic, index) => {
+      unitTopic.items.map(item => {
+        toResolve = this.toResolveCommons(item, toDosStudent, toResolve);
+      })
+      if (course.coursePlan.courseStructure === "unit") {
+        toComplete.push({subunits: []});
         parentIndex = index;
-        unit.lessons.map((subunit, childIndex) => {
-          if (toCompleteStudent && toCompleteStudent[parentIndex] && toCompleteStudent[parentIndex].subunits[childIndex]) {
-            toComplete[parentIndex].subunits.push(toCompleteStudent[parentIndex].subunits[childIndex])
+        unitTopic.lessons.map((lesson, childIndex) => {
+          lesson.items.map(item => {
+            toResolve = this.toResolveCommons(item, toDosStudent, toResolve);
+          })
+          if (course.coursePlan.courseTemplate !== "without")
+          lesson.activities.map(activity => {
+            activity.items.map(item => {
+              toResolve = this.toResolveCommons(item, toDosStudent, toResolve);
+            })
+          })
+          if (toDosStudent && toDosStudent.toComplete[parentIndex] && toDosStudent.toComplete[parentIndex].subunits[childIndex]) {
+            toComplete[parentIndex].subunits.push(toDosStudent.toComplete[parentIndex].subunits[childIndex])
           } else {
             toComplete[parentIndex].subunits.push(false);
           }
         })
-      })
-    }
-    else {
-      course.program.map((unit, index) => {
-        if (toCompleteStudent && toCompleteStudent[index]) {
-          toComplete.push(toCompleteStudent[index])
+      } else {
+        if (course.coursePlan.courseTemplate !== "without")
+        unitTopic.activities.map(activity => {
+          activity.items.map(item => {
+            toResolve = this.toResolveCommons(item, toDosStudent, toResolve);
+          })
+        })
+        if (toDosStudent && toDosStudent.toComplete[index]) {
+          toComplete.push(toDosStudent.toComplete[index])
         } else {
           toComplete.push(false);
         }
-      })
+      }
+    });
+    return {
+      toComplete: toComplete,
+      toResolve: toResolve
+    };
+  }
+
+  toResolveCommons = (content, toDosStudent, toResolve) => {
+    let finalToResolve = toResolve;
+    let userCourseIndex = -1;
+    if (content.type === 'quiz' || content.type === 'activity') {
+      if (toDosStudent.toResolve) {
+        userCourseIndex = toDosStudent.toResolve.findIndex(item => item._id === content.id);
+      }
+      if (userCourseIndex >= 0) {
+        finalToResolve.push(toDosStudent.toResolve[userCourseIndex]);
+      } else {
+        if (content.type === "activity" && content.attributes.type === "forum" && content.attributes.activityId){
+          finalToResolve.push({resolved: false, _id: content.id, activityId: content.attributes.activityId});
+        } else {
+          finalToResolve.push({resolved: false, _id: content.id});
+        }
+      }
     }
-    return toComplete;
+    return finalToResolve;
   }
 
   openDialogWindow = (value) => {
@@ -515,21 +506,7 @@ export default class User extends React.Component {
     this.handleClose();
   }
 
-  showPresentation() {
-    let selected = this.state.selected;
-    selected.splice(0, selected.length)
-    selected.push(-1, -1);
-    this.setState({
-      selected: selected,
-      coursePresentation: true,
-      courseContent: false,
-    });
-  }
-
-  navigateTo(level, to) {
-    let selected = this.state.selected;
-    selected.splice(0, selected.length)
-    selected.push(to[0], to[1]);
+  navigateTo = (selected) => {
     this.setState({
       selected: selected,
       coursePresentation: false,
@@ -537,14 +514,44 @@ export default class User extends React.Component {
     });
   }
 
-  handleNext = () => {
-    let index = this.state.selected[0];
-    this.navigateTo('unit', [(index + 1), undefined])
+  handleNext = (structure, taskLength, unitTopicLength, lessonLength) => {
+    let selected = this.state.selected;
+    if (selected[3] === 0) {
+      if (structure === 'unit') {selected[3] = 1}
+      else {selected[3] = 2}
+    } else if (selected[3] === 1) {
+      if (selected[1] < lessonLength - 1) {selected[1] = selected[1] + 1}
+      else {
+        if (selected[0] < unitTopicLength -1) selected = [selected[0] + 1, 0, 0, 0]
+      }
+    } else if (selected[3] === 2) {
+      if (selected[2] < taskLength - 1) {selected[2] = selected[2] + 1}
+      else {
+        if (selected[0] < unitTopicLength -1) selected = [selected[0] + 1, 0, 0, 0]
+      }
+    } 
+    this.navigateTo(selected)
   }
 
-  handlePrevious = () => {
-    let index = this.state.selected[0];
-    this.navigateTo('unit', [(index - 1), undefined])
+  handlePrevious = (structure, previousTaskLength, unitTopicLength, previousLessonLength) => {
+    let selected = this.state.selected;
+    if (selected[3] === 0) {
+      if (selected[0] > 0) {
+        if (structure === 'unit') {selected = [selected[0] - 1, selected[1] = previousLessonLength - 1, 0, 1]}
+        else {selected = [selected[0] - 1, 0, selected[2] = previousTaskLength - 1, 2]}
+      }
+    } else if (selected[3] === 1) {
+      if (selected[1] > 0) {selected[1] = selected[1] - 1}
+      else {
+        if (unitTopicLength > 0) selected = [selected[0], 0, 0, 0]
+      }
+    } else if (selected[3] === 2) {
+      if (selected[2] > 0) {selected[2] = selected[2] - 1}
+      else {
+        if (unitTopicLength > 0) selected = [selected[0], 0, 0, 0]
+      }
+    }
+    this.navigateTo(selected)
   }
 
   render() {
@@ -591,10 +598,10 @@ export default class User extends React.Component {
                           user={this.state.user}
                           selected={this.state.selected}
                           language={this.state.language}
+                          expandedNodes={this.state.expandedNodes}
                           unsubscribe={this.unsubscribeFromCourse.bind(this)}
                           showComponent={this.showComponent.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
-                          showPresentation={this.showPresentation.bind(this)}
                           handlePrevious={this.handlePrevious.bind(this)}
                           handleNext={this.handleNext.bind(this)}
                           navigateTo={this.navigateTo.bind(this)}
@@ -635,11 +642,11 @@ export default class User extends React.Component {
                           language={this.state.language}
                           selected={this.state.selected}
                           activeCourse={this.state.activeCourse}
+                          expandedNodes={this.state.expandedNodes}
                           unsubscribe={this.openUnsubscribe.bind(this)}
                           showComponent={this.showComponent.bind(this)}
                           reRender={this.forceUpdate.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
-                          showPresentation={this.showPresentation.bind(this)}
                           handlePrevious={this.handlePrevious.bind(this)}
                           handleNext={this.handleNext.bind(this)}
                           navigateTo={this.navigateTo.bind(this)}

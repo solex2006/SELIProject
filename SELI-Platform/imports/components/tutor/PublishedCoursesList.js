@@ -647,6 +647,7 @@ export default class PublishedCoursesList extends React.Component {
                                   progress={this.state.student.courseProfile.progress}
                                   navigateTo={this.props.navigateTo.bind(this)}
                                   selected={this.props.selected}
+                                  expandedNodes={this.props.expandedNodes}
                                   showPresentation={this.props.showPresentation.bind(this)}
                                   //showCourseStories={this.showCourseStories.bind(this)}
                                   handleView={this.handleView.bind(this)}

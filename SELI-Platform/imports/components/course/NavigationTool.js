@@ -37,7 +37,7 @@ export default class NavigationTool extends React.Component {
     selected.push(0);
     selected.push(0);
     selected.push(0);
-    this.doCommons();
+    this.doCommons(selected);
   }
 
   selectSubunit(_id) {
@@ -59,7 +59,7 @@ export default class NavigationTool extends React.Component {
     selected.push(subunitIndex);
     selected.push(0);
     selected.push(1);
-    this.doCommons();
+    this.doCommons(selected);
   }
 
   selectTask(_id, type) {
@@ -96,15 +96,22 @@ export default class NavigationTool extends React.Component {
     selected.push(subunitIndex);
     selected.push(taskIndex);
     selected.push(2);
-    this.doCommons();
+    this.doCommons(selected);
   }
 
-  doCommons = () => {
+  doCommons = (selected) => {
     this.setState({
       update: true,
     }, () => {
-      this.props.reRender();
-      this.props.turnOffSortMode();
+      if (this.props.closeDrawer) {
+        this.props.navigateTo(selected)
+        if (selected[3] === 2) {
+          this.props.closeDrawer();
+        }
+      } else {
+        this.props.reRender();
+        this.props.turnOffSortMode();
+      }
     });
   }
 

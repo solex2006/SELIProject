@@ -398,7 +398,7 @@ export default function MainPage(props) {
 							</Button>
 							<Button
 								tabIndex="1" 
-								onClick={() => props.handleClickCourse(props.course._id)}
+								onClick={() => props.navigateTo([0, 0, 0, 0])}
 								className="subscription-card-button"
 								variant="contained"
 								color="primary"

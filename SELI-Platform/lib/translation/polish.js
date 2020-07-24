@@ -1036,6 +1036,7 @@
   Namerequired:'Name is required',
   Presentations:'Presentations',
   SupplementaryText:'Supplementary Text',
+  task: "Task",
   Taskslist:'Tasks list',
   TableTaskslist:'Action to be taken by the student to achieve the learning objectives',
   Audios:'Audios',

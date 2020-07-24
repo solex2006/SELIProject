@@ -42,8 +42,6 @@ export default class Course extends React.Component {
       progress: this.props.activeCourse.progress,
       toComplete: this.props.activeCourse.toComplete,
       toResolve: this.props.activeCourse.toResolve,
-      coursePresentation: true,
-      selected: this.props.selected,
       media: '',
       certificateCreated: false,
       certificateError: false,
@@ -54,7 +52,6 @@ export default class Course extends React.Component {
   }
 
   componentDidMount() {
-    this.resumeNavigation();
     this.setState({
       progress: this.calculateProgress(this.props.activeCourse.toComplete, this.props.activeCourse.toResolve)
     }, () => {
@@ -66,15 +63,6 @@ export default class Course extends React.Component {
         (error, response) =>  {}
       );
     });
-  }
-
-  resumeNavigation = () => {
-    if (this.props.selected[0] !== -1) {
-      this.setState({
-        coursePresentation: false,
-        courseContent: true,
-      });
-    }
   }
 
   calculateProgress = (toComplete, toResolve, notCertificate) => {
@@ -290,17 +278,17 @@ export default class Course extends React.Component {
   render() {
     return(
       <div className="course-container">
-        <CourseMenu
+        {this.props.selected[3] !== -1 && <CourseMenu
           course={this.state.course}
           progress={this.state.progress}
+          expandedNodes={this.props.expandedNodes}
           navigateTo={this.props.navigateTo.bind(this)}
           selected={this.props.selected}
-          showPresentation={this.props.showPresentation.bind(this)}
           showCourseStories={this.showCourseStories.bind(this)}
           language={this.props.language}
-        />
+        />}
         {
-          this.state.coursePresentation ?
+          this.props.selected[3] === -1 ?
             <CoursePresentation
               course={this.state.course}
               progress={this.state.progress}
@@ -309,13 +297,8 @@ export default class Course extends React.Component {
               language={this.props.language}
             />
           :
-          undefined
-        }
-        {
-          this.state.courseContent ?
             <CourseContent
               course={this.state.course}
-              showPresentation={this.props.showPresentation.bind(this)}
               showComponent={this.props.showComponent.bind(this)}
               handleControlMessage={this.props.handleControlMessage.bind(this)}
               handlePrevious={this.props.handlePrevious.bind(this)}
@@ -331,8 +314,6 @@ export default class Course extends React.Component {
               toResolve={this.state.toResolve}
               language={this.props.language}
             />
-          :
-          undefined
         }
         <Dialog
           open={this.state.openMedia}
