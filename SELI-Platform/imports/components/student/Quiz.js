@@ -28,7 +28,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import { Courses } from '../../../lib/CourseCollection';
 const bakery = require('openbadges-bakery-v2');
-
+var key = Meteor.settings.public.BLOCKCHAIN_USERKEY;
+var encryptor = require('simple-encryptor')(key);
 momentDurationFormatSetup(moment);
 const useStyles = theme => ({
   root: {
@@ -293,7 +294,7 @@ class Quiz extends React.Component {
     score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
     console.log(approved);
     //adding badge
-    this.persistBadge(this.props.quiz.attributes.badgeInformation);
+    // this.persistBadge(this.props.quiz.attributes.badgeInformation);
 
   }
 
@@ -489,8 +490,6 @@ class Quiz extends React.Component {
     let newName = uploadInstance.config.fileId + ".jpg";
     console.log(currentId);
     console.log(newName);
-
-    console.log(result);
     let today = new Date();
     let certificateInfo = {
       idStudent: user._id,
@@ -544,31 +543,76 @@ class Quiz extends React.Component {
       image: buffer,
       assertion: theAssertion,
     };
+    let registerDataSinCode = { //useful for regsiter users in blockchain network
+      email: (user.emails)[0].address,
+      displayName: user.profile.fullname,
+      password: Meteor.userId()
+    }
+    console.log(registerDataSinCode)
 
     await this.bake(options)
       .then(data => {
         this.saveBadge(data, badgeInformation.image);
         this.setState({ badgeWin: true });
-
+        var registerData = { data: encryptor.encrypt(registerDataSinCode) };
+        this.persistBadge(theAssertion, registerData);
       })
       .catch(err => { console.log(err) })
   }
-  persistBadge(badgeInfo) {
+  persistBadge(badgeInfo, registerData) {
     console.log('sending badge to blockchain')
     console.log(JSON.stringify(badgeInfo))
-    fetch('http://localhost:80/badges/issue', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(badgeInfo)
-    }).then(res => res.json())
-      .then(res => {
-        console.log(res);
+    let tokenUser = Meteor.users.find({ _id: Meteor.userId() }).fetch()[0].profile.token;
 
-      });
+    if (tokenUser === undefined) {//register the token
+      fetch('http://localhost:80/login/user', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(registerData)
+      }).then(res => res.json()).then(res => {
+        console.log("Respuesta del registro o token: ", res);
+        Meteor.users.update(
+          { _id: res.idStudent },
+          {
+            $push:
+              { "profile.token": res.token }
+          }
+        );
+
+        fetch('http://localhost:80/badges/issue', {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${res.token}`
+          },
+          body: JSON.stringify(badgeInfo)
+        }).then(res => res.json())
+          .then(res => {
+            console.log(res);
+          });
+
+      })
+    }
+    else {
+      fetch('http://localhost:80/badges/issue', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${tokenUser}`
+        },
+        body: JSON.stringify(badgeInfo)
+      }).then(res => res.json())
+        .then(res => {
+          console.log(res);
+        });
+    }
   }
+
 
   render() {
     const { classes } = this.props;
