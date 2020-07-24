@@ -15,6 +15,10 @@ export default class PdfForm extends React.Component {
       attributes: {
         pdf: undefined,
         instruction: '',
+        accessibility: {
+          pureDecorative: false,
+          percentage: 0,
+        }
       }
     }
   }
@@ -24,10 +28,10 @@ export default class PdfForm extends React.Component {
       this.props.handleControlMessage(true, this.props.language.uploadAddUrlPdf);
       return false;
     }
-    if (content.instruction === '') {
+    /* if (content.instruction === '') {
       this.props.handleControlMessage(true, this.props.language.enterDescriptionPdf);
       return false;
-    }
+    } */
     return true;
   }
 
