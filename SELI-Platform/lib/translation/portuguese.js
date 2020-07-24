@@ -1036,6 +1036,7 @@ var PORTUGUESE = {
   Namerequired:'Nome é obrigatório',
   Presentations:'Apresentações',
   SupplementaryText:'Texto Suplementar',
+  task: "Tarefa",
   Taskslist:'Lista de tarefas',
   TableTaskslist:'Ações que o estudante deve tomar para atingir os objetivos educacionais',
   Audios:'Áudios',
@@ -1073,6 +1074,8 @@ var PORTUGUESE = {
   outcomeslegend:'Ao final deste curso, os alunos poderão..',
   repeatedkeywords:'keywords can not be repeated',
   reportstep:'Accessibility report',
+  imageTitle:'Image Title',
+  inclusionGolvalidation:'Your course is not accessible in the inclusion goal:'
   
 }
 export default PORTUGUESE;

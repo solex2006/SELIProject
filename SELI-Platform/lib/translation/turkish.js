@@ -1036,6 +1036,7 @@ var TURKISH = {
   Namerequired:'Name is required',
   Presentations:'Presentations',
   SupplementaryText:'Supplementary Text',
+  task: "Task",
   Taskslist:'Tasks list',
   TableTaskslist:'Action to be taken by the student to achieve the learning objectives',
   Audios:'Audios',
@@ -1072,6 +1073,8 @@ var TURKISH = {
   dialog2: 'Do you want to proceed?',
   outcomeslegend:'By the end of this course, students will be able..',
   repeatedkeywords:'keywords can not be repeated',
-  reportstep:'Accessibility report'
+  reportstep:'Accessibility report',
+  imageTitle:'Image Title',
+  inclusionGolvalidation:'Your course is not accessible in the inclusion goal:'
 }
 export default TURKISH;

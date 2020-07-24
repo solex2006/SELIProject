@@ -181,7 +181,7 @@ export default class ActivityForm extends React.Component {
   render() {
     return(
       <div className="dialog-form-container">
-        <div className="editor-block">
+       <div className="editor-block">
           <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
           <Editor
             areaHeight='20vh'
@@ -191,7 +191,7 @@ export default class ActivityForm extends React.Component {
             getInnerHtml={this.getInnerHtml.bind(this)}
             language={this.props.language}
           />
-        </div>
+        </div> 
         <div className="editor-label1">{`${this.props.language.deliverType}:`}</div>
         <div className="square-box">
           <Paper square>

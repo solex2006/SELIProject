@@ -1036,6 +1036,7 @@
   Namerequired:'Name is required',
   Presentations:'Presentations',
   SupplementaryText:'Supplementary Text',
+  task: "Task",
   Taskslist:'Tasks list',
   TableTaskslist:'Action to be taken by the student to achieve the learning objectives',
   Audios:'Audios',
@@ -1073,6 +1074,8 @@
   outcomeslegend:'By the end of this course, students will be able..',
   repeatedkeywords:'keywords can not be repeated',
   reportstep:'Accessibility report',
+  imageTitle:'Image Title',
+  inclusionGolvalidation:'Your course is not accessible in the inclusion goal:'
   
 }
 export default POLISH;

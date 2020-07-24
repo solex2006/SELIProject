@@ -530,7 +530,7 @@ export function VideoOthersA11Y(props){
 					name='seizures'
 					id='seizures-yes'
 					label={props.language.yes}
-					value='yes'
+					value='no'
 					control={<Radio color='primary' />}
 					labelPlacement='end'
 				/>
@@ -538,7 +538,7 @@ export function VideoOthersA11Y(props){
 					name='seizures'
 					id='seizures-no'
 					label={props.language.no}
-					value='no'
+					value='yes'
 					control={<Radio color='secondary' />}
 					labelPlacement='end'
 				/>
@@ -671,11 +671,11 @@ export default function VideoA11Y(props){
 export const useDataField = (props) => {
 	console.log("props de ingreso en video", props)
 	const [dataField, setDataField] = React.useState({
-		signLanguage: 'no',
-		seizures: 'no',
-		captionsEmbedded: 'no',
-		audioDescription: 'no',
-		audioDescriptionRequired:'yes',
+		signLanguage: null,
+		seizures: null,
+		captionsEmbedded: null,
+		audioDescription: null,
+		audioDescriptionRequired: null,
 		hasAudioDescriptionFile: false,
 		hasTranscriptionFile: false,
 		longDescription:'',
@@ -707,12 +707,12 @@ export const useDataField = (props) => {
 	const [audioDescriptionRequiredTip, setAudioDescriptionRequiredTip] = React.useState(props.language.video_a11y_aux_text_008);
 
 	const a11yInitial = [
-		{name: 'seizures', is_a11y: false},
+		{name: 'seizures', is_a11y: null},
 		{name: 'longDescription', is_a11y: false},
 		{name: 'shortDescription', is_a11y: false},
-		{name: 'captionsEmbedded', is_a11y: false},
-		{name: 'audioDescription', is_a11y: false},
-		{name: 'signLanguage', is_a11y: false},
+		{name: 'captionsEmbedded', is_a11y: null},
+		{name: 'audioDescription', is_a11y: null},
+		{name: 'signLanguage', is_a11y: null},
 	];
 
 	useEffect(() => {

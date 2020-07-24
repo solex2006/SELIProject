@@ -1036,6 +1036,7 @@ var SPANISH = {
   Namerequired:'Name is required',
   Presentations:'Presentations',
   SupplementaryText:'Supplementary Text',
+  task: "Tarea",
   Taskslist:'Tasks list',
   TableTaskslist:'Action to be taken by the student to achieve the learning objectives',
   Audios:'Audios',
@@ -1072,7 +1073,9 @@ var SPANISH = {
   dialog2: 'Do you want to proceed?',
   outcomeslegend:'By the end of this course, students will be able..',
   repeatedkeywords:'No se pueden repetir las palabras clave.',
-  reportstep:'Reporte de Accesibilidad'
+  reportstep:'Reporte de Accesibilidad',
+  imageTitle:'Titulo de la imagen',
+  inclusionGolvalidation:'Tu curso no es accesible en el objetivo de inclusion:'
 }
 export default SPANISH
 

@@ -21,23 +21,23 @@ export default class ImageItem extends React.Component {
       <div className="checkBoxItem">
         {
           this.props.item.attributes.accessibility.dataField===undefined?
-                   undefined
-                   :
-                  <div className="checkBoxItem"> 
-                      {
-                        this.props.item.attributes.accessibility.dataField.imagePurpose!=undefined?
-                          <div className="checkboxstyle">
-                            <CheckboxLabels
-                                language={this.props.language}
-                                checkbox={this.checkbox}
-                                type="shortLongDescription"
-                                label={this.props.language.textAlternatives}
-                            />
-                          </div>
-                          :
-                          undefined
-                      }
+            undefined
+          :
+            <div className="checkBoxItem"> 
+              {
+                this.props.item.attributes.accessibility.dataField.imagePurpose!=undefined?
+                  <div className="checkboxstyle">
+                    <CheckboxLabels
+                        language={this.props.language}
+                        checkbox={this.checkbox}
+                        type="shortLongDescription"
+                        label={this.props.language.textAlternatives}
+                    />
                   </div>
+                  :
+                  undefined
+              }
+            </div>
         }
       </div>
     )
@@ -117,18 +117,16 @@ export default class ImageItem extends React.Component {
     return(
       <div className="content-boxstudent">
         {this.checkBoxLabels()}
-        {console.log("dsfdsfdsfdsfdsfdsf",this.props.item.attributes.accessibility.dataField)}
         {
           this.props.item.attributes.accessibility.dataField != undefined ?
           <div>
             {
-             this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
-             this.textAlternatives()
-             :
-             undefined
+              this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+                this.textAlternatives()
+              :
+                undefined
             }
           </div>
-         
           :
           undefined
         }
@@ -138,7 +136,6 @@ export default class ImageItem extends React.Component {
               id={ this.props.item.attributes.image._id + this.props.item.id }
               className="image-item"
               style={{
-                 
                   width: `${this.props.item.attributes.size.width}px`,
                   height: `${this.props.item.attributes.size.height}px`,
               }}
@@ -179,10 +176,10 @@ export default class ImageItem extends React.Component {
           this.props.item.attributes.accessibility.dataField!=undefined?
           <div>
             {
-             this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
-             this.textAlternatives()
-             :
-             undefined
+              this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+                this.textAlternatives()
+              :
+                undefined
             }
           </div>
           :

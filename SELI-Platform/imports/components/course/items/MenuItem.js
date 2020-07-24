@@ -110,7 +110,7 @@ export default function MenuItem(props) {
             <ListItemText primary={props.language.edit} />
           </ListItem>
           {
-            props.item.type === "audio" || props.item.type === "image" || props.item.type === "video" ||props.item.type === "quiz" ?
+             props.item.type === "pdf" || props.item.type === "audio" || props.item.type === "image" || props.item.type === "video" ||props.item.type === "quiz" ?
               <div className="menu-content-accessibility">
                 <Divider light={true}/>
                 <ListItem button onClick={handleClickList}>

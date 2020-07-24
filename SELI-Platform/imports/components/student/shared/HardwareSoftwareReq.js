@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 
 export default function HardwareSoftwareReq(props) {
-	console.log("props en HardwareSoftwareReq", props);
+	//console.log("props en HardwareSoftwareReq", props);
 	const [data, setData]=useState(props);
-   
-   return (
+
+  return (
       <div>
 			<div className='crnheading'>
 				<h3 id="tech">Technological Requirements</h3>
@@ -30,7 +30,6 @@ export default function HardwareSoftwareReq(props) {
 								<div className='descriptiontext'>
 									No hardware requirement.
 								</div>
-								 
 							}
 						</ol>
 				

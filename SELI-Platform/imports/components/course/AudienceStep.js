@@ -66,22 +66,19 @@ export default function AudienceApp(props) {
   const classes = useStyles();
   //update state of checkboxes
   useEffect(() => {
-    console.log("comppnentDidMountAudiencias", courseInformation, audiences, props)
-    if(courseInformation.support.length!=0){
-      setAudiences(courseInformation.support[0])
-      setAudiencesGol(courseInformation.support[1])
-
-      if(courseInformation.support[2]===undefined){
+    if (courseInformation.support.length != 0) {
+      if (courseInformation.support[0] && courseInformation.support[0].length) setAudiences(courseInformation.support[0]);
+      if (courseInformation.support[1] && courseInformation.support[1].length) setAudiencesGol(courseInformation.support[1]);
+      if (courseInformation.support[2] === undefined) {
         setOtherAudiences([])
-      }else{
+      } else {
         setOtherAudiences(courseInformation.support[2])
       }
     }
-
-   //update accessibilty
-   if(courseInformation.accessibility.length!=0){
-    setaudienceTooltip(courseInformation.accessibility[0]) 
-  }
+    //update accessibilty
+    if(courseInformation.accessibility.length!=0){
+      setaudienceTooltip(courseInformation.accessibility[0]) 
+    }
   }, []); 
 
   useEffect(()=>{
@@ -182,18 +179,6 @@ export default function AudienceApp(props) {
     },
     {
       id: 3,
-      value: "Lan",
-      label: language.Language,
-      isChecked: false
-    },
-    {
-      id: 4,
-      value: "Spee",
-      label: language.Speech,
-      isChecked: false
-    },
-    {
-      id: 5,
       value: "Vis",
       label: language.Visual,
       isChecked: false
@@ -676,8 +661,6 @@ export default function AudienceApp(props) {
 
         </List>
       </div>
-     
-   
       <h3 id="aud_title">{language.InclusionGoals}</h3>
       <div role="group" aria-labelledby="aud_title2">
         <List component="ul" key={"li03"}>
@@ -712,7 +695,7 @@ export default function AudienceApp(props) {
                 setcourseInformation(addAudicencesGol)
 
                 let tooltip=audienceTooltip;
-                 if(event.target.checked===true){
+                if(event.target.checked===true){
                   tooltip.audienceallgolError=false;
                   tooltip.audiencegolError=false;
                   setaudienceTooltip(tooltip)
@@ -729,8 +712,8 @@ export default function AudienceApp(props) {
             />
             {/* </ListItemIcon> */}
             <ListItemText
-              id="checkbox-list-labelGol-selectAll"
-              primary={language.selectAll}
+              id="checkbox-list-label-selectAll"
+              primary={language.SelectAll}
             />
           </ListItem>
         <FeedbackHelp
@@ -766,27 +749,22 @@ export default function AudienceApp(props) {
           ))}
         </List>
       </div>
-
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting audience</DialogTitle>
-            <DialogContent className="success-dialog-content">
-              <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
-              <WarningIcon className="warning-dialog-icon"/> 
-            </DialogContent>
-                  <DialogActions>
-                    <Button onClick={() => setopen(false)} color="primary">No</Button>
-                    <Button onClick={() => {
-                      //setdeleteDialog(true)
-                      deleteAudience(indexdelete);
-                      setopen(false)
-                    }} 
-                    color="primary"><em>Yes</em></Button> 
-                  </DialogActions>
+        <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting audience</DialogTitle>
+        <DialogContent className="success-dialog-content">
+          <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
+          <WarningIcon className="warning-dialog-icon"/> 
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setopen(false)} color="primary">No</Button>
+          <Button onClick={() => {
+            //setdeleteDialog(true)
+            deleteAudience(indexdelete);
+            setopen(false)
+          }} 
+          color="primary"><em>Yes</em></Button> 
+        </DialogActions>
       </Dialog>
-
-        
-
     </div>
-    
   );
 }

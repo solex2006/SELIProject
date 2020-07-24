@@ -17,11 +17,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import LanguageIcon from "@material-ui/icons/Language";
 import CastForEducationIcon from "@material-ui/icons/CastForEducation";
 import SchoolIcon from "@material-ui/icons/School";
-import BubbleChartIcon from "@material-ui/icons/BubbleChart";
-import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
-import PeopleIcon from "@material-ui/icons/People";
-import CollectionsBookmarkIcon from "@material-ui/icons/CollectionsBookmark";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
 import {
 	InstructorProfileDialog,
 	InstructorProfileCard,
@@ -176,78 +171,41 @@ const CourseSummary = ({coursedata}) => {
 							<CastForEducationIcon />
 						</Avatar>
 					</ListItemIcon>
-					{console.log("coursedataInfo",coursedata)}
 					<ListItemText
 						secondary={"Course modality"}
 						primary={coursedata.analysis[1]}  
 					/>
 				</ListItem>
-				{/* <ListItem>
-						<ListItemIcon>
-							<Avatar>
-								<BubbleChartIcon />
-							</Avatar>
-						</ListItemIcon>
-						<ListItemText
-							secondary={"Course keywords"}
-							primary={course.keywords.join("; ")}
-						/>
-					</ListItem>
-					<ListItem>
-						<ListItemIcon>
-							<Avatar>
-								<PeopleIcon />
-							</Avatar>
-						</ListItemIcon>
-						<ListItemText
-							primary={course.audience.join("; ")}
-							secondary={"Target audience"}
-						/>
-					</ListItem>
-					<ListItem>
-						<ListItemIcon>
-							<Avatar>
-								<AccessibilityNewIcon />
-							</Avatar>
-						</ListItemIcon>
-						<ListItemText
-							primary={course.disabilities.join("; ")}
-							secondary={"Target audience"}
-						/>
-					</ListItem> */}
 			</List>
 		</Paper>
 	);
 };
+
 const CourseHeader = ({classes, coursedata, tutordata}) => {
-	console.log("coursedata and props", coursedata,tutordata)
-	
-	
-		return (
-			<React.Fragment>
-				<h1>
-					{coursedata.title}
-					<span className={classes.subtitle1}>
-						<br />
-						{coursedata.subtitle}
-					</span>
-				</h1>
-				<InstructorProfileAvatar
-					name={"Created by " + coursedata.createdBy}
-					className={classes.caption}
-					coursedata={coursedata}
-					tutordata={tutordata}
-				/> 
-			</React.Fragment>
-		);
-	
+	//console.log("coursedata and props", coursedata,tutordata)
+	return (
+		<React.Fragment>
+			<h1>
+				{coursedata.title}
+				<span className={classes.subtitle1}>
+					<br />
+					{coursedata.subtitle}
+				</span>
+			</h1>
+			<InstructorProfileAvatar
+				name={"Created by " + coursedata.createdBy}
+				className={classes.caption}
+				coursedata={coursedata}
+				tutordata={tutordata}
+			/> 
+		</React.Fragment>
+	);
 };
 
 export default function MainPage(props) {
-  console.log("Propiedades en MainContenet", props)
-
-  const [coursedata, setCoursedata]=useState(props.course)
-  let [tutordata, setTutordata]=useState('')
+  //console.log("Propiedades en MainContenet", props)
+  const [coursedata, setCoursedata] = useState(props.course)
+  let [tutordata, setTutordata] = useState('')
 	const theme = useTheme();
 	const classes = useStyles();
 
@@ -256,16 +214,16 @@ export default function MainPage(props) {
 	}, [])
 
 	getTutors = () => {
-		  Tracker.autorun(() => {
-			 Meteor.call("GetTutorsCourse",coursedata.createdBy ,(error, response) =>  {
+		Tracker.autorun(() => {
+			Meteor.call("GetTutorsCourse",coursedata.createdBy ,(error, response) =>  {
 				setTutordata(response)
-			 });
-		  });
-	 }
+			});
+		});
+	}
 	//tutordata=Meteor.users.find({username: coursedata.createdBy, 'profile.type': 'tutor'}).fetch()
 	//setTutordata(user)
 	return (
-		<React.Fragment>
+		<div className="course-presentation-container">
 			<Paper component="header" elevation={3} className={classes.banner}>
 				{useMediaQuery(theme.breakpoints.up("lg")) ? (
 					<Grid
@@ -300,7 +258,7 @@ export default function MainPage(props) {
 					</React.Fragment>
 				)}
 			</Paper>
-			 <Paper component="article" elevation={0} className={classes.paper}>
+			<Paper component="article" elevation={0} className={classes.paper}>
 				<header>
 					<h2 className={classes.header2}>Course Information</h2>
 				</header>
@@ -358,7 +316,6 @@ export default function MainPage(props) {
 					</List>
 				</section> 
 				}
-				 
 			</Paper>
 			<Paper component="article" elevation={0} className={classes.paper1}>
 				<header>
@@ -374,17 +331,13 @@ export default function MainPage(props) {
 				<p>
 					Read the course syllabus for a complete view of the course program
 				</p>
-
-				
 				<div className='crnheading'>
 					<SyllabusButton
 						courseInformation={props.course}
 						language={props.language}
 					/>
 				</div>
-				    
 			</Paper>
-		
 			<Paper component="article" elevation={0} className={classes.paper1}> 
 				<div className='crnheading'>
 					<h2 className={classes.header2}>Requirements</h2>
@@ -393,6 +346,72 @@ export default function MainPage(props) {
 					data={coursedata.requirements}
 				/> 
 			</Paper>
-		</React.Fragment>
+			<div className="course-presentation-actions-container">
+				{
+					props.goToUser ?
+						props.progress === "noProgress" ?
+							<Button
+								tabIndex="1" 
+								onClick={() => props.goToUser("subscribe")}
+								className="subscription-card-button"
+								variant="contained"
+								color="primary"
+							>
+								{props.language.subscribeJoin}
+							</Button>
+						:
+							<React.Fragment>
+								<Button
+									tabIndex="1" 
+									onClick={() => props.goToUser("unsubscribe")}
+									className="subscription-card-button"
+									variant="contained"
+									color="primary"
+								>
+									{props.language.unsubscribe}
+								</Button>
+								<Button
+									tabIndex="1" 
+									onClick={() => props.goToUser("enter")}
+									className="subscription-card-button"
+									variant="contained"
+									color="primary"
+								>
+									{
+										
+										props.progress <= 0 ? props.language.startCourse :
+										props.progress > 0 && props.progress < 100 ? props.language.resumeCourse :
+										props.progress >= 100 ? props.language.reviewCourse : undefined
+									}
+								</Button>
+							</React.Fragment>
+					:
+						<React.Fragment>
+							<Button
+								tabIndex="1" 
+								onClick={() => props.unsubscribe(props.course._id)}
+								className="subscription-card-button"
+								variant="contained"
+								color="primary"
+							>
+								{props.language.unsubscribe}
+							</Button>
+							<Button
+								tabIndex="1" 
+								onClick={() => props.navigateTo([0, 0, 0, 0])}
+								className="subscription-card-button"
+								variant="contained"
+								color="primary"
+							>
+								{
+									props.progress <= 0 ? props.language.startCourse :
+									props.progress > 0 && props.progress < 100 ? props.language.resumeCourse :
+									props.progress >= 100 ? props.language.reviewCourse : undefined
+								}
+							</Button>
+						</React.Fragment>
+				}
+			</div>
+		</div>
 	);
 }

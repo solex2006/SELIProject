@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DialogFullWidth(props) {
-	console.log(props);
+	//console.log(props);
 	const {
 		key,
 		title,

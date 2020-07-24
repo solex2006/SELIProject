@@ -215,7 +215,7 @@ export default class CourseProgram extends React.Component {
 
   finishCreateContent = (itemContent) => {
     let showAccessibilityOptions = false;
-    if (this.state.contentTypeAdded === "audio" || this.state.contentTypeAdded === "image" || this.state.contentTypeAdded === "video" ||   this.state.contentTypeAdded==='quiz') {
+    if (this.state.contentTypeAdded === "pdf" || this.state.contentTypeAdded === "audio" || this.state.contentTypeAdded === "image" || this.state.contentTypeAdded === "video" ||   this.state.contentTypeAdded==='quiz') {
       showAccessibilityOptions = true;
     }
     else {
@@ -270,7 +270,7 @@ export default class CourseProgram extends React.Component {
 
   setDisabilitieOption(support){
     let courseInformation = this.state.courseInformation;
-    courseInformation.support = support;
+    courseInformation.support[1] = support;
     this.setState({
       courseInformation: courseInformation,
     });
@@ -657,8 +657,9 @@ export default class CourseProgram extends React.Component {
             :
             undefined
           }
+          {console.log("Verifca si es pdf:",this.state.contentTypeAdded,this.state.showAccessibilityOptions)}
           {
-            this.state.showAccessibilityOptions && (this.state.contentTypeAdded === 'quiz' || this.state.contentTypeAdded === 'image' || this.state.contentTypeAdded === 'audio' || this.state.contentTypeAdded === 'video') ?  
+            this.state.showAccessibilityOptions && (this.state.contentTypeAdded === 'pdf' || this.state.contentTypeAdded === 'quiz' || this.state.contentTypeAdded === 'image' || this.state.contentTypeAdded === 'audio' || this.state.contentTypeAdded === 'video') ?  
              //this.contentHandleClose()  // uncomment for view accessibility Menu
               <div className="configure-accessibility-actions"> 
                 <List>

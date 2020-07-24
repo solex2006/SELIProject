@@ -131,13 +131,7 @@ function InstructorProfileAvatar({
 		setOpen(false);
 	};
 
-	
-
-
-
-	
-	
-	console.log("InstructorProfileAvatarcoursedata---------------------",tutordata)
+	//console.log("InstructorProfileAvatarcoursedata---------------------",tutordata)
 	return (
 		<React.Fragment>
 			{disabledDialog ? (

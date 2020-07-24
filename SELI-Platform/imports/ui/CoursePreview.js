@@ -4,18 +4,12 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
 
 import Loading from '../components/tools/Loading';
-import CourseMenu from '../components/student/CourseMenu';
 import CoursePresentation from '../components/student/CoursePresentation';
-import CourseContent from '../components/student/CourseContent';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import AppBar from '../components/navigation/AppBar';
 
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Courses } from '../../lib/CourseCollection';
 import english from '../../lib/translation/english';
@@ -44,8 +38,6 @@ export default class CoursePreview extends React.Component {
       let _id = this.props.location.hash.substr(1);
       Tracker.autorun(() => {
         let course = Courses.find({_id: _id}).fetch();
-        
-       
         course.length ?
         this.setState({
           course: course[0],
@@ -56,6 +48,63 @@ export default class CoursePreview extends React.Component {
           course: undefined,
         });
       });
+      Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
+        this.setInitVariables(response);
+      });
+    });
+  }
+
+  setInitVariables = (response) => {
+    let language = {};
+    if (response.profile.configuration.language === 'us') {
+      language = english;
+    }
+    else if (response.profile.configuration.language === 'pt') {
+      language = portuguese;
+    } 
+    else if (response.profile.configuration.language === 'es') {
+      language = spanish;
+    }
+    else if (response.profile.configuration.language === 'pl') {
+      language = polish;
+    }
+    else if (response.profile.configuration.language === 'tr') {
+      language = turkish;
+    }
+    this.setState({
+      language: language,
+      user: response,
+    }, () => {
+      this.setLanguage(this.state.user.profile.configuration.language);
+      if (response) this.calculateProgress();
+    });
+  }
+
+  calculateProgress = () => {
+    let userCourses = this.state.user.profile.courses;
+    let courseIndex = userCourses.findIndex(course => course.courseId === this.state.course._id);
+    let courseInfo = {};
+    if (courseIndex > -1) {
+      courseInfo = userCourses[courseIndex];
+      this.setState({
+        progress: userCourses[courseIndex].progress,
+      })
+    } else {
+      this.setState({progress: "noProgress"})
+    }
+    courseInfo.information = this.state.course;
+    this.setState({
+      courseInfo: courseInfo,
+    })
+  }
+
+  goToUser = (action) => {
+    this.props.history.push({
+      pathname: "/user", 
+      user: this.state.user, 
+      course: this.state.courseInfo,
+      progress: this.state.progress,
+      action: action
     });
   }
 
@@ -148,19 +197,21 @@ export default class CoursePreview extends React.Component {
                   <main id="page-wrap">
                     <React.Fragment>
                       {
-                        this.state.course === undefined ?
+                        this.state.course === undefined || this.state.progress === undefined?
                           undefined
                         :
                           <div>
-                            <AppBar position="static" className="course-dialog-app-bar">
-                              <Toolbar style={{position: 'relative'}}>
-                                <Typography className="course-dialog-title" variant="h6">
-                                  {this.state.language.coursePreview}
-                                </Typography>
-                              </Toolbar>
-                            </AppBar> 
+                            <AppBar
+                              history={this.props.history}
+                              language={this.state.language}
+                              setLanguage={this.setLanguage.bind(this)}
+                              user={undefined}
+                              fromAnotherSource
+                            />
                             <CoursePresentation
                               course={this.state.course}
+                              progress={this.state.progress}
+                              goToUser={this.goToUser.bind(this)}
                               navigateTo={this.navigateTo.bind(this)}
                               selected={this.state.selected}
                               language={this.state.language}

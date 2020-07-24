@@ -13,6 +13,7 @@ import ImageItem from '../accessibility/previews/ImageItem';
 /* a11y content forms */
 import ImageA11yForm, {useImageDataField} from '../accessibility/ImageAccessibilityForm';
 import {QuizAccessibility,QuizAccessibilityExtendedTime,QuizAccessibilityWarningTime,useQuizDataField } from '../accessibility/QuizAccessibilityForm';
+import {PdfAccessibilitytextContent,PdfAccessibilityContent,PdfAccessibilityForm,PdfAccessibilityStructures,PdfAccessibilityNavigation,PdfAccessibilityText,usePdfDataField } from '../accessibility/PdfAccessibilityForm';
 import {VideoTextAltA11Y, VideoMediaCaptionsAltA11Y, VideoMediaSignLanguageA11Y, VideoMediaAudioDescriptioA11Y, VideoOthersA11Y, useDataField} from '../accessibility/VideoAccessibilityForm';
 import AudioA11yForm, {useAudioDataField, AudioA11YCaptions ,VideoSignalA11Y} from '../accessibility/AudioAccessibilityForm';
 import A11YProgressFeedback from '../accessibility/a11yProgressFeedback';
@@ -69,6 +70,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const useData = (language, type, item) => {
+	console.log("to=ipo",type)
 	if(type === 'video')
 		return useDataField({language, item});
 	if(type === 'image')
@@ -77,6 +79,8 @@ export const useData = (language, type, item) => {
 		return useAudioDataField({language, item});
 	if(type === 'quiz')
 		return useQuizDataField({language, item});
+	if(type === 'pdf')
+		return usePdfDataField({language, item});
 	return  {
 		isA11Y: [],
 	};
@@ -93,7 +97,7 @@ export default function VerticalTabs(props) {
 	}
 
 	useEffect(() => {
-		//console.log("props.support",props.support)
+		console.log("props.support",props.support)
 		let supportAux = [];
 		props.support.map((option) => {
 			supportAux.push(option)
@@ -105,7 +109,7 @@ export default function VerticalTabs(props) {
 	let indexPanel = 0;
 
 	let data = useData(props.language, props.contentTypeAdded, props.item.accessibility);
-	console.log("*******data*********",data)
+	console.log("*******data and props*********",data, props)
 
 	let dataToSend = {
 		dataField: data.dataField,
@@ -126,11 +130,7 @@ export default function VerticalTabs(props) {
 					textColor="secondary"
 				>
 					<Tab label={props.language.content} {...a11yProps(indexTab++,props.contentTypeAdded)}/>
-					{/* <Tab
-						label={props.language.accessibility}
-						{...a11yProps(indexTab++, props.contentTypeAdded)}
-						disabled
-					/> */}
+				
 					{
 							props.contentTypeAdded === 'image' && support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
 						<Tab
@@ -193,6 +193,42 @@ export default function VerticalTabs(props) {
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/> 
 					}
+					{
+						 	props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
+						<Tab
+							label={props.language.textAlternatives}
+							{...a11yProps(indexTab++, props.contentTypeAdded)}
+						/> 
+					}
+					{
+						 	props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
+						<Tab
+							label={props.language.navigation}
+							{...a11yProps(indexTab++, props.contentTypeAdded)}
+						/> 
+					}
+					{
+						 	props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
+						<Tab
+							label={props.language.Structures}
+							{...a11yProps(indexTab++, props.contentTypeAdded)}
+						/> 
+					}
+					{
+						 	props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
+						<Tab
+							label={props.language.Form}
+							{...a11yProps(indexTab++, props.contentTypeAdded)}
+						/> 
+					}
+					{
+						 	props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
+						<Tab
+							label={props.language.TextContent}
+							{...a11yProps(indexTab++, props.contentTypeAdded)}
+						/> 
+					}
+					
 					
 					{
 						 	/* props.contentTypeAdded === 'audio' &&
@@ -210,11 +246,11 @@ export default function VerticalTabs(props) {
 						/>
 					}
 					{
-							props.contentTypeAdded === 'audio' && support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
+							/* props.contentTypeAdded === 'audio' && support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
 						<Tab
 							label={props.language.audioTranscription}
 							{...a11yProps(indexTab++)}
-						/>
+						/> */
 					}
 					
 					{
@@ -255,6 +291,12 @@ export default function VerticalTabs(props) {
 						}
 						{
 							props.contentTypeAdded === 'quiz' ?
+								<div>{props.language.quizAccessibility}</div>
+							:
+							undefined
+						}
+						{
+							props.contentTypeAdded === 'pdf' ?
 								<div>{props.language.quizAccessibility}</div>
 							:
 							undefined
@@ -371,6 +413,93 @@ export default function VerticalTabs(props) {
 								
 					}
 					{
+						props.contentTypeAdded === 'pdf' &&
+						<React.Fragment>
+								{support.some(object => ["Cognitive", "Hearing", "Speech"].includes(object)) &&
+									<TabPanel value={value} index={indexPanel++}>
+										<PdfAccessibilityText
+											data={{
+												hasImageTip:data.hasImageTip,
+												hasAltTip:data.hasAltTip,
+												handleRadioButtonOnChange:data.handleRadioButtonOnChange,
+												disabled_image:data.disabled_image,
+												dataField:data.dataField
+											}}
+											item={props.item}
+											language={props.language}
+										/>
+									</TabPanel>}
+									{support.some(object => ["Cognitive", "Hearing", "Speech"].includes(object)) &&
+									<TabPanel value={value} index={indexPanel++}>
+										<PdfAccessibilityNavigation
+											data={{
+												hasBookmarksTip:data.hasBookmarksTip,
+												isBookmarksCorrectTip:data.isBookmarksCorrectTip,
+												screenReaderTip:data.screenReaderTip,
+      										focusOrderTip:data.focusOrderTip,
+												disabled_Bookmarks:data.disabled_Bookmarks,
+												handleRadioButtonOnChange:data.handleRadioButtonOnChange,
+												dataField:data.dataField,
+											}}
+											item={props.item}
+											language={props.language}
+										/>
+									</TabPanel>}	
+									
+									{support.some(object => ["Cognitive", "Hearing", "Speech"].includes(object)) &&
+									<TabPanel value={value} index={indexPanel++}>
+										<PdfAccessibilityStructures
+											data={{
+												hasTitleTip:data.hasTitleTip,
+												hasNumberingTip:data.hasNumberingTip,
+												hasLanguageTip:data.hasLanguageTip,
+												hasLanguagePartTip:data.hasLanguagePartTip,
+												handleRadioButtonOnChange:data.handleRadioButtonOnChange,
+												dataField:data.dataField,
+											}}
+											item={props.item}
+											language={props.language}
+										/>
+									</TabPanel>}
+									{support.some(object => ["Cognitive", "Hearing", "Speech"].includes(object)) &&
+									<TabPanel value={value} index={indexPanel++}>
+										<PdfAccessibilityForm
+											data={{
+												hasFormTip:data.hasFormTip,
+												hasRequiredFieldsTip:data.hasRequiredFieldsTip,
+												isRequiredFieldsTip:data.isRequiredFieldsTip,
+												hasLabelsTip:data.hasLabelsTip,
+												handleRadioButtonOnChange:data.handleRadioButtonOnChange,
+												disabled_Form:data.disabled_Form,
+												disabled_hasRequiredFields:data.disabled_hasRequiredFields,
+												dataField:data.dataField,
+											}}
+											item={props.item}
+											language={props.language}
+										/>
+									</TabPanel>}
+
+									{support.some(object => ["Cognitive", "Hearing", "Speech"].includes(object)) &&
+									<TabPanel value={value} index={indexPanel++}>
+										<PdfAccessibilitytextContent
+											data={{
+												isTableTip:data.isTableTip,
+												isListTip:data.isListTip,
+												isAbbreviationTip:data.isAbbreviationTip,
+												isHeadingsTip:data.isHeadingsTip,
+												isLinkTip:data.isLinkTip,
+												handleRadioButtonOnChange:data.handleRadioButtonOnChange,
+												dataField:data.dataField,
+											}}
+											item={props.item}
+											language={props.language}
+										/>
+									</TabPanel>}
+									
+							
+						</React.Fragment>
+					}
+					{
 						props.contentTypeAdded === 'audio' &&
 								<React.Fragment>
 									{support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
@@ -388,7 +517,7 @@ export default function VerticalTabs(props) {
 											/>
 										</TabPanel>}
 
-										{support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
+										{/* support.some(object => ["Cognitive", "Hearing", "Speech","Visual"].includes(object)) &&
 										<TabPanel value={value} index={indexPanel++}>
 											<AudioA11YCaptions data={{
 												captionsTip:data.captionsTip,
@@ -407,7 +536,7 @@ export default function VerticalTabs(props) {
 											}}
 											language={props.language}
 											/>
-										</TabPanel>}
+										</TabPanel> */}
 
 
 										

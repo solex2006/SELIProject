@@ -1,31 +1,15 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import BuildIcon from '@material-ui/icons/Build';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import SettingsIcon from '@material-ui/icons/Settings';
-import CameraIcon from '@material-ui/icons/Camera';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-
-import { Disabilities } from '../../../lib/DisabilitiesCollection';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -45,46 +29,38 @@ export default function MenuItem(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [lists, setLists] = React.useState([]);
-  const listsFirst = Disabilities.find().fetch();
+  //const listsFirst = Disabilities.find().fetch();
 
   useEffect(() => {
-    let finalLists = [];
-    listsFirst.map((option) => {
-      if (props.disabilitieOptions.find(element => element.name === option.name)){
-        finalLists.push({label: option.name, selected: true})
-      } else {
-        finalLists.push({label: option.name, selected: false})
-      }
-    })
-    if (finalLists.find(element => element.selected === false)){
-      finalLists.unshift({label: props.language.allDisabilities, selected: false})
-    } else {
-      finalLists.unshift({label: props.language.allDisabilities, selected: true})
-    }
-    setLists(finalLists);
-  }, [props.disabilitieOptions])
+    console.log("el meni de didabilities y propiedades",props)
+  
+
+    setLists(props.disabilitieOptions[1]);
+  }, [props.disabilitieOptions[1]])
 
   const handleToggle = index => () => {
     let prevLists = lists;
-    if (index === 0) {
-      prevLists[index].selected ? prevLists.map(option => option.selected = false) : prevLists.map(option => option.selected = true)
-    } else {
-      prevLists[index].selected = !prevLists[index].selected;
-      let allSelected = true;
-      for (var i = 1; i < prevLists.length; i++) {
-        if (!prevLists[i].selected) {
+    console.log("prevLists,index, support",prevLists,index)
+    
+      prevLists[index].isChecked = !prevLists[index].isChecked;
+      /* let allSelected = true;
+      for (var i = 0; i < prevLists.length; i++) {
+        if (!prevLists[i].isChecked) {
           allSelected = false;
         }
       }
-      allSelected ? prevLists[0].selected = true : prevLists[0].selected = false;
-    }
-    let support = [];
+      allSelected ? prevLists[0].isChecked = true : prevLists[0].isChecked = false; */
+    
+    /* let support = [];
     prevLists.map((option, index) => {
-      if (option.selected && index > 0) {
-        support.push(listsFirst[index-1])
+      if (option.isChecked && index > 0) {
+        support.push(listsFirst[index-1)
       }
-    })
-    props.setOption(support);
+    }) */
+    console.log("prevLists,index, support-------",prevLists,index,)
+   props.setOption(prevLists);
+
+    
   };
 
   function handleClick(event) {
@@ -98,8 +74,8 @@ export default function MenuItem(props) {
   function getDisabilities() {
     let disabilities = "";
     let disabilitiesCounter = 0;
-    for (var i = 1; i < lists.length; i++) {
-      if (lists[i].selected) {
+    for (var i = 0; i < lists.length; i++) {
+      if (lists[i].isChecked) {
         disabilities = disabilities + lists[i].label;
         disabilitiesCounter++;
         if (i !== lists.length) {
@@ -119,7 +95,7 @@ export default function MenuItem(props) {
   return (
     <div>
       {
-        lists.length > 0 ?
+        lists && lists.length > 0 ?
           <div>
             <List className="list-menu-container" component="nav" aria-label={props.language.adienceMenu}>
               <ListItem
@@ -136,7 +112,7 @@ export default function MenuItem(props) {
                 <ListItemText
                   className="list-button-menu-text"
                   primary={props.language.accessibilityCheck}
-                  secondary={lists[0].selected ? props.language.allDisabilitiesSelected : getDisabilities()}
+                  secondary={lists[1].isChecked ? props.language.allDisabilitiesSelected : getDisabilities()}
                 />
               </ListItem>
             </List>
@@ -174,7 +150,7 @@ export default function MenuItem(props) {
                         <Checkbox
                           edge="end"
                           onChange={handleToggle(index)}
-                          checked={option.selected}
+                          checked={option.isChecked}
                           color="primary"
                         />
                       </ListItemSecondaryAction>
