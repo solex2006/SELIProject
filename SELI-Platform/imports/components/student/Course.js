@@ -64,7 +64,7 @@ export default class Course extends React.Component {
 
   calculateProgress = (toComplete, toResolve, notCertificate) => {
     let total;
-    if (this.state.course.organization.subunit) {
+    if (this.state.course.coursePlan.courseStructure === "unit") {
       let totalSubunits = 0;
       for (var i = 0; i < toComplete.length; i++) {
         for (var j = 0; j < toComplete[i].subunits.length; j++) {
@@ -78,7 +78,7 @@ export default class Course extends React.Component {
     }
     let unitPercentage  = parseFloat(100/total);
     let progress = 0;
-    if (this.state.course.organization.subunit) {
+    if (this.state.course.coursePlan.courseStructure === "unit") {
       toComplete.map(completed => {
         completed.subunits.map(subunit => subunit ? progress += unitPercentage : undefined)
       });

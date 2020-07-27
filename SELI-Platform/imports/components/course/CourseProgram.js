@@ -604,6 +604,7 @@ export default class CourseProgram extends React.Component {
                 {
                   this.state.contentTypeAdded === 'activity' && !this.state.showAccessibilityOptions ?
                     <ActivityForm
+                      courseTemplate={this.state.courseInformation.coursePlan.courseTemplate}
                       arrayOfDesignItems={this.state.arrayOfDesignItems}
                       getActivityAttributesFunction={activityAttributes => this.getItemAttributes = activityAttributes}
                       contentToEdit={this.state.contentToEdit}

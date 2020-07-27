@@ -308,7 +308,6 @@ export default class User extends React.Component {
   }
 
   handleClickCourse = (courseId, courseInformation) => {
-    console.log(courseId, courseInformation)
     var user = this.state.user;
     var courseToSend = {};
     var courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === courseId);

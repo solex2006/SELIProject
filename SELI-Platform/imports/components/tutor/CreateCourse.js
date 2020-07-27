@@ -261,7 +261,7 @@ export default class CreateCourse extends React.Component {
           saved: course,
         });
         this.props.savedCourseState();
-        //this.props.createForum(courseInformation, course);
+        this.props.createForum(courseInformation, course);
       }
       else {
         Courses.update(
@@ -278,7 +278,6 @@ export default class CreateCourse extends React.Component {
               duration: courseInformation.duration,
               requirements: courseInformation.requirements,
               support: courseInformation.support,
-              organization: courseInformation.organization,
               coursePlan: courseInformation.coursePlan,
               program: courseInformation.program,
               accessibility:courseInformation.accessibility,
@@ -293,65 +292,67 @@ export default class CreateCourse extends React.Component {
           }
         );
         this.props.savedCourseState();
-        //this.createForum(courseInformation, this.state.saved);
+        this.createForum(courseInformation, this.state.saved);
       }
       this.props.handleControlMessage(true, this.props.language.courseSavedS, true, 'savedList', this.props.language.seeList);
     }
   }
 
   createForum = (course, courseId) => {
-    if (course.organization.subunit) {
-      course.program.map((unit, index)=> {
-        let unitIndex = index;
-        unit.lessons.map((lesson, index) => {
-          let lessonIndex = index;
-          lesson.items.map((item, index)=> {
-            if (item.type === "activity" && item.attributes.type === "forum" && item.attributes.activityId === undefined){
-              this.createForumItem(item.id, courseId, unitIndex, index, lessonIndex);
-            }
+    course.program.map((unitTopic, unitTopicIndex) => {
+      unitTopic.items.map((item, index) => {
+        this.createForumItem(item, courseId, unitTopicIndex, index, -1, "unitTopic");
+      })
+      if (course.coursePlan.courseStructure === "unit") {
+        unitTopic.lessons.map((lesson, lessonIndex)=> {
+          lesson.items.map((item, index) => {
+            this.createForumItem(item, courseId, unitTopicIndex, index, lessonIndex, "lesson");
           })
         })
-      })
-    } else {
-      course.program.map((topic, index) => {
-        let topicIndex = index;
-        topic.items.map((item, index) => {
-          if (item.type === "activity" && item.attributes.type === "forum" && item.attributes.activityId === undefined){
-            this.createForumItem(item.id, courseId, topicIndex, index, -1);
-          }
-        })
-      })
-    }
+      } else {
+        if (course.coursePlan.courseTemplate !== "without") {
+          unitTopic.activities.map((activity, taskIndex)=> {
+            activity.items.map((item, index) => {
+              this.createForumItem(item, courseId, unitTopicIndex, index, taskIndex, "task");
+            })
+          })
+        }
+      }
+    })
   }
 
-  createForumItem = (itemId, courseId, parentIndex, index, childIndex) => {
-    let courseInformation = this.state.courseInformation;
-    let activity = {
-      data: [],
-      type: 'forum',
-      public: false,
+  createForumItem = (item, courseId, parentIndex, index, childIndex, level) => {
+    if (item.type === "activity" && item.attributes.type === "forum" && item.attributes.activityId === undefined){
+      let courseInformation = this.state.courseInformation;
+      let activity = {
+        data: [],
+        type: 'forum',
+        public: false,
+      }
+      let activityId;
+      if (item.id && courseId) {
+        activity.date = new Date();
+        activity.user = Meteor.userId();
+        activity.course = courseId;
+        activityId = Activities.insert({
+          activity
+        });
+      }
+      let program = Courses.findOne({_id: courseId}).program;
+      if (level === "unitTopic") {
+        program[parentIndex].items[index].attributes.activityId = activityId;
+      } else if (level === "lesson") {
+        program[parentIndex].lessons[childIndex].items[index].attributes.activityId = activityId;
+      } else if (level === "task") {
+        program[parentIndex].activities[childIndex].items[index].attributes.activityId = activityId;
+      }
+      Courses.update(
+        {_id: courseId},
+        {$set:{program: program}}
+      )
+      courseInformation.program = program;
+      this.updateCourseInformation(courseInformation);
     }
-    let activityId;
-    if (itemId && courseId) {
-      activity.date = new Date();
-      activity.user = Meteor.userId();
-      activity.course = courseId;
-      activityId = Activities.insert({
-        activity
-      });
-    }
-    let program = Courses.findOne({_id: courseId}).program;
-    if (childIndex >= 0) {
-      program[parentIndex].lessons[childIndex].items[index].attributes.activityId = activityId;
-    } else {
-      program[parentIndex].items[index].attributes.activityId = activityId;
-    }
-    Courses.update(
-      {_id: courseId},
-      {$set:{program: program}}
-    )
-    courseInformation.program = program;
-    this.updateCourseInformation(courseInformation);
   }
 
   validatePublishCourse = () => {

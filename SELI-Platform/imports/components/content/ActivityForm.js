@@ -181,7 +181,7 @@ export default class ActivityForm extends React.Component {
   render() {
     return(
       <div className="dialog-form-container">
-       <div className="editor-block">
+        <div className="editor-block">
           <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
           <Editor
             areaHeight='20vh'
@@ -203,14 +203,14 @@ export default class ActivityForm extends React.Component {
               className="form-tabs-container"
               centered={true}
             >
-              { this.props.arrayOfDesignItems.type === "4" &&
-                  <Tab value={'forum'} onClick={() => this.selectType('forum')} className="form-tab" label={this.props.language.forum} icon={<ForumIcon />} /> }
-              { this.props.arrayOfDesignItems.type !== "4" &&
-                    <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.section} icon={<SubjectIcon />} /> }
-              { this.props.arrayOfDesignItems.type !== "4" &&
-                    <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} /> }
-              { this.props.arrayOfDesignItems.type !== "4" &&
-                    <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} /> }
+              { this.props.arrayOfDesignItems.type === "4" || this.props.courseTemplate === "without" ?
+                  <Tab value={'forum'} onClick={() => this.selectType('forum')} className="form-tab" label={this.props.language.forum} icon={<ForumIcon />} /> : undefined}
+              { this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without" ?
+                  <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.section} icon={<SubjectIcon />} /> : undefined}
+              { this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without" ?
+                  <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} /> : undefined}
+              { this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without" ?
+                  <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} /> : undefined}
             </Tabs>
           </Paper>
         </div>
