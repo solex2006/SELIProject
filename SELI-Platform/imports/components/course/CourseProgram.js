@@ -413,6 +413,7 @@ export default class CourseProgram extends React.Component {
     } else {
       return (
         <TemplateParent
+          courseId={this.props.courseInformation._id}
           sortMode={this.state.sortMode}
           arrayOfItems={this.state.arrayOfItems}
           arrayOfDesignItems={this.state.arrayOfDesignItems}
