@@ -10,15 +10,12 @@ import MediaPlayer from './MediaPlayer';
 import CommentDialog from '../student/comments/CommentDialog';
 
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -42,8 +39,6 @@ export default class Course extends React.Component {
       progress: this.props.activeCourse.progress,
       toComplete: this.props.activeCourse.toComplete,
       toResolve: this.props.activeCourse.toResolve,
-      coursePresentation: true,
-      selected: this.props.selected,
       media: '',
       certificateCreated: false,
       certificateError: false,
@@ -54,7 +49,6 @@ export default class Course extends React.Component {
   }
 
   componentDidMount() {
-    this.resumeNavigation();
     this.setState({
       progress: this.calculateProgress(this.props.activeCourse.toComplete, this.props.activeCourse.toResolve)
     }, () => {
@@ -68,18 +62,9 @@ export default class Course extends React.Component {
     });
   }
 
-  resumeNavigation = () => {
-    if (this.props.selected[0] !== -1) {
-      this.setState({
-        coursePresentation: false,
-        courseContent: true,
-      });
-    }
-  }
-
   calculateProgress = (toComplete, toResolve, notCertificate) => {
     let total;
-    if (this.state.course.organization.subunit) {
+    if (this.state.course.coursePlan.courseStructure === "unit") {
       let totalSubunits = 0;
       for (var i = 0; i < toComplete.length; i++) {
         for (var j = 0; j < toComplete[i].subunits.length; j++) {
@@ -93,7 +78,7 @@ export default class Course extends React.Component {
     }
     let unitPercentage  = parseFloat(100/total);
     let progress = 0;
-    if (this.state.course.organization.subunit) {
+    if (this.state.course.coursePlan.courseStructure === "unit") {
       toComplete.map(completed => {
         completed.subunits.map(subunit => subunit ? progress += unitPercentage : undefined)
       });
@@ -106,10 +91,14 @@ export default class Course extends React.Component {
     return progress;
   }
 
-  completeUnit = (index) => {
+  completeTopicLesson = () => {
     let toComplete = this.state.toComplete;
     let toResolve = this.state.toResolve;
-    toComplete[index] = true;
+    if (this.state.course.coursePlan.courseStructure === "unit") {
+      toComplete[this.props.selected[0]].subunits[this.props.selected[1]] = true;
+    } else {
+      toComplete[this.props.selected[0]] = true;
+    }
     let progress = this.calculateProgress(toComplete, toResolve);
     this.setState({
       toComplete: toComplete,
@@ -123,30 +112,11 @@ export default class Course extends React.Component {
         progress,
         (error, response) =>  {
           if (!error) {
-            this.props.handleControlMessage(true, this.props.language.topicCompletedText);
-          }
-        }
-      );
-    });
-  }
-
-  completeSubunit = (parent, child) => {
-    let toComplete = this.state.toComplete;
-    let toResolve = this.state.toResolve;
-    toComplete[parent].subunits[child] = true;
-    let progress = this.calculateProgress(toComplete, toResolve);
-    this.setState({
-      toComplete: toComplete,
-      progress: progress,
-    }, () => {
-      Meteor.call(
-        "CompleteSection",
-        Meteor.userId(),
-        this.state.toComplete,
-        this.state.course._id,
-        progress, (error, response) =>  {
-          if (!error) {
-            this.props.handleControlMessage(true, this.props.language.lessonCompletedText);
+            this.props.handleControlMessage(true,
+              this.state.course.coursePlan.courseStructue === "unit" ?
+              this.props.language.lessonCompletedText :
+              this.props.language.topicCompletedText
+            );
           }
         }
       );
@@ -290,40 +260,35 @@ export default class Course extends React.Component {
   render() {
     return(
       <div className="course-container">
-        <CourseMenu
+        {this.props.selected[3] !== -1 && <CourseMenu
           course={this.state.course}
           progress={this.state.progress}
+          expandedNodes={this.props.expandedNodes}
           navigateTo={this.props.navigateTo.bind(this)}
           selected={this.props.selected}
-          showPresentation={this.props.showPresentation.bind(this)}
           showCourseStories={this.showCourseStories.bind(this)}
           language={this.props.language}
-        />
+        />}
         {
-          this.state.coursePresentation ?
+          this.props.selected[3] === -1 ?
             <CoursePresentation
               course={this.state.course}
               progress={this.state.progress}
-              navigateTo={this.props.navigateTo.bind(this)}
               selected={this.props.selected}
+              navigateTo={this.props.navigateTo.bind(this)}
+              unsubscribe={this.props.unsubscribe.bind(this)}
               language={this.props.language}
             />
           :
-          undefined
-        }
-        {
-          this.state.courseContent ?
             <CourseContent
               course={this.state.course}
-              showPresentation={this.props.showPresentation.bind(this)}
               showComponent={this.props.showComponent.bind(this)}
               handleControlMessage={this.props.handleControlMessage.bind(this)}
               handlePrevious={this.props.handlePrevious.bind(this)}
               handleNext={this.props.handleNext.bind(this)}
               navigateTo={this.props.navigateTo.bind(this)}
               completeActivity={this.completeActivity.bind(this)}
-              completeUnit={this.completeUnit.bind(this)}
-              completeSubunit={this.completeSubunit.bind(this)}
+              completeTopicLesson={this.completeTopicLesson.bind(this)}
               openMediaPlayer={this.openMediaPlayer.bind(this)}
               leaveComment={this.leaveComment.bind(this)}
               selected={this.props.selected}
@@ -331,8 +296,6 @@ export default class Course extends React.Component {
               toResolve={this.state.toResolve}
               language={this.props.language}
             />
-          :
-          undefined
         }
         <Dialog
           open={this.state.openMedia}

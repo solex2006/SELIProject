@@ -351,6 +351,7 @@
   max-height: calc(100vh - var(--app-bar-height) - 1.75em - 2vh);
   overflow-y: scroll;
   padding-left: 1vw;
+  background-color: white;
 }
 
 .classroom-dialog-content {
@@ -358,7 +359,7 @@
   padding-left: 0vw !important;
   padding-right: 0 !important;
   overflow-x: hidden;
-  background-color: #f5f5f5 !important;
+  background-color: white !important;
 }
 
 .feedbackRequirement {

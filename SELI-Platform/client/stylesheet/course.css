@@ -20,11 +20,6 @@
   padding: 5vh 65px;
 }
 
-.course-content-container-quiz {
-  width: calc(100vw - 130px);
-  padding: 0vh 65px;
-}
-
 .course-content-breadcrumbs-container {
   padding-bottom: 4vh;
 }
@@ -37,9 +32,9 @@
   margin-top: 2px !important;
 }
 
-.course-content-breadcrumbs-paper-quiz .MuiBreadcrumbs-ol{
-  background-color: #f5f5f5 !important;
+.course-content-breadcrumbs-paper-quiz {
   margin-top: 2px !important;
+  margin-left: 60px;
 }
 
 .course-content-breadcrumb-text {

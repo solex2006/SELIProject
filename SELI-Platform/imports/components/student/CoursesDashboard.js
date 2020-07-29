@@ -65,6 +65,7 @@ export default class CoursesDashboard extends React.Component {
                     index={index}
                     language={this.props.language}
                     disabled={this.props.disabled}
+                    userCourses={this.props.user.profile.courses}
                     subscribe={this.props.subscribe.bind(this)}
                     unsubscribe={this.props.unsubscribe.bind(this)}
                     //key={Math.random()}

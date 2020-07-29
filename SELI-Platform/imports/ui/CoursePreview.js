@@ -49,7 +49,7 @@ export default class CoursePreview extends React.Component {
         });
       });
       Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
-        this.setInitVariables(response);
+        if (response) this.setInitVariables(response);
       });
     });
   }
@@ -90,9 +90,9 @@ export default class CoursePreview extends React.Component {
         progress: userCourses[courseIndex].progress,
       })
     } else {
+      courseInfo.courseId = this.state.course._id;
       this.setState({progress: "noProgress"})
     }
-    courseInfo.information = this.state.course;
     this.setState({
       courseInfo: courseInfo,
     })
