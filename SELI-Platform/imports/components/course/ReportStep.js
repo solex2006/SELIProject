@@ -21,7 +21,8 @@ import {
 	Collapse,
 	Box,
 	Typography,
-	Paper
+	Paper,
+	Button
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
@@ -39,6 +40,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { he } from "date-fns/locale";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -1814,9 +1816,16 @@ export default function ReportStep(props) {
 		newRandomTopics('unitslessons')
 
 	}
-	
-
 	const [simulate, setSimulate] = React.useState(false);
+	const [redirect, setredirect]=React.useState(null)
+	if (redirect) {
+		return <Redirect to={redirect} />
+	 }
+
+	 const changeRoute=()=>{
+		setredirect("/someRoute")
+		console.log("se va a cambiar de ruta ")
+	 }
 	
 	return (
 		<div className="course-information-container">
@@ -2336,15 +2345,17 @@ function AccessibilityProgress({ max, size }) {
 }
 function LinearProgressWithLabel(props) {
 	return (
-		<Box display="flex" alignItems="center">
-			<Box width="100%" mr={1}>
-				<LinearProgress variant="determinate" {...props} />
-			</Box>
-			<Box minWidth={35}>
-				<Typography variant="body2" color="textSecondary">{`${Math.round(
-					props.value
-				)}%`}</Typography>
-			</Box>
+		<Box display="flex" alignItems="center" onClick={()=>changeRoute()}>
+	
+				<Box width="100%" mr={1}>
+					<LinearProgress variant="determinate" {...props} />
+				</Box>
+				<Box minWidth={35}>
+					<Typography variant="body2" color="textSecondary">{`${Math.round(
+						props.value
+					)}%`}</Typography>
+				</Box>
+		
 		</Box>
 	);
 }
