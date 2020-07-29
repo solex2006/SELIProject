@@ -458,6 +458,8 @@ export default class CourseProgram extends React.Component {
             </div>
           </div>
         )}
+
+        
         <Dialog
           open={this.state.contentOpen}
           onClose={this.contentHandleClose}

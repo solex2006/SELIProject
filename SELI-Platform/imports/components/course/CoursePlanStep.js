@@ -21,6 +21,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import WarningIcon from '@material-ui/icons/Warning';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import PdfFormulario from './pdfForm'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -73,15 +74,15 @@ const useStyles = makeStyles(theme => ({
 export default function CoursePlanStep(props) {
   const classes = useStyles();
   const {language}=props;
+  console.log("CoursePlanStep:*************************************************************************************1", props)
   useEffect(()=>{
-    //console.log("CoursePlanStep:", props)
+   
     setCoursePlan(courseInformation.coursePlan.guidedCoursePlan);
     setCourseTemplate(courseInformation.coursePlan.courseTemplate);
     setCourseStructure(courseInformation.coursePlan.courseStructure);
   },[])
 
   useEffect(()=>{// guided spiral unit
-    //console.log("INFO cOURSE pLAN", coursePlan, courseTemplate, courseStructure)
     if(coursePlan==='guided' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
         props.validate('passCoursePlan')
     }
@@ -104,7 +105,7 @@ export default function CoursePlanStep(props) {
   const [courseTemplate, setCourseTemplate] = React.useState('');
   const [courseStructure, setCourseStructure] = React.useState('');
   const [changeStructure, setChangeStructure] = React.useState(false);
-  
+  const [changeSylabus, setchangeSylabus] = React.useState('');
   // will hold a reference for our real input file
   let inputFile = "";
   const handleChange = type => event => {
@@ -159,6 +160,15 @@ export default function CoursePlanStep(props) {
     }
   };
 
+  const resetSylabus=()=>{
+    courseInformation.sylabus = undefined
+    setCourseInformation(courseInformation)
+    setchangeSylabus(Math.random())
+  }
+
+  useEffect(()=>{
+  },[changeSylabus])
+
   return (
     <div className="course-information-container">
       <div className="form-input-column">
@@ -187,19 +197,16 @@ export default function CoursePlanStep(props) {
           describedBy={"i05-helper-text"}
         />
         {courseInformation.coursePlan.guidedCoursePlan === "free" && (
-            courseInformation.sylabus !== undefined ?
-              <FormPreview
-                file={courseInformation.sylabus}
-                type="pdf"
-                unPickFile={props.unPickFile.bind(this)}
-                changeFile={props.changeFile.bind(this)}
-                courseSyllabus={props.language.courseSyllabus}
-              />
-            :
-              <Button onClick={() => props.openFileSelector("pdf", ".pdf")} className="form-file-button" fullWidth color="secondary"><PictureAsPdfSharpIcon className="form-image-icon"/>
-                {props.language.selectCourseSyllabus} <br/>
-                {props.language.required}
-              </Button>
+            //courseInformation.sylabus === undefined ?
+            <PdfFormulario
+              courseInformation={props.courseInformation}
+              handleControlMessage={props.handleControlMessage.bind(this)}
+              language={props.language}
+              language={props.language}
+              selected={props.selected}
+              expandedNodes={props.expandedNodes}
+              resetSylabus={resetSylabus}
+            />
         )} 
         <br/>
         <FormLabel component="legend">

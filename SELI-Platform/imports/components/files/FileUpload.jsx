@@ -6,9 +6,8 @@ import { _ } from 'meteor/underscore';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import Loading from '../tools/Loading';
-
+//import ipfs from './Ipfs'
 const debug = require('debug')('demo:file');
-
 class FileUpload extends Component {
   constructor(props) {
     super(props);

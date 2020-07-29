@@ -1122,5 +1122,6 @@ var ENGLISH = {
   isHeadingsTip:'Organizing web pages by headings helps users get a sense of the page’s organization and structure. Visually, headings are presented as larger and more distinct than surrounding text.',
   isLink:'Were all links marked as a link item, not just fancy? Did they have a text description?',
   isLinkTip:'While screen readers can read a full page to a user, screen reader users may prefer to instead listen to a list of links. In that case, a screen reader may only read the link text and not the surrounding text.',
+  saveSylabusAccessibiltie:'Save PDF and configure accessibility',
 }
 export default ENGLISH;

@@ -135,7 +135,7 @@ function useWindowSize() {
 }
 
 export default function FormStepperID(props) {
-  console.log("Active-STEP:------------>",props)
+  //console.log("Active-STEP:------------>",props)
   const [validateInformation,setvalidateInformation]=useState({
     informationStep:props.forms[0].props.courseInformation,
   });
@@ -380,8 +380,7 @@ useEffect(()=>{
   }
 
   //////
-  if(props.updateSteps==='passAudience'){
-      console.log("completado", stepStatus)   
+  if(props.updateSteps==='passAudience'){  
       let newDisabled = new Set(stepStatus.disabled.values());
       if(stepStatus.completed.has(0)){
         newDisabled.delete(3);

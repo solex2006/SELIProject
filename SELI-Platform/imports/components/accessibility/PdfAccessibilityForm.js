@@ -555,7 +555,8 @@ export  function PdfAccessibilitytextContent(props) {
 						name='isTable'
 						value={dataField.isTable}
 						onChange={React.useCallback(handleRadioButtonOnChange)}
-					row>
+						row
+					>
 						<FormControlLabel
 							id='audioDescr-necessary-yes'
 							name='isTable'
@@ -773,9 +774,9 @@ export const usePdfDataField = (props) => {
 	
 	const a11yInitial = [
       {name: 'hasImage', is_a11y: null},
-		{name: 'hasAlt', is_a11y: null},
+		//{name: 'hasAlt', is_a11y: null},
       {name: 'hasBookmarks', is_a11y: null},
-      {name: 'isBookmarksCorrect', is_a11y: null},
+      //{name: 'isBookmarksCorrect', is_a11y: null},
       {name: 'screenReader', is_a11y: null},
       {name: 'focusOrder', is_a11y: null},
       {name: 'hasTitle', is_a11y: null},
@@ -783,7 +784,7 @@ export const usePdfDataField = (props) => {
       {name: 'hasLanguage', is_a11y: null},
 		{name: 'hasLanguagePart', is_a11y: null},
 		{name: 'hasForm', is_a11y: null},
-      {name: 'hasRequiredFields', is_a11y: null},
+      //{name: 'hasRequiredFields', is_a11y: null},
       {name: 'isRequiredFields', is_a11y: null},
       {name: 'hasLabels', is_a11y: null},
       {name: 'isTable', is_a11y: null},
@@ -794,10 +795,14 @@ export const usePdfDataField = (props) => {
 	];
 
 	useEffect(() => {
-		console.log("PDF tab",props)
-		if (props.item.dataField && props.item.isA11Y) {
-			setDataField(props.item.dataField);
-			setIsA11Y(props.item.isA11Y);
+		if (props.itemAll.accessibility.dataField && (props.itemAll.isA11Y || props.itemAll.accessibility.isA11Y)) {
+			setDataField(props.itemAll.accessibility.dataField);
+			if(props.itemAll.accessibility.isA11Y){
+				setIsA11Y(props.itemAll.accessibility.isA11Y);
+			}else{
+				setIsA11Y(props.itemAll.isA11Y);
+			}
+			
 		}
 	}, [])
 
@@ -854,26 +859,26 @@ export const usePdfDataField = (props) => {
 			data = {...data,
 				hasImageError: errValue,
 			};
-         console.log( "en el caso de else name" ,name, "value",value ,"data----",data, "datafiled",dataField)
 			let arr = [...isA11Y];
 			arr.find(a => a.name == 'hasImage').is_a11y = !errValue;
          setIsA11Y(arr);
-         console.log('ELSE if setIsA11Y',arr)
-      }
+		}
+		
       //for Navigation Tab
       if(name === "hasBookmarks"){         
-         let errValue =""
-			if(value==="yes") { 
+			let errValue =""
+			if(value === 'yes' ) { 
             errValue=true
-         }else {
+         }else if(value === 'yes' && dataField.isBookmarksCorrect ==="yes"){
             errValue=false
          }
 			data = {...data,
-				isBookmarksCorrect: value === 'no' ? value : dataField.hasAlt,
-				hasBookmarksError:errValue,
+				isBookmarksCorrect:value === 'no' ? value : dataField.isBookmarksCorrect,
+				hasBookmarksError: errValue,
+				//isBookmarksCorrectError:errValue
 			};
 			let arr = [...isA11Y];
-			arr.find(a => a.name == name).is_a11y = !errValue;
+			arr.find(a => a.name == 'hasBookmarks').is_a11y = !errValue;
          setIsA11Y(arr);
 		}
 		else if (name === 'isBookmarksCorrect'){
@@ -886,13 +891,13 @@ export const usePdfDataField = (props) => {
 			data = {...data,
 				hasBookmarksError: errValue,
 			};
-         console.log( "en el caso de else name" ,name, "value",value ,"data----",data, "datafiled",dataField)
+         
 			let arr = [...isA11Y];
 			arr.find(a => a.name == 'hasBookmarks').is_a11y = !errValue;
          setIsA11Y(arr);
-         console.log('ELSE if setIsA11Y',arr)
+         
       }
-      if(name === "hasBookmarks"){         
+      /* if(name === "hasBookmarks"){         
          let errValue =""
 			if(value==="yes") { 
             errValue=true
@@ -906,13 +911,15 @@ export const usePdfDataField = (props) => {
 			let arr = [...isA11Y];
 			arr.find(a => a.name == name).is_a11y = !errValue;
          setIsA11Y(arr);
-		}
+		} */
 		if(name === "screenReader"){         
          let errValue =""
          if(value==="yes") {errValue=false}
          else {errValue=true}
 			data = {...data,
 				screenReaderError:errValue,
+				hasBookmarksError:errValue,
+				isBookmarksCorrectError:errValue
 			};
 			let arr = [...isA11Y];
 			arr.find(a => a.name == name).is_a11y = !errValue;
@@ -942,7 +949,9 @@ export const usePdfDataField = (props) => {
 			let arr = [...isA11Y];
 			arr.find(a => a.name == name).is_a11y = !errValue;
          setIsA11Y(arr);
-      }
+		}
+		
+		//form
 		if(name === 'hasForm'){         
          let errValue =""
 			if(value==="yes") { errValue=true} else {errValue=false}
@@ -954,9 +963,13 @@ export const usePdfDataField = (props) => {
 		}
 		else if (name === 'hasRequiredFields'){
          let errValue =""
-			if(dataField.hasForm === 'yes' && value==="yes") {errValue=true}
+			if(dataField.hasForm === 'yes' && value==="yes" && (dataField.isRequiredFields === 'no' || dataField.isRequiredFields === null)) {errValue=true}
+			else if(dataField.hasForm === 'yes' && value==="yes" && dataField.hasForm === 'yes') {errValue=false}
 			else if(dataField.hasForm === 'yes' && value==="no"){errValue=true}
-			data = {...data, hasFormError: errValue,};
+			else if(value === 'yes' && dataField.hasForm === 'yes' && dataField.isRequiredFields === 'yes'){
+				errValue=false
+			}
+			data = {...data, hasFormError: errValue, };
 			let arr = [...isA11Y];
 			arr.find(a => a.name == 'hasForm').is_a11y = !errValue;
          setIsA11Y(arr);
@@ -967,16 +980,16 @@ export const usePdfDataField = (props) => {
 			else if(dataField.hasRequiredFields === 'yes' && value==="no"){errValue=true}
 			data = {...data, hasFormError: errValue,};
 			let arr = [...isA11Y];
-			arr.find(a => a.name == 'hasRequiredFields').is_a11y = !errValue;
+			arr.find(a => a.name == 'hasForm').is_a11y = !errValue;
          setIsA11Y(arr);
 		}
 		else if (name === 'hasLabels'){
          let errValue =""
 			if(dataField.hasForm === 'yes' && value==="yes") {errValue=false}
 			else if(dataField.hasForm === 'yes' && value==="no"){errValue=true}
-			data = {...data, hasFormError: errValue,};
-			let arr = [...isA11Y];
-			arr.find(a => a.name == 'hasForm').is_a11y = !errValue;
+			data = {...data, hasLabelsError: errValue, };
+			let arr = [...isA11Y]; 
+			arr.find(a => a.name == 'hasLabels').is_a11y = !errValue;
          setIsA11Y(arr);
 		}
 		
