@@ -1,9 +1,8 @@
 import React from 'react';
-import Link from '@material-ui/core/Link';
 import Iframe from 'react-iframe'
 import MenuItem from './MenuItem';
-import DragItem from './DragItem'
 import Divider from '@material-ui/core/Divider';
+
 export default class H5PItem extends React.Component {
   constructor(props) {
     super(props);
@@ -58,10 +57,6 @@ export default class H5PItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
       </div>
       );
     }

@@ -54,7 +54,14 @@ export default class VideoPreview extends React.Component {
 
   render() {
     return(
-        <video width="640" height="480"  controls id="video-preview-information" className="file-preview-information" ref="video">
+        <video 
+          width={"350"} 
+          height={undefined}
+          controls 
+          id="video-preview-information" 
+          className="file-preview-information" 
+          ref="video"
+        >
           <source src={(this.props.file!=undefined)? (this.props.file.link):(undefined)}></source>
           {
             this.state.captions!=''?   

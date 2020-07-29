@@ -3,13 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import AppsIcon from '@material-ui/icons/Apps';
+import ListIcon from '@material-ui/icons/List';
 import CloseIcon from '@material-ui/icons/Close';
 import Clock from 'react-live-clock';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Paper from '@material-ui/core/Paper';
-
-import CourseNavigation from './CourseNavigation';
+import NavigationTool from '../course/NavigationTool';
 
 const useStyles = makeStyles({
   list: {
@@ -42,7 +41,7 @@ export default function CourseMenu(props) {
   };
 
   function showPresentation() {
-    props.showPresentation();
+    props.navigateTo([-1, -1, -1, -1])
     closeDrawer();
   }
 
@@ -86,17 +85,14 @@ export default function CourseMenu(props) {
         <p className="course-menu-subheader-subtitle">{`${props.language.completed}: ${props.progress}%`}</p>
       </div>
       <div className="course-menu-navigation-container">
-        <CourseNavigation
+        <NavigationTool
           program={props.course.program}
-          organization={props.course.organization}
-          navigate={true}
+          coursePlan={props.course.coursePlan}
           selected={props.selected}
-          navigateTo={props.navigateTo.bind(this)}
+          expandedNodes={props.expandedNodes}
           closeDrawer={closeDrawer.bind(this)}
-          courseNav={props.language.courseNavigation}
-          topic={props.language.topic}
-          unit={props.language.unit}
-          lesson={props.language.lesson}
+          navigateTo={props.navigateTo.bind(this)}
+          language={props.language}
         />
       </div>
       {
@@ -119,10 +115,17 @@ export default function CourseMenu(props) {
 
   return (
     <div>
-      <div className="course-menu-button-container">
-        <IconButton className="course-menu-button" onClick={toggleDrawer('right', true)}>
-          <AppsIcon fontSize="large"/>
+      <div className="course-menu-button-container" onClick={toggleDrawer('right', true)}>
+        <IconButton className="course-menu-button">
+          <ListIcon fontSize="large"/>
         </IconButton>
+        <Button
+          //onClick={() => this.props.completeTopicLesson()}
+          variant="contained"
+          className="course-content-footer-button"
+        >
+          {props.language.courseOrganization}
+        </Button>
       </div>
       <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
         {sideList('right')}

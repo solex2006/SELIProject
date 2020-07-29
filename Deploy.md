@@ -29,7 +29,7 @@ Visit https://www.sslforfree.com/ for free certificate.
 
 ### Mail Server
 
-In ".deploy/settings.json" fill the variables according with the parameters of your mail server, in this way:
+In ".deploy/settings.json" fill the variables according with the parameters of your mail, metabase and blockchain server (if you have not configured those servers, just simply left the variables like the example below), in this way:
 
 ```
 {
@@ -38,6 +38,12 @@ In ".deploy/settings.json" fill the variables according with the parameters of y
     "SMTP_PORT": "25",
     "SMTP_USER" : "smtp.user@example.com",
     "SMTP_USER_PASSWORD": "****"
+  },
+  "public": {
+    "METABASE_DOMAIN": "https://metabase.example.com",
+    "METABASE_KEY": "******************************************************",
+    "BLOCKCHAIN_DOMAIN": "https://blockchain.example.com",
+    "BLOCKCHAIN_USERKEY": "********************************"
   }
 }
 ```

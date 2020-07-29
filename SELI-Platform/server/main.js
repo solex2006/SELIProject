@@ -77,7 +77,6 @@ if (Meteor.isServer) {
       'certificate-result': function (idStudent,certificateHash) {
         console.log("id",idStudent);
         console.log("cert",certificateHash);
-
         let updateResult= Meteor.users.update(
           {_id : idStudent },
           { $push : 

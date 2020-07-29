@@ -4,8 +4,7 @@ import StarRateIcon from '@material-ui/icons/StarRate';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import MenuItem from './MenuItem';
-import DragItem from './DragItem';
-import Divider from '@material-ui/core/Divider';
+
 export default class CompressedItem extends React.Component {
   constructor(props) {
     super(props);
@@ -48,10 +47,6 @@ export default class CompressedItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
       </div>
     );
   }

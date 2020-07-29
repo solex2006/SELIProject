@@ -49,7 +49,7 @@ export default class H5PItem extends React.Component {
                     />
                     {
                       this.state.loading ?
-                        <div className="embebed-loading-container">
+                        <div className="embedded-loading-container">
                           <Loading message={this.props.loadingH5p}/>
                         </div>
                       :

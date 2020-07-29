@@ -1,18 +1,9 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Switch from '@material-ui/core/Switch';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
-import Grid from '@material-ui/core/Grid';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import Tooltip from '@material-ui/core/Tooltip';
-import Editor from '../inputs/editor/Editor';
+import Help from '../tools/Help';
 
-export default class EmbebedForm extends React.Component {
+export default class EmbeddedForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,7 +32,7 @@ export default class EmbebedForm extends React.Component {
     });
   }
 
-  getEmbebedAttributes(){
+  getEmbeddedAttributes(){
     let emebedContent = this.state.attributes;
     let size = {width: "100%", height: this.vhToPixels(100)};
     emebedContent.size = size;
@@ -59,7 +50,7 @@ export default class EmbebedForm extends React.Component {
       return false;
     }
     if (content.hasDescription && content.description === '') {
-      this.props.handleControlMessage(true, this.props.language.enterDescriptionEmbebed);
+      this.props.handleControlMessage(true, this.props.language.enterDescriptionEmbedded);
       return false;
     }
     return true;
@@ -78,7 +69,7 @@ export default class EmbebedForm extends React.Component {
   }
 
   componentDidMount(){
-    this.props.getEmbebedAttributesFunction(() => this.getEmbebedAttributes());
+    this.props.getEmbeddedAttributesFunction(() => this.getEmbeddedAttributes());
   }
 
   componentWillMount(){
@@ -105,7 +96,14 @@ export default class EmbebedForm extends React.Component {
           onChange={this.handleChange('url')}
           autoFocus={true}
         />
-        <div className="margin-center-row">
+        <div className="center-button-container">
+          <Help
+              helper="hp5Helper"
+              text={this.props.language.helpH5p}
+              language={this.props.language}
+            />
+        </div>
+        {/*  <div className="margin-center-row">
           <p className="form-label">{this.props.language.textPosition}</p>
           <Grid item>
             <ToggleButtonGroup onChange={this.handleChange('alignment')} size="small" value={this.state.attributes.alignment} exclusive>
@@ -122,7 +120,7 @@ export default class EmbebedForm extends React.Component {
             </ToggleButtonGroup>
           </Grid>
         </div>
-        <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
+       <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
           <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
           <Editor
             areaHeight="20vh"
@@ -132,7 +130,7 @@ export default class EmbebedForm extends React.Component {
             getInnerHtml={this.getInnerHtml.bind(this)}
             language={this.props.language}
           />
-        </div>
+        </div> */}
       </div>
     );
   }

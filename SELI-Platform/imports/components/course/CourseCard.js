@@ -113,15 +113,12 @@ export default class CourseCard extends React.Component {
   }
 
   checkSubscriptions = () => {
-    let subscribed = false;
-    for (var i = 0; i < this.props.course.classroom.length; i++) {
-      if (this.props.course.classroom[i] === Meteor.userId()) {
-        subscribed = true;
-      }
+    let subscribed = this.props.userCourses.findIndex(course => course.courseId === this.props.course._id);
+    if (subscribed > -1){
+      this.setState({
+        subscribed: true,
+      });
     }
-    this.setState({
-      subscribed: subscribed,
-    });
   }
 
   handleClose = () => {
@@ -166,10 +163,10 @@ export default class CourseCard extends React.Component {
   render() {
     return (
       <div>
-        <Fade force top delay={this.props.index * 350}>
+        <Fade force top delay={this.props.index * 100}>
           <Card className="course-card">
             <CardActionArea>
-             <CardHeader
+              <CardHeader
                 avatar={
                   <Avatar
                     style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
@@ -187,22 +184,6 @@ export default class CourseCard extends React.Component {
                   <h3 className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
                 }
               /> 
-
-              {/* <div className="MuiCardHeader-content">
-                <div className="course-card-header-1">
-                  <Avatar
-                    style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
-                    aria-label="recipe"
-                    className="course-card-avatar"
-                  >
-                    <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
-                  </Avatar>
-                  <div className="card-header-1">
-                    <h2 className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{this.props.course.title}</h2>
-                    <h3 className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
-                  </div>
-                </div>
-              </div> */}
               <CardMedia
                 className="course-card-media"
                 image={this.props.course.image.link}
@@ -218,6 +199,7 @@ export default class CourseCard extends React.Component {
               </CardContent>
               <CardActions className="course-card-actions" disableSpacing>
                 <Link className="button-link MuiButtonBase-root MuiButton-root MuiButton-outlined course-card-button"
+                  target="_blank"
                   to={{
                     pathname: "/coursePreview",
                     hash: this.props.course._id,
@@ -230,18 +212,6 @@ export default class CourseCard extends React.Component {
                     }}
                 >
                   {this.props.language.coursePreview}
-                  {/*<Button
-                    className="course-card-button"
-                    aria-label="see preview"
-                    variant="outlined"
-                    onClick={() => 
-                    {
-                      StudentLog.insert({ "UserId": Meteor.userId(), "CourseId" : this.props.course._id, 
-                      "Datetime": new Date(), "Action": "Course Preview" });
-                    }}
-                  >
-                    {this.props.language.coursePreview}
-                  </Button> */}
                 </Link>
                 {
                   !this.state.subscribed ?

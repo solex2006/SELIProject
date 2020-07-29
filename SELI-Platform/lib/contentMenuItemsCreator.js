@@ -9,7 +9,7 @@ export function createContentItems(){
     { id: Math.random(), type: "link" },
     { id: Math.random(), type: "quiz" },
     { id: Math.random(), type: "activity" },
-    { id: Math.random(), type: "embebed" },
+    { id: Math.random(), type: "embedded" },
     { id: Math.random(), type: "h5p" },
     { id: Math.random(), type: "unity" },
   ];

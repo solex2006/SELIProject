@@ -1,10 +1,8 @@
 import React from 'react';
-import { Resizable } from "re-resizable";
 import MenuItem from './MenuItem';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import ResizableContent from './ResizableContent'
 import DiscreteSlider from './DiscreteSlider'
-import DragItem from './DragItem'
 import Divider from '@material-ui/core/Divider';
 
 export default class ImageItem extends React.Component {
@@ -13,8 +11,6 @@ export default class ImageItem extends React.Component {
     this.state = {
       width: this.props.item.attributes.size.width,
       height: this.props.item.attributes.size.height,
-      //width: 200,
-      //height: 200
     }
   }
 
@@ -73,74 +69,41 @@ export default class ImageItem extends React.Component {
 
 
   render() {
-    //console.log("ImageItem---", this.props.item,this.props.item.attributes.image.link)
-    //console.log("---Coordenada a Renderizar---",this.props.item.attributes.image.coordenada)
-
     if(this.state.width != this.state.height){
       this.setState({
-        width: 300 ,
+        width: 300,
         height: 300,
       });
     }
     return(
-
-      
       <div className="content-box">
-        
-        <div>
-          <DiscreteSlider adjust={this.adjust}/> 
-         
-        </div>
         <div className="image-content-item">
           <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
-         {console.log("this.props.item.attributes.image.coordenada",this.props.item.attributes)}
-          <ResizableContent
-              key={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
-              top={8}
-              minWidth={10}
-              minHeight={10}
-              left={8}
-              width={this.state.width}
-              height={this.state.height}
-              rotateAngle={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
-              //adjust={this.adjust}
-              //coordenada={this.props.coordenada}
-             //coordenadaCursos={this.coordenadaCursos}
-            > 
-              <div>
-                  <img  style={{ width: `${this.state.width}px`, height: `${this.state.height}px`}}  src={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())}></img>
-              </div>
-            </ResizableContent> 
-           {/*  <Resizable
-              size={{
-                width: this.props.item.attributes.size.width,
-                height: this.props.item.attributes.size.height,
-              }}
-              className="resizable-item"
-              onResize={(e, direction, ref, d) => {
-                this.changeImageSize();
-              }}
-              onResizeStop={(e, direction, ref, d) => {
-                this.setImageSize(e, direction, ref, d);
-              }}
-              handleComponent={{
-                bottomRight: <div className="bottom-right-resize"></div>,
-                topRight: <div className="top-right-resize"></div>,
-                bottomLeft: <div className="bottom-left-resize"></div>,
-                topLeft: <div className="top-left-resize"></div>,
-                centerLeft: <div className="top-left-resize"></div>,
-              }}
-            >
-              <div
-                id={ this.props.item.attributes.image._id + this.props.item.id }
-                className="image-item"
-                style={{
-                  backgroundImage: `url(${this.props.item.attributes.image.link})`,
-                  backgroundSize: `${this.props.item.attributes.size.width}px`,
-                }}></div>
-            </Resizable> */}
-
-
+            <div>
+              <DiscreteSlider adjust={this.adjust}/> 
+              <ResizableContent
+                key={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
+                top={8}
+                minWidth={10}
+                minHeight={10}
+                left={8}
+                width={this.state.width}
+                height={this.state.height}
+                rotateAngle={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
+                //adjust={this.adjust}
+                //coordenada={this.props.coordenada}
+              //coordenadaCursos={this.coordenadaCursos}
+              > 
+                {/* <img  style={{ width: `${this.state.width}px`, height: `${this.state.height}px`, }}  src={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())}></img> */}
+                <div 
+                  style={{
+                    width: `${this.state.width}px`, height: `${this.state.height}px`, 
+                    backgroundImage: `url(${(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())})`
+                  }} 
+                  className="file-image-preview"
+                ></div>
+              </ResizableContent>
+            </div>
             {
               this.props.item.attributes.hasDescription ?
                 <div
@@ -172,10 +135,6 @@ export default class ImageItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
           language={this.props.language}

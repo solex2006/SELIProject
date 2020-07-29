@@ -15,6 +15,10 @@ export default class PdfForm extends React.Component {
       attributes: {
         pdf: undefined,
         instruction: '',
+        accessibility: {
+          pureDecorative: false,
+          percentage: 0,
+        }
       }
     }
   }
@@ -22,10 +26,6 @@ export default class PdfForm extends React.Component {
   validateContent = (content) => {
     if (content.pdf === undefined) {
       this.props.handleControlMessage(true, this.props.language.uploadAddUrlPdf);
-      return false;
-    }
-    if (content.instruction === '') {
-      this.props.handleControlMessage(true, this.props.language.enterDescriptionPdf);
       return false;
     }
     return true;
@@ -152,18 +152,7 @@ export default class PdfForm extends React.Component {
               <div>
               <div className="accessibility-form-helper-text">
                 </div>
-                <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
-                <div className="editor-block">
-                  <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
-                  <Editor
-                    areaHeight="25vh"
-                    buttonLabels={false}
-                    innerHTML={this.state.attributes.instruction}
-                    addLinks={true}
-                    getInnerHtml={this.getInnerHtml.bind(this)}
-                    language={this.props.language}
-                  />
-                </div>
+               
               </div>
             </div>
           :

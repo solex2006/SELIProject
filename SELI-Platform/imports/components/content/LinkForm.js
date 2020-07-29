@@ -1,7 +1,7 @@
 import React from 'react';
 import Editor from '../inputs/editor/Editor';
 import TextField from '@material-ui/core/TextField';
-
+import Help from '../tools/Help';
 export default class LinkForm extends React.Component {
   constructor(props) {
     super(props);
@@ -75,10 +75,17 @@ export default class LinkForm extends React.Component {
           required
           className="form-padding-dialog-input"
         />
-        <div className="padding-center-row">
+        <div className="center-button-container">
+          <Help
+              helper="hp5Helper"
+              text={this.props.language.helpH5p}
+              language={this.props.language}
+            />
+        </div>
+       {/* <div className="padding-center-row">
           <p className="form-message">{this.props.language.textDescribingLink}</p>
         </div>
-        <div className="editor-block">
+         <div className="editor-block">
           <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
           <Editor
             areaHeight='20vh'
@@ -88,7 +95,7 @@ export default class LinkForm extends React.Component {
             getInnerHtml={this.getInnerHtml.bind(this)}
             language={this.props.language}
           />
-        </div>
+        </div> */}
       </div>
     );
   }

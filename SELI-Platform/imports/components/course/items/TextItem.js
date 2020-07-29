@@ -1,8 +1,6 @@
 import React from 'react';
 import MenuItem from './MenuItem';
 import Code  from '../../tools/Code';
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
 
 export default class TextItem extends React.Component {
   constructor(props) {
@@ -20,8 +18,6 @@ export default class TextItem extends React.Component {
     return(
       <div className="content-box">
         <div className="text-content-item">
-
-          {console.log(" this.props.item.attributes",  this.props.item.attributes)}
           {
             this.props.item.attributes.type === 'title' ?
                 <div>
@@ -80,10 +76,6 @@ export default class TextItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
       </div>
       );
     }

@@ -90,13 +90,26 @@ export default function A11YProgressFeedback(props){
 	}
 
 	function updateProgress(){
-	
+			console.log("update progres bar", props.a11yFields)
+			let a11y =0
+			let a11yPercentage =0
 		let max =props.a11yFields.length;
-		let a11y = props.a11yFields.filter( el => el.is_a11y ).length;
-		let a11yPercentage = a11y * 100 / max;
-		setProgressPercent(a11yPercentage);
-		setProgressText(a11y + '/' + max);
+		if(max===16){
+			a11y = props.a11yFields.filter( el => el.is_a11y ).length;
+			a11yPercentage = a11y * 100 / (max-1);
+			setProgressPercent(a11yPercentage);
+			console.log("a11y",a11y, max-1,a11yPercentage)
+			setProgressText(a11y + '/' + (max-1));
+		}else{
+			 a11y = props.a11yFields.filter( el => el.is_a11y ).length;
+			 a11yPercentage = a11y * 100 / max;
+			setProgressPercent(a11yPercentage);
+			setProgressText(a11y + '/' + max);
+			console.log("el texto",progressText)
+		}
 		
+
+
 		props.getAccessibilityPercentage(a11yPercentage)
 		if (a11yPercentage < 20){
 			setProgressColor({color: a11yCOLOR.fail});
@@ -120,6 +133,7 @@ export default function A11YProgressFeedback(props){
 		<React.Fragment>
 			<Tooltip  title={'Accessibility progress ' + progressText} placement='right-start'>
 			<div className='accessibility-percentage-container'>
+				
 				<CircularProgress style={progressColor}
 					//color={progressColor}
 					variant='static'

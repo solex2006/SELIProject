@@ -1,20 +1,12 @@
 import React from 'react';
 import MenuItem from './MenuItem';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import ReactPlayer from 'react-player';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import ItemFeedback from '../../accessibility/ItemFeedback';
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
 import VideoPreview from '../../storytelling/VideoPreview';
 
 export default class VideoItem extends React.Component {
@@ -87,10 +79,6 @@ export default class VideoItem extends React.Component {
             language={this.props.language}
           />
         </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
           language={this.props.language}

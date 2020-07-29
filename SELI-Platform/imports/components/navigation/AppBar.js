@@ -10,23 +10,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import SchoolIcon from '@material-ui/icons/School';
-import HelpIcon from '@material-ui/icons/Help';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ControlSnackbar from '../../components/tools/ControlSnackbar';
 import LanguageSelector from './LanguageSelector';
 import UserMenu from './UserMenu';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
 import { Courses } from '../../../lib/CourseCollection'
 import filter from '@mcabreradev/filter'
-import CoursesDashboard  from '../student/CoursesDashboard'
-
-
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Grow ref={ref} {...props} />;
@@ -147,7 +140,7 @@ export default class AppBar extends React.Component {
     return(
       <div>
         <div className="app-bar-container" >
-          <Button  onClick={() => this.props.showComponent('home')} className="bar-title">{this.props.language.seliProject}</Button>
+          <Button  onClick={ this.props.fromAnotherSource ? undefined : () => this.props.showComponent('home')} className="bar-title">{this.props.language.seliProject}</Button>
           <div className="bar-button-container" >
             {
               this.props.user !== undefined ?

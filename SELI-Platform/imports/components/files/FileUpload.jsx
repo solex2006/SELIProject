@@ -6,9 +6,8 @@ import { _ } from 'meteor/underscore';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import Loading from '../tools/Loading';
-
+//import ipfs from './Ipfs'
 const debug = require('debug')('demo:file');
-
 class FileUpload extends Component {
   constructor(props) {
     super(props);
@@ -191,7 +190,7 @@ class FileUpload extends Component {
           {
             !this.state.inProgress ?
               <div  className="upload-container">
-                <div class="upload-btn-wrapper center-row">
+                <div className="upload-btn-wrapper center-row">
                   {
                     this.props.color ?
                       <Button onClick={this.triggerInputFile} id="da" className="sign-button" color={this.props.color} variant="outlined">{this.props.label}</Button>
