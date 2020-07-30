@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import StudentItem from './items/StudentItem';
+import ContentItem from '../course/ContentItem';
 import TemplateParent from '../course/templates/TemplateParent';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -74,7 +74,7 @@ export default class CourseContent extends React.Component {
       <React.Fragment>
         {
           this.props.course.coursePlan.courseTemplate === "without" ?
-            <StudentItem
+            <ContentItem
               arrayOfItems={arrayOfItems}
               toResolve={this.props.toResolve}
               courseId={this.props.course._id}
@@ -83,7 +83,7 @@ export default class CourseContent extends React.Component {
               handleControlMessage={this.props.handleControlMessage.bind(this)}
               completeActivity={this.props.completeActivity.bind(this)}
               language={this.props.language}
-            ></StudentItem>
+            ></ContentItem>
           :
             <TemplateParent
               sortMode={false}

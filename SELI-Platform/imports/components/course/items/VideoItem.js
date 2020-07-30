@@ -1,5 +1,4 @@
 import React from 'react';
-import MenuItem from './MenuItem';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -45,7 +44,7 @@ export default class VideoItem extends React.Component {
                 <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
                     {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
                 </Typography>
-                {
+                {/* {
                   this.props.item.attributes.hasDescription ?
                   <div
                     className="course-item-video-card-media-description"
@@ -54,7 +53,7 @@ export default class VideoItem extends React.Component {
                   </div>
                   :
                   undefined
-                }
+                } */}
               </CardContent>
             </Card>
             <CardActions className="course-item-video-card-media-actions-container">
@@ -68,16 +67,6 @@ export default class VideoItem extends React.Component {
               }
             </CardActions>
           </Card>
-        </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-            language={this.props.language}
-          />
         </div>
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}

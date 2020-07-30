@@ -56,7 +56,7 @@ content =()=>{
     return(
       <Fragment>
         <ResizableContent
-          top={22}
+          top={185}
           left={200}
           width={200}
           height={200}

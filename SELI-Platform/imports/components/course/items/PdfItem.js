@@ -6,7 +6,6 @@ import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
 import StarRateIcon from '@material-ui/icons/StarRate';
 import PrintIcon from '@material-ui/icons/Print';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
-import MenuItem from './MenuItem';
 
 export default class PdfItem extends React.Component {
   constructor(props) {
@@ -27,6 +26,9 @@ export default class PdfItem extends React.Component {
       <div className="content-box">
         <div className="file-content-item">
           <div className="pdf-item-container">
+            <div className="item-instruction-column">
+              <p className="instruction-title">{`${this.props.language.title}: ${this.props.item.attributes.pdf.name}`}</p>
+            </div>
             <div className="pdf-item">
               <FileDial
                 type={this.props.item.type}
@@ -35,24 +37,7 @@ export default class PdfItem extends React.Component {
                 icon={<PictureAsPdfIcon/>}
               />
             </div>
-            <div className="item-instruction-column">
-              <p className="instruction-title">{this.props.language.instructions}</p>
-              <div
-                className="pdf-item-instruction"
-                dangerouslySetInnerHTML={{__html: this.props.item.attributes.instruction}}
-              >
-              </div>
-            </div>
           </div>
-        </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-            language={this.props.language}
-          />
         </div>
       </div>
     );

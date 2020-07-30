@@ -1,6 +1,7 @@
 import React from 'react';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
+import MenuItem from './items/MenuItem';
 import TextItem from './items/TextItem';
 import ImageItem from './items/ImageItem';
 import VideoItem from './items/VideoItem';
@@ -24,10 +25,6 @@ export default class ContentItem extends React.Component {
     }
   }
 
-  componentDidMount(){
-
-  }
-
   render() {
     return(
       <div className="content-item">
@@ -39,9 +36,8 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'text' ?
                     <TextItem
                       item={this.props.item}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
                       language={this.props.language}
+                      handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
                     />
                   :
                   undefined
@@ -50,10 +46,6 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'image' ?
                     <ImageItem
                       item={this.props.item}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
-                      handleDecorative={this.props.handleDecorative.bind(this)}
-                      editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
                       language={this.props.language}
                     />
                   :
@@ -63,10 +55,6 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'video' ?
                     <VideoItem
                       item={this.props.item}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
-                      handleDecorative={this.props.handleDecorative.bind(this)}
-                      editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
                       language={this.props.language}
                     />
                   :
@@ -77,10 +65,6 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'audio' ?
                     <AudioItem
                       item={this.props.item}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
-                      handleDecorative={this.props.handleDecorative.bind(this)}
-                      editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
                       language={this.props.language}
                     />
                   :
@@ -90,9 +74,6 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'pdf' ?
                     <PdfItem
                       item={this.props.item}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
-                      editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
                       language={this.props.language}
                     />
                   :
@@ -102,8 +83,6 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'compressed' ?
                     <CompressedItem
                       item={this.props.item}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
                       language={this.props.language}
                     />
                   :
@@ -113,8 +92,6 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'link' ?
                     <LinkItem
                       item={this.props.item}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
                       language={this.props.language}
                     />
                   :
@@ -124,8 +101,6 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'h5p' ?
                     <H5PItem
                       item={this.props.item}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
                       language={this.props.language}
                     />
                   :
@@ -135,10 +110,6 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'quiz' ?
                     <QuizItem
                       item={this.props.item}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
-                      handleDecorative={this.props.handleDecorative.bind(this)}
-                      editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
                       language={this.props.language}
                     />
                   :
@@ -148,8 +119,6 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'activity' ?
                     <ActivityItem
                       item={this.props.item}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
                       language={this.props.language}
                     />
                   :
@@ -159,21 +128,30 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'embedded' ?
                     <EmbeddedItem
                       item={this.props.item}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
                       language={this.props.language}
                     />
                   :
                   undefined
                 }
                 {
-                  !this.props.fromTemplate && (
-                    <React.Fragment>
-                      <Divider light={true} orientation="vertical"/>
-                      <DragItem
-                        holdanddrag={this.props.language.holdanddrag}
+                  this.props.fromProgram && (
+                    <div className="menu-content-item">
+                      <MenuItem
+                        item={this.props.item}
+                        removeItem={this.props.removeItem.bind(this)}
+                        editItem={this.props.editItem.bind(this)}
+                        handleDecorative={this.props.handleDecorative.bind(this)}
+                        editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+                        language={this.props.language}
                       />
-                    </React.Fragment>
+                      <Divider light={true} orientation="vertical"/>
+                      {
+                        !this.props.fromTemplate &&
+                        <DragItem
+                          holdanddrag={this.props.language.holdanddrag}
+                        />
+                      }
+                    </div>
                   )
                 }
               </div>

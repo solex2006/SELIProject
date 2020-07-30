@@ -5,9 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import ItemFeedback from '../../accessibility/ItemFeedback';
-import MenuItem from './MenuItem';
 import Link from '@material-ui/core/Link';
-
 
 export default class AudioItem extends React.Component {
   constructor(props) {
@@ -72,7 +70,7 @@ export default class AudioItem extends React.Component {
                 }
               </div>
             </Card>
-            {
+            {/* {
               this.props.item.attributes.hasDescription ?
                 <div
                   className="course-item-audio-card-description"
@@ -81,18 +79,8 @@ export default class AudioItem extends React.Component {
                 </div>
               :
                 undefined
-            }
+            } */}
           </div>
-        </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-            language={this.props.language}
-          />
         </div>
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}

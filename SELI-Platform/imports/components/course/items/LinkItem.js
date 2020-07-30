@@ -1,5 +1,4 @@
 import React from 'react';
-import MenuItem from './MenuItem';
 
 export default class LinkItem extends React.Component {
   constructor(props) {
@@ -27,14 +26,6 @@ export default class LinkItem extends React.Component {
             dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
           >
           </div>
-        </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            language={this.props.language}
-          />
         </div>
       </div>
       );

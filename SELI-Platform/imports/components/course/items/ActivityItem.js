@@ -1,5 +1,4 @@
 import React from 'react';
-import MenuItem from './MenuItem';
 import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -93,14 +92,6 @@ export default class ActivityItem extends React.Component {
           :
           undefined
         }
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            language={this.props.language}
-          />
-        </div>
       </div>
       );
     }

@@ -1,5 +1,4 @@
 import React from 'react';
-import MenuItem from './MenuItem';
 import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -78,16 +77,6 @@ export default class QuizItem extends React.Component {
               <Divider />
             </ExpansionPanel>
           </div>
-        </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-            language={this.props.language}
-          />
         </div>
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}

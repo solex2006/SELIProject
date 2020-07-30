@@ -1,6 +1,6 @@
 import React from 'react';
 import TemplateItem from './TemplateItem';
-import StudentItem from '../../student/items/StudentItem';
+import ContentItem from '../ContentItem';
 import SortItem from '../items/SortItem';
 import { Container, Draggable, dropHandlers } from 'react-smooth-dnd';
 
@@ -26,39 +26,41 @@ export default class TemplateParent extends React.Component {
       if (this.props.editItem) {classNameTemplate = "template-row-item"}
       else{classNameTemplate = "template-column-item-student"}
     }
-    if (this.props.editItem) {
-      return(
-        <TemplateItem
-          arrayOfItems={this.props.arrayOfItems}
-          taskType={this.props.arrayOfDesignItems.type}
-          classNameTemplate={classNameTemplate}
-          contentCode={contentCode}
-          label={label}
-          contentLength={contentLength}
-          openDialog={this.props.openDialog.bind(this)}
-          removeItem={this.props.removeItem.bind(this)}
-          editItem={this.props.editItem.bind(this)}
-          handleDecorative={this.props.handleDecorative.bind(this)}
-          editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-          language={this.props.language}
-        ></TemplateItem>
-      )
-    } else {
-      if (contentLength > 0) {
+    if (contentLength > 0) {
+      if (this.props.editItem) {
         return(
-          <div className={classNameTemplate}>
-            <StudentItem
-              arrayOfItems={contentItems}
-              courseId={this.props.courseId}
-              toResolve={this.props.toResolve}
-              fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-              openMediaPlayer={this.props.openMediaPlayer.bind(this)}
-              handleControlMessage={this.props.handleControlMessage.bind(this)}
-              completeActivity={this.props.completeActivity.bind(this)}
-              language={this.props.language}
-            ></StudentItem>
-          </div>
+          <TemplateItem
+            arrayOfItems={contentItems}
+            taskType={this.props.arrayOfDesignItems.type}
+            classNameTemplate={classNameTemplate}
+            contentCode={contentCode}
+            label={label}
+            contentLength={contentLength}
+            openDialog={this.props.openDialog.bind(this)}
+            removeItem={this.props.removeItem.bind(this)}
+            editItem={this.props.editItem.bind(this)}
+            handleDecorative={this.props.handleDecorative.bind(this)}
+            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+            language={this.props.language}
+          ></TemplateItem>
         )
+      } else {
+        contentItems.map((p, i) => {
+          return(
+            <div className={classNameTemplate}>
+              <ContentItem
+                item={p}
+                courseId={this.props.courseId}
+                toResolve={this.props.toResolve}
+                fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
+                openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+                handleControlMessage={this.props.handleControlMessage.bind(this)}
+                completeActivity={this.props.completeActivity.bind(this)}
+                language={this.props.language}
+              ></ContentItem>
+            </div>
+          )
+        })
       }
     }
   }
@@ -81,13 +83,15 @@ export default class TemplateParent extends React.Component {
           unity = items.filter(item => item.type === "1").length;
           h5p = items.filter(item => item.type === "2").length;
           external = items.filter(item => item.external === true).length;
-          if (unity > 0){
-            this.setState({unity: true});
-          } else if (h5p > 0) {
-            this.setState({embedded: true});
-          } else if (external > 0){
+          if (external > 0){
             this.setState({link: true});
           } 
+          if (unity > 0) {
+            this.setState({unity: true});
+          }
+          if (h5p > 0) {
+            this.setState({embedded: true});
+          }
         } else if (index === 3) {
           file = items.filter(item => item.type === "1").length;
           h5p = items.filter(item => item.type === "2").length;

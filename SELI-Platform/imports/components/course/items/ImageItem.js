@@ -1,9 +1,7 @@
 import React from 'react';
-import MenuItem from './MenuItem';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import ResizableContent from './ResizableContent'
 import DiscreteSlider from './DiscreteSlider'
-import Divider from '@material-ui/core/Divider';
 
 export default class ImageItem extends React.Component {
   constructor(props) {
@@ -104,7 +102,7 @@ export default class ImageItem extends React.Component {
                 ></div>
               </ResizableContent>
             </div>
-            {
+            {/* {
               this.props.item.attributes.hasDescription ?
                 <div
                   id={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image._id+"description"+this.props.item.id):(Math.random())}
@@ -120,20 +118,8 @@ export default class ImageItem extends React.Component {
                 </div>
               :
                 undefined
-            }
+            } */}
           </div>
-        </div>
-        <Divider orientation="vertical" />
-      
-        <div className="menu-content-item">     
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-            language={this.props.language}
-          />
         </div>
         <ItemFeedback
           accessibility={this.props.item.attributes.accessibility}
