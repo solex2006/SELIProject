@@ -211,7 +211,7 @@ export default class ImageForm extends React.Component {
                   coordenadaR={this.setState.coordenadaR}
                 />
               }
-              <div className="margin-center-row">
+              {/* <div className="margin-center-row">
                   <p className="form-label">{this.props.language.imagePosition}</p>
                   <Grid item>
                     <ToggleButtonGroup size="small" onChange={this.handleChange("alignment")} value={this.state.attributes.alignment} exclusive>
@@ -237,7 +237,7 @@ export default class ImageForm extends React.Component {
                       </ToggleButton>
                     </ToggleButtonGroup>
                   </Grid>
-                </div>
+                </div> */}
               <div className="form-editor-label">
                 <AccessibilityHelp 
                     id={'short-description-help-container'} 

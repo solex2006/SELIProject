@@ -1,5 +1,4 @@
 import React from 'react';
-import MenuItem from './MenuItem';
 import Iframe from 'react-iframe'
 
 export default class EmbeddedItem extends React.Component {
@@ -10,15 +9,11 @@ export default class EmbeddedItem extends React.Component {
     }
   }
 
-  componentDidMount(){
-
-  }
-
   render() {
     return(
       <div className="content-box">
         <div style={{flexDirection: this.props.item.attributes.alignment}} className="embedded-content-item">
-          {
+          {/* {
             this.props.item.attributes.description ?
               <div
                 className="embedded-description-item-section"
@@ -27,7 +22,7 @@ export default class EmbeddedItem extends React.Component {
               </div>
             :
             undefined
-          }
+          } */}
           <div className="embedded-item-container-activity">
             <Iframe
               url={this.props.item.attributes.url}
@@ -39,14 +34,6 @@ export default class EmbeddedItem extends React.Component {
               height={this.props.item.attributes.size.height}
             />
           </div>
-        </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            language={this.props.language}
-          />
         </div>
       </div>
       );

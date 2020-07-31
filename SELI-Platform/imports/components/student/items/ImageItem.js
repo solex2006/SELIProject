@@ -1,6 +1,6 @@
 import React from 'react';
 import ResizableContent from './ResizableContent'
-import CheckboxLabels from './CheckBox'
+import CheckboxLabels from '../../course/items/CheckBox'
 import Grid from '@material-ui/core/Grid';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 export default class ImageItem extends React.Component {

@@ -25,10 +25,10 @@ export default class CompressedForm extends React.Component {
       this.props.handleControlMessage(true, this.props.language.uploadAddUrlCompressed);
       return false;
     }
-    if (content.instruction === '') {
+    /* if (content.instruction === '') {
       this.props.handleControlMessage(true, this.props.language.enterDescriptionCompressed);
       return false;
-    }
+    } */
     return true;
   }
 

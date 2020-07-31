@@ -246,7 +246,7 @@ export default class VideoForm extends React.Component {
       <div>
         {
           !this.state.showGallery ?
-            <div id="dialog-max-height" className="dialog-form-container-large">
+            <div id="dialog-max-height" className="dialog-form-container">
               <div className="dialog-columns-container">
                 <div className="course-creator-file-form-column">
                   <div className = "menu-tab-button-container">

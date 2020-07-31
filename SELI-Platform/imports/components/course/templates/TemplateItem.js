@@ -89,21 +89,20 @@ export default class TemplateItem extends React.Component {
         >
           {
             this.props.arrayOfItems.map((p, i) => {
-              if (p.code === this.props.contentCode) {
-                return (
-                  <Draggable key={i}>
-                    <ContentItem
-                      fromTemplate
-                      item={p}
-                      removeItem={this.props.removeItem.bind(this)}
-                      editItem={this.props.editItem.bind(this)}
-                      handleDecorative={this.props.handleDecorative.bind(this)}
-                      editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-                      language={this.props.language}
-                    />
-                  </Draggable>
-                );
-              }
+              return (
+                <Draggable key={i}>
+                  <ContentItem
+                    fromTemplate
+                    fromProgram
+                    item={p}
+                    removeItem={this.props.removeItem.bind(this)}
+                    editItem={this.props.editItem.bind(this)}
+                    handleDecorative={this.props.handleDecorative.bind(this)}
+                    editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+                    language={this.props.language}
+                  />
+                </Draggable>
+              );
             })
           }
         </Container>

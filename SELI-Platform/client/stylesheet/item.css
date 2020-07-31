@@ -86,7 +86,7 @@
 }
 
 .item-drag-handle {
-  height: auto;
+  height: 100%;
   padding-left: 4px;
   padding-right: 4px;
   display: flex;
@@ -335,9 +335,8 @@
 
 .pdf-item {
   width: auto;
-  height: 100px;
+  height: 80px;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
 }
 
@@ -354,6 +353,7 @@
 }
 
 .item-instruction-column {
+  margin-top: 15px;
   width: auto;
 }
 
