@@ -24,13 +24,15 @@
   width: 100%;
   padding-top: 20px;
   background-color: #eeeeee;
-  padding-bottom: 15vh !important;
+  padding-bottom: 3vh !important;
 }
 
 .course-card {
   max-width: 345px !important;
   margin: 2vh 0.5vw !important;
   transition: 0.15s !important;
+	display: "tabel-cell";
+	padding-right: 1em;
 }
 
 .course-card:hover {
@@ -43,6 +45,8 @@
 
 .course-card-media {
   padding-top: 56.25%; /* 16:9 */
+  height: 140;
+  width: ;: 140
 }
 
 .course-card-avatar {
@@ -127,4 +131,27 @@
 
 .course-card-extra-information {
   font-size: 0.85em !important;
+}
+
+.headersearch{
+  margin: 20px 20px 20px 20px;
+}
+
+.subheader{
+  margin: 20px 20px 20px 20px;
+}
+.buttonsearch{
+  margin: 0px 50px 50px 50px;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 35px;
+}
+
+.courses-dashboard {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #eeeeee;
+ 
 }

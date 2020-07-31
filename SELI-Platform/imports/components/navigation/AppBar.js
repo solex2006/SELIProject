@@ -133,7 +133,7 @@ export default class AppBar extends React.Component {
     this.setState({
       showPreview: 'showPreview'
     })
-    this.props.searchValue(search)
+    this.props.searchValue(search,this.state.searchText )
   }
 
   appbar=()=>{
@@ -185,7 +185,7 @@ export default class AppBar extends React.Component {
                 fullWidth
                 className="app-bar-search-input-base"
                 placeholder={this.props.language.learnAbout}
-                inputProps={{ 'aria-label': this.props.language.learnAbout}}
+                inputProps={{'aria-label': this.props.language.learnAbout}}
                 autoFocus={true}
                 onChange={this.handleSearchText}
               />

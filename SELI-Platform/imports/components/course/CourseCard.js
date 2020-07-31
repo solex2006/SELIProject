@@ -37,10 +37,54 @@ import Comment from '../../components/student/comments/Comment';
 
 import {Comments} from '../../../lib/CommentsCollection';
 import { StudentLog } from '../../../lib/StudentLogCollection';
-
+import { withStyles } from '@material-ui/core/styles';
 var ColorThief = require('color-thief');
 
-export default class CourseCard extends React.Component {
+const useStyles =theme => ({
+	root: {
+		display: "flex",
+		flexWrap: "wrap",
+		"& > *": {
+			margin: theme.spacing(1),
+			width: theme.spacing(16),
+			height: theme.spacing(16)
+		}
+	},
+	card: {
+		maxWidth: 345,
+		//  maxHeight: 450,
+		display: "tabel-cell",
+		paddingRight: "1em"
+	},
+	media: {
+		height: 0,
+		paddingTop: "56.25%" // 16:9
+	},
+	searchbar: {
+		//padding: '2px 4px',
+		display: "flex",
+		alignItems: "center",
+		maxWidth: "95vw",
+		minWidth: "95vw",
+		background: "black",
+		"& *": {
+			color: "white"
+		}
+	},
+	input: {
+		marginLeft: theme.spacing(1),
+		flex: 1
+	},
+	iconButton: {
+		padding: 10
+	},
+	divider: {
+		height: 28,
+		margin: 4
+	}
+});
+
+class CourseCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -161,11 +205,12 @@ export default class CourseCard extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <Fade force top delay={this.props.index * 100}>
+      
           <Card className="course-card">
-            <CardActionArea>
+            <CardActionArea >
               <CardHeader
                 avatar={
                   <Avatar
@@ -185,19 +230,19 @@ export default class CourseCard extends React.Component {
                 }
               /> 
               <CardMedia
-                className="course-card-media"
+                className={classes.media}
                 image={this.props.course.image.link}
                 title={this.state.label}
               />
-              <CardContent className="course-card-content">
-                <Typography className="course-card-description" variant="body2" color="textSecondary" component="p">
+              <CardContent >
+                <Typography variant="body2" color="textSecondary" component="p">
                   {this.props.course.description}
                 </Typography>
                 <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
                   {`${this.props.language.author}: ${this.props.course.createdBy}`}
                 </Typography>
               </CardContent>
-              <CardActions className="course-card-actions" disableSpacing>
+              <CardActions  disableSpacing>
                 <Link className="button-link MuiButtonBase-root MuiButton-root MuiButton-outlined course-card-button"
                   target="_blank"
                   to={{
@@ -249,7 +294,7 @@ export default class CourseCard extends React.Component {
               </CardActions>
             </CardActionArea>
           </Card>
-        </Fade>
+        
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -300,3 +345,5 @@ export default class CourseCard extends React.Component {
     );
   }
 }
+
+export default  withStyles(useStyles)(CourseCard)

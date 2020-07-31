@@ -469,9 +469,11 @@ export default class User extends React.Component {
     });
   }
 
-  searchValue=(value)=>{
+  searchValue=(value, texttoSearch)=>{
+    console.log("SearchValuefunction", value)
     this.setState({
       searchText: value,
+      texttoSearch:texttoSearch,
       component: 'courses',
     })
   }
@@ -665,6 +667,7 @@ export default class User extends React.Component {
                           disabled={this.state.showLoadingMessage}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                           searchText={this.state.searchText ? this.state.searchText : undefined}
+                          texttoSearch={this.state.texttoSearch ? this.state.texttoSearch : undefined}
                           cleanSearchText={this.cleanSearchText.bind(this)}
                         />
                       :

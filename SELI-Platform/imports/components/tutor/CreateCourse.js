@@ -42,9 +42,12 @@ import MenuBookIcon from "@material-ui/icons/MenuBook"; //program
 import PdfFormulario from '../../../imports/components/course/pdfForm'
 
 export default class CreateCourse extends React.Component {
+
+  formStepper=React.createRef()
   constructor(props) {
     super(props);
     console.log("CreateCourse", props)
+    
     this.state = {
       courseSteps: undefined,
       courseInformation: {
@@ -84,7 +87,8 @@ export default class CreateCourse extends React.Component {
       action: "",
       reportflag:0,
       updateSteps:'',
-      reset: ""
+      reset: "",
+      activeStep:''
     }
   }
 
@@ -127,14 +131,15 @@ export default class CreateCourse extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    //console.log("componentidUPdate/////////////////////////////////////////////////////",this.props)
+    console.log("componentidUPdate/////////////////////////////////////////////////////",prevState, this.state)
     /* this.setState({
       reset:Math.random()
     }) */
-    if (prevProps.language.languageIndex !== this.props.language.languageIndex) {
+    if ((prevProps.language.languageIndex !== this.props.language.languageIndex) || (prevState.selected !== this.state.selected)) {
       this.loadingHeaders();
       this.loadingData();
     }
+    
   }
 
   loadingHeaders = () => {
@@ -165,6 +170,7 @@ export default class CreateCourse extends React.Component {
   })
 
   loadingData = () => {
+    console.log("loading data***")
     this.setState({
       courseForms: [
         <CourseInformation
@@ -226,12 +232,46 @@ export default class CreateCourse extends React.Component {
           language={this.props.language}
         />,
         <ReportStep
+          handleBack={this.handleBack.bind(this)}
           language={this.props.language}
           validate={this.validate}
           courseInformation={this.state.courseInformation}
         />,
       ],
     });
+  }
+
+  handleBack=(props)=>{
+    console.log("handel back",props)
+    if(props.topic.type==='topic'){
+      this.setState({
+        activeStep:Math.random(),
+        selected:[props.topic.indice,0,0,0]
+      })
+    }
+    if(props.topic.type==='template'){
+      this.setState({
+        activeStep:Math.random(),
+        selected:[props.topic.unidad,0,props.topic.actividad,2]
+      })
+    }
+    if(props.topic.type==='unid'){
+
+      if(props.topic.lesson!=undefined){
+        this.setState({
+          activeStep:Math.random(),
+          selected:[props.topic.unidad,props.topic.lesson!=undefined?props.topic.lesson:0,0,1]
+        })
+      }
+      if(props.topic.lesson===undefined){
+        this.setState({
+          activeStep:Math.random(),
+          selected:[props.topic.unidad,0,0,0]
+        })
+      }
+      
+    }
+   // this.loadingData()[props.topic.unidad,0props.topic,0,actividad,1]
   }
 
   publishCourse() {
@@ -598,9 +638,11 @@ export default class CreateCourse extends React.Component {
   render() {
     return(
       <div>
+        {console.log("despues de update",this.state )}
         {
           this.state.courseForms !== undefined ?
             <FormStepperID
+              ref={this.formStepper}
               updateSteps={this.state.updateSteps}
               language={this.props.language}
               title={this.props.courseToEdit ? this.props.language.editing : this.props.language.createCourse}
@@ -613,6 +655,7 @@ export default class CreateCourse extends React.Component {
               finalAction={this.handlePublish.bind(this)}
               saveAction={this.saveCourse.bind(this)}
               reportflag={this.state.reportflag}
+              activeStep={this.state.activeStep}
             />
           :
           undefined
