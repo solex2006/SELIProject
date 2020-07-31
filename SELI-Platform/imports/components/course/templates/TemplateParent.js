@@ -45,22 +45,24 @@ export default class TemplateParent extends React.Component {
           ></TemplateItem>
         )
       } else {
-        contentItems.map((p, i) => {
-          return(
-            <div className={classNameTemplate}>
-              <ContentItem
-                item={p}
-                courseId={this.props.courseId}
-                toResolve={this.props.toResolve}
-                fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-                openMediaPlayer={this.props.openMediaPlayer.bind(this)}
-                handleControlMessage={this.props.handleControlMessage.bind(this)}
-                completeActivity={this.props.completeActivity.bind(this)}
-                language={this.props.language}
-              ></ContentItem>
-            </div>
-          )
-        })
+        return(
+          <div className={classNameTemplate}>
+            {contentItems.map((p, i) => {
+              return(
+                <ContentItem
+                  item={p}
+                  courseId={this.props.courseId}
+                  toResolve={this.props.toResolve}
+                  fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
+                  openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+                  handleControlMessage={this.props.handleControlMessage.bind(this)}
+                  completeActivity={this.props.completeActivity.bind(this)}
+                  language={this.props.language}
+                ></ContentItem>
+              )
+            })}
+          </div>
+        )
       }
     }
   }

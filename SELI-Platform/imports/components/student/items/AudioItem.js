@@ -12,7 +12,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import ReactPlayer from 'react-player';
 import VideoPreview from '../../storytelling/VideoPreview';
-import CheckboxLabels from './CheckBox'
+import CheckboxLabels from '../../course/items/CheckBox'
 import Grid from '@material-ui/core/Grid';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 

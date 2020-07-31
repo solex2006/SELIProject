@@ -12,7 +12,7 @@ import ReactPlayer from 'react-player';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import VideoPreview from '../../storytelling/VideoPreview';
-import CheckboxLabels from './CheckBox'
+import CheckboxLabels from '../../course/items/CheckBox'
 import AudioPlayer from 'react-h5-audio-player';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';

@@ -1,7 +1,10 @@
 import React from 'react';
 import ItemFeedback from '../../accessibility/ItemFeedback';
-import ResizableContent from './ResizableContent'
-import DiscreteSlider from './DiscreteSlider'
+import ResizableContent from './ResizableContent';
+import DiscreteSlider from './DiscreteSlider';
+import Grid from '@material-ui/core/Grid';
+import CheckboxLabels from './CheckBox';
+import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 export default class ImageItem extends React.Component {
   constructor(props) {
@@ -9,6 +12,7 @@ export default class ImageItem extends React.Component {
     this.state = {
       width: this.props.item.attributes.size.width,
       height: this.props.item.attributes.size.height,
+      shortlongDescription: ''
     }
   }
 
@@ -62,9 +66,103 @@ export default class ImageItem extends React.Component {
     
     //this.resizeText();
   }
-  
-  
 
+  checkBoxLabels=()=>{
+    return(
+      <div className="checkBoxItem">
+        {
+          this.props.item.attributes.accessibility.dataField===undefined?
+            undefined
+          :
+            <div className="checkBoxItem"> 
+              {
+                this.props.item.attributes.accessibility.dataField.imagePurpose!=undefined?
+                  <div className="checkboxstyle">
+                    <CheckboxLabels
+                        language={this.props.language}
+                        checkbox={this.checkbox}
+                        type="shortLongDescription"
+                        label={this.props.language.textAlternatives}
+                    />
+                  </div>
+                  :
+                  undefined
+              }
+            </div>
+        }
+      </div>
+    )
+  }
+
+  checkbox=(event, name)=>{
+   // console.log("event and name", event, name)
+    if(event===true && name==='shortLongDescription'){
+      this.setState({
+        shortlongDescription:'shortlongDescription',
+      })
+    }
+    else if(event===false && name==='shortLongDescription'){
+      this.setState({
+        shortlongDescription:'noshortlongDescription'
+      })
+    }
+  }
+  signalText=()=>{
+    const contentState = convertFromRaw(this.props.item.attributes.accessibility.dataField.longDescription);
+    const editorState = EditorState.createWithContent(contentState);
+    return editorState
+  }
+
+  textAlternatives=()=>{
+    return(
+      <div>
+        {//For text Alternatives
+            this.state.shortlongDescription==='shortlongDescription'?
+            <Grid container spacing={3}>
+              <Grid item xs={6}>       
+              {
+                  this.props.item.attributes.accessibility.dataField.imagePurpose==='info'?
+                  <div> 
+                    <h2 className="description">{this.props.language.image_a11y_purpose_informative_label}</h2>
+                    {this.props.item.attributes.accessibility.dataField.shortDescription}
+                  </div>
+                  :
+                  undefined
+              }
+              {
+                  this.props.item.attributes.accessibility.dataField.imagePurpose==='deco'?
+                  <h2>{this.props.language.image_a11y_purpose_decorative_label}</h2>
+                  :
+                  undefined
+              }
+              {
+                  this.props.item.attributes.accessibility.dataField.imagePurpose==='txt'?
+                  <div> 
+                    <h2 className="description">{this.props.language.image_a11y_purpose_text}</h2>
+                    {this.props.item.attributes.accessibility.dataField.shortDescription}
+                  </div>
+                  :
+                  undefined
+              }
+              {
+                  this.props.item.attributes.accessibility.dataField.imagePurpose==='cplx'?
+                  <div> 
+                    <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
+                    {this.props.item.attributes.accessibility.dataField.shortDescription}
+                    <Editor editorState={this.signalText()} readOnly={true}/>
+                  </div>
+                  :
+                  undefined
+              }
+              </Grid>
+              
+            </Grid>
+            :
+            undefined
+        }
+      </div>
+    )
+  }
 
   render() {
     if(this.state.width != this.state.height){
@@ -75,10 +173,24 @@ export default class ImageItem extends React.Component {
     }
     return(
       <div className="content-box">
+        {this.checkBoxLabels()}
+        {
+          this.props.item.attributes.accessibility.dataField != undefined ?
+            <div>
+              {
+                this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+                  this.textAlternatives()
+                :
+                  undefined
+              }
+            </div>
+          :
+            undefined
+        }
         <div className="image-content-item">
           <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
             <div>
-              <DiscreteSlider adjust={this.adjust}/> 
+              {this.props.fromProgram && <DiscreteSlider adjust={this.adjust}/>}
               <ResizableContent
                 key={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
                 top={8}
@@ -121,10 +233,25 @@ export default class ImageItem extends React.Component {
             } */}
           </div>
         </div>
-        <ItemFeedback
-          accessibility={this.props.item.attributes.accessibility}
-          language={this.props.language}
-        />
+        {
+          this.props.item.attributes.accessibility.dataField!=undefined?
+          <div>
+            {
+              this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+                this.textAlternatives()
+              :
+                undefined
+            }
+          </div>
+          :
+          undefined
+        }
+        {this.props.fromProgram && 
+          <ItemFeedback
+            accessibility={this.props.item.attributes.accessibility}
+            language={this.props.language}
+          />
+        }
       </div>
       );
     }

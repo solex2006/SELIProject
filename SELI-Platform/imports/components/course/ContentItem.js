@@ -37,7 +37,6 @@ export default class ContentItem extends React.Component {
                     <TextItem
                       item={this.props.item}
                       language={this.props.language}
-                      handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
                     />
                   :
                   undefined
@@ -47,6 +46,7 @@ export default class ContentItem extends React.Component {
                     <ImageItem
                       item={this.props.item}
                       language={this.props.language}
+                      fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}
                     />
                   :
                   undefined
@@ -54,8 +54,10 @@ export default class ContentItem extends React.Component {
                 {
                   this.props.item.type === 'video' ?
                     <VideoItem
+                      openMediaPlayer={this.props.fromProgram ? undefined : this.props.openMediaPlayer.bind(this)}
                       item={this.props.item}
                       language={this.props.language}
+                      fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}
                     />
                   :
                   undefined
@@ -64,8 +66,10 @@ export default class ContentItem extends React.Component {
                 {
                   this.props.item.type === 'audio' ?
                     <AudioItem
+                      openMediaPlayer={this.props.fromProgram ? undefined : this.props.openMediaPlayer.bind(this)}
                       item={this.props.item}
                       language={this.props.language}
+                      fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}
                     />
                   :
                   undefined
@@ -75,6 +79,7 @@ export default class ContentItem extends React.Component {
                     <PdfItem
                       item={this.props.item}
                       language={this.props.language}
+                      fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}
                     />
                   :
                   undefined
@@ -110,7 +115,13 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'quiz' ?
                     <QuizItem
                       item={this.props.item}
+                      fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
+                      toResolve={this.props.toResolve ? this.props.toResolve : undefined}
+                      course={this.props.courseId ? this.props.courseId : undefined}
+                      handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
+                      completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
                       language={this.props.language}
+                      fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}
                     />
                   :
                   undefined
@@ -119,7 +130,12 @@ export default class ContentItem extends React.Component {
                   this.props.item.type === 'activity' ?
                     <ActivityItem
                       item={this.props.item}
+                      fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
+                      toResolve={this.props.toResolve ? this.props.toResolve : undefined}
+                      handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
+                      completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
                       language={this.props.language}
+                      fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}
                     />
                   :
                   undefined
@@ -155,7 +171,7 @@ export default class ContentItem extends React.Component {
                   )
                 }
               </div>
-              <Divider light={true} />
+              { this.props.fromProgram && <Divider light={true} />}
             </React.Fragment>
           :
             <div className="content-preview-container">

@@ -10,7 +10,7 @@ export default class EmbeddedForm extends React.Component {
       attributes: {
         url: '',
         description: '',
-        hasDescription: true,
+        hasDescription: false,
         alignment: 'column',
       }
     }
@@ -45,7 +45,7 @@ export default class EmbeddedForm extends React.Component {
   }
 
   validateContent = (content) => {
-    if (content.url === '' || content.description === '') {
+    if (content.url === '') {
       this.props.handleControlMessage(true, this.props.language.urlAndDescriptionR);
       return false;
     }

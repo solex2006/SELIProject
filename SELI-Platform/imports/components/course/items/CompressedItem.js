@@ -9,21 +9,26 @@ export default class CompressedItem extends React.Component {
     super(props);
     this.state = {
       actions: [
-        { icon: <CloudDownloadIcon />, name: this.props.language.download },
-        { icon: <StarRateIcon />, name: this.props.language.addToMyLibrary },
+        { icon: <CloudDownloadIcon />, name: this.props.language.download, action: () => this.download() },
+        //{ icon: <StarRateIcon />, name: this.props.language.addToMyLibrary },
       ],
     }
+  }
+
+  download = () => {
+    var win = window.open(this.props.item.attributes.compressed.link, '_blank');
+    win.focus();
   }
 
   render() {
     return(
       <div className="content-box">
         <div className="file-content-item">
-          <div className="pdf-item-container">
+        <div id={this.props.item.attributes.compressed.id+"container"+this.props.item.id} className="pdf-item-container" style={{justifyContent: this.props.item.attributes.alignment}}>
             <div className="item-instruction-column">
               <p className="instruction-title">{`${this.props.language.title}: ${this.props.item.attributes.compressed.name}`}</p>
             </div>
-            <div className="pdf-item">
+            <div id={ this.props.item.attributes.compressed.id+this.props.item.id } className="pdf-item">
               <FileDial
                 type={this.props.item.type}
                 color={'secondary'}
