@@ -65,7 +65,7 @@ export default class SubscribedCourses extends React.Component {
 
   handleClickCourse = (_id) => {
     const index = this.state.courses.findIndex(course => course.information._id === _id);
-    this.props.handleClickCourse(this.state.courses[index]);
+    this.props.handleClickCourse(this.state.courses[index].courseId, this.state.courses[index].information);
   }
 
   render() {

@@ -413,6 +413,7 @@ export default class CourseProgram extends React.Component {
     } else {
       return (
         <TemplateParent
+          courseId={this.props.courseInformation._id}
           sortMode={this.state.sortMode}
           arrayOfItems={this.state.arrayOfItems}
           arrayOfDesignItems={this.state.arrayOfDesignItems}
@@ -458,6 +459,8 @@ export default class CourseProgram extends React.Component {
             </div>
           </div>
         )}
+
+        
         <Dialog
           open={this.state.contentOpen}
           onClose={this.contentHandleClose}
@@ -604,6 +607,7 @@ export default class CourseProgram extends React.Component {
                 {
                   this.state.contentTypeAdded === 'activity' && !this.state.showAccessibilityOptions ?
                     <ActivityForm
+                      courseTemplate={this.state.courseInformation.coursePlan.courseTemplate}
                       arrayOfDesignItems={this.state.arrayOfDesignItems}
                       getActivityAttributesFunction={activityAttributes => this.getItemAttributes = activityAttributes}
                       contentToEdit={this.state.contentToEdit}

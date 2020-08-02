@@ -607,7 +607,7 @@ class StorytellingToolTime extends React.Component {
     });
     courses = Courses.find({_id: {$in: courses}}).fetch();
     courses.map(course => {
-      if (course.organization.subunit) {
+      if (course.coursePlan.courseStructure === "unit") {
         course.program.map(unit => {
           unit.lessons.map(subunit => {
             subunit.items.map(item => {

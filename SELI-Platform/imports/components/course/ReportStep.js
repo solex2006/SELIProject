@@ -21,7 +21,8 @@ import {
 	Collapse,
 	Box,
 	Typography,
-	Paper
+	Paper,
+	Button
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
@@ -29,6 +30,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import AssignmentLateIcon from "@material-ui/icons/AssignmentLate";
 import GaugeChart from "react-gauge-chart";
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import {
 	faBrain,
 	faLowVision,
@@ -38,6 +40,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { he } from "date-fns/locale";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -45,7 +48,9 @@ const useStyles = makeStyles(theme => ({
 	},
 	paper: {
 		marginBottom: theme.spacing(2),
-		
+	},
+	pdf:{
+		display:'flex',
 	},
 	allachieved:{
 		justifyContent:'center',
@@ -176,6 +181,10 @@ export default function ReportStep(props) {
    
 	console.log("Propiedades en el Report", props)
 	const [courseinformation, setcourseInformation]= useState(courseInformation)
+	const [sylabus, setSylabus]= useState(props.courseInformation.sylabus)
+	const [reportSylabus, setreportSylabus]= useState([])
+	const [sylabusTotal, setsylabusTotal]= useState(0)
+
 
    const [percentagesWithoutUnit, setPercentagesWithoutUnit]=useState({
       guidedWithoutUnit:[],
@@ -248,20 +257,276 @@ export default function ReportStep(props) {
 			//GuidedWithoutUnits() //for full acesibility
 			UnitsCourse() // for without Inclusion Gol
       }else if(props.courseInformation.coursePlan.courseTemplate ==="spiral" || 
-					 props.courseInformation.coursePlan.courseTemplate=== "toyBox"  ||
-					 props.courseInformation.coursePlan.courseTemplate=== "consistent"){
+			props.courseInformation.coursePlan.courseTemplate=== "toyBox"  ||
+			props.courseInformation.coursePlan.courseTemplate=== "consistent"){
 			TemplateCourse()
 		}
+
+		if(props.courseInformation.sylabus!=undefined){
+      	SylabusCourse()
+         //GuidedWithoutTopics()
+      }
 		
 		//validateReport()
 		
 	},[])
 
-	/* useEffect(()=>{
-		console.log("report step",categories)
-		courseinformation.report=categories
-		setcourseInformation(courseinformation)
-	}) */
+	const SylabusCourse=()=>{
+		console.log("Dentro de Sylabus course", props.courseInformation.sylabus)
+		let cognitive=0
+		let hearing=0
+		let visual=0
+		let elderly=0
+		let percentagebySylabus=[]
+		let misscognitive=0
+		let misshearing=0
+		let missvisual=0
+		let misselderly=0
+
+		 if(sylabus.accessibility.dataField!=undefined){
+			//sylabus.isA11Y.map((isa11y, indexIsa11y)=>{
+			let isa11y=sylabus.accessibility.dataField;
+			if((isa11y.hasImage==='yes' && isa11y.hasAlt==='yes') || (isa11y.hasImage==='no' && isa11y.hasAlt==='no') || 
+			(isa11y.hasImage==='no' && isa11y.hasAlt===null)){
+				cognitive+=1
+				hearing+=1
+				visual+=1
+			}if(isa11y.hasImage==='yes' && isa11y.hasAlt==='no'){
+				misscognitive+=1
+				misshearing+=1
+				missvisual+=1
+			}
+			if(isa11y.hasImage===null || isa11y.hasAlt===null){
+				misscognitive+=1
+				misshearing+=1
+				missvisual+=1
+			}
+
+			// tab 2
+			if((isa11y.hasBookmarks==='yes' && isa11y.isBookmarksCorrect==='yes') || (isa11y.hasBookmarks==='no' && isa11y.isBookmarksCorrect==='no') || 
+				(isa11y.hasBookmarks==='no'  && isa11y.isBookmarksCorrect===null) ){
+					cognitive+=1
+					visual+=1
+			}
+			if(isa11y.hasBookmarks===null || isa11y.isBookmarksCorrect===null){
+				misscognitive+=1
+				missvisual+=1
+			}
+			if((isa11y.screenReader === 'yes')){
+				cognitive+=1
+				visual+=1
+			}else if(isa11y.screenReader === 'no'){
+				misscognitive+=1
+				missvisual+=1
+			}
+			if(isa11y.screenReader===null ){
+				misscognitive+=1
+				missvisual+=1
+			}
+
+			if(isa11y.focusOrder === 'yes'){
+				cognitive+=1
+				visual+=1
+			}else if(isa11y.focusOrder === 'no'){
+				misscognitive+=1
+				missvisual+=1
+			}
+			if(isa11y.focusOrder===null ){
+				misscognitive+=1
+				missvisual+=1
+			}
+			if((isa11y.hasBookmarks==='yes' && isa11y.isBookmarksCorrect==='no')){
+				misscognitive+=1
+				missvisual+=1
+			}
+			if(isa11y.isBookmarksCorrect===null ){
+				misscognitive+=1
+				missvisual+=1
+			}
+
+
+			//tab 3
+			if((isa11y.hasTitle === 'yes')) {
+					visual+=1
+			}else if (isa11y.hasTitle === 'no'){
+					missvisual+=1
+			}
+			if(isa11y.hasTitle===null ){
+				missvisual+=1
+			}
+
+			if((isa11y.hasNumbering === 'yes')) {
+				cognitive+=1
+			}else if (isa11y.hasNumbering === 'no'){
+				misscognitive+=1
+			}
+			if(isa11y.hasNumbering===null ){
+				missvisual+=1
+			}
+
+			if((isa11y.hasLanguage === 'yes')) {
+				cognitive+=1
+			}else if (isa11y.hasLanguage === 'no'){
+				misscognitive+=1
+			}
+			if(isa11y.hasLanguage===null ){
+				misscognitive+=1
+			}
+			
+			if((isa11y.hasLanguagePart === 'yes')) {
+				cognitive+=1
+			}else if (isa11y.hasLanguagePart === 'no'){
+				misscognitive+=1
+			}
+			if(isa11y.hasLanguagePart===null ){
+				misscognitive+=1
+			}
+
+			//tab4  hasRequiredFields
+			if((isa11y.hasForm === 'no')) {
+				cognitive+=1
+				visual+=1
+			}
+			if((isa11y.hasForm === null)) {
+				misscognitive+=1
+				missvisual+=1
+			}
+			if((isa11y.hasForm === 'yes') && (isa11y.hasRequiredFields==='no')) {
+				misscognitive+=1
+				missvisual+=1
+			}
+			if((isa11y.hasRequiredFields===null)) {
+				misscognitive+=1
+				missvisual+=1
+			}
+			if((isa11y.hasForm === 'yes') && (isa11y.hasRequiredFields==='yes') && (isa11y.isRequiredFields==='yes') ) {
+				cognitive+=1
+				visual+=1
+			}
+			if((isa11y.isRequiredFields===null)) {
+				misscognitive+=1
+				missvisual+=1
+			}
+			if((isa11y.hasForm === 'yes') && (isa11y.hasRequiredFields==='yes') && (isa11y.isRequiredFields==='no') ) {
+				misscognitive+=1
+				missvisual+=1
+			}
+
+			if((isa11y.hasForm === 'yes') && (isa11y.hasLabels==='yes') ) {
+				cognitive+=1
+				visual+=1
+				hearing+=1
+				elderly+=1
+			}
+			if((isa11y.hasForm === 'yes') && (isa11y.hasLabels==='no') ) {
+				misscognitive+=1
+				missvisual+=1
+				misshearing+=1
+				misselderly+=1
+			}
+			if((isa11y.hasLabels===null)) {
+				misscognitive+=1
+				missvisual+=1
+				misshearing+=1
+				misselderly+=1
+			}
+
+///tab5
+			if((isa11y.isTable === 'yes')) {
+				cognitive+=1
+				hearing+=1	
+			}else if (isa11y.isTable === 'no'){
+				misscognitive+=1
+				misshearing+=1
+			}
+			if((isa11y.isTable===null)) {
+				misscognitive+=1
+				misshearing+=1
+			}
+
+			if((isa11y.isList === 'yes')) {
+				cognitive+=1
+				hearing+=1
+				visual+=1
+				
+			}else if (isa11y.isList === 'no'){
+				misscognitive+=1
+				misshearing+=1
+				missvisual+=1
+			}
+			if((isa11y.isList === null)) {
+				misscognitive+=1
+				misshearing+=1
+				missvisual+=1
+			}
+
+			if((isa11y.isAbbreviation === 'yes')) {
+				cognitive+=1
+				visual+=1
+				
+			}else if (isa11y.isAbbreviation === 'no'){
+				misscognitive+=1
+				missvisual+=1
+			}
+			if((isa11y.isAbbreviation === null)) {
+				misscognitive+=1
+				missvisual+=1
+			}
+			
+
+			if((isa11y.isHeadings === 'yes')) {
+				cognitive+=1
+				visual+=1
+				hearing+=1
+				
+			}else if (isa11y.isHeadings === 'no'){
+				misscognitive+=1
+				missvisual+=1
+				misshearing+=1
+			}
+			if((isa11y.isHeadings === null)) {
+				misscognitive+=1
+				missvisual+=1
+				misshearing+=1
+			}
+
+			if((isa11y.isLink === 'yes')) {
+				cognitive+=1
+				visual+=1
+				hearing+=1
+				
+			}else if (isa11y.isLink === 'no'){
+				misscognitive+=1
+				missvisual+=1
+				misshearing+=1
+			}
+			if((isa11y.isLink === null)) {
+				misscognitive+=1
+				missvisual+=1
+				misshearing+=1
+			}
+		} 
+		//calculate percentages by disabilitie
+		let visualPercentage=(visual*100)/(visual+missvisual)
+		let cognitivePercentage=(cognitive*100)/(cognitive+misscognitive)
+		let hearingPercentage=(hearing*100)/(hearing+misshearing)
+		let elderlyPercentage=(elderly*100)/(elderly+misselderly)
+		let total=(visualPercentage+cognitivePercentage+hearingPercentage+elderlyPercentage)/4
+	
+		percentagebySylabus.push([
+			{title: 'Visual', a11yValid:isNaN(visualPercentage)?0:visualPercentage , a11yMisConfig: 0, a11yNotConfig: 0},
+			{title: 'Hearing', a11yValid:isNaN(hearingPercentage)?0:hearingPercentage , a11yMisConfig: 0, a11yNotConfig: 0},
+			{title: 'Cognitive', a11yValid:isNaN(cognitivePercentage)?0:cognitivePercentage , a11yMisConfig: 0, a11yNotConfig: 0},
+			{title: 'Elderly', a11yValid:isNaN(elderlyPercentage)?0:elderlyPercentage , a11yMisConfig: 0, a11yNotConfig: 0}
+		])
+
+		setreportSylabus(percentagebySylabus)
+		setsylabusTotal(isNaN(total)?0:total)
+
+		console.log("Conteos en el silabo", cognitive, visual, elderly, hearing, misshearing, missvisual, misscognitive, misselderly )
+		console.log("percentagebySylabus", percentagebySylabus )
+
+	}
 	
 	const validateReport=()=>{
 		let hearing=0
@@ -287,8 +552,6 @@ export default function ReportStep(props) {
 		courseinformation.report=[visual, hearing, cognitive, elderly]
 		setcourseInformation(courseinformation)
 	}
-
-
 	const newRandomTopics = (type) => {
 		let visual=[]
 		let hearing=[]
@@ -348,10 +611,8 @@ export default function ReportStep(props) {
 			categories[1].topics=hearing
 			categories[2].topics=cognitive
 			categories[3].topics=diversity
-			setCategories(categories)
-			
+			setCategories(categories)			
 			//console.log("dentro de ssssssssssssssnewRandomTopics :",withoutInclusionGol, categories )
-			
 			let checkaudience=props.courseInformation.support[1];
 			let check=0
 			if(checkaudience!=undefined){
@@ -421,12 +682,8 @@ export default function ReportStep(props) {
 								categories[3].selected=false
 								setSimulate('noInclusionGol')
 							}
-						}
-						
-						//check="test"
-						
+						}	
 					}
-					
 				})
 			}else{
 				setSimulate('noInclusionGol')
@@ -1138,10 +1395,10 @@ export default function ReportStep(props) {
 		let NotAccessibleDescription=0
 		let NotAccessibleSign=0
 
-
 		props.courseInformation.program.map((unit, indexUnit)=>{
          //cabezera de la unidad
          unit.items.map((item,indexItem)=>{
+				console.log("item.type",item.type)
             if(item.type==='image' ){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
@@ -1559,19 +1816,25 @@ export default function ReportStep(props) {
 		newRandomTopics('unitslessons')
 
 	}
-	
-
 	const [simulate, setSimulate] = React.useState(false);
+	const [redirect, setredirect]=React.useState(null)
+	if (redirect) {
+		return <Redirect to={redirect} />
+	 }
+
+	 const changeRoute=()=>{
+		setredirect("/someRoute")
+		console.log("se va a cambiar de ruta ")
+	 }
 	
 	return (
 		<div className="course-information-container">
-			<div className="form-input-column">
-			
+			<div className="form-input-column">		
 			<h1 className='headAccessibility'>Accessibility Report</h1>
          {console.log("TopicsCourse----------", withoutInclusionGol, simulate,categories)}
 			{simulate === "allAchieved" && (
 				<React.Fragment>
-					<p>Your course is fully accessible</p>
+					<div>Your course is fully accessible</div>
 					<Grid
 						container
 						spacing={2}
@@ -1593,10 +1856,10 @@ export default function ReportStep(props) {
          
          {simulate === "noInclusionGol" && (   
 			 <React.Fragment>
-					<p>
+					<div>
 						You have not seleced any Inclusion Goals in Audience step, but
 						considere review your Course Accessibility
-					</p>
+					</div>
 					<Grid container spacing={2}>
 						{
 						 categories.map(category => {
@@ -1611,20 +1874,22 @@ export default function ReportStep(props) {
 						 }) 	
 						}
 					</Grid>
-				</React.Fragment> 
+			</React.Fragment> 
 			)}
+
 			{ simulate==='inclusionGolAchieved' && (
-				<p>
+				<div>
 					You have seleced {categories.filter(goals => goals.selected).map(category => category.label).toString()} as
 					your Inclusion Goals in Audience step, based on this choose here is
 					the accessibility results of your course.
-				</p>
-			) }
-			{  simulate === "inclusionGolAchieved" && (
+				</div>
+			)}
+
+			{simulate === "inclusionGolAchieved" && (
 				<div className={classes.allachieved}>
-					<p className={classes.chartLabel}>
+					<div className={classes.chartLabel}>
 						You have achieved your Inclusion Goal!
-					</p>		 
+					</div>		 
 					<Grid 
 						container 
 						spacing={2}
@@ -1639,10 +1904,10 @@ export default function ReportStep(props) {
 							))
 						}
 					</Grid>
-					<p className={classes.subtitle}>
+					<div className={classes.subtitle}>
 						Now you have finished the accessibility set up for your Inclusion
 						Gol, considere review accessibility for others impairments groups.
-					</p>
+					</div>
 					<Grid container spacing={2}>
 						{categories
 							.filter(c => !c.selected)
@@ -1664,7 +1929,6 @@ export default function ReportStep(props) {
 						justify="center"
 						alignItems="stretch"
 					>
-						{console.log("Configuracion inclusionGol---",contWithInclusionGol)}
 						<Grid item xl={6} lg={8} md={6} sm={12} component={Paper}>
 							<Chart percent={(contWithInclusionGol.averageCourse)/100} id="gauge-overall" />
 						</Grid>
@@ -1697,9 +1961,9 @@ export default function ReportStep(props) {
 						</Grid>
 					</Grid>
 					<h2>Accessibility by inclusion goals</h2>
-					 <p>
+					 <div>
 						Here is the result of accesibility grouped by impairments. You can also check the accessibility of each topic or unit of your course.
-					</p>
+					</div>
 					<Container>
 						<Grid
 							container
@@ -1708,9 +1972,9 @@ export default function ReportStep(props) {
 							justify="center"
 							alignItems="flex-start"
 						>
-							{console.log("categorias------->", categories)}
-							{categories.filter(goals => goals.selected).map(category => (
-								<Grid item xs={12} md={6}>
+							
+							{categories.filter(goals => goals.selected).map((category, index) => (
+								<Grid item xs={12} md={6} key={index}>
 									<AccessibilityCard category={category} />
 								</Grid>
 							))}
@@ -1718,6 +1982,40 @@ export default function ReportStep(props) {
 					</Container> 
 				</div>
 			) }
+
+
+				<div >
+				<h2>Sylabus accessibility report</h2>
+					<div className={classes.paper}>			
+						This part details the accessibility percentages of the course Sylabus.	
+					</div>
+					<Grid
+						container
+						spacing={4}
+						direction="row"
+						justify="center"
+						alignItems="stretch"
+					>	
+						<Grid item xl={6} lg={8} md={6} sm={12} component={Paper}>
+							<Chart percent={sylabusTotal/100} id="gauge-overall" />
+						</Grid>
+					</Grid>
+					<Container>
+						<Grid
+							container
+							spacing={1}
+							direction="row"
+							justify="center"
+							alignItems="flex-start"
+						>
+							<Grid item xs={12} md={6}>
+								<AccessibilitySylabusCard category={reportSylabus} />
+							</Grid>
+						</Grid>
+					</Container> 
+				</div>
+
+
 			</div>
 		</div>
 	);
@@ -1740,11 +2038,11 @@ function Chart({ percent, id }) {
 				hideText={true}
 			/>
 
-			<p className={classes.chartCaption}>{Math.round(percent * 100)}%</p>
+			<div className={classes.chartCaption}>{Math.round(percent * 100)}%</div>
 			{percent === 1 && (
-				<p className={classes.chartLabel}>
+				<div className={classes.chartLabel}>
 					You have achieved your Inclusion Goal!
-				</p>
+				</div>
 			)}
 		</Container>
 	);
@@ -1810,21 +2108,122 @@ function AccessibilityCard({ category }) {
 									timeout="auto"
 									unmountOnExit
 								>
-									{category.topics.map((topic, index) => (
-										<ListItem
-											key={"listtopic-item-" + category.key + "-" + index}
-											button
-											className={classes.nested}
-										>
-											<ListItemText
-												key={"listtopic-itemtxt" + category.key + "-" + index}
-												primary={topic.title}
-												secondary={
-													<AccessibilityLinearProgress max={topic.a11yValid} />
-												}
-											/>
-										</ListItem>
-									))}
+									
+									{
+									category.topics.length!=0?
+									<React.Fragment>
+										{
+											category.topics.map((topic, index) => (
+												<ListItem
+													key={"listtopic-item-" + category.key + "-" + index}
+													button
+													className={classes.nested}
+												>
+													<ListItemText
+														key={"listtopic-itemtxt" + category.key + "-" + index}
+														primary={topic.title}
+														secondary={
+															<AccessibilityLinearProgress max={topic.a11yValid} />
+														}
+													/>
+												</ListItem>
+											))
+										}
+									
+									</React.Fragment>
+									:
+									undefined
+									}
+								</Collapse>
+							</List>
+						</Grid>
+					</Grid>
+				</CardContent>
+			</div>
+		</Card>
+	);
+}
+
+function AccessibilitySylabusCard({ category }) {
+   console.log("AccessibilitySylabusCard---------------------------------------------------------------------------", category)
+	const classes = useStyles();
+	const [open, setOpen] = React.useState(false);
+	
+   //console.log("Max en AccessibilityCard:", max )
+	const handleClick = () => {
+		setOpen(!open);
+	};
+
+	return (
+		<Card className={classes.card}>
+			<CardHeader
+				avatar={<Avatar><MenuBookIcon/></Avatar>}
+				title={"Sylabus accessibility report"}
+				//subheader={"Subheader"}
+			/>
+			<div className={classes.content}>
+				<CardContent>
+					<Grid
+						container
+						spacing={2}
+						direction="row"
+						justify="flex-start"
+						alignItems="flex-start"
+					>
+						<Grid item xs={12} sm={6} md={4}>
+							<List
+								key={"listtopic-sylabus" }
+								component="ol"
+								aria-labelledby={"sylabus" + "-topics-accessibility"}
+								button
+								onClick={handleClick}
+								subheader={
+									<ListSubheader
+										component="span"
+										key={"listtopic-subhead-sylabus"}
+										id={'sylabus'+"-topics-accessibility"}
+									>
+										Sylabus
+									</ListSubheader>
+								}
+								//className={classes.root}
+							>
+								<Collapse
+									key={"listtopic-subhead-Collapse-sylabus"}
+									in={open}
+									timeout="auto"
+									unmountOnExit
+								>
+									{console.log("category.topics**********************", category)}
+									{
+									
+									category.length!=0?
+										<React.Fragment>
+											{
+												category[0].map((topic, index) => (
+													<ListItem
+														key={"listtopic-" + index}
+														//button
+														//ContainerComponent={'div'}
+														className={classes.nested}
+													>
+														<ListItemText
+															key={"sylabus" +  "-" + index}
+															primary={topic.title}
+															secondary={
+																<AccessibilityLinearProgress max={topic.a11yValid} />
+															}
+														/>
+													</ListItem>
+												))
+												
+											}
+											
+										</React.Fragment>
+										:
+										undefined
+									
+									}
 								</Collapse>
 							</List>
 						</Grid>
@@ -1853,7 +2252,7 @@ function AccessibilityAchieved({ Icon, caption, className }) {
 					<Avatar className={classes.avatar}>{Icon}</Avatar>
 				</Grid>
 				<Grid item  xs={12} sm={6} md={8}>
-					<p className={classes.caption}>{caption}</p>
+					<div className={classes.caption}>{caption}</div>
 				</Grid>
 			
 			</Grid>
@@ -1885,12 +2284,12 @@ function OverallCard({ Icon, value, caption, tip, className }) {
 				</Grid> */}
 
 				<Grid item>
-					<p className={classes.caption}>{caption}</p>
+					<div className={classes.caption}>{caption}</div>
 				</Grid>
 				<Grid item>
-					<p className={classes.tip} color="textSecondary">
+					<div className={classes.tip} color="textSecondary">
 						{tip}
-					</p>
+					</div>
 				</Grid>
 			</Grid>
 		</React.Fragment>
@@ -1946,15 +2345,17 @@ function AccessibilityProgress({ max, size }) {
 }
 function LinearProgressWithLabel(props) {
 	return (
-		<Box display="flex" alignItems="center">
-			<Box width="100%" mr={1}>
-				<LinearProgress variant="determinate" {...props} />
-			</Box>
-			<Box minWidth={35}>
-				<Typography variant="body2" color="textSecondary">{`${Math.round(
-					props.value
-				)}%`}</Typography>
-			</Box>
+		<Box display="flex" alignItems="center" onClick={()=>changeRoute()}>
+	
+				<Box width="100%" mr={1}>
+					<LinearProgress variant="determinate" {...props} />
+				</Box>
+				<Box minWidth={35}>
+					<Typography variant="body2" color="textSecondary">{`${Math.round(
+						props.value
+					)}%`}</Typography>
+				</Box>
+		
 		</Box>
 	);
 }

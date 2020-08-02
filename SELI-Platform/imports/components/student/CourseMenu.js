@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import AppsIcon from '@material-ui/icons/Apps';
+import ListIcon from '@material-ui/icons/List';
 import CloseIcon from '@material-ui/icons/Close';
 import Clock from 'react-live-clock';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -115,10 +115,17 @@ export default function CourseMenu(props) {
 
   return (
     <div>
-      <div className="course-menu-button-container">
-        <IconButton className="course-menu-button" onClick={toggleDrawer('right', true)}>
-          <AppsIcon fontSize="large"/>
+      <div className="course-menu-button-container" onClick={toggleDrawer('right', true)}>
+        <IconButton className="course-menu-button">
+          <ListIcon fontSize="large"/>
         </IconButton>
+        <Button
+          //onClick={() => this.props.completeTopicLesson()}
+          variant="contained"
+          className="course-content-footer-button"
+        >
+          {props.language.courseOrganization}
+        </Button>
       </div>
       <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
         {sideList('right')}

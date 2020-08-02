@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
-import ImageItem from './items/ImageItem'
-import AudioItem from './items/AudioItem'
-import TextItem from './items/TextItem'
-import CompressedItem from './items/CompressedItem'
-import EmbeddedItem from './items/EmbeddedItem'
-import H5PItem from './items/H5PItem'
-import ActivityItem from './items/ActivityItem'
-import LinkItem from './items/LinkItem'
-import PdfItem from './items/PdfItem'
-import QuizItem from './items/QuizItem'
-import VideoItem from './items/VideoItem'
+import StudentItem from './items/StudentItem';
+import TemplateParent from '../course/templates/TemplateParent';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
@@ -32,31 +23,33 @@ export default class CourseContent extends React.Component {
   }
 
   loadingData = () => {
-    let arrayOfItems;
-    let toComplete;
-    let topicLessonLabel;
-    let taskLength;
-    let previousTaskLength;
-    let unitTopicLength;
-    let lessonLength;
-    let previousLessonLength
+    let arrayOfItems, arrayOfDesignItems, tools, toComplete, topicLessonLabel, taskLength, 
+        previousTaskLength, unitTopicLength, lessonLength, previousLessonLength;
     if (this.props.course.program.length) {
       if (this.props.selected[3] === 0) {
         arrayOfItems = this.props.course.program[this.props.selected[0]].items;
+        arrayOfDesignItems = this.props.course.design[this.props.selected[0]];
+        tools = this.props.course.design[this.props.selected[0]].tools;
         if (this.props.course.coursePlan.courseStructure === "topic") {
           toComplete = this.props.toComplete[this.props.selected[0]];
           topicLessonLabel = this.props.language.topic;
         }
       } else if (this.props.selected[3] === 1) {
         arrayOfItems = this.props.course.program[this.props.selected[0]].lessons[this.props.selected[1]].items;
+        arrayOfDesignItems = this.props.course.design[this.props.selected[0]].lessons[this.props.selected[1]];
+        tools = this.props.course.design[this.props.selected[0]].lessons[this.props.selected[1]].tools;
         toComplete = this.props.toComplete[this.props.selected[0]].subunits[this.props.selected[1]];
         topicLessonLabel = this.props.language.lesson;
       } else if (this.props.selected[3] === 2){
         if (this.props.course.coursePlan.courseStructure === "unit") {
           arrayOfItems = this.props.course.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].items;
+          arrayOfDesignItems = this.props.course.design[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]];
+          tools = this.props.course.design[this.props.selected[0]].lessons[this.props.selected[1]].tools;
         }
         else {
           arrayOfItems = this.props.course.program[this.props.selected[0]].activities[this.props.selected[2]].items;
+          arrayOfDesignItems = this.props.course.design[this.props.selected[0]].activities[this.props.selected[2]];
+          tools = this.props.course.design[this.props.selected[0]].tools;
         }
       }
       unitTopicLength = this.props.course.program.length;
@@ -67,168 +60,45 @@ export default class CourseContent extends React.Component {
         previousTaskLength = this.props.course.program[this.props.selected[0] - 1].activities.length;
       }
       return {
-        arrayOfItems, toComplete, topicLessonLabel, taskLength,
+        arrayOfItems, arrayOfDesignItems, tools, toComplete, topicLessonLabel, taskLength,
         unitTopicLength, lessonLength, previousLessonLength, previousTaskLength
       }
     }
   }
 
   loadingPage = () => {
-    var {arrayOfItems, toComplete, topicLessonLabel, taskLength,
-      unitTopicLength, lessonLength, previousLessonLength, previousTaskLength} = this.loadingData();
+    var {arrayOfItems, arrayOfDesignItems, tools,
+      toComplete, topicLessonLabel, taskLength, unitTopicLength, 
+      lessonLength, previousLessonLength, previousTaskLength} = this.loadingData();
     return(
       <React.Fragment>
         {
-          arrayOfItems.map((item, index) => {
-            return(
-              <div>
-                {
-                  item.type === "text" ?
-                    <TextItem
-                      item={item}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      key={Math.random()}
-                    />
-                  :
-                  undefined
-                }
-                {
-                  item.type === "image" ?
-                    <ImageItem
-                      item={item}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      key={Math.random()}
-                      language={this.props.language}
-                    />
-                  :
-                  undefined
-                }
-                {
-                  item.type === "video" ?
-                    <VideoItem
-                      fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-                      item={item}
-                      openMediaPlayer={this.props.fromTutor ? undefined : this.props.openMediaPlayer.bind(this)}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      key={Math.random()}
-                      language={this.props.language}
-                    />
-                  :
-                  undefined
-                }
-                {
-                  item.type === "audio" ?
-                    <AudioItem
-                      fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-                      item={item}
-                      openMediaPlayer={this.props.fromTutor ? undefined : this.props.openMediaPlayer.bind(this)}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      key={Math.random()}
-                      language={this.props.language}
-                    />
-                  :
-                  undefined
-                }
-                {
-                  item.type === "link" ?
-                    <LinkItem
-                      item={item}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      key={Math.random()}
-                    />
-                  :
-                  undefined
-                }
-                {
-                  item.type === "unity" ?
-                    <UnityItem
-                      item={item}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      key={Math.random()}
-                    />
-                  :
-                  undefined
-                }
-                {
-                  item.type === "embedded" ?
-                    <EmbeddedItem
-                      item={item}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      loadingEmbedded={this.props.language.loadingEmbedded}
-                      key={Math.random()}
-                    />
-                  :
-                  undefined
-                }
-                {
-                  item.type === "pdf" ?
-                    <PdfItem
-                      item={item}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      key={Math.random()}
-                      language={this.props.language}
-                    />
-                  :
-                  undefined
-                }
-                {
-                  item.type === "compressed" ?
-                    <CompressedItem
-                      item={item}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      key={Math.random()}
-                      language={this.props.language}
-                    />
-                  :
-                  undefined
-                }
-                {
-                  item.type === "h5p" ?
-                    <H5PItem
-                      item={item}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      instructions={this.props.language.instructions}
-                      loadingH5p={this.props.language.loadingH5p}
-                      key={Math.random()}
-                    />
-                  :
-                  undefined
-                }
-                {
-                  item.type === "quiz" ?
-                  <div>
-                    <QuizItem
-                      fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-                      item={item}
-                      toResolve={this.props.toResolve}
-                      course={this.props.course._id}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
-                      key={Math.random()}
-                      language={this.props.language}
-                    />
-                  </div>
-                    
-                  :
-                  undefined
-                }
-                {
-                  item.type === "activity" ?
-                    <ActivityItem
-                      fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-                      item={item}
-                      toResolve={this.props.toResolve}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      completeActivity={this.props.fromTutor ? undefined : this.props.completeActivity.bind(this)}
-                      key={Math.random()}
-                      language={this.props.language}
-                    />
-                  :
-                  undefined
-                }
-              </div>
-            )
-          })
+          this.props.course.coursePlan.courseTemplate === "without" ?
+            <StudentItem
+              arrayOfItems={arrayOfItems}
+              toResolve={this.props.toResolve}
+              courseId={this.props.course._id}
+              fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
+              openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+              handleControlMessage={this.props.handleControlMessage.bind(this)}
+              completeActivity={this.props.completeActivity.bind(this)}
+              language={this.props.language}
+            ></StudentItem>
+          :
+            <TemplateParent
+              sortMode={false}
+              arrayOfItems={arrayOfItems}
+              arrayOfDesignItems={arrayOfDesignItems}
+              tools={tools}
+              selected={this.props.selected}
+              toResolve={this.props.toResolve}
+              courseId={this.props.course._id}
+              fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
+              openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+              handleControlMessage={this.props.handleControlMessage.bind(this)}
+              completeActivity={this.props.completeActivity.bind(this)}
+              language={this.props.language}
+            ></TemplateParent>
         }
         <div className="course-content-footer-actions">
           <div className="course-content-footer-row">
@@ -257,7 +127,7 @@ export default class CourseContent extends React.Component {
             <React.Fragment>
               {this.props.fromTutor ? undefined : <Button
                 disabled={toComplete}
-                onClick={() => this.props.completeUnit(this.props.selected)}
+                onClick={() => this.props.completeTopicLesson()}
                 variant="contained"
                 className="course-content-footer-button"
               >

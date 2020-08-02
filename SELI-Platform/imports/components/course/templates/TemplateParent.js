@@ -1,5 +1,6 @@
 import React from 'react';
 import TemplateItem from './TemplateItem';
+import StudentItem from '../../student/items/StudentItem';
 import SortItem from '../items/SortItem';
 import { Container, Draggable, dropHandlers } from 'react-smooth-dnd';
 
@@ -16,28 +17,50 @@ export default class TemplateParent extends React.Component {
 
   templateItem = (contentCode, label, type) => {
     var classNameTemplate;
-    var contentLength = this.props.arrayOfItems.filter(item => item.code === contentCode).length;
+    var contentItems = this.props.arrayOfItems.filter(item => item.code === contentCode);
+    var contentLength = contentItems.length;
     if (type === 0) {
-      classNameTemplate = "template-column-item";
+      if (this.props.editItem) {classNameTemplate = "template-column-item"}
+      else {classNameTemplate = "template-column-item-student"}
     } else {
-      classNameTemplate = "template-row-item";
+      if (this.props.editItem) {classNameTemplate = "template-row-item"}
+      else{classNameTemplate = "template-column-item-student"}
     }
-    return(
-      <TemplateItem
-        arrayOfItems={this.props.arrayOfItems}
-        taskType={this.props.arrayOfDesignItems.type}
-        classNameTemplate={classNameTemplate}
-        contentCode={contentCode}
-        label={label}
-        contentLength={contentLength}
-        openDialog={this.props.openDialog.bind(this)}
-        removeItem={this.props.removeItem.bind(this)}
-        editItem={this.props.editItem.bind(this)}
-        handleDecorative={this.props.handleDecorative.bind(this)}
-        editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-        language={this.props.language}
-      ></TemplateItem>
-    )
+    if (this.props.editItem) {
+      return(
+        <TemplateItem
+          arrayOfItems={this.props.arrayOfItems}
+          taskType={this.props.arrayOfDesignItems.type}
+          classNameTemplate={classNameTemplate}
+          contentCode={contentCode}
+          label={label}
+          contentLength={contentLength}
+          openDialog={this.props.openDialog.bind(this)}
+          removeItem={this.props.removeItem.bind(this)}
+          editItem={this.props.editItem.bind(this)}
+          handleDecorative={this.props.handleDecorative.bind(this)}
+          editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+          language={this.props.language}
+        ></TemplateItem>
+      )
+    } else {
+      if (contentLength > 0) {
+        return(
+          <div className={classNameTemplate}>
+            <StudentItem
+              arrayOfItems={contentItems}
+              courseId={this.props.courseId}
+              toResolve={this.props.toResolve}
+              fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
+              openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+              handleControlMessage={this.props.handleControlMessage.bind(this)}
+              completeActivity={this.props.completeActivity.bind(this)}
+              language={this.props.language}
+            ></StudentItem>
+          </div>
+        )
+      }
+    }
   }
 
   componentDidMount() {
@@ -91,7 +114,7 @@ export default class TemplateParent extends React.Component {
 
   render() {
     return(
-      <div className="template-container">
+      <div className="template-container" style={this.props.editItem ? {overflowY: "scroll"} : undefined}>
         {
           !this.props.sortMode ?
             <React.Fragment>

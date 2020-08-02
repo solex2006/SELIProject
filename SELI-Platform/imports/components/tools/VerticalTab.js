@@ -69,8 +69,8 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-export const useData = (language, type, item) => {
-	console.log("to=ipo",type)
+export const useData = (language, type, item, itemAll) => {
+
 	if(type === 'video')
 		return useDataField({language, item});
 	if(type === 'image')
@@ -80,7 +80,7 @@ export const useData = (language, type, item) => {
 	if(type === 'quiz')
 		return useQuizDataField({language, item});
 	if(type === 'pdf')
-		return usePdfDataField({language, item});
+		return usePdfDataField({language, itemAll});
 	return  {
 		isA11Y: [],
 	};
@@ -107,9 +107,9 @@ export default function VerticalTabs(props) {
 
 	let indexTab = 0;
 	let indexPanel = 0;
-
-	let data = useData(props.language, props.contentTypeAdded, props.item.accessibility);
-	console.log("*******data and props*********",data, props)
+	console.log("*******data and props*********", props)
+	let data = useData(props.language, props.contentTypeAdded, props.item.accessibility, props.item);
+	
 
 	let dataToSend = {
 		dataField: data.dataField,

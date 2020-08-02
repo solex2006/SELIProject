@@ -105,14 +105,16 @@ export default class User extends React.Component {
       checkUserType(response, this.state.user.profile.type, this.props.history);
       this.setLanguage(this.state.user.profile.configuration.language);
       if (this.props.history.location.action) {
-        if (this.props.history.location.action === "enter") {
-          this.handleClickCourse(this.props.history.location.course);
-          this.navigateTo([0, 0, 0, 0]);
-        } else if (this.props.history.location.action === "subscribe") {
-          this.subscribe(this.props.history.location.course.information._id, "fromPreview");
-        } else if (this.props.history.location.action === "unsubscribe") {
-          this.handleClickCourse(this.props.history.location.course);
-          this.openUnsubscribe(this.props.history.location.course.courseId);
+        if (this.props.history.location.action === "subscribe") {
+          this.subscribe(this.props.history.location.course.courseId, "fromPreview");
+        } else if (this.props.history.location.action === "unsubscribe" || this.props.history.location.action === "enter") {
+          var courseToSend = Courses.findOne({_id: this.props.history.location.course.courseId});
+          this.handleClickCourse(this.props.history.location.course.courseId, courseToSend);
+          if (this.props.history.location.action === "unsubscribe") {
+            this.openUnsubscribe(this.props.history.location.course.courseId);
+          } else {
+            this.navigateTo([0, 0, 0, 0]);
+          }
         }
       }
     });
@@ -280,7 +282,7 @@ export default class User extends React.Component {
         var {toComplete, toResolve} = this.toDos(course);
         var courseToInsert = {};
         courseToInsert.courseId = course._id;
-        courseToInsert.progress = 0;
+        courseToInsert.progress = "0.00";
         courseToInsert.toComplete = toComplete;
         courseToInsert.toResolve = toResolve;
         user.profile.courses.push(courseToInsert);
@@ -300,8 +302,7 @@ export default class User extends React.Component {
                 user: user[0],
               }, () => {
                 if (fromPreview) {
-                  courseToInsert.information = this.props.history.location.course.information;
-                  this.handleClickCourse(courseToInsert);
+                  this.handleClickCourse(courseToInsert.courseId, course);
                 }
               });
             });
@@ -311,29 +312,29 @@ export default class User extends React.Component {
     )
   }
 
-  handleClickCourse = (course) => {
-    console.log(course)
+  handleClickCourse = (courseId, courseInformation) => {
     var user = this.state.user;
-    var courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === course.courseId);
-    var {toComplete, toResolve} = this.toDos(course.information, user.profile.courses[courseIndex]);
+    var courseToSend = {};
+    var courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === courseId);
+    var {toComplete, toResolve} = this.toDos(courseInformation, user.profile.courses[courseIndex]);
     user.profile.courses[courseIndex].toComplete = toComplete;
-    course.toComplete = toComplete;
     user.profile.courses[courseIndex].toResolve = toResolve;
-    course.toResolve = toResolve;
+    courseToSend.courseId = courseId;
+    courseToSend.toComplete = toComplete;
+    courseToSend.toResolve = toResolve;
+    courseToSend.progress = user.profile.courses[courseIndex].progress;
+    courseToSend.information = courseInformation;
     Meteor.users.update(
       {_id: this.state.user._id},
       {$set: {"profile.courses": user.profile.courses}}
     )
     this.setState({
-      activeCourse: course,
+      activeCourse: courseToSend,
       showLoadingMessage: true,
       selected: [-1, -1, -1, -1],
       loadingMessage: this.state.language.startingCourse,
     }, () => {
-      let course = Courses.find({_id: this.state.activeCourse.information._id}).fetch();
-      course = course[0];
-      let published = course.published;
-      if (published) {
+      if (courseInformation.published) {
         this.setState({
           showLoadingMessage: false,
         }, () => {
@@ -397,7 +398,7 @@ export default class User extends React.Component {
     let finalToResolve = toResolve;
     let userCourseIndex = -1;
     if (content.type === 'quiz' || content.type === 'activity') {
-      if (toDosStudent.toResolve) {
+      if (toDosStudent) {
         userCourseIndex = toDosStudent.toResolve.findIndex(item => item._id === content.id);
       }
       if (userCourseIndex >= 0) {

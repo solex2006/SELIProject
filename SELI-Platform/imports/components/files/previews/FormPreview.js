@@ -5,6 +5,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 
 export default class FormPreview extends React.Component {
+  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -17,16 +19,33 @@ export default class FormPreview extends React.Component {
   render() {
     return(
       <div className="form-file-selected-container">
+        {console.log("form preview", this.props)}
         <div className="form-file-selected-actions">
           <Tooltip title={this.props.type === "image" ? "Change course image" : "Change course sylabus"} aria-label="edit">
-            <Fab
+           
+           {this.props.type === "image"?
+             <Fab
               size="small"
               aria-label="edit"
               className="form-file-selected-button"
               onClick={() => this.props.changeFile(this.props.type)}
-            >
-              <EditIcon />
-            </Fab>
+             >
+               <EditIcon />
+               </Fab>
+             :
+             <Fab
+              size="small"
+              aria-label="edit"
+              className="form-file-selected-button"
+              //onClick={() => this.props.changeFile(this.props.type, this.props.file)}
+              onClick={() => this.props.resetSylabus()}
+             >
+               <EditIcon />
+               </Fab>
+           }
+            
+              
+            
           </Tooltip>
         </div>
         {
@@ -38,13 +57,14 @@ export default class FormPreview extends React.Component {
             </div>
           :
           undefined
+          
         }
         {
           this.props.type === "pdf" ?
             <div className="form-file-selected-file-container">
               <p className="form-file-selected-file-title">{this.props.courseSyllabus}</p>
               <BookIcon className="file-selected-icon"/>
-              <p className="form-file-selected-file-subtitle">{`${this.props.file.name}`}</p>
+              <p className="form-file-selected-file-subtitle">{`${this.props.file.pdf.name}`}</p>
             </div>
           :
           undefined
