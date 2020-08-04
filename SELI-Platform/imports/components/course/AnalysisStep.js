@@ -38,6 +38,10 @@ import StarBorder from '@material-ui/icons/StarBorder';
 import DescriptionSharpIcon from '@material-ui/icons/DescriptionSharp';
 
 const useStyles = makeStyles(theme => ({
+  
+  textInput: {
+			display: 'flex'
+	},
   nested: {
     paddingLeft: theme.spacing(4),
   },
@@ -180,8 +184,9 @@ export default function AnalysisStep(props) {
 		creating: [],
 		evaluating: [],
 		analyzing: [],
-		understand: [],
-		remembering: []
+		understanding: [],
+    remembering: [],
+    applying: []
 	});
 
 
@@ -201,13 +206,13 @@ export default function AnalysisStep(props) {
 			{ key: "judge", label: "to judge" }
 		],
 		analyzing: [
-			{ key: "constrast", label: "to constrast" },
+			{ key: "constrast", label: "to contrast" },
 			{ key: "categorize", label: "to categorize" },
 			{ key: "classify", label: "to classify" },
 			{ key: "list", label: "to list" },
 			{ key: "compare", label: "to compare" }
 		],
-		understand: [
+		understanding: [
 			{ key: "explain", label: "to explain" },
 			{ key: "summarize", label: "to summarize" },
 			{ key: "paraphrase", label: "to paraphrase" },
@@ -220,7 +225,15 @@ export default function AnalysisStep(props) {
 			{ key: "describe", label: "to describe" },
 			{ key: "show", label: "to show" },
 			{ key: "choose", label: "to choose" }
-		]
+    ],
+    applying: [
+			{ key: "duplicate", label: "to use" },
+			{ key: "identify", label: "to identify" },
+			{ key: "organize", label: "to organize" },
+			{ key: "construct", label: "to construct" },
+			{ key: "solve", label: "to solve" }
+    ]
+    
 	});
 
   const [outcomes, setOutcomes] = useState({
@@ -248,7 +261,7 @@ export default function AnalysisStep(props) {
 			{ key: "appreciate", label: "to appreciate" },
 			{ key: "act", label: "to act" },
 			{ key: "work", label: "to work" },
-			{ key: "aware", label: "to aware" },
+			{ key: "aware", label: "to be aware" },
 			{ key: "value", label: "to value" }
 		]
 	});
@@ -301,7 +314,7 @@ export default function AnalysisStep(props) {
       { label: "New constraint", editing: true }
     ]);
     setControlEdit({
-      tempValue: "To create",
+      tempValue: "",
       adding: true,
       editing: true
     });
@@ -932,28 +945,32 @@ export default function AnalysisStep(props) {
 												className={goal.editing ? classes.hidden : ""}
 											/>
 											<Paper className={!goal.editing ? classes.hidden : ""}>		
-                      	<TextField
-													id="standard-select-currency"
-													select
-													SelectProps={{
-														native: true
-													}}
-													// variant="outlined"
-													value={controlEdit.tempAuxValue}
-													onChange={event =>
-														updateTempAuxValue(event.target.value)
-													}
-													className={classes.input}
-												>
-													{goalsTaxonomy[category].map(option => (
-														<option key={option.key} value={option.key}>
-															{option.label}
-														</option>
-													))}
-												</TextField>
+                        
+                          <TextField
+                            id="standard-select-currency"
+                            select
+                            SelectProps={{
+                              native: true
+                            }}
+                            // variant="outlined"
+                            value={controlEdit.tempAuxValue}
+                            onChange={event =>
+                              updateTempAuxValue(event.target.value)
+                            }
+                            className={classes.textInput}
+                          >
+                            {goalsTaxonomy[category].map(option => (
+                              <option key={option.key} value={option.key}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </TextField>
+                    
+                      	
 												<TextField
 													key={"u2" + index + "txtField"}
-													value={controlEdit.tempValue}
+                          value={controlEdit.tempValue}
+                          label="Complete the objective"
 													onChange={event =>
 														updateTempValue(event.target.value)
 													}
