@@ -47,7 +47,9 @@ import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
 
 export default class User extends React.Component {
+  
   constructor(props) {
+    console.log("User props:", props )
     super(props);
     this.state = {
       component: 'home',

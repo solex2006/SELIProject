@@ -88,7 +88,7 @@ DurationSlider.propTypes = {
 	min: PropTypes.number.isRequired,
 	max: PropTypes.number.isRequired
 };
-export default function DurationSlider({ min, max }) {
+export default function DurationSlider({ min, max,  getParamsDuration }) {
 	const classes = useStyles();
 
 	const [duration, setDuration] = React.useState([min, max]);
@@ -194,6 +194,7 @@ export default function DurationSlider({ min, max }) {
 						max={max}
 						marks
 						onChange={(event, newValue) => {
+							getParamsDuration(newValue, true)
 							setDuration(newValue);
 						}}
 					/>

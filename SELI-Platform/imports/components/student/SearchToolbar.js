@@ -1,18 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
 	Button,
-	Card,
-	CardActions,
-	CardContent,
-	CardHeader,
-	CardMedia,
 	FormControlLabel,
 	FormGroup,
 	FormHelperText,
 	FormLabel,
 	Grid,
 	IconButton,
-	Paper,
 	Radio,
 	RadioGroup,
 	Switch,
@@ -21,17 +15,13 @@ import {
 	Divider,
 	FormControl,
 	InputBase,
-	List,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
 	MenuItem
 } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-
+import Paper from '@material-ui/core/Paper';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
@@ -43,12 +33,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import SearchIcon from '@material-ui/icons/Search';
 import SortIcon from '@material-ui/icons/Sort';
-import { Rating, ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-
+import { Rating, ToggleButton } from '@material-ui/lab';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import SimpleDialog from './shared/dialog';
 import FullDialog from './shared/dialog_fullwidth';
 import DurationSlider from './shared/duration-slider';
 
+import { Courses } from '../../../lib/CourseCollection';
 const useStyles = makeStyles(theme => ({
    searchDetailed:{
       marginTop: '30px'
@@ -174,15 +165,34 @@ const StyledToggleButtonGroup = withStyles(theme => ({
 	}
 }))(ToggleButtonGroup);
 
-export default function SearchToolBar() {
+export default function SearchToolBar(props) {
 	const [query, setQuery] = React.useState('');
 	const [openFilter, setOpenFilter] = React.useState(false);
 	const [openSorter, setOpenSorter] = React.useState(false);
 	const [area, setArea] = React.useState([]);
 	const [duration, setDuration] = React.useState([5, 200]);
-	const [audience, setAudience] = React.useState([]);
+	const [audiences, setAudiences] = React.useState({
+			Graduatestudents:false, 
+			Informalstudents:false, 
+			TeachersandProfessors:false,
+			Preschoolkids:false, 
+			Postgraduatestudent:false,  
+			Pregradestudent:false,  
+			HighSchoolStudents:false,  
+			MiddleSchoolStudents:false,  
+			ElementarySchoolStudents:false,
+	});
 	const [skills, setSkills] = React.useState([]);
-	const [instructors, setInstructors] = React.useState([]);
+	const [languages, setLanguages] = React.useState({
+		english:false,
+		spanish:false,
+		portugues:false,
+		turkish:false,
+		polish:false,
+	});
+	const [instructors, setInstructors] = React.useState({});
+	const [instructorsLabels, setInstructorsLabels] = React.useState([]);
+	const [courses, setCourses] = React.useState(props.publishedCourses);
 	const INITIAL_ACCESSIBILITY = {
 		full: false,
 		partial: false,
@@ -194,7 +204,9 @@ export default function SearchToolBar() {
 		INITIAL_ACCESSIBILITY
 	);
 	const [ranting, setRanting] = React.useState(3);
-
+	const [selectedonline, setselectedonline] = React.useState(false);
+	const [selectedaccessible, setselectedaccessible] = React.useState(false);
+	
 	const showDetailedFilter = useMediaQuery(theme => theme.breakpoints.up('md'));
 	const showMinFilter = useMediaQuery(theme => theme.breakpoints.down('xs'));
 
@@ -223,20 +235,49 @@ export default function SearchToolBar() {
 		}
 	};
 
-	const NAMES = [
-		'Oliver Hansen',
-		'Van Henry',
-		'April Tucker',
-		'Ralph Hubbard',
-		'Omar Alexander',
-		'Carlos Abbott',
-		'Miriam Wagner',
-		'Bradley Wilkerson',
-		'Virginia Andrews',
-		'Kelly Snyder'
-	];
+	const [switchOnline, setswitchOnline] = React.useState(false);
+
+	const handleChangeOnline=()=>{
+		console.log("switch",!switchOnline)
+		if(!switchOnline===true){
+			props.getOnlineFlag(!switchOnline)
+		}else{
+			props.getOnlineFlag(!switchOnline)
+		}
+	}
+
+	useEffect(() => {
+		//console.log("ussefeffect", props )
+		getTutors()
+	}, [])
+	
+
+	const getTutors=()=>{
+		let createdBy={}
+		let createdByArray=[]
+		courses.map((course, courseIndex)=>{
+			createdBy[`${course.createdBy}`]=false
+			createdByArray.push(course.createdBy)
+		})
+		createdByArray=[... new Set(createdByArray)]
+		setInstructors(createdBy)
+		setInstructorsLabels(createdByArray)
+		console.log("createdBy && createdByArray", createdBy, createdByArray)
+	}
+
+	
 	const SKILLS = ['Version Control', 'Full Stack', 'Data Base'];
-	const AUDIENCE = ['Graduated Students', 'Professors', 'Kids'];
+	const AUDIENCE =  [
+			"Graduate students", 
+			"Informal students", 
+			"Teachers and Professors",
+			"Preschool kids", 
+			"Post graduate student",  
+			"Pregrade student",  
+			"High School Students",  
+			"Middle School Students",  
+			"Elementary School Students",  
+	];
 	const AREAS = ['Arts', 'Computer Science', 'Math and Logic', 'Music'];
 
 	const handleAccessibilityChange = ({ target }) => {
@@ -245,7 +286,6 @@ export default function SearchToolBar() {
 				...prev,
 				[target.name]: target.value
 			};
-
 			let noFilter =
 				tmp.a11yCog === 'no-filter' ||
 				tmp.a11yVis === 'no-filter' ||
@@ -314,28 +354,49 @@ export default function SearchToolBar() {
 			</FormControl>
 		);
 	}
+
+	
+
+	const handleSelected = (event) => {
+		setselectedonline(!selectedonline);
+		props.getOnlineFlag(!selectedonline)
+		
+	};
+
+	const handleSelectedAccessibilitie= (event) => {
+		setselectedaccessible(!selectedaccessible);
+		props.getAccessibleFlag(!selectedaccessible)
+	}
+	
+ 
+	const search=(event)=>{
+		setQuery(event.target.value)
+		console.log(event.target.value)
+	 }
+
+	 
+	 const GeneralSearch=()=>{
+		props.getGeneralSearch(query)
+	 }
+
+
+
 	return (
 		<React.Fragment>
 			<Paper component="form" className={classes.searchbar} elevation={0}>
 				<div className={classes.searchcontainer}>
+			
 					<InputBase
+						value={query}
 						className={classes.input}
 						placeholder="Search SELI Courses"
 						inputProps={{ 'aria-label': 'search seli courses' }}
-						// onFocus={() => setFocus(true)}
-						// onBlur={() => setFocus(false)}
-						value={query}
-						onChange={({ target }) => {
-							setQuery(target.value);
-						}}
+						onChange={search}
 					/>
-					<IconButton
-						type="submit"
-						className={classes.iconButton}
-						aria-label="search"
-					>
-						<SearchIcon />
+					<IconButton onClick={()=>GeneralSearch()} className={classes.iconButton} aria-label="search">
+					<SearchIcon />
 					</IconButton>
+			
 				</div>
 				<div className={classes.filtercontainer}>
 					<Divider className={classes.divider} orientation="vertical" />
@@ -357,13 +418,12 @@ export default function SearchToolBar() {
 					{showDetailedFilter && (
 						<React.Fragment>
 							<Divider className={classes.divider} orientation="vertical" />
-							<StyledToggleButtonGroup
-								size="small"
+							<ToggleButtonGroup 
+								orientation="horizontal" 
+								exclusive 
+								onChange={handleSelectedAccessibilitie}
 								id="filtertb"
 								className={classes.tbgroup}
-								//value={formats}
-								//onChange={handleFormat}
-								aria-label="Filtering"
 							>
 								<label
 									className={classes.filterlabel}
@@ -374,26 +434,38 @@ export default function SearchToolBar() {
 									Filter by
 								</label>
 								<ToggleButton
+									value="selectedaccessible"
 									aria-pressed={true}
-									selected={true}
 									size="small"
 									color="secondary"
 									aria-label="Only fully accessible courses"
+									selected={selectedaccessible}
 								>
 									<AccessibilityNewIcon />
 									Fully accessible
 								</ToggleButton>
+								</ToggleButtonGroup>
+
+								<ToggleButtonGroup 
+									orientation="horizontal" 
+									exclusive 
+									onChange={handleSelected}
+									id="filtertb"
+									className={classes.tbgroup}
+								>
 								<ToggleButton
+									value="online"
 									aria-pressed={false}
-									selected={false}
+									selected={selectedonline}
 									size="small"
 									color="secondary"
 									aria-label="Only 100% online courses"
+								
 								>
 									<CastForEducationIcon />
 									100% online
 								</ToggleButton>
-							</StyledToggleButtonGroup>
+							</ToggleButtonGroup >
 							<RantingCourse />
 						</React.Fragment>
 					)}
@@ -423,9 +495,6 @@ export default function SearchToolBar() {
 					)}
 				</div>
 			</Paper>
-
-
-
 
 			<SimpleDialog
 				key={'sorter'}
@@ -475,8 +544,16 @@ export default function SearchToolBar() {
 								setArea([]);
 								setDuration([5, 200]);
 								setAudience([]);
-								setSkills([]);
+								//setSkills([]);
 								setInstructors([]);
+								setLanguages(prev=>({
+									prev,
+									english:false,
+									spanish:false,
+									portugues:false,
+									turkish:false,
+									polish:false,
+								}))
 								setAccessibility(INITIAL_ACCESSIBILITY);
 								setRanting(3);
 							}}
@@ -487,10 +564,14 @@ export default function SearchToolBar() {
 							color="primary"
 							variant="outlined"
 							onClick={() => {
+								props.getParamsofSearch(accessibility)
+								props.getParamsLanguage(languages)
+								props.getParamsAudiences(audiences)
+								props.getParamsTutors(instructors)
 								setOpenFilter(false);
 							}}
 						>
-							Appply filters
+							Apply filters
 						</Button>
 					</React.Fragment>
 				}
@@ -503,8 +584,12 @@ export default function SearchToolBar() {
 					className={classes.formControl}
 					control={
 						<Switch
-							//checked={state.checkedB}
-							//onChange={handleChange}
+							checked={switchOnline}
+							onChange={()=>{
+						
+								setswitchOnline(!switchOnline)
+								handleChangeOnline()
+							}}
 							name="checkedOnline"
 							color="primary"
 							inputProps={{ 'aria-label': 'Show only 100% online courses' }}
@@ -587,6 +672,7 @@ export default function SearchToolBar() {
 							Accessibility
 						</Typography>
 					</AccordionSummary>
+					
 					<AccordionDetails
 						className={classes.accordiondetails}
 						id="accessibility-content"
@@ -677,8 +763,238 @@ export default function SearchToolBar() {
 						</FormControl>
 					</AccordionDetails>
 				</Accordion>
+
+				<Accordion>
+					<AccordionSummary
+						expandIcon={<ExpandMoreIcon />}
+						aria-controls="lang-content"
+						id="lang-header"
+					>
+						<Typography component={'h3'} className={classes.heading}>
+							Course Language
+						</Typography>
+					</AccordionSummary>
+					<AccordionDetails
+						className={classes.accordiondetails}
+						id="lang-content"
+					>
+						<Button
+							color="secondary"
+							size="small"
+							startIcon={<ClearIcon />}
+							className={classes.accordionbtn}
+							onClick={() => setLanguages(prev=>({
+								prev,
+								english:false,
+								spanish:false,
+								portugues:false,
+								turkish:false,
+								polish:false,
+							}))}
+						>
+							Clear filter
+						</Button>
+						<FormControl component="fieldset" className={classes.formControl}>
+							<FormHelperText>Select one or more languages</FormHelperText>
+							<FormGroup aria-labelledby="lang-header">
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={languages.portugues}
+											onChange={event => setLanguages(prev=>({...prev, portugues: event.target.checked}))}
+											name="pt"
+										/>
+									}
+									label="Portugues"
+								/>
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={languages.english}
+											onChange={event => setLanguages(prev=>({...prev, english: event.target.checked}))}
+											name="en"
+										/>
+									}
+									label="English"
+								/>
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={languages.spanish}
+											onChange={event => setLanguages(prev=>({...prev, spanish: event.target.checked}))}
+											name="es"
+										/>
+									}
+									label="Spanish"
+								/>
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={languages.turkish}
+											onChange={event => setLanguages(prev=>({...prev, turkish: event.target.checked}))}
+											name="es"
+										/>
+									}
+									label="Turkish"
+								/>
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={languages.polish}
+											onChange={event => setLanguages(prev=>({...prev, polish: event.target.checked}))}
+											name="es"
+										/>
+									}
+									label="Polish"
+								/>
+							</FormGroup>
+						</FormControl>
+					</AccordionDetails>
+				</Accordion>
  
+				<Accordion>
+					<AccordionSummary
+						expandIcon={<ExpandMoreIcon />}
+						aria-controls="duration-content"
+						id="duration-header"
+					>
+						<Typography
+							component={'h3'}
+							id="duration-label"
+							className={classes.heading}
+						>
+							Course Duration
+						</Typography>
+					</AccordionSummary>
+					<AccordionDetails
+						className={classes.accordiondetails}
+						id="duration-content"
+					>
+						<Button
+							color="secondary"
+							size="small"
+							startIcon={<ClearIcon />}
+							className={classes.accordionbtn}
+							onClick={() => setDuration([5,200])}
+						>
+							Reset Duration
+						</Button>
+						<DurationSlider
+							min={duration[0]}
+							max={duration[1]}
+							getParamsDuration={props.getParamsDuration}
+						/>
+					</AccordionDetails>
+				</Accordion>
      
+				{/* <Accordion>
+					<AccordionSummary
+						expandIcon={<ExpandMoreIcon />}
+						aria-controls="audience-content"
+						id="audience-header"
+					>
+						<Typography
+							component={'h3'}
+							id="audience-label"
+							className={classes.heading}
+						>
+							Course's Target Audience
+						</Typography>
+					</AccordionSummary>
+					<AccordionDetails
+						className={classes.accordiondetails}
+						id="audience-content"
+					>
+						<FormControl className={classes.formControl}>
+							<Button
+								color="secondary"
+								size="small"
+								startIcon={<ClearIcon />}
+								className={classes.accordionbtn}
+								onClick={() => setAudiences({
+									Graduatestudents:false, 
+									Informalstudents:false, 
+									TeachersandProfessors:false,
+									Preschoolkids:false, 
+									Postgraduatestudent:false,  
+									Pregradestudent:false,  
+									HighSchoolStudents:false,  
+									MiddleSchoolStudents:false,  
+									ElementarySchoolStudents:false,
+							})}
+							>
+								Clear filter
+							</Button>
+							<FormHelperText>Select one or more audience</FormHelperText>
+							<FormGroup aria-labelledby="audience-label">
+								{AUDIENCE.map((audience,indexAudience) => (
+									<FormControlLabel
+										control={
+											<Checkbox
+												checked={Object.values(audiences)[indexAudience]}
+												onChange={event => setAudiences(prev=>({
+													...prev, [Object.keys(audiences)[indexAudience]]:event.target.checked
+												}))}
+												audience={audience}
+											/>
+										}
+										label={audience}
+									/>
+								))}
+							</FormGroup>
+						</FormControl>
+					</AccordionDetails>
+				</Accordion>	 */}
+
+				<Accordion>
+					<AccordionSummary
+						expandIcon={<ExpandMoreIcon />}
+						aria-controls="name-content"
+						id="name-header"
+					>
+						<Typography
+							component={'h3'}
+							id="name-label"
+							className={classes.heading}
+						>
+							Course's Instructor
+						</Typography>
+					</AccordionSummary>
+					<AccordionDetails
+						className={classes.accordiondetails}
+						id="name-content"
+					>
+						<FormControl className={classes.formControl}>
+							<Button
+								color="secondary"
+								size="small"
+								startIcon={<ClearIcon />}
+								className={classes.accordionbtn}
+								onClick={() => getTutors()}
+							>
+								Clear filter
+							</Button>
+							<FormHelperText>Select one or more names</FormHelperText>
+							<FormGroup aria-labelledby="audience-label">
+							{instructorsLabels.map((audience,indexAudience) => (
+									<FormControlLabel
+										control={
+											<Checkbox
+												 checked={Object.values(instructors)[indexAudience]}
+												 onChange={event => setInstructors(prev=>({
+													...prev, [Object.keys(instructors)[indexAudience]]:event.target.checked
+												}))} 
+												audience={audience}
+											/>
+										}
+										label={audience}
+									/>
+								))}
+							</FormGroup>
+						</FormControl>
+					</AccordionDetails>
+				</Accordion>				
+
 			</FullDialog>
 		</React.Fragment>
 	);

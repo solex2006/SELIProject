@@ -148,8 +148,6 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-
-
 function getCourses(total, myCourses) {
 	const items = [];
 
@@ -163,8 +161,6 @@ function getCourses(total, myCourses) {
 
 	return items;
 }
-
-
 
 function CheckboxList({ items, subheader }) {
 	const classes = useStyles();
@@ -210,17 +206,25 @@ function CheckboxList({ items, subheader }) {
 		</List>
 	);
 }
-export default function CourseSearch() {
-	const classes = useStyles();
-	return (
+
+export default function CourseSearch(props) {
+   console.log("propiedades CourseSearch: ", props)
+   const classes = useStyles();
+
+   return (
 		<React.Fragment>
 			<Paper className={classes.searchDetailed} component="article" elevation={0}>
-				<SearchToolBar />
-				<p>Showing 7 of 7 courses that correspond to your search </p>
-				<Grid container direction="row" spacing={1}>
-					Aqui van las Busquedas.
-					{/* {getCourses(7, false)} */}
-				</Grid>
+				<SearchToolBar
+					getParamsofSearch= {props.getParamsofSearch}
+					getParamsLanguage= {props.getParamsLanguage}
+					getParamsDuration= {props.getParamsDuration}
+					getParamsAudiences={props.getParamsAudiences}
+					publishedCourses=	 {props.publishedCourses}
+					getParamsTutors=	 {props.getParamsTutors}
+					getOnlineFlag=     {props.getOnlineFlag}
+					getAccessibleFlag= {props.getAccessibleFlag}
+					getGeneralSearch={props.getGeneralSearch}
+				/>
 			</Paper>
 		</React.Fragment>
 	);

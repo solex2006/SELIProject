@@ -576,6 +576,7 @@ export default function ReportStep(props) {
 			withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
 				diversity.push(unit[3])
 			})
+			
 		}else if(type==='unitslessons'){
 			//console.log("en el Unidad-Lesson---------------------", withoutInclusionGol.percentagebyUnit,withoutInclusionGol.percentagebyLesson)
 			withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
@@ -612,7 +613,15 @@ export default function ReportStep(props) {
 			categories[1].topics=hearing
 			categories[2].topics=cognitive
 			categories[3].topics=diversity
-			setCategories(categories)			
+			setCategories(categories)
+
+			//calcualte pecentages by disabilities,this information is useful in the search tool
+			let visualSearch=categories[0].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[0].topics.length
+			let hearingSearch=categories[1].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[1].topics.length
+			let cognitiveSearch=categories[2].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[2].topics.length
+			let diversitySearch=categories[3].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[3].topics.length
+			courseinformation.report=[Math.round(visualSearch), Math.round(hearingSearch), Math.round(cognitiveSearch), Math.round(diversitySearch)]
+			setcourseInformation(courseinformation)
 			//console.log("dentro de ssssssssssssssnewRandomTopics :",withoutInclusionGol, categories )
 			let checkaudience=props.courseInformation.support[1];
 			let check=0

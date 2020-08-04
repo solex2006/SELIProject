@@ -553,12 +553,12 @@
 }
 
 .HP5-content-preview-container {
-  display: flex !important;
+ 
   justify-content: center !important;
 }
 
 .MuiDialogContent-root {
-  display: flex !important;
+
   justify-content: center !important;
 }
 
