@@ -248,21 +248,24 @@ export default function AnalysisStep(props) {
 			{ key: "categorize", label: "to categorize" },
 			{ key: "describe", label: "to describe" },
 			{ key: "reproduce", label: "to reproduce" },
-			{ key: "compare", label: "to compare" }
+      { key: "compare", label: "to compare" },
+      { key: "other", label: "other" }
 		],
 		skills: [
 			{ key: "design", label: "to design" },
 			{ key: "conduct", label: "to conduct" },
 			{ key: "evaluate", label: "to evaluate" },
 			{ key: "analyse", label: "to analyse" },
-			{ key: "measure", label: "to measure" }
+      { key: "measure", label: "to measure" },
+      { key: "other", label: "other" }
 		],
 		values: [
 			{ key: "appreciate", label: "to appreciate" },
 			{ key: "act", label: "to act" },
 			{ key: "work", label: "to work" },
 			{ key: "aware", label: "to be aware" },
-			{ key: "value", label: "to value" }
+      { key: "value", label: "to value" },
+      { key: "other", label: "other" }
 		]
 	});
 
@@ -307,6 +310,8 @@ export default function AnalysisStep(props) {
   const [labelindexdelete, setlabelindexdelete]=useState("")
   const [indexdelete,  setindexdelete]=useState(0)
   const [categori, setcategory]=useState('');
+
+  const [disabledVerb, setdisabledVerb]=useState(false);
 
   const handleNewConstraint = () => {
     setConstraints([
@@ -727,10 +732,19 @@ export default function AnalysisStep(props) {
   }
 
   function updateTempAuxValue(value) {
-    console.log("updateTempAuxValue",value)
-    setControlEdit(prev => {
-      return { ...prev, tempAuxValue: value };
-    });
+    console.log("updateTempAuxValue----------------------",value)
+
+    if(value==='without'){
+      setControlEdit(prev => {
+        return { ...prev, tempAuxValue: value};
+      });
+    }else{
+      setControlEdit(prev => {
+        return { ...prev, tempAuxValue: value };
+      });
+    }
+   
+
   }
   const handleClose = () => {  
     setopen(false)
@@ -1105,10 +1119,11 @@ export default function AnalysisStep(props) {
 											<ListItemText
 												key={"u2" + index + "listeItemTxt"}
 												primary={
-													outcomesTaxonomy[category].find(
+													(outcomesTaxonomy[category].find(
 														item => item.key === outcome.aux
-													).label +
-													" " +
+													).label==='other') ? outcome.label : (outcomesTaxonomy[category].find(
+														item => item.key === outcome.aux
+													).label)   + " " +
 													outcome.label
 												}
 												className={outcome.editing ? classes.hidden : ""}
