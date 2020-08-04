@@ -74,16 +74,20 @@ export default class CourseContent extends React.Component {
       <React.Fragment>
         {
           this.props.course.coursePlan.courseTemplate === "without" ?
-            <ContentItem
-              arrayOfItems={arrayOfItems}
-              toResolve={this.props.toResolve}
-              courseId={this.props.course._id}
-              fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-              openMediaPlayer={this.props.openMediaPlayer.bind(this)}
-              handleControlMessage={this.props.handleControlMessage.bind(this)}
-              completeActivity={this.props.completeActivity.bind(this)}
-              language={this.props.language}
-            ></ContentItem>
+            arrayOfItems.map((p, i) => {
+              return (
+                <ContentItem
+                  item={p}
+                  toResolve={this.props.toResolve}
+                  courseId={this.props.course._id}
+                  fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
+                  openMediaPlayer={this.openMediaPlayer ? this.openMediaPlayer.bind(this) : undefined}
+                  handleControlMessage={this.props.handleControlMessage.bind(this)}
+                  completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
+                  language={this.props.language}
+                ></ContentItem>
+              )
+            })
           :
             <TemplateParent
               sortMode={false}
@@ -94,9 +98,9 @@ export default class CourseContent extends React.Component {
               toResolve={this.props.toResolve}
               courseId={this.props.course._id}
               fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-              openMediaPlayer={this.props.openMediaPlayer.bind(this)}
+              openMediaPlayer={this.openMediaPlayer ? this.openMediaPlayer.bind(this) : undefined}
               handleControlMessage={this.props.handleControlMessage.bind(this)}
-              completeActivity={this.props.completeActivity.bind(this)}
+              completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
               language={this.props.language}
             ></TemplateParent>
         }

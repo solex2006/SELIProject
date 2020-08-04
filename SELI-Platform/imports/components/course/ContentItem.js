@@ -54,7 +54,7 @@ export default class ContentItem extends React.Component {
                 {
                   this.props.item.type === 'video' ?
                     <VideoItem
-                      openMediaPlayer={this.props.fromProgram ? undefined : this.props.openMediaPlayer.bind(this)}
+                      openMediaPlayer={this.openMediaPlayer ? this.openMediaPlayer.bind(this) : undefined}
                       item={this.props.item}
                       language={this.props.language}
                       fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}
@@ -66,7 +66,7 @@ export default class ContentItem extends React.Component {
                 {
                   this.props.item.type === 'audio' ?
                     <AudioItem
-                      openMediaPlayer={this.props.fromProgram ? undefined : this.props.openMediaPlayer.bind(this)}
+                      openMediaPlayer={this.openMediaPlayer ? this.openMediaPlayer.bind(this) : undefined}
                       item={this.props.item}
                       language={this.props.language}
                       fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}

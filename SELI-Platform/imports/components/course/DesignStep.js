@@ -452,54 +452,57 @@ export default function DesignStep(props) {
                 </IconButton>
               )}
             </ExpansionPanelActions>
-            <ExpansionPanelDetails className={classes.panelDtls}>
-              {guidedCoursePlan === "guided" && (<DesignCourseCommons
-                language={language}
-                validate={props.validate}
-                courseInformation={courseinformation.design}
-                key={unit.key}
-                learnGols={unit.learnGols}
-                preKnowledge={unit.preKnowledge}
-                mainContent={unit.mainContent}
-                tools={unit.tools}
-                otherTools={unit.otherTools}
-                unit={unit}
-                unitIndex={unitIndex}
-                handleUnitChange={handleUnitChange}
-                handleSelectResources={handleSelectResources}
-                template={template}
-                organization={organization}
-                evaluation={unit.evaluation}
-              />)}
-              <br/>
-              {organization === "unit" ?
-                <LessonDesign
+            {
+              unit.editing === false &&
+              <ExpansionPanelDetails className={classes.panelDtls}>
+                {guidedCoursePlan === "guided" && (<DesignCourseCommons
                   language={language}
-                  guidedCoursePlan={guidedCoursePlan}
-                  handleSelectResourcesActivities={handleSelectResourcesActivities}
-                  handleSelectResourcesLessons={handleSelectResourcesLessons}
-                  handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
-                  tools={unit.tools}
+                  validate={props.validate}
+                  courseInformation={courseinformation.design}
                   key={unit.key}
-                  designInformation={courseinformation.design}
-                  programInformation={courseinformation.program}
+                  learnGols={unit.learnGols}
+                  preKnowledge={unit.preKnowledge}
+                  mainContent={unit.mainContent}
+                  tools={unit.tools}
+                  otherTools={unit.otherTools}
+                  unit={unit}
                   unitIndex={unitIndex}
+                  handleUnitChange={handleUnitChange}
+                  handleSelectResources={handleSelectResources}
                   template={template}
                   organization={organization}
-                />
-              :
-                guidedCoursePlan === "guided" && <ActivityDesign
-                  language={language}
-                  courseInformation={courseinformation.design}
-                  programInformation={courseinformation.program}
-                  activities={unit.activities}
-                  handleActivities={handleActivities}
-                  handleToolActivity={handleToolActivity}
-                  parentIndex={unitIndex}
-                  template={template}
-                />
-              }       
-            </ExpansionPanelDetails>
+                  evaluation={unit.evaluation}
+                />)}
+                <br/>
+                {organization === "unit" ?
+                  <LessonDesign
+                    language={language}
+                    guidedCoursePlan={guidedCoursePlan}
+                    handleSelectResourcesActivities={handleSelectResourcesActivities}
+                    handleSelectResourcesLessons={handleSelectResourcesLessons}
+                    handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+                    tools={unit.tools}
+                    key={unit.key}
+                    designInformation={courseinformation.design}
+                    programInformation={courseinformation.program}
+                    unitIndex={unitIndex}
+                    template={template}
+                    organization={organization}
+                  />
+                :
+                  guidedCoursePlan === "guided" && <ActivityDesign
+                    language={language}
+                    courseInformation={courseinformation.design}
+                    programInformation={courseinformation.program}
+                    activities={unit.activities}
+                    handleActivities={handleActivities}
+                    handleToolActivity={handleToolActivity}
+                    parentIndex={unitIndex}
+                    template={template}
+                  />
+                }       
+              </ExpansionPanelDetails>
+            }
           </ExpansionPanel>
         </div>
       ))}

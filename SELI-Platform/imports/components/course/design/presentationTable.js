@@ -149,7 +149,7 @@ export default function Presentation(props) {
     <React.Fragment>
       <MaterialTable
         title={language.Presentations}
-        options={{ search: true }}
+        options={{ search: true, actionsColumnIndex: 4 }}
         columns={state.columns}
         data={state.data}
         icons={tableIcons}

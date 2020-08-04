@@ -140,7 +140,7 @@ export default function ActivityDesign(props) {
       <MaterialTable
         icons={tableIcons}
         title={language.Taskslist}
-        options={{ search: false }}
+        options={{ search: false, actionsColumnIndex: 6}}
         columns={state.columns}
         data={state.data}
         editable={{
