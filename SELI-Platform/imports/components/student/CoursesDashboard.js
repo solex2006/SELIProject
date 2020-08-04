@@ -114,6 +114,7 @@ export default class CoursesDashboard extends React.Component {
 
   searchMyCourses=()=>{
     //put in lowercase te titles of the courses to improve the search
+    
     let titleMyCourses=[]
      this.props.user.profile.courses.map((course, courseIndex)=>{
         let indexRegistered=this.state.publishedCourses.findIndex(coursespub=>coursespub._id===course.courseId)
@@ -122,19 +123,25 @@ export default class CoursesDashboard extends React.Component {
         }
     }) 
     this.state.mysuscribdedCourses=titleMyCourses
-    let myFiltersuscribdedCourses=this.state.mysuscribdedCourses.filter(course => course.title.search(this.props.texttoSearch.toLowerCase()) !=-1);
-    this.state.myFiltersuscribdedCourses=myFiltersuscribdedCourses
-    this.setState(this.state)
-    console.log("Cursos suscritos con titulo y filtrado",titleMyCourses, myFiltersuscribdedCourses )
+
+    if(this.props.texttoSearch!=undefined){
+      console.log("this.props.texttoSearch", this.props.texttoSearch)
+      let myFiltersuscribdedCourses=this.state.mysuscribdedCourses.filter(course => course.title.search(this.props.texttoSearch.toLowerCase()) !=-1);
+      this.state.myFiltersuscribdedCourses=myFiltersuscribdedCourses
+      this.setState(this.state)
+      console.log("Cursos suscritos con titulo y filtrado",titleMyCourses, myFiltersuscribdedCourses )
+    }
   }
 
   searchSELICourses=()=>{
     console.log("searchSELICourses", this.state, this.props )
-
-    let myFilterSeliCourses=this.state.publishedCourses.filter(course => course.title.search(this.props.texttoSearch.toLowerCase()) !=-1);
+    if(this.props.texttoSearch!=undefined){
+      let myFilterSeliCourses=this.state.publishedCourses.filter(course => course.title.search(this.props.texttoSearch.toLowerCase()) !=-1);
     this.state.myFilterSeliCourses=myFilterSeliCourses
     this.setState(this.state)
     console.log("Seli Courses y Filtrados: ",this.state.publishedCourses, myFilterSeliCourses )
+    }
+    
   }
 
   
