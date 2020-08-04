@@ -289,7 +289,7 @@ export default class Course extends React.Component {
               navigateTo={this.props.navigateTo.bind(this)}
               completeActivity={this.completeActivity.bind(this)}
               completeTopicLesson={this.completeTopicLesson.bind(this)}
-              openMediaPlayer={this.openMediaPlayer.bind(this)}
+              openMediaPlayer={this.openMediaPlayer ? this.openMediaPlayer.bind(this) : undefined}
               leaveComment={this.leaveComment.bind(this)}
               selected={this.props.selected}
               toComplete={this.state.toComplete}

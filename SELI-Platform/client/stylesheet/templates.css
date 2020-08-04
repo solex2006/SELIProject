@@ -58,3 +58,18 @@
   background-size: 200px;
   background-position: center;
 }
+
+.template-media-gallery {
+  display: flex;
+  width: 100%;
+}
+
+.template-image-gallery {
+  background-color: #121212;
+	padding: 5px;
+	color: white;
+}
+
+.template-title-gallery {
+	color: var(--secondary);
+}

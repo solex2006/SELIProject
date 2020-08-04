@@ -2,6 +2,7 @@ import React from 'react';
 import TemplateItem from './TemplateItem';
 import ContentItem from '../ContentItem';
 import SortItem from '../items/SortItem';
+import MediaGallery from './MediaGallery';
 import { Container, Draggable, dropHandlers } from 'react-smooth-dnd';
 
 export default class TemplateParent extends React.Component {
@@ -12,6 +13,7 @@ export default class TemplateParent extends React.Component {
       link: false,
       embedded: false,
       unity: false,
+      mediaGallery: false,
     }
   }
 
@@ -26,6 +28,9 @@ export default class TemplateParent extends React.Component {
       if (this.props.editItem) {classNameTemplate = "template-row-item"}
       else{classNameTemplate = "template-column-item-student"}
     }
+    /* if (contentCode === "image" || contentCode === "video") {
+      if (!this.props.editItem && contentLength > 1) this.setState({mediaGallery: true})
+    } */
     if (contentLength > 0) {
       if (this.props.editItem) {
         return(
@@ -47,20 +52,30 @@ export default class TemplateParent extends React.Component {
       } else {
         return(
           <div className={classNameTemplate}>
-            {contentItems.map((p, i) => {
-              return(
-                <ContentItem
-                  item={p}
-                  courseId={this.props.courseId}
-                  toResolve={this.props.toResolve}
-                  fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-                  openMediaPlayer={this.props.openMediaPlayer.bind(this)}
-                  handleControlMessage={this.props.handleControlMessage.bind(this)}
-                  completeActivity={this.props.completeActivity.bind(this)}
+            {
+              this.state.mediaGallery && (contentCode === "image" || contentCode === "video") ?
+                <MediaGallery
+                  contentItems={contentItems}
+                  contentCode={contentCode}
+                  openMediaPlayer={this.openMediaPlayer ? this.openMediaPlayer.bind(this) : undefined}
                   language={this.props.language}
-                ></ContentItem>
-              )
-            })}
+                />
+              :
+                contentItems.map((p, i) => {
+                  return(
+                    <ContentItem
+                      item={p}
+                      courseId={this.props.courseId}
+                      toResolve={this.props.toResolve}
+                      fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
+                      openMediaPlayer={this.openMediaPlayer ? this.openMediaPlayer.bind(this) : undefined}
+                      handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
+                      completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
+                      language={this.props.language}
+                    ></ContentItem>
+                  )
+                })
+            }
           </div>
         )
       }
@@ -149,10 +164,20 @@ export default class TemplateParent extends React.Component {
               }
               {
                 this.props.tools[2].checked && this.props.tools[5].checked ?
-                  <div className="template-row">
-                    {this.templateItem("image", "Images", 1)}
-                    {this.templateItem("video", "Videos", 1)}
-                  </div>
+                  this.state.mediaGallery ?
+                    <React.Fragment>
+                      <div className="template-row">
+                        {this.templateItem("image", "Images", 0)}
+                      </div>
+                      <div className="template-row">
+                        {this.templateItem("video", "Videos", 0)}
+                      </div>
+                    </React.Fragment>
+                  :
+                    <div className="template-row">
+                      {this.templateItem("image", "Images", 1)}
+                      {this.templateItem("video", "Videos", 1)}
+                    </div>
                 :
                   <div className="template-row">
                     {this.props.tools[2].checked && this.templateItem("image", "Images", 0)}

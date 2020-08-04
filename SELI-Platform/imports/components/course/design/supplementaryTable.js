@@ -179,7 +179,7 @@ export default function SupplementaryTexts(props) {
     <React.Fragment>
       <MaterialTable
         title={language.SupplementaryText}
-        options={{ search: true }}
+        options={{ search: true, actionsColumnIndex: 5 }}
         columns={state.columns}
         data={state.data}
         icons={tableIcons}

@@ -4,6 +4,7 @@ import ResizableContent from './ResizableContent';
 import DiscreteSlider from './DiscreteSlider';
 import Grid from '@material-ui/core/Grid';
 import CheckboxLabels from './CheckBox';
+import Typography from '@material-ui/core/Typography';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 export default class ImageItem extends React.Component {
@@ -189,7 +190,7 @@ export default class ImageItem extends React.Component {
         }
         <div className="image-content-item">
           <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
-            <div>
+            <div className="image-item-container-child">
               {this.props.fromProgram && <DiscreteSlider adjust={this.adjust}/>}
               <ResizableContent
                 key={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
@@ -214,6 +215,9 @@ export default class ImageItem extends React.Component {
                 ></div>
               </ResizableContent>
             </div>
+            <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
+              {`${this.props.item.attributes.title}`}
+            </Typography>
             {/* {
               this.props.item.attributes.hasDescription ?
                 <div
