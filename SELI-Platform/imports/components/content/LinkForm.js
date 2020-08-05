@@ -82,11 +82,8 @@ export default class LinkForm extends React.Component {
               language={this.props.language}
             />
         </div>
-       {/* <div className="padding-center-row">
-          <p className="form-message">{this.props.language.textDescribingLink}</p>
-        </div>
-         <div className="editor-block">
-          <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
+        <div className="editor-block">
+          <p className="editor-label">{this.props.language.textDescribingLink}</p>
           <Editor
             areaHeight='20vh'
             innerHTML={this.state.attributes.description}
@@ -95,7 +92,7 @@ export default class LinkForm extends React.Component {
             getInnerHtml={this.getInnerHtml.bind(this)}
             language={this.props.language}
           />
-        </div> */}
+        </div>
       </div>
     );
   }

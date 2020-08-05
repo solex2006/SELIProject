@@ -281,6 +281,7 @@ export default function FormStepperID(props) {
   }
 
   function handleBack() {
+    console.log("handleback in stepper ID")
     activeStep === 0 ? setActiveStep(prevActiveStep => steps.length - 1) : setActiveStep(prevActiveStep => prevActiveStep - 1);
   }
 
@@ -324,11 +325,15 @@ const save=()=>{
 }
 
 // let reportflag=props.reportflag
-/* useEffect(()=>{
+ useEffect(()=>{
+  console.log("active step en KIDD")
+
+  if(props.activeStep!=''){
+    handleBack()
+  }
   
-  setActiveStep(props.reportflag)
   
-},[activeStep])  */ 
+},[props.activeStep])   
 
 useEffect(()=>{
   if(props.updateSteps==='passInformation'){

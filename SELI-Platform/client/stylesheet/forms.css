@@ -553,12 +553,12 @@
 }
 
 .HP5-content-preview-container {
-  display: flex !important;
+ 
   justify-content: center !important;
 }
 
 .MuiDialogContent-root {
-  display: flex !important;
+
   justify-content: center !important;
 }
 
@@ -626,4 +626,8 @@
 
 .radio-label {
   margin-right: 2.5vw;
+}
+
+.MuiInput-root:{
+  margin-top: 16px;
 }

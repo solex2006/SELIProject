@@ -38,6 +38,10 @@ import StarBorder from '@material-ui/icons/StarBorder';
 import DescriptionSharpIcon from '@material-ui/icons/DescriptionSharp';
 
 const useStyles = makeStyles(theme => ({
+  
+  textInput: {
+			display: 'flex'
+	},
   nested: {
     paddingLeft: theme.spacing(4),
   },
@@ -180,8 +184,9 @@ export default function AnalysisStep(props) {
 		creating: [],
 		evaluating: [],
 		analyzing: [],
-		understand: [],
-		remembering: []
+		understanding: [],
+    remembering: [],
+    applying: []
 	});
 
 
@@ -191,36 +196,50 @@ export default function AnalysisStep(props) {
 			{ key: "develop", label: "to develop" },
 			{ key: "combine", label: "to combine" },
 			{ key: "design", label: "to design" },
-			{ key: "elaborate", label: "to elaborate" }
+      { key: "elaborate", label: "to elaborate" },
+      { key: "other", label: "other" }
 		],
 		evaluating: [
 			{ key: "conclude", label: "to conclude" },
 			{ key: "critique", label: "to critique" },
 			{ key: "justify", label: "to justify" },
 			{ key: "prove", label: "to prove" },
-			{ key: "judge", label: "to judge" }
+      { key: "judge", label: "to judge" },
+      { key: "other", label: "other" }
 		],
 		analyzing: [
-			{ key: "constrast", label: "to constrast" },
+			{ key: "constrast", label: "to contrast" },
 			{ key: "categorize", label: "to categorize" },
 			{ key: "classify", label: "to classify" },
 			{ key: "list", label: "to list" },
-			{ key: "compare", label: "to compare" }
+      { key: "compare", label: "to compare" },
+      { key: "other", label: "other" }
 		],
-		understand: [
+		understanding: [
 			{ key: "explain", label: "to explain" },
 			{ key: "summarize", label: "to summarize" },
 			{ key: "paraphrase", label: "to paraphrase" },
 			{ key: "illustrate", label: "to illustrate" },
-			{ key: "extend", label: "to extend" }
+      { key: "extend", label: "to extend" },
+      { key: "other", label: "other" }
 		],
 		remembering: [
 			{ key: "duplicate", label: "to duplicate" },
 			{ key: "match", label: "to match" },
 			{ key: "describe", label: "to describe" },
 			{ key: "show", label: "to show" },
-			{ key: "choose", label: "to choose" }
-		]
+      { key: "choose", label: "to choose" },
+      { key: "other", label: "other" }
+    ],
+    applying: [
+			{ key: "duplicate", label: "to use" },
+			{ key: "identify", label: "to identify" },
+			{ key: "organize", label: "to organize" },
+			{ key: "construct", label: "to construct" },
+      { key: "solve", label: "to solve" },
+      { key: "other", label: "other" }
+    ]
+    
 	});
 
   const [outcomes, setOutcomes] = useState({
@@ -235,21 +254,24 @@ export default function AnalysisStep(props) {
 			{ key: "categorize", label: "to categorize" },
 			{ key: "describe", label: "to describe" },
 			{ key: "reproduce", label: "to reproduce" },
-			{ key: "compare", label: "to compare" }
+      { key: "compare", label: "to compare" },
+      { key: "other", label: "other" }
 		],
 		skills: [
 			{ key: "design", label: "to design" },
 			{ key: "conduct", label: "to conduct" },
 			{ key: "evaluate", label: "to evaluate" },
 			{ key: "analyse", label: "to analyse" },
-			{ key: "measure", label: "to measure" }
+      { key: "measure", label: "to measure" },
+      { key: "other", label: "other" }
 		],
 		values: [
 			{ key: "appreciate", label: "to appreciate" },
 			{ key: "act", label: "to act" },
 			{ key: "work", label: "to work" },
-			{ key: "aware", label: "to aware" },
-			{ key: "value", label: "to value" }
+			{ key: "aware", label: "to be aware" },
+      { key: "value", label: "to value" },
+      { key: "other", label: "other" }
 		]
 	});
 
@@ -295,13 +317,15 @@ export default function AnalysisStep(props) {
   const [indexdelete,  setindexdelete]=useState(0)
   const [categori, setcategory]=useState('');
 
+  const [disabledVerb, setdisabledVerb]=useState(false);
+
   const handleNewConstraint = () => {
     setConstraints([
       ...constraints,
       { label: "New constraint", editing: true }
     ]);
     setControlEdit({
-      tempValue: "To create",
+      tempValue: "",
       adding: true,
       editing: true
     });
@@ -714,10 +738,19 @@ export default function AnalysisStep(props) {
   }
 
   function updateTempAuxValue(value) {
-    console.log("updateTempAuxValue",value)
-    setControlEdit(prev => {
-      return { ...prev, tempAuxValue: value };
-    });
+    console.log("updateTempAuxValue----------------------",value)
+
+    if(value==='without'){
+      setControlEdit(prev => {
+        return { ...prev, tempAuxValue: value};
+      });
+    }else{
+      setControlEdit(prev => {
+        return { ...prev, tempAuxValue: value };
+      });
+    }
+   
+
   }
   const handleClose = () => {  
     setopen(false)
@@ -923,37 +956,42 @@ export default function AnalysisStep(props) {
 											<ListItemText
 												key={"u2" + index + "listeItemTxt"}
 												primary={
-													goalsTaxonomy[category].find(
+													(goalsTaxonomy[category].find(
 														item => item.key === goal.aux
-													).label +
-													" " +
+													).label==='other') ? goal.label : (goalsTaxonomy[category].find(
+														item => item.key === goal.aux
+													).label) +" " +
 													goal.label
-												}
+                        }
 												className={goal.editing ? classes.hidden : ""}
 											/>
 											<Paper className={!goal.editing ? classes.hidden : ""}>		
-                      	<TextField
-													id="standard-select-currency"
-													select
-													SelectProps={{
-														native: true
-													}}
-													// variant="outlined"
-													value={controlEdit.tempAuxValue}
-													onChange={event =>
-														updateTempAuxValue(event.target.value)
-													}
-													className={classes.input}
-												>
-													{goalsTaxonomy[category].map(option => (
-														<option key={option.key} value={option.key}>
-															{option.label}
-														</option>
-													))}
-												</TextField>
+                        
+                          <TextField
+                            id="standard-select-currency"
+                            select
+                            SelectProps={{
+                              native: true
+                            }}
+                            // variant="outlined"
+                            value={controlEdit.tempAuxValue}
+                            onChange={event =>
+                              updateTempAuxValue(event.target.value)
+                            }
+                            className={classes.textInput}
+                          >
+                            {goalsTaxonomy[category].map(option => (
+                              <option key={option.key} value={option.key}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </TextField>
+                    
+                      	
 												<TextField
 													key={"u2" + index + "txtField"}
-													value={controlEdit.tempValue}
+                          value={controlEdit.tempValue}
+                          label="Complete the objective"
 													onChange={event =>
 														updateTempValue(event.target.value)
 													}
@@ -1088,10 +1126,11 @@ export default function AnalysisStep(props) {
 											<ListItemText
 												key={"u2" + index + "listeItemTxt"}
 												primary={
-													outcomesTaxonomy[category].find(
+													(outcomesTaxonomy[category].find(
 														item => item.key === outcome.aux
-													).label +
-													" " +
+													).label==='other') ? outcome.label : (outcomesTaxonomy[category].find(
+														item => item.key === outcome.aux
+													).label)   + " " +
 													outcome.label
 												}
 												className={outcome.editing ? classes.hidden : ""}
@@ -1109,7 +1148,7 @@ export default function AnalysisStep(props) {
 													onChange={event =>
 														updateTempAuxValue(event.target.value)
 													}
-													className={classes.input}
+													className={classes.textInput}
 												>
 													{outcomesTaxonomy[category].map(option => (
 														<option key={option.key} value={option.key}>
@@ -1118,6 +1157,7 @@ export default function AnalysisStep(props) {
 													))}
 												</TextField>
 												<TextField
+                          label="Complete the objective"
 													key={"u2" + index + "txtField"}
 													value={controlEdit.tempValue}
 													onChange={event =>

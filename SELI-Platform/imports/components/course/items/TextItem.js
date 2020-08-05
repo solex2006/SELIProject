@@ -1,5 +1,4 @@
 import React from 'react';
-import MenuItem from './MenuItem';
 import Code  from '../../tools/Code';
 
 export default class TextItem extends React.Component {
@@ -67,14 +66,6 @@ export default class TextItem extends React.Component {
             :
             undefined
           }
-        </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            language={this.props.language}
-          />
         </div>
       </div>
       );

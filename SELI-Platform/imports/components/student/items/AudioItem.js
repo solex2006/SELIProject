@@ -12,7 +12,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import ReactPlayer from 'react-player';
 import VideoPreview from '../../storytelling/VideoPreview';
-import CheckboxLabels from './CheckBox'
+import CheckboxLabels from '../../course/items/CheckBox'
 import Grid from '@material-ui/core/Grid';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 
@@ -253,12 +253,13 @@ export default class AudioItem extends React.Component {
   componentDidMount=()=>{
         var cues = Array.prototype.slice.call(document.querySelectorAll(".cue"));
         var player = document.getElementById("audio");
-        console.log("audio update------------------------", this.state.captions)
+        //console.log("audio update------------------------", this.state.captions)
         var speaking = document.getElementById("speaking");
 
        
-        console.log("PLAYER",player)
-        
+        //console.log("PLAYER",player)
+
+        if( player!=null ){
           player.addEventListener("timeupdate", function() {
             if (player.paused || player.ended) {
               return;
@@ -289,6 +290,10 @@ export default class AudioItem extends React.Component {
               speaking.innerHTML = "[Captions]" + cues[current].innerHTML;
             }
           });
+
+        }
+        
+         
         
       
 }

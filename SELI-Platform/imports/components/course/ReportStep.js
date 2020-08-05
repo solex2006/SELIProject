@@ -184,6 +184,7 @@ export default function ReportStep(props) {
 	const [sylabus, setSylabus]= useState(props.courseInformation.sylabus)
 	const [reportSylabus, setreportSylabus]= useState([])
 	const [sylabusTotal, setsylabusTotal]= useState(0)
+	const [IndexActividad, setIndexActividad]= useState(0)
 
 
    const [percentagesWithoutUnit, setPercentagesWithoutUnit]=useState({
@@ -575,6 +576,7 @@ export default function ReportStep(props) {
 			withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
 				diversity.push(unit[3])
 			})
+			
 		}else if(type==='unitslessons'){
 			//console.log("en el Unidad-Lesson---------------------", withoutInclusionGol.percentagebyUnit,withoutInclusionGol.percentagebyLesson)
 			withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
@@ -611,7 +613,15 @@ export default function ReportStep(props) {
 			categories[1].topics=hearing
 			categories[2].topics=cognitive
 			categories[3].topics=diversity
-			setCategories(categories)			
+			setCategories(categories)
+
+			//calcualte pecentages by disabilities,this information is useful in the search tool
+			let visualSearch=categories[0].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[0].topics.length
+			let hearingSearch=categories[1].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[1].topics.length
+			let cognitiveSearch=categories[2].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[2].topics.length
+			let diversitySearch=categories[3].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[3].topics.length
+			courseinformation.report=[Math.round(visualSearch), Math.round(hearingSearch), Math.round(cognitiveSearch), Math.round(diversitySearch)]
+			setcourseInformation(courseinformation)
 			//console.log("dentro de ssssssssssssssnewRandomTopics :",withoutInclusionGol, categories )
 			let checkaudience=props.courseInformation.support[1];
 			let check=0
@@ -787,6 +797,7 @@ export default function ReportStep(props) {
          })
 			variablesUnidad.push({
 				title: unit.name, 
+				unidad:indexUnit,
 				contText:contText,
 				contTextFalse:contTextFalse,
 				contCaptions:contCaptions,
@@ -883,6 +894,8 @@ export default function ReportStep(props) {
 				
 				variablesLeccion.push({
 					title: lesson.name, 
+					unidad:indexUnit,
+					lesson:indexLesson,
 					contText:contText,
 					contTextFalse:contTextFalse,
 					contCaptions:contCaptions,
@@ -1014,10 +1027,10 @@ export default function ReportStep(props) {
 			totalnoaccessible=0
 			
 			percentagebyUnit.push([
-				{title: value.title, a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
-				{title: value.title, a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
-				{title: value.title, a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
-				{title: value.title, a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+				{title: value.title, unidad:value.unidad, type:'unid', a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+				{title: value.title, unidad:value.unidad, type:'unid', a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+				{title: value.title, unidad:value.unidad, type:'unid', a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+				{title: value.title, unidad:value.unidad, type:'unid', a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
 			])
 			visual=0, hearing=0, cognitive=0, diversity=0
 		})
@@ -1054,6 +1067,7 @@ export default function ReportStep(props) {
 				let diversity=((configdiversity*100)/totaldiversity)
 				
 				let totalnoconfig=0
+				let totalconfig=0
 				let totalnoaccessible=0
 				let audiences=props.courseInformation.support[1];
 				if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
@@ -1106,10 +1120,10 @@ export default function ReportStep(props) {
 				totalnoaccessible=0
 				
 				percentagebyLesson.push([
-					{title: value.title, a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
-					{title: value.title, a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
-					{title: value.title, a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
-					{title: value.title, a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
 				])
 				visual=0, hearing=0, cognitive=0, diversity=0
 		})
@@ -1161,7 +1175,6 @@ export default function ReportStep(props) {
 		let NotAccessibleCaptions=0
 		let NotAccessibleDescription=0
 		let NotAccessibleSign=0
-
 
       props.courseInformation.program.map((unit, indexUnit)=>{
          //cabezera de la unidad
@@ -1218,6 +1231,7 @@ export default function ReportStep(props) {
          })
 			variablesUnidad.push({
 				title: unit.name, 
+				indice:indexUnit,
 				contText:contText,
 				contTextFalse:contTextFalse,
 				contCaptions:contCaptions,
@@ -1348,10 +1362,10 @@ export default function ReportStep(props) {
 			totalnoaccessible=0
 			
 			percentagebyUnit.push([
-				{title: value.title, a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
-				{title: value.title, a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
-				{title: value.title, a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
-				{title: value.title, a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+				{title: value.title, type:'topic' ,indice:value.indice, a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+				{title: value.title, type:'topic' ,indice:value.indice, a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+				{title: value.title, type:'topic' ,indice:value.indice, a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+				{title: value.title, type:'topic' ,indice:value.indice, a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
 			])
 			visual=0, hearing=0, cognitive=0, diversity=0
 		})
@@ -1377,6 +1391,7 @@ export default function ReportStep(props) {
 		newRandomTopics('topic')
 	};
 	const TemplateCourse=() =>{
+		console.log("template course")
 		let variablesUnidad=[]
 		let variablesTemplate=[]
 		let percentagebyUnit=[]
@@ -1394,6 +1409,7 @@ export default function ReportStep(props) {
 		let NotAccessibleCaptions=0
 		let NotAccessibleDescription=0
 		let NotAccessibleSign=0
+		let indexActividad=''
 
 		props.courseInformation.program.map((unit, indexUnit)=>{
          //cabezera de la unidad
@@ -1451,6 +1467,7 @@ export default function ReportStep(props) {
          })
 			variablesUnidad.push({
 				title: unit.name, 
+				unidad:indexUnit,
 				contText:contText,
 				contTextFalse:contTextFalse,
 				contCaptions:contCaptions,
@@ -1545,6 +1562,8 @@ export default function ReportStep(props) {
 				}) 
 				variablesTemplate.push({
 					title: items.name, 
+					unidad:indexUnit,
+					actividad: indexItems,
 					contText:contText,
 					contTextFalse:contTextFalse,
 					contCaptions:contCaptions,
@@ -1677,10 +1696,10 @@ export default function ReportStep(props) {
 			totalnoaccessible=0
 			
 			percentagebyUnit.push([
-				{title: value.title, a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
-				{title: value.title, a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
-				{title: value.title, a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
-				{title: value.title, a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+				{title: value.title, unidad:value.unidad, type:'template', a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+				{title: value.title, unidad:value.unidad, type:'template', a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+				{title: value.title, unidad:value.unidad, type:'template', a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+				{title: value.title, unidad:value.unidad, type:'template', a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
 			])
 			visual=0, hearing=0, cognitive=0, diversity=0
 		})
@@ -1781,10 +1800,10 @@ export default function ReportStep(props) {
 			totalnoaccessible=0
 			
 			percentagebyTemplate.push([
-				{title: value.title, a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
-				{title: value.title, a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
-				{title: value.title, a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
-				{title: value.title, a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+				{title: value.title, unidad:value.unidad, actividad:value.actividad, type:'template', a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+				{title: value.title, unidad:value.unidad, actividad:value.actividad, type:'template', a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+				{title: value.title, unidad:value.unidad, actividad:value.actividad, type:'template', a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+				{title: value.title, unidad:value.unidad, actividad:value.actividad, type:'template', a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
 			])
 			visual=0, hearing=0, cognitive=0, diversity=0
 	})
@@ -1822,10 +1841,7 @@ export default function ReportStep(props) {
 		return <Redirect to={redirect} />
 	 }
 
-	 const changeRoute=()=>{
-		setredirect("/someRoute")
-		console.log("se va a cambiar de ruta ")
-	 }
+	
 	
 	return (
 		<div className="course-information-container">
@@ -1866,7 +1882,7 @@ export default function ReportStep(props) {
 							 return(
 								category.topics.length!=0?
 								<Grid item xs={12} md={6}>
-								<AccessibilityCard category={category} />
+								<AccessibilityCard handleBack={props.handleBack} category={category} />
 							</Grid>
 							:undefined
 							 )
@@ -1913,7 +1929,7 @@ export default function ReportStep(props) {
 							.filter(c => !c.selected)
 							.map(category => (
 								<Grid item xs={12} md={6}>
-									<AccessibilityCard category={category} />
+									<AccessibilityCard handleBack={props.handleBack} category={category} />
 								</Grid>
 							))}
 					</Grid>
@@ -1972,10 +1988,10 @@ export default function ReportStep(props) {
 							justify="center"
 							alignItems="flex-start"
 						>
-							
+							{console.log('categories:--------->', categories)}
 							{categories.filter(goals => goals.selected).map((category, index) => (
 								<Grid item xs={12} md={6} key={index}>
-									<AccessibilityCard category={category} />
+									<AccessibilityCard handleBack={props.handleBack} category={category} />
 								</Grid>
 							))}
 						</Grid>
@@ -2047,7 +2063,7 @@ function Chart({ percent, id }) {
 		</Container>
 	);
 }
-function AccessibilityCard({ category }) {
+function AccessibilityCard({ category, handleBack }) {
    //console.log("newRandomTopics------------>", category)
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
@@ -2123,7 +2139,7 @@ function AccessibilityCard({ category }) {
 														key={"listtopic-itemtxt" + category.key + "-" + index}
 														primary={topic.title}
 														secondary={
-															<AccessibilityLinearProgress max={topic.a11yValid} />
+															<AccessibilityLinearProgress handleBack={handleBack} topic={topic} max={topic.a11yValid} />
 														}
 													/>
 												</ListItem>
@@ -2196,7 +2212,6 @@ function AccessibilitySylabusCard({ category }) {
 								>
 									{console.log("category.topics**********************", category)}
 									{
-									
 									category.length!=0?
 										<React.Fragment>
 											{
@@ -2215,14 +2230,11 @@ function AccessibilitySylabusCard({ category }) {
 															}
 														/>
 													</ListItem>
-												))
-												
+												))	
 											}
-											
 										</React.Fragment>
 										:
 										undefined
-									
 									}
 								</Collapse>
 							</List>
@@ -2345,7 +2357,7 @@ function AccessibilityProgress({ max, size }) {
 }
 function LinearProgressWithLabel(props) {
 	return (
-		<Box display="flex" alignItems="center" onClick={()=>changeRoute()}>
+		<Box display="flex" alignItems="center" onClick={()=>props.handleBack(props)}>
 	
 				<Box width="100%" mr={1}>
 					<LinearProgress variant="determinate" {...props} />
@@ -2360,7 +2372,7 @@ function LinearProgressWithLabel(props) {
 	);
 }
 
-function AccessibilityLinearProgress({ max, size }) {
+function AccessibilityLinearProgress({ max, size, handleBack, topic }) {
 	const classes = useStyles();
 	const [progress, setProgress] = React.useState(0);
 
@@ -2377,7 +2389,7 @@ function AccessibilityLinearProgress({ max, size }) {
 
 	return (
 		<div className={classes.root}>
-			<LinearProgressWithLabel value={progress} />
+			<LinearProgressWithLabel handleBack={handleBack}  topic={topic} value={progress} />
 		</div>
 	);
 }

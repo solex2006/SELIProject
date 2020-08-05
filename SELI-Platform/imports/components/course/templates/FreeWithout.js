@@ -43,6 +43,7 @@ export default class FreeWithout extends React.Component {
                   return (
                     <Draggable key={i}>
                       <ContentItem
+                        fromProgram
                         item={p}
                         removeItem={this.props.removeItem.bind(this)}
                         editItem={this.props.editItem.bind(this)}

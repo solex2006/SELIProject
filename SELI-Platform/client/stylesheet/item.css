@@ -66,7 +66,6 @@
 .content-box {
   width: 100% !important;
   height: auto;
-  display: flex;
   position: relative;
 }
 
@@ -86,7 +85,7 @@
 }
 
 .item-drag-handle {
-  height: auto;
+  height: 100%;
   padding-left: 4px;
   padding-right: 4px;
   display: flex;
@@ -116,7 +115,6 @@
   color: #333;
   font-weight: 100 !important;
   transition: 0.5s;
-  border-bottom: solid 1px #e0e0e0;
 }
 
 .text-item-section {
@@ -138,10 +136,8 @@
   justify-content: center;
 }
 
-.image-item-container2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.image-item-container-child {
+  margin-right: 1vw;
 }
 
 .image-item-container {
@@ -335,9 +331,8 @@
 
 .pdf-item {
   width: auto;
-  height: 100px;
+  height: 80px;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
 }
 
@@ -354,6 +349,7 @@
 }
 
 .item-instruction-column {
+  margin-top: 15px;
   width: auto;
 }
 
