@@ -49,7 +49,6 @@ const useStyles = makeStyles(theme => ({
   },
   resources:{
     alignSelf:'flex-start'
-   
   },
   activitydesign:{
   
@@ -120,28 +119,45 @@ export default function DesignCourseApp(props) {
     });
   }
 
+  const lesson = {
+    key: "lesson01",
+    title: "",
+    learnGols: "",
+    preKnowledge: "",
+    mainContent: "",
+    tools: [
+      { checked: false, key: "audio", label: language.Audios },
+      { checked: false, key: "games", label: language.Games, items: [] },
+      { checked: false, key: "images", label: language.Images },
+      { checked: false, key: "presentation", label: language.Presentation, items: []},
+      { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
+      { checked: false, key: "videos", label: language.Videos }
+    ],
+    activities: [
+      {
+        activity: "Example",
+        type: "1",
+        graded: true,
+        group: 0,
+        project: false,
+        preeReview: false,
+        submitted: true,
+        error: true,
+        label: "required",
+        helperText: "Name is required.",
+        validateInput: true
+      }
+    ],
+    editing: true
+  }
+
   const addLesson = () => {
     let prev = data;
     let programInfo = programActivities;
-    let lesson = {
-      key: "lesson" + data.length + unitIndex,
-      title: "",
-      learnGols: "",
-      preKnowledge: "",
-      mainContent: "",
-      tools: [
-        { checked: false, key: "audio", label: language.Audios },
-        { checked: false, key: "games", label: language.Games, items: [] },
-        { checked: false, key: "images", label: language.Images },
-        { checked: false, key: "presentation", label: language.Presentation, items: []},
-        { checked: false, key: "supplemantary",label: language.SupplementaryText, items: []},
-        { checked: false, key: "videos", label: language.Videos }
-      ],
-      activities: [],
-      editing: true
-    };
+    let newLesson = lesson;
+    newLesson.key = "lesson" + data.length + unitIndex;
     let activity = {_id: Math.random(), name: "", items: [], activities: []};
-    prev.push(lesson);
+    prev.push(newLesson);
     programInfo.push(activity);
     setData(prev);
     setProgramActivities(programInfo);
@@ -156,19 +172,17 @@ export default function DesignCourseApp(props) {
   }
 
   const editLesson = (lessonIndex) => {
-    setData(prev => {
-      prev[lessonIndex].editing = false;
-      prev[lessonIndex].title = controlEdit.tempValue;
-      return [...prev];
-    });
-    setProgramActivities(prev => {
-      prev[lessonIndex].name = controlEdit.tempValue;
-      setControlEdit({
-        tempValue: "",
-        adding: false,
-        editing: false
-      });
-      return [...prev];
+    let prev = data;
+    let programInfo = programActivities;
+    prev[lessonIndex].editing = false;
+    prev[lessonIndex].title = controlEdit.tempValue;
+    programInfo[lessonIndex].name = controlEdit.tempValue;
+    setData(prev);
+    setProgramActivities(programInfo);
+    setControlEdit({
+      tempValue: "",
+      adding: false,
+      editing: false
     });
   }
 
