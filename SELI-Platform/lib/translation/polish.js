@@ -986,7 +986,7 @@
   openSoftware:"You already add this item before.",
   MSOffice:'MSOffice (example)',
   WebCam:'WebCam (example)',
-  Softwarerequirements:'Softwarerequirements',
+  Softwarerequirements:'Software requirements',
   PlanCreate:'How would you like to create your course?',
   GuidedCoursePlan:'Guided Course Plan',
   PlanTemplate:'Would you like to use a template?',
