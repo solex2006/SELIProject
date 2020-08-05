@@ -24,6 +24,7 @@ import WarningIcon from '@material-ui/icons/Warning';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import FeedbackHelp from "./feedback";
+
 //import AccessibilityDialog from '../../components/accessibility/AccessibilityDialog'
 
 //import SimulateButtons from "./simulate";
@@ -272,7 +273,7 @@ export default function AudienceApp(props) {
     }else{
       console.log("aqui va toolTip")
       settooltip(true)
-      setmessage("No more than 5 options.")
+      setmessage("You can only add five extra audiences.")
       setControlEdit({
         tempValue: "",
         adding: false,
@@ -452,7 +453,7 @@ export default function AudienceApp(props) {
           horizontal: 'left',
           }}
           open={opensnack}
-          autoHideDuration={19000}
+          autoHideDuration={17000}
           //onClose={handleClose("snack")}
           message={message}
           action={
@@ -537,17 +538,7 @@ export default function AudienceApp(props) {
               primary={language.SelectAll}
             />
           </ListItem>      
-          <FeedbackHelp
-            language={language}
-            validation={{
-              error: false,
-              errorMsg: "",
-              errorType: "a11y",
-             // a11y: { valid: !audienceTooltip.audienceError }
-            }}
-            tipMsg={language.targetAudience}
-            describedBy={"i04-helper-text"}     
-          /> 
+          
           {audiences.map((audience, index) => (
             <ListItem key={audience.id} dense>
               {/* <ListItemIcon> */}
@@ -659,6 +650,24 @@ export default function AudienceApp(props) {
             <AddIcon /> <ListItemText primary="Add other audience" />
           </ListItem>
 
+          <FeedbackHelp
+            language={language}
+            validation={{
+              error: false,
+              errorMsg: "",
+              errorType: "a11y",
+             // a11y: { valid: !audienceTooltip.audienceError }
+            }}
+            tipMsg={language.targetAudience}
+            describedBy={"i04-helper-text"}     
+          /> 
+
+          {tooltip===true?
+            SnackbarAudiences()
+            :
+            undefined
+          }
+
         </List>
       </div>
       <h3 id="aud_title">{language.InclusionGoals}</h3>
@@ -716,17 +725,7 @@ export default function AudienceApp(props) {
               primary={language.SelectAll}
             />
           </ListItem>
-        <FeedbackHelp
-              language={language}
-              validation={{
-                error: false,
-                errorMsg: "",
-                errorType: "a11y",
-                //a11y: { valid: !audienceTooltip.audiencegolError}
-              }}
-              tipMsg={language.Validatetheinclusion}
-              describedBy={"i04-helper-text"}     
-            />
+        
           {audiencesGol.map((audienceGol, index) => (
             <ListItem key={audiencesGol.id} dense>
               <Checkbox
@@ -747,6 +746,17 @@ export default function AudienceApp(props) {
               />
             </ListItem>
           ))}
+          <FeedbackHelp
+              language={language}
+              validation={{
+                error: false,
+                errorMsg: "",
+                errorType: "a11y",
+                //a11y: { valid: !audienceTooltip.audiencegolError}
+              }}
+              tipMsg={language.Validatetheinclusion}
+              describedBy={"i04-helper-text"}     
+          />
         </List>
       </div>
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
