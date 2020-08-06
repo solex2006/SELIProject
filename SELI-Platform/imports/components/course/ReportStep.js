@@ -39,7 +39,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
-import { he } from "date-fns/locale";
 import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
@@ -1854,9 +1853,9 @@ export default function ReportStep(props) {
 					<Grid
 						container
 						spacing={2}
-						direction="row"
-						justify="space-between"
-						alignItems="flex-start"
+						//direction="row"
+						//justify="space-between"
+						//alignItems="flex-start"
 					>
 						{categories.map(category => (
 							
@@ -1873,8 +1872,7 @@ export default function ReportStep(props) {
          {simulate === "noInclusionGol" && (   
 			 <React.Fragment>
 					<div>
-						You have not seleced any Inclusion Goals in Audience step, but
-						considere review your Course Accessibility
+						You have not seleced any Inclusion Goals in Audience step, but considere review your Course Accessibility.
 					</div>
 					<Grid container spacing={2}>
 						{
@@ -1907,9 +1905,10 @@ export default function ReportStep(props) {
 						You have achieved your Inclusion Goal!
 					</div>		 
 					<Grid 
+						alignContent='center'
 						container 
 						spacing={2}
-						className={classes.allachieved}
+						//className={classes.allachieved}
 					>
 						{
 							categories.filter(goals=>goals.selected).map((category)=>(
@@ -2250,27 +2249,10 @@ function AccessibilityAchieved({ Icon, caption, className }) {
 	const classes = useStyles();
 
 	return (
-	
-		<div className={classes.content}>
-			<CardContent>
-			<Grid
-				container
-				spacing={2}
-				direction="row"
-				justify="center"
-				alignItems="center"
-			>
-				<Grid item xs={12} sm={6} md={8}>
-					<Avatar className={classes.avatar}>{Icon}</Avatar>
-				</Grid>
-				<Grid item  xs={12} sm={6} md={8}>
-					<div className={classes.caption}>{caption}</div>
-				</Grid>
-			
-			</Grid>
-			</CardContent>
-		</div>
-		
+		<Grid item xs={12} sm={6} >
+			<Avatar className={classes.avatar}>{Icon}</Avatar>
+			<div className={classes.caption}>{caption}</div>
+		</Grid>
 	);
 }
 
