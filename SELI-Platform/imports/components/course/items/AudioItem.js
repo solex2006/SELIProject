@@ -96,8 +96,9 @@ export default class AudioItem extends React.Component {
                         />
                       </div>
                       <div>
+                      
                         {
-                          this.props.item.attributes.accessibility.isA11Y[2].is_a11y===true?
+                          /* this.props.item.attributes.accessibility.isA11Y[2].is_a11y===true?
                             <div className="checkboxstyle">
                               <CheckboxLabels
                                   language={this.props.language}
@@ -107,7 +108,7 @@ export default class AudioItem extends React.Component {
                               />
                             </div>
                             :
-                            undefined
+                            undefined */
                         }
                       </div>
                      
