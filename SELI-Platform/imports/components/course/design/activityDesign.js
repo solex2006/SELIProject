@@ -146,8 +146,10 @@ export default function ActivityDesign(props) {
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                console.log("en la tabla con newData.activity",newData.activity )
+                console.log("en la tabla con newData.activity anf newdata",newData.activity, newData )
                 newData.submitted = true;
+                if(newData.type===undefined){newData.type="1"}
+               
                 if (!newData.activity) {
                   newData.error = true;
                   newData.label = language.required;
@@ -158,16 +160,19 @@ export default function ActivityDesign(props) {
                 }
                 resolve();
                 setState(prevState => {
+                  
                   const data = [...prevState.data];
                   const programActivities = [...prevState.programActivities];
                   const programActivity = {_id: Math.random(), name: newData.activity, items: []};
                   programActivities.push(programActivity);
                   data.push(newData);
+                  
                   if(type==='lesson'){
                     handleSelectResourcesActivities(parentIndex, data, lessonIndex, programActivities);
                   }else{
                     handleActivities(parentIndex, data, programActivities);
                   }
+                  console.log("guarda", data, programActivities )
                   return { ...prevState, data, programActivities};
                 });
               }, 600);
