@@ -81,7 +81,7 @@ export default function ActivityDesign(props) {
               !props.value &&
               props.rowData.validateInput &&
               props.rowData.submitted
-                ? "Requiredaaa"
+                ? "This Field is Required"
                 : ""
             }
             value={props.value ? props.value : ""}
@@ -147,6 +147,7 @@ export default function ActivityDesign(props) {
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
+                console.log("en la tabla con newData.activity",newData.activity )
                 newData.submitted = true;
                 if (!newData.activity) {
                   newData.error = true;
