@@ -12,7 +12,6 @@ export default function ActivityDesign(props) {
   const {language, type, courseInformation, programInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
 
   useEffect(()=>{
-    //console.log("courseInformation-activity-design",courseInformation, type,lessonIndex,parentIndex)
     if(courseInformation.length!=0){
       if(type=='lesson'){
         setState(prevState=>{

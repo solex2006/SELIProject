@@ -186,13 +186,15 @@ export default class AudioItem extends React.Component {
             title="Live from space album cover"
           />
         </div>
-        <div className="course-item-audio-card-controls2"> 
-          <AudioPlayer 
-            volume 
-            src={this.props.item.attributes.audio.link}
-            onPlay={this.playAudio}
-            
-          />
+        <div className="course-item-audio-card-controls2">
+          {
+            this.props.item.attributes.audio &&
+            <AudioPlayer 
+              volume 
+              src={this.props.item.attributes.audio.link}
+              onPlay={this.playAudio}
+            />
+          }
             {/* <Tooltip title={this.props.language.addToMyLibrary}>
               <Link className="course-item-audio-card-icon-button" aria-label="add to favorites">
                 <FolderSpecialIcon className="course-item-audio-card-icon"/>

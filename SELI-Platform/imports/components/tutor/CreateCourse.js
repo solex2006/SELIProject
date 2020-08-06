@@ -131,10 +131,6 @@ export default class CreateCourse extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("componentidUPdate/////////////////////////////////////////////////////",prevState, this.state)
-    /* this.setState({
-      reset:Math.random()
-    }) */
     if ((prevProps.language.languageIndex !== this.props.language.languageIndex) || (prevState.selected !== this.state.selected)) {
       this.loadingHeaders();
       this.loadingData();
@@ -170,7 +166,6 @@ export default class CreateCourse extends React.Component {
   })
 
   loadingData = () => {
-    console.log("loading data***")
     this.setState({
       courseForms: [
         <CourseInformation
@@ -242,7 +237,6 @@ export default class CreateCourse extends React.Component {
   }
 
   handleBack=(props)=>{
-    console.log("handel back",props)
     if(props.topic.type==='topic'){
       this.setState({
         activeStep:Math.random(),
@@ -638,7 +632,6 @@ export default class CreateCourse extends React.Component {
   render() {
     return(
       <div>
-        {console.log("despues de update",this.state )}
         {
           this.state.courseForms !== undefined ?
             <FormStepperID
