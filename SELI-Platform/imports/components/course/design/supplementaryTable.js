@@ -187,6 +187,7 @@ export default function SupplementaryTexts(props) {
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
               newData.submitted = true;
+              if(newData.type===undefined){newData.type="1"}
               setTimeout(() => {
               if (!newData.title) {
                 newData.error = true;

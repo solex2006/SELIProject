@@ -146,7 +146,6 @@ export default function ActivityDesign(props) {
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                console.log("en la tabla con newData.activity anf newdata",newData.activity, newData )
                 newData.submitted = true;
                 if(newData.type===undefined){newData.type="1"}
                

@@ -117,6 +117,8 @@ export default function Presentation(props) {
          
         ) 
       },
+
+      
       {
         title: language.ExternalURL,
         field: "url",
@@ -177,6 +179,7 @@ export default function Presentation(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
               newData.submitted = true;
+              if(newData.type===undefined){newData.type="1"}
               if (!newData.title) {
                 newData.error = true;
                 newData.label = language.required;
@@ -189,8 +192,6 @@ export default function Presentation(props) {
               setState(prevState => {
                 const data = [...prevState.data];
                 data.push(newData);
-                console.log("save",newData)
-                // save to databse
                 let tool=tools;
                 if(type==='lessonInto'){
                   // tool[1].items=data;

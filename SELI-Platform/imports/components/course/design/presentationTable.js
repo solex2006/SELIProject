@@ -5,7 +5,7 @@ import MaterialTable from "material-table";
 import React ,{useEffect} from "react";
 import FeedbackHelp from "../feedback";
 import tableIcons from '../design/icons'
-
+import Checkbox from "@material-ui/core/Checkbox";
 const useStyles = makeStyles(theme => ({}));
 
 export default function Presentation(props) {
@@ -99,7 +99,26 @@ export default function Presentation(props) {
           );
         }
       },
-      { title: "External Resource", field: "external", type: "boolean" },
+      
+      { 
+        title: "External Resource", 
+        field: "external", 
+        type: "boolean" ,
+        editComponent: props => (
+          
+          <Checkbox
+            {...props}
+            disabled={(props.rowData.type ==='2') }
+            onChange={e => {
+              props.rowData.external=e.target.checked;
+              props.onChange(e.target.checked);
+            }}
+          />
+       
+      ) 
+      },
+
+
       {
         title: "External URL",
         field: "url",
@@ -158,6 +177,7 @@ export default function Presentation(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
               newData.submitted = true;
+              if(newData.type===undefined){newData.type="1"}
               if (!newData.title) {
                 newData.error = true;
                 newData.label = language.required;
@@ -172,7 +192,6 @@ export default function Presentation(props) {
                 data.push(newData);
                 let tool=tools;
                 if(type==='lessonInto'){
-                 // tool[lessonIndex][3].items=data;
                  handleSelectResourcesIntoLessons(parentIndex,data, lessonIndex, 3)
                 }else{
                   tool[3].items=data;
