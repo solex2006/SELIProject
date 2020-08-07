@@ -1,7 +1,7 @@
 // https://github.com/fluent-ffmpeg/node-fluent-ffmpeg
 // Library for image, audio and video creation and format conversion.
 // import ffmpeg from 'fluent-ffmpeg';
-import * as fs from 'fs';
+/* import * as fs from 'fs';
 import { Meteor } from "meteor/meteor";
 import { Activities } from './ActivitiesCollection';
 import CourseFilesCollection from "./CourseFilesCollection";
@@ -14,7 +14,7 @@ const ffmpeg = require('fluent-ffmpeg');
 
 ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobePath);
-module.exports = ffmpeg;
+module.exports = ffmpeg; */
 
 Meteor.methods({
   'saveAsVideo': (id, userId) => {
