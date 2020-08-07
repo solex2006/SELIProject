@@ -237,6 +237,7 @@ export default class CreateCourse extends React.Component {
   }
 
   handleBack=(props)=>{
+    console.log("en el handle back",props.topic)
     if(props.topic.type==='topic'){
       this.setState({
         activeStep:Math.random(),
@@ -244,10 +245,18 @@ export default class CreateCourse extends React.Component {
       })
     }
     if(props.topic.type==='template'){
-      this.setState({
-        activeStep:Math.random(),
-        selected:[props.topic.unidad,0,props.topic.actividad,2]
-      })
+      if(props.topic.actividad!=undefined){
+        this.setState({
+          activeStep:Math.random(),
+          selected:[props.topic.unidad,0,props.topic.actividad!=undefined?props.topic.actividad:0,2]
+        })
+      }else{
+        this.setState({
+          activeStep:Math.random(),
+          selected:[props.topic.unidad,0,0,0]
+        })
+      }
+      
     }
     if(props.topic.type==='unid'){
 

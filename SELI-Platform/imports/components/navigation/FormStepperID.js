@@ -326,7 +326,7 @@ const save=()=>{
 
 // let reportflag=props.reportflag
  useEffect(()=>{
-  console.log("active step en KIDD")
+  console.log("active step en KIDD",props.activeStep)
 
   if(props.activeStep!=''){
     handleBack()

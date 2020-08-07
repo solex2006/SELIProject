@@ -359,6 +359,7 @@ export default class CourseProgram extends React.Component {
           - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}`
         }
         else {
+          console.log("el serror",this.props.selected, courseInformation.program[this.props.selected[0]].activities, courseInformation.coursePlan.courseStructure)
           arrayOfItems = courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items;
           arrayOfDesignItems = courseInformation.design[this.props.selected[0]].activities[this.props.selected[2]];
           tools = courseInformation.design[this.props.selected[0]].tools;

@@ -1300,46 +1300,55 @@ export default function ReportStep(props) {
 			let totalnoaccessible=0
 
 			let audiences=props.courseInformation.support[1];
-			if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
-			&& audiences[3].isChecked===false ){//cognitive
-				totalconfig=  (totalconfig+configcognitive)    
-				totalnoconfig=(totalnoconfig+noconfigcognitive)  
-				totalnoaccessible=(totalnoaccessible+notAccessibleCognitive)
-			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true 
-				&& audiences[3].isChecked===false ){//hearing
-					totalconfig=  (totalconfig+confighearing)    
-					totalnoconfig=(totalnoconfig+noconfighearing) 
-					totalnoaccessible=(totalnoaccessible+notAccessibleHearing)  
-			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===false
-				&& audiences[3].isChecked===true ){//visual
-					totalconfig=  (totalconfig+configvisual)    
-					totalnoconfig=(totalnoconfig+noconfigvisual) 
-					totalnoaccessible=(totalnoaccessible+notAccessibleVisual)
-			}else if(audiences[0].isChecked===false && audiences[1].isChecked===true && audiences[2].isChecked===false
-				&& audiences[3].isChecked===false ){//eldery
-					totalconfig=  (totalconfig+configdiversity)    
-					totalnoconfig=(totalnoconfig+noconfigdiversity)  
-					totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
-			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true
-				&& audiences[3].isChecked===true ){//visual and hearing
-					totalconfig=  (totalconfig+confighearing+value.contaudioDescription)    
-					totalnoconfig=(totalnoconfig+noconfighearing+value.contaudioDescriptionFalse)   
-					totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleVisual)
-			}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false
-				   && audiences[3].isChecked===true ){//visual and cognitive-
-					totalconfig=  (totalconfig+configcognitive+value.contaudioDescription)    
-					totalnoconfig=(totalnoconfig+noconfigcognitive+value.contaudioDescriptionFalse)  
-					totalnoaccessible=(totalnoaccessible+notAccessibleVisual+notAccessibleCognitive) 
-			}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===true
-					&& audiences[3].isChecked===false ){//hearing and cognitive
-					totalconfig=  (totalconfig+confighearing+value.contseizures) 
-					totalnoconfig=(totalnoconfig+noconfighearing+value.contseizuresFalse)  
-					totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleCognitive) 
-			}else{//eldery
-					totalconfig=  (totalconfig+configdiversity)    
-					totalnoconfig=(totalnoconfig+noconfigdiversity)   
-					totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+			console.log("props.courseInformation",props.courseInformation)
+			if(audiences!=undefined){
+				if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
+					&& audiences[3].isChecked===false ){//cognitive
+						totalconfig=  (totalconfig+configcognitive)    
+						totalnoconfig=(totalnoconfig+noconfigcognitive)  
+						totalnoaccessible=(totalnoaccessible+notAccessibleCognitive)
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true 
+						&& audiences[3].isChecked===false ){//hearing
+							totalconfig=  (totalconfig+confighearing)    
+							totalnoconfig=(totalnoconfig+noconfighearing) 
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing)  
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===false
+						&& audiences[3].isChecked===true ){//visual
+							totalconfig=  (totalconfig+configvisual)    
+							totalnoconfig=(totalnoconfig+noconfigvisual) 
+							totalnoaccessible=(totalnoaccessible+notAccessibleVisual)
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===true && audiences[2].isChecked===false
+						&& audiences[3].isChecked===false ){//eldery
+							totalconfig=  (totalconfig+configdiversity)    
+							totalnoconfig=(totalnoconfig+noconfigdiversity)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true
+						&& audiences[3].isChecked===true ){//visual and hearing
+							totalconfig=  (totalconfig+confighearing+value.contaudioDescription)    
+							totalnoconfig=(totalnoconfig+noconfighearing+value.contaudioDescriptionFalse)   
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleVisual)
+					}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false
+							&& audiences[3].isChecked===true ){//visual and cognitive-
+							totalconfig=  (totalconfig+configcognitive+value.contaudioDescription)    
+							totalnoconfig=(totalnoconfig+noconfigcognitive+value.contaudioDescriptionFalse)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleVisual+notAccessibleCognitive) 
+					}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===true
+							&& audiences[3].isChecked===false ){//hearing and cognitive
+							totalconfig=  (totalconfig+confighearing+value.contseizures) 
+							totalnoconfig=(totalnoconfig+noconfighearing+value.contseizuresFalse)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleCognitive) 
+					}else{//eldery
+							totalconfig=  (totalconfig+configdiversity)    
+							totalnoconfig=(totalnoconfig+noconfigdiversity)   
+							totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+					}
+
+			}else{
+				totalconfig=  (totalconfig+configdiversity)    
+				totalnoconfig=(totalnoconfig+noconfigdiversity)   
+				totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
 			}
+			
 		
 			contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
 			contWithInclusionGol.todo=contWithInclusionGol.todo+totalnoaccessible+totalnoconfig
@@ -1863,16 +1872,16 @@ export default function ReportStep(props) {
          
          {simulate === "noInclusionGol" && (   
 			 <React.Fragment>
-					<div>
+					{/* <div>
 						You have not seleced any Inclusion Goals in Audience step, but considere review your Course Accessibility.
-					</div>
+					</div> */}
 					<Grid container spacing={1}>
 						{
 						 categories.map(category => {
 							 return(
 								category.topics.length!=0?
 								<Grid item xs={12} md={6}>
-								<AccessibilityCard handleBack={props.handleBack} category={category} />
+								<AccessibilityCard flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
 							</Grid>
 							:undefined
 							 )
@@ -1886,7 +1895,7 @@ export default function ReportStep(props) {
 
 			{simulate === "inclusionGolAchieved" && (
 				<div className={classes.allachieved}>
-					<div>
+					<div className='headAccessibility'>
 						You have seleced {categories.filter(goals => goals.selected).map(category => category.label).toString()} as
 						your Inclusion Goals in Audience step, based on this choose here is
 						the accessibility results of your course.
@@ -1908,7 +1917,7 @@ export default function ReportStep(props) {
 							))
 						}
 					</Grid>
-					<div className={classes.subtitle}>
+					<div className='headAccessibility'>
 						Now you have finished the accessibility set up for your Inclusion Gol, considere review accessibility for others impairments groups.
 					</div>
 					<Grid 
@@ -1992,7 +2001,7 @@ export default function ReportStep(props) {
 
 				<div >
 					<h2 className='headAccessibility'>Sylabus accessibility report</h2>
-						<div className={classes.paper}>			
+						<div className='headAccessibility'>			
 							This part details the accessibility percentages of the course Sylabus.	
 						</div>
 						<Container>
@@ -2016,7 +2025,7 @@ export default function ReportStep(props) {
 	);
 }
 
-function Chart({ percent, id }) {
+function Chart({ percent, id, flagmesage }) {
 	const classes = useStyles();
 
 	return (
@@ -2034,15 +2043,19 @@ function Chart({ percent, id }) {
 			/>
 
 			<div className={classes.chartCaption}>{Math.round(percent * 100)}%</div>
-			{percent === 1 && (
-				<div className={classes.chartLabel}>
+			{console.log("flagmesage", flagmesage, percent)}
+			{/* (percent === 0 && flagmesage===undefined)? 
+				undefined
+			:
+			
+			<div className={classes.chartLabel}>
 					You have achieved your Inclusion Goal!
-				</div>
-			)}
+				</div> */
+			}
 		</Container>
 	);
 }
-function AccessibilityCard({ category, handleBack }) {
+function AccessibilityCard({ category, handleBack, flagmesage }) {
    //console.log("newRandomTopics------------>", category)
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
@@ -2072,7 +2085,11 @@ function AccessibilityCard({ category, handleBack }) {
 						alignItems="flex-start"
 					>
 						<Grid item xs={12} sm={6} md={8}>
-							<Chart id={"gauge-" + category.key} percent={max / 100} />
+							<Chart 
+								id={"gauge-" + category.key} 
+								percent={max / 100}
+								flagmesage={flagmesage}
+							/>
 						</Grid>
 						<Grid item xs={12} sm={6} md={4}>
 							<List
