@@ -28,9 +28,6 @@ export default class TemplateParent extends React.Component {
       if (this.props.editItem) {classNameTemplate = "template-row-item"}
       else{classNameTemplate = "template-column-item-student"}
     }
-    /* if (contentCode === "image" || contentCode === "video") {
-      if (!this.props.editItem && contentLength > 1) this.setState({mediaGallery: true})
-    } */
     if (this.props.editItem) {
       return(
         <TemplateItem
@@ -128,7 +125,12 @@ export default class TemplateParent extends React.Component {
           }
         }
       }
-    })
+    });
+    var contentImages = this.props.arrayOfItems.filter(item => item.code === 'image');
+    var contentVideos = this.props.arrayOfItems.filter(item => item.code === 'video');
+    if (contentImages.length > 1 || contentVideos.length > 1) {
+      if (!this.props.editItem) this.setState({mediaGallery: true})
+    }
   }
 
   render() {
