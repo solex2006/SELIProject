@@ -125,6 +125,7 @@
   position: relative;
   top: var(--form-stepper-height);
   height: calc(100vh - var(--form-stepper-height) - var(--app-bar-height));
+  overflow-y: scroll;
 }
 
 .form-step-completed-step-container {

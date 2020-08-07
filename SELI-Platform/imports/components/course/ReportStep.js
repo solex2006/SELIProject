@@ -9,11 +9,6 @@ import {
 	LinearProgress,
 	CircularProgress,
 	Container,
-	RadioGroup,
-	Radio,
-	FormControl,
-	FormControlLabel,
-	FormLabel,
 	ListSubheader,
 	List,
 	ListItem,
@@ -45,6 +40,10 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		maxWidth: "100vw"
 	},
+	allAchieved:{
+		display:'flex',
+		justifyContent:'center'
+	},
 	paper: {
 		marginBottom: theme.spacing(2),
 	},
@@ -52,7 +51,6 @@ const useStyles = makeStyles(theme => ({
 		display:'flex',
 	},
 	allachieved:{
-		justifyContent:'center',
 		padding:'20px 20px'
 	},
 	content: {},
@@ -64,8 +62,8 @@ const useStyles = makeStyles(theme => ({
 			// minWidth: "auto"
 		},
 		"& $chart": {
-			//	maxHeight: "90%",
-			//	width: "auto"
+				maxHeight: "90%",
+				width: "auto"
 		},
 		"& .MuiCardHeader-root": {
 			color: theme.palette.secondary.dark
@@ -97,19 +95,10 @@ const useStyles = makeStyles(theme => ({
 		color: theme.palette.secondary.main,
 		padding: '10px 10px',
 	},
-	container: {
-		// maxHeight: "60vh",
-		// maxWidth: "60vw",
-		// minWidth: "auto"
-	},
-	chart: {
-		// maxHeight: "60vh",
-		// maxWidth: "60vw",
-		// minWidth: "50em",
-		// width: "auto!important"
-	},
+
 	subtitle: {
-		...theme.typography.subtitle1
+		...theme.typography.subtitle1,
+		margin: '10px 10px',
 	},
 	caption: {
 		...theme.typography.h4
@@ -129,7 +118,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "#66bb6a",
 		color: "#fffff",
 		"& .MuiSvgIcon-root": {
-			fontSize: "8.5rem"
+			fontSize: "6.5rem"
 		},
 		"& .svg-inline--fa": {
 			fontSize: "6.5rem"
@@ -1840,11 +1829,15 @@ export default function ReportStep(props) {
 		return <Redirect to={redirect} />
 	 }
 
-	
+	 const style = {
+		display:'flex',
+		justifyContent:'center'
+	 };
 	
 	return (
-		<div className="course-information-container">
-			<div className="form-input-column">		
+		<div className="course-information-report">
+			<div className="report">
+			
 			<h1 className='headAccessibility'>Accessibility Report</h1>
          {console.log("TopicsCourse----------", withoutInclusionGol, simulate,categories)}
 			{simulate === "allAchieved" && (
@@ -1852,10 +1845,9 @@ export default function ReportStep(props) {
 					<div>Your course is fully accessible</div>
 					<Grid
 						container
-						spacing={2}
-						//direction="row"
-						//justify="space-between"
-						//alignItems="flex-start"
+						spacing={1}
+						style={style}
+						
 					>
 						{categories.map(category => (
 							
@@ -1874,7 +1866,7 @@ export default function ReportStep(props) {
 					<div>
 						You have not seleced any Inclusion Goals in Audience step, but considere review your Course Accessibility.
 					</div>
-					<Grid container spacing={2}>
+					<Grid container spacing={1}>
 						{
 						 categories.map(category => {
 							 return(
@@ -1890,25 +1882,22 @@ export default function ReportStep(props) {
 					</Grid>
 			</React.Fragment> 
 			)}
-
-			{ simulate==='inclusionGolAchieved' && (
-				<div>
-					You have seleced {categories.filter(goals => goals.selected).map(category => category.label).toString()} as
-					your Inclusion Goals in Audience step, based on this choose here is
-					the accessibility results of your course.
-				</div>
-			)}
+				
 
 			{simulate === "inclusionGolAchieved" && (
 				<div className={classes.allachieved}>
+					<div>
+						You have seleced {categories.filter(goals => goals.selected).map(category => category.label).toString()} as
+						your Inclusion Goals in Audience step, based on this choose here is
+						the accessibility results of your course.
+					</div>
 					<div className={classes.chartLabel}>
 						You have achieved your Inclusion Goal!
 					</div>		 
 					<Grid 
-						alignContent='center'
 						container 
-						spacing={2}
-						//className={classes.allachieved}
+						spacing={1}
+						style={style}
 					>
 						{
 							categories.filter(goals=>goals.selected).map((category)=>(
@@ -1920,10 +1909,14 @@ export default function ReportStep(props) {
 						}
 					</Grid>
 					<div className={classes.subtitle}>
-						Now you have finished the accessibility set up for your Inclusion
-						Gol, considere review accessibility for others impairments groups.
+						Now you have finished the accessibility set up for your Inclusion Gol, considere review accessibility for others impairments groups.
 					</div>
-					<Grid container spacing={2}>
+					<Grid 
+						container 
+						spacing={1}
+						justify='center'
+						alignItems='center'
+					>
 						{categories
 							.filter(c => !c.selected)
 							.map(category => (
@@ -1933,16 +1926,16 @@ export default function ReportStep(props) {
 							))}
 					</Grid>
 				</div>
-			)  }
+			) }
 
 			{ simulate === "inclusionGol" && (
 				<div>
 					<Grid
 						container
-						spacing={4}
+						spacing={1}
 						direction="row"
 						justify="center"
-						alignItems="stretch"
+						alignItems="center"
 					>
 						<Grid item xl={6} lg={8} md={6} sm={12} component={Paper}>
 							<Chart percent={(contWithInclusionGol.averageCourse)/100} id="gauge-overall" />
@@ -1975,17 +1968,16 @@ export default function ReportStep(props) {
 							/>
 						</Grid>
 					</Grid>
-					<h2>Accessibility by inclusion goals</h2>
-					 <div>
+					<h2 className='headAccessibility'>Accessibility by inclusion goals</h2>
+					 <div className='headAccessibility'>
 						Here is the result of accesibility grouped by impairments. You can also check the accessibility of each topic or unit of your course.
 					</div>
-					<Container>
 						<Grid
 							container
-							spacing={2}
+							spacing={1}
 							direction="row"
 							justify="center"
-							alignItems="flex-start"
+							alignItems="center"
 						>
 							{console.log('categories:--------->', categories)}
 							{categories.filter(goals => goals.selected).map((category, index) => (
@@ -1994,44 +1986,32 @@ export default function ReportStep(props) {
 								</Grid>
 							))}
 						</Grid>
-					</Container> 
 				</div>
 			) }
 
 
 				<div >
-				<h2>Sylabus accessibility report</h2>
-					<div className={classes.paper}>			
-						This part details the accessibility percentages of the course Sylabus.	
-					</div>
-					<Grid
-						container
-						spacing={4}
-						direction="row"
-						justify="center"
-						alignItems="stretch"
-					>	
-						<Grid item xl={6} lg={8} md={6} sm={12} component={Paper}>
-							<Chart percent={sylabusTotal/100} id="gauge-overall" />
-						</Grid>
-					</Grid>
-					<Container>
-						<Grid
-							container
-							spacing={1}
-							direction="row"
-							justify="center"
-							alignItems="flex-start"
-						>
-							<Grid item xs={12} md={6}>
-								<AccessibilitySylabusCard category={reportSylabus} />
+					<h2 className='headAccessibility'>Sylabus accessibility report</h2>
+						<div className={classes.paper}>			
+							This part details the accessibility percentages of the course Sylabus.	
+						</div>
+						<Container>
+							<Grid
+								container
+								spacing={1}
+								direction='row'
+								justify="center"
+								alignItems="center"
+							>	
+								<Grid item xl={6} lg={8} md={6} sm={12}>
+									<Chart percent={sylabusTotal/100} id="gauge-overall" />
+									<AccessibilitySylabusCard category={reportSylabus} />
+								</Grid>
 							</Grid>
-						</Grid>
-					</Container> 
-				</div>
-
-
-			</div>
+						</Container>
+						
+					</div>
+				</div>					
 		</div>
 	);
 }
@@ -2178,13 +2158,6 @@ function AccessibilitySylabusCard({ category }) {
 			/>
 			<div className={classes.content}>
 				<CardContent>
-					<Grid
-						container
-						spacing={2}
-						direction="row"
-						justify="flex-start"
-						alignItems="flex-start"
-					>
 						<Grid item xs={12} sm={6} md={4}>
 							<List
 								key={"listtopic-sylabus" }
@@ -2238,7 +2211,6 @@ function AccessibilitySylabusCard({ category }) {
 								</Collapse>
 							</List>
 						</Grid>
-					</Grid>
 				</CardContent>
 			</div>
 		</Card>
@@ -2247,11 +2219,26 @@ function AccessibilitySylabusCard({ category }) {
 
 function AccessibilityAchieved({ Icon, caption, className }) {
 	const classes = useStyles();
-
+	const style = {
+		display:'flex',
+		justifyContent:'center'
+	 };
 	return (
-		<Grid item xs={12} sm={6} >
-			<Avatar className={classes.avatar}>{Icon}</Avatar>
-			<div className={classes.caption}>{caption}</div>
+		<Grid 
+			item 
+			xs={12} 
+			sm={6} 
+		>
+			<Box
+			style={style}
+		>
+			<div>
+				<div style={style}><Avatar className={classes.avatar}>{Icon}</Avatar></div>
+				<div className={classes.caption}>{caption}</div>
+			</div>
+		</Box>
+			
+			
 		</Grid>
 	);
 }
