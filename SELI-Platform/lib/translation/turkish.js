@@ -501,7 +501,7 @@ var TURKISH = {
   subscribeJoin: "Abone ol (Ders sınıfına katıl)",
   loadingComments: "Yorumlar yükleniyor...",
   commentOf: "Yorumu",
-  openMediaPlayer: "Açık medya oynatıcı",
+  openMedia: "Açık medya oynatıcı",
   addToLibrary: "Kütüphaneye ekle",
   seliMediaPlayer: "SELI Medya Oynatıcı",
   pressEscCourse: "Ders içeriğine dönmek için Esc tuşuna basın",

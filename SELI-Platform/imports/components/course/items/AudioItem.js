@@ -172,6 +172,11 @@ export default class AudioItem extends React.Component {
     return(
       <Card raised className="course-item-audio-card">
         <div className="course-item-audio-card-details">
+          <CardMedia
+            className="course-item-audio-card-image"
+            image="/audio-gra.svg"
+            title="Live from space album cover"
+          />
           <CardContent className="course-item-audio-card-content">
             <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
               {` ${this.props.item.attributes.title}`}
@@ -180,11 +185,6 @@ export default class AudioItem extends React.Component {
               {this.props.item.attributes.source === 'upload' ? this.props.language.audioFile : this.props.language.recordedAudio}
             </Typography>
           </CardContent>
-          <CardMedia
-            className="course-item-audio-card-image"
-            image="/audio-gra.svg"
-            title="Live from space album cover"
-          />
         </div>
         <div className="course-item-audio-card-controls2">
           {
@@ -334,58 +334,47 @@ export default class AudioItem extends React.Component {
       <div className="content-box">
         <div className="image-content-item">
           <div className="image-item-container">
-            <Card raised className="course-item-audio-card">
-              {this.checkBoxLabels()}          
-              {
-                this.props.item.attributes.accessibility.dataField!=undefined?
-                  <div>
-                  {
-                    this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
-                      this.textAlternatives()
-                    :
-                      undefined
-                  }
-                  </div>
-                :
-                  undefined
-              }            
-              {
-                this.props.item.attributes.accessibility.dataField!=undefined ?
-                this.allTranscription()
-                :
-                undefined
-              }            
+            {this.checkBoxLabels()} 
+            <Card raised className="course-item-audio-card">         
               {
                 this.state.captions==="nocaptions"?
                 this.audioPlayer()
                 :
                 undefined
               }
-              
-              {
-                  this.props.item.attributes.accessibility.dataField !=undefined?
-                  <div>
-                    {
-                      this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
-                      this.textAlternatives()
-                      :
-                      undefined
-                    }
-                  </div>
-                  :
-                  undefined
-              }
             </Card>
-            {/* {
-              this.props.item.attributes.hasDescription ?
-                <div
-                  className="course-item-audio-card-description"
-                  dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
-                >
+            {
+              this.props.item.attributes.accessibility.dataField!=undefined?
+                <div>
+                {
+                  this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+                    this.textAlternatives()
+                  :
+                    undefined
+                }
                 </div>
               :
                 undefined
-            } */}
+            }            
+            {
+              this.props.item.attributes.accessibility.dataField!=undefined ?
+              this.allTranscription()
+              :
+              undefined
+            }   
+            {
+                this.props.item.attributes.accessibility.dataField !=undefined?
+                <div>
+                  {
+                    this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+                    this.textAlternatives()
+                    :
+                    undefined
+                  }
+                </div>
+                :
+                undefined
+            }   
           </div>
         </div>
         { this.props.fromProgram &&

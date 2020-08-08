@@ -501,7 +501,7 @@
   subscribeJoin: "Subskrybuj (Dołącz do kursu w klasue)",
   loadingComments: "Ładowanie komenatrzy...",
   commentOf: "Komentarze wyłączone",
-  openMediaPlayer: "Otwórz oglądanie filmów",
+  openMedia: "Otwórz oglądanie filmów",
   addToLibrary: "Dodaj do biblioteki",
   seliMediaPlayer: "SELI Odtwarzacz Mediów",
   pressEscCourse: "Naciśnij Esc, aby powrócić do treści kursu",

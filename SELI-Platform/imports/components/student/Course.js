@@ -186,11 +186,9 @@ export default class Course extends React.Component {
     this.setState({ openComment: false });
   }
 
-  openMediaPlayer = (media, mediaType, mediaTitle) => {
+  openMedia = (media, mediaType, mediaTitle) => {
     this.setState({
       media: media,
-      mediaType: mediaType,
-      mediaTitle: mediaTitle,
       openMedia: true,
     })
   }
@@ -289,7 +287,7 @@ export default class Course extends React.Component {
               navigateTo={this.props.navigateTo.bind(this)}
               completeActivity={this.completeActivity.bind(this)}
               completeTopicLesson={this.completeTopicLesson.bind(this)}
-              openMediaPlayer={this.openMediaPlayer ? this.openMediaPlayer.bind(this) : undefined}
+              openMedia={this.openMedia.bind(this)}
               leaveComment={this.leaveComment.bind(this)}
               selected={this.props.selected}
               toComplete={this.state.toComplete}
@@ -313,16 +311,14 @@ export default class Course extends React.Component {
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h6">
-                {this.props.language.seliMediaPlayer}
+                {`${this.props.language.seliMediaPlayer} | ${this.state.media ? this.state.media.attributes.title : ""}`}
               </Typography>
               <p className="app-tooltip">{this.props.language.pressEscCourse}</p>
             </Toolbar>
           </AppBar>
           <DialogContent className="media-dialog-content">
             <MediaPlayer
-              url={this.state.media.link}
-              mediaType={this.state.mediaType}
-              mediaTitle={this.state.mediaTitle}
+              media={this.state.media}
             />
           </DialogContent>
         </Dialog>

@@ -501,7 +501,7 @@ var ENGLISH = {
   subscribeJoin: "Subscribe (Join course classroom)",
   loadingComments: "Loading comments...",
   commentOf: "Comment of",
-  openMediaPlayer: "Open media player",
+  openMedia: "Open media player",
   addToLibrary: "Add to library",
   seliMediaPlayer: "SELI Media Player",
   pressEscCourse: "Press Esc to return to course content",
