@@ -501,7 +501,7 @@ var SPANISH = {
   subscribeJoin: "Suscribirse (Unirse al aula del curso)",
   loadingComments: "Cargando comentarios...",
   commentOf: "Comentario de",
-  openMediaPlayer: "Abrir reproductor multimedia",
+  openMedia: "Abrir reproductor multimedia",
   addToLibrary: "Agregar a la biblioteca",
   seliMediaPlayer: "Reproductor Multimedia SELI",
   pressEscCourse: "Presione Escape para volver al contenido del curso",

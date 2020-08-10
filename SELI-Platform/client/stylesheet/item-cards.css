@@ -62,8 +62,7 @@
 }
 
 .course-item-audio-card {
-  width: 25vw !important;
-  max-width: 35vw !important;
+  width: 500px !important;
 }
 
 .course-item-audio-card-details {
@@ -92,17 +91,16 @@
 }
 
 .course-item-audio-card-controls2 {
+  margin-top: 0.5vh !important;
   margin-bottom: 0.5vh !important;
   justify-content: flex-start !important;
-  padding: 0 1vw !important;
+  padding: 0 0.5vh !important;
 }
 
 .course-item-audio-card-image {
-  width: 120px !important;
+  width: 160px !important;
   height: 120px !important;
   background-color: #333;
-  position: absolute !important;
-  right: 0 !important;
 }
 
 .course-item-card-title {
@@ -125,10 +123,6 @@
   width: 95% !important;
 }
 
-.course-item-audio-card-image {
-  position: absolute !important;
-  top: 0 !important;
-}
 .checkboxstyle{
   margin-left: 10px
 }
