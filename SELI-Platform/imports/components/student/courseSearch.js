@@ -224,6 +224,7 @@ export default function CourseSearch(props) {
 					getOnlineFlag=     {props.getOnlineFlag}
 					getAccessibleFlag= {props.getAccessibleFlag}
 					getGeneralSearch={props.getGeneralSearch}
+					sortByMostRecent={props.sortByMostRecent}
 				/>
 			</Paper>
 		</React.Fragment>
