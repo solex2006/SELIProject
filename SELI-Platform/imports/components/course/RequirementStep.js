@@ -323,6 +323,7 @@ export default function RequirementStep(props) {
 
   function deleteSoftware(index) {
     let newSoftware = [...otherSoftwares];
+    console.log(' newSoftware antes', newSoftware )
     if (index === 0) newSoftware = [...newSoftware.slice(1)];
     else if (index === softwares.length - 1)
       newSoftware = [...newSoftware.slice(0, index)];
@@ -335,10 +336,12 @@ export default function RequirementStep(props) {
     let addNewSoftwares=courseinformation;
     addNewSoftwares.requirements[0]=newSoftware
     setcourseInformation(addNewSoftwares)
+    setflagdeleteSoftware(false)
   }
 
   function deleteHardware(index) {
     let newHardwares = [...otherHardware];
+    console.log(' newHD antes', newHardwares )
     if (index === 0) newHardwares = [...newHardwares.slice(1)];
     else if (index === hardware.length - 1)
       newHardwares = [...newHardwares.slice(0, index)];
@@ -351,6 +354,7 @@ export default function RequirementStep(props) {
     let addNewHardwares=courseinformation;
     addNewHardwares.requirements[1]= newHardwares
     setcourseInformation(addNewHardwares)
+    setflagdeleteHardware(false)
   }
   const validateSoftwares=()=>{
     let othersoftwareArray=[]
@@ -365,7 +369,6 @@ export default function RequirementStep(props) {
        setmessage(requirementTooltip.openSoftware)
        return "equal"
     }else{
-        console.log("no coincide")
         return "noequal"
     }   
   }
@@ -393,7 +396,6 @@ export default function RequirementStep(props) {
   };
 ///delete dialog
 const handleDeleteSoftwares = (index) => () => {
-    console.log("handleDeleteSoftwares", index)
     setopen(true)
     setflagdeleteSoftware(true)
     setindexdelete(index)
@@ -401,7 +403,6 @@ const handleDeleteSoftwares = (index) => () => {
  };
 
  const handleDeleteHardwares = (index) => () => {
-  console.log("handleDeleteHardwares", index)
   setopen(true)
   setflagdeleteHardware(true)
   setindexdelete(index)
@@ -410,7 +411,6 @@ const handleDeleteSoftwares = (index) => () => {
 
   return (
     <div className="form-input-audiences">
-     
       <h2>{language.CourseRequirements}</h2>
       <h3 id="soft_title">{language.Softwarerequirements}</h3>
       <div role="group" aria-labelledby="soft_title">
@@ -476,7 +476,9 @@ const handleDeleteSoftwares = (index) => () => {
                           setcourseInformation(addNewSoftwares)
                           setControlEdit({tempValue: "", adding: false, editing: false});
                           setfeedbackError(false)
+                          console.log("save Softeare",addNewSoftwares )
                         }
+                        
                       }}
                       className={classes.saveButton}
                       disabled={controlEdit.tempValue === ""}
@@ -635,7 +637,9 @@ const handleDeleteSoftwares = (index) => () => {
                           setcourseInformation(addNewHardwares)
                           setControlEdit({ tempValue: "", adding: false, editing: false});
                           setfeedbackErrorH(false)
+                          console.log("save Hardwares",addNewHardwares )
                         }
+                        
                       }}
                       className={classes.saveButton}
                       disabled={controlEdit.tempValue === ""}
@@ -694,22 +698,7 @@ const handleDeleteSoftwares = (index) => () => {
                     <IconButton
                       key={"li_sft" + index + "btnDeleteSoft"}
                       edge="end"
-                      /* onClick={
-                        () => {
-                          if (
-                            window.confirm(
-                              "delete audience " +
-                                otherHardware[index].label +
-                                "?"
-                            )
-                          ) {
-                            deleteHardware(index);
-                          }
-                        }
-                      } */
-                      onClick={ handleDeleteHardwares(index)}
-
-                      
+                      onClick={handleDeleteHardwares(index)}
                       className={classes.deleteButton}
                     >
                       <RemoveIcon />
@@ -747,7 +736,7 @@ const handleDeleteSoftwares = (index) => () => {
    
 
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting audience</DialogTitle>
+          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting Requirement</DialogTitle>
             <DialogContent className="success-dialog-content">
               <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
               <WarningIcon className="warning-dialog-icon"/> 

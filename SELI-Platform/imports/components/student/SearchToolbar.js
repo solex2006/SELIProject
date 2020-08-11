@@ -1005,7 +1005,7 @@ export default function SearchToolBar(props) {
 				<TextField id="modality" label="Sort by" select value={1}>
 					<MenuItem value="1">Alphabetic</MenuItem>
 					<MenuItem value="2" onClick={sortByMostRecent}>Most Recent</MenuItem>
-					<MenuItem value="3">Most Relevant</MenuItem>
+					{/* <MenuItem value="3">Most Relevant</MenuItem> */}
 				</TextField>
 			</FormControl>
 		);
