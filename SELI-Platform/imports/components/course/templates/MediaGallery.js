@@ -70,7 +70,7 @@ export default class MediaGallery extends React.Component {
 								elevation={8}
 								className="template-paper-gallery-preview"
 								onClick={() => this.openFullScreen(tile)}
-								onKeyDown={() => this.openFullScreen(tile)}
+								//onKeyDown={() => this.openFullScreen(tile)}
 							>
 								{  
 									this.props.contentCode === "image" ?

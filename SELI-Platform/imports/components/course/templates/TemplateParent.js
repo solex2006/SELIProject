@@ -49,7 +49,7 @@ export default class TemplateParent extends React.Component {
       return(
         <div className={classNameTemplate}>
           {
-            this.state.mediaGallery && (contentCode === "image" || contentCode === "video") ?
+            (contentLength > 1 && contentCode === "video") || (contentLength > 1 && contentCode === "image") ?
               <MediaGallery
                 contentItems={contentItems}
                 contentCode={contentCode}

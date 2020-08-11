@@ -97,7 +97,7 @@ export default class CourseContent extends React.Component {
               toResolve={this.props.toResolve}
               courseId={this.props.course._id}
               fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-              openMedia={this.props.openMedia.bind(this)}
+              openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
               handleControlMessage={this.props.handleControlMessage.bind(this)}
               completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
               language={this.props.language}

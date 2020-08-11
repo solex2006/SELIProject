@@ -102,7 +102,7 @@
   justify-content: center;
   align-items: center;
   animation: fadeInLeft 0.5s;
-  background-color: black;
+  background-color: black !important;
 }
 
 .image-media-show {

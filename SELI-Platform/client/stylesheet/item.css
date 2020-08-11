@@ -259,9 +259,10 @@
 
 .audio-item-container {
   width: 95%;
-  padding: 1.5vh 2.5%;
-  display: flex;
+  padding-top: 1.5vh;
+  /* display: flex; */
   align-items: center;
+  justify-content: center;
 }
 
 .audio-item {

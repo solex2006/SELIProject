@@ -152,7 +152,7 @@ export default class AudioItem extends React.Component {
         {//For text Alternatives
             this.state.shortlongDescription==='shortlongDescription'?
             <Grid container spacing={3}>
-              <Grid item xs={6}>       
+              <Grid item xs={12}>       
                   <div> 
                     <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
@@ -333,8 +333,14 @@ export default class AudioItem extends React.Component {
     return(
       <div className="content-box">
         <div className="image-content-item">
-          <div className="image-item-container">
-            {this.checkBoxLabels()} 
+          <div className="audio-item-container">
+            {this.checkBoxLabels()}
+            {
+              this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+                this.textAlternatives()
+              :
+                undefined
+            } 
             <Card raised className="course-item-audio-card">         
               {
                 this.state.captions==="nocaptions"?
@@ -342,37 +348,17 @@ export default class AudioItem extends React.Component {
                 :
                 undefined
               }
-            </Card>
-            {
-              this.props.item.attributes.accessibility.dataField!=undefined?
-                <div>
-                {
-                  this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
-                    this.textAlternatives()
-                  :
-                    undefined
-                }
-                </div>
-              :
-                undefined
-            }            
+            </Card>           
             {
               this.props.item.attributes.accessibility.dataField!=undefined ?
-              this.allTranscription()
+                this.allTranscription()
               :
-              undefined
+                undefined
             }   
             {
-                this.props.item.attributes.accessibility.dataField !=undefined?
-                <div>
-                  {
-                    this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
-                    this.textAlternatives()
-                    :
-                    undefined
-                  }
-                </div>
-                :
+              this.props.item.attributes.accessibility.dataField !=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+                this.textAlternatives()
+              :
                 undefined
             }   
           </div>
