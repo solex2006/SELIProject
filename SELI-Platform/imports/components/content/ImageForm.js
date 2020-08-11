@@ -57,7 +57,7 @@ export default class ImageForm extends React.Component {
 
   validateContent = (content) => {
     if (content.title === '') {
-      this.props.handleControlMessage(true, this.props.language.titleAudioRequired);
+      this.props.handleControlMessage(true, this.props.language.titleImageRequired);
       return false;
     }
     if (content.image === undefined) {

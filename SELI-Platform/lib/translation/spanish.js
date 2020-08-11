@@ -1123,6 +1123,7 @@ var SPANISH = {
   HighSchoolStudents:'High School Students',
   MiddleSchoolStudents:'Middle School Students',
   ElementarySchoolStudents:'Elementary School Students',
+  titleImageRequired: "The title of the Image content is required",
 }
 export default SPANISH
 

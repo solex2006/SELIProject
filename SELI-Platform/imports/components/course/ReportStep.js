@@ -1119,21 +1119,42 @@ export default function ReportStep(props) {
 		//console.log("percentagebyUnit y percentagebyLesson-------->",percentagebyUnit, percentagebyLesson )
 		let byUnit=0
 		let byLesson=0
-		percentagebyUnit.map((unit, indexUnit)=>{
-			unit.map((percentage, index)=>{
-				byUnit=byUnit+percentage.a11yValid
+		let sum=0
+		
+		if(percentagebyUnit.length!=0){
+			percentagebyUnit.map((unit, indexUnit)=>{
+				unit.map((percentage, index)=>{
+					byUnit=byUnit+percentage.a11yValid
+				})
 			})
-		})
-		byUnit=((byUnit/4)/percentagebyUnit.length)
-		percentagebyLesson.map((unit, indexUnit)=>{
-			unit.map((percentage, index)=>{
-				byLesson=byLesson+percentage.a11yValid
+			byUnit=((byUnit/4)/percentagebyUnit.length)	
+		}else{
+			byUnit=0
+		}
+
+		if(percentagebyUnit.length!=0){
+			percentagebyLesson.map((unit, indexUnit)=>{
+				unit.map((percentage, index)=>{
+					byLesson=byLesson+percentage.a11yValid
+				})
 			})
-		})
-		byLesson=((byLesson/4)/percentagebyUnit.length)
+			byLesson=((byLesson/4)/percentagebyUnit.length)
+		}else{
+			byLesson=0
+		}
+
+		if(byUnit===0 || byLesson==0){
+			sum=((byUnit+byLesson))
+
+	  }else{
+			sum=((byUnit+byLesson)/2)
+	  }
+	  if(sum===100){setSimulate("allAchieved")}
+		
+
+
 		console.log("percentagebyUnit y percentagebyLesson-------->",percentagebyUnit, percentagebyLesson, byUnit, byLesson )
-		let sum=((byUnit+byLesson)/2)
-		if(sum===100){setSimulate("allAchieved")}
+		
 
 
 		//contWithInclusionGol.todo=(tasknoconfig.unit+tasknoconfig.lesson)
@@ -1807,21 +1828,38 @@ export default function ReportStep(props) {
 		
 		let byUnit=0
 		let byTemplate=0
-		percentagebyUnit.map((unit, indexUnit)=>{
-			unit.map((percentage, index)=>{
-				byUnit=byUnit+percentage.a11yValid
+		let sum=0
+		if(percentagebyUnit.length!=0){
+			percentagebyUnit.map((unit, indexUnit)=>{
+				unit.map((percentage, index)=>{
+					byUnit=byUnit+percentage.a11yValid
+				})
 			})
-		})
-		byUnit=((byUnit/4)/percentagebyUnit.length)	
-		percentagebyTemplate.map((unit, indexUnit)=>{
-			unit.map((percentage, index)=>{
-				byTemplate=byTemplate+percentage.a11yValid
+			byUnit=((byUnit/4)/percentagebyUnit.length)	
+		}else{
+			byUnit=0
+		}
+		
+		
+		if(percentagebyTemplate.length!=0){
+			percentagebyTemplate.map((unit, indexUnit)=>{
+				unit.map((percentage, index)=>{
+					byTemplate=byTemplate+percentage.a11yValid
+				})
 			})
-		})
-		byTemplate=((byTemplate/4)/percentagebyTemplate.length)
-		let sum=((byUnit+byTemplate)/2)
-		if(sum===100){setSimulate("allAchieved")}
+			byTemplate=((byTemplate/4)/percentagebyTemplate.length)
+		}else{
+			byTemplate=0
+		}
+		
+		if(byUnit===0 || byTemplate==0){
+			 sum=((byUnit+byTemplate))
 
+		}else{
+			 sum=((byUnit+byTemplate)/2)
+		}
+		if(sum===100){setSimulate("allAchieved")}
+		
 		
 		contWithInclusionGol.averageCourse=sum
 		setWithInclusionGol(contWithInclusionGol)
@@ -2056,7 +2094,7 @@ function Chart({ percent, id, flagmesage }) {
 	);
 }
 function AccessibilityCard({ category, handleBack, flagmesage }) {
-   //console.log("newRandomTopics------------>", category)
+   console.log("newRandomTopics------------>", category)
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const [max, setMax] = React.useState(
@@ -2064,7 +2102,7 @@ function AccessibilityCard({ category, handleBack, flagmesage }) {
 			.map(topic => topic.a11yValid)
 			.reduce((acc, cur) => acc + cur) / category.topics.length
 	);
-   //console.log("Max en AccessibilityCard:", max )
+   console.log("Max en AccessibilityCard:", max )
 	const handleClick = () => {
 		setOpen(!open);
 	};
