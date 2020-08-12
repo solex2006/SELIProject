@@ -171,8 +171,6 @@ export default function CourseContent(props) {
                         :
                         undefined
                     }
-                   
-                    
                     {
                         coursePlan.guidedCoursePlan!='free' ?
                         <div>
@@ -252,9 +250,7 @@ export default function CourseContent(props) {
                                     undefined                        
                                 }
                             </div>
-
                             <div>
-                    
                         <div>
                             <div id='topic-n-readings' className='crnheading'>
                                 <h3>SuplemantaryMaterial </h3>
@@ -304,7 +300,6 @@ export default function CourseContent(props) {
                         :
                         undefined
                     }
-
                     <div>
                         <div className='crnheading'>
                             <h3 id="topic-n-assess" tabIndex="-1">

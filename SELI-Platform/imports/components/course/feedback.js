@@ -57,9 +57,15 @@ export default function FeedbackHelp(props) {
     <React.Fragment>
       <div className={classes.helperText} id={describedBy} component="span">
         <span>
-          <div className="feedback-container">
-            <InfoIcon aria-label="Tip" /> {tipMsg}
-          </div>
+          {
+          tipMsg!=null?
+            <div className="feedback-container">
+              <InfoIcon aria-label="Tip" /> {tipMsg}
+            </div>
+            :
+            undefined    
+          }
+          
         </span>
         {validation.a11y && (
           <div

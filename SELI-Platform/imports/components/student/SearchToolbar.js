@@ -355,8 +355,6 @@ export default function SearchToolBar(props) {
 		);
 	}
 
-	
-
 	const handleSelected = (event) => {
 		setselectedonline(!selectedonline);
 		props.getOnlineFlag(!selectedonline)
@@ -379,13 +377,15 @@ export default function SearchToolBar(props) {
 		props.getGeneralSearch(query)
 	 }
 
+	 const sortByMostRecent=()=>{
+		 props.sortByMostRecent()
+	 }
 
 
 	return (
 		<React.Fragment>
 			<Paper component="form" className={classes.searchbar} elevation={0}>
 				<div className={classes.searchcontainer}>
-			
 					<InputBase
 						value={query}
 						className={classes.input}
@@ -1004,8 +1004,8 @@ export default function SearchToolBar(props) {
 			<FormControl className={classes.select}>
 				<TextField id="modality" label="Sort by" select value={1}>
 					<MenuItem value="1">Alphabetic</MenuItem>
-					<MenuItem value="2">Most Recent</MenuItem>
-					<MenuItem value="3">Most Relevant</MenuItem>
+					<MenuItem value="2" onClick={sortByMostRecent}>Most Recent</MenuItem>
+					{/* <MenuItem value="3">Most Relevant</MenuItem> */}
 				</TextField>
 			</FormControl>
 		);

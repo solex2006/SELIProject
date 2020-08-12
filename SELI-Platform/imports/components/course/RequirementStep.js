@@ -68,8 +68,6 @@ export default function RequirementStep(props) {
   useEffect(() => {
     console.log("comppnentDidMountRequirments", courseInformation)
     if(courseInformation.requirements.length!=0){
-      //setSoftwares(courseInformation.requirements[0])
-      //setHardware(courseInformation.requirements[1])
        if(courseInformation.requirements[0]===undefined){
         setOtherSoftwares([])
       }else{
@@ -98,6 +96,7 @@ export default function RequirementStep(props) {
       }
   })
 
+  const [courseinformation, setcourseInformation]= useState(courseInformation)
   const [tooltipmessages, settooltipmessages] = useState({
     SaveAddHardware:language.SaveAddHardware,
     CancelAddHardware:language.CancelAddHardware,
@@ -129,10 +128,8 @@ export default function RequirementStep(props) {
     hardware:false,
     software:false
   })
-
   const [feedbackError, setfeedbackError]=useState(true)
   const [feedbackErrorH, setfeedbackErrorH]=useState(true)
-  const [courseinformation, setcourseInformation]= useState(courseInformation)
   const [controlEdit,setControlEdit] = useState({
     tempValue: "",
     adding: false,
@@ -232,19 +229,12 @@ export default function RequirementStep(props) {
       },
   ]);
 
-  const [otherSoftwares,setOtherSoftwares] = useState([
-    {
-      label: language.MSOffice,
-      editing: false
-    }
-  ]);
+  const [otherSoftwares,setOtherSoftwares] = useState([]);
 
-  const [otherHardware,setOtherHardware] = useState([
-    {
-      label: language.WebCam,
-      editing: false
-    }
-  ]);
+  const [otherHardware,setOtherHardware] = useState([]);
+
+  const [flagdeleteSoftware,setflagdeleteSoftware]=useState(false)
+  const [flagdeleteHardware,setflagdeleteHardware]=useState(false)
   
   function softwaresCategReq(category, indexCategory) {
     return (
@@ -264,7 +254,7 @@ export default function RequirementStep(props) {
                   .isChecked;
                 setSoftwares(newSoftwares);
                 let addSoftwares=courseinformation;
-                addSoftwares.requirements.splice(0, 1, newSoftwares)
+                addSoftwares.requirements[0]=newSoftwares
                 setcourseInformation(addSoftwares) 
               }}
               disableRipple
@@ -300,7 +290,7 @@ export default function RequirementStep(props) {
                   .isChecked;
                 setHardware(newHardwares);
                 let addHardwares=courseinformation;
-                addHardwares.requirements.splice(1, 2, newHardwares)
+                addHardwares.requirements[1]=newHardwares
                 setcourseInformation(addHardwares)
               }}
               disableRipple
@@ -333,6 +323,7 @@ export default function RequirementStep(props) {
 
   function deleteSoftware(index) {
     let newSoftware = [...otherSoftwares];
+    console.log(' newSoftware antes', newSoftware )
     if (index === 0) newSoftware = [...newSoftware.slice(1)];
     else if (index === softwares.length - 1)
       newSoftware = [...newSoftware.slice(0, index)];
@@ -343,13 +334,14 @@ export default function RequirementStep(props) {
       ];
     setOtherSoftwares(newSoftware);
     let addNewSoftwares=courseinformation;
-    addNewSoftwares.requirements.splice(2,3,newSoftware)
+    addNewSoftwares.requirements[0]=newSoftware
     setcourseInformation(addNewSoftwares)
+    setflagdeleteSoftware(false)
   }
 
   function deleteHardware(index) {
     let newHardwares = [...otherHardware];
-
+    console.log(' newHD antes', newHardwares )
     if (index === 0) newHardwares = [...newHardwares.slice(1)];
     else if (index === hardware.length - 1)
       newHardwares = [...newHardwares.slice(0, index)];
@@ -360,17 +352,10 @@ export default function RequirementStep(props) {
       ];
     setOtherHardware(newHardwares);
     let addNewHardwares=courseinformation;
-    addNewHardwares.requirements.splice(3,4,newHardwares)
+    addNewHardwares.requirements[1]= newHardwares
     setcourseInformation(addNewHardwares)
+    setflagdeleteHardware(false)
   }
-
-  /* const numberAudiences=()=>{
-    let numberSoftwares=otherSoftwares.length;
-    if (numberSoftwares>=5){
-      return "invalid"
-    }else return "valid"
-  } */
-
   const validateSoftwares=()=>{
     let othersoftwareArray=[]
     otherSoftwares.map((audience, index)=>{
@@ -384,7 +369,6 @@ export default function RequirementStep(props) {
        setmessage(requirementTooltip.openSoftware)
        return "equal"
     }else{
-        console.log("no coincide")
         return "noequal"
     }   
   }
@@ -411,22 +395,22 @@ export default function RequirementStep(props) {
     setopen(false)
   };
 ///delete dialog
-  const handleDeleteSoftwares = (index) => () => {
-    console.log("handleDeleteSoftwares", index)
+const handleDeleteSoftwares = (index) => () => {
     setopen(true)
+    setflagdeleteSoftware(true)
     setindexdelete(index)
     setlabelindexdelete(otherSoftwares[index].label)
-  
  };
+
+ const handleDeleteHardwares = (index) => () => {
+  setopen(true)
+  setflagdeleteHardware(true)
+  setindexdelete(index)
+  setlabelindexdelete(otherHardware[index].label)
+};
 
   return (
     <div className="form-input-audiences">
-      {/* <SimulateButtons
-        handleComplete={handleComplete}
-        handleSkip={handleSkip}
-        completed={completed}
-        skiped={skiped}
-      /> */}
       <h2>{language.CourseRequirements}</h2>
       <h3 id="soft_title">{language.Softwarerequirements}</h3>
       <div role="group" aria-labelledby="soft_title">
@@ -440,10 +424,6 @@ export default function RequirementStep(props) {
             }}
             tipMsg={requirementTooltip.AddSoftware}
             describedBy={"i02-helper-text"}
-            /* stepHelp={{
-              step: "textHelper",
-              stepLabel: "a title"
-            }} */
           />
           {otherSoftwares.map((software, index) => (
           <ListItem
@@ -470,17 +450,12 @@ export default function RequirementStep(props) {
                       errorType: "required",
                       a11y: null
                     }}
-                    tipMsg={requirementTooltip.newsoftware}
+                    tipMsg={null}//{requirementTooltip.newsoftware}
                     describedBy={"i02-helper-text"}
-                    /* stepHelp={{
-                      step: "textHelper",
-                      stepLabel: "a title"
-                    }} */
                   />
               </div>    
           </div>
-
-               
+ 
               <ListItemSecondaryAction key={"li_sft" + index + "secAc"}>
                 {software.editing ? (
                   <React.Fragment>
@@ -497,11 +472,13 @@ export default function RequirementStep(props) {
                           newSoftwares[index].label = controlEdit.tempValue;
                           setOtherSoftwares(newSoftwares);
                           let addNewSoftwares=courseinformation;
-                          addNewSoftwares.requirements.splice(2,3,newSoftwares)
+                          addNewSoftwares.requirements[0]=newSoftwares
                           setcourseInformation(addNewSoftwares)
                           setControlEdit({tempValue: "", adding: false, editing: false});
                           setfeedbackError(false)
+                          console.log("save Softeare",addNewSoftwares )
                         }
+                        
                       }}
                       className={classes.saveButton}
                       disabled={controlEdit.tempValue === ""}
@@ -575,7 +552,6 @@ export default function RequirementStep(props) {
             key="addsoft"
             button
             onClick={() => {
-              
                 setOtherSoftwares(prev => [
                   ...prev,
                   { label: "New Software", editing: true }
@@ -636,20 +612,11 @@ export default function RequirementStep(props) {
                             errorType: "required",
                             a11y: null
                           }}
-                          tipMsg={requirementTooltip.newhardware}
+                          tipMsg={null} //{requirementTooltip.newhardware}
                           describedBy={"i02-helper-text"}
-                          /* stepHelp={{
-                            step: "textHelper",
-                            stepLabel: "a title"
-                          }} */
                         />
                   </div>    
               </div>
-
-
-
-
-
               <ListItemSecondaryAction key={"li_sft" + index + "secAc"}>
                 {hardware.editing ? (
                   <React.Fragment>
@@ -666,11 +633,13 @@ export default function RequirementStep(props) {
                           newHardwares[index].label = controlEdit.tempValue;
                           setOtherHardware(newHardwares);
                           let addNewHardwares=courseinformation;
-                          addNewHardwares.requirements.splice(3,4,newHardwares)
+                          addNewHardwares.requirements[1]=newHardwares
                           setcourseInformation(addNewHardwares)
                           setControlEdit({ tempValue: "", adding: false, editing: false});
                           setfeedbackErrorH(false)
+                          console.log("save Hardwares",addNewHardwares )
                         }
+                        
                       }}
                       className={classes.saveButton}
                       disabled={controlEdit.tempValue === ""}
@@ -729,20 +698,7 @@ export default function RequirementStep(props) {
                     <IconButton
                       key={"li_sft" + index + "btnDeleteSoft"}
                       edge="end"
-                      onClick={
-                        () => {
-                          if (
-                            window.confirm(
-                              "delete audience " +
-                                otherHardware[index].label +
-                                "?"
-                            )
-                          ) {
-                            deleteHardware(index);
-                          }
-                        }
-                        // handleDeleteAudience(index)
-                      }
+                      onClick={handleDeleteHardwares(index)}
                       className={classes.deleteButton}
                     >
                       <RemoveIcon />
@@ -777,15 +733,10 @@ export default function RequirementStep(props) {
           </ListItem>
         </List>
       </div>
-       {/*  <SimulateButtons
-        handleComplete={handleComplete}
-        handleSkip={handleSkip}
-        completed={completed}
-        skiped={skiped}
-      /> */}
+   
 
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting audience</DialogTitle>
+          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting Requirement</DialogTitle>
             <DialogContent className="success-dialog-content">
               <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
               <WarningIcon className="warning-dialog-icon"/> 
@@ -793,8 +744,7 @@ export default function RequirementStep(props) {
               <DialogActions>
                 <Button onClick={() => setopen(false)} color="primary">No</Button>
                 <Button onClick={() => {
-                  //setdeleteDialog(true)
-                  deleteSoftware(indexdelete);
+                  flagdeleteHardware===true? deleteHardware(indexdelete) : flagdeleteSoftware===true?  deleteSoftware(indexdelete):undefined
                   setopen(false)
                 }} 
                 color="primary"><em>Yes</em></Button> 

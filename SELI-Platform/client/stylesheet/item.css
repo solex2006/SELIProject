@@ -259,9 +259,10 @@
 
 .audio-item-container {
   width: 95%;
-  padding: 1.5vh 2.5%;
-  display: flex;
+  padding-top: 1.5vh;
+  /* display: flex; */
   align-items: center;
+  justify-content: center;
 }
 
 .audio-item {
@@ -606,10 +607,6 @@
   width: 480px !important;
   height: 270px !important;
   padding: 1.5vh 0 !important;
-}
-
-.course-item-audio-card {
-  width: 500px !important;
 }
 
 .done-icon {

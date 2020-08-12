@@ -342,3 +342,7 @@
 .form-multiple-input-row {
   display: flex;
 }
+
+.report{
+  overflow-y: scroll;
+}

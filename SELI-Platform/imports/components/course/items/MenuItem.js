@@ -128,7 +128,7 @@ export default function MenuItem(props) {
                       </ListItemIcon>
                       <ListItemText primary={props.language.autoRepair} />
                     </ListItem> */}
-                    <ListItem onClick={() => handleDecorative()} button className="menu-content-accessibility-item">
+                    {/* <ListItem onClick={() => handleDecorative()} button className="menu-content-accessibility-item">
                       <ListItemIcon>
                         <CameraIcon />
                       </ListItemIcon>
@@ -140,7 +140,7 @@ export default function MenuItem(props) {
                           checked={props.item.attributes.accessibility.pureDecorative}
                         />
                       </ListItemSecondaryAction>
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem button onClick={() => this.editAccessibility()} className="menu-content-accessibility-item">
                       <ListItemIcon>
                         <SettingsIcon />

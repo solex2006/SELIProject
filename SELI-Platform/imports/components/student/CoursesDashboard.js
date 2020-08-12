@@ -60,6 +60,7 @@ export default class CoursesDashboard extends React.Component {
       tutorsTag:false,
       onlineCourses:[],
       onlineTag:false,
+      flagMostRecent:false
     }
     
   }
@@ -110,6 +111,9 @@ export default class CoursesDashboard extends React.Component {
       this.searchMyCourses()
       this.searchSELICourses()
     }
+    if(prevState.flagMostRecent!=this.state.flagMostRecent){
+      console.log("busqueda por most recent Compnent did Update")
+    }
   }
 
   searchMyCourses=()=>{
@@ -125,11 +129,23 @@ export default class CoursesDashboard extends React.Component {
     this.state.mysuscribdedCourses=titleMyCourses
 
     if(this.props.texttoSearch!=undefined){
-      console.log("this.props.texttoSearch", this.props.texttoSearch)
+     // console.log("this.props.texttoSearch", this.props.texttoSearch)
       let myFiltersuscribdedCourses=this.state.mysuscribdedCourses.filter(course => course.title.search(this.props.texttoSearch.toLowerCase()) !=-1);
-      this.state.myFiltersuscribdedCourses=myFiltersuscribdedCourses
+      let myFiltersuscribdedCoursesSub=this.state.mysuscribdedCourses.filter(course => course.subtitle.search(this.props.texttoSearch.toLowerCase()) !=-1);
+      this.state.myFiltersuscribdedCourses=myFiltersuscribdedCourses.concat(myFiltersuscribdedCoursesSub)
+      //ordena por alfabeto
+      this.state.myFiltersuscribdedCourses.sort(function (a, b) {
+        if (a.title > b.title) {
+          return 1;
+        }
+        if (a.title < b.title) {
+          return -1;
+        }
+        // a must be equal to b
+        return 0;
+      });
       this.setState(this.state)
-      console.log("Cursos suscritos con titulo y filtrado",titleMyCourses, myFiltersuscribdedCourses )
+      //console.log("Cursos suscritos con titulo y filtrado",titleMyCourses, myFiltersuscribdedCourses )
     }
   }
 
@@ -137,15 +153,26 @@ export default class CoursesDashboard extends React.Component {
     console.log("searchSELICourses", this.state, this.props )
     if(this.props.texttoSearch!=undefined){
       let myFilterSeliCourses=this.state.publishedCourses.filter(course => course.title.search(this.props.texttoSearch.toLowerCase()) !=-1);
-    this.state.myFilterSeliCourses=myFilterSeliCourses
+      let myFilterSeliCoursesSub=this.state.publishedCourses.filter(course => course.subtitle.search(this.props.texttoSearch.toLowerCase()) !=-1);
+    this.state.myFilterSeliCourses=myFilterSeliCourses.concat(myFilterSeliCoursesSub)
+    //ordena por alfabeto
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    
     this.setState(this.state)
-    console.log("Seli Courses y Filtrados: ",this.state.publishedCourses, myFilterSeliCourses )
+   // console.log("Seli Courses y Filtrados: ",this.state.publishedCourses, myFilterSeliCourses )
     }
     
   }
 
-  
-  
   paperSearchMyCourses=(title, arrayCourses)=>{
     console.log("papersearchMycourses")
 
@@ -196,8 +223,6 @@ export default class CoursesDashboard extends React.Component {
         </Paper>
       )
   }
-
-  
 
   paperSearchSeli=(title, arrayCourses)=>{
     if(arrayCourses.length >3  && this.state.flagCourses===true){
@@ -514,7 +539,8 @@ export default class CoursesDashboard extends React.Component {
 
   getGeneralSearch=(text)=>{
     console.log("General Search:", text)
-    this.setState({texttoSearch:text})
+    this.state.texttoSearch=text
+    this.setState(this.state)
     this.searchMyCoursesDetailed()
     this.searchSELICoursesDetailed()
   }
@@ -530,19 +556,58 @@ export default class CoursesDashboard extends React.Component {
         }
     }) 
     this.state.mysuscribdedCourses=titleMyCourses
-    let myFiltersuscribdedCourses=this.state.mysuscribdedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
-    this.state.myFiltersuscribdedCourses=myFiltersuscribdedCourses
+    let myFiltersuscribdedCoursesTitle=this.state.mysuscribdedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
+    let myFiltersuscribdedCoursesSubTitle=this.state.mysuscribdedCourses.filter(course => course.subtitle.search(this.state.texttoSearch.toLowerCase()) !=-1);
+    this.state.myFiltersuscribdedCourses=(myFiltersuscribdedCoursesTitle.concat(myFiltersuscribdedCoursesSubTitle))
+    this.state.myFiltersuscribdedCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
     this.setState(this.state)
-    console.log("Cursos suscritos con titulo y filtrado detailed",titleMyCourses, myFiltersuscribdedCourses )
+    //console.log("Cursos suscritos con titulo y filtrado detailed",titleMyCourses, myFiltersuscribdedCourses )
   }
 
   searchSELICoursesDetailed=()=>{
     console.log("searchSELICoursesDetailed", this.state, this.props )
-
-    let myFilterSeliCourses=this.state.publishedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
-    this.state.myFilterSeliCourses=myFilterSeliCourses
+    console.log("text to search", this.state.texttoSearch )
+    
+    let myFilterSeliCoursesTitle=this.state.publishedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
+    let myFilterSeliCoursesSubTitle=this.state.publishedCourses.filter(course => course.subtitle.search(this.state.texttoSearch.toLowerCase()) !=-1);
+    this.state.myFilterSeliCourses=(myFilterSeliCoursesTitle.concat(myFilterSeliCoursesSubTitle))
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
     this.setState(this.state)
-    console.log("Seli Courses y Filtrados Detailed: ",this.state.publishedCourses, myFilterSeliCourses )
+    console.log("Seli Courses y Filtrados Detailed: ",this.state.publishedCourses,  this.state.myFilterSeliCourses )
+  }
+
+  sortByMostRecent=()=>{
+    //console.log("Sort by most recent",this.state.myFilterSeliCourses)
+    let arratosearch=this.state.myFilterSeliCourses;
+    arratosearch.sort(function (a, b) {
+      return new Date(b.creationDate) - new Date(a.creationDate);
+    }); 
+    //console.log("Sort by most recent ordenado",arratosearch)
+    let sortmyFiltersuscribdedCourses=this.state.myFilterSeliCourses;
+    sortmyFiltersuscribdedCourses.sort(function (a, b) {
+      return new Date(b.creationDate) - new Date(a.creationDate);
+    }); 
+    this.state.flagMostRecent=true
+    this.setState(this.state)
+
   }
 
   render() {
@@ -560,6 +625,7 @@ export default class CoursesDashboard extends React.Component {
           getOnlineFlag={this.getOnlineFlag}
           getAccessibleFlag={this.getAccessibleFlag}
           getGeneralSearch={this.getGeneralSearch}
+          sortByMostRecent={this.sortByMostRecent}
         />
         {
           this.state.generalDetailedFlag===false?

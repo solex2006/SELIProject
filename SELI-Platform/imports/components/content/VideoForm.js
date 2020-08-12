@@ -79,7 +79,7 @@ export default class VideoForm extends React.Component {
       this.props.handleControlMessage(true, this.props.language.titleVideoRequired);
       return false;
     }
-    if (content.video === undefined) {
+    if (!content.video) {
       this.props.handleControlMessage(true, this.props.language.uploadAddUrlVideo);
       return false;
     }
@@ -101,7 +101,6 @@ export default class VideoForm extends React.Component {
   }
 
   getFileInformationAudioDescription(file){
-   
     let attributes = this.state.attributes;
     attributes.audio = file;
     

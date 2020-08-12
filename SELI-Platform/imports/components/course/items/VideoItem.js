@@ -140,12 +140,12 @@ export default class VideoItem extends React.Component {
           <Card className="course-item-video-card">
             {this.checkBoxLabels()}
             <Card className="course-item-video-card-media-action-area">
-              {
+              { this.props.item.attributes.video && (
                 this.props.item.attributes.source === 'upload' ?
                   <VideoPreview file={this.props.item.attributes.video}/>
                 :
                   <ReactPlayer className="course-creator-item-video-card-preview-player" url={this.props.item.attributes.video.link}/>
-              }
+              )}
               {
                 this.props.item.attributes.accessibility.dataField===undefined?
                   undefined

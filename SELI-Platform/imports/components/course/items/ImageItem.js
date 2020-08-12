@@ -120,7 +120,7 @@ export default class ImageItem extends React.Component {
         {//For text Alternatives
             this.state.shortlongDescription==='shortlongDescription'?
             <Grid container spacing={3}>
-              <Grid item xs={6}>       
+              <Grid item xs={12}>       
               {
                   this.props.item.attributes.accessibility.dataField.imagePurpose==='info'?
                   <div> 
@@ -176,15 +176,8 @@ export default class ImageItem extends React.Component {
       <div className="content-box">
         {this.checkBoxLabels()}
         {
-          this.props.item.attributes.accessibility.dataField != undefined ?
-            <div>
-              {
-                this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
-                  this.textAlternatives()
-                :
-                  undefined
-              }
-            </div>
+          this.props.item.attributes.accessibility.dataField != undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+            this.textAlternatives()
           :
             undefined
         }
@@ -238,17 +231,10 @@ export default class ImageItem extends React.Component {
           </div>
         </div>
         {
-          this.props.item.attributes.accessibility.dataField!=undefined?
-          <div>
-            {
-              this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
-                this.textAlternatives()
-              :
-                undefined
-            }
-          </div>
+          this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+            this.textAlternatives()
           :
-          undefined
+            undefined
         }
         {this.props.fromProgram && 
           <ItemFeedback

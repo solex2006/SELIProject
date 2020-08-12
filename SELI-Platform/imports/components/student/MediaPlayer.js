@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import AppBar from '../navigation/AppBar';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import theme from '../../style/theme';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
@@ -16,11 +12,8 @@ import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import SubtitlesIcon from '@material-ui/icons/Subtitles';
-import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 
 import Slide from '@material-ui/core/Slide';
-import Zoom from '@material-ui/core/Zoom';
-
 import ReactPlayer from 'react-player';
 import Fullscreen from "react-full-screen";
 
@@ -31,7 +24,7 @@ export default class MediaPlayer extends React.Component {
     super(props);
     this.state = {
       showControls: false,
-      url: this.props.url,
+      media: this.props.media,
       playing: false,
       fullScreen: false,
       muted: false,
@@ -134,7 +127,7 @@ export default class MediaPlayer extends React.Component {
     return(
       <div style={{width: '100%'}}>
         {
-          this.props.mediaType === 'video' ?
+          this.props.media.type === 'video' ?
             <Fullscreen
               enabled={this.state.fullScreen}
               onChange={fullScreen => this.setState({fullScreen})}
@@ -145,7 +138,7 @@ export default class MediaPlayer extends React.Component {
               >
                 <ReactPlayer
                   ref={this.ref}
-                  url={this.state.url}
+                  url={this.state.media.attributes.video.link}
                   className="video-media-player"
                   controls={false}
                   playing={this.state.playing}
@@ -241,55 +234,25 @@ export default class MediaPlayer extends React.Component {
           undefined
         }
         {
-          this.props.mediaType === 'audio' ?
-            <div className="audio-media-container">
-              <ReactPlayer
-                ref={this.ref}
-                url={this.state.url}
-                className="audio-media-player"
-                controls={false}
-                playing={this.state.playing}
-                onProgress={this.handleProgress}
-                muted={this.state.muted}
-                volume={this.state.volume}
-                onSeek={e => this.handleSeek}
-                onDuration={this.handleDuration}
-                onBuffer={this.handleBuffer}
-                onBufferEnd={this.handleBufferEnd}
-              />
+          this.props.media.type === 'image' ?
+            <div className="image-media-container">
               <Paper
                 square
                 elevation={15}
-                className="audio-media-player-paper"
+                className="image-media-player-paper"
               >
-                <LibraryMusicIcon className="audio-media-player-icon-big"/>
-                <div className="audio-media-player-controls">
-                  <p className="audio-media-player-text">{this.props.mediaTitle}</p>
-                  <IconButton color="primary" onClick={this.handlePlayPause} className="audio-media-player-icon-button">
-                    {
-                      !this.state.playing ?
-                        <PlayArrowIcon className="audio-media-player-icon"/>
-                      :
-                      <PauseIcon className="audio-media-player-icon"/>
-                    }
-                  </IconButton>
-                  <div className="audio-media-player-row">
-                    <Typography className="audio-media-player-medium-label" variant="overline" display="block" gutterBottom>
-                      {this.state.timeLabel}
-                    </Typography>
-                    <Slider
-                      step={1 / (this.state.duration)}
-                      min={0}
-                      max={this.state.duration}
-                      valueLabelDisplay="off"
-                      value={this.state.playedSeconds}
-                      color="primary"
-                      onChange={(event, newValue) => this.handleSeekChange(event, newValue)}
-                      className="audio-media-player-slider"
-                    />
-                  </div>
+                <div 
+                  className="image-media-show"
+                  style={{
+                    backgroundImage: `url(${this.state.media.attributes.image.link})`,
+                    //transform: `rotate(${this.state.imageValue && this.state.imageValue.rotate ? this.state.imageValue.rotate : 0}deg)`,
+                  }}
+                >
                 </div>
               </Paper>
+              <div
+                className="image-media-text-container"
+              ></div>
             </div>
           :
           undefined

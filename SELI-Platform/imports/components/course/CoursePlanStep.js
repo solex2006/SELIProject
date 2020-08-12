@@ -74,9 +74,8 @@ const useStyles = makeStyles(theme => ({
 export default function CoursePlanStep(props) {
   const classes = useStyles();
   const {language}=props;
-  console.log("CoursePlanStep:*************************************************************************************1", props)
+  
   useEffect(()=>{
-   
     setCoursePlan(courseInformation.coursePlan.guidedCoursePlan);
     setCourseTemplate(courseInformation.coursePlan.courseTemplate);
     setCourseStructure(courseInformation.coursePlan.courseStructure);
@@ -103,6 +102,7 @@ export default function CoursePlanStep(props) {
   const [courseInformation, setCourseInformation]=React.useState(props.courseInformation);
   const [coursePlan, setCoursePlan] = React.useState('');
   const [courseTemplate, setCourseTemplate] = React.useState('');
+  const [newTemplate, setNewTemplate] = React.useState('');
   const [courseStructure, setCourseStructure] = React.useState('');
   const [changeStructure, setChangeStructure] = React.useState(false);
   const [changeSylabus, setchangeSylabus] = React.useState('');
@@ -119,8 +119,13 @@ export default function CoursePlanStep(props) {
       }
       props.updateCourseInformation(cinformation);
     } else if (type === 'courseTemplate') {
-      cinformation.coursePlan.courseTemplate = event.target.value;
-      setCourseTemplate(event.target.value);
+      if (event.target.value !== "without" && courseTemplate === "without" && courseStructure === "unit") {
+        handleOpen();
+        setNewTemplate(event.target.value);
+      } else {
+        cinformation.coursePlan.courseTemplate = event.target.value;
+        setCourseTemplate(event.target.value);
+      }
     }
     setCourseInformation(cinformation);
   }
@@ -135,11 +140,16 @@ export default function CoursePlanStep(props) {
     let cInformation = courseInformation;
     let cStructure;
     if (courseStructure === "unit") {cStructure = "topic"} else {cStructure = "unit"}
+    if (newTemplate !== '') {
+      cInformation.coursePlan.courseTemplate = newTemplate;
+      setCourseTemplate(newTemplate);
+    }
     cInformation.coursePlan.courseStructure = cStructure;
     cInformation.program = [];
     cInformation.design = [];
     setCourseInformation(cInformation);
     setCourseStructure(cStructure);
+    setNewTemplate('');
     handleClose();
   }
 
@@ -149,6 +159,7 @@ export default function CoursePlanStep(props) {
 
   const handleClose = () => {
     setChangeStructure(false);
+    setNewTemplate('');
   }
 
   const handleUploadButton = event => {
@@ -348,21 +359,6 @@ export default function CoursePlanStep(props) {
             </Button>
           </DialogActions>
         </div>
-        {/* <CourseOrganization 
-          ref="CourseOrganization"
-          courseInformation={this.props.courseInformation}
-          validateOrganization={this.validateOrganization.bind(this)}
-          reRender={this.reRender.bind(this)}
-          selected={this.props.selected}
-          language={this.props.language}
-        />
-        <div className="dialog-actions-container">
-          <Tooltip title={this.props.language.done}>
-            <Fab disabled={this.state.correctOrganization} onClick={() => setOrganization()} aria-label={this.props.language.startCreatingCourse} className="dialog-fab" color="primary">
-              <AssignmentTurnedInIcon/>
-            </Fab>
-          </Tooltip>
-        </div> */}
       </Dialog>
     </div>
   );

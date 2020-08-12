@@ -28,57 +28,51 @@ export default class TemplateParent extends React.Component {
       if (this.props.editItem) {classNameTemplate = "template-row-item"}
       else{classNameTemplate = "template-column-item-student"}
     }
-    /* if (contentCode === "image" || contentCode === "video") {
-      if (!this.props.editItem && contentLength > 1) this.setState({mediaGallery: true})
-    } */
-    if (contentLength > 0) {
-      if (this.props.editItem) {
-        return(
-          <TemplateItem
-            arrayOfItems={contentItems}
-            taskType={this.props.arrayOfDesignItems.type}
-            classNameTemplate={classNameTemplate}
-            contentCode={contentCode}
-            label={label}
-            contentLength={contentLength}
-            openDialog={this.props.openDialog.bind(this)}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
-            language={this.props.language}
-          ></TemplateItem>
-        )
-      } else {
-        return(
-          <div className={classNameTemplate}>
-            {
-              this.state.mediaGallery && (contentCode === "image" || contentCode === "video") ?
-                <MediaGallery
-                  contentItems={contentItems}
-                  contentCode={contentCode}
-                  openMediaPlayer={this.openMediaPlayer ? this.openMediaPlayer.bind(this) : undefined}
-                  language={this.props.language}
-                />
-              :
-                contentItems.map((p, i) => {
-                  return(
-                    <ContentItem
-                      item={p}
-                      courseId={this.props.courseId}
-                      toResolve={this.props.toResolve}
-                      fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-                      openMediaPlayer={this.openMediaPlayer ? this.openMediaPlayer.bind(this) : undefined}
-                      handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
-                      completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
-                      language={this.props.language}
-                    ></ContentItem>
-                  )
-                })
-            }
-          </div>
-        )
-      }
+    if (this.props.editItem) {
+      return(
+        <TemplateItem
+          arrayOfItems={contentItems}
+          taskType={this.props.arrayOfDesignItems.type}
+          classNameTemplate={classNameTemplate}
+          contentCode={contentCode}
+          label={label}
+          contentLength={contentLength}
+          openDialog={this.props.openDialog.bind(this)}
+          removeItem={this.props.removeItem.bind(this)}
+          editItem={this.props.editItem.bind(this)}
+          handleDecorative={this.props.handleDecorative.bind(this)}
+          editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+          language={this.props.language}
+        ></TemplateItem>
+      )
+    } else if (contentLength > 0) {
+      return(
+        <div className={classNameTemplate}>
+          {
+            (contentLength > 1 && contentCode === "video") || (contentLength > 1 && contentCode === "image") ?
+              <MediaGallery
+                contentItems={contentItems}
+                contentCode={contentCode}
+                openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
+                language={this.props.language}
+              />
+            :
+              contentItems.map((p, i) => {
+                return(
+                  <ContentItem
+                    item={p}
+                    courseId={this.props.courseId}
+                    toResolve={this.props.toResolve}
+                    fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
+                    handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
+                    completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
+                    language={this.props.language}
+                  ></ContentItem>
+                )
+              })
+          }
+        </div>
+      )
     }
   }
 
@@ -130,7 +124,12 @@ export default class TemplateParent extends React.Component {
           }
         }
       }
-    })
+    });
+    var contentImages = this.props.arrayOfItems.filter(item => item.code === 'image');
+    var contentVideos = this.props.arrayOfItems.filter(item => item.code === 'video');
+    if (contentImages.length > 1 || contentVideos.length > 1) {
+      if (!this.props.editItem) this.setState({mediaGallery: true})
+    }
   }
 
   render() {

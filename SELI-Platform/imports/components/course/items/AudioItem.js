@@ -97,7 +97,7 @@ export default class AudioItem extends React.Component {
                       </div>
                       <div>
                         {
-                          this.props.item.attributes.accessibility.isA11Y[2].is_a11y===true?
+                          /* this.props.item.attributes.accessibility.isA11Y[2].is_a11y===true?
                             <div className="checkboxstyle">
                               <CheckboxLabels
                                   language={this.props.language}
@@ -107,7 +107,7 @@ export default class AudioItem extends React.Component {
                               />
                             </div>
                             :
-                            undefined
+                            undefined */
                         }
                       </div>
                      
@@ -152,7 +152,7 @@ export default class AudioItem extends React.Component {
         {//For text Alternatives
             this.state.shortlongDescription==='shortlongDescription'?
             <Grid container spacing={3}>
-              <Grid item xs={6}>       
+              <Grid item xs={12}>       
                   <div> 
                     <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
@@ -172,6 +172,11 @@ export default class AudioItem extends React.Component {
     return(
       <Card raised className="course-item-audio-card">
         <div className="course-item-audio-card-details">
+          <CardMedia
+            className="course-item-audio-card-image"
+            image="/audio-gra.svg"
+            title="Live from space album cover"
+          />
           <CardContent className="course-item-audio-card-content">
             <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
               {` ${this.props.item.attributes.title}`}
@@ -180,19 +185,16 @@ export default class AudioItem extends React.Component {
               {this.props.item.attributes.source === 'upload' ? this.props.language.audioFile : this.props.language.recordedAudio}
             </Typography>
           </CardContent>
-          <CardMedia
-            className="course-item-audio-card-image"
-            image="/audio-gra.svg"
-            title="Live from space album cover"
-          />
         </div>
-        <div className="course-item-audio-card-controls2"> 
-          <AudioPlayer 
-            volume 
-            src={this.props.item.attributes.audio.link}
-            onPlay={this.playAudio}
-            
-          />
+        <div className="course-item-audio-card-controls2">
+          {
+            this.props.item.attributes.audio &&
+            <AudioPlayer 
+              volume 
+              src={this.props.item.attributes.audio.link}
+              onPlay={this.playAudio}
+            />
+          }
             {/* <Tooltip title={this.props.language.addToMyLibrary}>
               <Link className="course-item-audio-card-icon-button" aria-label="add to favorites">
                 <FolderSpecialIcon className="course-item-audio-card-icon"/>
@@ -331,59 +333,34 @@ export default class AudioItem extends React.Component {
     return(
       <div className="content-box">
         <div className="image-content-item">
-          <div className="image-item-container">
-            <Card raised className="course-item-audio-card">
-              {this.checkBoxLabels()}          
-              {
-                this.props.item.attributes.accessibility.dataField!=undefined?
-                  <div>
-                  {
-                    this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
-                      this.textAlternatives()
-                    :
-                      undefined
-                  }
-                  </div>
-                :
-                  undefined
-              }            
-              {
-                this.props.item.attributes.accessibility.dataField!=undefined ?
-                this.allTranscription()
-                :
+          <div className="audio-item-container">
+            {this.checkBoxLabels()}
+            {
+              this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+                this.textAlternatives()
+              :
                 undefined
-              }            
+            } 
+            <Card raised className="course-item-audio-card">         
               {
                 this.state.captions==="nocaptions"?
                 this.audioPlayer()
                 :
                 undefined
               }
-              
-              {
-                  this.props.item.attributes.accessibility.dataField !=undefined?
-                  <div>
-                    {
-                      this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
-                      this.textAlternatives()
-                      :
-                      undefined
-                    }
-                  </div>
-                  :
-                  undefined
-              }
-            </Card>
-            {/* {
-              this.props.item.attributes.hasDescription ?
-                <div
-                  className="course-item-audio-card-description"
-                  dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
-                >
-                </div>
+            </Card>           
+            {
+              this.props.item.attributes.accessibility.dataField!=undefined ?
+                this.allTranscription()
               :
                 undefined
-            } */}
+            }   
+            {
+              this.props.item.attributes.accessibility.dataField !=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+                this.textAlternatives()
+              :
+                undefined
+            }   
           </div>
         </div>
         { this.props.fromProgram &&

@@ -167,7 +167,7 @@ export default class CourseProgram extends React.Component {
     }
     if (action === "create" || action === "edit") {
       let itemContent = this.getItemAttributes();
-      if (itemContent != undefined) {
+      if (itemContent !== undefined) {
         arrayOfItems[index].attributes = itemContent;
         if (action === "create") {
           if (this.state.contentTypeAdded === 'image') {
@@ -178,6 +178,8 @@ export default class CourseProgram extends React.Component {
             arrayOfItems[index].attributes.size = size;
           }
           this.finishCreateContent(itemContent);
+        } else {
+          this.finishEditContent();
         }
       }
     } else if (action === "cancel" || action === "remove") {
@@ -206,7 +208,6 @@ export default class CourseProgram extends React.Component {
     this.setState({
       arrayOfItems,
     })
-    if (arrayOfItems.length) {console.log(arrayOfItems)}
   }
 
   createContent(){
@@ -229,8 +230,11 @@ export default class CourseProgram extends React.Component {
     this.resetMenuItems();
   }
 
-  finishEditContent(){
+  editContent = () => {
     this.relativeProgramCommons("edit");
+  }
+
+  finishEditContent(){
     this.contentHandleClose();
     this.resetMenuItems();
   }
@@ -355,6 +359,7 @@ export default class CourseProgram extends React.Component {
           - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}`
         }
         else {
+          console.log("el serror",this.props.selected, courseInformation.program[this.props.selected[0]].activities, courseInformation.coursePlan.courseStructure)
           arrayOfItems = courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items;
           arrayOfDesignItems = courseInformation.design[this.props.selected[0]].activities[this.props.selected[2]];
           tools = courseInformation.design[this.props.selected[0]].tools;
@@ -431,6 +436,7 @@ export default class CourseProgram extends React.Component {
   }
 
   render() {
+    console.log(this.state.contentToEdit)
     return(
       <div>
         {this.state.arrayOfItems && (
@@ -459,8 +465,6 @@ export default class CourseProgram extends React.Component {
             </div>
           </div>
         )}
-
-        
         <Dialog
           open={this.state.contentOpen}
           onClose={this.contentHandleClose}
@@ -651,7 +655,7 @@ export default class CourseProgram extends React.Component {
                   :
                     <div className="dialog-actions-container">
                       <Tooltip title={this.props.language.editContent}>
-                        <Fab onClick={() => this.finishEditContent()} aria-label={this.props.language.createContent} className="dialog-fab" color="primary">
+                        <Fab onClick={() => this.editContent()} aria-label={this.props.language.createContent} className="dialog-fab" color="primary">
                           <EditIcon/>
                         </Fab>
                       </Tooltip>
@@ -661,7 +665,6 @@ export default class CourseProgram extends React.Component {
             :
             undefined
           }
-          {console.log("Verifca si es pdf:",this.state.contentTypeAdded,this.state.showAccessibilityOptions)}
           {
             this.state.showAccessibilityOptions && (this.state.contentTypeAdded === 'pdf' || this.state.contentTypeAdded === 'quiz' || this.state.contentTypeAdded === 'image' || this.state.contentTypeAdded === 'audio' || this.state.contentTypeAdded === 'video') ?  
              //this.contentHandleClose()  // uncomment for view accessibility Menu

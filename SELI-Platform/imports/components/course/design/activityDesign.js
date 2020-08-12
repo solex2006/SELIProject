@@ -12,7 +12,6 @@ export default function ActivityDesign(props) {
   const {language, type, courseInformation, programInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
 
   useEffect(()=>{
-    //console.log("courseInformation-activity-design",courseInformation, type,lessonIndex,parentIndex)
     if(courseInformation.length!=0){
       if(type=='lesson'){
         setState(prevState=>{
@@ -81,7 +80,7 @@ export default function ActivityDesign(props) {
               !props.value &&
               props.rowData.validateInput &&
               props.rowData.submitted
-                ? "Requiredaaa"
+                ? "This Field is Required"
                 : ""
             }
             value={props.value ? props.value : ""}
@@ -148,6 +147,8 @@ export default function ActivityDesign(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 newData.submitted = true;
+                if(newData.type===undefined){newData.type="1"}
+               
                 if (!newData.activity) {
                   newData.error = true;
                   newData.label = language.required;
@@ -158,16 +159,19 @@ export default function ActivityDesign(props) {
                 }
                 resolve();
                 setState(prevState => {
+                  
                   const data = [...prevState.data];
                   const programActivities = [...prevState.programActivities];
                   const programActivity = {_id: Math.random(), name: newData.activity, items: []};
                   programActivities.push(programActivity);
                   data.push(newData);
+                  
                   if(type==='lesson'){
                     handleSelectResourcesActivities(parentIndex, data, lessonIndex, programActivities);
                   }else{
                     handleActivities(parentIndex, data, programActivities);
                   }
+                  console.log("guarda", data, programActivities )
                   return { ...prevState, data, programActivities};
                 });
               }, 600);

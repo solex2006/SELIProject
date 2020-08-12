@@ -116,7 +116,7 @@ export default class Stories extends React.Component {
     let menuOptions = [
       {label: this.props.language.openInEditor, icon: <EditIcon/>, action: this.edit.bind(this)},
       {label: this.props.language.delete , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
-      {label: this.props.language.download , icon: <DownloadIcon/>, action: this.showDownloadForm.bind(this)},
+      //{label: this.props.language.download , icon: <DownloadIcon/>, action: this.showDownloadForm.bind(this)},
     ];
     myStories.map(story => {
       tableData.push({

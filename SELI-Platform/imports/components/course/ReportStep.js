@@ -9,11 +9,6 @@ import {
 	LinearProgress,
 	CircularProgress,
 	Container,
-	RadioGroup,
-	Radio,
-	FormControl,
-	FormControlLabel,
-	FormLabel,
 	ListSubheader,
 	List,
 	ListItem,
@@ -39,12 +34,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
-import { he } from "date-fns/locale";
 import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		maxWidth: "100vw"
+	},
+	allAchieved:{
+		display:'flex',
+		justifyContent:'center'
 	},
 	paper: {
 		marginBottom: theme.spacing(2),
@@ -53,7 +51,6 @@ const useStyles = makeStyles(theme => ({
 		display:'flex',
 	},
 	allachieved:{
-		justifyContent:'center',
 		padding:'20px 20px'
 	},
 	content: {},
@@ -65,8 +62,8 @@ const useStyles = makeStyles(theme => ({
 			// minWidth: "auto"
 		},
 		"& $chart": {
-			//	maxHeight: "90%",
-			//	width: "auto"
+				maxHeight: "90%",
+				width: "auto"
 		},
 		"& .MuiCardHeader-root": {
 			color: theme.palette.secondary.dark
@@ -98,19 +95,10 @@ const useStyles = makeStyles(theme => ({
 		color: theme.palette.secondary.main,
 		padding: '10px 10px',
 	},
-	container: {
-		// maxHeight: "60vh",
-		// maxWidth: "60vw",
-		// minWidth: "auto"
-	},
-	chart: {
-		// maxHeight: "60vh",
-		// maxWidth: "60vw",
-		// minWidth: "50em",
-		// width: "auto!important"
-	},
+
 	subtitle: {
-		...theme.typography.subtitle1
+		...theme.typography.subtitle1,
+		margin: '10px 10px',
 	},
 	caption: {
 		...theme.typography.h4
@@ -130,7 +118,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "#66bb6a",
 		color: "#fffff",
 		"& .MuiSvgIcon-root": {
-			fontSize: "8.5rem"
+			fontSize: "6.5rem"
 		},
 		"& .svg-inline--fa": {
 			fontSize: "6.5rem"
@@ -1131,21 +1119,42 @@ export default function ReportStep(props) {
 		//console.log("percentagebyUnit y percentagebyLesson-------->",percentagebyUnit, percentagebyLesson )
 		let byUnit=0
 		let byLesson=0
-		percentagebyUnit.map((unit, indexUnit)=>{
-			unit.map((percentage, index)=>{
-				byUnit=byUnit+percentage.a11yValid
+		let sum=0
+		
+		if(percentagebyUnit.length!=0){
+			percentagebyUnit.map((unit, indexUnit)=>{
+				unit.map((percentage, index)=>{
+					byUnit=byUnit+percentage.a11yValid
+				})
 			})
-		})
-		byUnit=((byUnit/4)/percentagebyUnit.length)
-		percentagebyLesson.map((unit, indexUnit)=>{
-			unit.map((percentage, index)=>{
-				byLesson=byLesson+percentage.a11yValid
+			byUnit=((byUnit/4)/percentagebyUnit.length)	
+		}else{
+			byUnit=0
+		}
+
+		if(percentagebyUnit.length!=0){
+			percentagebyLesson.map((unit, indexUnit)=>{
+				unit.map((percentage, index)=>{
+					byLesson=byLesson+percentage.a11yValid
+				})
 			})
-		})
-		byLesson=((byLesson/4)/percentagebyUnit.length)
+			byLesson=((byLesson/4)/percentagebyUnit.length)
+		}else{
+			byLesson=0
+		}
+
+		if(byUnit===0 || byLesson==0){
+			sum=((byUnit+byLesson))
+
+	  }else{
+			sum=((byUnit+byLesson)/2)
+	  }
+	  if(sum===100){setSimulate("allAchieved")}
+		
+
+
 		console.log("percentagebyUnit y percentagebyLesson-------->",percentagebyUnit, percentagebyLesson, byUnit, byLesson )
-		let sum=((byUnit+byLesson)/2)
-		if(sum===100){setSimulate("allAchieved")}
+		
 
 
 		//contWithInclusionGol.todo=(tasknoconfig.unit+tasknoconfig.lesson)
@@ -1312,46 +1321,55 @@ export default function ReportStep(props) {
 			let totalnoaccessible=0
 
 			let audiences=props.courseInformation.support[1];
-			if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
-			&& audiences[3].isChecked===false ){//cognitive
-				totalconfig=  (totalconfig+configcognitive)    
-				totalnoconfig=(totalnoconfig+noconfigcognitive)  
-				totalnoaccessible=(totalnoaccessible+notAccessibleCognitive)
-			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true 
-				&& audiences[3].isChecked===false ){//hearing
-					totalconfig=  (totalconfig+confighearing)    
-					totalnoconfig=(totalnoconfig+noconfighearing) 
-					totalnoaccessible=(totalnoaccessible+notAccessibleHearing)  
-			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===false
-				&& audiences[3].isChecked===true ){//visual
-					totalconfig=  (totalconfig+configvisual)    
-					totalnoconfig=(totalnoconfig+noconfigvisual) 
-					totalnoaccessible=(totalnoaccessible+notAccessibleVisual)
-			}else if(audiences[0].isChecked===false && audiences[1].isChecked===true && audiences[2].isChecked===false
-				&& audiences[3].isChecked===false ){//eldery
-					totalconfig=  (totalconfig+configdiversity)    
-					totalnoconfig=(totalnoconfig+noconfigdiversity)  
-					totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
-			}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true
-				&& audiences[3].isChecked===true ){//visual and hearing
-					totalconfig=  (totalconfig+confighearing+value.contaudioDescription)    
-					totalnoconfig=(totalnoconfig+noconfighearing+value.contaudioDescriptionFalse)   
-					totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleVisual)
-			}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false
-				   && audiences[3].isChecked===true ){//visual and cognitive-
-					totalconfig=  (totalconfig+configcognitive+value.contaudioDescription)    
-					totalnoconfig=(totalnoconfig+noconfigcognitive+value.contaudioDescriptionFalse)  
-					totalnoaccessible=(totalnoaccessible+notAccessibleVisual+notAccessibleCognitive) 
-			}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===true
-					&& audiences[3].isChecked===false ){//hearing and cognitive
-					totalconfig=  (totalconfig+confighearing+value.contseizures) 
-					totalnoconfig=(totalnoconfig+noconfighearing+value.contseizuresFalse)  
-					totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleCognitive) 
-			}else{//eldery
-					totalconfig=  (totalconfig+configdiversity)    
-					totalnoconfig=(totalnoconfig+noconfigdiversity)   
-					totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+			console.log("props.courseInformation",props.courseInformation)
+			if(audiences!=undefined){
+				if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
+					&& audiences[3].isChecked===false ){//cognitive
+						totalconfig=  (totalconfig+configcognitive)    
+						totalnoconfig=(totalnoconfig+noconfigcognitive)  
+						totalnoaccessible=(totalnoaccessible+notAccessibleCognitive)
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true 
+						&& audiences[3].isChecked===false ){//hearing
+							totalconfig=  (totalconfig+confighearing)    
+							totalnoconfig=(totalnoconfig+noconfighearing) 
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing)  
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===false
+						&& audiences[3].isChecked===true ){//visual
+							totalconfig=  (totalconfig+configvisual)    
+							totalnoconfig=(totalnoconfig+noconfigvisual) 
+							totalnoaccessible=(totalnoaccessible+notAccessibleVisual)
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===true && audiences[2].isChecked===false
+						&& audiences[3].isChecked===false ){//eldery
+							totalconfig=  (totalconfig+configdiversity)    
+							totalnoconfig=(totalnoconfig+noconfigdiversity)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true
+						&& audiences[3].isChecked===true ){//visual and hearing
+							totalconfig=  (totalconfig+confighearing+value.contaudioDescription)    
+							totalnoconfig=(totalnoconfig+noconfighearing+value.contaudioDescriptionFalse)   
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleVisual)
+					}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false
+							&& audiences[3].isChecked===true ){//visual and cognitive-
+							totalconfig=  (totalconfig+configcognitive+value.contaudioDescription)    
+							totalnoconfig=(totalnoconfig+noconfigcognitive+value.contaudioDescriptionFalse)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleVisual+notAccessibleCognitive) 
+					}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===true
+							&& audiences[3].isChecked===false ){//hearing and cognitive
+							totalconfig=  (totalconfig+confighearing+value.contseizures) 
+							totalnoconfig=(totalnoconfig+noconfighearing+value.contseizuresFalse)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleCognitive) 
+					}else{//eldery
+							totalconfig=  (totalconfig+configdiversity)    
+							totalnoconfig=(totalnoconfig+noconfigdiversity)   
+							totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+					}
+
+			}else{
+				totalconfig=  (totalconfig+configdiversity)    
+				totalnoconfig=(totalnoconfig+noconfigdiversity)   
+				totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
 			}
+			
 		
 			contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
 			contWithInclusionGol.todo=contWithInclusionGol.todo+totalnoaccessible+totalnoconfig
@@ -1810,21 +1828,38 @@ export default function ReportStep(props) {
 		
 		let byUnit=0
 		let byTemplate=0
-		percentagebyUnit.map((unit, indexUnit)=>{
-			unit.map((percentage, index)=>{
-				byUnit=byUnit+percentage.a11yValid
+		let sum=0
+		if(percentagebyUnit.length!=0){
+			percentagebyUnit.map((unit, indexUnit)=>{
+				unit.map((percentage, index)=>{
+					byUnit=byUnit+percentage.a11yValid
+				})
 			})
-		})
-		byUnit=((byUnit/4)/percentagebyUnit.length)	
-		percentagebyTemplate.map((unit, indexUnit)=>{
-			unit.map((percentage, index)=>{
-				byTemplate=byTemplate+percentage.a11yValid
+			byUnit=((byUnit/4)/percentagebyUnit.length)	
+		}else{
+			byUnit=0
+		}
+		
+		
+		if(percentagebyTemplate.length!=0){
+			percentagebyTemplate.map((unit, indexUnit)=>{
+				unit.map((percentage, index)=>{
+					byTemplate=byTemplate+percentage.a11yValid
+				})
 			})
-		})
-		byTemplate=((byTemplate/4)/percentagebyTemplate.length)
-		let sum=((byUnit+byTemplate)/2)
-		if(sum===100){setSimulate("allAchieved")}
+			byTemplate=((byTemplate/4)/percentagebyTemplate.length)
+		}else{
+			byTemplate=0
+		}
+		
+		if(byUnit===0 || byTemplate==0){
+			 sum=((byUnit+byTemplate))
 
+		}else{
+			 sum=((byUnit+byTemplate)/2)
+		}
+		if(sum===100){setSimulate("allAchieved")}
+		
 		
 		contWithInclusionGol.averageCourse=sum
 		setWithInclusionGol(contWithInclusionGol)
@@ -1841,11 +1876,15 @@ export default function ReportStep(props) {
 		return <Redirect to={redirect} />
 	 }
 
-	
+	 const style = {
+		display:'flex',
+		justifyContent:'center'
+	 };
 	
 	return (
-		<div className="course-information-container">
-			<div className="form-input-column">		
+		<div className="course-information-report">
+			<div className="report">
+			
 			<h1 className='headAccessibility'>Accessibility Report</h1>
          {console.log("TopicsCourse----------", withoutInclusionGol, simulate,categories)}
 			{simulate === "allAchieved" && (
@@ -1853,10 +1892,9 @@ export default function ReportStep(props) {
 					<div>Your course is fully accessible</div>
 					<Grid
 						container
-						spacing={2}
-						direction="row"
-						justify="space-between"
-						alignItems="flex-start"
+						spacing={1}
+						style={style}
+						
 					>
 						{categories.map(category => (
 							
@@ -1872,17 +1910,16 @@ export default function ReportStep(props) {
          
          {simulate === "noInclusionGol" && (   
 			 <React.Fragment>
-					<div>
-						You have not seleced any Inclusion Goals in Audience step, but
-						considere review your Course Accessibility
-					</div>
-					<Grid container spacing={2}>
+					{/* <div>
+						You have not seleced any Inclusion Goals in Audience step, but considere review your Course Accessibility.
+					</div> */}
+					<Grid container spacing={1}>
 						{
 						 categories.map(category => {
 							 return(
 								category.topics.length!=0?
 								<Grid item xs={12} md={6}>
-								<AccessibilityCard handleBack={props.handleBack} category={category} />
+								<AccessibilityCard flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
 							</Grid>
 							:undefined
 							 )
@@ -1892,24 +1929,22 @@ export default function ReportStep(props) {
 					</Grid>
 			</React.Fragment> 
 			)}
-
-			{ simulate==='inclusionGolAchieved' && (
-				<div>
-					You have seleced {categories.filter(goals => goals.selected).map(category => category.label).toString()} as
-					your Inclusion Goals in Audience step, based on this choose here is
-					the accessibility results of your course.
-				</div>
-			)}
+				
 
 			{simulate === "inclusionGolAchieved" && (
 				<div className={classes.allachieved}>
+					<div className='headAccessibility'>
+						You have seleced {categories.filter(goals => goals.selected).map(category => category.label).toString()} as
+						your Inclusion Goals in Audience step, based on this choose here is
+						the accessibility results of your course.
+					</div>
 					<div className={classes.chartLabel}>
 						You have achieved your Inclusion Goal!
 					</div>		 
 					<Grid 
 						container 
-						spacing={2}
-						className={classes.allachieved}
+						spacing={1}
+						style={style}
 					>
 						{
 							categories.filter(goals=>goals.selected).map((category)=>(
@@ -1920,11 +1955,15 @@ export default function ReportStep(props) {
 							))
 						}
 					</Grid>
-					<div className={classes.subtitle}>
-						Now you have finished the accessibility set up for your Inclusion
-						Gol, considere review accessibility for others impairments groups.
+					<div className='headAccessibility'>
+						Now you have finished the accessibility set up for your Inclusion Gol, considere review accessibility for others impairments groups.
 					</div>
-					<Grid container spacing={2}>
+					<Grid 
+						container 
+						spacing={1}
+						justify='center'
+						alignItems='center'
+					>
 						{categories
 							.filter(c => !c.selected)
 							.map(category => (
@@ -1934,16 +1973,16 @@ export default function ReportStep(props) {
 							))}
 					</Grid>
 				</div>
-			)  }
+			) }
 
 			{ simulate === "inclusionGol" && (
 				<div>
 					<Grid
 						container
-						spacing={4}
+						spacing={1}
 						direction="row"
 						justify="center"
-						alignItems="stretch"
+						alignItems="center"
 					>
 						<Grid item xl={6} lg={8} md={6} sm={12} component={Paper}>
 							<Chart percent={(contWithInclusionGol.averageCourse)/100} id="gauge-overall" />
@@ -1976,17 +2015,16 @@ export default function ReportStep(props) {
 							/>
 						</Grid>
 					</Grid>
-					<h2>Accessibility by inclusion goals</h2>
-					 <div>
+					<h2 className='headAccessibility'>Accessibility by inclusion goals</h2>
+					 <div className='headAccessibility'>
 						Here is the result of accesibility grouped by impairments. You can also check the accessibility of each topic or unit of your course.
 					</div>
-					<Container>
 						<Grid
 							container
-							spacing={2}
+							spacing={1}
 							direction="row"
 							justify="center"
-							alignItems="flex-start"
+							alignItems="center"
 						>
 							{console.log('categories:--------->', categories)}
 							{categories.filter(goals => goals.selected).map((category, index) => (
@@ -1995,49 +2033,37 @@ export default function ReportStep(props) {
 								</Grid>
 							))}
 						</Grid>
-					</Container> 
 				</div>
 			) }
 
 
 				<div >
-				<h2>Sylabus accessibility report</h2>
-					<div className={classes.paper}>			
-						This part details the accessibility percentages of the course Sylabus.	
-					</div>
-					<Grid
-						container
-						spacing={4}
-						direction="row"
-						justify="center"
-						alignItems="stretch"
-					>	
-						<Grid item xl={6} lg={8} md={6} sm={12} component={Paper}>
-							<Chart percent={sylabusTotal/100} id="gauge-overall" />
-						</Grid>
-					</Grid>
-					<Container>
-						<Grid
-							container
-							spacing={1}
-							direction="row"
-							justify="center"
-							alignItems="flex-start"
-						>
-							<Grid item xs={12} md={6}>
-								<AccessibilitySylabusCard category={reportSylabus} />
+					<h2 className='headAccessibility'>Sylabus accessibility report</h2>
+						<div className='headAccessibility'>			
+							This part details the accessibility percentages of the course Sylabus.	
+						</div>
+						<Container>
+							<Grid
+								container
+								spacing={1}
+								direction='row'
+								justify="center"
+								alignItems="center"
+							>	
+								<Grid item xl={6} lg={8} md={6} sm={12}>
+									<Chart percent={sylabusTotal/100} id="gauge-overall" />
+									<AccessibilitySylabusCard category={reportSylabus} />
+								</Grid>
 							</Grid>
-						</Grid>
-					</Container> 
-				</div>
-
-
-			</div>
+						</Container>
+						
+					</div>
+				</div>					
 		</div>
 	);
 }
 
-function Chart({ percent, id }) {
+function Chart({ percent, id, flagmesage }) {
 	const classes = useStyles();
 
 	return (
@@ -2055,16 +2081,20 @@ function Chart({ percent, id }) {
 			/>
 
 			<div className={classes.chartCaption}>{Math.round(percent * 100)}%</div>
-			{percent === 1 && (
-				<div className={classes.chartLabel}>
+			{console.log("flagmesage", flagmesage, percent)}
+			{/* (percent === 0 && flagmesage===undefined)? 
+				undefined
+			:
+			
+			<div className={classes.chartLabel}>
 					You have achieved your Inclusion Goal!
-				</div>
-			)}
+				</div> */
+			}
 		</Container>
 	);
 }
-function AccessibilityCard({ category, handleBack }) {
-   //console.log("newRandomTopics------------>", category)
+function AccessibilityCard({ category, handleBack, flagmesage }) {
+   console.log("newRandomTopics------------>", category)
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const [max, setMax] = React.useState(
@@ -2072,7 +2102,7 @@ function AccessibilityCard({ category, handleBack }) {
 			.map(topic => topic.a11yValid)
 			.reduce((acc, cur) => acc + cur) / category.topics.length
 	);
-   //console.log("Max en AccessibilityCard:", max )
+   console.log("Max en AccessibilityCard:", max )
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -2093,7 +2123,11 @@ function AccessibilityCard({ category, handleBack }) {
 						alignItems="flex-start"
 					>
 						<Grid item xs={12} sm={6} md={8}>
-							<Chart id={"gauge-" + category.key} percent={max / 100} />
+							<Chart 
+								id={"gauge-" + category.key} 
+								percent={max / 100}
+								flagmesage={flagmesage}
+							/>
 						</Grid>
 						<Grid item xs={12} sm={6} md={4}>
 							<List
@@ -2179,13 +2213,6 @@ function AccessibilitySylabusCard({ category }) {
 			/>
 			<div className={classes.content}>
 				<CardContent>
-					<Grid
-						container
-						spacing={2}
-						direction="row"
-						justify="flex-start"
-						alignItems="flex-start"
-					>
 						<Grid item xs={12} sm={6} md={4}>
 							<List
 								key={"listtopic-sylabus" }
@@ -2239,7 +2266,6 @@ function AccessibilitySylabusCard({ category }) {
 								</Collapse>
 							</List>
 						</Grid>
-					</Grid>
 				</CardContent>
 			</div>
 		</Card>
@@ -2248,29 +2274,27 @@ function AccessibilitySylabusCard({ category }) {
 
 function AccessibilityAchieved({ Icon, caption, className }) {
 	const classes = useStyles();
-
+	const style = {
+		display:'flex',
+		justifyContent:'center'
+	 };
 	return (
-	
-		<div className={classes.content}>
-			<CardContent>
-			<Grid
-				container
-				spacing={2}
-				direction="row"
-				justify="center"
-				alignItems="center"
-			>
-				<Grid item xs={12} sm={6} md={8}>
-					<Avatar className={classes.avatar}>{Icon}</Avatar>
-				</Grid>
-				<Grid item  xs={12} sm={6} md={8}>
-					<div className={classes.caption}>{caption}</div>
-				</Grid>
+		<Grid 
+			item 
+			xs={12} 
+			sm={6} 
+		>
+			<Box
+			style={style}
+		>
+			<div>
+				<div style={style}><Avatar className={classes.avatar}>{Icon}</Avatar></div>
+				<div className={classes.caption}>{caption}</div>
+			</div>
+		</Box>
 			
-			</Grid>
-			</CardContent>
-		</div>
-		
+			
+		</Grid>
 	);
 }
 
