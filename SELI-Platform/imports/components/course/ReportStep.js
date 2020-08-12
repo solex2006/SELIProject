@@ -173,7 +173,7 @@ export default function ReportStep(props) {
 	const [reportSylabus, setreportSylabus]= useState([])
 	const [sylabusTotal, setsylabusTotal]= useState(0)
 	const [IndexActividad, setIndexActividad]= useState(0)
-
+	const [checkingAudiences, setcheckingAudiences]=useState(props.courseInformation.support[1])
 
    const [percentagesWithoutUnit, setPercentagesWithoutUnit]=useState({
       guidedWithoutUnit:[],
@@ -612,22 +612,24 @@ export default function ReportStep(props) {
 			setcourseInformation(courseinformation)
 			//console.log("dentro de ssssssssssssssnewRandomTopics :",withoutInclusionGol, categories )
 			let checkaudience=props.courseInformation.support[1];
+			console.log("checkAudoece-----------------------------------------",checkaudience)
 			let check=0
 			if(checkaudience!=undefined){
-				checkaudience.map((audience, index)=>{
+				//checkaudience.map((audience, index)=>{
 
 					if((checkaudience[1].value==='Eld' && checkaudience[1].isChecked===false) && (checkaudience[0].value==='cog' && checkaudience[0].isChecked===false) &&
 					(checkaudience[2].value==='Hear' && checkaudience[2].isChecked===false) && (checkaudience[3].value==='Vis' && checkaudience[3].isChecked===false)){
 						setSimulate('noInclusionGol')
-					}else{
-						if(audience.value==='Vis' && audience.isChecked===true) {
+					}
+					else{
+						if(checkaudience[3].value==='Vis' && checkaudience[3].isChecked===true) {
 							let calculo=categories[0].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[0].topics.length
-							console.log("audience",audience, calculo)
+							//console.log("calculo Visual", calculo)
 							if(calculo===100){
 								categories[0].selected=true
 								setSimulate('inclusionGolAchieved')
 							}else if(calculo!=100){
-								categories[0].selected=false
+								categories[0].selected=checkaudience[3].isChecked
 								setSimulate('inclusionGol')
 							}else{
 								categories[0].selected=false
@@ -635,31 +637,32 @@ export default function ReportStep(props) {
 							}
 							
 						} 
-						if(audience.value==='Hear' && audience.isChecked===true){
+						if(checkaudience[2].value==='Hear' && checkaudience[2].isChecked===true){
 							let calculo=categories[1].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[1].topics.length
+							//console.log("calculo Hearing", calculo)
 							if(calculo===100){
 								categories[1].selected=true
 								setSimulate('inclusionGolAchieved')
 							}
 							else if(calculo!=100){
-								categories[1].selected=false
+								categories[1].selected=checkaudience[2].isChecked
 								setSimulate('inclusionGol')
 							}else {
 								categories[1].selected=false
 								setSimulate('noInclusionGol')
 							}
 						}
-						if(audience.value==='cog' && audience.isChecked===true){
+						if(checkaudience[0].value==='cog' && checkaudience[0].isChecked===true){
 							let calculo=categories[2].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[2].topics.length
 							
-							console.log("calculo", calculo)
+							//console.log("calculo cognitivo", calculo)
 							if(calculo===100){
 								console.log("calculo----true", calculo, categories)
 								categories[2].selected=true
 								setSimulate('inclusionGolAchieved')
 							}else if(calculo!=100){
 								
-								categories[2].selected=false
+								categories[2].selected=checkaudience[0].isChecked
 								console.log("calculo----", calculo, categories)
 								setSimulate('inclusionGol')
 							}else{
@@ -667,14 +670,14 @@ export default function ReportStep(props) {
 								setSimulate('noInclusionGol')
 							}
 						}
-						if((audience.value==='Eld' && audience.isChecked===true)){
+						if(checkaudience[1].value==='Eld' && checkaudience[1].isChecked===true){
 							let calculo=categories[3].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[3].topics.length
-							console.log("audience",audience, calculo)
+							//console.log("calculo Elderly",audience, calculo)
 							if(calculo===100){
 								categories[3].selected=true
 								setSimulate('inclusionGolAchieved')
 							}else if(calculo!=100){
-								categories[3].selected=false
+								categories[3].selected=checkaudience[1].isChecked
 								setSimulate('inclusionGol')
 							}else{
 								categories[3].selected=false
@@ -682,7 +685,7 @@ export default function ReportStep(props) {
 							}
 						}	
 					}
-				})
+				//})
 			}else{
 				setSimulate('noInclusionGol')
 			}
@@ -1430,13 +1433,16 @@ export default function ReportStep(props) {
 		let indexActividad=''
 
 		props.courseInformation.program.map((unit, indexUnit)=>{
-         //cabezera de la unidad
+			//cabezera de la unidad
+			//console.log("itemsen el courso 99999999999999999999999999", unit.items)
          unit.items.map((item,indexItem)=>{
 				console.log("item.type",item.type)
             if(item.type==='image' ){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+								console.log("pasooooo tettttt----------->", isa11y.name, isa11y.is_a11y)
 								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
 							}
 						})
@@ -1467,9 +1473,11 @@ export default function ReportStep(props) {
 				}else if(item.type==='video'){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							
 							if(isa11y.name==='seizures'){
 								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
 							}if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+								console.log("pasooooo tettttt video----------->", isa11y.name, isa11y.is_a11y)
 								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
 							}if(isa11y.name==='captionsEmbedded'){
 								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
@@ -1620,8 +1628,7 @@ export default function ReportStep(props) {
 				 NotAccessibleSign=0
          })	
 		})
-
-		
+		console.log("variablesUnidad//////////////////////////////",variablesUnidad)
 		variablesUnidad.map((value,index)=>{
 			//para visual
 			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
@@ -1829,6 +1836,7 @@ export default function ReportStep(props) {
 		let byUnit=0
 		let byTemplate=0
 		let sum=0
+		console.log("percentage by unit***************", percentagebyUnit)
 		if(percentagebyUnit.length!=0){
 			percentagebyUnit.map((unit, indexUnit)=>{
 				unit.map((percentage, index)=>{
@@ -1933,6 +1941,7 @@ export default function ReportStep(props) {
 
 			{simulate === "inclusionGolAchieved" && (
 				<div className={classes.allachieved}>
+					{console.log("EN inclusionGolAchieved-----", categories, simulate)}
 					<div className='headAccessibility'>
 						You have seleced {categories.filter(goals => goals.selected).map(category => category.label).toString()} as
 						your Inclusion Goals in Audience step, based on this choose here is
@@ -1977,6 +1986,7 @@ export default function ReportStep(props) {
 
 			{ simulate === "inclusionGol" && (
 				<div>
+					{console.log("EN inclusionGol", categories, simulate)}
 					<Grid
 						container
 						spacing={1}
@@ -2026,7 +2036,7 @@ export default function ReportStep(props) {
 							justify="center"
 							alignItems="center"
 						>
-							{console.log('categories:--------->', categories)}
+							{console.log('checkingAudiences:--------->', checkingAudiences)}
 							{categories.filter(goals => goals.selected).map((category, index) => (
 								<Grid item xs={12} md={6} key={index}>
 									<AccessibilityCard handleBack={props.handleBack} category={category} />
