@@ -25,6 +25,9 @@ export default class CoursesDashboard extends React.Component {
     console.log("CoursesDashboard", props)
     super(props);
     this.state = {
+      fullyCognitive:[], 
+      fullyHearing:[],
+      fullyVisually:[],
       texttoSearch:'',
       accessibilitie:{},
       generalDetailedFlag:false,
@@ -37,15 +40,6 @@ export default class CoursesDashboard extends React.Component {
       flagCourses:false,
       myFilterThreeSeli:[],
       myflagCourses:false,
-      fullyCognitive:[], 
-      fullyHearing:[],
-      fullyVisually:[],
-      partialCognitive:[], 
-      partialHearing:[],
-      partialVisually:[],
-      inaccessibleCognitive:[],
-      inaccessibleVisual:[],
-      inaccessibleHearing:[],
       coursesbyEnglish:[],
       coursesbySpanish:[],
       coursesbyPortuguese:[],
@@ -60,7 +54,11 @@ export default class CoursesDashboard extends React.Component {
       tutorsTag:false,
       onlineCourses:[],
       onlineTag:false,
-      flagMostRecent:false
+      flagMostRecent:false,
+      orsearch:[],
+      duration:[],
+      online:false,
+      onsearchflag:false,
     }
     
   }
@@ -360,13 +358,11 @@ export default class CoursesDashboard extends React.Component {
       
     }) 
 
-
-
-
   }
 
+  
   getParamsLanguage=(language)=>{
-    //console.log("getParamsLangauge, myflagCourses---->",language, this.state.publishedCourses)
+    console.log("getParamsLangauge, myflagCourses---->",language, this.state.publishedCourses)
     let coursesbyEnglish=[]
     let coursesbySpanish=[]
     let coursesbyPortuguese=[]
@@ -402,8 +398,10 @@ export default class CoursesDashboard extends React.Component {
   }
 
   getParamsDuration=(duration, flag)=>{
-    //console.log("getParamsDuration, myflagCourses---->",duration, this.state.publishedCourses)
-    
+    console.log("getParamsDuration, myflagCourses---->",duration, this.state.publishedCourses)
+    this.setState({
+      duration:duration
+    })
     let coursesbyDuration=[]
     this.state.publishedCourses.map((course,indexCourse)=>{
       
@@ -425,7 +423,7 @@ export default class CoursesDashboard extends React.Component {
   }
 
   getParamsAudiences=(audiences)=>{
-    //console.log("getParamsAudiences, myflagCourses---->",audiences, this.state.publishedCourses)
+    console.log("getParamsAudiences, myflagCourses---->",audiences, this.state.publishedCourses)
     
     let coursesbyAudiences=[]
     this.state.publishedCourses.map((course,indexCourse)=>{
@@ -478,6 +476,7 @@ export default class CoursesDashboard extends React.Component {
 
   }
   getParamsTutors=(tutors)=>{
+     console.log("Resultados de busqueda getParamsTutors",tutors)  
     let coursesbyTutors=[]
     Object.entries(tutors).forEach(([key, value]) => {
       if(value===true){
@@ -490,7 +489,7 @@ export default class CoursesDashboard extends React.Component {
         })
       }     
     });
-    //console.log("Resultados de busqueda getParamsTutors",coursesbyTutors)  
+   
     this.setState({
       coursesbyTutors:coursesbyTutors
     })
@@ -516,7 +515,14 @@ export default class CoursesDashboard extends React.Component {
   }
 
   getOnlineFlag=(flag)=>{
-    console.log("Bandera Online", flag )
+   // console.log("Bandera Online", flag )
+    this.state.online=flag
+    this.state.accessibilitie.a11yVis=null
+    this.state.accessibilitie.a11yHear=null
+    this.state.accessibilitie.a11yCog=null
+    this.state.onlineTag=false
+    this.state.onsearchflag===false
+    this.setState(this.state)
     if(flag===true){
       this.state.generalDetailedFlag=true
       this.getOnline()
@@ -533,6 +539,8 @@ export default class CoursesDashboard extends React.Component {
     console.log("Bandera Accesibilidad", flag )
     if(flag===true){
       this.state.generalDetailedFlag=true
+      this.state.onlineTag=false
+      this.state.onsearchflag===false
       //this.setState(this.state.generalDetailedFlag)
       this.getParamsofSearch()
       this.state.accessibilitie.a11yCog='full'
@@ -548,11 +556,11 @@ export default class CoursesDashboard extends React.Component {
   getGeneralSearch=(text)=>{
     console.log("General Search:", text)
     this.state.texttoSearch=text
+    this.state.generalDetailedFlag=false
     this.setState(this.state)
     this.searchMyCoursesDetailed()
     this.searchSELICoursesDetailed()
   }
-
 
   searchMyCoursesDetailed=()=>{
     //put in lowercase te titles of the courses to improve the search
@@ -609,7 +617,7 @@ export default class CoursesDashboard extends React.Component {
       return new Date(b.creationDate) - new Date(a.creationDate);
     }); 
     //console.log("Sort by most recent ordenado",arratosearch)
-    let sortmyFiltersuscribdedCourses=this.state.myFilterSeliCourses;
+    let sortmyFiltersuscribdedCourses=this.state.myFiltersuscribdedCourses;
     sortmyFiltersuscribdedCourses.sort(function (a, b) {
       return new Date(b.creationDate) - new Date(a.creationDate);
     }); 
@@ -618,12 +626,275 @@ export default class CoursesDashboard extends React.Component {
 
   }
 
+  //it is the new functinality for OR search
+  OrSearch=(params,languages, audiences, instructors)=>{
+    console.log("todos los parametros de busqueda", params,languages, this.state.duration ,audiences, instructors, this.state.online)
+    //this.getParamsofSearch()
+    console.log("1. First Search params of serach and published courses", this.state.publishedCourses)
+    let full=[]
+    let searchAL=[]
+    let searchALD=[]
+    let searchALDI=[]
+    let searchALDIO=[]
+
+    if(params.a11yCog==='full' && params.a11yHear==='full' && params.a11yVis==='full'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && course.report[2]===100 && course.report[1]===100 && course.report[0]===100
+      ))
+    }
+    if(params.a11yCog==='full' && params.a11yHear==='full' && params.a11yVis==='no-filter'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && course.report[2]===100 && (course.report[1]===100) && course.report[0]<=100
+      ))
+    }
+    if(params.a11yCog==='full' && params.a11yHear==='full' && params.a11yVis==='partial'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && course.report[2]===100 && (course.report[1]===100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='full' && params.a11yHear==='partial' && params.a11yVis==='no-filter'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && course.report[2]===100 && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && course.report[0]<=100
+      ))
+    }
+    if(params.a11yCog==='full' && params.a11yHear==='partial' && params.a11yVis==='partial'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && course.report[2]===100 && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100)  && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='full' && params.a11yHear==='partial' && params.a11yVis==='full'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && course.report[2]===100 && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100)  && (course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='full' && params.a11yHear==='no-filter' && params.a11yVis==='partial'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && course.report[2]===100 && (course.report[1]<=100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='full' && params.a11yHear==='no-filter' && params.a11yVis==='full'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && course.report[2]===100 && (course.report[1]<=100) && (course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='full' && params.a11yHear==='no-filter' && params.a11yVis==='no-filter'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && course.report[2]===100 && (course.report[1]<=100) && (course.report[0]<50)
+      ))
+    }
+
+
+    //second block
+
+    if(params.a11yCog==='partial' && params.a11yHear==='full' && params.a11yVis==='full'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && course.report[1]===100 && course.report[0]===100
+      ))
+    }
+    if(params.a11yCog==='partial' && params.a11yHear==='full' && params.a11yVis==='no-filter'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && (course.report[1]===100) && course.report[0]<=100
+      ))
+    }
+    if(params.a11yCog==='partial' && params.a11yHear==='full' && params.a11yVis==='partial'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && (course.report[1]===100) && (course.report[0]<100 && course.report[0]>50)
+      ))
+    }
+    if(params.a11yCog==='partial' && params.a11yHear==='partial' && params.a11yVis==='no-filter'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && course.report[0]<=100
+      ))
+    }
+    if(params.a11yCog==='partial' && params.a11yHear==='partial' && params.a11yVis==='partial'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100 )
+      ))
+    }
+    if(params.a11yCog==='partial' && params.a11yHear==='partial' && params.a11yVis==='full'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && (course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='partial' && params.a11yHear==='no-filter' && params.a11yVis==='partial'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && (course.report[1]<=100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='partial' && params.a11yHear==='no-filter' && params.a11yVis==='full'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && (course.report[1]<=100) && (course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='partial' && params.a11yHear==='no-filter' && params.a11yVis==='no-filter'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && (course.report[1]<=100) && (course.report[0]<=100)
+      ))
+    }
+
+    //third block
+
+    if(params.a11yCog==='no-filter' && params.a11yHear==='full' && params.a11yVis==='full'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && (course.report[2]<=100) && course.report[1]===100 && course.report[0]===100
+      ))
+    }
+    if(params.a11yCog==='no-filter' && params.a11yHear==='full' && params.a11yVis==='no-filter'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && (course.report[2]<=100) && (course.report[1]===100) && course.report[0]<=100
+      ))
+    }
+    if(params.a11yCog==='no-filter' && params.a11yHear==='full' && params.a11yVis==='partial'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && (course.report[2]<=100) && (course.report[1]===100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='no-filter' && params.a11yHear==='partial' && params.a11yVis==='no-filter'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && (course.report[2]<=100) && (course.report[1]<100 && course.report[1]>50) && course.report[0]<=100
+      ))
+    }
+    if(params.a11yCog==='no-filter' && params.a11yHear==='partial' && params.a11yVis==='partial'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && (course.report[2]<=100) && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='no-filter' && params.a11yHear==='partial' && params.a11yVis==='full'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && (course.report[2]<=100) && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && (course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='no-filter' && params.a11yHear==='no-filter' && params.a11yVis==='partial'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && (course.report[2]<=100) && (course.report[1]<=100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='no-filter' && params.a11yHear==='no-filter' && params.a11yVis==='full'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && (course.report[2]<=100) && (course.report[1]<=100) && (course.report[0]===100)
+      ))
+    }
+    if(params.a11yCog==='no-filter' && params.a11yHear==='no-filter' && params.a11yVis==='no-filter'){
+      full= this.state.publishedCourses.filter(course=>(
+        course.report!=undefined && (course.report[2]<=100) && (course.report[1]<=100) && (course.report[0]<=100)
+      ))
+    }
+
+    //SEARCH LANGUAGE
+    let auxsearchAL1=[]
+    let auxsearchAL2=[]
+    let auxsearchAL3=[]
+    let auxsearchAL4=[]
+    let auxsearchAL5=[]
+
+    if(languages.turkish===false && languages.spanish===false && languages.polish===false 
+      && languages.portugues===false && languages.english===false){
+        searchAL=full
+    }else{
+        if(languages.english===true){
+          auxsearchAL1= full.filter(course=>(
+            course.language!=undefined && course.language===0
+          ))
+        }
+        if(languages.portugues===true){
+          auxsearchAL2= full.filter(course=>(
+            course.language!=undefined && course.language===2
+          ))
+        }
+        if(languages.polish===true){
+          auxsearchAL3= full.filter(course=>(
+            course.language!=undefined && course.language===3
+          ))
+        }
+        if(languages.spanish===true){
+          auxsearchAL4= full.filter(course=>(
+            course.language!=undefined && course.language===1
+          ))
+        }
+        if(languages.turkish===true){
+          auxsearchAL5= full.filter(course=>(
+            course.language!=undefined && course.language===4
+          ))
+        }
+        searchAL=auxsearchAL1.concat(auxsearchAL2).concat(auxsearchAL3).concat(auxsearchAL4).concat(auxsearchAL5)
+    }
+    
+
+    //SEARCH DURATION
+    if(this.state.duration.length!=0){
+      searchALD= searchAL.filter(course=>{
+        if(course.duration!=undefined){
+          let durationNumber=''
+          if(Number.isInteger(course.duration)===false){
+            durationNumber=parseInt(course.duration.split(':')[0])
+            if(durationNumber>=this.state.duration[0] && durationNumber<=this.state.duration[1]){
+              return true
+            }
+          }
+        }
+     })
+    }else{//if is empty
+      searchALD=searchAL
+    }
+    //SEARCH BY INSTRUCTOR  
+    Object.entries(instructors).forEach(([key, value]) => {
+      if(value===true){
+        searchALD.filter(course=>{
+          course.createdBy.toLowerCase().search(key.toLowerCase()) !=-1?
+          searchALDI.push(course)
+          :
+          undefined
+        })
+      }     
+    });
+    if(searchALDI.length===0){searchALDI=searchALD}
+
+    //SEARCH BY ONLINE
+    if(this.state.online===true){
+      searchALDI.map(course=>{
+        if(course.analysis!=undefined){
+          if(course.analysis.length!=0){
+            if(course.analysis[1]==='online'){
+              searchALDI.push(course)
+            }
+          }
+       }
+    })
+    }
+    if(searchALDIO.length===0){searchALDIO=searchALDI}
+
+    //delete duplicates
+    searchALDIO=this.getUnique(searchALDIO,'_id')
+    
+    console.log("full,searchAL,searchALD,searchALDI,searchALDIO", full, searchAL,searchALD,searchALDI,searchALDIO)
+    this.state.accessibilitie.a11yVis=null
+    this.state.accessibilitie.a11yHear=null
+    this.state.accessibilitie.a11yCog=null
+    this.state.onlineTag=false
+    this.setState(this.state)
+    this.setState({
+        orsearch:searchALDIO,
+        generalDetailedFlag:true,
+        onsearchflag:true
+      })
+    
+  }
+
+  getUnique=(arr, comp)=> {
+
+    // store the comparison  values in array
+    const unique =  arr.map(e => e[comp]).map((e, i, final) => final.indexOf(e) === i && i).filter((e) => arr[e]).map(e => arr[e]);
+
+  return unique;
+}
+
+
+  
   render() {
     return(
       <div className="courses-dashboard-container">
         {console.log("recarga", this.state)}
         <CourseSearch
-          publishedCourses={this.state.publishedCourses}
           getParamsofSearch={this.getParamsofSearch}
           getParamsLanguage={this.getParamsLanguage}
           getParamsDuration={this.getParamsDuration}
@@ -634,6 +905,7 @@ export default class CoursesDashboard extends React.Component {
           getAccessibleFlag={this.getAccessibleFlag}
           getGeneralSearch={this.getGeneralSearch}
           sortByMostRecent={this.sortByMostRecent}
+          OrSearch={this.OrSearch}
         />
         {
           this.state.generalDetailedFlag===false?
@@ -655,6 +927,7 @@ export default class CoursesDashboard extends React.Component {
                 undefined
               }
             </React.Fragment>
+
             <React.Fragment>
               {// foraccessibilitie Tag
                 this.state.accessibilitie.a11yCog==='full'?
@@ -665,47 +938,13 @@ export default class CoursesDashboard extends React.Component {
                 undefined
               }
               {
-                this.state.accessibilitie.a11yCog==='partial'?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Partially Cognitive', this.state.fullyCognitive.concat(this.state.partialCognitive))}
-                </React.Fragment>
-                :
-                undefined
-              }
-              {
-                this.state.accessibilitie.a11yCog==='no-filter'?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('All Cognitive courses (even inaccessible courses)', this.state.fullyCognitive.concat(this.state.partialCognitive,this.state.inaccessibleCognitive))}
-                </React.Fragment>
-                :
-                undefined
-              }
-
-              {
                 this.state.accessibilitie.a11yHear==='full'?
                 <React.Fragment>
                   {this.paperSearchMyCourses('Fully Hearing', this.state.fullyHearing)}
                 </React.Fragment>
                 :
                 undefined
-              }
-              {
-                this.state.accessibilitie.a11yHear==='partial'?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Partially Hearing', this.state.fullyHearing.concat(this.state.partialHearing))}
-                </React.Fragment>
-                :
-                undefined
-              }
-              {
-                this.state.accessibilitie.a11yHear==='no-filter'?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('All Hearing courses (even inaccessible courses)', this.state.fullyHearing.concat(this.state.partialHearing,this.state.inaccessibleCognitive))}
-                </React.Fragment>
-                :
-                undefined
-              }
-
+              } 
               {
                 this.state.accessibilitie.a11yVis==='full'?
                 <React.Fragment>
@@ -714,101 +953,18 @@ export default class CoursesDashboard extends React.Component {
                 :
                 undefined
               }
-              {
-                this.state.accessibilitie.a11yVis==='partial'?
+            </React.Fragment>
+
+            <React.Fragment>  
+              {//for  OnlineCourses
+                this.state.onsearchflag===true?
                 <React.Fragment>
-                  {this.paperSearchMyCourses('Partially Visual', this.state.fullyVisual.concat(this.state.partialVisual))}
-                </React.Fragment>
-                :
-                undefined
-              }
-              {
-                this.state.accessibilitie.a11yVis==='no-filter'?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('All Visual courses (even inaccessible courses)', this.state.fullyVisual.concat(this.state.partialVisual,this.state.inaccessibleCognitive))}
+                  {this.paperSearchMyCourses('Detailed Search', this.state.orsearch)}
                 </React.Fragment>
                 :
                 undefined
               }
             </React.Fragment>
-            
-            <React.Fragment>  
-              {//for language tab
-                this.state.languageTag.english===true?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Courses in English', this.state.coursesbyEnglish)}
-                </React.Fragment>
-                :
-                undefined
-              }
-              {//for language tab
-                this.state.languageTag.spanish===true?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Courses in Spanish', this.state.coursesbySpanish)}
-                </React.Fragment>
-                :
-                undefined
-              }
-              {//for language tab
-                this.state.languageTag.portugues===true?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Courses in Portuguese', this.state.coursesbyPortuguese)}
-                </React.Fragment>
-                :
-                undefined
-              }
-              {//for language tab
-                this.state.languageTag.polish===true?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Courses in Polish', this.state.coursesbyPolish)}
-                </React.Fragment>
-                :
-                undefined
-              }
-              {//for language tab
-                this.state.languageTag.turkish===true?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Courses in Turkish', this.state.coursesbyTurkish)}
-                </React.Fragment>
-                :
-                undefined
-              }
-            </React.Fragment>
-
-            <React.Fragment>  
-              {//for  duration
-                this.state.durationTag===true?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Courses by time', this.state.coursesbyDuration)}
-                </React.Fragment>
-                :
-                undefined
-              }
-            </React.Fragment>  
-
-            <React.Fragment>  
-              {//for  Audiences
-                this.state.audiencesTag===true?
-                <React.Fragment>
-                  {this.paperSearchMyCourses("Course's Target Audience", this.state.coursesbyAudiences)}
-                </React.Fragment>
-                :
-                undefined
-              }
-            </React.Fragment> 
-
-            <React.Fragment>  
-              {//for  Tutors
-                this.state.tutorsTag===true?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Search by tutor', this.state.coursesbyTutors)}
-                </React.Fragment>
-                :
-                undefined
-              }
-            </React.Fragment> 
-
-           
           </div>
         } 
       </div>
