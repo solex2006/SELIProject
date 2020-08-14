@@ -4,13 +4,11 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import ReactPlayer from 'react-player';
 import ItemFeedback from '../../accessibility/ItemFeedback';
-import VideoPreview from '../../storytelling/VideoPreview';
-
-import CheckboxLabels from './CheckBox';
-import Grid from '@material-ui/core/Grid';
-import { Editor, EditorState, convertFromRaw } from "draft-js";
+import VideoPreview from './VideoPreview';
+import AudioPlayer from 'react-h5-audio-player';
+//import CheckboxLabels from './CheckBox';
+import TextAlternatives from '../../accessibility/alternative/TextAlternatives';
 
 export default class VideoItem extends React.Component {
   constructor(props) {
@@ -37,7 +35,16 @@ export default class VideoItem extends React.Component {
      }  */
   }
 
-  checkbox=(event, name)=>{
+  textAlternatives = () => {
+    return(
+      <TextAlternatives
+        item={this.props.item}
+        language={this.props.language}
+      ></TextAlternatives>
+    )
+  }
+
+ /*  checkbox=(event, name)=>{
     //console.log("event and name", event, name)
     if(event===true && name==='signLanguage'){//Videosignal
       this.setState({
@@ -117,7 +124,7 @@ export default class VideoItem extends React.Component {
                         undefined
                       }
                       {
-                         (this.props.item.attributes.accessibility.dataField.shortDescription!='' || this.props.item.attributes.accessibility.dataField.longDescription.blocks[0].text!='')?
+                        (this.props.item.attributes.accessibility.dataField.shortDescription!='' || this.props.item.attributes.accessibility.dataField.longDescription.blocks[0].text!='')?
                           <CheckboxLabels
                             language={this.props.language}
                             checkbox={this.checkbox}
@@ -131,157 +138,57 @@ export default class VideoItem extends React.Component {
                 }
       </div>
     )
-  }
+  } */
 
   render() {
     return(
       <div className="content-box">
         <div className="image-content-item">
           <Card className="course-item-video-card">
-            {this.checkBoxLabels()}
+            {/* this.checkBoxLabels() */}
             <Card className="course-item-video-card-media-action-area">
               { this.props.item.attributes.video && (
-                this.props.item.attributes.source === 'upload' ?
-                  <VideoPreview file={this.props.item.attributes.video}/>
-                :
-                  <ReactPlayer className="course-creator-item-video-card-preview-player" url={this.props.item.attributes.video.link}/>
+                <VideoPreview 
+                  file={this.props.item.attributes.video}
+                  dataField={this.props.item.attributes.accessibility.dataField ? this.props.item.attributes.accessibility.dataField : undefined}
+                />
               )}
-              {
-                this.props.item.attributes.accessibility.dataField===undefined?
-                  undefined
-                :
-                  <div>
-                    {
-                  this.props.item.attributes.accessibility.dataField.signLanguage==="no"?
-                  <div>
-                    {
-                      this.props.item.attributes.accessibility.dataField.fileVideoSignal[0]!=null?
-                      <div>
-                        
-                      {//for video signal 
-                        this.state.signalShow==='signalShow'?
-                        <div className="videosignal">
-                          <video width="320" height="240"  key={this.state.key} autoPlay={this.state.autoplay} controls id="video-preview-information" className="file-preview-information" ref="video">
-                            <source src={this.props.item.attributes.accessibility.dataField.fileVideoSignal[0].link}></source>
-                          </video>
-                        </div>
-                          :
-                          undefined  
-                      }
-                      </div>
-                      :  
-                      undefined
-                    }
-                      </div>
-                      :
-                      undefined   
-                    } 
-                  </div>
-              }
-              {
-                this.props.item.attributes.accessibility.dataField===undefined?
-                undefined
-                :
-                <div>
-                {
-                  (this.props.item.attributes.accessibility.dataField.audioDescription==="yes" || 
-                  (this.props.item.attributes.accessibility.dataField.audioDescription==="no" && 
-                  this.props.item.attributes.accessibility.dataField.audioDescriptionRequired==="yes"))?
-                    <div>
-                      {
-                        this.props.item.attributes.accessibility.dataField.fileAudioDescription[0]!=null?
-                        <div>
-                        {//For Audio description
-                          this.state.signalShowAudioDescription==='signalShowAudioDescription'?
-                            <div className="AudioPlayer">
-                              <AudioPlayer className="file-preview-information" volume src={this.props.item.attributes.accessibility.dataField.fileAudioDescription[0].link}/>
-                            </div>
-                            :
-                            undefined  
-                        }
-                        </div>
-                        :   
-                        undefined
-                      }
-
-                    </div>    
-                    :
-                    undefined
-                }
-                </div>
-              }
               <CardContent className="course-item-video-card-media-content">
+                <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
+                  {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
+                </Typography>
                 <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
                   {` ${this.props.item.attributes.title}`}
                 </Typography>
-                <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
-                    {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
-                </Typography>
-                {/* {
-                  this.props.item.attributes.hasDescription ?
-                  <div
-                    className="course-item-video-card-media-description"
-                    dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
-                  >
-                  </div>
-                  :
-                  undefined
-                } */}
               </CardContent>
             </Card>
-            <div>
-              {//For text Alternatives
-                this.state.shortlongDescription==='shortlongDescription'?
-                  <Grid container spacing={3}>
-                    <Grid item xs={6}>
-                    <h2 className="description">{this.props.language.shortDescription_a11y_label}</h2>
-                    {
-                        this.props.item.attributes.accessibility.dataField===undefined?
-                        undefined
-                        :
-                      <div> 
-                        {
-                          this.props.item.attributes.accessibility.dataField!=undefined ?
-                          <div>
-                            {this.props.item.attributes.accessibility.dataField.shortDescription}
-                          </div>
-                          :
-                          <div>{this.props.language.NoshortDescription}</div>
-                        }  
-                        </div>
-                    }
-                    </Grid>
-                    <Grid item xs={6}>
-                      <h2 className="description">{this.props.language.longDescription_a11y_label}</h2> 
-                      {
-                        this.props.item.attributes.accessibility.dataField===undefined?
-                        undefined
-                        :
-                      <div> 
-                        {
-                          this.props.item.attributes.accessibility.dataField!=undefined ?
-                          <Editor editorState={this.signalText()} readOnly={true} />
-                          :
-                          <div>{this.props.language.NolongDescription}</div>
-                        }  
-                        </div>
-                      }
-                    </Grid>
-                  </Grid>
-                  :
-                  undefined
-              }
-            </div>
-            <CardActions className="course-item-video-card-media-actions-container">
-              {
-                this.props.item.attributes.externalLink !== '' ?
+            {
+              this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.fileAudioDescription[0]!=null ?
+                <div className="AudioPlayer">
+                  <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
+                    {`${this.props.language.audioDescription}:`}
+                  </Typography>
+                  <AudioPlayer className="file-preview-information" volume src={this.props.item.attributes.accessibility.dataField.fileAudioDescription[0].link}/>
+                </div>
+              :      
+                undefined
+            }
+            {
+              this.props.item.attributes.accessibility.dataField!=undefined ?
+                this.textAlternatives()
+              :
+                undefined
+            }
+            {
+              this.props.item.attributes.externalLink !== '' ?
+                <CardActions className="course-item-video-card-media-actions-container">
                   <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
                     {this.props.language.learnMore}
                   </Button>
-                :
-                  undefined
-              }
-            </CardActions>
+                </CardActions>
+              :
+                undefined
+            }
           </Card>
         </div>
         {this.props.fromProgram && 

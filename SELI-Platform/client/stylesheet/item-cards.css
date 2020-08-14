@@ -13,7 +13,8 @@
 
 .course-item-video-card-media-action-area {
   display: flex !important;
-  padding: 1vh 0;
+  align-items: center;
+  padding: 0.5vh 0;
   background-color: rgba(255, 255, 255, 0);
 }
 
@@ -129,9 +130,9 @@
 
 .videosignal{
     position: absolute;
-    z-index: 1;
-    top: 15px;
-    left: 35px;
+    top: -110px !important;
+    left: 30px !important;
+    width: 144px !important;
 }
 
 .videoPreview{
@@ -144,11 +145,7 @@
   margin-left: 40px
 }
 .AudioPlayer{
-  position: absolute;
-  z-index: 2;
-  top: 200px;
-  left: 35px;
-
+  padding: 5px;
 }
 
 .checkBoxItem{
@@ -156,5 +153,6 @@ display: flex;
 }
 
 .description{
-
+  text-align: justify;
+  text-justify: inter-word;
 }
