@@ -37,6 +37,7 @@ Meteor.startup(() => {
   ReactDOM.render(
     <Router  history={history}>
     <Helmet>
+      <meta name="viewport" content="width=device-width, initial-scale=0.80"/>
       <meta charset="utf-8" />
       <title>SELI-Platform</title>
       <meta name="description" content="THE SELI learning platform provides the opportunity tot create courses for various types of disabilities, taking into consideration accessibility standards, interaction between students and stimulating the creativity of tutors and students." />
