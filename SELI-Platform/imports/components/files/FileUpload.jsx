@@ -186,7 +186,7 @@ class FileUpload extends Component {
     debug("Rendering FileUpload",this.props.docsReadyYet);
     if (this.props.files && this.props.docsReadyYet) {
       return (
-        <div  tabIndex="-1">
+        <div  tabIndex="-1" className="compressed">
           {
             !this.state.inProgress ?
               <div  className="upload-container">

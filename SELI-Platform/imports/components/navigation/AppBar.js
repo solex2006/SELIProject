@@ -140,7 +140,11 @@ export default class AppBar extends React.Component {
     return(
       <div>
         <div className="app-bar-container" >
-          <Button  onClick={ this.props.fromAnotherSource ? undefined : () => this.props.showComponent('home')} className="bar-title">{this.props.language.seliProject}</Button>
+          <Button  onClick={ this.props.fromAnotherSource ? undefined : () => this.props.showComponent('home')} className="bar-title">
+           <div className="app-bar-container-text">
+           {this.props.language.seliProject}
+           </div>
+            </Button>
           <div className="bar-button-container" >
             {
               this.props.user !== undefined ?
