@@ -27,9 +27,9 @@ import momentDurationFormatSetup from "moment-duration-format";
 import Checkbox from '@material-ui/core/Checkbox';
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import { Courses } from '../../../lib/CourseCollection';
-const bakery = require('openbadges-bakery-v2');
-var key = Meteor.settings.public.BLOCKCHAIN_USERKEY;
-var encryptor = require('simple-encryptor')(key);
+import { bakeBadge} from '../badge/badgeCreation';
+
+
 momentDurationFormatSetup(moment);
 const useStyles = theme => ({
   root: {
@@ -446,90 +446,15 @@ class Quiz extends React.Component {
   }
 
   // OpenBadge
-
-  async bake(options) {
-    return new Promise((resolve, reject) => {
-      bakery.bake(options, function (err, data) {
-        if (err)
-          return reject(err)
-        else
-          resolve(data);
-      })
-    })
-
-  }
-  async saveBadge(data, image) {
-    let user = Meteor.users.find({ _id: Meteor.userId() }).fetch();
-    user = user[0];
-    var file = new File([data], image._id + ".png", {
-      type: "image/png",
-      ext: "png",
-      extension: "png",
-      extensionWithDot: ".png"
-    });
-    let uploadInstance = CourseFilesCollection.insert({
-      file: file,
-      meta: {
-        locator: '',
-        dateAdded: new Date(),
-        isFavorite: false,
-        usedInCourse: false,
-        userId: '',
-        buffer: '',
-        //userId: Meteor.userId() // Optional, used to check on server for file tampering
-      },
-      streams: 'dynamic',
-      chunkSize: 'dynamic',
-      allowWebWorkers: true // If you see issues with uploads, change this to false
-    }, false)
-
-    uploadInstance.start();
-    console.log(file);
-    console.log(uploadInstance);
-    let currentId = uploadInstance.config.fileId + "";
-    let newName = uploadInstance.config.fileId + ".jpg";
-    console.log(currentId);
-    console.log(newName);
-    let today = new Date();
-    let certificateInfo = {
-      idStudent: user._id,
-      name: user.profile.fullname,
-      tutor: 'Maestro',
-      date: today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear(),
-      course: this.props.quiz.attributes.badgeInformation.name,
-      description: this.props.quiz.attributes.badgeInformation.description,
-      duration: '10',
-    };
-    if (this._isMounted) {
-      this.setState({ badgeWin: true });
-    }
-    console.log(this.state);
-    this.saveUserBadge();
-  }
-  saveUserBadge = () => {
-    console.log('saving user badge in collection');
-    Meteor.call('addBadgeStudent',
-      Meteor.userId(),
-      this.props.quiz.attributes.badgeInformation,
-      (error, response) => { }
-    )
-  };
-
-
-  async issueBadge(badgeInformation) {
+  async  issueBadge(badgeInformation) {
     console.log("issueBadge :  badgeInformation")
     console.log(badgeInformation);
     let user = Meteor.users.find({ _id: Meteor.userId() }).fetch();
     user = user[0];
-    console.log("user")
-    console.log(user.profile.fullname);
-    console.log(this.props.quiz.id);//0.517584894190696
     let course = Courses.find({ "program.items.id": this.props.quiz.id }).fetch();
     course = course[0];
-    console.log(course);
-    let buffer = CourseFilesCollection.findOne({ _id: badgeInformation.image._id });
-    buffer = buffer.meta.buffer;
-    var theAssertion = {
+ 
+    var assertion = {
       "_id": badgeInformation.image._id,
       "_badgeName": badgeInformation.name,
       "_studentName": user.profile.fullname,
@@ -538,81 +463,9 @@ class Quiz extends React.Component {
       "description": badgeInformation.description,
       "issuedOn": new Date().toISOString().substring(0, 10),
     };
-    console.log(theAssertion);
-    var options = {
-      image: buffer,
-      assertion: theAssertion,
-    };
-    let registerDataSinCode = { //useful for regsiter users in blockchain network
-      email: (user.emails)[0].address,
-      displayName: user.profile.fullname,
-      password: Meteor.userId()
-    }
-    console.log(registerDataSinCode)
-
-    await this.bake(options)
-      .then(data => {
-        this.saveBadge(data, badgeInformation.image);
-        this.setState({ badgeWin: true });
-        var registerData = { data: encryptor.encrypt(registerDataSinCode) };
-        this.persistBadge(theAssertion, registerData);
-      })
-      .catch(err => { console.log(err) })
+    console.log(user)
+    bakeBadge(assertion,badgeInformation,user)
   }
-  persistBadge(badgeInfo, registerData) {
-    console.log('sending badge to blockchain')
-    console.log(JSON.stringify(badgeInfo))
-    let tokenUser = Meteor.users.find({ _id: Meteor.userId() }).fetch()[0].profile.token;
-
-    if (tokenUser === undefined) {//register the token
-      fetch('http://localhost:80/login/user', {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(registerData)
-      }).then(res => res.json()).then(res => {
-        console.log("Respuesta del registro o token: ", res);
-        Meteor.users.update(
-          { _id: res.idStudent },
-          {
-            $push:
-              { "profile.token": res.token }
-          }
-        );
-
-        fetch('http://localhost:80/badges/issue', {
-          method: 'post',
-          headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${res.token}`
-          },
-          body: JSON.stringify(badgeInfo)
-        }).then(res => res.json())
-          .then(res => {
-            console.log(res);
-          });
-
-      })
-    }
-    else {
-      fetch('http://localhost:80/badges/issue', {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${tokenUser}`
-        },
-        body: JSON.stringify(badgeInfo)
-      }).then(res => res.json())
-        .then(res => {
-          console.log(res);
-        });
-    }
-  }
-
 
   render() {
     const { classes } = this.props;

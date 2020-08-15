@@ -14,7 +14,7 @@ import '../lib/sendVerificationEmail';
 import '../lib/changeAccountInformation';
 import '../lib/StudentLogCollection';
 import '../lib/storyTellingVideo';
-
+import '../lib/badgeMethods/saveBadge';
 /**
  * SELI - Learning Analytics
  * This method is used to obtain the client's IP address.
