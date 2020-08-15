@@ -19,7 +19,7 @@ const CourseFilesCollection = new FilesCollection({
     // real extension and mime-type can be checked on client (untrusted side)
     // and on server at `onAfterUpload` hook (trusted side)
     //console.log("enCoursefilescollection",file ,file.type, file.isImage, file.ext, file.meta.tipo)
-    let type=file.type.split("/")
+    //let type=file.type.split("/")
     if (file.size <= 104857600) {
       return true;
       /* if(type[0]==='image'){

@@ -1,12 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-
 
 export default class VideoPreview extends React.Component {
   constructor(props) {

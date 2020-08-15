@@ -2,10 +2,9 @@ import React from 'react';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import ResizableContent from './ResizableContent';
 import DiscreteSlider from './DiscreteSlider';
-import Grid from '@material-ui/core/Grid';
-import CheckboxLabels from './CheckBox';
+//import CheckboxLabels from './CheckBox';
+import TextAlternatives from '../../accessibility/alternative/TextAlternatives';
 import Typography from '@material-ui/core/Typography';
-import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 export default class ImageItem extends React.Component {
   constructor(props) {
@@ -68,7 +67,7 @@ export default class ImageItem extends React.Component {
     //this.resizeText();
   }
 
-  checkBoxLabels=()=>{
+/*   checkBoxLabels=()=>{
     return(
       <div className="checkBoxItem">
         {
@@ -107,61 +106,14 @@ export default class ImageItem extends React.Component {
         shortlongDescription:'noshortlongDescription'
       })
     }
-  }
-  signalText=()=>{
-    const contentState = convertFromRaw(this.props.item.attributes.accessibility.dataField.longDescription);
-    const editorState = EditorState.createWithContent(contentState);
-    return editorState
-  }
+  } */
 
   textAlternatives=()=>{
     return(
-      <div>
-        {//For text Alternatives
-            this.state.shortlongDescription==='shortlongDescription'?
-            <Grid container spacing={3}>
-              <Grid item xs={12}>       
-              {
-                  this.props.item.attributes.accessibility.dataField.imagePurpose==='info'?
-                  <div> 
-                    <h2 className="description">{this.props.language.image_a11y_purpose_informative_label}</h2>
-                    {this.props.item.attributes.accessibility.dataField.shortDescription}
-                  </div>
-                  :
-                  undefined
-              }
-              {
-                  this.props.item.attributes.accessibility.dataField.imagePurpose==='deco'?
-                  <h2>{this.props.language.image_a11y_purpose_decorative_label}</h2>
-                  :
-                  undefined
-              }
-              {
-                  this.props.item.attributes.accessibility.dataField.imagePurpose==='txt'?
-                  <div> 
-                    <h2 className="description">{this.props.language.image_a11y_purpose_text}</h2>
-                    {this.props.item.attributes.accessibility.dataField.shortDescription}
-                  </div>
-                  :
-                  undefined
-              }
-              {
-                  this.props.item.attributes.accessibility.dataField.imagePurpose==='cplx'?
-                  <div> 
-                    <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
-                    {this.props.item.attributes.accessibility.dataField.shortDescription}
-                    <Editor editorState={this.signalText()} readOnly={true}/>
-                  </div>
-                  :
-                  undefined
-              }
-              </Grid>
-              
-            </Grid>
-            :
-            undefined
-        }
-      </div>
+      <TextAlternatives
+        item={this.props.item}
+        language={this.props.language}
+      ></TextAlternatives>
     )
   }
 
@@ -174,7 +126,7 @@ export default class ImageItem extends React.Component {
     }
     return(
       <div className="content-box">
-        {this.checkBoxLabels()}
+        {/* this.checkBoxLabels() */}
         {
           this.props.item.attributes.accessibility.dataField != undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
             this.textAlternatives()
