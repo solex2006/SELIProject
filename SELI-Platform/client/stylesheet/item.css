@@ -138,6 +138,10 @@
 
 .image-item-container-child {
   margin-right: 1vw;
+  margin-top: 8px;
+  width: 360px;
+  height: 270px;
+  cursor: pointer;
 }
 
 .image-item-container {

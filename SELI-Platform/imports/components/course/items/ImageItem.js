@@ -10,8 +10,8 @@ export default class ImageItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: this.props.item.attributes.size.width,
-      height: this.props.item.attributes.size.height,
+      width: 360,
+      height: 270,
       shortlongDescription: ''
     }
   }
@@ -117,13 +117,12 @@ export default class ImageItem extends React.Component {
     )
   }
 
+  openFullScreen = () => {
+    console.log("imageS")
+		if (this.props.openMedia) this.props.openMedia(this.props.item);
+	}
+
   render() {
-    if(this.state.width != this.state.height){
-      this.setState({
-        width: 300,
-        height: 300,
-      });
-    }
     return(
       <div className="content-box">
         {/* this.checkBoxLabels() */}
@@ -135,14 +134,14 @@ export default class ImageItem extends React.Component {
         }
         <div className="image-content-item">
           <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
-            <div className="image-item-container-child">
+            <div className="image-item-container-child" onClick={() => this.openFullScreen()}>
               {this.props.fromProgram && <DiscreteSlider adjust={this.adjust}/>}
               <ResizableContent
                 key={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
-                top={8}
+                top={0}
                 minWidth={10}
                 minHeight={10}
-                left={8}
+                left={0}
                 width={this.state.width}
                 height={this.state.height}
                 rotateAngle={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}

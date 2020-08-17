@@ -1,3 +1,12 @@
+.fullscreen-media-container {
+  width: 100%;
+  height: 100%;
+  background-color: #424242;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .media-player-container {
   width: 100vw;
   height: calc(100vh - var(--app-bar-height));
@@ -30,6 +39,12 @@
 .video-media-player {
   width: 100vw !important;
   background-color: black;
+  height: 100vh !important;
+}
+
+.video-media-player-a11y {
+  width: 65vw !important;
+  background-color: black;
   height: calc(100vh - var(--app-bar-height)) !important;
 }
 
@@ -45,6 +60,11 @@
 
 .media-player-icon-button {
   color: var(--white) !important;
+  position: relative;
+}
+
+.media-player-icon-button-des {
+  color: black !important;
   position: relative;
 }
 
@@ -86,16 +106,50 @@
   width: 7.5vw !important;
 }
 
-.image-media-container {
-  width: 100%;
-  height: 100%;
-  background-color: #424242;
+.media-player-a11y-container {
+  width: calc(100% - 40px) !important;
+  margin-top: 5px;
+  margin-left: 20px;
+  margin-right: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #424242;
+}
+
+.media-player-a11y-container-fullscreen {
+  position: absolute;
+  z-index: 100;
+  top: 15px;
+  right: 15px;
+  width: 25vw !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #424242;
+}
+
+.media-player-a11y-video {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: #424242;
+}
+
+.media-a11y-container {
+  width: 35vw;
 }
 
 .image-media-player-paper {
+  width: 100vw !important;
+  height: calc(100vh - var(--app-bar-height)) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInLeft 0.5s;
+  background-color: black !important;
+}
+
+.image-media-player-paper-a11y {
   width: 65vw !important;
   height: calc(100vh - var(--app-bar-height)) !important;
   display: flex;
@@ -116,6 +170,11 @@
   background-size: contain;
 }
 
-.image-media-text-container {
-  width: 35vw
+.media-player-pop-menu-time {
+  display: flex;
+  flex-direction: column;
+  padding: 1vh 1vw;
+  color: white;
+  z-index: 1000;
+  background-color: #424242;
 }

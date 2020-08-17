@@ -18,7 +18,7 @@ export default class ImageItem extends React.Component {
 
   render() {
     return(
-      <div className="text-alt-container">
+      <div className="text-alt-container" style={this.props.fromMediaPlayer && {color: "white"}}>
         {
           this.props.item.type === "audio" || this.props.item.type === "video"?
             <Grid container spacing={1}>

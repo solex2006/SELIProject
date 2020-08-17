@@ -21,6 +21,15 @@ export default class VideoPreview extends React.Component {
         })
       }
     }
+    document.getElementById("video-preview-information").addEventListener('webkitfullscreenchange', this.onFullScreen)
+  }
+
+  onFullScreen = (e) => {
+    var isFullscreenNow = document.webkitFullscreenElement !== null
+    if (isFullscreenNow) {
+      this.pause();
+      this.props.openMediaChild();
+    }
   }
   
   ready = () => {
@@ -85,6 +94,9 @@ export default class VideoPreview extends React.Component {
           width={"360px"}
           height={"270px"}
           config={{file: {
+            attributes: {
+              crossOrigin: 'true'
+            },
             tracks: [
               {kind: 'subtitles', src: this.state.captions ? this.state.captions : ""}
             ]

@@ -140,6 +140,14 @@ export default class VideoItem extends React.Component {
     )
   } */
 
+  openMediaChild = () => {
+    if (this.props.openMedia) {
+      const cancellFullScreen = document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen || document.msExitFullscreen;
+      cancellFullScreen.call(document);
+      this.props.openMedia(this.props.item);
+    }
+  }
+
   render() {
     return(
       <div className="content-box">
@@ -151,6 +159,7 @@ export default class VideoItem extends React.Component {
                 <VideoPreview 
                   file={this.props.item.attributes.video}
                   dataField={this.props.item.attributes.accessibility.dataField ? this.props.item.attributes.accessibility.dataField : undefined}
+                  openMediaChild={this.openMediaChild.bind(this)}
                 />
               )}
               <CardContent className="course-item-video-card-media-content">

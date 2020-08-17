@@ -64,6 +64,7 @@ export default class TemplateParent extends React.Component {
                     courseId={this.props.courseId}
                     toResolve={this.props.toResolve}
                     fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
+                    openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
                     handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
                     completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
                     language={this.props.language}
