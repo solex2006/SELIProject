@@ -379,6 +379,7 @@ export default class StudentProfile extends React.Component {
                 onClose={this.handleCloseCertificate}
                 aria-labelledby="alert-dialog-confirmation"
                 aria-describedby="alert-dialog-confirmation"
+                disableBackdropClick={true}
               >
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateGenerated}</DialogTitle>
                 <DialogContent className="success-dialog-content">
@@ -400,6 +401,7 @@ export default class StudentProfile extends React.Component {
                 onClose={this.handleCloseCertificate}
                 aria-labelledby="alert-dialog-confirmation"
                 aria-describedby="alert-dialog-confirmation"
+                disableBackdropClick={true}
               >
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateNotGenerated}</DialogTitle>
                 <DialogContent className="success-dialog-content">

@@ -530,6 +530,7 @@ export default class PublishedCoursesList extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.dialogConfirmationTitle}</DialogTitle>
           <DialogContent className="success-dialog-content">

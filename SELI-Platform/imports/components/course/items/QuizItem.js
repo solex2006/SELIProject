@@ -286,6 +286,7 @@ export default class QuizItem extends React.Component {
           TransitionComponent={Transition}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.quizResults}</DialogTitle>
           <DialogContent className="success-dialog-content">

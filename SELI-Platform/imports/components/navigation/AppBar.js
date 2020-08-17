@@ -140,7 +140,11 @@ export default class AppBar extends React.Component {
     return(
       <div>
         <div className="app-bar-container" >
-          <Button  onClick={ this.props.fromAnotherSource ? undefined : () => this.props.showComponent('home')} className="bar-title">{this.props.language.seliProject}</Button>
+          <Button  onClick={ this.props.fromAnotherSource ? undefined : () => this.props.showComponent('home')} className="bar-title">
+           <div className="app-bar-container-text">
+           {this.props.language.seliProject}
+           </div>
+            </Button>
           <div className="bar-button-container" >
             {
               this.props.user !== undefined ?
@@ -204,6 +208,7 @@ export default class AppBar extends React.Component {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
           className="sign-container"
+          disableBackdropClick={true}
         >
         <DialogTitle id="alert-dialog-slide-title" className="sign-title" style={{color: this.state.color}}>{this.state.dialogTitle}</DialogTitle>
           <Divider/>

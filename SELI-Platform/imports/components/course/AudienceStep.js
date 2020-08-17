@@ -97,6 +97,18 @@ export default function AudienceApp(props) {
         props.validate('passAudience')
       }
     })
+
+    otherAudiences.map((value, index)=>{
+      console.log("verificar las otras Audeincias;;;;;;", value)
+      if(value.label!=undefined){
+        if(value.label!=""){
+          validate=true;
+          props.validate('passAudience')
+        }
+      }
+    })
+
+
     if(validate===false){ props.validate('NopassAudience')}
   })
   //course information
@@ -192,6 +204,7 @@ export default function AudienceApp(props) {
     adding: false,
     editing: false
   });
+  const [saveButton, setsaveButton]=useState(false)
   //tooltips
   const [audienceTooltip, setaudienceTooltip]= useState({
     audienceError: true,
@@ -220,6 +233,7 @@ export default function AudienceApp(props) {
   };
   const handleEditedAudience = index => () => {
 
+    
     let validAudiences= validateAudiences()
     if(validAudiences==="noequal"){
       let newAudiences = [...otherAudiences];
@@ -260,9 +274,10 @@ export default function AudienceApp(props) {
     let pass= numberAudiences()
     console.log("pass****",pass)
     if(pass==="valid"){
+      setfeedbackError(true)
       setOtherAudiences(prev => [
         ...prev,
-        { label: "New Audience", editing: true }
+        { label: "", editing: true }
       ]);
   
       setControlEdit({
@@ -386,14 +401,30 @@ export default function AudienceApp(props) {
     })
     
   };
-  function updateTempValue(value) {
+
+  function updateTempValue(value, index) {
+    console.log("se va ha editar esto******", index, otherAudiences)
+    //delete actual from other audiences
+    otherAudiences[index].label='';
+    setOtherAudiences(otherAudiences);
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
+
+    console.log("el valor", value)
+   
+    if(value.replace(/\s/g,"") == ""){
+      setsaveButton(true)
+    }else{
+      setsaveButton(false)
+    }
+
     if(value!="") {
        setfeedbackError(false)
     }
-    else{ setfeedbackError(true)}
+    else{ 
+      setfeedbackError(true)
+    }
     setmessage(requirementTooltip.errorMsg)
   }
   //methods for validations no repeated values
@@ -411,7 +442,7 @@ export default function AudienceApp(props) {
     if((valueinArray!=undefined) || (valueinOtherArray!=undefined)){
       
       if(valueinArray===undefined){
-        console.log("coincide",valueinOtherArray )
+        console.log("coincide",valueinOtherArray)
         setfeedbackError(true)
         setmessage(requirementTooltip.openSoftware)
         return "equal"
@@ -490,7 +521,7 @@ export default function AudienceApp(props) {
               errorType: "a11y",
               //a11y: { valid: !audienceTooltip.audienceallError }
             }}
-            tipMsg="Select all options."
+            tipMsg={null}
             describedBy={"i04-helper-text"}     
           />
           <ListItem key="aud_SelectAll" dense>
@@ -576,7 +607,8 @@ export default function AudienceApp(props) {
                   key={"li_aud" + index + "txtField"}
                   className={!audience.editing ? classes.hidden : ""}
                   value={controlEdit.tempValue}
-                  onChange={event => updateTempValue(event.target.value)}
+                  onChange={event => updateTempValue(event.target.value, index)}
+                  
                 />
                 <FeedbackHelp
                     language={language}
@@ -584,7 +616,7 @@ export default function AudienceApp(props) {
                       error: feedbackError,
                       errorMsg: message,
                       errorType: "required",
-                     // a11y: null
+                      //a11y: null
                     }}
                     tipMsg={requirementTooltip.newaudience}
                     describedBy={"i02-helper-text"}
@@ -600,7 +632,7 @@ export default function AudienceApp(props) {
                       aria-label={"Save changes"}
                       onClick={handleEditedAudience(index)}
                       className={classes.saveButton}
-                      disabled={controlEdit.tempValue === ""}
+                      disabled={(controlEdit.tempValue === "" || saveButton===true)}
                     >
                       <DoneIcon />
                     </IconButton>
@@ -653,8 +685,8 @@ export default function AudienceApp(props) {
           <FeedbackHelp
             language={language}
             validation={{
-              error: false,
-              errorMsg: "",
+              error: true,
+              errorMsg: "Intended Audience is a mandatory field, select at least one.",
               errorType: "a11y",
              // a11y: { valid: !audienceTooltip.audienceError }
             }}
@@ -681,7 +713,7 @@ export default function AudienceApp(props) {
               errorType: "a11y",
               //a11y: { valid: !audienceTooltip.audienceallgolError }
             }}
-            tipMsg={language.SelectAlloptions}
+            tipMsg={null}
             describedBy={"i04-helper-text"}     
           />
           <ListItem key="aud_SelectAll2" dense>
@@ -759,7 +791,7 @@ export default function AudienceApp(props) {
           />
         </List>
       </div>
-      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <Dialog disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting audience</DialogTitle>
         <DialogContent className="success-dialog-content">
           <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>

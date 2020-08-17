@@ -9,7 +9,6 @@ import {
 } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Tracker } from 'meteor/tracker';
-
 import Home from '../imports/ui/Home';
 import User from '../imports/ui/User';
 import Administrator from '../imports/ui/Administrator';
@@ -25,9 +24,7 @@ import CertificateValidation from '../imports/ui/CertificateValidation';
 import {Helmet} from "react-helmet";
 
 const history = createBrowserHistory();
-
 window.browserHistory = history;
-
 Tracker.autorun(() => {
 
 });
@@ -37,7 +34,9 @@ Meteor.startup(() => {
   ReactDOM.render(
     <Router  history={history}>
     <Helmet>
-      <meta name="viewport" content="width=device-width, initial-scale=0.80"/>
+      <meta name="viewport" content="width=device-width,initial-scale=0.85,maximum-scale=1,user-scalable=no"/>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+      <meta name="HandheldFriendly" content="true"/>
       <meta charset="utf-8" />
       <title>SELI-Platform</title>
       <meta name="description" content="THE SELI learning platform provides the opportunity tot create courses for various types of disabilities, taking into consideration accessibility standards, interaction between students and stimulating the creativity of tutors and students." />

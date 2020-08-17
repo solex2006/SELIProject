@@ -87,7 +87,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	chartCaption: {
 		...theme.typography.h4,
-		textAlign: "center"
+		textAlign: "center",
+		paddingBottom:'40px',
 	},
 	chartLabel: {
 		...theme.typography.h5,
@@ -612,7 +613,7 @@ export default function ReportStep(props) {
 			setcourseInformation(courseinformation)
 			//console.log("dentro de ssssssssssssssnewRandomTopics :",withoutInclusionGol, categories )
 			let checkaudience=props.courseInformation.support[1];
-			console.log("checkAudoece-----------------------------------------",checkaudience)
+			//console.log("checkAudoece-----------------------------------------",checkaudience)
 			let check=0
 			if(checkaudience!=undefined){
 				//checkaudience.map((audience, index)=>{
@@ -1156,7 +1157,7 @@ export default function ReportStep(props) {
 		
 
 
-		console.log("percentagebyUnit y percentagebyLesson-------->",percentagebyUnit, percentagebyLesson, byUnit, byLesson )
+		//console.log("percentagebyUnit y percentagebyLesson-------->",percentagebyUnit, percentagebyLesson, byUnit, byLesson )
 		
 
 
@@ -2047,29 +2048,36 @@ export default function ReportStep(props) {
 			) }
 
 
-				<div >
-					<h2 className='headAccessibility'>Sylabus accessibility report</h2>
-						<div className='headAccessibility'>			
-							This part details the accessibility percentages of the course Sylabus.	
-						</div>
-						<Container>
-							<Grid
-								container
-								spacing={1}
-								direction='row'
-								justify="center"
-								alignItems="center"
-							>	
-								<Grid item xl={6} lg={8} md={6} sm={12}>
-									<Chart percent={sylabusTotal/100} id="gauge-overall" />
-									<AccessibilitySylabusCard category={reportSylabus} />
+				
+					{
+						props.courseInformation.coursePlan.guidedCoursePlan!='guided'?
+						<div>
+							<h2 className='headAccessibility'>Sylabus accessibility report</h2>
+							<div className='headAccessibility'>			
+								This part details the accessibility percentages of the course Sylabus.	
+							</div>
+							<Container>
+								<Grid
+									container
+									spacing={1}
+									direction='row'
+									justify="center"
+									alignItems="center"
+								>	
+									<Grid item xl={6} lg={8} md={6} sm={12}>
+										<Chart percent={sylabusTotal/100} id="gauge-overall" />
+										<AccessibilitySylabusCard category={reportSylabus} />
+									</Grid>
 								</Grid>
-							</Grid>
-						</Container>
-						
+							</Container>
+						</div>
+						:
+						undefined
+					}
+							
 					</div>
 				</div>					
-		</div>
+		
 	);
 }
 

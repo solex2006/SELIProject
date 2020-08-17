@@ -456,6 +456,7 @@ export default class ActivityItem extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.doActivity}</DialogTitle>
           <DialogContent className="stories-dialog-content">

@@ -1460,7 +1460,7 @@ export default function AnalysisStep(props) {
       </Grid>
       </Grid>
    
-      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
           <DialogTitle className="success-dialog-title" id="simple-dialog-title">{labels.Deletingaudience}</DialogTitle>
             <DialogContent className="success-dialog-content">
           <DialogContentText style={{padding: "0 1vw"}}> {labels.dialog1} {labelindexdelete}. {labels.dialog2}</DialogContentText>
