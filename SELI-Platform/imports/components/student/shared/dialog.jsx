@@ -34,6 +34,7 @@ export default function SimpleDialog({
 			aria-describedby={key + "-dialog-content"}
 			//fullScreen={fullScreen}
 			maxWidth={maxWidth}
+			disableBackdropClick={true}
 		>
 			<DialogTitle id={key + "-dialog-title"}>{title}</DialogTitle>
 			<DialogContent id={key + "-dialog-content"}>{children}</DialogContent>

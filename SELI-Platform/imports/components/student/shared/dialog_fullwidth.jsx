@@ -68,7 +68,8 @@ export default function DialogFullWidth(props) {
 			aria-modal="true"
 			role="dialog"
 			className={clsx(classes.dialog, enabledark && classes.darkmode)}
-		scroll={"paper"}
+			scroll={"paper"}
+			disableBackdropClick={true}
 				>
 			<DialogTitle className={classes.appBar}>
 				<span id={key + "-title"} className={classes.dialogTitle}>

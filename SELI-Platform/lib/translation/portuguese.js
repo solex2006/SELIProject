@@ -963,7 +963,7 @@ var PORTUGUESE = {
   InclusionGoals:'Metas de inclusão',
   Validatetheinclusion:'Se deseja validar a inclusão do seu curso para algum grupo específico, selecione-os na lista abaixo. Você pode selecionar quantos desejar.',
   Cognitive:'Cognitive disabilities',
-  Elderly:'Elderly',
+  Elderly:'Diversity of Abilities',
   Hearing:'Hearing disabilities',
   Language:'Language',
   Speech:'Speech disabilities',

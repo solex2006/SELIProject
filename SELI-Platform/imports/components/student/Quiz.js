@@ -383,6 +383,7 @@ class Quiz extends React.Component {
         onClose={this.handleClose}
         aria-labelledby="alert-dialog-confirmation"
         aria-describedby="alert-dialog-confirmation"
+        disableBackdropClick={true}
       >
       <DialogTitle  tabIndex="-1" className="success-dialog-title" id="alert-dialog-title">{this.props.language.warningTime}</DialogTitle>
       <DialogContent tabIndex="-1" className="success-dialog-content">

@@ -565,6 +565,7 @@ export default class AccountManagement extends React.Component {
           className="form-dialog"
           keepMounted
           maxWidth={false}
+          disableBackdropClick={true}
         >
           <DialogTitle className="form-dialog-title" id="alert-dialog-title">{'Change your profile photo'}</DialogTitle>
           <DialogContent>

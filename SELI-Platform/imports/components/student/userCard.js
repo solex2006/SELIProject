@@ -91,6 +91,7 @@ function InstructorProfileDialog({ handleClose, open, user }) {
 			onClose={handleClose}
 			aria-labelledby="instructor profile"
 			open={open}
+			disableBackdropClick={true}
 		>
 			<DialogContent>
 				<InstructorProfile 

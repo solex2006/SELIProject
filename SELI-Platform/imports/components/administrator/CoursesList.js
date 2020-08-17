@@ -219,7 +219,7 @@ export default class CoursesList extends React.Component {
             }
           </React.Fragment>
         }
-        <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.state.open}>
+        <Dialog  disableBackdropClick={true} onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.state.open}>
           <DialogTitle className="success-dialog-title" id="simple-dialog-title">{this.state.dialog.title}</DialogTitle>
           <div className="center-row">
             {

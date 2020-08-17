@@ -735,7 +735,7 @@ const handleDeleteSoftwares = (index) => () => {
       </div>
    
 
-      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
           <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting Requirement</DialogTitle>
             <DialogContent className="success-dialog-content">
               <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>

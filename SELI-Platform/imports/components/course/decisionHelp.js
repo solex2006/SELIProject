@@ -231,6 +231,7 @@ export default function DecisionHelpStepper(props) {
         onClose={handleClose}
         scroll="paper"
         aria-labelledby={id + "-dlg-title"}
+        disableBackdropClick={true}
       >
         <DialogTitle id={id + "-dlg-title"}>Title</DialogTitle>
 

@@ -472,6 +472,7 @@ export default class UserInformation extends React.Component {
           className="form-dialog"
           keepMounted
           maxWidth={false}
+          disableBackdropClick={true}
         >
           <DialogTitle className="form-dialog-title" id="alert-dialog-title">
             {this.props.language.uploadYourProfilePhoto}

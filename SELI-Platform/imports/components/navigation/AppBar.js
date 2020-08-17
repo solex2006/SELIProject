@@ -208,6 +208,7 @@ export default class AppBar extends React.Component {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
           className="sign-container"
+          disableBackdropClick={true}
         >
         <DialogTitle id="alert-dialog-slide-title" className="sign-title" style={{color: this.state.color}}>{this.state.dialogTitle}</DialogTitle>
           <Divider/>
