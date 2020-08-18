@@ -1124,5 +1124,19 @@ var PORTUGUESE = {
   MiddleSchoolStudents:'Middle School Students',
   ElementarySchoolStudents:'Elementary School Students',
   titleImageRequired: "The title of the Image content is required",
+  myBadges: "My badges-translate to portugues",
+  verificateBadge: "Verificate Badge-translate to portuguese",
+  awardedTo: "Awarded to-translate to portuguese",
+  badgeName: "Name of the badge-translate to portuguese",
+  badgeDescription: "Description of the badge-translate to portuguese",
+  teacherName: "Name of the teacher-translate to portuguese",
+  courseName: "Name of the course-translate to portuguese",
+  issuedOn: "Issued on-translate to portuguese",
+  verify: "Verify-translate to portuguese",
+  clear: "Clear-translate to portuguese",
+  viewJSON: "View JSON-translate to portuguese",
+  selectBadgeImage: "Select your badge image-translate to portuguese",
+  chooseOrUploadBadgeImage: "Choose or upload badge image-translate to portuguese",
+
 }
 export default PORTUGUESE;

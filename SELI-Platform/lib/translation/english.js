@@ -930,9 +930,7 @@ var ENGLISH = {
   ariaLabelTranscription:"This is the short description (identify content). This audio content has the folowing accessibility resources: Transcription",
   alertCompatibility:"your browser is not compatible",
   showHideTranscription:"Show/Hide Transcript",
-  selectYourBadgeImage: "Select your badge image",
-  verifyBadge: "Verify the badge",
-  badgeVerification: "Badge verification",
+
   sizeLessThan: "Please, upload a file with size less than 100 MB.",
   editEndFrame: "Edit end frame",
   workshop1: "This digital story is created in the Digital Storytelling Workshop named",
@@ -1127,5 +1125,18 @@ var ENGLISH = {
   MiddleSchoolStudents:'Middle School Students',
   ElementarySchoolStudents:'Elementary School Students',
   titleImageRequired: "The title of the Image content is required",
+  myBadges: "My badges",
+  verificateBadge: "Verificate Badge",
+  awardedTo: "Awarded to",
+  badgeName: "Name of the badge",
+  badgeDescription: "Description of the badge",
+  teacherName: "Name of the teacher",
+  courseName: "Name of the course",
+  issuedOn: "Issued on",
+  verify: "Verify",
+  clear: "Clear",
+  viewJSON: "View JSON",
+  selectBadgeImage: "Select your badge image",
+  chooseOrUploadBadgeImage: "Choose or upload badge image"
 }
 export default ENGLISH;

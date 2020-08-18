@@ -1124,5 +1124,19 @@
   MiddleSchoolStudents:'Middle School Students',
   ElementarySchoolStudents:'Elementary School Students',
   titleImageRequired: "The title of the Image content is required",
+  myBadges: "My badges-translate to polish",
+  verificateBadge: "Verificate Badge-translate to polish",
+  awardedTo: "Awarded to-translate to polish",
+  badgeName: "Name of the badge-translate to polish",
+  badgeDescription: "Description of the badge-translate to polish",
+  teacherName: "Name of the teacher-translate to polish",
+  courseName: "Name of the course-translate to polish",
+  issuedOn: "Issued on-translate to polish",
+  verify: "Verify-translate to polish",
+  clear: "Clear-translate to polish",
+  viewJSON: "View JSON-translate to polish",
+  selectBadgeImage: "Select your badge image-translate to polish",
+  chooseOrUploadBadgeImage: "Choose or upload badge image-translate to polish",
+
 }
 export default POLISH;

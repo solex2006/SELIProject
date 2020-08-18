@@ -1124,6 +1124,20 @@ var SPANISH = {
   MiddleSchoolStudents:'Middle School Students',
   ElementarySchoolStudents:'Elementary School Students',
   titleImageRequired: "The title of the Image content is required",
+  myBadges: "Mis emblemas",
+  verificateBadge: "Verificar emblema",
+  awardedTo: "Otorgado a:",
+  badgeName: "Nombre del emblema",
+  badgeDescription: "Descripcion del emblema",
+  teacherName: "Nombre del profesor",
+  courseName: "Nombre del curso",
+  issuedOn: "Otorgado en fecha",
+  verify: "Verificar",
+  clear: "Limpiar",
+  viewJSON: "Ver JSON",
+  selectBadgeImage: "Seleccionar imagen del emblema",
+  chooseOrUploadBadgeImage: "Eliga o suba la imagen del emblema",
+
 }
 export default SPANISH
 

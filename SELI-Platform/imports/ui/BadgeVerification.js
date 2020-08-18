@@ -1,150 +1,158 @@
-import React, { Component } from 'react';
-
-import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
-
-import FormStepper from '../components/navigation/FormStepper';
-import MainMenu from '../components/navigation/MainMenu';
-import AppBar from '../components/navigation/AppBar';
-import ControlSnackbar from '../components/tools/ControlSnackbar';
-
-import BadgeInformation from './BadgeInformation';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import theme from '../style/theme';
-import InfoIcon from '@material-ui/icons/Info';
-
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
-import CourseFiles from '../../lib/CourseFilesCollection';
-
+import React from "react";
+import AppBar from "../components/navigation/AppBar";
+import ControlSnackbar from "../components/tools/ControlSnackbar";
+import BadgeInformation from "./BadgeInformation";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import theme from "../style/theme";
+import InfoIcon from "@material-ui/icons/Info";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import CourseFilesCollection from "../../lib/CourseFilesCollection";
+import SchoolIcon from "@material-ui/icons/School";
 import english from '../../lib/translation/english';
 import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
-import turkish from "../../lib/translation/turkish";
-import CourseFilesCollection from '../../lib/CourseFilesCollection';
-import TitleButton from './TitleButton';
-import SchoolIcon from '@material-ui/icons/School';
-var bakery=require('openbadges-bakery-v2');
+import polish from '../../lib/translation/polish';
+import turkish from '../../lib/translation/turkish';
+var bakery = require("openbadges-bakery-v2");
 export default class BadgeVerification extends React.Component {
   constructor(props) {
     super(props);
+    Session.set({
+      language: Session.get("language") ? Session.get("language") : english,
+    });
     this.state = {
       badgeInformation: {
-        badgeName: '',
-        badgeDescription: '',
-        badgeStudent: '',
-        badgeTeacher: '',
-        badgeCourse: '',
-        badgeDate:'',
+        badgeName: "",
+        badgeDescription: "",
+        badgeStudent: "",
+        badgeTeacher: "",
+        badgeCourse: "",
+        badgeDate: "",
         image: undefined,
       },
-    }
+      language: Session.get("language") ? Session.get("language") : english,
+    };
+    console.log(this.props);
+    console.log(this.state.language);
   }
-
-  handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
-    if (show) {
-      if (action === 'subscribed') {
-        action = () => this.showComponent('subscribed');
-      }
-      this.setState({
-        showControlMessage: show,
-        controlMessage: message,
-        controlAction: action,
-        controlActionMessage: actionMessage,
-        showControlAction: showAction,
-        course: action === 'preview' ? course : undefined
-      });
-    }
-    else {
-      this.setState({
-        showControlMessage: show,
-      });
-    }
-  }
-
-  
-
-  handleClose = () => {
-   
-    this.props.history.push({
-      pathname: "/",
-      state: {
-        language: this.state.language,
-      }
-    });
-  };
 
   componentDidMount() {
     Session.set({language: Session.get('language') ? Session.get('language') : english});
     this.setState({
       language: Session.get('language') ? Session.get('language') : english,
-    }, () => {
-      this.setState({
-        userSteps: [
-          {label: this.state.language.information , icon: <InfoIcon className="step-icon"/>},
-        ],
-        userForms: [
-          <BadgeInformation
-            showErrorFunction={showError => this.showError = showError}
-            badgeInformation={this.state.badgeInformation}
-            language={this.state.language}
-          />,
-        ],
-      })
     });
-    console.log(this.state);
+    this.setState({
+      loadingBadge: true,
+    }, () => {
+      console.log(this.props.location)
+      // let _id = this.props.location.hash.substr(1);
+      // Tracker.autorun(() => {
+      //   let course = Courses.find({_id: _id}).fetch();
+      //   course.length ?
+      //   this.setState({
+      //     course: course[0],
+      //     loadingCourse: false,
+      //   })
+      //   :
+      //   this.setState({
+      //     course: undefined,
+      //   });
+      // });
+      // Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
+      //   if (response) this.setInitVariables(response);
+      // });
+    });
   }
 
-  showError = () => {
+  showError = () => {};
 
-  }
-
-  debake(img) {	
-    return new Promise((resolve,reject) => {
-      bakery.extract(img, function(err, data){
-        if(err)
-          return reject(err)
-        else
-          resolve(data);
+  debake(img) {
+    return new Promise((resolve, reject) => {
+      bakery.extract(img, function (err, data) {
+        if (err) return reject(err);
+        else resolve(data);
       });
-    })	
-  }	
+    });
+  }
 
   verifyBadge = () => {
-    let uploadedImage = CourseFilesCollection.findOne({_id: this.state.badgeInformation.image._id});
-    let image=uploadedImage.meta.buffer;
-	  var ima = this.debake(image)
-    .then(data => {this.setDataForm(data,image)})
-    .catch(err => {console.log(err)} );
-  }
+    console.log("verify badge");
+    let uploadedImage = CourseFilesCollection.findOne({
+      _id: this.state.badgeInformation.image._id,
+    });
+    let image = uploadedImage.meta.buffer;
+    this.debake(image)
+      .then((data) => {
+        this.setDataForm(data, image);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  setDataForm(data,image){
+  setDataForm(data, image) {
     data = JSON.parse(data);
     this.setState({
-      badgeInformation:{
+      badgeInformation: {
         badgeName: data.recipient.badgeName,
         badgeDescription: data.recipient.badgeDescription,
-        badgeStudent:data.recipient.badgeStudent,
+        badgeStudent: data.recipient.badgeStudent,
         badgeTeacher: data.recipient.badgeTeacher,
         badgeCourse: data.recipient.badgeCourse,
         badgeDate: data.issuedOn,
         image: this.state.badgeInformation.image,
-      }
+      },
     });
   }
 
-
   handleError = (error) => {
     let errorLabel = error;
-    
-    this.handleControlMessage(true, errorLabel);
-  }
 
+    this.handleControlMessage(true, errorLabel);
+  };
+
+  // setLanguage = (option) => {
+  //   let language = this.state.language;
+  //   if (option === "Portuguese (PT)") {
+  //     Session.set({ language: portuguese });
+  //     language = portuguese;
+  //   } else if (option === "English (US)") {
+  //     Session.set({ language: english });
+  //     language = english;
+  //   } else if (option === "Spanish (ES)") {
+  //     Session.set({ language: spanish });
+  //     language = spanish;
+  //   } else if (option === "Turkish (TR)") {
+  //     Session.set({ language: turkish });
+  //     language = turkish;
+  //   }
+  //   this.setState(
+  //     {
+  //       language: language,
+  //     },
+  //     () => {
+  //       this.setState({
+  //         userForms: [
+  //           <BadgeInformation
+  //             showErrorFunction={(showError) => (this.showError = showError)}
+  //             badgeInformation={this.state.badgeInformation}
+  //             language={this.state.language}
+  //           />,
+  //         ],
+  //         userSteps: [
+  //           {
+  //             label: this.props.language.verificateBadge,
+  //             icon: <InfoIcon className="step-icon" />,
+  //           },
+  //         ],
+  //       });
+  //     }
+  //   );
+  // };
 
   setLanguage = (option) => {
     let language = this.state.language;
@@ -159,107 +167,96 @@ export default class BadgeVerification extends React.Component {
     else if (option === 'Spanish (ES)') {
       Session.set({language: spanish});
       language = spanish;
-    } 
+    }
+    else if (option === 'Polish (PL)') {
+      Session.set({language: polish});
+      language = polish;
+    }
     else if (option === 'Turkish (TR)') {
       Session.set({language: turkish});
       language = turkish;
     }
     this.setState({
       language: language,
-    }, () => {
-      this.setState({
-        userForms: [
-          <BadgeInformation
-            showErrorFunction={showError => this.showError = showError}
-            badgeInformation={this.state.badgeInformation}
-            language={this.state.language}
-          />,
-        ],
-        userSteps: [
-          {label: this.state.language.verifyBadge, icon: <InfoIcon className="step-icon"/>},
-        ],
-      })
     });
   }
-
   render() {
-    return(
+    return (
       <div>
-        { 
-           <MuiThemeProvider theme={theme}>
-             {        
-          this.state.language && Session.get('language') ?
-          <React.Fragment>
-            <AppBar
+        {
+          <MuiThemeProvider theme={theme}>
+            {this.state.language && Session.get("language") ? (
+              <React.Fragment>
+                            <AppBar
               history={this.props.history}
               language={this.state.language}
               setLanguage={this.setLanguage.bind(this)}
             />
-            <div className="title-badge-registration">
-              <h1  className="management-title">{"Verificate Badge"}<SchoolIcon className="management-title-icon"/></h1>
-              {/* <Button onClick={()=>this.verifyBadge()} className="form-stepper-complete-button" color={this.props.color}>
+
+                <div className="title-badge-registration">
+                  <h1 className="management-title">
+                    {this.state.language.verificateBadge}
+                    <SchoolIcon className="management-title-icon" />
+                  </h1>
+                  {/* <Button onClick={()=>this.verifyBadge()} className="form-stepper-complete-button" color={this.props.color}>
                 {"Extraer Datos"}
               </Button> */}
-            </div>    
-            <BadgeInformation
-               showErrorFunction={showError => this.showError = showError}
-               badgeInformation={this.state.badgeInformation}
-               language={this.state.language}
-            />
-             
-             <DialogContent className="sign-content">
-            <div className="sign-form">
-              {
-                this.state.action === "in" ?
-                  <SignInForm
-                    language={this.props.language}
-                    history={this.props.history}
-                  />
-                :
-                undefined
-              }
-              {
-                this.state.action === "up" ?
-                  <SignUpForm
-                    handleClose={this.handleClose.bind(this)}
-                    history={this.props.history}
-                    language={this.props.language}
-                  />
-                :
-                undefined
-              }
-            </div>
-          </DialogContent>
-            <Dialog
-              open={this.state.open}
-              onClose={this.handleClose}
-              aria-labelledby="alert-dialog-success"
-              aria-describedby="alert-dialog-success"
-              disableBackdropClick={true}
-              disableEscapeKeyDown={true}
-            >
-              <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.language.resquestSuccessfullySent}</DialogTitle>
-              <DialogActions>
-                <Button onClick={() => this.handleClose()} color="secondary" variant="contained" autoFocus>
-                  {this.state.language.ok}
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <ControlSnackbar
-              showControlMessage={this.state.showControlMessage}
-              showControlAction={this.state.showControlAction}
-              controlMessage={this.state.controlMessage}
-              controlAction={this.state.controlAction}
-              controlActionMessage={this.state.controlActionMessage}
-              handleControlMessage={this.handleControlMessage.bind(this)}
-            />
-          </React.Fragment>
-          :
-          undefined
-  }
-  </MuiThemeProvider>
+                </div>
+                <BadgeInformation
+                  showErrorFunction={(showError) =>
+                    (this.showError = showError)
+                  }
+                  badgeInformation={this.state.badgeInformation}
+                  language={this.state.language}
+                />
+
+                <DialogContent className="sign-content">
+                  <div className="sign-form">
+                    {this.state.action === "in" ? (
+                      <SignInForm
+                        language={this.props.language}
+                        history={this.props.history}
+                      />
+                    ) : undefined}
+                    {this.state.action === "up" ? (
+                      <SignUpForm
+                        handleClose={this.handleClose.bind(this)}
+                        history={this.props.history}
+                        language={this.props.language}
+                      />
+                    ) : undefined}
+                  </div>
+                </DialogContent>
+                <Dialog
+                  open={this.state.open}
+                  onClose={this.handleClose}
+                  aria-labelledby="alert-dialog-success"
+                  aria-describedby="alert-dialog-success"
+                  disableBackdropClick={true}
+                  disableEscapeKeyDown={true}
+                >
+                  <DialogTitle
+                    className="success-dialog-title"
+                    id="alert-dialog-title"
+                  >
+                    {this.state.language.resquestSuccessfullySent}
+                  </DialogTitle>
+                  <DialogActions>
+                    <Button
+                      onClick={() => this.handleClose()}
+                      color="secondary"
+                      variant="contained"
+                      autoFocus
+                    >
+                      {this.state.language.ok}
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </React.Fragment>
+            ) : undefined}
+          </MuiThemeProvider>
         }
       </div>
-    )
+    );
   }
 }

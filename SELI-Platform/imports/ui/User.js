@@ -761,7 +761,11 @@ export default class User extends React.Component {
                     }
                     {
                       this.state.component === 'badgeCollection' ?
-                      <BadgeCollection/>
+                        <BadgeCollection
+                          language={this.state.language}
+                          user={this.state.user}
+                          history={this.props.history}  
+                        />
                       :
                       undefined
                     }

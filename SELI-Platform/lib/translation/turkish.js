@@ -1124,5 +1124,18 @@ var TURKISH = {
   MiddleSchoolStudents:'Middle School Students',
   ElementarySchoolStudents:'Elementary School Students',
   titleImageRequired: "The title of the Image content is required",
+  myBadges: "My badges-translate to turkish",
+  verificateBadge: "Verificate Badge-translate to turkish",
+  awardedTo: "Awarded to-translate to turkish",
+  badgeName: "Name of the badge-translate to turkish",
+  badgeDescription: "Description of the badge-translate to turkish",
+  teacherName: "Name of the teacher-translate to turkish",
+  courseName: "Name of the course-translate to turkish",
+  issuedOn: "Issued on-translate to turkish",
+  verify: "Verify-translate to turkish",
+  clear: "Clear-translate to turkish",
+  viewJSON: "View JSON-translate to turkish",
+  selectBadgeImage: "Select your badge image-translate to turkish",
+  chooseOrUploadBadgeImage: "Choose or upload badge image-translate to turkish",
 }
 export default TURKISH;
