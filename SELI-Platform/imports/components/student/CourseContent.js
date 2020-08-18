@@ -31,14 +31,14 @@ export default class CourseContent extends React.Component {
         arrayOfDesignItems = this.props.course.design[this.props.selected[0]];
         tools = this.props.course.design[this.props.selected[0]].tools;
         if (this.props.course.coursePlan.courseStructure === "topic") {
-          toComplete = this.props.toComplete[this.props.selected[0]];
+          if (!this.props.fromPreview) toComplete = this.props.toComplete[this.props.selected[0]];
           topicLessonLabel = this.props.language.topic;
         }
       } else if (this.props.selected[3] === 1) {
         arrayOfItems = this.props.course.program[this.props.selected[0]].lessons[this.props.selected[1]].items;
         arrayOfDesignItems = this.props.course.design[this.props.selected[0]].lessons[this.props.selected[1]];
         tools = this.props.course.design[this.props.selected[0]].lessons[this.props.selected[1]].tools;
-        toComplete = this.props.toComplete[this.props.selected[0]].subunits[this.props.selected[1]];
+        if (!this.props.fromPreview) toComplete = this.props.toComplete[this.props.selected[0]].subunits[this.props.selected[1]];
         topicLessonLabel = this.props.language.lesson;
       } else if (this.props.selected[3] === 2){
         if (this.props.course.coursePlan.courseStructure === "unit") {
@@ -99,70 +99,73 @@ export default class CourseContent extends React.Component {
               courseId={this.props.course._id}
               fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
               openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
-              handleControlMessage={this.props.handleControlMessage.bind(this)}
+              handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
               completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
               language={this.props.language}
             ></TemplateParent>
         }
-        <div className="course-content-footer-actions">
-          <div className="course-content-footer-row">
-            <Tooltip title={this.props.language.back}>
-              <Fab
-                //disabled={this.props.selected[0] === 0}
-                size="small"
-                className="course-content-footer-fab"
-                onClick={() => this.props.handlePrevious(this.props.course.coursePlan.courseStructure, previousTaskLength, unitTopicLength, previousLessonLength)}
-              >
-                <NavigateBeforeIcon/>
-              </Fab>
-            </Tooltip>
-            <Tooltip title={this.props.language.next}>
-              <Fab
-                //disabled={this.props.selected[0] === this.props.course.program.length - 1}
-                size="small"
-                className="course-content-footer-fab"
-                onClick={() => this.props.handleNext(this.props.course.coursePlan.courseStructure, taskLength, unitTopicLength, lessonLength)}
-              >
-                <NavigateNextIcon/>
-              </Fab>
-            </Tooltip>
-          </div>
-          { toComplete !== undefined &&
-            <React.Fragment>
-              {this.props.fromTutor ? undefined : <Button
-                disabled={toComplete}
-                onClick={() => this.props.completeTopicLesson()}
-                variant="contained"
-                className="course-content-footer-button"
-              >
+        {
+          !this.props.fromPreview &&
+          <div className="course-content-footer-actions">
+            <div className="course-content-footer-row">
+              <Tooltip title={this.props.language.back}>
+                <Fab
+                  //disabled={this.props.selected[0] === 0}
+                  size="small"
+                  className="course-content-footer-fab"
+                  onClick={() => this.props.handlePrevious(this.props.course.coursePlan.courseStructure, previousTaskLength, unitTopicLength, previousLessonLength)}
+                >
+                  <NavigateBeforeIcon/>
+                </Fab>
+              </Tooltip>
+              <Tooltip title={this.props.language.next}>
+                <Fab
+                  //disabled={this.props.selected[0] === this.props.course.program.length - 1}
+                  size="small"
+                  className="course-content-footer-fab"
+                  onClick={() => this.props.handleNext(this.props.course.coursePlan.courseStructure, taskLength, unitTopicLength, lessonLength)}
+                >
+                  <NavigateNextIcon/>
+                </Fab>
+              </Tooltip>
+            </div>
+            { toComplete !== undefined &&
+              <React.Fragment>
+                {this.props.fromTutor ? undefined : <Button
+                  disabled={toComplete}
+                  onClick={() => this.props.completeTopicLesson()}
+                  variant="contained"
+                  className="course-content-footer-button"
+                >
+                  {
+                    toComplete ?
+                    `${topicLessonLabel} ${this.props.language.completed}` :
+                    `${this.props.language.complete} ${topicLessonLabel}`
+                  }
+                </Button>}
                 {
                   toComplete ?
-                  `${topicLessonLabel} ${this.props.language.completed}` :
-                  `${this.props.language.complete} ${topicLessonLabel}`
+                    <CheckCircleIcon className="success-dialog-icon-small"/>
+                  :
+                  undefined
                 }
-              </Button>}
-              {
-                toComplete ?
-                  <CheckCircleIcon className="success-dialog-icon-small"/>
-                :
-                undefined
-              }
-              {
-                toComplete && !this.props.fromTutor ?
-                  <Button
-                    className="course-content-footer-button-small"
-                    color="primary"
-                    variant="outlined"
-                    onClick={() => this.props.leaveComment()}
-                  >
-                    {this.props.language.leaveComment}
-                  </Button>
-                :
-                undefined
-              }
-            </React.Fragment>
-          }
-        </div>
+                {
+                  toComplete && !this.props.fromTutor ?
+                    <Button
+                      className="course-content-footer-button-small"
+                      color="primary"
+                      variant="outlined"
+                      onClick={() => this.props.leaveComment()}
+                    >
+                      {this.props.language.leaveComment}
+                    </Button>
+                  :
+                  undefined
+                }
+              </React.Fragment>
+            }
+          </div>
+        }
       </React.Fragment>
     )
   }
