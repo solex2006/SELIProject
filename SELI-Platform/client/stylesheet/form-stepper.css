@@ -40,19 +40,7 @@
   display: flex;
   flex-wrap: wrap;
 }
-.form-stepper-title {
-  font-size: 28.5px;
-  font-weight: 100;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
 
-@media screen and (max-width:2000px) {
-  .form-stepper-title {
-    font-size: 21.5px !important;
-  }
-  .form-stepper-active-step{display: none !important;}
- }
 
 .form-stepper-active-step {
   text-align: center;
@@ -60,6 +48,23 @@
   letter-spacing: 0.75px;
   color: #757575;
 }
+.form-stepper-title {
+  font-size: 28.5px;
+  font-weight: 100;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width: 1600px)  {
+  .form-stepper-active-step{display: none !important;}
+  .form-stepper-title {font-size: 21.5px !important;}
+}
+
+
+
+ 
+
+
 
 .form-stepper-navigation-actions {
 
