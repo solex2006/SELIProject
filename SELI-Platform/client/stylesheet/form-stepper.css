@@ -47,6 +47,13 @@
   text-transform: uppercase;
 }
 
+@media screen and (max-width:2000px) {
+  .form-stepper-title {
+    font-size: 21.5px !important;
+  }
+  .form-stepper-active-step{display: none !important;}
+ }
+
 .form-stepper-active-step {
   text-align: center;
   font-size: 13.5px;
