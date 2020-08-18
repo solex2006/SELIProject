@@ -65,7 +65,7 @@ export default class ActivityItem extends React.Component {
     this.setState({
       dialogText,
     });
-    if (!this.props.fromProgram) {
+    if (this.props.toResolve && !this.props.fromProgram) {
       if (this.props.item.attributes.type === 'forum' || this.props.item.attributes.type === 'storyboard') {
         this.getStories();
       }
@@ -282,7 +282,7 @@ export default class ActivityItem extends React.Component {
   }
 
   componentWillReceiveProps() {
-    if (!this.props.fromProgram) this.getIndex()
+    if (this.props.toResolve && !this.props.fromProgram) this.getIndex()
   }
 
   componentDidUpdate(){

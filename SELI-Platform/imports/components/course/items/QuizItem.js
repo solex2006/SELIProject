@@ -75,11 +75,11 @@ export default class QuizItem extends React.Component {
     this.setState({
       time: timeLimit* 60 * 1000
     })
-    if (!this.props.fromProgram) this.checkResolved();
+    if (this.props.toResolve && !this.props.fromProgram) this.checkResolved();
   }
 
   componentWillReceiveProps() {
-    if (!this.props.fromProgram) this.checkResolved();
+    if (this.props.toResolve && !this.props.fromProgram) this.checkResolved();
   }
 
   startQuiz = () => {

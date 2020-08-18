@@ -590,7 +590,7 @@ var PORTUGUESE = {
   preview: "Pré-visualização",
   firstAddSomeContent: "Primeiro adicione algum conteúdo, por favor",
   audioDescriptionUpload_button: "Clique no botão para fazer upload de uma descrição de áudio",
-  captions: "Legendas descritivas",
+  Captions: "Legendas descritivas",
   settings: "Configurações",
   URL: "URL",
   accessibility: "Acessibilidade",
