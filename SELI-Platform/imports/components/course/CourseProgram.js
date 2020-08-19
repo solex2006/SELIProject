@@ -120,6 +120,7 @@ export default class CourseProgram extends React.Component {
           this.contentHandleClickOpen();
           let a = e;
           if (templateCode) {
+            a.addedIndex = this.state.arrayOfItems.length;
             a.payload.code = templateCode;
           }
           this.relativeProgramCommons("drag", a);
@@ -448,7 +449,6 @@ export default class CourseProgram extends React.Component {
   }
 
   render() {
-    console.log(this.state.contentToEdit)
     return(
       <div>
         {this.state.arrayOfItems && (

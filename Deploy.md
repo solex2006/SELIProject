@@ -3,11 +3,14 @@
 
 ## Before Deployment
 
+Install in your machine NODE JS (version upper than 12.x) and METEOR (version 1.8.1).
+
 run: 
 
 ```
 cd SELI-Platform
-sudo npm install
+npm install
+npm install --global mup
 mkdir .deploy
 cd .deploy
 mup init
@@ -50,11 +53,9 @@ In ".deploy/settings.json" fill the variables according with the parameters of y
 
 ## Deployment
 
-After right configurations run:
+One step before deployment is to create the directory /opt/Seli/UploadFiles in the root directory of your operating system and give to it permissions to read, write and delete. Finally after right configurations, in .deploy folder run:
 
 ```
-export METEOR_ALLOW_SUPERUSER=true
 mup setup
-sudo mup start
 mup deploy
 ```
