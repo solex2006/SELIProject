@@ -219,7 +219,7 @@ export default class TutorRequestList extends React.Component {
                 <div>
                   <DialogContentText style={{padding: "0 1vw"}}>Are you sure you want to approve this request?</DialogContentText>
                   <DialogActions>
-                    <Button onClick={() => this.activateAccount()} color="primary">Yes</Button>
+                    <Button variant="outlined" onClick={() => this.activateAccount()} color="primary">Yes</Button>
                     <Button onClick={() => this.handleClose()} color="primary">No</Button>
                   </DialogActions>
                 </div>

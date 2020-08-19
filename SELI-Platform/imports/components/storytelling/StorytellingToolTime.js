@@ -1222,7 +1222,7 @@ class StorytellingToolTime extends React.Component {
                   <Button onClick={() => this.handleClose()} color="primary" autoFocus>
                     {this.props.language.cancel}
                   </Button>
-                  <Button onClick={() => this.deleteNode()} color="primary" autoFocus>
+                  <Button variant="outlined" onClick={() => this.deleteNode()} color="primary" autoFocus>
                     {this.props.language.confirm}
                   </Button>
                 </DialogActions>

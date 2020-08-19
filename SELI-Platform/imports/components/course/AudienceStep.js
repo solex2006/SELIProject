@@ -798,13 +798,13 @@ export default function AudienceApp(props) {
           <WarningIcon className="warning-dialog-icon"/> 
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setopen(false)} color="primary">No</Button>
-          <Button onClick={() => {
+          <Button color="primary" onClick={() => setopen(false)} color="primary">No</Button>
+          <Button variant="outlined"  color="primary" onClick={() => {
             //setdeleteDialog(true)
             deleteAudience(indexdelete);
             setopen(false)
           }} 
-          color="primary"><em>Yes</em></Button> 
+          ><em>Yes</em></Button> 
         </DialogActions>
       </Dialog>
     </div>

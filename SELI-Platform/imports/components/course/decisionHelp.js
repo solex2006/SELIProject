@@ -273,7 +273,6 @@ export default function DecisionHelpStepper(props) {
               <div className={classes.actionsContainer}>
                 <Button
                   disabled={steps[activeStep].no === ""}
-                  variant="contained"
                   color="secondary"
                   onClick={handleBack}
                   className={classes.button}
@@ -281,8 +280,8 @@ export default function DecisionHelpStepper(props) {
                   No
                 </Button>
                 <Button
+                  variant="outlined"
                   disabled={steps[activeStep].yes === ""}
-                  variant="contained"
                   color="primary"
                   onClick={handleNext}
                   className={classes.button}

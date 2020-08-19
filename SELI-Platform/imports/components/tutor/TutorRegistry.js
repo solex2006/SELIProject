@@ -101,7 +101,7 @@ export default class TutorRegistry extends React.Component {
             <Button  onClick={this.handleClose} color="primary">
               No
             </Button>
-            <Button onClick={() => this.delete()} color="primary" autoFocus>
+            <Button variant="outlined" onClick={() => this.delete()} color="primary" autoFocus>
               Yes
             </Button>
           </DialogActions>

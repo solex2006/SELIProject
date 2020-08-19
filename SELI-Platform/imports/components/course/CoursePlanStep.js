@@ -354,7 +354,7 @@ export default function CoursePlanStep(props) {
             <Button onClick={() => handleClose()} color="primary" autoFocus>
               {language.cancel}
             </Button>
-            <Button onClick={() => deleteOrganization()} color="primary" autoFocus>
+            <Button variant="outlined" onClick={() => deleteOrganization()} color="primary" autoFocus>
               {language.continue}
             </Button>
           </DialogActions>

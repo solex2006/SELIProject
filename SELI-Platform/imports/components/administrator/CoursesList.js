@@ -228,7 +228,7 @@ export default class CoursesList extends React.Component {
                   <DialogContentText style={{padding: "0 1vw"}}>{this.state.dialog.dialogConfirmationContentText}</DialogContentText>
                   <DialogActions>
                     <Button onClick={() => this.handleClose()} color="primary">Cancel</Button>
-                    <Button onClick={() => this.state.confirmAction()} color="primary">{this.state.dialog.confirmActionLabel}</Button>
+                    <Button variant="outlined" onClick={() => this.state.confirmAction()} color="primary">{this.state.dialog.confirmActionLabel}</Button>
                   </DialogActions>
                 </div>
               :

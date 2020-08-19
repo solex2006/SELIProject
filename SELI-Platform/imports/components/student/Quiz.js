@@ -399,7 +399,7 @@ class Quiz extends React.Component {
           :
           undefined
         } 
-        <Button  onClick={()=>this.handleClosepublish()} color="primary" autoFocus>
+        <Button variant="outlined" onClick={()=>this.handleClosepublish()} color="primary" autoFocus>
         {this.props.language.continue}
         </Button>
       </DialogActions>

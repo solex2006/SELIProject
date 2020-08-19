@@ -323,7 +323,7 @@ export default class QuizItem extends React.Component {
             }
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.handleCloseScore()} color="primary" autoFocus>
+            <Button variant="outlined" onClick={() => this.handleCloseScore()} color="primary" autoFocus>
               {this.props.language.ok}
             </Button>
           </DialogActions>

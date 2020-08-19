@@ -290,7 +290,7 @@ export default class AppBar extends React.Component {
             <CheckCircleIcon className="success-dialog-icon"/>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.handleCloseDialog()} color="secondary" variant="contained" autoFocus>
+            <Button onClick={() => this.handleCloseDialog()} color="secondary" variant="outlined" autoFocus>
               {this.props.language.ok}
             </Button>
           </DialogActions>

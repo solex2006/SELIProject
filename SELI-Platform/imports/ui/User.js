@@ -852,7 +852,7 @@ export default class User extends React.Component {
                     <Button onClick={() => this.handleCloseSave()} color="primary" autoFocus>
                       {this.state.language.no}
                     </Button>
-                    <Button onClick={() => this.saveCourse()} color="primary" autoFocus>
+                    <Button variant="outlined" onClick={() => this.saveCourse()} color="primary" autoFocus>
                       {this.state.language.yes}
                     </Button>
                   </DialogActions>

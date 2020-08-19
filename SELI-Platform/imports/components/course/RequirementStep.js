@@ -744,7 +744,7 @@ const handleDeleteSoftwares = (index) => () => {
             </DialogContent>
               <DialogActions>
                 <Button onClick={() => setopen(false)} color="primary">No</Button>
-                <Button onClick={() => {
+                <Button variant="outlined" onClick={() => {
                   flagdeleteHardware===true? deleteHardware(indexdelete) : flagdeleteSoftware===true?  deleteSoftware(indexdelete):undefined
                   setopen(false)
                 }} 

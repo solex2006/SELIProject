@@ -389,7 +389,7 @@ export default class UserRegistration extends React.Component {
                         <CheckCircleIcon className="success-dialog-icon"/>
                       </DialogContent>
                       <DialogActions>
-                        <Button onClick={() => this.handleClose()} color="secondary" variant="contained" autoFocus>
+                        <Button onClick={() => this.handleClose()} color="secondary" variant="outlined" autoFocus>
                           {this.state.language.ok}
                         </Button>
                       </DialogActions>
@@ -441,7 +441,7 @@ export default class UserRegistration extends React.Component {
                         <CheckCircleIcon className="success-dialog-icon"/>
                       </DialogContent>
                       <DialogActions>
-                        <Button onClick={() => this.handleClose()} color="secondary" variant="contained" autoFocus>
+                        <Button onClick={() => this.handleClose()} color="secondary" variant="outlined" autoFocus>
                           {this.state.language.ok}
                         </Button>
                       </DialogActions>

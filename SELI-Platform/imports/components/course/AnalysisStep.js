@@ -1460,14 +1460,14 @@ export default function AnalysisStep(props) {
       </Grid>
    
       <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-          <DialogTitle className="success-dialog-title" id="simple-dialog-title">{labels.Deletingaudience}</DialogTitle>
+          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Delete Requirement</DialogTitle>
             <DialogContent className="success-dialog-content">
           <DialogContentText style={{padding: "0 1vw"}}> {labels.dialog1} {labelindexdelete}. {labels.dialog2}</DialogContentText>
               <WarningIcon className="warning-dialog-icon"/> 
             </DialogContent>
             <DialogActions>
               <Button onClick={() => setopen(false)} color="primary">No</Button>
-              <Button onClick={() => {
+              <Button variant="outlined" onClick={() => {
                 console.log("tipo a borrar", typetodelete)
                 if(typetodelete==='LearningObjectives'){
                   deleteLearning(indexdelete,categori)
