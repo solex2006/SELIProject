@@ -1137,7 +1137,8 @@ var SPANISH = {
   viewJSON: "Ver JSON",
   selectBadgeImage: "Seleccionar imagen del emblema",
   chooseOrUploadBadgeImage: "Eliga o suba la imagen del emblema",
-
+  agree: "De acuerdo",
+  badgeAwardMessage: "Felicidades! Ganaste el emblema",
 }
 export default SPANISH
 

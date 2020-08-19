@@ -1137,6 +1137,7 @@
   viewJSON: "View JSON-translate to polish",
   selectBadgeImage: "Select your badge image-translate to polish",
   chooseOrUploadBadgeImage: "Choose or upload badge image-translate to polish",
-
+  agree: "Agree-translate to polish",
+  badgeAwardMessage: "Congratulations! You won the badge-translate to polish",
 }
 export default POLISH;

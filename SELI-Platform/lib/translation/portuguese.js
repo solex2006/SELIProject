@@ -1137,6 +1137,7 @@ var PORTUGUESE = {
   viewJSON: "View JSON-translate to portuguese",
   selectBadgeImage: "Select your badge image-translate to portuguese",
   chooseOrUploadBadgeImage: "Choose or upload badge image-translate to portuguese",
-
+  agree: "Agree-translate to portuguese",
+  badgeAwardMessage: "Congratulations! You won the badge-translate to portuguese",
 }
 export default PORTUGUESE;

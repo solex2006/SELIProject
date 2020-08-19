@@ -335,6 +335,7 @@ export default class QuizItem extends React.Component {
             <BadgeNotification
               modalOpen = {true} 
               badgeInformation={this.props.item.attributes.badgeInformation}
+              language={this.props.language}
             />
 
           }

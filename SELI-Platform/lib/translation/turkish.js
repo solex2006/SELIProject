@@ -1137,5 +1137,7 @@ var TURKISH = {
   viewJSON: "View JSON-translate to turkish",
   selectBadgeImage: "Select your badge image-translate to turkish",
   chooseOrUploadBadgeImage: "Choose or upload badge image-translate to turkish",
+  agree: "Agree-translate to turkish",
+  badgeAwardMessage: "Congratulations! You won the badge-translate to turkish",
 }
 export default TURKISH;

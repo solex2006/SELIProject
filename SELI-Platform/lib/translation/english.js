@@ -1137,6 +1137,9 @@ var ENGLISH = {
   clear: "Clear",
   viewJSON: "View JSON",
   selectBadgeImage: "Select your badge image",
-  chooseOrUploadBadgeImage: "Choose or upload badge image"
+  chooseOrUploadBadgeImage: "Choose or upload badge image",
+  agree: "Agree",
+  badgeAwardMessage: "Congratulations! You won the badge",
+
 }
 export default ENGLISH;
