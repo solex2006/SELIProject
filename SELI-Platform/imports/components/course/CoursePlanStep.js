@@ -81,7 +81,23 @@ export default function CoursePlanStep(props) {
     setCourseStructure(courseInformation.coursePlan.courseStructure);
   },[])
 
+ 
+
+  
+  const [courseInformation, setCourseInformation]=React.useState(props.courseInformation);
+  const [coursePlan, setCoursePlan] = React.useState('');
+  const [courseTemplate, setCourseTemplate] = React.useState('');
+  const [newTemplate, setNewTemplate] = React.useState('');
+  const [courseStructure, setCourseStructure] = React.useState('');
+  const [changeStructure, setChangeStructure] = React.useState(false);
+  const [changeSylabus, setchangeSylabus] = React.useState('');
+  const [flagSylabus, setflagSylabus] = React.useState(undefined);
+  // will hold a reference for our real input file
+  let inputFile = "";
+
+
   useEffect(()=>{// guided spiral unit
+    console.log("courseInformation al actualizar ael silabo******************", props.courseInformation)
     if(coursePlan==='guided' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
         props.validate('passCoursePlan')
     }
@@ -92,22 +108,16 @@ export default function CoursePlanStep(props) {
       props.validate('passCoursePlanFree')
     }
     else if(coursePlan==='free' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
-      props.validate('passCoursePlanFree')
+      if(flagSylabus===true){
+        props.validate('passCoursePlanFree')
+      }else{
+        props.validate('NopassCoursePlan')
+      }   
     }
     else{
       props.validate('NopassCoursePlan')
     }
   })
-
-  const [courseInformation, setCourseInformation]=React.useState(props.courseInformation);
-  const [coursePlan, setCoursePlan] = React.useState('');
-  const [courseTemplate, setCourseTemplate] = React.useState('');
-  const [newTemplate, setNewTemplate] = React.useState('');
-  const [courseStructure, setCourseStructure] = React.useState('');
-  const [changeStructure, setChangeStructure] = React.useState(false);
-  const [changeSylabus, setchangeSylabus] = React.useState('');
-  // will hold a reference for our real input file
-  let inputFile = "";
   const handleChange = type => event => {
     let cinformation=courseInformation;
     if (type === 'coursePlan') {
@@ -176,8 +186,17 @@ export default function CoursePlanStep(props) {
     setCourseInformation(courseInformation)
     setchangeSylabus(Math.random())
   }
+  const loadSylabus=(file)=>{
+   // console.log("loadSylabus-------->",file)
+    if (file!=undefined){
+      setflagSylabus(true)
+    }
+  }
+
 
   useEffect(()=>{
+   // console.log("cambio silabo")
+    setflagSylabus(undefined)
   },[changeSylabus])
 
   return (
@@ -210,6 +229,7 @@ export default function CoursePlanStep(props) {
         {courseInformation.coursePlan.guidedCoursePlan === "free" && (
             //courseInformation.sylabus === undefined ?
             <PdfFormulario
+              loadSylabus={loadSylabus}
               courseInformation={props.courseInformation}
               handleControlMessage={props.handleControlMessage.bind(this)}
               language={props.language}

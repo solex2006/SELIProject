@@ -15,11 +15,17 @@ export default class FormPreview extends React.Component {
   }
 
   setSelected(){}
+  pasar(){
+    if(this.props.loadSylabus!=undefined){
+      this.props.loadSylabus(this.props.file)
+    }
+  
+  } 
 
   render() {
     return(
       <div className="form-file-selected-container">
-        {console.log("form preview", this.props)}
+        {console.log("form preview", this.props, this.pasar())}
         <div className="form-file-selected-actions">
           <Tooltip title={this.props.type === "image" ? "Change course image" : "Change course sylabus"} aria-label="edit">
            

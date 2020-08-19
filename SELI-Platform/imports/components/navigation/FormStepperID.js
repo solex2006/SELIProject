@@ -260,13 +260,18 @@ export default function FormStepperID(props) {
         console.log("newActiveStep,activeStep****************", newActiveStep,activeStep)
    if(props.coursePlan.guidedCoursePlan==='free'){
       if(newActiveStep!=3){
-        setActiveStep(newActiveStep);  
-        if((newActiveStep==4) && stepStatus.completed.has(0) && stepStatus.completed.has(1) ){
+        if(newActiveStep==1){
+          setActiveStep(newActiveStep);
+        }else if(newActiveStep===2  && stepStatus.completed.has(0) && stepStatus.completed.has(1) ){
+          setActiveStep(newActiveStep);
+        }
+
+        if((newActiveStep==4) && stepStatus.completed.has(0) && stepStatus.completed.has(1)  && stepStatus.completed.has(3) ){
           setActiveStep(newActiveStep+1);
         }else if((newActiveStep==6) && stepStatus.completed.has(0) && stepStatus.completed.has(1) && stepStatus.completed.has(3) && stepStatus.completed.has(5) ){
           setActiveStep(newActiveStep);
         }else if((newActiveStep==7) && stepStatus.completed.has(0) && stepStatus.completed.has(1) && stepStatus.completed.has(3) 
-        && stepStatus.completed.has(4) && stepStatus.completed.has(5)){
+        && stepStatus.completed.has(5)){
            setStepStatus(prev=>{
             return {... prev, completed:prev.completed.add(6)}
           }) 
@@ -274,7 +279,8 @@ export default function FormStepperID(props) {
         }
       }
       else{
-        if(newActiveStep==3 && stepStatus.completed.has(0) && stepStatus.completed.has(1)){
+        console.log("step 3333333333333333333",stepStatus.completed)
+        if(newActiveStep==3 && stepStatus.completed.has(0) && stepStatus.completed.has(1) ){
           setActiveStep(newActiveStep);
         }else if(newActiveStep==5 && stepStatus.completed.has(4)){
           setActiveStep(newActiveStep);
@@ -322,36 +328,30 @@ export default function FormStepperID(props) {
       setvalidateInformation(stepstatus1)
     }
 
-    //disable options
-    /* else if((newActiveStep==6) && stepStatus.completed.has(0) && stepStatus.completed.has(1) && stepStatus.completed.has(3) && stepStatus.completed.has(4) && stepStatus.failed.has(5)){
-
-         stepStatus.completed.delete(6,7);
-         stepStatus.failed.add(5);
-         stepStatus.disabled.add(6,7); 
-         setStepStatus(stepStatus)
-
-         setStepStatus(prev=>{
-          let newFailed = new Set(stepStatus.failed.values());
-          let newCompleted = new Set(stepStatus.completed.values());
-          newFailed.delete(5);
-          let newDisabled = new Set(stepStatus.disabled.values());
-          
-          newCompleted.delete(7);
-          newDisabled.add(6);
-          newDisabled.add(7);
-          return {... prev, completed:newCompleted ,failed:newFailed, disabled:newDisabled}
-        })
-    } */
+    
    }
   }
 
-  function handleSkip(){
-
-  }
+  
 
   function handleBack() {
     console.log("handleback in stepper ID")
+    const newActiveStep =
+      isLastStep() && !allStepsCompleted()
+        ? // It's the last step, but not all steps have been completed,
+          // find the first step that has been completed
+          steps.findIndex((step, i) => !(i in completed))
+        : activeStep - 1;
     activeStep === 0 ? setActiveStep(prevActiveStep => steps.length - 1) : setActiveStep(prevActiveStep => prevActiveStep - 1);
+
+    if(props.coursePlan.guidedCoursePlan==='free'){
+      
+        if((newActiveStep==4) && stepStatus.completed.has(0) && stepStatus.completed.has(1)  ){
+          setActiveStep(newActiveStep-1);
+        }
+      
+      
+   }
   }
 
   const handleStep = step => () => {
@@ -575,11 +575,19 @@ useEffect(()=>{
   }else if(props.updateSteps==='NopassCoursePlan'){
     setStepStatus(prev=>{
       let newCompleted = new Set(stepStatus.completed.values());
+      let newDisabled = new Set(stepStatus.disabled.values());
       newCompleted.delete(3);
+      newDisabled.add(5);
+      newDisabled.add(6);
+      newDisabled.add(7);
+      newCompleted.delete(5);
+      newCompleted.delete(6);
+      newCompleted.delete(7);
       return {
         ...prev, 
         failed:prev.failed.add(3),
-        completed: newCompleted
+        completed: newCompleted,
+        disabled:newDisabled
        }
     })
     let stepstatus1=props.forms[0].props.courseInformation.stepscompleted
@@ -590,16 +598,22 @@ useEffect(()=>{
   
    
   if(props.updateSteps==='passCourseAnalysis'){
+
     let newDisabled = new Set(stepStatus.disabled.values());
     let newCompleted= new Set(stepStatus.completed.values());
-  
+
     props.forms[0].props.courseInformation.stepscompleted.map((pass,index)=>{
       newCompleted.add(pass)
       newDisabled.delete(pass)
     })
     setStepStatus(prev=>{
-      return {... prev, completed:newCompleted}
+      return {... prev, completed:newCompleted, disabled:newDisabled}
     })
+
+
+
+
+
     setStepStatus(prev=>{
       let newDisabled = new Set(stepStatus.disabled.values());
       newDisabled.delete(5);
@@ -618,15 +632,19 @@ useEffect(()=>{
       let newDisabled = new Set(stepStatus.disabled.values());
       newCompleted.delete(4);
       newCompleted.delete(7);
+      newCompleted.delete(5);
+      newCompleted.delete(6);
+  
       //newCompleted.delete(5);
-      newDisabled.add(5,6);
+      newDisabled.add(5);
+      newDisabled.add(6);
       newDisabled.add(7);
-      console.log("No paso el analysis",newCompleted )
       return {
         ...prev, 
         failed:prev.failed.add(4),
         completed: newCompleted,
-        disabled:newDisabled
+        disabled:newDisabled,
+        
        }
     })
     let stepstatus1=props.forms[0].props.courseInformation.stepscompleted
@@ -638,7 +656,7 @@ useEffect(()=>{
   if(props.updateSteps==='passCourseDesign'){
     stepStatus.disabled.delete(5)
     stepStatus.disabled.delete(6)
-    stepStatus.disabled.delete(7)
+    //stepStatus.disabled.delete(7)
     stepStatus.completed.add(5)
     setStepStatus(stepStatus)
     setStepStatus(prev=>{
@@ -661,8 +679,10 @@ useEffect(()=>{
     setStepStatus(prev=>{
       let newCompleted = new Set(stepStatus.completed.values());
       let newDisabled = new Set(stepStatus.disabled.values());
-      newCompleted.delete(5,6);
+      newCompleted.delete(5);
+      newCompleted.delete(6);
       newCompleted.delete(7);
+     // newDisabled.add(5);
       newDisabled.add(6);
       newDisabled.add(7);
       return {

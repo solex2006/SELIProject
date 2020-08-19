@@ -7,28 +7,15 @@ import Avatar from '@material-ui/core/Avatar';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
 import VerticalTab from '../tools/VerticalTab';
-import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
-import { createContentItems } from '../../../lib/contentMenuItemsCreator';
-/* Dialog */
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-/* Content Forms */
-import PdfPreview from '../../components/files/previews/PdfPreview'
+
 import PdfForm from '../content/PdfForm';
 import FormPreview from '../files/previews/FormPreview'
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import AppsIcon from '@material-ui/icons/Apps';
+
 import Fab from '@material-ui/core/Fab';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import VerticalPanel from './templates/VerticalPanel';
-//Teamplates
-import FreeWithout from './templates/FreeWithout';
-import TemplateParent from './templates/TemplateParent';
+
 
 export default class PdfFormulario extends React.Component {
   constructor(props) {
@@ -195,6 +182,7 @@ export default class PdfFormulario extends React.Component {
             />
          :
          <FormPreview
+              loadSylabus={this.props.loadSylabus}
               file={this.props.courseInformation.sylabus}
               type="pdf"
               courseSyllabus={this.props.language.courseSyllabus}
