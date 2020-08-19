@@ -164,6 +164,9 @@ const a11yCOLOR = [
 ];
 
 export default function ReportStep(props) {
+	useEffect(()=>{// 
+		 props.validate('PassReport')    
+	})
    //console.clear()
 	const classes = useStyles();
 	const { courseInformation,language } = props;
@@ -2080,6 +2083,9 @@ export default function ReportStep(props) {
 		
 	);
 }
+
+
+
 
 function Chart({ percent, id, flagmesage }) {
 	const classes = useStyles();

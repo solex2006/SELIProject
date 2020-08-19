@@ -83,15 +83,16 @@ export default function RequirementStep(props) {
 
   useEffect(()=>{
     //ve si al menos uno esta en true
-      if(otherHardware.length==2){
-         if(otherHardware[1].editing===false ){
+    console.log("REQUIREMENTS STEP",otherHardware, otherSoftwares )
+      if(otherHardware){
+         
           props.validate('passRequirements')
-        } 
+        
        
-      }else if(otherSoftwares.length==2){
-        if(otherSoftwares[1].editing===false ){
+      }else if(otherSoftwares){
+        
           props.validate('passRequirements')
-        } 
+        
 
       }
   })
