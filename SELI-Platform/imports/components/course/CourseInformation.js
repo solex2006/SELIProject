@@ -12,7 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import InputMask from "react-input-mask";
 import Input from "@material-ui/core/TextField";
 import FeedbackHelp from "./feedback";
-import PositionedSnackbar from './../../../imports/components/content/ContentAlert'
+
 export default class CourseInformation extends React.Component {
   constructor(props) {
     super(props);
@@ -23,34 +23,30 @@ export default class CourseInformation extends React.Component {
     }
   }
 
-componentDidMount(){
-  console.log("En el step informationDidmount*************",this.state.courseInformation)
-  if(this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
-     && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
-     && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
-     ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3)){
+  componentDidMount(){
+    if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
+        && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
+        && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
+        ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3)){
       this.props.validate('passInformation')
-      }else{
-        this.props.validate('NopassInformation')
-      }
-}
+    } else {
+      this.props.validate('NopassInformation')
+    }
+  }
 
-componentDidUpdate() {
-    
-    //props.validate('passAudience')
-    console.log("En el step information update*************",this.state.courseInformation)
-    if(this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
-     && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
-     && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
-     ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3)){
+  componentDidUpdate(prevProps, prevState) {
+    if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
+        && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
+        && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
+        ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3)){
       this.props.validate('passInformation')
-      }else{
-        this.props.validate('NopassInformation')
-      }
-      
-
-    //if(validate===false){ props.validate('NopassAudience')}
-}
+    } else {
+      this.props.validate('NopassInformation')
+    }
+    if (prevProps.cancelCounter !== this.props.cancelCounter) {
+      this.setState({courseInformation: this.props.courseInformation})
+    }
+  }
 
   handleChange = name => event => {
     let courseInformation = this.state.courseInformation;

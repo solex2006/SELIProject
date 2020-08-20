@@ -63,10 +63,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AudienceApp(props) {
-  const { handleComplete, handleSkip, completed, skiped, courseInformation,language } = props;
+  const { handleComplete, handleSkip, completed, skiped, courseInformation, cancelCounter, language } = props;
   const classes = useStyles();
   //update state of checkboxes
+
   useEffect(() => {
+    loadingData();
+  }, []); 
+
+  useEffect(() => {
+    loadingData();
+  }, [cancelCounter]);
+
+  loadingData = () => {
     if (courseInformation.support.length != 0) {
       if (courseInformation.support[0] && courseInformation.support[0].length) setAudiences(courseInformation.support[0]);
       if (courseInformation.support[1] && courseInformation.support[1].length) setAudiencesGol(courseInformation.support[1]);
@@ -80,7 +89,7 @@ export default function AudienceApp(props) {
     if(courseInformation.accessibility.length!=0){
       setaudienceTooltip(courseInformation.accessibility[0]) 
     }
-  }, []); 
+  }
 
   useEffect(()=>{
     //ve si al menos uno esta en true

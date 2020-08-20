@@ -9,6 +9,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import tutorProfile from '../../../lib/tutorProfile';
@@ -117,7 +118,7 @@ export default class MainMenu extends React.Component {
          
           }
           onStateChange={(state) => this.handleMenuStateChange(state)}>
-          <div  onClick={() => this.showComponent("home")} className="menu-title">{this.props.language.seliLearningPlatform}</div>
+          <Button  onClick={() => this.showComponent("home")} className="menu-title">{this.props.language.seliLearningPlatform}</Button>
           <Divider className="user-menu-profile-divider" light={true}/>
           <div className="options-container">
             {

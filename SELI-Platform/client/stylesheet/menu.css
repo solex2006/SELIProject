@@ -87,18 +87,20 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .menu-title {
-  display: flex;
-  letter-spacing: 2px;
-  height: auto;
-  font-size: 1.2em;
-  text-align: center;
-  text-transform: uppercase;
-  color: var(--white);
-  margin-top: 5vh;
-  margin-bottom: 3.5vh;
-  transition: 0.5s;
-  text-decoration: none;
-  padding: 0 5vw;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  letter-spacing: 2px !important;
+  height: auto !important;
+  font-size: 1.2em !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+  color: var(--white) !important;
+  margin-top: 5vh !important;
+  margin-bottom: 3.5vh !important;
+  transition: 0.5s !important;
+  text-decoration: none !important;
+  max-width: 100% !important;
 }
 
 .primary-color-text {
