@@ -1139,6 +1139,8 @@ var SPANISH = {
   chooseOrUploadBadgeImage: "Eliga o suba la imagen del emblema",
   agree: "De acuerdo",
   badgeAwardMessage: "Felicidades! Ganaste el emblema",
+  removeBadge: "Quitar emblema",
+  addBadge: "Agregar emblema",
 }
 export default SPANISH
 

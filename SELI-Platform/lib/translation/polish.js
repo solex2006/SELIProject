@@ -1139,5 +1139,7 @@
   chooseOrUploadBadgeImage: "Choose or upload badge image-translate to polish",
   agree: "Agree-translate to polish",
   badgeAwardMessage: "Congratulations! You won the badge-translate to polish",
+  removeBadge: "Remove badge-translate to polish",
+  addBadge: "Add badge-translate to polish",
 }
 export default POLISH;

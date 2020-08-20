@@ -1139,5 +1139,7 @@ var TURKISH = {
   chooseOrUploadBadgeImage: "Choose or upload badge image-translate to turkish",
   agree: "Agree-translate to turkish",
   badgeAwardMessage: "Congratulations! You won the badge-translate to turkish",
+  removeBadge: "Remove badge-translate to turkish",
+  addBadge: "Add badge-translate to turkish",
 }
 export default TURKISH;

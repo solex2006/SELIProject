@@ -1140,6 +1140,7 @@ var ENGLISH = {
   chooseOrUploadBadgeImage: "Choose or upload badge image",
   agree: "Agree",
   badgeAwardMessage: "Congratulations! You won the badge",
-
+  removeBadge: "Remove badge",
+  addBadge: "Add badge",
 }
 export default ENGLISH;

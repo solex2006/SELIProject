@@ -1139,5 +1139,7 @@ var PORTUGUESE = {
   chooseOrUploadBadgeImage: "Choose or upload badge image-translate to portuguese",
   agree: "Agree-translate to portuguese",
   badgeAwardMessage: "Congratulations! You won the badge-translate to portuguese",
+  removeBadge: "Remove badge-translate to portuguese",
+  addBadge: "Add badge-translate to portuguese",
 }
 export default PORTUGUESE;

@@ -558,7 +558,7 @@ myFormatminutes=(num)=> {
             <FormGroup>
               <FormControlLabel
                 control={<Switch onChange={this.handleChange('allowBadge')} value="allowBadge" />}
-                label={this.state.showBadgeOptions?"Remove badge":"Add badge"}
+                label={this.state.showBadgeOptions?this.props.language.removeBadge:this.props.language.addBadge}
               />
             </FormGroup>
           </FormControl>
@@ -584,7 +584,7 @@ myFormatminutes=(num)=> {
                           user={Meteor.userId()}
                           accept={this.state.accept}
                           getFileInformation={this.getBadgeInformation.bind(this)}
-                          label="Upload your badge photo"
+                          label={this.props.language.selectBadgeImage}
                         />
                       </div>
                   }
