@@ -1,6 +1,7 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import VideoThumbnail from 'react-video-thumbnail';
+import ReactPlayer from 'react-player';
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import Grid from "@material-ui/core/Grid";
 
@@ -15,6 +16,8 @@ export default class MediaGallery extends React.Component {
 	openFullScreen = (media) => {
 		if (this.props.openMedia) this.props.openMedia(media);
 	}
+
+	onClick = () => {}
 
   render() {
     return(
@@ -87,12 +90,27 @@ export default class MediaGallery extends React.Component {
 											<div 
 												className="template-video-gallery-preview"
 											>
-												<VideoThumbnail
-													videoUrl={tile.attributes.video.link}
-													//thumbnailHandler={(thumbnail) => console.log(thumbnail)}
-													width={300}
-													height={268}
-												/>
+												{
+													tile.attributes.source === "upload" ?
+														<VideoThumbnail
+															videoUrl={tile.attributes.video.link}
+															//thumbnailHandler={(thumbnail) => console.log(thumbnail)}
+															width={300}
+															height={268}
+														/>
+													:
+														<React.Fragment>
+															<ReactPlayer
+																url={tile.attributes.video.link}
+																className="template-video-preview-external"
+																controls={false}
+																light={true}
+																onClick={this.onClick}
+																playIcon={null}
+															/>
+															<div className="template-video-preview-external-overlay"/>
+														</React.Fragment>
+												}
 											</div>
 										</React.Fragment>
 								}

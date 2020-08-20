@@ -1490,6 +1490,7 @@ class StorytellingTool extends React.Component {
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
           maxWidth={false}
+          disableBackdropClick={true}
         >
           {
             this.state.action === "delete" ?
@@ -1507,7 +1508,7 @@ class StorytellingTool extends React.Component {
                   <Button onClick={() => this.handleClose()} color="primary" autoFocus>
                     {this.props.language.cancel}
                   </Button>
-                  <Button onClick={() => this.deleteNode()} color="primary" autoFocus>
+                  <Button variant="outlined" onClick={() => this.deleteNode()} color="primary" autoFocus>
                     {this.props.language.confirm}
                   </Button>
                 </DialogActions>
@@ -1742,6 +1743,7 @@ class StorytellingTool extends React.Component {
           onClose={this.handleClosepublish}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
         >
           {
             this.state.action === "boxpubshow" ?

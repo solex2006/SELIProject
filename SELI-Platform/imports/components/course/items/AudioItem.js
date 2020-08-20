@@ -5,12 +5,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import Link from '@material-ui/core/Link';
-
+import TextAlternatives from '../../accessibility/alternative/TextAlternatives';
 import AudioPlayer from 'react-h5-audio-player';
-import CheckboxLabels from './CheckBox';
-import Grid from '@material-ui/core/Grid';
-import { Editor, EditorState, convertFromRaw } from "draft-js";
-
+//import CheckboxLabels from './CheckBox';
 
 export default class AudioItem extends React.Component {
   constructor(props) {
@@ -51,72 +48,46 @@ export default class AudioItem extends React.Component {
       })
     }
   }
-  checkBoxLabelsaudio=()=>{
-    return(
-      <div>
-        {
-          this.props.item.attributes.accessibility.dataField===undefined?
-                   undefined
-                   :
-                  <div className="checkBoxItem">          
-                      {
-                        this.props.item.attributes.accessibility.dataField.fileVideoSignal[0]!=null?
-                          <div className="checkboxstyle">
-                            
-                            <CheckboxLabels
-                                language={this.props.language}
-                                checkbox={this.checkbox}
-                                type="signLanguage"
-                                label={this.props.language.signLanguage}
-                            />
-                          </div>
-                          :
-                          undefined
-                      }
-                    </div>
-                }
-      </div>
-    )
-  }
 
-  checkBoxLabels=()=>{
+/*   checkBoxLabels=()=>{
     return(
       <div className="checkBoxItem">
         {
           this.props.item.attributes.accessibility.dataField===undefined?
-                   undefined
-                   :
-                  <div className="checkBoxItem">    
+            undefined
+          :
+            <div className="checkBoxItem">    
+                <div className="checkboxstyle">
+                  <CheckboxLabels
+                      language={this.props.language}
+                      checkbox={this.checkbox}
+                      type="shortLongDescription"
+                      label={this.props.language.textAlternatives}
+                  />
+                </div>
+                <div>
+                  {
+                    this.props.item.attributes.accessibility.isA11Y[2].is_a11y===true?
                       <div className="checkboxstyle">
                         <CheckboxLabels
                             language={this.props.language}
                             checkbox={this.checkbox}
-                            type="shortLongDescription"
-                            label={this.props.language.textAlternatives}
+                            type="captions"
+                            label={this.props.language.audioTranscription}
                         />
                       </div>
-                      <div>
-                        {
-                          /* this.props.item.attributes.accessibility.isA11Y[2].is_a11y===true?
-                            <div className="checkboxstyle">
-                              <CheckboxLabels
-                                  language={this.props.language}
-                                  checkbox={this.checkbox}
-                                  type="captions"
-                                  label={this.props.language.audioTranscription}
-                              />
-                            </div>
-                            :
-                            undefined */
-                        }
-                      </div>
-                     
-                  </div>
+                      :
+                      undefined
+                  }
+                </div>
+                
+            </div>
         }
         
       </div>
     )
   }
+
   checkbox=(event, name)=>{
     //console.log("event and name", event, name)
     if(event===true && name==='shortLongDescription'){
@@ -140,31 +111,20 @@ export default class AudioItem extends React.Component {
       player.pause()
         
     }
-  }
+  } */
+
   signalText=()=>{
     const contentState = convertFromRaw(this.props.item.attributes.accessibility.dataField.longDescription);
     const editorState = EditorState.createWithContent(contentState);
     return editorState
   }
+
   textAlternatives=()=>{
     return(
-      <div>
-        {//For text Alternatives
-            this.state.shortlongDescription==='shortlongDescription'?
-            <Grid container spacing={3}>
-              <Grid item xs={12}>       
-                  <div> 
-                    <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
-                    {this.props.item.attributes.accessibility.dataField.shortDescription}
-                    <Editor editorState={this.signalText()} readOnly={true}/>
-                  </div>
-              </Grid>
-              
-            </Grid>
-            :
-            undefined
-        }
-      </div>
+      <TextAlternatives
+        item={this.props.item}
+        language={this.props.language}
+      ></TextAlternatives>
     )
   }
 
@@ -178,11 +138,11 @@ export default class AudioItem extends React.Component {
             title="Live from space album cover"
           />
           <CardContent className="course-item-audio-card-content">
-            <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
-              {` ${this.props.item.attributes.title}`}
-            </Typography>
             <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
               {this.props.item.attributes.source === 'upload' ? this.props.language.audioFile : this.props.language.recordedAudio}
+            </Typography>
+            <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
+              {` ${this.props.item.attributes.title}`}
             </Typography>
           </CardContent>
         </div>
@@ -255,8 +215,6 @@ export default class AudioItem extends React.Component {
         var player = document.getElementById("audio");
         //console.log("audio update------------------------", this.state.captions)
         var speaking = document.getElementById("speaking");
-
-       
         //console.log("PLAYER",player)
 
         if( player!=null ){
@@ -293,7 +251,7 @@ export default class AudioItem extends React.Component {
         }
 }
 
-  allTranscription=()=>{
+/*   allTranscription=()=>{
     return(
       <div style={{display: this.state.captions==='captions'? "block" : "none"}}>
           <div id="id_video_box">
@@ -327,14 +285,14 @@ export default class AudioItem extends React.Component {
           </details>  
       </div>
     )
-  }
+  } */
 
   render() {
     return(
       <div className="content-box">
         <div className="image-content-item">
           <div className="audio-item-container">
-            {this.checkBoxLabels()}
+            {/* this.checkBoxLabels() */}
             {
               this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
                 this.textAlternatives()
@@ -342,19 +300,8 @@ export default class AudioItem extends React.Component {
                 undefined
             } 
             <Card raised className="course-item-audio-card">         
-              {
-                this.state.captions==="nocaptions"?
-                this.audioPlayer()
-                :
-                undefined
-              }
-            </Card>           
-            {
-              this.props.item.attributes.accessibility.dataField!=undefined ?
-                this.allTranscription()
-              :
-                undefined
-            }   
+              {this.audioPlayer()}
+            </Card> 
             {
               this.props.item.attributes.accessibility.dataField !=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
                 this.textAlternatives()

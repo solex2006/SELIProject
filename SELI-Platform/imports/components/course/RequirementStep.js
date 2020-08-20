@@ -83,15 +83,16 @@ export default function RequirementStep(props) {
 
   useEffect(()=>{
     //ve si al menos uno esta en true
-      if(otherHardware.length==2){
-         if(otherHardware[1].editing===false ){
+    console.log("REQUIREMENTS STEP",otherHardware, otherSoftwares )
+      if(otherHardware){
+         
           props.validate('passRequirements')
-        } 
+        
        
-      }else if(otherSoftwares.length==2){
-        if(otherSoftwares[1].editing===false ){
+      }else if(otherSoftwares){
+        
           props.validate('passRequirements')
-        } 
+        
 
       }
   })
@@ -735,7 +736,7 @@ const handleDeleteSoftwares = (index) => () => {
       </div>
    
 
-      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
           <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting Requirement</DialogTitle>
             <DialogContent className="success-dialog-content">
               <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
@@ -743,7 +744,7 @@ const handleDeleteSoftwares = (index) => () => {
             </DialogContent>
               <DialogActions>
                 <Button onClick={() => setopen(false)} color="primary">No</Button>
-                <Button onClick={() => {
+                <Button variant="outlined" onClick={() => {
                   flagdeleteHardware===true? deleteHardware(indexdelete) : flagdeleteSoftware===true?  deleteSoftware(indexdelete):undefined
                   setopen(false)
                 }} 

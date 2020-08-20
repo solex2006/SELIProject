@@ -135,7 +135,7 @@ function useWindowSize() {
 }
 
 export default function FormStepperID(props) {
-  //console.log("Active-STEP:------------>",props)
+  console.log("Active-STEP:------------>",props)
   const [validateInformation,setvalidateInformation]=useState({
     informationStep:props.forms[0].props.courseInformation,
   });
@@ -221,12 +221,11 @@ export default function FormStepperID(props) {
 
   const isStepFailed = step => {
     return stepStatus.failed.has(step);
-   
   };
 
   function getDisabled() {
     //if (addie) return new Set([3, 4, 5, 6, 7, 8]);
-    return new Set([3, 4, 5, 6]);
+    return new Set([3, 4, 5, 6,7]);
   }
 
 
@@ -257,32 +256,102 @@ export default function FormStepperID(props) {
           // find the first step that has been completed
           steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
-    //console.log("paso actual*****************", newActiveStep)
-   
-   if(props.coursePlan==='free'){
+  
+        console.log("newActiveStep,activeStep****************", newActiveStep,activeStep)
+   if(props.coursePlan.guidedCoursePlan==='free'){
       if(newActiveStep!=3){
-        setActiveStep(newActiveStep+3);
+        if(newActiveStep==1){
+          setActiveStep(newActiveStep);
+        }else if(newActiveStep===2  && stepStatus.completed.has(0) && stepStatus.completed.has(1) ){
+          setActiveStep(newActiveStep);
+        }
+
+        if((newActiveStep==4) && stepStatus.completed.has(0) && stepStatus.completed.has(1)  && stepStatus.completed.has(3) ){
+          setActiveStep(newActiveStep+1);
+        }else if((newActiveStep==6) && stepStatus.completed.has(0) && stepStatus.completed.has(1) && stepStatus.completed.has(3) && stepStatus.completed.has(5) ){
+          setActiveStep(newActiveStep);
+        }else if((newActiveStep==7) && stepStatus.completed.has(0) && stepStatus.completed.has(1) && stepStatus.completed.has(3) 
+        && stepStatus.completed.has(5)){
+           setStepStatus(prev=>{
+            return {... prev, completed:prev.completed.add(6)}
+          }) 
+          setActiveStep(newActiveStep);
+        }
       }
-   }else{
-      if(newActiveStep!=3 && newActiveStep!=5){
-        setActiveStep(newActiveStep);
-      }else {
-        if(newActiveStep==3 && stepStatus.completed.has(0) && stepStatus.completed.has(1)){
+      else{
+        console.log("step 3333333333333333333",stepStatus.completed)
+        if(newActiveStep==3 && stepStatus.completed.has(0) && stepStatus.completed.has(1) ){
           setActiveStep(newActiveStep);
         }else if(newActiveStep==5 && stepStatus.completed.has(4)){
           setActiveStep(newActiveStep);
         }
-      }
+        
+     }
+   }else{
+    console.log("****************", newActiveStep,stepStatus.completed)
+    if(newActiveStep==1){
+      setActiveStep(newActiveStep);
+    }else if(newActiveStep===2  && stepStatus.completed.has(0) && stepStatus.completed.has(1) ){
+      setActiveStep(newActiveStep);
+    }
+    else if((newActiveStep==3 || newActiveStep==4) && stepStatus.completed.has(0) && stepStatus.completed.has(1) ){
+      setActiveStep(newActiveStep);
+    }else if((newActiveStep==5) && stepStatus.completed.has(0) && stepStatus.completed.has(1) && stepStatus.completed.has(3) && stepStatus.completed.has(4) ){
+      setActiveStep(newActiveStep);
+    }else if((newActiveStep==6) && stepStatus.completed.has(0) && stepStatus.completed.has(1) && stepStatus.completed.has(3) && stepStatus.completed.has(4) && stepStatus.completed.has(5)){
+      setActiveStep(newActiveStep);
+      setStepStatus(prev=>{
+        return {... prev, completed:prev.completed.add(7)}
+      })
+      let stepstatus1=props.forms[0].props.courseInformation
+      stepstatus1.stepscompleted.push(7)
+      stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
+      setvalidateInformation(stepstatus1)
+    }else if((newActiveStep==7) && stepStatus.completed.has(0) && stepStatus.completed.has(1) && stepStatus.completed.has(3) 
+    && stepStatus.completed.has(4) && stepStatus.completed.has(5)){
+       setStepStatus(prev=>{
+        return {... prev, completed:prev.completed.add(6)}
+      }) 
+      let stepstatus1=props.forms[0].props.courseInformation
+      stepstatus1.stepscompleted.push(6)
+      stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
+      setvalidateInformation(stepstatus1)
+      setActiveStep(newActiveStep);
+    }else if (newActiveStep===0 && activeStep===7){
+       setActiveStep(newActiveStep);
+      setStepStatus(prev=>{
+        return {... prev, completed:prev.completed.add(7)}
+      })
+      let stepstatus1=props.forms[0].props.courseInformation
+      stepstatus1.stepscompleted.push(7)
+      stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
+      setvalidateInformation(stepstatus1)
+    }
+
+    
    }
   }
 
-  function handleSkip(){
-
-  }
+  
 
   function handleBack() {
     console.log("handleback in stepper ID")
+    const newActiveStep =
+      isLastStep() && !allStepsCompleted()
+        ? // It's the last step, but not all steps have been completed,
+          // find the first step that has been completed
+          steps.findIndex((step, i) => !(i in completed))
+        : activeStep - 1;
     activeStep === 0 ? setActiveStep(prevActiveStep => steps.length - 1) : setActiveStep(prevActiveStep => prevActiveStep - 1);
+
+    if(props.coursePlan.guidedCoursePlan==='free'){
+      
+        if((newActiveStep==4) && stepStatus.completed.has(0) && stepStatus.completed.has(1)  ){
+          setActiveStep(newActiveStep-1);
+        }
+      
+      
+   }
   }
 
   const handleStep = step => () => {
@@ -327,7 +396,6 @@ const save=()=>{
 // let reportflag=props.reportflag
  useEffect(()=>{
   console.log("active step en KIDD",props.activeStep)
-
   if(props.activeStep!=''){
     handleBack()
   }
@@ -336,6 +404,7 @@ const save=()=>{
 },[props.activeStep])   
 
 useEffect(()=>{
+  console.log("props.updateSteps",props.updateSteps)
   if(props.updateSteps==='passInformation'){
     setStepStatus(prev=>{
       let newFailed = new Set(stepStatus.failed.values());
@@ -364,11 +433,13 @@ useEffect(()=>{
       newCompleted.delete(6);
       newCompleted.delete(4);
       newCompleted.delete(5);
+      newCompleted.delete(7);
       let newDisabled = new Set(stepStatus.disabled.values());
       newDisabled.add(3);
       newDisabled.add(6);
       newDisabled.add(4);
       newDisabled.add(5);
+      newDisabled.add(7);
       let newFailed = new Set(stepStatus.failed.values());
       newFailed.add(0)
       return {
@@ -387,10 +458,20 @@ useEffect(()=>{
   //////
   if(props.updateSteps==='passAudience'){  
       let newDisabled = new Set(stepStatus.disabled.values());
+      let newCompleted= new Set(stepStatus.completed.values());
       if(stepStatus.completed.has(0)){
         newDisabled.delete(3);
       }
-      
+     // newDisabled.delete(5);
+      //newDisabled.delete(6);
+     
+      props.forms[0].props.courseInformation.stepscompleted.map((pass,index)=>{
+        newCompleted.add(pass)
+        newDisabled.delete(pass)
+      })
+      setStepStatus(prev=>{
+        return {... prev, completed:newCompleted}
+      })
       setStepStatus(prev=>{
         let newFailed = new Set(stepStatus.failed.values());
         newFailed.delete(1);
@@ -409,11 +490,13 @@ useEffect(()=>{
       newCompleted.delete(6);
       newCompleted.delete(4);
       newCompleted.delete(5);
+      newCompleted.delete(7);
       let newDisabled = new Set(stepStatus.disabled.values());
       newDisabled.add(3);
       newDisabled.add(6);
       newDisabled.add(4);
       newDisabled.add(5);
+      newDisabled.add(7);
       return {
         ...prev, 
         failed:prev.failed.add(1),
@@ -429,25 +512,45 @@ useEffect(()=>{
 
 
   if(props.updateSteps==='passRequirements'){
+    
+    console.log("sddsfsdfdsfsdf",stepStatus)
+    let newDisabled = new Set(stepStatus.disabled.values());
+    let newFailed = new Set(stepStatus.failed.values());
+    let newCompleted = new Set(stepStatus.completed.values());
+    newFailed.delete(2)
+    newCompleted.add(2)
+
     setStepStatus(prev=>{
-      return {... prev, completed:prev.completed.add(2)}
+      
+      return {... prev, completed:prev.completed.add(2), failed:newFailed, disabled:newDisabled}
     })
 
     let stepstatus1=props.forms[0].props.courseInformation
-    stepstatus1.stepscompleted.push(2)
-    stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
-    setvalidateInformation(stepstatus1)
+      stepstatus1.stepscompleted.push(2)
+      stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
+      setvalidateInformation(stepstatus1)
   }
 
 
   if(props.updateSteps==='passCoursePlan' || props.updateSteps==='passCoursePlanFree'){
+    let newDisabled = new Set(stepStatus.disabled.values());
+    let newCompleted= new Set(stepStatus.completed.values());
+    let newFailed = new Set(stepStatus.failed.values());
+    props.forms[0].props.courseInformation.stepscompleted.map((pass,index)=>{
+      newCompleted.add(pass)
+      newDisabled.delete(pass)
+    })
+    setStepStatus(prev=>{
+      return {... prev, completed:newCompleted, disabled:newDisabled}
+    })
     let newStatus=stepStatus;
     newStatus.completed.add(3)
-    let newFailed = new Set(stepStatus.failed.values());
+    newStatus.completed.add(2)
+    
     newFailed.delete(3);
-    let newDisabled = new Set(stepStatus.disabled.values());
+    
     newDisabled.delete(4);
-    let newCompleted = new Set(stepStatus.completed.values());
+    
     newCompleted.add(3);
     setStepStatus(newStatus);
     setStepStatus(prev=>{
@@ -472,11 +575,19 @@ useEffect(()=>{
   }else if(props.updateSteps==='NopassCoursePlan'){
     setStepStatus(prev=>{
       let newCompleted = new Set(stepStatus.completed.values());
+      let newDisabled = new Set(stepStatus.disabled.values());
       newCompleted.delete(3);
+      newDisabled.add(5);
+      newDisabled.add(6);
+      newDisabled.add(7);
+      newCompleted.delete(5);
+      newCompleted.delete(6);
+      newCompleted.delete(7);
       return {
         ...prev, 
         failed:prev.failed.add(3),
-        completed: newCompleted
+        completed: newCompleted,
+        disabled:newDisabled
        }
     })
     let stepstatus1=props.forms[0].props.courseInformation.stepscompleted
@@ -487,6 +598,22 @@ useEffect(()=>{
   
    
   if(props.updateSteps==='passCourseAnalysis'){
+
+    let newDisabled = new Set(stepStatus.disabled.values());
+    let newCompleted= new Set(stepStatus.completed.values());
+
+    props.forms[0].props.courseInformation.stepscompleted.map((pass,index)=>{
+      newCompleted.add(pass)
+      newDisabled.delete(pass)
+    })
+    setStepStatus(prev=>{
+      return {... prev, completed:newCompleted, disabled:newDisabled}
+    })
+
+
+
+
+
     setStepStatus(prev=>{
       let newDisabled = new Set(stepStatus.disabled.values());
       newDisabled.delete(5);
@@ -502,15 +629,22 @@ useEffect(()=>{
   }else if(props.updateSteps==='NopassCourseAnalysis'){
     setStepStatus(prev=>{
       let newCompleted = new Set(stepStatus.completed.values());
-      newCompleted.delete(4);
-      //newCompleted.delete(5);
       let newDisabled = new Set(stepStatus.disabled.values());
+      newCompleted.delete(4);
+      newCompleted.delete(7);
+      newCompleted.delete(5);
+      newCompleted.delete(6);
+  
+      //newCompleted.delete(5);
       newDisabled.add(5);
+      newDisabled.add(6);
+      newDisabled.add(7);
       return {
         ...prev, 
         failed:prev.failed.add(4),
         completed: newCompleted,
-        disabled:newDisabled
+        disabled:newDisabled,
+        
        }
     })
     let stepstatus1=props.forms[0].props.courseInformation.stepscompleted
@@ -522,7 +656,7 @@ useEffect(()=>{
   if(props.updateSteps==='passCourseDesign'){
     stepStatus.disabled.delete(5)
     stepStatus.disabled.delete(6)
-    stepStatus.disabled.delete(7)
+    //stepStatus.disabled.delete(7)
     stepStatus.completed.add(5)
     setStepStatus(stepStatus)
     setStepStatus(prev=>{
@@ -538,16 +672,24 @@ useEffect(()=>{
     //handleCompletenew(stepStatus.active)
     let stepstatus1=props.forms[0].props.courseInformation
     stepstatus1.stepscompleted.push(5)
+    stepstatus1.stepscompleted.push(6)
     stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
     setvalidateInformation(stepstatus1)
   }else if(props.updateSteps==='NopassCourseDesign'){
     setStepStatus(prev=>{
       let newCompleted = new Set(stepStatus.completed.values());
+      let newDisabled = new Set(stepStatus.disabled.values());
       newCompleted.delete(5);
+      newCompleted.delete(6);
+      newCompleted.delete(7);
+     // newDisabled.add(5);
+      newDisabled.add(6);
+      newDisabled.add(7);
       return {
         ...prev, 
         failed:prev.failed.add(5),
-        completed: newCompleted
+        completed: newCompleted,
+        disabled:newDisabled
        }
     })
     let stepstatus1=props.forms[0].props.courseInformation.stepscompleted
@@ -555,11 +697,26 @@ useEffect(()=>{
     if (index > -1) {stepstatus1.splice(index, 1);}
     setvalidateInformation(stepstatus1)
   }
+  if(props.updateSteps==='PassReport'){
+   
+    stepStatus.completed.add(7)
+    stepStatus.completed.add(6)
+    setStepStatus(stepStatus)
+    
+    let stepstatus1=props.forms[0].props.courseInformation
+    stepstatus1.stepscompleted.push(6)
+    stepstatus1.stepscompleted.push(7)
+    stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
+    setvalidateInformation(stepstatus1)
+  }
+
+
+  
 },[props.updateSteps])
 
 
 useEffect(()=>{
-  //console.log("ESTE ES EL STEPSTATUS:1",stepStatus,validateInformation)
+  console.log("ESTE ES EL STEPSTATUS:1",stepStatus,validateInformation)
   //steps aprobados
     if(props.forms[0].props.courseInformation.stepsflag==='saved'){
       let estado= stepStatus
@@ -631,12 +788,12 @@ useEffect(()=>{
       <div className="form-stepper-navigation">
         <div className="form-stepper-information">
           <h1 style={{color: getComputedStyle(document.documentElement).getPropertyValue('--' + props.color)}} className="form-stepper-title">{props.title}</h1>
-          {width >= 1300 && <p className="form-stepper-active-step">{`${props.language.step}  
-          ${parseInt(activeStep + 1)} ${props.language.of} ${props.coursePlan.guidedCoursePlan==="free"?steps.length-1:steps.length}: ${steps[activeStep].label}`}</p>}
+          {width >= 1600 && <p className="form-stepper-active-step">{`${props.language.step}  
+          ${(props.coursePlan.guidedCoursePlan==="free" && activeStep>3)?parseInt(activeStep ):parseInt(activeStep + 1)} ${props.language.of} ${props.coursePlan.guidedCoursePlan==="free"?steps.length-1:steps.length}: ${steps[activeStep].label}`}</p>}
         </div>
         {
           props.steps.length > 1 ?
-            width < 1300 ?
+            width < 1600 ?
               <div>      
                 <Button className="form-stepper-selector-button" color={props.color} aria-describedby={id} onClick={handleClick}>
                   {`${props.language.step}  ${parseInt(activeStep + 1)} ${props.language.of} ${props.coursePlan.guidedCoursePlan==="free"?steps.length-1:steps.length}: ${steps[activeStep].label}`}
@@ -659,84 +816,84 @@ useEffect(()=>{
                   <Stepper className="form-stepper" orientation="vertical" nonLinear activeStep={activeStep}>
                     {steps.map((step, index) => {
                         const stepProps = {
-                          active: false,
-                          completed: false,
-                          disabled: false,
-                          classes: {
-                            completed: classes.completed,
-                            alternativeLabel: classes.alternativeLabel
-                          }
-                        };
-                        const iconProps = {
-                          active: false,
-                          completed: false,
-                          error: false,
-                          classes: {
-                            completed: classes.completed,
-                            active: classes.active,
-                            error: classes.error
-                          }
-                        };
-                        let labelProps = {
-                          disabled: false,
-                          error: false,
-                          icon: icons()[index],
-                          classes: {
-                            completed: classes.completed,
-                            active: classes.active,
-                            disabled: classes.disabled,
-                            error: classes.error,
-                            iconContainer: classes.iconContainer,
-                            alternativeLabel: classes.alternativeLabel,
-                            labelContainer: classes.labelContainer,
-                            label: classes.label
-                          }
-                        };
-                        const buttonProps = {
-                          icon: icons()[index]
-                          // optional
-                        };  
-                        if (isStepActive(index)) {
-                          iconProps.active = stepProps.active = true;
-                        }
-                        if (isStepOptional(index)) {
-                          buttonProps.optional = labelProps.optional = (
-                            <Typography variant="caption">Optional</Typography>
-                          );
-                        }
-                        if (isStepCompleted(index)) {
-                          iconProps.completed = labelProps.completed = stepProps.completed = true;
-                          buttonProps.icon = labelProps.icon = icons()["completed"];
-                          buttonProps.optional = labelProps.optional = (
-                            <Typography variant="caption">Completed</Typography>
-                          );
-                        }
-                        if (isStepFailed(index)) {
-                          iconProps.error = true;
-                          labelProps.error = true;
-                          buttonProps.icon = labelProps.icon = icons()["error"];
-                          buttonProps.optional = labelProps.optional = (
-                            <Typography variant="caption">Required steped</Typography>
-                          );
-                        } 
-                        if (isStepDisabled(index)) {
-                          stepProps.disabled = labelProps.disabled = true;
-                        }
-                        labelProps.StepIconProps = iconProps;
-                        buttonProps.children = (
-                          <StepLabel {...labelProps}>{step.label}</StepLabel>
-                        );
+                      active: false,
+                      completed: false,
+                      disabled: false,
+                      classes: {
+                        completed: classes.completed,
+                        alternativeLabel: classes.alternativeLabel
+                      }
+                    };
+                    const iconProps = {
+                      active: false,
+                      completed: false,
+                      error: false,
+                      classes: {
+                        completed: classes.completed,
+                        active: classes.active,
+                        error: classes.error
+                      }
+                    };
+                    let labelProps = {
+                      disabled: false,
+                      error: false,
+                      icon: icons()[index],
+                      classes: {
+                        completed: classes.completed,
+                        active: classes.active,
+                        disabled: classes.disabled,
+                        error: classes.error,
+                        iconContainer: classes.iconContainer,
+                        alternativeLabel: classes.alternativeLabel,
+                        labelContainer: classes.labelContainer,
+                        label: classes.label
+                      }
+                    };
+                    const buttonProps = {
+                      icon: icons()[index]
+                      // optional
+                    };  
+                    if (isStepActive(index)) {
+                      iconProps.active = stepProps.active = true;
+                    }
+                    if (isStepOptional(index)) {
+                      buttonProps.optional = labelProps.optional = (
+                        <Typography variant="caption">Optional</Typography>
+                      );
+                    }
+                    if (isStepCompleted(index)) {
+                      iconProps.completed = labelProps.completed = stepProps.completed = true;
+                      buttonProps.icon = labelProps.icon = icons()["completed"];
+                      buttonProps.optional = labelProps.optional = (
+                        <Typography variant="caption">Completed</Typography>
+                      );
+                    }
+                     if (isStepFailed(index)) {
+                      iconProps.error = true;
+                      labelProps.error = true;
+                      buttonProps.icon = labelProps.icon = icons()["error"];
+                      buttonProps.optional = labelProps.optional = (
+                        <Typography variant="caption">Required steped</Typography>
+                      );
+                    } 
+                    if (isStepDisabled(index)) {
+                      stepProps.disabled = labelProps.disabled = true;
+                    }
+                    labelProps.StepIconProps = iconProps;
+                    buttonProps.children = (
+                      <StepLabel {...labelProps}>{step.label}</StepLabel>
+                    );
                       return(
-                      (props.coursePlan.guidedCoursePlan === "guided" || index < 4 || index > 4) && (
-                        <Step completed={true} className="form-step" key={step.label}>
-                          <StepButton
-                            completed={completed[index]}
-                            focusRipple={true}
-                            onClick={handleStep(index)}
-                            {...buttonProps}
+                        (props.coursePlan.guidedCoursePlan === "guided" || index < 4 || index > 4) && (
+                          <Step completed={true} className="form-step" key={step.label} {...stepProps}>
+                            <StepButton
+                              completed={completed[index]}
+                              focusRipple={true}
+                              onClick={handleStep(index)}
+                              {...buttonProps}
                             // hidden={isStepDisabled(index)}
-                            focusVisibleClassName="stepperFocused"
-                            className={`${
+                              focusVisibleClassName="stepperFocused"
+                              className={`${
                               isStepActive(index)
                                 ? isStepCompleted(index)
                                   ? classes.completed
@@ -747,9 +904,9 @@ useEffect(()=>{
                                   : classes.selected
                                 : ""
                             } ${isStepActive(index) ? classes.selected : ""}`}
-                       />
-                        </Step>
-                       ))
+                            />
+                          </Step>
+                        ))
                     })}
                   </Stepper>
                 </Popover>

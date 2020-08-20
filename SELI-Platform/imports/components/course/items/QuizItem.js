@@ -76,11 +76,11 @@ export default class QuizItem extends React.Component {
     this.setState({
       time: timeLimit* 60 * 1000
     })
-    if (!this.props.fromProgram) this.checkResolved();
+    if (this.props.toResolve && !this.props.fromProgram) this.checkResolved();
   }
 
   componentWillReceiveProps() {
-    if (!this.props.fromProgram) this.checkResolved();
+    if (this.props.toResolve && !this.props.fromProgram) this.checkResolved();
   }
 
   startQuiz = () => {
@@ -287,6 +287,7 @@ export default class QuizItem extends React.Component {
           TransitionComponent={Transition}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.quizResults}</DialogTitle>
           <DialogContent className="success-dialog-content">
@@ -323,7 +324,7 @@ export default class QuizItem extends React.Component {
             }
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.handleCloseScore()} color="primary" autoFocus>
+            <Button variant="outlined" onClick={() => this.handleCloseScore()} color="primary" autoFocus>
               {this.props.language.ok}
             </Button>
           </DialogActions>

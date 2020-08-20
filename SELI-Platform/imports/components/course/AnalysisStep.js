@@ -20,7 +20,6 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
-import Typography from '@material-ui/core/Typography';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -1460,15 +1459,15 @@ export default function AnalysisStep(props) {
       </Grid>
       </Grid>
    
-      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-          <DialogTitle className="success-dialog-title" id="simple-dialog-title">{labels.Deletingaudience}</DialogTitle>
+      <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Delete Requirement</DialogTitle>
             <DialogContent className="success-dialog-content">
           <DialogContentText style={{padding: "0 1vw"}}> {labels.dialog1} {labelindexdelete}. {labels.dialog2}</DialogContentText>
               <WarningIcon className="warning-dialog-icon"/> 
             </DialogContent>
             <DialogActions>
               <Button onClick={() => setopen(false)} color="primary">No</Button>
-              <Button onClick={() => {
+              <Button variant="outlined" onClick={() => {
                 console.log("tipo a borrar", typetodelete)
                 if(typetodelete==='LearningObjectives'){
                   deleteLearning(indexdelete,categori)

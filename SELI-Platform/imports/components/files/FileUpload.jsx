@@ -29,7 +29,7 @@ class FileUpload extends Component {
       let type=file.type.split("/");
       if (file.size <= 104857600) {
         if((type[0]==='image' && this.props.type==='image')|| (type[0]==='video'&& this.props.type==='video')
-          ||(type[0]==='audio'&& this.props.type==='audio')||(type[1]==='vtt' && this.props.type==='vtt')
+          ||(type[0]==='audio'&& this.props.type==='audio')|| (this.props.type==='vtt')
           ||(type[1]==='pdf' && this.props.type==='pdf')   ||(type[1]==='zip' && this.props.type==='compressed')
           ||(type[1]==='vnd.rar' && this.props.type==='compressed')||(type[1]==='rar' && this.props.type==='compressed')
           ||(type[1]==='7z' && this.props.type==='compressed')||(type[1]==='tar' && this.props.type==='compressed')
@@ -186,7 +186,7 @@ class FileUpload extends Component {
     debug("Rendering FileUpload",this.props.docsReadyYet);
     if (this.props.files && this.props.docsReadyYet) {
       return (
-        <div  tabIndex="-1">
+        <div  tabIndex="-1" className="compressed">
           {
             !this.state.inProgress ?
               <div  className="upload-container">

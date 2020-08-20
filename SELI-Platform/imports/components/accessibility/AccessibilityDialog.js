@@ -64,7 +64,7 @@ export default class AccessibilityDialog extends React.Component {
               }
             </DialogContent>
             <DialogActions className="accessibility-dialog-buttons">
-              <Button onClick={this.handleClose} color="primary">
+              <Button variant="outlined" color="primary" onClick={this.handleClose} color="primary">
                 Done
               </Button>
             </DialogActions>

@@ -200,6 +200,7 @@ export default class CoursesList extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.dialogConfirmationTitle}</DialogTitle>
           <DialogContent className="success-dialog-content">
@@ -212,7 +213,7 @@ export default class CoursesList extends React.Component {
             <Button onClick={() => this.handleClose()} color="primary" autoFocus>
               {this.props.language.cancel}
             </Button>
-            <Button onClick={() => this.state.confirmAction()} color="primary" autoFocus>
+            <Button variant="outlined" onClick={() => this.state.confirmAction()} color="primary" autoFocus>
               {this.props.language.confirm}
             </Button>
           </DialogActions>

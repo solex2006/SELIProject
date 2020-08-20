@@ -404,7 +404,7 @@ export default function DesignCourseApp(props) {
             <Button onClick={() => handleClose()} color="primary" autoFocus>
               {language.cancel}
             </Button>
-            <Button onClick={() => deleteLesson()} color="primary" autoFocus>
+            <Button variant="outlined" onClick={() => deleteLesson()} color="primary" autoFocus>
               {language.continue}
             </Button>
           </DialogActions>

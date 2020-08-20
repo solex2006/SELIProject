@@ -9,9 +9,12 @@ import WatchLaterIcon from '@material-ui/icons/WatchLater';
 import VerticalTab from '../tools/VerticalTab';
 import { applyDrag, generateItems } from '../../../lib/dragAndDropUtils';
 import { createContentItems } from '../../../lib/contentMenuItemsCreator';
+import CourseContent from '../student/CourseContent';
 /* Dialog */
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import Typography from '@material-ui/core/Typography';
 /* Content Forms */
 import TextForm from '../content/TextForm';
 import ImageForm from '../content/ImageForm';
@@ -62,6 +65,7 @@ export default class CourseProgram extends React.Component {
       courseInformation: this.props.courseInformation,
       titleTop: "",
       prevIndexState: 0,
+      showPreview: false
     }
   }
 
@@ -116,6 +120,7 @@ export default class CourseProgram extends React.Component {
           this.contentHandleClickOpen();
           let a = e;
           if (templateCode) {
+            a.addedIndex = this.state.arrayOfItems.length;
             a.payload.code = templateCode;
           }
           this.relativeProgramCommons("drag", a);
@@ -401,6 +406,14 @@ export default class CourseProgram extends React.Component {
     }
   }
 
+  handlePreview = () => {
+    this.setState({showPreview: true});
+  }
+
+  closePreview = () => {
+    this.setState({showPreview: false});
+  }
+
   choosingTemplate = () => {
     if (this.props.courseInformation.coursePlan.courseTemplate === 'without') {
       return (
@@ -436,7 +449,6 @@ export default class CourseProgram extends React.Component {
   }
 
   render() {
-    console.log(this.state.contentToEdit)
     return(
       <div>
         {this.state.arrayOfItems && (
@@ -456,7 +468,7 @@ export default class CourseProgram extends React.Component {
                 contentItems={this.state.contentItems}
                 setMenuTab={this.setMenuTab.bind(this)}
                 toggleSortMode={this.toggleSortMode.bind(this)}
-                handlePreview={this.props.handlePreview.bind(this)}
+                handlePreview={this.handlePreview.bind(this)}
                 setDisabilitieOption={this.setDisabilitieOption.bind(this)}
                 reRender={this.reRender.bind(this)}
                 turnOffSortMode={this.turnOffSortMode.bind(this)}
@@ -465,6 +477,34 @@ export default class CourseProgram extends React.Component {
             </div>
           </div>
         )}
+        <Dialog
+          open={this.state.showPreview}
+          onClose={this.closePreview}
+          fullScreen
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+        >
+          <AppBar position="static" className="course-dialog-app-bar">
+            <Toolbar style={{position: 'relative'}}>
+              <IconButton edge="start" color="inherit" onClick={this.closePreview} aria-label="close">
+                <CloseIcon />
+              </IconButton>
+              <Typography className="course-dialog-title" variant="h6">
+                {this.props.language.coursePreview}
+              </Typography>
+              <p className="app-tooltip">{this.props.language.pressEsc}</p>
+            </Toolbar>
+          </AppBar>
+          <DialogContent className="classroom-dialog-content">
+            <CourseContent
+              fromTutor={Meteor.userId()}
+              fromPreview
+              course={this.state.courseInformation}
+              selected={this.props.selected}
+              language={this.props.language}
+            />
+          </DialogContent>
+        </Dialog>
         <Dialog
           open={this.state.contentOpen}
           onClose={this.contentHandleClose}

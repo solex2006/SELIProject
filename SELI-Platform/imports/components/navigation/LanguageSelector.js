@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: 'auto',
     color: 'var(--white)',
-    backgroundColor: 'var(--app-bar-color)'
+    //backgroundColor: 'var(--app-bar-color)'
   },
   menu: {
     width: 'auto',

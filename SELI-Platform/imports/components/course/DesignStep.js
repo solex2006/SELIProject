@@ -565,7 +565,7 @@ export default function DesignStep(props) {
             <Button onClick={() => handleClose()} color="primary" autoFocus>
               {language.cancel}
             </Button>
-            <Button onClick={() => deleteUnitTopic()} color="primary" autoFocus>
+            <Button variant="outlined" onClick={() => deleteUnitTopic()} color="primary" autoFocus>
               {language.continue}
             </Button>
           </DialogActions>

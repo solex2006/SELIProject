@@ -379,6 +379,7 @@ export default class StudentProfile extends React.Component {
                 onClose={this.handleCloseCertificate}
                 aria-labelledby="alert-dialog-confirmation"
                 aria-describedby="alert-dialog-confirmation"
+                disableBackdropClick={true}
               >
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateGenerated}</DialogTitle>
                 <DialogContent className="success-dialog-content">
@@ -388,7 +389,7 @@ export default class StudentProfile extends React.Component {
                   <DoneIcon className="warning-dialog-icon"/>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={() => this.handleCloseCertificate()} color="primary" autoFocus>
+                  <Button variant="outlined" onClick={() => this.handleCloseCertificate()} color="primary" autoFocus>
                   {this.props.language.close}
                   </Button>
                 </DialogActions>
@@ -400,6 +401,7 @@ export default class StudentProfile extends React.Component {
                 onClose={this.handleCloseCertificate}
                 aria-labelledby="alert-dialog-confirmation"
                 aria-describedby="alert-dialog-confirmation"
+                disableBackdropClick={true}
               >
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateNotGenerated}</DialogTitle>
                 <DialogContent className="success-dialog-content">
@@ -409,7 +411,7 @@ export default class StudentProfile extends React.Component {
                   <InfoIcon className="warning-dialog-icon"/>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={() => this.handleCloseCertificate()} color="primary" autoFocus>
+                  <Button variant="outlined" onClick={() => this.handleCloseCertificate()} color="primary" autoFocus>
                     {this.props.language.close}
                   </Button>
                 </DialogActions>

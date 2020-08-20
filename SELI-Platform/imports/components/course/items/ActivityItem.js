@@ -65,7 +65,7 @@ export default class ActivityItem extends React.Component {
     this.setState({
       dialogText,
     });
-    if (!this.props.fromProgram) {
+    if (this.props.toResolve && !this.props.fromProgram) {
       if (this.props.item.attributes.type === 'forum' || this.props.item.attributes.type === 'storyboard') {
         this.getStories();
       }
@@ -282,7 +282,7 @@ export default class ActivityItem extends React.Component {
   }
 
   componentWillReceiveProps() {
-    if (!this.props.fromProgram) this.getIndex()
+    if (this.props.toResolve && !this.props.fromProgram) this.getIndex()
   }
 
   componentDidUpdate(){
@@ -456,6 +456,7 @@ export default class ActivityItem extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.doActivity}</DialogTitle>
           <DialogContent className="stories-dialog-content">

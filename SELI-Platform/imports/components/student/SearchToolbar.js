@@ -568,6 +568,7 @@ export default function SearchToolBar(props) {
 								props.getParamsLanguage(languages)
 								props.getParamsAudiences(audiences)
 								props.getParamsTutors(instructors)
+								props.OrSearch(accessibility,languages, audiences, instructors )
 								setOpenFilter(false);
 							}}
 						>

@@ -23,6 +23,15 @@
   background-color: #f5f5f5;
 }
 
+/* Media Queries: Tablet Landscape */
+ @media screen and (max-width: 1060px) {
+  .course-creator-work-area { width:100%;  display: block }
+  .course-creator-menu-area { width:100% !important; }  
+  .general-container-drop-area {width: 100% !important;}
+} 
+
+
+
 .general-container-drop-area {
   position: relative;
   width: calc(100vw - var(--course-tool-menu-size));

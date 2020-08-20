@@ -301,6 +301,7 @@ class CourseCard extends React.Component {
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
           className="comments-dialog"
+          disableBackdropClick={true}
         >
           <DialogTitle className="comment-dialog-title">
             {this.props.language.comments}

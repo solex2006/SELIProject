@@ -231,6 +231,7 @@ export default function DecisionHelpStepper(props) {
         onClose={handleClose}
         scroll="paper"
         aria-labelledby={id + "-dlg-title"}
+        disableBackdropClick={true}
       >
         <DialogTitle id={id + "-dlg-title"}>Title</DialogTitle>
 
@@ -272,7 +273,6 @@ export default function DecisionHelpStepper(props) {
               <div className={classes.actionsContainer}>
                 <Button
                   disabled={steps[activeStep].no === ""}
-                  variant="contained"
                   color="secondary"
                   onClick={handleBack}
                   className={classes.button}
@@ -280,8 +280,8 @@ export default function DecisionHelpStepper(props) {
                   No
                 </Button>
                 <Button
+                  variant="outlined"
                   disabled={steps[activeStep].yes === ""}
-                  variant="contained"
                   color="primary"
                   onClick={handleNext}
                   className={classes.button}

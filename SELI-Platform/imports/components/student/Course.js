@@ -319,6 +319,7 @@ export default class Course extends React.Component {
           <DialogContent className="media-dialog-content">
             <MediaPlayer
               media={this.state.media}
+              language={this.props.language}
             />
           </DialogContent>
         </Dialog>
@@ -329,6 +330,7 @@ export default class Course extends React.Component {
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
           className="media-dialog"
+          disableBackdropClick={true}
         >
           <DialogTitle className="dialog-title">
             <AppBar className="dialog-app-bar" color="primary" position="static">

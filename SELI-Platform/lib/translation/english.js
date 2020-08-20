@@ -964,7 +964,7 @@ var ENGLISH = {
   InclusionGoals:'Inclusion Goals',
   Validatetheinclusion:'If you desire to validate the inclusion of your course for some specific diversity group, select them from the list below . You can select as many as you want.',
   Cognitive:'Cognitive disabilities',
-  Elderly:'Elderly',
+  Elderly:'Diversity of Abilities',
   Hearing:'Hearing disabilities',
   Language:'Language',
   Speech:'Speech disabilities',

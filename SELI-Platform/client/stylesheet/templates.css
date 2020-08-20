@@ -121,8 +121,23 @@
   height: 268px !important;
   max-width: 300px !important;
   max-height: 268px !important;
+  overflow: hidden !important;  
+  background-color: #424242 !important;
+}
+
+.template-video-preview-external {
+  width: 300px !important;
+  height: 268px !important;
   overflow: hidden !important;
   background-color: #424242 !important;
+}
+
+.template-video-preview-external-overlay {
+  position: absolute;
+  bottom: 32px;
+  width: 300px !important;
+  height: 268px !important;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .template-play-icon {
