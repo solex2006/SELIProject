@@ -133,7 +133,7 @@ export default class CreateCourse extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if ((prevProps.language.languageIndex !== this.props.language.languageIndex) || (prevState.flagtick !== this.state.flagtick)
+    if ((prevProps.language.languageIndex !== this.props.language.languageIndex) || (prevState.flagtick != this.state.flagtick)
         || (prevState.selected !== this.state.selected)
         || (prevState.cancelCounter !== this.state.cancelCounter)) 
     {
@@ -304,6 +304,7 @@ export default class CreateCourse extends React.Component {
   }
 
   handleCahngetick=()=>{
+    console.log("asdsssssssssssssssssssssssssssssssssssssssssssssssss")
     this.setState({flagtick:!this.state.flagtick})
   }
 

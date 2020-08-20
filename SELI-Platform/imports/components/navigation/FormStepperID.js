@@ -460,10 +460,7 @@ useEffect(()=>{
       let newCompleted= new Set(stepStatus.completed.values());
       if(stepStatus.completed.has(0)){
         newDisabled.delete(3);
-      }
-     // newDisabled.delete(5);
-      //newDisabled.delete(6);
-     
+      }   
       props.forms[0].props.courseInformation.stepscompleted.map((pass,index)=>{
         newCompleted.add(pass)
         newDisabled.delete(pass)

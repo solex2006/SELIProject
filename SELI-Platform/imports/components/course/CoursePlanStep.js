@@ -108,7 +108,9 @@ export default function CoursePlanStep(props) {
       props.validate('passCoursePlanFree')
     }
     else if(coursePlan==='free' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
-      if(flagSylabus===true){
+      
+      console.log("decide sie l cours eplan pasa", courseInformation.sylabus)
+      if(courseInformation.sylabus!=undefined){
         props.validate('passCoursePlanFree')
       }else{
         props.validate('NopassCoursePlan')
@@ -190,15 +192,15 @@ export default function CoursePlanStep(props) {
     setchangeSylabus(Math.random())
   }
   const loadSylabus=(file)=>{
-   // console.log("loadSylabus-------->",file)
-    if (file!=undefined){
-      setflagSylabus(true)
-    }
+    console.log("loadSylabus-------->",file)
+   
+      setflagSylabus(!flagSylabus)
+    
   }
 
 
   useEffect(()=>{
-   // console.log("cambio silabo")
+    console.log("cambio silabo")
     setflagSylabus(undefined)
   },[changeSylabus])
 
