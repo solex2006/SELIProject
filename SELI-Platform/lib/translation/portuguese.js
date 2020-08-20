@@ -1124,5 +1124,8 @@ var PORTUGUESE = {
   MiddleSchoolStudents:'Middle School Students',
   ElementarySchoolStudents:'Elementary School Students',
   titleImageRequired: "The title of the Image content is required",
+  completeStep1:'Please complete step: ',
+  completeStep1:'before publish',
+  missingInformation:'Missing information'
 }
 export default PORTUGUESE;

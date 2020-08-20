@@ -551,6 +551,7 @@ useEffect(()=>{
     
     newDisabled.delete(4);
     
+    
     newCompleted.add(3);
     setStepStatus(newStatus);
     setStepStatus(prev=>{
@@ -558,11 +559,20 @@ useEffect(()=>{
     })
     //handleCompletenew(stepStatus.active)
     if(props.updateSteps==='passCoursePlanFree'){
-      
-      let newCompleted = new Set(stepStatus.completed.values());
-      newCompleted.add(5);
       let newDisabled = new Set(stepStatus.disabled.values());
+      let newCompleted= new Set(stepStatus.completed.values());
+      let newFailed = new Set(stepStatus.failed.values());
+      props.forms[0].props.courseInformation.stepscompleted.map((pass,index)=>{
+        newCompleted.add(pass)
+        newDisabled.delete(pass)
+      })
+      setStepStatus(prev=>{
+        return {... prev, completed:newCompleted, disabled:newDisabled}
+      }) 
+      //newCompleted.add(5);
+      //newDisabled.delete(6);
       newDisabled.delete(5);
+      newFailed.delete(3);
       newStatus = { ...newStatus, disabled: newDisabled, failed:newFailed, completed:newCompleted };
       setStepStatus(newStatus);
      
@@ -666,7 +676,7 @@ useEffect(()=>{
       
       newDisabled.delete(5);
       newDisabled.delete(6);
-      newDisabled.delete(7);
+      //newDisabled.delete(7);
       return {... prev, completed:prev.completed.add(5), failed:newFailed, disabled:newDisabled}
     })
     //handleCompletenew(stepStatus.active)
@@ -697,9 +707,12 @@ useEffect(()=>{
     if (index > -1) {stepstatus1.splice(index, 1);}
     setvalidateInformation(stepstatus1)
   }
-  if(props.updateSteps==='PassReport'){
+  
+
+  if(props.updateSteps==='PassReport' || props.updateSteps==='PassProgram' ){
    
     stepStatus.completed.add(7)
+    stepStatus.disabled.delete(7)
     stepStatus.completed.add(6)
     setStepStatus(stepStatus)
     

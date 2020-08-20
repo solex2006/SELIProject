@@ -120,10 +120,12 @@ export default function CoursePlanStep(props) {
   })
   const handleChange = type => event => {
     let cinformation=courseInformation;
+    
     if (type === 'coursePlan') {
       cinformation.coursePlan.guidedCoursePlan = event.target.value;
       setCoursePlan(event.target.value);
       if (event.target.value === "free") {
+        
         cinformation.coursePlan.courseTemplate = "without";
         setCourseTemplate("without");
       }
@@ -138,6 +140,7 @@ export default function CoursePlanStep(props) {
       }
     }
     setCourseInformation(cinformation);
+    props.handleCahngetick()
   }
 
   const warningOrganization = (structure) => {

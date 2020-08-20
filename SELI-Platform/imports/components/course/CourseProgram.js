@@ -69,6 +69,12 @@ export default class CourseProgram extends React.Component {
     }
   }
 
+  componentDidUpdate(){
+   
+      this.props.validate('PassProgram')    
+
+  }
+
   handleClickOpen = () => {
     this.setState({ open: true });
   };

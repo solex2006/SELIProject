@@ -260,6 +260,15 @@
   animation-delay: 1s;
 }
 
+.alert-dialog-icon {
+  margin-top: 2.5vh !important;
+  font-size: 3.75em !important;
+  color: #ff0707 !important;
+  animation: tada 1.25s;
+  animation-fill-mode: backwards;
+  animation-delay: 1s;
+}
+
 .media-dialog {
 
 }
