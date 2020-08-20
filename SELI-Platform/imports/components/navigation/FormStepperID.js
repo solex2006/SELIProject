@@ -135,7 +135,6 @@ function useWindowSize() {
 }
 
 export default function FormStepperID(props) {
-  console.log("Active-STEP:------------>",props)
   const [validateInformation,setvalidateInformation]=useState({
     informationStep:props.forms[0].props.courseInformation,
   });
@@ -1030,62 +1029,59 @@ useEffect(()=>{
         { getStepContent(activeStep) }
       </div>
       <div className='form-stepper-navigation-bottom' >
-      <Grid container className='parentNavBar' spacing={6} >
-        {
-          props.steps.length > 1 ?
-            <Grid item xs={12} sm={6}>
-              <ButtonGroup
-                variant="text"
-                size="large"
-                aria-label="Course creation step navigation"
-              >
-                <Button
-                  color="secondary"
-                  onClick={handleBack}
+        <Grid container className='parentNavBar' spacing={4} >
+          {
+            props.steps.length > 1 ?
+              <Grid item xs={width >= 640 ? 12 : 3} sm={6}>
+                <ButtonGroup
+                  variant="text"
+                  size="large"
+                  aria-label="Course creation step navigation"
                 >
-                  {props.language.previousStep}
+                  <Button
+                    color="secondary"
+                    onClick={handleBack}
+                  >
+                    {width >= 640 ? props.language.previousStep : props.language.back}
+                  </Button>
+                  <Button
+                    color="secondary"
+                    onClick={handleNext}
+                  >
+                    {width >= 640 ? props.language.nextStep : props.language.next}
+                  </Button>
+                  {/* <Button
+                    color="secondary"
+                    onClick={handleSkip}
+                  >
+                    {props.language.skipStep}
+                  </Button> */}
+                </ButtonGroup>
+              </Grid>
+            :
+            undefined
+          }
+          <Grid className='navBar' item xs={width >= 640 ? 12 : 9} sm={6}>
+            <ButtonGroup
+              variant="text"
+              size="large"
+              aria-label="Course creation step navigation"
+            >
+              {
+                props.saved &&
+                <Button onClick={() => props.cancelChanges()} variant="outlined" >
+                  {props.language.cancel}
                 </Button>
-                <Button
-                  color="secondary"
-                  onClick={handleNext}
-                >
-                  {props.language.nextStep}
-                </Button>
-                {/* <Button
-                  color="secondary"
-                  onClick={handleSkip}
-                >
-                  {props.language.skipStep}
-                </Button> */}
-              </ButtonGroup>
-              
-            </Grid>
-          :
-          undefined
-        }
-
-          <Grid className='navBar' item xs={12} sm={6}>
-          <ButtonGroup
-                variant="text"
-                size="large"
-                aria-label="Course creation step navigation"
-              >
-              <Button variant="outlined" >
-                {props.language.cancel}
-              </Button>
-            
-            
+              }
               <Button onClick={() => props.saveAction()} variant="outlined" color="primary">
                 {props.saveLabel}
               </Button>
-            
-           
               <Button onClick={() => props.finalAction()} variant="contained" color="primary">
                 {props.finalLabel}
               </Button>
-              </ButtonGroup>
-            </Grid>
+            </ButtonGroup>
           </Grid>
+        </Grid>
       </div>
     </div>
   );

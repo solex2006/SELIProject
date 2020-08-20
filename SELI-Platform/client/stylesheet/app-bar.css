@@ -10,12 +10,20 @@
 }
 
 .app-bar-container-text{
- display: inline;
+  display: inline;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  color: var(--bar-font-color) !important;
+  margin-left: calc(var(--menu-size) + 2vw) !important;
+  font-size: 1.25em !important;
+  font-weight: 500 !important;
+  letter-spacing: 2.5px !important;
 }
 
 
 /* Media Queries: Tablet Landscape */
- @media screen and (max-width: 640px) {
+@media screen and (max-width: 640px) {
   .app-bar-container-text {display: none !important;}
 } 
 
