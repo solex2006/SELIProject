@@ -122,7 +122,7 @@ export default class PdfForm extends React.Component {
                       type="pdf"
                       user={Meteor.userId()}
                       accept={'.pdf'}
-                      label={this.props.language.uploadPdfButtonLabel}
+                      label={this.props.language.chooseCourseSyllabus}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                       getFileInformation={this.getFileInformation.bind(this)}
                       language={this.props.language}

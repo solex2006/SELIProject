@@ -21,7 +21,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import WarningIcon from '@material-ui/icons/Warning';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import PdfFormulario from './pdfForm'
+import PdfFormulario from './pdfForm';
+
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -222,6 +223,16 @@ export default function CoursePlanStep(props) {
           <FormControlLabel value="free" control={<Radio />} label="Free" />
         </RadioGroup>
         <FeedbackHelp
+            validation={{
+              error: false,
+              errorMsg: "",
+              errorType: "required",
+              a11y: null
+            }}
+            tipMsg={language.instructionGuidedCoursePlan}
+            describedBy={"i02-helper-text"}
+        />
+        {/* <FeedbackHelp
           validation={{
             error: false,
             errorMsg: "",
@@ -230,10 +241,15 @@ export default function CoursePlanStep(props) {
           }}
           tipMsg={language.documentupload}
           describedBy={"i05-helper-text"}
-        />
+        /> */}
+        
         {courseInformation.coursePlan.guidedCoursePlan === "free" && (
-            //courseInformation.sylabus === undefined ?
-            <PdfFormulario
+          <React.Fragment>
+            <br/>
+             <FormLabel component="legend">
+               {language.chooseCourseSyllabus}
+             </FormLabel>
+             <PdfFormulario
               loadSylabus={loadSylabus}
               courseInformation={props.courseInformation}
               handleControlMessage={props.handleControlMessage.bind(this)}
@@ -243,11 +259,18 @@ export default function CoursePlanStep(props) {
               expandedNodes={props.expandedNodes}
               resetSylabus={resetSylabus}
             />
+          </React.Fragment>
         )} 
         <br/>
-        <FormLabel component="legend">
-          {language.PlanTemplate}
-        </FormLabel>
+        {
+          courseInformation.coursePlan.guidedCoursePlan !="free"? 
+           <FormLabel component="legend">
+            {language.PlanTemplate}
+           </FormLabel>
+          :
+          undefined
+        }
+       
         <RadioGroup
           aria-label="Course Template"
           name="courseTemplate"
@@ -280,6 +303,16 @@ export default function CoursePlanStep(props) {
           />
         </RadioGroup>
         <FeedbackHelp
+            validation={{
+              error: false,
+              errorMsg: "",
+              errorType: "required",
+              a11y: null
+            }}
+            tipMsg={language.instructionTemplateCourse}
+            describedBy={"i02-helper-text"}
+        />
+        {/* <FeedbackHelp
           validation={{
             error: false,
             errorMsg: "",
@@ -295,7 +328,7 @@ export default function CoursePlanStep(props) {
           decisionHelp={{
             name: "cplx"
           }}
-        />
+        /> */}
         <br/>
         {courseInformation.coursePlan.courseTemplate === "without" && (
           <React.Fragment>
@@ -320,7 +353,7 @@ export default function CoursePlanStep(props) {
                 label={language.byUnitsAndLessons}
               />
             </RadioGroup>
-            <FeedbackHelp
+            {/* <FeedbackHelp
               validation={{
                 error: false,
                 errorMsg: "",
@@ -333,7 +366,17 @@ export default function CoursePlanStep(props) {
                 step: "textHelper",
                 stepLabel: "a title"
               }}
-            />
+            /> */}
+            <FeedbackHelp
+            validation={{
+              error: false,
+              errorMsg: "",
+              errorType: "required",
+              a11y: null
+            }}
+            tipMsg={language.instructionStructureCourse}
+            describedBy={"i02-helper-text"}
+        />
           </React.Fragment>
         )}
         <br/><br/><br/><br/>

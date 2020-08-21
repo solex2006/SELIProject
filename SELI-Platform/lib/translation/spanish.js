@@ -1126,6 +1126,10 @@ var SPANISH = {
   titleImageRequired: "The title of the Image content is required",
   completeStep1:'Complete el pasoantes de publicar',
   completeStep1:'antes de publicar',
+  instructionGuidedCoursePlan:'You can choose between create the course plan in SELI platform or outside the platform',
+  instructionTemplateCourse:'You can develop your course using one of SELI predefined templates',
+  instructionStructureCourse:'You can develop your course organizing it by Topics or by Units and Lessons',
+  instructionCourseSyllabus:'Upload your course plan.',
 }
 export default SPANISH
 
