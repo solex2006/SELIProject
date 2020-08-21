@@ -84,6 +84,7 @@ export default class VideoPreview extends React.Component {
         <ReactPlayer
           ref="video"
           id="video-preview-information"
+          className="course-creator-preview-player"
           controls
           playing={this.state.playing}
           url={this.props.file.link}
@@ -91,8 +92,6 @@ export default class VideoPreview extends React.Component {
           onPlay={this.play}
           onPause={this.pause}
           onSeek={this.seek}
-          width={"360px"}
-          height={"270px"}
           config={{file: {
             attributes: {
               crossOrigin: 'true'

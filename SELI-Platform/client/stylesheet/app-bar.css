@@ -23,7 +23,7 @@
 
 
 /* Media Queries: Tablet Landscape */
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 1080px) {
   .app-bar-container-text {display: none !important;}
 } 
 

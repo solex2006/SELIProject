@@ -22,8 +22,6 @@
 }
 
 .form-input-column {
-  display: flex;
-  flex-direction: column;
   min-width: 40vw;
   max-height: 100%;
   padding: 2.5vh 6vw;

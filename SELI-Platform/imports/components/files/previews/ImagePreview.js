@@ -56,17 +56,15 @@ content =()=>{
     return(
       <Fragment>
         <ResizableContent
-          top={185}
-          left={200}
+          //top={185}
+         // left={200}
           width={200}
           height={200}
           rotateAngle={0}
           //coordenada={this.props.coordenada}
           coordenadaCursos={this.coordenadaCursos}    
         > 
-          <div>
-              <img style={{width: '200px', height: '200px'}} src={this.props.file.link}></img>
-          </div>
+          <div style={{backgroundImage: `url(${this.props.file.link})`, backgroundColor: "black"}} className="file-image-preview"></div>  
         </ResizableContent>
       </Fragment>
     )

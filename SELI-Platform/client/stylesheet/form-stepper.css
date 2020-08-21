@@ -26,6 +26,7 @@
   padding-right: 1vw;
   background-color: #f5f5f5;
   animation: fadeInDown 0.5s;
+  z-index: 100;
 }
 
 .navBar{

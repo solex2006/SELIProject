@@ -630,3 +630,11 @@ summary:hover {
 .current {
   font-weight: 600;
 }
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  
+  .image-item-container {
+    display: inline;
+  }
+} 

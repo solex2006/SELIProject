@@ -65,14 +65,13 @@ export default class CourseProgram extends React.Component {
       courseInformation: this.props.courseInformation,
       titleTop: "",
       prevIndexState: 0,
-      showPreview: false
+      showPreview: false,
+      showMenu: true,
     }
   }
 
   componentDidUpdate(){
-   
-      this.props.validate('PassProgram')    
-
+    this.props.validate('PassProgram')    
   }
 
   handleClickOpen = () => {
@@ -420,6 +419,10 @@ export default class CourseProgram extends React.Component {
     this.setState({showPreview: false});
   }
 
+  handleMenu = () => {
+    this.setState({showMenu: !this.state.showMenu});
+  }
+
   choosingTemplate = () => {
     if (this.props.courseInformation.coursePlan.courseTemplate === 'without') {
       return (
@@ -463,6 +466,9 @@ export default class CourseProgram extends React.Component {
               <div className="general-container-drop-area">
                 <div className="title-course">  
                   <div className="subtitle">{this.state.titleTop}</div>
+                  <IconButton onClick={() => this.handleMenu()} className="drop-items-right-menu">
+                    <AppsIcon />
+                  </IconButton>
                 </div>
                 {this.choosingTemplate()}
               </div>
@@ -472,12 +478,14 @@ export default class CourseProgram extends React.Component {
                 selected={this.props.selected}
                 expandedNodes={this.props.expandedNodes}
                 contentItems={this.state.contentItems}
+                showMenu={this.state.showMenu}
                 setMenuTab={this.setMenuTab.bind(this)}
                 toggleSortMode={this.toggleSortMode.bind(this)}
                 handlePreview={this.handlePreview.bind(this)}
                 setDisabilitieOption={this.setDisabilitieOption.bind(this)}
                 reRender={this.reRender.bind(this)}
                 turnOffSortMode={this.turnOffSortMode.bind(this)}
+                handleMenu={this.handleMenu.bind(this)}
                 language={this.props.language}
               ></VerticalPanel>
             </div>

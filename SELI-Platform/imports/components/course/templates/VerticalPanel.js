@@ -18,9 +18,13 @@ export default class VerticalPanel extends React.Component {
     }
   }
 
+  onDragStart = ({isSource, payload, willAcceptDrop}) => {
+    if (isSource) this.props.handleMenu();
+  }
+
   render() {
     return(
-      <div className="course-creator-menu-area">
+      <div className={this.props.showMenu ? "course-creator-menu-area" : "course-creator-menu-area-aux"}>
         <CourseCreatorMenu
           setMenuTab={this.props.setMenuTab.bind(this)}
           menuTab={this.props.menuTab}
@@ -44,6 +48,7 @@ export default class VerticalPanel extends React.Component {
                 groupName="1"
                 behaviour="copy"
                 getChildPayload={i => this.props.contentItems[i]}
+                onDragStart={this.onDragStart}
               >
                 { 
                   this.props.contentItems.map((p,i) => {

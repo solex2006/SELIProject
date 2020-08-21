@@ -75,9 +75,8 @@ export default class TemplateItem extends React.Component {
           </div> 
         )}
         <Container
-          //dragBeginDelay={500}
           dragClass="drag-class"
-          style={{width: "100%", height: "calc(100% - 37px)"}}
+          style={{width: "100%", height:"calc(100% - 37px)", minHeight: "163px"}}
           groupName="1"
           behaviour="drop-zone"
           dragHandleSelector=".item-drag-handle"

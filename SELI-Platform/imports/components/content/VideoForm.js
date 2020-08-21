@@ -306,7 +306,7 @@ export default class VideoForm extends React.Component {
                               <div>
                                 {
                                   this.state.validUrl ?
-                                    <ReactPlayer className="course-creator-preview-player" url={this.state.url}/>
+                                    <ReactPlayer controls className="course-creator-preview-player" url={this.state.url}/>
                                   :
                                     undefined
                                 }
