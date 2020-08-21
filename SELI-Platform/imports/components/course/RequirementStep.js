@@ -129,8 +129,8 @@ export default function RequirementStep(props) {
     hardware:false,
     software:false
   })
-  const [feedbackError, setfeedbackError]=useState(true)
-  const [feedbackErrorH, setfeedbackErrorH]=useState(true)
+  const [feedbackError, setfeedbackError]=useState(false)
+  const [feedbackErrorH, setfeedbackErrorH]=useState(false)
   const [controlEdit,setControlEdit] = useState({
     tempValue: "",
     adding: false,
@@ -233,7 +233,7 @@ export default function RequirementStep(props) {
   const [otherSoftwares,setOtherSoftwares] = useState([]);
 
   const [otherHardware,setOtherHardware] = useState([]);
-
+  const [saveButton, setsaveButton]=useState(false)
   const [flagdeleteSoftware,setflagdeleteSoftware]=useState(false)
   const [flagdeleteHardware,setflagdeleteHardware]=useState(false)
   
@@ -309,17 +309,35 @@ export default function RequirementStep(props) {
     );
   }
 
-  function updateTempValue(value, type) {
+  function updateTempValue(value, type, index) {
+    if(type==="software"){ ///he Unique Validation should not validate against the value of the current field.
+      otherSoftwares[index].label='';
+      setOtherSoftwares(otherSoftwares);
+    }
+    if(type==="hardware") {
+      otherHardware[index].label='';
+      setOtherHardware(otherHardware);
+    }
+    
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
+
+    if(value.replace(/\s/g,"") == ""){
+      setsaveButton(true)
+    }else{
+      setsaveButton(false)
+    }
+
     if(value!="") {
       if(type==="software"){ setfeedbackError(false)}
       else{setfeedbackErrorH(false)}
     }else{
-      if(type==="software"){  setfeedbackError(true) }
-      else{ setfeedbackErrorH(true) }
-      setmessage(requirementTooltip.errorMsg)}
+      if(type==="software"){  setfeedbackError(true) 
+        setmessage(requirementTooltip.errorMsg) }
+      else{ setfeedbackErrorH(true) 
+        setmessage(requirementTooltip.errorMsg)}
+    }
   }
 
   function deleteSoftware(index) {
@@ -442,11 +460,13 @@ const handleDeleteSoftwares = (index) => () => {
                   key={"li_sft" + index + "txtField"}
                   className={!software.editing ? classes.hidden : ""}
                   value={controlEdit.tempValue}
-                  onChange={event => updateTempValue(event.target.value,"software")}
+                  onChange={event => updateTempValue(event.target.value,"software",index)}
                 />
-                <FeedbackHelp
+                {
+                  feedbackError===true?
+                   <FeedbackHelp
                     validation={{
-                      error: feedbackError,
+                      error: true,//feedbackError,
                       errorMsg: message,
                       errorType: "required",
                       a11y: null
@@ -454,6 +474,10 @@ const handleDeleteSoftwares = (index) => () => {
                     tipMsg={null}//{requirementTooltip.newsoftware}
                     describedBy={"i02-helper-text"}
                   />
+                  :
+                  undefined 
+                }
+                
               </div>    
           </div>
  
@@ -482,7 +506,7 @@ const handleDeleteSoftwares = (index) => () => {
                         
                       }}
                       className={classes.saveButton}
-                      disabled={controlEdit.tempValue === ""}
+                      disabled={(controlEdit.tempValue === "" || saveButton===true)}//disabled={controlEdit.tempValue === ""}
                     >
                       <DoneIcon />
                     </IconButton>
@@ -563,7 +587,7 @@ const handleDeleteSoftwares = (index) => () => {
                   adding: true,
                   editing: true
                 });
-                setfeedbackError(true)
+                //setfeedbackError(true)
             }}
             id="addsoft"
             disabled={controlEdit.editing}
@@ -604,11 +628,13 @@ const handleDeleteSoftwares = (index) => () => {
                         key={"li_sft" + index + "txtField"}
                         className={!hardware.editing ? classes.hidden : ""}
                         value={controlEdit.tempValue}
-                        onChange={event => updateTempValue(event.target.value, "hardware")}
+                        onChange={event => updateTempValue(event.target.value, "hardware",index)}
                       />
-                      <FeedbackHelp
+                      {
+                        feedbackErrorH===true?
+                        <FeedbackHelp
                           validation={{
-                            error: feedbackErrorH,
+                            error: true,
                             errorMsg: message,
                             errorType: "required",
                             a11y: null
@@ -616,6 +642,10 @@ const handleDeleteSoftwares = (index) => () => {
                           tipMsg={null} //{requirementTooltip.newhardware}
                           describedBy={"i02-helper-text"}
                         />
+                        :
+                        undefined 
+                      }
+                      
                   </div>    
               </div>
               <ListItemSecondaryAction key={"li_sft" + index + "secAc"}>
@@ -643,7 +673,7 @@ const handleDeleteSoftwares = (index) => () => {
                         
                       }}
                       className={classes.saveButton}
-                      disabled={controlEdit.tempValue === ""}
+                      disabled={(controlEdit.tempValue === "" || saveButton===true)}//disabled={controlEdit.tempValue === ""}
                     >
                       <DoneIcon />
                     </IconButton>
@@ -724,7 +754,7 @@ const handleDeleteSoftwares = (index) => () => {
                 adding: true,
                 editing: true
               });
-              setfeedbackErrorH(true)
+             // setfeedbackErrorH(true)
             }}
             id="addsoft"
             disabled={controlEdit.editing}

@@ -413,8 +413,8 @@ export default function AudienceApp(props) {
 
   function updateTempValue(value, index) {
     console.log("se va ha editar esto******", index, otherAudiences)
-    //delete actual from other audiences
-    otherAudiences[index].label='';
+    //delete actual from other audiences requireent camila 
+    otherAudiences[index].label=''; //for bug the Unique Validation should not validate against the value of the current field.
     setOtherAudiences(otherAudiences);
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
@@ -460,9 +460,6 @@ export default function AudienceApp(props) {
         setmessage(requirementTooltip.openSoftware)
         return "equal"
       }else{
-        //setmessage(`${valueinArray} already exist in the list of audiences. Please, select it from the list.`)
-        //setopensnack(true)
-        //settooltip(true)
         return "equal"
         
       }
