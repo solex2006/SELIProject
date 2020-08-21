@@ -476,7 +476,7 @@ export default class ActivityItem extends React.Component {
                         type={this.props.item.attributes.fileTypes.label.toLowerCase()}
                         user={Meteor.userId()}
                         accept={this.props.item.attributes.fileTypes.accept}
-                        handleControlMessage={this.props.handleControlMessage.bind(this)}
+                        handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
                         getFileInformation={this.getFileInformation.bind(this)}
                         label={this.props.language.clickUploadFile}
                         language={this.props.language}
