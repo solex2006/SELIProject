@@ -356,7 +356,7 @@
 }
 
 .drop-items-right-menu {
-  display: none;
+  display: none !important;
 }
 
 .course-creator-menu-area-aux {

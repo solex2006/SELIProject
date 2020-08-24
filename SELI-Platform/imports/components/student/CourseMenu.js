@@ -122,7 +122,7 @@ export default function CourseMenu(props) {
         <Button
           //onClick={() => this.props.completeTopicLesson()}
           variant="contained"
-          className="course-content-footer-button"
+          className="course-content-menu-button"
         >
           {props.language.courseOrganization}
         </Button>

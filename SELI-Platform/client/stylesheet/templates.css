@@ -23,7 +23,6 @@
 .template-row {
   display: flex;
   min-height: var(--template-row) !important;
-  width: 100%;
 }
 
 .template-row-item {
@@ -51,7 +50,7 @@
 }
 
 .template-column-item-student {
-  width: calc(100% - 2px) !important;
+  width: 100% !important;
   min-height: var(--template-row) !important;
   background-repeat: no-repeat;
   background-size: 200px;
@@ -64,7 +63,8 @@
   margin-bottom: 30px;
 }
 
-.template-image-gallery {
+.template-child-gallery {
+  width: 100%;
   background-color: #121212;
 	padding: 5px;
 	color: white;
