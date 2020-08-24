@@ -20,7 +20,7 @@ import Fullscreen from "react-full-screen";
 
 import TextAlternatives from '../accessibility/alternative/TextAlternatives';
 
-const HIDE_TIME = 8000;
+const HIDE_TIME = 4000;
 
 export default class MediaPlayer extends React.Component {
   constructor(props) {
@@ -194,7 +194,7 @@ export default class MediaPlayer extends React.Component {
               <Typography className="course-item-card-subtitle" variant="subtitle1" style={{color: "white"}}>
                 {`${this.props.language.audioDescription}:`}
               </Typography>
-              <AudioPlayer className="file-preview-information" volume src={this.props.media.attributes.accessibility.dataField.fileAudioDescription[0].link}/>
+              <AudioPlayer volume src={this.props.media.attributes.accessibility.dataField.fileAudioDescription[0].link}/>
             </div>
           :      
             undefined
@@ -232,11 +232,11 @@ export default class MediaPlayer extends React.Component {
               onChange={fullScreen => this.setState({fullScreen})}
             >
               <div
-                onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
                 className={this.state.fullScreen ? "media-player-container-full" : "media-player-container"}
               >
                 <div className="fullscreen-media-container">
                   <ReactPlayer
+                    onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
                     ref={this.ref}
                     url={this.state.media.attributes.video.link}
                     className={this.state.hasA11y && !this.state.fullScreen ? "video-media-player-a11y" : "video-media-player"}
@@ -259,11 +259,11 @@ export default class MediaPlayer extends React.Component {
                   />
                   {this.state.hasA11y && this.a11yContent()}
                 </div>
-                <Slide direction="up" in={this.state.showControls} mountOnEnter unmountOnExit>
+                <Slide direction="left" in={this.state.showControls} mountOnEnter unmountOnExit timeout={{enter: 0, exit: 0}}>
                   <Paper
                     square
                     elevation={15}
-                    className="media-player-controllers-container"
+                    className={this.state.fullScreen || !this.state.hasA11y ? "media-player-controllers-container" : "media-player-controllers-container-a11y"}
                   >
                     <IconButton onClick={this.handlePlayPause} className="media-player-icon-button">
                       {

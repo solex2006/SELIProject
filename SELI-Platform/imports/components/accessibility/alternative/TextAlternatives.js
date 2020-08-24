@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 
-export default class ImageItem extends React.Component {
+export default class TextAlternatives extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

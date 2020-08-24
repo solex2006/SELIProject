@@ -9,3 +9,52 @@
   align-items: center;
   justify-content: center;
 }
+
+.course-presentation-title-container {
+  padding: 0.5em;
+  background-color: #2A2A22;
+  color: #e4f1fe;
+}
+
+.course-presentation-title  {
+  font-size: 2em !important;
+}
+
+.course-presentation-subtitle  {
+  font-size: 1em !important;
+}
+
+.course-presentation-paper {
+  padding-left: 60px;
+  padding-right: 60px;
+  padding-top: 35px;
+}
+
+.course-presentation-paper1 {
+  padding-left: 60px;
+  padding-right: 60px;
+  padding-top: 10px;
+}
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .course-presentation-title  {
+    font-size: 1em !important;
+  }
+  
+  .course-presentation-subtitle  {
+    font-size: 0.6em !important;
+  }
+
+  .course-presentation-paper {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+  }
+  
+  .course-presentation-paper1 {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+  }
+} 

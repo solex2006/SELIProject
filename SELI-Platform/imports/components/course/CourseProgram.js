@@ -419,8 +419,9 @@ export default class CourseProgram extends React.Component {
     this.setState({showPreview: false});
   }
 
-  handleMenu = () => {
-    this.setState({showMenu: !this.state.showMenu});
+  handleMenu = (value) => {
+    if (value) this.setState({showMenu: value});
+    else this.setState({showMenu: !this.state.showMenu});
   }
 
   choosingTemplate = () => {

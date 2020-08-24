@@ -391,10 +391,12 @@
 
 /* Media Queries: Tablet Landscape */
 @media screen and (max-width: 1080px) {
-
   .dialog-form-container {
     width: 86vw !important;
     justify-content: center;
     align-items: center;
+  }
+  .app-tooltip {
+    display: none;
   }
 } 

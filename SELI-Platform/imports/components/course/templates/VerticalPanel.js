@@ -19,7 +19,7 @@ export default class VerticalPanel extends React.Component {
   }
 
   onDragStart = ({isSource, payload, willAcceptDrop}) => {
-    if (isSource) this.props.handleMenu();
+    if (isSource) this.props.handleMenu(false);
   }
 
   render() {

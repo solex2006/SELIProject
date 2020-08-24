@@ -28,6 +28,7 @@
 }
 
 .subscription-card-area {
+  width: 100%;
   display: flex !important;
   justify-content: flex-start !important;
 }
@@ -132,3 +133,20 @@
 .maintenance-subscription-card .subscription-card-area:hover .maintenance-subscribed-hover{
   opacity: 1;
 }
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .subscription-card {
+    max-height: 50vh !important;
+    padding: 0.5vh 1vw !important;
+  }
+  .maintenance-subscription-card {
+    max-height: 50vh !important;
+    padding: 0.5vh 1vw !important;
+  }
+  .subscription-card-content {
+    width: 65vw !important;
+    padding-left: 0.8vw !important;
+    padding-right: 0vw !important;
+  }
+} 
