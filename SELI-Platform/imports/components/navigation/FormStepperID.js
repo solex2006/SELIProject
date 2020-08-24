@@ -404,11 +404,16 @@ const save=()=>{
 
 useEffect(()=>{
   console.log("props.updateSteps",props.updateSteps)
+
+  let newDisabled = new Set(stepStatus.disabled.values());
+  let newFailed = new Set(stepStatus.failed.values());
+  let newCompleted = new Set(stepStatus.completed.values());
+
   if(props.updateSteps==='passInformation'){
     setStepStatus(prev=>{
-      let newFailed = new Set(stepStatus.failed.values());
+      //let newFailed = new Set(stepStatus.failed.values());
       newFailed.delete(0);
-      let newDisabled = new Set(stepStatus.disabled.values());
+      //let newDisabled = new Set(stepStatus.disabled.values());
       if(stepStatus.completed.has(1)){    
         newDisabled.delete(3);
       }
@@ -420,27 +425,29 @@ useEffect(()=>{
       }
     })
     let stepstatus1=props.forms[0].props.courseInformation
-    //console.log("stepstaus",stepstatus1,props)
     stepstatus1.stepscompleted.push(0)
     stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
     setvalidateInformation(stepstatus1)
   }else if(props.updateSteps==='NopassInformation'){
     setStepStatus(prev=>{
-      let newCompleted = new Set(stepStatus.completed.values());
+     // let newCompleted = new Set(stepStatus.completed.values());
       newCompleted.delete(0);
       newCompleted.delete(3);
       newCompleted.delete(6);
       newCompleted.delete(4);
       newCompleted.delete(5);
       newCompleted.delete(7);
-      let newDisabled = new Set(stepStatus.disabled.values());
+     // let newDisabled = new Set(stepStatus.disabled.values());
       newDisabled.add(3);
       newDisabled.add(6);
       newDisabled.add(4);
       newDisabled.add(5);
       newDisabled.add(7);
-      let newFailed = new Set(stepStatus.failed.values());
+      //let newFailed = new Set(stepStatus.failed.values());
       newFailed.add(0)
+      newFailed.delete(3)
+      newFailed.delete(4)
+      newFailed.delete(5)
       return {
         ...prev, 
         failed:newFailed,
@@ -456,21 +463,14 @@ useEffect(()=>{
 
   //////
   if(props.updateSteps==='passAudience'){  
-      let newDisabled = new Set(stepStatus.disabled.values());
-      let newCompleted= new Set(stepStatus.completed.values());
+     /*  let newDisabled = new Set(stepStatus.disabled.values());
+      let newCompleted= new Set(stepStatus.completed.values()); */
       if(stepStatus.completed.has(0)){
         newDisabled.delete(3);
       }   
-      props.forms[0].props.courseInformation.stepscompleted.map((pass,index)=>{
-        newCompleted.add(pass)
-        newDisabled.delete(pass)
-      })
+      
+      newFailed.delete(1);
       setStepStatus(prev=>{
-        return {... prev, completed:newCompleted}
-      })
-      setStepStatus(prev=>{
-        let newFailed = new Set(stepStatus.failed.values());
-        newFailed.delete(1);
         return {... prev, completed:prev.completed.add(1), failed:newFailed, disabled:newDisabled}
       })
       let stepstatus1=props.forms[0].props.courseInformation
@@ -480,19 +480,23 @@ useEffect(()=>{
       
   }else if(props.updateSteps==='NopassAudience'){
     setStepStatus(prev=>{
-      let newCompleted = new Set(stepStatus.completed.values());
+      //let newCompleted = new Set(stepStatus.completed.values());
       newCompleted.delete(1);
       newCompleted.delete(3);
       newCompleted.delete(6);
       newCompleted.delete(4);
       newCompleted.delete(5);
       newCompleted.delete(7);
-      let newDisabled = new Set(stepStatus.disabled.values());
+      //let newDisabled = new Set(stepStatus.disabled.values());
       newDisabled.add(3);
       newDisabled.add(6);
       newDisabled.add(4);
       newDisabled.add(5);
       newDisabled.add(7);
+
+      newFailed.delete(3)
+      newFailed.delete(4)
+      newFailed.delete(5)
       return {
         ...prev, 
         failed:prev.failed.add(1),
@@ -509,7 +513,7 @@ useEffect(()=>{
 
   if(props.updateSteps==='passRequirements'){
     
-    console.log("sddsfsdfdsfsdf",stepStatus)
+    
     let newDisabled = new Set(stepStatus.disabled.values());
     let newFailed = new Set(stepStatus.failed.values());
     let newCompleted = new Set(stepStatus.completed.values());
@@ -518,7 +522,7 @@ useEffect(()=>{
 
     setStepStatus(prev=>{
       
-      return {... prev, completed:prev.completed.add(2), failed:newFailed, disabled:newDisabled}
+      return {... prev, completed:newCompleted, failed:newFailed, disabled:newDisabled}
     })
 
     let stepstatus1=props.forms[0].props.courseInformation
@@ -529,49 +533,34 @@ useEffect(()=>{
 
 
   if(props.updateSteps==='passCoursePlan' || props.updateSteps==='passCoursePlanFree'){
-    let newDisabled = new Set(stepStatus.disabled.values());
-    let newCompleted= new Set(stepStatus.completed.values());
-    let newFailed = new Set(stepStatus.failed.values());
-    props.forms[0].props.courseInformation.stepscompleted.map((pass,index)=>{
-      newCompleted.add(pass)
-      newDisabled.delete(pass)
-    })
-    setStepStatus(prev=>{
-      return {... prev, completed:newCompleted, disabled:newDisabled}
-    })
-    let newStatus=stepStatus;
-    newStatus.completed.add(3)
-    newStatus.completed.add(2)
     
-    newFailed.delete(3);
+    if(props.updateSteps==='passCoursePlan'){
+        let newDisabled = new Set(stepStatus.disabled.values());
+        let newCompleted= new Set(stepStatus.completed.values());
+        let newFailed = new Set(stepStatus.failed.values());
+      
+        newFailed.delete(3);
+        newDisabled.delete(4);
+        newDisabled.add(5)
+        newCompleted.add(3);
+        newCompleted.delete(5);
+        setStepStatus(prev=>{
+          return {... prev, completed:newCompleted, failed:newFailed, disabled:newDisabled}
+        })
+    }
     
-    newDisabled.delete(4);
-    
-    
-    newCompleted.add(3);
-    setStepStatus(newStatus);
-    setStepStatus(prev=>{
-      return {... prev, completed:prev.completed.add(3), failed:newFailed, disabled:newDisabled, completed:newCompleted}
-    })
     //handleCompletenew(stepStatus.active)
     if(props.updateSteps==='passCoursePlanFree'){
       let newDisabled = new Set(stepStatus.disabled.values());
       let newCompleted= new Set(stepStatus.completed.values());
       let newFailed = new Set(stepStatus.failed.values());
-      props.forms[0].props.courseInformation.stepscompleted.map((pass,index)=>{
-        newCompleted.add(pass)
-        newDisabled.delete(pass)
-      })
-      setStepStatus(prev=>{
-        return {... prev, completed:newCompleted, disabled:newDisabled}
-      }) 
-      //newCompleted.add(5);
-      //newDisabled.delete(6);
+
       newDisabled.delete(5);
       newFailed.delete(3);
-      newStatus = { ...newStatus, disabled: newDisabled, failed:newFailed, completed:newCompleted };
-      setStepStatus(newStatus);
-     
+      newCompleted.add(3);
+      setStepStatus(prev=>{
+        return {... prev, completed:newCompleted, failed:newFailed, disabled:newDisabled}
+      }) 
     }
     let stepstatus1=props.forms[0].props.courseInformation
     stepstatus1.stepscompleted.push(3)
@@ -579,52 +568,38 @@ useEffect(()=>{
     setvalidateInformation(stepstatus1)
 
   }else if(props.updateSteps==='NopassCoursePlan'){
+
+    newFailed.add(3);
+    newCompleted.delete(3);
+    newDisabled.add(4);
+    newDisabled.add(5);
+    newDisabled.add(6);
+    newDisabled.add(7);
+    newCompleted.delete(4);
+    newCompleted.delete(5);
+    newCompleted.delete(6);
+    newCompleted.delete(7);
     setStepStatus(prev=>{
-      let newCompleted = new Set(stepStatus.completed.values());
-      let newDisabled = new Set(stepStatus.disabled.values());
-      newCompleted.delete(3);
-      newDisabled.add(5);
-      newDisabled.add(6);
-      newDisabled.add(7);
-      newCompleted.delete(5);
-      newCompleted.delete(6);
-      newCompleted.delete(7);
       return {
         ...prev, 
-        failed:prev.failed.add(3),
+        failed:newFailed,
         completed: newCompleted,
         disabled:newDisabled
        }
     })
+
     let stepstatus1=props.forms[0].props.courseInformation.stepscompleted
     var index = stepstatus1.indexOf(3);
     if (index > -1) {stepstatus1.splice(index, 1);}
     setvalidateInformation(stepstatus1)
+    
   }
   
    
   if(props.updateSteps==='passCourseAnalysis'){
-
-    let newDisabled = new Set(stepStatus.disabled.values());
-    let newCompleted= new Set(stepStatus.completed.values());
-
-    props.forms[0].props.courseInformation.stepscompleted.map((pass,index)=>{
-      newCompleted.add(pass)
-      newDisabled.delete(pass)
-    })
-    setStepStatus(prev=>{
-      return {... prev, completed:newCompleted, disabled:newDisabled}
-    })
-
-
-
-
-
-    setStepStatus(prev=>{
-      let newDisabled = new Set(stepStatus.disabled.values());
-      newDisabled.delete(5);
-      let newFailed = new Set(stepStatus.failed.values());
-      newFailed.delete(4);
+    newDisabled.delete(5);
+    newFailed.delete(4);
+    setStepStatus(prev=>{ 
       return {... prev, completed:prev.completed.add(4), failed:newFailed, disabled:newDisabled}
     })
     //handleCompletenew(stepStatus.active)
@@ -633,18 +608,15 @@ useEffect(()=>{
     stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
     setvalidateInformation(stepstatus1)
   }else if(props.updateSteps==='NopassCourseAnalysis'){
-    setStepStatus(prev=>{
-      let newCompleted = new Set(stepStatus.completed.values());
-      let newDisabled = new Set(stepStatus.disabled.values());
       newCompleted.delete(4);
       newCompleted.delete(7);
       newCompleted.delete(5);
       newCompleted.delete(6);
-  
       //newCompleted.delete(5);
       newDisabled.add(5);
       newDisabled.add(6);
       newDisabled.add(7);
+    setStepStatus(prev=>{
       return {
         ...prev, 
         failed:prev.failed.add(4),
@@ -660,40 +632,32 @@ useEffect(()=>{
   }
   
   if(props.updateSteps==='passCourseDesign'){
-    stepStatus.disabled.delete(5)
-    stepStatus.disabled.delete(6)
-    //stepStatus.disabled.delete(7)
-    stepStatus.completed.add(5)
-    setStepStatus(stepStatus)
+    newDisabled.delete(5)
+    newDisabled.delete(6)
+    newCompleted.add(5)
+    newFailed.delete(5);  
+    newDisabled.delete(5);
+    
     setStepStatus(prev=>{
-      let newFailed = new Set(stepStatus.failed.values());
-      newFailed.delete(5);
-      let newDisabled = new Set(stepStatus.disabled.values());
-      
-      newDisabled.delete(5);
-      newDisabled.delete(6);
-      //newDisabled.delete(7);
-      return {... prev, completed:prev.completed.add(5), failed:newFailed, disabled:newDisabled}
+      return {... prev, completed:newCompleted, failed:newFailed, disabled:newDisabled}
     })
-    //handleCompletenew(stepStatus.active)
+    
     let stepstatus1=props.forms[0].props.courseInformation
     stepstatus1.stepscompleted.push(5)
-    stepstatus1.stepscompleted.push(6)
+    //stepstatus1.stepscompleted.push(6)
     stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
     setvalidateInformation(stepstatus1)
   }else if(props.updateSteps==='NopassCourseDesign'){
+    newCompleted.delete(5);
+    newCompleted.delete(6);
+    newCompleted.delete(7);
+    newDisabled.add(6);
+    newDisabled.add(7);
+    newFailed.add(5)
     setStepStatus(prev=>{
-      let newCompleted = new Set(stepStatus.completed.values());
-      let newDisabled = new Set(stepStatus.disabled.values());
-      newCompleted.delete(5);
-      newCompleted.delete(6);
-      newCompleted.delete(7);
-     // newDisabled.add(5);
-      newDisabled.add(6);
-      newDisabled.add(7);
       return {
         ...prev, 
-        failed:prev.failed.add(5),
+        failed:newFailed,
         completed: newCompleted,
         disabled:newDisabled
        }
@@ -705,8 +669,27 @@ useEffect(()=>{
   }
   
 
-  if(props.updateSteps==='PassReport' || props.updateSteps==='PassProgram' ){
-   
+  if(props.updateSteps==='PassProgram'){
+    console.log("dentro del complete program",props.forms[0].props.courseInformation )
+    newCompleted.add(6)
+    newCompleted.add(7)
+    newDisabled.delete(7)
+    newDisabled.delete(6)
+    setStepStatus(prev=>{
+      return {
+        ...prev, 
+        failed:newFailed,
+        completed: newCompleted,
+        disabled:newDisabled
+       }
+    })
+    
+    let stepstatus1=props.forms[0].props.courseInformation
+    stepstatus1.stepscompleted.push(6)
+    stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
+    setvalidateInformation(stepstatus1)
+  }
+  if(props.updateSteps==='PassReport' ){
     stepStatus.completed.add(7)
     stepStatus.disabled.delete(7)
     stepStatus.completed.add(6)
@@ -725,7 +708,7 @@ useEffect(()=>{
 
 
 useEffect(()=>{
-  console.log("ESTE ES EL STEPSTATUS:1",stepStatus,validateInformation)
+  console.log("RESATURA LOS PASOS  YA GUARDADOS",stepStatus,validateInformation)
   //steps aprobados
     if(props.forms[0].props.courseInformation.stepsflag==='saved'){
       let estado= stepStatus
@@ -734,63 +717,10 @@ useEffect(()=>{
         estado.completed.add(aprobed)
         estado.failed.delete(aprobed)
         estado.disabled.delete(aprobed)
-        //3, 4, 5, 6, 7
         setStepStatus(estado)
       }) 
-      if(props.forms[0].props.courseInformation.stepscompleted.includes(0)===false || props.forms[0].props.courseInformation.stepscompleted.includes(1)===false){
-        estado.disabled=new Set([4,5,6])
-        //estado.completed.delete(3)
-        estado.completed.delete(4)
-        estado.completed.delete(5)
-        estado.completed.delete(6)
-       // estado.completed.delete(7)
-        if(props.forms[0].props.courseInformation.stepscompleted.includes(0)===false){
-          estado.failed.add(0)
-        }else if(props.forms[0].props.courseInformation.stepscompleted.includes(1)===false){
-          estado.failed.add(1)
-        }
-      }
-
-      if(props.forms[0].props.courseInformation.stepscompleted.includes(3)===false){
-        //console.log("---------------------")
-        estado.disabled=new Set([4,5,6])
-        estado.completed.delete(4)
-        estado.completed.delete(5)
-        estado.completed.delete(6)
-        //estado.completed.delete(7)
-        estado.failed.add(3)
-      }
-      if(props.forms[0].props.courseInformation.stepscompleted.includes(4)===false){
-
-        //console.log("ene l step 4: ",props.forms[0].props.courseInformation)
-        if(props.forms[0].props.courseInformation.coursePlan.guidedCoursePlan==="free" &&
-           props.forms[0].props.courseInformation.coursePlan.courseTemplate=== "without" && 
-          (props.forms[0].props.courseInformation.coursePlan.courseStructure=== "topic"
-          || props.forms[0].props.courseInformation.coursePlan.courseStructure=== "unit")){
-            estado.completed.add(5)
-            estado.completed.add(6)
-            estado.disabled.delete(6)
-            estado.disabled.delete(5)
-           }else{
-            estado.disabled=new Set([5,6])
-            estado.completed.delete(5)
-            estado.completed.delete(6)
-           // estado.completed.delete(7)
-            estado.failed.add(4)
-
-           }
-        
-      }
-      if(props.forms[0].props.courseInformation.stepscompleted.includes(5)===false){
-        estado.disabled=new Set([6])
-        estado.completed.delete(6)
-        //estado.completed.delete(7)
-        estado.failed.add(5)
-      }
-  }
-  // handleCompletenew()
-  //console.log("ESTE ES EL STEPSTATUS:2",stepStatus,validateInformation)
-},[stepStatus.active])
+    }
+},[])
 
   return (
     <div className="form-stepper-container">

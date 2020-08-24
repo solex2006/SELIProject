@@ -87,7 +87,7 @@ export default function CoursePlanStep(props) {
   
   const [courseInformation, setCourseInformation]=React.useState(props.courseInformation);
   const [coursePlan, setCoursePlan] = React.useState('');
-  const [courseTemplate, setCourseTemplate] = React.useState('');
+  const [courseTemplate, setCourseTemplate] = React.useState('without');
   const [newTemplate, setNewTemplate] = React.useState('');
   const [courseStructure, setCourseStructure] = React.useState('');
   const [changeStructure, setChangeStructure] = React.useState(false);
@@ -105,9 +105,9 @@ export default function CoursePlanStep(props) {
     else if(coursePlan==='guided' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
       props.validate('passCoursePlan')
     }
-    else if(coursePlan==='free' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
+    /* else if(coursePlan==='free' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
       props.validate('passCoursePlanFree')
-    }
+    } */
     else if(coursePlan==='free' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
       
       console.log("decide sie l cours eplan pasa", courseInformation.sylabus)
@@ -128,7 +128,7 @@ export default function CoursePlanStep(props) {
       cinformation.coursePlan.guidedCoursePlan = event.target.value;
       setCoursePlan(event.target.value);
       if (event.target.value === "free") {
-        
+        courseTemplate="without"
         cinformation.coursePlan.courseTemplate = "without";
         setCourseTemplate("without");
       }

@@ -65,7 +65,7 @@ export default class CreateCourse extends React.Component {
         requirements: [],
         coursePlan:{
           guidedCoursePlan: 'free', 
-          courseTemplate: 'spiral', 
+          courseTemplate: 'without', 
           courseStructure: 'topic'
         },
         program: [],
@@ -115,7 +115,7 @@ export default class CreateCourse extends React.Component {
           coursePlan: this.props.courseToEdit.coursePlan ? this.props.courseToEdit.coursePlan : 
           {
             guidedCoursePlan: 'free', 
-            courseTemplate: 'spiral', 
+            courseTemplate: 'without', 
             courseStructure: 'topic'
           },
           program: this.props.courseToEdit.program,
@@ -354,7 +354,7 @@ export default class CreateCourse extends React.Component {
         this.setState(this.state)
       }else{
         this.state.flagErrorSteps=false
-       // this.state.action='publish'
+        this.state.action='publish'
         this.setState(this.state)
       }
     }else{
@@ -391,7 +391,7 @@ export default class CreateCourse extends React.Component {
         this.setState(this.state)
       }else{
         this.state.flagErrorSteps=false
-       // this.state.action='publish'
+        this.state.action='publish'
         this.setState(this.state)
       }
     }
