@@ -413,13 +413,14 @@ useEffect(()=>{
     setStepStatus(prev=>{
       //let newFailed = new Set(stepStatus.failed.values());
       newFailed.delete(0);
+      newCompleted.add(0);
       //let newDisabled = new Set(stepStatus.disabled.values());
       if(stepStatus.completed.has(1)){    
         newDisabled.delete(3);
       }
       return {
         ...prev, 
-        completed:prev.completed.add(0),
+        completed:newCompleted,
         failed: newFailed,
         disabled:newDisabled
       }
@@ -463,15 +464,14 @@ useEffect(()=>{
 
   //////
   if(props.updateSteps==='passAudience'){  
-     /*  let newDisabled = new Set(stepStatus.disabled.values());
-      let newCompleted= new Set(stepStatus.completed.values()); */
+    console.log("dentro del no pass audience", newCompleted, newDisabled, newFailed)
       if(stepStatus.completed.has(0)){
         newDisabled.delete(3);
       }   
-      
       newFailed.delete(1);
+      newCompleted.add(1)
       setStepStatus(prev=>{
-        return {... prev, completed:prev.completed.add(1), failed:newFailed, disabled:newDisabled}
+        return {... prev, completed:newCompleted, failed:newFailed, disabled:newDisabled}
       })
       let stepstatus1=props.forms[0].props.courseInformation
       stepstatus1.stepscompleted.push(1)
@@ -479,27 +479,28 @@ useEffect(()=>{
       setvalidateInformation(stepstatus1)
       
   }else if(props.updateSteps==='NopassAudience'){
-    setStepStatus(prev=>{
-      //let newCompleted = new Set(stepStatus.completed.values());
-      newCompleted.delete(1);
-      newCompleted.delete(3);
-      newCompleted.delete(6);
-      newCompleted.delete(4);
-      newCompleted.delete(5);
-      newCompleted.delete(7);
-      //let newDisabled = new Set(stepStatus.disabled.values());
-      newDisabled.add(3);
-      newDisabled.add(6);
-      newDisabled.add(4);
-      newDisabled.add(5);
-      newDisabled.add(7);
+    //let newCompleted = new Set(stepStatus.completed.values());
+    newCompleted.delete(1);
+    newCompleted.delete(3);
+    newCompleted.delete(6);
+    newCompleted.delete(4);
+    newCompleted.delete(5);
+    newCompleted.delete(7);
+    //let newDisabled = new Set(stepStatus.disabled.values());
+    newDisabled.add(3);
+    newDisabled.add(6);
+    newDisabled.add(4);
+    newDisabled.add(5);
+    newDisabled.add(7);
 
-      newFailed.delete(3)
-      newFailed.delete(4)
-      newFailed.delete(5)
+    newFailed.delete(3)
+    newFailed.delete(4)
+    newFailed.delete(5)
+    newFailed.add(1)
+    setStepStatus(prev=>{
       return {
         ...prev, 
-        failed:prev.failed.add(1),
+        failed:newFailed,
         completed: newCompleted,
         disabled:newDisabled
        }
@@ -512,14 +513,8 @@ useEffect(()=>{
 
 
   if(props.updateSteps==='passRequirements'){
-    
-    
-    let newDisabled = new Set(stepStatus.disabled.values());
-    let newFailed = new Set(stepStatus.failed.values());
-    let newCompleted = new Set(stepStatus.completed.values());
     newFailed.delete(2)
     newCompleted.add(2)
-
     setStepStatus(prev=>{
       
       return {... prev, completed:newCompleted, failed:newFailed, disabled:newDisabled}
@@ -551,10 +546,6 @@ useEffect(()=>{
     
     //handleCompletenew(stepStatus.active)
     if(props.updateSteps==='passCoursePlanFree'){
-      let newDisabled = new Set(stepStatus.disabled.values());
-      let newCompleted= new Set(stepStatus.completed.values());
-      let newFailed = new Set(stepStatus.failed.values());
-
       newDisabled.delete(5);
       newFailed.delete(3);
       newCompleted.add(3);
@@ -598,8 +589,10 @@ useEffect(()=>{
   if(props.updateSteps==='passCourseAnalysis'){
     newDisabled.delete(5);
     newFailed.delete(4);
+    newCompleted.add(4);
+    newDisabled.delete(4);
     setStepStatus(prev=>{ 
-      return {... prev, completed:prev.completed.add(4), failed:newFailed, disabled:newDisabled}
+      return {... prev, completed:newCompleted, failed:newFailed, disabled:newDisabled}
     })
     //handleCompletenew(stepStatus.active)
     let stepstatus1=props.forms[0].props.courseInformation
@@ -607,23 +600,25 @@ useEffect(()=>{
     stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
     setvalidateInformation(stepstatus1)
   }else if(props.updateSteps==='NopassCourseAnalysis'){
-      newCompleted.delete(4);
-      newCompleted.delete(7);
-      newCompleted.delete(5);
-      newCompleted.delete(6);
-      //newCompleted.delete(5);
-      newDisabled.add(5);
-      newDisabled.add(6);
-      newDisabled.add(7);
-    setStepStatus(prev=>{
-      return {
-        ...prev, 
-        failed:prev.failed.add(4),
-        completed: newCompleted,
-        disabled:newDisabled,
-        
-       }
-    })
+    console.log("dentro del no pass analisis", newCompleted, newDisabled, newFailed)
+   
+        newCompleted.delete(4);
+        newCompleted.delete(7);
+        newCompleted.delete(5);
+        newCompleted.delete(6);
+        //newCompleted.delete(5);
+        newDisabled.add(5);
+        newDisabled.add(6);
+        newDisabled.add(7);
+        setStepStatus(prev=>{
+          return {
+            ...prev, 
+            failed:prev.failed.add(4),
+            completed: newCompleted,
+            disabled:newDisabled,
+            
+          }
+        })   
     let stepstatus1=props.forms[0].props.courseInformation.stepscompleted
     var index = stepstatus1.indexOf(4);
     if (index > -1) {stepstatus1.splice(index, 1);}

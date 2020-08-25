@@ -133,11 +133,13 @@ export default function AnalysisStep(props) {
         if(modality!=undefined && pedagogical!=undefined &&
            analysisTooltip.learningobjectives===false  && analysisTooltip.outcomes===false ){
             props.validate('passCourseAnalysis')
-        } 
-        if(modality===undefined || pedagogical==='' || 
+        } else{
+          props.validate('NopassCourseAnalysis')
+        }
+        /* if(modality===undefined || pedagogical==='' || 
            analysisTooltip.learningobjectives===true  || analysisTooltip.outcomes===true){
            props.validate('NopassCourseAnalysis')    
-        }
+        } */
   })
 
   const [openT, setOpenT] = React.useState(false);

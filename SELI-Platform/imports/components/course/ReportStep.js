@@ -2054,7 +2054,7 @@ export default function ReportStep(props) {
 				
 					{
 						props.courseInformation.coursePlan.guidedCoursePlan!='guided'?
-						<div>
+						<div className='sylabusStyles'>
 							<h2 className='headAccessibility'>Sylabus accessibility report</h2>
 							<div className='headAccessibility'>			
 								This part details the accessibility percentages of the course Sylabus.	

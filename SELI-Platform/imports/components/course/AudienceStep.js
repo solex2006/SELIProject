@@ -92,6 +92,7 @@ export default function AudienceApp(props) {
   }
 
   useEffect(()=>{
+   // loadingData();
     //ve si al menos uno esta en true
     let validate=false;
     audiences.map((value, index)=>{
