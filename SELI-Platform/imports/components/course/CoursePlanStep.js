@@ -110,7 +110,7 @@ export default function CoursePlanStep(props) {
     } */
     else if(coursePlan==='free' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
       
-      console.log("decide sie l cours eplan pasa", courseInformation.sylabus)
+     // console.log("decide sie l cours eplan pasa", courseInformation.sylabus)
       if(courseInformation.sylabus!=undefined){
         props.validate('passCoursePlanFree')
       }else{

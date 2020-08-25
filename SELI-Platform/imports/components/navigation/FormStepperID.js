@@ -568,7 +568,6 @@ useEffect(()=>{
     setvalidateInformation(stepstatus1)
 
   }else if(props.updateSteps==='NopassCoursePlan'){
-
     newFailed.add(3);
     newCompleted.delete(3);
     newDisabled.add(4);
