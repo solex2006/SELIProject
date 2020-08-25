@@ -1,16 +1,41 @@
 import CourseFilesCollection from "../../../lib/CourseFilesCollection";
+import { v4 as uuidv4 } from "uuid";
+
+import sha256 from "crypto-js/sha256";
+
+//const message, nonce, path, privateKey; // ...
 
 const bakery = require("openbadges-bakery-v2");
 var key = Meteor.settings.public.BLOCKCHAIN_USERKEY;
 var encryptor = require("simple-encryptor")(key);
 
+function hashEmailAddress(email, salt) {
+  const hashDigest = sha256(email + salt);
+  return "sha256$" + hashDigest.toString(CryptoJS.enc.Hex);
+}
+
+function getIdentity(email) {
+  var salt = CryptoJS.lib.WordArray.random(16);
+  const id = {
+    identity: hashEmailAddress(email, salt),
+    type: "email",
+    hashed: true,
+    salt: salt + "",
+  };
+  return id;
+}
 async function bakeBadge(assertion, badgeInformation, user) {
+  assertion.id = uuidv4();
+  assertion.type = "Assertion";
+  assertion["@context"] = "https://w3id.org/openbadges/v2";
+  assertion.verification = { type: "HostedBadge" };
+  assertion.recipient = getIdentity(user.emails[0].address);
   let buffer = CourseFilesCollection.findOne({
     _id: badgeInformation.image._id,
   });
   buffer = buffer.meta.buffer;
   console.log(user);
-
+  console.log(assertion);
   var options = {
     image: buffer,
     assertion: assertion,

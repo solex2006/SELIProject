@@ -1141,5 +1141,6 @@ var PORTUGUESE = {
   badgeAwardMessage: "Congratulations! You won the badge",
   removeBadge: "Remove badge",
   addBadge: "Add badge",
+  criteria: "Criteria",
 }
 export default PORTUGUESE;

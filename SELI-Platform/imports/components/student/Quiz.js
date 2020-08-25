@@ -27,7 +27,7 @@ import momentDurationFormatSetup from "moment-duration-format";
 import Checkbox from '@material-ui/core/Checkbox';
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import { Courses } from '../../../lib/CourseCollection';
-import { bakeBadge} from '../badge/badgeCreation';
+import { bakeBadge} from '../badge/AwardBadge';
 
 
 momentDurationFormatSetup(moment);
@@ -283,8 +283,8 @@ class Quiz extends React.Component {
     console.log(this.props.quiz.attributes.approvalPercentage);
     if (score.score >= this.props.quiz.attributes.approvalPercentage) {
       console.log('baking after succesful quiz');
-      let badgeInformation = this.props.quiz.attributes.badgeInformation;
-      this.issueBadge(badgeInformation);
+      let badgeClass = this.props.quiz.attributes.badgeClass;
+      this.issueBadge(badgeClass);
       // Meteor.call("UpdateCourses", Meteor.userId, user.profile.b);
     }
     else {
@@ -294,7 +294,7 @@ class Quiz extends React.Component {
     score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
     console.log(approved);
     //adding badge
-    // this.persistBadge(this.props.quiz.attributes.badgeInformation);
+    // this.persistBadge(this.props.quiz.attributes.badgeClass);
 
   }
 
@@ -447,25 +447,24 @@ class Quiz extends React.Component {
   }
 
   // OpenBadge
-  async  issueBadge(badgeInformation) {
-    console.log("issueBadge :  badgeInformation")
-    console.log(badgeInformation);
+  async  issueBadge(badgeClass) {
+    console.log("issueBadge :  badgeClass")
+    console.log(badgeClass);
     let user = Meteor.users.find({ _id: Meteor.userId() }).fetch();
     user = user[0];
     let course = Courses.find({ "program.items.id": this.props.quiz.id }).fetch();
     course = course[0];
  
     var assertion = {
-      "_id": badgeInformation.image._id,
-      "_badgeName": badgeInformation.name,
+      "_badgeName": badgeClass.name,
       "_studentName": user.profile.fullname,
       "_courseId": course._id,
       "_teacherId": course.createdBy,
-      "description": badgeInformation.description,
-      "issuedOn": new Date().toISOString().substring(0, 10),
+      "description": badgeClass.description,
+      "issuedOn": new Date().toISOString(),
     };
     console.log(user)
-    bakeBadge(assertion,badgeInformation,user)
+    bakeBadge(assertion,badgeClass,user)
   }
 
   render() {

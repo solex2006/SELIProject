@@ -15,6 +15,7 @@ import '../lib/changeAccountInformation';
 import '../lib/StudentLogCollection';
 import '../lib/storyTellingVideo';
 import '../lib/badgeMethods/saveBadge';
+import '../lib/BadgesCollection';
 /**
  * SELI - Learning Analytics
  * This method is used to obtain the client's IP address.
@@ -46,22 +47,22 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(() => {
-    let smtp_domain = Meteor.settings.private.SMTP_DOMAIN;
-    let smtp_port = Meteor.settings.private.SMTP_PORT;
-    let smtp_user = Meteor.settings.private.SMTP_USER;
-    let smtp_user_password = Meteor.settings.private.SMTP_USER_PASSWORD;;
+    // let smtp_domain = Meteor.settings.private.SMTP_DOMAIN;
+    // let smtp_port = Meteor.settings.private.SMTP_PORT;
+    // let smtp_user = Meteor.settings.private.SMTP_USER;
+    // let smtp_user_password = Meteor.settings.private.SMTP_USER_PASSWORD;;
     
-    Accounts.emailTemplates.from=smtp_user;
-    Accounts.urls.resetPassword = (token) => {
-      return Meteor.absoluteUrl(`RetrievePasswd/#/reset-password/${token}`);
-    }; 
+    // Accounts.emailTemplates.from=smtp_user;
+    // Accounts.urls.resetPassword = (token) => {
+    //   return Meteor.absoluteUrl(`RetrievePasswd/#/reset-password/${token}`);
+    // }; 
 
-    smtp_user = smtp_user.replace("@","%40");
-    if (smtp_user_password === ""){
-      process.env.MAIL_URL=`smtp://@${smtp_domain}:${smtp_port}`;
-    } else {
-      process.env.MAIL_URL=`smtp://${smtp_user}:${smtp_user_password}@${smtp_domain}:${smtp_port}`;
-    }
+    // smtp_user = smtp_user.replace("@","%40");
+    // if (smtp_user_password === ""){
+    //   process.env.MAIL_URL=`smtp://@${smtp_domain}:${smtp_port}`;
+    // } else {
+    //   process.env.MAIL_URL=`smtp://${smtp_user}:${smtp_user_password}@${smtp_domain}:${smtp_port}`;
+    // }
 
     options={
       url: "certificate-result",
