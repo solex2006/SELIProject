@@ -3,6 +3,7 @@
   position: absolute;
   height: calc(100vh - var(--app-bar-height));
 }
+
 .form-stepper-navigation {
   width: 100%;
   display: flex;
@@ -41,11 +42,20 @@
 }
 
 .form-stepper-information {
-  padding: 0 2vw;
+  background-color: #e8e8e8;
+  padding: 9px;
+  display: inline !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.form-stepper-information-id {
   background-color: #e8e8e8;
   padding: 18px;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-stepper-active-step {
@@ -54,16 +64,20 @@
   letter-spacing: 0.75px;
   color: #757575;
 }
+
+.form-stepper-active-step-id {
+  text-align: center;
+  font-size: 13.5px;
+  letter-spacing: 0.75px;
+  color: #757575;
+}
+
 .form-stepper-title {
   font-size: 28.5px;
   font-weight: 100;
   letter-spacing: 1px;
   text-transform: uppercase;
-}
-
-@media only screen and (max-width: 1600px)  {
-  .form-stepper-active-step{display: none !important;}
-  .form-stepper-title {font-size: 21.5px !important;}
+  text-align: center;
 }
 
 .form-stepper {
@@ -115,11 +129,6 @@
   right: 0;
 }
 
-.form-stepper-actions-id {
-  position: absolute !important;
-  right: 2vw !important;
-}
-
 .form-stepper-complete-button {
   height: var(--form-stepper-height) !important;
   border-radius: 0 !important;
@@ -127,6 +136,7 @@
   padding-left: 3.5vw !important;
   padding-right: 3.5vw !important;
   opacity: 0.8;
+  text-align: center;
 }
 
 .form-stepper-content {
@@ -190,3 +200,24 @@
   transition: 0.5s;
   opacity: 1;
 }
+
+@media only screen and (max-width: 1600px)  {
+  .form-stepper-active-step-id {display: none !important;}
+  .form-stepper-title {font-size: 21.5px !important;}
+}
+
+@media only screen and (max-width: 1080px)  {
+  .form-stepper-information {
+    padding: 9px;
+    width: 50vw;
+  }
+  .form-stepper-actions {
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+  }
+  .form-stepper-navigation {
+    height: auto;
+  }
+}
+

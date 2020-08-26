@@ -624,3 +624,10 @@
 .MuiInput-root:{
   margin-top: 16px;
 }
+
+@media only screen and (max-width: 1080px)  {
+  .input-container {
+    width: 90vw;
+    left: 5vw;
+  }
+}

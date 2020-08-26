@@ -28,6 +28,7 @@
 }
 
 .dialog-label-title {
+  width: calc(100% - 75px) !important;
   color: var(--white) !important;
   text-transform: uppercase;
   font-weight: 100;
