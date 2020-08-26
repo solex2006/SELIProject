@@ -24,7 +24,7 @@ export default function A11YProgressFeedback(props){
 
 
 	useEffect(() => {
-		//console.log("propiedades----->", props.item.accessibility.isA11Y, props.a11yFields)
+		console.log("propiedades A11YProgressFeedback----->", props)
 		updateProgress()
 
 			 /*  if(props.item.accessibility.dataField!=undefined){

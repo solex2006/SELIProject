@@ -142,18 +142,6 @@ export default function ImageAccessibility(props) {
 							language={props.language}
 						/>
 
-                        {/* <Editor editorState={editorReuse()} readOnly={false} /> */}
-						{/* <EditorA11Y 
-							editorState={editorReuse()}
-							id={'long-description-input'}
-							name="longDescription"
-							label={props.language.longDescription_a11y_label}
-							aria-describedby='long-description-help-container'
-							placeholder={props.language.longDescription_a11y_placeholder_image}
-							onChange={React.useCallback(handleInputOnChange)}
-							error={dataField.longDescriptionError}
-							longDescription_a11y_delopment_purpose={props.language.longDescription_a11y_delopment_purpose}
-						/> */}
 					</Grid>
 				</Grid>
 			</section>
@@ -162,7 +150,7 @@ export default function ImageAccessibility(props) {
 }
 
 export const useImageDataField = (props) => {
-	console.log("Propiedades en useImageDataField",props)
+	//console.log("Propiedades en useImageDataField",props)
 	//feedback
 	const [shortDescriptionTip, setShortDescriptionTip] = React.useState(getShortDescriptionTip('info'));
 	const [longDescriptionTip, setLongDescriptionTip] = React.useState(getLongDescriptionTip('info'));
@@ -172,7 +160,7 @@ export const useImageDataField = (props) => {
 	const [displayAltGroup, setDisplayAltGroup] = React.useState('none');
 	const [displayAltLong, setDisplayAltLong] = React.useState('none');
 	const [toogleShort, setToogleShort] = React.useState(false);
-	const [toogleLong, setToogleLong] = React.useState(true);
+	const [toogleLong, setToogleLong] = React.useState(false);
 	const [toogleValue, setTvalue] = React.useState('');
 	const [dataField, setDataField] = React.useState({
 		longDescription:'',
@@ -192,6 +180,7 @@ export const useImageDataField = (props) => {
 	const [isA11Y, setIsA11Y] = React.useState(a11yInitial);
 
 	useEffect(() => {
+		//console.log("carga lo gurdadoantes", props.item.dataField, props.item.isA11Y)
 		if (props.item.dataField && props.item.isA11Y) {
 			setDataField(props.item.dataField);
 			setIsA11Y(props.item.isA11Y);
@@ -205,37 +194,31 @@ export const useImageDataField = (props) => {
 		setShortDescriptionTip(getShortDescriptionTip(value));
 		setLongDescriptionTip(getLongDescriptionTip(value));
 
-		updateAccessibilityProgress(toogleShort, toogleLong, value);
-
 	}, [dataField.imagePurpose]);
 
 	useEffect(() => {
+		console.log("opcion uno",toogleShort)
 		setDisplayAltGroup(toogleShort ? 'none' : 'initial');
 
 	}, [toogleShort]);
 
 	useEffect(() => {
+		console.log("opcion dos",toogleLong)
 		setDisplayAltLong(toogleLong ? 'none' : 'initial');
 	}, [toogleLong]);
 
-/* 	useEffect(() => {
-		setDataField(dataField => ({...dataField,
-			shortDescription: '',
-		}));
-	}, [displayAltGroup]);
-
-	useEffect(() => {
-		setDataField(dataField => ({...dataField,
-			shortDescription: '',
-			longDescription: '',
-		}));
-	}, [displayAltLong]); */
 
 
 	const handleImagePurposeOnChange = event => {
-		//console.log("event and target-----------------", event.target)
+	//	console.log("event and target and toogleLong-----------------", dataField, toogleLong)
+
+		if (dataField.imagePurpose==='cplx'){
+			setIsA11Y([isA11Y[0]])
+			//toogleLong=true
+			//setToogleLong(true)
+		}
+		
 		const { name, value } = event.target;
-	
 		let data = {
 			[name]: value,
 		};
@@ -246,120 +229,103 @@ export const useImageDataField = (props) => {
 		if(toogleShort != shortToogle)
 			setToogleShort(shortToogle);
 
-		if(toogleLong != longToogle)
-			setToogleLong(longToogle);
+		console.log("value", value)
+		if( value === 'info' || value === 'txt'){
+			setToogleLong(true);
+		}
+		if( value === 'cplx'){
+			setToogleLong(false);
+			setIsA11Y([
+				{name: 'shortDescription', is_a11y: isA11Y===undefined ?false : isA11Y[0].is_a11y},
+				{name: 'longDescription',  is_a11y: dataField.longDescription.blocks[0].text===''  ?false : true},
+			]);
+		}
+		updateAccessibilityProgress(shortToogle, longToogle, name, value );
 
-		//console.log("event and target-----------------", event.target)
-		updateAccessibilityProgress(shortToogle, longToogle, name );
-
-		// let arr = [...isA11Y];
-
-
-		// if(toogleShort && displayAltGroup === 'initial'){
-		// 	data = {...data,
-		// 		shortDescription: ''
-		// 	};
-		// 	arr = arr.filter(a => ( a.name !== 'shortDescription'));
-		// }
-
-		// if(toogleLong){
-		// 	data = {...data,
-		// 		longDescription: ''
-		// 	};
-		// 	arr = arr.filter(a => ( a.name !== 'longDescription'));
-		// }
-
-		// setIsA11Y(arr);
-		// setDataField( dataField => ({ ...dataField, ...data }));
+		
 	};
 
 	function editorReuse(){
-	
 			const contentState = convertFromRaw(props.item.dataField.longDescription);
 			const editorState =  EditorState.createWithContent(contentState);
 			return editorState
-			
-	
 	}
-	function updateAccessibilityProgress( shortToogle, longToogle ,toogleValue ){
-		//console.log("shortToogle, longToogle----",shortToogle, longToogle, toogleValue ,props)
+	function updateAccessibilityProgress( shortToogle, longToogle ,toogleValue, value ){
+		//console.log("shortToogle, longToogle----",shortToogle, longToogle, toogleValue ,value,props, isA11Y,dataField)
+		
 		if(!shortToogle && longToogle) //hide shortDescription === hideLongDescription
 		{	
-				if(toogleValue==='info'){
-					setIsA11Y([
-						{name: 'shortDescription', is_a11y: props.item.isA11Y===undefined ?false : props.item.isA11Y[0].is_a11y},
-					]);
-				}else if(toogleValue==='deco'){
-					setIsA11Y([]);
-				}else if(toogleValue==='txt'){
-					setIsA11Y([
-						{name: 'shortDescription', is_a11y: props.item.isA11Y===undefined ?false : props.item.isA11Y[0].is_a11y},
-					]);
-				}
-				 if(props.item.dataField!=undefined){
-					if(toogleValue==='info'){
+				
+				  if(props.item.dataField!=undefined){
+					//setToogleLong(true)
+					if(value==='info'){
+						//setDisplayAltLong('none')
 						setIsA11Y([
-							{name: 'shortDescription', is_a11y: props.item.isA11Y===undefined ?false : props.item.isA11Y[0].is_a11y},
+							{name: 'shortDescription', is_a11y: isA11Y===undefined ?false : isA11Y[0].is_a11y},
 						]);
-					}else if(toogleValue==='deco'){
+					}else if(value==='deco'){
+						//setDisplayAltGroup('none')
 						setIsA11Y([]);
-					}else if(toogleValue==='txt'){
+					}else if(value==='txt'){
+						//setDisplayAltLong('none')
 						setIsA11Y([
-							{name: 'shortDescription', is_a11y: props.item.isA11Y===undefined ?false : props.item.isA11Y[0].is_a11y},
+							{name: 'shortDescription', is_a11y: isA11Y===undefined ?false : isA11Y[0].is_a11y},
 						]);
-					}
-					else{
-						if(toogleValue==='cplx'){
-							console.log("CPLX")
-							setDisplayAltLong('initial')
-						}else if(toogleValue==='imagePurpose'){
-							setDisplayAltLong('none')
-						}
-						setIsA11Y([
-							{name: 'shortDescription', is_a11y: props.item.isA11Y===undefined ?false : props.item.isA11Y[0].is_a11y},
-							{name: 'longDescription',  is_a11y: false}
-						]);
-
 					}
 					
-				} 
+				}  
 		}
 
 		if(!shortToogle && !longToogle) {	
-			if(toogleValue==='cplx'){
-				setDisplayAltLong('initial')
+			if(value==='cplx'){
+				
+				setToogleLong(false)
 				setIsA11Y([
-					{name: 'shortDescription', is_a11y: props.item.dataField===undefined ?false : true},
-					{name: 'longDescription',  is_a11y: props.item.dataField===undefined ?false : true},
+					{name: 'shortDescription', is_a11y: isA11Y===undefined ?false : isA11Y[0].is_a11y},
+					{name: 'longDescription',  is_a11y: dataField.longDescription.blocks[0].text===''  ?false : true},
 				]);
-			}
-			if(props.item.dataField!=undefined){
-				if(toogleValue==='cplx'){
-					setDisplayAltLong('initial')
-					setIsA11Y([
-						{name: 'shortDescription', is_a11y: props.item.dataField.shortDescription!='' ?true : false},
-						{name: 'longDescription',  is_a11y: props.item.dataField.longDescription!='' ?true : false},
-					]);
-				}	
 			}
 		}
 	}
 
 	function handleInputOnChange ({ target: { name, value } }){
-		let errValue = value === '';
-		setDataField(dataField => ({ ...dataField,
-			[name] : value,
-			[name+'Error'] : errValue,
-		}));
-		let new_a11Y = isA11Y.map(el => {
-			if(el.name == name)
-				return Object.assign({}, el, {is_a11y:!errValue});
-				
-			return el;
-		});
-	
-		setIsA11Y(new_a11Y);
+		if(name==='longDescription'){
+			let errValue = '';
+			if(value.blocks[0].text===''){
+				 errValue = true;
+			}
+			else{
+				 errValue = false;
+			}
+			setDataField(dataField => ({ ...dataField,
+				[name] : value,
+				[name+'Error'] : errValue,
+			}));
+			let new_a11Y = isA11Y.map(el => {
+				if(el.name == name)
+					return Object.assign({}, el, {is_a11y:!errValue});
+					
+				return el;
+			});
+			setIsA11Y(new_a11Y);
+		}
+		else{
+			let errValue = value === '';
+			setDataField(dataField => ({ ...dataField,
+				[name] : value,
+				[name+'Error'] : errValue,
+			}));
+			let new_a11Y = isA11Y.map(el => {
+				if(el.name == name)
+					return Object.assign({}, el, {is_a11y:!errValue});
+					
+				return el;
+			});
+			setIsA11Y(new_a11Y);
+		}
 	}
+
+	
 
 
 	function handleLongDescriptionPosition(value){
