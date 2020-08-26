@@ -92,6 +92,7 @@ export default function AudienceApp(props) {
   }
 
   useEffect(()=>{
+   // loadingData();
     //ve si al menos uno esta en true
     let validate=false;
     audiences.map((value, index)=>{
@@ -124,6 +125,7 @@ export default function AudienceApp(props) {
   const [open, setopen]= useState(false)
   const [opensnack, setopensnack]= useState(true)
   const [feedbackError, setfeedbackError]=useState(true)
+  const [feedbackErrorAudiences, setfeedbackErrorAudiences]=useState(true)
   const [labelindexdelete, setlabelindexdelete]=useState("")
   const [indexdelete,  setindexdelete]=useState(0)
   const [tooltip, settooltip]=useState(false)
@@ -691,7 +693,7 @@ export default function AudienceApp(props) {
           <FeedbackHelp
             language={language}
             validation={{
-              error: true,
+              error: audienceTooltip.audienceError,
               errorMsg: "Intended Audience is a mandatory field, select at least one.",
               errorType: "a11y",
              // a11y: { valid: !audienceTooltip.audienceError }

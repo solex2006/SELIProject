@@ -31,6 +31,9 @@
 .headAccessibility{
   padding: 2.5vh 6vw;
 }
+.sylabusStyles{
+  padding-bottom: 35px;
+}
 
 .form-input-audiences {
   max-height: calc(100% - 15vh);
