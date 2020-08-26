@@ -292,6 +292,50 @@ export default class UserInformation extends React.Component {
         <div className="form-input-column">
           <div className="sign-form">
             <TextField
+              id="email-input"
+              label={this.props.language.email}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              autoComplete={"off"}
+              required
+              value={this.state.userInformation.email}
+              onChange={this.handleChange('email')}
+              onBlur={() => this.validateEmail()}
+              onKeyPress={() => this.keyController(event, 'email')}
+              error={this.state.showError && this.state.userInformation.email === ''}
+              helperText={
+                <div>
+                  {
+                    this.state.emailResult && !this.state.validatingEmail ?
+                      <div className="form-helper-container">
+                        {
+                          this.state.validEmail ?
+                            <div className="success-helper-text">
+                              <p>{this.state.emailHelperMessage}</p>
+                            </div>
+                          :
+                          <div className="error-helper-text">
+                            <p>{this.state.emailHelperMessage}</p>
+                          </div>
+                        }
+                      </div>
+                    :
+                    undefined
+                  }
+                  {
+                    this.state.validatingEmail ?
+                      <div className="form-helper-container">
+                        <p>{this.state.emailHelperMessage}</p>
+                        <LinearProgress className="helper-progress"/>
+                      </div>
+                    :
+                    undefined
+                  }
+                </div>
+              }
+            />
+            <TextField
               id="name-input"
               label={this.props.language.fullname}
               margin="normal"
@@ -354,50 +398,6 @@ export default class UserInformation extends React.Component {
                   </div>
                 :
                 undefined
-              }
-            />
-            <TextField
-              id="email-input"
-              label={this.props.language.email}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              autoComplete={"off"}
-              required
-              value={this.state.userInformation.email}
-              onChange={this.handleChange('email')}
-              onBlur={() => this.validateEmail()}
-              onKeyPress={() => this.keyController(event, 'email')}
-              error={this.state.showError && this.state.userInformation.email === ''}
-              helperText={
-                <div>
-                  {
-                    this.state.emailResult && !this.state.validatingEmail ?
-                      <div className="form-helper-container">
-                        {
-                          this.state.validEmail ?
-                            <div className="success-helper-text">
-                              <p>{this.state.emailHelperMessage}</p>
-                            </div>
-                          :
-                          <div className="error-helper-text">
-                            <p>{this.state.emailHelperMessage}</p>
-                          </div>
-                        }
-                      </div>
-                    :
-                    undefined
-                  }
-                  {
-                    this.state.validatingEmail ?
-                      <div className="form-helper-container">
-                        <p>{this.state.emailHelperMessage}</p>
-                        <LinearProgress className="helper-progress"/>
-                      </div>
-                    :
-                    undefined
-                  }
-                </div>
               }
             />
             {
