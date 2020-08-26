@@ -26,8 +26,11 @@ export default class CourseInformation extends React.Component {
   componentDidMount(){
     if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
         && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
-        && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
-        ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3)){
+        && (this.state.courseInformation.language===0 
+          || this.state.courseInformation.language===1
+        ||this.state.courseInformation.language===2 
+        || this.state.courseInformation.language===3 
+        || this.state.courseInformation.language===4)){
       this.props.validate('passInformation')
     } else {
       this.props.validate('NopassInformation')
@@ -38,7 +41,7 @@ export default class CourseInformation extends React.Component {
     if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
         && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
         && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
-        ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3)){
+        ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3 || this.state.courseInformation.language===4)){
       this.props.validate('passInformation')
     } else {
       this.props.validate('NopassInformation')
@@ -195,11 +198,12 @@ export default class CourseInformation extends React.Component {
             margin="normal"
             variant="outlined"
           >
+            <MenuItem value={4}>{`${this.props.language.turkish} (TR)`}</MenuItem>
             <MenuItem value={0}>{`${this.props.language.english} (US)`}</MenuItem>
             <MenuItem value={1}>{`${this.props.language.spanish} (ES)`}</MenuItem>
             <MenuItem value={2}>{`${this.props.language.portuguese} (PT)`}</MenuItem>
             <MenuItem value={3}>{`${this.props.language.polish} (PL)`}</MenuItem>
-            <MenuItem value={4}>{`${this.props.language.turkish} (TR)`}</MenuItem>
+            
           </TextField>
           <FeedbackHelp
             validation={{
