@@ -98,7 +98,6 @@
 
 @media screen and (max-width: 1080px) {
   .accessibility-form-helper-text {width: 77% !important}
-  .form-file-container {width: 77% !important; margin-left: 30px;}
   .margin-center-row {flex-wrap: wrap;}
   .editor-tools {flex-wrap: wrap !important;}
   .center-button-container {margin-bottom: 30px !important;}

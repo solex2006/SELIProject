@@ -400,7 +400,7 @@ export default class UserInformation extends React.Component {
                 undefined
               }
             />
-            {
+           {/*  {
               this.props.type === "tutor" ? 
               undefined
               :
@@ -409,7 +409,7 @@ export default class UserInformation extends React.Component {
                 language={this.props.language}
                 userInformation={this.state.userInformation}
               ></AccessibilityRegistration>
-            }
+            } */}
           </div>
           {
             this.props.type === "tutor" ?
