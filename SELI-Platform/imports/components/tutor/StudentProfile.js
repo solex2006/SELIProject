@@ -18,8 +18,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DoneIcon from '@material-ui/icons/Done';
 import InfoIcon from '@material-ui/icons/Info';
 
-var key =Meteor.settings.public.BLOCKCHAIN_USERKEY ;
+var key = Meteor.settings.public.BLOCKCHAIN_USERKEY;
 var encryptor = require('simple-encryptor')(key);
+
 export default class StudentProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -107,28 +108,9 @@ export default class StudentProfile extends React.Component {
   }
 
   handleUnsubscription = () => {
-    let course = Courses.find({_id: this.props.profile.courseProfile.courseId}).fetch();
-    course = course[0];
-    let studentIndex = course.classroom.findIndex(students => students === this.props.profile.studentId);
-    course.classroom.splice(studentIndex, 1);
-    Courses.update(
-      { _id: course._id },
-      { $set: {
-        classroom: course.classroom,
-      }}
-      , () => {
-        var user = Meteor.users.findOne({_id: this.props.profile.studentId});
-        let courseIndex = user.profile.courses.findIndex(subscribedCourse => subscribedCourse.courseId === this.props.profile.courseProfile.courseId);
-        user.profile.courses.splice(courseIndex, 1);
-        Meteor.call("UpdateCourses", this.props.profile.studentId, user.profile.courses, (error, response) =>  {
-            if (response) {
-              this.props.handleControlMessage(true, this.props.language.studendRemoved);
-              this.handleClose();
-              this.props.reload(this.props.profile.courseProfile.courseId);
-            }
-        });
-      }
-    )
+    this.props.unsubscribe(this.props.profile.courseProfile.courseId, this.props.profile.studentId)
+    this.handleClose();
+    this.props.reload(this.props.profile.courseProfile.courseId);
   }
 
   handleChangePanel = () => {
@@ -150,6 +132,7 @@ export default class StudentProfile extends React.Component {
     let description = this.props.course.description;
     let duration = this.props.course.duration;
 
+    console.log("en createCertificate function",this.props )
     let registerDataSinCode={ //useful for regsiter users in blockchain network
       email: this.props.profile.studentInformation.email,
       displayName: this.props.profile.studentInformation.fullname,
@@ -159,8 +142,6 @@ export default class StudentProfile extends React.Component {
     var registerData = {data: encryptor.encrypt(registerDataSinCode)};
     // Should print gibberish:
     //console.log('obj encrypted:', registerData);
-
-  
 
     let certificateInfo = {
       idStudent: idStudent,
@@ -176,6 +157,8 @@ export default class StudentProfile extends React.Component {
 
   sendCertificate(certificateInfo, registerData){
     let TokenUser=Meteor.users.find({_id : this.props.profile.studentId  }).fetch()[0].profile.token;
+   
+    console.log("Se envia a crear el certificado------>TokenUSer:", TokenUser)
     if(TokenUser===undefined){//register the token
       fetch(`${Meteor.settings.public.BLOCKCHAIN_DOMAIN}/login/user`, {
       method: 'post',
@@ -256,7 +239,6 @@ export default class StudentProfile extends React.Component {
   };
 
   render() {
-    console.log(this.props)
     return(
       <div className="student">
         <div className="student-profile-container">
@@ -323,7 +305,7 @@ export default class StudentProfile extends React.Component {
                     color="primary"
                     variant="outlined"
                     onClick={() => this.handleClick("certificate")}
-                    disabled={this.props.profile.courseProfile.progress < 99.99 || Meteor.userId()===this.props.profile.studentId  }
+                    disabled={this.props.profile.courseProfile.progress < 99.99   }//|| Meteor.userId()===this.props.profile.studentId
                   >
                     {this.props.language.generateCertificate}
                   </Button>
@@ -341,11 +323,11 @@ export default class StudentProfile extends React.Component {
                     onClose={this.handleClose}
                     anchorOrigin={{
                       vertical: 'center',
-                      horizontal: 'right',
+                      horizontal: 'center',
                     }}
                     transformOrigin={{
                       vertical: 'center',
-                      horizontal: 'left',
+                      horizontal: 'center',
                     }}
                   >
                     <div className="confirmation-popover-container">
@@ -358,7 +340,9 @@ export default class StudentProfile extends React.Component {
                       <div>
                         <Button
                           className="student-confirmation-button"
-                          onClick={this.state.action === "subscription" ? () => this.handleUnsubscription() : () => this.createCertificate()}
+                          onClick={this.state.action === "subscription" ? 
+                            () => this.handleUnsubscription() : () => this.createCertificate()
+                          }
                           variant="contained" color="primary"
                         >
                           {this.props.language.yes}
@@ -395,6 +379,7 @@ export default class StudentProfile extends React.Component {
                 onClose={this.handleCloseCertificate}
                 aria-labelledby="alert-dialog-confirmation"
                 aria-describedby="alert-dialog-confirmation"
+                disableBackdropClick={true}
               >
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateGenerated}</DialogTitle>
                 <DialogContent className="success-dialog-content">
@@ -404,7 +389,7 @@ export default class StudentProfile extends React.Component {
                   <DoneIcon className="warning-dialog-icon"/>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={() => this.handleCloseCertificate()} color="primary" autoFocus>
+                  <Button variant="outlined" onClick={() => this.handleCloseCertificate()} color="primary" autoFocus>
                   {this.props.language.close}
                   </Button>
                 </DialogActions>
@@ -416,6 +401,7 @@ export default class StudentProfile extends React.Component {
                 onClose={this.handleCloseCertificate}
                 aria-labelledby="alert-dialog-confirmation"
                 aria-describedby="alert-dialog-confirmation"
+                disableBackdropClick={true}
               >
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.certificateNotGenerated}</DialogTitle>
                 <DialogContent className="success-dialog-content">
@@ -425,7 +411,7 @@ export default class StudentProfile extends React.Component {
                   <InfoIcon className="warning-dialog-icon"/>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={() => this.handleCloseCertificate()} color="primary" autoFocus>
+                  <Button variant="outlined" onClick={() => this.handleCloseCertificate()} color="primary" autoFocus>
                     {this.props.language.close}
                   </Button>
                 </DialogActions>

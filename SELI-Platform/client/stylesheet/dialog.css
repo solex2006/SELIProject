@@ -47,7 +47,6 @@
 }
 
 .dialog-actions-container {
-  margin-top: 38px;
   width: 100%;
   height: 46px;
   background-color: #eeeeee;
@@ -100,7 +99,7 @@
 }
 
 .library-button-container {
-  margin-top: 3vh;
+  margin-top: 2vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -110,9 +109,10 @@
 }
 
 .menu-tab-button-container {
-  width: 100%;
+  width: calc(100% - 2vw);
   margin-top: 1vh;
   margin-left: 1vw;
+  margin-right: 1vw;
   justify-content: center;
   animation: fadeInDown 0.5s;
   animation-fill-mode: backwards;
@@ -132,7 +132,11 @@
 }
 
 .dialog-form-container {
-  width: 650px;
+  width: 40vw;
+  max-width: 100vw;
+  height: auto;
+  overflow: hidden !important;
+  transition: 0.5s;
 }
 
 .form-tabs-container {
@@ -189,9 +193,13 @@
 }
 
 .course-creator-preview-player {
-  width: 100% !important;
-  height: 30vh !important;
+  min-width: 360px !important;
+  width: calc(100% - 1vw) !important;
+  /* height: 240px !important; */
+  margin-right: 0.5vw;
+  margin-left: 0.5vw;
   animation: fadeInDown 0.5s;
+  background-color: black;
 }
 
 .course-creator-preview-player-storytelling {
@@ -255,6 +263,15 @@
   margin-top: 2.5vh !important;
   font-size: 3.75em !important;
   color: #ffc107 !important;
+  animation: tada 1.25s;
+  animation-fill-mode: backwards;
+  animation-delay: 1s;
+}
+
+.alert-dialog-icon {
+  margin-top: 2.5vh !important;
+  font-size: 3.75em !important;
+  color: #ff0707 !important;
   animation: tada 1.25s;
   animation-fill-mode: backwards;
   animation-delay: 1s;
@@ -351,6 +368,7 @@
   max-height: calc(100vh - var(--app-bar-height) - 1.75em - 2vh);
   overflow-y: scroll;
   padding-left: 1vw;
+  background-color: white;
 }
 
 .classroom-dialog-content {
@@ -358,5 +376,27 @@
   padding-left: 0vw !important;
   padding-right: 0 !important;
   overflow-x: hidden;
-  background-color: #f5f5f5 !important;
+  background-color: white !important;
 }
+
+.feedbackRequirement {
+  display: block;
+}
+
+.feedback-container {
+  display: flex;
+  align-items: center;
+  max-width: 100vw;
+}
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .dialog-form-container {
+    width: 86vw !important;
+    justify-content: center;
+    align-items: center;
+  }
+  .app-tooltip {
+    display: none;
+  }
+} 

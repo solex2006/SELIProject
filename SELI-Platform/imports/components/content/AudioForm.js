@@ -87,10 +87,10 @@ export default class AudioForm extends React.Component {
       this.props.handleControlMessage(true, this.props.language.uploadRecordAudio);
       return false;
     }
-    if (content.hasDescription && content.description === '') {
+    /* if (content.hasDescription && content.description === '') {
       this.props.handleControlMessage(true, this.props.language.enterDescriptionVideo);
       return false;
-    }
+    } */
     return true;
   }
 
@@ -173,7 +173,7 @@ export default class AudioForm extends React.Component {
       <div>
         {
           !this.state.showGallery ?
-            <div id="dialog-max-height" className="dialog-form-container-large">
+            <div id="dialog-max-height" className="dialog-form-container">
               <div className="dialog-columns-container">
                 <div className="course-creator-file-form-column">
                   <div className = "menu-tab-button-container">
@@ -208,6 +208,18 @@ export default class AudioForm extends React.Component {
 
 
                   <div className="form-column-container">
+                    <div className="course-creator-input-container">
+                      <TextField
+                        id="title-input"
+                        label={this.props.language.audioTitle}
+                        margin="normal"
+                        variant="outlined"
+                        value={this.state.attributes.title}
+                        onChange={this.handleChange('title')}
+                        required
+                        className="form-padding-dialog-input"
+                      /> 
+                    </div>
                     {
                       !this.state.showPreview ?
                         <div>
@@ -244,48 +256,6 @@ export default class AudioForm extends React.Component {
                         tip={!this.state.showPreview? this.props.language.uploadAudio: this.props.language.uploadAudioCorrect} 
                         //step={props.step}
                         //stepLabel={props.stepLabel}
-                        language={this.props.language}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="course-creator-form-column">
-                  <div className="course-creator-input-container">
-                    <TextField
-                      id="title-input"
-                      label={this.props.language.audioTitle}
-                      margin="normal"
-                      variant="outlined"
-                      value={this.state.attributes.title}
-                      onChange={this.handleChange('title')}
-                      required
-                      className="form-padding-dialog-input"
-                    />
-                    <TextField
-                      id="link-input"
-                      label={this.props.language.externalLink}
-                      value={this.state.attributes.externalLink}
-                      onChange={this.handleChange('externalLink')}
-                      margin="normal"
-                      variant="outlined"
-                      className="form-padding-dialog-input"
-                    />
-                    <div className="margin-center-row">
-                      <FormGroup>
-                        <FormControlLabel
-                          control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
-                          label={<p className="form-label">{this.props.language.audioWithText}</p>}
-                        />
-                      </FormGroup>
-                    </div>
-                    <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
-                      <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
-                      <Editor
-                        areaHeight='20vh'
-                        buttonLabels={false}
-                        innerHTML={this.state.attributes.description}
-                        addLinks={true}
-                        getInnerHtml={this.getInnerHtml.bind(this)}
                         language={this.props.language}
                       />
                     </div>

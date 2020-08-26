@@ -10,23 +10,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import SchoolIcon from '@material-ui/icons/School';
-import HelpIcon from '@material-ui/icons/Help';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ControlSnackbar from '../../components/tools/ControlSnackbar';
 import LanguageSelector from './LanguageSelector';
 import UserMenu from './UserMenu';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
 import { Courses } from '../../../lib/CourseCollection'
 import filter from '@mcabreradev/filter'
-import CoursesDashboard  from '../student/CoursesDashboard'
-
-
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Grow ref={ref} {...props} />;
@@ -140,14 +133,16 @@ export default class AppBar extends React.Component {
     this.setState({
       showPreview: 'showPreview'
     })
-    this.props.searchValue(search)
+    this.props.searchValue(search,this.state.searchText )
   }
 
   appbar=()=>{
     return(
       <div>
         <div className="app-bar-container" >
-          <Button  onClick={() => this.props.showComponent('home')} className="bar-title">{this.props.language.seliProject}</Button>
+          <div className="app-bar-container-text">
+            {this.props.language.seliProject}
+          </div>
           <div className="bar-button-container" >
             {
               this.props.user !== undefined ?
@@ -192,7 +187,7 @@ export default class AppBar extends React.Component {
                 fullWidth
                 className="app-bar-search-input-base"
                 placeholder={this.props.language.learnAbout}
-                inputProps={{ 'aria-label': this.props.language.learnAbout}}
+                inputProps={{'aria-label': this.props.language.learnAbout}}
                 autoFocus={true}
                 onChange={this.handleSearchText}
               />
@@ -211,6 +206,7 @@ export default class AppBar extends React.Component {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
           className="sign-container"
+          disableBackdropClick={true}
         >
         <DialogTitle id="alert-dialog-slide-title" className="sign-title" style={{color: this.state.color}}>{this.state.dialogTitle}</DialogTitle>
           <Divider/>
@@ -292,7 +288,7 @@ export default class AppBar extends React.Component {
             <CheckCircleIcon className="success-dialog-icon"/>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.handleCloseDialog()} color="secondary" variant="contained" autoFocus>
+            <Button onClick={() => this.handleCloseDialog()} color="secondary" variant="outlined" autoFocus>
               {this.props.language.ok}
             </Button>
           </DialogActions>

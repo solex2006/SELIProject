@@ -25,10 +25,10 @@ export default class CompressedForm extends React.Component {
       this.props.handleControlMessage(true, this.props.language.uploadAddUrlCompressed);
       return false;
     }
-    if (content.instruction === '') {
+    /* if (content.instruction === '') {
       this.props.handleControlMessage(true, this.props.language.enterDescriptionCompressed);
       return false;
-    }
+    } */
     return true;
   }
 
@@ -146,7 +146,7 @@ export default class CompressedForm extends React.Component {
                   language={this.props.language}
                 />
               </div>
-              <div>
+              {/* <div>
                 <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
                 <div className="editor-block">
                   <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
@@ -159,7 +159,7 @@ export default class CompressedForm extends React.Component {
                     language={this.props.language}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           :
           <Library

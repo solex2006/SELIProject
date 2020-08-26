@@ -1,8 +1,5 @@
 import React from 'react';
-import MenuItem from './MenuItem';
-import Link from '@material-ui/core/Link';
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
+
 export default class LinkItem extends React.Component {
   constructor(props) {
     super(props);
@@ -30,18 +27,6 @@ export default class LinkItem extends React.Component {
           >
           </div>
         </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            language={this.props.language}
-          />
-        </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
       </div>
       );
     }

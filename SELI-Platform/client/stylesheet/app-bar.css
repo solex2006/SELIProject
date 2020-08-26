@@ -1,6 +1,6 @@
 .app-bar-container {
-  max-width: 100vw;
-  min-width: 100vw;
+  max-width: 100%;
+  min-width: 100%;
   height: var(--app-bar-height);
   background: var(--app-bar-color);
   display: flex;
@@ -8,6 +8,24 @@
   position: fixed;
   z-index: 15;
 }
+
+.app-bar-container-text{
+  display: inline;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  color: var(--bar-font-color) !important;
+  margin-left: calc(var(--menu-size) + 2vw) !important;
+  font-size: 1.25em !important;
+  font-weight: 500 !important;
+  letter-spacing: 2.5px !important;
+}
+
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .app-bar-container-text {display: none !important;}
+} 
 
 .bar-title {
   height: 100% !important;

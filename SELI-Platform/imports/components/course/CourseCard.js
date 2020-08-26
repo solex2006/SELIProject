@@ -37,10 +37,54 @@ import Comment from '../../components/student/comments/Comment';
 
 import {Comments} from '../../../lib/CommentsCollection';
 import { StudentLog } from '../../../lib/StudentLogCollection';
-
+import { withStyles } from '@material-ui/core/styles';
 var ColorThief = require('color-thief');
 
-export default class CourseCard extends React.Component {
+const useStyles =theme => ({
+	root: {
+		display: "flex",
+		flexWrap: "wrap",
+		"& > *": {
+			margin: theme.spacing(1),
+			width: theme.spacing(16),
+			height: theme.spacing(16)
+		}
+	},
+	card: {
+		maxWidth: 345,
+		//  maxHeight: 450,
+		display: "tabel-cell",
+		paddingRight: "1em"
+	},
+	media: {
+		height: 0,
+		paddingTop: "56.25%" // 16:9
+	},
+	searchbar: {
+		//padding: '2px 4px',
+		display: "flex",
+		alignItems: "center",
+		maxWidth: "95vw",
+		minWidth: "95vw",
+		background: "black",
+		"& *": {
+			color: "white"
+		}
+	},
+	input: {
+		marginLeft: theme.spacing(1),
+		flex: 1
+	},
+	iconButton: {
+		padding: 10
+	},
+	divider: {
+		height: 28,
+		margin: 4
+	}
+});
+
+class CourseCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -113,15 +157,12 @@ export default class CourseCard extends React.Component {
   }
 
   checkSubscriptions = () => {
-    let subscribed = false;
-    for (var i = 0; i < this.props.course.classroom.length; i++) {
-      if (this.props.course.classroom[i] === Meteor.userId()) {
-        subscribed = true;
-      }
+    let subscribed = this.props.userCourses.findIndex(course => course.courseId === this.props.course._id);
+    if (subscribed > -1){
+      this.setState({
+        subscribed: true,
+      });
     }
-    this.setState({
-      subscribed: subscribed,
-    });
   }
 
   handleClose = () => {
@@ -164,12 +205,13 @@ export default class CourseCard extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <Fade force top delay={this.props.index * 350}>
+      
           <Card className="course-card">
-            <CardActionArea>
-             <CardHeader
+            <CardActionArea >
+              <CardHeader
                 avatar={
                   <Avatar
                     style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
@@ -187,37 +229,22 @@ export default class CourseCard extends React.Component {
                   <h3 className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
                 }
               /> 
-
-              {/* <div className="MuiCardHeader-content">
-                <div className="course-card-header-1">
-                  <Avatar
-                    style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
-                    aria-label="recipe"
-                    className="course-card-avatar"
-                  >
-                    <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
-                  </Avatar>
-                  <div className="card-header-1">
-                    <h2 className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{this.props.course.title}</h2>
-                    <h3 className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
-                  </div>
-                </div>
-              </div> */}
               <CardMedia
-                className="course-card-media"
+                className={classes.media}
                 image={this.props.course.image.link}
                 title={this.state.label}
               />
-              <CardContent className="course-card-content">
-                <Typography className="course-card-description" variant="body2" color="textSecondary" component="p">
+              <CardContent >
+                <Typography variant="body2" color="textSecondary" component="p">
                   {this.props.course.description}
                 </Typography>
                 <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
                   {`${this.props.language.author}: ${this.props.course.createdBy}`}
                 </Typography>
               </CardContent>
-              <CardActions className="course-card-actions" disableSpacing>
+              <CardActions  disableSpacing>
                 <Link className="button-link MuiButtonBase-root MuiButton-root MuiButton-outlined course-card-button"
+                  target="_blank"
                   to={{
                     pathname: "/coursePreview",
                     hash: this.props.course._id,
@@ -230,18 +257,6 @@ export default class CourseCard extends React.Component {
                     }}
                 >
                   {this.props.language.coursePreview}
-                  {/*<Button
-                    className="course-card-button"
-                    aria-label="see preview"
-                    variant="outlined"
-                    onClick={() => 
-                    {
-                      StudentLog.insert({ "UserId": Meteor.userId(), "CourseId" : this.props.course._id, 
-                      "Datetime": new Date(), "Action": "Course Preview" });
-                    }}
-                  >
-                    {this.props.language.coursePreview}
-                  </Button> */}
                 </Link>
                 {
                   !this.state.subscribed ?
@@ -279,13 +294,14 @@ export default class CourseCard extends React.Component {
               </CardActions>
             </CardActionArea>
           </Card>
-        </Fade>
+        
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
           className="comments-dialog"
+          disableBackdropClick={true}
         >
           <DialogTitle className="comment-dialog-title">
             {this.props.language.comments}
@@ -330,3 +346,5 @@ export default class CourseCard extends React.Component {
     );
   }
 }
+
+export default  withStyles(useStyles)(CourseCard)

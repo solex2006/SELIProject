@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import AppBar from '../navigation/AppBar';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import theme from '../../style/theme';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
@@ -16,28 +12,46 @@ import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import SubtitlesIcon from '@material-ui/icons/Subtitles';
-import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 
 import Slide from '@material-ui/core/Slide';
-import Zoom from '@material-ui/core/Zoom';
-
 import ReactPlayer from 'react-player';
+import AudioPlayer from 'react-h5-audio-player';
 import Fullscreen from "react-full-screen";
 
-const HIDE_TIME = 8000;
+import TextAlternatives from '../accessibility/alternative/TextAlternatives';
+
+const HIDE_TIME = 4000;
 
 export default class MediaPlayer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showControls: false,
-      url: this.props.url,
+      media: this.props.media,
       playing: false,
       fullScreen: false,
       muted: false,
+      started: false,
       playedSeconds: 0,
       volume: 0.8,
-      timeLabel: "00:00"
+      timeLabel: "00:00",
+      captions: [],
+      hasA11y: false,
+      disableCaptions: true,
+    }
+  }
+
+  componentDidMount = () => {
+    if (this.props.media.attributes.accessibility.dataField) {
+      this.setState({hasA11y: true})
+      if(this.props.media.attributes.accessibility.dataField.fileTranscription && this.props.media.attributes.accessibility.dataField.fileTranscription.length>0){
+        var caption = [{kind: 'subtitles', src: this.props.media.attributes.accessibility.dataField.fileTranscription[0].link, default: true}];
+        this.setState({
+          disableCaptions: false,
+          captions: caption,
+          tracks: caption
+        })
+      }
     }
   }
 
@@ -64,10 +78,6 @@ export default class MediaPlayer extends React.Component {
     this.setState({ muted: !this.state.muted });
   }
 
-  handleSeekChange = e => {
-    this.setState({ played: parseFloat(e.target.value) })
-  }
-
   handleBuffer = () => {
     this.setState({
       isBuffering: true,
@@ -91,10 +101,31 @@ export default class MediaPlayer extends React.Component {
     }
   }
 
+  handleStart = () => {
+    this.setState({
+      started: true,
+      playing: true,
+    })
+  }
+
   handleSeekChange = (e, newValue) => {
+    var newFloatValue = parseFloat(newValue);
     this.toTimeLabel(newValue);
-    this.setState({ playedSeconds: parseFloat(newValue) })
-    this.player.seekTo(parseFloat(newValue));
+    this.setState({ playedSeconds: newFloatValue })
+    this.player.seekTo(newFloatValue);
+    this.handleSeekChangeA11y(newFloatValue);
+  }
+
+  handleSeekChangeA11y = (value) => {
+    if (this.props.media.attributes.accessibility.dataField && this.props.media.attributes.accessibility.dataField.signLanguage==="no" && this.props.media.attributes.accessibility.dataField.fileVideoSignal[0]!=null){
+      var videoTime = value;
+      var videoSignTime = this.refs.videoSign.getDuration();
+      if (videoTime > videoSignTime) {
+        this.refs.videoSign.seekTo(videoSignTime, 'seconds');
+      } else {
+        this.refs.videoSign.seekTo(videoTime, 'seconds');
+      }
+    }
   }
 
   handleVolumeChange = (e, newValue) => {
@@ -103,10 +134,6 @@ export default class MediaPlayer extends React.Component {
     }, () => {
       this.state.volume === 0 ? this.setState({muted: true}) : this.setState({muted: false})
     });
-  }
-
-  handleSeek  = (e) => {
-
   }
 
   handleDuration = (duration) => {
@@ -130,38 +157,113 @@ export default class MediaPlayer extends React.Component {
     });
   }
 
+  a11yContent = () => {
+    return (
+      <div className={!this.state.fullScreen && "media-a11y-container"}>
+        {
+          this.props.media.type === 'video' && this.props.media.attributes.accessibility.dataField.signLanguage==="no" && this.props.media.attributes.accessibility.dataField.fileVideoSignal[0]!=null?
+            <div className={!this.state.fullScreen && "AudioPlayer"}>
+              {
+                !this.state.fullScreen &&
+                <Typography className="course-item-card-subtitle" variant="subtitle1" style={{color: "white"}}>
+                  {`${this.props.language.signLanguage}:`}
+                </Typography>
+              }
+              <Paper
+                square
+                elevation={15}
+                className={!this.state.fullScreen ? "media-player-a11y-container" : "media-player-a11y-container-fullscreen"}
+              >
+                <ReactPlayer
+                  ref="videoSign"
+                  className="media-player-a11y-video"
+                  id="video-sign-language"
+                  controls={false}
+                  playing={this.state.playing && this.state.started}
+                  url={this.props.media.attributes.accessibility.dataField.fileVideoSignal[0].link}
+                  volume={0}
+                />
+              </Paper>
+            </div>
+          :
+            undefined   
+        }
+        {
+          !this.state.fullScreen && this.props.media.type === 'video' && this.props.media.attributes.accessibility.dataField!=undefined && this.props.media.attributes.accessibility.dataField.fileAudioDescription[0]!=null ?
+            <div className="AudioPlayer">
+              <Typography className="course-item-card-subtitle" variant="subtitle1" style={{color: "white"}}>
+                {`${this.props.language.audioDescription}:`}
+              </Typography>
+              <AudioPlayer volume src={this.props.media.attributes.accessibility.dataField.fileAudioDescription[0].link}/>
+            </div>
+          :      
+            undefined
+        }
+        {
+          !this.state.fullScreen &&
+          <TextAlternatives
+            fromMediaPlayer
+            item={this.props.media}
+            language={this.props.language}
+          ></TextAlternatives>
+        }
+      </div>
+    )
+  }
+
+  handleChange = () => {
+    if (this.state.captions.length) {
+      this.setState({captions: []});
+    } else {
+      this.setState({captions: this.state.tracks});
+    }
+    if (this.state.playing) {
+      this.handlePlayPause();
+    }
+  }
+
   render() {
     return(
       <div style={{width: '100%'}}>
         {
-          this.props.mediaType === 'video' ?
+          this.props.media.type === 'video' ?
             <Fullscreen
               enabled={this.state.fullScreen}
               onChange={fullScreen => this.setState({fullScreen})}
             >
               <div
-                onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
                 className={this.state.fullScreen ? "media-player-container-full" : "media-player-container"}
               >
-                <ReactPlayer
-                  ref={this.ref}
-                  url={this.state.url}
-                  className="video-media-player"
-                  controls={false}
-                  playing={this.state.playing}
-                  onProgress={this.handleProgress}
-                  muted={this.state.muted}
-                  volume={this.state.volume}
-                  onSeek={e => this.handleSeek}
-                  onDuration={this.handleDuration}
-                  onBuffer={this.handleBuffer}
-                  onBufferEnd={this.handleBufferEnd}
-                />
-                <Slide direction="up" in={this.state.showControls} mountOnEnter unmountOnExit>
+                <div className="fullscreen-media-container">
+                  <ReactPlayer
+                    onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
+                    ref={this.ref}
+                    url={this.state.media.attributes.video.link}
+                    className={this.state.hasA11y && !this.state.fullScreen ? "video-media-player-a11y" : "video-media-player"}
+                    controls={false}
+                    playing={this.state.playing}
+                    onProgress={this.handleProgress}
+                    muted={this.state.muted}
+                    volume={this.state.volume}
+                    onSeek={e => this.handleSeek}
+                    onDuration={this.handleDuration}
+                    onStart={this.handleStart}
+                    onBuffer={this.handleBuffer}
+                    onBufferEnd={this.handleBufferEnd}
+                    config={{file: {
+                      attributes: {
+                        crossOrigin: 'true'
+                      },
+                      tracks: this.state.captions
+                    }}}
+                  />
+                  {this.state.hasA11y && this.a11yContent()}
+                </div>
+                <Slide direction="left" in={this.state.showControls} mountOnEnter unmountOnExit timeout={{enter: 0, exit: 0}}>
                   <Paper
                     square
                     elevation={15}
-                    className="media-player-controllers-container"
+                    className={this.state.fullScreen || !this.state.hasA11y ? "media-player-controllers-container" : "media-player-controllers-container-a11y"}
                   >
                     <IconButton onClick={this.handlePlayPause} className="media-player-icon-button">
                       {
@@ -205,7 +307,11 @@ export default class MediaPlayer extends React.Component {
                       valueLabelDisplay="auto"
                       className="media-player-slider-small"
                     />
-                    <IconButton className="media-player-icon-button">
+                    <IconButton 
+                      disabled={this.state.disableCaptions} 
+                      onClick={() => this.handleChange()} 
+                      className={this.state.captions && this.state.captions.length ? "media-player-icon-button" : "media-player-icon-button-des" }
+                    >
                       <SubtitlesIcon className="media-player-icon"/>
                     </IconButton>
                     <IconButton
@@ -241,55 +347,23 @@ export default class MediaPlayer extends React.Component {
           undefined
         }
         {
-          this.props.mediaType === 'audio' ?
-            <div className="audio-media-container">
-              <ReactPlayer
-                ref={this.ref}
-                url={this.state.url}
-                className="audio-media-player"
-                controls={false}
-                playing={this.state.playing}
-                onProgress={this.handleProgress}
-                muted={this.state.muted}
-                volume={this.state.volume}
-                onSeek={e => this.handleSeek}
-                onDuration={this.handleDuration}
-                onBuffer={this.handleBuffer}
-                onBufferEnd={this.handleBufferEnd}
-              />
+          this.props.media.type === 'image' ?
+            <div className="fullscreen-media-container">
               <Paper
                 square
                 elevation={15}
-                className="audio-media-player-paper"
+                className={this.state.hasA11y ? "image-media-player-paper-a11y" : "image-media-player-paper"}
               >
-                <LibraryMusicIcon className="audio-media-player-icon-big"/>
-                <div className="audio-media-player-controls">
-                  <p className="audio-media-player-text">{this.props.mediaTitle}</p>
-                  <IconButton color="primary" onClick={this.handlePlayPause} className="audio-media-player-icon-button">
-                    {
-                      !this.state.playing ?
-                        <PlayArrowIcon className="audio-media-player-icon"/>
-                      :
-                      <PauseIcon className="audio-media-player-icon"/>
-                    }
-                  </IconButton>
-                  <div className="audio-media-player-row">
-                    <Typography className="audio-media-player-medium-label" variant="overline" display="block" gutterBottom>
-                      {this.state.timeLabel}
-                    </Typography>
-                    <Slider
-                      step={1 / (this.state.duration)}
-                      min={0}
-                      max={this.state.duration}
-                      valueLabelDisplay="off"
-                      value={this.state.playedSeconds}
-                      color="primary"
-                      onChange={(event, newValue) => this.handleSeekChange(event, newValue)}
-                      className="audio-media-player-slider"
-                    />
-                  </div>
+                <div 
+                  className="image-media-show"
+                  style={{
+                    backgroundImage: `url(${this.state.media.attributes.image.link})`,
+                    //transform: `rotate(${this.state.imageValue && this.state.imageValue.rotate ? this.state.imageValue.rotate : 0}deg)`,
+                  }}
+                >
                 </div>
               </Paper>
+              {this.state.hasA11y && this.a11yContent()}
             </div>
           :
           undefined

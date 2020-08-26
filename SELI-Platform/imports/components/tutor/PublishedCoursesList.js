@@ -114,7 +114,8 @@ export default class PublishedCoursesList extends React.Component {
     let tableData = [];
     let headRows = [
       { id: 'title', numeric: false, disablePadding: true, label: this.props.language.title },
-      { id: 'organization', numeric: true, disablePadding: false, label: this.props.language.organization },
+      { id: 'template', numeric: true, disablePadding: false, label: this.props.language.template },
+      { id: 'organization', numeric: true, disablePadding: false, label: this.props.language.courseOrganization },
       { id: 'duration', numeric: true, disablePadding: false, label: this.props.language.duration },
       { id: 'creationDate', numeric: true, disablePadding: false, label: this.props.language.creationDate },
       { id: 'actions', numeric: true, disablePadding: false, label: this.props.language.actions },
@@ -125,7 +126,18 @@ export default class PublishedCoursesList extends React.Component {
       {label: this.props.language.unpublishCourse , icon: <UnarchiveIcon/>, action: this.showUnpublishConfirmation.bind(this)},
     ];
     myCourses.map(course => {
-      tableData.push({title: course.title, organization: course.organization.label, duration: `${course.duration} hours`, creationDate: course.creationDate.toLocaleDateString('en-US'), _id: course._id})
+      tableData.push({
+        title: course.title,
+        template: course.coursePlan ?
+            course.coursePlan.courseTemplate === "without" ? this.props.language.Withouttemplate :
+            course.coursePlan.courseTemplate === "spiral" ? this.props.language.SpiralModel :
+            course.coursePlan.courseTemplate === "consistent" ? this.props.language.Consistent :
+            this.props.language.ToyBox
+        : "",
+        organization: course.coursePlan ? course.coursePlan.courseStructure === "unit" ? this.props.language.byUnitsAndLessons : this.props.language.byTopics : "", 
+        duration: course.duration,
+        creationDate: course.creationDate.toLocaleDateString('en-US'),
+        _id: course._id})
     })
     this.setState({
       headRows: headRows,
@@ -217,9 +229,9 @@ export default class PublishedCoursesList extends React.Component {
   handleView= (profile, event, studentScores, index)=>{
     this.average()
     if (event === "course") {
+      this.props.navigateTo([0, 0, 0, 0]);
       this.setState({
         student: profile,
-        selected: [0, 0],
       })
     }
     if (event === "quiz") {
@@ -238,7 +250,6 @@ export default class PublishedCoursesList extends React.Component {
   }
 
   quizes= ()=>{
-   
     return(
       <React.Fragment>
         <div className="library-files-containerquiz">
@@ -268,9 +279,9 @@ export default class PublishedCoursesList extends React.Component {
   }
 
 
- insertAt=(array, index, elementsArray)=> {
-   return array.splice(index, 0, elementsArray);
-}
+  insertAt=(array, index, elementsArray)=> {
+    return array.splice(index, 0, elementsArray);
+  }
 
   average=()=>{
     let scores=this.state.studentScores 
@@ -302,7 +313,6 @@ export default class PublishedCoursesList extends React.Component {
         dupes[name].map((repeat,index)=>{
           this.insertAt(valuesofScores, repeat, total );
         })
-       
       }else {
         dupes[name].map((repeat,index)=>{
           average=scores[repeat].activity.score
@@ -412,10 +422,12 @@ export default class PublishedCoursesList extends React.Component {
             <div >
               <div className="answers-scores">Scores<SpellcheckRoundedIcon/></div>
               <div className="student-scores-results">  
-               <div className="note"><h5>   {this.props.language.AverageGrade} </h5> <p>{this.state.valuesofScores[this.state.indexquiz][2]}</p></div>
-                  <div className="note"><h5>{this.props.language.Maximumgrade}</h5> <p>{this.state.valuesofScores[this.state.indexquiz][0]}</p><SentimentVerySatisfiedIcon/> </div>
-                  <div className="note"><h5>{this.props.language.Minimumgrade}</h5> <p>{this.state.valuesofScores[this.state.indexquiz][1]}</p><MoodBadIcon/> </div>
+              <div className="note"><h5>   {this.props.language.AverageGrade} </h5> <p>{this.state.valuesofScores[this.state.indexquiz][2]}</p></div>
+                <div className="note"><h5>{this.props.language.Maximumgrade}</h5> <p>{this.state.valuesofScores[this.state.indexquiz][0]}</p><SentimentVerySatisfiedIcon/> </div>
+                <div className="note"><h5>{this.props.language.Minimumgrade}</h5> <p>{this.state.valuesofScores[this.state.indexquiz][1]}</p><MoodBadIcon/> </div>
+                <div className="note"><h5>{this.props.language.NumberofAttemps}</h5><p>{this.state.valuesofScores[this.state.indexquiz][3]}</p><FormatListNumberedIcon/> </div> 
                   <div className="note"><h5>{this.props.language.NumberofAttemps}</h5><p>{this.state.valuesofScores[this.state.indexquiz][3]}</p><FormatListNumberedIcon/> </div> 
+                <div className="note"><h5>{this.props.language.NumberofAttemps}</h5><p>{this.state.valuesofScores[this.state.indexquiz][3]}</p><FormatListNumberedIcon/> </div> 
               </div>
             </div>
             </RadioGroup>
@@ -425,108 +437,44 @@ export default class PublishedCoursesList extends React.Component {
     )
   }
 
-  handleNextUnit = () => {
-    let index = this.state.selected[0];
-    this.navigateTo('unit', [(index + 1), undefined])
-  }
-
-  handlePreviousUnit = () => {
-    let index = this.state.selected[0];
-    this.navigateTo('unit', [(index - 1), undefined])
-  }
-
-  handleNextSubunit = () => {
-    let parent = this.state.selected[1];
-    let child = this.state.selected[0];
-    if (child + 1 === this.state.course.program[this.state.selected[1]].lessons.length) {
-      this.navigateTo('unit', [0, parent + 1])
-    }
-    else {
-      this.navigateTo('unit', [child + 1, parent])
-    }
-  }
-
-  handlePreviousSubunit = () => {
-    let parent = this.state.selected[1];
-    let child = this.state.selected[0];
-    if (child === 0) {
-      this.navigateTo('unit', [this.state.course.program[parent - 1].lessons.length - 1, parent - 1])
-    }
-    else {
-      this.navigateTo('unit', [child - 1, parent])
-    }
-  }
-
-  navigateTo(level, to) {
-    let selected = this.state.selected;
-    selected.splice(0, selected.length)
-    selected.push(to[0], to[1]);
-    this.setState({
-      selected: selected,
-      coursePresentation: false,
-      courseContent: true,
-    });
-  }
-
-  logStudentInteraction(type, action){
-    StudentEventLog.insert({ 
-      UserId: Meteor.userId(), 
-      CourseId : this.state.course._id, 
-      Datetime: new Date(), 
-      Resource: type,
-      Action: action
-    });
-  }
-
-  showPresentation() {
-    let selected = this.state.selected;
-    selected.splice(0, selected.length)
-    selected.push(-1, -1);
-    this.setState({
-      selected: selected,
-      coursePresentation: true,
-      courseContent: false,
-    });
-  }
-
   menu = () => {
     return(
-      <div className="course-content-container-quiz">
-        <div className="course-content-breadcrumbs-container-quiz">
-          <Paper elevation={0} className="course-content-breadcrumbs-paper-quiz">
-            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-              { this.state.studentInformation !== "" ?
-                  <Typography onClick={() => this.handleView({}, "")} className="course-content-breadcrumb-text">
-                    {this.state.course.title}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "course" ?
-                  <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                    {this.state.student.studentInformation.fullname}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "course" && this.state.course.organization.subunit ?
-                  <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                    {`${this.props.language.unit} ${this.state.selected[1] + 1}: ${this.state.course.program[this.state.selected[1]].name}`}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "course" && this.state.course.organization.subunit ?
-                  <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                    {`${this.props.language.lesson} ${this.state.selected[0] + 1}: ${this.state.course.program[this.state.selected[1]].lessons[this.state.selected[0]].name}`}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "course" && !this.state.course.organization.subunit ?
-                  <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                    {`${this.props.language.topic} ${this.state.selected[0] + 1}: ${this.state.course.program[this.state.selected[0]].name}`}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "quiz" || this.state.studentInformation === "quizDetails" ?
-                  <Typography onClick={() => this.handleView({}, "quiz", this.state.studentScores)} className="course-content-breadcrumb-text">
-                    {this.props.language.quiz}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "quizDetails" ?
-                  <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
-                    quiz details *
-                  </Typography> : undefined }
-            </Breadcrumbs>
-          </Paper>
-        </div>
-      </div>
+      <Paper elevation={0} className="course-content-breadcrumbs-paper-quiz">
+        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+          { this.state.studentInformation !== "" ?
+              <Typography onClick={() => this.handleView({}, "")} className="course-content-breadcrumb-text">
+                {this.state.course.title}
+              </Typography> : undefined }
+          { this.state.studentInformation === "course" ?
+              <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
+                {this.state.student.studentInformation.fullname}
+              </Typography> : undefined }
+          { this.state.studentInformation === "course" &&
+              <Typography onClick={() => this.props.navigateTo([this.props.selected[0], 0, 0, 0])} id="course-content-breadcrumb-unitTopic" className="course-content-breadcrumb-text">
+                {`${this.state.course.coursePlan.courseStructure === "unit" ? 
+                this.props.language.unit : this.props.language.topic
+                } ${this.props.selected[0] + 1}: ${this.state.course.program[this.props.selected[0]].name}`}
+              </Typography>}
+          { this.state.studentInformation === "course" && this.state.course.coursePlan.courseStructure === "unit" && this.props.selected[3] > 0 &&
+              <Typography onClick={() => this.props.navigateTo([this.props.selected[0], this.props.selected[1], 0, 1])} id="course-content-breadcrumb-lesson" className="course-content-breadcrumb-text">
+                {`${this.props.language.lesson} ${this.props.selected[1] + 1}: ${this.state.course.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}
+              </Typography>}
+          { this.state.studentInformation === "course" && this.state.course.coursePlan.courseStructure !== "without" && this.props.selected[3] > 1 &&
+              <Typography id="course-content-breadcrumb-task" className="course-content-breadcrumb-text">
+                { this.state.course.coursePlan.courseStructure === "unit" ? 
+                  `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.state.course.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}` :
+                  `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.state.course.program[this.props.selected[0]].activities[this.props.selected[2]].name}`}
+              </Typography>}
+          { this.state.studentInformation === "quiz" || this.state.studentInformation === "quizDetails" ?
+              <Typography onClick={() => this.handleView({}, "quiz", this.state.studentScores)} className="course-content-breadcrumb-text">
+                {this.props.language.quiz}
+              </Typography> : undefined }
+          { this.state.studentInformation === "quizDetails" ?
+              <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
+                quiz details *
+              </Typography> : undefined }
+        </Breadcrumbs>
+      </Paper>
     )
   }
 
@@ -583,6 +531,7 @@ export default class PublishedCoursesList extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.dialogConfirmationTitle}</DialogTitle>
           <DialogContent className="success-dialog-content">
@@ -607,6 +556,7 @@ export default class PublishedCoursesList extends React.Component {
                 </Button>
               :
                 <Link className="button-link"
+                  target="_blank"
                   to={{
                     pathname: "/coursePreview",
                     hash: this.state.course_id,
@@ -659,11 +609,13 @@ export default class PublishedCoursesList extends React.Component {
                                 </DialogContentText>
                                 <div className="library-files-container-student">
                                   {this.state.courseProfiles.map((profile, index) => {
+                                    if (profile.courseProfile)
                                     return(
                                       <StudentProfile
                                         profile={profile}
                                         course={this.state.summaryCourse}
                                         handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                        unsubscribe={this.props.unsubscribe.bind(this)}
                                         handleView={this.handleView}
                                         reload={this.openClassroomManagement.bind(this)}
                                         language={this.props.language}
@@ -699,10 +651,9 @@ export default class PublishedCoursesList extends React.Component {
                                 <CourseMenu
                                   course={this.state.course}
                                   progress={this.state.student.courseProfile.progress}
-                                  navigateTo={this.navigateTo.bind(this)}
-                                  selected={this.state.selected}
-                                  showPresentation={this.showPresentation.bind(this)}
-                                  //showCourseStories={this.showCourseStories.bind(this)}
+                                  navigateTo={this.props.navigateTo.bind(this)}
+                                  selected={this.props.selected}
+                                  expandedNodes={this.props.expandedNodes}
                                   handleView={this.handleView.bind(this)}
                                   language={this.props.language}
                                 />
@@ -711,17 +662,10 @@ export default class PublishedCoursesList extends React.Component {
                                   course={this.state.course}
                                   showComponent={this.props.showComponent.bind(this)}
                                   handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                  handlePreviousUnit={this.handlePreviousUnit.bind(this)}
-                                  handleNextUnit={this.handleNextUnit.bind(this)}
-                                  handlePreviousSubunit={this.handlePreviousSubunit.bind(this)}
-                                  handleNextSubunit={this.handleNextSubunit.bind(this)}
-                                  //completeActivity={this.completeActivity.bind(this)}
-                                  navigateTo={this.navigateTo.bind(this)}
-                                  //completeUnit={this.completeUnit.bind(this)}
-                                  //completeSubunit={this.completeSubunit.bind(this)}
-                                  //openMediaPlayer={this.openMediaPlayer.bind(this)}
-                                  //leaveComment={this.leaveComment.bind(this)}
-                                  selected={this.state.selected}
+                                  handlePrevious={this.props.handlePrevious.bind(this)}
+                                  handleNext={this.props.handleNext.bind(this)}
+                                  navigateTo={this.props.navigateTo.bind(this)}
+                                  selected={this.props.selected}
                                   toComplete={this.state.student.courseProfile.toComplete}
                                   toResolve={this.state.student.courseProfile.toResolve}
                                   language={this.props.language}

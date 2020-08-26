@@ -4,20 +4,16 @@
 }
 
 .dialog-form-container-large {
-  width: calc(85vw - 150px);
+  width: calc(70vw - 100px);
 }
 
 .dialog-columns-container {
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
 }
 
-
 .form-column-container {
-  margin-top: 3vh;
-  margin-left: 1vw;
+  margin-top: 1vh;
   position: relative;
   align-items: center;
   height: 100%;
@@ -35,7 +31,7 @@
 }
 
 .course-creator-file-form-column {
-  width: 50%;
+  width: 100% !important;
   height: 100%;
 }
 
@@ -56,6 +52,10 @@
 .course-creator-input-container {
   width: 100%;
   align-items: center;
+  justify-content: center;
+}
+
+.compressed{
   justify-content: center;
 }
 
@@ -94,4 +94,15 @@
 .uploadsignals{
   border-radius: 15px;
   margin-bottom: 25px;
+}
+
+@media screen and (max-width: 1080px) {
+  .accessibility-form-helper-text {width: 77% !important}
+  .form-file-container {width: 77% !important; margin-left: 30px;}
+  .margin-center-row {flex-wrap: wrap;}
+  .editor-tools {flex-wrap: wrap !important;}
+  .center-button-container {margin-bottom: 30px !important;}
+  .editor-label{font-size: 0.9em !important; margin-left: 5px !important; }
+  .link-content-form-container { width: auto !important;}
+  .unity-form {width: auto !important;}
 }

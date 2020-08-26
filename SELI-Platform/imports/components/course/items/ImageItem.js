@@ -1,20 +1,18 @@
 import React from 'react';
-import { Resizable } from "re-resizable";
-import MenuItem from './MenuItem';
 import ItemFeedback from '../../accessibility/ItemFeedback';
-import ResizableContent from './ResizableContent'
-import DiscreteSlider from './DiscreteSlider'
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
+import ResizableContent from './ResizableContent';
+import DiscreteSlider from './DiscreteSlider';
+//import CheckboxLabels from './CheckBox';
+import TextAlternatives from '../../accessibility/alternative/TextAlternatives';
+import Typography from '@material-ui/core/Typography';
 
 export default class ImageItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: this.props.item.attributes.size.width,
-      height: this.props.item.attributes.size.height,
-      //width: 200,
-      //height: 200
+      width: 360,
+      height: 270,
+      shortlongDescription: ''
     }
   }
 
@@ -68,80 +66,103 @@ export default class ImageItem extends React.Component {
     
     //this.resizeText();
   }
-  
-  
 
+/*   checkBoxLabels=()=>{
+    return(
+      <div className="checkBoxItem">
+        {
+          this.props.item.attributes.accessibility.dataField===undefined?
+            undefined
+          :
+            <div className="checkBoxItem"> 
+              {
+                this.props.item.attributes.accessibility.dataField.imagePurpose!=undefined?
+                  <div className="checkboxstyle">
+                    <CheckboxLabels
+                        language={this.props.language}
+                        checkbox={this.checkbox}
+                        type="shortLongDescription"
+                        label={this.props.language.textAlternatives}
+                    />
+                  </div>
+                  :
+                  undefined
+              }
+            </div>
+        }
+      </div>
+    )
+  }
+
+  checkbox=(event, name)=>{
+   // console.log("event and name", event, name)
+    if(event===true && name==='shortLongDescription'){
+      this.setState({
+        shortlongDescription:'shortlongDescription',
+      })
+    }
+    else if(event===false && name==='shortLongDescription'){
+      this.setState({
+        shortlongDescription:'noshortlongDescription'
+      })
+    }
+  } */
+
+  textAlternatives=()=>{
+    return(
+      <TextAlternatives
+        item={this.props.item}
+        language={this.props.language}
+      ></TextAlternatives>
+    )
+  }
+
+  openFullScreen = () => {
+    console.log("imageS")
+		if (this.props.openMedia) this.props.openMedia(this.props.item);
+	}
 
   render() {
-    //console.log("ImageItem---", this.props.item,this.props.item.attributes.image.link)
-    //console.log("---Coordenada a Renderizar---",this.props.item.attributes.image.coordenada)
-
-    if(this.state.width != this.state.height){
-      this.setState({
-        width: 300 ,
-        height: 300,
-      });
-    }
     return(
-
-      
       <div className="content-box">
-        
-        <div>
-          <DiscreteSlider adjust={this.adjust}/> 
-         
-        </div>
+        {/* this.checkBoxLabels() */}
+        {
+          this.props.item.attributes.accessibility.dataField != undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
+            this.textAlternatives()
+          :
+            undefined
+        }
         <div className="image-content-item">
           <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
-         {console.log("this.props.item.attributes.image.coordenada",this.props.item.attributes)}
-          <ResizableContent
-              key={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
-              top={8}
-              minWidth={10}
-              minHeight={10}
-              left={8}
-              width={this.state.width}
-              height={this.state.height}
-              rotateAngle={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
-              //adjust={this.adjust}
-              //coordenada={this.props.coordenada}
-             //coordenadaCursos={this.coordenadaCursos}
-            > 
-              <div>
-                  <img  style={{ width: `${this.state.width}px`, height: `${this.state.height}px`}}  src={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())}></img>
-              </div>
-            </ResizableContent> 
-           {/*  <Resizable
-              size={{
-                width: this.props.item.attributes.size.width,
-                height: this.props.item.attributes.size.height,
-              }}
-              className="resizable-item"
-              onResize={(e, direction, ref, d) => {
-                this.changeImageSize();
-              }}
-              onResizeStop={(e, direction, ref, d) => {
-                this.setImageSize(e, direction, ref, d);
-              }}
-              handleComponent={{
-                bottomRight: <div className="bottom-right-resize"></div>,
-                topRight: <div className="top-right-resize"></div>,
-                bottomLeft: <div className="bottom-left-resize"></div>,
-                topLeft: <div className="top-left-resize"></div>,
-                centerLeft: <div className="top-left-resize"></div>,
-              }}
-            >
-              <div
-                id={ this.props.item.attributes.image._id + this.props.item.id }
-                className="image-item"
-                style={{
-                  backgroundImage: `url(${this.props.item.attributes.image.link})`,
-                  backgroundSize: `${this.props.item.attributes.size.width}px`,
-                }}></div>
-            </Resizable> */}
-
-
-            {
+            <div className="image-item-container-child" onClick={() => this.openFullScreen()}>
+              {this.props.fromProgram && <DiscreteSlider adjust={this.adjust}/>}
+              <ResizableContent
+                key={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
+                top={0}
+                minWidth={10}
+                minHeight={10}
+                left={0}
+                width={this.state.width}
+                height={this.state.height}
+                rotateAngle={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.coordenada):(Math.random())}
+                //adjust={this.adjust}
+                //coordenada={this.props.coordenada}
+              //coordenadaCursos={this.coordenadaCursos}
+              > 
+                {/* <img  style={{ width: `${this.state.width}px`, height: `${this.state.height}px`, }}  src={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())}></img> */}
+                <div 
+                  style={{
+                    width: `${this.state.width}px`, height: `${this.state.height}px`, 
+                    backgroundImage: `url(${(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())})`
+                  }} 
+                  className="file-image-preview"
+                ></div>
+              </ResizableContent>
+            </div>
+            <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
+              {`${this.props.item.attributes.title}`}
+            </Typography>
+            {/* {
               this.props.item.attributes.hasDescription ?
                 <div
                   id={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image._id+"description"+this.props.item.id):(Math.random())}
@@ -157,29 +178,21 @@ export default class ImageItem extends React.Component {
                 </div>
               :
                 undefined
-            }
+            } */}
           </div>
         </div>
-        <Divider orientation="vertical" />
-      
-        <div className="menu-content-item">     
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+        {
+          this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
+            this.textAlternatives()
+          :
+            undefined
+        }
+        {this.props.fromProgram && 
+          <ItemFeedback
+            accessibility={this.props.item.attributes.accessibility}
             language={this.props.language}
           />
-        </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
-        <ItemFeedback
-          accessibility={this.props.item.attributes.accessibility}
-          language={this.props.language}
-        />
+        }
       </div>
       );
     }

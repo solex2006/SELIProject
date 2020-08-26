@@ -19,6 +19,7 @@ import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
+import {Helmet} from "react-helmet";
 
 export default class Story extends React.Component {
   constructor(props) {
@@ -134,9 +135,50 @@ export default class Story extends React.Component {
     Meteor.call("ChangeLanguague", Meteor.userId(), option, (error, response) =>  {});
   }
 
+  getTitleOfStory() {
+    try {
+      let _id = this.props.location.hash.substr(1);
+      let story = Activities.find({ _id: _id}).fetch();
+      if(story.length){
+        story = story[0];
+        story = story.activity;
+        if(story.name){
+          return story.name;
+        }      
+      }   
+    } catch  {  }    
+    return "SELI-Platform";
+  }
+
+  getImageUrlForSocial(){
+    try{
+    let _id = this.props.location.hash.substr(1);
+    let result = Activities.find({ _id: _id}).fetch();
+      if(result.length){
+        result = result[0];
+        result = result.activity.data;
+        result = result[0].images;
+        result = result[0].link;
+        if(result){
+          return result;
+        }      
+      }
+    }
+    catch {}
+    return "http://" + window.location.hostname + "/seli-logo.png";
+  }
+  
   render() {
     return(
       <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{this.getTitleOfStory()}</title>
+          <meta property="og:url"                content={window.location.href} />
+          <meta property="og:type"               content="website" />
+          <meta property="og:title"              content={this.getTitleOfStory()} />
+          <meta property="og:image"              content={this.getImageUrlForSocial()} />
+        </Helmet>
         <MuiThemeProvider theme={theme}>
           {  
             this.state.language && Session.get('language') ?  

@@ -17,21 +17,26 @@
 }
 
 .course-creator-work-area {
-  width: 100%;
-  overflow-x: hidden;
+  width: 100vw;
   display: flex;
   position: relative;
-  height: calc(100vh - var(--app-bar-height) - var(--form-stepper-height));
+  background-color: #f5f5f5;
+}
+
+.general-container-drop-area {
+  position: relative;
+  width: calc(100vw - var(--course-tool-menu-size));
+  height: calc(100vh - var(--app-bar-height) - 2*var(--form-stepper-height));
   background-color: #f5f5f5;
 }
 
 .title-course{
   z-index: 1;
-  position: absolute;
   width: calc(100vw - var(--course-tool-menu-size));
   text-align: left !important;
   background-color: #f5f5f5c5;
-  font-size: 18.5px;
+  height: 40px;
+  font-size: 15px;
   font-weight: 100;
   letter-spacing: 1px;
   color: rgb(104, 104, 104);
@@ -39,18 +44,18 @@
 
 .subtitle{
   margin-left: 2vw;
-  margin-top: 0.5vh;
-  margin-bottom: 0.5vh;
   width: 100% !important;
+  height: 100%;
   text-align: left ;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   position: relative;
 
 }
 
 .course-creator-drop-area {
-  width: calc(100vw - var(--course-tool-menu-size));
   overflow-y: scroll;
+  height: calc(100% - 40px);
   background-color: var(--white);
   background-repeat: no-repeat;
   background-size: 500px;
@@ -59,7 +64,7 @@
 
 .background {
   position: absolute;
-  padding-top: calc(50vh - 250px);
+  padding-top: calc(50vh - 300px);
   font-size: 25px;
   text-align: center; 
   width: calc(100vw - var(--course-tool-menu-size));
@@ -69,6 +74,8 @@
 
 .course-creator-menu-area {
   width: var(--course-tool-menu-size);
+  height: calc(100vh - var(--app-bar-height) - 2*var(--form-stepper-height));
+  overflow-y: scroll;
   position: absolute;
   right: 0;
   background-color: #f5f5f5;
@@ -109,7 +116,7 @@
 }
 
 .course-creator-menu-option {
-  width: calc(var(--course-tool-menu-size) / 3);
+  width: calc(var(--course-tool-menu-size) / 3 - 3px);
   height: 100%;
   opacity: 0.9;
   transition: 0.5s;
@@ -347,3 +354,35 @@
 .navigation-snackbar {
   z-index: 1300 !important;
 }
+
+.drop-items-right-menu {
+  display: none !important;
+}
+
+.course-creator-menu-area-aux {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: var(--course-tool-menu-size);
+  height: calc(100vh - var(--app-bar-height) - var(--form-stepper-height));
+  overflow-y: scroll;
+  background-color: #f5f5f5;
+  z-index: 200;
+  animation: fadeInRight 0.4s;
+}
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .course-creator-work-area { width:100%;  display: block } 
+  .general-container-drop-area {width: 100% !important;}
+  .drop-items-right-menu {
+    display: inline !important;
+    position: absolute !important;
+    width: 50px !important;
+    height: 50px !important;
+    top: -26px !important;
+    right: 5px !important;
+    z-index: 210;
+    background-color: #cacaca !important;
+  }
+} 

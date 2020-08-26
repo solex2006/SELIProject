@@ -1,12 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-
 
 export default class VideoPreview extends React.Component {
   constructor(props) {
@@ -54,7 +46,14 @@ export default class VideoPreview extends React.Component {
 
   render() {
     return(
-        <video width="640" height="480"  controls id="video-preview-information" className="file-preview-information" ref="video">
+        <video 
+          width={"350"} 
+          height={undefined}
+          controls 
+          id="video-preview-information" 
+          className="file-preview-information" 
+          ref="video"
+        >
           <source src={(this.props.file!=undefined)? (this.props.file.link):(undefined)}></source>
           {
             this.state.captions!=''?   

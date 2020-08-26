@@ -212,7 +212,7 @@
 }
 
 .url-input {
-  width: 25vw !important;
+  width: 90% !important;
   animation: fadeIn 1s;
 }
 .url-input-storytelling {

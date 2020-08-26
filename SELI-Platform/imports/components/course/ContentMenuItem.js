@@ -164,17 +164,17 @@ export default class ContentMenuItem extends React.Component {
             undefined
         }
         {
-          this.props.type === "embebed" ?
+          this.props.type === "embedded" ?
             <Hint
               node={
                 <div className="course-creator-menu-option">
                   <div className="course-creator-menu-option-row">
                     <MdCode className="course-creator-menu-icon" size={"1.45em"}/>
                   </div>
-                  <p className="course-creator-menu-text">{this.props.language.embebed}</p>
+                  <p className="course-creator-menu-text">{this.props.language.embedded}</p>
                 </div>
               }
-              hint={this.props.language.embebedInfoHelp}
+              hint={this.props.language.embeddedInfoHelp}
               placement="left"
             />
           :

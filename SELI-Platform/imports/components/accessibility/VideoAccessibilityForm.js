@@ -113,7 +113,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 	const [newCaption, setnewCaption] = useState(false);
 	
 	const getFileInformationCaption=(file)=>{		
-	    handleRadioButtonOnChangeValidator('captionsEmbebed','no')
+	    handleRadioButtonOnChangeValidator('captionsEmbedded','no')
 		dataField.fileTranscription[0]=file
 		setshowPreviewSignal(true)
 		setnewCaption(false)
@@ -138,14 +138,14 @@ export function VideoMediaCaptionsAltA11Y(props){
 					id='captions-radiogroup'
 					aria-labelledby='captions-radiogroup-label'
 					aria-describedby='captions-exp'
-					name='captionsEmbebed'
+					name='captionsEmbedded'
 					row
-					value={dataField.captionsEmbebed}
+					value={dataField.captionsEmbedded}
 					onChange={React.useCallback(handleRadioButtonOnChange)}
 				>
 					<FormControlLabel
 						id='captions-yes'
-						name='captionsEmbebed'
+						name='captionsEmbedded'
 						label={props.language.yes}
 						value='yes'
 						control={<Radio color='primary' />}
@@ -153,7 +153,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 					/>
 					<FormControlLabel
 						id='captions-no'
-						name='captionsEmbebed'
+						name='captionsEmbedded'
 						label={props.language.no}
 						value='no'
 						control={<Radio color='secondary' />}
@@ -161,10 +161,10 @@ export function VideoMediaCaptionsAltA11Y(props){
 						role='radio'
 					/>
 				</RadioGroup>
-				<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbebedError} tip={captionsTip}/>
+				<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbeddedError} tip={captionsTip}/>
 			</FormControl>
 			{//languages signal part
-				(dataField.captionsEmbebed === "no" || newCaption===true )?
+				(dataField.captionsEmbedded === "no" || newCaption===true )?
 				<div>
 					{dataField.fileTranscription[0]===undefined?
 					<div className="uploadsignals">
@@ -530,7 +530,7 @@ export function VideoOthersA11Y(props){
 					name='seizures'
 					id='seizures-yes'
 					label={props.language.yes}
-					value='yes'
+					value='no'
 					control={<Radio color='primary' />}
 					labelPlacement='end'
 				/>
@@ -538,7 +538,7 @@ export function VideoOthersA11Y(props){
 					name='seizures'
 					id='seizures-no'
 					label={props.language.no}
-					value='no'
+					value='yes'
 					control={<Radio color='secondary' />}
 					labelPlacement='end'
 				/>
@@ -671,11 +671,11 @@ export default function VideoA11Y(props){
 export const useDataField = (props) => {
 	console.log("props de ingreso en video", props)
 	const [dataField, setDataField] = React.useState({
-		signLanguage: 'no',
-		seizures: 'no',
-		captionsEmbebed: 'no',
-		audioDescription: 'no',
-		audioDescriptionRequired:'yes',
+		signLanguage: null,
+		seizures: null,
+		captionsEmbedded: null,
+		audioDescription: null,
+		audioDescriptionRequired: null,
 		hasAudioDescriptionFile: false,
 		hasTranscriptionFile: false,
 		longDescription:'',
@@ -688,7 +688,7 @@ export const useDataField = (props) => {
 		shortDescriptionError : true,
 		longDescriptionError : true,
 		seizuresError : true,
-		captionsEmbebedError : true,
+		captionsEmbeddedError : true,
 		audioDescriptionError : true,
 		signLanguageError : true,
 	});
@@ -707,12 +707,12 @@ export const useDataField = (props) => {
 	const [audioDescriptionRequiredTip, setAudioDescriptionRequiredTip] = React.useState(props.language.video_a11y_aux_text_008);
 
 	const a11yInitial = [
-		{name: 'seizures', is_a11y: false},
+		{name: 'seizures', is_a11y: null},
 		{name: 'longDescription', is_a11y: false},
 		{name: 'shortDescription', is_a11y: false},
-		{name: 'captionsEmbebed', is_a11y: false},
-		{name: 'audioDescription', is_a11y: false},
-		{name: 'signLanguage', is_a11y: false},
+		{name: 'captionsEmbedded', is_a11y: null},
+		{name: 'audioDescription', is_a11y: null},
+		{name: 'signLanguage', is_a11y: null},
 	];
 
 	useEffect(() => {
@@ -806,7 +806,7 @@ export const useDataField = (props) => {
 		}
 		else
 		{
-			//captionsEmbebed - signLanguage - seizures
+			//captionsEmbedded - signLanguage - seizures
 			let errField = name + 'Error';
 			let errValue = value === 'no' ? true : false;
 			console.log("////////", errValue)

@@ -11,13 +11,6 @@
   overflow-y: hidden;
 }
 
-.dialog-form-container {
-  max-width: 100vw;
-  height: auto;
-  overflow: hidden !important;
-  transition: 0.5s;
-}
-
 .form-title {
   width: 100%;
   height: var(--form-title-height) !important;
@@ -553,12 +546,12 @@
 }
 
 .HP5-content-preview-container {
-  display: flex !important;
+ 
   justify-content: center !important;
 }
 
 .MuiDialogContent-root {
-  display: flex !important;
+
   justify-content: center !important;
 }
 
@@ -626,4 +619,8 @@
 
 .radio-label {
   margin-right: 2.5vw;
+}
+
+.MuiInput-root:{
+  margin-top: 16px;
 }

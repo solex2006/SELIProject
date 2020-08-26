@@ -3,11 +3,14 @@
 
 ## Before Deployment
 
+Install in your machine NODE JS (version upper than 12.x) and METEOR (version 1.8.1).
+
 run: 
 
 ```
 cd SELI-Platform
-sudo npm install
+npm install
+npm install --global mup
 mkdir .deploy
 cd .deploy
 mup init
@@ -29,7 +32,7 @@ Visit https://www.sslforfree.com/ for free certificate.
 
 ### Mail Server
 
-In ".deploy/settings.json" fill the variables according with the parameters of your mail server, in this way:
+In ".deploy/settings.json" fill the variables according with the parameters of your mail, metabase and blockchain server (if you have not configured those servers, just simply left the variables like the example below), in this way:
 
 ```
 {
@@ -38,17 +41,21 @@ In ".deploy/settings.json" fill the variables according with the parameters of y
     "SMTP_PORT": "25",
     "SMTP_USER" : "smtp.user@example.com",
     "SMTP_USER_PASSWORD": "****"
+  },
+  "public": {
+    "METABASE_DOMAIN": "https://metabase.example.com",
+    "METABASE_KEY": "******************************************************",
+    "BLOCKCHAIN_DOMAIN": "https://blockchain.example.com",
+    "BLOCKCHAIN_USERKEY": "********************************"
   }
 }
 ```
 
 ## Deployment
 
-After right configurations run:
+One step before deployment is to create the directory /opt/Seli/UploadFiles in the root directory of your operating system and give to it permissions to read, write and delete. Finally after right configurations, in .deploy folder run:
 
 ```
-export METEOR_ALLOW_SUPERUSER=true
 mup setup
-sudo mup start
 mup deploy
 ```

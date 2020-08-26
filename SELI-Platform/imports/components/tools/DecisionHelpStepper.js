@@ -205,7 +205,9 @@ export default function DecisionHelpStepper(props) {
           open={open}
           onClose={handleClose}
           scroll="paper"
-          aria-labelledby={id+"-dlg-title"}>
+          aria-labelledby={id+"-dlg-title"}
+          disableBackdropClick={true}
+          >
 
           <DialogTitle id={id+"-dlg-title"}>{props.language.feedback_a11y_helpGuide_formTitle}</DialogTitle>
 

@@ -32,6 +32,11 @@
   transition: 0.5s;
 }
 
+.draggable-item {
+  width: 100%;
+  display: flex;
+}
+
 .menu-content-item {
   height: auto;
   display: flex;
@@ -59,9 +64,8 @@
 }
 
 .content-box {
-  width: 100%;
+  width: 100% !important;
   height: auto;
-  display: flex;
   position: relative;
 }
 
@@ -80,10 +84,21 @@
   text-align: center !important;
 }
 
+.item-drag-handle {
+  height: 100%;
+  padding-left: 4px;
+  padding-right: 4px;
+  display: flex;
+  align-items: center;
+  cursor: move;
+  background-color: #eeeeee;
+  transition: 0.5s;
+}
+
 /* Text */
 
 .text-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
@@ -100,7 +115,6 @@
   color: #333;
   font-weight: 100 !important;
   transition: 0.5s;
-  border-bottom: solid 1px #e0e0e0;
 }
 
 .text-item-section {
@@ -116,23 +130,26 @@
 /* Image */
 
 .image-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
   display: flex;
+  justify-content: center;
 }
 
-.image-item-container2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.image-item-container-child {
+  margin-right: 1vw;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  width: 360px;
+  height: 270px;
+  cursor: pointer;
 }
 
 .image-item-container {
   width: 95%;
-  padding: 1.5vh 2.5%;
+  padding-top: 1.5vh;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .image-item {
@@ -208,7 +225,7 @@
 
 /* Video */
 .video-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
@@ -240,15 +257,16 @@
 /* Audio */
 
 .audio-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
 .audio-item-container {
   width: 95%;
-  padding: 1.5vh 2.5%;
-  display: flex;
+  padding-top: 1.5vh;
+  /* display: flex; */
   align-items: center;
+  justify-content: center;
 }
 
 .audio-item {
@@ -274,7 +292,7 @@
 /* Link */
 
 .link-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
   cursor: pointer;
   transition: 0.5s;
@@ -307,21 +325,19 @@
 /* Pdf compressed */
 
 .file-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
 .pdf-item-container {
   width: 100%;
-  display: flex;
   align-items: center;
 }
 
 .pdf-item {
-  width: 650px;
-  height: 20vh;
+  width: auto;
+  height: 80px;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
 }
 
@@ -338,12 +354,13 @@
 }
 
 .item-instruction-column {
-  width: calc(100% - 650px);
+  margin-top: 15px;
+  width: auto;
 }
 
 .pdf-item-instruction {
   width: 90%;
-  padding: 1vh 30px;
+  padding: 0.5vh 1vw;
   font-size: 1em;
   letter-spacing: 1px;
   color: #757575;
@@ -352,13 +369,13 @@
 
 .instruction-title {
   width: 90%;
-  margin: 2.5vh 5%;
+  margin: 0vh 2vw;
 }
 
 /* H5P */
 
 .h5p-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
@@ -424,7 +441,7 @@
 /* Quiz */
 
 .quiz-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
@@ -485,7 +502,7 @@
 /* Activity */
 
 .activity-content-item {
-  width: calc(100% - var(--menu-item-width));
+  width: 100% !important;
   height: auto;
 }
 
@@ -551,14 +568,14 @@
 
 /* Activity */
 
-.embebed-content-item {
-  width: calc(100% - var(--menu-item-width));
+.embedded-content-item {
+  width: 100% !important;
   height: auto;
   display: flex;
   position: relative;
 }
 
-.embebed-description-item-section {
+.embedded-description-item-section {
   color: #616161;
   font-size: 1em;
   word-break: break-all;
@@ -567,7 +584,7 @@
   width: 95%;
 }
 
-.embebed-loading-container {
+.embedded-loading-container {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -577,7 +594,7 @@
   background-color: var(--white);
 }
 
-.embebed-item-container-activity {
+.embedded-item-container-activity {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -594,10 +611,6 @@
   width: 480px !important;
   height: 270px !important;
   padding: 1.5vh 0 !important;
-}
-
-.course-item-audio-card {
-  width: 500px !important;
 }
 
 .done-icon {
@@ -617,3 +630,11 @@ summary:hover {
 .current {
   font-weight: 600;
 }
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  
+  .image-item-container {
+    display: inline;
+  }
+} 

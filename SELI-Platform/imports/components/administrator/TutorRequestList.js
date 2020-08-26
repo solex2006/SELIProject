@@ -203,7 +203,7 @@ export default class TutorRequestList extends React.Component {
             }
           </React.Fragment>
         }
-        <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.state.open}>
+        <Dialog  disableBackdropClick={true} onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.state.open}>
           <DialogTitle className="success-dialog-title" id="simple-dialog-title">{this.state.dialog.title}</DialogTitle>
           <div className="center-row">
             {
@@ -219,7 +219,7 @@ export default class TutorRequestList extends React.Component {
                 <div>
                   <DialogContentText style={{padding: "0 1vw"}}>Are you sure you want to approve this request?</DialogContentText>
                   <DialogActions>
-                    <Button onClick={() => this.activateAccount()} color="primary">Yes</Button>
+                    <Button variant="outlined" onClick={() => this.activateAccount()} color="primary">Yes</Button>
                     <Button onClick={() => this.handleClose()} color="primary">No</Button>
                   </DialogActions>
                 </div>

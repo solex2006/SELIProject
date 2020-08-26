@@ -607,7 +607,7 @@ class StorytellingToolTime extends React.Component {
     });
     courses = Courses.find({_id: {$in: courses}}).fetch();
     courses.map(course => {
-      if (course.organization.subunit) {
+      if (course.coursePlan.courseStructure === "unit") {
         course.program.map(unit => {
           unit.lessons.map(subunit => {
             subunit.items.map(item => {
@@ -1222,7 +1222,7 @@ class StorytellingToolTime extends React.Component {
                   <Button onClick={() => this.handleClose()} color="primary" autoFocus>
                     {this.props.language.cancel}
                   </Button>
-                  <Button onClick={() => this.deleteNode()} color="primary" autoFocus>
+                  <Button variant="outlined" onClick={() => this.deleteNode()} color="primary" autoFocus>
                     {this.props.language.confirm}
                   </Button>
                 </DialogActions>
@@ -1753,8 +1753,8 @@ class StorytellingToolTime extends React.Component {
                 <DialogTitle className="success-dialog-title" id="alert-dialog-title">
                   {this.props.language.publishOnSocialNetwork}
                 </DialogTitle>
-                <div class="storytelling-share-btn-group-time">
-                  <div class="storytelling-share-btn-time">
+                <div className="storytelling-share-btn-group-time">
+                  <div className="storytelling-share-btn-time">
                     <FacebookShareButton
                       url={this.state.shareUrl}
                       quote={this.state.title}>

@@ -199,7 +199,7 @@ export default class StudentsList extends React.Component {
             }
           </React.Fragment>
         }
-        <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.state.open}>
+        <Dialog  disableBackdropClick={true} onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.state.open}>
           <DialogTitle className="success-dialog-title" id="simple-dialog-title">{this.state.dialog.title}</DialogTitle>
           <div className="center-row">
             {
@@ -216,7 +216,7 @@ export default class StudentsList extends React.Component {
                   <DialogContentText style={{padding: "0 1vw"}}>{this.state.dialog.dialogConfirmationContentText}</DialogContentText>
                   <DialogActions>
                     <Button onClick={() => this.handleClose()} color="primary">Cancel</Button>
-                    <Button onClick={() => this.state.confirmAction()} color="primary">{this.state.dialog.confirmActionLabel}</Button>
+                    <Button variant="outlined" onClick={() => this.state.confirmAction()} color="primary">{this.state.dialog.confirmActionLabel}</Button>
                   </DialogActions>
                 </div>
               :
