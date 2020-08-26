@@ -25,6 +25,7 @@ import AppsIcon from '@material-ui/icons/Apps';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import Slide from '@material-ui/core/Slide';
+import { StudentEventLog } from '../../../lib/StudentEventCollection';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -217,6 +218,16 @@ export default class Course extends React.Component {
     });
   };
 
+  logStudentInteraction(type, action){
+    StudentEventLog.insert({ 
+      UserId: Meteor.userId(), 
+      CourseId: this.state.course._id, 
+      Datetime: new Date(), 
+      Resource: type,
+      Action: action
+    });
+  }
+
   showCourseStories = () => {
     this.setState({
       loadingStories: true,
@@ -293,6 +304,7 @@ export default class Course extends React.Component {
               toComplete={this.state.toComplete}
               toResolve={this.state.toResolve}
               language={this.props.language}
+              logStudentInteraction={this.logStudentInteraction.bind(this)}
             />
         }
         <Dialog
