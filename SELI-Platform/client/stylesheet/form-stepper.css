@@ -16,7 +16,7 @@
 }
 
 .form-stepper-navigation-bottom {
-  width: 100%;
+  width: 98vw;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -33,7 +33,11 @@
 .navBar{
   display: flex;
   justify-content: flex-end;
-  padding-right: 5% !important ;
+}
+
+.navBarBackNext {
+  display: flex;
+  align-items: center;
 }
 
 .parentNavBar{
@@ -218,6 +222,12 @@
   }
   .form-stepper-navigation {
     height: auto;
+  }
+  .navBar{
+    justify-content: center;
+  }
+  .navBarBackNext {
+    justify-content: center;
   }
 }
 
