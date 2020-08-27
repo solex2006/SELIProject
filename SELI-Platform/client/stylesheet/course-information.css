@@ -40,6 +40,20 @@
   overflow-y: scroll;
   padding: 4vh 6vw;
 }
+.alignText{
+  display: flex;
+  flex-wrap: wrap;
+}
+.allText{
+  display: flex;
+}
+#standard-select-currency{
+  padding-top: 22px;
+}
+
+.buttonsText{
+  padding-left: 15px;
+}
 
 .hardware{
   display: inline;
