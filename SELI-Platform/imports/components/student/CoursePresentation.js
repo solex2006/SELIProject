@@ -150,7 +150,10 @@ const CourseSummary = ({coursedata}) => {
 								"Portuguese (PT)"
 								:
 								coursedata.language===3?
-								'Turkish (TR)'
+								'Polish (PL)'
+								:
+								coursedata.language===4?
+								'Turkish (TK)'
 								:
 								"Not Defined"
 								
@@ -165,7 +168,7 @@ const CourseSummary = ({coursedata}) => {
 					</ListItemIcon>
 					<ListItemText
 						secondary={"Course modality"}
-						primary={coursedata.analysis[1]}  
+						primary={coursedata.modality}  
 					/>
 				</ListItem>
 			</List>

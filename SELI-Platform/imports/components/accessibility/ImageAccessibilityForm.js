@@ -160,7 +160,7 @@ export const useImageDataField = (props) => {
 	const [displayAltGroup, setDisplayAltGroup] = React.useState('none');
 	const [displayAltLong, setDisplayAltLong] = React.useState('none');
 	const [toogleShort, setToogleShort] = React.useState(false);
-	const [toogleLong, setToogleLong] = React.useState(false);
+	const [toogleLong, setToogleLong] = React.useState(true);
 	const [toogleValue, setTvalue] = React.useState('');
 	const [dataField, setDataField] = React.useState({
 		longDescription:'',
