@@ -24,33 +24,29 @@ import BallotIcon from "@material-ui/icons/Ballot";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
-  button: {
-    marginRight: theme.spacing(1)
-  },
-  stepper: {
-    width:'100%',
-    backgroundColor: "#e8e8e8",
-    "& button:hover .MuiStepLabel-root": {
-      // backgroundColor: "#ffff",
-      borderBottom: "double thick black"
-    }
-  },
-  instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1)
-  },
   optional: {},
   caption: {
     color: "rgb(2, 136, 209)!important"
   },
-  iconContainer: { color: "rgb(2, 136, 209)" },
-  labelContainer: { color: "rgb(2, 136, 209)" },
+  iconContainer: {
+    padding: "0px", 
+    color: "rgb(2, 136, 209)" 
+  },
+  labelContainer: {
+    margin: "0px",
+    padding: "0px", 
+    color: "rgb(2, 136, 209)" 
+  },
   label: {
+    marginLeft: "0px !important",
+    paddingLeft: "5px !important",
     color: "rgb(2, 136, 209)!important",
     // color: "#1460aa",
     fontWeight: 400
   },
   selected: {
+    paddingTop: "10px",
+    paddingBottom: "10px",
     borderBottom: "rgb(2, 136, 209) inset medium",
     "&$error": {
       borderBottomColor: "#d91e18"
@@ -63,12 +59,16 @@ const useStyles = makeStyles(theme => ({
     }
   },
   active: {
+    paddingTop: "0px",
+    paddingBottom: "0px",
     fontWeight: "800!important",
     color: "rgb(2, 136, 209)!important"
     // underline  step na
     // borderBottom: "rgb(2, 136, 209) inset medium",
   },
   disabled: {
+    paddingTop: "0px",
+    paddingBottom: "0px",
     color: "#696969!important",
     "& $label": {
       color: "#696969!important"
@@ -79,8 +79,13 @@ const useStyles = makeStyles(theme => ({
     //   borderBottomColor: "#696969"
     // }
   },
-  alternativeLabel: {},
+  alternativeLabel: {
+    paddingTop: "0px",
+    paddingBottom: "0px",
+  },
   error: {
+    paddingTop: "0px",
+    paddingBottom: "0px",
     color: "#d91e18!important",
     "& $iconContainer": { color: "#d91e18!important" },
     "& $labelContainer": { color: "#d91e18!important" }
@@ -88,6 +93,8 @@ const useStyles = makeStyles(theme => ({
     // }
   },
   completed: {
+    paddingTop: "0px",
+    paddingBottom: "0px",
     color: "#00897b!important",
     "& $label": {
       fontWeight: 400
@@ -718,7 +725,7 @@ useEffect(()=>{
 
   return (
     <div className="form-stepper-container">
-      <div className="form-stepper-navigation">
+      <div className="form-stepper-navigation-id">
         <div className="form-stepper-information-id">
           <h1 style={{color: getComputedStyle(document.documentElement).getPropertyValue('--' + props.color)}} className="form-stepper-title">{props.title}</h1>
           {width >= 1600 && <p className="form-stepper-active-step-id">{`${props.language.step}  
@@ -845,7 +852,7 @@ useEffect(()=>{
                 </Popover>
               </div>
             :
-              <Stepper  className={classes.stepper}  nonLinear activeStep={activeStep}>      
+              <Stepper  className="form-stepper-large-steps"  nonLinear activeStep={activeStep}>      
                 {steps.map((step, index) => {
                     const stepProps = {
                       active: false,
@@ -926,6 +933,7 @@ useEffect(()=>{
                         {...buttonProps}
                       // hidden={isStepDisabled(index)}
                         focusVisibleClassName="stepperFocused"
+                        style={{paddding: "0px"}}
                         className={`${
                         isStepActive(index)
                           ? isStepCompleted(index)
@@ -946,7 +954,7 @@ useEffect(()=>{
             undefined
         }
       </div>      
-      <div valor={"valor"} className="form-stepper-content">
+      <div valor={"valor"} className="form-stepper-content-id">
         { getStepContent(activeStep) }
       </div>
       <div className='form-stepper-navigation-bottom' >

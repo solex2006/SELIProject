@@ -261,3 +261,17 @@
   position: absolute;
   top: 0px;
 }
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .audio-file-preview {
+    width: 100% !important;
+    height: auto !important;
+    background-size: 100%;
+    margin-right: 0vw;
+    overflow: hidden;
+  }
+  .file-preview-information {
+    width: 90% !important;
+  }
+} 
