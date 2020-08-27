@@ -256,10 +256,14 @@ export default function AudienceApp(props) {
       addNewAudiences.support[2]=otherAudiences
       setcourseInformation(addNewAudiences)
       console.log('courseinformation---',courseinformation)
+
+      audienceTooltip.audienceError=false;
+        setaudienceTooltip(audienceTooltip)
     }
     
   };
   function deleteAudience(index) {
+    
     let newAudiences = [...otherAudiences];
     if (index === 0) newAudiences = [...newAudiences.slice(1)];
     else if (index === audiences.length - 1)
@@ -273,12 +277,16 @@ export default function AudienceApp(props) {
     let addNewAudiences=courseinformation;
     addNewAudiences.support[2]=newAudiences
     setcourseInformation(addNewAudiences)
-    console.log('courseinformation---',courseinformation)
+    //console.log('courseinformation---',courseinformation)
   }
   const handleDeleteAudience = (index) => () => {
+    console.log("borrado",tooltip.audienceError)
      setopen(true)
      setindexdelete(index)
      setlabelindexdelete(otherAudiences[index].label)
+     audienceTooltip.audienceError=true;
+     setaudienceTooltip(audienceTooltip)
+     
    
   };
   const handleNewAudience = () => {
@@ -414,7 +422,7 @@ export default function AudienceApp(props) {
   };
 
   function updateTempValue(value, index) {
-    console.log("se va ha editar esto******", index, otherAudiences)
+   // console.log("se va ha editar esto******", index, otherAudiences)
     //delete actual from other audiences requireent camila 
     otherAudiences[index].label=''; //for bug the Unique Validation should not validate against the value of the current field.
     setOtherAudiences(otherAudiences);
