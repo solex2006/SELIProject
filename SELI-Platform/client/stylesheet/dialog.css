@@ -177,7 +177,6 @@
 
 .configure-accessibility-actions {
   width: 650px;
-  
 }
 
 #dialog-max-height{
@@ -392,6 +391,9 @@
 
 /* Media Queries: Tablet Landscape */
 @media screen and (max-width: 1080px) {
+  .dialog {
+    width: 100vw !important;
+  }
   .dialog-form-container {
     width: 86vw !important;
     justify-content: center;
@@ -399,5 +401,12 @@
   }
   .app-tooltip {
     display: none;
+  }
+  .course-creator-preview-player {
+    min-width: 250px !important;
+    height: 250px !important;
+  }
+  .configure-accessibility-actions {
+    width: 100%;
   }
 } 

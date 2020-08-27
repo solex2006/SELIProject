@@ -383,6 +383,9 @@
     top: -26px !important;
     right: 5px !important;
     z-index: 210;
-    background-color: #cacaca !important;
+    background-color: #cacacaab !important;
+  }
+  .title-course{
+    width: 100vw;
   }
 } 

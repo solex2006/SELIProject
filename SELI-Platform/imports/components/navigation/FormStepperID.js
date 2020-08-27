@@ -953,23 +953,23 @@ useEffect(()=>{
         <Grid container className='parentNavBar' spacing={4} >
           {
             props.steps.length > 1 ?
-              <Grid item xs={width >= 640 ? 12 : 3} sm={6}>
+              <Grid className='navBarBackNext' item xs={4} >
                 <ButtonGroup
                   variant="text"
-                  size="large"
+                  size={width >= 640 ? "large" : "small"}
                   aria-label="Course creation step navigation"
                 >
                   <Button
                     color="secondary"
                     onClick={handleBack}
                   >
-                    {width >= 640 ? props.language.previousStep : props.language.back}
+                    {props.language.previousStep}
                   </Button>
                   <Button
                     color="secondary"
                     onClick={handleNext}
                   >
-                    {width >= 640 ? props.language.nextStep : props.language.next}
+                    {props.language.nextStep}
                   </Button>
                   {/* <Button
                     color="secondary"
@@ -982,10 +982,10 @@ useEffect(()=>{
             :
             undefined
           }
-          <Grid className='navBar' item xs={width >= 640 ? 12 : 9} sm={6}>
+          <Grid className='navBar' item xs={8} >
             <ButtonGroup
               variant="text"
-              size="large"
+              size={width >= 640 ? "large" : "small"}
               aria-label="Course creation step navigation"
             >
               {

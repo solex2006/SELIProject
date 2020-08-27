@@ -246,122 +246,120 @@ export default class VideoForm extends React.Component {
         {
           !this.state.showGallery ?
             <div id="dialog-max-height" className="dialog-form-container">
-              <div className="dialog-columns-container">
-                <div className="course-creator-file-form-column">
-                  <div className = "menu-tab-button-container">
-                    <Paper square>
-                      <Tabs
-                        color="primary"
-                        value={this.state.attributes.source}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        className="form-tabs-container"
-                        variant="fullWidth"
-                        centered={true}
-                      >
-                        <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadVideo} icon={<CloudUploadIcon />} />
-                        <Tab value={'url'} onClick={() => {this.selectType('url'); this.unPickFile()}} className="form-tab" label={this.props.language.byUrlVideo}  icon={<HttpIcon />} />
-                      </Tabs>
-                    </Paper>
+              <div className="course-creator-file-form-column">
+                <div className = "menu-tab-button-container">
+                  <Paper square>
+                    <Tabs
+                      color="primary"
+                      value={this.state.attributes.source}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      className="form-tabs-container"
+                      variant="fullWidth"
+                      centered={true}
+                    >
+                      <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadVideo} icon={<CloudUploadIcon />} />
+                      <Tab value={'url'} onClick={() => {this.selectType('url'); this.unPickFile()}} className="form-tab" label={this.props.language.byUrlVideo}  icon={<HttpIcon />} />
+                    </Tabs>
+                  </Paper>
+                </div>
+                {
+                  this.state.attributes.source === "upload" && !this.state.showGallery ?
+                    <div className="library-button-container">
+                      <Fab onClick={() => this.showLibrary()}>
+                        <FolderSpecialIcon/>
+                      </Fab>
+                      <p className="media-fab-text">{this.props.language.library}</p>
+                    </div>
+                  :
+                  undefined
+                }
+                <div className="form-column-container">
+                  <div className="course-creator-input-container">
+                    <TextField
+                      id="title-input"
+                      label={this.props.language.videoTitle}
+                      margin="normal"
+                      variant="outlined"
+                      value={this.state.attributes.title}
+                      onChange={this.handleChange('title')}
+                      required
+                      className="form-padding-dialog-input"
+                    />
                   </div>
                   {
-                    this.state.attributes.source === "upload" && !this.state.showGallery ?
-                      <div className="library-button-container">
-                        <Fab onClick={() => this.showLibrary()}>
-                          <FolderSpecialIcon/>
-                        </Fab>
-                        <p className="media-fab-text">{this.props.language.library}</p>
-                      </div>
-                    :
-                    undefined
-                  }
-                  <div className="form-column-container">
-                    <div className="course-creator-input-container">
-                      <TextField
-                        id="title-input"
-                        label={this.props.language.videoTitle}
-                        margin="normal"
-                        variant="outlined"
-                        value={this.state.attributes.title}
-                        onChange={this.handleChange('title')}
-                        required
-                        className="form-padding-dialog-input"
-                      />
-                    </div>
-                    {
-                      !this.state.showPreview ?
-                        <div>
-                          {
-                            this.state.attributes.source === "upload" ?
-                              <FileUpload
-                                type="video"
-                                user={Meteor.userId()}
-                                accept={'video/*'}
-                                label={this.props.language.uploadVideoButtonLabel}
-                                handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                getFileInformation={this.getFileInformation.bind(this)}
-                                language={this.props.language}
-                              />
-                            :
-                              <div>
-                                {
-                                  this.state.validUrl ?
-                                    <ReactPlayer controls className="course-creator-preview-player" url={this.state.url}/>
-                                  :
-                                    undefined
-                                }
-                                <div className="url-input-container">
-                                  <TextField
-                                    id="url-input"
-                                    label="Url"
-                                    margin="normal"
-                                    variant="outlined"
-                                    value={this.state.url}
-                                    autoFocus={true}
-                                    required
-                                    onChange={this.urlHandleChange()}
-                                    className="url-input"
-                                    helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
-                                  />
-                                </div>
-
-                              </div>
-                          }
-                        </div>
-                      :
-                        <div>
-                          <div>
-                            <VideoPreview
-                              file={this.state.attributes.video}
-                              unPickFile={this.unPickFile.bind(this)}
+                    !this.state.showPreview ?
+                      <div>
+                        {
+                          this.state.attributes.source === "upload" ?
+                            <FileUpload
+                              type="video"
+                              user={Meteor.userId()}
+                              accept={'video/*'}
+                              label={this.props.language.uploadVideoButtonLabel}
+                              handleControlMessage={this.props.handleControlMessage.bind(this)}
+                              getFileInformation={this.getFileInformation.bind(this)}
                               language={this.props.language}
                             />
-                          </div>
+                          :
+                            <div>
+                              {
+                                this.state.validUrl ?
+                                  <ReactPlayer controls className="course-creator-preview-player" url={this.state.url}/>
+                                :
+                                  undefined
+                              }
+                              <div className="url-input-container">
+                                <TextField
+                                  id="url-input"
+                                  label="Url"
+                                  margin="normal"
+                                  variant="outlined"
+                                  value={this.state.url}
+                                  autoFocus={true}
+                                  required
+                                  onChange={this.urlHandleChange()}
+                                  className="url-input"
+                                  helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
+                                />
+                              </div>
+
+                            </div>
+                        }
+                      </div>
+                    :
+                      <div>
+                        <div>
+                          <VideoPreview
+                            file={this.state.attributes.video}
+                            unPickFile={this.unPickFile.bind(this)}
+                            language={this.props.language}
+                          />
                         </div>
-                    }
-                    <div className="form-editor-label">
-                      <AccessibilityHelp 
-                        id={'short-description-help-container'} 
-                        name={'shortDescriptionHelpContainer'} 
-                        error={!this.state.showPreview} 
-                        tip={!this.state.showPreview? this.props.language.uploadVideo: this.props.language.uploadVideoCorrect} 
-                        //step={props.step}
-                        //stepLabel={props.stepLabel}
-                        language={this.props.language}
-                      />
-                    </div>
+                      </div>
+                  }
+                  <div className="form-editor-label">
+                    <AccessibilityHelp 
+                      id={'short-description-help-container'} 
+                      name={'shortDescriptionHelpContainer'} 
+                      error={!this.state.showPreview} 
+                      tip={!this.state.showPreview? this.props.language.uploadVideo: this.props.language.uploadVideoCorrect} 
+                      //step={props.step}
+                      //stepLabel={props.stepLabel}
+                      language={this.props.language}
+                    />
                   </div>
                 </div>
               </div>
             </div>
           :
-          <Library
-            user={Meteor.userId()}
-            type={"video"}
-            getFileInformation={this.getFileInformation.bind(this)}
-            hideLibrary={this.hideLibrary.bind(this)}
-            language={this.props.language}
-          />
+            <Library
+              user={Meteor.userId()}
+              type={"video"}
+              getFileInformation={this.getFileInformation.bind(this)}
+              hideLibrary={this.hideLibrary.bind(this)}
+              language={this.props.language}
+            />
         }
       </div>
     );
