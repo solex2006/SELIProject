@@ -48,12 +48,11 @@ export default class QuizForm extends React.Component {
           percentage: 0,
         },
          badgeClass: {
-          id: '',
+          _id: '',
           name: '',
           description: '',
           image: undefined,
           criteria: '',
-          imageBuffer: '',
         },
         questions: [
           {
@@ -275,7 +274,7 @@ myFormatminutes=(num)=> {
       let questions = quizContent.questions.slice(0, (this.state.addedQuestions + 1));
       quizContent.expanded = true;
       quizContent.questions = questions;
-      quizContent.badgeClass.id=createUUID();
+      quizContent.badgeClass._id=createUUID();
       
       createBadge(quizContent.badgeClass)
       return quizContent;

@@ -1,11 +1,7 @@
+import { Badges } from "../../../lib/BadgesCollection";
 
-
-import { Badges } from '../../../lib/BadgesCollection';
-
-
-function createBadge(badgeClass){
-  console.log(badgeClass);
-  Badges.insert({badgeClass:badgeClass});
+function createBadge(badgeClass) {
+  Badges.insert( badgeClass );
 }
 
 export default createBadge;

@@ -1142,5 +1142,10 @@ var TURKISH = {
   removeBadge: "Remove badge",
   addBadge: "Add badge",
   criteria: "Criteria",
+  badgeInformation: "Badge Information",
+  loadingBadgeInformation: "Loading badge information...",
+  earningCriteria: "Earning criteria",
+
+
 }
 export default TURKISH;

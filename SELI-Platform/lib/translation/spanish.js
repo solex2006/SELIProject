@@ -1141,7 +1141,11 @@ var SPANISH = {
   badgeAwardMessage: "Felicidades! Ganaste el emblema",
   removeBadge: "Quitar emblema",
   addBadge: "Agregar emblema",
-  criteria: "Criteria",
+  criteria: "Criterio",
+  badgeInformation: "Informacion de emblema",
+  loadingBadgeInformation: "Cargando informacion del emblema",
+  earningCriteria: "Criterios para ganarlo",
+
 
 }
 export default SPANISH

@@ -1,0 +1,40 @@
+.badge-class-container {
+  background-color: #2a2a22;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+}
+
+.badge-information {
+  display: flex;
+  color: #e4f1fe;
+  height: 100vh;
+  width: 100%;
+  flex: 2 1 0;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.badge-image {
+  background-color: white;
+  height: 100vh;
+  width: 100%;
+  flex: 1 1 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.badge-title {
+  margin-top: 30px;
+  font-weight: bold;
+  font-size: 7em;
+}
+.badge-font-medium {
+  margin-top: 15px;
+  font-size: 2em;
+}
+.badge-label {
+  margin-top: 30px;
+  font-size: 4em;
+}
