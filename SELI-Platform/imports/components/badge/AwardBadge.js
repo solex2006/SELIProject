@@ -2,7 +2,7 @@ import CourseFilesCollection from "../../../lib/CourseFilesCollection";
 import { v4 as uuidv4 } from "uuid";
 
 import sha256 from "crypto-js/sha256";
-
+import CryptoJS from 'crypto-js';
 //const message, nonce, path, privateKey; // ...
 
 const bakery = require("openbadges-bakery-v2");
@@ -24,14 +24,29 @@ function getIdentity(email) {
   };
   return id;
 }
-async function bakeBadge(assertion, badgeInformation, user) {
-  assertion.id = uuidv4();
+//badgeClass,user
+const renameKey = (object, key, newKey) => {
+  const clonedObj = clone(object);
+  const targetKey = clonedObj[key];
+  delete clonedObj[key];
+  clonedObj[newKey] = targetKey;
+  return clonedObj;
+};
+const clone = (obj) => Object.assign({}, obj);
+
+async function bakeBadge(badgeClass, user) {
+  var assertion = {};
   assertion.type = "Assertion";
+  assertion.id = uuidv4();
   assertion["@context"] = "https://w3id.org/openbadges/v2";
-  assertion.verification = { type: "HostedBadge" };
   assertion.recipient = getIdentity(user.emails[0].address);
+  assertion.issuedOn = new Date().toISOString();
+  assertion.verification = { type: "HostedBadge" };
+
+  badgeClass = renameKey(badgeClass, "_id", "id");
+  assertion.badge = badgeClass;
   let buffer = CourseFilesCollection.findOne({
-    _id: badgeInformation.image._id,
+    _id: badgeClass.image._id,
   });
   buffer = buffer.meta.buffer;
   console.log(user);
@@ -48,7 +63,7 @@ async function bakeBadge(assertion, badgeInformation, user) {
   };
   await bake(options)
     .then((data) => {
-      saveBadge(data, badgeInformation);
+      saveBadge(data, assertion);
       //   this.setState({ badgeWin: true });
       var registerData = { data: encryptor.encrypt(registerDataSinCode) };
       persistBadge(assertion, registerData);
@@ -69,7 +84,7 @@ function saveBadge(data, badgeInformation) {
   let user = Meteor.users.find({ _id: Meteor.userId() }).fetch();
   user = user[0];
   console.log(badgeInformation);
-  var file = new File([data], badgeInformation.image._id + ".png", {
+  var file = new File([data], badgeInformation.badge.image._id + ".png", {
     type: "image/png",
     ext: "png",
     extension: "png",

@@ -452,19 +452,11 @@ class Quiz extends React.Component {
     console.log(badgeClass);
     let user = Meteor.users.find({ _id: Meteor.userId() }).fetch();
     user = user[0];
-    let course = Courses.find({ "program.items.id": this.props.quiz.id }).fetch();
-    course = course[0];
- 
-    var assertion = {
-      "_badgeName": badgeClass.name,
-      "_studentName": user.profile.fullname,
-      "_courseId": course._id,
-      "_teacherId": course.createdBy,
-      "description": badgeClass.description,
-      "issuedOn": new Date().toISOString(),
-    };
-    console.log(user)
-    bakeBadge(assertion,badgeClass,user)
+    //if you want to use course info in some badge fields, but no required at the moment
+    // let course = Courses.find({ "program.items.id": this.props.quiz.id }).fetch();
+    // course = course[0];  
+
+    bakeBadge(badgeClass,user)
   }
 
   render() {

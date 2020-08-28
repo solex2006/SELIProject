@@ -335,7 +335,7 @@ export default class QuizItem extends React.Component {
           this.state.winBadge  &&
             <BadgeNotification
               modalOpen = {true} 
-              badgeInformation={this.props.item.attributes.badgeInformation}
+              badgeInformation={this.props.item.attributes.badgeClass}
               language={this.props.language}
             />
 

@@ -53,6 +53,12 @@ export default class QuizForm extends React.Component {
           description: '',
           image: undefined,
           criteria: '',
+          issuer:{
+            id: Meteor.settings.public.URL_SITE,
+            type: "BadgeClass",
+            name: "SELI",
+            url: Meteor.settings.public.URL_SITE,
+          }
         },
         questions: [
           {
@@ -274,7 +280,7 @@ myFormatminutes=(num)=> {
       let questions = quizContent.questions.slice(0, (this.state.addedQuestions + 1));
       quizContent.expanded = true;
       quizContent.questions = questions;
-      quizContent.badgeClass._id=createUUID();
+      quizContent.badgeClass._id=Meteor.settings.public.URL_SITE+"badges/"+createUUID();
       
       createBadge(quizContent.badgeClass)
       return quizContent;
