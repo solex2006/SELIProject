@@ -56,7 +56,7 @@ Meteor.startup(() => {
         <Route exact path="/dashboard" component={CoursesDashboard} history={history}/>
         <Route exact path="/tutorRequests" component={TutorRequestList} history={history}/>
         <Route exact path="/certificatesValidation" component={CertificateValidation} history={history}/>
-        <Route exact path="/badgeVerification" component={BadgeVerification} history={history}/>
+        <Route exact path="/badges/verification" component={BadgeVerification} history={history}/>
         <Route exact path="/badges/:id" component={Badge} history={history}/>
 
       </Switch>

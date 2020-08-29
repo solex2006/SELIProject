@@ -10,14 +10,12 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import CourseFilesCollection from "../../lib/CourseFilesCollection";
 import SchoolIcon from "@material-ui/icons/School";
-import english from '../../lib/translation/english';
-import spanish from '../../lib/translation/spanish';
-import portuguese from '../../lib/translation/portuguese';
-import polish from '../../lib/translation/polish';
-import turkish from '../../lib/translation/turkish';
-var bakery = require("openbadges-bakery-v2");
+import english from "../../lib/translation/english";
+import spanish from "../../lib/translation/spanish";
+import portuguese from "../../lib/translation/portuguese";
+import polish from "../../lib/translation/polish";
+import turkish from "../../lib/translation/turkish";
 export default class BadgeVerification extends React.Component {
   constructor(props) {
     super(props);
@@ -41,58 +39,15 @@ export default class BadgeVerification extends React.Component {
   }
 
   componentDidMount() {
-    Session.set({language: Session.get('language') ? Session.get('language') : english});
-    this.setState({
-      language: Session.get('language') ? Session.get('language') : english,
+    Session.set({
+      language: Session.get("language") ? Session.get("language") : english,
     });
     this.setState({
-      loadingBadge: true,
-    }, () => {
-      console.log(this.props.location)
-      // let _id = this.props.location.hash.substr(1);
-      // Tracker.autorun(() => {
-      //   let course = Courses.find({_id: _id}).fetch();
-      //   course.length ?
-      //   this.setState({
-      //     course: course[0],
-      //     loadingCourse: false,
-      //   })
-      //   :
-      //   this.setState({
-      //     course: undefined,
-      //   });
-      // });
-      // Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
-      //   if (response) this.setInitVariables(response);
-      // });
+      language: Session.get("language") ? Session.get("language") : english,
     });
   }
 
   showError = () => {};
-
-  debake(img) {
-    return new Promise((resolve, reject) => {
-      bakery.extract(img, function (err, data) {
-        if (err) return reject(err);
-        else resolve(data);
-      });
-    });
-  }
-
-  verifyBadge = () => {
-    console.log("verify badge");
-    let uploadedImage = CourseFilesCollection.findOne({
-      _id: this.state.badgeInformation.image._id,
-    });
-    let image = uploadedImage.meta.buffer;
-    this.debake(image)
-      .then((data) => {
-        this.setDataForm(data, image);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   setDataForm(data, image) {
     data = JSON.parse(data);
@@ -115,71 +70,28 @@ export default class BadgeVerification extends React.Component {
     this.handleControlMessage(true, errorLabel);
   };
 
-  // setLanguage = (option) => {
-  //   let language = this.state.language;
-  //   if (option === "Portuguese (PT)") {
-  //     Session.set({ language: portuguese });
-  //     language = portuguese;
-  //   } else if (option === "English (US)") {
-  //     Session.set({ language: english });
-  //     language = english;
-  //   } else if (option === "Spanish (ES)") {
-  //     Session.set({ language: spanish });
-  //     language = spanish;
-  //   } else if (option === "Turkish (TR)") {
-  //     Session.set({ language: turkish });
-  //     language = turkish;
-  //   }
-  //   this.setState(
-  //     {
-  //       language: language,
-  //     },
-  //     () => {
-  //       this.setState({
-  //         userForms: [
-  //           <BadgeInformation
-  //             showErrorFunction={(showError) => (this.showError = showError)}
-  //             badgeInformation={this.state.badgeInformation}
-  //             language={this.state.language}
-  //           />,
-  //         ],
-  //         userSteps: [
-  //           {
-  //             label: this.props.language.verificateBadge,
-  //             icon: <InfoIcon className="step-icon" />,
-  //           },
-  //         ],
-  //       });
-  //     }
-  //   );
-  // };
-
   setLanguage = (option) => {
     let language = this.state.language;
-    if (option === 'Portuguese (PT)') {
-      Session.set({language: portuguese});
+    if (option === "Portuguese (PT)") {
+      Session.set({ language: portuguese });
       language = portuguese;
-    }
-    else if (option === 'English (US)') {
-      Session.set({language: english});
+    } else if (option === "English (US)") {
+      Session.set({ language: english });
       language = english;
-    } 
-    else if (option === 'Spanish (ES)') {
-      Session.set({language: spanish});
+    } else if (option === "Spanish (ES)") {
+      Session.set({ language: spanish });
       language = spanish;
-    }
-    else if (option === 'Polish (PL)') {
-      Session.set({language: polish});
+    } else if (option === "Polish (PL)") {
+      Session.set({ language: polish });
       language = polish;
-    }
-    else if (option === 'Turkish (TR)') {
-      Session.set({language: turkish});
+    } else if (option === "Turkish (TR)") {
+      Session.set({ language: turkish });
       language = turkish;
     }
     this.setState({
       language: language,
     });
-  }
+  };
   render() {
     return (
       <div>
@@ -187,11 +99,11 @@ export default class BadgeVerification extends React.Component {
           <MuiThemeProvider theme={theme}>
             {this.state.language && Session.get("language") ? (
               <React.Fragment>
-                            <AppBar
-              history={this.props.history}
-              language={this.state.language}
-              setLanguage={this.setLanguage.bind(this)}
-            />
+                <AppBar
+                  history={this.props.history}
+                  language={this.state.language}
+                  setLanguage={this.setLanguage.bind(this)}
+                />
 
                 <div className="title-badge-registration">
                   <h1 className="management-title">
