@@ -12,23 +12,11 @@
   width: 100%;
   height: auto;
   max-height: 200px;
-  margin: 2.5vh 0;
+  margin: 2vh 0;
   display: flex;
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.5s;
-}
-
-.upload-container {
-
-}
-
-.upload-button {
-
-}
-
-.upload-icon {
-
 }
 
 .upload-label {

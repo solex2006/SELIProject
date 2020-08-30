@@ -4,11 +4,12 @@
   display: flex;
   position: relative;
   animation: fadeIn 1s;
+  overflow-y: scroll;
 }
 
 .course-information-container {
   width: 100%;
-  height: calc(100% - var(--form-stepper-height));
+  height: 100%;
   display: flex;
   position: relative;
   overflow-y: scroll;
@@ -22,8 +23,6 @@
 }
 
 .form-input-column {
-  display: flex;
-  flex-direction: column;
   min-width: 40vw;
   max-height: 100%;
   padding: 2.5vh 6vw;
@@ -32,11 +31,28 @@
 .headAccessibility{
   padding: 2.5vh 6vw;
 }
+.sylabusStyles{
+  padding-bottom: 35px;
+}
 
 .form-input-audiences {
-  max-height: calc(100% - 15vh);
+  height: calc(100% - 8vh) !important;
   overflow-y: scroll;
   padding: 4vh 6vw;
+}
+.alignText{
+  display: flex;
+  flex-wrap: wrap;
+}
+.allText{
+  display: flex;
+}
+#standard-select-currency{
+  padding-top: 22px;
+}
+
+.buttonsText{
+  padding-left: 15px;
 }
 
 .hardware{
@@ -197,7 +213,9 @@
 }
 
 .file-form-dialog {
-  max-width: 67.5vw;
+  width: 67.5vw;
+  display: flex;
+  justify-content: center;
 }
 
 .form-preview-container {
@@ -335,8 +353,8 @@
 }
 
 .form-multiple-input {
-  width: 15vw !important;
-  margin-right: 8px !important;
+  min-width: 100px !important;
+  margin-right: 10px !important;
 }
 
 .form-multiple-input-row {
@@ -345,4 +363,30 @@
 
 .report{
   overflow-y: scroll;
+}
+
+@media only screen and (max-width: 1080px)  {
+  .user-information-container {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .form-dialog {
+    width: 100vw !important;
+  }
+  .file-form-dialog {
+    width: auto;
+  }
+  .form-preview-container {
+    width: 80vw !important;
+  }
+  .form-file-column {
+    width: 100%;
+    height: auto;
+  }
+  .form-image-button {
+    height: 300px  !important;
+  }
+  .form-request-information {
+    height: 150px  !important;
+  }
 }

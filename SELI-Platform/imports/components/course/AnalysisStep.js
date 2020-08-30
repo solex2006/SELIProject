@@ -77,7 +77,8 @@ const useStyles = makeStyles(theme => ({
   },
   listItem: {
     flex: "0.2",
-    minWidth: "100px"
+   // minWidth: "100px"
+   width:'100%'
   },
   addButton: {
     color: theme.palette.secondary.main
@@ -130,16 +131,18 @@ export default function AnalysisStep(props) {
 
   useEffect(()=>{// 
     console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,analysisTooltip)
-        if(modality!=undefined && pedagogical!=undefined &&
-           analysisTooltip.learningobjectives===false  && analysisTooltip.outcomes===false ){
+        if(pedagogical!=undefined  &&
+           analysisTooltip.learningobjectives===false  && analysisTooltip.outcomes===false &&  analysisTooltip.pedagogical===false ){
             props.validate('passCourseAnalysis')
-        } 
-        if(modality===undefined || pedagogical==='' || 
+        } else{
+          props.validate('NopassCourseAnalysis')
+        }
+        /* if(modality===undefined || pedagogical==='' || 
            analysisTooltip.learningobjectives===true  || analysisTooltip.outcomes===true){
            props.validate('NopassCourseAnalysis')    
-        }
+        } */
   })
-
+  const [saveButton, setsaveButton]=useState(false)
   const [openT, setOpenT] = React.useState(false);
   const [openA, setOpenA] = React.useState(false);
   const [openS, setOpenS] = React.useState(false);
@@ -726,9 +729,18 @@ export default function AnalysisStep(props) {
 
   function updateTempValue(value) {
     console.log("updateTempValue",value)
+
+
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
+
+    if(value.replace(/\s/g,"") == ""){ //To avoid input spaces
+      setsaveButton(true)
+    }else{
+      setsaveButton(false)
+    }
+
     if(value!="") {
       setfeedbackError(false)
     }
@@ -964,92 +976,102 @@ export default function AnalysisStep(props) {
                         }
 												className={goal.editing ? classes.hidden : ""}
 											/>
-											<Paper className={!goal.editing ? classes.hidden : ""}>		
+                      <div className='allText' >
+											<Paper className={!goal.editing ? classes.hidden : ""}>	
+                        <div className='alignText'>
+                          <div>
+                            <TextField
+                                  id="standard-select-currency"
+                                  select
+                                  SelectProps={{
+                                    native: true
+                                  }}
+                                  // variant="outlined"
+                                  value={controlEdit.tempAuxValue}
+                                  onChange={event =>
+                                    updateTempAuxValue(event.target.value)
+                                  }
+                                  className={classes.textInput}
+                                >
+                                  {goalsTaxonomy[category].map(option => (
+                                    <option key={option.key} value={option.key}>
+                                      {option.label}
+                                    </option>
+                                  ))}
+                              </TextField>
+                          </div>
+                          
                         
-                          <TextField
-                            id="standard-select-currency"
-                            select
-                            SelectProps={{
-                              native: true
-                            }}
-                            // variant="outlined"
-                            value={controlEdit.tempAuxValue}
-                            onChange={event =>
-                              updateTempAuxValue(event.target.value)
-                            }
-                            className={classes.textInput}
-                          >
-                            {goalsTaxonomy[category].map(option => (
-                              <option key={option.key} value={option.key}>
-                                {option.label}
-                              </option>
-                            ))}
-                          </TextField>
-                    
-                      	
-												<TextField
-													key={"u2" + index + "txtField"}
-                          value={controlEdit.tempValue}
-                          label="Complete the objective"
-													onChange={event =>
-														updateTempValue(event.target.value)
-													}
-												/>
+                            <div>
+                              <TextField
+                                key={"u2" + index + "txtField"}
+                                value={controlEdit.tempValue}
+                                label="Complete the objective"
+                                onChange={event =>
+                                  updateTempValue(event.target.value)
+                                }
+                              />
+                            </div>
+                        </div>	
 											</Paper>
-											<ListItemSecondaryAction key={"u2" + index + "secAc"}>
-												{goal.editing ? (
-													<React.Fragment>
-														<IconButton
-															key={"u2" + index + "btnEditSaveUnit"}
-															edge="end"
-															aria-label={"Save changes"}
-															onClick={() =>
-																handleEditedLearning(index, category)
-															}
-															className={classes.saveButton}
-															disabled={controlEdit.tempValue === ""}
-														>
-															<DoneIcon />
-														</IconButton>
-														<IconButton
-															key={"u2" + index + "btnEditCancelUnit"}
-															edge="end"
-															aria-label={"Cancel changes"}
-															onClick={() =>
-																handleCancelEditLearning(index, category)
-															}
-															className={classes.deleteButton}
-														>
-															<ClearIcon />
-														</IconButton>
-													</React.Fragment>
-												) : (
-													<React.Fragment>
-														<IconButton
-															key={"u2" + index + "btnEditUnit"}
-															edge="end"
-															aria-label={"Edit unit name"}
-															onClick={() =>
-																handleEditLearning(index, category)
-															}
-															disabled={controlEdit.editing}
-														>
-															<EditIcon />
-														</IconButton>
-														<IconButton
-															key={"u2" + index + "btnDeleteUnit"}
-															edge="end"
-															// aria-label={"Delete constraint " + constraint.label}
-															onClick={() =>
-																handleDeleteLearning(index, category)
-															}
-															className={classes.deleteButton}
-														>
-															<RemoveIcon />
-														</IconButton>
-													</React.Fragment>
-												)}
-											</ListItemSecondaryAction>
+                      
+                            <ListItemSecondaryAction  key={"u2" + index + "secAc"}>
+                              {goal.editing ? (
+                                <React.Fragment>
+                                  <IconButton
+                                    key={"u2" + index + "btnEditSaveUnit"}
+                                    edge="end"
+                                    aria-label={"Save changes"}
+                                    onClick={() =>
+                                      handleEditedLearning(index, category)
+                                    }
+                                    className={classes.saveButton}
+                                    disabled={(controlEdit.tempValue === "" || saveButton===true)}
+                                  >
+                                    <DoneIcon />
+                                  </IconButton>
+                                  <IconButton
+                                    key={"u2" + index + "btnEditCancelUnit"}
+                                    edge="end"
+                                    aria-label={"Cancel changes"}
+                                    onClick={() =>
+                                      handleCancelEditLearning(index, category)
+                                    }
+                                    className={classes.deleteButton}
+                                  >
+                                    <ClearIcon />
+                                  </IconButton>
+                                </React.Fragment>
+                              ) : (
+                                <React.Fragment>
+                                  <IconButton
+                                    key={"u2" + index + "btnEditUnit"}
+                                    edge="end"
+                                    aria-label={"Edit unit name"}
+                                    onClick={() =>
+                                      handleEditLearning(index, category)
+                                    }
+                                    disabled={controlEdit.editing}
+                                  >
+                                    <EditIcon />
+                                  </IconButton>
+                                  <IconButton
+                                    key={"u2" + index + "btnDeleteUnit"}
+                                    edge="end"
+                                    // aria-label={"Delete constraint " + constraint.label}
+                                    onClick={() =>
+                                      handleDeleteLearning(index, category)
+                                    }
+                                    className={classes.deleteButton}
+                                  >
+                                    <RemoveIcon />
+                                  </IconButton>
+                                </React.Fragment>
+                              )}
+                            </ListItemSecondaryAction>
+
+                          </div>
+											
 										</ListItem>
 									))}
 									<ListItem
@@ -1134,37 +1156,43 @@ export default function AnalysisStep(props) {
 												}
 												className={outcome.editing ? classes.hidden : ""}
 											/>
-
-											<Paper className={!outcome.editing ? classes.hidden : ""}>
-												<TextField
-													id="standard-select-currency"
-													select
-													SelectProps={{
-														native: true
-													}}
-													// variant="outlined"
-													value={controlEdit.tempAuxValue}
-													onChange={event =>
-														updateTempAuxValue(event.target.value)
-													}
-													className={classes.textInput}
-												>
-													{outcomesTaxonomy[category].map(option => (
-														<option key={option.key} value={option.key}>
-															{option.label}
-														</option>
-													))}
-												</TextField>
-												<TextField
-                          label="Complete the objective"
-													key={"u2" + index + "txtField"}
-													value={controlEdit.tempValue}
-													onChange={event =>
-														updateTempValue(event.target.value)
-													}
-												/>
-											</Paper>
-											<ListItemSecondaryAction key={"u2" + index + "secAc"}>
+                      <div className='allText' >
+                        <Paper className={!outcome.editing ? classes.hidden : ""}>
+                        <div className='alignText'>
+                          <div>
+                            <TextField
+                              id="standard-select-currency"
+                              select
+                              SelectProps={{
+                                native: true
+                              }}
+                              // variant="outlined"
+                              value={controlEdit.tempAuxValue}
+                              onChange={event =>
+                                updateTempAuxValue(event.target.value)
+                              }
+                              className={classes.textInput}
+                            >
+                              {outcomesTaxonomy[category].map(option => (
+                                <option key={option.key} value={option.key}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </TextField>
+                          </div>
+                          <div>
+                            <TextField
+                              label="Complete the objective"
+                              key={"u2" + index + "txtField"}
+                              value={controlEdit.tempValue}
+                              onChange={event =>
+                                updateTempValue(event.target.value)
+                              }
+                            />
+                          </div>
+                        </div>
+                        </Paper>
+                        <ListItemSecondaryAction key={"u2" + index + "secAc"}>
 												{outcome.editing ? (
 													<React.Fragment>
 														<IconButton
@@ -1175,7 +1203,7 @@ export default function AnalysisStep(props) {
 																handleEditedOutcome(index, category)
 															}
 															className={classes.saveButton}
-															disabled={controlEdit.tempValue === ""}
+															disabled={(controlEdit.tempValue === "" || saveButton===true)}
 														>
 															<DoneIcon />
 														</IconButton>
@@ -1216,6 +1244,9 @@ export default function AnalysisStep(props) {
 													</React.Fragment>
 												)}
 											</ListItemSecondaryAction>
+                      </div>
+											
+											
 										</ListItem>
 									))}
 									<ListItem
@@ -1293,7 +1324,7 @@ export default function AnalysisStep(props) {
                           aria-label={"Save changes"}
                           onClick={handleEditedRequisite(index)}
                           className={classes.saveButton}
-                          disabled={controlEdit.tempValue === ""}
+                          disabled={(controlEdit.tempValue === "" || saveButton===true)}
                         >
                           <DoneIcon />
                         </IconButton>
@@ -1358,54 +1389,7 @@ export default function AnalysisStep(props) {
       </Grid>
     
     
-      <Grid container className={classes.formGroup}>
-          <Grid item xs={12} className={classes.Behavioral}>
-              <h2 className={classes.Behavioral}>{labels.modality}</h2>
-          </Grid>
-          <Grid item xs={12} >
-          <form className={classes.root}>
-            <FormLabel component="legend">
-              {labels.delivercontent}
-            </FormLabel>
-            <RadioGroup
-              aria-label="Course delivery"
-              name="coursePlan"
-              value={modality}
-               onChange={event => {
-                 setmodality(event.target.value)
-                 let analisis=analysisTooltip;
-                 analisis.modality=false;
-                 setanalysisTooltip(analisis)               
-                 let modal=courseinformation;
-                 modal.accessibility[2]=analysisTooltip;
-                 modal.analysis[1]=event.target.value;
-                 setcourseInformation(modal);
-                 }}
-            >
-              <FormControlLabel
-                value="online"
-                control={<Radio />}
-                label="Online"
-              />
-              <FormControlLabel
-                value="hybrid"
-                control={<Radio />}
-                label="Hybrid"
-              />
-            </RadioGroup>
-            <FeedbackHelp
-              validation={{
-                error: analysisTooltip.modality,
-                errorMsg: labels.errorMsg,
-                errorType: "",
-                a11y: null
-              }}
-              tipMsg="Select beteween online course or blend online and face-to-face course."
-              describedBy={"modality-helper-text"}
-            />
-          </form>
-        </Grid>
-      </Grid>
+      
 
       <Grid container className={classes.formGroup}>
           <Grid item xs={12} className={classes.Behavioral}>

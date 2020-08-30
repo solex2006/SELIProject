@@ -177,7 +177,7 @@ export default class VideoItem extends React.Component {
                   <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
                     {`${this.props.language.audioDescription}:`}
                   </Typography>
-                  <AudioPlayer className="file-preview-information" volume src={this.props.item.attributes.accessibility.dataField.fileAudioDescription[0].link}/>
+                  <AudioPlayer volume src={this.props.item.attributes.accessibility.dataField.fileAudioDescription[0].link}/>
                 </div>
               :      
                 undefined

@@ -23,6 +23,7 @@
 
 .MuiPaper-elevation1{
   box-shadow: none !important;
+  margin-right:80px !important
 }
 
 .MuiTypography-displayBlock {

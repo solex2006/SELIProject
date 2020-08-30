@@ -1146,5 +1146,12 @@ var ENGLISH = {
   badgeInformation: "Badge Information",
   loadingBadgeInformation: "Loading badge information...",
   earningCriteria: "Earning criteria",
+  completeStep1:'Please complete step: ',
+  completeStep2:'before publish',
+  missingInformation:'Missing information',
+  instructionGuidedCoursePlan:'You can choose between create the course plan in SELI platform or outside the platform',
+  instructionTemplateCourse:'You can develop your course using one of SELI predefined templates',
+  instructionStructureCourse:'You can develop your course organizing it by Topics or by Units and Lessons',
+  instructionCourseSyllabus:'Upload your course plan.',
 }
 export default ENGLISH;

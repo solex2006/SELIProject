@@ -84,6 +84,10 @@ export default class PdfFormulario extends React.Component {
   }
 
   createContent(){
+    console.log("create el content" ,this.props)
+   
+      this.props.loadSylabus(this.props.courseInformation.sylabus)
+  
     this.relativeProgramCommons("create");
    
   }

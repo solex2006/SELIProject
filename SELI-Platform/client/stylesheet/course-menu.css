@@ -171,8 +171,13 @@
   letter-spacing: 2px !important;
 }
 
-
 .courseInformation{
   color: blue,
-
 }
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .course-menu-options-container {
+    width: 85vw;
+  }
+} 

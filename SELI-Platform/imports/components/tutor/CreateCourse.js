@@ -4,7 +4,7 @@ import AudienceStep from '../course/AudienceStep'
 import RequirementStep from '../course/RequirementStep'
 import CoursePlanStep from '../course/CoursePlanStep'
 import ReportStep     from '../course/ReportStep'
-import FormStepperID from '../navigation/FormStepperID'; '../'
+import FormStepperID from '../navigation/FormStepperID';
 import CourseInformation from '../course/CourseInformation';
 import CourseProgram from '../course/CourseProgram';
 import AnalysisStep from '../course/AnalysisStep'
@@ -46,15 +46,18 @@ export default class CreateCourse extends React.Component {
   formStepper=React.createRef()
   constructor(props) {
     super(props);
-    console.log("CreateCourse", props)
-    
     this.state = {
+      flagtick:true,
       courseSteps: undefined,
+      flagErrorSteps:false,
+      numberofStep:'',
+      databaseCourse: {},
       courseInformation: {
         title: '',
         subtitle: "",
         description: '',
         language: '',
+        modality:'online',
         keyWords: [],
         image: undefined,
         sylabus: undefined,
@@ -62,22 +65,21 @@ export default class CreateCourse extends React.Component {
         support: [],
         requirements: [],
         coursePlan:{
-          guidedCoursePlan: 'guided', 
-          courseTemplate: 'spiral', 
+          guidedCoursePlan: 'free', 
+          courseTemplate: 'without', 
           courseStructure: 'topic'
         },
+        program: [],
+        design:[],
         accessibility:[],
+        report:[],
         stepscompleted:[],
         stepsflag:'',
+        classroom:[],
         analysis:[],
-        design:[],
-        organization: '',
         signature:'',
         level:'',
-        type:'',
-        program: [],
-        report:[]
-    
+        type:''
       },
       lists: [],
       buildedItems: false,
@@ -88,14 +90,15 @@ export default class CreateCourse extends React.Component {
       reportflag:0,
       updateSteps:'',
       reset: "",
-      activeStep:''
+      activeStep:'',
+      cancelCounter: 0
     }
   }
 
   componentDidMount() {
-    console.log("componet did mount-----------------------------",this.props , this.state )
     this.loadingHeaders();
     if (this.props.courseToEdit){
+      this.courseBackup(this.props.courseToEdit._id);
       this.setState({
         image:   this.props.courseToEdit.image,
         sylabus: this.props.courseToEdit.sylabus,
@@ -104,6 +107,7 @@ export default class CreateCourse extends React.Component {
           subtitle: this.props.courseToEdit.subtitle,
           description: this.props.courseToEdit.description,
           language: this.props.courseToEdit.language,
+          modality: this.props.courseToEdit.modality,
           keyWords: this.props.courseToEdit.keyWords,
           image: this.props.courseToEdit.image,
           sylabus: this.props.courseToEdit.sylabus,
@@ -112,8 +116,8 @@ export default class CreateCourse extends React.Component {
           support: this.props.courseToEdit.support ? this.props.courseToEdit.support : [],
           coursePlan: this.props.courseToEdit.coursePlan ? this.props.courseToEdit.coursePlan : 
           {
-            guidedCoursePlan: 'guided', 
-            courseTemplate: 'spiral', 
+            guidedCoursePlan: 'free', 
+            courseTemplate: 'without', 
             courseStructure: 'topic'
           },
           program: this.props.courseToEdit.program,
@@ -131,10 +135,14 @@ export default class CreateCourse extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if ((prevProps.language.languageIndex !== this.props.language.languageIndex) || (prevState.selected !== this.state.selected)) {
+    if ((prevProps.language.languageIndex !== this.props.language.languageIndex) || (prevState.flagtick != this.state.flagtick)
+        || (prevState.selected !== this.state.selected)
+        || (prevState.cancelCounter !== this.state.cancelCounter)) 
+    {
       this.loadingHeaders();
       this.loadingData();
     }
+    
     
   }
 
@@ -155,8 +163,9 @@ export default class CreateCourse extends React.Component {
 
   updateCourseInformation = (newValue) => {
     this.setState({
-      courseInformation: newValue
-    })
+      courseInformation: newValue,
+      cancelCounter: this.state.cancelCounter + 1
+    });
   }
 
   validate=(data=>{
@@ -175,12 +184,14 @@ export default class CreateCourse extends React.Component {
           changeFile={this.changeFile.bind(this)}
           openFileSelector={this.openFileSelector.bind(this)}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
+          cancelCounter={this.state.cancelCounter}
           language={this.props.language}
         />,
         <AudienceStep
           validate={this.validate}
           courseInformation={this.state.courseInformation}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
+          cancelCounter={this.state.cancelCounter}
           language={this.props.language}
         />,
         <RequirementStep
@@ -189,6 +200,7 @@ export default class CreateCourse extends React.Component {
           lists={this.state.lists}
           buildedItems={this.state.buildedItems}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
+          cancelCounter={this.state.cancelCounter}
           language={this.props.language}
         />,
         <CoursePlanStep
@@ -202,21 +214,25 @@ export default class CreateCourse extends React.Component {
           openFileSelector={this.openFileSelector.bind(this)}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
           updateCourseInformation={this.updateCourseInformation.bind(this)}
+          cancelCounter={this.state.cancelCounter}
           language={this.props.language}
           selected={this.state.selected}
           expandedNodes={this.state.expandedNodes}
+          handleCahngetick={this.handleCahngetick}
         />,
         <AnalysisStep
           validate={this.validate}
           courseInformation={this.state.courseInformation}
+          cancelCounter={this.state.cancelCounter}
           language={this.props.language}
         />,
         <DesignStep
-          language={this.props.language}
           validate={this.validate}
           courseInformation={this.state.courseInformation}
           template={this.state.courseInformation.coursePlan.courseTemplate}
           organization={this.state.courseInformation.coursePlan.courseStructure}
+          cancelCounter={this.state.cancelCounter}
+          language={this.props.language}
         />,
         <CourseProgram
           courseInformation={this.state.courseInformation}
@@ -224,16 +240,29 @@ export default class CreateCourse extends React.Component {
           selected={this.state.selected}
           handleControlMessage={this.props.handleControlMessage.bind(this)}
           handlePreview={this.handlePreview.bind(this)}
+          cancelCounter={this.state.cancelCounter}
           language={this.props.language}
+          validate={this.validate}
         />,
         <ReportStep
           handleBack={this.handleBack.bind(this)}
-          language={this.props.language}
           validate={this.validate}
           courseInformation={this.state.courseInformation}
+          cancelCounter={this.state.cancelCounter}
+          language={this.props.language}
         />,
       ],
     });
+  }
+
+  courseBackup = (id) => {
+    const newCourse = Courses.findOne({_id: id});
+    this.setState({databaseCourse: newCourse});
+  } 
+
+  cancelChanges = () => {
+    if (this.state.databaseCourse) 
+    this.updateCourseInformation({...this.state.databaseCourse});
   }
 
   handleBack=(props)=>{
@@ -258,8 +287,7 @@ export default class CreateCourse extends React.Component {
       }
       
     }
-    if(props.topic.type==='unid'){
-
+    if(props.topic.type==='unit'){
       if(props.topic.lesson!=undefined){
         this.setState({
           activeStep:Math.random(),
@@ -277,6 +305,101 @@ export default class CreateCourse extends React.Component {
    // this.loadingData()[props.topic.unidad,0props.topic,0,actividad,1]
   }
 
+  handleCahngetick=()=>{
+    console.log("asdsssssssssssssssssssssssssssssssssssssssssssssssss")
+    this.setState({flagtick:!this.state.flagtick})
+  }
+
+  checksteps(type){
+    console.log("check step",  this.state.courseInformation.stepscompleted, this.state)
+    this.state.nopublish=false;
+    let checkFree=false;
+    let checkGuided=false;
+    let step0=this.state.courseInformation.stepscompleted.includes(0) 
+    let step1=this.state.courseInformation.stepscompleted.includes(1)
+    //let step2=this.state.courseInformation.stepscompleted.includes(2)
+    let step3=this.state.courseInformation.stepscompleted.includes(3)
+    let step4=this.state.courseInformation.stepscompleted.includes(4)
+    let step5=this.state.courseInformation.stepscompleted.includes(5)
+    let step6=this.state.courseInformation.stepscompleted.includes(6)
+    let step7=this.state.courseInformation.stepscompleted.includes(7)
+   
+     
+     if(this.state.courseInformation.coursePlan.guidedCoursePlan==='free'){
+      if(step0===false){
+        this.state.numberofStep=1
+        this.setState(this.state)
+      } else if (step1===false){
+       this.state.numberofStep=2
+       this.setState(this.state)
+      }else if(step3===false){
+       this.state.numberofStep=4
+       this.setState(this.state)
+      }else if(step5===false){
+       this.state.numberofStep=6
+        this.setState(this.state)
+      }else if(step6===false){
+       this.state.numberofStep=7
+       this.setState(this.state)
+      }else if(step7===false){
+       this.state.numberofStep=8
+       this.setState(this.state)
+      }
+      (
+        step0===true&&  step1===true&&  step3===true&& step5===true&& step6===true
+      )
+      ? checkFree=true: checkFree===false; 
+      if(checkFree===false){
+        this.state.flagErrorSteps=true
+        this.state.open=true
+      //  this.state.action=true
+        this.setState(this.state)
+      }else{
+        this.state.flagErrorSteps=false
+        this.state.action='publish'
+        this.setState(this.state)
+      }
+    }else{
+      if(step0===false){
+        this.state.numberofStep=1
+        this.setState(this.state)
+      } else if (step1===false){
+       this.state.numberofStep=2
+       this.setState(this.state)
+      }else if(step3===false){
+       this.state.numberofStep=4
+       this.setState(this.state)
+      }else if(step4===false){
+       this.state.numberofStep=5
+       this.setState(this.state)
+      }else if(step5===false){
+       this.state.numberofStep=6
+        this.setState(this.state)
+      }else if(step6===false){
+       this.state.numberofStep=7
+       this.setState(this.state)
+      }else if(step7===false){
+       this.state.numberofStep=8
+       this.setState(this.state)
+      }
+      (
+        step0===true&&  step1===true&& step3===true&& step4===true&& step5===true&& step6===true
+      )
+      ? checkGuided=true: checkGuided===false; 
+      if(checkGuided===false){
+        this.state.flagErrorSteps=true
+        this.state.open=true
+      //  this.state.action=true
+        this.setState(this.state)
+      }else{
+        this.state.flagErrorSteps=false
+        this.state.action='publish'
+        this.setState(this.state)
+      }
+    }
+    console.log("resultdos",  this.state)
+  }
+
   publishCourse() {
     if (this.validatePublishCourse()) {
       this.saveCourse();
@@ -290,7 +413,7 @@ export default class CreateCourse extends React.Component {
       } else {
         this.props.handleControlMessage(true, this.props.language.saveCourse);
       }
-    }
+    } 
   }
 
   saveCourse() {
@@ -312,9 +435,9 @@ export default class CreateCourse extends React.Component {
         course = Courses.insert(courseInformation);
         this.setState({
           saved: course,
-        });
+        }, () => {this.courseBackup(course)});
         this.props.savedCourseState();
-        this.props.createForum(courseInformation, course);
+        this.createForum(courseInformation, course);
       }
       else {
         Courses.update(
@@ -324,6 +447,7 @@ export default class CreateCourse extends React.Component {
               title: courseInformation.title,
               subtitle: valueSubtitle,
               description: courseInformation.description,
+              modality: courseInformation.modality,
               language: courseInformation.language,
               keyWords: courseInformation.keyWords,
               image: courseInformation.image,
@@ -342,7 +466,8 @@ export default class CreateCourse extends React.Component {
               classroom: courseInformation.classroom,
               creationDate: new Date(),
             }
-          }
+          },
+          () => {this.courseBackup(this.state.saved)}
         );
         this.props.savedCourseState();
         this.createForum(courseInformation, this.state.saved);
@@ -409,8 +534,13 @@ export default class CreateCourse extends React.Component {
   }
 
   validatePublishCourse = () => {
+    console.log("se va a publicar el curso---",this.state)
+    this.state.open=true;
+      this.setState(this.state)
+    this.checksteps()
+    
     let courseInformation = this.state.courseInformation;
-    console.log("se va a publicar el curso",courseInformation,this.state)
+   
     
     /* this.state.reportflag=7
     this.setState(this.state) */
@@ -454,49 +584,7 @@ export default class CreateCourse extends React.Component {
       return false;
     }
 
-    //validate the report step
    
-    /* let visual=0
-    let hearing=0
-    let cognitive=0
-    let elderly=0
- */
-    /* if(courseInformation.report[0].selected){
-      visual=courseInformation.report[0].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / courseInformation.report[0].topics.length
-      console.log("visual", visual)
-    }
-    if(courseInformation.report[1].selected){
-      hearing=courseInformation.report[1].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / courseInformation.report[1].topics.length
-      console.log("hearing", hearing)
-    }
-    if(courseInformation.report[2].selected){
-      cognitive=courseInformation.report[2].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / courseInformation.report[2].topics.length
-      console.log("cognitive", cognitive)
-    }
-    if(courseInformation.report[3].selected){
-      elderly=courseInformation.report[3].topics.map(topic=>topic.a11yValid).reduce((acc, cur) => acc + cur) / courseInformation.report[3].topics.length
-      console.log("diversity", elderly)
-    }
-   
-    if (courseInformation.support[1][3].isChecked===true && visual !=100) {
-      this.props.handleControlMessage(true, `${this.props.language.inclusionGolvalidation} ${this.props.language.visual}.`, false, '', '');
-      return false;
-    }
-    if (courseInformation.support[1][2].isChecked===true && hearing !=100) {
-      this.props.handleControlMessage(true, `${this.props.language.inclusionGolvalidation} ${this.props.language.hearing}.`, false, '', '');
-      return false;
-    }
-    if (courseInformation.support[1][0].isChecked===true && cognitive !=100) {
-      this.props.handleControlMessage(true, `${this.props.language.inclusionGolvalidation} ${this.props.language.cognitive}.`, false, '', '');
-      return false;
-    }
-    if (courseInformation.support[1][1].isChecked===true && elderly !=100) {
-      this.props.handleControlMessage(true, `${this.props.language.inclusionGolvalidation} ${this.props.language.Elderly}.`, false, '', '');
-      return false;
-    }  
-    
- */
-    //.reduce((acc, cur) => acc + cur) / category.topics.length
     return true;
   }
 
@@ -514,6 +602,8 @@ export default class CreateCourse extends React.Component {
   }
 
   handleOpen = (action) => {
+    //console.log("open",action)
+    
     if (action === "upload" || this.validatePublishCourse()) {
       this.setState({
         open: true,
@@ -528,9 +618,20 @@ export default class CreateCourse extends React.Component {
 
   handlePublish = () => {
     this.handleOpen("publish");
+   
   }
 
-  handleClose = () => {
+  handleClose = (type) => {
+     // this.state.action='publish';
+     if(type==='alert'){
+      this.state.nopublish=true;
+      this.state.open=false;
+      this.setState(this.state)
+     }
+     //this.state.nopublish=false
+      this.state.flagErrorSteps=false;
+      this.setState(this.state)
+    
     if (this.state.courseInformation.image !== undefined) {
       this.setState({
         image: this.state.courseInformation.image,
@@ -622,7 +723,6 @@ export default class CreateCourse extends React.Component {
 
   changeFile(type,file) {
     this.state.open=true
-    console.log("change fileoption14141414141, this.state.open, this,state",type, file,this.state.open, this.state)
     if (type === "image") {
       this.openFileSelectorEdit("image", "image/*");
     }
@@ -647,6 +747,7 @@ export default class CreateCourse extends React.Component {
               ref={this.formStepper}
               updateSteps={this.state.updateSteps}
               language={this.props.language}
+              saved={this.state.saved}
               title={this.props.courseToEdit ? this.props.language.editing : this.props.language.createCourse}
               color="primary"
               steps={this.state.courseSteps}
@@ -654,6 +755,7 @@ export default class CreateCourse extends React.Component {
               coursePlan={this.state.courseInformation.coursePlan}
               finalLabel={this.props.language.publishCourse}
               saveLabel={this.props.language.saveCourse}
+              cancelChanges={this.cancelChanges.bind(this)}
               finalAction={this.handlePublish.bind(this)}
               saveAction={this.saveCourse.bind(this)}
               reportflag={this.state.reportflag}
@@ -662,7 +764,7 @@ export default class CreateCourse extends React.Component {
           :
           undefined
         }
-        <Dialog
+      <Dialog
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
@@ -673,45 +775,80 @@ export default class CreateCourse extends React.Component {
           keepMounted
           maxWidth={false}
         >
+          {console.log("this.state.action and this.state.flagErrorSteps",this.state.action, this.state.flagErrorSteps)}
           {
-            this.state.action === "preview" || this.state.action === "publish" ?
+            this.state.action === "preview" || this.state.action === "publish"   ?
             <React.Fragment>
-              <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                {this.state.action === "preview" ? this.props.language.coursePreview : this.props.language.publishCourse}
-              </DialogTitle>
-              <DialogContent className="success-dialog-content">
-                <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                  {this.state.action === "preview" ? this.props.language.ifYouWantCP : this.props.language.ifYouWantPC}
-                </DialogContentText>
-                <InfoIcon className="warning-dialog-icon"/>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                {this.props.language.cancel}
-                </Button>
-                {
-                  this.state.action === "preview" ?
-                    <Link className="button-link"
-                      target="_blank"
-                      onClick={() => this.confirmPreview()} 
-                      to={{
-                        pathname: "/coursePreview",
-                        hash: this.state.saved,
-                        state: { fromDashboard: true },
-                      }}
-                    >
-                      <Button color="primary" autoFocus>
-                        {this.props.language.saoPreview}
+
+              {
+                this.state.flagErrorSteps===true?
+                <React.Fragment>
+                    <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                      {this.props.language.missingInformation}
+                    </DialogTitle>
+                    <DialogContent className="success-dialog-content">
+                      <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                      {this.props.language.completeStep1+`${this.state.numberofStep===1?this.props.language.information:
+                      this.state.numberofStep===2?this.props.language.audiences:
+                      this.state.numberofStep===4?this.props.language.plan:
+                      this.state.numberofStep===5?this.props.language.analysisstep:
+                      this.state.numberofStep===6?this.props.language.desingPhase:
+                      this.state.numberofStep===7?this.props.language.program:
+                      this.state.numberofStep===8?this.props.language.reportstep:''} ` +this.props.language.completeStep2}
+                      </DialogContentText>
+                      <InfoIcon  className="alert-dialog-icon"/>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={() => this.handleClose('alert')} color="primary" autoFocus>
+                      Completar curso
                       </Button>
-                    </Link>
-                  :
-                    <Button onClick={() => this.publishCourse()} color="primary" autoFocus>
-                      {this.props.language.ok}
+                      
+                    </DialogActions>
+                </React.Fragment>
+                :
+                this.state.nopublish===true?
+                undefined
+                :
+                <React.Fragment>
+                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                    {this.state.action === "preview" ? this.props.language.coursePreview : this.props.language.publishCourse}
+                  </DialogTitle>
+                  <DialogContent className="success-dialog-content">
+                    <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                      {this.state.action === "preview" ? this.props.language.ifYouWantCP : this.props.language.ifYouWantPC}
+                    </DialogContentText>
+                    <InfoIcon className="warning-dialog-icon"/>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+                    {this.props.language.cancel}
                     </Button>
-                }
-              </DialogActions>
+                    {
+                      this.state.action === "preview" ?
+                        <Link className="button-link"
+                          target="_blank"
+                          onClick={() => this.confirmPreview()} 
+                          to={{
+                            pathname: "/coursePreview",
+                            hash: this.state.saved,
+                            state: { fromDashboard: true },
+                          }}
+                        >
+                          <Button color="primary" autoFocus>
+                            {this.props.language.saoPreview}
+                          </Button>
+                        </Link>
+                      :
+                        <Button onClick={() => this.publishCourse()} color="primary" autoFocus>
+                          {this.props.language.ok}
+                        </Button>
+                    }
+                  </DialogActions>
+                </React.Fragment>
+              
+              } 
             </React.Fragment>
-            :
+              :
              <React.Fragment> 
                 {
                   (this.state.fileType==='pdf' || this.state.fileType===undefined )?
@@ -730,22 +867,22 @@ export default class CreateCourse extends React.Component {
                   </div>
                   :
                   <React.Fragment>
-                <DialogTitle className="dialog-title">
-                  <AppBar className="dialog-app-bar" color="primary" position="static">
-                    <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
-                      <AppsIcon/>
-                      <h4 className="dialog-label-title">{this.state.fileType === "image" ? this.props.language.chooseOrUploadImage : this.props.language.chooseOrUploadSyllabus}</h4>
-                      <IconButton
-                        id="close-icon"
-                        edge="end"
-                        className="dialog-toolbar-icon"
-                        onClick={this.handleClose}
-                      >
-                        <CloseIcon/>
-                      </IconButton>
-                    </Toolbar>
-                  </AppBar>
-                </DialogTitle>
+                    <DialogTitle className="dialog-title">
+                      <AppBar className="dialog-app-bar" color="primary" position="static">
+                        <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
+                          <AppsIcon/>
+                          <h4 className="dialog-label-title">{this.state.fileType === "image" ? this.props.language.chooseOrUploadImage : this.props.language.chooseOrUploadSyllabus}</h4>
+                          <IconButton
+                            id="close-icon"
+                            edge="end"
+                            className="dialog-toolbar-icon"
+                            onClick={this.handleClose}
+                          >
+                            <CloseIcon/>
+                          </IconButton>
+                        </Toolbar>
+                      </AppBar>
+                    </DialogTitle>
                 <div className="file-form-dialog">
                   {
                     this.state.showLibrary ?
@@ -827,11 +964,8 @@ export default class CreateCourse extends React.Component {
               </React.Fragment>
                 }
           </React.Fragment>
-                
+         
           }
-
-            
-
         </Dialog>
       </div>
     )

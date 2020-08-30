@@ -174,103 +174,99 @@ export default class AudioForm extends React.Component {
         {
           !this.state.showGallery ?
             <div id="dialog-max-height" className="dialog-form-container">
-              <div className="dialog-columns-container">
-                <div className="course-creator-file-form-column">
-                  <div className = "menu-tab-button-container">
-                    <Paper square>
-                      <Tabs
-                        color="primary"
-                        value={this.state.attributes.source}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        className="form-tabs-container"
-                        variant="fullWidth"
-                        centered={true}
-                      >
-                        <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadAudio} icon={<CloudUploadIcon />} />
-                        <Tab value={'record'} onClick={() => {this.selectType('record'); this.unPickFile()}} className="form-tab" label={this.props.language.byRecordedAudio} icon={<MicIcon />} />
-                      </Tabs>
-                    </Paper>
-                  </div>
+              <div className="course-creator-file-form-column">
+                <div className = "menu-tab-button-container">
+                  <Paper square>
+                    <Tabs
+                      color="primary"
+                      value={this.state.attributes.source}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      className="form-tabs-container"
+                      variant="fullWidth"
+                      centered={true}
+                    >
+                      <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadAudio} icon={<CloudUploadIcon />} />
+                      <Tab value={'record'} onClick={() => {this.selectType('record'); this.unPickFile()}} className="form-tab" label={this.props.language.byRecordedAudio} icon={<MicIcon />} />
+                    </Tabs>
+                  </Paper>
+                </div>
 
-                  
-                  {
-                    this.state.attributes.source === "upload" && !this.state.showGallery ?
-                      <div className="library-button-container">
-                        <Fab onClick={() => this.showLibrary()}>
-                          <FolderSpecialIcon/>
-                        </Fab>
-                        <p className="media-fab-text">{this.props.language.library}</p>
-                      </div>
-                    :
-                    undefined
-                  }
-
-
-                  <div className="form-column-container">
-                    <div className="course-creator-input-container">
-                      <TextField
-                        id="title-input"
-                        label={this.props.language.audioTitle}
-                        margin="normal"
-                        variant="outlined"
-                        value={this.state.attributes.title}
-                        onChange={this.handleChange('title')}
-                        required
-                        className="form-padding-dialog-input"
-                      /> 
+                
+                {
+                  this.state.attributes.source === "upload" && !this.state.showGallery ?
+                    <div className="library-button-container">
+                      <Fab onClick={() => this.showLibrary()}>
+                        <FolderSpecialIcon/>
+                      </Fab>
+                      <p className="media-fab-text">{this.props.language.library}</p>
                     </div>
-                    {
-                      !this.state.showPreview ?
-                        <div>
-                          {
-                            this.state.attributes.source === 'upload' ?
-                              <FileUpload
-                                type="audio"
-                                accept={'audio/*'}
-                                user={Meteor.userId()}
-                                label={this.props.language.uploadAudioButtonLabel}
-                                handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                getFileInformation={this.getFileInformation.bind(this)}
-                                language={this.props.language}
-                              />
-                            :
-                            <AudioRecorder
+                  :
+                  undefined
+                }
+                <div className="form-column-container">
+                  <div className="course-creator-input-container">
+                    <TextField
+                      id="title-input"
+                      label={this.props.language.audioTitle}
+                      margin="normal"
+                      variant="outlined"
+                      value={this.state.attributes.title}
+                      onChange={this.handleChange('title')}
+                      required
+                      className="form-padding-dialog-input"
+                    /> 
+                  </div>
+                  {
+                    !this.state.showPreview ?
+                      <div>
+                        {
+                          this.state.attributes.source === 'upload' ?
+                            <FileUpload
+                              type="audio"
+                              accept={'audio/*'}
+                              user={Meteor.userId()}
+                              label={this.props.language.uploadAudioButtonLabel}
+                              handleControlMessage={this.props.handleControlMessage.bind(this)}
                               getFileInformation={this.getFileInformation.bind(this)}
                               language={this.props.language}
-                            /> 
-                          }
-                        </div>
-                      :
-                      <AudioPreview
-                        file={this.state.attributes.audio}
-                        unPickFile={this.unPickFile.bind(this)}
-                        language={this.props.language}
-                      />
-                    }
-                    <div className="form-editor-label">
-                      <AccessibilityHelp 
-                        id={'short-description-help-container'} 
-                        name={'shortDescriptionHelpContainer'} 
-                        error={!this.state.showPreview} 
-                        tip={!this.state.showPreview? this.props.language.uploadAudio: this.props.language.uploadAudioCorrect} 
-                        //step={props.step}
-                        //stepLabel={props.stepLabel}
-                        language={this.props.language}
-                      />
-                    </div>
+                            />
+                          :
+                          <AudioRecorder
+                            getFileInformation={this.getFileInformation.bind(this)}
+                            language={this.props.language}
+                          /> 
+                        }
+                      </div>
+                    :
+                    <AudioPreview
+                      file={this.state.attributes.audio}
+                      unPickFile={this.unPickFile.bind(this)}
+                      language={this.props.language}
+                    />
+                  }
+                  <div className="form-editor-label">
+                    <AccessibilityHelp 
+                      id={'short-description-help-container'} 
+                      name={'shortDescriptionHelpContainer'} 
+                      error={!this.state.showPreview} 
+                      tip={!this.state.showPreview? this.props.language.uploadAudio: this.props.language.uploadAudioCorrect} 
+                      //step={props.step}
+                      //stepLabel={props.stepLabel}
+                      language={this.props.language}
+                    />
                   </div>
                 </div>
               </div>
             </div>
           :
-          <Library
-            user={Meteor.userId()}
-            type={"audio"}
-            getFileInformation={this.getFileInformation.bind(this)}
-            hideLibrary={this.hideLibrary.bind(this)}
-            language={this.props.language}
-          />
+            <Library
+              user={Meteor.userId()}
+              type={"audio"}
+              getFileInformation={this.getFileInformation.bind(this)}
+              hideLibrary={this.hideLibrary.bind(this)}
+              language={this.props.language}
+            />
         }
       </div>
     );

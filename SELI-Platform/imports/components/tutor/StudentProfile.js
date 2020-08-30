@@ -132,6 +132,7 @@ export default class StudentProfile extends React.Component {
     let description = this.props.course.description;
     let duration = this.props.course.duration;
 
+    console.log("en createCertificate function",this.props )
     let registerDataSinCode={ //useful for regsiter users in blockchain network
       email: this.props.profile.studentInformation.email,
       displayName: this.props.profile.studentInformation.fullname,
@@ -141,8 +142,6 @@ export default class StudentProfile extends React.Component {
     var registerData = {data: encryptor.encrypt(registerDataSinCode)};
     // Should print gibberish:
     //console.log('obj encrypted:', registerData);
-
-  
 
     let certificateInfo = {
       idStudent: idStudent,
@@ -159,6 +158,7 @@ export default class StudentProfile extends React.Component {
   sendCertificate(certificateInfo, registerData){
     let TokenUser=Meteor.users.find({_id : this.props.profile.studentId  }).fetch()[0].profile.token;
    
+    console.log("Se envia a crear el certificado------>TokenUSer:", TokenUser)
     if(TokenUser===undefined){//register the token
       fetch(`${Meteor.settings.public.BLOCKCHAIN_DOMAIN}/login/user`, {
       method: 'post',
@@ -305,7 +305,7 @@ export default class StudentProfile extends React.Component {
                     color="primary"
                     variant="outlined"
                     onClick={() => this.handleClick("certificate")}
-                    disabled={this.props.profile.courseProfile.progress < 99.99 || Meteor.userId()===this.props.profile.studentId  }
+                    disabled={this.props.profile.courseProfile.progress < 99.99   }//|| Meteor.userId()===this.props.profile.studentId
                   >
                     {this.props.language.generateCertificate}
                   </Button>
@@ -323,11 +323,11 @@ export default class StudentProfile extends React.Component {
                     onClose={this.handleClose}
                     anchorOrigin={{
                       vertical: 'center',
-                      horizontal: 'right',
+                      horizontal: 'center',
                     }}
                     transformOrigin={{
                       vertical: 'center',
-                      horizontal: 'left',
+                      horizontal: 'center',
                     }}
                   >
                     <div className="confirmation-popover-container">

@@ -22,6 +22,8 @@ import '../lib/BadgesCollection';
  * @author Bernardo Caussin
  * @returns {string} public internet IP address
  */
+import '../lib/StudentEventCollection';
+
 Meteor.methods({
   getIP: function(){
       var ip = this.connection.clientAddress;

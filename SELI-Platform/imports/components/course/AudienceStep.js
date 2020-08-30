@@ -63,10 +63,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AudienceApp(props) {
-  const { handleComplete, handleSkip, completed, skiped, courseInformation,language } = props;
+  const { handleComplete, handleSkip, completed, skiped, courseInformation, cancelCounter, language } = props;
   const classes = useStyles();
   //update state of checkboxes
+
   useEffect(() => {
+    loadingData();
+  }, []); 
+
+  useEffect(() => {
+    loadingData();
+  }, [cancelCounter]);
+
+  loadingData = () => {
     if (courseInformation.support.length != 0) {
       if (courseInformation.support[0] && courseInformation.support[0].length) setAudiences(courseInformation.support[0]);
       if (courseInformation.support[1] && courseInformation.support[1].length) setAudiencesGol(courseInformation.support[1]);
@@ -80,9 +89,10 @@ export default function AudienceApp(props) {
     if(courseInformation.accessibility.length!=0){
       setaudienceTooltip(courseInformation.accessibility[0]) 
     }
-  }, []); 
+  }
 
   useEffect(()=>{
+   // loadingData();
     //ve si al menos uno esta en true
     let validate=false;
     audiences.map((value, index)=>{
@@ -115,6 +125,7 @@ export default function AudienceApp(props) {
   const [open, setopen]= useState(false)
   const [opensnack, setopensnack]= useState(true)
   const [feedbackError, setfeedbackError]=useState(true)
+  const [feedbackErrorAudiences, setfeedbackErrorAudiences]=useState(true)
   const [labelindexdelete, setlabelindexdelete]=useState("")
   const [indexdelete,  setindexdelete]=useState(0)
   const [tooltip, settooltip]=useState(false)
@@ -245,10 +256,14 @@ export default function AudienceApp(props) {
       addNewAudiences.support[2]=otherAudiences
       setcourseInformation(addNewAudiences)
       console.log('courseinformation---',courseinformation)
+
+      audienceTooltip.audienceError=false;
+        setaudienceTooltip(audienceTooltip)
     }
     
   };
   function deleteAudience(index) {
+    
     let newAudiences = [...otherAudiences];
     if (index === 0) newAudiences = [...newAudiences.slice(1)];
     else if (index === audiences.length - 1)
@@ -262,12 +277,16 @@ export default function AudienceApp(props) {
     let addNewAudiences=courseinformation;
     addNewAudiences.support[2]=newAudiences
     setcourseInformation(addNewAudiences)
-    console.log('courseinformation---',courseinformation)
+    //console.log('courseinformation---',courseinformation)
   }
   const handleDeleteAudience = (index) => () => {
+    console.log("borrado",tooltip.audienceError)
      setopen(true)
      setindexdelete(index)
      setlabelindexdelete(otherAudiences[index].label)
+     audienceTooltip.audienceError=true;
+     setaudienceTooltip(audienceTooltip)
+     
    
   };
   const handleNewAudience = () => {
@@ -403,9 +422,9 @@ export default function AudienceApp(props) {
   };
 
   function updateTempValue(value, index) {
-    console.log("se va ha editar esto******", index, otherAudiences)
-    //delete actual from other audiences
-    otherAudiences[index].label='';
+   // console.log("se va ha editar esto******", index, otherAudiences)
+    //delete actual from other audiences requireent camila 
+    otherAudiences[index].label=''; //for bug the Unique Validation should not validate against the value of the current field.
     setOtherAudiences(otherAudiences);
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
@@ -451,9 +470,6 @@ export default function AudienceApp(props) {
         setmessage(requirementTooltip.openSoftware)
         return "equal"
       }else{
-        //setmessage(`${valueinArray} already exist in the list of audiences. Please, select it from the list.`)
-        //setopensnack(true)
-        //settooltip(true)
         return "equal"
         
       }
@@ -685,7 +701,7 @@ export default function AudienceApp(props) {
           <FeedbackHelp
             language={language}
             validation={{
-              error: true,
+              error: audienceTooltip.audienceError,
               errorMsg: "Intended Audience is a mandatory field, select at least one.",
               errorType: "a11y",
              // a11y: { valid: !audienceTooltip.audienceError }

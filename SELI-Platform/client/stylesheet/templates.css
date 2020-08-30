@@ -7,7 +7,7 @@
 .template-container {
   background-color: white;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 40px);
 }
 
 .template-background-text {
@@ -22,12 +22,11 @@
 
 .template-row {
   display: flex;
-  width: 100%;
+  min-height: var(--template-row) !important;
 }
 
 .template-row-item {
   width: 50% !important;
-  min-height: var(--template-row) !important;
   background-repeat: no-repeat;
   background-size: 200px;
   background-position: center;
@@ -36,7 +35,6 @@
 
 .template-column-item {
   width: calc(100% - 2px) !important;
-  min-height: var(--template-row) !important;
   background-repeat: no-repeat;
   background-size: 200px;
   background-position: center;
@@ -52,7 +50,7 @@
 }
 
 .template-column-item-student {
-  width: calc(100% - 2px) !important;
+  width: 100% !important;
   min-height: var(--template-row) !important;
   background-repeat: no-repeat;
   background-size: 200px;
@@ -65,7 +63,8 @@
   margin-bottom: 30px;
 }
 
-.template-image-gallery {
+.template-child-gallery {
+  width: 100%;
   background-color: #121212;
 	padding: 5px;
 	color: white;
@@ -151,3 +150,13 @@
   left: 0px;
   z-index: 1000;
 }
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .template-row {
+    display: inline;
+  }
+  .template-row-item {
+    width: calc(100% - 2px) !important;
+  }
+} 

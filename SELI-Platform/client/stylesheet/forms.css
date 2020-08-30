@@ -11,13 +11,6 @@
   overflow-y: hidden;
 }
 
-.dialog-form-container {
-  max-width: 100vw;
-  height: auto;
-  overflow: hidden !important;
-  transition: 0.5s;
-}
-
 .form-title {
   width: 100%;
   height: var(--form-title-height) !important;
@@ -630,4 +623,14 @@
 
 .MuiInput-root:{
   margin-top: 16px;
+}
+
+@media only screen and (max-width: 1080px)  {
+  .input-container {
+    width: 90vw;
+    left: 5vw;
+  }
+  .form-container {
+    overflow-y: auto;
+  }
 }

@@ -31,6 +31,8 @@ import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldVa
 
 import {noSpecialCharacters} from '../../../lib/textFieldValidations';
 
+import AccessibilityRegistration from '../student/AccessibilityRegistration';
+
 export default class AccountManagement extends React.Component {
   constructor(props) {
     super(props);
@@ -551,7 +553,11 @@ export default class AccountManagement extends React.Component {
                 </div>
               </div>
             :
-              undefined
+              <AccessibilityRegistration
+                inEdition={true}
+                language={this.props.language}
+                userInformation={this.state.userInformation}
+              ></AccessibilityRegistration>
           }
           <div className="account-management-actions-container">
             <Button onClick={() => this.changeAccountInformation()} className="large-button" variant="outlined" size="large" color="primary">{this.props.language.saveChanges}</Button>

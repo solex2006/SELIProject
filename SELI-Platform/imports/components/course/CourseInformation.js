@@ -12,45 +12,51 @@ import Paper from "@material-ui/core/Paper";
 import InputMask from "react-input-mask";
 import Input from "@material-ui/core/TextField";
 import FeedbackHelp from "./feedback";
-import PositionedSnackbar from './../../../imports/components/content/ContentAlert'
+import Grid from "@material-ui/core/Grid";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormLabel from "@material-ui/core/FormLabel";
 export default class CourseInformation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       courseInformation: this.props.courseInformation,
       weekHourOption: 'hours',
-      alert:"Noalert"
+      alert:"Noalert",
+      modality:'',
+      modality2:true
     }
   }
 
-componentDidMount(){
-  console.log("En el step informationDidmount*************",this.state.courseInformation)
-  if(this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
-     && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
-     && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
-     ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3)){
-      this.props.validate('passInformation')
-      }else{
-        this.props.validate('NopassInformation')
-      }
-}
 
-componentDidUpdate() {
-    
-    //props.validate('passAudience')
-    console.log("En el step information update*************",this.state.courseInformation)
-    if(this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
-     && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
-     && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
-     ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3)){
+  componentDidMount(){
+    if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
+        && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
+        && (this.state.courseInformation.language===0 
+          || this.state.courseInformation.language===1
+        ||this.state.courseInformation.language===2 
+        || this.state.courseInformation.language===3 
+        || this.state.courseInformation.language===4)){
       this.props.validate('passInformation')
-      }else{
-        this.props.validate('NopassInformation')
-      }
-      
+    } else {
+      this.props.validate('NopassInformation')
+    }
+  }
 
-    //if(validate===false){ props.validate('NopassAudience')}
-}
+  componentDidUpdate(prevProps, prevState) {
+    if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
+        && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
+        && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
+        ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3 || this.state.courseInformation.language===4)){
+      this.props.validate('passInformation')
+    } else {
+      this.props.validate('NopassInformation')
+    }
+    if (prevProps.cancelCounter !== this.props.cancelCounter) {
+      this.setState({courseInformation: this.props.courseInformation})
+    }
+  }
 
   handleChange = name => event => {
     let courseInformation = this.state.courseInformation;
@@ -199,11 +205,12 @@ componentDidUpdate() {
             margin="normal"
             variant="outlined"
           >
+            <MenuItem value={4}>{`${this.props.language.turkish} (TR)`}</MenuItem>
             <MenuItem value={0}>{`${this.props.language.english} (US)`}</MenuItem>
             <MenuItem value={1}>{`${this.props.language.spanish} (ES)`}</MenuItem>
             <MenuItem value={2}>{`${this.props.language.portuguese} (PT)`}</MenuItem>
             <MenuItem value={3}>{`${this.props.language.polish} (PL)`}</MenuItem>
-            <MenuItem value={4}>{`${this.props.language.turkish} (TR)`}</MenuItem>
+            
           </TextField>
           <FeedbackHelp
             validation={{
@@ -258,6 +265,7 @@ componentDidUpdate() {
               language={this.props.language}
             />
           </p>
+
           <Paper className="sub-course-information" elevation={5} component="form">
             <InputMask mask="999:99:99" value={this.state.courseInformation.duration} onChange={this.handleChange('duration')}>
               {() => (
@@ -271,6 +279,57 @@ componentDidUpdate() {
               )}
             </InputMask>
           </Paper>
+
+
+        <Grid container >
+          <Grid item xs={12} >
+              <h4 >{this.props.language.modality}</h4>
+          </Grid>
+          <Grid item xs={12} >
+          <form >
+            <FormLabel component="legend">
+              {this.props.language.delivercontent}
+            </FormLabel>
+            <RadioGroup
+              aria-label="Course delivery"
+              name="coursePlan"
+              value={this.state.courseInformation.modality}
+               onChange={event => {
+                 
+                 let courseInformation = this.state.courseInformation;
+                 courseInformation.modality = event.target.value;
+                 this.setState({
+                  courseInformation: courseInformation,
+                 });
+   
+                 }}
+            >
+              <FormControlLabel
+                value="online"
+                control={<Radio />}
+                label="Online"
+              />
+              <FormControlLabel
+                value="hybrid"
+                control={<Radio />}
+                label="Hybrid"
+              />
+            </RadioGroup>
+            {/* <FeedbackHelp
+              validation={{
+                error: analysisTooltip.modality,
+                errorMsg: labels.errorMsg,
+                errorType: "",
+                a11y: null
+              }}
+              tipMsg="Select beteween online course or blend online and face-to-face course."
+              describedBy={"modality-helper-text"}
+            /> */}
+          </form>
+          </Grid>
+        </Grid>
+          
+
           <FeedbackHelp
             validation={{
               error: false,

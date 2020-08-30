@@ -101,14 +101,6 @@ const useStyles = makeStyles(theme => ({
 			backgroundColor: theme.palette.secondary.main
 		}
 	},
-	paper:{
-		paddingLeft: '60px',
-		paddingTop: '35px'
-	},
-	paper1:{
-		paddingLeft: '60px',
-		paddingTop: '10px'
-	}
 }));
 
 
@@ -158,7 +150,10 @@ const CourseSummary = ({coursedata}) => {
 								"Portuguese (PT)"
 								:
 								coursedata.language===3?
-								'Turkish (TR)'
+								'Polish (PL)'
+								:
+								coursedata.language===4?
+								'Turkish (TK)'
 								:
 								"Not Defined"
 								
@@ -173,7 +168,7 @@ const CourseSummary = ({coursedata}) => {
 					</ListItemIcon>
 					<ListItemText
 						secondary={"Course modality"}
-						primary={coursedata.analysis[1]}  
+						primary={coursedata.modality}  
 					/>
 				</ListItem>
 			</List>
@@ -185,13 +180,14 @@ const CourseHeader = ({classes, coursedata, tutordata}) => {
 	//console.log("coursedata and props", coursedata,tutordata)
 	return (
 		<React.Fragment>
-			<h1>
+			<div className="course-presentation-title-container">
+				<div className="course-presentation-title">
 				{coursedata.title}
-				<span className={classes.subtitle1}>
-					<br />
+				</div>
+				<span className="course-presentation-subtitle">
 					{coursedata.subtitle}
 				</span>
-			</h1>
+			</div>
 			<InstructorProfileAvatar
 				name={"Created by " + coursedata.createdBy}
 				className={classes.caption}
@@ -258,7 +254,7 @@ export default function MainPage(props) {
 					</React.Fragment>
 				)}
 			</Paper>
-			<Paper component="article" elevation={0} className={classes.paper}>
+			<Paper component="article" elevation={0} className="course-presentation-paper">
 				<header>
 					<h2 className={classes.header2}>Course Information</h2>
 				</header>
@@ -267,10 +263,10 @@ export default function MainPage(props) {
 					direction="row"
 					justify="flex-start"
 					alignItems="center"
-					spacing={4}
+					spacing={1}
 				>
-					<Grid item lg={7}>
-						<p className={classes.body2}>
+					<Grid item xs={12}>
+						<p >
 							{coursedata.description}
 						</p>
 						
@@ -293,7 +289,7 @@ export default function MainPage(props) {
 							
 						}
 					</Grid>
-					<Grid item lg={4}>
+					<Grid item xs={12}>
 						<CourseSummary
 							coursedata={coursedata}
 						/>
@@ -317,7 +313,7 @@ export default function MainPage(props) {
 				</section> 
 				}
 			</Paper>
-			<Paper component="article" elevation={0} className={classes.paper1}>
+			<Paper component="article" elevation={0} className="course-presentation-paper1">
 				<header>
 				<div className='crnheading1'>
 					<h2 className={classes.header2}>Course Content</h2>
@@ -338,7 +334,7 @@ export default function MainPage(props) {
 					/>
 				</div>
 			</Paper>
-			<Paper component="article" elevation={0} className={classes.paper1}> 
+			<Paper component="article" elevation={0} className="course-presentation-paper1"> 
 				<div className='crnheading'>
 					<h2 className={classes.header2}>Requirements</h2>
 				</div>

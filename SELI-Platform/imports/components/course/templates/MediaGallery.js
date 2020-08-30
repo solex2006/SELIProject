@@ -23,7 +23,7 @@ export default class MediaGallery extends React.Component {
     return(
       <div className="template-media-gallery">
         <Grid
-					className='template-image-gallery'
+					className='template-child-gallery'
 					container
 					spacing={2}
 					direction="row"

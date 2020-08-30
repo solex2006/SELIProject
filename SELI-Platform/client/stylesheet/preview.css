@@ -1,6 +1,6 @@
 .file-preview-container {
-  width: 100%;
-  height: 200px;
+  width: 100% !important;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,11 @@
 }
 
 .file-preview-information {
-  height: 100%
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #unit-preview-information {
@@ -36,7 +40,7 @@
 }
 
 .file-preview-actions {
-  height: 100%;
+  height: fit-content !important;
   width: var(--preview-action-container);
   display: flex;
   flex-wrap: wrap;
@@ -242,8 +246,6 @@
   background-color: #fafafa;
 }
 
-
-
 .file-preview-row {
   width: 100%;
   height: auto;
@@ -254,3 +256,22 @@
   font-size: 0.65em !important;
   margin: 0.5vh 0 !important;
 }
+
+.resizable-content-container {
+  position: absolute;
+  top: 0px;
+}
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .audio-file-preview {
+    width: 100% !important;
+    height: auto !important;
+    background-size: 100%;
+    margin-right: 0vw;
+    overflow: hidden;
+  }
+  .file-preview-information {
+    width: 90% !important;
+  }
+} 

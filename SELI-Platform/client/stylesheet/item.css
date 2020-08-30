@@ -611,6 +611,7 @@
   width: 480px !important;
   height: 270px !important;
   padding: 1.5vh 0 !important;
+  background-color: black;
 }
 
 .done-icon {
@@ -630,3 +631,15 @@ summary:hover {
 .current {
   font-weight: 600;
 }
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .image-item-container {
+    display: inline;
+  }
+  .course-creator-item-video-card-preview-player {
+    max-width: 350px !important;
+    height: 200px !important;
+    padding: 0.5vh 0 !important;
+  }
+} 

@@ -18,6 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AttachmentPreview from '../../files/previews/AttachmentPreview';
 import FileUpload from '../../files/FileUpload';
+//import Editor from '../../inputs/editor/Editor';
 import Paper from '@material-ui/core/Paper';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import InfoIcon from '@material-ui/icons/Info';
@@ -27,6 +28,9 @@ import EditorLinks from '../../inputs/editor/Editor';
 import AccessibilityHelp from '../../tools/AccessibilityHelp';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+import StudentEventType from '../../../../lib/StudentEventType';
+/* import { Editor, EditorState, convertFromRaw } from "draft-js";
+import A11yEditor from './Editordraft'; */
 
 export default class ActivityItem extends React.Component {
   constructor(props) {
@@ -65,12 +69,10 @@ export default class ActivityItem extends React.Component {
     this.setState({
       dialogText,
     });
-    if (this.props.toResolve && !this.props.fromProgram) {
-      if (this.props.item.attributes.type === 'forum' || this.props.item.attributes.type === 'storyboard') {
-        this.getStories();
-      }
-      this.getIndex();
+    if (this.props.item.attributes.type === 'forum' || this.props.item.attributes.type === 'storyboard') {
+      this.getStories();
     }
+    this.getIndex();
   }
 
   getIndex = () => {
@@ -127,6 +129,10 @@ export default class ActivityItem extends React.Component {
   }
 
   doActivity = () => {
+    if(this.props.logStudentInteraction !== undefined){
+      this.props.logStudentInteraction(StudentEventType.itemType.activity
+        , StudentEventType.actionType.do);
+    }
     this.handleClickOpen();
     let confirmAction;
     if (this.props.item.attributes.type === 'forum') {
@@ -282,18 +288,19 @@ export default class ActivityItem extends React.Component {
   }
 
   componentWillReceiveProps() {
-    if (this.props.toResolve && !this.props.fromProgram) this.getIndex()
+    //this.checkResolved();
+    this.getIndex()
   }
 
   componentDidUpdate(){
     
   }
 
-  closeer=()=>{
-    this.setState({
-      alert:"Noalert"
-    })
-  }
+ closeer=()=>{
+  this.setState({
+    alert:"Noalert"
+  })
+ }
 
   render() {
     return(
@@ -370,7 +377,7 @@ export default class ActivityItem extends React.Component {
                                   <p className="activity-instruction-title">{`${this.props.language.story}:`}</p>
                                   <div className="activity-item-container-instruction">
                                     <Link style={{"text-decoration": "none"}}
-                                      target="_blank"
+                                      //target="_blank"
                                       to={`/story#${this.state.activityInformation._id}`}
                                     >
                                       {this.state.activityInformation.activity.name}
@@ -416,33 +423,30 @@ export default class ActivityItem extends React.Component {
                         </div>
                       </ExpansionPanelDetails>
                       <Divider />
-                      {
-                        !this.props.fromProgram &&
-                        <ExpansionPanelActions className="quiz-item-actions">
-                          {
-                            this.props.fromTutor ? undefined : 
-                              <div>
-                                <Button size="medium">
-                                  {this.props.language.setReminder}
-                                </Button>
-                                <Button onClick={() => this.doActivity()} size="medium" color="primary">
-                                  {this.props.language.doActivity}
-                                </Button>
-                              </div>
-                          }
-                          {
-                            this.state.resolved  ?
-                              <div className="align-items-center">
-                                <Button size="medium">
-                                  {this.props.language.activityDone}
-                                </Button>
-                                <CheckCircleIcon className="done-icon"/>
-                              </div>
-                            :
-                              undefined
-                          }
-                        </ExpansionPanelActions>
-                      }
+                      <ExpansionPanelActions className="quiz-item-actions">
+                        {
+                          this.props.fromTutor ? undefined : 
+                            <div>
+                              <Button size="medium">
+                                {this.props.language.setReminder}
+                              </Button>
+                              <Button onClick={() => this.doActivity()} size="medium" color="primary">
+                                {this.props.language.doActivity}
+                              </Button>
+                            </div>
+                        }
+                        {
+                          this.state.resolved  ?
+                            <div className="align-items-center">
+                              <Button size="medium">
+                                {this.props.language.activityDone}
+                              </Button>
+                              <CheckCircleIcon className="done-icon"/>
+                            </div>
+                          :
+                            undefined
+                        }
+                      </ExpansionPanelActions>
                     </ExpansionPanel>
                   </div>
                 </div>
@@ -456,7 +460,6 @@ export default class ActivityItem extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
-          disableBackdropClick={true}
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.doActivity}</DialogTitle>
           <DialogContent className="stories-dialog-content">
@@ -476,7 +479,7 @@ export default class ActivityItem extends React.Component {
                         type={this.props.item.attributes.fileTypes.label.toLowerCase()}
                         user={Meteor.userId()}
                         accept={this.props.item.attributes.fileTypes.accept}
-                        handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
+                        handleControlMessage={this.props.handleControlMessage.bind(this)}
                         getFileInformation={this.getFileInformation.bind(this)}
                         label={this.props.language.clickUploadFile}
                         language={this.props.language}
