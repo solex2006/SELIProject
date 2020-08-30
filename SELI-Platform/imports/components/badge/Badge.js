@@ -36,9 +36,12 @@ export default class Badge extends React.Component {
       language: Session.get("language") ? Session.get("language") : english,
     });
     Tracker.autorun(() => {
+      var url=Meteor.settings.public.URL_SITE+"badges/"+this.props.match.params.id
+      console.log(url)
       var badge = Badges.findOne({
-        _id: this.props.match.params.id,
+        _id:url,
       });
+      console.log(this.props.match.params.id)
       if (badge)
         this.setState({
           id: this.props.match.params.id,
