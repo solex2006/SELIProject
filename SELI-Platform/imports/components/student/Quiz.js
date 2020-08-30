@@ -455,8 +455,10 @@ class Quiz extends React.Component {
     //if you want to use course info in some badge fields, but no required at the moment
     // let course = Courses.find({ "program.items.id": this.props.quiz.id }).fetch();
     // course = course[0];  
-
-    bakeBadge(badgeClass,user)
+    bakeBadge(badgeClass, user).then((data) => {
+      console.log(data);
+      this.props.badgeInformation(data);
+    });
   }
 
   render() {

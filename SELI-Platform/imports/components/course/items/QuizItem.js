@@ -90,6 +90,15 @@ export default class QuizItem extends React.Component {
     });
   }
 
+  getUserBadge(badgeInformation) {
+    this.setState({badgeInformation:badgeInformation},()=>{
+      console.log(this.state.badgeInformation);
+      console.log(this.state.winBadge)
+
+
+    });
+  }
+
   confirmStartQuiz = () => {
     this.setState({
       showConfirmation: false,
@@ -275,6 +284,7 @@ export default class QuizItem extends React.Component {
                   handleClose={this.handleClose.bind(this)}
                   time={this.state.time}
                   language={this.props.language}
+                  badgeInformation={this.getUserBadge.bind(this)}
                 />
               :
               undefined
@@ -332,10 +342,10 @@ export default class QuizItem extends React.Component {
         <div>
           {
           
-          this.state.winBadge  &&
+          this.state.winBadge  &&this.state.badgeInformation && 
             <BadgeNotification
               modalOpen = {true} 
-              badgeInformation={this.props.item.attributes.badgeClass}
+              badgeInformation={this.state.badgeInformation}
               language={this.props.language}
             />
 

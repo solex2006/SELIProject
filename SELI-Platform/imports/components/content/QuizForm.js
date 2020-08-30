@@ -23,7 +23,7 @@ import AccessibilityHelp from '../tools/AccessibilityHelp';
 import BadgeUpload from '../files/BadgeUpload';
 import ImagePreview from '../files/previews/ImagePreview';
 import createBadge from '../badge/CreateBadge';
-import { createUUID } from '../badge/utils';
+import  createUUID  from '../badge/utils';
 
 export default class QuizForm extends React.Component {
   constructor(props) {

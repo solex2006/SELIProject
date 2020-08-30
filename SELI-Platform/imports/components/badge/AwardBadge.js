@@ -2,7 +2,7 @@ import CourseFilesCollection from "../../../lib/CourseFilesCollection";
 import { v4 as uuidv4 } from "uuid";
 
 import sha256 from "crypto-js/sha256";
-import CryptoJS from 'crypto-js';
+import CryptoJS from "crypto-js";
 //const message, nonce, path, privateKey; // ...
 
 const bakery = require("openbadges-bakery-v2");
@@ -42,6 +42,14 @@ async function bakeBadge(badgeClass, user) {
   assertion.recipient = getIdentity(user.emails[0].address);
   assertion.issuedOn = new Date().toISOString();
   assertion.verification = { type: "HostedBadge" };
+  var a =JSON.stringify(badgeClass.image.link)+"";
+  var b =JSON.stringify(badgeClass.image._id)+"";
+  var c = JSON.stringify(assertion.id)+"";
+  a = a.replace(badgeClass.image._id,assertion.id);
+  console.log(a.replace(badgeClass.image._id,assertion.id))
+  assertion.image = {
+    id: JSON.parse(a.replace(badgeClass.image._id,assertion.id))
+  };
 
   badgeClass = renameKey(badgeClass, "_id", "id");
   assertion.badge = badgeClass;
@@ -67,11 +75,13 @@ async function bakeBadge(badgeClass, user) {
       //   this.setState({ badgeWin: true });
       var registerData = { data: encryptor.encrypt(registerDataSinCode) };
       persistBadge(assertion, registerData);
+      console.log(assertion);
     })
     .catch((err) => {
       console.log(err);
     });
-}
+    return assertion;
+  }
 async function bake(options) {
   return new Promise((resolve, reject) => {
     bakery.bake(options, function (err, data) {
@@ -84,7 +94,7 @@ function saveBadge(data, badgeInformation) {
   let user = Meteor.users.find({ _id: Meteor.userId() }).fetch();
   user = user[0];
   console.log(badgeInformation);
-  var file = new File([data], badgeInformation.badge.image._id + ".png", {
+  var file = new File([data], badgeInformation.badge.name + ".png", {
     type: "image/png",
     ext: "png",
     extension: "png",
@@ -92,6 +102,7 @@ function saveBadge(data, badgeInformation) {
   });
   let uploadInstance = CourseFilesCollection.insert(
     {
+      fileId: badgeInformation.id,
       file: file,
       meta: {
         locator: "",
@@ -178,6 +189,7 @@ function persistBadge(badgeInfo, registerData) {
   }
 }
 saveUserBadge = (id, badgeInformation) => {
+  console.log(badgeInformation);
   console.log("saving user badge in collection");
   Meteor.call("addBadgeStudent", id, badgeInformation, (error, response) => {});
 };

@@ -28,18 +28,17 @@ export class BadgeNotification extends React.Component {
   };
 
   download = () => {
-    //let link =this.state.badgeInformation.image.link;
-    let link =
-      "http://localhost:3000/Users/beldier/seli/seliDocuments/badges/CourseFilesCollection/mHcANYqjs3n8osYCL/original/mHcANYqjs3n8osYCL.png";
+    let link =this.state.badgeInformation.image.id;
+    console.log(this.state.badgeInformation);
     // for non-IE
     if (!window.ActiveXObject) {
       var save = document.createElement("a");
       save.href = link;
       save.target = "_blank";
-      var filename = link.substring(
-        this.state.badgeInformation.image.link.lastIndexOf("/") + 1
-      );
-      save.download = this.state.badgeInformation.image.name || filename;
+      // var filename = link.substring(
+      //   this.state.badgeInformation.badge.image.link.lastIndexOf("/") + 1
+      // );
+      save.download = this.state.badgeInformation.badge.image.name;// || filename;
       if (
         navigator.userAgent.toLowerCase().match(/(ipad|iphone|safari)/) &&
         navigator.userAgent.search("Chrome") < 0
@@ -77,11 +76,11 @@ export class BadgeNotification extends React.Component {
           </DialogTitle>
           <DialogContent className="BadgeNotificationDialog">
             <img
-              src={this.state.badgeInformation.image.link}
+              src={this.state.badgeInformation.badge.image.link}
               alt="Awarded Badge"
             />
             <DialogContentText id="alert-dialog-slide-description">
-              {this.state.badgeInformation.name}
+              {this.state.badgeInformation.badge.name}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
