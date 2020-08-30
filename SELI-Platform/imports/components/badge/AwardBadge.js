@@ -43,8 +43,6 @@ async function bakeBadge(badgeClass, user) {
   assertion.issuedOn = new Date().toISOString();
   assertion.verification = { type: "HostedBadge" };
   var a =JSON.stringify(badgeClass.image.link)+"";
-  var b =JSON.stringify(badgeClass.image._id)+"";
-  var c = JSON.stringify(assertion.id)+"";
   a = a.replace(badgeClass.image._id,assertion.id);
   console.log(a.replace(badgeClass.image._id,assertion.id))
   assertion.image = {
@@ -188,6 +186,7 @@ function persistBadge(badgeInfo, registerData) {
       });
   }
 }
+//badgeInformation is assertion here
 saveUserBadge = (id, badgeInformation) => {
   console.log(badgeInformation);
   console.log("saving user badge in collection");

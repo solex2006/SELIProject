@@ -23,7 +23,6 @@ import AccessibilityHelp from '../tools/AccessibilityHelp';
 import BadgeUpload from '../files/BadgeUpload';
 import ImagePreview from '../files/previews/ImagePreview';
 import createBadge from '../badge/CreateBadge';
-import  createUUID  from '../badge/utils';
 
 export default class QuizForm extends React.Component {
   constructor(props) {
@@ -48,17 +47,10 @@ export default class QuizForm extends React.Component {
           percentage: 0,
         },
          badgeClass: {
-          _id: '',
           name: '',
           description: '',
           image: undefined,
           criteria: '',
-          issuer:{
-            id: Meteor.settings.public.URL_SITE,
-            type: "BadgeClass",
-            name: "SELI",
-            url: Meteor.settings.public.URL_SITE,
-          }
         },
         questions: [
           {
@@ -280,8 +272,6 @@ myFormatminutes=(num)=> {
       let questions = quizContent.questions.slice(0, (this.state.addedQuestions + 1));
       quizContent.expanded = true;
       quizContent.questions = questions;
-      quizContent.badgeClass._id=Meteor.settings.public.URL_SITE+"badges/"+createUUID();
-      
       createBadge(quizContent.badgeClass)
       return quizContent;
     }
