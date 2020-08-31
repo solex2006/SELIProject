@@ -204,7 +204,8 @@ export default function ReportStep(props) {
 	
 	const [tasknoconfig, settasknoconfig]=useState({
 		unit:0,
-		lesson:0
+		lesson:0,
+		guidedWTopics:0,
 	})
 
 	const [categories, setCategories] = React.useState([
@@ -628,11 +629,11 @@ export default function ReportStep(props) {
 					else{
 						if(checkaudience[3].value==='Vis' && checkaudience[3].isChecked===true) {
 							let calculo=categories[0].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[0].topics.length
-							//console.log("calculo Visual", calculo)
-							if(calculo===100){
+							console.log("calculo Visual", calculo)
+							if(calculo===100 && contWithInclusionGol.todo==0){
 								categories[0].selected=true
 								setSimulate('inclusionGolAchieved')
-							}else if(calculo!=100){
+							}else if((calculo!=100) || (calculo===100 && contWithInclusionGol.todo!=0 )){
 								categories[0].selected=checkaudience[3].isChecked
 								setSimulate('inclusionGol')
 							}else{
@@ -644,11 +645,11 @@ export default function ReportStep(props) {
 						if(checkaudience[2].value==='Hear' && checkaudience[2].isChecked===true){
 							let calculo=categories[1].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[1].topics.length
 							//console.log("calculo Hearing", calculo)
-							if(calculo===100){
+							if(calculo===100 && contWithInclusionGol.todo==0){
 								categories[1].selected=true
 								setSimulate('inclusionGolAchieved')
 							}
-							else if(calculo!=100){
+							else if(calculo!=100 || (calculo===100 && contWithInclusionGol.todo!=0 )){
 								categories[1].selected=checkaudience[2].isChecked
 								setSimulate('inclusionGol')
 							}else {
@@ -660,11 +661,11 @@ export default function ReportStep(props) {
 							let calculo=categories[2].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[2].topics.length
 							
 							//console.log("calculo cognitivo", calculo)
-							if(calculo===100){
+							if(calculo===100 && contWithInclusionGol.todo==0){
 								console.log("calculo----true", calculo, categories)
 								categories[2].selected=true
 								setSimulate('inclusionGolAchieved')
-							}else if(calculo!=100){
+							}else if(calculo!=100 || (calculo===100 && contWithInclusionGol.todo!=0 )){
 								
 								categories[2].selected=checkaudience[0].isChecked
 								console.log("calculo----", calculo, categories)
@@ -677,10 +678,10 @@ export default function ReportStep(props) {
 						if(checkaudience[1].value==='Eld' && checkaudience[1].isChecked===true){
 							let calculo=categories[3].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[3].topics.length
 							//console.log("calculo Elderly",audience, calculo)
-							if(calculo===100){
+							if(calculo===100 && contWithInclusionGol.todo==0){
 								categories[3].selected=true
 								setSimulate('inclusionGolAchieved')
-							}else if(calculo!=100){
+							}else if(calculo!=100 || (calculo===100 && contWithInclusionGol.todo!=0 )){
 								categories[3].selected=checkaudience[1].isChecked
 								setSimulate('inclusionGol')
 							}else{
@@ -1191,10 +1192,12 @@ export default function ReportStep(props) {
 		let NotAccessibleCaptions=0
 		let NotAccessibleDescription=0
 		let NotAccessibleSign=0
+		let guidedWTopics=0
 
       props.courseInformation.program.map((unit, indexUnit)=>{
          //cabezera de la unidad
          unit.items.map((item,indexItem)=>{
+				console.log("item.type==='image'", item.type)
             if(item.type==='image' ){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
@@ -1203,7 +1206,8 @@ export default function ReportStep(props) {
 							}
 						})
 						:
-						tasknoconfig.unit=tasknoconfig.unit+1
+						
+						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
 				}else if(item.type==='audio'){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
@@ -1212,7 +1216,8 @@ export default function ReportStep(props) {
 							}
 						})
 						:
-						tasknoconfig.unit=tasknoconfig.unit+3
+						
+						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
 				}else if(item.type==='quiz'){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
@@ -1224,8 +1229,8 @@ export default function ReportStep(props) {
 								if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
 							}
 						})
-						:
-						tasknoconfig.unit=tasknoconfig.unit+3
+						:			
+					tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
 				}else if(item.type==='video'){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
@@ -1242,36 +1247,45 @@ export default function ReportStep(props) {
 							}
 						})
 						:
-						tasknoconfig.unit=tasknoconfig.unit+6
+						
+						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+5
 				}
-         })
-			variablesUnidad.push({
-				title: unit.name, 
-				indice:indexUnit,
-				contText:contText,
-				contTextFalse:contTextFalse,
-				contCaptions:contCaptions,
-				contCaptionsFalse:contCaptionsFalse,
-				contwarningAlert:contwarningAlert,
-				contwarningAlertFalse:contwarningAlertFalse,
-				contextendedTime:contextendedTime,
-				contextendedTimeFalse:contextendedTimeFalse,
-				contnoTime:contnoTime,
-				contnoTimeFalse:contnoTimeFalse,
-				contseizures:contseizures,
-				contseizuresFalse:contseizuresFalse,
-				contaudioDescription:contaudioDescription,
-				contaudioDescriptionFalse:contaudioDescriptionFalse,
-				contsignLanguage:contsignLanguage,
-				contsignLanguageFalse:contsignLanguageFalse,
-				NotAccessiblenoTime,
-				NotAccessibleextendTime,
-				NotAccessibleAlert,
-				NotAccessibleSeizures,
-				NotAccessibleCaptions,
-				NotAccessibleDescription,
-				NotAccessibleSign,
 			})
+			
+
+
+
+			if(unit.items.length !=0){ //for delete th e topic without elemnts add 1
+				variablesUnidad.push({
+					title: unit.name, 
+					indice:indexUnit,
+					contText:contText,
+					contTextFalse:contTextFalse,
+					contCaptions:contCaptions,
+					contCaptionsFalse:contCaptionsFalse,
+					contwarningAlert:contwarningAlert,
+					contwarningAlertFalse:contwarningAlertFalse,
+					contextendedTime:contextendedTime,
+					contextendedTimeFalse:contextendedTimeFalse,
+					contnoTime:contnoTime,
+					contnoTimeFalse:contnoTimeFalse,
+					contseizures:contseizures,
+					contseizuresFalse:contseizuresFalse,
+					contaudioDescription:contaudioDescription,
+					contaudioDescriptionFalse:contaudioDescriptionFalse,
+					contsignLanguage:contsignLanguage,
+					contsignLanguageFalse:contsignLanguageFalse,
+					NotAccessiblenoTime,
+					NotAccessibleextendTime,
+					NotAccessibleAlert,
+					NotAccessibleSeizures,
+					NotAccessibleCaptions,
+					NotAccessibleDescription,
+					NotAccessibleSign,
+					guidedWTopics:guidedWTopics
+				})
+			}
+			
 
 			 contText=0;  contTextFalse=0;  contCaptions=0;  contCaptionsFalse=0;  contwarningAlert=0
 			 contwarningAlertFalse=0;  contextendedTime=0;  contextendedTimeFalse=0;  contnoTime=0; contnoTimeFalse=0; 
@@ -1284,8 +1298,10 @@ export default function ReportStep(props) {
 			 NotAccessibleCaptions=0
 			 NotAccessibleDescription=0
 			 NotAccessibleSign=0
+			 guidedWTopics=0
+			
       })
-	  //let seizuresFix=0 // to count seizures
+	  
 		console.log("VARIABLES UNIDAD", variablesUnidad	)
 		variablesUnidad.map((value,index)=>{
 			//para visual
@@ -1379,7 +1395,7 @@ export default function ReportStep(props) {
 			
 		
 			contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
-			contWithInclusionGol.todo=contWithInclusionGol.todo+totalnoaccessible+totalnoconfig
+			contWithInclusionGol.todo=contWithInclusionGol.todo + tasknoconfig.guidedWTopics //+totalnoaccessible+totalnoconfig
 			contWithInclusionGol.NotAccessible=contWithInclusionGol.NotAccessible+totalnoconfig
 			setWithInclusionGol(contWithInclusionGol)
 			totalconfig=0
@@ -1396,6 +1412,7 @@ export default function ReportStep(props) {
 		})
 		
 		let byUnit=0
+		console.log("percenatges by unit**",percentagebyUnit )
 		percentagebyUnit.map((unit, indexUnit)=>{
 			unit.map((percentage, index)=>{
 				byUnit=byUnit+percentage.a11yValid
@@ -1406,15 +1423,19 @@ export default function ReportStep(props) {
 		//contWithInclusionGol.todo=(tasknoconfig.unit)
 		
 		setWithInclusionGol(contWithInclusionGol)
-		if(byUnit===100){
+		if(byUnit===100 && contWithInclusionGol.todo===0){
 			setSimulate("allAchieved")
 		}
 		withoutInclusionGol.percentagebyUnit=percentagebyUnit
 		withoutInclusionGol.percentagebyLesson=[]
 		setwithoutInclusionGol(withoutInclusionGol)
-		//console.log("En topicos totalconfig", contWithInclusionGol,percentagebyUnit )
+		console.log("En topicos totalconfig------------------------------->", contWithInclusionGol,tasknoconfig )
 		newRandomTopics('topic')
 	};
+
+
+
+
 	const TemplateCourse=() =>{
 		console.log("template course")
 		let variablesUnidad=[]

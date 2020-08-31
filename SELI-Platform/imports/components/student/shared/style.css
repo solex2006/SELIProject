@@ -44,8 +44,15 @@
 }
 
 .resources{
-   list-style-type: circle;
-  line-height: 1.9;
+	list-style: none;
+   display: flex;
+   flex-wrap: wrap;
+}
+.elemntoflist{
+   padding-right: 10px;
+}
+#intent{
+   margin-left: 20px;
 }
 .resourcesbox{
   line-height: 1.9;

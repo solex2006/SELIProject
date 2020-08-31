@@ -69,108 +69,166 @@ const useStyles = makeStyles(theme => ({
 		...theme.typography.h6,
 		marginLeft: theme.spacing(2),
 		flex: 1
-	},
-	syllabus:{
-		flex:1,
-		justifyContent:'center',
-		alignItems: 'center',
-	},
+	}
 }));
 
 function Syllabus(props) {
-	//const classes = useStyles();
+	const classes = useStyles();
 	console.log("propiedades en silabus", props)
 
-	return (
-		<div className='crnoutcomeinfo'>
-			
-			<div className='crnheading'>
-				<h1 className='title'>Course Syllabus</h1>
-			</div>
-			
-			<div className='info'>
-				
-				<div className='info'>{props.courseInformation.title}</div>
-				<div className='infosub'>{props.courseInformation.subtitle}</div>
-				<div className='infocreated'>Instructor: {props.courseInformation.createdBy}</div>
-			</div>
-			<img style={{padding:'15px', display:'block', marginLeft:'auto', marginRight: 'auto'}} src="seli-logo.png" alt="logo" width="120" height="70"></img>
-				
-			{/* style={{backgroundImage: "url(seli-logo.png)"}} */}
-
+	const indexes=()=>{
+		return(
 			<nav aria-labelledby="toc">
+				<hr/>
 				<details>
-					<summary> {/* className={classes.summary} */}
-					<div className='crnheading'>
+					<summary className={classes.summary}>
 						<h2 id="toc" tabIndex="-1">
 							Table of Contents
 						</h2>
-					</div>
 					</summary>
-					<ul className='resources'>
+					
+					<ol>
 						<li>
 							<a href="#info">Course Information</a>
-							<ol>
-								<li>
-									<a href="#info-pedag">Pedagogical Considerations</a>
-								</li>
-								<li>
-									<a href="#info-goals">Learning Goals</a>
-								</li>
-								<li>
-									<a href="#info-outcomes">Learning Outcomes</a>
-								</li>
-								<li>
-									<a href="#topic-n-readings">SuplemantaryMaterial</a>
-								</li>
-								<li>
-									<a href="#topic-n-assess">Assessment Methods</a>
-								</li>
-								<li>
-									<a href="#info-content">Course Content</a>	
-								</li>
-							</ol>
 						</li>
-						  <li>
-							<a href="#tech">Technological Requirements</a>
-							<ol >
-								<li>
-									<a href="#tech-hard">Hardware Requirements</a>
-								</li>
-								<li>
-									<a href="#tech-soft">Software Requirements</a>
-								</li>
-							</ol>
+							
+						<li>
+							<a href="#info-pedag">Pedagogical Considerations</a>
 						</li>
-					</ul>
+						<li>
+							<a href="#info-goals">Learning Goals</a>
+						</li>
+						<li>
+							<a href="#info-outcomes">Learning Outcomes</a>
+						</li>
+						<li>
+							<a href="#info-content">Course Content</a>
+							<ol id="intent">
+									{
+										props.courseInformation.design.map((topic, indexUnit)=>(
+											props.courseInformation.coursePlan.guidedCoursePlan!='free'?
+											<React.Fragment>
+												{
+													 (props.courseInformation.coursePlan.guidedCoursePlan==='guided'  &&
+													 (props.courseInformation.coursePlan.courseTemplate==='without' || props.courseInformation.coursePlan.courseTemplate==='spiral' 
+													 || props.courseInformation.coursePlan.courseTemplate==='consistent' || props.courseInformation.coursePlan.courseTemplate==='toyBox' ) && 
+													 props.courseInformation.coursePlan.courseStructure==='topic')?
+														<React.Fragment>
+															<li><a href={"#content-topic-"+indexUnit}>Topic: {topic.title}</a></li>
+															<ol id="intent">
+																<li>
+																	<a href={'#topic-'+indexUnit+'-readings'}>Readings</a>
+																</li>
+																<li>
+																	<a href={'#topic-'+indexUnit+'-assess'}>Assessment Methods</a>
+																</li>
+															</ol>
+														</React.Fragment>
+														:
+													(props.courseInformation.coursePlan.guidedCoursePlan==='guided'  && props.courseInformation.coursePlan.courseTemplate==='without' && props.courseInformation.coursePlan.courseStructure==='unit')?
+														<React.Fragment>
+															<li>
+																<a href={"#content-topic-"+indexUnit}>Unit: {topic.title}</a>
+																
+																	<ol id="intent" key={indexUnit}>
+																		{
+																			props.courseInformation.design[indexUnit].lessons.map((lesson, indexLesson)=>(
+																				<li>
+																					<a href={"#lesson-"+indexLesson}>Lesson: {lesson.title}</a>
+																				</li>
+																			))
+																		}
+																		
+																		<li>
+																			<a href={'#topic-'+indexUnit+'-readings'}>Readings</a>
+																		</li>
+																		<li>
+																			<a href={'#topic-'+indexUnit+'-assess'}>Assessment Methods</a>
+																		</li>
+																	
+																	</ol>
+															</li>
+															
+														</React.Fragment>
+														:
+														undefined
+												}
+												
+											</React.Fragment>
+											:
+											(props.courseInformation.coursePlan.guidedCoursePlan==='free'  && props.courseInformation.coursePlan.courseTemplate==='without' && props.courseInformation.coursePlan.courseStructure==='topic')? //par diferente de free
+												<React.Fragment>	
+													<li key={indexUnit}><a href={"#content-topic-"+indexUnit}>Topic: {topic.title}</a></li>
+												</React.Fragment>
+											:
+											(props.courseInformation.coursePlan.guidedCoursePlan==='free'  && props.courseInformation.coursePlan.courseTemplate==='without' && props.courseInformation.coursePlan.courseStructure==='unit')?
+														
+													<li key={indexUnit}>
+														<a href={"#content-topic-"+indexUnit}>Unid: {topic.title}</a>
+														<ol id="intent" key={indexUnit}>
+															{
+																props.courseInformation.design[indexUnit].lessons.map((lesson, indexLesson)=>(
+																	<li>
+																		<a href={"#lesson-"+indexLesson}>Lesson: {lesson.title}</a>
+																	</li>
+																))
+															}
+														</ol>
+													</li>			
+												
+											:
+												undefined
+											))
+										
+									}
+							</ol>		
+						</li>
+						
+						<li>
+							<a href="#tecnological">Technological Requirements</a>
+								<ol id="intent">
+									<li>
+										<a href="#tecnologicalhard">Hardware Requirements</a>
+									</li>
+									<li>
+										<a href="#tecnologicalsoft">Software Requirements</a>
+									</li>
+								</ol> 
+						</li>
+						{/* <li>
+							<a href="#acc">Accomodations</a>
+						</li> */}
+					</ol>
 				</details>
 				<hr />
 			</nav>
 
+		)
+	}
 
-
-			<div className='crnheading1'>
-				<h2 id="info" tabIndex="-1">
-					Course Information
-				</h2>
-			</div>
-			<div className='crnheading'>
-				<h2>Course Description</h2>
-			</div>
-			<div className='description'>
-				<span className='descriptiontext'>
-				{props.courseInformation.description}
-				</span>
-			</div>
-
-
-			<div>
-				<div className='crnheading'>
-					<h3>Education Language</h3>
-				</div>
+	return (
+		<div className='crnoutcomeinfo'>	
+			{/* <h1>Course Syllabus</h1> */}
+			<p className='crnheading'>
+				<em>{props.courseInformation.title} : {props.courseInformation.subtitle}</em>
+			</p>
+			<p className='crnheading' >
+				<strong>Instructor</strong>: {props.courseInformation.createdBy}
+			</p>
+			<img alt="" style={{padding:'15px', display:'block', marginLeft:'auto', marginRight: 'auto'}} src="seli-logo.png" alt="logo" width="120" height="70"></img>
 				
-				<div className='descriptiontext'>
-					{
+			{indexes()}
+
+			<h2 id="info" tabIndex="-1" className='crnheading'>
+				Course Information
+			</h2>
+			<hr/>
+			<p className='crnheading'>
+				<strong>Course Description</strong>: {props.courseInformation.description}
+			</p>
+			<p className='crnheading'>
+				<strong>Education Language</strong>: 
+				{
 					props.courseInformation.language===0 ?
 					"English (US)"
 					:
@@ -181,28 +239,25 @@ function Syllabus(props) {
 					"Portuguese (PT)"
 					:
 					props.courseInformation.language===3?
+					'Polish (PL)'
+					:
+					props.courseInformation.language===4?
 					'Turkish (TR)'
 					:
 					"Not Defined"
 					}
-				</div>
-				<div className='crnheading'>
-					<h3>Duration</h3>
-				</div>
-				<div className='descriptiontext'>
-					{props.courseInformation.duration}
-				</div>
-			</div>
-
-			<div>
-				<div className='crnheading'>
-						<h3>Audience</h3>
-				</div>
+			</p>
+			<p className='crnheading'>
+				<strong>Duration</strong>: {props.courseInformation.duration}
+			</p>
+			<p className='crnheading'>
+				<strong>Audience</strong>: 
 				<Lista 
 				title='Audiences'
 				data={props.courseInformation.support}
 				/>
-			</div>
+			</p>
+			<hr/>
 
 			{
 				(props.courseInformation.coursePlan.guidedCoursePlan==="free" && 
@@ -212,78 +267,115 @@ function Syllabus(props) {
 				undefined
 				:
 				<div>
-					<div>
-					<div className='crnheading'>
-						<h3 id="info-pedag" tabIndex="-1">
-							Pedagogical Considerations
-						</h3>
-					</div>
-					<div className='descriptiontext'>
-						{props.courseInformation.analysis[2]}
-					</div>
-				</div>
 
-				<div>
-					<div className='crnheading'>
-						<h3 id="info-goals" tabIndex="-1">Learning Goals</h3>
-					</div>
-					<div className='descriptiontext'>{props.language.learningObjectivesDefinition}</div>
-					<div>
-						<Lista 
+					<h2 className='crnheading' id="info-pedag" tabIndex="-1">
+						Pedagogical Considerations
+					</h2>
+					<p>{props.courseInformation.analysis[2]}</p>
+					<hr/>
+					<h3 className='crnheading' id="info-goals" tabIndex="-1">
+						Learning Goals
+					</h3>
+					<p className='descriptiontext'>{props.language.learningObjectivesDefinition}</p>
+					<Lista 
 							title='LearningGoals'
 							data={props.courseInformation.analysis[3]}
-						/>
-					</div>
-						<div className='crnheading'>
-							<h3>Learning Affective Objectives</h3>
-						</div>	
-					<div>
-						<div className='descriptiontext'>{props.courseInformation.analysis[5]}</div>
-					</div>
-					<div className='crnheading'>
-						<h3>Learning Psychomotor Objectives</h3>
-					</div>
-					<div>
-						<div className='descriptiontext'>{props.courseInformation.analysis[6]}</div>
-					</div>
-					</div>
-
-					<div>
-						<div className='crnheading'>
-							<h3 id="info-outcomes" tabIndex="-1">Learning Outcomes</h3>
-						</div>
-						<div className='descriptiontext'>{props.language.outcomeslegend}</div>
-						<div>
-							<Lista 
-								title='LearningOutcomes'
-								data={props.courseInformation.analysis[4]}
-							/>
-						</div>
-					</div>
+					/>
+					<p className='crnheading'>
+						<strong >Affective Domain Objectives</strong>:{" "}
+						{props.courseInformation.analysis[5]}
+					</p>
+					<p className='crnheading'>
+						<strong >Psychomotor Domain Objectives</strong>:{" "}
+						{props.courseInformation.analysis[6]}
+					</p>
+					<hr/>
+					<h3 className='crnheading' id="info-outcomes" tabIndex="-1">
+						Learning Outcomes
+					</h3>
+					<div className='descriptiontext'>{props.language.outcomeslegend}</div>
+					<Lista 
+						title='LearningOutcomes'
+						data={props.courseInformation.analysis[4]}
+					/>
 				</div>
 			}	
-			
-		
-			<div>
-				<div className='crnheading'>
-					<h2 id="info-content" tabIndex="-1">Course Content</h2>
-				</div>
-			</div>
-			{/* <div className='descriptiontext'>Some section introduction...</div> */}
-			
+			<hr/>
+			<h3 className='crnheading' id="info-content" tabIndex="-1">
+				Course Content
+			</h3>
 			<CourseContent
 				data={props.courseInformation.design}
 				coursePlan={props.courseInformation.coursePlan}
 				program={props.courseInformation.program}
 			/>
+
+		
+			<h3 className='crnheading' id="tecnological" >Technological Requirements</h3>
+			<p className='descriptiontext'>
+				As a online course, it's required that you have access to a computer 'desktop or mobile' with internet connection.
+			</p>
+			<div className='crnheading'>
+				<h5 className='crnheading' id="tecnologicalhard">Hardware requirements</h5>
+			</div>
+				
+				{
+					props.courseInformation.requirements.length!=0 ?
+					<div>
+						
+							<ol className='resources'>
+								{
+									props.courseInformation.requirements.data[1]!=undefined?
+									props.courseInformation.requirements.data[1].map((item, index) =>(
+										<li key={index}>{item.label}</li>
+									))
+									:
+									<div className='descriptiontext'>
+										No hardware requirement.
+									</div>
+								}
+							</ol>
+					
+					</div>
+					:
+					<div className='descriptiontext'>
+						No hardware requirement.
+					</div>
+				}
+				<div className='crnheading' className='crnheading'>
+					<h5  id="tecnologicalsoft">Software requirements</h5 >
+				</div>
+				
+				{
+					props.courseInformation.requirements.length!=0 ?
+					<ol className='resources'>
+						{	
+							props.courseInformation.requirements.data[0]!=undefined?
+							props.courseInformation.requirements.data[0].map((item, index) =>(
+									<li key={index}>{item.label}</li>
+								)) 
+							:
+							<div>
+								No software requirement.
+							</div>  
+						}
+					</ol>
+					:
+					<div>
+						No software requirement.
+					</div>
+				} 
+      	
 			
-			<HardwareSoftwareReq
-				data={props.courseInformation.requirements}
-			/>
+
+		
+			<hr/>
 
 		</div>
 	);
 }
+
+
 
 export default function SyllabusButton(props) {
 	const classes = useStyles();
@@ -307,7 +399,7 @@ export default function SyllabusButton(props) {
 			<DialogFullWidth
 				open={open}
 				handleClose={handleClose}
-				title="Syllabus"
+				title="Course Syllabus"
 				key="syllabus"
 			>
 				<Syllabus

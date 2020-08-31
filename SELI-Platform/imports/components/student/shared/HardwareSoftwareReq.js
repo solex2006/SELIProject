@@ -6,9 +6,7 @@ export default function HardwareSoftwareReq(props) {
 
   return (
       <div>
-			<div className='crnheading'>
-				<h3 id="tech">Technological Requirements</h3>
-			</div>
+			<h3 id='tech' tabIndex="-1">Technological Requirements</h3>
 			<div className='descriptiontext'>
 				As a online course, it's required that you have access to a computer 'desktop or mobile' with internet connection.
 			</div>
@@ -44,8 +42,7 @@ export default function HardwareSoftwareReq(props) {
 			{
 				data.length!=0 ?
 				<ol className='resources'>
-					{
-						
+					{	
 						data.data[0]!=undefined?
 						data.data[0].map((item, index) =>(
 								<li key={index}>{item.label}</li>
@@ -53,15 +50,12 @@ export default function HardwareSoftwareReq(props) {
 						:
 						<div>
 							No software requirement.
-						</div>
-						   
+						</div>  
 					}
 				</ol>
 				:
 				undefined
-			}
-			
-         
+			} 
       </div>
    )
 }
