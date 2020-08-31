@@ -39,7 +39,12 @@ async function bakeBadge(badgeClass, user) {
   assertion.type = "Assertion";
   assertion.id = uuidv4();
   assertion["@context"] = "https://w3id.org/openbadges/v2";
-  assertion.recipient = getIdentity(user.emails[0].address);
+  // assertion.recipient = getIdentity(user.emails[0].address);
+  assertion.recipient = {
+    identity: user.emails[0].address,
+    type: "email",
+    hashed: false,
+  };
   assertion.issuedOn = new Date().toISOString();
   assertion.verification = { type: "HostedBadge" };
   var a =JSON.stringify(badgeClass.image.link)+"";
