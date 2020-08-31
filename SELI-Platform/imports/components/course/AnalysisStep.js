@@ -102,7 +102,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function AnalysisStep(props) {
   const {courseInformation,language } = props;
-
   useEffect(()=>{
     console.log("courseInformationAnalysisStep y Accesibility", courseInformation,courseInformation.accessibility )
     //updatemodalityradiobutton
@@ -183,54 +182,30 @@ export default function AnalysisStep(props) {
 
   
   const [goals, setGoals] = useState({
-		creating: [],
-		evaluating: [],
-		analyzing: [],
-		understanding: [],
     remembering: [],
-    applying: []
+    understanding: [],
+    applying: [],
+    analyzing: [],
+    evaluating: [],
+		creating: []
 	});
 
 
   const [goalsTaxonomy, setGoalsTaxonomy] = useState({
-		creating: [
-			{ key: "build", label: "to build" },
-			{ key: "develop", label: "to develop" },
-			{ key: "combine", label: "to combine" },
-			{ key: "design", label: "to design" },
-      { key: "elaborate", label: "to elaborate" },
-      { key: "other", label: "other" }
-		],
-		evaluating: [
-			{ key: "conclude", label: "to conclude" },
-			{ key: "critique", label: "to critique" },
-			{ key: "justify", label: "to justify" },
-			{ key: "prove", label: "to prove" },
-      { key: "judge", label: "to judge" },
-      { key: "other", label: "other" }
-		],
-		analyzing: [
-			{ key: "constrast", label: "to contrast" },
-			{ key: "categorize", label: "to categorize" },
-			{ key: "classify", label: "to classify" },
-			{ key: "list", label: "to list" },
-      { key: "compare", label: "to compare" },
-      { key: "other", label: "other" }
-		],
-		understanding: [
-			{ key: "explain", label: "to explain" },
-			{ key: "summarize", label: "to summarize" },
-			{ key: "paraphrase", label: "to paraphrase" },
-			{ key: "illustrate", label: "to illustrate" },
-      { key: "extend", label: "to extend" },
-      { key: "other", label: "other" }
-		],
-		remembering: [
+    remembering: [
 			{ key: "duplicate", label: "to duplicate" },
 			{ key: "match", label: "to match" },
 			{ key: "describe", label: "to describe" },
 			{ key: "show", label: "to show" },
       { key: "choose", label: "to choose" },
+      { key: "other", label: "other" }
+    ],
+    understanding: [
+			{ key: "explain", label: "to explain" },
+			{ key: "summarize", label: "to summarize" },
+			{ key: "paraphrase", label: "to paraphrase" },
+			{ key: "illustrate", label: "to illustrate" },
+      { key: "extend", label: "to extend" },
       { key: "other", label: "other" }
     ],
     applying: [
@@ -240,8 +215,31 @@ export default function AnalysisStep(props) {
 			{ key: "construct", label: "to construct" },
       { key: "solve", label: "to solve" },
       { key: "other", label: "other" }
-    ]
-    
+    ],
+    analyzing: [
+			{ key: "constrast", label: "to contrast" },
+			{ key: "categorize", label: "to categorize" },
+			{ key: "classify", label: "to classify" },
+			{ key: "list", label: "to list" },
+      { key: "compare", label: "to compare" },
+      { key: "other", label: "other" }
+		],
+		evaluating: [
+			{ key: "conclude", label: "to conclude" },
+			{ key: "critique", label: "to critique" },
+			{ key: "justify", label: "to justify" },
+			{ key: "prove", label: "to prove" },
+      { key: "judge", label: "to judge" },
+      { key: "other", label: "other" }
+    ],
+    creating: [
+			{ key: "build", label: "to build" },
+			{ key: "develop", label: "to develop" },
+			{ key: "combine", label: "to combine" },
+			{ key: "design", label: "to design" },
+      { key: "elaborate", label: "to elaborate" },
+      { key: "other", label: "other" }
+		]
 	});
 
   const [outcomes, setOutcomes] = useState({
@@ -1130,7 +1128,7 @@ export default function AnalysisStep(props) {
 
       <Grid container className={classes.formGroup}>
           <Grid item xs={12} className={classes.Behavioral}>
-            <h2 className={classes.Behavioral}>Behavioral Outcomes</h2>
+            <h2 className={classes.Behavioral}>Learning Outcomes</h2>
             <p className={classes.Behavioral}>By the end of this course, students will be able...</p>
 				  </Grid>
 				{Object.keys(outcomes).map((category, index) => (
