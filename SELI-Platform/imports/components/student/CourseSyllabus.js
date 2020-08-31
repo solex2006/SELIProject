@@ -209,7 +209,7 @@ function Syllabus(props) {
 	return (
 		<div className='crnoutcomeinfo'>	
 			{/* <h1>Course Syllabus</h1> */}
-			<p className='crnheading'>
+			<p className='crnheadingtitle'>
 				<em>{props.courseInformation.title} : {props.courseInformation.subtitle}</em>
 			</p>
 			<p className='crnheading' >

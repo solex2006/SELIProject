@@ -53,6 +53,7 @@ export default function Lista(props) {
                     undefined
                 }  
                 {
+                    props.data[1]!=undefined?
                         props.data[1].map((value,index)=>(//Inclusion Goals  
                             value.isChecked===true ?
                                 <p className='elemntoflist' key={value.id}>
@@ -61,6 +62,8 @@ export default function Lista(props) {
                             :
                             undefined    
                         ))
+                        :
+                    undefined
                 } 
            
         {/* <div>
