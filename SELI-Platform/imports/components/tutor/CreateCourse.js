@@ -4,7 +4,7 @@ import AudienceStep from '../course/AudienceStep'
 import RequirementStep from '../course/RequirementStep'
 import CoursePlanStep from '../course/CoursePlanStep'
 import ReportStep     from '../course/ReportStep'
-import FormStepperID from '../navigation/FormStepperID'; '../'
+import FormStepperID from '../navigation/FormStepperID';
 import CourseInformation from '../course/CourseInformation';
 import CourseProgram from '../course/CourseProgram';
 import AnalysisStep from '../course/AnalysisStep'

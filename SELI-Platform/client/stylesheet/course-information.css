@@ -9,7 +9,7 @@
 
 .course-information-container {
   width: 100%;
-  height: calc(100% - var(--form-stepper-height));
+  height: 100%;
   display: flex;
   position: relative;
   overflow-y: scroll;
@@ -36,7 +36,7 @@
 }
 
 .form-input-audiences {
-  max-height: calc(100% - 15vh);
+  height: calc(100% - 8vh) !important;
   overflow-y: scroll;
   padding: 4vh 6vw;
 }
@@ -368,7 +368,7 @@
 @media only screen and (max-width: 1080px)  {
   .user-information-container {
     flex-direction: column;
-    overflow-y: scroll !important;
+    overflow-y: auto;
   }
   .form-dialog {
     width: 100vw !important;

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useLayoutEffect, useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -56,11 +56,6 @@ function a11yProps(index, parent) {
 }
 
 const useStyles = makeStyles(theme => ({
-	root: {
-		flexGrow: 1,
-		backgroundColor: theme.palette.background.paper,
-		display: 'flex',
-	},
 	tabs: {
 		borderRight: `1px solid ${theme.palette.divider}`,
 	},
@@ -86,10 +81,24 @@ export const useData = (language, type, item, itemAll) => {
 	};
 };
 
+function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+  return size;
+}
+
 export default function VerticalTabs(props) {
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
 	const [support, setSupport] = React.useState([]);
+	const [width, height] = useWindowSize();
 	//const [captionValidator, setCaptionValidator] = React.useState('');
 
 	function handleTabChange(event, newValue) {
@@ -118,9 +127,9 @@ export default function VerticalTabs(props) {
 	
 	return (
 		<div>
-			<div className={classes.root}>
+			<div className="accessibility-main-container">
 				<Tabs
-					orientation="vertical"
+					orientation={width >= 1080 ? "vertical" : "horizontal"}
 					variant="scrollable"
 					value={value}
 					onChange={handleTabChange}
@@ -187,42 +196,42 @@ export default function VerticalTabs(props) {
 						/>
 					}
 					{
-						 	props.contentTypeAdded === 'video' && support.some(object => ["Cognitive"].includes(object)) &&
+							props.contentTypeAdded === 'video' && support.some(object => ["Cognitive"].includes(object)) &&
 						<Tab
 							label={props.language.other}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/> 
 					}
 					{
-						 	props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
+							props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
 						<Tab
 							label={props.language.textAlternatives}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/> 
 					}
 					{
-						 	props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
+							props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
 						<Tab
 							label={props.language.navigation}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/> 
 					}
 					{
-						 	props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
+							props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
 						<Tab
 							label={props.language.Structures}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/> 
 					}
 					{
-						 	props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
+							props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
 						<Tab
 							label={props.language.Form}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
 						/> 
 					}
 					{
-						 	props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
+							props.contentTypeAdded === 'pdf' && support.some(object => ["Cognitive"].includes(object)) &&
 						<Tab
 							label={props.language.TextContent}
 							{...a11yProps(indexTab++, props.contentTypeAdded)}
@@ -231,11 +240,11 @@ export default function VerticalTabs(props) {
 					
 					
 					{
-						 	/* props.contentTypeAdded === 'audio' &&
-						 <Tab
-							 label={props.language.signLanguage}
-							 {...a11yProps(indexTab++, props.contentTypeAdded)}
-						 /> */
+							/* props.contentTypeAdded === 'audio' &&
+						<Tab
+							label={props.language.signLanguage}
+							{...a11yProps(indexTab++, props.contentTypeAdded)}
+						/> */
 					}
 					
 					{
@@ -252,32 +261,6 @@ export default function VerticalTabs(props) {
 							{...a11yProps(indexTab++)}
 						/> */
 					}
-					
-					{
-						data.isA11Y.length > 0 ? 
-							<A11YProgressFeedback
-								a11yFields={data.isA11Y}
-								getAccessibilityPercentage={props.getAccessibilityPercentage.bind(this)}
-								{...a11yProps(indexTab++, props.contentTypeAdded)}
-								data={{
-									handleInputOnChange:data.handleInputOnChange,
-									handleImagePurposeOnChange:data.handleImagePurposeOnChange,
-									handleLongDescriptionPosition:data.handleLongDescriptionPosition,
-									dataField:data.dataField,
-									shortDescriptionTip:data.shortDescriptionTip,
-									longDescriptionTip:data.longDescriptionTip,
-									imagePurposeTip:data.imagePurposeTip,
-									imagePurposeLabel:data.imagePurposeLabel,
-									displayAltGroup:data.displayAltGroup,
-									displayAltLong:data.displayAltLong,
-									isA11Y:data.isA11Y,
-								}}
-								item={props.item}
-								language={props.language}
-							/>
-						: undefined
-					}
-
 				</Tabs>
 				<div className="accessibility-form-side-container">
 					<TabPanel value={value} index={indexPanel++}>
@@ -608,6 +591,30 @@ export default function VerticalTabs(props) {
 				</div>
 			</div>
 			<div className="dialog-actions-container">
+				{
+					data.isA11Y.length > 0 ? 
+						<A11YProgressFeedback
+							a11yFields={data.isA11Y}
+							getAccessibilityPercentage={props.getAccessibilityPercentage.bind(this)}
+							{...a11yProps(indexTab++, props.contentTypeAdded)}
+							data={{
+								handleInputOnChange:data.handleInputOnChange,
+								handleImagePurposeOnChange:data.handleImagePurposeOnChange,
+								handleLongDescriptionPosition:data.handleLongDescriptionPosition,
+								dataField:data.dataField,
+								shortDescriptionTip:data.shortDescriptionTip,
+								longDescriptionTip:data.longDescriptionTip,
+								imagePurposeTip:data.imagePurposeTip,
+								imagePurposeLabel:data.imagePurposeLabel,
+								displayAltGroup:data.displayAltGroup,
+								displayAltLong:data.displayAltLong,
+								isA11Y:data.isA11Y,
+							}}
+							item={props.item}
+							language={props.language}
+						/>
+					: undefined
+				}
 				<Tooltip title={props.language.setAccessibilityConf}>
 					<Fab onClick={() => props.setContentAccessibilityData(dataToSend)} aria-label={props.language.setAccessibilityConf} className="dialog-fab" color="primary">
 						<AccessibilityNewIcon/>

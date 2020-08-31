@@ -630,4 +630,7 @@
     width: 90vw;
     left: 5vw;
   }
+  .form-container {
+    overflow-y: auto;
+  }
 }

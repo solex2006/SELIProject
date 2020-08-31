@@ -779,34 +779,40 @@ export default function AnalysisStep(props) {
     setOpenI(!openI);
   };
 
+  const keyController = (event, name) => {
+    if (event.which == 13 || event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  }
+
   const InputText=(label, value)=>{
     return(
       <div className={classes.psychomotorDomain}>
-          <TextField
-            value={value}
-            //required
-            label={label==="affectiveDomain" ? labels.pffectiveDomain: labels.psychomotorDomain}
-            variant="outlined"
-            multiline
-            rowsMax={5}
-            id="i02"
-            aria-describedby="i02-helper-text"
-            type="text"
-            //error={analysisTooltip.pedagogical}
-            fullWidth
-            onChange={(event)=>{   
-              let text=courseinformation;
-              if(label==="affectiveDomain"){
-                setaffectiveDomain(event.target.value)
-                text.analysis[5]= event.target.value;
-                setcourseInformation(text);
-              }else{
-                setpsychomotorDomain(event.target.value) 
-                text.analysis[6]= event.target.value;
-                setcourseInformation(text);
-              }
-              
-              }}
+        <TextField
+          value={value}
+          //required
+          label={label==="affectiveDomain" ? labels.pffectiveDomain: labels.psychomotorDomain}
+          variant="outlined"
+          multiline
+          rowsMax={5}
+          id="i02"
+          aria-describedby="i02-helper-text"
+          type="text"
+          //error={analysisTooltip.pedagogical}
+          fullWidth
+          onChange={(event)=>{   
+            let text=courseinformation;
+            if(label==="affectiveDomain"){
+              setaffectiveDomain(event.target.value)
+              text.analysis[5]= event.target.value;
+              setcourseInformation(text);
+            }else{
+              setpsychomotorDomain(event.target.value) 
+              text.analysis[6]= event.target.value;
+              setcourseInformation(text);
+            }
+          }}
         />
         <FeedbackHelp
           validation={{
@@ -991,6 +997,7 @@ export default function AnalysisStep(props) {
                                   onChange={event =>
                                     updateTempAuxValue(event.target.value)
                                   }
+                                  onKeyPress={keyController}
                                   className={classes.textInput}
                                 >
                                   {goalsTaxonomy[category].map(option => (
@@ -1000,8 +1007,6 @@ export default function AnalysisStep(props) {
                                   ))}
                               </TextField>
                           </div>
-                          
-                        
                             <div>
                               <TextField
                                 key={"u2" + index + "txtField"}
@@ -1010,6 +1015,7 @@ export default function AnalysisStep(props) {
                                 onChange={event =>
                                   updateTempValue(event.target.value)
                                 }
+                                onKeyPress={keyController}
                               />
                             </div>
                         </div>	
@@ -1171,6 +1177,7 @@ export default function AnalysisStep(props) {
                               onChange={event =>
                                 updateTempAuxValue(event.target.value)
                               }
+                              onKeyPress={keyController}
                               className={classes.textInput}
                             >
                               {outcomesTaxonomy[category].map(option => (
@@ -1188,6 +1195,7 @@ export default function AnalysisStep(props) {
                               onChange={event =>
                                 updateTempValue(event.target.value)
                               }
+                              onKeyPress={keyController}
                             />
                           </div>
                         </div>
@@ -1302,6 +1310,7 @@ export default function AnalysisStep(props) {
                         className={!constraint.editing ? classes.hidden : ""}
                         value={controlEdit.tempValue}
                         onChange={event => updateTempValue(event.target.value)}
+                        onKeyPress={keyController}
                       />
                       <FeedbackHelp
                         validation={{
@@ -1413,20 +1422,18 @@ export default function AnalysisStep(props) {
               setpedagogical(event.target.value) 
               if(event.target.value!=''){
                 let analisis=analysisTooltip;
-                 analisis.pedagogical=false;
-                 setanalysisTooltip(analisis)
+                analisis.pedagogical=false;
+                setanalysisTooltip(analisis)
               }else{
-                 let analisis=analysisTooltip;
-                 analisis.pedagogical=true;
-                 setanalysisTooltip(analisis)
+                let analisis=analysisTooltip;
+                analisis.pedagogical=true;
+                setanalysisTooltip(analisis)
               }
               //save feedback
-            
               let text=courseinformation;
               text.analysis[2]= event.target.value;
               text.accessibility[2]=analysisTooltip;
               setcourseInformation(text);
-
             }}
           />
           <FeedbackHelp

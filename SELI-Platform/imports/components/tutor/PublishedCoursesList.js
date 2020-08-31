@@ -562,6 +562,7 @@ export default class PublishedCoursesList extends React.Component {
                     hash: this.state.course_id,
                     state: { fromDashboard: true },
                   }}
+                  onClick={() => this.handleClose()}
                 >
                   <Button color="primary" autoFocus>
                     {this.props.language.yes}

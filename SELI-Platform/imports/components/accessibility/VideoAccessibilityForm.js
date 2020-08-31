@@ -17,7 +17,8 @@ import A11YProgressFeedback from './a11yProgressFeedback';
 import A11YLongDescription from './a11yLongDescription';
 import A11YShortDescription from './a11yShortDescription';
 import EditorA11Y from '../tools/a11yEditor';
-import FileUpload from '../files/FileUpload'
+import FileUpload from '../files/FileUpload';
+import AudioPreview from '../files/previews/AudioPreview';
 import VideoPreview from '../files/previews/VideoPreview';
 import AttachmentPreview from '../files/previews/AttachmentPreview';
 import { makeStyles } from  '@material-ui/core/styles';
@@ -131,66 +132,68 @@ export function VideoMediaCaptionsAltA11Y(props){
 	}
 
 	return(
-		<Grid item id='captions-container' role='grid'>
-			<FormControl component='fieldset'>
-				<FormLabel component='legend' id='captions-radiogroup-label'>{props.language.captions_a11y_form_label}</FormLabel>
-				<RadioGroup
-					id='captions-radiogroup'
-					aria-labelledby='captions-radiogroup-label'
-					aria-describedby='captions-exp'
-					name='captionsEmbedded'
-					row
-					value={dataField.captionsEmbedded}
-					onChange={React.useCallback(handleRadioButtonOnChange)}
-				>
-					<FormControlLabel
-						id='captions-yes'
+		<section id='video-captions'>
+			<Grid container spacing={1} direction='column' justify='flex-end'>
+				<FormControl component='fieldset'>
+					<FormLabel component='legend' id='captions-radiogroup-label'>{props.language.captions_a11y_form_label}</FormLabel>
+					<RadioGroup
+						id='captions-radiogroup'
+						aria-labelledby='captions-radiogroup-label'
+						aria-describedby='captions-exp'
 						name='captionsEmbedded'
-						label={props.language.yes}
-						value='yes'
-						control={<Radio color='primary' />}
-						labelPlacement='end'
-					/>
-					<FormControlLabel
-						id='captions-no'
-						name='captionsEmbedded'
-						label={props.language.no}
-						value='no'
-						control={<Radio color='secondary' />}
-						labelPlacement='end'
-						role='radio'
-					/>
-				</RadioGroup>
-				<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbeddedError} tip={captionsTip}/>
-			</FormControl>
-			{//languages signal part
-				(dataField.captionsEmbedded === "no" || newCaption===true )?
-				<div>
-					{dataField.fileTranscription[0]===undefined?
-					<div className="uploadsignals">
-						<FileUpload
-						type="vtt"
-						user={Meteor.userId()}
-						accept={'.vtt'}
-						label={props.language.Captions}
-						getFileInformation={getFileInformationCaption}
+						row
+						value={dataField.captionsEmbedded}
+						onChange={React.useCallback(handleRadioButtonOnChange)}
+					>
+						<FormControlLabel
+							id='captions-yes'
+							name='captionsEmbedded'
+							label={props.language.yes}
+							value='yes'
+							control={<Radio color='primary' />}
+							labelPlacement='end'
 						/>
-					</div>
-					:
+						<FormControlLabel
+							id='captions-no'
+							name='captionsEmbedded'
+							label={props.language.no}
+							value='no'
+							control={<Radio color='secondary' />}
+							labelPlacement='end'
+							role='radio'
+						/>
+					</RadioGroup>
+					<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbeddedError} tip={captionsTip}/>
+				</FormControl>
+				{//languages signal part
+					(dataField.captionsEmbedded === "no" || newCaption===true )?
 					<div>
-						<AttachmentPreview
-							preview={false}
-							file={dataField.fileTranscription[0]}
-							unPickFile={unPickFileSignal}
-							language={props.language}
-						/>
-					</div>
-					}
-				</div>	
-				:
-				noCaption
-			}
-		</Grid>
+						{dataField.fileTranscription[0]===undefined?
+						<div className="uploadsignals">
+							<FileUpload
+							type="vtt"
+							user={Meteor.userId()}
+							accept={'.vtt'}
+							label={props.language.Captions}
+							getFileInformation={getFileInformationCaption}
+							/>
+						</div>
+						:
+						<div>
+							<AttachmentPreview
+								preview={false}
+								file={dataField.fileTranscription[0]}
+								unPickFile={unPickFileSignal}
+								language={props.language}
+							/>
+						</div>
+						}
+					</div>	
+					:
+					noCaption
+				}
+			</Grid>
+		</section>
 	);
 }
 
@@ -233,8 +236,8 @@ export function VideoMediaAudioDescriptioA11Y(props){
 	}
 
 	return(
-		<Grid container spacing={1} direction='column' id='audioDescr-container' role='grid' justify='flex-end'>
-			<Grid item>
+		<section id='video-audio-description'>
+			<Grid container spacing={1} direction='column' justify='flex-end'>
 				<FormControl component='fieldset' >
 					<FormLabel component='legend' id='audioDescr-radiogroup-label'>{props.language.audioDescription_a11y_has}</FormLabel>
 					<RadioGroup
@@ -267,127 +270,63 @@ export function VideoMediaAudioDescriptioA11Y(props){
 					</RadioGroup>
 					<AccessibilityHelp idName='audioDescr-radiogroup' error={dataField.audioDescriptionError} tip={audioDescriptionTip} />
 				</FormControl>
-			</Grid>	
-			<Grid item>
-			<FormControl component='fieldset' disabled={disabled_necAudioDesc}>
-				<FormLabel component='legend' id='audioDescr-necessary-label'>This content requires audiodescription?</FormLabel>
-				<RadioGroup
-					id='audioDescr-necessary-radiogroup'
-					aria-describedby='audioDescr-necessary-exp'
-					aria-labelledby='audioDescr-necessary-radiogroup-label'
-					name='audioDescriptionRequired'
-					value={dataField.audioDescriptionRequired}
-					onChange={React.useCallback(handleRadioButtonOnChange)}
-				row>
-					<FormControlLabel
-						id='audioDescr-necessary-yes'
+				<FormControl component='fieldset' disabled={disabled_necAudioDesc}>
+					<FormLabel component='legend' id='audioDescr-necessary-label'>This content requires audiodescription?</FormLabel>
+					<RadioGroup
+						id='audioDescr-necessary-radiogroup'
+						aria-describedby='audioDescr-necessary-exp'
+						aria-labelledby='audioDescr-necessary-radiogroup-label'
 						name='audioDescriptionRequired'
-						label='Yes'
-						value='yes'
-						control={<Radio color='primary' />}
-						labelPlacement='end'
-					/>
-					<FormControlLabel
-						id='audioDescr-necessary-no'
-						name='audioDescriptionRequired'
-						label='No'
-						value='no'
-						control={<Radio color='secondary' />}
-						labelPlacement='end'
-					/>
-				</RadioGroup>
-				<AccessibilityHelp idName='audioDescr-necessary-radiogroup' error={dataField.audioDescriptionError} tip={audioDescriptionRequiredTip} />
-			</FormControl>
-		</Grid>
-
-		{ 
-			(dataField.audioDescription === "no" && dataField.audioDescriptionRequired === "yes")?
-			<div>
-				{ (dataField.fileAudioDescription[0]===undefined || newAudioSignal===true )?
-				<div className="uploadsignals">
-					<FileUpload
-						type="audio"
-						accept={'audio/*'}
-						user={Meteor.userId()}
-						label={props.language.uploadAudioButtonLabel}//label={this.props.language.uploadAudioButtonLabel}
-						getFileInformation={getFileInformationAudioDescription}
+						value={dataField.audioDescriptionRequired}
+						onChange={React.useCallback(handleRadioButtonOnChange)}
+					row>
+						<FormControlLabel
+							id='audioDescr-necessary-yes'
+							name='audioDescriptionRequired'
+							label='Yes'
+							value='yes'
+							control={<Radio color='primary' />}
+							labelPlacement='end'
 						/>
-				</div>
-				:
-				<div>	
-					<VideoPreview
-						file={dataField.fileAudioDescription[0]}
-						unPickFile={unPickFileSignal}
-						language={props.language}
-					/>
-				</div>
-				}
-			</div>	
-			:
-			noAudiofile  
-		}
-		{ 
-			(dataField.audioDescription === "yes")?
-			<div>
-				{ /* (dataField.fileAudioDescription[0]===undefined || newAudioSignal===true )?
-				<div className="uploadsignals">
-					<FileUpload
-						type="audio"
-						accept={'audio/*'}
-						user={Meteor.userId()}
-						label={props.language.uploadAudioButtonLabel}//label={this.props.language.uploadAudioButtonLabel}
-						getFileInformation={getFileInformationAudioDescription}
+						<FormControlLabel
+							id='audioDescr-necessary-no'
+							name='audioDescriptionRequired'
+							label='No'
+							value='no'
+							control={<Radio color='secondary' />}
+							labelPlacement='end'
 						/>
-				</div>
-				:
-				<div>	
-					<VideoPreview
-						file={dataField.fileAudioDescription[0]}
-						unPickFile={unPickFileSignal}
-						language={props.language}
-					/>
-				</div> */
+					</RadioGroup>
+					<AccessibilityHelp idName='audioDescr-necessary-radiogroup' error={dataField.audioDescriptionError} tip={audioDescriptionRequiredTip} />
+				</FormControl>
+				{ 
+					(dataField.audioDescription === "no" && dataField.audioDescriptionRequired === "yes")?
+					<div>
+						{ (dataField.fileAudioDescription[0]===undefined || newAudioSignal===true )?
+						<div className="uploadsignals">
+							<FileUpload
+								type="audio"
+								accept={'audio/*'}
+								user={Meteor.userId()}
+								label={props.language.uploadAudioButtonLabel}//label={this.props.language.uploadAudioButtonLabel}
+								getFileInformation={getFileInformationAudioDescription}
+								/>
+						</div>
+						:
+						<div>	
+							<AudioPreview
+								file={dataField.fileAudioDescription[0]}
+								unPickFile={unPickFileSignal}
+								language={props.language}
+							/>
+						</div>
+						}
+					</div>	
+					:
+					noAudiofile  
 				}
-			</div>	
-			:
-			noAudiofile  
-		}
-		{ 
-			(dataField.audioDescription === "no" && dataField.audioDescriptionRequired === "no")?
-			<div>
-				{ /* (dataField.fileAudioDescription[0]===undefined || newAudioSignal===true )?
-				<div className="uploadsignals">
-					<FileUpload
-						type="audio"
-						accept={'audio/*'}
-						user={Meteor.userId()}
-						label={props.language.uploadAudioButtonLabel}
-						getFileInformation={getFileInformationAudioDescription}
-						/>
-				</div>
-				:
-				<div>	
-					<VideoPreview
-						file={dataField.fileAudioDescription[0]}
-						unPickFile={unPickFileSignal}
-						language={props.language}
-					/>
-				</div> */
-				}
-			</div>	
-			:
-			noAudiofile  
-		}
-			{/* <Grid item>
-				<AccessibilityFileUpload
-					type='audio'
-					user={Meteor.userId()}
-					accept={'audio/*'}
-					label={'Click the button to upload an audio description'}
-					getFileInformation={getFileInformationAudioDescription}
-				/>
-			</Grid> */}
-		</Grid>
+			</Grid>
+		</section>
 	);
 }
 export function VideoMediaSignLanguageA11Y(props){
@@ -425,88 +364,76 @@ export function VideoMediaSignLanguageA11Y(props){
 	}
 
 	return(
-		<Grid item id='signLang-container' role='grid'>
-			<FormControl component='fieldset' >
-				<FormLabel component='legend' id='signLang-label'>{props.language.signLanguage_a11y_has}</FormLabel>
-				<RadioGroup
-					id='signLang-radiogroup'
-					aria-describedby='signLang-exp'
-					aria-labelledby='signLang-radiogroup-label'
-					name='signLanguage'
-					row
-					value={dataField.signLanguage}
-					onChange={handleRadioButtonOnChange1}
-					aria-describedby='signLang-exp'
-					row>
-					<FormControlLabel
+		<section id='video-sign-language'>
+			<Grid container spacing={1} direction='column' justify='flex-end'>
+				<FormControl component='fieldset' >
+					<FormLabel component='legend' id='signLang-label'>{props.language.signLanguage_a11y_has}</FormLabel>
+					<RadioGroup
+						id='signLang-radiogroup'
+						aria-describedby='signLang-exp'
+						aria-labelledby='signLang-radiogroup-label'
 						name='signLanguage'
-						id='signLang-yes'
-						label={props.language.yes}
-						value='yes'
-						control={<Radio color='primary' />}
-						labelPlacement='end'
-					/>
-					<FormControlLabel
-						name='signLanguage'
-						id='signLang-no'
-						label={props.language.no}
-						value='no'
-						control={<Radio color='secondary' />}
-						labelPlacement='end'
-					/>
-				</RadioGroup>
-				<AccessibilityHelp idName='signLang-radiogroup' error={dataField.signLanguageError} tip={signLanguageTip} />
-			</FormControl>
-			
-			
-			
-			 {//languages signal part
-
-				(dataField.signLanguage=== "no" || newVideoSignal===true )?
-				<div>
-					{dataField.fileVideoSignal[0]===undefined?
-					<div className="uploadsignals">
-						<FileUpload
-						type="video"
-						user={Meteor.userId()}
-						accept={'video/*'}
-						label={props.language.byUploadVideo}
-						getFileInformation={getFileInformationsignal}
+						row
+						value={dataField.signLanguage}
+						onChange={handleRadioButtonOnChange1}
+						aria-describedby='signLang-exp'
+						row>
+						<FormControlLabel
+							name='signLanguage'
+							id='signLang-yes'
+							label={props.language.yes}
+							value='yes'
+							control={<Radio color='primary' />}
+							labelPlacement='end'
 						/>
-					</div>
-					:
+						<FormControlLabel
+							name='signLanguage'
+							id='signLang-no'
+							label={props.language.no}
+							value='no'
+							control={<Radio color='secondary' />}
+							labelPlacement='end'
+						/>
+					</RadioGroup>
+					<AccessibilityHelp idName='signLang-radiogroup' error={dataField.signLanguageError} tip={signLanguageTip} />
+				</FormControl>
+				{//languages signal part
+					(dataField.signLanguage=== "no" || newVideoSignal===true )?
 					<div>
-						{
-							showPreviewSignal===true?
-							<div>
-								<div>
-								<VideoPreview
-									file={dataField.fileVideoSignal[0]}
-									unPickFile={unPickFileSignal}
-									language={props.language}
-								/>
-								</div>
-							</div>
-							:
-							<div>
-								<div>
-								<VideoPreview
-									file={dataField.fileVideoSignal[0]}
-									unPickFile={unPickFileSignal}
-									language={props.language}
-								/>
-								</div>
-							</div>
+						{dataField.fileVideoSignal[0]===undefined?
+						<div className="uploadsignals">
+							<FileUpload
+							type="video"
+							user={Meteor.userId()}
+							accept={'video/*'}
+							label={props.language.byUploadVideo}
+							getFileInformation={getFileInformationsignal}
+							/>
+						</div>
+						:
+						<div>
+							{
+								showPreviewSignal===true?
+									<VideoPreview
+										file={dataField.fileVideoSignal[0]}
+										unPickFile={unPickFileSignal}
+										language={props.language}
+									/>
+								:
+									<VideoPreview
+										file={dataField.fileVideoSignal[0]}
+										unPickFile={unPickFileSignal}
+										language={props.language}
+									/>
+							}
+						</div>
 						}
-					</div>
-					}
-				</div>	
-				:
-				noVideofile
-			}		
-					
-			
-		</Grid>
+					</div>	
+					:
+					noVideofile
+				}		
+			</Grid>
+		</section>
 	);
 }
 

@@ -463,13 +463,13 @@ export default class CourseProgram extends React.Component {
       <div>
         {this.state.arrayOfItems && (
           <div className="course-creator-container">
+            <IconButton onClick={() => this.handleMenu()} className="drop-items-right-menu">
+              <AppsIcon />
+            </IconButton>
             <div className="course-creator-work-area">
               <div className="general-container-drop-area">
                 <div className="title-course">  
                   <div className="subtitle">{this.state.titleTop}</div>
-                  <IconButton onClick={() => this.handleMenu()} className="drop-items-right-menu">
-                    <AppsIcon />
-                  </IconButton>
                 </div>
                 {this.choosingTemplate()}
               </div>
