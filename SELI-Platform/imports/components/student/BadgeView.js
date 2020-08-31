@@ -9,7 +9,7 @@ export default class BadgeView extends React.Component {
             badgeDescription: this.props.description,
             badgeImage: this.props.image,
         });
-        console.log(this.state);
+        console.log(this.props);
     }
     render(){
         return(
@@ -17,7 +17,7 @@ export default class BadgeView extends React.Component {
             
             <div className="badge-item">
                 <center><img 
-                    src={this.state.badgeImage.link} 
+                    src={this.state.badgeImage.id} 
                     alt="Badge earned"
                     width="200"
                     height="200"
