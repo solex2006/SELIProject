@@ -135,7 +135,7 @@ export default class CourseInformation extends React.Component {
     }
   }
 
-  keyController = (event, name) => {
+  keyControllerFalse = (event, name) => {
     if (event.which == 13 || event.keyCode == 13) {
       event.preventDefault();
       return false;
@@ -281,7 +281,7 @@ export default class CourseInformation extends React.Component {
                   label={`${this.props.language.duration} ${this.props.language.required} *`}
                   size="small"
                   className="duration-course-information"
-                  onKeyPress={this.keyController}
+                  onKeyPress={this.keyControllerFalse}
                   // variant="outlined"
                 />
               )}
