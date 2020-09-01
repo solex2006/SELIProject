@@ -55,7 +55,7 @@ export default class BadgeCollection extends React.Component {
               <Divider />
               <div className="badge-container">
                 {this.state.badges.map((b) =>
-                  b.id ? (
+                  b._id ? (
                     <BadgeView
                       name={b.badge.name}
                       description={b.badge.description}
