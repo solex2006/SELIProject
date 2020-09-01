@@ -191,7 +191,7 @@ export default function InstructorProfile({ user }) {
 						className={classes.info}
 					>
 						<Grid item>
-							<p className={classes.name}>{user[0].username}</p>
+							<p className={classes.name}>{user[0].profile.fullname}</p>
 						</Grid>
 						<Grid item>
 							<p className={classes.prof} color="textSecondary">

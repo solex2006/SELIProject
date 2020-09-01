@@ -136,23 +136,23 @@ export default function CourseContent(props) {
             course.map((topic, indexUnit)=>(
                 <div>
                     <div className='crnheading'>
-                        <h3 id={"content-topic-"+indexUnit}  tabIndex="-1" >{topic.title}</h3>
+                        <h4 id={"content-topic-"+indexUnit}  tabIndex="-1" >{topic.title}</h4>
                     </div>
                     {
                         coursePlan.guidedCoursePlan!='free' ?
                         <div>
                             <p>
-                                <strong>Learning Goals</strong>:
+                                <strong>Learning Goals</strong>:{" "}
                                 {topic.learnGols}
                             </p>
 
                             <p>
-                                <strong>Prerequisites</strong>:
+                                <strong>Prerequisites</strong>:{" "}
                                 {topic.preKnowledge}
                             </p>
                                     
                             <p>
-                                <strong>Content</strong>: 
+                                <strong>Content</strong>: {" "}
                                 {topic.mainContent}
                             </p>
 
@@ -208,7 +208,7 @@ export default function CourseContent(props) {
                                             topic.lessons.map((lesson,index)=>(
                                                 <div key ={index}>
                                                     <div className='crnheading'>
-                                                        <h3 id={'lesson-'+index}>{lesson.title}</h3>
+                                                        <h4 id={'lesson-'+index}>{lesson.title}</h4>
                                                     </div>
                                                     <ul className='resources'>
                                                         {lesson.tools.map((tool,indextool)=>(//the resources of the lesson
@@ -249,14 +249,13 @@ export default function CourseContent(props) {
                             </p>
                         
                             <p className='crnheading' id={"topic-"+indexUnit+"-readings"}>
-                                <strong>Readings</strong>: 
+                                <h5>Readings</h5>
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  &&
                                     (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
                                     || coursePlan.courseTemplate==='consistent' || coursePlan.courseTemplate==='toyBox' ) && 
                                     coursePlan.courseStructure==='topic')?       
-                                    <div> 
-                                        {console.log("ERROR",topic)}      
+                                    <div>       
                                         {topic.tools[4].checked===true?
                                             <p  className='elemntoflist' key={topic}>{topic.tools[4].label}</p>
                                             :
@@ -285,7 +284,7 @@ export default function CourseContent(props) {
                             <hr/>
                          
                             <p className='crnheading' id={"topic-"+indexUnit+"-assess"}>
-                                <strong>Assessment Methods</strong>:
+                                <h5>Assessment Methods</h5>
                                 <ul className='resources'>
                                     <li >
                                         <MenuBookIcon/>

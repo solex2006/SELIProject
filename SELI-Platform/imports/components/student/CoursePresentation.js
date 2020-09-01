@@ -177,7 +177,10 @@ const CourseSummary = ({coursedata}) => {
 };
 
 const CourseHeader = ({classes, coursedata, tutordata}) => {
-	//console.log("coursedata and props", coursedata,tutordata)
+	console.log("coursedata and props", coursedata, tutordata)
+	const [tutordata1,setTutor]=useState(tutordata)
+	
+	console.log("tutordata--->",tutordata1)
 	return (
 		<React.Fragment>
 			<div className="course-presentation-title-container">
@@ -189,7 +192,7 @@ const CourseHeader = ({classes, coursedata, tutordata}) => {
 				</span>
 			</div>
 			<InstructorProfileAvatar
-				name={"Created by " + coursedata.createdBy}
+				name={"Created by " + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
 				className={classes.caption}
 				coursedata={coursedata}
 				tutordata={tutordata}

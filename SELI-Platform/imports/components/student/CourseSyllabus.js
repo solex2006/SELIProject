@@ -208,7 +208,6 @@ function Syllabus(props) {
 
 	return (
 		<div className='crnoutcomeinfo'>	
-			{/* <h1>Course Syllabus</h1> */}
 			<p className='crnheadingtitle'>
 				<em>{props.courseInformation.title} : {props.courseInformation.subtitle}</em>
 			</p>
@@ -268,9 +267,9 @@ function Syllabus(props) {
 				:
 				<div>
 
-					<h2 className='crnheading' id="info-pedag" tabIndex="-1">
+					<h3 className='crnheading' id="info-pedag" tabIndex="-1">
 						Pedagogical Considerations
-					</h2>
+					</h3>
 					<p>{props.courseInformation.analysis[2]}</p>
 					<hr/>
 					<h3 className='crnheading' id="info-goals" tabIndex="-1">
@@ -311,22 +310,22 @@ function Syllabus(props) {
 			/>
 
 		
-			<h3 className='crnheading' id="tecnological" >Technological Requirements</h3>
+			<h2 className='crnheading' id="tecnological" >Technological Requirements</h2>
 			<p className='descriptiontext'>
 				As a online course, it's required that you have access to a computer 'desktop or mobile' with internet connection.
 			</p>
 			<div className='crnheading'>
-				<h5 className='crnheading' id="tecnologicalhard">Hardware requirements</h5>
+				<h3 className='crnheading' id="tecnologicalhard">Hardware requirements</h3>
 			</div>
 				
 				{
 					props.courseInformation.requirements.length!=0 ?
 					<div>
-						
+						{console.log("buggggggggg",props.courseInformation.requirements)}
 							<ol className='resources'>
 								{
-									props.courseInformation.requirements.data[1]!=undefined?
-									props.courseInformation.requirements.data[1].map((item, index) =>(
+									props.courseInformation.requirements!=undefined?
+									props.courseInformation.requirements[1].map((item, index) =>(
 										<li key={index}>{item.label}</li>
 									))
 									:
@@ -343,15 +342,15 @@ function Syllabus(props) {
 					</div>
 				}
 				<div className='crnheading' className='crnheading'>
-					<h5  id="tecnologicalsoft">Software requirements</h5 >
+					<h3  id="tecnologicalsoft">Software requirements</h3 >
 				</div>
 				
 				{
 					props.courseInformation.requirements.length!=0 ?
 					<ol className='resources'>
 						{	
-							props.courseInformation.requirements.data[0]!=undefined?
-							props.courseInformation.requirements.data[0].map((item, index) =>(
+							props.courseInformation.requirements!=undefined?
+							props.courseInformation.requirements[0].map((item, index) =>(
 									<li key={index}>{item.label}</li>
 								)) 
 							:
