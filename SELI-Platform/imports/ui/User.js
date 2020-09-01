@@ -520,31 +520,37 @@ export default class User extends React.Component {
     });
   }
 
-  handleNext = (structure, taskLength, unitTopicLength, lessonLength) => {
+  handleNext = (template, structure, taskLength, unitTopicLength, lessonLength) => {
     let selected = this.state.selected;
     if (selected[3] === 0) {
-      if (structure === 'unit') {selected[3] = 1}
-      else {selected[3] = 2}
+      if (structure === 'unit' && lessonLength > 0) {selected[3] = 1}
+      else {
+        if (template !== 'without' && taskLength > 0) selected[3] = 2
+        else if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
+      }
     } else if (selected[3] === 1) {
       if (selected[1] < lessonLength - 1) {selected[1] = selected[1] + 1}
       else {
-        if (selected[0] < unitTopicLength -1) selected = [selected[0] + 1, 0, 0, 0]
+        if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
       }
     } else if (selected[3] === 2) {
       if (selected[2] < taskLength - 1) {selected[2] = selected[2] + 1}
       else {
-        if (selected[0] < unitTopicLength -1) selected = [selected[0] + 1, 0, 0, 0]
+        if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
       }
     } 
     this.navigateTo(selected)
   }
 
-  handlePrevious = (structure, previousTaskLength, unitTopicLength, previousLessonLength) => {
+  handlePrevious = (template, structure, previousTaskLength, unitTopicLength, previousLessonLength) => {
     let selected = this.state.selected;
     if (selected[3] === 0) {
       if (selected[0] > 0) {
-        if (structure === 'unit') {selected = [selected[0] - 1, selected[1] = previousLessonLength - 1, 0, 1]}
-        else {selected = [selected[0] - 1, 0, selected[2] = previousTaskLength - 1, 2]}
+        if (structure === 'unit' && previousLessonLength > 0) {selected = [selected[0] - 1, selected[1] = previousLessonLength - 1, 0, 1]}
+        else {
+          if (template !== 'without' && previousTaskLength > 0) selected = [selected[0] - 1, 0, selected[2] = previousTaskLength - 1, 2]
+          else if (unitTopicLength > 0) selected = [selected[0] - 1, 0, 0, 0]
+        }
       }
     } else if (selected[3] === 1) {
       if (selected[1] > 0) {selected[1] = selected[1] - 1}

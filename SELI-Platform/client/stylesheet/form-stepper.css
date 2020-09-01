@@ -241,6 +241,7 @@
   }
   .form-stepper-navigation {
     height: auto;
+    min-height: var(--form-stepper-height);
   }
   .form-stepper-actions {
     width: 50vw;
