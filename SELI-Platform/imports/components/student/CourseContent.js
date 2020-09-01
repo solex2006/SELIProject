@@ -113,7 +113,7 @@ export default class CourseContent extends React.Component {
                   //disabled={this.props.selected[0] === 0}
                   size="small"
                   className="course-content-footer-fab"
-                  onClick={() => this.props.handlePrevious(this.props.course.coursePlan.courseStructure, previousTaskLength, unitTopicLength, previousLessonLength)}
+                  onClick={() => this.props.handlePrevious(this.props.course.coursePlan.courseTemplate, this.props.course.coursePlan.courseStructure, previousTaskLength, unitTopicLength, previousLessonLength)}
                 >
                   <NavigateBeforeIcon/>
                 </Fab>
@@ -123,7 +123,7 @@ export default class CourseContent extends React.Component {
                   //disabled={this.props.selected[0] === this.props.course.program.length - 1}
                   size="small"
                   className="course-content-footer-fab"
-                  onClick={() => this.props.handleNext(this.props.course.coursePlan.courseStructure, taskLength, unitTopicLength, lessonLength)}
+                  onClick={() => this.props.handleNext(this.props.course.coursePlan.courseTemplate, this.props.course.coursePlan.courseStructure, taskLength, unitTopicLength, lessonLength)}
                 >
                   <NavigateNextIcon/>
                 </Fab>
