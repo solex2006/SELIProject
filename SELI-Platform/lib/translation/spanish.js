@@ -1145,6 +1145,7 @@ var SPANISH = {
   badgeInformation: "Informacion de emblema",
   loadingBadgeInformation: "Cargando informacion del emblema",
   earningCriteria: "Criterios para ganarlo",
+  badgeOwnerName: "Nombre del dueño del emblema",
   completeStep1:'Complete el pasoantes de publicar',
   completeStep1:'antes de publicar',
   instructionGuidedCoursePlan:'You can choose between create the course plan in SELI platform or outside the platform',

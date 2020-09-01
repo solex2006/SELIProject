@@ -13,6 +13,7 @@ import FormPreview from "../components/files/previews/FormPreview";
 import { noSpecialCharacters } from "../../lib/textFieldValidations";
 import BadgeUpload from "../components/files/BadgeUpload";
 import verifyBadge from "../components/badge/VerificateBadge";
+import { Assertions } from "../../lib/AssertionsCollection";
 
 export default class BadgeInformation extends React.Component {
   constructor(props) {
@@ -26,6 +27,8 @@ export default class BadgeInformation extends React.Component {
         issuedOn: "",
         criteria: "",
       },
+      fullname: "",
+      email: "",
       showError: false,
       passwordToConfirm: "",
     };
@@ -137,13 +140,19 @@ export default class BadgeInformation extends React.Component {
       if (err) console.log(err);
       else {
         res = JSON.parse(res);
+        console.log(res);
+        var assertionInCollection = Assertions.findOne({ _id: res.id });
+        var user = Meteor.users.findOne({ _id: assertionInCollection.userId });
+        var name = user.profile.fullname;
+        var email = user.emails[0].address;
         var fields = {
           name: res.badge.name,
           description: res.badge.description,
           criteria: res.badge.criteria,
           issuedOn: res.issuedOn,
         };
-        this.setState({ badgeClass: fields });
+        this.setState({ badgeClass: fields, fullname: name, email: email });
+        console.log(this.state);
       }
     });
   }
@@ -187,6 +196,32 @@ export default class BadgeInformation extends React.Component {
         </div>
         <div className="form-input-column">
           <div className="sign-form">
+            <label class="badge-information-label">
+              {this.props.language.badgeOwnerName}
+            </label>
+            <TextField
+              id="description-input"
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                readOnly: true,
+              }}
+              value={this.state.fullname || ""}
+            />
+            <label class="badge-information-label">
+              {this.props.language.email}
+            </label>
+            <TextField
+              id="description-input"
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                readOnly: true,
+              }}
+              value={this.state.email || ""}
+            />
             <label class="badge-information-label">
               {this.props.language.badgeName}
             </label>

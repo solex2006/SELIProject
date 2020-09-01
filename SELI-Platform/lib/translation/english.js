@@ -1146,6 +1146,7 @@ var ENGLISH = {
   badgeInformation: "Badge Information",
   loadingBadgeInformation: "Loading badge information...",
   earningCriteria: "Earning criteria",
+  badgeOwnerName: "Badge owner name",
   completeStep1:'Please complete step: ',
   completeStep2:'before publish',
   missingInformation:'Missing information',
