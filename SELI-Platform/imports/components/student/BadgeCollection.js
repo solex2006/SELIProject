@@ -61,7 +61,7 @@ export default class BadgeCollection extends React.Component {
                       description={b.badge.description}
                       image={b.image}
                     />
-                  ) : console.log(badge)
+                  ) : undefined
                 )}
               </div>
             </div>

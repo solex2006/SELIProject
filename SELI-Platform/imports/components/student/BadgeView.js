@@ -9,7 +9,6 @@ export default class BadgeView extends React.Component {
             badgeDescription: this.props.description,
             badgeImage: this.props.image,
         });
-        console.log(this.props);
     }
     render(){
         return(

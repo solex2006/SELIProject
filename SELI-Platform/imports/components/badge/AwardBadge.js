@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import sha256 from "crypto-js/sha256";
 import CryptoJS from "crypto-js";
+import { Assertions } from "../../../lib/AssertionsCollection";
 //const message, nonce, path, privateKey; // ...
 
 const bakery = require("openbadges-bakery-v2");
@@ -13,7 +14,7 @@ function hashEmailAddress(email, salt) {
   const hashDigest = sha256(email + salt);
   return "sha256$" + hashDigest.toString(CryptoJS.enc.Hex);
 }
-
+//for hashing recipient
 function getIdentity(email) {
   var salt = CryptoJS.lib.WordArray.random(16);
   const id = {
@@ -36,9 +37,11 @@ const clone = (obj) => Object.assign({}, obj);
 
 async function bakeBadge(badgeClass, user) {
   var assertion = {};
+  var idAssertion =uuidv4();
   assertion.type = "Assertion";
-  assertion.id = uuidv4();
+  assertion.id = Meteor.settings.public.URL_SITE + "assertions/" + idAssertion;
   assertion["@context"] = "https://w3id.org/openbadges/v2";
+  // for hashing reciipient
   // assertion.recipient = getIdentity(user.emails[0].address);
   assertion.recipient = {
     identity: user.emails[0].address,
@@ -47,11 +50,14 @@ async function bakeBadge(badgeClass, user) {
   };
   assertion.issuedOn = new Date().toISOString();
   assertion.verification = { type: "HostedBadge" };
-  var a =JSON.stringify(badgeClass.image.link)+"";
-  a = a.replace(badgeClass.image._id,assertion.id);
-  console.log(a.replace(badgeClass.image._id,assertion.id))
+  assertion.revoked=false;
+  assertion.revocationReason ="";
+  var a = JSON.stringify(badgeClass.image.link) + "";
+  //replace 2 times the word 
+  a = a.replace(badgeClass.image._id, idAssertion);
+  console.log(a.replace(badgeClass.image._id, assertion.id));
   assertion.image = {
-    id: JSON.parse(a.replace(badgeClass.image._id,assertion.id))
+    id: JSON.parse(a.replace(badgeClass.image._id, idAssertion)),
   };
 
   badgeClass = renameKey(badgeClass, "_id", "id");
@@ -74,7 +80,7 @@ async function bakeBadge(badgeClass, user) {
   };
   await bake(options)
     .then((data) => {
-      saveBadge(data, assertion);
+      saveBadge(data, assertion,idAssertion);
       //   this.setState({ badgeWin: true });
       var registerData = { data: encryptor.encrypt(registerDataSinCode) };
       persistBadge(assertion, registerData);
@@ -83,8 +89,8 @@ async function bakeBadge(badgeClass, user) {
     .catch((err) => {
       console.log(err);
     });
-    return assertion;
-  }
+  return assertion;
+}
 async function bake(options) {
   return new Promise((resolve, reject) => {
     bakery.bake(options, function (err, data) {
@@ -93,7 +99,7 @@ async function bake(options) {
     });
   });
 }
-function saveBadge(data, badgeInformation) {
+function saveBadge(data, badgeInformation,idAssertion) {
   let user = Meteor.users.find({ _id: Meteor.userId() }).fetch();
   user = user[0];
   console.log(badgeInformation);
@@ -105,7 +111,7 @@ function saveBadge(data, badgeInformation) {
   });
   let uploadInstance = CourseFilesCollection.insert(
     {
-      fileId: badgeInformation.id,
+      fileId: idAssertion,
       file: file,
       meta: {
         locator: "",
@@ -195,6 +201,9 @@ function persistBadge(badgeInfo, registerData) {
 saveUserBadge = (id, badgeInformation) => {
   console.log(badgeInformation);
   console.log("saving user badge in collection");
+  badgeInformation = renameKey(badgeInformation, "id", "_id");
+  badgeInformation.userId = id;
+  Assertions.insert(badgeInformation);
   Meteor.call("addBadgeStudent", id, badgeInformation, (error, response) => {});
 };
 export { bakeBadge };
