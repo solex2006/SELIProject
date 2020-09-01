@@ -368,7 +368,7 @@
 @media only screen and (max-width: 1080px)  {
   .user-information-container {
     flex-direction: column;
-    overflow-y: auto;
+    height: calc(100vh - var(--app-bar-height) - var(--form-stepper-height));
   }
   .form-dialog {
     width: 100vw !important;
@@ -382,6 +382,9 @@
   .form-file-column {
     width: 100%;
     height: auto;
+  }
+  .form-input-column {
+    margin-bottom: 20px; 
   }
   .form-image-button {
     height: 300px  !important;
