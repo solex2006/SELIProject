@@ -147,8 +147,8 @@ export default class AppBar extends React.Component {
             {
               this.props.user !== undefined ?
                 <div >
-                  <Button tabIndex="1" onClick={() => this.toggleSearchBar()} className="no-text-button">
-                    <SearchIcon tabIndex="1"  className="app-bar-search-icon"/>
+                  <Button onClick={() => this.toggleSearchBar()} className="no-text-button">
+                    <SearchIcon className="app-bar-search-icon"/>
                   </Button>
                 </div>
               :
@@ -157,7 +157,7 @@ export default class AppBar extends React.Component {
             {
               this.props.fromAnotherSource ? undefined :
                 this.props.user === undefined ?
-                  <div tabIndex="1">
+                  <div>
                     <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
                       {this.props.language.signIn}
                     </Button>

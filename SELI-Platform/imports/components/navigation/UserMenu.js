@@ -31,13 +31,21 @@ export default function UserMenu(props) {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-
+    if (event.which == 13 || event.keyCode == 13) {
+      setState({ ...state, [side]: open });
+    }
     setState({ ...state, [side]: open });
   };
 
   function handleAccountManagement() {
     props.showComponent('account');
     closeDrawer();
+  }
+
+  keyAccountManagement = (event, name) => {
+    if (event.which == 13 || event.keyCode == 13) {
+      handleAccountManagement();
+    }
   }
 
   const sideList = side => (
@@ -65,7 +73,12 @@ export default function UserMenu(props) {
           <p className="user-menu-profile-username">{props.user.username}</p>
         </div>
         <Divider className="user-menu-profile-divider" light={true}/>
-        <p onClick={() => handleAccountManagement()} className="user-menu-option">
+        <p 
+          tabIndex="0"
+          onKeyPress={keyAccountManagement}
+          onClick={() => handleAccountManagement()} 
+          className="user-menu-option"
+        >
           {props.language.accountManagement}
         </p>
         <Button onClick={() => {props.logOut(); toggleDrawer(side, false)}} color="primary" fullWidth variant="outlined" className="user-menu-option-button">
@@ -88,7 +101,12 @@ export default function UserMenu(props) {
 
   return (
     <div>
-      <div onClick={toggleDrawer('right', true)} className="user-menu-container">
+      <div 
+        tabIndex="0" 
+        onClick={toggleDrawer('right', true)} 
+        onKeyPress={toggleDrawer('right', true)}
+        className="user-menu-container"
+      >
         {
           props.user.profile.profileImage !== undefined ?
             <Avatar

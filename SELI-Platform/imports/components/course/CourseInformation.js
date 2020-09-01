@@ -135,6 +135,13 @@ export default class CourseInformation extends React.Component {
     }
   }
 
+  keyControllerFalse = (event, name) => {
+    if (event.which == 13 || event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  }
+
   render() {
     return(
       <div className="course-information-container">
@@ -274,68 +281,74 @@ export default class CourseInformation extends React.Component {
                   label={`${this.props.language.duration} ${this.props.language.required} *`}
                   size="small"
                   className="duration-course-information"
+                  onKeyPress={this.keyControllerFalse}
                   // variant="outlined"
                 />
               )}
             </InputMask>
           </Paper>
-
-
-        <Grid container >
-          <Grid item xs={12} >
-              <h4 >{this.props.language.modality}</h4>
-          </Grid>
-          <Grid item xs={12} >
-          <form >
-            <FormLabel component="legend">
-              {this.props.language.delivercontent}
-            </FormLabel>
-            <RadioGroup
-              aria-label="Course delivery"
-              name="coursePlan"
-              value={this.state.courseInformation.modality}
-               onChange={event => {
-                 
-                 let courseInformation = this.state.courseInformation;
-                 courseInformation.modality = event.target.value;
-                 this.setState({
-                  courseInformation: courseInformation,
-                 });
-   
-                 }}
-            >
-              <FormControlLabel
-                value="online"
-                control={<Radio />}
-                label="Online"
-              />
-              <FormControlLabel
-                value="hybrid"
-                control={<Radio />}
-                label="Hybrid"
-              />
-            </RadioGroup>
-            {/* <FeedbackHelp
-              validation={{
-                error: analysisTooltip.modality,
-                errorMsg: labels.errorMsg,
-                errorType: "",
-                a11y: null
-              }}
-              tipMsg="Select beteween online course or blend online and face-to-face course."
-              describedBy={"modality-helper-text"}
-            /> */}
-          </form>
-          </Grid>
-        </Grid>
-          
-
           <FeedbackHelp
             validation={{
               error: false,
               a11y: null
             }}
             tipMsg={`${this.props.language.estimatedCourseDuration}. ${this.props.language.minimumCourseDuration}.`}
+            describedBy={"i01-helper-text"}
+          />
+          <br/>
+          <Grid container >
+            <Grid item xs={12} >
+                <h4 >{this.props.language.modality}</h4>
+            </Grid>
+            <Grid item xs={12} >
+            <form >
+              {/* <FormLabel component="legend">
+                {this.props.language.delivercontent}
+              </FormLabel> */}
+              <RadioGroup
+                aria-label="Course delivery"
+                name="coursePlan"
+                value={this.state.courseInformation.modality}
+                onChange={event => {
+                  
+                  let courseInformation = this.state.courseInformation;
+                  courseInformation.modality = event.target.value;
+                  this.setState({
+                    courseInformation: courseInformation,
+                  });
+    
+                  }}
+              >
+                <FormControlLabel
+                  value="online"
+                  control={<Radio />}
+                  label="Online"
+                />
+                <FormControlLabel
+                  value="hybrid"
+                  control={<Radio />}
+                  label="Hybrid"
+                />
+              </RadioGroup>
+              {/* <FeedbackHelp
+                validation={{
+                  error: analysisTooltip.modality,
+                  errorMsg: labels.errorMsg,
+                  errorType: "",
+                  a11y: null
+                }}
+                tipMsg="Select beteween online course or blend online and face-to-face course."
+                describedBy={"modality-helper-text"}
+              /> */}
+            </form>
+            </Grid>
+          </Grid>
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.delivercontent}.`}
             describedBy={"i01-helper-text"}
           />
           {

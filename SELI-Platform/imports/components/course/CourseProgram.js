@@ -420,7 +420,7 @@ export default class CourseProgram extends React.Component {
   }
 
   handleMenu = (value) => {
-    if (value) this.setState({showMenu: value});
+    if (value && value === "close") this.setState({showMenu: true});
     else this.setState({showMenu: !this.state.showMenu});
   }
 

@@ -29,15 +29,15 @@ export default function Lista(props) {
 
   const Audiences=()=>{
       return(
-        <div>
-            <div className='crnheading'>
+        <div className='resources'>
+           {/*  <div className='crnheading'>
                 <h4>This course is designed for these target audience:</h4>
-            </div>
-            <ul className='resources'>
+            </div> */}
+          
                 {
                     props.data[0].map((value,index)=>(
                         value.isChecked===true ?
-                            <li key={value.id}>{value.label}</li>
+                            <p className='elemntoflist' key={value.id}>{value.label}</p>
                         :
                         undefined    
                     ))
@@ -45,31 +45,44 @@ export default function Lista(props) {
                 {
                     props.data[2]!=undefined ?
                     props.data[2].map((value,index)=>(//other Audiences
-                        <li  key={value.label}>
+                        <p  className='elemntoflist' key={value.label}>
                             {value.label}
-                        </li>    
+                        </p>    
                     ))
                     :
                     undefined
-                }   
-             </ul>
-        <div>
+                }  
+                {
+                    props.data[1]!=undefined?
+                        props.data[1].map((value,index)=>(//Inclusion Goals  
+                            value.isChecked===true ?
+                                <p className='elemntoflist' key={value.id}>
+                                    {value.label}
+                                </p>
+                            :
+                            undefined    
+                        ))
+                        :
+                    undefined
+                } 
+           
+        {/* <div>
             <div className='crnheading'>
                 <h4>This course is designed to be inclusive for:</h4>
             </div>
-            </div> 
-                <ul className='resources'>
+        </div>  */}
+                {/* <ul className='resources'>
                     {
                         props.data[1].map((value,index)=>(//Inclusion Goals  
                             value.isChecked===true ?
-                                <li key={value.id}>
+                                <li className='elemntoflist' key={value.id}>
                                     {value.label}
                                 </li>
                             :
                             undefined    
                         ))
                     }
-                </ul>
+                </ul> */}
         </div>
         
       )
@@ -79,12 +92,10 @@ export default function Lista(props) {
       return(
           <React.Fragment>
               <div>
-                  <div className='crnheading'>
-                    <h4>Cognitive Domain</h4>
-                  </div>
+                  <strong className='descriptiontext'>Cognitive Domain Objectives</strong>:
                   {
                     props.data.analyzing.length!=0?
-                    <ul className='resources'>
+                    <ul >
                         {
                             props.data.analyzing.map((value,index)=>(
                                 <li >
@@ -99,7 +110,7 @@ export default function Lista(props) {
 
                   {
                     props.data.creating.length!=0?
-                    <ul className='resources'>
+                    <ul >
                         {
                             props.data.creating.map((value,index)=>(
                                 <li >
@@ -113,7 +124,7 @@ export default function Lista(props) {
                   }
                   {
                     props.data.evaluating.length!=0?
-                    <ul className='resources'>
+                    <ul >
                         {
                             props.data.evaluating.map((value,index)=>(
                                 <li >
@@ -127,7 +138,7 @@ export default function Lista(props) {
                   }
                   {
                     props.data.remembering.length!=0?
-                    <ul className='resources'>
+                    <ul >
                         {
                             props.data.remembering.map((value,index)=>(
                                 <li >
@@ -139,9 +150,10 @@ export default function Lista(props) {
                     :
                     undefined
                   }
+                  
                   {
-                    props.data.understand.length!=0?
-                    <ul className='resources'>
+                    props.data.understanding.length!=0?
+                    <ul >
                         {
                             props.data.understand.map((value,index)=>(
                                 <li >
@@ -165,7 +177,7 @@ export default function Lista(props) {
                 {
                     props.data.contents.length!=0?
                     props.data.contents.map((value,index)=>(
-                        <ul className='resources'>
+                        <ul >
                             
                                
                                     <li >
@@ -181,7 +193,7 @@ export default function Lista(props) {
                 {
                     props.data.skills.length!=0?
                     props.data.skills.map((value,index)=>(
-                        <ul className='resources'>
+                        <ul >
                             
                                 
                                     <li >
@@ -196,7 +208,7 @@ export default function Lista(props) {
                 {
                      props.data.values.length!=0?
                      props.data.values.map((value,index)=>(
-                        <ul className='resources'>
+                        <ul >
                            
                                     <li >
                                         {value.aux+': '+value.label}
