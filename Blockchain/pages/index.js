@@ -6,7 +6,6 @@ import MarriageContract from '../ethereum/contracts/Marriage';
 import { Card, Button, Container } from 'semantic-ui-react';
 import { epochToDate } from '../helper';
 import { Blacklist } from '../blacklist';
-import FAQs from '../components/FAQs';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -40,15 +39,9 @@ class MarriageIndex extends Component {
       })
     )
  
-    /* const id_etherum=allMarriages[0];
-    const name=marriageItems[0][1];
-    const sourname=marriageItems[0][3]; */
-  
-
-  ///////////////////////////////////////////////////////////////////
-  console.log('de llegada en verificar');
+  //console.log('de llegada en verificar');
   const estado={item:query.itemData };
-  console.log("Variables de estado de verificar.....");
+  //console.log("Variables de estado de verificar.....");
   const state=estado.item;
 //Form Validation: check date validity
 var cert={certexist: false}
@@ -87,12 +80,6 @@ var banderacert=false;
     }
  }
 
-  //////////////////////////////////////////////////////////////////
-
-
-  
-
-     //aqui se crea un json para el servidor de archivos
     return { allMarriages, marriageItems };
   }
 
@@ -122,7 +109,6 @@ var banderacert=false;
       <Layout>
       
         <Container>
-          <FAQs />
             <a name="vows"><h2 className='Vows-Title'>Certificates</h2></a>
           { this.renderItems() }
         </Container>

@@ -33,6 +33,7 @@ class CertificateLayout extends Component {
             <h1 className="Cert-of-Marriage-Title"></h1>
             <div className="Cert-of-Marriage-Subtitle">CERTIFICATE OF ACCOMPLISHMENT</div>
           </div>
+          <img className="logoSeli" src="/static/seli-logo-1.png" width="200" height="200" alt="selilogo"></img>
 
           { this.props.children }
 

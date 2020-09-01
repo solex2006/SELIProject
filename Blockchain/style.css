@@ -143,6 +143,14 @@ display: none;
   /*padding: 0px;*/
   cursor: pointer;
 }
+.logoSeli{
+  float: left;
+  margin-left: 50px;
+  box-shadow: 3 6 29px 16px rgb(226, 226, 230) inset;
+  filter: opacity(.8);
+  filter: saturate(180%);
+  border-radius:20%;
+}
 
  /*CertificateLayout.js */
 .Certificate-Layout {

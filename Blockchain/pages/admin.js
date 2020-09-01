@@ -8,36 +8,30 @@ import Formcert from '../components/admin/FormCert'
 import Bloquetransaction from '../components/admin/Bloquetransaction'
 import Busqueda from '../components/admin/Busqueda'
 import axios from 'axios';
-
+const config = require('../config')
 export default class admin extends Component {
       state={
             datamainblock: [],
             transacciones: []
       }
-
       componentDidMount() {
             this.obtenerBloques();
             this.obtenerTransacciones();
-          }
-      
+      }     
       obtenerBloques= ()=>{
-            console.log("Devuelve los ultimos 20 bloques.......")
             //saca el numero de bloque, el miner y las transacciones en ese bloque.
             web3.eth.getBlockNumber().then((latest) => {    
-                  for (let i = 0; i < 20; i++) {
+                  for (let i = 0; i < 10; i++) {
                         var arraya=[]
                         web3.eth.getBlock(latest - i)
-                        .then((bloque)=>{
-                              
+                        .then((bloque)=>{   
                               var datamainblock= {
                                     "number": bloque.number,
                                     "miner": bloque.miner,
                                     "txns": bloque.transactions.length
                               }
-                             // console.log(datamainblock)
                               arraya.push(datamainblock)
-                              this.setState({datamainblock:arraya}) 
-                             // console.log(arraya)      
+                              this.setState({datamainblock:arraya})     
                          })                
                   }
             })
@@ -45,19 +39,13 @@ export default class admin extends Component {
 
 
       obtenerTransacciones= ()=>{
-            const URI=`http://localhost:4000/hashes`
-            console.log(URI)
+            const URI=config.addressJsonServerHash
             axios.get(URI)
                   .then(res => {
                         console.log("res.DATA")
                         console.log(res.data)        
                         const txns = res.data;  
                         this.setState({transacciones: txns})
-                  
-                             
-                       
-                  
-                  //this.setState({ persons });
                   })
       }
 

@@ -7,7 +7,7 @@ const buildPath = path.resolve(__dirname,'build');
 fs.removeSync(buildPath);
 
 // Compile solidity contracts
-const campaignPath = path.resolve(__dirname,'contracts','Marriage.sol');
+const campaignPath = path.resolve(__dirname,'contracts','Badge.sol');
 const source = fs.readFileSync(campaignPath,'utf8');
 const output = solc.compile(source,1).contracts;
 

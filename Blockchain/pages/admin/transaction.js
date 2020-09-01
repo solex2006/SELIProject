@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import web3 from '../../ethereum/web3';
 import MasterPage from '../../components/Master';
 import axios from 'axios';
+const config=require('../../config')
 export default class transaction extends Component {
 
       static async getInitialProps(props) {
@@ -9,7 +10,7 @@ export default class transaction extends Component {
             console.log("longitud....")
             console.log(address.length)
             if(address.length===42){
-                  const URI=`http://localhost:4000/hashes?q=${address}`
+                  const URI=`${config.addressJsonServerHash}?q=${address}`
                   console.log(URI)
                   await axios.get(URI)
                         .then((res) => {

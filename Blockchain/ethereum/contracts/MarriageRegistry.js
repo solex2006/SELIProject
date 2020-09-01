@@ -13,7 +13,7 @@ const instance = new web3.eth.Contract(
   //'0xf600c8faf89504850e26bcb8c03d04fa5b00ac8f'
   //'0xf0bc3B6f9dEA14b9095a3f9A9432A11ec5E9b3AB'
   //'0xce074c264A40Ab5E8e1667D7c60d50C159BF6920'
-  '0x7c8e5789F00d703d02617f0fb21f2914414aE594'
+  '0x94D29bd77cc5F4CA8CB7C5a2daBaeA53b4A23019'
 );
 
 export default instance;

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Router } from '../../routes';
 import axios from 'axios';
+const config = require('../../config')
+
 export default class Busqueda extends Component {
       state={
             txnsflag: true
@@ -18,7 +20,7 @@ export default class Busqueda extends Component {
                   console.log("HASH de contrato")
                   //Busca la transcacion de este contrato en la API
                   //http://localhost:3002/hashes?q=0x33918c7E85b178DFE70B8ff9da5ad1227B94CA3
-                  const URI=`http://localhost:4000/hashes?q=${hashx}`
+                  const URI=`${config.addressJsonServerHash}?q=${hashx}`
                   console.log(URI)
                   axios.get(URI)
                         .then(res => {
@@ -41,7 +43,7 @@ export default class Busqueda extends Component {
                         })
             }else if(longitud===66){
                   console.log("HASH de transacccion")
-                  const URI=`http://localhost:4000/hashes?q=${hashx}`
+                  const URI=`${config.addressJsonServerHash}?q=${hashx}`
                   console.log(URI)
                   axios.get(URI)
                         .then(res => {
@@ -75,7 +77,7 @@ export default class Busqueda extends Component {
       render() {
             return (
                   <div>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <div className="alert alert-warning alert-dismissible fade show" role="alert">
                               <strong>Ethereum Blockchain Explorer</strong>
                               <form className="form-block" onSubmit={this.search}>
                               <input ref={this.hash} className="form-control mr-sm-2" type="search" placeholder="Search by Trx Hash, Block or contract" aria-label="Search"/>

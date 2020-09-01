@@ -1,5 +1,6 @@
 // Functional component that renders the Witnessed by Footer
 import { Link } from '../routes';
+const config=require('../config')
 
 // TODO: render real network after deployment, not Rinkeby
 const WitnessedByFooter = (props) => {
@@ -15,7 +16,7 @@ const WitnessedByFooter = (props) => {
       </div>
       <div className='Witnessed-Box'>
         <div className='Witnessed-Text-2'>This Certificate resides at Ethereum address:</div>
-        <Link route={`http://localhost:3000/admin/transaction/${props.address}`} >
+        <Link route={`${config.blockcahinServer}/admin/transaction/${props.address}`} >
           <a className='Witnessed-Text-2'>{ props.address }</a>
         </Link>
       </div>

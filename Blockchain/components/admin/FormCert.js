@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+const config= require('../../config')
 
 export default class FormCert extends Component {
 
@@ -14,7 +15,6 @@ export default class FormCert extends Component {
       crearCert= (e)=>{
             // Prevenir el default
           e.preventDefault();
-
           const certificado={
                 idStudent: this.idStudent.current.value,
                 date: this.Date.current.value,
@@ -23,11 +23,8 @@ export default class FormCert extends Component {
                 name: this.Name.current.value,
                 tutor: this.Tutor.current.value
           }
-
-          console.log(certificado)
-
           ///Aqui Manda a generar el certificado Probar
-          axios.post(`http://localhost:3000/datos`, certificado )
+          axios.post(`${config.blockcahinServer}/datos`, certificado )
                   .then(res => {
                   console.log(res.data);
                         //console.log(contractAddress);
