@@ -75,7 +75,7 @@ function InstructorProfileCard(user) {
 	);
 }
 
-function InstructorProfileDialog({ handleClose, open, user, language }) {
+function InstructorProfileDialog({ handleClose, open, user, language, goToUser }) {
 	const classes = useStyles();
 	
 	const [opendialog, setOpendialog] = useState(false);
@@ -113,6 +113,7 @@ function InstructorProfileDialog({ handleClose, open, user, language }) {
 
 
 				 <MediaCard
+				 goToUser={goToUser}
 				 language={language}
 				 user={user}
 				/> 
@@ -129,6 +130,7 @@ function InstructorProfileAvatar({
 	coursedata,
 	tutordata,
 	language,
+	goToUser
 }) {
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
@@ -166,7 +168,7 @@ function InstructorProfileAvatar({
 					{name}
 				</Button>
 			)}
-			<InstructorProfileDialog open={open} handleClose={handleClose} user={tutordata} language={language}/>
+			<InstructorProfileDialog goToUser={goToUser} open={open} handleClose={handleClose} user={tutordata} language={language}/>
 		</React.Fragment>
 	);
 }

@@ -176,7 +176,7 @@ const CourseSummary = ({coursedata}) => {
 	);
 };
 
-const CourseHeader = ({classes, coursedata, tutordata, language}) => {
+const CourseHeader = ({classes, coursedata, tutordata, language, goToUser}) => {
 	console.log("coursedata and props", coursedata, tutordata)
 	const [tutordata1,setTutor]=useState(tutordata)
 	
@@ -192,6 +192,7 @@ const CourseHeader = ({classes, coursedata, tutordata, language}) => {
 				</span>
 			</div>
 			<InstructorProfileAvatar
+				goToUser={goToUser}
 			   language={language}
 				name={"Created by " + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
 				className={classes.caption}
@@ -236,6 +237,7 @@ export default function MainPage(props) {
 					>
 						<Grid item lg={7}>
 							<CourseHeader 
+							   goToUser={props.goToUser}
 							   language={props.language}
 								classes={classes}
 								coursedata={coursedata}
