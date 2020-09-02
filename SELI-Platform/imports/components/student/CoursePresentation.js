@@ -176,7 +176,7 @@ const CourseSummary = ({coursedata}) => {
 	);
 };
 
-const CourseHeader = ({classes, coursedata, tutordata}) => {
+const CourseHeader = ({classes, coursedata, tutordata, language}) => {
 	console.log("coursedata and props", coursedata, tutordata)
 	const [tutordata1,setTutor]=useState(tutordata)
 	
@@ -192,11 +192,13 @@ const CourseHeader = ({classes, coursedata, tutordata}) => {
 				</span>
 			</div>
 			<InstructorProfileAvatar
+			   language={language}
 				name={"Created by " + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
 				className={classes.caption}
 				coursedata={coursedata}
 				tutordata={tutordata}
 			/> 
+			<p id='teacherProfile' style={{display: "none"}}>Open teacher profile</p>
 		</React.Fragment>
 	);
 };
@@ -234,6 +236,7 @@ export default function MainPage(props) {
 					>
 						<Grid item lg={7}>
 							<CourseHeader 
+							   language={props.language}
 								classes={classes}
 								coursedata={coursedata}
 								tutordata={tutordata} />
@@ -258,17 +261,18 @@ export default function MainPage(props) {
 				)}
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper">
-				<header>
-					<h2 className={classes.header2}>Course Information</h2>
+			<section aria-labelledby="courseInfo">
+				<header className='crnheading'>
+					<h2 >Course Information</h2>
 				</header>
 				<Grid
 					container
 					direction="row"
 					justify="flex-start"
-					alignItems="center"
-					spacing={1}
+					alignItems="strech"
+					spacing={4}
 				>
-					<Grid item xs={12}>
+					<Grid item xs={12} md={6}>
 						<p >
 							{coursedata.description}
 						</p>
@@ -280,24 +284,26 @@ export default function MainPage(props) {
 							props.course.coursePlan.courseStructure=== "topic" ))?
 							undefined
 							:
-							<div>
-								<p className={classes.body1}>
+							<div className='crnheading'>
+								<h3 className={classes.body1}>
 									By the end of this course, you will be able to:
-								</p>
+								</h3>
 								<Lista 
-									title='LearningOutcomes'
+									title='LearningOutcomesMainContent'
 									data={coursedata.analysis[4]}
 								/>
 							</div>
 							
 						}
 					</Grid>
-					<Grid item xs={12}>
+					<Grid item xs={12} md={6}>
 						<CourseSummary
 							coursedata={coursedata}
 						/>
 					</Grid>
 				</Grid>
+			</section>
+			
 				{
 					(props.course.coursePlan.guidedCoursePlan==="free" && 
 					props.course.coursePlan.courseTemplate=== "without" && 
@@ -305,11 +311,11 @@ export default function MainPage(props) {
 					props.course.coursePlan.courseStructure=== "topic" ))?
 					undefined
 					:
-					<section aria-label="Course design">
-					<h3 className={classes.header2}>Course Design</h3>			
+				<section aria-label="Course design">
+					<h2 >Course Design</h2>			
 					<List dense={true}>
 						<Lista 
-							title='Audiences'
+							title='AudiencesMainContent'
 							data={coursedata.support}
 						/>
 					</List>
@@ -317,17 +323,17 @@ export default function MainPage(props) {
 				}
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper1">
-				<header>
-				<div className='crnheading1'>
-					<h2 className={classes.header2}>Course Content</h2>
-				</div>
-				</header>
+		
+			<div className='crnheading1'>
+				<h2 >Course Content</h2>
+			</div>
+		
 				<CourseContent
 					data={props.course.design}
 					coursePlan={props.course.coursePlan}
 					program={props.course.program}
 				/>
-				<p>
+				<p id='courseSylabus'>
 					Read the course syllabus for a complete view of the course program
 				</p>
 				<div className='crnheading'>
@@ -339,7 +345,7 @@ export default function MainPage(props) {
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper1"> 
 				<div className='crnheading'>
-					<h2 className={classes.header2}>Requirements</h2>
+					<h2 >Requirements</h2>
 				</div>
 				<HardwareSoftwareReq
 					data={coursedata.requirements}
@@ -364,7 +370,7 @@ export default function MainPage(props) {
 									//tabIndex="1" 
 									onClick={() => props.goToUser("unsubscribe")}
 									className="subscription-card-button"
-									variant="contained"
+									variant="outlined"
 									color="primary"
 								>
 									{props.language.unsubscribe}
@@ -390,7 +396,7 @@ export default function MainPage(props) {
 								//tabIndex="1" 
 								onClick={() => props.unsubscribe(props.course._id)}
 								className="subscription-card-button"
-								variant="contained"
+								variant="outlined"
 								color="primary"
 							>
 								{props.language.unsubscribe}

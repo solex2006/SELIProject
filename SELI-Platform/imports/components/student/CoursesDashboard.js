@@ -231,6 +231,7 @@ export default class CoursesDashboard extends React.Component {
   }
 
   paperSearchSeli=(title, arrayCourses)=>{
+   
     if(arrayCourses.length >3  && this.state.flagCourses===true){
       this.state.myFilterThreeSeli=arrayCourses
     } 
@@ -249,6 +250,7 @@ export default class CoursesDashboard extends React.Component {
             <div className="courses-dashboard-result">
               {
                 this.state.myFilterThreeSeli.map((course, index) => {
+                  console.log("los datos requeridos: arrayCourses: course: userCourses:--->",this.state.myFilterThreeSeli,course, this.props.user.profile.courses )
                   return(
                     <CourseCard
                       course={course}

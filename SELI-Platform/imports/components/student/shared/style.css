@@ -53,6 +53,11 @@
    display: flex;
    flex-wrap: wrap;
 }
+.resourcesMainContent{
+   list-style: none;
+   padding-left: 15px;
+  
+}
 .elemntoflist{
    padding-right: 10px;
 }

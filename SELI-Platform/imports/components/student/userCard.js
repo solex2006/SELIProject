@@ -18,7 +18,8 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import DialogFullWidth from './shared/dialog_fullwidth'
-//import CoursesDashboard from '../../../imports/ui/CoursesDashboard'
+
+
 import MediaCard from './shared/PublishedCourses'
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -74,7 +75,7 @@ function InstructorProfileCard(user) {
 	);
 }
 
-function InstructorProfileDialog({ handleClose, open, user }) {
+function InstructorProfileDialog({ handleClose, open, user, language }) {
 	const classes = useStyles();
 	
 	const [opendialog, setOpendialog] = useState(false);
@@ -109,9 +110,12 @@ function InstructorProfileDialog({ handleClose, open, user }) {
 					title="Courses"
 					key="courses"
 			>
-				<MediaCard
-				user={user}
-				/>
+
+
+				 <MediaCard
+				 language={language}
+				 user={user}
+				/> 
 			</DialogFullWidth>
 		</Dialog>
 	);
@@ -123,7 +127,8 @@ function InstructorProfileAvatar({
 	className,
 	disabledDialog,
 	coursedata,
-	tutordata
+	tutordata,
+	language,
 }) {
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
@@ -156,11 +161,12 @@ function InstructorProfileAvatar({
 					startIcon={<Avatar />}
 					className={className}
 					onClick={() => setOpen(true)}
+					aria-describedby='teacherProfile'
 				>
 					{name}
 				</Button>
 			)}
-			<InstructorProfileDialog open={open} handleClose={handleClose} user={tutordata} />
+			<InstructorProfileDialog open={open} handleClose={handleClose} user={tutordata} language={language}/>
 		</React.Fragment>
 	);
 }

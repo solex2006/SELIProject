@@ -391,6 +391,9 @@ export default function SyllabusButton(props) {
 				onClick={() => setOpen(true)}
 				style={props.style}
 				size="large"
+				variant="contained" 
+				color="secondary"
+				aria-describedby='courseSylabus'
 			>
 				Open Syllabus
 			</Button>

@@ -30,9 +30,7 @@ export default function Lista(props) {
   const Audiences=()=>{
       return(
         <div className='resources'>
-           {/*  <div className='crnheading'>
-                <h4>This course is designed for these target audience:</h4>
-            </div> */}
+          
           
                 {
                     props.data[0].map((value,index)=>(
@@ -87,6 +85,54 @@ export default function Lista(props) {
         
       )
   }
+
+  const AudiencesMainContent=()=>{
+    return(
+      <div>
+            <div className='crnheading'>
+                <h3>This course is designed for these target audiences:</h3>
+            </div>
+                <ul className='resourcesMainContent'>
+                    {
+                    props.data[0].map((value,index)=>(
+                        value.isChecked===true ?
+                            <li className='elemntoflist' key={value.id}>{value.label}</li>
+                        :
+                        undefined    
+                    ))
+                    }
+                    {
+                        props.data[2]!=undefined ?
+                        props.data[2].map((value,index)=>(//other Audiences
+                            <li  className='elemntoflist' key={value.label}>
+                                {value.label}
+                            </li>    
+                        ))
+                        :
+                        undefined
+                    }     
+                </ul>
+              
+            <div className='crnheading'>
+                <h3>This course is designed to be inclusive for:</h3>
+            </div>
+             
+                <ul className='resourcesMainContent'>
+                    {
+                        props.data[1].map((value,index)=>(//Inclusion Goals  
+                            value.isChecked===true ?
+                                <li className='elemntoflist' key={value.id}>
+                                    {value.label}
+                                </li>
+                            :
+                            undefined    
+                        ))
+                    }
+                </ul> 
+            </div>
+      
+    )
+}
   
   const LearningGoals=()=>{
       return(
@@ -223,6 +269,60 @@ export default function Lista(props) {
         </React.Fragment>
       )
   }
+
+  const LearningOutcomesMainContent=()=>{
+    return(
+      <React.Fragment>
+          <div>
+              {
+                  props.data.contents.length!=0?
+                  props.data.contents.map((value,index)=>(
+                      <ul className='resources' >
+                          
+                             
+                                  <li >
+                                     to {value.aux+' '+value.label}
+                                  </li>
+                             
+                          
+                      </ul>
+                  ))
+                  :
+                  undefined
+              }
+              {
+                  props.data.skills.length!=0?
+                  props.data.skills.map((value,index)=>(
+                      <ul className='resources'>
+                          
+                              
+                                  <li >
+                                     to {value.aux+' '+value.label}
+                                  </li>
+                              
+                      </ul>
+                  ))
+                  :
+                 undefined
+              }
+              {
+                   props.data.values.length!=0?
+                   props.data.values.map((value,index)=>(
+                      <ul className='resources'>
+                         
+                                  <li className='resources'>
+                                      to {value.aux+' '+value.label}
+                                  </li>
+                          
+                      </ul>
+                   ))
+                   :
+                   undefined
+              }
+          </div>
+      </React.Fragment>
+    )
+}
   return (
     <div >
       <Grid container spacing={1}>
@@ -238,6 +338,12 @@ export default function Lista(props) {
                 :
                 props.title==='LearningOutcomes'?
                 <LearningOutcomes/>
+                :
+                props.title==='LearningOutcomesMainContent'?
+                <LearningOutcomesMainContent/>
+                :
+                props.title==='AudiencesMainContent'?
+                <AudiencesMainContent/>
                 :
                 undefined
                 }
