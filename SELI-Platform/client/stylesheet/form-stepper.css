@@ -169,6 +169,7 @@
 }
 
 .form-stepper-content-id {
+  overflow-y: scroll;
   position: relative;
   height: calc(100vh - var(--form-stepper-height) - 2*var(--app-bar-height));
 }
