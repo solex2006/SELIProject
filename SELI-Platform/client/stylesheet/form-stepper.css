@@ -169,6 +169,7 @@
 }
 
 .form-stepper-content-id {
+  overflow-y: scroll;
   position: relative;
   height: calc(100vh - var(--form-stepper-height) - 2*var(--app-bar-height));
 }
@@ -241,6 +242,7 @@
   }
   .form-stepper-navigation {
     height: auto;
+    min-height: var(--form-stepper-height);
   }
   .form-stepper-actions {
     width: 50vw;

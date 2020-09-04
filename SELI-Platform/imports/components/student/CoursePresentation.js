@@ -176,8 +176,11 @@ const CourseSummary = ({coursedata}) => {
 	);
 };
 
-const CourseHeader = ({classes, coursedata, tutordata}) => {
-	//console.log("coursedata and props", coursedata,tutordata)
+const CourseHeader = ({classes, coursedata, tutordata, language, goToUser}) => {
+	console.log("coursedata and props", coursedata, tutordata)
+	const [tutordata1,setTutor]=useState(tutordata)
+	
+	console.log("tutordata--->",tutordata1)
 	return (
 		<React.Fragment>
 			<div className="course-presentation-title-container">
@@ -189,11 +192,14 @@ const CourseHeader = ({classes, coursedata, tutordata}) => {
 				</span>
 			</div>
 			<InstructorProfileAvatar
-				name={"Created by " + coursedata.createdBy}
+				goToUser={goToUser}
+			   language={language}
+				name={"Created by " + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
 				className={classes.caption}
 				coursedata={coursedata}
 				tutordata={tutordata}
 			/> 
+			<p id='teacherProfile' style={{display: "none"}}>Open teacher profile</p>
 		</React.Fragment>
 	);
 };
@@ -231,6 +237,8 @@ export default function MainPage(props) {
 					>
 						<Grid item lg={7}>
 							<CourseHeader 
+							   goToUser={props.goToUser}
+							   language={props.language}
 								classes={classes}
 								coursedata={coursedata}
 								tutordata={tutordata} />
@@ -255,17 +263,18 @@ export default function MainPage(props) {
 				)}
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper">
-				<header>
-					<h2 className={classes.header2}>Course Information</h2>
+			<section aria-labelledby="courseInfo">
+				<header className='crnheading'>
+					<h2 >Course Information</h2>
 				</header>
 				<Grid
 					container
 					direction="row"
 					justify="flex-start"
-					alignItems="center"
-					spacing={1}
+					alignItems="strech"
+					spacing={4}
 				>
-					<Grid item xs={12}>
+					<Grid item xs={12} md={6}>
 						<p >
 							{coursedata.description}
 						</p>
@@ -277,24 +286,26 @@ export default function MainPage(props) {
 							props.course.coursePlan.courseStructure=== "topic" ))?
 							undefined
 							:
-							<div>
-								<p className={classes.body1}>
+							<div className='crnheading'>
+								<h3 className={classes.body1}>
 									By the end of this course, you will be able to:
-								</p>
+								</h3>
 								<Lista 
-									title='LearningOutcomes'
+									title='LearningOutcomesMainContent'
 									data={coursedata.analysis[4]}
 								/>
 							</div>
 							
 						}
 					</Grid>
-					<Grid item xs={12}>
+					<Grid item xs={12} md={6}>
 						<CourseSummary
 							coursedata={coursedata}
 						/>
 					</Grid>
 				</Grid>
+			</section>
+			
 				{
 					(props.course.coursePlan.guidedCoursePlan==="free" && 
 					props.course.coursePlan.courseTemplate=== "without" && 
@@ -302,11 +313,11 @@ export default function MainPage(props) {
 					props.course.coursePlan.courseStructure=== "topic" ))?
 					undefined
 					:
-					<section aria-label="Course design">
-					<h3 className={classes.header2}>Course Design</h3>			
+				<section aria-label="Course design">
+					<h2 >Course Design</h2>			
 					<List dense={true}>
 						<Lista 
-							title='Audiences'
+							title='AudiencesMainContent'
 							data={coursedata.support}
 						/>
 					</List>
@@ -314,17 +325,17 @@ export default function MainPage(props) {
 				}
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper1">
-				<header>
-				<div className='crnheading1'>
-					<h2 className={classes.header2}>Course Content</h2>
-				</div>
-				</header>
+		
+			<div className='crnheading1'>
+				<h2 >Course Content</h2>
+			</div>
+		
 				<CourseContent
 					data={props.course.design}
 					coursePlan={props.course.coursePlan}
 					program={props.course.program}
 				/>
-				<p>
+				<p id='courseSylabus'>
 					Read the course syllabus for a complete view of the course program
 				</p>
 				<div className='crnheading'>
@@ -336,7 +347,7 @@ export default function MainPage(props) {
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper1"> 
 				<div className='crnheading'>
-					<h2 className={classes.header2}>Requirements</h2>
+					<h2 >Requirements</h2>
 				</div>
 				<HardwareSoftwareReq
 					data={coursedata.requirements}
@@ -347,7 +358,7 @@ export default function MainPage(props) {
 					props.goToUser ?
 						props.progress === "noProgress" ?
 							<Button
-								tabIndex="1" 
+								//tabIndex="1" 
 								onClick={() => props.goToUser("subscribe")}
 								className="subscription-card-button"
 								variant="contained"
@@ -358,16 +369,16 @@ export default function MainPage(props) {
 						:
 							<React.Fragment>
 								<Button
-									tabIndex="1" 
+									//tabIndex="1" 
 									onClick={() => props.goToUser("unsubscribe")}
 									className="subscription-card-button"
-									variant="contained"
+									variant="outlined"
 									color="primary"
 								>
 									{props.language.unsubscribe}
 								</Button>
 								<Button
-									tabIndex="1" 
+									//tabIndex="1" 
 									onClick={() => props.goToUser("enter")}
 									className="subscription-card-button"
 									variant="contained"
@@ -384,16 +395,16 @@ export default function MainPage(props) {
 					:
 						<React.Fragment>
 							<Button
-								tabIndex="1" 
+								//tabIndex="1" 
 								onClick={() => props.unsubscribe(props.course._id)}
 								className="subscription-card-button"
-								variant="contained"
+								variant="outlined"
 								color="primary"
 							>
 								{props.language.unsubscribe}
 							</Button>
 							<Button
-								tabIndex="1" 
+								//tabIndex="1" 
 								onClick={() => props.navigateTo([0, 0, 0, 0])}
 								className="subscription-card-button"
 								variant="contained"

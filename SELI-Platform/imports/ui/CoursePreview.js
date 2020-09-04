@@ -99,6 +99,7 @@ export default class CoursePreview extends React.Component {
   }
 
   goToUser = (action) => {
+    console.log("en el goto user-----",this.state.user,this.state.courseInfo, this.state.progress)
     this.props.history.push({
       pathname: "/user", 
       user: this.state.user, 

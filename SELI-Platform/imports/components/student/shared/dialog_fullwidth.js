@@ -70,11 +70,7 @@ export default function DialogFullWidth(props) {
 			disableBackdropClick={true}
 			className={clsx(classes.dialog, enabledark && classes.darkmode)}
 		>
-			<DialogTitle className={classes.appBar}>
-				<span id={key + "-title"} className={classes.dialogTitle}>
-					{title}
-				</span>
-				<IconButton
+			<IconButton
 					edge="start"
 					color="inherit"
 					aria-label="close"
@@ -84,7 +80,11 @@ export default function DialogFullWidth(props) {
 					}}
 				>
 					<CloseIcon />
-				</IconButton>
+			</IconButton>
+			<DialogTitle className={classes.appBar}>
+				<span id={key + "-title"} className={classes.dialogTitle}>
+					{title}
+				</span>
 			</DialogTitle>
 
 			<DialogContent id={key + "-content"} className={classes.dialogContent}>
