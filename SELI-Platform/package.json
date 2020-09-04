@@ -109,7 +109,7 @@
     "unrar-js": "^0.2.3",
     "unrar.js": "^0.2.5",
     "var_dump-js": "0.0.1",
-    "wavesurfer.js": "^3.3.1"
+    "wavesurfer.js": "^3.3.3"
   },
   "meteor": {
     "mainModule": {

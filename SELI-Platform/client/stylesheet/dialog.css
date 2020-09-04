@@ -409,4 +409,11 @@
   .configure-accessibility-actions {
     width: 100%;
   }
+  .form-tabs-container-time {
+    width: 95px;
+    position: relative;
+  }
+  .success-dialog-content-storytelling-time {
+    width: calc(75vw) !important;
+  }
 } 

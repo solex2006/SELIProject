@@ -17,7 +17,7 @@ export default class Waveform extends React.Component {
     this.wavesurfer = WaveSurfer.create({
       container: this.$waveform,
       waveColor: '#f5f5f5',
-      progressColor: 'violet',
+      progressColor: '#9bc8ca',
       cursorColor: '#333',
       cursorWidth: 2,
       fillParent: false,
