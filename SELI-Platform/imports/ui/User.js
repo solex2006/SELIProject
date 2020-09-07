@@ -45,11 +45,12 @@ import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
+import BadgeVerification from './BadgeVerification';
+import BadgeCollection from '../components/student/BadgeCollection';
 
 export default class User extends React.Component {
   
   constructor(props) {
-    console.log("User props:", props )
     super(props);
     this.state = {
       component: 'home',
@@ -64,6 +65,8 @@ export default class User extends React.Component {
   }
 
   componentDidMount(){
+
+    console.log(this.props.history)
     Session.set({language: Session.get('language') ? Session.get('language') : english});
     this.setState({
       language: Session.get('language') ? Session.get('language') : english,
@@ -748,6 +751,26 @@ export default class User extends React.Component {
                           handleControlMessage={this.handleControlMessage.bind(this)}
                           handleClickCourse={this.handleClickCourse.bind(this)}
                           showComponent={this.showComponent.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'badgeVerification' ?
+                      <BadgeVerification
+                          language={this.state.language}
+                          user={this.state.user}
+                          history={this.props.history}
+                      />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'badgeCollection' ?
+                        <BadgeCollection
+                          language={this.state.language}
+                          user={this.state.user}
+                          history={this.props.history}  
                         />
                       :
                       undefined

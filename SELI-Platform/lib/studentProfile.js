@@ -94,6 +94,38 @@ var OPTIONS = [
   },
   {
     label: [
+      "Badges",
+      "Emblemas",
+      "Badges",//translate to portuguese
+      "Badges",//translate to polish
+      "Badges",//translate to turkish
+    ],
+    
+    suboptions: [
+      {
+        label: [
+          "My badges",
+          "Mis emblemas",
+          "My badges",//translate to portuguese
+          "My badges",//translate to polish
+          "My badges",//translate to turkish
+        ],
+        component: 'badgeCollection',
+      },
+      {
+        label: [
+          "Verificate badge",
+          "Verificar emblema",
+          "Verificate badge",//translate to portuguese
+          "Verificate badge",//translate to polish
+          "Verificate badge",//translate to turkish
+        ],
+        component: 'badgeVerification',
+      },
+    ],
+  },
+  {
+    label: [
       "Support",
       "Soporte",
       "Suporte",

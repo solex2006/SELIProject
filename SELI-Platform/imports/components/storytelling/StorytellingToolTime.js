@@ -10,10 +10,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import WarningIcon from '@material-ui/icons/Warning';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import SchoolIcon from '@material-ui/icons/School';
 import InfoIcon from '@material-ui/icons/Info';
 import EditIcon from '@material-ui/icons/Edit';
-import LanguageIcon from '@material-ui/icons/Language';
 import DoneIcon from '@material-ui/icons/Done';
 
 import Button from '@material-ui/core/Button';
@@ -30,12 +28,9 @@ import Switch from '@material-ui/core/Switch';
 import StorytellingObject from './StorytellingObject';
 import StorytellingPlayerTime from './StorytellingPlayerTime';
 import { Activities } from '../../../lib/ActivitiesCollection';
-import { Courses } from '../../../lib/CourseCollection';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import { withStyles } from '@material-ui/core/styles';
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
@@ -56,13 +51,7 @@ import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { 
-  FacebookShareButton, FacebookIcon,
-  LinkedinShareButton, LinkedinIcon,
-  TwitterShareButton, TwitterIcon
-} from "react-share";
-
-import { Link } from "react-router-dom";
+import PublishMethods from './PublishMethods';
 
 const useStyles = theme => ({
   root: {
@@ -587,87 +576,6 @@ class StorytellingToolTime extends React.Component {
     });
   }
 
-  handlePublishOnCourse = () => {
-    let courses = [];
-    this.props.user.profile.courses.map(course => {
-      courses.push(course.courseId)
-    });
-    courses = Courses.find({_id: {$in: courses}}).fetch();
-    this.setState({
-      action: "publishOnCourse",
-      courses: courses,
-    })
-  }
-
-  handlePublishAsActivity = () => {
-    let courses = [];
-    let activities = [];
-    this.props.user.profile.courses.map(course => {
-      courses.push(course.courseId)
-    });
-    courses = Courses.find({_id: {$in: courses}}).fetch();
-    courses.map(course => {
-      if (course.coursePlan.courseStructure === "unit") {
-        course.program.map(unit => {
-          unit.lessons.map(subunit => {
-            subunit.items.map(item => {
-              if (item.type === "activity" && item.attributes.type === "storyboard") {
-                for (var i = 0; i < this.props.user.profile.courses.length; i++) {
-                  for (var j = 0; j < this.props.user.profile.courses[i].toResolve.length; j++) {
-                    if (this.props.user.profile.courses[i].toResolve[j]._id === item.id && !this.props.user.profile.courses[i].toResolve[j].resolved) {
-                      activities.push({
-                        course: course.title,
-                        source: `${unit.name} - ${subunit.name}`,
-                        courseId: course._id,
-                        activityId: item.id,
-                        instruction: item.attributes.instruction,
-                      });
-                    }
-                  }
-                }
-              }
-            })
-          })
-        })
-      }
-      else {
-        course.program.map(unit => {
-          unit.items.map(item => {
-            if (item.type === "activity" && item.attributes.type === "storyboard") {
-              for (var i = 0; i < this.props.user.profile.courses.length; i++) {
-                for (var j = 0; j < this.props.user.profile.courses[i].toResolve.length; j++) {
-                  if (this.props.user.profile.courses[i].toResolve[j]._id === item.id && !this.props.user.profile.courses[i].toResolve[j].resolved) {
-                    activities.push({
-                      course: course.title,
-                      source: unit.name,
-                      courseId: course._id,
-                      activityId: item.id,
-                      instruction: item.attributes.instruction,
-                    });
-                  }
-                }
-              }
-            }
-          })
-        })
-      }
-      this.setState({
-        activities: activities,
-        courses: courses,
-        action: "publishAsActivity",
-      })
-    })
-  }
-
-  handlePublishOnSocialNetwork = () => {
-    const shareUrl = `${window.origin}/story#${this.state.saved}`
-    this.setState({
-      shareUrl: shareUrl,
-      title: this.props.language.publishOnSocialNetwork,
-      action: 'publishOnSocialNetwork',
-    })
-  }
-
   publishOnCourse = (course) => {
     Activities.update(
       { _id: this.state.saved},
@@ -704,71 +612,6 @@ class StorytellingToolTime extends React.Component {
       show: false,
       action:"nopublish"
   })}
-
-  completeActivity = (id, label, courseId) => {
-    let courses = this.state.courses;
-    let courseIndex = courses.findIndex(course => course._id === courseId);
-    let toComplete = this.props.user.profile.courses[courseIndex].toComplete;
-    let toResolve = this.props.user.profile.courses[courseIndex].toResolve;
-    for (var i = 0; i < toResolve.length; i++) {
-      if (toResolve[i]._id === id) {
-        toResolve[i].resolved = true;
-        toResolve[i].activityId = this.state.saved;
-        break;
-      }
-    }
-    let progress = this.calculateProgress(toComplete, toResolve, courses[courseIndex].organization.subunit);
-    this.setState({
-      toResolve: toResolve,
-      progress: progress,
-    }, () => {
-      Meteor.call(
-        "CompleteActivity", Meteor.userId(),
-        this.state.toResolve,
-        courseId,
-        progress,
-        (error, response) =>  {
-          if (!error) {
-            this.props.handleControlMessage(true, label);
-            this.handleClose();
-          }
-      });
-      this.handleClosepublish();
-    });
-  }
-
-  calculateProgress = (toComplete, toResolve, hasSubunit) => {
-    let total;
-    if (hasSubunit) {
-      let totalSubunits = 0;
-      for (var i = 0; i < toComplete.length; i++) {
-        for (var j = 0; j < toComplete[i].subunits.length; j++) {
-          totalSubunits++;
-        }
-      }
-      total = totalSubunits + toResolve.length;
-    }
-    else {
-      total = toComplete.length + toResolve.length;
-    }
-    let unitPercentage  = parseFloat(100/total);
-    let progress = 0;
-    if (hasSubunit) {
-      toComplete.map(completed => {
-        completed.subunits.map(subunit => subunit ? progress += unitPercentage : undefined)
-      });
-    }
-    else {
-      toComplete.map(completed => completed ? progress += unitPercentage : undefined);
-    }
-    toResolve.map(activity => activity.resolved ? progress += unitPercentage : undefined);
-    progress = progress.toFixed(2);
-    if (progress === 99.99) {
-      progress = 100;
-    }
-    parseInt(progress) === 100 ? this.createCertificate() : undefined
-    return progress;
-  }
 
   arrayMoveMutate = (array, from, to) => {
     const startIndex = to < 0 ? array.length + to : to;
@@ -883,15 +726,13 @@ class StorytellingToolTime extends React.Component {
   finishChangeFileName = () => {
     let storyId = "";
     let story = this.state.story;
-    if (this.state.action === "audio") {
-      storyId = Activities.findOne({"activity.data.audio._id": this.state.renameFileId})._id
-    }
+    storyId = Activities.findOne({"activity.data.audio._id": this.state.renameFileId})._id
     let newData = Activities.findOne({_id: storyId}).activity.data;
     for (let i = 0; i < newData.length; i++) {
-      if (newData[i][this.state.action]._id === this.state.renameFileId){
-        newData[i][this.state.action].name = this.state.renameFileTitle;
+      if (newData[i].audio._id === this.state.renameFileId){
+        newData[i].audio.name = this.state.renameFileTitle;
         if (this.state.saved === storyId) {
-          story.nodes[i][this.state.action].name = this.state.renameFileTitle;
+          story.nodes[i].audio.name = this.state.renameFileTitle;
           this.setState({
             story: story,
           });
@@ -965,7 +806,7 @@ class StorytellingToolTime extends React.Component {
 
   render() {
     return(
-      <div>
+      <React.Fragment>
         {
           [this.props.language.dstHelper2, this.props.language.dstHelper3, this.props.language.dstHelper4].map((item, index) => {
             return(
@@ -987,7 +828,7 @@ class StorytellingToolTime extends React.Component {
                   <h2 className="storytelling-work-area-title-time">{this.props.language.storyFlow}</h2>
                   {
                     this.state.saved ?
-                      <div>
+                      <React.Fragment>
                         <Button
                           color="primary"
                           className="storytelling-work-preview-button-time"
@@ -1002,7 +843,7 @@ class StorytellingToolTime extends React.Component {
                         >
                           {this.props.language.editEndFrame}
                         </Button>
-                      </div>
+                      </React.Fragment>
                     :
                     undefined
                   }
@@ -1030,6 +871,101 @@ class StorytellingToolTime extends React.Component {
                       )
                     })
                   }
+                </div>
+              </div>
+              <div className="storytelling-menu-container-time">
+                <div className="storytelling-menu-body-full-time">
+                  <TextField
+                    id="node-name-input"
+                    label={this.props.language.audioTitle}
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    disabled={this.state.story.nodes[this.state.selectedNode].audio !== "" ? false : true}
+                    multiline
+                    autoComplete={"off"}
+                    value={this.state.story.nodes[this.state.selectedNode].audio !== "" ? this.state.story.nodes[this.state.selectedNode].audio.name : ""}
+                    onChange={this.handleChange('name')}
+                    error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
+                  />
+                </div>
+                <div className="storytelling-menu-body-aux-time">
+                  <div className="storytelling-menu-body-tabs-time">
+                    <Tabs
+                      color="primary"
+                      orientation="vertical"
+                      value={this.state.languageType}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      className="form-tabs-container-time"
+                      variant="standard"
+                      //centered={true}
+                    >
+                      <Tab value={'english'} onClick={() => this.selectLanguageType('english')} className="form-tab-aux" label={<Box color={this.selectColor('english')}>{this.props.language.english}</Box>} disabled={this.state.scriptDisabled}/>
+                      <Tab value={'spanish'} onClick={() => this.selectLanguageType('spanish')} className="form-tab-aux" label={<Box color={this.selectColor('spanish')}>{this.props.language.spanish}</Box>} disabled={this.state.scriptDisabled}/>
+                      <Tab value={'portuguese'} onClick={() => this.selectLanguageType('portuguese')} className="form-tab-aux" label={<Box color={this.selectColor('portuguese')}>{this.props.language.portuguese}</Box>} disabled={this.state.scriptDisabled}/>
+                    </Tabs>
+                  </div>
+                  <div className="storytelling-menu-body-tabs-time">
+                    <Tabs
+                      color="primary"
+                      orientation="vertical"
+                      value={this.state.languageType}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      className="form-tabs-container-time"
+                      variant="standard"
+                      //centered={true}
+                    >
+                      <Tab value={'polish'} onClick={() => this.selectLanguageType('polish')} className="form-tab-aux" label={<Box color={this.selectColor('polish')}>{this.props.language.polish}</Box>} disabled={this.state.scriptDisabled}/>
+                      <Tab value={'turkish'} onClick={() => this.selectLanguageType('turkish')} className="form-tab-aux" label={<Box color={this.selectColor('turkish')}>{this.props.language.turkish}</Box>} disabled={this.state.scriptDisabled}/>
+                    </Tabs>
+                  </div>
+                  <div className="storytelling-menu-body-description-time">
+                    <TextField
+                      id="node-description-input"
+                      label={`${this.props.language.descriptionIn} ${this.props.language[this.state.languageType]}`}
+                      margin="normal"
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      disabled={this.state.scriptDisabled}
+                      value={
+                        this.state.story.nodes[this.state.selectedNode].scripts.length &&
+                          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType] !== "" ?
+                          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType]
+                        : ""}
+                      onChange={this.handleChange("script")}
+                      error={this.state.showError && this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType] === ''}
+                      helperText={this.props.language.sceneDescriptionHelper}
+                    />
+                  </div>
+                </div>
+                <div className="storytelling-menu-header-time">
+                  <Button
+                    className="storytelling-media-button-time"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => this.handlePublishStory()}
+                  >
+                    {this.props.language.publishStory}
+                  </Button>
+                  <Button
+                    className="storytelling-media-button-time"
+                    variant="outlined"
+                    color="primary"
+                    fullWidth
+                    onClick={() => this.handleSaveStory()}
+                  >
+                    {this.props.language.saveStory}
+                  </Button>
+                  <FormGroup className="center-row-public-time">
+                    <FormControlLabel
+                      control={<Switch size="small" onChange={this.handleChange('public')} checked={this.state.story.isPublic}/>}
+                      label={<p className="form-label">{this.props.language.makeStoryPublic}</p>}
+                    />
+                  </FormGroup>
                 </div>
               </div>
               {
@@ -1085,105 +1021,6 @@ class StorytellingToolTime extends React.Component {
                     </Tooltip>
                   </div>
               }
-              <div className="storytelling-menu-container-time">
-                <div className="storytelling-menu-body-full-time">
-                  <TextField
-                    id="node-name-input"
-                    label={this.props.language.audioTitle}
-                    margin="normal"
-                    variant="outlined"
-                    fullWidth
-                    disabled={this.state.story.nodes[this.state.selectedNode].audio !== "" ? false : true}
-                    multiline
-                    autoComplete={"off"}
-                    rows={3}
-                    value={this.state.story.nodes[this.state.selectedNode].audio !== "" ? this.state.story.nodes[this.state.selectedNode].audio.name : ""}
-                    onChange={this.handleChange('name')}
-                    error={this.state.showError && this.state.story.nodes[this.state.selectedNode].name === ''}
-                  />
-                </div>
-                <Divider light orientation="vertical"/>
-                <div className="storytelling-menu-body-aux-time">
-                  <div className="storytelling-menu-body-tabs-time">
-                    <Tabs
-                      color="primary"
-                      orientation="vertical"
-                      value={this.state.languageType}
-                      indicatorColor="primary"
-                      textColor="primary"
-                      className="form-tabs-container-time"
-                      variant="standard"
-                      //centered={true}
-                    >
-                      <Tab value={'english'} onClick={() => this.selectLanguageType('english')} className="form-tab-aux" label={<Box color={this.selectColor('english')}>{this.props.language.english}</Box>} disabled={this.state.scriptDisabled}/>
-                      <Tab value={'spanish'} onClick={() => this.selectLanguageType('spanish')} className="form-tab-aux" label={<Box color={this.selectColor('spanish')}>{this.props.language.spanish}</Box>} disabled={this.state.scriptDisabled}/>
-                      <Tab value={'portuguese'} onClick={() => this.selectLanguageType('portuguese')} className="form-tab-aux" label={<Box color={this.selectColor('portuguese')}>{this.props.language.portuguese}</Box>} disabled={this.state.scriptDisabled}/>
-                    </Tabs>
-                  </div>
-                  <div className="storytelling-menu-body-tabs-time">
-                    <Tabs
-                      color="primary"
-                      orientation="vertical"
-                      value={this.state.languageType}
-                      indicatorColor="primary"
-                      textColor="primary"
-                      className="form-tabs-container-time"
-                      variant="standard"
-                      //centered={true}
-                    >
-                      <Tab value={'polish'} onClick={() => this.selectLanguageType('polish')} className="form-tab-aux" label={<Box color={this.selectColor('polish')}>{this.props.language.polish}</Box>} disabled={this.state.scriptDisabled}/>
-                      <Tab value={'turkish'} onClick={() => this.selectLanguageType('turkish')} className="form-tab-aux" label={<Box color={this.selectColor('turkish')}>{this.props.language.turkish}</Box>} disabled={this.state.scriptDisabled}/>
-                    </Tabs>
-                  </div>
-                  <div className="storytelling-menu-body-description-time">
-                    <TextField
-                      id="node-description-input"
-                      label={`${this.props.language.descriptionIn} ${this.props.language[this.state.languageType]}`}
-                      margin="normal"
-                      variant="outlined"
-                      fullWidth
-                      multiline
-                      rows={2}
-                      disabled={this.state.scriptDisabled}
-                      value={
-                        this.state.story.nodes[this.state.selectedNode].scripts.length &&
-                          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType] !== "" ?
-                          this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType]
-                        : ""}
-                      onChange={this.handleChange("script")}
-                      error={this.state.showError && this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[this.state.languageType] === ''}
-                      helperText={this.props.language.sceneDescriptionHelper}
-                    />
-                  </div>
-                </div>
-                <Divider light orientation="vertical"/>
-                <div className="storytelling-menu-header-time">
-                  <Button
-                    className="storytelling-media-button-time"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    onClick={() => this.handlePublishStory()}
-                  >
-                    {this.props.language.publishStory}
-                  </Button>
-                  <Button
-                    className="storytelling-media-button-time"
-                    variant="outlined"
-                    color="primary"
-                    fullWidth
-                    onClick={() => this.handleSaveStory()}
-                  >
-                    {this.props.language.saveStory}
-                  </Button>
-                  <FormGroup className="center-row-public-time">
-                    <FormControlLabel
-                      control={<Switch size="small" onChange={this.handleChange('public')} checked={this.state.story.isPublic}/>}
-                      label={<p className="form-label">{this.props.language.makeStoryPublic}</p>}
-                    />
-                  </FormGroup>
-                </div>
-              </div>
             </div>
           :
             <React.Fragment>
@@ -1436,7 +1273,7 @@ class StorytellingToolTime extends React.Component {
                   this.state.action === "reuse"?
                     <div className="library-files-container">
                       {this.state.dataImages1.map(tile => (
-                        <div className="storytelling-image-library-time">
+                        <div className="storytelling-image-library">
                           <div style={{backgroundImage: `url(${tile.link})`}} className="file-image-preview" onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}}></div>
                         </div> 
                       ))}
@@ -1448,19 +1285,19 @@ class StorytellingToolTime extends React.Component {
                   this.state.action === "reuseAudio"?
                     <div className="library-files-container">
                       {this.state.dataAudio1.map(tile => (    
-                        <Card onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
+                        <div onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
                           <div className="card-media-audio-storytelling">
                             <AudioPlayer volume src={tile.link}/>
                           </div>
-                          <CardActions className="card-actions-bottom-container" disableSpacing>
+                          <div className="card-actions-bottom-container" disableSpacing>
                             {`${this.props.language.audioTitle}: ${tile.name}`}
                             <Tooltip title={this.props.language.edit}>
                               <IconButton className="card-button" onClick={() => this.changeFileName(tile.name, tile._id)} aria-label="delete">
                                 <EditIcon className="card-icon"/>
                               </IconButton>
                             </Tooltip>
-                          </CardActions> 
-                        </Card>
+                          </div> 
+                        </div>
                       ))}
                     </div>
                   :
@@ -1691,179 +1528,17 @@ class StorytellingToolTime extends React.Component {
           </div>
         </Dialog>
         {/* After publish */}
-        <Dialog
-          open={this.state.openpublish} ///true for show
-          onClose={this.handleClosepublish}
-          aria-labelledby="alert-dialog-confirmation"
-          aria-describedby="alert-dialog-confirmation"
-        >
-          {
-            this.state.action === "boxpubshow" ?
-              <React.Fragment>
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {this.props.language.publishStory}
-                </DialogTitle>
-                <div className="center-row">
-                  {
-                    Meteor.user().profile.type === "student" ?
-                      <Button
-                        className="storytelling-publish-button-time"
-                        color="primary"
-                        onClick={() => this.handlePublishOnCourse()}
-                      >
-                        <p className="storytelling-publish-button-text-time">{this.props.language.publishOnACourse}</p>
-                        <SchoolIcon className="storytelling-publish-icon-time"/>
-                      </Button>
-                    :
-                    undefined
-                  }
-                  {
-                    Meteor.user().profile.type === "student" ?
-                      <Button
-                        className="storytelling-publish-button-time"
-                        color="primary"
-                        onClick={() => this.handlePublishAsActivity()}
-                      >
-                        <p className="storytelling-publish-button-text-time">{this.props.language.sendAsActivity}</p>
-                        <EditIcon className="storytelling-publish-icon-time"/>
-                      </Button>
-                    :
-                      undefined
-                  }
-                  <Button
-                    className="storytelling-publish-button-time"
-                    color="primary"
-                    onClick={() => this.handlePublishOnSocialNetwork()}
-                  >
-                    <p className="storytelling-publish-button-text-time">{this.props.language.publishOnSocialNetwork}</p>
-                    <LanguageIcon className="storytelling-publish-icon-time"/>
-                  </Button>
-                </div>
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {this.props.language.publishStoryText}
-                </DialogContentText>
-              </React.Fragment> 
-            :
-              undefined
-      
-          }
-          {
-            this.state.action === "publishOnSocialNetwork" ?
-              <React.Fragment>
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {this.props.language.publishOnSocialNetwork}
-                </DialogTitle>
-                <div className="storytelling-share-btn-group-time">
-                  <div className="storytelling-share-btn-time">
-                    <FacebookShareButton
-                      url={this.state.shareUrl}
-                      quote={this.state.title}>
-                      <FacebookIcon
-                        size={64}
-                        round />
-                    </FacebookShareButton>
-                  </div>
-                  <div className="storytelling-share-btn-time">
-                    <TwitterShareButton
-                      url={this.state.shareUrl}
-                      title={this.state.title}>
-                      <TwitterIcon
-                        size={64}
-                        round />
-                    </TwitterShareButton>  
-                  </div>
-                  <div className="storytelling-share-btn-time">
-                    <LinkedinShareButton
-                      url={this.state.shareUrl}
-                      windowWidth={750}
-                      windowHeight={600}>
-                      <LinkedinIcon
-                        size={64}
-                        round />
-                    </LinkedinShareButton>  
-                  </div>
-                </div>
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {
-                    <Link
-                      to={`/story#${this.state.saved}`}
-                    >{this.state.shareUrl}</Link>
-                  }
-                </DialogContentText>
-                <DialogActions>
-                  <Button onClick={() => this.handleyes()} color="primary" autoFocus>
-                    {this.props.language.back}
-                  </Button>
-                </DialogActions>
-              </React.Fragment>
-            :
-            undefined
-          }
-          {
-            this.state.action === "publishOnCourse" ?
-              <React.Fragment>
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {this.props.language.publishOnCourse}
-                </DialogTitle>
-                {
-                  this.state.courses.map(course => {
-                    return(
-                      <Button
-                        color="primary"
-                        className="storytelling-course-publish-button-time"
-                        onClick={() => this.publishOnCourse(course._id)}
-                      >
-                        {`- ${course.title}`}
-                      </Button>
-                    )
-                  })
-                }
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {this.props.language.publishStoryCourseText}
-                </DialogContentText>
-                <DialogActions>
-                  <Button onClick={() => this. handleyes()} color="primary" autoFocus>
-                    {this.props.language.back}
-                  </Button>
-                </DialogActions>
-              </React.Fragment>
-            :
-            undefined
-          }
-          {
-            this.state.action === "publishAsActivity" ?
-              <React.Fragment>
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {this.props.language.sendAsActivity}
-                </DialogTitle>
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {`${this.props.language.publishStoryActivityText}:`}
-                </DialogContentText>
-                {
-                  this.state.activities.map(activity => {
-                    return(
-                      <Button
-                        color="primary"
-                        className="storytelling-course-activity-publish-button-time"
-                        onClick={() => this.completeActivity(activity.activityId, this.props.language.storySent, activity.courseId)}
-                      >
-                        {`${activity.course} - ${activity.source} | ${this.props.language.instructions} 
-                        ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
-                      </Button>
-                    )
-                  })
-                }
-                <DialogActions>
-                  <Button onClick={() => this.handleyes()} color="primary" autoFocus>
-                    {this.props.language.back}
-                  </Button>
-                </DialogActions>
-              </React.Fragment>
-            :
-            undefined
-          }         
-        </Dialog>
-      </div>
+        <PublishMethods
+          user={this.props.user}
+          openpublish={this.state.openpublish}
+          saved={this.state.saved}
+          handleClose={this.handleClose.bind(this)}
+          handleClosepublish={this.handleClosepublish.bind(this)}
+          handleyes={this.handleyes.bind(this)}
+          publishOnCourse={this.publishOnCourse.bind(this)}
+          language={this.props.language}
+        />
+      </React.Fragment>
     )
   }
 }

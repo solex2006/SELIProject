@@ -20,6 +20,9 @@ import {validateOnlyNumbers} from '../../../lib/textFieldValidations';
 import NumericInput from 'react-numeric-input';
 import TimePickers from './TimePicker'
 import AccessibilityHelp from '../tools/AccessibilityHelp';
+import BadgeUpload from '../files/BadgeUpload';
+import ImagePreview from '../files/previews/ImagePreview';
+import createBadge from '../badge/CreateBadge';
 
 export default class QuizForm extends React.Component {
   constructor(props) {
@@ -30,6 +33,7 @@ export default class QuizForm extends React.Component {
       approvalPercentages: ['50', '60', '70', '80', '90'],
       questionSelected: 0,
       addedQuestions: 0,
+      showBadgeOptions: false,
       attributes: {
         showCheckBox:false,
         quizTitle: '',
@@ -41,6 +45,12 @@ export default class QuizForm extends React.Component {
         accessibility: {
           pureDecorative: false,
           percentage: 0,
+        },
+         badgeClass: {
+          name: '',
+          description: '',
+          image: undefined,
+          criteria: '',
         },
         questions: [
           {
@@ -214,6 +224,18 @@ export default class QuizForm extends React.Component {
     else if (name === 'correctAnswers') {
       attributes.questions[this.state.questionSelected].correctAnswers[index] = event.target.checked;
     }
+    else if (name === 'badgeName') {
+      attributes.badgeClass.name = event.target.value;
+    }
+    else if (name === 'badgeDescription') {
+      attributes.badgeClass.description = event.target.value;
+    }
+    else if (name === 'badgeCriteria') {
+      attributes.badgeClass.criteria = event.target.value;
+    }
+    else if (name === 'allowBadge') {
+      this.setState({showBadgeOptions:!this.state.showBadgeOptions});
+    }
     this.setState({
       attributes: attributes,
     });
@@ -244,11 +266,13 @@ myFormatminutes=(num)=> {
   }
 
   getQuizAttributes(){
+    console.log('getQuizAttribute')
     let quizContent = this.state.attributes;
     if (this.validateContent(quizContent)) {
       let questions = quizContent.questions.slice(0, (this.state.addedQuestions + 1));
       quizContent.expanded = true;
       quizContent.questions = questions;
+      createBadge(quizContent.badgeClass)
       return quizContent;
     }
     else {
@@ -374,6 +398,34 @@ myFormatminutes=(num)=> {
       })
     }
   }
+  // badge addition
+  getbadgeClass(file){
+    let attributes = this.state.attributes;
+    attributes.badgeClass.image = file;
+ 
+    this.setState({
+      attributes: attributes,
+      showPreview: true,
+      showLibrary: false,
+    })
+    console.log(this.state.attributes.badgeClass)
+    this.handleClickOpen();
+  }
+  unPickBadgeImage(){
+    let attributes = this.state.attributes;
+    attributes.badgeClass.image = undefined;
+    this.setState({
+      showPreview: false,
+      attributes: attributes,
+    });
+  }
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   render() {
     return(
@@ -506,6 +558,95 @@ myFormatminutes=(num)=> {
             }
           </div> 
         </div>
+         {/* Badge section */}
+        <Divider />
+        <div className="center-row">
+          <FormControl className="quiz-form-control" component="fieldset">
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch onChange={this.handleChange('allowBadge')} value="allowBadge" />}
+                label={this.state.showBadgeOptions?this.props.language.removeBadge:this.props.language.addBadge}
+              />
+            </FormGroup>
+          </FormControl>
+        </div>
+         { 
+            this.state.showBadgeOptions ?
+            <div className="badgeCreationOptions">
+              <div className="badge-form-container">
+                <div className="badge-image-upload ">
+                  {
+                    this.state.showPreview ?
+                      <div className="form-preview-container">
+                        <ImagePreview
+                          file={this.state.attributes.badgeClass.image}
+                          language={this.props.language}
+                          unPickFile={this.unPickBadgeImage.bind(this)}
+                        />
+                      </div>
+                      :
+                      <div className="form-file-container">
+                        <BadgeUpload
+                          type={this.state.fileType}
+                          user={Meteor.userId()}
+                          accept={this.state.accept}
+                          getFileInformation={this.getbadgeClass.bind(this)}
+                          label={this.props.language.selectBadgeImage}
+                        />
+                      </div>
+                  }
+                </div>
+                {/*  */}
+
+                <div className="badge-form-input-column">
+                  <div className="sign-form">
+                    <TextField
+                      id="name-input"
+                      label={this.props.language.name}
+                      margin="normal"
+                      variant="outlined"
+                      fullWidth
+                      autoComplete={"off"}
+                      required
+                      value={this.state.attributes.badgeClass.name}
+                      onChange={this.handleChange('badgeName')}
+                      error={this.state.showError && this.state.attributes.badgeClass.name === ''}
+                    />
+                    <TextField
+                      id="description-input"
+                      label={this.props.language.description}
+                      margin="normal"
+                      variant="outlined"
+                      fullWidth
+                      autoComplete={"off"}
+                      required
+                      multiline
+                      rows={2}
+                      value={this.state.attributes.badgeClass.description}
+                      onChange={this.handleChange('badgeDescription')}
+                      error={this.state.showError && this.state.attributes.badgeClass.description === ''}
+                    />
+                     <TextField
+                      id="description-input"
+                      label={this.props.language.criteria}
+                      margin="normal"
+                      variant="outlined"
+                      fullWidth
+                      autoComplete={"off"}
+                      required
+                      multiline
+                      rows={3}
+                      value={this.state.attributes.badgeClass.criteria}
+                      onChange={this.handleChange('badgeCriteria')}
+                      error={this.state.showError && this.state.attributes.badgeClass.criteria === ''}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            :
+            undefined
+        }
       </div>
     );
   }
