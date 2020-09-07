@@ -30,7 +30,8 @@ import {
 	faBrain,
 	faLowVision,
 	faDeaf,
-	faUniversalAccess
+	faUniversalAccess,
+	faWrench
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
@@ -1691,12 +1692,15 @@ export default function ReportStep(props) {
 						//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
 				}
 			})
+
+			let inclusion=courseInformation.support;
 			
-			if(unit.items.filter(element=>(
-			(element.type==='image' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
-			(element.type==='audio' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
-			(element.type==='quiz' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )) ||
-			(element.type==='video' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )))).length !=0){ //for delete th e topic without elemnts add 1
+			if(
+			unit.items.filter(element=>(
+			(element.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true ))|| 
+			(element.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true ))|| 
+			(element.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][2].isChecked===true )) ||
+			(element.type==='video' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][2].isChecked===true )))).length !=0){ //for delete th e topic without elemnts add 1
 				variablesUnidad.push({
 					title: unit.name, 
 					indice:indexUnit,
@@ -2183,10 +2187,13 @@ export default function ReportStep(props) {
          
          {simulate === "noInclusionGol" && (   
 			 <React.Fragment>
-					{/* <div>
-						You have not seleced any Inclusion Goals in Audience step, but considere review your Course Accessibility.
-					</div> */}
-					<Grid container spacing={1}>
+
+				{/* <AccessibilityAchieved
+					Icon={<FontAwesomeIcon icon={faWrench} />}
+					caption={"you have not configured accessibility in the audiences Step"}
+				/> */}
+				
+				<Grid container spacing={1}>
 						{
 						 categories.map(category => {
 							 return(
@@ -2199,7 +2206,7 @@ export default function ReportStep(props) {
 							 
 						 }) 	
 						}
-					</Grid>
+				</Grid> 
 			</React.Fragment> 
 			)}
 				
@@ -2313,31 +2320,31 @@ export default function ReportStep(props) {
 
 
 				
-					{
-						props.courseInformation.coursePlan.guidedCoursePlan!='guided'?
-						<div className='sylabusStyles'>
-							<h2 className='headAccessibility'>Sylabus accessibility report</h2>
-							<div className='headAccessibility'>			
-								This part details the accessibility percentages of the course Sylabus.	
-							</div>
-							<Container>
-								<Grid
-									container
-									spacing={1}
-									direction='row'
-									justify="center"
-									alignItems="center"
-								>	
-									<Grid item xl={6} lg={8} md={6} sm={12}>
-										<Chart percent={sylabusTotal/100} id="gauge-overall" />
-										<AccessibilitySylabusCard category={reportSylabus} />
-									</Grid>
-								</Grid>
-							</Container>
-						</div>
-						:
-						undefined
-					}
+			{
+				props.courseInformation.coursePlan.guidedCoursePlan!='guided'?
+				<div className='sylabusStyles'>
+					<h2 className='headAccessibility'>Sylabus accessibility report</h2>
+					<div className='headAccessibility'>			
+						This part details the accessibility percentages of the course Sylabus.	
+					</div>
+					<Container>
+						<Grid
+							container
+							spacing={1}
+							direction='row'
+							justify="center"
+							alignItems="center"
+						>	
+							<Grid item xl={6} lg={8} md={6} sm={12}>
+								<Chart percent={sylabusTotal/100} id="gauge-overall" />
+								<AccessibilitySylabusCard category={reportSylabus} />
+							</Grid>
+						</Grid>
+					</Container>
+				</div>
+				:
+				undefined
+			}
 							
 					</div>
 				</div>					
