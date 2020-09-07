@@ -748,9 +748,10 @@ export default function ReportStep(props) {
       props.courseInformation.program.map((unit, indexUnit)=>{
          //cabezera de la unidad
 			unit.items.map((item,indexItem)=>{
-				console.log("item.type==='image'", item.type)
-            if(item.type==='image' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-					courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+				let inclusion=courseInformation.support;
+			let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+				if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][1].isChecked===true || withoutChecked===true)){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
@@ -759,8 +760,8 @@ export default function ReportStep(props) {
 						})
 						:				
 						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
-				}else if(item.type==='audio' && ((courseInformation.support[1][2].isChecked===true || //hearing and cogniive
-							courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
+				}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][1].isChecked===true || withoutChecked===true) ){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
@@ -769,8 +770,8 @@ export default function ReportStep(props) {
 						})
 						:
 						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-				}else if(item.type==='quiz' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-					courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
+				}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='noTime'){
@@ -786,25 +787,20 @@ export default function ReportStep(props) {
 				}else if(item.type==='video'){
 					if(item.attributes.accessibility.isA11Y!=undefined){
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							console.log("isa11y",isa11y.name)
-							if(isa11y.name==='seizures' && (courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
-							}if((isa11y.name==='longDescription') && 
-								((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-								 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+							}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+								inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}if(( isa11y.name==='shortDescription') && 
-							((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-							 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
-							if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-							if(isa11y.name==='captionsEmbedded' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
+								inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}
+							if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
 								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
-							}if(isa11y.name==='audioDescription' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
-							}if(isa11y.name==='signLanguage' && (courseInformation.support[1][2].isChecked===true || //hearing and cogniive
-								courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
-									console.log("audiodescription7777",isa11y.is_a11y)
+							}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
 							}
 						})}
@@ -824,8 +820,6 @@ export default function ReportStep(props) {
 								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
 							}
 						}
-						
-
 					}
 						//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
 				}
@@ -834,7 +828,9 @@ export default function ReportStep(props) {
 			
 			console.log("pasa2*************************************************************************************",tasknoconfig.guidedWTopics)
 
-			if(unit.items.filter(element=>(
+			let inclusion=courseInformation.support;
+			if((inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
+			 unit.items.filter(element=>(
 			(element.type==='image' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 			(element.type==='audio' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 			(element.type==='quiz' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )) ||
@@ -890,90 +886,87 @@ export default function ReportStep(props) {
 			//cabezera de la unidad
 			unit.lessons.map((lesson,indexLesson)=>{
 				lesson.items.map((item,indexItem)=>{
-					if(item.type==='image' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-						courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
-						item.attributes.accessibility.isA11Y!=undefined?
-							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
-									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-								}
-							})
-							:				
-							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
-					}else if(item.type==='audio' && ((courseInformation.support[1][2].isChecked===true || //hearing and cogniive
-								courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
-						item.attributes.accessibility.isA11Y!=undefined?
-							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-								}
-							})
-							:
-							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-					}else if(item.type==='quiz' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-						courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
-						item.attributes.accessibility.isA11Y!=undefined?
-							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-								if(isa11y.name==='noTime'){
-									if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
-								} if(isa11y.name==='extendedTime'){
-									if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
-								} if(isa11y.name==='warningAlert'){
-									if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
-								}
-							})
-							:			
-						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-					}else if(item.type==='video'){
-						if(item.attributes.accessibility.isA11Y!=undefined){
-							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-								console.log("isa11y",isa11y.name)
-								if(isa11y.name==='seizures' && (courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
-									if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
-								}if((isa11y.name==='longDescription') && 
-									((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-									 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
-									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-								}if(( isa11y.name==='shortDescription') && 
-								((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-								 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+					let inclusion=courseInformation.support;
+			let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+				if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][1].isChecked===true || withoutChecked===true)){
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}
+						})
+						:				
+						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+				}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][1].isChecked===true || withoutChecked===true) ){
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+				}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='noTime'){
+								if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+							} if(isa11y.name==='extendedTime'){
+								if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+							} if(isa11y.name==='warningAlert'){
+								if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+							}
+						})
+						:			
+					tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+				}else if(item.type==='video'){
+					if(item.attributes.accessibility.isA11Y!=undefined){
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+							}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+								inclusion[1][1].isChecked===true || withoutChecked===true)){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
+								inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
 								}
-								if(isa11y.name==='captionsEmbedded' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][1].isChecked===true)){
-									if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
-								}if(isa11y.name==='audioDescription' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][1].isChecked===true)){
-									if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
-								}if(isa11y.name==='signLanguage' && (courseInformation.support[1][2].isChecked===true || //hearing and cogniive
-									courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
-										console.log("audiodescription7777",isa11y.is_a11y)
-										if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
-								}
-							})}
-						else{
-							console.log("pasa*************************************************************************************")
-							if (courseInformation.support[1][1].isChecked===true){
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
-							}else{
-								
-								if (courseInformation.support[1][3].isChecked===true){ //visual
-									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-								}
-								if (courseInformation.support[1][0].isChecked===true){ //cognitive
-									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
-								}
-								if (courseInformation.support[1][2].isChecked===true){
-									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-								}
+							if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
+								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+							}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+							}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
 							}
+						})}
+					else{
+						console.log("pasa*************************************************************************************")
+						if (courseInformation.support[1][1].isChecked===true){
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+						}else{
 							
-	
+							if (courseInformation.support[1][3].isChecked===true){ //visual
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+							}
+							if (courseInformation.support[1][0].isChecked===true){ //cognitive
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
+							}
+							if (courseInformation.support[1][2].isChecked===true){
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+							}
 						}
-							//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
 					}
+						//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+				}
 					
 				})
 
-				if(lesson.items.filter(element=>(
+				let inclusion=courseInformation.support;
+				if((inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
+					lesson.items.filter(element=>(
 					(element.type==='image' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 					(element.type==='audio' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 					(element.type==='quiz' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )) ||
@@ -1023,9 +1016,7 @@ export default function ReportStep(props) {
 					 guidedWTopics=0
 				
 			})
-      })
-		
-		
+      })	
 		variablesUnidad.map((value,index)=>{
 			//para visual
 			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
@@ -1135,8 +1126,6 @@ export default function ReportStep(props) {
 			])
 			visual=0, hearing=0, cognitive=0, diversity=0
 		})
-		
-		
 		variablesLeccion.map((value,index)=>{
 				//para visual
 				let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
@@ -1276,13 +1265,7 @@ export default function ReportStep(props) {
 			sum=((byUnit+byLesson)/2)
 	  }
 	  if(sum===100){setSimulate("allAchieved")}
-		
-
-
 		//console.log("percentagebyUnit y percentagebyLesson-------->",percentagebyUnit, percentagebyLesson, byUnit, byLesson )
-		
-
-
 		//contWithInclusionGol.todo=(tasknoconfig.unit+tasknoconfig.lesson)
 		contWithInclusionGol.averageCourse=sum
 		setWithInclusionGol(contWithInclusionGol)
@@ -1290,11 +1273,8 @@ export default function ReportStep(props) {
 		withoutInclusionGol.percentagebyLesson=percentagebyLesson
 		setwithoutInclusionGol(withoutInclusionGol)
 		newRandomTopics('unitslessons')
-
-		
-	
-
 	};
+
 	const TopicsCourse=() => {
 		let variablesUnidad=[]
 		let percentagebyUnit=[]
@@ -1316,9 +1296,10 @@ export default function ReportStep(props) {
 			console.log("contenido de las unidades", unit, )
          //cabezera de la unidad
          unit.items.map((item,indexItem)=>{
-				console.log("item.type==='image'", item.type)
-            if(item.type==='image' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-					courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+			let inclusion=courseInformation.support;
+			let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+				if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][1].isChecked===true || withoutChecked===true)){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
@@ -1327,8 +1308,8 @@ export default function ReportStep(props) {
 						})
 						:				
 						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
-				}else if(item.type==='audio' && ((courseInformation.support[1][2].isChecked===true || //hearing and cogniive
-							courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
+				}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][1].isChecked===true || withoutChecked===true) ){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
@@ -1337,8 +1318,8 @@ export default function ReportStep(props) {
 						})
 						:
 						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-				}else if(item.type==='quiz' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-					courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
+				}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='noTime'){
@@ -1354,25 +1335,20 @@ export default function ReportStep(props) {
 				}else if(item.type==='video'){
 					if(item.attributes.accessibility.isA11Y!=undefined){
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							console.log("isa11y",isa11y.name)
-							if(isa11y.name==='seizures' && (courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
-							}if((isa11y.name==='longDescription') && 
-								((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-								 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+							}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+								inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}if(( isa11y.name==='shortDescription') && 
-							((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-							 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
-							if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-							if(isa11y.name==='captionsEmbedded' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
+								inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}
+							if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
 								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
-							}if(isa11y.name==='audioDescription' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
-							}if(isa11y.name==='signLanguage' && (courseInformation.support[1][2].isChecked===true || //hearing and cogniive
-								courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
-									console.log("audiodescription7777",isa11y.is_a11y)
+							}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
 							}
 						})}
@@ -1397,7 +1373,9 @@ export default function ReportStep(props) {
 				}
 			})
 			
-			if(unit.items.filter(element=>(
+			let inclusion=courseInformation.support;
+			if((inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
+			unit.items.filter(element=>(
 			(element.type==='image' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 			(element.type==='audio' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 			(element.type==='quiz' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )) ||
@@ -1583,10 +1561,6 @@ export default function ReportStep(props) {
 		console.log("En topicos totalconfig------------------------------->", contWithInclusionGol,tasknoconfig )
 		newRandomTopics('topic')
 	};
-
-
-
-
 	const TemplateCourse=() =>{
 		console.log("template course")
 		let variablesUnidad=[]
@@ -1610,9 +1584,10 @@ export default function ReportStep(props) {
 
 		props.courseInformation.program.map((unit, indexUnit)=>{
 			unit.items.map((item,indexItem)=>{
-			//console.log("item.type==='image'", item.type,courseInformation)
-            if(item.type==='image' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-					courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+			let inclusion=courseInformation.support;
+			let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+				if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][1].isChecked===true || withoutChecked===true)){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
@@ -1621,9 +1596,8 @@ export default function ReportStep(props) {
 						})
 						:				
 						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
-				}else if(item.type==='audio' && ((courseInformation.support[1][2].isChecked===true || //hearing and cogniive
-							courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
-								//console.log("en el audio", item,courseInformation)
+				}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][1].isChecked===true || withoutChecked===true) ){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
@@ -1632,8 +1606,8 @@ export default function ReportStep(props) {
 						})
 						:
 						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-				}else if(item.type==='quiz' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-					courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
+				}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='noTime'){
@@ -1647,28 +1621,22 @@ export default function ReportStep(props) {
 						:			
 					tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
 				}else if(item.type==='video'){
-					//console.log("en el video", item,courseInformation)
 					if(item.attributes.accessibility.isA11Y!=undefined){
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							console.log("isa11y",isa11y.name)
-							if(isa11y.name==='seizures' && (courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
-							}if((isa11y.name==='longDescription') && 
-								((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-								 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+							}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+								inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}if(( isa11y.name==='shortDescription') && 
-							((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-							 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
-							if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-							if(isa11y.name==='captionsEmbedded' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
+								inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}
+							if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
 								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
-							}if(isa11y.name==='audioDescription' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
-							}if(isa11y.name==='signLanguage' && (courseInformation.support[1][2].isChecked===true || //hearing and cogniive
-								courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
-									console.log("audiodescription7777",isa11y.is_a11y)
+							}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
 							}
 						})}
@@ -1694,8 +1662,7 @@ export default function ReportStep(props) {
 			})
 
 			let inclusion=courseInformation.support;
-			
-			if(
+			if((inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
 			unit.items.filter(element=>(
 			(element.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true ))|| 
 			(element.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true ))|| 
@@ -1754,8 +1721,11 @@ export default function ReportStep(props) {
          unit.activities.map((items,indexItems)=>{
 				items.items.map((item, indexItem)=>{
 					console.log("template", item,courseInformation)
-            if(item.type==='image' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-					courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+				
+				let inclusion=courseInformation.support;
+				let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+            if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][1].isChecked===true || withoutChecked===true)){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
@@ -1764,8 +1734,8 @@ export default function ReportStep(props) {
 						})
 						:				
 						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
-				}else if(item.type==='audio' && ((courseInformation.support[1][2].isChecked===true || //hearing and cogniive
-							courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
+				}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][1].isChecked===true || withoutChecked===true) ){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
@@ -1774,8 +1744,8 @@ export default function ReportStep(props) {
 						})
 						:
 						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-				}else if(item.type==='quiz' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-					courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
+				}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+					inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='noTime'){
@@ -1791,30 +1761,25 @@ export default function ReportStep(props) {
 				}else if(item.type==='video'){
 					if(item.attributes.accessibility.isA11Y!=undefined){
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							console.log("isa11y",isa11y.name)
-							if(isa11y.name==='seizures' && (courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
-							}if((isa11y.name==='longDescription') && 
-								((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-								 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+							}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+								inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}if(( isa11y.name==='shortDescription') && 
-							((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
-							 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
-							if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-							if(isa11y.name==='captionsEmbedded' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
+								inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}
+							if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
 								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
-							}if(isa11y.name==='audioDescription' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+							}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
-							}if(isa11y.name==='signLanguage' && (courseInformation.support[1][2].isChecked===true || //hearing and cogniive
-								courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
-									console.log("audiodescription7777",isa11y.is_a11y)
+							}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
 									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
 							}
 						})}
 					else{
-						console.log("pasa lesson template*************************************************************************************")
+						console.log("pasa*************************************************************************************")
 						if (courseInformation.support[1][1].isChecked===true){
 							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
 						}else{
@@ -1830,10 +1795,14 @@ export default function ReportStep(props) {
 							}
 						}
 					}
-				}
-					
-				}) 
-				if(items.items.filter(element=>(
+						//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+				}	
+				})
+				
+				let inclusion=courseInformation.support;
+				
+				if((inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
+					items.items.filter(element=>(
 					(element.type==='image' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 					(element.type==='audio' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 					(element.type==='quiz' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )) ||
