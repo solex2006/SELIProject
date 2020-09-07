@@ -191,7 +191,7 @@
   return: "Wróć",
   hideDescription: "Ukryj opis",
   showDescription: "Pokaż opis",
-  autoPlay: "autoodtwarzanie",
+  autoPlay: "Automatyczne odtwarzanie scen",
   startRecording: "Zacznij nagrywać",
   stopRecording: "Przerwij nagrywanie",
   saveAudio: "Zapisz dźwięk",
