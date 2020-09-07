@@ -547,10 +547,15 @@ export default function ReportStep(props) {
 		setcourseInformation(courseinformation)
 	}
 	const newRandomTopics = (type) => {
+		console.log("TIPO A EVALUAR and withoutInclusionGol", type, )
 		let visual=[]
 		let hearing=[]
 		let cognitive=[]
 		let diversity=[]
+		if((withoutInclusionGol.percentagebyUnit.length===0 && withoutInclusionGol.percentagebyLesson.length===0)){
+			setSimulate('noInclusionGol') //pare l caso q se selecciona una discapcidad pero el elemento no configura dicho elelmnto
+			return 0
+		} 
 		
 		if (type==='topic'){
 			console.log("en el topico---------------------", withoutInclusionGol.percentagebyUnit)
@@ -572,34 +577,35 @@ export default function ReportStep(props) {
 			
 		}else if(type==='unitslessons'){
 			//console.log("en el Unidad-Lesson---------------------", withoutInclusionGol.percentagebyUnit,withoutInclusionGol.percentagebyLesson)
-			withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
-				visual.push(unit[0])
-			})
-			withoutInclusionGol.percentagebyLesson.map((lesson,indexLesson)=>{
-				visual.push(lesson[0])
-			})
-		
-			withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
-				hearing.push(unit[1])
-			})
-			withoutInclusionGol.percentagebyLesson.map((lesson,indexLesson)=>{
-				hearing.push(lesson[1])
-			})
+			if(withoutInclusionGol.percentagebyUnit.length!=0){
 
-			withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
-				cognitive.push(unit[2])
-			})
-			withoutInclusionGol.percentagebyLesson.map((lesson,indexLesson)=>{
-				cognitive.push(lesson[2])
-			})
-			
-			withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
-				diversity.push(unit[3])
-			})
-			withoutInclusionGol.percentagebyLesson.map((lesson,indexLesson)=>{
-				diversity.push(lesson[3])
-			})
-
+				withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
+					visual.push(unit[0])
+				})
+				withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
+					hearing.push(unit[1])
+				})
+				withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
+					cognitive.push(unit[2])
+				})
+				withoutInclusionGol.percentagebyUnit.map((unit,indexunit)=>{
+					diversity.push(unit[3])
+				})
+			}
+			if(withoutInclusionGol.percentagebyLesson.length!=0){
+				withoutInclusionGol.percentagebyLesson.map((lesson,indexLesson)=>{
+					visual.push(lesson[0])
+				})
+				withoutInclusionGol.percentagebyLesson.map((lesson,indexLesson)=>{
+					hearing.push(lesson[1])
+				})
+				withoutInclusionGol.percentagebyLesson.map((lesson,indexLesson)=>{
+					cognitive.push(lesson[2])
+				})
+				withoutInclusionGol.percentagebyLesson.map((lesson,indexLesson)=>{
+					diversity.push(lesson[3])
+				})
+			}
 		}
 	
 			categories[0].topics=visual
@@ -972,8 +978,8 @@ export default function ReportStep(props) {
 					(element.type==='quiz' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )) ||
 					(element.type==='video' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )))).length !=0){ //for delete th e topic without elemnts add 1
 						variablesUnidad.push({
-							title: unit.name, 
-							indice:indexUnit,
+							title: lesson.name, 
+							indice:indexLesson,
 							contText:contText,
 							contTextFalse:contTextFalse,
 							contCaptions:contCaptions,
@@ -1441,7 +1447,7 @@ export default function ReportStep(props) {
 			
       })
 	  
-		console.log("VARIABLES UNIDAD", variablesUnidad	)
+		console.log("VARIABLES UNIDAD PARA tipics:---->", variablesUnidad	)
 		variablesUnidad.map((value,index)=>{
 			//para visual
 			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
@@ -1603,7 +1609,7 @@ export default function ReportStep(props) {
 
 		props.courseInformation.program.map((unit, indexUnit)=>{
 			unit.items.map((item,indexItem)=>{
-				console.log("item.type==='image'", item.type)
+			//console.log("item.type==='image'", item.type,courseInformation)
             if(item.type==='image' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
 					courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
 					item.attributes.accessibility.isA11Y!=undefined?
@@ -1616,6 +1622,7 @@ export default function ReportStep(props) {
 						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
 				}else if(item.type==='audio' && ((courseInformation.support[1][2].isChecked===true || //hearing and cogniive
 							courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
+								//console.log("en el audio", item,courseInformation)
 					item.attributes.accessibility.isA11Y!=undefined?
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
@@ -1639,6 +1646,7 @@ export default function ReportStep(props) {
 						:			
 					tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
 				}else if(item.type==='video'){
+					//console.log("en el video", item,courseInformation)
 					if(item.attributes.accessibility.isA11Y!=undefined){
 						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
 							console.log("isa11y",isa11y.name)
@@ -1741,52 +1749,136 @@ export default function ReportStep(props) {
          //cabezera de la unidad
          unit.activities.map((items,indexItems)=>{
 				items.items.map((item, indexItem)=>{
+					console.log("template", item,courseInformation)
+            if(item.type==='image' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
+					courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}
+						})
+						:				
+						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+				}else if(item.type==='audio' && ((courseInformation.support[1][2].isChecked===true || //hearing and cogniive
+							courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}
+						})
+						:
+						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+				}else if(item.type==='quiz' && ((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
+					courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true) || courseInformation.support[1][1].isChecked===true) ){
+					item.attributes.accessibility.isA11Y!=undefined?
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							if(isa11y.name==='noTime'){
+								if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+							} if(isa11y.name==='extendedTime'){
+								if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+							} if(isa11y.name==='warningAlert'){
+								if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+							}
+						})
+						:			
+					tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+				}else if(item.type==='video'){
+					if(item.attributes.accessibility.isA11Y!=undefined){
+						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+							console.log("isa11y",isa11y.name)
+							if(isa11y.name==='seizures' && (courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+							}if((isa11y.name==='longDescription') && 
+								((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
+								 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}if(( isa11y.name==='shortDescription') && 
+							((courseInformation.support[1][3].isChecked===true ||  //viual and cognitive
+							 courseInformation.support[1][0].isChecked===true) || courseInformation.support[1][1].isChecked===true)){
+							if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+							}
+							if(isa11y.name==='captionsEmbedded' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+							}if(isa11y.name==='audioDescription' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+							}if(isa11y.name==='signLanguage' && (courseInformation.support[1][2].isChecked===true || //hearing and cogniive
+								courseInformation.support[1][0].isChecked===true || courseInformation.support[1][1].isChecked===true)){
+									console.log("audiodescription7777",isa11y.is_a11y)
+									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+							}
+						})}
+					else{
+						console.log("pasa lesson template*************************************************************************************")
+						if (courseInformation.support[1][1].isChecked===true){
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+						}else{
+							
+							if (courseInformation.support[1][3].isChecked===true){ //visual
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+							}
+							if (courseInformation.support[1][0].isChecked===true){ //cognitive
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
+							}
+							if (courseInformation.support[1][2].isChecked===true){
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+							}
+						}
+					}
+				}
 					
 				}) 
-				variablesTemplate.push({
-					title: items.name, 
-					unidad:indexUnit,
-					actividad: indexItems,
-					contText:contText,
-					contTextFalse:contTextFalse,
-					contCaptions:contCaptions,
-					contCaptionsFalse:contCaptionsFalse,
-					contwarningAlert:contwarningAlert,
-					contwarningAlertFalse:contwarningAlertFalse,
-					contextendedTime:contextendedTime,
-					contextendedTimeFalse:contextendedTimeFalse,
-					contnoTime:contnoTime,
-					contnoTimeFalse:contnoTimeFalse,
-					contseizures:contseizures,
-					contseizuresFalse:contseizuresFalse,
-					contaudioDescription:contaudioDescription,
-					contaudioDescriptionFalse:contaudioDescriptionFalse,
-					contsignLanguage:contsignLanguage,
-					contsignLanguageFalse:contsignLanguageFalse,
-					NotAccessiblenoTime,
-					NotAccessibleextendTime,
-					NotAccessibleAlert,
-					NotAccessibleSeizures,
-					NotAccessibleCaptions,
-					NotAccessibleDescription,
-					NotAccessibleSign,
-					guidedWTopics:tasknoconfig.guidedWTopics,	
-				})
-	
-				 contText=0;  contTextFalse=0;  contCaptions=0;  contCaptionsFalse=0;  contwarningAlert=0
-				 contwarningAlertFalse=0;  contextendedTime=0;  contextendedTimeFalse=0;  contnoTime=0; contnoTimeFalse=0; 
-				 contseizures=0;  contseizuresFalse=0;  contaudioDescription=0;  contaudioDescriptionFalse=0; 
-				 contsignLanguage=0;  contsignLanguageFalse=0; 
-				 NotAccessiblenoTime=0
-				 NotAccessibleextendTime=0
-				 NotAccessibleAlert=0
-				 NotAccessibleSeizures=0
-				 NotAccessibleCaptions=0
-				 NotAccessibleDescription=0
-				 NotAccessibleSign=0
+				if(items.items.filter(element=>(
+					(element.type==='image' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
+					(element.type==='audio' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
+					(element.type==='quiz' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )) ||
+					(element.type==='video' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )))).length !=0){ //for delete th e topic without elemnts add 1
+						variablesTemplate.push({
+							title: items.name, 
+							unidad:indexUnit,
+							actividad: indexItems,
+							contText:contText,
+							contTextFalse:contTextFalse,
+							contCaptions:contCaptions,
+							contCaptionsFalse:contCaptionsFalse,
+							contwarningAlert:contwarningAlert,
+							contwarningAlertFalse:contwarningAlertFalse,
+							contextendedTime:contextendedTime,
+							contextendedTimeFalse:contextendedTimeFalse,
+							contnoTime:contnoTime,
+							contnoTimeFalse:contnoTimeFalse,
+							contseizures:contseizures,
+							contseizuresFalse:contseizuresFalse,
+							contaudioDescription:contaudioDescription,
+							contaudioDescriptionFalse:contaudioDescriptionFalse,
+							contsignLanguage:contsignLanguage,
+							contsignLanguageFalse:contsignLanguageFalse,
+							NotAccessiblenoTime,
+							NotAccessibleextendTime,
+							NotAccessibleAlert,
+							NotAccessibleSeizures,
+							NotAccessibleCaptions,
+							NotAccessibleDescription,
+							NotAccessibleSign,
+							guidedWTopics:tasknoconfig.guidedWTopics
+						})
+					}
+				contText=0;  contTextFalse=0;  contCaptions=0;  contCaptionsFalse=0;  contwarningAlert=0
+				contwarningAlertFalse=0;  contextendedTime=0;  contextendedTimeFalse=0;  contnoTime=0; contnoTimeFalse=0; 
+				contseizures=0;  contseizuresFalse=0;  contaudioDescription=0;  contaudioDescriptionFalse=0; 
+				contsignLanguage=0;  contsignLanguageFalse=0; 
+				NotAccessiblenoTime=0
+				NotAccessibleextendTime=0
+				NotAccessibleAlert=0
+				NotAccessibleSeizures=0
+				NotAccessibleCaptions=0
+				NotAccessibleDescription=0
+				NotAccessibleSign=0
+				guidedWTopics=0
          })	
 		})
-		console.log("variablesUnidad//////////////////////////////",variablesUnidad)
+		console.log("variablesUnidad unidad u tempalte //////////////////////////////",variablesUnidad ,variablesTemplate)
 		variablesUnidad.map((value,index)=>{
 			//para visual
 			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
@@ -2006,7 +2098,7 @@ export default function ReportStep(props) {
 		let byUnit=0
 		let byTemplate=0
 		let sum=0
-		console.log("percentage by unit***************", percentagebyUnit)
+		console.log("percentage by unit and tempalte***************", percentagebyUnit, percentagebyTemplate)
 		if(percentagebyUnit.length!=0){
 			percentagebyUnit.map((unit, indexUnit)=>{
 				unit.map((percentage, index)=>{
@@ -2028,7 +2120,7 @@ export default function ReportStep(props) {
 			})
 			//byTemplate=((byTemplate/4)/percentagebyTemplate.length)
 			byTemplate=(((contWithInclusionGol.done)*100)/(contWithInclusionGol.todo+contWithInclusionGol.done+contWithInclusionGol.NotAccessible))
-			contWithInclusionGol.averageCourse=byTemplate
+			//contWithInclusionGol.averageCourse=byTemplate
 		}else{
 			byTemplate=0
 		}
@@ -2041,16 +2133,16 @@ export default function ReportStep(props) {
 		}
 		if(sum===100){setSimulate("allAchieved")}
 		
-		
 		contWithInclusionGol.averageCourse=sum
 		setWithInclusionGol(contWithInclusionGol)
 		withoutInclusionGol.percentagebyUnit=percentagebyUnit
 		withoutInclusionGol.percentagebyLesson=percentagebyTemplate
 		setwithoutInclusionGol(withoutInclusionGol)
-		console.log("Datos:",byTemplate,byUnit,percentagebyTemplate , percentagebyUnit, withoutInclusionGol)
+		console.log("DATOS y AVERAGE:",sum,byTemplate,byUnit,percentagebyTemplate , percentagebyUnit, withoutInclusionGol,contWithInclusionGol)
 		newRandomTopics('unitslessons')
 
 	}
+	
 	const [simulate, setSimulate] = React.useState(false);
 	const [redirect, setredirect]=React.useState(null)
 	if (redirect) {
