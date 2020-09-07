@@ -21,7 +21,9 @@ import MediaPlayer from '../imports/components/student/MediaPlayer';
 import CoursesDashboard from '../imports/ui/CoursesDashboard';
 import TutorRequestList from '../imports/components/administrator/TutorRequestList';
 import CertificateValidation from '../imports/ui/CertificateValidation';
+import BadgeVerification from '../imports/ui/BadgeVerification';
 import {Helmet} from "react-helmet";
+import Badge from '../imports/components/badge/Badge';
 
 const history = createBrowserHistory();
 window.browserHistory = history;
@@ -54,6 +56,9 @@ Meteor.startup(() => {
         <Route exact path="/dashboard" component={CoursesDashboard} history={history}/>
         <Route exact path="/tutorRequests" component={TutorRequestList} history={history}/>
         <Route exact path="/certificatesValidation" component={CertificateValidation} history={history}/>
+        <Route exact path="/badges/verification" component={BadgeVerification} history={history}/>
+        <Route exact path="/badges/:id" component={Badge} history={history}/>
+
       </Switch>
     </Router>, document.getElementById('render-target')
   );
