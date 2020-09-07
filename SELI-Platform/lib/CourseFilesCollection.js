@@ -20,7 +20,7 @@ const CourseFilesCollection = new FilesCollection({
     // and on server at `onAfterUpload` hook (trusted side)
     //console.log("enCoursefilescollection",file ,file.type, file.isImage, file.ext, file.meta.tipo)
     //let type=file.type.split("/")
-    if (file.size <= 104857600) {
+    if (file.size > 0 && file.size <= 104857600) {
       return true;
       /* if(type[0]==='image'){
         if (/png|jpg|tif|gif|jpeg|bmp|psd|ai|cdr|svg|raw|nef/i.test(file.extension)) { //for images only

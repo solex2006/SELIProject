@@ -281,6 +281,7 @@ var ENGLISH = {
   noVideoFounded: "It seems you have not choosen a Video file. Accepted formats are: mkv|mp4|webm|webm|m4v|mov|mpg|mpeg|avi|asf|asx|lsf|swf|wmv|div|divx|dvd|wob|ivt|m1v|mp2v|mpa|mpe|mpv2",
   noAudioFounded: "It seems you have not choosen an audio file. Accepted formats are: mp3|wav|m4a|mp4|aiff|au|mid|midi|wav|wma|cda|ogg|ogm|acc|ac3|flag|aym",
   noPdfFounded: "It seems you have not choosen a pdf file. Accepted formats are: .pdf",
+  noCaptionFounded: "It seems you have not choosen a caption file. Accepted formats are: vtt|srt",
   noCompressedFounded: "It seems you have not choosen a compressed file. Accepted formats are: rar|zip|7z|tar.gz|xz|gz|exe|tar|war|tar.xz|jar|odt|vnd.rar",
   backToUploadFiles: "Back to upload some files",
   addToFavorites: "Add to favorites",
@@ -930,8 +931,7 @@ var ENGLISH = {
   ariaLabelTranscription:"This is the short description (identify content). This audio content has the folowing accessibility resources: Transcription",
   alertCompatibility:"your browser is not compatible",
   showHideTranscription:"Show/Hide Transcript",
-
-  sizeLessThan: "Please, upload a file with size less than 100 MB.",
+  sizeLessThan: "Please, upload a file with size greater than 0 and less than 100 MB.",
   editEndFrame: "Edit end frame",
   workshop1: "This digital story is created in the Digital Storytelling Workshop named",
   nameOfCorW: "Name of the course or the workshop",

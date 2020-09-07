@@ -755,6 +755,7 @@ export default class CourseProgram extends React.Component {
                   item={this.state.contentToConfigureAccessibility}
                   getAccessibilityPercentage={this.getAccessibilityPercentage.bind(this)}
                   setContentAccessibilityData={this.setContentAccessibilityData.bind(this)}
+                  handleControlMessage={this.props.handleControlMessage.bind(this)}
                   language={this.props.language}
                 />
               </React.Fragment>

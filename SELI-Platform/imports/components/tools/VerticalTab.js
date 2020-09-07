@@ -550,6 +550,7 @@ export default function VerticalTabs(props) {
 											captionsTip: data.captionsTip,
 											captionValidator: data.captionValidator
 										}}
+										handleControlMessage={props.handleControlMessage.bind(this)}
 										language={props.language}/>
 									</TabPanel>}
 								{support.some(object => ["Cognitive","Speech","Visual"].includes(object)) &&

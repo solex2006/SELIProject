@@ -27,9 +27,10 @@ class FileUpload extends Component {
       // there was multiple files selected
       var file = e.currentTarget.files[0];
       let type=file.type.split("/");
-      if (file.size <= 104857600) {
-        if((type[0]==='image' && this.props.type==='image')|| (type[0]==='video'&& this.props.type==='video')
-          ||(type[0]==='audio'&& this.props.type==='audio')|| (this.props.type==='vtt')
+      let typeAux = file.name.substr(file.name.length - 3);
+      if (file.size > 0 && file.size <= 104857600) {
+        if((type[0]==='image' && this.props.type==='image')|| (type[0]==='video' && this.props.type==='video')
+          ||(type[0]==='audio'&& this.props.type==='audio')|| (typeAux==='vtt' && this.props.type==='caption') || (typeAux==='srt' && this.props.type==='caption')
           ||(type[1]==='pdf' && this.props.type==='pdf')   ||(type[1]==='zip' && this.props.type==='compressed')
           ||(type[1]==='vnd.rar' && this.props.type==='compressed')||(type[1]==='rar' && this.props.type==='compressed')
           ||(type[1]==='7z' && this.props.type==='compressed')||(type[1]==='tar' && this.props.type==='compressed')

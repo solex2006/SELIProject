@@ -171,11 +171,13 @@ export function VideoMediaCaptionsAltA11Y(props){
 						{dataField.fileTranscription[0]===undefined?
 						<div className="uploadsignals">
 							<FileUpload
-							type="vtt"
-							user={Meteor.userId()}
-							accept={'.vtt'}
-							label={props.language.Captions}
-							getFileInformation={getFileInformationCaption}
+								type="caption"
+								user={Meteor.userId()}
+								accept={'.vtt'}
+								label={props.language.Captions}
+								getFileInformation={getFileInformationCaption}
+								handleControlMessage={props.handleControlMessage.bind(this)}
+								language={props.language}
 							/>
 						</div>
 						:
@@ -310,6 +312,8 @@ export function VideoMediaAudioDescriptioA11Y(props){
 								user={Meteor.userId()}
 								label={props.language.uploadAudioButtonLabel}//label={this.props.language.uploadAudioButtonLabel}
 								getFileInformation={getFileInformationAudioDescription}
+								handleControlMessage={props.handleControlMessage.bind(this)}
+								language={props.language}
 								/>
 						</div>
 						:
@@ -403,11 +407,13 @@ export function VideoMediaSignLanguageA11Y(props){
 						{dataField.fileVideoSignal[0]===undefined?
 						<div className="uploadsignals">
 							<FileUpload
-							type="video"
-							user={Meteor.userId()}
-							accept={'video/*'}
-							label={props.language.byUploadVideo}
-							getFileInformation={getFileInformationsignal}
+								type="video"
+								user={Meteor.userId()}
+								accept={'video/*'}
+								label={props.language.byUploadVideo}
+								getFileInformation={getFileInformationsignal}
+								handleControlMessage={props.handleControlMessage.bind(this)}
+								language={props.language}
 							/>
 						</div>
 						:
