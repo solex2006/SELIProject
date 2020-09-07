@@ -31,7 +31,7 @@ export const validateOnlyLetters = (evt) => {
     var key = theEvent.keyCode || theEvent.which;
     key = String.fromCharCode(key);
   }
-  var regex = /^[a-zA-Z\s]*$/;
+  var regex = /^[a-zA-ZñığüşöçİĞÜŞÖÇ\s]*$/;
   if (!regex.test(key))
   {
     theEvent.returnValue = false;
@@ -53,7 +53,7 @@ export const noSpecialCharacters = (evt) => {
     var key = theEvent.keyCode || theEvent.which;
     key = String.fromCharCode(key);
   }
-  var regex = /^[a-zA-Z0-9 ]*$/;
+  var regex = /^[a-zA-ZñığüşöçİĞÜŞÖÇ0-9 ]*$/;
   if (!regex.test(key))
   {
     theEvent.returnValue = false;
