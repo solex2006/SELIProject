@@ -191,7 +191,7 @@ var SPANISH = {
   return: "Regresar",
   hideDescription: "Ocultar descripción",
   showDescription: "Mostrar descripción",
-  autoPlay: "Auto-reproducción",
+  autoPlay: "Auto-reproducción de escenas",
   startRecording: "Iniciar la grabación",
   stopRecording: "Para de grabar",
   saveAudio: "Guardar audio",

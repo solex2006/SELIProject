@@ -191,7 +191,7 @@ var TURKISH = {
   return: "Geri dön",
   hideDescription: "Açıklamayı gizle",
   showDescription: "Açıklamayı göster",
-  autoPlay: "otomatik oynatma",
+  autoPlay: "Otomatik sahne oynatma",
   startRecording: "Kayda başla",
   stopRecording: "Kaydetmeyi bırak",
   saveAudio: "Sesi kaydet",

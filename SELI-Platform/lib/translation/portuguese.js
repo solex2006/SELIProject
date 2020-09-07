@@ -191,7 +191,7 @@ var PORTUGUESE = {
   return: "Retornar",
   hideDescription: "Ocultar descrição",
   showDescription: "Mostrar descrição",
-  autoPlay: "Auto-reprodução",
+  autoPlay: "Auto-reprodução de cenas",
   startRecording: "Começar gravação",
   stopRecording: "Parar gravação",
   saveAudio: "Salvar áudio",

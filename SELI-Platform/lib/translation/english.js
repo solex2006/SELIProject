@@ -191,7 +191,7 @@ var ENGLISH = {
   return: "Return",
   hideDescription: "Hide description",
   showDescription: "Show description",
-  autoPlay: "Auto play",
+  autoPlay: "Auto play scenes",
   startRecording: "Start recording",
   stopRecording: "Stop recording",
   saveAudio: "Save audio",

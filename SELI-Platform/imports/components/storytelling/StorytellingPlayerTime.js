@@ -33,7 +33,7 @@ export default class StorytellingPlayerTime extends React.Component {
       scriptValue: undefined,
       showDescription: true,
       autoPlay: true,
-      playing: true,
+      playing: false,
       available: {
         english: false,
         spanish: false,
