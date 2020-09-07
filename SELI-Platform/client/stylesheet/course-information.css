@@ -362,6 +362,8 @@
 }
 
 .report{
+  height: calc(100vh - var(--form-stepper-height) - 2*var(--app-bar-height));
+  max-height: calc(100vh - var(--form-stepper-height) - 2*var(--app-bar-height));
   overflow-y: scroll;
 }
 
