@@ -68,8 +68,16 @@ export default class SignInForm extends React.Component {
             this.props.history.push("/administrator");
           }
         })
+        this.addBadgeValueToOldUsers(this.state.userInformation);
       }
     })
+  }
+  addBadgeValueToOldUsers= (user) => {
+    const currentUser = Meteor.users.findOne({username:user.username});
+    console.log(currentUser);
+    if(!currentUser.profile.badge){
+      Meteor.users.update({"_id" :currentUser._id },{$set : {"profile.badge":[]}})
+    }
   }
 
   keyController = (event) => {
