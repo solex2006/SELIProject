@@ -51,7 +51,6 @@ import BadgeCollection from '../components/student/BadgeCollection';
 export default class User extends React.Component {
   
   constructor(props) {
-    console.log("User props:", props )
     super(props);
     this.state = {
       component: 'home',

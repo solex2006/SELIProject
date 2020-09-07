@@ -2,7 +2,7 @@
   width: 100vw;
   height: calc(100vh - var(--app-bar-height));
   max-height: calc(100vh - var(--app-bar-height));
-  position: relative;
+  position: absolute;
   top: var(--app-bar-height);
 }
 
@@ -17,7 +17,6 @@
 }
 
 .storytelling-work-area-full-time {
-  /* width: calc(100vw - 400px); */
   width: 100vw;
   height: calc(100vh - var(--app-bar-height) - var(--actions-height));
   background-color: #f5f5f5;
@@ -75,7 +74,6 @@
 .storytelling-menu-container-time {
   width: 100vw;
   height: var(--actions-height);
-  position: relative;
   display: flex;
 }
 
@@ -90,9 +88,11 @@
 
 .storytelling-menu-body-full-time { /* Left part */
   width: 20vw;
-  margin-left: 0.5vw;
-  margin-right: 0.5vw;
-  /* overflow-y: scroll; */
+  padding-left: 0.5vw;
+  padding-right: 0.5vw;
+  display: flex;
+  align-items: center;
+  overflow-y: scroll;
 }
 
 .storytelling-menu-media-time {
@@ -109,9 +109,10 @@
 .storytelling-menu-body-aux-time {  /* Midle part */
   width: 60vw;
   padding: 0 0;
-  margin-right: 0.5vw;
+  padding-right: 0.5vw;
   display: flex;
   align-items: center;
+  overflow-y: scroll;
 }
 
 .storytelling-menu-body-tabs-time {
@@ -161,7 +162,7 @@
   height: 128px !important;
   position: absolute;
   bottom: 25px;
-  background-color: #00534bef !important;
+  background-color: rgba(51, 51, 51, 0.850) !important;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -206,7 +207,7 @@
   min-height: 28px !important;
   position: absolute;
   top: 60px;
-  background-color: #17599cef !important;
+  background-color: rgba(51, 51, 51, 0.850) !important;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -247,7 +248,7 @@
 
 .storytelling-item-images-scene-time:hover, 
 .storytelling-item-images-scene-time:focus {
-  z-index: 7;
+  z-index: 9;
   transform: scale(1.5);
   transition: 0.5s;
 }
@@ -275,8 +276,8 @@
 }
 
 .storytelling-selected-empty-container-time {
-  background-color: #00534bef !important;
-  z-index: 5;
+  background-color: #00534b90 !important;
+  z-index: 7;
   position: absolute;
   width: 2px;
   height: calc(115px);
@@ -284,8 +285,8 @@
 }
 
 .storytelling-selected-script-container-time {
-  background-color: #17599cef!important;
-  z-index: 5;
+  background-color: #17599c90 !important;
+  z-index: 6;
   position: absolute;
   width: 2px;
   height: calc(150px);
@@ -308,13 +309,13 @@
 }
 
 .storytelling-image-library-time {
-    background-color: #2e3030;
-    width: 21vw;
-    height: 171px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    margin: 0.5vh 0.4vw;
+  background-color: #2e3030;
+  width: 21vw;
+  height: 171px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin: 0.5vh 0.4vw;
 }
 
 .storytelling-media-image-time {
@@ -570,4 +571,133 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+@media only screen and (max-width: 1080px)  {
+  :root {
+    --menu-responsive-height: 300px;
+  }
+  .storytelling-tool-container-time {
+    display: inline;
+    overflow: hidden;
+  }
+  .storytelling-work-area-full-time {
+    height: calc(100vh - var(--app-bar-height) - var(--menu-responsive-height));
+  }
+  .storytelling-title-area-time { /* Head and story preview button */
+    height: auto;
+    width: 35vw;
+    flex-direction: column;
+    position: absolute;
+    justify-content: right;
+    border-radius: 10px;
+    opacity: 0.85;
+    bottom: 15px;
+    right: 15px !important;
+    z-index: 10;
+  }
+  .storytelling-work-preview-button-time {
+    margin-top: 0vh !important;
+    margin-left: 0vw !important;
+    letter-spacing: 1px !important;
+    font-size: 0.7em !important;
+  }
+  .storytelling-work-area-title-time {
+    display: none !important;
+  }
+  .storytelling-work-area-time { 
+    height: calc(100% - 4vh);
+    padding-left: calc(2vw + 124px);
+    padding-right: calc(2vw + 124px);
+    padding-top: 2vh; 
+    padding-bottom: 2vh;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: flex-start;
+    overflow-x: scroll;
+    justify-content: left;
+    z-index: 1;
+  }
+  .storytelling-actions-button-time {
+    width: 65vw;
+    left: 2vw !important;
+    bottom: calc(var(--menu-responsive-height) + 15px + 1vh) !important;
+    display: flex;
+    z-index: 12;
+  }
+  .storytelling-action-button-time {
+    margin-right: 0.5vw !important;
+    height: 10px !important;
+    width: 36px !important;
+  }
+  .storytelling-menu-container-time {
+    width: 100vw;
+    height: var(--menu-responsive-height) !important;
+    display: block;
+    overflow-y: scroll;
+  }
+  .storytelling-menu-body-full-time { /* Left part */
+    width: calc(100% - 1vw);
+    padding: 0 0.5vw;
+    overflow-y: auto;
+  }
+  .storytelling-menu-body-aux-time {  /* Midle part */
+    width: calc(100% - 1vw);
+    padding: 0 0.5vw;
+    overflow-y: auto;
+  }
+  .storytelling-menu-body-tabs-time {
+    width: 120px;
+  }
+  .storytelling-menu-header-time { /* Right part */
+    width: calc(100% - 1vw);
+    margin: 0 0.5vw;
+    display: flex;
+  }
+  .storytelling-media-button-time {
+    width: 30%;
+    max-width: 30%;
+    margin: 0 0.25vw !important;
+    margin-top: 2px !important;
+    letter-spacing: 1px !important;
+    font-size: 0.8em !important;
+  }
+  .center-row-public-time {
+    width: calc(40% - 15px);
+    padding-left: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  /* story telling object */
+  .storytelling-item-full-container-time { /* Main scene  object*/
+    margin-top: 100px;
+  }
+  .storytelling-item-images-scene-time {
+    width: 100px !important;
+    height: 100px !important;
+    bottom: 0px;
+    margin-left: 14px;
+  }
+  .storytelling-item-images-scene-time:hover, 
+.storytelling-item-images-scene-time:focus {
+  transform: scale(1.2);
+}
+  .storytelling-item-scripts-scene-time {
+    top: 40px;
+  }
+  .storytelling-item-scripts-scene-time:hover,
+  .storytelling-item-scripts-scene-time:focus-within {
+    z-index: 15;
+  }
+  .storytelling-selected-empty-container-time {
+    height: calc(100px);
+    top: 0px;
+  }
+  
+  .storytelling-selected-script-container-time {
+    height: calc(130px);
+    bottom: -30px;
+  }
+  
 }
