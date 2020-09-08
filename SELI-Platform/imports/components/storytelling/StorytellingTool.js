@@ -407,7 +407,7 @@ class StorytellingTool extends React.Component {
         });
         return false;
       }
-      if (story.nodes[i].audio === "" && i + 1 < story.nodes.length && publish) {
+      if (story.nodes[i].audio === "" && story.nodes[i].video === "" && i + 1 < story.nodes.length && publish) {
         this.props.handleControlMessage(true, this.props.language.allScenesAudio);
         this.setState({
           selectedNode: i,
