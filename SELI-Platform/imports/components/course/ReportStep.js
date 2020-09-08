@@ -1945,9 +1945,6 @@ export default function ReportStep(props) {
       })
          
 
-
-
-
 		props.courseInformation.program.map((unit, indexUnit)=>{
          unit.activities.map((items,indexItems)=>{
 				let inclusion=courseInformation.support;
