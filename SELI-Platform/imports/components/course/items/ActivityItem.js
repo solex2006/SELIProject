@@ -673,7 +673,7 @@ export default class ActivityItem extends React.Component {
                     return(
                       <Paper 
                         onClick={() => this.selectStory(story._id, story.activity.name)} 
-                        elevation={story._id === this.state.storySelected ? 5 : 1} 
+                        elevation={story._id === this.state.storySelected ? 6 : 1.5} 
                         className="story-item-container"
                       >
                         <LibraryBooksIcon className="story-item-icon"/>

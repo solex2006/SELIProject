@@ -453,10 +453,12 @@
 }
 
 .item-quiz-panel {
+  width: 100%;
   background-color: transparent !important;
 }
 
 .activity-parent-panel {
+  width: 100%;
   background-color: transparent !important;
 }
 
@@ -483,9 +485,8 @@
 
 .item-quiz-detail-container {
   position: relative;
-  width: 88%;
-  left: 5vw;
-  padding: 2.5vh 0;
+  width: calc(100% - 2vw);
+  padding: 2.5vh 1vw;
 }
 
 .item-quiz-detail {
@@ -532,7 +533,7 @@
 }
 
 .activity-item-container-instruction {
-  width: 100%;
+  width: calc(100% - 5%);
   padding: 1.5vh 2.5%;
   color: #616161;
 }

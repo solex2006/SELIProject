@@ -125,3 +125,9 @@
   color: #757575 !important;
   fill: #757575 !important;
 }
+
+@media only screen and (max-width: 1080px)  {
+  .editor-link-form-container {
+    width: calc(100% - 3vw);
+  }
+}
