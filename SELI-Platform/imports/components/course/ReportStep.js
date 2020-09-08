@@ -548,7 +548,7 @@ export default function ReportStep(props) {
 		setcourseInformation(courseinformation)
 	}
 	const newRandomTopics = (type) => {
-		console.log("TIPO A EVALUAR and withoutInclusionGol", type, )
+		console.log("TIPO A EVALUAR and withoutInclusionGol", type, withoutInclusionGol)
 		let visual=[]
 		let hearing=[]
 		let cognitive=[]
@@ -614,6 +614,8 @@ export default function ReportStep(props) {
 			categories[2].topics=cognitive
 			categories[3].topics=diversity
 			setCategories(categories)
+
+			console.log("CATEGORIES------>:", categories )
 
 			//calcualte pecentages by disabilities,this information is useful in the search tool
 			let visualSearch=categories[0].topics.map(topic => topic.a11yValid).reduce((acc, cur) => acc + cur)/categories[0].topics.length
@@ -728,6 +730,7 @@ export default function ReportStep(props) {
 
    };
    const UnitsCourse=() => {
+		console.log("******************UNITSCOURSE***************")
 		let variablesUnidad=[]
 		let variablesLeccion=[]
 		let percentagebyUnit=[]
@@ -746,90 +749,145 @@ export default function ReportStep(props) {
 		let NotAccessibleSign=0
 	
       props.courseInformation.program.map((unit, indexUnit)=>{
-         //cabezera de la unidad
-			unit.items.map((item,indexItem)=>{
-				let inclusion=courseInformation.support;
-			let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
-				if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][1].isChecked===true || withoutChecked===true)){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-						})
-						:				
-						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
-				}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][1].isChecked===true || withoutChecked===true) ){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-						})
-						:
-						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-				}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='noTime'){
-								if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
-							} if(isa11y.name==='extendedTime'){
-								if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
-							} if(isa11y.name==='warningAlert'){
-								if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
-							}
-						})
-						:			
-					tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-				}else if(item.type==='video'){
-					if(item.attributes.accessibility.isA11Y!=undefined){
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
-							}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-								inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
-								inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+			//cabezera de la unidad
+			let inclusion=courseInformation.support;
+			console.log("PASO 1:",inclusion)
+			if(inclusion[1]!=undefined){
+				unit.items.map((item,indexItem)=>{	
+				let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+					if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+						inclusion[1][1].isChecked===true || withoutChecked===true)){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
 								}
-							if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
-								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
-							}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
-							}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
-							}
-						})}
-					else{
-						console.log("pasa*************************************************************************************")
-						if (courseInformation.support[1][1].isChecked===true){
-							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
-						}else{
-							
-							if (courseInformation.support[1][3].isChecked===true){ //visual
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-							}
-							if (courseInformation.support[1][0].isChecked===true){ //cognitive
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
-							}
-							if (courseInformation.support[1][2].isChecked===true){
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+							})
+							:				
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+					}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
+						inclusion[1][1].isChecked===true || withoutChecked===true) ){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}
+							})
+							:
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+					}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+						inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='noTime'){
+									if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+								} if(isa11y.name==='extendedTime'){
+									if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+								} if(isa11y.name==='warningAlert'){
+									if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+								}
+							})
+							:			
+						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+					}else if(item.type==='video'){
+						if(item.attributes.accessibility.isA11Y!=undefined){
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+									if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+								}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+									inclusion[1][1].isChecked===true || withoutChecked===true)){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
+									inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
+									if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+								}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+									if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+								}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+								}
+							})}
+						else{
+							console.log("pasa*************************************************************************************")
+							if (courseInformation.support[1][1].isChecked===true){
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+							}else{
+								
+								if (courseInformation.support[1][3].isChecked===true){ //visual
+									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+								}
+								if (courseInformation.support[1][0].isChecked===true){ //cognitive
+									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
+								}
+								if (courseInformation.support[1][2].isChecked===true){
+									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+								}
 							}
 						}
+							//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
 					}
-						//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
-				}
-			})
+				})
+			}else{
+				unit.items.map((item,indexItem)=>{		
+						if(item.type==='image'){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:				
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+						}else if(item.type==='audio'){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+						}else if(item.type==='quiz'){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='noTime'){
+										if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+									} if(isa11y.name==='extendedTime'){
+										if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+									} if(isa11y.name==='warningAlert'){
+										if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+									}
+								})
+								:			
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+						}else if(item.type==='video'){
+							if(item.attributes.accessibility.isA11Y!=undefined){
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{
+									if(isa11y.name==='seizures'){
+										if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+									}if(isa11y.name==='longDescription'){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}if(isa11y.name==='shortDescription'){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+										}
+									if(isa11y.name==='captionsEmbedded'){
+										if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+									}if(isa11y.name==='audioDescription' ){
+										if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+									}if(isa11y.name==='signLanguage' ){
+											if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+									}
+								})}
+						}
+					})
+			}	
 			
-			
-			console.log("pasa2*************************************************************************************",tasknoconfig.guidedWTopics)
+			//console.log("pasa2*************************************************************************************",tasknoconfig.guidedWTopics)
 
-			let inclusion=courseInformation.support;
-			if((inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
+			
+			if((inclusion[1]===undefined) || (inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
 			 unit.items.filter(element=>(
 			(element.type==='image' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 			(element.type==='audio' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
@@ -864,7 +922,7 @@ export default function ReportStep(props) {
 					guidedWTopics:tasknoconfig.guidedWTopics
 				})
 			}
-			
+			 
 
 			 contText=0;  contTextFalse=0;  contCaptions=0;  contCaptionsFalse=0;  contwarningAlert=0
 			 contwarningAlertFalse=0;  contextendedTime=0;  contextendedTimeFalse=0;  contnoTime=0; contnoTimeFalse=0; 
@@ -883,95 +941,150 @@ export default function ReportStep(props) {
 			
 
 		props.courseInformation.program.map((unit, indexUnit)=>{
-			//cabezera de la unidad
 			unit.lessons.map((lesson,indexLesson)=>{
-				lesson.items.map((item,indexItem)=>{
+				let inclusion=courseInformation.support;
+				if(inclusion[1]!=undefined){
+					lesson.items.map((item,indexItem)=>{
 					let inclusion=courseInformation.support;
-			let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
-				if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][1].isChecked===true || withoutChecked===true)){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-						})
-						:				
-						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
-				}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][1].isChecked===true || withoutChecked===true) ){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-						})
-						:
-						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-				}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='noTime'){
-								if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
-							} if(isa11y.name==='extendedTime'){
-								if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
-							} if(isa11y.name==='warningAlert'){
-								if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
-							}
-						})
-						:			
-					tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-				}else if(item.type==='video'){
-					if(item.attributes.accessibility.isA11Y!=undefined){
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
-							}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-								inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
-								inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+					let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+					if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+						inclusion[1][1].isChecked===true || withoutChecked===true)){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
 								}
-							if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
-								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
-							}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
-							}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
-							}
-						})}
-					else{
-						console.log("pasa*************************************************************************************")
-						if (courseInformation.support[1][1].isChecked===true){
-							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
-						}else{
-							
-							if (courseInformation.support[1][3].isChecked===true){ //visual
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-							}
-							if (courseInformation.support[1][0].isChecked===true){ //cognitive
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
-							}
-							if (courseInformation.support[1][2].isChecked===true){
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+							})
+							:				
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+					}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
+						inclusion[1][1].isChecked===true || withoutChecked===true) ){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}
+							})
+							:
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+					}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+						inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='noTime'){
+									if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+								} if(isa11y.name==='extendedTime'){
+									if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+								} if(isa11y.name==='warningAlert'){
+									if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+								}
+							})
+							:			
+						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+					}else if(item.type==='video'){
+						if(item.attributes.accessibility.isA11Y!=undefined){
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+									if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+								}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+									inclusion[1][1].isChecked===true || withoutChecked===true)){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
+									inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
+									if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+								}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+									if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+								}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+								}
+							})}
+						else{
+							console.log("pasa*************************************************************************************")
+							if (courseInformation.support[1][1].isChecked===true){
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+							}else{
+								
+								if (courseInformation.support[1][3].isChecked===true){ //visual
+									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+								}
+								if (courseInformation.support[1][0].isChecked===true){ //cognitive
+									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
+								}
+								if (courseInformation.support[1][2].isChecked===true){
+									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+								}
 							}
 						}
+							//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
 					}
-						//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+						
+					})
+				}else{
+					unit.items.map((item,indexItem)=>{		
+							if(item.type==='image'){
+								item.attributes.accessibility.isA11Y!=undefined?
+									item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+										if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+											if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+										}
+									})
+									:				
+									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+							}else if(item.type==='audio'){
+								item.attributes.accessibility.isA11Y!=undefined?
+									item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+										if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+											if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+										}
+									})
+									:
+									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+							}else if(item.type==='quiz'){
+								item.attributes.accessibility.isA11Y!=undefined?
+									item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+										if(isa11y.name==='noTime'){
+											if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+										} if(isa11y.name==='extendedTime'){
+											if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+										} if(isa11y.name==='warningAlert'){
+											if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+										}
+									})
+									:			
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+							}else if(item.type==='video'){
+								if(item.attributes.accessibility.isA11Y!=undefined){
+									item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{
+										if(isa11y.name==='seizures'){
+											if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+										}if(isa11y.name==='longDescription'){
+											if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+										}if(isa11y.name==='shortDescription'){
+											if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+											}
+										if(isa11y.name==='captionsEmbedded'){
+											if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+										}if(isa11y.name==='audioDescription' ){
+											if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+										}if(isa11y.name==='signLanguage' ){
+												if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+										}
+									})}
+							}
+						})
 				}
-					
-				})
 
-				let inclusion=courseInformation.support;
-				if((inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
+				
+				if((inclusion[1]===undefined) || (inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
 					lesson.items.filter(element=>(
 					(element.type==='image' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 					(element.type==='audio' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 					(element.type==='quiz' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )) ||
 					(element.type==='video' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true || courseInformation.support[1][2].isChecked===true )))).length !=0){ //for delete th e topic without elemnts add 1
-						variablesUnidad.push({
+						variablesLeccion.push({
 							title: lesson.name, 
 							indice:indexLesson,
 							contText:contText,
@@ -1016,7 +1129,9 @@ export default function ReportStep(props) {
 					 guidedWTopics=0
 				
 			})
-      })	
+		})	
+		
+		console.log("percentagebyUnit y percentagebyLesson: variablesUnidad, variablesLeccion-------->",variablesUnidad,variablesLeccion, percentagebyLesson )
 		variablesUnidad.map((value,index)=>{
 			//para visual
 			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
@@ -1167,46 +1282,50 @@ export default function ReportStep(props) {
 					let totalnoconfig=0
 					let totalnoaccessible=0
 				let audiences=props.courseInformation.support[1];
-				if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
-				&& audiences[3].isChecked===false ){//cognitive
-					totalconfig=  (totalconfig+configcognitive)    
-					totalnoconfig=(totalnoconfig+noconfigcognitive)  
-					totalnoaccessible=(totalnoaccessible+notAccessibleCognitive)
-				}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true 
-					&& audiences[3].isChecked===false ){//hearing
-						totalconfig=  (totalconfig+confighearing)    
-						totalnoconfig=(totalnoconfig+noconfighearing) 
-						totalnoaccessible=(totalnoaccessible+notAccessibleHearing)  
-				}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===false
-					&& audiences[3].isChecked===true ){//visual
-						totalconfig=  (totalconfig+configvisual)    
-						totalnoconfig=(totalnoconfig+noconfigvisual) 
-						totalnoaccessible=(totalnoaccessible+notAccessibleVisual)
-				}else if(audiences[0].isChecked===false && audiences[1].isChecked===true && audiences[2].isChecked===false
-					&& audiences[3].isChecked===false ){//eldery
-						totalconfig=  (totalconfig+configdiversity)    
-						totalnoconfig=(totalnoconfig+noconfigdiversity)  
-						totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
-				}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true
-					&& audiences[3].isChecked===true ){//visual and hearing
-						totalconfig=  (totalconfig+confighearing+value.contaudioDescription)    
-						totalnoconfig=(totalnoconfig+noconfighearing+value.contaudioDescriptionFalse)   
-						totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleVisual)
-				}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false
-						&& audiences[3].isChecked===true ){//visual and cognitive-
-						totalconfig=  (totalconfig+configcognitive+value.contaudioDescription)    
-						totalnoconfig=(totalnoconfig+noconfigcognitive+value.contaudioDescriptionFalse)  
-						totalnoaccessible=(totalnoaccessible+notAccessibleVisual+notAccessibleCognitive) 
-				}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===true
-						&& audiences[3].isChecked===false ){//hearing and cognitive
-						totalconfig=  (totalconfig+confighearing+value.contseizures) 
-						totalnoconfig=(totalnoconfig+noconfighearing+value.contseizuresFalse)  
-						totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleCognitive) 
-				}else{//eldery
-						totalconfig=  (totalconfig+configdiversity)    
-						totalnoconfig=(totalnoconfig+noconfigdiversity)   
-						totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+				if(audiences!=undefined){
+					if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false 
+					&& audiences[3].isChecked===false ){//cognitive
+						totalconfig=  (totalconfig+configcognitive)    
+						totalnoconfig=(totalnoconfig+noconfigcognitive)  
+						totalnoaccessible=(totalnoaccessible+notAccessibleCognitive)
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true 
+						&& audiences[3].isChecked===false ){//hearing
+							totalconfig=  (totalconfig+confighearing)    
+							totalnoconfig=(totalnoconfig+noconfighearing) 
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing)  
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===false
+						&& audiences[3].isChecked===true ){//visual
+							totalconfig=  (totalconfig+configvisual)    
+							totalnoconfig=(totalnoconfig+noconfigvisual) 
+							totalnoaccessible=(totalnoaccessible+notAccessibleVisual)
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===true && audiences[2].isChecked===false
+						&& audiences[3].isChecked===false ){//eldery
+							totalconfig=  (totalconfig+configdiversity)    
+							totalnoconfig=(totalnoconfig+noconfigdiversity)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+					}else if(audiences[0].isChecked===false && audiences[1].isChecked===false && audiences[2].isChecked===true
+						&& audiences[3].isChecked===true ){//visual and hearing
+							totalconfig=  (totalconfig+confighearing+value.contaudioDescription)    
+							totalnoconfig=(totalnoconfig+noconfighearing+value.contaudioDescriptionFalse)   
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleVisual)
+					}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===false
+							&& audiences[3].isChecked===true ){//visual and cognitive-
+							totalconfig=  (totalconfig+configcognitive+value.contaudioDescription)    
+							totalnoconfig=(totalnoconfig+noconfigcognitive+value.contaudioDescriptionFalse)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleVisual+notAccessibleCognitive) 
+					}else if(audiences[0].isChecked===true && audiences[1].isChecked===false && audiences[2].isChecked===true
+							&& audiences[3].isChecked===false ){//hearing and cognitive
+							totalconfig=  (totalconfig+confighearing+value.contseizures) 
+							totalnoconfig=(totalnoconfig+noconfighearing+value.contseizuresFalse)  
+							totalnoaccessible=(totalnoaccessible+notAccessibleHearing+notAccessibleCognitive) 
+					}
 				}
+				else{//eldery
+					totalconfig=  (totalconfig+configdiversity)    
+					totalnoconfig=(totalnoconfig+noconfigdiversity)   
+					totalnoaccessible=(totalnoaccessible+notAccessibleDiversity) 
+				}
+				
 			
 				contWithInclusionGol.done=contWithInclusionGol.done+totalconfig
 				contWithInclusionGol.todo=contWithInclusionGol.todo + tasknoconfig.guidedWTopics +totalnoaccessible//+totalnoconfig
@@ -1227,7 +1346,7 @@ export default function ReportStep(props) {
 				visual=0, hearing=0, cognitive=0, diversity=0
 		})
 
-		//console.log("percentagebyUnit y percentagebyLesson-------->",percentagebyUnit, percentagebyLesson )
+	//	console.log("percentagebyUnit y percentagebyLesson-------->",percentagebyUnit, percentagebyLesson )
 		let byUnit=0
 		let byLesson=0
 		let sum=0
@@ -1276,6 +1395,7 @@ export default function ReportStep(props) {
 	};
 
 	const TopicsCourse=() => {
+		console.log("******************TOPICSCOURSE***************")
 		let variablesUnidad=[]
 		let percentagebyUnit=[]
 		let contText=0; 
@@ -1293,88 +1413,91 @@ export default function ReportStep(props) {
 		let guidedWTopics=0
 
       props.courseInformation.program.map((unit, indexUnit)=>{
-			console.log("contenido de las unidades", unit, )
-         //cabezera de la unidad
-         unit.items.map((item,indexItem)=>{
-			let inclusion=courseInformation.support;
-			let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
-				if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][1].isChecked===true || withoutChecked===true)){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-						})
-						:				
-						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
-				}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][1].isChecked===true || withoutChecked===true) ){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-						})
-						:
-						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-				}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='noTime'){
-								if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
-							} if(isa11y.name==='extendedTime'){
-								if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
-							} if(isa11y.name==='warningAlert'){
-								if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
-							}
-						})
-						:			
-					tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-				}else if(item.type==='video'){
-					if(item.attributes.accessibility.isA11Y!=undefined){
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
-							}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-								inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
-								inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-								}
-							if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
-								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
-							}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
-							}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
-							}
-						})}
-					else{
-						console.log("pasa*************************************************************************************")
-						if (courseInformation.support[1][1].isChecked===true){
-							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
-						}else{
-							
-							if (courseInformation.support[1][3].isChecked===true){ //visual
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-							}
-							if (courseInformation.support[1][0].isChecked===true){ //cognitive
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
-							}
-							if (courseInformation.support[1][2].isChecked===true){
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-							}
-						}
-					}
-						//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
-				}
-			})
 			
+			//cabezera de la unidad
 			let inclusion=courseInformation.support;
-			if((inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
+			if(inclusion[1]!=undefined){
+				unit.items.map((item,indexItem)=>{		
+					let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+						if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+							inclusion[1][1].isChecked===true || withoutChecked===true)){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:				
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+						}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
+							inclusion[1][1].isChecked===true || withoutChecked===true) ){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+						}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+							inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='noTime'){
+										if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+									} if(isa11y.name==='extendedTime'){
+										if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+									} if(isa11y.name==='warningAlert'){
+										if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+									}
+								})
+								:			
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+						}else if(item.type==='video'){
+							if(item.attributes.accessibility.isA11Y!=undefined){
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+									}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+										inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
+										inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+										}
+									if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
+										if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+									}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+									}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+											if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+									}
+								})}
+							else{
+								console.log("pasa*************************************************************************************")
+								if (courseInformation.support[1][1].isChecked===true){
+									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+								}else{
+									
+									if (courseInformation.support[1][3].isChecked===true){ //visual
+										tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+									}
+									if (courseInformation.support[1][0].isChecked===true){ //cognitive
+										tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
+									}
+									if (courseInformation.support[1][2].isChecked===true){
+										tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+									}
+								}
+							}
+								//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+						}
+					})
+			}
+         
+	
+			console.log("Contenido de las unidades*****",inclusion)
+			if((inclusion[1]===undefined) || (inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
 			unit.items.filter(element=>(
 			(element.type==='image' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 			(element.type==='audio' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
@@ -1562,7 +1685,7 @@ export default function ReportStep(props) {
 		newRandomTopics('topic')
 	};
 	const TemplateCourse=() =>{
-		console.log("template course")
+		console.log("******************TEMPLATECOURSE***************")	
 		let variablesUnidad=[]
 		let variablesTemplate=[]
 		let percentagebyUnit=[]
@@ -1583,86 +1706,88 @@ export default function ReportStep(props) {
 		let indexActividad=''
 
 		props.courseInformation.program.map((unit, indexUnit)=>{
-			unit.items.map((item,indexItem)=>{
 			let inclusion=courseInformation.support;
-			let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
-				if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][1].isChecked===true || withoutChecked===true)){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-						})
-						:				
-						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
-				}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][1].isChecked===true || withoutChecked===true) ){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-						})
-						:
-						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-				}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='noTime'){
-								if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
-							} if(isa11y.name==='extendedTime'){
-								if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
-							} if(isa11y.name==='warningAlert'){
-								if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
-							}
-						})
-						:			
-					tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-				}else if(item.type==='video'){
-					if(item.attributes.accessibility.isA11Y!=undefined){
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
-							}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-								inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
-								inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-								}
-							if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
-								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
-							}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
-							}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
-							}
-						})}
-					else{
-						console.log("pasa*************************************************************************************")
-						if (courseInformation.support[1][1].isChecked===true){
-							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
-						}else{
-							
-							if (courseInformation.support[1][3].isChecked===true){ //visual
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-							}
-							if (courseInformation.support[1][0].isChecked===true){ //cognitive
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
-							}
-							if (courseInformation.support[1][2].isChecked===true){
+			if(inclusion[1]!=undefined){
+				unit.items.map((item,indexItem)=>{
+					let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+						if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+							inclusion[1][1].isChecked===true || withoutChecked===true)){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:				
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+						}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
+							inclusion[1][1].isChecked===true || withoutChecked===true) ){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:
 								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+						}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+							inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='noTime'){
+										if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+									} if(isa11y.name==='extendedTime'){
+										if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+									} if(isa11y.name==='warningAlert'){
+										if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+									}
+								})
+								:			
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+						}else if(item.type==='video'){
+							if(item.attributes.accessibility.isA11Y!=undefined){
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+									}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+										inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
+										inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+										}
+									if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
+										if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+									}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+									}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+											if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+									}
+								})}
+							else{
+								console.log("pasa*************************************************************************************")
+								if (courseInformation.support[1][1].isChecked===true){
+									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+								}else{
+									
+									if (courseInformation.support[1][3].isChecked===true){ //visual
+										tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+									}
+									if (courseInformation.support[1][0].isChecked===true){ //cognitive
+										tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
+									}
+									if (courseInformation.support[1][2].isChecked===true){
+										tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+									}
+								}
 							}
+								//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
 						}
-					}
-						//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
-				}
-			})
+				})
+			}
 
-			let inclusion=courseInformation.support;
-			if((inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
+		
+			if((inclusion[1]===undefined) || (inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
 			unit.items.filter(element=>(
 			(element.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true ))|| 
 			(element.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true ))|| 
@@ -1717,91 +1842,88 @@ export default function ReportStep(props) {
 
 
 		props.courseInformation.program.map((unit, indexUnit)=>{
-         //cabezera de la unidad
          unit.activities.map((items,indexItems)=>{
-				items.items.map((item, indexItem)=>{
-					console.log("template", item,courseInformation)
-				
 				let inclusion=courseInformation.support;
-				let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
-            if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][1].isChecked===true || withoutChecked===true)){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-						})
-						:				
-						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
-				}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][1].isChecked===true || withoutChecked===true) ){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}
-						})
-						:
-						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
-				}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-					inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-					item.attributes.accessibility.isA11Y!=undefined?
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='noTime'){
-								if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
-							} if(isa11y.name==='extendedTime'){
-								if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
-							} if(isa11y.name==='warningAlert'){
-								if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
-							}
-						})
-						:			
-					tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-				}else if(item.type==='video'){
-					if(item.attributes.accessibility.isA11Y!=undefined){
-						item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
-							if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
-							}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
-								inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-							}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
-								inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
-								}
-							if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
-								if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
-							}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-								if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
-							}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
-									if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
-							}
-						})}
-					else{
-						console.log("pasa*************************************************************************************")
-						if (courseInformation.support[1][1].isChecked===true){
-							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
-						}else{
-							
-							if (courseInformation.support[1][3].isChecked===true){ //visual
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
-							}
-							if (courseInformation.support[1][0].isChecked===true){ //cognitive
-								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
-							}
-							if (courseInformation.support[1][2].isChecked===true){
+				if(inclusion[1]!=undefined){
+					items.items.map((item, indexItem)=>{
+						let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+						if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+							inclusion[1][1].isChecked===true || withoutChecked===true)){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:				
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+						}else if(item.type==='audio' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || 
+							inclusion[1][1].isChecked===true || withoutChecked===true) ){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:
 								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+						}else if(item.type==='quiz' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+							inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='noTime'){
+										if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+									} if(isa11y.name==='extendedTime'){
+										if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+									} if(isa11y.name==='warningAlert'){
+										if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+									}
+								})
+								:			
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+						}else if(item.type==='video'){
+							if(item.attributes.accessibility.isA11Y!=undefined){
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='seizures' && (inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+									}if((isa11y.name==='longDescription') && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
+										inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}if(( isa11y.name==='shortDescription') && (inclusion[1][3].isChecked===true || 
+										inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+										}
+									if(isa11y.name==='captionsEmbedded' && (inclusion[1][2].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true )){
+										if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+									}if(isa11y.name==='audioDescription' && (inclusion[1][3].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+										if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+									}if(isa11y.name==='signLanguage' && (inclusion[1][2].isChecked===true || inclusion[1][0].isChecked===true || inclusion[1][1].isChecked===true || withoutChecked===true)){
+											if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+									}
+								})}
+							else{
+								console.log("pasa*************************************************************************************")
+								if (courseInformation.support[1][1].isChecked===true){
+									tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+								}else{
+									
+									if (courseInformation.support[1][3].isChecked===true){ //visual
+										tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+									}
+									if (courseInformation.support[1][0].isChecked===true){ //cognitive
+										tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+4
+									}
+									if (courseInformation.support[1][2].isChecked===true){
+										tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+									}
+								}
 							}
-						}
-					}
-						//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
-				}	
-				})
+								//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
+						}	
+					})
+			   }
 				
-				let inclusion=courseInformation.support;
-				
-				if((inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
+				if((inclusion[1]===undefined) || (inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
 					items.items.filter(element=>(
 					(element.type==='image' && (courseInformation.support[1][3].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
 					(element.type==='audio' && (courseInformation.support[1][2].isChecked===true || courseInformation.support[1][0].isChecked===true ))|| 
