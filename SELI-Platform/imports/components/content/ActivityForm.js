@@ -16,7 +16,7 @@ export default class ActivityForm extends React.Component {
     this.state = {
       fileTypes: [
         {
-          label: 'Pdf',
+          label: 'PDF',
           selected: false,
         },
         {
@@ -101,7 +101,7 @@ export default class ActivityForm extends React.Component {
     let fileTypes = this.state.fileTypes;
     let selected = [
       {
-        label: 'Pdf',
+        label: 'PDF',
         accept: '.pdf',
         selected: false,
       },

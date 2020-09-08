@@ -30,45 +30,39 @@ export function QuizAccessibility(props) {
 	return (
 		<React.Fragment>
 			<section id='image-decoration' className='accessib-form'>
-
 				<FormControl component='fieldset'>
 					<FormLabel component='legend' id='image-purpose-label' className="accessibility-form-label">
-                    {props.language.noTimeRestrictions}
+            {props.language.noTimeRestrictions}
 					</FormLabel>
-					
-                    <div className="quiz-input-container">
-                            <RadioGroup
-                                name='noTime'
-                                id='image-purpose'
-                                aria-labelledby='image-purpose-label'
-                                aria-describedby='image-purpose-exp'
-                                value={dataField.noTime}
-                                onChange={React.useCallback(handleRadioButtonOnChange)}
-                                row
-                            >
-                                <FormControlLabel
-                                    name='noTime'
-                                    id='image-purpose-info'
-                                    label={props.language.yes} 
-                                    value='yes'
-                                    control={<Radio color='primary' />}
-                                    labelPlacement='end'
-                                /> 
-                                <FormControlLabel
-                                    name='noTime'
-                                    id='image-purpose-deco'
-                                    label={props.language.no} 
-                                    value='no'
-                                    control={<Radio color='primary' />}
-                                    labelPlacement='end'
-                                />
-                            
-                            </RadioGroup>
-
-                            </div>
+					<RadioGroup
+							name='noTime'
+							id='image-purpose'
+							aria-labelledby='image-purpose-label'
+							aria-describedby='image-purpose-exp'
+							value={dataField.noTime}
+							onChange={React.useCallback(handleRadioButtonOnChange)}
+							row
+					>
+							<FormControlLabel
+									name='noTime'
+									id='image-purpose-info'
+									label={props.language.yes} 
+									value='yes'
+									control={<Radio color='primary' />}
+									labelPlacement='end'
+							/> 
+							<FormControlLabel
+									name='noTime'
+									id='image-purpose-deco'
+									label={props.language.no} 
+									value='no'
+									control={<Radio color='primary' />}
+									labelPlacement='end'
+							/>
+					</RadioGroup>
 				</FormControl>
-                <br></br>
-                <AccessibilityHelp idName='captions-radiogroup' error={dataField.noTimeError} tip={noTimeTip}/>
+				<br></br>
+				<AccessibilityHelp idName='captions-radiogroup' error={dataField.noTimeError} tip={noTimeTip}/>
 			</section>
 			
 		</React.Fragment>
