@@ -32,13 +32,16 @@ export default function Lista(props) {
         <div className='resources'>
           
           
-                {
-                    props.data[0].map((value,index)=>(
-                        value.isChecked===true ?
-                            <p className='elemntoflist' key={value.id}>{value.label}</p>
-                        :
-                        undefined    
-                    ))
+                {   
+                    props.data[0]!=undefined?
+                        props.data[0].map((value,index)=>(
+                            value.isChecked===true ?
+                                <p className='elemntoflist' key={value.id}>{value.label}</p>
+                            :
+                            undefined    
+                        ))
+                    :
+                    undefined
                 }
                 {
                     props.data[2]!=undefined ?
@@ -114,19 +117,28 @@ export default function Lista(props) {
                 </ul>
               
             <div className='crnheading'>
-                <h3>This course is designed to be inclusive for:</h3>
+                {
+                     props.data[1]!=undefined ?
+                        <h3>This course is designed to be inclusive for:</h3>
+                        :
+                    undefined
+                }  
             </div>
              
                 <ul className='resourcesMainContent'>
+                    {console.log("error", props)}
                     {
-                        props.data[1].map((value,index)=>(//Inclusion Goals  
-                            value.isChecked===true ?
-                                <li className='elemntoflist' key={value.id}>
-                                    {value.label}
-                                </li>
-                            :
-                            undefined    
+                        props.data[1]!=undefined ?
+                            props.data[1].map((value,index)=>(//Inclusion Goals  
+                                value.isChecked===true ?
+                                    <li className='elemntoflist' key={value.id}>
+                                        {value.label}
+                                    </li>
+                                :
+                                undefined    
                         ))
+                        :
+                        undefined
                     }
                 </ul> 
             </div>
