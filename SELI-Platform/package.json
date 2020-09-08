@@ -33,6 +33,7 @@
     "draft-js": "^0.10.5",
     "draft-js-export-html": "^1.4.1",
     "email-deep-validator": "^3.3.0",
+    "ffmpeg-static": "^4.2.7",
     "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
     "jss": "^9.8.7",

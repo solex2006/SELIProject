@@ -1,8 +1,8 @@
 import { FilesCollection } from 'meteor/ostrio:files';
-
+import {   ImageProcess } from "./ImageProcess";
 const CourseFilesCollection = new FilesCollection({
-  storagePath: '/opt/Seli/UploadFiles',
-  downloadRoute: '/opt/Seli/UploadFiles',
+  storagePath: '/home/mfx/SeliCourseFiles',
+  downloadRoute: '/home/mfx/SeliCourseFiles',
   collectionName: 'CourseFilesCollection',
   permissions: 0o755,
   allowClientCode: false,
@@ -10,6 +10,14 @@ const CourseFilesCollection = new FilesCollection({
   // Read more about cacheControl: https://devcenter.heroku.com/articles/increasing-application-performance-with-http-cache-headers
   onbeforeunloadMessage() {
     return 'Upload is still in progress! Upload will be aborted if you leave this page!';
+  },
+  onAfterUpload(file) {
+  
+     ImageProcess(file,1920);
+   
+
+    
+  
   },
   onBeforeUpload(file) {
     // Allow upload files under 10MB, and only in png/jpg/jpeg formats
