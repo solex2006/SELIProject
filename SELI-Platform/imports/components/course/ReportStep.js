@@ -2515,10 +2515,10 @@ export default function ReportStep(props) {
 						justify="center"
 						alignItems="center"
 					>
-						<Grid item xl={6} lg={8} md={6} sm={12} component={Paper}>
-							<Chart percent={(contWithInclusionGol.averageCourse)/100} id="gauge-overall" />
+						<Grid item xl={2} lg={6} md={6} sm={4} xs={12} component={Paper}>
+							 <Chart percent={(contWithInclusionGol.averageCourse)/100} id="gauge-overall" /> 
 						</Grid>
-						<Grid item xl={2} lg={4} md={6} sm={4} xs={12} component={Paper}>
+						<Grid item xl={2} lg={4} md={6} sm={6} xs={4} component={Paper}>
 							<OverallCard
 								className={classes.valid}
 								Icon={<AccessibilityNewIcon />}
@@ -2527,7 +2527,7 @@ export default function ReportStep(props) {
 								tip="Accessiblity Resources configured"
 							/>
 						</Grid>
-						 <Grid item xl={2} lg={6} md={6} sm={4} xs={12} component={Paper}>
+						 <Grid item xl={2} lg={4} md={6} sm={4} xs={4} component={Paper}>
 							<OverallCard
 								className={classes.notConfig}
 								Icon={<AssignmentLateIcon />}
@@ -2536,7 +2536,7 @@ export default function ReportStep(props) {
 								tip="Configure them to make the content accessible"
 							/>
 						</Grid> 
-						<Grid item xl={2} lg={6} md={6} sm={4} xs={12} component={Paper}>
+						<Grid item xl={2} lg={4} md={6} sm={4} xs={4} component={Paper}>
 							<OverallCard
 								className={classes.misConfig}
 								Icon={<AssignmentLateIcon />}
