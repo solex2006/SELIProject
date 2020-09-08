@@ -248,20 +248,18 @@ export default class VideoForm extends React.Component {
             <div id="dialog-max-height" className="dialog-form-container">
               <div className="course-creator-file-form-column">
                 <div className = "menu-tab-button-container">
-                  <Paper square>
-                    <Tabs
-                      color="primary"
-                      value={this.state.attributes.source}
-                      indicatorColor="primary"
-                      textColor="primary"
-                      className="form-tabs-container"
-                      variant="fullWidth"
-                      centered={true}
-                    >
-                      <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadVideo} icon={<CloudUploadIcon />} />
-                      <Tab value={'url'} onClick={() => {this.selectType('url'); this.unPickFile()}} className="form-tab" label={this.props.language.byUrlVideo}  icon={<HttpIcon />} />
-                    </Tabs>
-                  </Paper>
+                  <Tabs
+                    color="primary"
+                    value={this.state.attributes.source}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    className="form-tabs-container"
+                    variant="fullWidth"
+                    centered={true}
+                  >
+                    <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadVideo} icon={<CloudUploadIcon />} />
+                    <Tab value={'url'} onClick={() => {this.selectType('url'); this.unPickFile()}} className="form-tab" label={this.props.language.byUrlVideo}  icon={<HttpIcon />} />
+                  </Tabs>
                 </div>
                 {
                   this.state.attributes.source === "upload" && !this.state.showGallery ?

@@ -176,20 +176,18 @@ export default class AudioForm extends React.Component {
             <div id="dialog-max-height" className="dialog-form-container">
               <div className="course-creator-file-form-column">
                 <div className = "menu-tab-button-container">
-                  <Paper square>
-                    <Tabs
-                      color="primary"
-                      value={this.state.attributes.source}
-                      indicatorColor="primary"
-                      textColor="primary"
-                      className="form-tabs-container"
-                      variant="fullWidth"
-                      centered={true}
-                    >
-                      <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadAudio} icon={<CloudUploadIcon />} />
-                      <Tab value={'record'} onClick={() => {this.selectType('record'); this.unPickFile()}} className="form-tab" label={this.props.language.byRecordedAudio} icon={<MicIcon />} />
-                    </Tabs>
-                  </Paper>
+                  <Tabs
+                    color="primary"
+                    value={this.state.attributes.source}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    className="form-tabs-container"
+                    variant="fullWidth"
+                    centered={true}
+                  >
+                    <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.byUploadAudio} icon={<CloudUploadIcon />} />
+                    <Tab value={'record'} onClick={() => {this.selectType('record'); this.unPickFile()}} className="form-tab" label={this.props.language.byRecordedAudio} icon={<MicIcon />} />
+                  </Tabs>
                 </div>
 
                 
