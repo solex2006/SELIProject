@@ -749,7 +749,6 @@ export default function ReportStep(props) {
 		let NotAccessibleSign=0
 	
       props.courseInformation.program.map((unit, indexUnit)=>{
-			//cabezera de la unidad
 			let inclusion=courseInformation.support;
 			console.log("PASO 1:",inclusion)
 			if(inclusion[1]!=undefined){
@@ -1023,7 +1022,7 @@ export default function ReportStep(props) {
 						
 					})
 				}else{
-					unit.items.map((item,indexItem)=>{		
+					lesson.items.map((item,indexItem)=>{		
 							if(item.type==='image'){
 								item.attributes.accessibility.isA11Y!=undefined?
 									item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
@@ -1493,6 +1492,60 @@ export default function ReportStep(props) {
 								//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
 						}
 					})
+			}else{
+				unit.items.map((item,indexItem)=>{		
+						if(item.type==='image'){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:				
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+						}else if(item.type==='audio'){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+						}else if(item.type==='quiz' ){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='noTime'){
+										if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+									} if(isa11y.name==='extendedTime'){
+										if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+									} if(isa11y.name==='warningAlert'){
+										if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+									}
+								})
+								:			
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+						}else if(item.type==='video'){
+							if(item.attributes.accessibility.isA11Y!=undefined){
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='seizures'){
+										if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+									}if((isa11y.name==='longDescription')){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}if(( isa11y.name==='shortDescription')){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+										}
+									if(isa11y.name==='captionsEmbedded' ){
+										if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+									}if(isa11y.name==='audioDescription' ){
+										if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+									}if(isa11y.name==='signLanguage'){
+											if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+									}
+								})}
+						}
+					})
+
 			}
          
 	
@@ -1784,6 +1837,60 @@ export default function ReportStep(props) {
 								//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
 						}
 				})
+			}else{
+				unit.items.map((item,indexItem)=>{
+					if(item.type==='image'){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}
+							})
+							:				
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+					}else if(item.type==='audio' ){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}
+							})
+							:
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+					}else if(item.type==='quiz'){
+						item.attributes.accessibility.isA11Y!=undefined?
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='noTime'){
+									if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+								} if(isa11y.name==='extendedTime'){
+									if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+								} if(isa11y.name==='warningAlert'){
+									if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+								}
+							})
+							:			
+						tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+					}else if(item.type==='video'){
+						if(item.attributes.accessibility.isA11Y!=undefined){
+							item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+								if(isa11y.name==='seizures' ){
+									if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+								}if((isa11y.name==='longDescription')){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+								}if(( isa11y.name==='shortDescription')){
+									if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								if(isa11y.name==='captionsEmbedded'){
+									if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+								}if(isa11y.name==='audioDescription'){
+									if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+								}if(isa11y.name==='signLanguage'){
+										if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+								}
+							})}
+					}
+				})
+
 			}
 
 		
@@ -1921,7 +2028,61 @@ export default function ReportStep(props) {
 								//tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+6
 						}	
 					})
-			   }
+			   }else{
+					items.items.map((item, indexItem)=>{
+						if(item.type==='image'){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription' ){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:				
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+1
+						}else if(item.type==='audio' ){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='longDescription' || isa11y.name==='shortDescription'){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}
+								})
+								:
+								tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+2
+						}else if(item.type==='quiz'){
+							item.attributes.accessibility.isA11Y!=undefined?
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='noTime'){
+										if(isa11y.is_a11y===true){contnoTime+=1} else if(isa11y.is_a11y===null){NotAccessiblenoTime+=1} else {contnoTimeFalse+=1}
+									} if(isa11y.name==='extendedTime'){
+										if(isa11y.is_a11y===true){contextendedTime+=1}else if(isa11y.is_a11y===null){NotAccessibleextendTime+=1}else{contextendedTimeFalse+=1}
+									} if(isa11y.name==='warningAlert'){
+										if(isa11y.is_a11y===true){contwarningAlert+=1}else if(isa11y.is_a11y===null){NotAccessibleAlert+=1}else{contwarningAlertFalse+=1}
+									}
+								})
+								:			
+							tasknoconfig.guidedWTopics=tasknoconfig.guidedWTopics+3
+						}else if(item.type==='video'){
+							if(item.attributes.accessibility.isA11Y!=undefined){
+								item.attributes.accessibility.isA11Y.map((isa11y,indexIsa11y)=>{//para una iamgen
+									if(isa11y.name==='seizures' ){
+										if(isa11y.is_a11y===true){contseizures+=1}else if(isa11y.is_a11y===null){NotAccessibleSeizures+=1}else{contseizuresFalse+=1}
+									}if((isa11y.name==='longDescription')){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+									}if(( isa11y.name==='shortDescription')){
+										if(isa11y.is_a11y===true){contText+=1}else{contTextFalse+=1}
+										}
+									if(isa11y.name==='captionsEmbedded' ){
+										if(isa11y.is_a11y===true){contCaptions+=1}else if(isa11y.is_a11y===null){NotAccessibleCaptions+=1}else{contCaptionsFalse+=1}
+									}if(isa11y.name==='audioDescription' ){
+										if(isa11y.is_a11y===true){contaudioDescription+=1}else if(isa11y.is_a11y===null){NotAccessibleDescription+=1}else{contaudioDescriptionFalse+=1}
+									}if(isa11y.name==='signLanguage' ){
+											if(isa11y.is_a11y===true){contsignLanguage+=1}else if(isa11y.is_a11y===null){NotAccessibleSign+=1}else{contsignLanguageFalse+=1}
+									}
+								})}
+						}	
+					})
+
+				}
 				
 				if((inclusion[1]===undefined) || (inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false )||
 					items.items.filter(element=>(
