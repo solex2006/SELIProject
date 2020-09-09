@@ -312,7 +312,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 								user={Meteor.userId()}
 								label={props.language.uploadAudioButtonLabel}//label={this.props.language.uploadAudioButtonLabel}
 								getFileInformation={getFileInformationAudioDescription}
-								handleControlMessage={props.handleControlMessage.bind(this)}
+								handleControlMessage={props.handleControlMessage}
 								language={props.language}
 								/>
 						</div>
@@ -712,10 +712,21 @@ export const useDataField = (props) => {
 		let data = {
 			[name]: value,
 		};
-		console.log("en la funcion handleRadioButtonOnChange", "name" ,name, "value",value)
+		console.log("en la funcion handleRadioButtonOnChange", "name" ,name, "value",value,"datafile->",dataField)
 		if(name === 'audioDescription')
 		{
-			let errValue = value === 'yes' ? false : ((dataField.audioDescriptionRequired === 'yes') && !dataField.hasAudioDescriptionFile);
+			let errValue='';
+			if(value === 'yes'){
+				 errValue = value === 'yes' ? false : ((dataField.audioDescriptionRequired === 'yes') && !dataField.hasAudioDescriptionFile);
+			}
+			if(value === 'no'){
+				
+				
+				errValue = value === 'no' ? true : ((dataField.audioDescriptionRequired === 'no') && !dataField.hasAudioDescriptionFile);
+				if((dataField.audioDescription === 'yes') && dataField.fileAudioDescription.length!=0){
+					errValue=false
+				}
+			}
 
 			data = {...data,
 				audioDescriptionRequired: value === 'yes' ? value : dataField.audioDescriptionRequired,
@@ -728,7 +739,34 @@ export const useDataField = (props) => {
 		}
 		else if (name === 'audioDescriptionRequired')
 		{
-			let errValue = dataField.audioDescription === 'yes' ? false : ((value === 'yes') && !dataField.hasAudioDescriptionFile);
+			//fileAudioDescription
+		//	let errValue = dataField.audioDescription === 'yes' ? false : ((value === 'yes') && !dataField.hasAudioDescriptionFile);
+			let errValue=''
+
+			
+			if(dataField.audioDescription === 'yes' && dataField.fileAudioDescription.length!=0 ){
+				errValue =  false
+			}
+			if(!dataField.fileAudioDescription.length!=0){
+				console.log("valor*******************", dataField.fileAudioDescription)
+				if(value==="no"){
+					errValue =  false
+				}else{
+					errValue =  true
+				}
+				if(value==="yes" && dataField.fileAudioDescription[0]===undefined ){
+					errValue =  true
+				} 
+			}
+			if(dataField.fileAudioDescription.length!=0){
+				console.log("valor2*******************", dataField.fileAudioDescription)
+				if(value==="yes" && dataField.fileAudioDescription[0]===undefined ){
+					errValue =  true
+				} 
+			}
+				
+			//let errValue = dataField.audioDescription === 'yes' ? false : (value === 'yes' && !dataField.fileAudioDescription.length!=0);
+			
 			data = {...data,
 				audioDescriptionError: errValue,
 			};
