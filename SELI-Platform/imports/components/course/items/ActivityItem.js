@@ -673,14 +673,16 @@ export default class ActivityItem extends React.Component {
                     return(
                       <Paper 
                         onClick={() => this.selectStory(story._id, story.activity.name)} 
-                        elevation={story._id === this.state.storySelected ? 5 : 1} 
+                        elevation={story._id === this.state.storySelected ? 15 : 2} 
                         className="story-item-container"
+                        tabIndex="0"
                       >
                         <LibraryBooksIcon className="story-item-icon"/>
                         <p className="story-item-text-primary">{story.activity.name}</p>
                         <Link className="story-item-button"
                           target="_blank"
                           to={`/story#${story._id}`}
+                          tabIndex="-1"
                         >
                           <Tooltip title={this.props.language.open} placement="left">
                             <IconButton color="secondary" aria-label="open">

@@ -407,14 +407,14 @@ class StorytellingTool extends React.Component {
         });
         return false;
       }
-      if (story.nodes[i].audio === "" && i + 1 < story.nodes.length && publish) {
+      if (story.nodes[i].audio === "" && story.nodes[i].video === "" && i + 1 < story.nodes.length && publish) {
         this.props.handleControlMessage(true, this.props.language.allScenesAudio);
         this.setState({
           selectedNode: i,
         });
         return false;
       }
-      if (story.nodes[i].image === "" && publish) {
+      if (story.nodes[i].image === "" && story.nodes[i].video === "" && publish) {
         this.props.handleControlMessage(true, this.props.language.allScenesImage);
         this.setState({
           selectedNode: i,
@@ -1274,7 +1274,7 @@ class StorytellingTool extends React.Component {
                         {
                           this.state.story.nodes[this.state.selectedNode].video !== '' ?
                             this.state.story.nodes[this.state.selectedNode].video.name === "externalVideoUrlStorytelling" ?
-                              <ReactPlayer className="course-creator-preview-player" url={this.state.story.nodes[this.state.selectedNode].video.link}/>
+                              <ReactPlayer controls className="course-creator-preview-player" url={this.state.story.nodes[this.state.selectedNode].video.link}/>
                             :
                               <div className="video-preview-container">
                                 <VideoPreview file={this.state.story.nodes[this.state.selectedNode].video}/>

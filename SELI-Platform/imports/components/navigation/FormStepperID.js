@@ -728,12 +728,12 @@ useEffect(()=>{
       <div className="form-stepper-navigation-id">
         <div className="form-stepper-information-id">
           <h1 style={{color: getComputedStyle(document.documentElement).getPropertyValue('--' + props.color)}} className="form-stepper-title">{props.title}</h1>
-          {width >= 1600 && <p className="form-stepper-active-step-id">{`${props.language.step}  
+          {width >= 1300 && <p className="form-stepper-active-step-id">{`${props.language.step}  
           ${(props.coursePlan.guidedCoursePlan==="free" && activeStep>3)?parseInt(activeStep ):parseInt(activeStep + 1)} ${props.language.of} ${props.coursePlan.guidedCoursePlan==="free"?steps.length-1:steps.length}: ${steps[activeStep].label}`}</p>}
         </div>
         {
           props.steps.length > 1 ?
-            width < 1600 ?
+            width < 1300 ?
               <div>      
                 <Button className="form-stepper-selector-button" color={props.color} aria-describedby={id} onClick={handleClick}>
                   {`${props.language.step}  ${parseInt(activeStep + 1)} ${props.language.of} ${props.coursePlan.guidedCoursePlan==="free"?steps.length-1:steps.length}: ${steps[activeStep].label}`}

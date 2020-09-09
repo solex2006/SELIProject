@@ -405,7 +405,8 @@
   display: flex !important;
   position: relative !important;
   align-items: center !important;
-  width: 40vw !important;
+  min-width: 18vw;
+  width: calc(100% - 2vw) !important;
   margin-top: 1vh !important;
   padding: 1.5vh 1vw !important;
   transition: 0.5s !important;
@@ -434,6 +435,7 @@
   font-size: 0.95em;
   margin-left: 0.5vw;
   color: #333;
+  margin-right: 35px;
 }
 
 .story-item-text-secondary {

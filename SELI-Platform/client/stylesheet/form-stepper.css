@@ -229,7 +229,7 @@
   opacity: 1;
 }
 
-@media only screen and (max-width: 1600px)  {
+@media only screen and (max-width: 1300px)  {
   .form-stepper-active-step-id {display: none !important;}
   .form-stepper-title {font-size: 21.5px !important;}
 }
