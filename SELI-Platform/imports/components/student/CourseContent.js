@@ -20,6 +20,7 @@ export default class CourseContent extends React.Component {
   }
 
   componentDidMount() {
+    document.getElementById("courseContainer").scroll(0,0);
   }
 
   loadingData = () => {
@@ -172,7 +173,7 @@ export default class CourseContent extends React.Component {
 
   render() {
     return(
-      <div className="course-content-container">
+      <div id="courseContainer" className="course-content-container">
         { this.props.course.program.length &&
           <React.Fragment>
             <div className="course-content-breadcrumbs-container">
