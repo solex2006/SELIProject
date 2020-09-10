@@ -441,7 +441,7 @@ var SPANISH = {
   atLeast2Questions: "Cada cuestionario debe tener al menos 2 preguntas",
   titleIsR: "El título de la pregunta es un campo obligatorio",
   addAnswerOfQ: "Agregue la respuesta de la pregunta",
-  selectOneCorrect: "Seleccione una respuesta correcta",
+  selectOneCorrect: "Seleccione una respuesta correcta en la pregunta:",
   numberQuestions: "Numero de preguntas",
   noAwardPoints: "Sin puntos premiados",
   storyboard: "Narración digital",

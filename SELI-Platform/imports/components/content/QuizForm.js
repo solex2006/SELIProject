@@ -25,6 +25,7 @@ import ImagePreview from '../files/previews/ImagePreview';
 import createBadge from '../badge/CreateBadge';
 
 export default class QuizForm extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -504,7 +505,6 @@ export default class QuizForm extends React.Component {
     return(
       <div className="dialog-form-container">
         <div className="quiz-header-container">
-
           <div className="quiz-input-container">
             <TextField
               id="quiz-input"
@@ -531,7 +531,7 @@ export default class QuizForm extends React.Component {
               <AccessibilityHelp idName='captions-radiogroup' error={this.state.limitHelp } tip={this.props.language.helpTimeRestriction}/>
             </div>
 
-            <div className="quiz-input-container">
+          <div className="quiz-input-container">
             <p className="form-dialog-question-button-container-text">{this.props.language.approvalPercentage}</p>  
               <NumericInput
                 className="quiz-inputnumeric"

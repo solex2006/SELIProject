@@ -441,7 +441,7 @@
   atLeast2Questions: "Każdy quiz musi mieć conajmniej dwa pytania",
   titleIsR: "Tytuł pytania jest polem wymaganym",
   addAnswerOfQ: "Proszę dodać odpowiedź do pytania",
-  selectOneCorrect: "Wybierz jedną poprawną odpowiedź",
+  selectOneCorrect: "Select one correct answer in question:",
   numberQuestions: "Numer pytania",
   noAwardPoints: "Brak nagrody i punktów",
   storyboard: "Historia",

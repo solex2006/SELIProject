@@ -441,7 +441,7 @@ var ENGLISH = {
   atLeast2Questions: "Every quiz must have at least 2 questions",
   titleIsR: "The question title is a required field",
   addAnswerOfQ: "Please add the answer of the question",
-  selectOneCorrect: "Select one correct answer",
+  selectOneCorrect: "Select one correct answer in question:",
   numberQuestions: "Number of questions",
   noAwardPoints: "No award points",
   storyboard: "Storyboard",
