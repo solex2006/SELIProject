@@ -363,19 +363,18 @@
 }
 
 .classroom-management-students-container {
-  width: 100%;
-  height: calc(100vh - var(--app-bar-height) - 1.75em - 2vh);
-  max-height: calc(100vh - var(--app-bar-height) - 1.75em - 2vh);
-  overflow-y: scroll;
+  width: calc(100% - 1vw);
+  height: calc(100vh - var(--app-bar-height));
+  max-height: calc(100vh - var(--app-bar-height));
+  overflow-y: auto;
   padding-left: 1vw;
   background-color: white;
 }
 
 .classroom-dialog-content {
   flex-direction: column !important;
-  padding-left: 0vw !important;
-  padding-right: 0 !important;
-  overflow-x: hidden;
+  padding: 0px 0px !important;
+  overflow: hidden !important;
   background-color: white !important;
 }
 

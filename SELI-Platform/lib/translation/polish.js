@@ -961,7 +961,7 @@
   TeachersandProfessors:'Teachers and Professors',
   Preschoolkids:'Preschool Kids',
   InclusionGoals:'Inclusion Goals',
-  Validatetheinclusion:'If you desire to validate the inclusion of your course for some specific diversity group, select them from the list below . You can select as many as you want.',
+  Validatetheinclusion:'If you desire to validate the inclusion of your course for some specific diversity group, select them from the list above. You can select as many as you want.',
   Cognitive:'Cognitive disabilities',
   Elderly:'Diversity of Abilities',
   Hearing:'Hearing disabilities',

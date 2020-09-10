@@ -598,85 +598,82 @@ export default class PublishedCoursesList extends React.Component {
                         <Loading message={this.props.language.loadingStudents}/>
                       </div>
                     :
-                      <React.Fragment>
+                      <div className="classroom-management-students-container">
                         {this.menu()}
-                        <div className="classroom-management-students-container">
-                          {
-                            this.state.studentInformation===''?
-                              <div>
-                                <DialogContentText className="classroom-dialog-title" id="alert-dialog-description">
-                                {this.props.language.studentsClassroom}
-                                </DialogContentText>
-                                <div className="library-files-container-student">
-                                  {this.state.courseProfiles.map((profile, index) => {
-                                    if (profile.courseProfile)
-                                    return(
-                                      <StudentProfile
-                                        profile={profile}
-                                        course={this.state.summaryCourse}
-                                        handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                        unsubscribe={this.props.unsubscribe.bind(this)}
-                                        handleView={this.handleView}
-                                        reload={this.openClassroomManagement.bind(this)}
-                                        language={this.props.language}
-                                      />
-                                    )
-                                  })}
-                                </div>
+                        {
+                          this.state.studentInformation===''?
+                            <div>
+                              <DialogContentText className="classroom-dialog-title" id="alert-dialog-description">
+                              {this.props.language.studentsClassroom}
+                              </DialogContentText>
+                              <div className="library-files-container-student">
+                                {this.state.courseProfiles.map((profile, index) => {
+                                  if (profile.courseProfile)
+                                  return(
+                                    <StudentProfile
+                                      profile={profile}
+                                      course={this.state.summaryCourse}
+                                      handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                      unsubscribe={this.props.unsubscribe.bind(this)}
+                                      handleView={this.handleView}
+                                      reload={this.openClassroomManagement.bind(this)}
+                                      language={this.props.language}
+                                    />
+                                  )
+                                })}
+                              </div>
+                            </div>
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.studentInformation==='quiz'?
+                            this.state.studentScores.length === 0 ?
+                              <div className="empty-dashboard-quiz">
+                                <p className="empty-dashboard-text">{this.props.language.courseNotHaveQuizes}</p>
+                                <InfoIcon className="empty-dashboard-icon"/>
                               </div>
                             :
-                              undefined
-                          }
-                          {
-                            this.state.studentInformation==='quiz'?
-                              this.state.studentScores.length === 0 ?
-                                <div className="empty-dashboard-quiz">
-                                  <p className="empty-dashboard-text">{this.props.language.courseNotHaveQuizes}</p>
-                                  <InfoIcon className="empty-dashboard-icon"/>
-                                </div>
-                              :
-                                this.quizes()
-                            :
-                              undefined
-                          }
-                          {
-                            this.state.studentInformation==='quizDetails'?
-                              this.quizDetails()
-                            :
-                              undefined
-                          }
-                          {
-                            this.state.studentInformation==='course'?
-                              <div>
-                                <CourseMenu
-                                  course={this.state.course}
-                                  progress={this.state.student.courseProfile.progress}
-                                  navigateTo={this.props.navigateTo.bind(this)}
-                                  selected={this.props.selected}
-                                  expandedNodes={this.props.expandedNodes}
-                                  handleView={this.handleView.bind(this)}
-                                  language={this.props.language}
-                                />
-                                <CourseContent
-                                  fromTutor={this.state.student.studentId}
-                                  course={this.state.course}
-                                  showComponent={this.props.showComponent.bind(this)}
-                                  handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                  handlePrevious={this.props.handlePrevious.bind(this)}
-                                  handleNext={this.props.handleNext.bind(this)}
-                                  navigateTo={this.props.navigateTo.bind(this)}
-                                  selected={this.props.selected}
-                                  toComplete={this.state.student.courseProfile.toComplete}
-                                  toResolve={this.state.student.courseProfile.toResolve}
-                                  language={this.props.language}
-                                  logStudentInteraction={this.logStudentInteraction.bind(this)}
-                                />
-                              </div>
-                            :
-                              undefined
-                          }
-                        </div>
-                      </React.Fragment>
+                              this.quizes()
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.studentInformation==='quizDetails'?
+                            this.quizDetails()
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.studentInformation==='course'?
+                            <div>
+                              <CourseMenu
+                                course={this.state.course}
+                                progress={this.state.student.courseProfile.progress}
+                                navigateTo={this.props.navigateTo.bind(this)}
+                                selected={this.props.selected}
+                                expandedNodes={this.props.expandedNodes}
+                                handleView={this.handleView.bind(this)}
+                                language={this.props.language}
+                              />
+                              <CourseContent
+                                fromTutor={this.state.student.studentId}
+                                course={this.state.course}
+                                showComponent={this.props.showComponent.bind(this)}
+                                handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                handlePrevious={this.props.handlePrevious.bind(this)}
+                                handleNext={this.props.handleNext.bind(this)}
+                                navigateTo={this.props.navigateTo.bind(this)}
+                                selected={this.props.selected}
+                                toComplete={this.state.student.courseProfile.toComplete}
+                                toResolve={this.state.student.courseProfile.toResolve}
+                                language={this.props.language}
+                              />
+                            </div>
+                          :
+                            undefined
+                        }
+                      </div>
                   }
                 </React.Fragment>
               :

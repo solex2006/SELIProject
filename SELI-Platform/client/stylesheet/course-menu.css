@@ -180,4 +180,8 @@
   .course-menu-options-container {
     width: 85vw;
   }
+  .course-menu-button-container {
+    top: calc(var(--app-bar-height) + 1px);
+    right: 1px;
+  }
 } 
