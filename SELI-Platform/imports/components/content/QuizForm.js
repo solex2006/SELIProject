@@ -306,8 +306,7 @@ export default class QuizForm extends React.Component {
   }
 
   validateQuestion = (question, questions, flag) => {
-    console.log("en el validation---->",question, questions,"number of questions-->" ,this.state.attributes.numberofQuestions)
-   
+    console.log("en el validation---->",question, questions,"number of questions-->" ,this.state.attributes.numberofQuestions)  
     if(flag==='validation'){
       let flag=""
       questions.map((question, indexQuestion)=>{
@@ -417,21 +416,22 @@ export default class QuizForm extends React.Component {
     });
   }
   handleClickQuestion = (index) => {
+    console.log("index, this.state.questionSelected", index, this.state.questionSelected );
     if (index === this.state.questionSelected) {
       return;
     }
-    else if (index < this.state.questionSelected || index < (this.state.addedQuestions + 1)) {
+     if (index < this.state.questionSelected || index < (this.state.addedQuestions + 1)) {
       this.setState({
         questionSelected: index,
       });
     }
-    else if ((this.state.questionSelected + 1) === index) {
-      if (this.validateQuestion(this.state.attributes.questions[this.state.questionSelected],this.state.attributes.questions)) {
+     if ((this.state.questionSelected + 1) === index) {
+    //  if (this.validateQuestion(this.state.attributes.questions[this.state.questionSelected],this.state.attributes.questions)) {
         this.getAddedQuestions();
         this.setState({
           questionSelected: index,
         });
-      }
+     // }
     }
   }
 
