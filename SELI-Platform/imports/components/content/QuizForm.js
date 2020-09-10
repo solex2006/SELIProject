@@ -209,8 +209,10 @@ export default class QuizForm extends React.Component {
  
         }
       else if (event<index){
+        console.log("this.state.questionSelected--->", this.state.questionSelected,questions)
 
           questions[this.state.questionSelected].answersText.pop();
+          questions[this.state.questionSelected].correctAnswers.pop();
 
       }
     
@@ -241,20 +243,34 @@ export default class QuizForm extends React.Component {
     });
   };
 
- myFormat=(num)=> {
-    return num + '%';
-}
-myFormatminutes=(num)=> {
-  return num + 'min';
-}
+  myFormat=(num)=> {
+      return num + '%';
+  }
+  myFormatminutes=(num)=> {
+    return num + 'min';
+  }
   validateContent = (content) => {
-    if (!this.validateQuestion(content.questions[this.state.questionSelected])) {
-      this.props.handleControlMessage(true, this.props.language.completeLastQuestion);
+    
+    let questions=[...content.questions];
+    questions.filter((question,indexQuestion) =>{
+      if(question.questionTitle==='' ){
+        questions.splice(indexQuestion)
+      }
+    });
+    console.log("EN LA VALIDACION---->", questions, this.state.questionSelected)
+    console.log("paso5",this.validateQuestion(content.questions[this.state.questionSelected], questions, 'validation'))
+
+    if (!this.validateQuestion(content.questions[this.state.questionSelected], questions, 'validation')) {
+      //this.props.handleControlMessage(true, this.props.language.completeLastQuestion);
       return false;
     }
     //else if (content.quizTitle === '' || content.creditResources === '') {
     else if (content.quizTitle === '') {
       this.props.handleControlMessage(true, this.props.language.titleAndCreditAreR);
+      return false;
+    }
+    else if ((this.state.addedQuestions + 1) < 2) {
+      this.props.handleControlMessage(true, this.props.language.atLeast2Questions);
       return false;
     }
     else if ((this.state.addedQuestions + 1) < 2) {
@@ -268,9 +284,17 @@ myFormatminutes=(num)=> {
   getQuizAttributes(){
     console.log('getQuizAttribute')
     let quizContent = this.state.attributes;
+    console.log('getQuizAttribute--->:',quizContent)
     if (this.validateContent(quizContent)) {
       let questions = quizContent.questions.slice(0, (this.state.addedQuestions + 1));
       quizContent.expanded = true;
+      
+      questions.filter((question,indexQuestion) =>{
+        if(question.questionTitle==='' ){
+          questions.splice(indexQuestion)
+        }
+      });
+      console.log("QUESTIONS*********************",questions)
       quizContent.questions = questions;
       createBadge(quizContent.badgeClass)
       return quizContent;
@@ -280,28 +304,77 @@ myFormatminutes=(num)=> {
     }
   }
 
-  validateQuestion = (question) => {
-    if (question.questionTitle === '') {
-      this.props.handleControlMessage(true, this.props.language.titleIsR);
-      return false;
-    }
-    for (var i = 0; i < question.answersText.length; i++) {
-      if (question.answersText[i] === '') {
-        this.props.handleControlMessage(true, `${this.props.language.addAnswerOfQ} ${i + 1}`);
+  validateQuestion = (question, questions, flag) => {
+    console.log("en el validation---->",question, questions,"number of questions-->" ,this.state.attributes.numberofQuestions)
+   
+    if(flag==='validation'){
+      let flag=""
+      questions.map((question, indexQuestion)=>{
+        if (question.questionTitle === '') {
+          this.props.handleControlMessage(true, this.props.language.titleIsR);
+          console.log("paso1 ",)
+          flag=false
+          return false;
+          
+        }
+        for (var i = 0; i < question.answersText.length; i++) {
+          if (question.answersText[i] === '') {
+            this.props.handleControlMessage(true, `${this.props.language.addAnswerOfQ} ${indexQuestion+1}`);
+            console.log("paso2 ",)
+            flag=false
+            return false;
+          
+          }
+        }
+        if (!question.correctAnswers[0] && !question.correctAnswers[1] && !question.correctAnswers[2] && !question.correctAnswers[3]) {
+          this.props.handleControlMessage(true, `${this.props.language.selectOneCorrect} ${indexQuestion+1}`);
+          console.log("paso3 ",)
+          flag=false
+          return false;
+          
+        }
+        console.log("pas41 ",)
+        if(flag===false){
+          flag=false
+        }else{
+          flag=true
+          return true;
+        }
+        
+      })
+      if(flag!=''){
+        console.log("pas4111 ",)
+        return flag
+      }
+
+    }else{
+      if (question.questionTitle === '') {
+        this.props.handleControlMessage(true, this.props.language.titleIsR);
         return false;
       }
+      for (var i = 0; i < question.answersText.length; i++) {
+        if (question.answersText[i] === '') {
+          this.props.handleControlMessage(true, `${this.props.language.addAnswerOfQ} ${i + 1}`);
+          return false;
+        }
+      }
+      if (!question.correctAnswers[0] && !question.correctAnswers[1] && !question.correctAnswers[2] && !question.correctAnswers[3]) {
+        this.props.handleControlMessage(true, this.props.language.selectOneCorrect);
+        return false;
+      }
+      return true;
     }
-    if (!question.correctAnswers[0] && !question.correctAnswers[1] && !question.correctAnswers[2] && !question.correctAnswers[3]) {
-      this.props.handleControlMessage(true, this.props.language.selectOneCorrect);
-      return false;
-    }
-    return true;
+
+      
+
+  
+    
   }
 
   getAddedQuestions = () => {
     let addedQuestions = 0;
     for (var i = 0; i < this.state.attributes.questions.length; i++) {
-      if (this.validateQuestion(this.state.attributes.questions[i])) {
+      if (this.validateQuestion(this.state.attributes.questions[i],this.state.attributes.questions)) {
         addedQuestions++;
       }
     }
@@ -311,9 +384,10 @@ myFormatminutes=(num)=> {
   }
 
   getAddedQuestionsEdit = () => {
+    console.log(" getAddedQuestionsEdit",this.state.attributes.questions)
     let addedQuestions = 0;
     for (var i = 0; i < this.state.attributes.questions.length; i++) {
-      if (this.validateQuestion(this.state.attributes.questions[i])) {
+      if (this.validateQuestion(this.state.attributes.questions[i],this.state.attributes.questions)) {
         addedQuestions++;
       }
     }
@@ -341,7 +415,6 @@ myFormatminutes=(num)=> {
       addedQuestions: addedQuestions,
     });
   }
-
   handleClickQuestion = (index) => {
     if (index === this.state.questionSelected) {
       return;
@@ -352,7 +425,7 @@ myFormatminutes=(num)=> {
       });
     }
     else if ((this.state.questionSelected + 1) === index) {
-      if (this.validateQuestion(this.state.attributes.questions[this.state.questionSelected])) {
+      if (this.validateQuestion(this.state.attributes.questions[this.state.questionSelected],this.state.attributes.questions)) {
         this.getAddedQuestions();
         this.setState({
           questionSelected: index,
@@ -385,9 +458,9 @@ myFormatminutes=(num)=> {
         let attributes = this.state.attributes;
         for (var i = attributes.questions.length; i < 10; i++) {
           attributes.questions.push({
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           });
         }
         this.setState({
@@ -517,7 +590,7 @@ myFormatminutes=(num)=> {
               key={Math.random()}
               mobile
               defaultValue={this.state.attributes.questions[this.state.questionSelected].correctAnswers.length}
-              min={1}
+              min={0}
               max={500}
               onChange={this.handleChange('numberofAnswers', this.state.attributes.questions[this.state.questionSelected].correctAnswers.length)}
               required

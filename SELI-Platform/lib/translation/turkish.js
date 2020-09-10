@@ -1153,5 +1153,6 @@ var TURKISH = {
   instructionTemplateCourse:'You can develop your course using one of SELI predefined templates',
   instructionStructureCourse:'You can develop your course organizing it by Topics or by Units and Lessons',
   instructionCourseSyllabus:'Upload your course plan.',
+  addQuestion: "Add Question",
 }
 export default TURKISH;

@@ -1153,5 +1153,6 @@ var PORTUGUESE = {
   loadingBadgeInformation: "Loading badge information...",
   earningCriteria: "Earning criteria",
   badgeOwnerName: "Badge owner name",
+  addQuestion: "Add Question",
 }
 export default PORTUGUESE;

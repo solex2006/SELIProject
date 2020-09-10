@@ -567,6 +567,7 @@ var ENGLISH = {
   addTopic: "Add topic",
   addUnit: "Add unit",
   addLesson: "Add lesson",
+  addQuestion: "Add Question",
   accessibilityCheck: "Accessibility check",
   allDisabilitiesSelected: "All special requirements selected",
   disabilitie: "Special requirement",

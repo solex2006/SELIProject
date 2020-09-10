@@ -525,7 +525,9 @@ class Quiz extends React.Component {
                 className="question-dashboard-radio-group-student"
                 aria-required="true"
               >
+                {console.log("las preguntas en el estudienate", this.props.quiz.attributes)}
                 {
+                  this.props.quiz.attributes.questions[this.state.selected].questionTitle!=''?
                   this.props.quiz.attributes.questions[this.state.selected].answersText.map((text, index) => {
                     return (
                       <FormControlLabel
@@ -543,6 +545,8 @@ class Quiz extends React.Component {
                       />
                     )
                   })
+                  :
+                  undefined
                 }
               </RadioGroup>
             </FormControl>
