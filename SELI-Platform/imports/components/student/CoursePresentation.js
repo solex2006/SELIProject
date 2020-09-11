@@ -315,12 +315,12 @@ export default function MainPage(props) {
 					:
 				<section aria-label="Course design">
 					<h2 >Course Design</h2>			
-					<List dense={true}>
+					<div >
 						<Lista 
 							title='AudiencesMainContent'
 							data={coursedata.support}
 						/>
-					</List>
+					</div>
 				</section> 
 				}
 			</Paper>

@@ -340,7 +340,7 @@ export default function Lista(props) {
       <Grid container spacing={1}>
         <Grid item xs={12} md={6}>
           <div >
-            <List dense={true}>
+            <div dense={true}>
                 {
                 props.title==='Audiences'?
                 <Audiences/>
@@ -360,7 +360,7 @@ export default function Lista(props) {
                 undefined
                 }
               
-            </List>
+            </div>
           </div>
         </Grid>
       </Grid>

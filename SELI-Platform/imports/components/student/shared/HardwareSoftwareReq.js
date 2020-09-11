@@ -25,9 +25,9 @@ export default function HardwareSoftwareReq(props) {
 									<li key={index}>{item.label}</li>
 								))
 								:
-								<div className='descriptiontext'>
+								<li className='descriptiontext'>
 									No hardware requirement.
-								</div>
+								</li>
 							}
 						</ol>
 				
@@ -48,9 +48,9 @@ export default function HardwareSoftwareReq(props) {
 								<li key={index}>{item.label}</li>
 							)) 
 						:
-						<div>
+						<li>
 							No software requirement.
-						</div>  
+						</li>  
 					}
 				</ol>
 				:

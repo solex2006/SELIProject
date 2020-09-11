@@ -125,6 +125,7 @@ export default class Course extends React.Component {
   }
 
   completeActivity = (id, activity) => {
+    console.log("actividad completada------------->", id, activity)
     let toComplete = this.state.toComplete;
     let toResolve = this.state.toResolve;
     let activityInserted;
@@ -137,14 +138,26 @@ export default class Course extends React.Component {
           toResolve[i].activityId = activity.activityId;
         } else {
           if (toResolve[i].resolved === true){
+            console.log("actualiza", toResolve)
             activity.date = new Date();
             activity.user = Meteor.userId();
             activity.course = this.state.course._id;
-            Activities.update(
-              {_id: toResolve[i].activityId},
-              {activity: activity}
-            )
+            //activity.key = id;
+            if(activity.type==='quiz'){
+              activityInserted = Activities.insert({
+                activity
+              });
+              toResolve[i].resolved = true;
+              toResolve[i].activityId = activityInserted;
+            }else{
+              Activities.update(
+                {_id: toResolve[i].activityId},
+                {activity: activity}
+              )
+            }
+            
           } else {
+            console.log("inserta")
             activity.date = new Date();
             activity.user = Meteor.userId();
             activity.course = this.state.course._id;
