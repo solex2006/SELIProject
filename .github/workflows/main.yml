@@ -9,6 +9,14 @@ on:
     types: [opened, labeled, unlabeled]
   project_card:
     types: [moved]
+  push:
+    branches: [br_testing_bot]
+    paths-ignore:
+      - 'README.md'
+      - 'Blockchain/**'
+      - 'wireframes/**'
+      - 'Learning Analytics/**'
+      - 'docs/**'
 env:
   GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
 
@@ -26,10 +34,32 @@ jobs:
           # a Personal Access Token instead of secrets.GITHUB_TOKEN
           # so that tag pushes trigger repo push events.
           token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
-      
+
+      # Create or update an issue based on specific file
+      - name: Create Issue From File
+        uses: peter-evans/create-issue-from-file@v2.3.1
+        if: github.event_name == 'project_card' && github.event.action == 'moved' 
+        with:
+          # The GitHub authentication token
+          token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
+          # The issue number of an existing issue to update
+          issue-number: 83
+          # The title of the issue.
+          title: "Translation tracker"
+          # The file path to the issue content.
+          content-filepath: "SELI-Platform/lib/translation/english.js"
+          # A comma separated list of labels.
+          labels: "automated :robot:"
+          # A comma separated list of assignees (GitHub usernames).
+          assignees: "polusciuro"
+          # The name of the project for which a card should be created.
+          #project: # optional
+          # The name of the project column under which a card should be created.
+          #project-column: # optional
+
       - uses: technote-space/auto-card-labeler@v1 
         #GitHub actions that automatically labels Issues or PullRequests based on project card moves
-        if: github.event_name == 'project_card' && github.event.action == 'moved' 
+        if: github.event_name == 'push'
         with:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
             # Config file name.
