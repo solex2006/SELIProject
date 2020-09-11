@@ -775,7 +775,6 @@ export default class CreateCourse extends React.Component {
           keepMounted
           maxWidth={false}
         >
-          {console.log("this.state.action and this.state.flagErrorSteps",this.state.action, this.state.flagErrorSteps)}
           {
             this.state.action === "preview" || this.state.action === "publish"   ?
             <React.Fragment>

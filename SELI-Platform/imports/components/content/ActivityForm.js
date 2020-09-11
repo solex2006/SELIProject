@@ -7,7 +7,7 @@ import ForumIcon from '@material-ui/icons/Forum';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
-import Editor from '../inputs/editor/Editor';
+import A11yEditor from '../inputs/editor/A11yEditor';
 import Help from '../tools/Help';
 
 export default class ActivityForm extends React.Component {
@@ -78,6 +78,8 @@ export default class ActivityForm extends React.Component {
     if (activityContent.type === 'upload') {
       activityContent.fileTypes = this.getFileTypes();
     }
+    const childText = this.refs.A11yEditor.getText();
+    activityContent.instruction = childText;
     if (this.validateContent(activityContent) ) {
       return activityContent;
     }
@@ -87,7 +89,7 @@ export default class ActivityForm extends React.Component {
   }
 
   validateContent = (content) => {
-    if (content.instruction === '') {
+    if (content.instruction === "" || content.instruction === null || content.instruction.blocks.text === "") {
       this.props.handleControlMessage(true, this.props.language.writeTheInstructions);
       return false;
     } else if (content.type === 'upload' && content.fileTypes === undefined) {
@@ -183,14 +185,19 @@ export default class ActivityForm extends React.Component {
       <div className="dialog-form-container">
         <div className="editor-block">
           <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
-          <Editor
+          <A11yEditor
+            ref="A11yEditor"
+            textSection={this.state.attributes.instruction}
+            language={this.props.language}
+          />
+          {/* <Editor
             areaHeight='20vh'
             innerHTML={this.state.attributes.instruction}
             buttonLabels={false}
             addLinks={true}
             getInnerHtml={this.getInnerHtml.bind(this)}
             language={this.props.language}
-          />
+          /> */}
         </div> 
         <div className="editor-label1">{`${this.props.language.deliverType}:`}</div>
         <div className="square-box">
