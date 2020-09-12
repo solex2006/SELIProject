@@ -43,15 +43,15 @@ jobs:
           # The GitHub authentication token
           token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
           # The issue number of an existing issue to update
-          issue-number: 83
+          issue-number: 215
           # The title of the issue.
           title: "Translation tracker"
           # The file path to the issue content.
-          content-filepath: "SELI-Platform/lib/translation/english.js"
+          content-filepath: "./SELI-Platform/lib/translation/english.js"
           # A comma separated list of labels.
           labels: "automated :robot:"
           # A comma separated list of assignees (GitHub usernames).
-          assignees: "polusciuro"
+          assignees: "ecureuill"
           # The name of the project for which a card should be created.
           #project: # optional
           # The name of the project column under which a card should be created.
