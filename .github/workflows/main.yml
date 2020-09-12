@@ -11,12 +11,9 @@ on:
     types: [moved]
   push:
     branches: [develop]
-    paths-ignore:
-      - 'README.md'
-      - 'Blockchain/**'
-      - 'wireframes/**'
-      - 'Learning Analytics/**'
-      - 'docs/**'
+    paths:
+      - './SELI-Platform/lib/translation/**'
+
 env:
   GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
 
