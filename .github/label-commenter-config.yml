@@ -27,8 +27,10 @@ labels:
           Functional Test failed!
           Please, review your solution.
           *****
-          Please, move to CODED only when this feature is **fully implemented**: bugs reported in comments and requirements in OP
-          If you want to request a test of some partial solution, add a comment here with test tean @
+          Please, move to CODED only when this feature is **fully implemented**
+          - bugs reported in comments are fixed
+          - requirements in OP are coded
+          If you want to request a test of some partial solution, add a comment here with test team @
         action: open
   - name: 'passed :large_blue_circle:'
     labeled:
