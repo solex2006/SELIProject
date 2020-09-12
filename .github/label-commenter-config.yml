@@ -26,13 +26,18 @@ labels:
         body: | 
           Functional Test failed!
           Please, review your solution.
+          *****
+          Please, move to CODED only when this feature is **fully implemented**
+          - bugs reported in comments are fixed
+          - requirements in OP are coded
+          If you want to request a test of some partial solution, add a comment here with test team @
         action: open
   - name: 'passed :large_blue_circle:'
     labeled:
       issue:
         body: | 
           Functional Test passed!
-          Please, make a PULL REQUEST.
+          Please, make a PULL REQUEST or, if already merged, close the issue.
         action: open        
     #pr:
     #body: Please follow the pull request templates.
