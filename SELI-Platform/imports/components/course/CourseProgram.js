@@ -96,7 +96,9 @@ export default class CourseProgram extends React.Component {
       showAccessibilityForm: false,
     });
     if(this.state.contentTypeAdded==='quiz'){
+      
       this.relativeProgramCommons("create");
+      this.contentHandleClose2()
     }
    
   };
@@ -266,7 +268,7 @@ export default class CourseProgram extends React.Component {
     });
     this.resetMenuItems();
     if(this.state.contentTypeAdded==='quiz'){
-      this.contentHandleClose2();
+     // this.contentHandleClose2();
     }
     //
   }
