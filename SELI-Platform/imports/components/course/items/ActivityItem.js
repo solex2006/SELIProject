@@ -23,7 +23,8 @@ import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import InfoIcon from '@material-ui/icons/Info';
 import { Tracker } from 'meteor/tracker';
 import { Activities } from '../../../../lib/ActivitiesCollection';
-import EditorLinks from '../../inputs/editor/Editor';
+import { Editor, EditorState, convertFromRaw } from "draft-js";
+import A11yEditor from '../../inputs/editor/A11yEditor';
 import AccessibilityHelp from '../../tools/AccessibilityHelp';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -36,7 +37,7 @@ export default class ActivityItem extends React.Component {
       dialogText: '',
       additionalNotes: '',
       resolved: false,
-      textSection: '',
+      textSection: {},
       myStories: [],
       index: 0,
       activityId: '',
@@ -53,14 +54,12 @@ export default class ActivityItem extends React.Component {
 
   componentDidMount(){
     let dialogText;
-    if (this.props.item.attributes.type === 'forum') {
-      dialogText = `<p>${this.props.item.attributes.instruction}</p>`
-    } else if (this.props.item.attributes.type === 'upload') {
-      dialogText = `<p>${this.props.language.toActivityUpload}.</p></br><p>${this.props.item.attributes.instruction}</p>`
+    if (this.props.item.attributes.type === 'upload') {
+      dialogText = this.props.language.toActivityUpload;
     } else if (this.props.item.attributes.type === 'section') {
-      dialogText = `<p>${this.props.language.toActivityWrite}.</p></br><p>${this.props.item.attributes.instruction}</p>`
+      dialogText = this.props.language.toActivityWrite;
     } else if (this.props.item.attributes.type === 'storyboard') {
-      dialogText = `<p>${this.props.language.toActivityStoryboard}.</p></br><p>${this.props.item.attributes.instruction}</p>`
+      dialogText = this.props.language.toActivityStoryboard;
     }
     this.setState({
       dialogText,
@@ -71,6 +70,31 @@ export default class ActivityItem extends React.Component {
       }
       this.getIndex();
     }
+  }
+
+  instructionHeader = () => {
+    return (
+      <div className="activity-item-container-instruction">
+        {
+          this.props.item.attributes.type !== "forum" &&
+          <React.Fragment>
+            <p>{this.state.dialogText}</p><br/>
+          </React.Fragment>
+        }
+        {
+          this.props.item.attributes.instruction && (
+            this.props.item.attributes.instruction.blocks ?
+              <Editor 
+                editorState={this.Texteditor(this.props.item.attributes.instruction)} readOnly={true} 
+              /> 
+            :
+              <div
+                dangerouslySetInnerHTML={{__html: this.props.item.attributes.instruction}}>
+              </div>
+          )
+        }
+      </div>
+    )
   }
 
   getIndex = () => {
@@ -97,6 +121,11 @@ export default class ActivityItem extends React.Component {
       let activityInformation = Activities.findOne({
         _id: this.state.activityId,
       })
+      if (this.props.item.attributes.type === 'section') {
+        this.setState({
+          textSection: activityInformation.activity.textSection,
+        });
+      }
       this.setState({ activityInformation });
     });
   }
@@ -147,28 +176,34 @@ export default class ActivityItem extends React.Component {
   }
 
   sendComment = () => {
-    let comment = {};
-    let activity = this.state.activityInformation;
-    let data = activity.activity.data;
-    comment.id = Math.random();
-    comment.userId = Meteor.userId();
-    comment.date = new Date();
-    comment.label = this.state.textSection;
-    comment.media = [];
-    data.push(comment);
-    Activities.update(
-      { _id: this.state.activityId},
-      { $set: {
-        'activity.data': data,
-      }}, () => {
-        if (!this.props.fromTutor) {
-          this.props.completeActivity(this.props.item.id, activity.activity);
-        }
-        this.setState({
-          textSection: '',
-        })
+    const childText = this.refs.A11yEditor.getText();
+    this.setState({textSection: childText}, () => {
+      if (this.validateSectionActivity()) {
+        let comment = {};
+        let activity = this.state.activityInformation;
+        let data = activity.activity.data;
+        comment.id = Math.random();
+        comment.userId = Meteor.userId();
+        comment.date = new Date();
+        comment.label = this.state.textSection;
+        comment.media = [];
+        data.push(comment);
+        Activities.update(
+          { _id: this.state.activityId},
+          { $set: {
+            'activity.data': data,
+          }}, () => {
+            if (!this.props.fromTutor) {
+              this.props.completeActivity(this.props.item.id, activity.activity);
+            }
+            this.setState({
+              textSection: '',
+            })
+          }
+        );
+        this.handleClose();
       }
-    );
+    })
   }
 
   deleteComment = (commentToDelete) => {
@@ -210,15 +245,18 @@ export default class ActivityItem extends React.Component {
   }
 
   sendSection = () => {
-    if (this.validateSectionActivity()) {
-      let activity = {
-        textSection: this.state.textSection,
-        type: 'section',
-        public: true,
+    const childText = this.refs.A11yEditor.getText();
+    this.setState({textSection: childText}, () => {
+      if (this.validateSectionActivity()) {
+        let activity = {
+          textSection: this.state.textSection,
+          type: 'section',
+          public: true,
+        }
+        this.props.completeActivity(this.props.item.id, activity);
+        this.handleClose();
       }
-      this.props.completeActivity(this.props.item.id, activity);
-      this.handleClose();
-    }
+    })
   }
 
   handleClickOpen = () => {
@@ -268,7 +306,7 @@ export default class ActivityItem extends React.Component {
   }
 
   validateSectionActivity = () => {
-    if (this.state.textSection === '') {
+    if (this.state.textSection === null || this.state.textSection.blocks.text === "") {
       this.props.handleControlMessage(true, this.props.language.completeActivityWrite)
       return false;
     }
@@ -285,14 +323,16 @@ export default class ActivityItem extends React.Component {
     if (this.props.toResolve && !this.props.fromProgram) this.getIndex()
   }
 
-  componentDidUpdate(){
-    
-  }
-
   closeer=()=>{
     this.setState({
       alert:"Noalert"
     })
+  }
+
+  Texteditor = (section) => {
+    const contentState = convertFromRaw(section);
+    const editorState =  EditorState.createWithContent(contentState);
+    return editorState;
   }
 
   render() {
@@ -331,9 +371,7 @@ export default class ActivityItem extends React.Component {
                       <ExpansionPanelDetails className="item-quiz-detail">
                         <div className="item-quiz-detail-container">
                           <p className="activity-instruction-title">{this.props.language.instructions}</p>
-                          <div className="activity-item-container-instruction"
-                            dangerouslySetInnerHTML={{__html: this.state.dialogText}}>
-                          </div>
+                          {this.instructionHeader()}
                           {
                             this.props.item.attributes.type === 'upload' ?
                               <div>
@@ -382,14 +420,21 @@ export default class ActivityItem extends React.Component {
                           }
                           {
                             this.state.activityInformation && this.state.activityInformation.activity.type === 'section' ?
+                              this.state.textSection &&
                               <div>
                                 <p className="activity-instruction-title">{`${this.props.language.text}:`}</p>
-                                <div className="activity-item-container-instruction"
-                                  dangerouslySetInnerHTML={{__html: this.state.activityInformation.activity.textSection}}>
-                                </div>
-                                {/* <Editor 
-                                  editorState={this.Texteditor()} readOnly={false} 
-                                />  */}
+                                {
+                                  this.state.textSection.blocks ?
+                                    <div className="activity-item-container-instruction">
+                                      <Editor 
+                                        editorState={this.Texteditor(this.state.textSection)} readOnly={true} 
+                                      /> 
+                                    </div>
+                                  :
+                                    <div className="activity-item-container-instruction"
+                                      dangerouslySetInnerHTML={{__html: this.state.textSection}}>
+                                    </div>
+                                }
                               </div>
                             :
                               undefined
@@ -460,12 +505,7 @@ export default class ActivityItem extends React.Component {
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.props.language.doActivity}</DialogTitle>
           <DialogContent className="stories-dialog-content">
-            {/* <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-              {this.state.dialogText}
-            </DialogContentText> */}
-            <div className="success-dialog-content-text" id="alert-dialog-description"
-              dangerouslySetInnerHTML={{__html: this.state.dialogText}}>
-            </div>
+            {this.instructionHeader()}
             {
               this.props.item.attributes.type === 'upload' ?
                 <div style={{width: '100%'}}>
@@ -637,16 +677,6 @@ export default class ActivityItem extends React.Component {
               undefined
             }
             {/* {
-              this.props.item.attributes.type === 'section' ?
-                <A11yEditor
-                  getEditorState={this.getEditorState}
-                  language={this.props.language}
-                  value={this.Texteditor()}
-                />
-            :
-              undefined
-            } */}
-            {
               this.props.item.attributes.type === 'section'  || this.props.item.attributes.type === 'forum' ?
                 <EditorLinks
                   id="comment-input"
@@ -656,6 +686,16 @@ export default class ActivityItem extends React.Component {
                   addLinks={true}
                   stories={this.props.item.attributes.type === 'forum' ? this.state.myStories : undefined}
                   getInnerHtml={this.getInnerHtml.bind(this)}
+                  language={this.props.language}
+                />
+              :
+                undefined
+            } */}
+            {
+              this.props.item.attributes.type === 'section'  || this.props.item.attributes.type === 'forum' ?
+                <A11yEditor
+                  ref="A11yEditor"
+                  textSection={this.state.textSection}
                   language={this.props.language}
                 />
               :

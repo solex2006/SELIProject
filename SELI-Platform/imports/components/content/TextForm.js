@@ -10,12 +10,10 @@ import SubjectIcon from '@material-ui/icons/Subject';
 import Grid from '@material-ui/core/Grid';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import Editor from '../inputs/editor/Editor';
+import A11yEditor from '../inputs/editor/A11yEditor';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import CodeIcon from '@material-ui/icons/Code';
 import MenuItem from '@material-ui/core/MenuItem';
 import CodeEditor from '../tools/CodeEditor';
@@ -44,6 +42,8 @@ export default class TextForm extends React.Component {
 
   getTextAttributes(){
     let textContent = this.state.attributes;
+    const childText = this.refs.A11yEditor.getText();
+    textContent.content = childText;
     if (this.validateContent(textContent) ) {
       return textContent;
     }
@@ -53,7 +53,7 @@ export default class TextForm extends React.Component {
   }
 
   validateContent = (content) => {
-    if (content.content === '') {
+    if (content.content === '' || content.content === null || content.content.blocks.text === "") {
       this.props.handleControlMessage(true, this.props.language.addTextContent);
       return false;
     }
@@ -92,6 +92,7 @@ export default class TextForm extends React.Component {
   selectType(value){
     let attributes = this.state.attributes;
     attributes.type = value;
+    attributes.content = "";
     this.setState({
       attributes: attributes,
     });
@@ -211,14 +212,19 @@ export default class TextForm extends React.Component {
           {
             this.state.attributes.type === 'section' ?
               <div className="editor-block">
-                <Editor
+                <A11yEditor
+                  ref="A11yEditor"
+                  textSection={this.state.attributes.content}
+                  language={this.props.language}
+                />
+                {/* <Editor
                   areaHeight="20vh"
                   buttonLabels={false}
                   addLinks={false}
                   innerHTML={this.state.attributes.content}
                   getInnerHtml={this.getInnerHtml.bind(this)}
                   language={this.props.language}
-                />
+                /> */}
               </div>
             :
             undefined

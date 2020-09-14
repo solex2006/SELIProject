@@ -534,7 +534,7 @@
 
 .activity-item-container-instruction {
   width: calc(100% - 5%);
-  padding: 1.5vh 2.5%;
+  margin: 1.5vh 2.5%;
   color: #616161;
 }
 

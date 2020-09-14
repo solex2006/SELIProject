@@ -159,7 +159,6 @@ export default class CourseProgram extends React.Component {
   getItemAttributes(){}
 
   relativeProgramCommons = (action, itemValue) => {
-    console.log("action, itemValue",action, itemValue)
     let courseInformation = this.state.courseInformation;
     let index;
     let arrayOfItems;
@@ -312,7 +311,7 @@ export default class CourseProgram extends React.Component {
       contentOpen: true,
       contentaAdded: true,
       languageType: this.props.language[item.type],
-      contentToEdit: item,
+      contentToEdit: {...item},
     });
   }
 
