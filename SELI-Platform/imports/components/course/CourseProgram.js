@@ -43,6 +43,7 @@ import FreeWithout from './templates/FreeWithout';
 import TemplateParent from './templates/TemplateParent';
 
 export default class CourseProgram extends React.Component {
+  ///flag
   constructor(props) {
     super(props);
     this.state = {
