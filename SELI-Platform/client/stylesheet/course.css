@@ -24,6 +24,7 @@
 .course-content-breadcrumbs-container {
   padding-bottom: 1vh;
   padding-left: 1vw;
+  width: calc(100% - 1vw - 65px);
 }
 
 .course-content-breadcrumbs-paper .MuiBreadcrumbs-separator{

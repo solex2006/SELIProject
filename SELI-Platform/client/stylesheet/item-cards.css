@@ -159,12 +159,13 @@ display: flex;
 
 /* Media Queries: Tablet Landscape */
 @media screen and (max-width: 1080px) {
-  
   .course-item-audio-card {
     width: 100% !important;
   }
-
   .course-item-video-card-media-action-area {
     display: inline !important;
+  }
+  .course-item-comment-card-media-fab {
+    margin: 1px !important;
   }
 } 
