@@ -1,5 +1,5 @@
 import React from 'react';
-import A11yEditor from '../inputs/editor/A11yEditor';
+import A11yEditor, { getText } from '../inputs/editor/A11yEditor';
 import TextField from '@material-ui/core/TextField';
 import Help from '../tools/Help';
 
@@ -26,7 +26,7 @@ export default class LinkForm extends React.Component {
 
   getLinkAttributes(){
     let linkContent = this.state.attributes;
-    const childText = this.refs.A11yEditor.getText();
+    const childText = getText();
     linkContent.description = childText;
     if (this.validateContent(linkContent) ) {
       return linkContent;
@@ -88,7 +88,6 @@ export default class LinkForm extends React.Component {
         <div className="editor-block">
           <p className="editor-label">{this.props.language.textDescribingLink}</p>
           <A11yEditor
-            ref="A11yEditor"
             textSection={this.state.attributes.description}
             language={this.props.language}
           />

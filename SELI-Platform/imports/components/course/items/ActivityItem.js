@@ -24,7 +24,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import { Tracker } from 'meteor/tracker';
 import { Activities } from '../../../../lib/ActivitiesCollection';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
-import A11yEditor from '../../inputs/editor/A11yEditor';
+import A11yEditor, { getText } from '../../inputs/editor/A11yEditor';
 import AccessibilityHelp from '../../tools/AccessibilityHelp';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -176,7 +176,7 @@ export default class ActivityItem extends React.Component {
   }
 
   sendComment = () => {
-    const childText = this.refs.A11yEditor.getText();
+    const childText = getText();
     this.setState({textSection: childText}, () => {
       if (this.validateSectionActivity()) {
         let comment = {};
@@ -245,7 +245,7 @@ export default class ActivityItem extends React.Component {
   }
 
   sendSection = () => {
-    const childText = this.refs.A11yEditor.getText();
+    const childText = getText();
     this.setState({textSection: childText}, () => {
       if (this.validateSectionActivity()) {
         let activity = {
@@ -694,7 +694,6 @@ export default class ActivityItem extends React.Component {
             {
               this.props.item.attributes.type === 'section'  || this.props.item.attributes.type === 'forum' ?
                 <A11yEditor
-                  ref="A11yEditor"
                   textSection={this.state.textSection}
                   language={this.props.language}
                 />

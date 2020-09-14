@@ -1,4 +1,5 @@
 import React from 'react';
+import A11yEditor, { getText } from '../inputs/editor/A11yEditor';
 import FileTypeSelector from '../tools/FileTypeSelector';
 import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import BackupIcon from '@material-ui/icons/Backup';
@@ -7,7 +8,6 @@ import ForumIcon from '@material-ui/icons/Forum';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
-import A11yEditor from '../inputs/editor/A11yEditor';
 import Help from '../tools/Help';
 
 export default class ActivityForm extends React.Component {
@@ -78,7 +78,7 @@ export default class ActivityForm extends React.Component {
     if (activityContent.type === 'upload') {
       activityContent.fileTypes = this.getFileTypes();
     }
-    const childText = this.refs.A11yEditor.getText();
+    const childText = getText();
     activityContent.instruction = childText;
     if (this.validateContent(activityContent) ) {
       return activityContent;
@@ -186,7 +186,6 @@ export default class ActivityForm extends React.Component {
         <div className="editor-block">
           <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
           <A11yEditor
-            ref="A11yEditor"
             textSection={this.state.attributes.instruction}
             language={this.props.language}
           />
