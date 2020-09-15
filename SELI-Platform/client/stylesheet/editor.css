@@ -132,15 +132,16 @@
 }
 
 .Draftail-Toolbar {
-  background-color: var(--app-bar-color);
+  background-color: var(--app-bar-color) !important;
 }
 
 .Draftail-ToolbarButton {
-  color: #e0e0e0;
+  color: #e0e0e0 !important;
 }
 
 .Draftail-ToolbarButton--active {
-  background-color: rgb(77, 77, 77);
+  background-color: rgb(77, 77, 77) !important;
+  border-color: #9e9e9e !important;
 }
 
 @media only screen and (max-width: 1080px)  {
