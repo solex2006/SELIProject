@@ -548,7 +548,8 @@ export default function VerticalTabs(props) {
 											handleRadioButtonOnChangeValidator: data.handleRadioButtonOnChangeValidator,
 											dataField: data.dataField,
 											captionsTip: data.captionsTip,
-											captionValidator: data.captionValidator
+											captionValidator: data.captionValidator,
+											handleInputOnFile:data.handleInputOnFile
 										}}
 										handleControlMessage={props.handleControlMessage.bind(this)}
 										language={props.language}/>
@@ -563,6 +564,7 @@ export default function VerticalTabs(props) {
 											audioDescriptionRequiredTip: data.audioDescriptionRequiredTip,
 											disabled_necAudioDesc: data.disabled_necAudioDesc,
 											disabled_uploadAudioDesc: data.disabled_uploadAudioDesc,
+											handleInputOnFile:data.handleInputOnFile
 										}}
 										language={props.language}/>
 									</TabPanel>}
@@ -572,7 +574,8 @@ export default function VerticalTabs(props) {
 											handleRadioButtonOnChange: data.handleRadioButtonOnChange,
 											dataField: data.dataField,
 											handleRadioButtonOnChangeValidator: data.handleRadioButtonOnChangeValidator,
-											signLanguageTip: data.signLanguageTip
+											signLanguageTip: data.signLanguageTip,
+											handleInputOnFile:data.handleInputOnFile
 										}}
 										language={props.language}/>
 									</TabPanel>}
@@ -592,6 +595,7 @@ export default function VerticalTabs(props) {
 				</div>
 			</div>
 			<div className="dialog-actions-container">
+				{console.log("data.isA11Y.length",data.isA11Y )}
 				{
 					data.isA11Y.length > 0 ? 
 						<A11YProgressFeedback

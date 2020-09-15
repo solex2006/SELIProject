@@ -24,39 +24,24 @@ export default function A11YProgressFeedback(props){
 
 
 	useEffect(() => {
-		console.log("propiedades A11YProgressFeedback----->", props)
+		//console.log("propiedades A11YProgressFeedback----->", props)
 		updateProgress()
-
-			 /*  if(props.item.accessibility.dataField!=undefined){
-				if(props.item.accessibility.dataField.longDescription!="" && props.item.accessibility.dataField.shortDescription!=""){				
-					let propsCopy={ ...props };
-						propsCopy.item.accessibility.isA11Y[1].is_a11y=true
-						propsCopy.item.accessibility.isA11Y[0].is_a11y=true
-						console.log("propiedadesX2----->", propsCopy.item.accessibility, propsCopy.item.accessibility.isA11Y[0].is_a11y, propsCopy.item.accessibility.isA11Y[1].is_a11y)
-						ReuseProgress(propsCopy) 
-					
-				} else if (props.item.accessibility.dataField.longDescription!=""){
-					let propsCopy={ ...props };
-						propsCopy.item.accessibility.isA11Y[0].is_a11y=true
-						propsCopy.item.accessibility.isA11Y[1].is_a11y=false
-						//console.log("propiedadesX2----->", propsCopy.item.accessibility, propsCopy.item.accessibility.isA11Y[0].is_a11y, propsCopy.item.accessibility.isA11Y[1].is_a11y)
-						ReuseProgress(propsCopy)
-
-				}else if (props.item.accessibility.dataField.shortDescription!=""){
-					let propsCopy={ ...props };
-						propsCopy.item.accessibility.isA11Y[0].is_a11y=false
-						propsCopy.item.accessibility.isA11Y[1].is_a11y=true
-						//console.log("propiedadesX2----->", propsCopy.item.accessibility, propsCopy.item.accessibility.isA11Y[0].is_a11y, propsCopy.item.accessibility.isA11Y[1].is_a11y)
-						ReuseProgress(propsCopy)
-
-				}
-			}   */
- 
-	
-		
-
-	
 	},[props.a11yFields]);
+
+	useEffect(() => {
+		console.log("propiedades A11YProgressFeedback2222----->", props)
+		updateProgress()
+	},[props.a11yFields[3].is_a11y]);
+	
+	useEffect(() => {
+		console.log("propiedades A11YProgressFeedback2222----->", props)
+		updateProgress()
+	},[props.a11yFields[4].is_a11y]);
+
+	useEffect(() => {
+		console.log("propiedades A11YProgressFeedback2222----->", props)
+		updateProgress()
+	},[props.a11yFields[5].is_a11y]);
 
 
 
