@@ -66,6 +66,7 @@ export default class VideoForm extends React.Component {
 
   getVideoAttributes(){
     let videoContent = this.state.attributes;
+    videoContent.video.link = encodeURI(videoContent.video.link);
     if (this.validateContent(videoContent) ) {
       return videoContent;
     }
