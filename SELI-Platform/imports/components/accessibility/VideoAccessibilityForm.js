@@ -778,7 +778,7 @@ export const useDataField = (props) => {
 		let data = {
 			[name]: value,
 		};
-		console.log("en la funcion handleRadioButtonOnChange", "name" ,name, "value",value,"datafile->",dataField)
+		//console.log("en la funcion handleRadioButtonOnChange", "name" ,name, "value",value,"datafile->",dataField)
 		if(name === 'audioDescription')
 		{
 			let errValue='';
@@ -814,7 +814,7 @@ export const useDataField = (props) => {
 				errValue =  false
 			}
 			if(!dataField.fileAudioDescription.length!=0){
-				console.log("valor*******************", dataField.fileAudioDescription)
+				//console.log("valor*******************", dataField.fileAudioDescription)
 				if(value==="no"){
 					errValue =  false
 				}else{
@@ -825,7 +825,7 @@ export const useDataField = (props) => {
 				} 
 			}
 			if(dataField.fileAudioDescription.length!=0){
-				console.log("valor2*******************", dataField.fileAudioDescription)
+				//console.log("valor2*******************", dataField.fileAudioDescription)
 				if(value==="yes" && dataField.fileAudioDescription[0]===undefined ){
 					errValue =  true
 				} 

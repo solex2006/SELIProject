@@ -284,7 +284,7 @@ export const useImageDataField = (props) => {
 			return editorState
 	}
 	function updateAccessibilityProgress( shortToogle, longToogle ,toogleValue, value ){
-		console.log("shortToogle, longToogle----",shortToogle, longToogle, toogleValue ,value,props, isA11Y,dataField)
+		console.log("shortToogle, longToogle---------------------",shortToogle, longToogle, toogleValue ,value,props, isA11Y,dataField)
 
 		if(shortToogle && !longToogle){
 			if(value==='deco'){
@@ -296,6 +296,14 @@ export const useImageDataField = (props) => {
 		
 		if(!shortToogle && longToogle) //hide shortDescription === hideLongDescription
 		{	
+					if(value==='info' || value==='txt' || value==='cplx' ){
+						
+						if(dataField.shortDescription===''){
+							setIsA11Y([
+								{name: 'shortDescription', is_a11y: false},
+							]);
+						}
+					}
 			
 				  if(props.item.dataField!=undefined){
 					//setToogleLong(true)
@@ -342,6 +350,7 @@ export const useImageDataField = (props) => {
 	}
 
 	function handleInputOnChange ({ target: { name, value } }){
+		console.log("borra etras",name, value)
 		if(name==='longDescription'){
 			let errValue = '';
 			if(value.blocks[0].text===''){
@@ -376,6 +385,16 @@ export const useImageDataField = (props) => {
 			});
 			setIsA11Y(new_a11Y);
 		}
+
+		if(name==='shortDescription'){
+			if(value===''){
+				setIsA11Y([
+					{name: 'shortDescription', is_a11y: false},
+				]);
+			}
+		}
+
+		
 	}
 
 	function handleLongDescriptionPosition(value){

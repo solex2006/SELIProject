@@ -22,26 +22,30 @@ export default function A11YProgressFeedback(props){
 	
 
 
-
+	console.log("propiedades A11YProgressFeedback----->", props)
 	useEffect(() => {
 		//console.log("propiedades A11YProgressFeedback----->", props)
 		updateProgress()
 	},[props.a11yFields]);
 
-	useEffect(() => {
-		console.log("propiedades A11YProgressFeedback2222----->", props)
-		updateProgress()
-	},[props.a11yFields[3].is_a11y]);
+	if(props.a11yFields.length>4){
+		useEffect(() => {
+			console.log("propiedades A11YProgressFeedback2222----->", props)
+			updateProgress()
+		},[props.a11yFields[3].is_a11y]);
+		
+		useEffect(() => {
+			console.log("propiedades A11YProgressFeedback2222----->", props)
+			updateProgress()
+		},[props.a11yFields[4].is_a11y]);
 	
-	useEffect(() => {
-		console.log("propiedades A11YProgressFeedback2222----->", props)
-		updateProgress()
-	},[props.a11yFields[4].is_a11y]);
+		useEffect(() => {
+			console.log("propiedades A11YProgressFeedback2222----->", props)
+			updateProgress()
+		},[props.a11yFields[5].is_a11y]);
 
-	useEffect(() => {
-		console.log("propiedades A11YProgressFeedback2222----->", props)
-		updateProgress()
-	},[props.a11yFields[5].is_a11y]);
+	}
+	
 
 
 
