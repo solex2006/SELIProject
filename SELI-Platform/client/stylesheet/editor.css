@@ -131,8 +131,23 @@
   margin: 10px 10px;
 }
 
+.Draftail-Toolbar {
+  background-color: var(--app-bar-color);
+}
+
+.Draftail-ToolbarButton {
+  color: #e0e0e0;
+}
+
+.Draftail-ToolbarButton--active {
+  background-color: rgb(77, 77, 77);
+}
+
 @media only screen and (max-width: 1080px)  {
   .editor-link-form-container {
     width: calc(100% - 3vw);
+  }
+  .a11y-editor-container {
+    margin: 5px 2px;
   }
 }

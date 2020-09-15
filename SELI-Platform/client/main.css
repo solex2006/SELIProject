@@ -1,3 +1,5 @@
+@import "draft-js/dist/Draft";
+@import "draftail/dist/draftail";
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
 * {
@@ -22,23 +24,6 @@ main {
   width: auto;
   height: auto;
   z-index: 6;
-}
-
-{
-  width: var(--scroll-up-size);
-  height: var(--scroll-up-size);
-  position: fixed;
-  right: var(--scroll-margin);
-  bottom: var(--scroll-margin);
-  z-index: 5000;
-  background-image: url(scroll-up.svg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  border-radius: 100%;
-  transition-duration: 0.2s;
-  transition-timing-function: linear;
-  transition-delay: 0.25s;
 }
 
 .ScrollUpButton__Container ,

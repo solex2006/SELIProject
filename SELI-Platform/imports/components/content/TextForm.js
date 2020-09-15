@@ -1,4 +1,5 @@
 import React from 'react';
+import A11yEditor, { getText } from '../inputs/editor/A11yEditor';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Help from '../tools/Help';
@@ -10,7 +11,6 @@ import SubjectIcon from '@material-ui/icons/Subject';
 import Grid from '@material-ui/core/Grid';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import A11yEditor from '../inputs/editor/A11yEditor';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
@@ -42,7 +42,7 @@ export default class TextForm extends React.Component {
 
   getTextAttributes(){
     let textContent = this.state.attributes;
-    const childText = this.refs.A11yEditor.getText();
+    const childText = getText();
     textContent.content = childText;
     if (this.validateContent(textContent) ) {
       return textContent;
@@ -213,7 +213,6 @@ export default class TextForm extends React.Component {
             this.state.attributes.type === 'section' ?
               <div className="editor-block">
                 <A11yEditor
-                  ref="A11yEditor"
                   textSection={this.state.attributes.content}
                   language={this.props.language}
                 />

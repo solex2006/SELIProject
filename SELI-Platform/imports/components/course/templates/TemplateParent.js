@@ -135,7 +135,7 @@ export default class TemplateParent extends React.Component {
 
   render() {
     return(
-      <div className="template-container" style={this.props.editItem ? {overflowY: "scroll"} : undefined}>
+      <div className={this.props.editItem ? "template-container" : "template-container-student"} style={this.props.editItem ? {overflowY: "scroll"} : undefined}>
         {
           !this.props.sortMode ?
             <React.Fragment>
