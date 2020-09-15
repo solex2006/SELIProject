@@ -254,12 +254,12 @@ export default class QuizForm extends React.Component {
     
     let questions=[...content.questions];
     questions.filter((question,indexQuestion) =>{
-      if(question.questionTitle==='' ){
+      if(question.questionTitle==='' && question.correctAnswers.length===0 && question.answersText.length===0){
         questions.splice(indexQuestion)
       }
     });
-    console.log("EN LA VALIDACION---->", questions, this.state.questionSelected)
-    console.log("paso5",this.validateQuestion(content.questions[this.state.questionSelected], questions, 'validation'))
+    console.log("EN LA VALIDACION this.state.addedQuestions---->",this.state.addedQuestions, content.questions, questions)
+   // console.log("paso5",this.validateQuestion(content.questions[this.state.questionSelected], questions, 'validation'))
 
     if (!this.validateQuestion(content.questions[this.state.questionSelected], questions, 'validation')) {
       //this.props.handleControlMessage(true, this.props.language.completeLastQuestion);
@@ -270,14 +270,19 @@ export default class QuizForm extends React.Component {
       this.props.handleControlMessage(true, this.props.language.titleAndCreditAreR);
       return false;
     }
-    else if ((this.state.addedQuestions + 1) < 2) {
+    else if (content.questionTitle === '') {
+      this.props.handleControlMessage(true, this.props.language.titleAndCreditAreQuestion );
+      return false;
+    }
+    
+    else if ((questions.length ) <2) {
       this.props.handleControlMessage(true, this.props.language.atLeast2Questions);
       return false;
     }
-    else if ((this.state.addedQuestions + 1) < 2) {
+   /*  else if ((this.state.addedQuestions + 1) < 2) {
       this.props.handleControlMessage(true, this.props.language.atLeast2Questions);
       return false;
-    }
+    } */
     
     return true;
   }
@@ -287,11 +292,11 @@ export default class QuizForm extends React.Component {
     let quizContent = this.state.attributes;
     console.log('getQuizAttribute--->:',quizContent)
     if (this.validateContent(quizContent)) {
-      let questions = quizContent.questions.slice(0, (this.state.addedQuestions + 1));
+      let questions = quizContent.questions //.slice(0, (this.state.addedQuestions + 1));
       quizContent.expanded = true;
-      
+      console.log("QUESTIONS ANTES*********************",questions,quizContent.questions)
       questions.filter((question,indexQuestion) =>{
-        if(question.questionTitle==='' ){
+        if(question.questionTitle==='' && question.correctAnswers.length===0  ){
           questions.splice(indexQuestion)
         }
       });
@@ -311,7 +316,7 @@ export default class QuizForm extends React.Component {
       let flag=""
       questions.map((question, indexQuestion)=>{
         if (question.questionTitle === '') {
-          this.props.handleControlMessage(true, this.props.language.titleIsR);
+          this.props.handleControlMessage(true,  `${this.props.language.titleIsR} ${indexQuestion+1}`);
           console.log("paso1 ",)
           flag=false
           return false;

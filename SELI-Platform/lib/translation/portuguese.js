@@ -439,7 +439,7 @@ var PORTUGUESE = {
   completeLastQuestion: "Complete a última questão que você adicionou",
   titleAndCreditAreR: "O título do quiz e os recursos de créditos são campos obrigatórios",
   atLeast2Questions: "Todo quiz deve ter no mínimo 2 questões",
-  titleIsR: "O título da questão é um campo obrigatório",
+  titleIsR: "O título da questão é um campo obrigatório ",
   addAnswerOfQ: "Por favor insira a resposta da questão",
   selectOneCorrect: "Select one correct answer in question:",
   numberQuestions: "Número de questões",
@@ -1154,5 +1154,6 @@ var PORTUGUESE = {
   earningCriteria: "Earning criteria",
   badgeOwnerName: "Badge owner name",
   addQuestion: "Add Question",
+  titleAndCreditAreQuestion: "The title of the question is a required field",
 }
 export default PORTUGUESE;

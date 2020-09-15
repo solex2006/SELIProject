@@ -439,7 +439,7 @@
   completeLastQuestion: "Uzupełnij ostatnie pytanie, które dodałeś",
   titleAndCreditAreR: "Wymagane jest podanie tytułu quizu i wymaganych pól",
   atLeast2Questions: "Każdy quiz musi mieć conajmniej dwa pytania",
-  titleIsR: "Tytuł pytania jest polem wymaganym",
+  titleIsR: "Tytuł pytania jest polem wymaganym  ",
   addAnswerOfQ: "Proszę dodać odpowiedź do pytania",
   selectOneCorrect: "Select one correct answer in question:",
   numberQuestions: "Numer pytania",
@@ -1154,5 +1154,6 @@
   instructionStructureCourse:'You can develop your course organizing it by Topics or by Units and Lessons',
   instructionCourseSyllabus:'Upload your course plan.',
   addQuestion: "Add Question",
+  titleAndCreditAreQuestion: "The title of the question is a required field",
 }
 export default POLISH;

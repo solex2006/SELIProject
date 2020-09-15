@@ -439,7 +439,7 @@ var TURKISH = {
   completeLastQuestion: "Eklediğiniz son soruyu tamamlayın",
   titleAndCreditAreR: "Sınav başlığı ve kredi kaynakları zorunlu alanlardır",
   atLeast2Questions: "Her sınavda en az 2 soru olmalıdır",
-  titleIsR: "Soru başlığı zorunlu bir alandır",
+  titleIsR: "Soru başlığı zorunlu bir alandır ",
   addAnswerOfQ: "Lütfen sorunun cevabını ekleyin",
   selectOneCorrect: "Select one correct answer in question:",
   numberQuestions: "Soru sayısı",
@@ -1154,5 +1154,6 @@ var TURKISH = {
   instructionTemplateCourse:'Önceden tanımlanmış SELI şablonlarından birini kullanarak dersinizi geliştirebilirsiniz',
   instructionStructureCourse:'dersinizi konulara veya ünitelere ve bölümlere göre düzenleyerek geliştirebilirsiniz.',
   instructionCourseSyllabus:'Ders planınızı yükleyiniz',
+  titleAndCreditAreQuestion: "The title of the question is a required field",
 }
 export default TURKISH;
