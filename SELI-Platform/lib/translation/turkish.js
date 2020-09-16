@@ -1155,5 +1155,6 @@ var TURKISH = {
   instructionStructureCourse:'dersinizi konulara veya ünitelere ve bölümlere göre düzenleyerek geliştirebilirsiniz.',
   instructionCourseSyllabus:'Ders planınızı yükleyiniz',
   titleAndCreditAreQuestion: "The title of the question is a required field",
+  maxlearningobjectives:'Maximum 10 items for each category in Learning Cognitive Objectives',
 }
 export default TURKISH;

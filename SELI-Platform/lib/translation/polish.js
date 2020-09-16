@@ -1155,5 +1155,6 @@
   instructionCourseSyllabus:'Upload your course plan.',
   addQuestion: "Add Question",
   titleAndCreditAreQuestion: "The title of the question is a required field",
+  maxlearningobjectives:'Maximum 10 items for each category in Learning Cognitive Objectives',
 }
 export default POLISH;

@@ -1155,5 +1155,6 @@ var ENGLISH = {
   instructionStructureCourse:'You can develop your course organizing it by Topics or by Units and Lessons',
   instructionCourseSyllabus:'Upload your course plan.',
   titleAndCreditAreQuestion: "The title of the question is a required field",
+  maxlearningobjectives:'Maximum 10 items for each category in Learning Cognitive Objectives',
 }
 export default ENGLISH;

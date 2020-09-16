@@ -35,6 +35,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import DescriptionSharpIcon from '@material-ui/icons/DescriptionSharp';
+import AccessibilityHelp from '../tools/AccessibilityHelp';
 
 const useStyles = makeStyles(theme => ({
   
@@ -316,6 +317,8 @@ export default function AnalysisStep(props) {
   const [labelindexdelete, setlabelindexdelete]=useState("")
   const [indexdelete,  setindexdelete]=useState(0)
   const [categori, setcategory]=useState('');
+  const [maxLearningobj, setmaxLearningobj]=useState(false);
+
 
   const [disabledVerb, setdisabledVerb]=useState(false);
 
@@ -389,6 +392,17 @@ export default function AnalysisStep(props) {
 
   const handleEditedLearning = ( index, category) => {
     //console.log("manda a gaurdar learning--------->", index, category, controlEdit)
+
+   /*  Object.entries(goals).forEach(([key, value]) => {      
+    
+      if(value.length>10){
+          console.log("se estan colocando mas de 10"); // "a 5", "b 7", "c 9"
+          setsaveButton(true)
+      } 
+
+     });
+ */
+
     let atts = goals[category];
 		atts[index].editing = false;
 		atts[index].label = controlEdit.tempValue;
@@ -402,10 +416,9 @@ export default function AnalysisStep(props) {
     setGoals(newGoals);
     
 
-      Object.entries(goals).forEach(([key, value]) => {
-           
+      Object.entries(goals).forEach(([key, value]) => {      
         if(value.length!=0){
-          console.log(key + ' --' + value); // "a 5", "b 7", "c 9"
+          //console.log(key + ' --' + value); // "a 5", "b 7", "c 9"
           let newAnalysis=analysisTooltip;
           newAnalysis.learningobjectives=false;
           setanalysisTooltip(newAnalysis)
@@ -737,6 +750,8 @@ export default function AnalysisStep(props) {
   }
 
   function updateTempValue(value) {
+
+    
       console.log("updateTempValue",value)
       setControlEdit(prev => {
         return { ...prev, tempValue: value };
@@ -753,6 +768,19 @@ export default function AnalysisStep(props) {
       }
       else{ setfeedbackError(true)}
       setmessage(labels.errorMsg)
+      Object.entries(goals).forEach(([key, value]) => {      
+        if(value.length>10){
+            console.log("se estan colocando massss de 10"); // "a 5", "b 7", "c 9"
+            setsaveButton(true)
+           // setfeedbackError(true)
+            setmaxLearningobj(true)
+            let newAnalysis=analysisTooltip;
+            newAnalysis.learningobjectives=true;
+            setanalysisTooltip(newAnalysis)
+        } 
+
+  
+       });
   }
 
   function updateTempAuxValue(value) {
@@ -1028,60 +1056,63 @@ export default function AnalysisStep(props) {
                             </div>
                         </div>	
 											</Paper>
-                      
+                              {console.log("----------",saveButton)}
                             <ListItemSecondaryAction  key={"u2" + index + "secAc"}>
-                              {goal.editing ? (
-                                <React.Fragment>
-                                  <IconButton
-                                    key={"u2" + index + "btnEditSaveUnit"}
-                                    edge="end"
-                                    aria-label={"Save changes"}
-                                    onClick={() =>
-                                      handleEditedLearning(index, category)
-                                    }
-                                    className={classes.saveButton}
-                                    disabled={(controlEdit.tempValue === "" || saveButton===true)}
-                                  >
-                                    <DoneIcon />
-                                  </IconButton>
-                                  <IconButton
-                                    key={"u2" + index + "btnEditCancelUnit"}
-                                    edge="end"
-                                    aria-label={"Cancel changes"}
-                                    onClick={() =>
-                                      handleCancelEditLearning(index, category)
-                                    }
-                                    className={classes.deleteButton}
-                                  >
-                                    <ClearIcon />
-                                  </IconButton>
-                                </React.Fragment>
-                              ) : (
-                                <React.Fragment>
-                                  <IconButton
-                                    key={"u2" + index + "btnEditUnit"}
-                                    edge="end"
-                                    aria-label={"Edit unit name"}
-                                    onClick={() =>
-                                      handleEditLearning(index, category)
-                                    }
-                                    disabled={controlEdit.editing}
-                                  >
-                                    <EditIcon />
-                                  </IconButton>
-                                  <IconButton
-                                    key={"u2" + index + "btnDeleteUnit"}
-                                    edge="end"
-                                    // aria-label={"Delete constraint " + constraint.label}
-                                    onClick={() =>
-                                      handleDeleteLearning(index, category)
-                                    }
-                                    className={classes.deleteButton}
-                                  >
-                                    <RemoveIcon />
-                                  </IconButton>
-                                </React.Fragment>
-                              )}
+                              
+                              {
+                                goal.editing ? (
+                                  <React.Fragment>
+                                    <IconButton
+                                      key={"u2" + index + "btnEditSaveUnit"}
+                                      edge="end"
+                                      aria-label={"Save changes"}
+                                      onClick={() =>
+                                        handleEditedLearning(index, category)
+                                      }
+                                      className={classes.saveButton}
+                                      disabled={(controlEdit.tempValue === "" || saveButton===true)}
+                                    >
+                                      <DoneIcon />
+                                    </IconButton>
+                                    <IconButton
+                                      key={"u2" + index + "btnEditCancelUnit"}
+                                      edge="end"
+                                      aria-label={"Cancel changes"}
+                                      onClick={() =>
+                                        handleCancelEditLearning(index, category)
+                                      }
+                                      className={classes.deleteButton}
+                                    >
+                                      <ClearIcon />
+                                    </IconButton>
+                                  </React.Fragment>
+                                ) : (
+                                  <React.Fragment>
+                                    <IconButton
+                                      key={"u2" + index + "btnEditUnit"}
+                                      edge="end"
+                                      aria-label={"Edit unit name"}
+                                      onClick={() =>
+                                        handleEditLearning(index, category)
+                                      }
+                                      disabled={controlEdit.editing}
+                                    >
+                                      <EditIcon />
+                                    </IconButton>
+                                    <IconButton
+                                      key={"u2" + index + "btnDeleteUnit"}
+                                      edge="end"
+                                      // aria-label={"Delete constraint " + constraint.label}
+                                      onClick={() =>
+                                        handleDeleteLearning(index, category)
+                                      }
+                                      className={classes.deleteButton}
+                                    >
+                                      <RemoveIcon />
+                                    </IconButton>
+                                  </React.Fragment>
+                                )
+                              }
                             </ListItemSecondaryAction>
 
                           </div>
@@ -1098,7 +1129,8 @@ export default function AnalysisStep(props) {
 									>
 										<AddIcon /> <ListItemText primary="Add" />
 									</ListItem>
-								</List>
+								
+                </List>
 								<FeedbackHelp
 									validation={{
 										error: false,
@@ -1109,6 +1141,18 @@ export default function AnalysisStep(props) {
 									tipMsg={category + " objectives are ...."}
 									describedBy={"i05-helper-text"}
 								/>
+
+              {/* <AccessibilityHelp 
+                id={'long-description-help-container'} 
+                name={'longDescriptionHelpContainer'} 
+                error={true} 
+                tip={"sadasdasdasd"} 
+                step={1}
+                stepLabel={"ASDasd"}
+                language={props.language}
+              /> */}
+
+
 							</form>
 						</Grid>
 					</Grid>
@@ -1117,7 +1161,7 @@ export default function AnalysisStep(props) {
             <FeedbackHelp
               validation={{
                 error: analysisTooltip.learningobjectives,
-                errorMsg: labels.errorMsgleast,
+                errorMsg: maxLearningobj===true? props.language.maxlearningobjectives :labels.errorMsgleast,
                 errorType: "",
                 a11y: null
               }}
@@ -1416,8 +1460,8 @@ export default function AnalysisStep(props) {
         <form className={classes.root}>
           <TextField
             value={pedagogical}
-            required
-            label={labels.pedagogicalconsiderations}
+            //required
+            label={`${labels.pedagogicalconsiderations} ${props.language.required}`}
             variant="outlined"
             multiline
             rowsMax={5}
