@@ -377,10 +377,18 @@ export default function AnalysisStep(props) {
       }
     })
 
+    Object.entries(goals).forEach(([key, value]) => {
+           
+      if(value.length!=0){
+        let newAnalysis=analysisTooltip;
+        newAnalysis.learningobjectives=false;
+        setanalysisTooltip(newAnalysis)
+      } 
+  });
   }
 
-  const handleEditedLearning = (index, category) => {
-    console.log("manda a gaurdar learning", index, category )
+  const handleEditedLearning = ( index, category) => {
+    //console.log("manda a gaurdar learning--------->", index, category, controlEdit)
     let atts = goals[category];
 		atts[index].editing = false;
 		atts[index].label = controlEdit.tempValue;
@@ -392,15 +400,18 @@ export default function AnalysisStep(props) {
 		newGoals[category] = atts;
 		console.log(newGoals);
     setGoals(newGoals);
+    
 
-    if(event.target.value!=''){
-      /* setanalysisTooltip((prevState)=>{
-        return{...prevState, learningobjectives: false}
-      }) */
-      let newAnalysis=analysisTooltip;
-      newAnalysis.learningobjectives=false;
-      setanalysisTooltip(newAnalysis)
-    }
+      Object.entries(goals).forEach(([key, value]) => {
+           
+        if(value.length!=0){
+          console.log(key + ' --' + value); // "a 5", "b 7", "c 9"
+          let newAnalysis=analysisTooltip;
+          newAnalysis.learningobjectives=false;
+          setanalysisTooltip(newAnalysis)
+        } 
+    });
+
     let addNewknowledges=courseinformation;
     addNewknowledges.analysis[3]=newGoals;
     addNewknowledges.accessibility[2]=analysisTooltip;
@@ -441,7 +452,7 @@ export default function AnalysisStep(props) {
      setlabelindexdelete(goals[category][index].label)
      setcategory(category)
      settypetodelete('LearningObjectives')
-		 //deleteLearning(index, category);
+
 		
 	};
 
@@ -726,41 +737,38 @@ export default function AnalysisStep(props) {
   }
 
   function updateTempValue(value) {
-    console.log("updateTempValue",value)
+      console.log("updateTempValue",value)
+      setControlEdit(prev => {
+        return { ...prev, tempValue: value };
+      });
 
-
-    setControlEdit(prev => {
-      return { ...prev, tempValue: value };
-    });
-
-    if(value.replace(/\s/g,"") == ""){ //To avoid input spaces
-      setsaveButton(true)
-    }else{
-      setsaveButton(false)
-    }
-
-    if(value!="") {
-      setfeedbackError(false)
-    }
-    else{ setfeedbackError(true)}
-    setmessage(labels.errorMsg)
+      if(value.replace(/\s/g,"") == ""){ //To avoid input spaces
+        setsaveButton(true)
+      }else{
+        setsaveButton(false)
+      }
+      if(value!="") {
+        console.log("valor difeente de vacio--->",value)
+        setfeedbackError(false)
+      }
+      else{ setfeedbackError(true)}
+      setmessage(labels.errorMsg)
   }
 
   function updateTempAuxValue(value) {
-    console.log("updateTempAuxValue----------------------",value)
+      console.log("updateTempAuxValue----------------------",value)
 
-    if(value==='without'){
-      setControlEdit(prev => {
-        return { ...prev, tempAuxValue: value};
-      });
-    }else{
-      setControlEdit(prev => {
-        return { ...prev, tempAuxValue: value };
-      });
-    }
-   
-
+      if(value==='without'){
+        setControlEdit(prev => {
+          return { ...prev, tempAuxValue: value};
+        });
+      }else{
+        setControlEdit(prev => {
+          return { ...prev, tempAuxValue: value };
+        });
+      }
   }
+
   const handleClose = () => {  
     setopen(false)
   };
@@ -828,7 +836,7 @@ export default function AnalysisStep(props) {
   
   return (
     <div className="form-input-audiences">
-    <h1 className={classes.psychomotorDomain}>{labels.AnalysisPhaseTitle}</h1>
+    <h2 className={classes.psychomotorDomain}>{labels.AnalysisPhaseTitle}</h2>
       {/* <Typography variant="h6" className={classes.title}>Analysis Phase</Typography> */}
       <p className={classes.psychomotorDomain}>
         {labels.analysisphase}
@@ -915,7 +923,7 @@ export default function AnalysisStep(props) {
               <ListAltIcon>
                 <InboxIcon />
               </ListAltIcon>
-              <ListItemText primary={labels.IntendedAudience} />
+              <ListItemText primary={props.language.InclusionGoals} />
               {openI ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={openI} timeout="auto" unmountOnExit>
@@ -942,7 +950,7 @@ export default function AnalysisStep(props) {
       
       <Grid container className={classes.formGroup}>
           <Grid item xs={12} >
-          <h2>Learning Objectives</h2>
+            <h2>{props.language.titleLO}</h2>
           < br/>
             <p>
               {labels.learningObjectivesDefinition}
@@ -961,7 +969,8 @@ export default function AnalysisStep(props) {
 						<Grid item>
 							<form>
 								<List component="ul" key={"li0"} id="li0">
-									{goals[category].map((goal, index) => (
+                  {
+                  goals[category].map((goal, index) => (
 										<ListItem
 											button={!goal.editing}
 											component="li"
@@ -980,24 +989,25 @@ export default function AnalysisStep(props) {
                         }
 												className={goal.editing ? classes.hidden : ""}
 											/>
+                              
                       <div className='allText' >
 											<Paper className={!goal.editing ? classes.hidden : ""}>	
                         <div className='alignText'>
                           <div>
                             <TextField
-                                  id="standard-select-currency"
-                                  select
-                                  SelectProps={{
-                                    native: true
-                                  }}
-                                  // variant="outlined"
-                                  value={controlEdit.tempAuxValue}
-                                  onChange={event =>
-                                    updateTempAuxValue(event.target.value)
-                                  }
-                                  onKeyPress={keyController}
-                                  className={classes.textInput}
-                                >
+                                id="standard-select-currency"
+                                select
+                                SelectProps={{
+                                  native: true
+                                }}
+                                // variant="outlined"
+                                value={controlEdit.tempAuxValue}
+                                onChange={event =>
+                                  updateTempAuxValue(event.target.value)
+                                }
+                                onKeyPress={keyController}
+                                className={classes.textInput}
+                            >
                                   {goalsTaxonomy[category].map(option => (
                                     <option key={option.key} value={option.key}>
                                       {option.label}
