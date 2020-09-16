@@ -28,13 +28,6 @@ export default class VideoItem extends React.Component {
     win.focus();
   }
 
-  componentDidMount() {
-    /* if(this.props.item.attributes.accessibility.dataField!=undefined){
-      const contentState = convertFromRaw(this.props.item.attributes.accessibility.dataField.longDescription);
-      this.setState({editorState:EditorState.createWithContent(contentState)});
-     }  */
-  }
-
   textAlternatives = () => {
     return(
       <TextAlternatives
@@ -43,102 +36,6 @@ export default class VideoItem extends React.Component {
       ></TextAlternatives>
     )
   }
-
- /*  checkbox=(event, name)=>{
-    //console.log("event and name", event, name)
-    if(event===true && name==='signLanguage'){//Videosignal
-      this.setState({
-        signalShow:"signalShow"
-      })
-    }
-    else if(event===true && name==='audioDescription'){//AudioDescription
-      this.setState({
-        signalShowAudioDescription:"signalShowAudioDescription"
-      })
-    }else if(event===false && name==='signLanguage'){
-      this.setState({
-        signalShow:'nosignalShow',
-        autoplay:false
-      })
-    }
-    else if(event===false && name==='audioDescription'){
-      this.setState({
-        signalShowAudioDescription:'nosignalShowAudioDescription',
-        autoplay:false
-      })
-    }
-    else if(event===true && name==='shortLongDescription'){
-      this.setState({
-        shortlongDescription:'shortlongDescription',
-      })
-    }
-    else if(event===false && name==='shortLongDescription'){
-      this.setState({
-        shortlongDescription:'noshortlongDescription'
-      })
-    }
-  }
-
-  signalText=()=>{
-    const contentState = convertFromRaw(this.props.item.attributes.accessibility.dataField.longDescription);
-    const editorState = EditorState.createWithContent(contentState);
-    return editorState
-  }
-
-  checkBoxLabels=()=>{
-    return(
-      <div>
-        {
-          this.props.item.attributes.accessibility.dataField===undefined?
-                   undefined
-                   :
-                  <div className="checkBoxItem"> 
-                    
-                      {
-                        (this.props.item.attributes.accessibility.dataField.fileVideoSignal[0]!=null && 
-                          this.props.item.attributes.accessibility.dataField.signLanguage==="no") ?
-                          <div className="checkboxstyle">
-                            <CheckboxLabels
-                              language={this.props.language}
-                              checkbox={this.checkbox}
-                              type="signLanguage"
-                              label={this.props.language.signLanguage}
-                            />
-                          </div>
-                          :
-                          undefined
-                      }
-                      {
-                        (this.props.item.attributes.accessibility.dataField.fileAudioDescription[0]!=null &&
-                        (this.props.item.attributes.accessibility.dataField.audioDescription==="no" &&
-                        this.props.item.attributes.accessibility.dataField.audioDescriptionRequired==="yes")) ?
-                        <div className="checkboxstyle">
-                          <CheckboxLabels
-                            language={this.props.language}
-                            checkbox={this.checkbox}
-                            type="audioDescription"
-                            label={this.props.language.audioDescription}
-                          />
-                        </div>
-                        :
-                        undefined
-                      }
-                      {
-                        (this.props.item.attributes.accessibility.dataField.shortDescription!='' || this.props.item.attributes.accessibility.dataField.longDescription.blocks[0].text!='')?
-                          <CheckboxLabels
-                            language={this.props.language}
-                            checkbox={this.checkbox}
-                            type="shortLongDescription"
-                            label={this.props.language.textAlternatives}
-                          />
-                        :
-                        undefined 
-                      }
-                    </div>
-                }
-      </div>
-    )
-  } */
 
   openMediaChild = () => {
     if (this.props.openMedia) {
@@ -153,7 +50,6 @@ export default class VideoItem extends React.Component {
       <div className="content-box">
         <div className="image-content-item">
           <div className="course-item-video-card">
-            {/* this.checkBoxLabels() */}
             <div className="course-item-video-card-media-action-area">
               { this.props.item.attributes.video && (
                 <VideoPreview 

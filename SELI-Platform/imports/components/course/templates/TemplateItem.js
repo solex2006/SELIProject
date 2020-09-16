@@ -65,8 +65,8 @@ export default class TemplateItem extends React.Component {
       <div
         style={
           this.props.contentLength === 0 ?
-            {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1", "background-color": this.state.backgroundColor} : 
-            {backgroundImage: "none", "background-color": this.state.backgroundColor}
+            {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1", backgroundColor: this.state.backgroundColor} : 
+            {backgroundImage: "none", backgroundColor: this.state.backgroundColor}
         } className={this.props.classNameTemplate}
       >
         { this.props.contentLength === 0 && (

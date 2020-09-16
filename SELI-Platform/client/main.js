@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 import {
   Route,
   Router,
-  Switch,
-  BrowserRouter
+  Switch
 } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Tracker } from 'meteor/tracker';
@@ -26,11 +25,9 @@ import {Helmet} from "react-helmet";
 import Badge from '../imports/components/badge/Badge';
 
 const history = createBrowserHistory();
-window.browserHistory = history;
-Tracker.autorun(() => {
-
+  window.browserHistory = history;
+  Tracker.autorun(() => {
 });
-
 
 Meteor.startup(() => {
   ReactDOM.render(

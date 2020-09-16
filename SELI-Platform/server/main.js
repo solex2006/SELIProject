@@ -45,8 +45,6 @@ if (Meteor.isClient) {
   });
 }
 
-
-
 if (Meteor.isServer) {
   Meteor.startup(() => {
     let smtp_domain = Meteor.settings.private.SMTP_DOMAIN;
