@@ -229,7 +229,7 @@ export default class StorytellingPlayerTime extends React.Component {
   render() {
     return(
       <div>
-        <div className="storytelling-tool-play-container-time" style={this.state.intervalFrame === "end" ? {"background-color": "#ffffff"} : undefined}>
+        <div className="storytelling-tool-play-container-time" style={this.state.intervalFrame === "end" ? {backgroundColor: "#ffffff"} : undefined}>
           {
             this.state.intervalFrame === "scenes" ?
               <div>

@@ -251,9 +251,9 @@ export default class MediaPlayer extends React.Component {
                     onBuffer={this.handleBuffer}
                     onBufferEnd={this.handleBufferEnd}
                     config={{file: {
-                      attributes: {
+                      /* attributes: {
                         crossOrigin: 'true'
-                      },
+                      }, */
                       tracks: this.state.captions
                     }}}
                   />
