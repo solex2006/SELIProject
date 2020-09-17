@@ -930,7 +930,7 @@ var ENGLISH = {
   audioTranscriptionTip:" Audio transcription transforms any video or audio file into text creating a complete experience for your audience",
   ariaLabelTranscription:"This is the short description (identify content). This audio content has the folowing accessibility resources: Transcription",
   alertCompatibility:"your browser is not compatible",
-  showHideTranscription:"Show/Hide Transcript",
+  showHideTranscription:"Show/Hide Transcription",
   sizeLessThan: "Please, upload a file with size greater than 0 and less than 100 MB.",
   editEndFrame: "Edit end frame",
   workshop1: "This digital story is created in the Digital Storytelling Workshop named",
