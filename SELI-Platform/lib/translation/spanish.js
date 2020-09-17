@@ -1154,7 +1154,9 @@ var SPANISH = {
   instructionCourseSyllabus:'Upload your course plan.',
   addQuestion: "Add Question",
   titleAndCreditAreQuestion: "El titulo de la pregunta es un campo requerido:",
-  maxlearningobjectives:'Maximum 10 items for each category in Learning Cognitive Objectives',
+  maxlearningobjectives:'Maximo 10 items en cada categoria de los Objetivos de Aprendizaje Cognitivo',
+  maxlearningOutcomes:'Maximo 10 items en cada categoria de los Objetivos de Aprendizaje',
+  maxlearningContrain:'Maximo 10 items en cada categoria de los Objetivos con Restriccion',
 }
 export default SPANISH
 
