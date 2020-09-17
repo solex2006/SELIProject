@@ -157,6 +157,15 @@ display: flex;
   text-justify: inter-word;
 }
 
+.audio-transcription{
+  margin-left: 20px;
+}
+
+.show-hide-transciption {
+  margin-top: 5px;
+  animation: fadeInDown 0.5s;
+}
+
 /* Media Queries: Tablet Landscape */
 @media screen and (max-width: 1080px) {
   .course-item-audio-card {

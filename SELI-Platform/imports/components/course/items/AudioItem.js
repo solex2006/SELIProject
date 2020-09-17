@@ -130,27 +130,33 @@ export default class AudioItem extends React.Component {
 
   audioPlayer=()=>{
     return(
-      <Card raised className="course-item-audio-card">
+      <Card tabIndex="-1" raised className="course-item-audio-card">
         <div className="course-item-audio-card-details">
           <CardMedia
             className="course-item-audio-card-image"
             image="/audio-gra.svg"
             title="Live from space album cover"
+            tabIndex="-1"
           />
-          <CardContent className="course-item-audio-card-content">
-            <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
+          <CardContent tabIndex="-1" className="course-item-audio-card-content">
+            <Typography tabIndex="-1" className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
               {this.props.item.attributes.source === 'upload' ? this.props.language.audioFile : this.props.language.recordedAudio}
             </Typography>
-            <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
+            <Typography tabIndex="-1" className="course-item-card-title" gutterBottom variant="h5" component="h2">
               {` ${this.props.item.attributes.title}`}
             </Typography>
           </CardContent>
         </div>
-        <div className="course-item-audio-card-controls2">
+        <div
+          id={"audio_" + this.props.item.id}
+          className="course-item-audio-card-controls2"
+          aria-describedby={"audio_" + this.props.item.id + "_transcriptText"}
+          aria-labelledby={"audio_" + this.props.item.id + "_shortDescr"}
+        >
           {
             this.props.item.attributes.audio &&
             <AudioPlayer 
-              volume 
+              volume
               src={this.props.item.attributes.audio.link}
               onPlay={this.playAudio}
             />
