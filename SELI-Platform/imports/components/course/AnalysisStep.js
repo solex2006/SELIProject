@@ -112,12 +112,29 @@ export default function AnalysisStep(props) {
     //update the tooltips
     if(courseInformation.accessibility[2]!=undefined){
       setanalysisTooltip(courseInformation.accessibility[2])
+      if(courseInformation.accessibility[2]!=''){
+        let newAnalysis=analysisTooltip;
+        newAnalysis.pedagogical=false;
+        setanalysisTooltip(newAnalysis)
+      }
     }
     if(courseInformation.analysis[3]!=undefined){
       setGoals(courseInformation.analysis[3])
+      Object.entries(courseInformation.analysis[3]).forEach(([key, value]) => {      
+          if(value.length!=0){
+            let newAnalysis=analysisTooltip;
+            newAnalysis.learningobjectives=false;
+            setanalysisTooltip(newAnalysis)
+          } 
+      });
     }
     if(courseInformation.analysis[4]!=undefined){
       setOutcomes(courseInformation.analysis[4])
+      if(courseInformation.analysis[4].contents.length!=0 && courseInformation.analysis[4].skills.length!=0 && courseInformation.analysis[4].values.length!=0){
+        let newAnalysis=analysisTooltip;
+        newAnalysis.outcomes=false;
+        setanalysisTooltip(newAnalysis)
+     } 
     }
     if(courseInformation.analysis[5]!=undefined){
       setaffectiveDomain(courseInformation.analysis[5])
@@ -151,7 +168,9 @@ export default function AnalysisStep(props) {
     pedagogical: true,
     modality: true,
     learningobjectives: true,
-    outcomes:true
+    outcomes:true,
+    learningobjectivesCount: true,
+    outcomesCount:true,
   })
   const [courseinformation, setcourseInformation]=useState(courseInformation)
   const [modality, setmodality]=useState('');
@@ -318,6 +337,10 @@ export default function AnalysisStep(props) {
   const [indexdelete,  setindexdelete]=useState(0)
   const [categori, setcategory]=useState('');
   const [maxLearningobj, setmaxLearningobj]=useState(false);
+  const [maxLearningout, setmaxLearningout]=useState(false);
+  const [maxLearningcon, setmaxLearningcon]=useState(false);
+  
+  
 
 
   const [disabledVerb, setdisabledVerb]=useState(false);
@@ -348,7 +371,9 @@ export default function AnalysisStep(props) {
 			tempAuxValue: "",
 			adding: false,
 			editing: false
-		});
+    });
+    setmaxLearningout(false)
+    setmaxLearningobj(false)
   };
 
   function deleteLearning(index, category) {
@@ -391,31 +416,15 @@ export default function AnalysisStep(props) {
   }
 
   const handleEditedLearning = ( index, category) => {
-    //console.log("manda a gaurdar learning--------->", index, category, controlEdit)
-
-   /*  Object.entries(goals).forEach(([key, value]) => {      
-    
-      if(value.length>10){
-          console.log("se estan colocando mas de 10"); // "a 5", "b 7", "c 9"
-          setsaveButton(true)
-      } 
-
-     });
- */
-
     let atts = goals[category];
 		atts[index].editing = false;
 		atts[index].label = controlEdit.tempValue;
 		atts[index].aux = controlEdit.tempAuxValue;
-
-	
-
 		let newGoals = goals;
 		newGoals[category] = atts;
 		console.log(newGoals);
     setGoals(newGoals);
     
-
       Object.entries(goals).forEach(([key, value]) => {      
         if(value.length!=0){
           //console.log(key + ' --' + value); // "a 5", "b 7", "c 9"
@@ -429,10 +438,6 @@ export default function AnalysisStep(props) {
     addNewknowledges.analysis[3]=newGoals;
     addNewknowledges.accessibility[2]=analysisTooltip;
     setcourseInformation(addNewknowledges)
-
-    
-  
-
 		setControlEdit({
 			tempValue: "",
 			tempAuxValue: "",
@@ -504,7 +509,9 @@ export default function AnalysisStep(props) {
 			tempAuxValue: "",
 			adding: false,
 			editing: false
-		});
+    });
+    
+    setmaxLearningout(false)
 	};
 
 	function deleteOutcome(index, category) {
@@ -553,16 +560,10 @@ export default function AnalysisStep(props) {
         countError+=1;
       }
       if(countError===3){
-        console.log("completo lso tres")
-        /* setanalysisTooltip(prev=>{
-          return {...prev, outcomes: false}
-        }) */
         let newoutcome=analysisTooltip
         newoutcome.outcomes=false;
         setanalysisTooltip(newoutcome)
-        /* let learningobj=courseinformation;
-        learningobj.accessibility[2]=analysisTooltip;
-        setcourseInformation(learningobj); */
+       
       }
     })
 
@@ -570,8 +571,7 @@ export default function AnalysisStep(props) {
     addNewknowledges.analysis[4]=newGoals;
     addNewknowledges.accessibility[2]=analysisTooltip;
     setcourseInformation(addNewknowledges)
-    console.log("el analysistolltip", analysisTooltip)
-
+    
 		setControlEdit({
 			tempValue: "",
 			tempAuxValue: "",
@@ -690,6 +690,7 @@ export default function AnalysisStep(props) {
       setConstraints(newUnits);
     }
     setControlEdit({ tempValue: "", adding: false, editing: false });
+    setmaxLearningcon(false)
   };
 
   function deleteRequisite(index ,category) {
@@ -749,10 +750,9 @@ export default function AnalysisStep(props) {
       }
   }
 
-  function updateTempValue(value) {
+  function updateTempValue(value,type) {
 
-    
-      console.log("updateTempValue",value)
+      console.log("updateTempValue",value, type)
       setControlEdit(prev => {
         return { ...prev, tempValue: value };
       });
@@ -768,19 +768,44 @@ export default function AnalysisStep(props) {
       }
       else{ setfeedbackError(true)}
       setmessage(labels.errorMsg)
-      Object.entries(goals).forEach(([key, value]) => {      
-        if(value.length>10){
-            console.log("se estan colocando massss de 10"); // "a 5", "b 7", "c 9"
-            setsaveButton(true)
-           // setfeedbackError(true)
-            setmaxLearningobj(true)
-            let newAnalysis=analysisTooltip;
-            newAnalysis.learningobjectives=true;
-            setanalysisTooltip(newAnalysis)
-        } 
 
-  
-       });
+      if(type==='CDomain'){
+        Object.entries(goals).forEach(([key, value]) => {      
+          if(value.length>10){
+              console.log("se estan colocando massss de 10 learnong objectives"); // "a 5", "b 7", "c 9"
+              setsaveButton(true)
+             // setfeedbackError(true)
+              setmaxLearningobj(true)
+             /*  let newAnalysis=analysisTooltip;
+              newAnalysis.learningobjectivesCount=true;
+              setanalysisTooltip(newAnalysis) */
+          } 
+         });
+      }
+      if(type==='LOutcomes'){
+        Object.entries(outcomes).forEach(([key, value]) => {      
+          if(value.length>10){
+              console.log("se estan colocando massss de 10 outcomes"); // "a 5", "b 7", "c 9"
+              setsaveButton(true)
+              //setfeedbackError(true)
+              setmaxLearningout(true)
+              /* let newAnalysis=analysisTooltip;
+              newAnalysis.outcomesCount=true;
+              setanalysisTooltip(newAnalysis) */
+          } 
+         });
+      }
+      if(type==='LConstraint'){
+          if(constraints.length>10){
+              setsaveButton(true)
+              //setfeedbackError(true)
+              setmaxLearningcon(true)
+          } 
+        
+      }
+
+      //
+      
   }
 
   function updateTempAuxValue(value) {
@@ -1049,14 +1074,14 @@ export default function AnalysisStep(props) {
                                 value={controlEdit.tempValue}
                                 label="Complete the objective"
                                 onChange={event =>
-                                  updateTempValue(event.target.value)
+                                  updateTempValue(event.target.value, "CDomain")
                                 }
                                 onKeyPress={keyController}
                               />
                             </div>
                         </div>	
 											</Paper>
-                              {console.log("----------",saveButton)}
+                             
                             <ListItemSecondaryAction  key={"u2" + index + "secAc"}>
                               
                               {
@@ -1160,7 +1185,7 @@ export default function AnalysisStep(props) {
          <Grid item>
             <FeedbackHelp
               validation={{
-                error: analysisTooltip.learningobjectives,
+                error: maxLearningobj===true? true: analysisTooltip.learningobjectives,
                 errorMsg: maxLearningobj===true? props.language.maxlearningobjectives :labels.errorMsgleast,
                 errorType: "",
                 a11y: null
@@ -1168,6 +1193,7 @@ export default function AnalysisStep(props) {
               tipMsg={"Learning objectives are..."}
               describedBy={"i05-helper-text"}
             />
+            
         </Grid>
        
        <div className={classes.inputText}>
@@ -1245,7 +1271,7 @@ export default function AnalysisStep(props) {
                               key={"u2" + index + "txtField"}
                               value={controlEdit.tempValue}
                               onChange={event =>
-                                updateTempValue(event.target.value)
+                                updateTempValue(event.target.value, "LOutcomes")
                               }
                               onKeyPress={keyController}
                             />
@@ -1327,8 +1353,8 @@ export default function AnalysisStep(props) {
 				))}
         <FeedbackHelp
           validation={{
-            error: analysisTooltip.outcomes,
-            errorMsg: labels.errorMsgall,
+            error: maxLearningout===true? true: analysisTooltip.outcomes,
+            errorMsg: maxLearningout===true? props.language.maxlearningOutcomes :labels.errorMsgall,
             errorType: "",
             a11y: null
           }}
@@ -1361,7 +1387,7 @@ export default function AnalysisStep(props) {
                         key={"u2" + index + "txtField"}
                         className={!constraint.editing ? classes.hidden : ""}
                         value={controlEdit.tempValue}
-                        onChange={event => updateTempValue(event.target.value)}
+                        onChange={event => updateTempValue(event.target.value, "LConstraint")}
                         onKeyPress={keyController}
                       />
                       <FeedbackHelp
@@ -1386,6 +1412,7 @@ export default function AnalysisStep(props) {
                           onClick={handleEditedRequisite(index)}
                           className={classes.saveButton}
                           disabled={(controlEdit.tempValue === "" || saveButton===true)}
+                        
                         >
                           <DoneIcon />
                         </IconButton>
@@ -1438,15 +1465,16 @@ export default function AnalysisStep(props) {
           </form>
           <FeedbackHelp
             validation={{
-              error: false,
-              errorMsg: "obligatorio",
+              error: maxLearningcon===true? true: false,
+              errorMsg:props.language.maxlearningContrain ,
               errorType: "",
               a11y: null
             }}
-            tipMsg={labels.learningCon}
-            describedBy={"learnConstraint-helper-text"}
+            tipMsg={""}
+            describedBy={"i05-helper-text"}
           />
         </Grid>
+        
       </Grid>
     
     
