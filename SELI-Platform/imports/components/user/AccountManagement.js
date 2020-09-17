@@ -3,30 +3,17 @@ import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import ErrorIcon from '@material-ui/icons/Error';
-import ImageIcon from '@material-ui/icons/Image';
-import ImageSharpIcon from '@material-ui/icons/ImageSharp';
-import PictureAsPdfSharpIcon from '@material-ui/icons/PictureAsPdfSharp';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import MenuItem from '@material-ui/core/MenuItem';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import FileUpload from '../files/FileUpload';
 import ImagePreview from '../files/previews/ImagePreview';
 import Library from '../tools/Library';
-import Help from '../tools/Help';
-import FormPreview from '../files/previews/FormPreview';
-
-import EmailIcon from '@material-ui/icons/Email';
-
-import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldValidations';
 
 import {noSpecialCharacters} from '../../../lib/textFieldValidations';

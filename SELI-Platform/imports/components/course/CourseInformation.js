@@ -89,30 +89,31 @@ export default class CourseInformation extends React.Component {
       let courseInformation = this.state.courseInformation;
       keyWord = keyWord.trim().split(/\s+/);
       if (keyWord.length <= 3) {
-        let finalKeyWord = '';
-        keyWord[0] = keyWord[0].charAt(0).toUpperCase() + keyWord[0].slice(1);
-        for (var i = 0; i < keyWord.length; i++) {
-          finalKeyWord = finalKeyWord + keyWord[i];
-          if (i < 2) {
-            finalKeyWord = finalKeyWord + " ";
+        if (courseInformation.keyWords.length < 10) {
+          let finalKeyWord = '';
+          keyWord[0] = keyWord[0].charAt(0).toUpperCase() + keyWord[0].slice(1);
+          for (var i = 0; i < keyWord.length; i++) {
+            finalKeyWord = finalKeyWord + keyWord[i];
+            if (i < 2) {
+              finalKeyWord = finalKeyWord + " ";
+            }
           }
+          let duplicate=courseInformation.keyWords.includes(finalKeyWord)
+          if(duplicate){
+            this.props.handleControlMessage(true, this.props.language.repeatedkeywords)
+          }else{
+            courseInformation.keyWords.push(finalKeyWord);
+            this.setState({
+              courseInformation: courseInformation,
+            });
+          }
+        } else {
+          this.props.handleControlMessage(true, this.props.language.addOneOrMore);
         }
-        let duplicate=courseInformation.keyWords.includes(finalKeyWord)
-        if(duplicate){
-          this.props.handleControlMessage(true, this.props.language.repeatedkeywords)
-       
-        }else{
-          courseInformation.keyWords.push(finalKeyWord);
-          this.setState({
-            courseInformation: courseInformation,
-          });
-        }
-      }
-      else {
+      } else {
         this.props.handleControlMessage(true, this.props.language.keywordsMaximumMessage);
       }
-    }
-    else {
+    } else {
       this.props.handleControlMessage(true, this.props.language.keywordsEmptyMessage);
     }
     document.getElementById('keyWord-input').value = "";
@@ -149,6 +150,7 @@ export default class CourseInformation extends React.Component {
           <TextField
             id="title-input"
             label={`${this.props.language.courseTitle} ${this.props.language.required}`}
+            aria-label={this.props.language.textEditor_a11y_title}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -166,6 +168,7 @@ export default class CourseInformation extends React.Component {
           <TextField
             id="subtitle-input"
             label={this.props.language.courseSubtitle}
+            aria-label={this.props.language.textEditor_a11y_subtitle}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -184,6 +187,7 @@ export default class CourseInformation extends React.Component {
           <TextField
             id="description-input"
             label={`${this.props.language.courseDescription} ${this.props.language.required}`}
+            aria-label={this.props.language.description}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -205,6 +209,7 @@ export default class CourseInformation extends React.Component {
             id="subject-select-currency"
             select
             label={`${this.props.language.language} ${this.props.language.required}`}
+            aria-label={this.props.language.language}
             value={this.state.courseInformation.language}
             onChange={this.handleChange('language')}
             fullWidth
@@ -231,6 +236,7 @@ export default class CourseInformation extends React.Component {
             <TextField
               id="keyWord-input"
               label={`${this.props.language.courseKeyWords} ${this.props.language.required}`}
+              aria-label={this.props.language.courseKeyWords}
               margin="normal"
               variant="outlined"
               className="button-input"
@@ -241,7 +247,6 @@ export default class CourseInformation extends React.Component {
             this.state.courseInformation.keyWords.length ?
               <div className="chips-container">
                 {this.state.courseInformation.keyWords.map((keyWord, index) => {
-                  
                   return(
                     <Chip
                       size="small"
@@ -272,13 +277,13 @@ export default class CourseInformation extends React.Component {
               language={this.props.language}
             />
           </p>
-
           <Paper className="sub-course-information" elevation={5} component="form">
             <InputMask mask="999:99:99" value={this.state.courseInformation.duration} onChange={this.handleChange('duration')}>
               {() => (
                 <Input
                   id="filled-secondary"
                   label={`${this.props.language.duration} ${this.props.language.required} *`}
+                  aria-label={this.props.language.duration}
                   size="small"
                   className="duration-course-information"
                   onKeyPress={this.keyControllerFalse}
@@ -359,9 +364,16 @@ export default class CourseInformation extends React.Component {
                 unPickFile={this.props.unPickFile.bind(this)}
                 changeFile={this.props.changeFile.bind(this)}
                 courseSyllabus={this.props.language.courseSyllabus}
+                language={this.props.language}
               />
             :
-              <Button onClick={() => this.props.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>
+              <Button 
+                onClick={() => this.props.openFileSelector("image", "image/*")}
+                aria-label={this.props.language.chooseCourseImage}
+                className="form-image-button" fullWidth 
+                color="primary"><ImageSharpIcon 
+                className="form-image-icon"
+              />
                 {this.props.language.selectCourseImage} <br/>
                 {this.props.language.required} *
               </Button>

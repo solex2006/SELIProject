@@ -306,12 +306,10 @@ export default class CreateCourse extends React.Component {
   }
 
   handleCahngetick=()=>{
-    console.log("asdsssssssssssssssssssssssssssssssssssssssssssssssss")
     this.setState({flagtick:!this.state.flagtick})
   }
 
   checksteps(type){
-    console.log("check step",  this.state.courseInformation.stepscompleted, this.state)
     this.state.nopublish=false;
     let checkFree=false;
     let checkGuided=false;
@@ -323,33 +321,31 @@ export default class CreateCourse extends React.Component {
     let step5=this.state.courseInformation.stepscompleted.includes(5)
     let step6=this.state.courseInformation.stepscompleted.includes(6)
     let step7=this.state.courseInformation.stepscompleted.includes(7)
-   
-     
-     if(this.state.courseInformation.coursePlan.guidedCoursePlan==='free'){
+    if(this.state.courseInformation.coursePlan.guidedCoursePlan==='free'){
       if(step0===false){
         this.state.numberofStep=1
         this.setState(this.state)
       } else if (step1===false){
-       this.state.numberofStep=2
-       this.setState(this.state)
+        this.state.numberofStep=2
+        this.setState(this.state)
       }else if(step3===false){
-       this.state.numberofStep=4
-       this.setState(this.state)
+        this.state.numberofStep=4
+        this.setState(this.state)
       }else if(step5===false){
-       this.state.numberofStep=6
+        this.state.numberofStep=6
         this.setState(this.state)
       }else if(step6===false){
-       this.state.numberofStep=7
-       this.setState(this.state)
+        this.state.numberofStep=7
+        this.setState(this.state)
       }else if(step7===false){
-       this.state.numberofStep=8
-       this.setState(this.state)
+        this.state.numberofStep=8
+        this.setState(this.state)
       }
       (
         step0===true&&  step1===true&&  step3===true&& step5===true&& step6===true
       )
       ? checkFree=true: checkFree===false; 
-      if(checkFree===false){
+      if(checkFree===false || !this.validatePublishCourse()){
         this.state.flagErrorSteps=true
         this.state.open=true
       //  this.state.action=true
@@ -364,29 +360,29 @@ export default class CreateCourse extends React.Component {
         this.state.numberofStep=1
         this.setState(this.state)
       } else if (step1===false){
-       this.state.numberofStep=2
-       this.setState(this.state)
+        this.state.numberofStep=2
+        this.setState(this.state)
       }else if(step3===false){
-       this.state.numberofStep=4
-       this.setState(this.state)
+        this.state.numberofStep=4
+        this.setState(this.state)
       }else if(step4===false){
-       this.state.numberofStep=5
-       this.setState(this.state)
+        this.state.numberofStep=5
+        this.setState(this.state)
       }else if(step5===false){
-       this.state.numberofStep=6
+        this.state.numberofStep=6
         this.setState(this.state)
       }else if(step6===false){
-       this.state.numberofStep=7
-       this.setState(this.state)
+        this.state.numberofStep=7
+        this.setState(this.state)
       }else if(step7===false){
-       this.state.numberofStep=8
-       this.setState(this.state)
+        this.state.numberofStep=8
+        this.setState(this.state)
       }
       (
         step0===true&&  step1===true&& step3===true&& step4===true&& step5===true&& step6===true
       )
       ? checkGuided=true: checkGuided===false; 
-      if(checkGuided===false){
+      if(checkGuided===false || !this.validatePublishCourse()){
         this.state.flagErrorSteps=true
         this.state.open=true
       //  this.state.action=true
@@ -397,23 +393,20 @@ export default class CreateCourse extends React.Component {
         this.setState(this.state)
       }
     }
-    console.log("resultdos",  this.state)
   }
 
   publishCourse() {
-    if (this.validatePublishCourse()) {
-      this.saveCourse();
-      if (this.state.saved) {
-        Courses.update(
-          { _id: this.state.saved },
-          { $set: {published: true}}
-        );
-        this.props.showComponent('published')
-        this.props.handleControlMessage(true, this.props.language.coursePublishedS, true, 'preview', this.props.language.seePreview, this.state.saved);
-      } else {
-        this.props.handleControlMessage(true, this.props.language.saveCourse);
-      }
-    } 
+    this.saveCourse();
+    if (this.state.saved) {
+      Courses.update(
+        { _id: this.state.saved },
+        { $set: {published: true}}
+      );
+      this.props.showComponent('published')
+      this.props.handleControlMessage(true, this.props.language.coursePublishedS, true, 'preview', this.props.language.seePreview, this.state.saved);
+    } else {
+      this.props.handleControlMessage(true, this.props.language.saveCourse);
+    }
   }
 
   saveCourse() {
@@ -534,58 +527,34 @@ export default class CreateCourse extends React.Component {
   }
 
   validatePublishCourse = () => {
-    console.log("se va a publicar el curso---",this.state)
-    this.state.open=true;
-      this.setState(this.state)
-    this.checksteps()
-    
     let courseInformation = this.state.courseInformation;
-   
-    
-    /* this.state.reportflag=7
-    this.setState(this.state) */
-
+    let completeStepAux = "";
+    let caseStep = true;
     if (
       courseInformation.title === '' ||
       courseInformation.description === '' ||
       courseInformation.duration === ''
     ) {
-      this.props.handleControlMessage(true, `${this.props.language.fieldsMarkedWith} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
-      return false;
+      completeStepAux = `${this.props.language.fieldsMarkedWith}.`;
+      caseStep = false;
     }
     else if (courseInformation.image === undefined) {
-      this.props.handleControlMessage(true, `${this.props.language.chooseCourseImage} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
-      return false;
+      completeStepAux = `${this.props.language.chooseCourseImage}.`;
+      caseStep = false;
     }
-    /* else if (courseInformation.sylabus === undefined) {
-      this.props.handleControlMessage(true, `${this.props.language.chooseCourseSyllabus} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
-      return false;
-    } */
-    else if (courseInformation.keyWords.length < 3 || courseInformation.keyWords.length > 5) {
-      this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
-      return false;
+    else if (courseInformation.keyWords.length < 3 || courseInformation.keyWords.length > 10) {
+      completeStepAux = `${this.props.language.addOneOrMore}`;
+      caseStep = false;
     }
-    /* else if (courseInformation.organization === '') {
-      this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step}: ${this.props.language.program}).`, false, '', '');
-      return false;
-    }  */
-    if (courseInformation.duration.indexOf('_') !== -1) {
-      this.props.handleControlMessage(true, `${this.props.language.durationInvalidEntry}`, false, '', '');
-      return false;
-    } else {
-      let duration = courseInformation.duration.split(':');
-      if (duration[0] < 5) {
-        this.props.handleControlMessage(true, `${this.props.language.minimumCourseDuration}.`, false, '', '');
-        return false;
-      } 
-    }
-    let emptyContent = false;
-    if (emptyContent) {
-      return false;
-    }
-
-   
-    return true;
+    else if (courseInformation.duration.indexOf('_') !== -1) {
+      completeStepAux = `${this.props.language.durationInvalidEntry}`;
+      caseStep = false;
+    } else if (courseInformation.duration && courseInformation.duration.split(':')[0] < 5) {
+      completeStepAux = `${this.props.language.minimumCourseDuration}.`;
+      caseStep = false;
+    } 
+    this.setState({completeStepAux,})
+    return caseStep;
   }
 
   validateSaveCourse = () => {
@@ -602,14 +571,10 @@ export default class CreateCourse extends React.Component {
   }
 
   handleOpen = (action) => {
-    //console.log("open",action)
-    
-    if (action === "upload" || this.validatePublishCourse()) {
-      this.setState({
-        open: true,
-        action,
-      })
-    }
+    this.setState({
+      open: true,
+      action,
+    })
   }
 
   handlePreview = () => {
@@ -617,8 +582,8 @@ export default class CreateCourse extends React.Component {
   }
 
   handlePublish = () => {
+    this.checksteps();
     this.handleOpen("publish");
-   
   }
 
   handleClose = (type) => {
@@ -777,78 +742,82 @@ export default class CreateCourse extends React.Component {
         >
           {
             this.state.action === "preview" || this.state.action === "publish"   ?
-            <React.Fragment>
-
-              {
-                this.state.flagErrorSteps===true?
-                <React.Fragment>
-                    <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                      {this.props.language.missingInformation}
-                    </DialogTitle>
-                    <DialogContent className="success-dialog-content">
-                      <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                      {this.props.language.completeStep1+`${this.state.numberofStep===1?this.props.language.information:
-                      this.state.numberofStep===2?this.props.language.audiences:
-                      this.state.numberofStep===4?this.props.language.plan:
-                      this.state.numberofStep===5?this.props.language.analysisstep:
-                      this.state.numberofStep===6?this.props.language.desingPhase:
-                      this.state.numberofStep===7?this.props.language.program:
-                      this.state.numberofStep===8?this.props.language.reportstep:''} ` +this.props.language.completeStep2}
-                      </DialogContentText>
-                      <InfoIcon  className="alert-dialog-icon"/>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={() => this.handleClose('alert')} color="primary" autoFocus>
-                      Completar curso
-                      </Button>
-                      
-                    </DialogActions>
-                </React.Fragment>
-                :
-                this.state.nopublish===true?
-                undefined
-                :
-                <React.Fragment>
-                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                    {this.state.action === "preview" ? this.props.language.coursePreview : this.props.language.publishCourse}
-                  </DialogTitle>
-                  <DialogContent className="success-dialog-content">
-                    <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                      {this.state.action === "preview" ? this.props.language.ifYouWantCP : this.props.language.ifYouWantPC}
-                    </DialogContentText>
-                    <InfoIcon className="warning-dialog-icon"/>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                    {this.props.language.cancel}
-                    </Button>
-                    {
-                      this.state.action === "preview" ?
-                        <Link className="button-link"
-                          target="_blank"
-                          onClick={() => this.confirmPreview()} 
-                          to={{
-                            pathname: "/coursePreview",
-                            hash: this.state.saved,
-                            state: { fromDashboard: true },
-                          }}
-                        >
-                          <Button color="primary" autoFocus>
-                            {this.props.language.saoPreview}
-                          </Button>
-                        </Link>
-                      :
-                        <Button onClick={() => this.publishCourse()} color="primary" autoFocus>
-                          {this.props.language.ok}
+              <React.Fragment>
+                {
+                  this.state.flagErrorSteps===true?
+                    <React.Fragment>
+                      <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                        {this.props.language.missingInformation}
+                      </DialogTitle>
+                      <DialogContent className="success-dialog-content">
+                        <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                          {this.props.language.completeStep1+`${
+                            this.state.numberofStep===1?this.props.language.information:
+                            this.state.numberofStep===2?this.props.language.audiences:
+                            this.state.numberofStep===4?this.props.language.plan:
+                            this.state.numberofStep===5?this.props.language.analysisstep:
+                            this.state.numberofStep===6?this.props.language.desingPhase:
+                            this.state.numberofStep===7?this.props.language.program:
+                            this.state.numberofStep===8?this.props.language.reportstep:''} ` +this.props.language.completeStep2}
+                        </DialogContentText>
+                        {
+                          this.state.completeStepAux && this.state.completeStepAux !== "" &&
+                          <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                            {this.state.completeStepAux}
+                          </DialogContentText>
+                        }
+                        <InfoIcon  className="alert-dialog-icon"/>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={() => this.handleClose('alert')} color="primary" autoFocus>
+                          {this.props.language.close}
                         </Button>
-                    }
-                  </DialogActions>
-                </React.Fragment>
-              
-              } 
-            </React.Fragment>
-              :
-             <React.Fragment> 
+                      </DialogActions>
+                    </React.Fragment>
+                  :
+                    this.state.nopublish===true?
+                      undefined
+                    :
+                      <React.Fragment>
+                        <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                          {this.state.action === "preview" ? this.props.language.coursePreview : this.props.language.publishCourse}
+                        </DialogTitle>
+                        <DialogContent className="success-dialog-content">
+                          <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                            {this.state.action === "preview" ? this.props.language.ifYouWantCP : this.props.language.ifYouWantPC}
+                          </DialogContentText>
+                          <InfoIcon className="warning-dialog-icon"/>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+                          {this.props.language.cancel}
+                          </Button>
+                          {
+                            this.state.action === "preview" ?
+                              <Link className="button-link"
+                                target="_blank"
+                                onClick={() => this.confirmPreview()} 
+                                to={{
+                                  pathname: "/coursePreview",
+                                  hash: this.state.saved,
+                                  state: { fromDashboard: true },
+                                }}
+                              >
+                                <Button color="primary" autoFocus>
+                                  {this.props.language.saoPreview}
+                                </Button>
+                              </Link>
+                            :
+                              <Button onClick={() => this.publishCourse()} color="primary" autoFocus>
+                                {this.props.language.ok}
+                              </Button>
+                          }
+                        </DialogActions>
+                      </React.Fragment>
+                } 
+              </React.Fragment>
+            :
+              <React.Fragment> 
                 {
                   (this.state.fileType==='pdf' || this.state.fileType===undefined )?
                   <div className="form-preview-container">
