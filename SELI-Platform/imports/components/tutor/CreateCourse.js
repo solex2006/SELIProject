@@ -321,6 +321,7 @@ export default class CreateCourse extends React.Component {
     let step5=this.state.courseInformation.stepscompleted.includes(5)
     let step6=this.state.courseInformation.stepscompleted.includes(6)
     let step7=this.state.courseInformation.stepscompleted.includes(7)
+    let validatingCourse = this.validatePublishCourse();
     if(this.state.courseInformation.coursePlan.guidedCoursePlan==='free'){
       if(step0===false){
         this.state.numberofStep=1
@@ -345,9 +346,13 @@ export default class CreateCourse extends React.Component {
         step0===true&&  step1===true&&  step3===true&& step5===true&& step6===true
       )
       ? checkFree=true: checkFree===false; 
-      if(checkFree===false || !this.validatePublishCourse()){
-        this.state.flagErrorSteps=true
-        this.state.open=true
+      if(!validatingCourse.caseStep || checkGuided===false){
+        this.state.flagErrorSteps = true;
+        this.state.open = true;
+        if (!validatingCourse.caseStep) {
+          this.state.completeStepAux = validatingCourse.completeStepAux
+          this.state.numberofStep=1
+        } else this.state.completeStepAux = ""
       //  this.state.action=true
         this.setState(this.state)
       }else{
@@ -382,9 +387,13 @@ export default class CreateCourse extends React.Component {
         step0===true&&  step1===true&& step3===true&& step4===true&& step5===true&& step6===true
       )
       ? checkGuided=true: checkGuided===false; 
-      if(checkGuided===false || !this.validatePublishCourse()){
-        this.state.flagErrorSteps=true
-        this.state.open=true
+      if(!validatingCourse.caseStep || checkGuided===false){
+        this.state.flagErrorSteps = true;
+        this.state.open = true;
+        if (!validatingCourse.caseStep) {
+          this.state.completeStepAux = validatingCourse.completeStepAux
+          this.state.numberofStep=1
+        } else this.state.completeStepAux = ""
       //  this.state.action=true
         this.setState(this.state)
       }else{
@@ -543,7 +552,7 @@ export default class CreateCourse extends React.Component {
       caseStep = false;
     }
     else if (courseInformation.keyWords.length < 3 || courseInformation.keyWords.length > 10) {
-      completeStepAux = `${this.props.language.addOneOrMore}`;
+      completeStepAux = `${this.props.language.addOneOrMore}.`;
       caseStep = false;
     }
     else if (courseInformation.duration.indexOf('_') !== -1) {
@@ -552,9 +561,8 @@ export default class CreateCourse extends React.Component {
     } else if (courseInformation.duration && courseInformation.duration.split(':')[0] < 5) {
       completeStepAux = `${this.props.language.minimumCourseDuration}.`;
       caseStep = false;
-    } 
-    this.setState({completeStepAux,})
-    return caseStep;
+    }
+    return {caseStep, completeStepAux};
   }
 
   validateSaveCourse = () => {
@@ -729,7 +737,7 @@ export default class CreateCourse extends React.Component {
           :
           undefined
         }
-      <Dialog
+        <Dialog
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
@@ -820,119 +828,117 @@ export default class CreateCourse extends React.Component {
               <React.Fragment> 
                 {
                   (this.state.fileType==='pdf' || this.state.fileType===undefined )?
-                  <div className="form-preview-container">
-                    <PdfFormulario
-                      expandedNodes={this.props.expandedNodes}
-                      courseInformation={this.state.courseInformation}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      language={this.props.language}
-                      selected={this.state.selected}
-                      expandedNodes={this.state.expandedNodes}
-                      onClose={this.handleClose.bind(this)}
-                      initial='program'
-                      reset={this.state.reset}
-                    />
-                  </div>
-                  :
-                  <React.Fragment>
-                    <DialogTitle className="dialog-title">
-                      <AppBar className="dialog-app-bar" color="primary" position="static">
-                        <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
-                          <AppsIcon/>
-                          <h4 className="dialog-label-title">{this.state.fileType === "image" ? this.props.language.chooseOrUploadImage : this.props.language.chooseOrUploadSyllabus}</h4>
-                          <IconButton
-                            id="close-icon"
-                            edge="end"
-                            className="dialog-toolbar-icon"
-                            onClick={this.handleClose}
-                          >
-                            <CloseIcon/>
-                          </IconButton>
-                        </Toolbar>
-                      </AppBar>
-                    </DialogTitle>
-                <div className="file-form-dialog">
-                  {
-                    this.state.showLibrary ?
-                      <Library
-                        user={Meteor.userId()}
-                        type={this.state.fileType}
-                        getFileInformation={this.getFileInformation.bind(this)}
-                        hideLibrary={this.hideLibrary.bind(this)}
+                    <div className="form-preview-container">
+                      <PdfFormulario
+                        expandedNodes={this.props.expandedNodes}
+                        courseInformation={this.state.courseInformation}
+                        handleControlMessage={this.props.handleControlMessage.bind(this)}
                         language={this.props.language}
+                        selected={this.state.selected}
+                        expandedNodes={this.state.expandedNodes}
+                        onClose={this.handleClose.bind(this)}
+                        initial='program'
+                        reset={this.state.reset}
                       />
-                    :
-                      <div>
-                        <div className="library-button-container">
-                          <Fab onClick={() => this.showLibrary()}>
-                            <FolderSpecialIcon/>
-                          </Fab>
-                          <p className="media-fab-text">{this.props.language.library}</p>
-                        </div>
+                    </div>
+                  :
+                    <React.Fragment>
+                      <DialogTitle className="dialog-title">
+                        <AppBar className="dialog-app-bar" color="primary" position="static">
+                          <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
+                            <AppsIcon/>
+                            <h4 className="dialog-label-title">{this.state.fileType === "image" ? this.props.language.chooseOrUploadImage : this.props.language.chooseOrUploadSyllabus}</h4>
+                            <IconButton
+                              id="close-icon"
+                              edge="end"
+                              className="dialog-toolbar-icon"
+                              onClick={this.handleClose}
+                            >
+                              <CloseIcon/>
+                            </IconButton>
+                          </Toolbar>
+                        </AppBar>
+                      </DialogTitle>
+                      <div className="file-form-dialog">
                         {
-                          this.state.showPreview ?
-                            <div className="form-preview-container">
-                              {
-                                this.state.fileType === "image" ?
-                                <ImagePreview
-                                  file={this.state.image}
-                                  unPickFile={this.unPickFile.bind(this)}
-                                  language={this.props.language}
-                                  tipo={"Course"}
-                                /> 
-                                :
-                                <PdfPreview
-                                  file={this.state.sylabus}
-                                  unPickFile={this.unPickFile.bind(this)}
-                                  language={this.props.language}
-                                />
-                              }
-                              
-                            </div>
-                          :
-                          <div className="form-file-container">
-                            <FileUpload
-                              type={this.state.fileType}
+                          this.state.showLibrary ?
+                            <Library
                               user={Meteor.userId()}
-                              accept={this.state.accept}
-                              handleControlMessage={this.props.handleControlMessage.bind(this)}
+                              type={this.state.fileType}
                               getFileInformation={this.getFileInformation.bind(this)}
-                              label={this.state.fileType === 'image' ? this.props.language.uploadImageButtonLabel : this.props.language.uploadPdfButtonLabel }
+                              hideLibrary={this.hideLibrary.bind(this)}
                               language={this.props.language}
                             />
-                          </div>
+                          :
+                            <div>
+                              <div className="library-button-container">
+                                <Fab onClick={() => this.showLibrary()}>
+                                  <FolderSpecialIcon/>
+                                </Fab>
+                                <p className="media-fab-text">{this.props.language.library}</p>
+                              </div>
+                              {
+                                this.state.showPreview ?
+                                  <div className="form-preview-container">
+                                    {
+                                      this.state.fileType === "image" ?
+                                      <ImagePreview
+                                        file={this.state.image}
+                                        unPickFile={this.unPickFile.bind(this)}
+                                        language={this.props.language}
+                                        tipo={"Course"}
+                                      /> 
+                                      :
+                                      <PdfPreview
+                                        file={this.state.sylabus}
+                                        unPickFile={this.unPickFile.bind(this)}
+                                        language={this.props.language}
+                                      />
+                                    }
+                                    
+                                  </div>
+                                :
+                                <div className="form-file-container">
+                                  <FileUpload
+                                    type={this.state.fileType}
+                                    user={Meteor.userId()}
+                                    accept={this.state.accept}
+                                    handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                    getFileInformation={this.getFileInformation.bind(this)}
+                                    label={this.state.fileType === 'image' ? this.props.language.uploadImageButtonLabel : this.props.language.uploadPdfButtonLabel }
+                                    language={this.props.language}
+                                  />
+                                </div>
+                              }
+                            </div>
                         }
                       </div>
-                  }
-                  
-                </div>
-                <div className="form-editor-label">
-                  <AccessibilityHelp 
-                      id={'short-description-help-container'} 
-                      name={'shortDescriptionHelpContainer'} 
-                      error={!this.state.showPreview} 
-                      tip={this.state.fileType === 'image' ? (!this.state.showPreview ? this.props.language.uploadImage: this.props.language.uploadImageCorrect):(!this.state.showPreview ? this.props.language.uploadPdf: this.props.language.uploadPdfCorrect)}
-                      //step={props.step}
-                      //stepLabel={props.stepLabel}
-                      language={this.props.language}
-                  />
-                </div>
-                <div className="dialog-actions-container">
-                  <Tooltip title={this.props.language.done}>
-                    <Fab 
-                      onClick={() => this.selectFile(this.state.fileType)} 
-                      disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} 
-                      className="dialog-fab" 
-                      color="primary"
-                    >
-                      <AssignmentTurnedInIcon/>
-                    </Fab>
-                  </Tooltip>
-                </div>
-              </React.Fragment>
+                      <div className="form-editor-label">
+                        <AccessibilityHelp 
+                            id={'short-description-help-container'} 
+                            name={'shortDescriptionHelpContainer'} 
+                            error={!this.state.showPreview} 
+                            tip={this.state.fileType === 'image' ? (!this.state.showPreview ? this.props.language.uploadImage: this.props.language.uploadImageCorrect):(!this.state.showPreview ? this.props.language.uploadPdf: this.props.language.uploadPdfCorrect)}
+                            //step={props.step}
+                            //stepLabel={props.stepLabel}
+                            language={this.props.language}
+                        />
+                      </div>
+                      <div className="dialog-actions-container">
+                        <Tooltip title={this.props.language.done}>
+                          <Fab 
+                            onClick={() => this.selectFile(this.state.fileType)} 
+                            disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} 
+                            className="dialog-fab" 
+                            color="primary"
+                          >
+                            <AssignmentTurnedInIcon/>
+                          </Fab>
+                        </Tooltip>
+                      </div>
+                    </React.Fragment>
                 }
-          </React.Fragment>
-         
+            </React.Fragment>
           }
         </Dialog>
       </div>
