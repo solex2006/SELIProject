@@ -48,6 +48,7 @@ export default class ContentItem extends React.Component {
                       language={this.props.language}
                       openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
                       fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}
+                      fromTemplate={this.props.fromTemplate ? this.props.fromTemplate: undefined}
                     />
                   :
                   undefined
@@ -59,6 +60,7 @@ export default class ContentItem extends React.Component {
                       language={this.props.language}
                       openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
                       fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}
+                      fromTemplate={this.props.fromTemplate ? this.props.fromTemplate: undefined}
                     />
                   :
                   undefined

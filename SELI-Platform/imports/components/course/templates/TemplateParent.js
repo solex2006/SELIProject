@@ -60,6 +60,7 @@ export default class TemplateParent extends React.Component {
               contentItems.map((p, i) => {
                 return(
                   <ContentItem
+                    fromTemplate
                     item={p}
                     courseId={this.props.courseId}
                     toResolve={this.props.toResolve}

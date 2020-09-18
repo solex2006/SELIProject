@@ -50,7 +50,7 @@ export default class VideoItem extends React.Component {
       <div className="content-box">
         <div className="image-content-item">
           <div className="course-item-video-card">
-            <div className="course-item-video-card-media-action-area">
+            <div className={this.props.fromTemplate ? "course-item-video-card-media-action-area-template" : "course-item-video-card-media-action-area"}>
               { this.props.item.attributes.video && (
                 <VideoPreview 
                   file={this.props.item.attributes.video}
