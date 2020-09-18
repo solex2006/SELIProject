@@ -116,7 +116,7 @@ export default function VerticalTabs(props) {
 
 	let indexTab = 0;
 	let indexPanel = 0;
-	console.log("*******data and props*********", props)
+	//console.log("*******data and props*********", props)
 	let data = useData(props.language, props.contentTypeAdded, props.item.accessibility, props.item);
 	
 
@@ -595,7 +595,6 @@ export default function VerticalTabs(props) {
 				</div>
 			</div>
 			<div className="dialog-actions-container">
-				{console.log("data.isA11Y.length",data.isA11Y )}
 				{
 					data.isA11Y.length > 0 ? 
 						<A11YProgressFeedback

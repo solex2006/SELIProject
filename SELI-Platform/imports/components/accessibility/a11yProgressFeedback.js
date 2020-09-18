@@ -22,7 +22,7 @@ export default function A11YProgressFeedback(props){
 	
 
 
-	console.log("propiedades A11YProgressFeedback----->", props)
+	//console.log("propiedades A11YProgressFeedback----->", props)
 	useEffect(() => {
 		//console.log("propiedades A11YProgressFeedback----->", props)
 		updateProgress()
@@ -30,17 +30,17 @@ export default function A11YProgressFeedback(props){
 
 	if(props.a11yFields.length>4){
 		useEffect(() => {
-			console.log("propiedades A11YProgressFeedback2222----->", props)
+			//console.log("propiedades A11YProgressFeedback2222----->", props)
 			updateProgress()
 		},[props.a11yFields[3].is_a11y]);
 		
 		useEffect(() => {
-			console.log("propiedades A11YProgressFeedback2222----->", props)
+			//console.log("propiedades A11YProgressFeedback2222----->", props)
 			updateProgress()
 		},[props.a11yFields[4].is_a11y]);
 	
 		useEffect(() => {
-			console.log("propiedades A11YProgressFeedback2222----->", props)
+			//console.log("propiedades A11YProgressFeedback2222----->", props)
 			updateProgress()
 		},[props.a11yFields[5].is_a11y]);
 
@@ -79,7 +79,7 @@ export default function A11YProgressFeedback(props){
 	}
 
 	function updateProgress(){
-			console.log("update progres bar", props.a11yFields)
+			//console.log("update progres bar", props.a11yFields)
 			let a11y =0
 			let a11yPercentage =0
 		let max =props.a11yFields.length;
@@ -87,17 +87,15 @@ export default function A11YProgressFeedback(props){
 			a11y = props.a11yFields.filter( el => el.is_a11y ).length;
 			a11yPercentage = a11y * 100 / (max-1);
 			setProgressPercent(a11yPercentage);
-			console.log("a11y",a11y, max-1,a11yPercentage)
+			//console.log("a11y",a11y, max-1,a11yPercentage)
 			setProgressText(a11y + '/' + (max-1));
 		}else{
 			 a11y = props.a11yFields.filter( el => el.is_a11y ).length;
 			 a11yPercentage = a11y * 100 / max;
 			setProgressPercent(a11yPercentage);
 			setProgressText(a11y + '/' + max);
-			console.log("el texto",progressText)
+			//console.log("el texto",progressText)
 		}
-		
-
 
 		props.getAccessibilityPercentage(a11yPercentage)
 		if (a11yPercentage < 20){
