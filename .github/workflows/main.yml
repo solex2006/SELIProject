@@ -35,7 +35,7 @@ jobs:
       # Create or update an issue based on specific file
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2.3.1
-        #if: github.event_name == 'project_card' && github.event.action == 'moved' 
+        if: github.event_name == 'push'
         with:
           # The GitHub authentication token
           token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
@@ -56,7 +56,7 @@ jobs:
 
       - uses: technote-space/auto-card-labeler@v1 
         #GitHub actions that automatically labels Issues or PullRequests based on project card moves
-        if: github.event_name == 'push'
+        if: github.event_name == 'project_card' && github.event.action == 'moved' 
         with:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
             # Config file name.
