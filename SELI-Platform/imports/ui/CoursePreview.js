@@ -99,12 +99,21 @@ export default class CoursePreview extends React.Component {
   }
 
   goToUser = (action) => {
-    console.log("en el goto user-----",this.state.user,this.state.courseInfo, this.state.progress)
     this.props.history.push({
       pathname: "/user", 
       user: this.state.user, 
       course: this.state.courseInfo,
       progress: this.state.progress,
+      action: action
+    });
+  }
+
+  goToLogIn = (action) => {
+    let courseInfo = {};
+    courseInfo.courseId = this.state.course._id;
+    this.props.history.push({
+      pathname: "/", 
+      course: courseInfo,
       action: action
     });
   }
@@ -198,7 +207,7 @@ export default class CoursePreview extends React.Component {
                   <main id="page-wrap">
                     <React.Fragment>
                       {
-                        this.state.course === undefined || this.state.progress === undefined?
+                        this.state.course === undefined?
                           undefined
                         :
                           <React.Fragment>
@@ -213,6 +222,7 @@ export default class CoursePreview extends React.Component {
                               course={this.state.course}
                               progress={this.state.progress}
                               goToUser={this.goToUser.bind(this)}
+                              goToLogIn={this.goToLogIn.bind(this)}
                               navigateTo={this.navigateTo.bind(this)}
                               selected={this.state.selected}
                               language={this.state.language}

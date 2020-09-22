@@ -1158,5 +1158,6 @@ var SPANISH = {
   maxlearningobjectives:'Maximo 10 items en cada categoria de los Objetivos de Aprendizaje Cognitivo',
   maxlearningOutcomes:'Maximo 10 items en cada categoria de los Objetivos de Aprendizaje',
   maxlearningContrain:'Maximo 10 items en cada categoria de los Objetivos con Restriccion',
+  courseNotPublished: "Este curso no está publicado, comuníquese con el tutor para obtener más información:",
 }
 export default SPANISH

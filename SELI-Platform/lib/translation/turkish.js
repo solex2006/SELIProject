@@ -1158,5 +1158,6 @@ var TURKISH = {
   maxlearningobjectives:'Öğrenme Bilişsel Hedeflerinde her kategori için maksimum 10 madde',
   maxlearningOutcomes:'Öğrenme Çıktıları Hedeflerindeki her kategori için en fazla 10 madde',
   maxlearningContrain:'Öğrenme Kısıtlama Hedeflerindeki her kategori için maksimum 10 öğe',
+  courseNotPublished: "This course is not published, contact the tutor for more information:",
 }
 export default TURKISH;

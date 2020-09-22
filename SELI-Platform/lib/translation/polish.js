@@ -1158,5 +1158,6 @@
   maxlearningobjectives:'Maximum 10 items for each category in Learning Cognitive Objectives',
   maxlearningOutcomes:'Maximum 10 items for each category in Learning Outcomes Objectives',
   maxlearningContrain:'Maximum 10 items for each category in Learning Constraint Objectives',
+  courseNotPublished: "This course is not published, contact the tutor for more information:",
 }
 export default POLISH;

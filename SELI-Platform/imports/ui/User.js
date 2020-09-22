@@ -65,8 +65,6 @@ export default class User extends React.Component {
   }
 
   componentDidMount(){
-
-    console.log(this.props.history)
     Session.set({language: Session.get('language') ? Session.get('language') : english});
     this.setState({
       language: Session.get('language') ? Session.get('language') : english,
