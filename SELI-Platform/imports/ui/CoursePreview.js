@@ -201,7 +201,7 @@ export default class CoursePreview extends React.Component {
                         this.state.course === undefined || this.state.progress === undefined?
                           undefined
                         :
-                          <div>
+                          <React.Fragment>
                             <AppBar
                               history={this.props.history}
                               language={this.state.language}
@@ -217,7 +217,7 @@ export default class CoursePreview extends React.Component {
                               selected={this.state.selected}
                               language={this.state.language}
                             />
-                          </div>
+                          </React.Fragment>
                       }
                     </React.Fragment>
                   </main>

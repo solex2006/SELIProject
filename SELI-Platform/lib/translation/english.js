@@ -1148,7 +1148,7 @@ var ENGLISH = {
   earningCriteria: "Earning criteria",
   badgeOwnerName: "Badge owner name",
   completeStep1:'Please complete step: ',
-  completeStep2:'before publish',
+  completeStep2:'before publishing',
   missingInformation:'Missing information',
   instructionGuidedCoursePlan:'You can choose between create the course plan in SELI platform or outside the platform',
   instructionTemplateCourse:'You can develop your course using one of SELI predefined templates',

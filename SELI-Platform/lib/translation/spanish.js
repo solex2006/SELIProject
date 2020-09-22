@@ -1148,6 +1148,7 @@ var SPANISH = {
   badgeOwnerName: "Nombre del dueño del emblema",
   completeStep1:'Complete el paso: ',
   completeStep2:'antes de publicar.',
+  missingInformation:'Información faltante',
   instructionGuidedCoursePlan:'You can choose between create the course plan in SELI platform or outside the platform',
   instructionTemplateCourse:'You can develop your course using one of SELI predefined templates',
   instructionStructureCourse:'You can develop your course organizing it by Topics or by Units and Lessons',
@@ -1159,4 +1160,3 @@ var SPANISH = {
   maxlearningContrain:'Maximo 10 items en cada categoria de los Objetivos con Restriccion',
 }
 export default SPANISH
-
