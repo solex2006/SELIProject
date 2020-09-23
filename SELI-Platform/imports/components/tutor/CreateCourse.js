@@ -302,7 +302,7 @@ export default class CreateCourse extends React.Component {
       }
       
     }
-   // this.loadingData()[props.topic.unidad,0props.topic,0,actividad,1]
+
   }
 
   handleCahngetick=()=>{
@@ -321,6 +321,8 @@ export default class CreateCourse extends React.Component {
     let step5=this.state.courseInformation.stepscompleted.includes(5)
     let step6=this.state.courseInformation.stepscompleted.includes(6)
     let step7=this.state.courseInformation.stepscompleted.includes(7)
+
+ 
     let validatingCourse = this.validatePublishCourse();
     if(this.state.courseInformation.coursePlan.guidedCoursePlan==='free'){
       if(step0===false){
@@ -346,7 +348,7 @@ export default class CreateCourse extends React.Component {
         step0===true&&  step1===true&&  step3===true&& step5===true&& step6===true
       )
       ? checkFree=true: checkFree===false; 
-      if(!validatingCourse.caseStep || checkGuided===false){
+      if(!validatingCourse.caseStep || checkFree===false){
         this.state.flagErrorSteps = true;
         this.state.open = true;
         if (!validatingCourse.caseStep) {

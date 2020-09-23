@@ -92,10 +92,8 @@ export default function Lista(props) {
   const AudiencesMainContent=()=>{
     return(
       <div>
-            <div className='crnheading'>
-                <h3>This course is designed for these target audiences:</h3>
-            </div>
                 <ul className='resourcesMainContent'>
+                    <li className='crnheading'>This course is designed for these target audiences:</li>
                     {
                     props.data[0].map((value,index)=>(
                         value.isChecked===true ?
@@ -115,18 +113,18 @@ export default function Lista(props) {
                         undefined
                     }     
                 </ul>
-              
-            <div className='crnheading'>
-                {
-                     props.data[1]!=undefined ?
-                        <h3>This course is designed to be inclusive for:</h3>
-                        :
-                    undefined
-                }  
-            </div>
+                
+               
+                
+        
              
                 <ul className='resourcesMainContent'>
-                    {console.log("error", props)}
+                    {
+                        props.data[1]!=undefined ?
+                            <li className='crnheading'>This course is designed to be inclusive for:</li>
+                            :
+                        undefined
+                    }  
                     {
                         props.data[1]!=undefined ?
                             props.data[1].map((value,index)=>(//Inclusion Goals  
