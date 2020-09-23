@@ -219,7 +219,7 @@ export default class CoursesList extends React.Component {
                 <div className="management-result-container">
                   <p className="management-title">{this.props.language.mySavedCourses}<SchoolIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
-                    <form onSubmit={this.handleSubmit} style={{display:none}} >
+                    <form onSubmit={this.handleSubmit} style={{display:'none'}} >
                         <label>
                           Upload new course*
                           <input type="file" ref={this.fileInput} />
