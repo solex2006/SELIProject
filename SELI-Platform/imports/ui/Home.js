@@ -51,6 +51,14 @@ export default class Home extends React.Component {
       } else {
         this.setState({
           chekingSesion: false,
+        }, () => {
+          if (this.props.history.location.action) {
+            if (this.props.history.location.action === "in") {
+              this.refs.AppBar.handleClickOpen("in", this.props.history.location.course);
+            } else {
+              this.refs.AppBar.handleClickOpen("up", this.props.history.location.course);
+            }
+          }
         })
       }
     });
@@ -99,6 +107,7 @@ export default class Home extends React.Component {
             this.state.language && Session.get('language') ?
               <React.Fragment>
                 <AppBar
+                  ref="AppBar"
                   history={this.props.history}
                   language={this.state.language}
                   setLanguage={this.setLanguage.bind(this)}

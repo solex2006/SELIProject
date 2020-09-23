@@ -9,30 +9,19 @@ export default class VideoPreview extends React.Component {
       captions: '',
       loaded: false,
       playing: false,
-      key: 1000,
-      configFile: {file: {
-        tracks: []
-      }}
     }
   }
 
-
   componentDidMount(){
-    this.loadingData();
     document.getElementById("video-preview-information").addEventListener('webkitfullscreenchange', this.onFullScreen)
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.dataField &&
-      (prevProps.dataField.fileTranscription[0] !== this.props.dataField.fileTranscription[0])) {
-      this.loadingData();
-    }
-  }
-
-  loadingData = () => {
-    if(this.props.dataField!=undefined){
-      if(this.props.dataField.fileTranscription && this.props.dataField.fileTranscription.length>0){
-        let configFile = this.state.configFile;
+  loadingConfig = () => {
+    let configFile = {file: {
+      tracks: []
+    }};
+    if(this.props.dataField !== undefined){
+      if(this.props.dataField.fileTranscription && this.props.dataField.fileTranscription.length > 0){
         configFile.file.tracks = [];
         this.props.dataField.fileTranscription.map((track) => {
           configFile.file.tracks.push(
@@ -40,12 +29,10 @@ export default class VideoPreview extends React.Component {
           )
         })
         configFile.file.tracks[0].default = true;
-        this.setState({
-          configFile,
-          key: this.state.key + 1
-        })
       }
     }
+    let key = configFile.file.tracks.length;
+    return {configFile, key};
   }
 
   onFullScreen = (e) => {
@@ -103,6 +90,7 @@ export default class VideoPreview extends React.Component {
   }
 
   render() {
+    const initConfiguration = this.loadingConfig();
     return(
       <React.Fragment>
         <ReactPlayer
@@ -110,14 +98,14 @@ export default class VideoPreview extends React.Component {
           id="video-preview-information"
           className="course-creator-preview-player"
           controls
-          key={this.state.key}
+          key={initConfiguration.key}
           playing={this.state.playing}
           url={this.props.file.link}
           onReady={this.ready}
           onPlay={this.play}
           onPause={this.pause}
           onSeek={this.seek}
-          config={this.state.configFile}
+          config={initConfiguration.configFile}
         />
         {this.signVideo()}
       </React.Fragment>

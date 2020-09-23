@@ -79,12 +79,23 @@ export default class UserRegistration extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
-    this.props.history.push({
-      pathname: "/",
-      state: {
-        language: this.state.language,
-      }
-    });
+    if (this.props.history.location.course) {
+      this.props.history.push({
+        pathname: "/", 
+        course: this.props.history.location.course,
+        action: "in",
+        state: {
+          language: this.state.language,
+        }
+      });
+    } else {
+      this.props.history.push({
+        pathname: "/",
+        state: {
+          language: this.state.language,
+        }
+      });
+    }
   };
 
   componentDidMount() {
@@ -250,12 +261,13 @@ export default class UserRegistration extends React.Component {
           Meteor.userId(),
           this.state.userInformation.email,
           (error) => {
-            if (error) {
+            /* if (error) {
               this.handleError(error);
             }
             else {
               this.requestSent();
-            }
+            } */
+            this.requestSent();
           }
         );
         Meteor.logout();

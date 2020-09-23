@@ -20,31 +20,18 @@ export default class FormPreview extends React.Component {
     return(
       <div className="form-file-selected-container">
         <div className="form-file-selected-actions">
-          <Tooltip title={this.props.type === "image" ? "Change course image" : "Change course sylabus"} aria-label="edit">
-           
-           {this.props.type === "image"?
-             <Fab
+          <Tooltip title={this.props.type === "image" ? this.props.language.changeImage : this.props.language.changeCourseSyllabus} aria-label="edit">
+            <Fab
               size="small"
-              aria-label="edit"
+              aria-label={this.props.type === "image" ? this.props.language.changeImage : this.props.language.changeCourseSyllabus} 
               className="form-file-selected-button"
-              onClick={() => this.props.changeFile(this.props.type)}
-             >
-               <EditIcon />
-               </Fab>
-             :
-             <Fab
-              size="small"
-              aria-label="edit"
-              className="form-file-selected-button"
-              //onClick={() => this.props.changeFile(this.props.type, this.props.file)}
-              onClick={() => this.props.resetSylabus()}
-             >
-               <EditIcon />
-               </Fab>
-           }
-            
-              
-            
+              onClick={ this.props.type === "image" ? 
+                () => this.props.changeFile(this.props.type) :
+                () => this.props.resetSylabus()
+              }
+            >
+              <EditIcon />
+            </Fab>
           </Tooltip>
         </div>
         {

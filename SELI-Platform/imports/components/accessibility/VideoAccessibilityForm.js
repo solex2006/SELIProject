@@ -33,7 +33,7 @@ export function VideoTextAltA11Y(props){
 	} = props.data;
 
 	function getFileInformation() {
-		console.log('yes');
+		//console.log('yes');
 	}
 
 	return(
@@ -115,31 +115,29 @@ export function VideoMediaCaptionsAltA11Y(props){
 	const [newCaption, setnewCaption] = useState(false);
 	
 	const getFileInformationCaption=(file)=>{		
-	    handleRadioButtonOnChangeValidator('captionsEmbedded','no')
+		handleRadioButtonOnChangeValidator('captionsEmbedded','no')
 		dataField.fileTranscription[0]=file
 		setshowPreviewSignal(true)
 		setnewCaption(false)
 	}
 	
 	const  noCaption=()=>{
-		dataField.fileTranscription[0]=undefined
+		dataField.fileTranscription=[]
 		setshowPreviewSignal(false)
 		return undefined
 	}
 	
 	const unPickFileSignal=()=>{
-		dataField.fileTranscription[0]=undefined
+		dataField.fileTranscription=[]
 		setnewCaption(true)
 	}
 	useEffect(()=>{
-		
-		if(dataField.fileTranscription[0]===undefined){
-			console.log("se borro el archivo..... de captions")
+		if(dataField.fileTranscription.length === 0){
 			//dataField.captionsEmbeddedError=true
 			handleInputOnFile('captions')
 		}
 
-	},[dataField.fileTranscription[0]])
+	},[dataField.fileTranscription.length])
 
 	return(
 		<section id='video-captions'>
@@ -175,7 +173,6 @@ export function VideoMediaCaptionsAltA11Y(props){
 					</RadioGroup>
 					<AccessibilityHelp idName='captions-radiogroup' error={dataField.captionsEmbeddedError} tip={captionsTip}/>
 				</FormControl>
-				{console.log("el buggggggg de captions", dataField )}
 				{//languages signal part
 					(dataField.captionsEmbedded === "no" || newCaption===true )?
 					<div>
@@ -248,7 +245,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 
 	useEffect(()=>{
 		if(dataField.fileAudioDescription[0]===undefined){
-			console.log("se borro el archivo..... de audiodescription")
+			//console.log("se borro el archivo..... de audiodescription")
 			//dataField.audioDescriptionError=true
 			handleInputOnFile('audioDescription')
 		}
@@ -386,7 +383,7 @@ export function VideoMediaSignLanguageA11Y(props){
 	}
 	useEffect(()=>{
 		if(dataField.fileVideoSignal[0]===undefined){
-			console.log("se borro el archivo..... de signlanguage")
+			//console.log("se borro el archivo..... de signlanguage")
 			//dataField.audioDescriptionError=true
 			handleInputOnFile('signLanguage')
 		}
@@ -530,7 +527,7 @@ export default function VideoA11Y(props){
 		disabled_uploadAudioDesc,
 		isA11Y,
 	} = useDataField();
-	console.log("actualiza lprogress",isA11Y)
+	//console.log("actualiza lprogress",isA11Y)
 
 
 	/*
@@ -631,7 +628,7 @@ export default function VideoA11Y(props){
 }
 
 export const useDataField = (props) => {
-	console.log("props de ingreso en video", props)
+	//console.log("props de ingreso en video", props)
 	const [dataField, setDataField] = React.useState({
 		signLanguage: null,
 		seizures: null,
@@ -678,7 +675,7 @@ export const useDataField = (props) => {
 	];
 
 	useEffect(() => {
-		console.log("Video",props.item.dataField, props.item.isA11Y)
+		//console.log("Video",props.item.dataField, props.item.isA11Y)
 		if (props.item.dataField && props.item.isA11Y) {
 			setDataField(props.item.dataField);
 			setIsA11Y(props.item.isA11Y);
@@ -700,16 +697,11 @@ export const useDataField = (props) => {
 	}, [dataField]);
 
 	function captionValidator(validator){
-		console.log("----------->",validator, )
-		
-
-		console.log(props)
-
 		//setCaptionValidator(validator)
 	}
 
 	function handleInputOnChange ({ target: { name, value } }){
-		console.log(" handleInputOnChange", name, value )
+		//console.log(" handleInputOnChange", name, value )
 		let errField = name + 'Error';
 		let errValue = false;
 
@@ -730,7 +722,7 @@ export const useDataField = (props) => {
 			[errField]: errValue,
 		}));
 
-		console.log("dataFieldVideo",dataField)
+		//console.log("dataFieldVideo",dataField)
 		let arr = [...isA11Y];
 		arr.find(a => a.name == name).is_a11y = !errValue;
 		setIsA11Y(arr)
@@ -738,7 +730,7 @@ export const useDataField = (props) => {
 	}
 
 	function handleInputOnFile (type){
-		console.log("change file....",dataField, isA11Y,type)
+		//console.log("change file....",dataField, isA11Y,type)
 		if(type==='captions'){
 			isA11Y[3].is_a11y=false
 			setIsA11Y(isA11Y)
@@ -846,7 +838,7 @@ export const useDataField = (props) => {
 			//captionsEmbedded - signLanguage - seizures
 			let errField = name + 'Error';
 			let errValue = value === 'no' ? true : false;
-			console.log("////////", errValue)
+			//console.log("////////", errValue)
 
 			data = {...data,
 				[errField]: errValue,
@@ -855,7 +847,7 @@ export const useDataField = (props) => {
 			let arr = [...isA11Y];
 			arr.find(a => a.name == name).is_a11y = !errValue;
 			setIsA11Y(arr);
-			console.log(arr) 
+			//console.log(arr) 
 		}
 
 		setDataField( dataField => ({ ...dataField,
@@ -867,7 +859,7 @@ export const useDataField = (props) => {
 		let data = {
 			[name]: value,
 		};
-		console.log("en la funcion handleRadioButtonOnChangeVALIDATOR", "name" ,name, "value",value)
+		//console.log("en la funcion handleRadioButtonOnChangeVALIDATOR", "name" ,name, "value",value)
 		
 		let errField = name + 'Error';
 		let errValue = false;
@@ -877,13 +869,13 @@ export const useDataField = (props) => {
 		let arr = [...isA11Y];
 		arr.find(a => a.name == name).is_a11y = !errValue;
 		setIsA11Y(arr);
-		console.log(arr) 
+		//console.log(arr) 
 		
 		setDataField( dataField => ({ ...dataField,
 			...data
 		}));
 	}
- 
+
 	function handleLongDescriptionPosition(value){
 		if( value === '')
 			value = 'bottom';

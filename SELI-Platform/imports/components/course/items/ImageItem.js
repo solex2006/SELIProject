@@ -133,7 +133,7 @@ export default class ImageItem extends React.Component {
             undefined
         }
         <div className="image-content-item">
-          <div style={{flexDirection: this.props.item.attributes.alignment}} className="image-item-container">
+          <div style={{flexDirection: this.props.item.attributes.alignment}} className={this.props.fromTemplate ? "image-item-container-template" : "image-item-container"}>
             <div className="image-item-container-child" onClick={() => this.openFullScreen()}>
               {this.props.fromProgram && <DiscreteSlider adjust={this.adjust}/>}
               <ResizableContent

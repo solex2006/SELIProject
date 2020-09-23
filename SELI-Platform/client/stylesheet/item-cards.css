@@ -18,6 +18,13 @@
   background-color: rgba(255, 255, 255, 0);
 }
 
+.course-item-video-card-media-action-area-template {
+  display: flex !important;
+  align-items: center;
+  padding: 0.5vh 0;
+  background-color: rgba(255, 255, 255, 0);
+}
+
 .course-item-video-card-media {
   width: 50% !important;
 }
@@ -176,5 +183,10 @@ display: flex;
   }
   .course-item-comment-card-media-fab {
     margin: 1px !important;
+  }
+} 
+@media screen and (max-width: 1600px) {
+  .course-item-video-card-media-action-area-template {
+    display: inline !important;
   }
 } 

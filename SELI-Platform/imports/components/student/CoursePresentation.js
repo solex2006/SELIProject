@@ -177,10 +177,7 @@ const CourseSummary = ({coursedata}) => {
 };
 
 const CourseHeader = ({classes, coursedata, tutordata, language, goToUser}) => {
-	console.log("coursedata and props", coursedata, tutordata)
 	const [tutordata1,setTutor]=useState(tutordata)
-	
-	console.log("tutordata--->",tutordata1)
 	return (
 		<React.Fragment>
 			<div className="course-presentation-title-container">
@@ -193,7 +190,7 @@ const CourseHeader = ({classes, coursedata, tutordata, language, goToUser}) => {
 			</div>
 			<InstructorProfileAvatar
 				goToUser={goToUser}
-			   language={language}
+				language={language}
 				name={"Created by " + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
 				className={classes.caption}
 				coursedata={coursedata}
@@ -353,24 +350,62 @@ export default function MainPage(props) {
 					data={coursedata.requirements}
 				/> 
 			</Paper>
+			{console.log(props.course)}
 			<div className="course-presentation-actions-container">
 				{
-					props.goToUser ?
-						props.progress === "noProgress" ?
-							<Button
-								//tabIndex="1" 
-								onClick={() => props.goToUser("subscribe")}
-								className="subscription-card-button"
-								variant="contained"
-								color="primary"
-							>
-								{props.language.subscribeJoin}
-							</Button>
+					props.course.published ?
+						props.goToUser ?
+							props.progress ?
+								props.progress === "noProgress" ?
+									<Button
+										//tabIndex="1" 
+										onClick={() => props.goToUser("subscribe")}
+										className="subscription-card-button"
+										variant="contained"
+										color="primary"
+									>
+										{props.language.subscribeJoin}
+									</Button>
+								:
+									<React.Fragment>
+										<Button
+											//tabIndex="1" 
+											onClick={() => props.goToUser("unsubscribe")}
+											className="subscription-card-button"
+											variant="outlined"
+											color="primary"
+										>
+											{props.language.unsubscribe}
+										</Button>
+										<Button
+											//tabIndex="1" 
+											onClick={() => props.goToUser("enter")}
+											className="subscription-card-button"
+											variant="contained"
+											color="primary"
+										>
+											{
+												
+												props.progress <= 0 ? props.language.startCourse :
+												props.progress > 0 && props.progress < 100 ? props.language.resumeCourse :
+												props.progress >= 100 ? props.language.reviewCourse : undefined
+											}
+										</Button>
+									</React.Fragment>
+							:
+								<React.Fragment>
+									<Button tabIndex="0" variant="contained" onClick={() => props.goToLogIn("in")} color="primary" className="bar-button">
+										{props.language.signIn}
+									</Button>
+									<Button tabIndex="0" variant="contained" onClick={() => props.goToLogIn("up")} color="secondary" className="bar-button">
+										{props.language.signUp}
+									</Button>
+								</React.Fragment>
 						:
 							<React.Fragment>
 								<Button
 									//tabIndex="1" 
-									onClick={() => props.goToUser("unsubscribe")}
+									onClick={() => props.unsubscribe(props.course._id)}
 									className="subscription-card-button"
 									variant="outlined"
 									color="primary"
@@ -379,13 +414,12 @@ export default function MainPage(props) {
 								</Button>
 								<Button
 									//tabIndex="1" 
-									onClick={() => props.goToUser("enter")}
+									onClick={() => props.navigateTo([0, 0, 0, 0])}
 									className="subscription-card-button"
 									variant="contained"
 									color="primary"
 								>
 									{
-										
 										props.progress <= 0 ? props.language.startCourse :
 										props.progress > 0 && props.progress < 100 ? props.language.resumeCourse :
 										props.progress >= 100 ? props.language.reviewCourse : undefined
@@ -394,28 +428,15 @@ export default function MainPage(props) {
 							</React.Fragment>
 					:
 						<React.Fragment>
-							<Button
-								//tabIndex="1" 
-								onClick={() => props.unsubscribe(props.course._id)}
-								className="subscription-card-button"
-								variant="outlined"
-								color="primary"
-							>
-								{props.language.unsubscribe}
-							</Button>
-							<Button
-								//tabIndex="1" 
-								onClick={() => props.navigateTo([0, 0, 0, 0])}
-								className="subscription-card-button"
-								variant="contained"
-								color="primary"
-							>
-								{
-									props.progress <= 0 ? props.language.startCourse :
-									props.progress > 0 && props.progress < 100 ? props.language.resumeCourse :
-									props.progress >= 100 ? props.language.reviewCourse : undefined
-								}
-							</Button>
+							<div className="course-not-published">{props.language.courseNotPublished}</div>		
+							<InstructorProfileAvatar
+								goToUser={props.goToUser}
+								language={props.language}
+								name={"Created by " + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
+								className={classes.caption}
+								coursedata={coursedata}
+								tutordata={tutordata}
+							/> 
 						</React.Fragment>
 				}
 			</div>
