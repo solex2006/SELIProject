@@ -314,60 +314,55 @@ function Syllabus(props) {
 			<p className='descriptiontext'>
 				As a online course, it's required that you have access to a computer 'desktop or mobile' with internet connection.
 			</p>
-			<div className='crnheading'>
-				<h3 className='crnheading' id="tecnologicalhard">Hardware requirements</h3>
-			</div>
+			<ol className='crnheading' style={{listStyleType: 'none', fontWeight: 'bold',}}>
+				<li className='crnheading' id="tecnologicalhard">Hardware requirements</li>
+			
 				
 				{
 					props.courseInformation.requirements.length!=0 ?
-					<div>
-						{console.log("buggggggggg",props.courseInformation.requirements)}
-							<ol className='resources'>
+					<ol style={{listStyleType: 'none', fontWeight: 'normal',}}>
+
 								{
 									props.courseInformation.requirements!=undefined?
 									props.courseInformation.requirements[1].map((item, index) =>(
 										<li key={index}>{item.label}</li>
 									))
 									:
-									<div className='descriptiontext'>
-										No hardware requirement.
-									</div>
+									undefined
 								}
-							</ol>
+						
 					
-					</div>
+					</ol>
 					:
-					<div className='descriptiontext'>
+					<li style={{listStyleType: 'none', fontWeight: 'normal'}} className='descriptiontext'>
 						No hardware requirement.
-					</div>
+					</li>
 				}
-				<div className='crnheading' className='crnheading'>
-					<h3  id="tecnologicalsoft">Software requirements</h3 >
-				</div>
+			</ol>
+				
+			
+
+			<ol className='crnheading' style={{listStyleType: 'none', fontWeight: 'bold',}}>
+				<li className='crnheading' id="tecnologicalhard">Software requirements</li>
 				
 				{
 					props.courseInformation.requirements.length!=0 ?
-					<ol className='resources'>
+					<ol style={{listStyleType: 'none', fontWeight: 'normal',}}>
 						{	
 							props.courseInformation.requirements!=undefined?
 							props.courseInformation.requirements[0].map((item, index) =>(
 									<li key={index}>{item.label}</li>
 								)) 
 							:
-							<div>
-								No software requirement.
-							</div>  
+							undefined
 						}
 					</ol>
 					:
-					<div>
+					<li style={{listStyleType: 'none', fontWeight: 'normal'}}>
 						No software requirement.
-					</div>
+					</li>
 				} 
-      	
-			
-
-		
+			</ol>
 			<hr/>
 
 		</div>
@@ -384,6 +379,7 @@ export default function SyllabusButton(props) {
 		setOpen(false);
 	};
 
+	console.log("propiedades del silabo---->",props)
 	return (
 		<React.Fragment>
 			<Button
@@ -398,6 +394,8 @@ export default function SyllabusButton(props) {
 				Open Syllabus
 			</Button>
 
+		{
+			props.courseInformation.coursePlan.guidedCoursePlan!= "free"?
 			<DialogFullWidth
 				open={open}
 				handleClose={handleClose}
@@ -409,6 +407,19 @@ export default function SyllabusButton(props) {
 					 language={props.language}
 				/>
 			</DialogFullWidth>
+			:
+			<DialogFullWidth
+				open={open}
+				handleClose={handleClose}
+				title="Course Syllabus"
+				key="syllabus"
+			>
+				<iframe src={props.courseInformation.sylabus.pdf.link} style={{width:'100%', height:'100%'}} frameborder="0"></iframe>
+			
+			</DialogFullWidth>
+
+		}
+			
 		</React.Fragment>
 	);
 }
