@@ -8,6 +8,7 @@
   background-color: white;
   width: 100%;
   height: calc(100% - 40px);
+  overflow-y: scroll;
 }
 
 .template-container-student {
@@ -28,7 +29,6 @@
 
 .template-row {
   display: flex;
-  min-height: var(--template-row) !important;
 }
 
 .template-row-item {
