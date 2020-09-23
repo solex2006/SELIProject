@@ -370,11 +370,13 @@ export default function SearchToolBar(props) {
 	const search=(event)=>{
 		setQuery(event.target.value)
 		console.log(event.target.value)
-	 }
+	}
 
 	 
 	 const GeneralSearch=()=>{
 		props.getGeneralSearch(query)
+		setselectedaccessible(false)
+		setselectedonline(false)
 	 }
 
 	 const sortByMostRecent=()=>{
@@ -433,6 +435,7 @@ export default function SearchToolBar(props) {
 								>
 									Filter by
 								</label>
+								
 								<ToggleButton
 									value="selectedaccessible"
 									aria-pressed={true}

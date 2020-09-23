@@ -8,7 +8,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 //import SimulateButtons from "./simulate";
 import Button from "@material-ui/core/Button";
 import PictureAsPdfSharpIcon from '@material-ui/icons/PictureAsPdfSharp';
-import FeedbackHelp from "./feedback";
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
@@ -22,6 +22,7 @@ import WarningIcon from '@material-ui/icons/Warning';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import PdfFormulario from './pdfForm';
+import FeedbackHelp from "../../components/course/feedback"
 
 
 const useStyles = makeStyles(theme => ({
@@ -93,6 +94,8 @@ export default function CoursePlanStep(props) {
   const [changeStructure, setChangeStructure] = React.useState(false);
   const [changeSylabus, setchangeSylabus] = React.useState('');
   const [flagSylabus, setflagSylabus] = React.useState(undefined);
+  const [SylabusError, setSylabusError] = React.useState(true);
+
   // will hold a reference for our real input file
   let inputFile = "";
 
@@ -105,16 +108,13 @@ export default function CoursePlanStep(props) {
     else if(coursePlan==='guided' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
       props.validate('passCoursePlan')
     }
-    /* else if(coursePlan==='free' && (courseTemplate==='spiral' || courseTemplate==='consistent' || courseTemplate==='toyBox')){
-      props.validate('passCoursePlanFree')
-    } */
     else if(coursePlan==='free' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
-      
-     // console.log("decide sie l cours eplan pasa", courseInformation.sylabus)
       if(courseInformation.sylabus!=undefined){
         props.validate('passCoursePlanFree')
+        setSylabusError(false)
       }else{
         props.validate('NopassCoursePlan')
+        setSylabusError(true)
       }   
     }
     else{
@@ -208,7 +208,7 @@ export default function CoursePlanStep(props) {
   return (
     <div className="course-information-container">
       <div className="form-input-column">
-        <h3>{language.GuidedCoursePlan}</h3>
+        <h2>{language.GuidedCoursePlan}</h2>
         <br/>
         <FormLabel component="legend">
           {language.PlanCreate}
@@ -296,6 +296,17 @@ export default function CoursePlanStep(props) {
               />
             </React.Fragment>
           )}
+
+            <FeedbackHelp
+                validation={{
+                  error: SylabusError,
+                  errorMsg: props.language.validateSylabus,//maxLearningobj===true? props.language.maxlearningobjectives :labels.errorMsgleast,
+                  errorType: "",
+                  a11y: null
+                }}
+                //tipMsg={""}
+                describedBy={"i05-helper-text"}
+            />
           <FormControlLabel
             value="without"
             control={<Radio />}

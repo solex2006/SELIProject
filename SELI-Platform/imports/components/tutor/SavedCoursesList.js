@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Meteor } from 'meteor/meteor';
 import Loading from '../../components/tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
 import Table from '../data_display/Table';
@@ -16,16 +16,48 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CourseForm from '../content/CourseForm'
+//const backup = require('mongodb-backup');
+
+
 
 export default class CoursesList extends React.Component {
   constructor(props) {
     super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.fileInput = React.createRef();
     this.state = {
       myCourses: [],
       loading: true,
     }
   }
 
+
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log("file upload",this.fileInput.current.files[0])
+    var file = this.fileInput.current.files[0]; //assuming 1 file only
+    if (!file) return;
+
+  
+    const formData = new FormData()
+    formData.append('json', file)
+
+    console.log("form data",formData)
+  
+    fetch('http://localhost:3000/upload', { method: 'POST', body: formData})
+    .then(response => response.json())
+    .then(data => { console.log("data regreso:",data)})
+    .catch(error => {
+      console.error(error)
+    })
+
+
+    
+
+
+
+  }
   componentDidMount() {
     this.getMyCourses(this.props.user.username);
   }
@@ -72,6 +104,28 @@ export default class CoursesList extends React.Component {
       coursesToDelete: coursesToDelete,
     });
   }
+  downloadCourse= (id) => {
+    let myCourses = this.state.myCourses;
+    let course=myCourses.filter(objeto=>objeto._id===id)
+    console.log("CURSO A DESCARGAR********", id, course[0])
+     Meteor.call('getCourses', course[0], function(error, result){
+      if(!error){
+        console.log( "resultado", result )
+        //SessionLog.insert({ "UserId": response._id, "Datetime": new Date(), "IPAddress": result });
+      }
+    }); 
+
+    window.open('http://localhost:3000/file', "_blank")
+  }
+
+  UploadNewCourse= () => {
+    /* Meteor.call('UploadCourses', function(error, result){
+      if(!error){
+        console.log( "resultado", result )
+        //SessionLog.insert({ "UserId": response._id, "Datetime": new Date(), "IPAddress": result });
+      }
+    }); */
+  };
 
   deleteSelected = (courses) => {
     let coursesToDelete = [];
@@ -113,6 +167,7 @@ export default class CoursesList extends React.Component {
     let menuOptions = [
       {label: this.props.language.resumeEditing , icon: <EditIcon/>, action: this.edit.bind(this)},
       {label: this.props.language.deleteCourse , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
+      {label: "Download course*" , icon: <DeleteIcon/>, action: this.downloadCourse.bind(this)}
     ];
     myCourses.map(course => {
       tableData.push({
@@ -145,7 +200,9 @@ export default class CoursesList extends React.Component {
     this.setState({ open: false, coursesToDelete:[] });
   };
 
-  setSelected(){}
+  
+
+  
 
   render() {
     return(
@@ -162,6 +219,14 @@ export default class CoursesList extends React.Component {
                 <div className="management-result-container">
                   <p className="management-title">{this.props.language.mySavedCourses}<SchoolIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
+                    <form onSubmit={this.handleSubmit} style={{display:none}} >
+                        <label>
+                          Upload new course*
+                          <input type="file" ref={this.fileInput} />
+                        </label>
+                        <button type="submit">Submit</button>
+                        <hr />
+                    </form>
                     <Table
                       labels={{
                         title: this.props.language.youHaveCourses, 
@@ -182,14 +247,22 @@ export default class CoursesList extends React.Component {
                       deleteSelected={this.deleteSelected.bind(this)}
                       setSelectedFunction={selected => this.setSelected = selected}
                     />
+                     
                   </div>
+                 {/*  <Button color="secondary" onClick={this.UploadNewCourse}> */}
+                   
+                 {/*  </Button>  */}
+
+                  
                 </div>
               :
               <div className="empty-dashboard">
+                
                 <div className="empty-dashboard-row">
                   <p className="empty-dashboard-text">{this.props.language.noCourseSavedText}</p>
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
+                
                 <Button onClick={() => this.props.showComponent('create')} variant="contained" color="secondary" className="empty-dashboard-button">{this.props.language.createCourse}</Button>
               </div>
             }

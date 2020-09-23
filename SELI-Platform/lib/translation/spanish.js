@@ -1157,6 +1157,7 @@ var SPANISH = {
   maxlearningobjectives:'Maximo 10 items en cada categoria de los Objetivos de Aprendizaje Cognitivo',
   maxlearningOutcomes:'Maximo 10 items en cada categoria de los Objetivos de Aprendizaje',
   maxlearningContrain:'Maximo 10 items en cada categoria de los Objetivos con Restriccion',
+  validateSylabus:'El Silabo es un campo requerido, por favor subir un documento PDF',
 }
 export default SPANISH
 

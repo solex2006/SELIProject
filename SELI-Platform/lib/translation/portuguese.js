@@ -1158,5 +1158,6 @@ var PORTUGUESE = {
   maxlearningobjectives:'Maximum 10 items for each category in Learning Cognitive Objectives',
   maxlearningOutcomes:'Maximum 10 items for each category in Learning Outcomes Objectives',
   maxlearningContrain:'Maximum 10 items for each category in Learning Constraint Objectives',
+  validateSylabus:'The syllabus is a required field, please upload a PDF document',
 }
 export default PORTUGUESE;

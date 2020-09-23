@@ -314,7 +314,7 @@ export default class CoursesDashboard extends React.Component {
       if(course.report!=undefined){
         if(course.report[2]===100){
           fullyCognitive.push(course)
-        }else if((course.report[2]<100 && course.report[2]>50)){
+        }else if((course.report[2]<100 && course.report[2]>=50)){
           partialCognitive.push(course)
         }else if(course.report[2]<50){
           inaccessibleCognitive.push(course)
@@ -324,7 +324,7 @@ export default class CoursesDashboard extends React.Component {
       if(course.report!=undefined){
         if(course.report[1]===100){
           fullyHearing.push(course)
-        }else if((course.report[1]<100 && course.report[1]>50)){
+        }else if((course.report[1]<100 && course.report[1]>=50)){
           partialHearing.push(course)
         }else if(course.report[1]<50){
           inaccessibleHearing.push(course)
@@ -334,7 +334,7 @@ export default class CoursesDashboard extends React.Component {
       if(course.report!=undefined){
         if(course.report[0]===100){
           fullyVisual.push(course)
-        }else if((course.report[0]<100 && course.report[0]>50)){
+        }else if((course.report[0]<100 && course.report[0]>=50)){
           partialVisual.push(course)
         }else if(course.report[0]<50){
           inaccessibleVisual.push(course)
@@ -498,19 +498,21 @@ export default class CoursesDashboard extends React.Component {
   }
 
   getOnline=()=>{ 
+    //this.state.onsearchflag===false
+    
     let onlineCourses=[]
     this.state.publishedCourses.map((course,indexCourse)=>{
-      if(course.analysis!=undefined){
-        if(course.analysis.length!=0){
-          if(course.analysis[1]==='online'){
-            this.setState({onlineTag:true})
-            onlineCourses.push(course)
-          }
+      if(course.modality!=undefined){
+        if(course.modality==='online'){
+          //console.log("modality*****",course.modality)
+          onlineCourses.push(course)
         }
-     }
+      }
     })
 
     this.setState({
+      onlineTag:true,
+      generalDetailedFlag:true,
       onlineCourses:onlineCourses
     })
     console.log("getOnlineresults", onlineCourses)
@@ -577,6 +579,10 @@ export default class CoursesDashboard extends React.Component {
     let myFiltersuscribdedCoursesTitle=this.state.mysuscribdedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
     let myFiltersuscribdedCoursesSubTitle=this.state.mysuscribdedCourses.filter(course => course.subtitle.search(this.state.texttoSearch.toLowerCase()) !=-1);
     this.state.myFiltersuscribdedCourses=(myFiltersuscribdedCoursesTitle.concat(myFiltersuscribdedCoursesSubTitle))
+    let deleteRepeated=this.state.myFiltersuscribdedCourses.filter((v,i,a)=>a.findIndex(t=>(t._id === v._id))===i)
+    this.state.myFiltersuscribdedCourses=deleteRepeated
+    console.log("myFiltersuscribdedCourses---",this.state.myFiltersuscribdedCourses)
+
     this.state.myFiltersuscribdedCourses.sort(function (a, b) {
       if (a.title > b.title) {
         return 1;
@@ -584,11 +590,10 @@ export default class CoursesDashboard extends React.Component {
       if (a.title < b.title) {
         return -1;
       }
-      // a must be equal to b
       return 0;
     });
     this.setState(this.state)
-    //console.log("Cursos suscritos con titulo y filtrado detailed",titleMyCourses, myFiltersuscribdedCourses )
+    
   }
 
   searchSELICoursesDetailed=()=>{
@@ -598,6 +603,8 @@ export default class CoursesDashboard extends React.Component {
     let myFilterSeliCoursesTitle=this.state.publishedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
     let myFilterSeliCoursesSubTitle=this.state.publishedCourses.filter(course => course.subtitle.search(this.state.texttoSearch.toLowerCase()) !=-1);
     this.state.myFilterSeliCourses=(myFilterSeliCoursesTitle.concat(myFilterSeliCoursesSubTitle))
+    let deleteRepeated=this.state.myFilterSeliCourses.filter((v,i,a)=>a.findIndex(t=>(t._id === v._id))===i)
+    this.state.myFilterSeliCourses=deleteRepeated
     this.state.myFilterSeliCourses.sort(function (a, b) {
       if (a.title > b.title) {
         return 1;
@@ -634,6 +641,7 @@ export default class CoursesDashboard extends React.Component {
     //this.getParamsofSearch()
     console.log("1. First Search params of serach and published courses", this.state.publishedCourses)
     let full=[]
+    let fullempty=[]
     let searchAL=[]
     let searchALD=[]
     let searchALDI=[]
@@ -651,27 +659,27 @@ export default class CoursesDashboard extends React.Component {
     }
     if(params.a11yCog==='full' && params.a11yHear==='full' && params.a11yVis==='partial'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && course.report[2]===100 && (course.report[1]===100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+        course.report!=undefined && course.report[2]===100 && (course.report[1]===100) && ((course.report[0]<100 && course.report[0]>=50) || course.report[0]===100)
       ))
     }
     if(params.a11yCog==='full' && params.a11yHear==='partial' && params.a11yVis==='no-filter'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && course.report[2]===100 && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && course.report[0]<=100
+        course.report!=undefined && course.report[2]===100 && ((course.report[1]<100 && course.report[1]>=50) || course.report[1]===100) && course.report[0]<=100
       ))
     }
     if(params.a11yCog==='full' && params.a11yHear==='partial' && params.a11yVis==='partial'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && course.report[2]===100 && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100)  && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+        course.report!=undefined && course.report[2]===100 && ((course.report[1]<100 && course.report[1]>=50) || course.report[1]===100)  && ((course.report[0]<100 && course.report[0]>=50) || course.report[0]===100)
       ))
     }
     if(params.a11yCog==='full' && params.a11yHear==='partial' && params.a11yVis==='full'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && course.report[2]===100 && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100)  && (course.report[0]===100)
+        course.report!=undefined && course.report[2]===100 && ((course.report[1]<100 && course.report[1]>=50) || course.report[1]===100)  && (course.report[0]===100)
       ))
     }
     if(params.a11yCog==='full' && params.a11yHear==='no-filter' && params.a11yVis==='partial'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && course.report[2]===100 && (course.report[1]<=100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+        course.report!=undefined && course.report[2]===100 && (course.report[1]<=100) && ((course.report[0]<100 && course.report[0]>=50) || course.report[0]===100)
       ))
     }
     if(params.a11yCog==='full' && params.a11yHear==='no-filter' && params.a11yVis==='full'){
@@ -690,47 +698,47 @@ export default class CoursesDashboard extends React.Component {
 
     if(params.a11yCog==='partial' && params.a11yHear==='full' && params.a11yVis==='full'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && course.report[1]===100 && course.report[0]===100
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>=50) || course.report[2]===100) && course.report[1]===100 && course.report[0]===100
       ))
     }
     if(params.a11yCog==='partial' && params.a11yHear==='full' && params.a11yVis==='no-filter'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && (course.report[1]===100) && course.report[0]<=100
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>=50) || course.report[2]===100) && (course.report[1]===100) && course.report[0]<=100
       ))
     }
     if(params.a11yCog==='partial' && params.a11yHear==='full' && params.a11yVis==='partial'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && (course.report[1]===100) && (course.report[0]<100 && course.report[0]>50)
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>=50) || course.report[2]===100) && (course.report[1]===100) && (course.report[0]<100 && course.report[0]>=50)
       ))
     }
     if(params.a11yCog==='partial' && params.a11yHear==='partial' && params.a11yVis==='no-filter'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && course.report[0]<=100
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>=50) || course.report[2]===100) && ((course.report[1]<100 && course.report[1]>=50) || course.report[1]===100) && course.report[0]<=100
       ))
     }
     if(params.a11yCog==='partial' && params.a11yHear==='partial' && params.a11yVis==='partial'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100 )
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>=50) || course.report[2]===100) && ((course.report[1]<100 && course.report[1]>=50) || course.report[1]===100) && ((course.report[0]<100 && course.report[0]>=50) || course.report[0]===100 )
       ))
     }
     if(params.a11yCog==='partial' && params.a11yHear==='partial' && params.a11yVis==='full'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && (course.report[0]===100)
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>=50) || course.report[2]===100) && ((course.report[1]<100 && course.report[1]>=50) || course.report[1]===100) && (course.report[0]===100)
       ))
     }
     if(params.a11yCog==='partial' && params.a11yHear==='no-filter' && params.a11yVis==='partial'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && (course.report[1]<=100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>=50) || course.report[2]===100) && (course.report[1]<=100) && ((course.report[0]<100 && course.report[0]>=50) || course.report[0]===100)
       ))
     }
     if(params.a11yCog==='partial' && params.a11yHear==='no-filter' && params.a11yVis==='full'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && (course.report[1]<=100) && (course.report[0]===100)
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>=50) || course.report[2]===100) && (course.report[1]<=100) && (course.report[0]===100)
       ))
     }
     if(params.a11yCog==='partial' && params.a11yHear==='no-filter' && params.a11yVis==='no-filter'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && ((course.report[2]<100 && course.report[2]>50) || course.report[2]===100) && (course.report[1]<=100) && (course.report[0]<=100)
+        course.report!=undefined && ((course.report[2]<100 && course.report[2]>=50) || course.report[2]===100) && (course.report[1]<=100) && (course.report[0]<=100)
       ))
     }
 
@@ -748,27 +756,27 @@ export default class CoursesDashboard extends React.Component {
     }
     if(params.a11yCog==='no-filter' && params.a11yHear==='full' && params.a11yVis==='partial'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && (course.report[2]<=100) && (course.report[1]===100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+        course.report!=undefined && (course.report[2]<=100) && (course.report[1]===100) && ((course.report[0]<100 && course.report[0]>=50) || course.report[0]===100)
       ))
     }
     if(params.a11yCog==='no-filter' && params.a11yHear==='partial' && params.a11yVis==='no-filter'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && (course.report[2]<=100) && (course.report[1]<100 && course.report[1]>50) && course.report[0]<=100
+        course.report!=undefined && (course.report[2]<=100) && (course.report[1]<100 && course.report[1]>=50) && course.report[0]<=100
       ))
     }
     if(params.a11yCog==='no-filter' && params.a11yHear==='partial' && params.a11yVis==='partial'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && (course.report[2]<=100) && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+        course.report!=undefined && (course.report[2]<=100) && ((course.report[1]<100 && course.report[1]>=50) || course.report[1]===100) && ((course.report[0]<100 && course.report[0]>=50) || course.report[0]===100)
       ))
     }
     if(params.a11yCog==='no-filter' && params.a11yHear==='partial' && params.a11yVis==='full'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && (course.report[2]<=100) && ((course.report[1]<100 && course.report[1]>50) || course.report[1]===100) && (course.report[0]===100)
+        course.report!=undefined && (course.report[2]<=100) && ((course.report[1]<100 && course.report[1]>=50) || course.report[1]===100) && (course.report[0]===100)
       ))
     }
     if(params.a11yCog==='no-filter' && params.a11yHear==='no-filter' && params.a11yVis==='partial'){
       full= this.state.publishedCourses.filter(course=>(
-        course.report!=undefined && (course.report[2]<=100) && (course.report[1]<=100) && ((course.report[0]<100 && course.report[0]>50) || course.report[0]===100)
+        course.report!=undefined && (course.report[2]<=100) && (course.report[1]<=100) && ((course.report[0]<100 && course.report[0]>=50) || course.report[0]===100)
       ))
     }
     if(params.a11yCog==='no-filter' && params.a11yHear==='no-filter' && params.a11yVis==='full'){
@@ -781,6 +789,14 @@ export default class CoursesDashboard extends React.Component {
         course.report!=undefined && (course.report[2]<=100) && (course.report[1]<=100) && (course.report[0]<=100)
       ))
     }
+
+    fullempty= this.state.publishedCourses.filter(course=>(
+      course.report!=undefined && (course.report.length===0)
+    ))
+    
+    full=full.concat(fullempty)
+
+   
 
     //SEARCH LANGUAGE
     let auxsearchAL1=[]
@@ -854,16 +870,19 @@ export default class CoursesDashboard extends React.Component {
     //SEARCH BY ONLINE
     if(this.state.online===true){
       searchALDI.map(course=>{
-        if(course.analysis!=undefined){
-          if(course.analysis.length!=0){
-            if(course.analysis[1]==='online'){
-              searchALDI.push(course)
+        if(course.modality!=undefined){
+            if(course.modality==='online'){
+              //console.log("modality*****",course.modality)
+              searchALDIO.push(course)
             }
-          }
        }
     })
     }
     if(searchALDIO.length===0){searchALDIO=searchALDI}
+
+
+    
+   // console.log("empty",fullempty)
 
     //delete duplicates
     searchALDIO=this.getUnique(searchALDIO,'_id')

@@ -883,6 +883,7 @@ export default function AnalysisStep(props) {
           tipMsg={label==="affectiveDomain" ? "Affective domain is....":"Psychomotor domain is...." }
           describedBy={"i05-helper-text"}
         />
+        
       </div>
     )
   }
