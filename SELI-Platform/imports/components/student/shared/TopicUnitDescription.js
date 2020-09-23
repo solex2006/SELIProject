@@ -284,8 +284,9 @@ export default function CourseContent(props) {
                             <hr/>
                          
                             <p className='crnheading' id={"topic-"+indexUnit+"-assess"}>
-                                <h5>Assessment Methods</h5>
-                                <ul className='resources'>
+                               
+                                <ul className='resources' style={{display:'block'}}>
+                                <li style={{fontSize :'13px', fontWeight: 'bold'}}>Assessment Methods</li>
                                     <li >
                                         <MenuBookIcon/>
                                         {" "}
