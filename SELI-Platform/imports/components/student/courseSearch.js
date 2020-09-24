@@ -128,7 +128,8 @@ const useStyles = makeStyles(theme => ({
 		letterSpacing: '0.00938em'
 	},
 	tbgroup: {
-		position: 'relative'
+		position: 'relative',
+		marginTop:'32px'
 	},
 	input: {
 		marginLeft: theme.spacing(1),
@@ -226,6 +227,9 @@ export default function CourseSearch(props) {
 					getAccessibleFlag= {props.getAccessibleFlag}
 					getGeneralSearch={props.getGeneralSearch}
 					sortByMostRecent={props.sortByMostRecent}
+					 sortByMostRelevant={props.sortByMostRelevant}
+					 sortByAlphabetic={props.sortByAlphabetic}
+					 selected={props.selected}
 				/>
 			</Paper>
 		</React.Fragment>

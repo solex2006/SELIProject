@@ -415,7 +415,6 @@ export default function SyllabusButton(props) {
 				key="syllabus"
 			>
 				<iframe src={props.courseInformation.sylabus.pdf.link} style={{width:'100%', height:'100%'}} frameborder="0"></iframe>
-			
 			</DialogFullWidth>
 
 		}

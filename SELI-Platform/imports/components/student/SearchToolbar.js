@@ -17,6 +17,11 @@ import {
 	InputBase,
 	MenuItem
 } from '@material-ui/core';
+import Menu from '@material-ui/core/Menu';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText'
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -38,6 +43,7 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import SimpleDialog from './shared/dialog';
 import FullDialog from './shared/dialog_fullwidth';
 import DurationSlider from './shared/duration-slider';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { Courses } from '../../../lib/CourseCollection';
 const useStyles = makeStyles(theme => ({
@@ -132,7 +138,8 @@ const useStyles = makeStyles(theme => ({
 		letterSpacing: '0.00938em'
 	},
 	tbgroup: {
-		position: 'relative'
+		position: 'relative',
+		marginTop:'32px'
 	},
 	input: {
 		marginLeft: theme.spacing(1),
@@ -166,6 +173,7 @@ const StyledToggleButtonGroup = withStyles(theme => ({
 }))(ToggleButtonGroup);
 
 export default function SearchToolBar(props) {
+	console.log("propiedades SearchToolBar", props)
 	const [query, setQuery] = React.useState('');
 	const [openFilter, setOpenFilter] = React.useState(false);
 	const [openSorter, setOpenSorter] = React.useState(false);
@@ -379,9 +387,15 @@ export default function SearchToolBar(props) {
 		setselectedonline(false)
 	 }
 
-	 const sortByMostRecent=()=>{
-		 props.sortByMostRecent()
+	 const sortByMostRecent=(selected)=>{
+		 props.sortByMostRecent(selected)
 	 }
+
+	 const sortByAlphabetic=(selected)=>{
+		props.sortByAlphabetic(selected)
+		
+	}
+
 
 
 	return (
@@ -391,13 +405,16 @@ export default function SearchToolBar(props) {
 					<InputBase
 						value={query}
 						className={classes.input}
-						placeholder="Search SELI Courses"
+						placeholder="Search SeLI Platform"
 						inputProps={{ 'aria-label': 'search seli courses' }}
 						onChange={search}
 					/>
-					<IconButton onClick={()=>GeneralSearch()} className={classes.iconButton} aria-label="search">
-					<SearchIcon />
-					</IconButton>
+					<Tooltip title="Search">
+						<IconButton onClick={()=>GeneralSearch()} className={classes.iconButton} aria-label="search">
+							<SearchIcon />
+						</IconButton>
+					</Tooltip>
+					
 			
 				</div>
 				<div className={classes.filtercontainer}>
@@ -415,7 +432,7 @@ export default function SearchToolBar(props) {
 							<SortIcon />
 						</IconButton>
 					) : (
-						<SortCourse />
+						<SortCourse selected={props.selected} />
 					)}
 					{showDetailedFilter && (
 						<React.Fragment>
@@ -1003,15 +1020,112 @@ export default function SearchToolBar(props) {
 		</React.Fragment>
 	);
 
-	function SortCourse() {
+	function SortCourse1() {
+
+		const [anchorEl, setAnchorEl] = React.useState(null);
+
+		const [valor, setvalor]=useState('Alphabetic')
+		const handleClick = (event) => {
+			setAnchorEl(event.currentTarget);
+			setvalor(valor)
+			 console.log("event.currentTarget",event.currentTarget, event.target.value)
+		};
+
+	
+		const handleClose = (event) => {
+			setAnchorEl(null);
+			setvalor(event.target.value)
+			console.log("el valor////////////////////", event.target.value)
+		 };
 		return (
-			<FormControl className={classes.select}>
-				<TextField id="modality" label="Sort by" select value={1}>
-					<MenuItem value="1">Alphabetic</MenuItem>
-					<MenuItem value="2" onClick={sortByMostRecent}>Most Recent</MenuItem>
+			<FormControl >
+			<Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+        {valor}
+      </Button>
+				<Menu
+					id="simple-menu"
+					anchorEl={anchorEl}
+					keepMounted
+					open={Boolean(anchorEl)}
+					onClose={handleClose}
+				>
+					<MenuItem onClick={handleClose} value="Alphabetic">Alphabetic</MenuItem>
+					<MenuItem onClick={handleClose} value="Most Recent">Most Recent</MenuItem>
 					{/* <MenuItem value="3">Most Relevant</MenuItem> */}
-				</TextField>
+				</Menu>
+				
 			</FormControl>
 		);
 	}
+	
+
+	function SortCourse(props) {
+		console.log("SortCourse------",props)
+		const options = [
+			'Alphabetic',
+			'Most Recent',
+			//'Most Relevant',
+		 ];
+
+		
+		const [anchorEl, setAnchorEl] = React.useState(null);
+		const [selectedIndex, setSelectedIndex] = React.useState(props.selected);
+	 
+		const handleClickListItem = (event) => {
+		  setAnchorEl(event.currentTarget);
+		};
+	 
+		const handleMenuItemClick = (event, index) => {
+			setSelectedIndex(index);
+		  setAnchorEl(null);
+			console.log("tipo", event.target.value,index)
+			 if(index===1){
+				sortByMostRecent(index)
+			} 
+			/* else else if(index===2){
+				props.sortByMostRelevant()
+			} */
+			 if(index===0){
+				sortByAlphabetic(index)
+			} 
+		};
+	 
+		const handleClose = () => {
+		  setAnchorEl(null);
+		};
+	 
+		return (
+		  <div >
+			  
+			 <List component="nav" aria-label="Device settings" subheader={<ListSubheader>Sort by</ListSubheader>}>
+				<ListItem
+				  button
+				  aria-haspopup="true"
+				  aria-controls="lock-menu"
+				  aria-label="when device is locked"
+				  onClick={handleClickListItem}
+				>
+				  <ListItemText  primary={options[selectedIndex]} />
+				</ListItem>
+			 </List>
+			 <Menu
+				id="lock-menu"
+				anchorEl={anchorEl}
+				keepMounted
+				open={Boolean(anchorEl)}
+				onClose={handleClose}
+			 >
+				{options.map((option, index) => (
+				  <MenuItem
+				  key={option}
+				  selected={index}
+				  onClick={(event) => handleMenuItemClick(event, index)}
+				  >
+					 {option}
+				  </MenuItem>
+				))}
+			 </Menu>
+		  </div>
+		);
+	 }
 }

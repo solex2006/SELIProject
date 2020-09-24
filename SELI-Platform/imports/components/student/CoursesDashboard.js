@@ -55,6 +55,8 @@ export default class CoursesDashboard extends React.Component {
       onlineCourses:[],
       onlineTag:false,
       flagMostRecent:false,
+      flagAlphabetic:false,
+      selected:0,
       orsearch:[],
       duration:[],
       online:false,
@@ -111,6 +113,9 @@ export default class CoursesDashboard extends React.Component {
     }
     if(prevState.flagMostRecent!=this.state.flagMostRecent){
       console.log("busqueda por most recent Compnent did Update")
+    }
+    if(prevState.flagAlphabetic!=this.state.flagAlphabetic){
+      console.log("busqueda por Alphabetic Compnent did Update")
     }
   }
 
@@ -578,10 +583,12 @@ export default class CoursesDashboard extends React.Component {
     this.state.mysuscribdedCourses=titleMyCourses
     let myFiltersuscribdedCoursesTitle=this.state.mysuscribdedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
     let myFiltersuscribdedCoursesSubTitle=this.state.mysuscribdedCourses.filter(course => course.subtitle.search(this.state.texttoSearch.toLowerCase()) !=-1);
-    this.state.myFiltersuscribdedCourses=(myFiltersuscribdedCoursesTitle.concat(myFiltersuscribdedCoursesSubTitle))
+    let myFiltersuscribdedCoursesKeywords=this.state.mysuscribdedCourses.filter(course => 
+      course.keyWords.includes(this.state.texttoSearch.toUpperCase().charAt(0)+this.state.texttoSearch.toLowerCase().slice(1)+" ")); 
+    this.state.myFiltersuscribdedCourses=(myFiltersuscribdedCoursesTitle.concat(myFiltersuscribdedCoursesSubTitle.concat(myFiltersuscribdedCoursesKeywords)))
     let deleteRepeated=this.state.myFiltersuscribdedCourses.filter((v,i,a)=>a.findIndex(t=>(t._id === v._id))===i)
     this.state.myFiltersuscribdedCourses=deleteRepeated
-    console.log("myFiltersuscribdedCourses---",this.state.myFiltersuscribdedCourses)
+   
 
     this.state.myFiltersuscribdedCourses.sort(function (a, b) {
       if (a.title > b.title) {
@@ -602,7 +609,10 @@ export default class CoursesDashboard extends React.Component {
     
     let myFilterSeliCoursesTitle=this.state.publishedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
     let myFilterSeliCoursesSubTitle=this.state.publishedCourses.filter(course => course.subtitle.search(this.state.texttoSearch.toLowerCase()) !=-1);
-    this.state.myFilterSeliCourses=(myFilterSeliCoursesTitle.concat(myFilterSeliCoursesSubTitle))
+    let myFilterSeliCoursesKeywords=this.state.publishedCourses.filter(course => 
+      course.keyWords.includes(this.state.texttoSearch.toUpperCase().charAt(0)+this.state.texttoSearch.toLowerCase().slice(1)+" "));
+    
+    this.state.myFilterSeliCourses=(myFilterSeliCoursesTitle.concat(myFilterSeliCoursesSubTitle).concat(myFilterSeliCoursesKeywords))
     let deleteRepeated=this.state.myFilterSeliCourses.filter((v,i,a)=>a.findIndex(t=>(t._id === v._id))===i)
     this.state.myFilterSeliCourses=deleteRepeated
     this.state.myFilterSeliCourses.sort(function (a, b) {
@@ -619,8 +629,8 @@ export default class CoursesDashboard extends React.Component {
     console.log("Seli Courses y Filtrados Detailed: ",this.state.publishedCourses,  this.state.myFilterSeliCourses )
   }
 
-  sortByMostRecent=()=>{
-    //console.log("Sort by most recent",this.state.myFilterSeliCourses)
+  sortByMostRecent=(selected)=>{
+    console.log("Sort by most recent********",selected)
     let arratosearch=this.state.myFilterSeliCourses;
     arratosearch.sort(function (a, b) {
       return new Date(b.creationDate) - new Date(a.creationDate);
@@ -631,7 +641,28 @@ export default class CoursesDashboard extends React.Component {
       return new Date(b.creationDate) - new Date(a.creationDate);
     }); 
     this.state.flagMostRecent=true
+    this.state.selected=selected
     this.setState(this.state)
+
+
+  }
+  sortByMostRelevant=(selected)=>{
+    console.log("Sort by most relevant",this.state.myFilterSeliCourses)
+    this.state.selected=selected
+    this.setState(this.state)
+
+  }
+  sortByAlphabetic=(selected)=>{
+    console.log("Sort by most Alphabetic",this.state.myFilterSeliCourses)
+     let arratosearch=this.state.myFilterSeliCourses;
+    arratosearch.sort((a, b) =>(a.title>b.title)? 1: -1 ); 
+    console.log("Sort by most recent ordenado",arratosearch)
+    let sortmyFiltersuscribdedCourses=this.state.myFiltersuscribdedCourses;
+    sortmyFiltersuscribdedCourses.sort((a, b) =>(a.title>b.title)? 1: -1 );
+    this.state.flagMostRecent=false
+    this.state.flagAlphabetic=true
+    this.state.selected=selected
+    this.setState(this.state) 
 
   }
 
@@ -925,8 +956,11 @@ export default class CoursesDashboard extends React.Component {
           getOnlineFlag={this.getOnlineFlag}
           getAccessibleFlag={this.getAccessibleFlag}
           getGeneralSearch={this.getGeneralSearch}
-          sortByMostRecent={this.sortByMostRecent}
+          sortByMostRecent={this.sortByMostRecent} 
+          sortByMostRelevant={this.sortByMostRelevant}
+          sortByAlphabetic={this.sortByAlphabetic}
           OrSearch={this.OrSearch}
+          selected={this.state.selected}
         />
         {
           this.state.generalDetailedFlag===false?
