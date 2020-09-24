@@ -210,8 +210,8 @@ export default class CourseProgram extends React.Component {
         if (action === "create") {
           if (this.state.contentTypeAdded === 'image') {
             let size = {
-              width: 500,
-              height: 300,
+              width: 480,
+              height: 360,
             }
             arrayOfItems[index].attributes.size = size;
           }
