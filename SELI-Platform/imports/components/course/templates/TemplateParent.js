@@ -9,11 +9,7 @@ export default class TemplateParent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      file: false,
-      link: false,
-      embedded: false,
-      unity: false,
-      mediaGallery: false,
+      
     }
   }
 
@@ -78,65 +74,60 @@ export default class TemplateParent extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.loadingData();
-  }
-
   loadingData = () => {
     let items;
-    let file;
-    let unity;
-    let h5p;
-    let copy;
-    let external;
+    let file = false;
+    let link = false;
+    let embedded = false;
+    let unity = false;
+    let mediaGallery = false;
     this.props.tools.map((tool, index) => {
       if (tool.checked && tool.items && tool.items.length) {
         items = tool.items;
         if (index === 1) {
-          unity = items.filter(item => item.type === "1").length;
-          h5p = items.filter(item => item.type === "2").length;
-          external = items.filter(item => item.external === true).length;
-          if (external > 0){
-            this.setState({link: true});
-          } 
-          if (unity > 0) {
-            this.setState({unity: true});
-          }
-          if (h5p > 0) {
-            this.setState({embedded: true});
-          }
+          items.map((item) => {
+            if (item.type === "1") { //unity
+              unity = true;
+            } else if (item.type === "2") { //h5p
+              embedded = true;
+            } else if (item.external === true){ //external
+              link = true;
+            }
+          })
         } else if (index === 3) {
-          file = items.filter(item => item.type === "1").length;
-          h5p = items.filter(item => item.type === "2").length;
-          external = items.filter(item => item.external === true).length;
-          if (file > 0 && external > 0) {
-            this.setState({file: true});
-          } else if (external > 0){
-            this.setState({link: true, embedded: true});
-          } else if (h5p > 0) {
-            this.setState({embedded: true});
-          }
+          items.map((item) => {
+            if (item.external === true){ //external
+              link = true;
+              embedded = true;
+            } else if (item.type === "1") { //file
+              file = true;
+            } else if (item.type === "2") { //h5p
+              embedded = true;
+            }
+          })
         } else if (index === 4) {
-          copy = items.filter(item => item.copy === "1").length;
-          external = items.filter(item => item.external === true).length;
-          if (copy > 0 && external > 0){
-            this.setState({link: true});
-          } else if (copy > 0 && external === 0) {
-            this.setState({file: true});
-          }
+          items.map((item) => {
+            if (item.copy === "1" && item.external === true){ //external
+              link = true;
+            } else if (item.copy === "1") { //copy
+              file = true;
+            }
+          })
         }
       }
     });
     var contentImages = this.props.arrayOfItems.filter(item => item.code === 'image');
     var contentVideos = this.props.arrayOfItems.filter(item => item.code === 'video');
-    if (contentImages.length > 1 || contentVideos.length > 1) {
-      if (!this.props.editItem) this.setState({mediaGallery: true})
+    if (!this.props.editItem && (contentImages.length > 1 || contentVideos.length > 1)) {
+      mediaGallery = true;
     }
+    return {file, link, embedded, unity, mediaGallery}
   }
 
-  render() {
+  templateContent = () => {
+    const {file, link, embedded, unity, mediaGallery} = this.loadingData();
     return(
-      <div className={this.props.editItem ? "template-container" : "template-container-student"} style={this.props.editItem ? {overflowY: "scroll"} : undefined}>
+      <div className={this.props.editItem ? "template-container" : "template-container-student"}>
         {
           !this.props.sortMode ?
             <React.Fragment>
@@ -152,20 +143,20 @@ export default class TemplateParent extends React.Component {
                 }
               </div>
               {
-                this.state.file && this.state.link ?
+                file && link ?
                   <div className="template-row">
                     {this.templateItem("file", "Files", 1)}
                     {this.templateItem("link", "Links", 1)}
                   </div>
                 :
-                  <div className="template-row">
-                    {this.state.file && this.templateItem("file", "Files", 0)}
-                    {this.state.link && this.templateItem("link", "Links", 0)}
+                  (file || link) && <div className="template-row">
+                    {file && this.templateItem("file", "Files", 0)}
+                    {link && this.templateItem("link", "Links", 0)}
                   </div>
               }
               {
                 this.props.tools[2].checked && this.props.tools[5].checked ?
-                  this.state.mediaGallery ?
+                  mediaGallery ?
                     <React.Fragment>
                       <div className="template-row">
                         {this.templateItem("image", "Images", 0)}
@@ -180,14 +171,14 @@ export default class TemplateParent extends React.Component {
                       {this.templateItem("video", "Videos", 1)}
                     </div>
                 :
-                  <div className="template-row">
+                  (this.props.tools[2].checked || this.props.tools[5].checked) && <div className="template-row">
                     {this.props.tools[2].checked && this.templateItem("image", "Images", 0)}
                     {this.props.tools[5].checked && this.templateItem("video", "Videos", 0)}
                   </div>
               }
-              <div className="template-row">{this.props.tools[0].checked && this.templateItem("audio", "Audios", 0)}</div>
-              <div className="template-row">{this.state.embedded && this.templateItem("embeddedh5p", "Embedded Content", 0)}</div>
-              <div className="template-row">{this.state.unity && this.templateItem("unity", "Unity Content", 0)}</div>
+              {this.props.tools[0].checked && <div className="template-row">{this.templateItem("audio", "Audios", 0)}</div>}
+              {embedded && <div className="template-row">{this.templateItem("embeddedh5p", "Embedded Content", 0)}</div>}
+              {unity && <div className="template-row">{this.templateItem("unity", "Unity Content", 0)}</div>}
             </React.Fragment>
           :
             <Container
@@ -217,5 +208,13 @@ export default class TemplateParent extends React.Component {
         }
       </div>
     );
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        {this.templateContent()}
+      </React.Fragment>
+    )
   }
 }

@@ -116,15 +116,12 @@
   color: #616161 !important;
   display: flex;
   align-items: center;
+  text-overflow: ellipsis !important;
 }
 
 .course-item-card-subtitle {
   letter-spacing: 1px !important;
   margin-left: 0.5vw !important;
-}
-
-.course-item-card-title {
-  text-overflow: ellipsis !important;
 }
 
 .course-item-audio-card-content {

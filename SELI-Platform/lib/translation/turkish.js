@@ -1148,7 +1148,7 @@ var TURKISH = {
   earningCriteria: "Kazanma kriteri",
   badgeOwnerName: "Rozet sahibinin ismi",
   completeStep1:'Lütfen adımı tamamlayın: ',
-  completeStep1:'yayınlamadan önce',
+  completeStep2:'yayınlamadan önce',
   missingInformation:'Eksik bilgi',
   instructionGuidedCoursePlan:'SELI platformunda veya platformun dışında kurs planı oluşturmayı seçebilirsiniz.',
   instructionTemplateCourse:'Önceden tanımlanmış SELI şablonlarından birini kullanarak dersinizi geliştirebilirsiniz',

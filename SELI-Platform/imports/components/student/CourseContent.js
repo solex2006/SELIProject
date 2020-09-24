@@ -68,7 +68,7 @@ export default class CourseContent extends React.Component {
   }
 
   loadingPage = () => {
-    var {arrayOfItems, arrayOfDesignItems, tools,
+    const {arrayOfItems, arrayOfDesignItems, tools,
       toComplete, topicLessonLabel, taskLength, unitTopicLength, 
       lessonLength, previousLessonLength, previousTaskLength} = this.loadingData();
     return(

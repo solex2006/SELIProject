@@ -42,8 +42,10 @@ export default class TextForm extends React.Component {
 
   getTextAttributes(){
     let textContent = this.state.attributes;
-    const childText = getText();
-    textContent.content = childText;
+    if (textContent.type === "section") {
+      const childText = getText();
+      textContent.content = childText;
+    }
     if (this.validateContent(textContent) ) {
       return textContent;
     }
@@ -53,7 +55,7 @@ export default class TextForm extends React.Component {
   }
 
   validateContent = (content) => {
-    if (content.content === '' || content.content === null || content.content.blocks.text === "") {
+    if (content.content === '' || (content.type === "section" && (content.content === null || content.content.blocks.text === ""))) {
       this.props.handleControlMessage(true, this.props.language.addTextContent);
       return false;
     }
