@@ -255,9 +255,14 @@ export default function SearchToolBar(props) {
 	}
 
 	useEffect(() => {
-		//console.log("ussefeffect", props )
+		
 		getTutors()
 	}, [])
+	 useEffect(() => {
+		setselectedaccessible(false)
+		setselectedonline(false)
+	
+	},[props.selected]) 
 	
 
 	const getTutors=()=>{
@@ -563,7 +568,17 @@ export default function SearchToolBar(props) {
 							onClick={() => {
 								setArea([]);
 								setDuration([5, 200]);
-								setAudience([]);
+								setAudiences(prev=>({
+										Graduatestudents:false, 
+										Informalstudents:false, 
+										TeachersandProfessors:false,
+										Preschoolkids:false, 
+										Postgraduatestudent:false,  
+										Pregradestudent:false,  
+										HighSchoolStudents:false,  
+										MiddleSchoolStudents:false,  
+										ElementarySchoolStudents:false,
+								}))
 								//setSkills([]);
 								setInstructors([]);
 								setLanguages(prev=>({
@@ -590,6 +605,8 @@ export default function SearchToolBar(props) {
 								props.getParamsTutors(instructors)
 								props.OrSearch(accessibility,languages, audiences, instructors )
 								setOpenFilter(false);
+								setselectedonline(false)
+								setselectedaccessible(false)
 							}}
 						>
 							Apply filters
@@ -908,7 +925,7 @@ export default function SearchToolBar(props) {
 					</AccordionDetails>
 				</Accordion>
      
-				{/* <Accordion>
+				<Accordion>
 					<AccordionSummary
 						expandIcon={<ExpandMoreIcon />}
 						aria-controls="audience-content"
@@ -965,7 +982,7 @@ export default function SearchToolBar(props) {
 							</FormGroup>
 						</FormControl>
 					</AccordionDetails>
-				</Accordion>	 */}
+				</Accordion>	 
 
 				<Accordion>
 					<AccordionSummary

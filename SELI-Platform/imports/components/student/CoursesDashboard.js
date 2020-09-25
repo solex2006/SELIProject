@@ -480,6 +480,8 @@ export default class CoursesDashboard extends React.Component {
       coursesbyAudiences:coursesbyAudiences
     })
 
+    console.log("resultados getParamsAudiences---->",coursesbyAudiences)
+
 
   }
   getParamsTutors=(tutors)=>{
@@ -641,6 +643,10 @@ export default class CoursesDashboard extends React.Component {
       return new Date(b.creationDate) - new Date(a.creationDate);
     }); 
     this.state.flagMostRecent=true
+    this.state.flagAlphabetic=false
+    this.state.generalDetailedFlag=false
+    this.state.onsearchflag=false
+    this.state.onlineTag=false
     this.state.selected=selected
     this.setState(this.state)
 
@@ -661,6 +667,9 @@ export default class CoursesDashboard extends React.Component {
     sortmyFiltersuscribdedCourses.sort((a, b) =>(a.title>b.title)? 1: -1 );
     this.state.flagMostRecent=false
     this.state.flagAlphabetic=true
+    this.state.generalDetailedFlag=false
+    this.state.onsearchflag=false
+    this.state.onlineTag=false
     this.state.selected=selected
     this.setState(this.state) 
 
@@ -677,6 +686,7 @@ export default class CoursesDashboard extends React.Component {
     let searchALD=[]
     let searchALDI=[]
     let searchALDIO=[]
+    let searchALDIOT=[]
 
     if(params.a11yCog==='full' && params.a11yHear==='full' && params.a11yVis==='full'){
       full= this.state.publishedCourses.filter(course=>(
@@ -823,7 +833,7 @@ export default class CoursesDashboard extends React.Component {
 
     fullempty= this.state.publishedCourses.filter(course=>(
       course.report!=undefined && (course.report.length===0)
-    ))
+    ))//si un curso tiene el array del reporte vacion lo guarda
     
     full=full.concat(fullempty)
 
@@ -867,7 +877,7 @@ export default class CoursesDashboard extends React.Component {
         }
         searchAL=auxsearchAL1.concat(auxsearchAL2).concat(auxsearchAL3).concat(auxsearchAL4).concat(auxsearchAL5)
     }
-    
+    if(searchAL.length===0){searchAL=full}
 
     //SEARCH DURATION
     if(this.state.duration.length!=0){
@@ -885,6 +895,11 @@ export default class CoursesDashboard extends React.Component {
     }else{//if is empty
       searchALD=searchAL
     }
+    if(searchALD.length===0){searchALD=searchAL}
+
+    
+
+
     //SEARCH BY INSTRUCTOR  
     Object.entries(instructors).forEach(([key, value]) => {
       if(value===true){
@@ -896,7 +911,7 @@ export default class CoursesDashboard extends React.Component {
         })
       }     
     });
-    if(searchALDI.length===0){searchALDI=searchALD}
+    if(searchALDI.length===0){searchALDI=searchALD}//descmetar para or busqueda
 
     //SEARCH BY ONLINE
     if(this.state.online===true){
@@ -909,23 +924,73 @@ export default class CoursesDashboard extends React.Component {
        }
     })
     }
-    if(searchALDIO.length===0){searchALDIO=searchALDI}
+    if(searchALDIO.length===0){searchALDIO=searchALDI}//descmetar para or busqueda
+
+    //SEARCH AUDIENCES
+    
+    searchALDIO.map((course,indexCourse)=>{
+      if(course.support.length!=0){
+        if(Array.isArray(course.support[0])){   
+          course.support[0].map((audience, indexAudience)=>{
+            if(audience.value==="StudentsGrad" && audience.isChecked===true && audiences.Graduatestudents===true){
+              searchALDIOT.push(course)
+            }
+            if(audience.value==="StudentsInfor" && audience.isChecked===true && audiences.Informalstudents===true){
+              searchALDIOT.push(course)
+            }
+            if(audience.value==="Teachers" && audience.isChecked===true && audiences.TeachersandProfessors===true){
+             searchALDIOT.push(course)
+           }
+           if(audience.value==="Kids" && audience.isChecked===true && audiences.Preschoolkids===true){
+             searchALDIOT.push(course)
+           }
+           if(audience.value==="post graduate student" && audience.isChecked===true && audiences.Postgraduatestudent===true){
+             searchALDIOT.push(course)
+           }
+           if(audience.value==="pregrade student" && audience.isChecked===true && audiences.Pregradestudent===true){
+             searchALDIOT.push(course)
+           }
+           if(audience.value==="High School Students" && audience.isChecked===true && audiences.HighSchoolStudents===true){
+             searchALDIOT.push(course)
+           }
+           if(audience.value==="Middle School Students" && audience.isChecked===true && audiences.MiddleSchoolStudents===true){
+             searchALDIOT.push(course)
+           }
+           if(audience.value==="Elementary School Students" && audience.isChecked===true && audiences.ElementarySchoolStudents===true){
+             searchALDIOT.push(course)
+           }
+          /*  if(audience.isChecked===true){
+             this.setState({
+               audiencesTag:true,
+             })
+           } */
+          })
+         }
+        }
+      })
+    if(searchALDIOT.length===0){searchALDIOT=searchALDIO} //descmetar para or busqueda
+
+       
+    /* this.setState({
+      coursesbyAudiences:coursesbyAudiences
+    }) */
+
 
 
     
    // console.log("empty",fullempty)
 
     //delete duplicates
-    searchALDIO=this.getUnique(searchALDIO,'_id')
+    searchALDIOT=this.getUnique(searchALDIOT,'_id')
     
-    console.log("full,searchAL,searchALD,searchALDI,searchALDIO", full, searchAL,searchALD,searchALDI,searchALDIO)
+    console.log("full,searchAL,searchALD,searchALDI,searchALDIO,searchALDIOT", full, searchAL,searchALD,searchALDI,searchALDIO,searchALDIOT)
     this.state.accessibilitie.a11yVis=null
     this.state.accessibilitie.a11yHear=null
     this.state.accessibilitie.a11yCog=null
     this.state.onlineTag=false
     this.setState(this.state)
     this.setState({
-        orsearch:searchALDIO,
+        orsearch:searchALDIOT,
         generalDetailedFlag:true,
         onsearchflag:true
       })
