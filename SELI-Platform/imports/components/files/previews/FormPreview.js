@@ -36,14 +36,12 @@ export default class FormPreview extends React.Component {
         </div>
         {
           this.props.type === "image" ?
-            <div
-              style={{backgroundImage: `url(${this.props.file.link})`}}
+            <img
+              src={this.props.file.link}
               className="form-file-selected-image-container"
-            >
-            </div>
+            />
           :
-          undefined
-          
+            undefined
         }
         {
           this.props.type === "pdf" ?

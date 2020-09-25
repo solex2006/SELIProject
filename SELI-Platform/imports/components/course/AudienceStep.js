@@ -517,312 +517,310 @@ export default function AudienceApp(props) {
           }
       />
     )
-
   }
-
-
   
   return (
-    <div className="form-input-audiences">
-      <h2 id="aud_title">{language.audiences}</h2>
-      <h3 id="aud_title">{language.IntendedAudience}</h3>
-      <div role="group" aria-labelledby="aud_title">
-
-        <List component="ul" key={"li03"}>
-          <FeedbackHelp
-            language={language}
-            validation={{
-              error: false,
-              errorMsg: "",
-              errorType: "a11y",
-              //a11y: { valid: !audienceTooltip.audienceallError }
-            }}
-            tipMsg={null}
-            describedBy={"i04-helper-text"}     
-          />
-          <ListItem key="aud_SelectAll" dense>
-            <Checkbox
-              color="secondary"
-              edge="start"
-              checked={
-                !audiences.some(audience => audience.isChecked === false) 
-              }
-              // value={audience.value}
-              onClick={event => {
-                let newAudiences = [...audiences];
-                newAudiences.forEach(
-                  audience => (audience.isChecked = event.target.checked)
-                );
-                setAudiences(newAudiences);
-                let addAudicences=courseinformation;
-                addAudicences.support[0]=newAudiences
-                setcourseInformation(addAudicences)
-                let tooltip=audienceTooltip;
-                 if(event.target.checked===true){
-                  tooltip.audienceallError=false;
-                  tooltip.audienceError=false;
-                  setaudienceTooltip(tooltip)
-                  let checks=courseinformation;
-                  checks.accessibility[0]=tooltip
-                  setcourseInformation(checks)
-                }else{
-                  tooltip.audienceallError=true;
-                  tooltip.audienceError=true;
-                  setaudienceTooltip(tooltip)
-                  let checks=courseinformation;
-                  checks.accessibility[0]=tooltip
-                  setcourseInformation(checks)
-                }
-              }}
-              disableRipple
-              inputProps={{
-                "aria-labelledby": "checkbox-list-label-selectAll"
-              }}
-            />
-            {/* </ListItemIcon> */}
-            <ListItemText
-              id="checkbox-list-label-selectAll"
-              primary={language.SelectAll}
-            />
-          </ListItem>      
-          
-          {audiences.map((audience, index) => (
-            <ListItem key={audience.id} dense>
-              {/* <ListItemIcon> */}
-              <Checkbox
-                color="primary"
-                edge="start"
-                checked={audience.isChecked}
-                value={audience.value}
-                onClick={() => handleCheck(audience.id)}
-                disableRipple
-                inputProps={{
-                  "aria-labelledby": `checkbox-list-label-${audience.id}`
-                }}
-              />
-              <ListItemText
-                id={`checkbox-list-label-${audience.id}`}
-                primary={audience.label}
-              />
-            </ListItem>
-          ))}
-          
-          {otherAudiences.map((audience, index) => (
-            <ListItem
-              // button={!audience.editing}
-              component="li"
-              key={"li_aud" + index}
-            >
-              <ListItemText
-                key={"li_aud" + index + "listeItemTxt"}
-                primary={audience.label}
-                className={audience.editing ? classes.hidden : ""}
-              />
-              <div className={!audience.editing ? classes.hidden : ""}>
-                <TextField
-                  key={"li_aud" + index + "txtField"}
-                  className={!audience.editing ? classes.hidden : ""}
-                  value={controlEdit.tempValue}
-                  onChange={event => updateTempValue(event.target.value, index)}
-                  
-                />
-                <FeedbackHelp
-                    language={language}
-                    validation={{
-                      error: feedbackError,
-                      errorMsg: message,
-                      errorType: "required",
-                      //a11y: null
-                    }}
-                    tipMsg={requirementTooltip.newaudience}
-                    describedBy={"i02-helper-text"}
-                  />
-              </div>
-
-              <ListItemSecondaryAction key={"li_aud" + index + "secAc"}>
-                {audience.editing ? (
-                  <React.Fragment>
-                    <IconButton
-                      key={"li_aud" + index + "btnEditSaveUnit"}
-                      edge="end"
-                      aria-label={"Save changes"}
-                      onClick={handleEditedAudience(index)}
-                      className={classes.saveButton}
-                      disabled={(controlEdit.tempValue === "" || saveButton===true)}
-                    >
-                      <DoneIcon />
-                    </IconButton>
-                    <IconButton
-                      key={"li_aud" + index + "btnEditCancelUnit"}
-                      edge="end"
-                      aria-label={"Cancel changes"}
-                      onClick={handleCancelEditAudience(index)}
-                      className={classes.deleteButton}
-                    >
-                      <ClearIcon />
-                    </IconButton>
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <IconButton
-                      key={"li_aud" + index + "btnEditUnit"}
-                      edge="end"
-                      aria-label={"Edit unit name"}
-                      onClick={handleEditAudience(index)}
-                      disabled={controlEdit.editing}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      key={"li_aud" + index + "btnDeleteUnit"}
-                      edge="end"
-                      onClick={handleDeleteAudience(index, 'nodelete')}
-                      className={classes.deleteButton}
-                    >
-                      <RemoveIcon />
-                    </IconButton>
-                  </React.Fragment>
-                )}
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-          
-          <ListItem
-            key="addaudience"
-            button
-            onClick={handleNewAudience}
-            id="addaudience"
-            disabled={controlEdit.editing}
-            className={classes.addButton}
-          >
-            <AddIcon /> <ListItemText primary="Add other audience" />
-          </ListItem>
-
-          <FeedbackHelp
-            language={language}
-            validation={{
-              error: audienceTooltip.audienceError,
-              errorMsg: "Intended Audience is a mandatory field, select at least one.",
-              errorType: "a11y",
-             // a11y: { valid: !audienceTooltip.audienceError }
-            }}
-            tipMsg={language.targetAudience}
-            describedBy={"i04-helper-text"}     
-          /> 
-
-          {tooltip===true?
-            SnackbarAudiences()
-            :
-            undefined
-          }
-
-        </List>
-      </div>
-      <h3 id="aud_title">{language.InclusionGoals}</h3>
-      <div role="group" aria-labelledby="aud_title2">
-        <List component="ul" key={"li03"}>
-          <FeedbackHelp
-            language={language}
-            validation={{
-              error: false,
-              errorMsg: "",
-              errorType: "a11y",
-              //a11y: { valid: !audienceTooltip.audienceallgolError }
-            }}
-            tipMsg={null}
-            describedBy={"i04-helper-text"}     
-          />
-          <ListItem key="aud_SelectAll2" dense>
-            <Checkbox
-              color="secondary"
-              edge="start"
-              checked={
-                !audiencesGol.some(audiencegol => audiencegol.isChecked === false)
-              }
-              onClick={event => {
-                let newAudiencesgol = [...audiencesGol];
-                newAudiencesgol.forEach(
-                  audiencegol => (audiencegol.isChecked = event.target.checked)
-                );
-                setAudiencesGol(newAudiencesgol);
-                console.log(event.target.checked)
-                
-                let addAudicencesGol=courseinformation;
-                addAudicencesGol.support[1]=newAudiencesgol
-                setcourseInformation(addAudicencesGol)
-
-                let tooltip=audienceTooltip;
-                if(event.target.checked===true){
-                  tooltip.audienceallgolError=false;
-                  tooltip.audiencegolError=false;
-                  setaudienceTooltip(tooltip)
-                }else{
-                  tooltip.audienceallgolError=true;
-                  tooltip.audiencegolError=true;
-                  setaudienceTooltip(tooltip)
-                } 
-              }}
-              disableRipple
-              inputProps={{
-                "aria-labelledby": "checkbox-list-labelGol-selectAll"
-              }}
-            />
-            {/* </ListItemIcon> */}
-            <ListItemText
-              id="checkbox-list-label-selectAll"
-              primary={language.SelectAll}
-            />
-          </ListItem>
-        
-          {audiencesGol.map((audienceGol, index) => (
-            <ListItem key={audiencesGol.id} dense>
-              <Checkbox
-                color="primary"
-                edge="start"
-                checked={audienceGol.isChecked}
-                value={audienceGol.value}
-                onClick={() => handleCheckGol(audienceGol.id)}
-                disableRipple
-                inputProps={{
-                  "aria-labelledby": `checkboxgol-list-label-${audienceGol.id}`
-                }}
-              />
-              {/* </ListItemIcon> */}
-              <ListItemText
-                id={`checkboxgol-list-label-${audienceGol.id}`}
-                primary={audienceGol.label}
-              />
-            </ListItem>
-          ))}
-          <FeedbackHelp
+    <div className="form-input-container">
+      <div className="form-input-steps">
+        <h2 id="aud_title">{language.audiences}</h2><br/>
+        <h3 id="aud_title">{language.IntendedAudience}</h3>
+        <div role="group" aria-labelledby="aud_title">
+          <List component="ul" key={"li03"}>
+            <FeedbackHelp
               language={language}
               validation={{
                 error: false,
                 errorMsg: "",
                 errorType: "a11y",
-                //a11y: { valid: !audienceTooltip.audiencegolError}
+                //a11y: { valid: !audienceTooltip.audienceallError }
               }}
-              tipMsg={language.Validatetheinclusion}
+              tipMsg={null}
               describedBy={"i04-helper-text"}     
-          />
-        </List>
+            />
+            <ListItem key="aud_SelectAll" dense>
+              <Checkbox
+                color="secondary"
+                edge="start"
+                checked={
+                  !audiences.some(audience => audience.isChecked === false) 
+                }
+                // value={audience.value}
+                onClick={event => {
+                  let newAudiences = [...audiences];
+                  newAudiences.forEach(
+                    audience => (audience.isChecked = event.target.checked)
+                  );
+                  setAudiences(newAudiences);
+                  let addAudicences=courseinformation;
+                  addAudicences.support[0]=newAudiences
+                  setcourseInformation(addAudicences)
+                  let tooltip=audienceTooltip;
+                  if(event.target.checked===true){
+                    tooltip.audienceallError=false;
+                    tooltip.audienceError=false;
+                    setaudienceTooltip(tooltip)
+                    let checks=courseinformation;
+                    checks.accessibility[0]=tooltip
+                    setcourseInformation(checks)
+                  }else{
+                    tooltip.audienceallError=true;
+                    tooltip.audienceError=true;
+                    setaudienceTooltip(tooltip)
+                    let checks=courseinformation;
+                    checks.accessibility[0]=tooltip
+                    setcourseInformation(checks)
+                  }
+                }}
+                disableRipple
+                inputProps={{
+                  "aria-labelledby": "checkbox-list-label-selectAll"
+                }}
+              />
+              {/* </ListItemIcon> */}
+              <ListItemText
+                id="checkbox-list-label-selectAll"
+                primary={language.SelectAll}
+              />
+            </ListItem>      
+            
+            {audiences.map((audience, index) => (
+              <ListItem key={audience.id} dense>
+                {/* <ListItemIcon> */}
+                <Checkbox
+                  color="primary"
+                  edge="start"
+                  checked={audience.isChecked}
+                  value={audience.value}
+                  onClick={() => handleCheck(audience.id)}
+                  disableRipple
+                  inputProps={{
+                    "aria-labelledby": `checkbox-list-label-${audience.id}`
+                  }}
+                />
+                <ListItemText
+                  id={`checkbox-list-label-${audience.id}`}
+                  primary={audience.label}
+                />
+              </ListItem>
+            ))}
+            
+            {otherAudiences.map((audience, index) => (
+              <ListItem
+                // button={!audience.editing}
+                component="li"
+                key={"li_aud" + index}
+              >
+                <ListItemText
+                  key={"li_aud" + index + "listeItemTxt"}
+                  primary={audience.label}
+                  className={audience.editing ? classes.hidden : ""}
+                />
+                <div className={!audience.editing ? classes.hidden : ""}>
+                  <TextField
+                    key={"li_aud" + index + "txtField"}
+                    className={!audience.editing ? classes.hidden : ""}
+                    value={controlEdit.tempValue}
+                    onChange={event => updateTempValue(event.target.value, index)}
+                    
+                  />
+                  <FeedbackHelp
+                      language={language}
+                      validation={{
+                        error: feedbackError,
+                        errorMsg: message,
+                        errorType: "required",
+                        //a11y: null
+                      }}
+                      tipMsg={requirementTooltip.newaudience}
+                      describedBy={"i02-helper-text"}
+                    />
+                </div>
+
+                <ListItemSecondaryAction key={"li_aud" + index + "secAc"}>
+                  {audience.editing ? (
+                    <React.Fragment>
+                      <IconButton
+                        key={"li_aud" + index + "btnEditSaveUnit"}
+                        edge="end"
+                        aria-label={"Save changes"}
+                        onClick={handleEditedAudience(index)}
+                        className={classes.saveButton}
+                        disabled={(controlEdit.tempValue === "" || saveButton===true)}
+                      >
+                        <DoneIcon />
+                      </IconButton>
+                      <IconButton
+                        key={"li_aud" + index + "btnEditCancelUnit"}
+                        edge="end"
+                        aria-label={"Cancel changes"}
+                        onClick={handleCancelEditAudience(index)}
+                        className={classes.deleteButton}
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <IconButton
+                        key={"li_aud" + index + "btnEditUnit"}
+                        edge="end"
+                        aria-label={"Edit unit name"}
+                        onClick={handleEditAudience(index)}
+                        disabled={controlEdit.editing}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        key={"li_aud" + index + "btnDeleteUnit"}
+                        edge="end"
+                        onClick={handleDeleteAudience(index, 'nodelete')}
+                        className={classes.deleteButton}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                    </React.Fragment>
+                  )}
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+            
+            <ListItem
+              key="addaudience"
+              button
+              onClick={handleNewAudience}
+              id="addaudience"
+              disabled={controlEdit.editing}
+              className={classes.addButton}
+            >
+              <AddIcon /> <ListItemText primary="Add other audience" />
+            </ListItem>
+
+            <FeedbackHelp
+              language={language}
+              validation={{
+                error: audienceTooltip.audienceError,
+                errorMsg: "Intended Audience is a mandatory field, select at least one.",
+                errorType: "a11y",
+              // a11y: { valid: !audienceTooltip.audienceError }
+              }}
+              tipMsg={language.targetAudience}
+              describedBy={"i04-helper-text"}     
+            /> 
+
+            {tooltip===true?
+              SnackbarAudiences()
+              :
+              undefined
+            }
+
+          </List>
+        </div>
+        <h3 id="aud_title">{language.InclusionGoals}</h3>
+        <div role="group" aria-labelledby="aud_title2">
+          <List component="ul" key={"li03"}>
+            <FeedbackHelp
+              language={language}
+              validation={{
+                error: false,
+                errorMsg: "",
+                errorType: "a11y",
+                //a11y: { valid: !audienceTooltip.audienceallgolError }
+              }}
+              tipMsg={null}
+              describedBy={"i04-helper-text"}     
+            />
+            <ListItem key="aud_SelectAll2" dense>
+              <Checkbox
+                color="secondary"
+                edge="start"
+                checked={
+                  !audiencesGol.some(audiencegol => audiencegol.isChecked === false)
+                }
+                onClick={event => {
+                  let newAudiencesgol = [...audiencesGol];
+                  newAudiencesgol.forEach(
+                    audiencegol => (audiencegol.isChecked = event.target.checked)
+                  );
+                  setAudiencesGol(newAudiencesgol);
+                  console.log(event.target.checked)
+                  
+                  let addAudicencesGol=courseinformation;
+                  addAudicencesGol.support[1]=newAudiencesgol
+                  setcourseInformation(addAudicencesGol)
+
+                  let tooltip=audienceTooltip;
+                  if(event.target.checked===true){
+                    tooltip.audienceallgolError=false;
+                    tooltip.audiencegolError=false;
+                    setaudienceTooltip(tooltip)
+                  }else{
+                    tooltip.audienceallgolError=true;
+                    tooltip.audiencegolError=true;
+                    setaudienceTooltip(tooltip)
+                  } 
+                }}
+                disableRipple
+                inputProps={{
+                  "aria-labelledby": "checkbox-list-labelGol-selectAll"
+                }}
+              />
+              {/* </ListItemIcon> */}
+              <ListItemText
+                id="checkbox-list-label-selectAll"
+                primary={language.SelectAll}
+              />
+            </ListItem>
+          
+            {audiencesGol.map((audienceGol, index) => (
+              <ListItem key={audiencesGol.id} dense>
+                <Checkbox
+                  color="primary"
+                  edge="start"
+                  checked={audienceGol.isChecked}
+                  value={audienceGol.value}
+                  onClick={() => handleCheckGol(audienceGol.id)}
+                  disableRipple
+                  inputProps={{
+                    "aria-labelledby": `checkboxgol-list-label-${audienceGol.id}`
+                  }}
+                />
+                {/* </ListItemIcon> */}
+                <ListItemText
+                  id={`checkboxgol-list-label-${audienceGol.id}`}
+                  primary={audienceGol.label}
+                />
+              </ListItem>
+            ))}
+            <FeedbackHelp
+                language={language}
+                validation={{
+                  error: false,
+                  errorMsg: "",
+                  errorType: "a11y",
+                  //a11y: { valid: !audienceTooltip.audiencegolError}
+                }}
+                tipMsg={language.Validatetheinclusion}
+                describedBy={"i04-helper-text"}     
+            />
+          </List>
+        </div>
+        <Dialog disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting audience</DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
+            <WarningIcon className="warning-dialog-icon"/> 
+          </DialogContent>
+          <DialogActions>
+            <Button color="primary" onClick={() => setopen(false)} color="primary">No</Button>
+            <Button variant="outlined"  color="primary" onClick={() => {
+              //setdeleteDialog(true)
+              deleteAudience(indexdelete);
+              setopen(false)
+            }} 
+            ><em>Yes</em></Button> 
+          </DialogActions>
+        </Dialog>
       </div>
-      <Dialog disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-        <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting audience</DialogTitle>
-        <DialogContent className="success-dialog-content">
-          <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
-          <WarningIcon className="warning-dialog-icon"/> 
-        </DialogContent>
-        <DialogActions>
-          <Button color="primary" onClick={() => setopen(false)} color="primary">No</Button>
-          <Button variant="outlined"  color="primary" onClick={() => {
-            //setdeleteDialog(true)
-            deleteAudience(indexdelete);
-            setopen(false)
-          }} 
-          ><em>Yes</em></Button> 
-        </DialogActions>
-      </Dialog>
     </div>
   );
 }

@@ -567,7 +567,6 @@ var TURKISH = {
   addTopic: "Konu ekle",
   addUnit: "Ünite ekle",
   addLesson: "Sınıf ekle",
-  addQuestion: "Soru Ekle",
   accessibilityCheck: "Erişilebilirlik kontrolü",
   allDisabilitiesSelected: "Tüm dinleyiciler seçildi",
   disabilitie: "Dinleyici",
@@ -1154,15 +1153,20 @@ var TURKISH = {
   instructionTemplateCourse: "Önceden tanımlanmış SELI şablonlarından birini kullanarak dersinizi geliştirebilirsiniz",
   instructionStructureCourse: "dersinizi konulara veya ünitelere ve bölümlere göre düzenleyerek geliştirebilirsiniz.",
   instructionCourseSyllabus: "Ders planınızı yükleyiniz",
+  addQuestion: "Soru Ekle",
   titleAndCreditAreQuestion: "Sorunun başlığı doldurulması zorunlu bir alandır",
   maxlearningobjectives: "Öğrenme Bilişsel Hedeflerinde her kategori için maksimum 10 madde",
   maxlearningOutcomes: "Öğrenme Çıktıları Hedeflerindeki her kategori için en fazla 10 madde",
   maxlearningContrain: "Öğrenme Kısıtlama Hedeflerindeki her kategori için maksimum 10 öğe",
   validateSylabus: "The syllabus is a required field, please upload a PDF document",
   courseNotPublished: "This course is not published, contact the tutor for more information: ",
+  guided: "Guided",
+  free: "Free",
+  online: "Online",
+  hybrid: "Hybrid",
 }
 export default TURKISH;
 
-//When adding new labels, please use doble quotation marks.
+//When adding new labels, please use double quotation marks.
 //Example: 
 // courseTitleInformation: "Type the course title, e.g. \"Computer Science\"",

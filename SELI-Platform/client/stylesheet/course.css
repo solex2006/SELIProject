@@ -131,8 +131,26 @@
   margin: 0 0.5vw;
 }
 
+.design-expantion-panel-container {
+  width: 100%;
+  padding: 0 0;
+  margin: 0 0;
+}
+
+.design-into-resources {
+  width: calc(100% - 60px);
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
 /* Media Queries: Tablet Landscape */
 @media screen and (max-width: 1080px) {
+  .design-into-resources {
+    width: calc(100% - 4vw);
+    padding: 0 2vw;
+  }
   .course-container {
     width: 100vw !important;
   }

@@ -127,7 +127,6 @@ export default function CoursePlanStep(props) {
       cinformation.coursePlan.guidedCoursePlan = event.target.value;
       setCoursePlan(event.target.value);
       if (event.target.value === "free") {
-        courseTemplate="without"
         cinformation.coursePlan.courseTemplate = "without";
         setCourseTemplate("without");
       }
@@ -205,9 +204,9 @@ export default function CoursePlanStep(props) {
   },[changeSylabus])
 
   return (
-    <div className="course-information-container">
-      <div className="form-input-column">
-        <h2>{language.GuidedCoursePlan}</h2>
+    <div className="form-input-container">
+      <div className="form-input-steps">
+        <h2>{language.plan}</h2>
         <br/>
         <FormLabel component="legend">
           {language.PlanCreate}
@@ -218,8 +217,8 @@ export default function CoursePlanStep(props) {
           value={coursePlan}
           onChange={handleChange("coursePlan")}      
         >
-          <FormControlLabel value="guided" control={<Radio />} label="Guided" />
-          <FormControlLabel value="free" control={<Radio />} label="Free" />
+          <FormControlLabel value="guided" control={<Radio />} label={language.guided} />
+          <FormControlLabel value="free" control={<Radio />} label={language.free} />
         </RadioGroup>
         <FeedbackHelp
             validation={{
@@ -231,6 +230,19 @@ export default function CoursePlanStep(props) {
             tipMsg={language.instructionGuidedCoursePlan}
             describedBy={"i02-helper-text"}
         />
+        {
+          coursePlan === "free" &&
+          <FeedbackHelp
+            validation={{
+              error: SylabusError,
+              errorMsg: props.language.validateSylabus,//maxLearningobj===true? props.language.maxlearningobjectives :labels.errorMsgleast,
+              errorType: "",
+              a11y: null
+            }}
+            //tipMsg={""}
+            describedBy={"i05-helper-text"}
+          />
+        }
         {/* <FeedbackHelp
           validation={{
             error: false,
@@ -295,17 +307,6 @@ export default function CoursePlanStep(props) {
               />
             </React.Fragment>
           )}
-
-            <FeedbackHelp
-                validation={{
-                  error: SylabusError,
-                  errorMsg: props.language.validateSylabus,//maxLearningobj===true? props.language.maxlearningobjectives :labels.errorMsgleast,
-                  errorType: "",
-                  a11y: null
-                }}
-                //tipMsg={""}
-                describedBy={"i05-helper-text"}
-            />
           <FormControlLabel
             value="without"
             control={<Radio />}

@@ -1160,9 +1160,13 @@ var PORTUGUESE = {
   maxlearningContrain: "Maximum 10 items for each category in Learning Constraint Objectives",
   validateSylabus: "The syllabus is a required field, please upload a PDF document",
   courseNotPublished: "This course is not published, contact the tutor for more information: ",
+  guided: "Guided",
+  free: "Free",
+  online: "Online",
+  hybrid: "Hybrid",
 }
 export default PORTUGUESE;
 
-//When adding new labels, please use doble quotation marks.
+//When adding new labels, please use double quotation marks.
 //Example: 
 // courseTitleInformation: "Type the course title, e.g. \"Computer Science\"",

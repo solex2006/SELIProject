@@ -1160,9 +1160,13 @@ var SPANISH = {
   maxlearningContrain: "Maximo 10 items en cada categoria de los Objetivos con Restriccion",
   validateSylabus: "El Silabo es un campo requerido, por favor subir un documento PDF",
   courseNotPublished: "Este curso no está publicado, comuníquese con el tutor para obtener más información: ",
+  guided: "Guiado",
+  free: "Libre",
+  online: "En línea",
+  hybrid: "Híbrido",
 }
 export default SPANISH;
 
-//When adding new labels, please use doble quotation marks.
+//When adding new labels, please use double quotation marks.
 //Example: 
 // courseTitleInformation: "Type the course title, e.g. \"Computer Science\"",
