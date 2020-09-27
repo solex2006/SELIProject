@@ -6,6 +6,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
+import MoreHorizRoundedIcon from '@material-ui/icons/MoreHorizRounded';
+import IconButton from '@material-ui/core/IconButton';
 
 export default class CommentItem extends React.Component {
   constructor(props) {
@@ -64,6 +66,10 @@ export default class CommentItem extends React.Component {
     return editorState;
   }
 
+  openBadgeEditor(){
+    // open the editor TODO
+    console.log("displayin badge editor")
+  }
   render() {
     return(
       <div>
@@ -80,12 +86,17 @@ export default class CommentItem extends React.Component {
                 className="student-profile-information-container-comment"
                 elevation={4}
               >
-                <p className="student-profile-information-text-secondary-comment">
-                  {`${this.props.language.date}: ${this.props.comment.date.getHours()}:${
-                    this.props.comment.date.getMinutes() < 10 ? 
-                    `0${this.props.comment.date.getMinutes()}` : 
-                    this.props.comment.date.getMinutes()} - ${this.props.comment.date.toLocaleDateString('en-US')}`}
-                </p>
+                <div className="student-profile-information-text-comment-button-option">
+                  <p className="student-profile-information-text-secondary-comment">
+                    {`${this.props.language.date}: ${this.props.comment.date.getHours()}:${
+                      this.props.comment.date.getMinutes() < 10 ? 
+                      `0${this.props.comment.date.getMinutes()}` : 
+                      this.props.comment.date.getMinutes()} - ${this.props.comment.date.toLocaleDateString('en-US')}`}
+                  </p>
+                  <IconButton style={{"padding":"0px"}}>
+                    <MoreHorizRoundedIcon onClick={this.openBadgeEditor}/>
+                  </IconButton>
+                </div>
                 <p className="student-profile-information-text-secondary-comment">
                   {`${this.props.language.name}: ${this.state.profile.profile.fullname}`}
                 </p>
