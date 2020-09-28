@@ -600,7 +600,7 @@ const handleDeleteSoftwares = (index) => () => {
         </div>
 
 
-        <h3 id="soft_title">Hardware requirements</h3>
+        <h3 id="soft_title">{language.hardwareRequirements}</h3>
         <div role="group" aria-labelledby="soft_title" className="hardware">
           <List component="ul" key={"li04"}>
             <FeedbackHelp
@@ -766,18 +766,18 @@ const handleDeleteSoftwares = (index) => () => {
           </List>
         </div>
         <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting Requirement</DialogTitle>
+            <DialogTitle className="success-dialog-title" id="simple-dialog-title">{language.warning}</DialogTitle>
           <DialogContent className="success-dialog-content">
-            <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
+            <DialogContentText style={{padding: "0 1vw"}}>{`${language.deleteItemBelow} "${labelindexdelete}" ${language.wantProceed}`}</DialogContentText>
             <WarningIcon className="warning-dialog-icon"/> 
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setopen(false)} color="primary">No</Button>
+            <Button onClick={() => setopen(false)} color="primary">{language.no}</Button>
             <Button variant="outlined" onClick={() => {
               flagdeleteHardware===true? deleteHardware(indexdelete) : flagdeleteSoftware===true?  deleteSoftware(indexdelete):undefined
               setopen(false)
             }} 
-            color="primary"><em>Yes</em></Button> 
+          color="primary"><em>{language.yes}</em></Button> 
           </DialogActions>
         </Dialog>
       </div>

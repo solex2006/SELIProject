@@ -843,8 +843,7 @@ export default function AudienceApp(props) {
         <Dialog disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
           <DialogTitle className="success-dialog-title" id="simple-dialog-title">{language.warning}</DialogTitle>
           <DialogContent className="success-dialog-content">
-            <DialogContentText style={{padding: "0 1vw"}}>{language.deleteAudienceBelow}</DialogContentText>
-            <DialogContentText style={{padding: "0 1vw"}}>{labelindexdelete}</DialogContentText>
+            <DialogContentText style={{padding: "0 1vw"}}>{`${language.deleteItemBelow} "${labelindexdelete}" ${language.wantProceed}`}</DialogContentText>
             <WarningIcon className="warning-dialog-icon"/> 
           </DialogContent>
           <DialogActions>
