@@ -112,11 +112,9 @@
 }
 
 .chips-container {
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
   width: 100%;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
 }
 

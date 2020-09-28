@@ -1164,6 +1164,11 @@ var ENGLISH = {
   free: "Free",
   online: "Online",
   hybrid: "Hybrid",
+  requiredStep: "Required step",
+  optional: "Optional",
+  addNewAudience: "Add new audience",
+  deleteAudienceBelow: "You requested to delete the audience below. Do you want to proceed?",
+  warning: "Warning",
 }
 export default ENGLISH;
 

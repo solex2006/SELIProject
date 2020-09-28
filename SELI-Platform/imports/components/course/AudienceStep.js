@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import AccessibilityHelp from '../../components/tools/AccessibilityHelp'
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -13,7 +12,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import DoneIcon from "@material-ui/icons/Done";
-import Paper from "@material-ui/core/Paper";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -77,8 +75,8 @@ export default function AudienceApp(props) {
 
   loadingData = () => {
     if (courseInformation.support.length != 0) {
-      if (courseInformation.support[0] && courseInformation.support[0].length) setAudiences(courseInformation.support[0]);
-      if (courseInformation.support[1] && courseInformation.support[1].length) setAudiencesGol(courseInformation.support[1]);
+      if (courseInformation.support[0] && courseInformation.support[0].length) setAudiencesAux();
+      if (courseInformation.support[1] && courseInformation.support[1].length) setAudiencesGolAux();
       if (courseInformation.support[2] === undefined) {
         setOtherAudiences([])
       } else {
@@ -89,6 +87,22 @@ export default function AudienceApp(props) {
     if(courseInformation.accessibility.length!=0){
       setaudienceTooltip(courseInformation.accessibility[0]) 
     }
+  }
+
+  setAudiencesAux = () => {
+    let newAudiences = [...audiences];
+    courseInformation.support[0].map((audience, index) => {
+      newAudiences[index].isChecked = audience.isChecked;
+    });
+    setAudiences(newAudiences);
+  }
+
+  setAudiencesGolAux = () => {
+    let newAudiencesGol = [...audiencesGol];
+    courseInformation.support[1].map((audienceGol, index) => {
+      newAudiencesGol[index].isChecked = audienceGol.isChecked;
+    });
+    setAudiencesGol(newAudiencesGol);
   }
 
   useEffect(()=>{
@@ -204,12 +218,33 @@ export default function AudienceApp(props) {
     {
       id: 3,
       value: "Vis",
-      label: language.Visual,
+      label: language.Hearing,
       isChecked: false
     }
   ]);
-  const [otherAudiences, setOtherAudiences] = useState([
-  ]);
+
+  useEffect(() => {
+    let newAudiences = [...audiences];
+    let newAudiencesGol = [...audiencesGol];
+    newAudiences[0].label = language.Graduatestudents;
+    newAudiences[1].label = language.Informalstudents;
+    newAudiences[2].label = language.TeachersandProfessors;
+    newAudiences[3].label = language.Preschoolkids;
+    newAudiences[4].label = language.Postgraduatestudent;
+    newAudiences[5].label = language.Pregradestudent;
+    newAudiences[6].label = language.HighSchoolStudents;
+    newAudiences[7].label = language.MiddleSchoolStudents;
+    newAudiences[8].label = language.ElementarySchoolStudents;
+    newAudiencesGol[0].label = language.Cognitive;
+    newAudiencesGol[1].label = language.Elderly;
+    newAudiencesGol[2].label = language.Hearing;
+    newAudiencesGol[3].label = language.Hearing;
+    setAudiences(newAudiences);
+    setAudiencesGol(newAudiencesGol);
+  }, [language.languageIndex]);
+
+  const [otherAudiences, setOtherAudiences] = useState([]);
+
   const [controlEdit, setControlEdit] = useState({
     tempValue: "",
     adding: false,
@@ -224,12 +259,12 @@ export default function AudienceApp(props) {
     audienceallgolError:true,
   })
   const [requirementTooltip, setrequirementTooltip]= useState({
-    newaudience:"Add new audience",
-    AddHardware:"Add hardwares that are mandatory to take this course.",
-    AddSoftware:"Add softwares that are mandatory to take this course.",
-    errorMsg:"This field is required. Please complete it",
-    openHardware:"You already add this item before.",
-    openSoftware:"You already add this item before.",
+    newaudience: language.addNewAudience,
+    AddHardware: language.AddHardware,
+    AddSoftware: language.AddSoftware,
+    errorMsg: language.errorMsg,
+    openHardware: language.repeated,
+    openSoftware: language.repeated,
 
   })///messages
   const [message, setmessage]=useState(requirementTooltip.errorMsg)
@@ -518,7 +553,7 @@ export default function AudienceApp(props) {
       />
     )
   }
-  
+
   return (
     <div className="form-input-container">
       <div className="form-input-steps">
@@ -584,8 +619,8 @@ export default function AudienceApp(props) {
             </ListItem>      
             
             {audiences.map((audience, index) => (
-              <ListItem key={audience.id} dense>
-                {/* <ListItemIcon> */}
+              <ListItem key={index} dense>
+                {/* {console.log(audience.label) */}
                 <Checkbox
                   color="primary"
                   edge="start"
@@ -692,7 +727,7 @@ export default function AudienceApp(props) {
               disabled={controlEdit.editing}
               className={classes.addButton}
             >
-              <AddIcon /> <ListItemText primary="Add other audience" />
+              <AddIcon /> <ListItemText primary={language.addNewAudience} />
             </ListItem>
 
             <FeedbackHelp
@@ -772,7 +807,8 @@ export default function AudienceApp(props) {
             </ListItem>
           
             {audiencesGol.map((audienceGol, index) => (
-              <ListItem key={audiencesGol.id} dense>
+              <ListItem key={index} dense>
+                {/* console.log(audienceGol.label) */}
                 <Checkbox
                   color="primary"
                   edge="start"
@@ -805,19 +841,20 @@ export default function AudienceApp(props) {
           </List>
         </div>
         <Dialog disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting audience</DialogTitle>
+          <DialogTitle className="success-dialog-title" id="simple-dialog-title">{language.warning}</DialogTitle>
           <DialogContent className="success-dialog-content">
-            <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
+            <DialogContentText style={{padding: "0 1vw"}}>{language.deleteAudienceBelow}</DialogContentText>
+            <DialogContentText style={{padding: "0 1vw"}}>{labelindexdelete}</DialogContentText>
             <WarningIcon className="warning-dialog-icon"/> 
           </DialogContent>
           <DialogActions>
-            <Button color="primary" onClick={() => setopen(false)} color="primary">No</Button>
+            <Button color="primary" onClick={() => setopen(false)} color="primary">{language.no}</Button>
             <Button variant="outlined"  color="primary" onClick={() => {
               //setdeleteDialog(true)
               deleteAudience(indexdelete);
               setopen(false)
             }} 
-            ><em>Yes</em></Button> 
+            ><em>{language.yes}</em></Button> 
           </DialogActions>
         </Dialog>
       </div>
