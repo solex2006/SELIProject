@@ -27,13 +27,6 @@ const useStyles = makeStyles(theme => ({
   hidden: {
     display: "none"
   },
-  intoresources:{
-    display: 'flex',
-    flexDirection:'column',
-    flexWrap:'wrap',
-    justifyContent:'space-between',
-    alignItems:'center'
-  },
   addButton: {
     color: theme.palette.secondary.main
   },
@@ -108,7 +101,7 @@ export default function ActivityResources(props) {
 
   const subActivityTool=(indexActivitie)=>{
     return(
-      <div className={classes.intoresources}>
+      <div className="design-into-resources">
       {
       toolsOptionsSub.length!=0?
         <FormControl
@@ -156,7 +149,7 @@ export default function ActivityResources(props) {
 
   const toolsIntoLessons=(lessonIndex)=>{
     return(
-        <div className={classes.intoresources}> 
+        <div className="design-into-resources"> 
             <FormControl
               required
               // error={error}
@@ -242,7 +235,6 @@ export default function ActivityResources(props) {
               />
             )}
     </div>
-     
     )
   }
 
@@ -256,7 +248,7 @@ export default function ActivityResources(props) {
       toolsIntoLessons()
       :
       type==='lessonInto'?  
-      <div className={classes.intoresources}> 
+      <div className="design-into-resources"> 
       <FormControl
         required
         // error={error}

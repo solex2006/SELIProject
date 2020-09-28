@@ -2408,148 +2408,104 @@ export default function ReportStep(props) {
 	 };
 	
 	return (
-		<div className="course-information-report">
-			<div className="report">
-			
-			<h1 className='headAccessibility'>Accessibility Report</h1>
-         {console.log("TopicsCourse----------", withoutInclusionGol, simulate,categories)}
-			{simulate === "allAchieved" && (
-				<React.Fragment>
-					<div>Your course is fully accessible</div>
-					<Grid
-						container
-						spacing={1}
-						style={style}
-						
-					>
-						{categories.map(category => (
+		<div className="form-input-container">
+			<div className="form-input-steps">
+				<h2>{props.language.reportstep}</h2><br/>
+				{simulate === "allAchieved" && (
+					<React.Fragment>
+						<div>Your course is fully accessible</div>
+						<Grid
+							container
+							spacing={1}
+							style={style}
 							
-								<AccessibilityAchieved
-									Icon={category.icon}
-									caption={category.label}
-								/>
-							
-						))}
-					</Grid>
-				</React.Fragment>
-			)}
-         
-         {simulate === "noInclusionGol" && (   
-			 <React.Fragment>
-
-				{/* <AccessibilityAchieved
-					Icon={<FontAwesomeIcon icon={faWrench} />}
-					caption={"you have not configured accessibility in the audiences Step"}
-				/> */}
-				
-				<Grid container spacing={1}>
-						{
-						 categories.map(category => {
-							 return(
-								category.topics.length!=0?
-								<Grid item xs={12} md={6}>
-								<AccessibilityCard flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
-							</Grid>
-							:undefined
-							 )
-							 
-						 }) 	
-						}
-				</Grid> 
-			</React.Fragment> 
-			)}
-				
-
-			{simulate === "inclusionGolAchieved" && (
-				<div className={classes.allachieved}>
-					{console.log("EN inclusionGolAchieved-----", categories, simulate)}
-					<div className='headAccessibility'>
-						You have seleced {categories.filter(goals => goals.selected).map(category => category.label).toString()} as
-						your Inclusion Goals in Audience step, based on this choose here is
-						the accessibility results of your course.
-					</div>
-					<div className={classes.chartLabel}>
-						You have achieved your Inclusion Goal!
-					</div>		 
-					<Grid 
-						container 
-						spacing={1}
-						style={style}
-					>
-						{
-							categories.filter(goals=>goals.selected).map((category)=>(
+						>
+							{categories.map(category => (
+								
 									<AccessibilityAchieved
 										Icon={category.icon}
 										caption={category.label}
 									/>
-							))
-						}
-					</Grid>
-					<div className='headAccessibility'>
-						Now you have finished the accessibility set up for your Inclusion Gol, considere review accessibility for others impairments groups.
-					</div>
-					<Grid 
-						container 
-						spacing={1}
-						justify='center'
-						alignItems='center'
-					>
-						{categories
-							.filter(c => !c.selected)
-							.map(category => (
-								<Grid item xs={12} md={6}>
-									<AccessibilityCard handleBack={props.handleBack} category={category} />
-								</Grid>
+								
 							))}
-					</Grid>
-				</div>
-			) }
+						</Grid>
+					</React.Fragment>
+				)}
+					
+					{simulate === "noInclusionGol" && (   
+				<React.Fragment>
 
-			{ simulate === "inclusionGol" && (
-				<div>
-					{console.log("EN inclusionGol", categories, simulate)}
-					<Grid
-						container
-						spacing={1}
-						direction="row"
-						justify="center"
-						alignItems="center"
-					>
-						<Grid item xl={2} lg={6} md={6} sm={4} xs={12} component={Paper}>
-							 <Chart percent={(contWithInclusionGol.averageCourse)/100} id="gauge-overall" /> 
+					{/* <AccessibilityAchieved
+						Icon={<FontAwesomeIcon icon={faWrench} />}
+						caption={"you have not configured accessibility in the audiences Step"}
+					/> */}
+					
+					<Grid container spacing={1}>
+							{
+							categories.map(category => {
+								return(
+									category.topics.length!=0?
+									<Grid item xs={12} md={6}>
+									<AccessibilityCard flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
+								</Grid>
+								:undefined
+								)
+								
+							}) 	
+							}
+					</Grid> 
+				</React.Fragment> 
+				)}
+					
+
+				{simulate === "inclusionGolAchieved" && (
+					<div className={classes.allachieved}>
+						{console.log("EN inclusionGolAchieved-----", categories, simulate)}
+						<div className='headAccessibility'>
+							You have seleced {categories.filter(goals => goals.selected).map(category => category.label).toString()} as
+							your Inclusion Goals in Audience step, based on this choose here is
+							the accessibility results of your course.
+						</div>
+						<div className={classes.chartLabel}>
+							You have achieved your Inclusion Goal!
+						</div>		 
+						<Grid 
+							container 
+							spacing={1}
+							style={style}
+						>
+							{
+								categories.filter(goals=>goals.selected).map((category)=>(
+										<AccessibilityAchieved
+											Icon={category.icon}
+											caption={category.label}
+										/>
+								))
+							}
 						</Grid>
-						<Grid item xl={2} lg={4} md={6} sm={6} xs={4} component={Paper}>
-							<OverallCard
-								className={classes.valid}
-								Icon={<AccessibilityNewIcon />}
-								value={Math.round(contWithInclusionGol.done)}
-								caption="Done!"
-								tip="Accessiblity Resources configured"
-							/>
+						<div className='headAccessibility'>
+							Now you have finished the accessibility set up for your Inclusion Gol, considere review accessibility for others impairments groups.
+						</div>
+						<Grid 
+							container 
+							spacing={1}
+							justify='center'
+							alignItems='center'
+						>
+							{categories
+								.filter(c => !c.selected)
+								.map(category => (
+									<Grid item xs={12} md={6}>
+										<AccessibilityCard handleBack={props.handleBack} category={category} />
+									</Grid>
+								))}
 						</Grid>
-						 <Grid item xl={2} lg={4} md={6} sm={4} xs={4} component={Paper}>
-							<OverallCard
-								className={classes.notConfig}
-								Icon={<AssignmentLateIcon />}
-								value={contWithInclusionGol.todo}
-								caption="TO-DO"
-								tip="Configure them to make the content accessible"
-							/>
-						</Grid> 
-						<Grid item xl={2} lg={4} md={6} sm={4} xs={4} component={Paper}>
-							<OverallCard
-								className={classes.misConfig}
-								Icon={<AssignmentLateIcon />}
-								value={Math.round(contWithInclusionGol.NotAccessible)}
-								caption="Not Accessible!"
-								tip="Fix them to make your content accessible"
-							/>
-						</Grid>
-					</Grid>
-					<h2 className='headAccessibility'>Accessibility by inclusion goals</h2>
-					 <div className='headAccessibility'>
-						Here is the result of accesibility grouped by impairments. You can also check the accessibility of each topic or unit of your course.
 					</div>
+				) }
+
+				{ simulate === "inclusionGol" && (
+					<div>
+						{console.log("EN inclusionGol", categories, simulate)}
 						<Grid
 							container
 							spacing={1}
@@ -2557,47 +2513,87 @@ export default function ReportStep(props) {
 							justify="center"
 							alignItems="center"
 						>
-							{console.log('checkingAudiences:--------->', checkingAudiences)}
-							{categories.filter(goals => goals.selected).map((category, index) => (
-								<Grid item xs={12} md={6} key={index}>
-									<AccessibilityCard handleBack={props.handleBack} category={category} />
-								</Grid>
-							))}
-						</Grid>
-				</div>
-			) }
-
-
-				
-			{
-				props.courseInformation.coursePlan.guidedCoursePlan!='guided'?
-				<div className='sylabusStyles'>
-					<h2 className='headAccessibility'>Sylabus accessibility report</h2>
-					<div className='headAccessibility'>			
-						This part details the accessibility percentages of the course Sylabus.	
-					</div>
-					<Container>
-						<Grid
-							container
-							spacing={1}
-							direction='row'
-							justify="center"
-							alignItems="center"
-						>	
-							<Grid item xl={6} lg={8} md={6} sm={12}>
-								<Chart percent={sylabusTotal/100} id="gauge-overall" />
-								<AccessibilitySylabusCard category={reportSylabus} />
+							<Grid item xl={2} lg={6} md={6} sm={4} xs={12} component={Paper}>
+								<Chart percent={(contWithInclusionGol.averageCourse)/100} id="gauge-overall" /> 
+							</Grid>
+							<Grid item xl={2} lg={4} md={6} sm={6} xs={4} component={Paper}>
+								<OverallCard
+									className={classes.valid}
+									Icon={<AccessibilityNewIcon />}
+									value={Math.round(contWithInclusionGol.done)}
+									caption="Done!"
+									tip="Accessiblity Resources configured"
+								/>
+							</Grid>
+							<Grid item xl={2} lg={4} md={6} sm={4} xs={4} component={Paper}>
+								<OverallCard
+									className={classes.notConfig}
+									Icon={<AssignmentLateIcon />}
+									value={contWithInclusionGol.todo}
+									caption="TO-DO"
+									tip="Configure them to make the content accessible"
+								/>
+							</Grid> 
+							<Grid item xl={2} lg={4} md={6} sm={4} xs={4} component={Paper}>
+								<OverallCard
+									className={classes.misConfig}
+									Icon={<AssignmentLateIcon />}
+									value={Math.round(contWithInclusionGol.NotAccessible)}
+									caption="Not Accessible!"
+									tip="Fix them to make your content accessible"
+								/>
 							</Grid>
 						</Grid>
-					</Container>
-				</div>
-				:
-				undefined
-			}
-							
+						<h2 className='headAccessibility'>Accessibility by inclusion goals</h2>
+						<div className='headAccessibility'>
+							Here is the result of accesibility grouped by impairments. You can also check the accessibility of each topic or unit of your course.
+						</div>
+							<Grid
+								container
+								spacing={1}
+								direction="row"
+								justify="center"
+								alignItems="center"
+							>
+								{console.log('checkingAudiences:--------->', checkingAudiences)}
+								{categories.filter(goals => goals.selected).map((category, index) => (
+									<Grid item xs={12} md={6} key={index}>
+										<AccessibilityCard handleBack={props.handleBack} category={category} />
+									</Grid>
+								))}
+							</Grid>
 					</div>
-				</div>					
-		
+				) }
+
+
+					
+				{
+					props.courseInformation.coursePlan.guidedCoursePlan!='guided'?
+					<div className='sylabusStyles'>
+						<h2 className='headAccessibility'>Sylabus accessibility report</h2>
+						<div className='headAccessibility'>			
+							This part details the accessibility percentages of the course Sylabus.	
+						</div>
+						<Container>
+							<Grid
+								container
+								spacing={1}
+								direction='row'
+								justify="center"
+								alignItems="center"
+							>	
+								<Grid item xl={6} lg={8} md={6} sm={12}>
+									<Chart percent={sylabusTotal/100} id="gauge-overall" />
+									<AccessibilitySylabusCard category={reportSylabus} />
+								</Grid>
+							</Grid>
+						</Container>
+					</div>
+					:
+					undefined
+				}
+			</div>
+		</div>
 	);
 }
 

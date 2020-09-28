@@ -178,7 +178,7 @@ export default function DesignCourseCommons(props) {
         tipMsg={language.instructionsEvaluation}
         describedBy={key + "-helper-text_mainContent"}
       />
-      <br/>
+      <br/><br/>
       {
         organization!='unit' && (
           <Resources

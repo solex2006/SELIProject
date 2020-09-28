@@ -367,210 +367,213 @@ export default function DesignStep(props) {
   }
 
   return(
-    <div className="form-input-audiences">
-      <p>Some introductory explanation ....</p>
-      {data.map((unit, unitIndex) => (
-        <div key={unitIndex}>
-          <br/>
-          <ExpansionPanel
-            expanded={expanded === unit.key}
-            onChange={handleChange(unit.key)}
-          >
-            <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1bh-content"
-              id={"panel1bh-header-" + unit.key}
+    <div className="form-input-container">
+      <div className="form-input-steps">
+        <h2>{language.desingPhase}</h2><br/>
+        {data.map((unit, unitIndex) => (
+          <div key={unitIndex}>
+            <br/>
+            <ExpansionPanel
+              expanded={expanded === unit.key}
+              onChange={handleChange(unit.key)}
+              className="design-expantion-panel-container"
             >
-              <h3 className={unit.editing ? classes.hidden : ""}>{unit.title}</h3>        
-              <div className={!unit.editing ? classes.hidden : ""}>
-                <TextField
-                  id={"unit_" + unitIndex + "txtField"}
-                  label={"Title"}
-                  value={controlEdit.tempValue}
-                  onChange={event => updateTempValue(event.target.value)}
-                />
-                <IconButton
-                  id={"unit_" + unitIndex + "btnSaveEdit"}
-                  edge="end"
-                  aria-label={"Save changes"}
-                  onClick={event => saveEdit(unitIndex)}
-                  className={classes.saveButton}
-                  disabled={controlEdit.tempValue === ""}
-                >
-                  <DoneIcon />
-                </IconButton>
-                <IconButton
-                  id={"unit_" + unitIndex + "btnCancelEdit"}
-                  edge="end"
-                  aria-label={"Cancel changes"}
-                  onClick={event => cancelEdit(unitIndex)}
-                  className={classes.deleteButton}
-                >
-                  <ClearIcon />
-                </IconButton>
-                <FeedbackHelp
-                  validation={{
-                    error: false,
-                    errorMsg: "",
-                    errorType: "",
-                    a11y: null
-                  }}
-                  tipMsg="instructions"
-                  describedBy={"i05-helper-text"}
-                />
-              </div>
-            </ExpansionPanelSummary>
-            <ExpansionPanelActions>
-              <Button
-                id={"unit_" + unitIndex + "btnEdit"}
-                onClick={() => editUnitTopicName(unitIndex)}
-                disabled={controlEdit.editing}
-                variant="outlined"
-                color="secondary"
-                startIcon={<EditIcon />}
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1bh-content"
+                id={"panel1bh-header-" + unit.key}
               >
-                {language.Editunitname}
-              </Button>
-              <Button
-                id={"unit_" + unitIndex + "btnDelete"}
-                onClick={() => handleDeleteUnitTopic(unitIndex)}
-                disabled={controlEdit.deleteButton}
-                variant="outlined"
-                color="secondary"
-                startIcon={<RemoveIcon />}
-              >
-                {language.Deleteunit}
-              </Button>
-              {unitIndex !== 0 && (
-                <IconButton
-                  id={"unit_" + unitIndex + "btnMoveUp"}
-                  edge="end"
-                  aria-label={"Move unit up"}
-                  // onClick={handleMoveUnit(unitIndex)}
+                <h3 className={unit.editing ? classes.hidden : ""}>{unit.title}</h3>        
+                <div className={!unit.editing ? classes.hidden : ""}>
+                  <TextField
+                    id={"unit_" + unitIndex + "txtField"}
+                    label={"Title"}
+                    value={controlEdit.tempValue}
+                    onChange={event => updateTempValue(event.target.value)}
+                  />
+                  <IconButton
+                    id={"unit_" + unitIndex + "btnSaveEdit"}
+                    edge="end"
+                    aria-label={"Save changes"}
+                    onClick={event => saveEdit(unitIndex)}
+                    className={classes.saveButton}
+                    disabled={controlEdit.tempValue === ""}
+                  >
+                    <DoneIcon />
+                  </IconButton>
+                  <IconButton
+                    id={"unit_" + unitIndex + "btnCancelEdit"}
+                    edge="end"
+                    aria-label={"Cancel changes"}
+                    onClick={event => cancelEdit(unitIndex)}
+                    className={classes.deleteButton}
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                  <FeedbackHelp
+                    validation={{
+                      error: false,
+                      errorMsg: "",
+                      errorType: "",
+                      a11y: null
+                    }}
+                    tipMsg="instructions"
+                    describedBy={"i05-helper-text"}
+                  />
+                </div>
+              </ExpansionPanelSummary>
+              <ExpansionPanelActions>
+                <Button
+                  id={"unit_" + unitIndex + "btnEdit"}
+                  onClick={() => editUnitTopicName(unitIndex)}
+                  disabled={controlEdit.editing}
+                  variant="outlined"
+                  color="secondary"
+                  startIcon={<EditIcon />}
                 >
-                  <ArrowDropUpIcon />
-                </IconButton>
-              )}
-            </ExpansionPanelActions>
-            {
-              unit.editing === false &&
-              <ExpansionPanelDetails className={classes.panelDtls}>
-                {guidedCoursePlan === "guided" && (<DesignCourseCommons
-                  language={language}
-                  validate={props.validate}
-                  courseInformation={courseinformation.design}
-                  key={unit.key}
-                  learnGols={unit.learnGols}
-                  preKnowledge={unit.preKnowledge}
-                  mainContent={unit.mainContent}
-                  tools={unit.tools}
-                  otherTools={unit.otherTools}
-                  unit={unit}
-                  unitIndex={unitIndex}
-                  handleUnitChange={handleUnitChange}
-                  handleSelectResources={handleSelectResources}
-                  template={template}
-                  organization={organization}
-                  evaluation={unit.evaluation}
-                />)}
-                <br/>
-                {organization === "unit" ?
-                  <LessonDesign
+                  {language.Editunitname}
+                </Button>
+                <Button
+                  id={"unit_" + unitIndex + "btnDelete"}
+                  onClick={() => handleDeleteUnitTopic(unitIndex)}
+                  disabled={controlEdit.deleteButton}
+                  variant="outlined"
+                  color="secondary"
+                  startIcon={<RemoveIcon />}
+                >
+                  {language.Deleteunit}
+                </Button>
+                {unitIndex !== 0 && (
+                  <IconButton
+                    id={"unit_" + unitIndex + "btnMoveUp"}
+                    edge="end"
+                    aria-label={"Move unit up"}
+                    // onClick={handleMoveUnit(unitIndex)}
+                  >
+                    <ArrowDropUpIcon />
+                  </IconButton>
+                )}
+              </ExpansionPanelActions>
+              {
+                unit.editing === false &&
+                <ExpansionPanelDetails className={classes.panelDtls}>
+                  {guidedCoursePlan === "guided" && (<DesignCourseCommons
                     language={language}
-                    guidedCoursePlan={guidedCoursePlan}
-                    handleSelectResourcesActivities={handleSelectResourcesActivities}
-                    handleSelectResourcesLessons={handleSelectResourcesLessons}
-                    handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
-                    tools={unit.tools}
+                    validate={props.validate}
+                    courseInformation={courseinformation.design}
                     key={unit.key}
-                    designInformation={courseinformation.design}
-                    programInformation={courseinformation.program}
+                    learnGols={unit.learnGols}
+                    preKnowledge={unit.preKnowledge}
+                    mainContent={unit.mainContent}
+                    tools={unit.tools}
+                    otherTools={unit.otherTools}
+                    unit={unit}
                     unitIndex={unitIndex}
+                    handleUnitChange={handleUnitChange}
+                    handleSelectResources={handleSelectResources}
                     template={template}
                     organization={organization}
-                  />
-                :
-                  guidedCoursePlan === "guided" && <ActivityDesign
-                    language={language}
-                    courseInformation={courseinformation.design}
-                    programInformation={courseinformation.program}
-                    activities={unit.activities}
-                    handleActivities={handleActivities}
-                    handleToolActivity={handleToolActivity}
-                    parentIndex={unitIndex}
-                    template={template}
-                  />
-                }       
-              </ExpansionPanelDetails>
-            }
-          </ExpansionPanel>
-        </div>
-      ))}
-      <br/>
-      <Button
-        variant="contained"
-        color="secondary"
-        fullWidth
-        onClick={() => addUnitTopic()}
-      >
-        {organization === "unit" ? language.addUnit : language.addTopic}
-      </Button>
-      <FeedbackHelp
-        validation={{
-          error: false,
-          errorMsg: "",
-          errorType: "",
-          a11y: null
-        }}
-        tipMsg={organization === "unit" ? language.addUnit : language.addTopic}
-        describedBy={"i05-helper-text"}
-      />
-      <Dialog
-        open={openDialog}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        className="dialog"
-        disableBackdropClick={true}
-        disableEscapeKeyDown={true}
-        keepMounted
-        maxWidth={false}
-      >
-        <DialogTitle className="dialog-title">
-          <AppBar className="dialog-app-bar" color="primary" position="static">
-            <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
-              <AppsIcon/>
-              <h4 className="dialog-label-title">{language.Deleteunit}</h4>
-              <IconButton
-                id="close-icon"
-                edge="end"
-                className="dialog-toolbar-icon"
-                onClick={() => {handleClose()}}
-              >
-                <CloseIcon/>
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-        </DialogTitle>
-        <div>
-          <DialogContent className="success-dialog-content">
-            <div className="organization-form">
-              <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                Are you sure you want to delete this unit/topic ?
-              </DialogContentText>
-            </div>
-            <WarningIcon className="warning-dialog-icon"/>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => handleClose()} color="primary" autoFocus>
-              {language.cancel}
-            </Button>
-            <Button variant="outlined" onClick={() => deleteUnitTopic()} color="primary" autoFocus>
-              {language.continue}
-            </Button>
-          </DialogActions>
-        </div>
-      </Dialog>
+                    evaluation={unit.evaluation}
+                  />)}
+                  <br/>
+                  {organization === "unit" ?
+                    <LessonDesign
+                      language={language}
+                      guidedCoursePlan={guidedCoursePlan}
+                      handleSelectResourcesActivities={handleSelectResourcesActivities}
+                      handleSelectResourcesLessons={handleSelectResourcesLessons}
+                      handleSelectResourcesIntoLessons={handleSelectResourcesIntoLessons}
+                      tools={unit.tools}
+                      key={unit.key}
+                      designInformation={courseinformation.design}
+                      programInformation={courseinformation.program}
+                      unitIndex={unitIndex}
+                      template={template}
+                      organization={organization}
+                    />
+                  :
+                    guidedCoursePlan === "guided" && <ActivityDesign
+                      language={language}
+                      courseInformation={courseinformation.design}
+                      programInformation={courseinformation.program}
+                      activities={unit.activities}
+                      handleActivities={handleActivities}
+                      handleToolActivity={handleToolActivity}
+                      parentIndex={unitIndex}
+                      template={template}
+                    />
+                  }       
+                </ExpansionPanelDetails>
+              }
+            </ExpansionPanel>
+          </div>
+        ))}
+        <br/>
+        <Button
+          variant="contained"
+          color="secondary"
+          //fullWidth
+          onClick={() => addUnitTopic()}
+        >
+          {organization === "unit" ? language.addUnit : language.addTopic}
+        </Button>
+        <FeedbackHelp
+          validation={{
+            error: false,
+            errorMsg: "",
+            errorType: "",
+            a11y: null
+          }}
+          tipMsg={organization === "unit" ? language.addUnit : language.addTopic}
+          describedBy={"i05-helper-text"}
+        />
+        <Dialog
+          open={openDialog}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          className="dialog"
+          disableBackdropClick={true}
+          disableEscapeKeyDown={true}
+          keepMounted
+          maxWidth={false}
+        >
+          <DialogTitle className="dialog-title">
+            <AppBar className="dialog-app-bar" color="primary" position="static">
+              <Toolbar className="dialog-tool-bar" variant="dense" disableGutters={true}>
+                <AppsIcon/>
+                <h4 className="dialog-label-title">{language.Deleteunit}</h4>
+                <IconButton
+                  id="close-icon"
+                  edge="end"
+                  className="dialog-toolbar-icon"
+                  onClick={() => {handleClose()}}
+                >
+                  <CloseIcon/>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </DialogTitle>
+          <div>
+            <DialogContent className="success-dialog-content">
+              <div className="organization-form">
+                <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                  Are you sure you want to delete this unit/topic ?
+                </DialogContentText>
+              </div>
+              <WarningIcon className="warning-dialog-icon"/>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => handleClose()} color="primary" autoFocus>
+                {language.cancel}
+              </Button>
+              <Button variant="outlined" onClick={() => deleteUnitTopic()} color="primary" autoFocus>
+                {language.continue}
+              </Button>
+            </DialogActions>
+          </div>
+        </Dialog>
+      </div>
     </div>
   );
 }

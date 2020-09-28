@@ -6,7 +6,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import AccessibilityIcon from '@material-ui/icons/Accessibility';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import RemoveIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
@@ -16,10 +15,6 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import FeedbackHelp from "./feedback";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from "@material-ui/core/FormLabel";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -36,6 +31,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import DescriptionSharpIcon from '@material-ui/icons/DescriptionSharp';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles(theme => ({
   
@@ -54,7 +50,8 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     "& .MuiTextField-root": {
-      margin: theme.spacing(1)
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1)
       // width: "100ch"
     }
   },
@@ -213,52 +210,52 @@ export default function AnalysisStep(props) {
 
   const [goalsTaxonomy, setGoalsTaxonomy] = useState({
     remembering: [
-			{ key: "duplicate", label: "to duplicate" },
-			{ key: "match", label: "to match" },
-			{ key: "describe", label: "to describe" },
-			{ key: "show", label: "to show" },
-      { key: "choose", label: "to choose" },
-      { key: "other", label: "other" }
+			{ key: "duplicate", label: language.toDuplicate },
+			{ key: "match", label: language.toMatch },
+			{ key: "describe", label: language.toDescribe },
+			{ key: "show", label: language.toShow },
+      { key: "choose", label: language.toChoose },
+      { key: "other", label: language.other }
     ],
     understanding: [
-			{ key: "explain", label: "to explain" },
-			{ key: "summarize", label: "to summarize" },
-			{ key: "paraphrase", label: "to paraphrase" },
-			{ key: "illustrate", label: "to illustrate" },
-      { key: "extend", label: "to extend" },
-      { key: "other", label: "other" }
+			{ key: "explain", label: language.toExplain },
+			{ key: "summarize", label: language.toSumarize },
+			{ key: "paraphrase", label: language.toParaphrase },
+			{ key: "illustrate", label: language.toIllustrate },
+      { key: "extend", label: language.toExtend },
+      { key: "other", label: language.other }
     ],
     applying: [
-			{ key: "duplicate", label: "to use" },
-			{ key: "identify", label: "to identify" },
-			{ key: "organize", label: "to organize" },
-			{ key: "construct", label: "to construct" },
-      { key: "solve", label: "to solve" },
-      { key: "other", label: "other" }
+			{ key: "duplicate", label: language.toUse },
+			{ key: "identify", label: language.toIdentify },
+			{ key: "organize", label: language.toOrganize },
+			{ key: "construct", label: language.toConstruct },
+      { key: "solve", label: language.toSolve },
+      { key: "other", label: language.other }
     ],
     analyzing: [
-			{ key: "constrast", label: "to contrast" },
-			{ key: "categorize", label: "to categorize" },
-			{ key: "classify", label: "to classify" },
-			{ key: "list", label: "to list" },
-      { key: "compare", label: "to compare" },
-      { key: "other", label: "other" }
+			{ key: "constrast", label: language.toContrast },
+			{ key: "categorize", label: language.toCategorize },
+			{ key: "classify", label: language.toClassify },
+			{ key: "list", label: language.toList },
+      { key: "compare", label: language.toCompare },
+      { key: "other", label: language.other }
 		],
 		evaluating: [
-			{ key: "conclude", label: "to conclude" },
-			{ key: "critique", label: "to critique" },
-			{ key: "justify", label: "to justify" },
-			{ key: "prove", label: "to prove" },
-      { key: "judge", label: "to judge" },
-      { key: "other", label: "other" }
+			{ key: "conclude", label: language.toConclude },
+			{ key: "critique", label: language.toCritique },
+			{ key: "justify", label: language.toJustify },
+			{ key: "prove", label: language.toProve },
+      { key: "judge", label: language.toJudge },
+      { key: "other", label: language.other }
     ],
     creating: [
-			{ key: "build", label: "to build" },
-			{ key: "develop", label: "to develop" },
-			{ key: "combine", label: "to combine" },
-			{ key: "design", label: "to design" },
-      { key: "elaborate", label: "to elaborate" },
-      { key: "other", label: "other" }
+			{ key: "build", label: language.toBuild },
+			{ key: "develop", label: language.toDevelop },
+			{ key: "combine", label: language.toCombine },
+			{ key: "design", label: language.toDesign },
+      { key: "elaborate", label: language.toElaborate },
+      { key: "other", label: language.other }
 		]
 	});
 
@@ -270,28 +267,28 @@ export default function AnalysisStep(props) {
 
   const [outcomesTaxonomy, setOutcomesTaxonomy] = useState({
 		contents: [
-			{ key: "understand", label: "to understand" },
-			{ key: "categorize", label: "to categorize" },
-			{ key: "describe", label: "to describe" },
-			{ key: "reproduce", label: "to reproduce" },
-      { key: "compare", label: "to compare" },
-      { key: "other", label: "other" }
+			{ key: "understand", label: language.toUnderstand },
+			{ key: "categorize", label: language.toCategorize },
+			{ key: "describe", label: language.toDescribe },
+			{ key: "reproduce", label: language.toReproduce },
+      { key: "compare", label: language.toCompare },
+      { key: "other", label: language.other }
 		],
 		skills: [
-			{ key: "design", label: "to design" },
-			{ key: "conduct", label: "to conduct" },
-			{ key: "evaluate", label: "to evaluate" },
-			{ key: "analyse", label: "to analyse" },
-      { key: "measure", label: "to measure" },
-      { key: "other", label: "other" }
+			{ key: "design", label: language.toDesign },
+			{ key: "conduct", label: language.toConduct },
+			{ key: "evaluate", label: language.toEvaluate },
+			{ key: "analyse", label: language.toAnalyse },
+      { key: "measure", label: language.toMeasure },
+      { key: "other", label: language.other }
 		],
 		values: [
-			{ key: "appreciate", label: "to appreciate" },
-			{ key: "act", label: "to act" },
-			{ key: "work", label: "to work" },
-			{ key: "aware", label: "to be aware" },
-      { key: "value", label: "to value" },
-      { key: "other", label: "other" }
+			{ key: "appreciate", label: language.toAppreciate },
+			{ key: "act", label: language.toAct },
+			{ key: "work", label: language.toWork },
+			{ key: "aware", label: language.toBeAware },
+      { key: "value", label: language.toValue },
+      { key: "other", label: language.other }
 		]
 	});
 
@@ -304,14 +301,7 @@ export default function AnalysisStep(props) {
     errorMsgleast:language.errorMsgleast,
     completeObjective:language.completeObjective,
     analysisphase:language.analysisphase,
-    knowledgeObjectives:language.knowledgeObjectives ,
-    skillsobjectives:language.skillsobjectives,
-    attitudesobjectives:language.attitudesobjectives,
     titleLO:language.titleLO,
-    tipmsgLO:language.tipmsgLO,
-    subtitleLO:language.subtitleLO,
-    subtitleSO:language.subtitleSO,
-    subtitleAO:language.subtitleAO,
     learningconstraint:language.learningconstraint,
     repeated:language.repeated,
     modality:language.modality,
@@ -323,13 +313,9 @@ export default function AnalysisStep(props) {
     affectiveDomain:language.affectiveDomain,
     psychomotorDomain:language.psychomotorDomain,
     Coursesummary:language.Coursesummary,
-    learningObjectivesDefinition:language.learningObjectivesDefinition,
     CognitiveDomain:language.CognitiveDomain,
     AnalysisPhaseTitle:language.AnalysisPhaseTitle,
-    Deletingaudience:language.Deletingaudience,
-    dialog1:language.dialog1,
-    dialog2:language.dialog2
-
+    Deletingaudience:language.Deletingaudience
   })
   const [message, setmessage]=useState(labels.errorMsg)
   const [open, setopen]= useState(false)
@@ -339,9 +325,6 @@ export default function AnalysisStep(props) {
   const [maxLearningobj, setmaxLearningobj]=useState(false);
   const [maxLearningout, setmaxLearningout]=useState(false);
   const [maxLearningcon, setmaxLearningcon]=useState(false);
-  
-  
-
 
   const [disabledVerb, setdisabledVerb]=useState(false);
 
@@ -406,7 +389,6 @@ export default function AnalysisStep(props) {
     })
 
     Object.entries(goals).forEach(([key, value]) => {
-           
       if(value.length!=0){
         let newAnalysis=analysisTooltip;
         newAnalysis.learningobjectives=false;
@@ -466,12 +448,10 @@ export default function AnalysisStep(props) {
 
   const handleDeleteLearning = (index, category) => {
 		setopen(true)
-     setindexdelete(index)
-     setlabelindexdelete(goals[category][index].label)
-     setcategory(category)
-     settypetodelete('LearningObjectives')
-
-		
+    setindexdelete(index)
+    setlabelindexdelete(goals[category][index].label)
+    setcategory(category)
+    settypetodelete('LearningObjectives')
 	};
 
   const handleNewOutcomes = category => {
@@ -880,175 +860,378 @@ export default function AnalysisStep(props) {
             errorType: "",
             a11y: null
           }}
-          tipMsg={label==="affectiveDomain" ? "Affective domain is....":"Psychomotor domain is...." }
+          tipMsg={label==="affectiveDomain" ? language.affectiveDomainHelp : language.psychomotorDomainHelp}
           describedBy={"i05-helper-text"}
         />
-        
       </div>
     )
   }
   
   return (
-    <div className="form-input-audiences">
-    <h2 className={classes.psychomotorDomain}>{labels.AnalysisPhaseTitle}</h2>
-      {/* <Typography variant="h6" className={classes.title}>Analysis Phase</Typography> */}
-      <p className={classes.psychomotorDomain}>
-        {labels.analysisphase}
-      </p>
-    <h3 className={classes.psychomotorDomain}>{labels.Coursesummary}</h3>
-      <List
-          component="nav"
-          aria-labelledby="nested-list-subheader"
-          className={classes.root}
-        >
-          <ListItem button onClick={handleClickT}>
-              <ListAltIcon>
-                <InboxIcon />
-              </ListAltIcon>
-              <ListItemText primary={labels.CourseTitle} />
-              {openT ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={openT} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
-                <DescriptionSharpIcon>
-                  <StarBorder />
-                </DescriptionSharpIcon>
-                <ListItemText primary={courseinformation.title} />
-              </ListItem>
-            </List>
-          </Collapse>
+    <div className="form-input-container">
+      <div className="form-input-steps">
+        <h2 className={classes.psychomotorDomain}>{labels.AnalysisPhaseTitle}</h2>
+          {/* <Typography variant="h6" className={classes.title}>Analysis Phase</Typography> */}
+          <p className={classes.psychomotorDomain}>
+            {labels.analysisphase}
+          </p>
+        <h3 className={classes.psychomotorDomain}>{labels.Coursesummary}</h3>
+        <List
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+            className={classes.root}
+          >
+            <ListItem button onClick={handleClickT}>
+                <ListAltIcon>
+                  <InboxIcon />
+                </ListAltIcon>
+                <ListItemText primary={labels.CourseTitle} />
+                {openT ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={openT} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem button className={classes.nested}>
+                  <DescriptionSharpIcon>
+                    <StarBorder />
+                  </DescriptionSharpIcon>
+                  <ListItemText primary={courseinformation.title} />
+                </ListItem>
+              </List>
+            </Collapse>
 
-          <ListItem button onClick={handleClickS}>
-              <ListAltIcon>
-                <InboxIcon />
-              </ListAltIcon>
-              <ListItemText primary={labels.CourseSubtitle} />
-              {openS ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={openS} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
-                <DescriptionSharpIcon>
-                  <StarBorder />
-                </DescriptionSharpIcon>
-                <ListItemText primary={courseinformation.subtitle} />
-              </ListItem>
-            </List>
-          </Collapse>
+            <ListItem button onClick={handleClickS}>
+                <ListAltIcon>
+                  <InboxIcon />
+                </ListAltIcon>
+                <ListItemText primary={labels.CourseSubtitle} />
+                {openS ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={openS} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem button className={classes.nested}>
+                  <DescriptionSharpIcon>
+                    <StarBorder />
+                  </DescriptionSharpIcon>
+                  <ListItemText primary={courseinformation.subtitle} />
+                </ListItem>
+              </List>
+            </Collapse>
 
 
-          <ListItem button onClick={handleClickA}>
-              <ListAltIcon>
-                <InboxIcon />
-              </ListAltIcon>
-              <ListItemText primary={labels.IntendedAudience} />
-              {openA ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={openA} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-            {courseinformation.support[0].map((audience, index) => (
-                  audience.isChecked==true?
-                  <ListItem button className={classes.nested}>
-                      <LocalLibraryIcon>
-                          <StarBorder />
-                        </LocalLibraryIcon>
-                    <ListItemText primary={audience.label} />
-                  </ListItem>
-                    :
-                    undefined
-                ))}
-            {courseinformation.support[2]!=undefined?
-                  courseinformation.support[2].map((audience, index) => (
-                    <ListItem button className={classes.nested}>
-                        <LocalLibraryIcon>
-                          <StarBorder />
-                        </LocalLibraryIcon>
-                      <ListItemText primary={audience.label} />
-                   </ListItem>
-                  ))
-                :
-                undefined
-            }
-            </List>
-          </Collapse>
-
-          <ListItem button onClick={handleClickI}>
-              <ListAltIcon>
-                <InboxIcon />
-              </ListAltIcon>
-              <ListItemText primary={props.language.InclusionGoals} />
-              {openI ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={openI} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {
-                courseinformation.support[1]!=undefined?
-              courseinformation.support[1].map((audience, index) => (
+            <ListItem button onClick={handleClickA}>
+                <ListAltIcon>
+                  <InboxIcon />
+                </ListAltIcon>
+                <ListItemText primary={labels.IntendedAudience} />
+                {openA ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={openA} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+              {courseinformation.support[0].map((audience, index) => (
                     audience.isChecked==true?
                     <ListItem button className={classes.nested}>
-                      <AccessibilityIcon>
-                        <StarBorder />
-                      </AccessibilityIcon>
+                        <LocalLibraryIcon>
+                            <StarBorder />
+                          </LocalLibraryIcon>
                       <ListItemText primary={audience.label} />
                     </ListItem>
                       :
                       undefined
-              ))
-              :
-              undefined
-              }     
-            </List>
-          </Collapse>
-        </List>
-      
-      <Grid container className={classes.formGroup}>
-          <Grid item xs={12} >
-            <h2>{props.language.titleLO}</h2>
-          < br/>
-            <p>
-              {labels.learningObjectivesDefinition}
-            </p>
+                  ))}
+              {courseinformation.support[2]!=undefined?
+                    courseinformation.support[2].map((audience, index) => (
+                      <ListItem button className={classes.nested}>
+                          <LocalLibraryIcon>
+                            <StarBorder />
+                          </LocalLibraryIcon>
+                        <ListItemText primary={audience.label} />
+                    </ListItem>
+                    ))
+                  :
+                  undefined
+              }
+              </List>
+            </Collapse>
+
+            <ListItem button onClick={handleClickI}>
+                <ListAltIcon>
+                  <InboxIcon />
+                </ListAltIcon>
+                <ListItemText primary={props.language.InclusionGoals} />
+                {openI ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={openI} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {
+                  courseinformation.support[1]!=undefined?
+                courseinformation.support[1].map((audience, index) => (
+                      audience.isChecked==true?
+                      <ListItem button className={classes.nested}>
+                        <AccessibilityIcon>
+                          <StarBorder />
+                        </AccessibilityIcon>
+                        <ListItemText primary={audience.label} />
+                      </ListItem>
+                        :
+                        undefined
+                ))
+                :
+                undefined
+                }     
+              </List>
+            </Collapse>
+          </List>
+        
+        <Grid container className={classes.formGroup}>
+            <Grid item xs={12} >
+              <h2>{props.language.titleLO}</h2>
+              < br/>
+              <FeedbackHelp
+                validation={{
+                  error: maxLearningobj===true? true: analysisTooltip.learningobjectives,
+                  errorMsg: maxLearningobj===true? props.language.maxlearningobjectives :labels.errorMsgleast,
+                  errorType: "",
+                  a11y: null
+                }}
+                tipMsg={language.learningObjectivesDefinition}
+                describedBy={"i05-helper-text"}
+              />
+              {/* <p>
+                {labels.learningObjectivesDefinition}
+              </p> */}
+              < br/>
+                <h3>{labels.CognitiveDomain}</h3>
             < br/>
-              <h3>{labels.CognitiveDomain}</h3>
-          < br/>
-				  </Grid>       
-				{Object.keys(goals).map((category, index) => (
-					<Grid item xs={12}>
-						<Grid item className="MuiFormLabel-root">
-							<label>
-								{Object.getOwnPropertyNames(goals)[index]} objectives
-							</label>
-						</Grid>
-						<Grid item>
-							<form>
-								<List component="ul" key={"li0"} id="li0">
-                  {
-                  goals[category].map((goal, index) => (
-										<ListItem
-											button={!goal.editing}
-											component="li"
-											key={"li" + index}
-											className={classes.listItem}
-										>
-											<ListItemText
-												key={"u2" + index + "listeItemTxt"}
-												primary={
-													(goalsTaxonomy[category].find(
-														item => item.key === goal.aux
-													).label==='other') ? goal.label : (goalsTaxonomy[category].find(
-														item => item.key === goal.aux
-													).label) +" " +
-													goal.label
-                        }
-												className={goal.editing ? classes.hidden : ""}
-											/>
+            </Grid>     
+          {Object.keys(goals).map((category, index) => (
+            <Grid item xs={12}>
+              <Grid item className="MuiFormLabel-root">
+                <label>
+                  {language[`${Object.getOwnPropertyNames(goals)[index]}Objectives`]}
+                </label>
+              </Grid>
+              <Grid item>
+                <form>
+                  <List component="ul" key={"li0"} id="li0">
+                    {
+                    goals[category].map((goal, index) => (
+                      <ListItem
+                        button={!goal.editing}
+                        component="li"
+                        key={"li" + index}
+                        className={classes.listItem}
+                      >
+                        <ListItemText
+                          key={"u2" + index + "listeItemTxt"}
+                          primary={
+                            (goalsTaxonomy[category].find(
+                              item => item.key === goal.aux
+                            ).label==='other') ? goal.label : (goalsTaxonomy[category].find(
+                              item => item.key === goal.aux
+                            ).label) +" " +
+                            goal.label
+                          }
+                          className={goal.editing ? classes.hidden : ""}
+                        />
+                        <div className='allText' >
+                        <Paper className={!goal.editing ? classes.hidden : ""}>	
+                          <div className='alignText'>
+                            <div>
+                              <TextField
+                                  id="standard-select-currency"
+                                  select
+                                  SelectProps={{
+                                    native: true
+                                  }}
+                                  // variant="outlined"
+                                  value={controlEdit.tempAuxValue}
+                                  onChange={event =>
+                                    updateTempAuxValue(event.target.value)
+                                  }
+                                  onKeyPress={keyController}
+                                  className={classes.textInput}
+                              >
+                                    {goalsTaxonomy[category].map(option => (
+                                      <option key={option.key} value={option.key}>
+                                        {option.label}
+                                      </option>
+                                    ))}
+                                </TextField>
+                            </div>
+                              <div>
+                                <TextField
+                                  key={"u2" + index + "txtField"}
+                                  value={controlEdit.tempValue}
+                                  label={language.completeObjective}
+                                  onChange={event =>
+                                    updateTempValue(event.target.value, "CDomain")
+                                  }
+                                  onKeyPress={keyController}
+                                />
+                              </div>
+                          </div>	
+                        </Paper>
                               
-                      <div className='allText' >
-											<Paper className={!goal.editing ? classes.hidden : ""}>	
-                        <div className='alignText'>
-                          <div>
-                            <TextField
+                              <ListItemSecondaryAction  key={"u2" + index + "secAc"}>
+                                
+                                {
+                                  goal.editing ? (
+                                    <React.Fragment>
+                                      <IconButton
+                                        key={"u2" + index + "btnEditSaveUnit"}
+                                        edge="end"
+                                        aria-label={"Save changes"}
+                                        onClick={() =>
+                                          handleEditedLearning(index, category)
+                                        }
+                                        className={classes.saveButton}
+                                        disabled={(controlEdit.tempValue === "" || saveButton===true)}
+                                      >
+                                        <DoneIcon />
+                                      </IconButton>
+                                      <IconButton
+                                        key={"u2" + index + "btnEditCancelUnit"}
+                                        edge="end"
+                                        aria-label={"Cancel changes"}
+                                        onClick={() =>
+                                          handleCancelEditLearning(index, category)
+                                        }
+                                        className={classes.deleteButton}
+                                      >
+                                        <ClearIcon />
+                                      </IconButton>
+                                    </React.Fragment>
+                                  ) : (
+                                    <React.Fragment>
+                                      <IconButton
+                                        key={"u2" + index + "btnEditUnit"}
+                                        edge="end"
+                                        aria-label={"Edit unit name"}
+                                        onClick={() =>
+                                          handleEditLearning(index, category)
+                                        }
+                                        disabled={controlEdit.editing}
+                                      >
+                                        <EditIcon />
+                                      </IconButton>
+                                      <IconButton
+                                        key={"u2" + index + "btnDeleteUnit"}
+                                        edge="end"
+                                        // aria-label={"Delete constraint " + constraint.label}
+                                        onClick={() =>
+                                          handleDeleteLearning(index, category)
+                                        }
+                                        className={classes.deleteButton}
+                                      >
+                                        <RemoveIcon />
+                                      </IconButton>
+                                    </React.Fragment>
+                                  )
+                                }
+                              </ListItemSecondaryAction>
+
+                            </div>
+                        
+                      </ListItem>
+                    ))}
+                    <ListItem
+                      key="addrequisite"
+                      button
+                      onClick={() => handleNewLearning(category)}
+                      id="addrequisite"
+                      disabled={controlEdit.editing}
+                      className={classes.addButton}
+                    >
+                      <AddIcon /> <ListItemText primary={language.add} />
+                    </ListItem>
+                  
+                  </List>
+                  <FeedbackHelp
+                    validation={{
+                      error: false,
+                      errorMsg: "",
+                      errorType: "",
+                      a11y: null
+                    }}
+                    tipMsg={language[`${Object.getOwnPropertyNames(goals)[index]}ObjectivesAre`]}
+                    describedBy={"i05-helper-text"}
+                  />
+                  <Divider light/>
+                {/* <AccessibilityHelp 
+                  id={'long-description-help-container'} 
+                  name={'longDescriptionHelpContainer'} 
+                  error={true} 
+                  tip={"sadasdasdasd"} 
+                  step={1}
+                  stepLabel={"ASDasd"}
+                  language={props.language}
+                /> */}
+                </form>
+                <br/>
+              </Grid>
+            </Grid>
+          ))}
+          <Grid item>
+        </Grid>
+        <div className={classes.inputText}>
+          <h3 className={classes.affectiveDomain}>{labels.affectiveDomain}</h3>
+            {InputText('affectiveDomain',affectiveDomain)}
+          
+          <h3 className={classes.psychomotorDomain}>{labels.psychomotorDomain}</h3>
+            {InputText('psychomotorDomain',psychomotorDomain)}
+          
+        </div>   
+        </Grid>
+
+        <Grid container className={classes.formGroup}>
+            <Grid item xs={12} className={classes.Behavioral}>
+              <h2 className={classes.Behavioral}>{language.learningOutcomes}</h2>
+              {/* <p className={classes.Behavioral}>{language.outcomeslegend}</p> */}
+              <FeedbackHelp
+                validation={{
+                  error: maxLearningout===true? true: analysisTooltip.outcomes,
+                  errorMsg: maxLearningout===true? props.language.maxlearningOutcomes :labels.errorMsgall,
+                  errorType: "",
+                  a11y: null
+                }}
+                tipMsg={language.behavioralOutcomeHelp}
+                describedBy={"i05-helper-text"}
+              />
+            </Grid>
+          {Object.keys(outcomes).map((category, index) => (
+            <Grid item xs={12}>
+              <Grid item className="MuiFormLabel-root">
+                <label>
+                  {language[`${Object.getOwnPropertyNames(outcomes)[index]}Objectives`]}
+                </label>
+              </Grid>
+              <Grid item>
+                <form>
+                  <List component="ul" key={"li0"} id="li0">
+                    {outcomes[category].map((outcome, index) => (
+                      <ListItem
+                        button={!outcome.editing}
+                        component="li"
+                        key={"li" + index}
+                        className={classes.listItem}
+                      >
+                        <ListItemText
+                          key={"u2" + index + "listeItemTxt"}
+                          primary={
+                            (outcomesTaxonomy[category].find(
+                              item => item.key === outcome.aux
+                            ).label==='other') ? outcome.label : (outcomesTaxonomy[category].find(
+                              item => item.key === outcome.aux
+                            ).label)   + " " +
+                            outcome.label
+                          }
+                          className={outcome.editing ? classes.hidden : ""}
+                        />
+                        <div className='allText' >
+                          <Paper className={!outcome.editing ? classes.hidden : ""}>
+                          <div className='alignText'>
+                            <div>
+                              <TextField
                                 id="standard-select-currency"
                                 select
                                 SelectProps={{
@@ -1061,498 +1244,297 @@ export default function AnalysisStep(props) {
                                 }
                                 onKeyPress={keyController}
                                 className={classes.textInput}
-                            >
-                                  {goalsTaxonomy[category].map(option => (
-                                    <option key={option.key} value={option.key}>
-                                      {option.label}
-                                    </option>
-                                  ))}
+                              >
+                                {outcomesTaxonomy[category].map(option => (
+                                  <option key={option.key} value={option.key}>
+                                    {option.label}
+                                  </option>
+                                ))}
                               </TextField>
-                          </div>
+                            </div>
                             <div>
                               <TextField
+                                label={language.completeObjective}
                                 key={"u2" + index + "txtField"}
                                 value={controlEdit.tempValue}
-                                label="Complete the objective"
                                 onChange={event =>
-                                  updateTempValue(event.target.value, "CDomain")
+                                  updateTempValue(event.target.value, "LOutcomes")
                                 }
                                 onKeyPress={keyController}
                               />
                             </div>
-                        </div>	
-											</Paper>
-                             
-                            <ListItemSecondaryAction  key={"u2" + index + "secAc"}>
-                              
-                              {
-                                goal.editing ? (
-                                  <React.Fragment>
-                                    <IconButton
-                                      key={"u2" + index + "btnEditSaveUnit"}
-                                      edge="end"
-                                      aria-label={"Save changes"}
-                                      onClick={() =>
-                                        handleEditedLearning(index, category)
-                                      }
-                                      className={classes.saveButton}
-                                      disabled={(controlEdit.tempValue === "" || saveButton===true)}
-                                    >
-                                      <DoneIcon />
-                                    </IconButton>
-                                    <IconButton
-                                      key={"u2" + index + "btnEditCancelUnit"}
-                                      edge="end"
-                                      aria-label={"Cancel changes"}
-                                      onClick={() =>
-                                        handleCancelEditLearning(index, category)
-                                      }
-                                      className={classes.deleteButton}
-                                    >
-                                      <ClearIcon />
-                                    </IconButton>
-                                  </React.Fragment>
-                                ) : (
-                                  <React.Fragment>
-                                    <IconButton
-                                      key={"u2" + index + "btnEditUnit"}
-                                      edge="end"
-                                      aria-label={"Edit unit name"}
-                                      onClick={() =>
-                                        handleEditLearning(index, category)
-                                      }
-                                      disabled={controlEdit.editing}
-                                    >
-                                      <EditIcon />
-                                    </IconButton>
-                                    <IconButton
-                                      key={"u2" + index + "btnDeleteUnit"}
-                                      edge="end"
-                                      // aria-label={"Delete constraint " + constraint.label}
-                                      onClick={() =>
-                                        handleDeleteLearning(index, category)
-                                      }
-                                      className={classes.deleteButton}
-                                    >
-                                      <RemoveIcon />
-                                    </IconButton>
-                                  </React.Fragment>
-                                )
-                              }
-                            </ListItemSecondaryAction>
-
                           </div>
-											
-										</ListItem>
-									))}
-									<ListItem
-										key="addrequisite"
-										button
-										onClick={() => handleNewLearning(category)}
-										id="addrequisite"
-										disabled={controlEdit.editing}
-										className={classes.addButton}
-									>
-										<AddIcon /> <ListItemText primary="Add" />
-									</ListItem>
-								
-                </List>
-								<FeedbackHelp
-									validation={{
-										error: false,
-										errorMsg: "",
-										errorType: "",
-										a11y: null
-									}}
-									tipMsg={category + " objectives are ...."}
-									describedBy={"i05-helper-text"}
-								/>
-
-              {/* <AccessibilityHelp 
-                id={'long-description-help-container'} 
-                name={'longDescriptionHelpContainer'} 
-                error={true} 
-                tip={"sadasdasdasd"} 
-                step={1}
-                stepLabel={"ASDasd"}
-                language={props.language}
-              /> */}
-
-
-							</form>
-						</Grid>
-					</Grid>
-				))}
-         <Grid item>
-            <FeedbackHelp
-              validation={{
-                error: maxLearningobj===true? true: analysisTooltip.learningobjectives,
-                errorMsg: maxLearningobj===true? props.language.maxlearningobjectives :labels.errorMsgleast,
-                errorType: "",
-                a11y: null
-              }}
-              tipMsg={"Learning objectives are..."}
-              describedBy={"i05-helper-text"}
-            />
-            
-        </Grid>
-       
-       <div className={classes.inputText}>
-        <h3 className={classes.affectiveDomain}>{labels.affectiveDomain}</h3>
-          {InputText('affectiveDomain',affectiveDomain)}
-        
-        <h3 className={classes.psychomotorDomain}>{labels.psychomotorDomain}</h3>
-          {InputText('psychomotorDomain',psychomotorDomain)}
-         
-       </div>   
-			</Grid>
-
-      <Grid container className={classes.formGroup}>
-          <Grid item xs={12} className={classes.Behavioral}>
-            <h2 className={classes.Behavioral}>Learning Outcomes</h2>
-            <p className={classes.Behavioral}>By the end of this course, students will be able...</p>
-				  </Grid>
-				{Object.keys(outcomes).map((category, index) => (
-					<Grid item xs={12}>
-						<Grid item className="MuiFormLabel-root">
-							<label>
-								{Object.getOwnPropertyNames(outcomes)[index]} objectives
-							</label>
-						</Grid>
-						<Grid item>
-							<form>
-								<List component="ul" key={"li0"} id="li0">
-									{outcomes[category].map((outcome, index) => (
-										<ListItem
-											button={!outcome.editing}
-											component="li"
-											key={"li" + index}
-											className={classes.listItem}
-										>
-											<ListItemText
-												key={"u2" + index + "listeItemTxt"}
-												primary={
-													(outcomesTaxonomy[category].find(
-														item => item.key === outcome.aux
-													).label==='other') ? outcome.label : (outcomesTaxonomy[category].find(
-														item => item.key === outcome.aux
-													).label)   + " " +
-													outcome.label
-												}
-												className={outcome.editing ? classes.hidden : ""}
-											/>
-                      <div className='allText' >
-                        <Paper className={!outcome.editing ? classes.hidden : ""}>
-                        <div className='alignText'>
-                          <div>
-                            <TextField
-                              id="standard-select-currency"
-                              select
-                              SelectProps={{
-                                native: true
-                              }}
-                              // variant="outlined"
-                              value={controlEdit.tempAuxValue}
-                              onChange={event =>
-                                updateTempAuxValue(event.target.value)
-                              }
-                              onKeyPress={keyController}
-                              className={classes.textInput}
-                            >
-                              {outcomesTaxonomy[category].map(option => (
-                                <option key={option.key} value={option.key}>
-                                  {option.label}
-                                </option>
-                              ))}
-                            </TextField>
-                          </div>
-                          <div>
-                            <TextField
-                              label="Complete the objective"
-                              key={"u2" + index + "txtField"}
-                              value={controlEdit.tempValue}
-                              onChange={event =>
-                                updateTempValue(event.target.value, "LOutcomes")
-                              }
-                              onKeyPress={keyController}
-                            />
-                          </div>
+                          </Paper>
+                          <ListItemSecondaryAction key={"u2" + index + "secAc"}>
+                          {outcome.editing ? (
+                            <React.Fragment>
+                              <IconButton
+                                key={"u2" + index + "btnEditSaveUnit"}
+                                edge="end"
+                                aria-label={"Save changes"}
+                                onClick={() =>
+                                  handleEditedOutcome(index, category)
+                                }
+                                className={classes.saveButton}
+                                disabled={(controlEdit.tempValue === "" || saveButton===true)}
+                              >
+                                <DoneIcon />
+                              </IconButton>
+                              <IconButton
+                                key={"u2" + index + "btnEditCancelUnit"}
+                                edge="end"
+                                aria-label={"Cancel changes"}
+                                onClick={() =>
+                                  handleCancelEditOutcome(index, category)
+                                }
+                                className={classes.deleteButton}
+                              >
+                                <ClearIcon />
+                              </IconButton>
+                            </React.Fragment>
+                          ) : (
+                            <React.Fragment>
+                              <IconButton
+                                key={"u2" + index + "btnEditUnit"}
+                                edge="end"
+                                aria-label={"Edit outcome name"}
+                                onClick={() => handleEditOutcome(index, category)}
+                                disabled={controlEdit.editing}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                              <IconButton
+                                key={"u2" + index + "btnDeleteUnit"}
+                                edge="end"
+                                aria-label={"Delete outcome "}
+                                onClick={() =>
+                                  handleDeleteOutcome(index, category)
+                                }
+                                className={classes.deleteButton}
+                              >
+                                <RemoveIcon />
+                              </IconButton>
+                            </React.Fragment>
+                          )}
+                        </ListItemSecondaryAction>
                         </div>
-                        </Paper>
-                        <ListItemSecondaryAction key={"u2" + index + "secAc"}>
-												{outcome.editing ? (
-													<React.Fragment>
-														<IconButton
-															key={"u2" + index + "btnEditSaveUnit"}
-															edge="end"
-															aria-label={"Save changes"}
-															onClick={() =>
-																handleEditedOutcome(index, category)
-															}
-															className={classes.saveButton}
-															disabled={(controlEdit.tempValue === "" || saveButton===true)}
-														>
-															<DoneIcon />
-														</IconButton>
-														<IconButton
-															key={"u2" + index + "btnEditCancelUnit"}
-															edge="end"
-															aria-label={"Cancel changes"}
-															onClick={() =>
-																handleCancelEditOutcome(index, category)
-															}
-															className={classes.deleteButton}
-														>
-															<ClearIcon />
-														</IconButton>
-													</React.Fragment>
-												) : (
-													<React.Fragment>
-														<IconButton
-															key={"u2" + index + "btnEditUnit"}
-															edge="end"
-															aria-label={"Edit outcome name"}
-															onClick={() => handleEditOutcome(index, category)}
-															disabled={controlEdit.editing}
-														>
-															<EditIcon />
-														</IconButton>
-														<IconButton
-															key={"u2" + index + "btnDeleteUnit"}
-															edge="end"
-															aria-label={"Delete outcome "}
-															onClick={() =>
-																handleDeleteOutcome(index, category)
-															}
-															className={classes.deleteButton}
-														>
-															<RemoveIcon />
-														</IconButton>
-													</React.Fragment>
-												)}
-											</ListItemSecondaryAction>
-                      </div>
-											
-											
-										</ListItem>
-									))}
-									<ListItem
-										key="addrequisite"
-										button
-										onClick={() => handleNewOutcomes(category)}
-										id="addrequisite"
-										disabled={controlEdit.editing}
-										className={classes.addButton}
-									>
-										<AddIcon /> <ListItemText primary="Add" />
-									</ListItem>
-								</List>
-								
-							</form>
-						</Grid>
-					</Grid>
-				))}
-        <FeedbackHelp
-          validation={{
-            error: maxLearningout===true? true: analysisTooltip.outcomes,
-            errorMsg: maxLearningout===true? props.language.maxlearningOutcomes :labels.errorMsgall,
-            errorType: "",
-            a11y: null
-          }}
-          tipMsg={"Behavioral Outcomes are ...."}
-          describedBy={"i05-helper-text"}
-        />
-			</Grid>
-    
-      <Grid container className={classes.formGroup}>
-          <Grid item xs={12} className={classes.Behavioral}>
-            <h2 className={classes.Behavioral}>{labels.learningconstraint}</h2>
-          </Grid>
-         <Grid item xs={12}>
-          <form>
-            <List component="ul" key={"li0"} id="li0">
-              {constraints.map((constraint, index) => (
-                <ListItem
-                  button={!constraint.editing}
-                  component="li"
-                  key={"li" + index}
-                  className={classes.listItem}
-                >
-                  <ListItemText
-                    key={"u2" + index + "listeItemTxt"}
-                    primary={constraint.label}
-                    className={constraint.editing ? classes.hidden : ""}
-                  />
-                  <div className={!constraint.editing ? classes.hidden : ""}>
-                      <TextField
-                        key={"u2" + index + "txtField"}
-                        className={!constraint.editing ? classes.hidden : ""}
-                        value={controlEdit.tempValue}
-                        onChange={event => updateTempValue(event.target.value, "LConstraint")}
-                        onKeyPress={keyController}
-                      />
-                      <FeedbackHelp
-                        validation={{
-                          error: feedbackError,
-                          errorMsg: message,
-                          errorType: "required",
-                          a11y: null
-                        }}
-                        tipMsg={labels.completeObjective}
-                        describedBy={"i02-helper-text"}
-                      />
-                  </div>
-
-                  <ListItemSecondaryAction key={"u2" + index + "secAc"}>
-                    {constraint.editing ? (
-                      <React.Fragment>
-                        <IconButton
-                          key={"u2" + index + "btnEditSaveUnit"}
-                          edge="end"
-                          aria-label={"Save changes"}
-                          onClick={handleEditedRequisite(index)}
-                          className={classes.saveButton}
-                          disabled={(controlEdit.tempValue === "" || saveButton===true)}
                         
-                        >
-                          <DoneIcon />
-                        </IconButton>
-                        <IconButton
-                          key={"u2" + index + "btnEditCancelUnit"}
-                          edge="end"
-                          aria-label={"Cancel changes"}
-                          onClick={handleCancelEditRequisite(index)}
-                          className={classes.deleteButton}
-                        >
-                          <ClearIcon />
-                        </IconButton>
-                      </React.Fragment>
-                    ) : (
-                      <React.Fragment>
-                        <IconButton
-                          key={"u2" + index + "btnEditUnit"}
-                          edge="end"
-                          aria-label={"Edit unit name"}
-                          onClick={handleEditRequisite(index)}
-                          disabled={controlEdit.editing}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          key={"u2" + index + "btnDeleteUnit"}
-                          edge="end"
-                          // aria-label={"Delete constraint " + constraint.label}
-                          onClick={handleDeleteRequisite(index)}
-                          className={classes.deleteButton}
-                        >
-                          <RemoveIcon />
-                        </IconButton>
-                      </React.Fragment>
-                    )}
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
-              <ListItem
-                key="addrequisite"
-                button
-                onClick={handleNewConstraint}
-                id="addrequisite"
-                disabled={controlEdit.editing}
-                className={classes.addButton}
-              >
-                <AddIcon /> <ListItemText primary="Add constraint" />
-              </ListItem>
-            </List>
-          </form>
-          <FeedbackHelp
-            validation={{
-              error: maxLearningcon===true? true: false,
-              errorMsg:props.language.maxlearningContrain ,
-              errorType: "",
-              a11y: null
-            }}
-            tipMsg={""}
-            describedBy={"i05-helper-text"}
-          />
+                        
+                      </ListItem>
+                    ))}
+                    <ListItem
+                      key="addrequisite"
+                      button
+                      onClick={() => handleNewOutcomes(category)}
+                      id="addrequisite"
+                      disabled={controlEdit.editing}
+                      className={classes.addButton}
+                    >
+                      <AddIcon /> <ListItemText primary={language.add} />
+                    </ListItem>
+                  </List>
+                  <FeedbackHelp
+                    validation={{
+                      error: false,
+                      errorMsg: "",
+                      errorType: "",
+                      a11y: null
+                    }}
+                    tipMsg={language[`${Object.getOwnPropertyNames(outcomes)[index]}ObjectivesAre`]}
+                    describedBy={"i05-helper-text"}
+                  />
+                  <Divider light/>
+                </form>
+                <br/>
+              </Grid>
+            </Grid>
+          ))}
         </Grid>
-        
-      </Grid>
-    
-    
-      
+        <Grid container className={classes.formGroup}>
+            <Grid item xs={12} className={classes.Behavioral}>
+              <h2 className={classes.Behavioral}>{labels.learningconstraint}</h2>
+              <FeedbackHelp
+                validation={{
+                  error: maxLearningcon===true? true: false,
+                  errorMsg:props.language.maxlearningContrain ,
+                  errorType: "",
+                  a11y: null
+                }}
+                tipMsg={language.learningConstraintHelp}
+                describedBy={"i05-helper-text"}
+              />
+            </Grid>
+          <Grid item xs={12}>
+            <form>
+              <List component="ul" key={"li0"} id="li0">
+                {constraints.map((constraint, index) => (
+                  <ListItem
+                    button={!constraint.editing}
+                    component="li"
+                    key={"li" + index}
+                    className={classes.listItem}
+                  >
+                    <ListItemText
+                      key={"u2" + index + "listeItemTxt"}
+                      primary={constraint.label}
+                      className={constraint.editing ? classes.hidden : ""}
+                    />
+                    <div className={!constraint.editing ? classes.hidden : ""}>
+                        <TextField
+                          key={"u2" + index + "txtField"}
+                          className={!constraint.editing ? classes.hidden : ""}
+                          value={controlEdit.tempValue}
+                          onChange={event => updateTempValue(event.target.value, "LConstraint")}
+                          onKeyPress={keyController}
+                        />
+                        <FeedbackHelp
+                          validation={{
+                            error: feedbackError,
+                            errorMsg: message,
+                            errorType: "required",
+                            a11y: null
+                          }}
+                          tipMsg={labels.completeObjective}
+                          describedBy={"i02-helper-text"}
+                        />
+                    </div>
 
-      <Grid container className={classes.formGroup}>
+                    <ListItemSecondaryAction key={"u2" + index + "secAc"}>
+                      {constraint.editing ? (
+                        <React.Fragment>
+                          <IconButton
+                            key={"u2" + index + "btnEditSaveUnit"}
+                            edge="end"
+                            aria-label={"Save changes"}
+                            onClick={handleEditedRequisite(index)}
+                            className={classes.saveButton}
+                            disabled={(controlEdit.tempValue === "" || saveButton===true)}
+                          
+                          >
+                            <DoneIcon />
+                          </IconButton>
+                          <IconButton
+                            key={"u2" + index + "btnEditCancelUnit"}
+                            edge="end"
+                            aria-label={"Cancel changes"}
+                            onClick={handleCancelEditRequisite(index)}
+                            className={classes.deleteButton}
+                          >
+                            <ClearIcon />
+                          </IconButton>
+                        </React.Fragment>
+                      ) : (
+                        <React.Fragment>
+                          <IconButton
+                            key={"u2" + index + "btnEditUnit"}
+                            edge="end"
+                            aria-label={"Edit unit name"}
+                            onClick={handleEditRequisite(index)}
+                            disabled={controlEdit.editing}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            key={"u2" + index + "btnDeleteUnit"}
+                            edge="end"
+                            // aria-label={"Delete constraint " + constraint.label}
+                            onClick={handleDeleteRequisite(index)}
+                            className={classes.deleteButton}
+                          >
+                            <RemoveIcon />
+                          </IconButton>
+                        </React.Fragment>
+                      )}
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+                <ListItem
+                  key="addrequisite"
+                  button
+                  onClick={handleNewConstraint}
+                  id="addrequisite"
+                  disabled={controlEdit.editing}
+                  className={classes.addButton}
+                >
+                  <AddIcon /> <ListItemText primary={language.addConstraint} />
+                </ListItem>
+              </List>
+            </form>
+          </Grid>
+        </Grid>
+        <Grid container className={classes.formGroup}>
           <Grid item xs={12} className={classes.Behavioral}>
               <h2 className={classes.Behavioral}>{labels.pedagogicalconsiderations}</h2>
           </Grid>
-        <Grid item xs={12} >
-        <form className={classes.root}>
-          <TextField
-            value={pedagogical}
-            //required
-            label={`${labels.pedagogicalconsiderations} ${props.language.required}`}
-            variant="outlined"
-            multiline
-            rowsMax={5}
-            id="i02"
-            aria-describedby="i02-helper-text"
-            type="text"
-            error={analysisTooltip.pedagogical}
-            fullWidth
-            onChange={(event)=>{
-              setpedagogical(event.target.value) 
-              if(event.target.value!=''){
-                let analisis=analysisTooltip;
-                analisis.pedagogical=false;
-                setanalysisTooltip(analisis)
-              }else{
-                let analisis=analysisTooltip;
-                analisis.pedagogical=true;
-                setanalysisTooltip(analisis)
-              }
-              //save feedback
-              let text=courseinformation;
-              text.analysis[2]= event.target.value;
-              text.accessibility[2]=analysisTooltip;
-              setcourseInformation(text);
-            }}
-          />
-          <FeedbackHelp
-            validation={{
-              error: analysisTooltip.pedagogical,
-              errorMsg: labels.errorMsg,
-              errorType: "",
-              a11y: null
-            }}
-            tipMsg={labels.pedagogical}
-            describedBy={"modality-helper-text"}
-          />
-        </form>
-      </Grid>
-      </Grid>
-   
-      <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Delete Requirement</DialogTitle>
-            <DialogContent className="success-dialog-content">
-          <DialogContentText style={{padding: "0 1vw"}}> {labels.dialog1} {labelindexdelete}. {labels.dialog2}</DialogContentText>
-              <WarningIcon className="warning-dialog-icon"/> 
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={() => setopen(false)} color="primary">No</Button>
-              <Button variant="outlined" onClick={() => {
-                console.log("tipo a borrar", typetodelete)
-                if(typetodelete==='LearningObjectives'){
-                  deleteLearning(indexdelete,categori)
-                }else if(typetodelete==='outcomes'){
-                  deleteOutcome(indexdelete,categori)
+          <Grid item xs={12} >
+          <form className={classes.root}>
+            <TextField
+              value={pedagogical}
+              //required
+              label={`${labels.pedagogicalconsiderations} ${props.language.required}`}
+              variant="outlined"
+              multiline
+              rowsMax={5}
+              id="i02"
+              aria-describedby="i02-helper-text"
+              type="text"
+              error={analysisTooltip.pedagogical}
+              fullWidth
+              onChange={(event)=>{
+                setpedagogical(event.target.value) 
+                if(event.target.value!=''){
+                  let analisis=analysisTooltip;
+                  analisis.pedagogical=false;
+                  setanalysisTooltip(analisis)
                 }else{
-                  deleteRequisite(indexdelete,'requisite')
-                }       
-                setopen(false)
-              }} 
-              color="primary"><em>Yes</em></Button> 
-            </DialogActions>
-      </Dialog>
+                  let analisis=analysisTooltip;
+                  analisis.pedagogical=true;
+                  setanalysisTooltip(analisis)
+                }
+                //save feedback
+                let text=courseinformation;
+                text.analysis[2]= event.target.value;
+                text.accessibility[2]=analysisTooltip;
+                setcourseInformation(text);
+              }}
+            />
+            <FeedbackHelp
+              validation={{
+                error: analysisTooltip.pedagogical,
+                errorMsg: labels.errorMsg,
+                errorType: "",
+                a11y: null
+              }}
+              tipMsg={labels.pedagogical}
+              describedBy={"modality-helper-text"}
+            />
+          </form>
+        </Grid>
+        </Grid>
+    
+        <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+            <DialogTitle className="success-dialog-title" id="simple-dialog-title">{language.warning}</DialogTitle>
+              <DialogContent className="success-dialog-content">
+            <DialogContentText style={{padding: "0 1vw"}}>{`${language.deleteItemBelow} "${labelindexdelete}" ${language.wantProceed}`}</DialogContentText>
+                <WarningIcon className="warning-dialog-icon"/> 
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setopen(false)} color="primary">{language.no}</Button>
+                <Button variant="outlined" onClick={() => {
+                  console.log("tipo a borrar", typetodelete)
+                  if(typetodelete==='LearningObjectives'){
+                    deleteLearning(indexdelete,categori)
+                  }else if(typetodelete==='outcomes'){
+                    deleteOutcome(indexdelete,categori)
+                  }else{
+                    deleteRequisite(indexdelete,'requisite')
+                  }       
+                  setopen(false)
+                }} 
+                color="primary"><em>{language.yes}</em></Button> 
+              </DialogActions>
+        </Dialog>
+      </div>
     </div>
   );
 }

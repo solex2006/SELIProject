@@ -349,7 +349,7 @@ export default function DesignCourseApp(props) {
       <Button
         variant="outlined"
         color="secondary"
-        fullWidth
+        //fullWidth
         onClick={() => addLesson()}
       >
         {language.Addlesson}

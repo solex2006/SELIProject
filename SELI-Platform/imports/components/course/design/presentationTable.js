@@ -168,7 +168,7 @@ export default function Presentation(props) {
     <React.Fragment>
       <MaterialTable
         title={language.Presentations}
-        options={{ search: true, actionsColumnIndex: 4 }}
+        options={{ search: false, actionsColumnIndex: 4 }}
         columns={state.columns}
         data={state.data}
         icons={tableIcons}
@@ -266,7 +266,6 @@ export default function Presentation(props) {
           }
         }}
       />
-
       <FeedbackHelp
         validation={{
           error: false,
@@ -277,6 +276,7 @@ export default function Presentation(props) {
         tipMsg={language.PresentationMaterial}
         describedBy={"i05-helper-text"}
       />
+      <br/>
     </React.Fragment>
   );
 }

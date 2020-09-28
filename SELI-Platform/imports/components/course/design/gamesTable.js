@@ -171,7 +171,7 @@ export default function Presentation(props) {
       <MaterialTable
         icons={tableIcons}
         title={language.Games}
-        options={{ search: true, actionsColumnIndex: 4 }}
+        options={{ search: false, actionsColumnIndex: 4 }}
         columns={state.columns}
         data={state.data}
         editable={{
@@ -280,6 +280,7 @@ export default function Presentation(props) {
         tipMsg={language.GamesMatarial}
         describedBy={"i05-helper-text"}
       />
+      <br/>
     </React.Fragment>
   );
 }

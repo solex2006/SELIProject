@@ -145,8 +145,9 @@ export default class CourseInformation extends React.Component {
 
   render() {
     return(
-      <div className="course-information-container">
-        <div className="form-input-column">
+      <div className="form-input-container">
+        <div className="form-input-steps">
+          <h2>{this.props.language.information}</h2><br/>
           <TextField
             id="title-input"
             label={`${this.props.language.courseTitle} ${this.props.language.required}`}
@@ -213,7 +214,7 @@ export default class CourseInformation extends React.Component {
             value={this.state.courseInformation.language}
             onChange={this.handleChange('language')}
             fullWidth
-           // required
+            // required
             margin="normal"
             variant="outlined"
           >
@@ -327,12 +328,12 @@ export default class CourseInformation extends React.Component {
                 <FormControlLabel
                   value="online"
                   control={<Radio />}
-                  label="Online"
+                  label={this.props.language.online}
                 />
                 <FormControlLabel
                   value="hybrid"
                   control={<Radio />}
-                  label="Hybrid"
+                  label={this.props.language.hybrid}
                 />
               </RadioGroup>
               {/* <FeedbackHelp
@@ -356,6 +357,7 @@ export default class CourseInformation extends React.Component {
             tipMsg={`${this.props.language.delivercontent}.`}
             describedBy={"i01-helper-text"}
           />
+          <br/>
           {
             this.state.courseInformation.image !== undefined ?
               <FormPreview
@@ -381,6 +383,6 @@ export default class CourseInformation extends React.Component {
           <br/><br/><br/>
         </div>
       </div>
-      );
-    }
+    );
   }
+}
