@@ -649,9 +649,8 @@ export default class CoursesDashboard extends React.Component {
     this.state.onlineTag=false
     this.state.selected=selected
     this.setState(this.state)
-
-
   }
+  
   sortByMostRelevant=(selected)=>{
     console.log("Sort by most relevant",this.state.myFilterSeliCourses)
     this.state.selected=selected
