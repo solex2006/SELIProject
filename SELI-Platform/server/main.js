@@ -155,7 +155,15 @@ Meteor.methods({
       uri: 'mongodb://127.0.0.1:27017/Seli', // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
       root: mainDirectory, // write files into this dir
       collections: [ 'courses' ], // save this collection only
-      query: {_id: course._id}
+      query: {_id: course._id},
+      callback: function(err) {
+
+        if (err) {
+          console.error("error saving database",err);
+        } else {
+          console.log('finish saved the databse');
+        }
+      }
     });
 
 
