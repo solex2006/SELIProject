@@ -58,6 +58,10 @@ WebApp.connectHandlers.use('/upload', callback.single('json'));
 // Then mount the user handler
 
 WebApp.connectHandlers.use('/upload', function (req, res) {
+  //create folder in server to save the json file
+  if (!fs.existsSync(saveDir)){
+    fs.mkdirSync(saveDir);
+  } 
   const file = req.file
   //console.log("el archivo",file)
   res.end(JSON.stringify(file))
@@ -121,6 +125,7 @@ Meteor.methods({
 Meteor.methods({
   getCourses: function(course){ 
     let items = course 
+   // console.log("los items------>", items)
     WebApp.connectHandlers.use('/file', function (req, res) {
       const regex = new RegExp('path', 'i');
       const result = queryJson.search(items, regex);
@@ -145,8 +150,7 @@ Meteor.methods({
       result.map((route, indexRoute)=>{
         let ruta='';
         route.map((singleRoute, indexSingleRoute)=>{
-          if(singleRoute==='0' || singleRoute==='1' || singleRoute==='2' || singleRoute==='3' || singleRoute==='4' ||
-            singleRoute==='5' || singleRoute==='6'  || singleRoute==='7' || singleRoute==='8' || singleRoute==='9' ){
+          if(singleRoute==='0' || singleRoute==='1' || singleRoute==='2' || singleRoute==='3' ){
              // ruta=ruta.slice(0, -1)
              //console.log('rutaaa::', singleRoute) 
              ruta=ruta +'['+ singleRoute + ']'+'.'
