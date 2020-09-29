@@ -115,7 +115,7 @@ export default class CoursesList extends React.Component {
       }
     }); 
 
-    window.open('http://localhost:3000/file', "_blank")
+    window.open(Meteor.settings.public.URL_SITE+'file', "_blank")
   }
 
   UploadNewCourse= () => {
