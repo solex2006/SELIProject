@@ -33,14 +33,14 @@ const BSON = require('bson');
 
 var   uploadDir = '/opt/Seli/UploadFiles/'; 
 let mainDirectory='/opt/Seli/tmp'
-let seliDirectory='/opt/Seli/tmp/meteor'
-let coursesDirectory='/opt/Seli/tmp/meteor/courses'
+let seliDirectory='/opt/Seli/tmp/Seli'
+let coursesDirectory='/opt/Seli/tmp/Seli/courses'
 var saveDir = '/opt/Seli/tmp/courses';
 
 
-if (!fs.existsSync(saveDir)){
+/* if (!fs.existsSync(saveDir)){
     fs.mkdirSync(saveDir, 0777);
-} 
+}  */
 
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -94,8 +94,8 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
       
 
       restore({
-        uri: "mongodb://127.0.0.1:3001/meteor", // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
-        root: '/opt/Seli/tmp/meteor',
+        uri: "mongodb://127.0.0.1:27017/Seli", // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
+        root: '/opt/Seli/tmp/Seli',
         callback: function(err) {
       
           if (err) {
