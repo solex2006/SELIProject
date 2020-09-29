@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import '../imports/api/courseFiles';
-import '../lib/CourseCollection';
+import {Courses} from '../lib/CourseCollection';
 import '../lib/ActivitiesCollection';
 import '../lib/RequirementsCollection';
 import '../lib/DisabilitiesCollection';
@@ -72,47 +72,20 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
       console.error("Error deleting the zip file", err)
     } 
 
-  //restore json file to the database  substr(texto.length - 4)
-  if (!fs.existsSync(seliDirectory)){
-    fs.mkdirSync(seliDirectory, 0777);
-  }
-  if (!fs.existsSync(coursesDirectory)){
-    fs.mkdirSync(coursesDirectory, 0777);
-  }
+  // RESTORE DE DATBASE FROM DTHE JSON FILE
   zipEntries.forEach(function(zipEntry) {
     if(zipEntry.entryName.substr(zipEntry.entryName.length - 5) === '.json'){
-      console.log("*****",zipEntry.entryName)
+      //console.log("*****",zipEntry.entryName)
       let ori=saveDir+'/'+zipEntry.entryName
-      let dest=coursesDirectory+'/'+zipEntry.entryName
-      mv(ori, dest, function(err) {
-        if (err) {
-            throw err
-        } else {
-            console.log("Successfully moved the json file!");
-        }
-      });
-      
-
-      restore({
-        uri: "mongodb://127.0.0.1:27017/Seli", // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
-        root: '/opt/Seli/tmp/Seli',
-        callback: function(err) {
-      
-          if (err) {
-            console.error("errorrrrrrrrrrrrr",err);
-          } else {
-            console.log('finish------');
-          }
-        }
-      });
+      let dataCollection = JSON.parse(fs.readFileSync(ori, 'utf-8'))
+      Courses.insert(dataCollection)
+      //console.log('File data-------------->:', dataCollection)
+      //delete json file
+      fs.unlinkSync(ori)
       
     }
   });
-
-
-
-
-  //move the media files
+  //move the media files to UPLOADfILES
    zipEntries.forEach(function(zipEntry) {
         //cutting and moving media and videos to upload Folder
         if(zipEntry.entryName.substr(zipEntry.entryName.length - 5) != '.json'){
@@ -129,9 +102,9 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
         }
     }); 
 
-
-
 });
+
+
 
 
 
@@ -148,33 +121,9 @@ Meteor.methods({
 Meteor.methods({
   getCourses: function(course){ 
     let items = course 
-   // console.log("course------",course)
-
-    //bson course
-     backup({
-      uri: 'mongodb://127.0.0.1:27017/Seli', // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
-      root: mainDirectory, // write files into this dir
-      collections: [ 'courses' ], // save this collection only
-      query: {_id: course._id},
-      callback: function(err) {
-
-        if (err) {
-          console.error("error saving database",err);
-        } else {
-          console.log('finish saved the databse');
-        }
-      }
-    });
-
-
-    //
-
-
     WebApp.connectHandlers.use('/file', function (req, res) {
       const regex = new RegExp('path', 'i');
       const result = queryJson.search(items, regex);
-       
-      console.log("RESULTADO DE BUSQUEDA****",result)
       const deep_value = (obj, path) => 
         path
           .replace(/\[|\]\.?/g, '.')
@@ -183,7 +132,6 @@ Meteor.methods({
           .reduce((acc, val) => acc && acc[val], obj);
 
       //save json file
-
       let database = JSON.stringify(items);
       //const databson = BSON.serialize(items);
       let name=`${course._id}`+".json"
@@ -234,7 +182,6 @@ Meteor.methods({
           console.error("**************",error);
         }
           
-          console.log(address[i])
       }
       //add database into the folder
       zip.addLocalFile('/opt/Seli/UploadFiles/'+name);
@@ -274,6 +221,15 @@ Meteor.methods({
       console.log("el buffer", buffer)
         Files.insert({data:buffer})         
     }   
+});
+
+
+Meteor.methods({
+ 
+  'savejson': function(json){
+   
+      Files.insert({andres:"sdfsd"})         
+  }   
 });
 
 
