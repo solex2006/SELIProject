@@ -18,38 +18,36 @@ const CourseFilesCollection = new FilesCollection({
     // to check file's "magic-numbers" use `mmmagic` or `file-type` package
     // real extension and mime-type can be checked on client (untrusted side)
     // and on server at `onAfterUpload` hook (trusted side)
-    //console.log("enCoursefilescollection",file ,file.type, file.isImage, file.ext, file.meta.tipo)
-    //let type=file.type.split("/")
-    if (file.size > 0 && file.size <= 104857600) {
-      return true;
-      /* if(type[0]==='image'){
-        if (/png|jpg|tif|gif|jpeg|bmp|psd|ai|cdr|svg|raw|nef/i.test(file.extension)) { //for images only
-          return true;
-        }
-      } else if(type[0]==='video'){
-        if (/mkv|mp4|webm|webm|m4v|mov|mpg|mpeg|avi|asf|asx|lsf|swf|wmv|div|divx|dvd|wob|ivt|m1v|mp2v|mpa|mpe|mpv2/i.test(file.extension)) { //for video only
-          return true;
-        }
-      } else if(type[0]==='audio'){
-        if (/mp3|wav|m4a|mp4|aiff|au|mid|midi|wav|wma|cda|ogg|ogm|acc|ac3|flag|aym/i.test(file.extension)) { //for audio only
-          return true;
-        }
-      } else if(type[0]==='text'){
-        if (/vtt|srt/i.test(file.extension)) { //for vtt only
-          return true;
-        }
-      } else if(type[0]==='application'){
-        if (/pdf|rar|zip|7z|tar.gz|xz|gz|exe|tar|war|tar.xz|jar|odt|vnd.rar/i.test(file.extension)) { //for compressed and pdf only
-          return true;
-        }
-      } else if((type[0]==="excel" || type[0]==="word" || type[0]==="power point") ){ // && (type[1]==='vnd.ms-excel'||type[1]==='docx')
+
+    var type = file.type.split("/");
+    if(type[0]==='image' && file.meta.type==='image'){
+      if (/png|jpg|tif|gif|jpeg|bmp|psd|ai|cdr|svg|raw|nef/i.test(file.extension)) { //for images only
         return true;
-      } else {
-        return false;
-      } */
-    } else {
-      return false;
+      }
+    } else if(type[0]==='video' && file.meta.type==='video'){
+      if (/mkv|mp4|webm|webm|m4v|mov|mpg|mpeg|avi|asf|asx|lsf|swf|wmv|div|divx|dvd|wob|ivt|m1v|mp2v|mpa|mpe|mpv2/i.test(file.extension)) { //for video only
+        return true;
+      }
+    } else if(type[0]==='audio' && file.meta.type==='audio'){
+      if (/mp3|wav|m4a|mp4|aiff|au|mid|midi|wav|wma|cda|ogg|ogm|acc|ac3|flag|aym/i.test(file.extension)) { //for audio only
+        return true;
+      }
+    } else if(type[1]==='pdf' && file.meta.type==='pdf'){
+      if (/pdf/i.test(file.extension)) { //for pdf only
+        return true;
+      }
+    } else if(file.meta.type==='caption'){
+      if (/vtt|srt/i.test(file.extension)) { //for vtt only
+        return true;
+      }
+    } else if(file.meta.type==='compressed'){
+      if (/rar|zip|7z|tar.gz|xz|gz|exe|tar|war|tar.xz|jar|odt|vnd.rar/i.test(file.extension)) { //for compressed only
+        return true;
+      }
+    } else if((file.meta.type==="excel" || file.meta.type==="word" || file.meta.type==="power point") ){ // && (type[1]==='vnd.ms-excel'||type[1]==='docx')
+      return true;
     }
+    return false;
   },
   downloadCallback(fileObj) {
     if (this.params.query.download == 'true') {
