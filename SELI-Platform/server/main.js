@@ -69,12 +69,12 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
   var zipEntries = zip.getEntries();
   zip.extractAllTo(saveDir, true);
   //delete the zip file
-   try {
+  /*  try {
     fs.unlinkSync(file.path)
     //file removed
     } catch(err) {
       console.error("Error deleting the zip file", err)
-    } 
+    }  */
 
   // RESTORE DE DATBASE FROM DTHE JSON FILE
   zipEntries.forEach(function(zipEntry) {
@@ -83,9 +83,9 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
       let ori=saveDir+'/'+zipEntry.entryName
       let dataCollection = JSON.parse(fs.readFileSync(ori, 'utf-8'))
       Courses.insert(dataCollection)
-      //console.log('File data-------------->:', dataCollection)
+      console.log('File data-------------->:', dataCollection)
       //delete json file
-      fs.unlinkSync(ori)
+     // fs.unlinkSync(ori)
       
     }
   });
@@ -151,8 +151,6 @@ Meteor.methods({
         let ruta='';
         route.map((singleRoute, indexSingleRoute)=>{
           if(singleRoute==='0' || singleRoute==='1' || singleRoute==='2' || singleRoute==='3' ){
-             // ruta=ruta.slice(0, -1)
-             //console.log('rutaaa::', singleRoute) 
              ruta=ruta +'['+ singleRoute + ']'+'.'
           }
           else{

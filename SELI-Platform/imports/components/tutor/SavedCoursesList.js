@@ -29,6 +29,7 @@ export default class CoursesList extends React.Component {
     this.state = {
       myCourses: [],
       loading: true,
+      showBoton:false
     }
   }
 
@@ -219,6 +220,9 @@ export default class CoursesList extends React.Component {
                 <div className="management-result-container">
                   <p className="management-title">{this.props.language.mySavedCourses}<SchoolIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
+                   
+                   
+                   {/* 
                     <form onSubmit={this.handleSubmit} style={{display:''}} >
                         <label>
                           Upload new course*
@@ -226,7 +230,39 @@ export default class CoursesList extends React.Component {
                         </label>
                         <button type="submit">Submit</button>
                         <hr />
-                    </form>
+                    </form> */}
+
+                   
+                    <form onSubmit={this.handleSubmit} style={{display:''}} >
+                      {/*   <input
+                          type="file" 
+                          ref={this.fileInput}
+                          accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed"
+                         
+                        
+                        /> */}
+
+                        <div >  
+                          <input 
+                            accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed"
+                            class="input-file" id="my-file"
+                            type="file" 
+                            ref={this.fileInput}
+                            onChange={()=>this.setState({showBoton:!this.state.showBoton}) }/>
+                          <label tabindex="0" for="my-file" class="input-file-trigger">Select a file...</label>
+                        </div>
+
+                        <Button
+                        style={{ display: this.state.showBoton===true? 'flex': 'none' }}
+                          type="submit"
+                          variant="contained"
+                        >
+                          Upload
+                        </Button>
+                      </form>
+                   
+
+
                     <Table
                       labels={{
                         title: this.props.language.youHaveCourses, 
