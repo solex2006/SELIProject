@@ -148,13 +148,14 @@ Meteor.methods({
 Meteor.methods({
   getCourses: function(course){ 
     let items = course 
-    console.log("course------",course)
+   // console.log("course------",course)
 
     //bson course
      backup({
       uri: 'mongodb://127.0.0.1:27017/Seli', // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
-      root: uploadDir, // write files into this dir
+      root: mainDirectory, // write files into this dir
       collections: [ 'courses' ], // save this collection only
+      query: {_id: course._id}
     });
 
 
@@ -184,6 +185,7 @@ Meteor.methods({
 
       //create the routes
       let address=[];
+      console.log("resultado**********----->",result)
       result.map((route, indexRoute)=>{
         let ruta='';
         route.map((singleRoute, indexSingleRoute)=>{
