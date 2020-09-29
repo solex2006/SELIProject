@@ -83,7 +83,6 @@ export default class ImageItem extends React.Component {
 	}
 
   render() {
-    console.log(this.props.item.attributes.size)
     return(
       <div className="content-box">
         {
