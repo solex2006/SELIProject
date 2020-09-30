@@ -234,15 +234,9 @@ export default class CoursesList extends React.Component {
 
                    
                     <form onSubmit={this.handleSubmit} style={{display:''}} >
-                      {/*   <input
-                          type="file" 
-                          ref={this.fileInput}
-                          accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed"
-                         
-                        
-                        /> */}
-
-                        <div >  
+                           <label>
+                          Upload new course*
+                          </label>    
                           <input 
                             accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed"
                             class="input-file" id="my-file"
@@ -250,15 +244,11 @@ export default class CoursesList extends React.Component {
                             ref={this.fileInput}
                             onChange={()=>this.setState({showBoton:!this.state.showBoton}) }/>
                           <label tabindex="0" for="my-file" class="input-file-trigger">Select a file...</label>
-                        </div>
+                   
 
-                        <Button
-                        style={{ display: this.state.showBoton===true? 'flex': 'none' }}
-                          type="submit"
-                          variant="contained"
-                        >
-                          Upload
-                        </Button>
+                       
+                         <button type="submit"  style={{ display: this.state.showBoton===true? 'flex': 'none' }}>Submit</button>
+                       
                       </form>
                    
 
