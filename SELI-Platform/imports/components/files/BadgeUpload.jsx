@@ -43,6 +43,7 @@ class BadgeUpload extends Component {
               usedInCourse: false,
               userId: self.props.user,
               buffer: buffer,
+              type: "badge"
             //userId: Meteor.userId() // Optional, used to check on server for file tampering
           },
           streams: 'dynamic',

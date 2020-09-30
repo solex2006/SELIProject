@@ -89,14 +89,17 @@ export default class StorytellingObject extends React.Component {
   }
 
   play = () => {
+    if (this.props.node.audio && this.props.node.audio !== "")
     this.refs.wave.play();
   }
 
   pause = () => {
+    if (this.props.node.audio && this.props.node.audio !== "")
     this.refs.wave.pause();
   }
 
   stop = () => {
+    if (this.props.node.audio && this.props.node.audio !== "")
     this.refs.wave.stop();
   }
 
@@ -169,7 +172,11 @@ export default class StorytellingObject extends React.Component {
             onKeyDown={() => this.props.handleNode(this.props.index)}
           >
             {
-              this.props.node.audio === "" ? undefined :
+              this.props.node.audio === "" ?
+                <div className="storytelling-no-wave">
+                  {this.props.language.noAudioUploaded}
+                </div>
+              :
                 <div className="storytelling-wave" style={{width: `${this.state.audioDuration * this.state.parentZoom}px`}}>
                   <Waveform 
                     ref="wave"

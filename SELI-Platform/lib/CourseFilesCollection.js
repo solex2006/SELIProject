@@ -44,7 +44,8 @@ const CourseFilesCollection = new FilesCollection({
       if (/rar|zip|7z|tar.gz|xz|gz|exe|tar|war|tar.xz|jar|odt|vnd.rar/i.test(file.extension)) { //for compressed only
         return true;
       }
-    } else if((file.meta.type==="excel" || file.meta.type==="word" || file.meta.type==="power point") ){ // && (type[1]==='vnd.ms-excel'||type[1]==='docx')
+    } else if(file.meta.type==="excel" || file.meta.type==="word" || file.meta.type==="power point"
+      || file.meta.type==="unity" || file.meta.type==="a11y" || file.meta.type==="badge"){ // && (type[1]==='vnd.ms-excel'||type[1]==='docx')
       return true;
     }
     return false;
