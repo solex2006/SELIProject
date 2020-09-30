@@ -59,9 +59,9 @@ WebApp.connectHandlers.use('/upload', callback.single('json'));
 
 WebApp.connectHandlers.use('/upload', function (req, res) {
   //create folder in server to save the json file
-  if (!fs.existsSync(saveDir)){
+  /* if (!fs.existsSync(saveDir)){
     fs.mkdirSync(saveDir);
-  } 
+  } */ 
   const file = req.file
   console.log("el archivo***********",file)
   res.end(JSON.stringify(file))
