@@ -42,6 +42,7 @@ class AccessibilityFileUpload extends Component {
             isFavorite: false,
             usedInCourse: false,
             userId: self.props.user,
+            type: "a11y"
             //userId: Meteor.userId() // Optional, used to check on server for file tampering
           },
           streams: 'dynamic',

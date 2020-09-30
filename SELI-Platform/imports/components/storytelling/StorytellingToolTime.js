@@ -808,7 +808,7 @@ class StorytellingToolTime extends React.Component {
     return(
       <React.Fragment>
         {
-          [this.props.language.dstHelper2, this.props.language.dstHelper3, this.props.language.dstHelper4].map((item, index) => {
+          [this.props.language.dstHelper3, this.props.language.dstHelper4, this.props.language.dstHelper2].map((item, index) => {
             return(
               <SnackbarItem
                 index={index}
@@ -987,22 +987,28 @@ class StorytellingToolTime extends React.Component {
                         <StopIcon />
                       </Fab>
                     </Tooltip>
-                    <Tooltip title={this.props.language.back}>
-                      <Fab
-                        className="storytelling-action-button-time"
-                        onClick={() => this.sendAction('previous')}
-                      >
-                        <SkipPreviousIcon />
-                      </Fab>
-                    </Tooltip>
-                    <Tooltip title={this.props.language.next}>
-                      <Fab
-                        className="storytelling-action-button-time"
-                        onClick={() => this.sendAction('next')}
-                      >
-                        <SkipNextIcon />
-                      </Fab>
-                    </Tooltip>
+                    {
+                      this.state.story && this.state.story.nodes.length > 1 &&
+                      <Tooltip title={this.props.language.back}>
+                        <Fab
+                          className="storytelling-action-button-time"
+                          onClick={() => this.sendAction('previous')}
+                        >
+                          <SkipPreviousIcon />
+                        </Fab>
+                      </Tooltip>
+                    }
+                    {
+                      this.state.story && this.state.story.nodes.length > 1 &&
+                      <Tooltip title={this.props.language.next}>
+                        <Fab
+                          className="storytelling-action-button-time"
+                          onClick={() => this.sendAction('next')}
+                        >
+                          <SkipNextIcon />
+                        </Fab>
+                      </Tooltip>
+                    }
                     <Tooltip title={this.props.language.zoomIn}>
                       <Fab
                         className="storytelling-action-button-time"

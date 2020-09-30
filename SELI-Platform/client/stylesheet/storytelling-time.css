@@ -192,6 +192,15 @@
   z-index: 6;
 }
 
+.storytelling-no-wave {
+  color: #e05f5f !important;
+  font-size: 1.2em;
+  height: 100%;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+}
+
 .storytelling-script-time {
   position: relative;
   margin-top: 0.5vh;

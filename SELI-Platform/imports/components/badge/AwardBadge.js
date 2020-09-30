@@ -120,6 +120,7 @@ function saveBadge(data, badgeInformation,idAssertion) {
         usedInCourse: false,
         userId: "",
         buffer: "",
+        type: "badge"
         //userId: Meteor.userId() // Optional, used to check on server for file tampering
       },
       streams: "dynamic",
