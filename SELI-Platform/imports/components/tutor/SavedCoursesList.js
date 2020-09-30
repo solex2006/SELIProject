@@ -3,13 +3,11 @@ import { Meteor } from 'meteor/meteor';
 import Loading from '../../components/tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
 import Table from '../data_display/Table';
-
 import SchoolIcon from '@material-ui/icons/School';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WarningIcon from '@material-ui/icons/Warning';
 import InfoIcon from '@material-ui/icons/Info';
-
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -45,10 +43,10 @@ export default class CoursesList extends React.Component {
   
     const formData = new FormData()
     formData.append('json', file)
-
-    console.log("form data",formData)
+   
+    console.log("form data",formData, Meteor.userId())
   
-    fetch(Meteor.settings.public.URL_SITE+'upload', { method: 'POST', body: formData})
+    fetch(Meteor.settings.public.URL_SITE+'upload', { method: 'POST', body: formData, headers: {'Authorization': Meteor.userId() }})
     .then(response => response.json())
     .then(data => { console.log("data regreso:",data)})
     .catch(error => {
@@ -64,7 +62,6 @@ export default class CoursesList extends React.Component {
   componentDidMount() {
     this.getMyCourses(this.props.user.username);
   }
-
   getMyCourses = (user) => {
     this.setState({
       loading: true,
@@ -89,13 +86,11 @@ export default class CoursesList extends React.Component {
       });
     });
   }
-
   edit = (_id) => {
     let myCourses = this.state.myCourses;
     let course = myCourses.find( course => course._id === _id );
     this.props.editCourse(course);
   }
-
   showDeleteConfirmation = (_id) => {
     let coursesToDelete = [];
     coursesToDelete.push(_id);
@@ -120,7 +115,6 @@ export default class CoursesList extends React.Component {
 
     window.open(Meteor.settings.public.URL_SITE+'file', "_blank")
   }
-
   UploadNewCourse= () => {
     /* Meteor.call('UploadCourses', function(error, result){
       if(!error){
@@ -129,7 +123,6 @@ export default class CoursesList extends React.Component {
       }
     }); */
   };
-
   deleteSelected = (courses) => {
     let coursesToDelete = [];
     courses.map(course => {coursesToDelete.push(course)});
@@ -141,7 +134,6 @@ export default class CoursesList extends React.Component {
       coursesToDelete: coursesToDelete,
     });
   }
-
   delete = () => {
     this.state.coursesToDelete.map((course, index) => {
       let students = Courses.findOne({_id: course}).classroom;
@@ -158,7 +150,6 @@ export default class CoursesList extends React.Component {
     this.setSelected();
     this.props.handleControlMessage(true, this.props.language.courseDeletedS, false, '', '');
   }
-
   createTableData = (myCourses) => {
     let tableData = [];
     let headRows = [
@@ -194,11 +185,9 @@ export default class CoursesList extends React.Component {
       })
     });
   }
-
   handleClickOpen = () => {
     this.setState({ open: true });
   };
-
   handleClose = () => {
     this.setState({ open: false, coursesToDelete:[] });
   };

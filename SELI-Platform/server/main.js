@@ -29,7 +29,7 @@ const queryJson = require("query-json");
 const path = require("path");
 var fs = require('fs');
 
-const BSON = require('bson');
+
 
 var   uploadDir = '/opt/Seli/UploadFiles/'; 
 let mainDirectory='/opt/Seli/tmp'
@@ -63,7 +63,11 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
     fs.mkdirSync(saveDir);
   }  
   const file = req.file
-  console.log("el archivo***********",file)
+  const newtutorID=req.headers.authorization
+  //searc name of the new tutor
+
+  let newTutor=Meteor.users.findOne({_id:newtutorID});
+  //console.log("el archivo***********",req.headers.authorization,  newTutor.username)
   res.end(JSON.stringify(file))
   var zip = new AdmZip(file.path);
   var zipEntries = zip.getEntries();
@@ -82,8 +86,14 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
       //console.log("*****",zipEntry.entryName)
       let ori=saveDir+'/'+zipEntry.entryName
       let dataCollection = JSON.parse(fs.readFileSync(ori, 'utf-8'))
+      dataCollection._id=Math.random().toString(17).substring(7);//change id of the course
+      dataCollection.createdBy=newTutor.username
+
+    
+     
+     
       Courses.insert(dataCollection)
-      console.log('File data-------------->:', dataCollection)
+      
       //delete json file
       fs.unlinkSync(ori)
       
