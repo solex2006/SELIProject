@@ -59,9 +59,9 @@ WebApp.connectHandlers.use('/upload', callback.single('json'));
 
 WebApp.connectHandlers.use('/upload', function (req, res) {
   //create folder in server to save the json file
-  /* if (!fs.existsSync(saveDir)){
+   if (!fs.existsSync(saveDir)){
     fs.mkdirSync(saveDir);
-  } */ 
+  }  
   const file = req.file
   console.log("el archivo***********",file)
   res.end(JSON.stringify(file))
@@ -69,12 +69,12 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
   var zipEntries = zip.getEntries();
   zip.extractAllTo(saveDir, true);
   //delete the zip file
-  /*  try {
+    try {
     fs.unlinkSync(file.path)
     //file removed
     } catch(err) {
       console.error("Error deleting the zip file", err)
-    }  */
+    }  
 
   // RESTORE DE DATBASE FROM DTHE JSON FILE
   zipEntries.forEach(function(zipEntry) {
@@ -85,7 +85,7 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
       Courses.insert(dataCollection)
       console.log('File data-------------->:', dataCollection)
       //delete json file
-     // fs.unlinkSync(ori)
+      fs.unlinkSync(ori)
       
     }
   });
