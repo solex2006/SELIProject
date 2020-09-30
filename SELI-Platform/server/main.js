@@ -36,7 +36,7 @@ let mainDirectory='/opt/Seli/tmp'
 let seliDirectory='/opt/Seli/tmp/Seli'
 let coursesDirectory='/opt/Seli/tmp/Seli/courses'
 var saveDir = '/opt/Seli/tmp/courses';
-
+let tempp='/opt/Seli'
 
 /* if (!fs.existsSync(saveDir)){
     fs.mkdirSync(saveDir, 0777);
@@ -44,7 +44,7 @@ var saveDir = '/opt/Seli/tmp/courses';
 
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
-      cb(null, saveDir);
+      cb(null, uploadDir);
    },
   filename: function (req, file, cb) {
       cb(null , file.originalname);
@@ -63,11 +63,11 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
     fs.mkdirSync(saveDir);
   } 
   const file = req.file
-  //console.log("el archivo",file)
+  console.log("el archivo***********",file)
   res.end(JSON.stringify(file))
-  var zip = new AdmZip(file.path);
+  /* var zip = new AdmZip(file.path);
   var zipEntries = zip.getEntries();
-  zip.extractAllTo(saveDir, true);
+  zip.extractAllTo(saveDir, true); */
   //delete the zip file
   /*  try {
     fs.unlinkSync(file.path)
@@ -77,7 +77,7 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
     }  */
 
   // RESTORE DE DATBASE FROM DTHE JSON FILE
-  zipEntries.forEach(function(zipEntry) {
+  /* zipEntries.forEach(function(zipEntry) {
     if(zipEntry.entryName.substr(zipEntry.entryName.length - 5) === '.json'){
       //console.log("*****",zipEntry.entryName)
       let ori=saveDir+'/'+zipEntry.entryName
@@ -88,9 +88,9 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
      // fs.unlinkSync(ori)
       
     }
-  });
+  }); */
   //move the media files to UPLOADfILES
-   zipEntries.forEach(function(zipEntry) {
+   /* zipEntries.forEach(function(zipEntry) {
         //cutting and moving media and videos to upload Folder
         if(zipEntry.entryName.substr(zipEntry.entryName.length - 5) != '.json'){
           let ori=saveDir+'/'+zipEntry.entryName
@@ -104,7 +104,7 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
               }
           });
         }
-    }); 
+    }); */ 
 
 });
 
