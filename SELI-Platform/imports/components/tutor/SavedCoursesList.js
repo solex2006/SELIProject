@@ -46,7 +46,7 @@ export default class CoursesList extends React.Component {
 
     console.log("form data",formData)
   
-    fetch('http://localhost:3000/upload', { method: 'POST', body: formData})
+    fetch(Meteor.settings.public.URL_SITE+'upload', { method: 'POST', body: formData})
     .then(response => response.json())
     .then(data => { console.log("data regreso:",data)})
     .catch(error => {
