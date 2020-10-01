@@ -5,7 +5,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Courses } from '../../../../lib/CourseCollection';
 import { StudentLog } from '../../../../lib/StudentLogCollection';
@@ -201,7 +201,7 @@ export default function MediaCard(props) {
           onClose={()=>setDialog(prev=>({...prev, open:false}))}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
-          className="comments-dialog"
+          //className="comments-dialog"
          // disableBackdropClick={true}
         >
           <DialogTitle className="comment-dialog-title">
@@ -231,7 +231,7 @@ export default function MediaCard(props) {
                   <div className="comments-result-container">
                     <div className="center-row">
                       <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                        {props.language.noCommentsText}
+                        {props.language.noCommentsText}ffffffff
                       </DialogContentText>
                     </div>
                     <div className="center-row">
@@ -241,6 +241,9 @@ export default function MediaCard(props) {
                 }
               </div>
             }
+             <Button onClick={()=>setDialog(prev=>({...prev, open:false}))} color="">
+              Cancel
+            </Button>
           </DialogContent>
         </Dialog>
     </div>
