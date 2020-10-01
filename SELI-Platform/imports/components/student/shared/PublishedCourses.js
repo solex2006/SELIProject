@@ -231,7 +231,7 @@ export default function MediaCard(props) {
                   <div className="comments-result-container">
                     <div className="center-row">
                       <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                        {props.language.noCommentsText}ffffffff
+                        {props.language.noCommentsText}
                       </DialogContentText>
                     </div>
                     <div className="center-row">
@@ -242,7 +242,7 @@ export default function MediaCard(props) {
               </div>
             }
              <Button onClick={()=>setDialog(prev=>({...prev, open:false}))} color="">
-              Cancel
+             {props.language.cancel}
             </Button>
           </DialogContent>
         </Dialog>

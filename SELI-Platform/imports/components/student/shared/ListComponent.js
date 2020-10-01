@@ -150,8 +150,10 @@ export default function Lista(props) {
               <div>
                   <br/>
                   <strong className='descriptiontext'>Cognitive Domain Objectives:</strong>
+
+                  {console.log("el error--->", props.data)}
                   {
-                    props.data.analyzing.length!=0?
+                    (props.data.analyzing.length!=0 && props.data.analyzing!=undefined) ?
                     <ul >
                         {
                             props.data.analyzing.map((value,index)=>(
@@ -166,7 +168,7 @@ export default function Lista(props) {
                   }
 
                   {
-                    props.data.creating.length!=0?
+                    (props.data.creating.length!=0 && props.data.creating!=undefined)?
                     <ul >
                         {
                             props.data.creating.map((value,index)=>(
@@ -180,7 +182,7 @@ export default function Lista(props) {
                     undefined    
                   }
                   {
-                    props.data.evaluating.length!=0?
+                    (props.data.evaluating.length!=0 && props.data.evaluating!=undefined) ?
                     <ul >
                         {
                             props.data.evaluating.map((value,index)=>(
@@ -194,7 +196,7 @@ export default function Lista(props) {
                     undefined
                   }
                   {
-                    props.data.remembering.length!=0?
+                    (props.data.remembering.length!=0 && props.data.remembering!=undefined )?
                     <ul >
                         {
                             props.data.remembering.map((value,index)=>(
@@ -209,10 +211,10 @@ export default function Lista(props) {
                   }
                   
                   {
-                    props.data.understanding.length!=0?
+                    (props.data.understanding.length!=0 && props.data.understanding!=undefined)?
                     <ul >
                         {
-                            props.data.understand.map((value,index)=>(
+                            props.data.understanding.map((value,index)=>(
                                 <li >
                                     {value.aux+': '+value.label}
                                 </li>
