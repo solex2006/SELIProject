@@ -148,7 +148,8 @@ export default function Lista(props) {
       return(
           <React.Fragment>
               <div>
-                  <strong className='descriptiontext'>Cognitive Domain Objectives</strong>:
+                  <br/>
+                  <strong className='descriptiontext'>Cognitive Domain Objectives:</strong>
                   {
                     props.data.analyzing.length!=0?
                     <ul >

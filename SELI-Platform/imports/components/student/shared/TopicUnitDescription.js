@@ -249,6 +249,8 @@ export default function CourseContent(props) {
                             </p>
                         
                             <p className='crnheading' id={"topic-"+indexUnit+"-readings"}>
+                            <hr/>
+                            <br/>
                                 <h5>Readings</h5>
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  &&
@@ -261,7 +263,7 @@ export default function CourseContent(props) {
                                         
                                             topic.tools[4].checked===true?
                                             
-                                            <ul className='resources'>
+                                            <ul >
                                                 {
                                                  topic.tools[4].items.length!=0?
                                                     topic.tools[4].items.map((sup,indexSup)=>(
@@ -286,7 +288,29 @@ export default function CourseContent(props) {
                                         {
                                             topic.lessons.map((lesson,index)=>(
                                                 lesson.tools[4].checked===true?
-                                                    <p  className='elemntoflist' key={index}>{topic.tools[4].label}</p>
+                                                   
+                                                    <div>
+
+                                                    {console.log("eeeeeeeeeeee",lesson.tools)}
+                                                        {
+                                                            lesson.tools[4].checked===true?
+                                                            
+                                                            <ul >
+                                                                {
+                                                                lesson.tools[4].items.length!=0?
+                                                                    lesson.tools[4].items.map((sup,indexSup)=>(
+                                                                        <li>{sup.title}</li>
+                                                                    ))
+                                                                    :
+                                                                    <li>There are no readings</li>
+                                                                    
+                                                                }
+                                                                
+                                                            </ul>
+                                                            :
+                                                            <p>There are no readings</p>
+                                                        }
+                                                    </div>
                                                 :
                                                     undefined
                                             ))    
@@ -296,8 +320,7 @@ export default function CourseContent(props) {
                                     undefined                        
                                 }                              
                             </p>
-                            <hr/>
-                         
+                       
                             <p className='crnheading' id={"topic-"+indexUnit+"-assess"}>
                                
                                 <ul className='resources' style={{display:'block'}}>
