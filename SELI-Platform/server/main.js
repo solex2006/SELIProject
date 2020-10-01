@@ -86,7 +86,7 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
       //console.log("*****",zipEntry.entryName)
       let ori=saveDir+'/'+zipEntry.entryName
       let dataCollection = JSON.parse(fs.readFileSync(ori, 'utf-8'))
-      dataCollection._id=Math.random().toString(17).substring(7);//change id of the course
+      dataCollection._id=Math.random().toString(17);//change id of the course
       dataCollection.createdBy=newTutor.username
 
     

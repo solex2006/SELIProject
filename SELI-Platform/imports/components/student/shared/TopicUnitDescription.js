@@ -256,10 +256,25 @@ export default function CourseContent(props) {
                                     || coursePlan.courseTemplate==='consistent' || coursePlan.courseTemplate==='toyBox' ) && 
                                     coursePlan.courseStructure==='topic')?       
                                     <div>       
-                                        {topic.tools[4].checked===true?
-                                            <p  className='elemntoflist' key={topic}>{topic.tools[4].label}</p>
+                                       
+                                        {
+                                        
+                                            topic.tools[4].checked===true?
+                                            
+                                            <ul className='resources'>
+                                                {
+                                                 topic.tools[4].items.length!=0?
+                                                    topic.tools[4].items.map((sup,indexSup)=>(
+                                                        <li>{sup.title}</li>
+                                                    ))
+                                                    :
+                                                    <li>There are no readings</li>
+                                                    
+                                                }
+                                                
+                                            </ul>
                                             :
-                                            undefined
+                                            <p>There are no readings</p>
                                         }              
                                     </div>
                                     :
