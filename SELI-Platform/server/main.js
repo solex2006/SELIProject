@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import '../imports/api/courseFiles';
 import {Courses} from '../lib/CourseCollection';
+import {Avtivities} from '../lib/ActivitiesCollection';
 import '../lib/ActivitiesCollection';
 import '../lib/RequirementsCollection';
 import '../lib/DisabilitiesCollection';
@@ -29,14 +30,8 @@ const queryJson = require("query-json");
 const path = require("path");
 var fs = require('fs');
 
-
-
-var   uploadDir = '/opt/Seli/UploadFiles/'; 
-let mainDirectory='/opt/Seli/tmp'
-let seliDirectory='/opt/Seli/tmp/Seli'
-let coursesDirectory='/opt/Seli/tmp/Seli/courses'
-var saveDir = '/opt/Seli/tmp/courses';
-let tempp='/opt/Seli'
+var uploadDir = '/opt/Seli/UploadFiles/'; 
+var saveDir = '/opt/Seli/tmp/';
 
 /* if (!fs.existsSync(saveDir)){
     fs.mkdirSync(saveDir, 0777);
@@ -88,10 +83,6 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
       let dataCollection = JSON.parse(fs.readFileSync(ori, 'utf-8'))
       dataCollection._id=Math.random().toString(17);//change id of the course
       dataCollection.createdBy=newTutor.username
-
-    
-     
-     
       Courses.insert(dataCollection)
       
       //delete json file
@@ -115,14 +106,7 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
           });
         }
     }); 
-
 });
-
-
-
-
-
-
 
 Meteor.methods({
   getIP: function(){
@@ -131,11 +115,10 @@ Meteor.methods({
   }
 });
 
-
 Meteor.methods({
-  getCourses: function(course){ 
-    let items = course 
-   // console.log("los items------>", items)
+  getFiles: function(file, type){ 
+    let items = file 
+    // console.log("los items------>", items)
     WebApp.connectHandlers.use('/file', function (req, res) {
       const regex = new RegExp('path', 'i');
       const result = queryJson.search(items, regex);
@@ -149,8 +132,8 @@ Meteor.methods({
       //save json file
       let database = JSON.stringify(items);
       //const databson = BSON.serialize(items);
-      let name=`${course._id}`+".json"
-      //let namebson=`${course._id}`+".bson"
+      let name=`${file._id}`+".json"
+      //let namebson=`${file._id}`+".bson"
       fs.writeFileSync('/opt/Seli/UploadFiles/'+name, database);
       //fs.writeFileSync('/opt/Seli/UploadFiles/'+namebson, databson);
 
@@ -161,7 +144,7 @@ Meteor.methods({
         let ruta='';
         route.map((singleRoute, indexSingleRoute)=>{
           if(singleRoute==='0' || singleRoute==='1' || singleRoute==='2' || singleRoute==='3' ){
-             ruta=ruta +'['+ singleRoute + ']'+'.'
+            ruta=ruta +'['+ singleRoute + ']'+'.'
           }
           else{
             if(singleRoute==='program' || singleRoute==='items' || singleRoute==='activities' || singleRoute==='attributes'){
@@ -181,9 +164,9 @@ Meteor.methods({
         if (ruta!='/opt/Seli/UploadFiles'){
           address.push(ruta)
         } 
-      //delete repeated
-       address = [...new Set(address)];
-       console.log("la ruta:--> ", address)
+        //delete repeated
+        address = [...new Set(address)];
+        console.log("la ruta:--> ", address)
       })
 
       const zip = new AdmZip();
@@ -193,15 +176,12 @@ Meteor.methods({
         }catch (error) {
           console.error("**************",error);
         }
-          
       }
       //add database into the folder
       zip.addLocalFile('/opt/Seli/UploadFiles/'+name);
       //zip.addLocalFile('/opt/Seli/UploadFiles/'+namebson);
-      const downloadName = `SELI-Course.${course._id}.zip`;
- 
+      const downloadName = `SELI-${type}.${file._id}.zip`;
       const data = zip.toBuffer();
-  
       // save file zip in root directory
      // zip.writeZip('/opt/Seli/zip'+"/"+downloadName);
 
@@ -211,7 +191,7 @@ Meteor.methods({
         'Content-Disposition':`attachment; filename=${downloadName}`,
         'Content-Length':data.length
       };
-       
+      
       /* let headers = {
         'Content-Type': 'text/json',
         'Content-Disposition': 'attachment;'+ 'filename='+name
@@ -219,31 +199,21 @@ Meteor.methods({
       res.writeHead(200, headers);
       return res.end(data);
     });
-
-
   }
 });
 
-
-
-
 Meteor.methods({
- 
-    'saveFile': function(buffer){
-      console.log("el buffer", buffer)
-        Files.insert({data:buffer})         
-    }   
-});
-
-
-Meteor.methods({
- 
-  'savejson': function(json){
-   
-      Files.insert({andres:"sdfsd"})         
+  'saveFile': function(buffer){
+    console.log("el buffer", buffer)
+      Files.insert({data:buffer})         
   }   
 });
 
+Meteor.methods({
+  'savejson': function(json){
+    Files.insert({andres:"sdfsd"})         
+  }   
+});
 
 Meteor.methods({
   UploadCourses: function(id){

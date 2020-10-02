@@ -14,7 +14,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import ImportButton from './ImportButton';
+import ImportButton from '../tools/ImportButton';
 //const backup = require('mongodb-backup');
 
 export default class CoursesList extends React.Component {
@@ -77,7 +77,7 @@ export default class CoursesList extends React.Component {
     let myCourses = this.state.myCourses;
     let course=myCourses.filter(objeto=>objeto._id===id)
     console.log("CURSO A DESCARGAR********", id, course[0])
-    Meteor.call('getCourses', course[0], function(error, result){
+    Meteor.call('getFiles', course[0], "course", function(error, result){
       if(!error){
         console.log( "resultado", result )
         //SessionLog.insert({ "UserId": response._id, "Datetime": new Date(), "IPAddress": result });
@@ -124,7 +124,7 @@ export default class CoursesList extends React.Component {
     let menuOptions = [
       {label: this.props.language.resumeEditing , icon: <EditIcon/>, action: this.edit.bind(this)},
       {label: this.props.language.deleteCourse , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
-      {label: "Download course*" , icon: <DeleteIcon/>, action: this.downloadCourse.bind(this)}
+      {label: this.props.language.download , icon: <DeleteIcon/>, action: this.downloadCourse.bind(this)}
     ];
     myCourses.map(course => {
       tableData.push({

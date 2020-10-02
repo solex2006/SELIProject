@@ -566,6 +566,7 @@ export default function VerticalTabs(props) {
 											disabled_uploadAudioDesc: data.disabled_uploadAudioDesc,
 											handleInputOnFile:data.handleInputOnFile
 										}}
+										handleControlMessage={props.handleControlMessage.bind(this)}
 										language={props.language}/>
 									</TabPanel>}
 								{support.some(object => ["Hearing","Cognitive"].includes(object)) &&
