@@ -154,6 +154,8 @@ export default class User extends React.Component {
   }
 
   showComponent = (component) => {
+   
+
     if (!(component === "create" && this.state.component === "create")){
       if (this.state.component === "create" && !this.state.savedCourse){
         if (component !== "create") {
@@ -169,6 +171,17 @@ export default class User extends React.Component {
         });
       }
     }
+
+    if(this.state.component==='edit' && this.state.savedCourse===false ){
+      console.log("create****************",component,this.state.component,this.state.savedCourse, this.state )
+      this.setState({
+        savedCourseWindow: true,
+        component: 'edit',
+        nextComponent: component
+      }); 
+    } 
+
+      
   }
 
   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
@@ -453,6 +466,7 @@ export default class User extends React.Component {
   };
 
   handleCloseSave = () => {
+    console.log("222222222222222222222",this.state)
     this.setState({ 
       savedCourseWindow: false,
       savedCourse: false,
