@@ -150,7 +150,8 @@ export default function FormStepperID(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const steps = props.steps;
   const [width, height] = useWindowSize();
-
+  const [showButton, setshowButton] = useState('');
+  const [showButtonNext, setshowButtonNext] = useState('');
   //nuevos parametros
   const [addie, setAddie] = React.useState(false);
   const [stepStatus, setStepStatus] = React.useState({
@@ -341,7 +342,7 @@ export default function FormStepperID(props) {
   
 
   function handleBack() {
-    //console.log("handleback in stepper ID")
+    console.log("handleback in stepper ID",activeStep )
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
@@ -709,7 +710,7 @@ useEffect(()=>{
 
 
 useEffect(()=>{
-  //console.log("RESATURA LOS PASOS  YA GUARDADOS",stepStatus,validateInformation)
+  console.log("RESATURA LOS PASOS  YA GUARDADOS",stepStatus,validateInformation,activeStep)
   //steps aprobados
     if(props.forms[0].props.courseInformation.stepsflag==='saved'){
       let estado= stepStatus
@@ -721,7 +722,25 @@ useEffect(()=>{
         setStepStatus(estado)
       }) 
     }
+
+    if(activeStep===0){
+      setshowButton("none")
+    }
 },[])
+
+useEffect(()=>{
+  //console.log("activestep", activeStep)
+  if(activeStep===1){
+    setshowButton('')
+  }else if(activeStep===0){
+    setshowButton("none")
+  }else if(activeStep===7){
+    setshowButtonNext("none")
+  }
+  else if(activeStep!=7){
+    setshowButtonNext('')
+  }
+},[activeStep])
 
   return (
     <div className="form-stepper-container">
@@ -970,12 +989,14 @@ useEffect(()=>{
                   <Button
                     color="secondary"
                     onClick={handleBack}
+                    style={{display: showButton}}
                   >
                     {props.language.previousStep}
                   </Button>
                   <Button
                     color="secondary"
                     onClick={handleNext}
+                    style={{display:showButtonNext}}
                   >
                     {props.language.nextStep}
                   </Button>
