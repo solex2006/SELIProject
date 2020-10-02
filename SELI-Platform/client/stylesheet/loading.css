@@ -45,7 +45,7 @@
   height: var(--progress-size);
   border-radius: 100%;
   background-color: #e0e0e0;
-  margin-left: 1vw;
+  margin: 10px 1vw;
   position: relative;
 }
 

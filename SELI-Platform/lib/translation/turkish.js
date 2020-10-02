@@ -1232,6 +1232,12 @@ var TURKISH = {
   learningConstraintHelp: "Öğrencinin sahip olabileceği öğrenme kısıtlamaları ekleyin.",
   affectiveDomainHelp: "Etkisel alan ...",
   psychomotorDomainHelp: "Psikomotor alanı ...",
+  uploading: "Uploading",
+  pleaseWait: "please wait",
+  selectYourFile: "Select your file",
+  fileSucessfullyUploaded: "File sucessfully uploaded!",
+  courseUpload: "Upload course",
+  storyUpload: "Upload story",
 }
 export default TURKISH;
 

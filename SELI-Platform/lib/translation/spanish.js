@@ -1232,6 +1232,12 @@ var SPANISH = {
   learningConstraintHelp: "Agregue restricciones de aprendizaje que el estudiante pueda tener",
   affectiveDomainHelp: "El dominio afectivo es ...",
   psychomotorDomainHelp: "El dominio psicomotor es ...",
+  uploading: "Cargando",
+  pleaseWait: "por favor espere",
+  selectYourFile: "Seleccionar archivo",
+  fileSucessfullyUploaded: "¡Archivo cargado correctamente!",
+  courseUpload: "Subir curso",
+  storyUpload: "Subir historia",
 }
 export default SPANISH;
 

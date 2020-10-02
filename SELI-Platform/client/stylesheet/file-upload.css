@@ -3,15 +3,23 @@
   padding: 0 2.5vw;
 }
 
-
-/* ESTILO DEL DIV QUE CONTENTRÁ EL INPUT */
 .upload-btn-wrapper {
   position: relative;
   overflow: hidden;
   display: inline-block;
-  }
+}
 
-/* ESTILO DEL INPUT*/
+.upload-btn-wrapper-import {
+  width: calc(100% - 2vw);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 1vw;
+}
+
 .upload-btn-wrapper input[type=file] {
 font-size: 100px;
 position: absolute;
@@ -20,7 +28,6 @@ top: 0;
 opacity: 0;
 }
 
-/* ESTILO DEL BOTÓN */
 .boton-standar-rw{
 display: flex;
 justify-content: center;
@@ -38,7 +45,6 @@ width: 12em;
 padding: 10px;
 }
 
-/* ESTILO DEL BOTÓN CON HOVER DE MOUSE */
 .boton-standar-rw:hover{
   color: white;
   background-color: rgb(158, 194, 235);
