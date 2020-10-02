@@ -1232,6 +1232,12 @@
   learningConstraintHelp: "Add learning constraints that the student may have.",
   affectiveDomainHelp: "Affective domain is ...",
   psychomotorDomainHelp: "Psychomotor domain is ...",
+  uploading: "Uploading",
+  pleaseWait: "please wait",
+  selectYourFile: "Select your file",
+  fileSucessfullyUploaded: "File sucessfully uploaded!",
+  courseUpload: "Upload course",
+  storyUpload: "Upload story",
 }
 export default POLISH;
 

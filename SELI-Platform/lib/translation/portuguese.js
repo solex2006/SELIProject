@@ -1232,6 +1232,12 @@ var PORTUGUESE = {
   learningConstraintHelp: "Adicionar restrições educacionais que o estudante poderá ter.",
   affectiveDomainHelp: "Domínio afetivo é ...",
   psychomotorDomainHelp: "Domínio psicomotor é ...",
+  uploading: "Uploading",
+  pleaseWait: "please wait",
+  selectYourFile: "Select your file",
+  fileSucessfullyUploaded: "File sucessfully uploaded!",
+  courseUpload: "Upload course",
+  storyUpload: "Upload story",
 }
 export default PORTUGUESE;
 

@@ -74,6 +74,33 @@
   color: #333 !important;
 }
 
+.import-button-container {
+  width: 100%;
+  margin-top: 10px;
+  height: calc(0.8em + 15px);
+  position: relative;
+}
+
+.course-content-import-button {
+  font-size: 0.8em !important;
+  border-radius: 0 !important;
+  background-color: #fafafa !important;
+  color: #333 !important;
+  position: absolute !important;
+  right: 2vw !important;
+}
+
+.course-content-import-image {
+  margin-right: 10px;
+}
+
+.course-content-import-button-child{
+  padding: 5px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
 .course-content-menu-button {
   letter-spacing: 1px !important;
   font-size: 1.25em !important;

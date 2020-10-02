@@ -139,7 +139,7 @@ class FileUpload extends Component {
           <div className="uploading-file-container">
             <div className="uploading-file-column">
               <div className="uploading-file-row">
-                <p className="uploading-file-text">{"Uploading " + this.props.type + ", please wait..."}</p>
+                <p className="uploading-file-text">{`${this.props.language.uploading} ${this.props.type}, ${this.props.language.pleaseWait}`}</p>
                 <div className="uploading-file-progress-container">
                   <CircularProgress
                     value={this.state.progress}
@@ -213,7 +213,7 @@ class FileUpload extends Component {
     else {
       return (
         <div>
-          <Loading message="Loading file uploader..."/>
+          <Loading message={this.props.language.loadingUploader}/>
         </div>
       );
     }

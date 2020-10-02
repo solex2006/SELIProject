@@ -14,54 +14,22 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import CourseForm from '../content/CourseForm'
+import ImportButton from './ImportButton';
 //const backup = require('mongodb-backup');
-
-
 
 export default class CoursesList extends React.Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.fileInput = React.createRef();
     this.state = {
       myCourses: [],
       loading: true,
-      showBoton:false,
-      upload:''
     }
   }
 
-
-  handleSubmit(event) {
-    event.preventDefault();
-    console.log("file upload",this.fileInput.current.files[0])
-    this.setState({showBoton:!this.state.showBoton, upload:'Upload a new course...'})
-    var file = this.fileInput.current.files[0]; //assuming 1 file only
-    if (!file) return;
-
-  
-    const formData = new FormData()
-    formData.append('json', file)
-   
-    console.log("form data",formData, Meteor.userId())
-  
-    fetch(Meteor.settings.public.URL_SITE+'upload', { method: 'POST', body: formData, headers: {'Authorization': Meteor.userId() }})
-    .then(response => response.json())
-    .then(data => { console.log("data regreso:",data)})
-    .catch(error => {
-      console.error(error)
-    })
-
-
-    
-
-
-
-  }
   componentDidMount() {
     this.getMyCourses(this.props.user.username);
   }
+
   getMyCourses = (user) => {
     this.setState({
       loading: true,
@@ -86,11 +54,13 @@ export default class CoursesList extends React.Component {
       });
     });
   }
+
   edit = (_id) => {
     let myCourses = this.state.myCourses;
     let course = myCourses.find( course => course._id === _id );
     this.props.editCourse(course);
   }
+
   showDeleteConfirmation = (_id) => {
     let coursesToDelete = [];
     coursesToDelete.push(_id);
@@ -102,27 +72,20 @@ export default class CoursesList extends React.Component {
       coursesToDelete: coursesToDelete,
     });
   }
+
   downloadCourse= (id) => {
     let myCourses = this.state.myCourses;
     let course=myCourses.filter(objeto=>objeto._id===id)
     console.log("CURSO A DESCARGAR********", id, course[0])
-     Meteor.call('getCourses', course[0], function(error, result){
+    Meteor.call('getCourses', course[0], function(error, result){
       if(!error){
         console.log( "resultado", result )
         //SessionLog.insert({ "UserId": response._id, "Datetime": new Date(), "IPAddress": result });
       }
     }); 
-
     window.open(Meteor.settings.public.URL_SITE+'file', "_blank")
   }
-  UploadNewCourse= () => {
-    /* Meteor.call('UploadCourses', function(error, result){
-      if(!error){
-        console.log( "resultado", result )
-        //SessionLog.insert({ "UserId": response._id, "Datetime": new Date(), "IPAddress": result });
-      }
-    }); */
-  };
+
   deleteSelected = (courses) => {
     let coursesToDelete = [];
     courses.map(course => {coursesToDelete.push(course)});
@@ -192,10 +155,6 @@ export default class CoursesList extends React.Component {
     this.setState({ open: false, coursesToDelete:[] });
   };
 
-  
-
-  
-
   render() {
     return(
       <div className="management-container">
@@ -211,47 +170,12 @@ export default class CoursesList extends React.Component {
                 <div className="management-result-container">
                   <p className="management-title">{this.props.language.mySavedCourses}<SchoolIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
-                   
-                   
-                   {/* 
-                    <form onSubmit={this.handleSubmit} style={{display:''}} >
-                        <label>
-                          Upload new course*
-                          <input type="file" ref={this.fileInput} />
-                        </label>
-                        <button type="submit">Submit</button>
-                        <hr />
-                    </form> */}
-
-                   
-                    <form onSubmit={this.handleSubmit} style={{display:''}} >
-                              
-                          <input 
-                          style={{ display: 'none' }}
-                            name="file-3[]" 
-                            id="file-3" 
-                            class="inputfile inputfile-3" 
-                            data-multiple-caption="{count} files selected"
-                            accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed"
-                            type="file" 
-                            ref={this.fileInput}
-                            onChange={(event)=>{
-                              console.log("evento,", event.target.files[0].name)
-                              this.setState({showBoton:!this.state.showBoton, upload:event.target.files[0].name})
-                            }}/>
-                          {/* <label tabindex="0" for="my-file" class="input-file-trigger">Select a file...</label> */}
-                   
-					                <label for="file-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> 
-                           <span>{this.state.showBoton===true? this.state.upload: 'Upload a new course'}&hellip;</span></label>
-				
-
-                       
-                         <button class="boton1" type="submit" style={{ display: this.state.showBoton===true? 'flex': 'none' }}>Upload Course</button>
-                       
-                      </form>
-                   
-
-
+                    <div className="import-button-container">
+                      <ImportButton
+                        file="course"
+                        language={this.props.language}
+                      />
+                    </div>
                     <Table
                       labels={{
                         title: this.props.language.youHaveCourses, 
@@ -272,13 +196,7 @@ export default class CoursesList extends React.Component {
                       deleteSelected={this.deleteSelected.bind(this)}
                       setSelectedFunction={selected => this.setSelected = selected}
                     />
-                     
                   </div>
-                 {/*  <Button color="secondary" onClick={this.UploadNewCourse}> */}
-                   
-                 {/*  </Button>  */}
-
-                  
                 </div>
               :
               <div className="empty-dashboard">
