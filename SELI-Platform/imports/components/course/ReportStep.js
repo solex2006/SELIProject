@@ -553,6 +553,7 @@ export default function ReportStep(props) {
 		let hearing=[]
 		let cognitive=[]
 		let diversity=[]
+
 		if((withoutInclusionGol.percentagebyUnit.length===0 && withoutInclusionGol.percentagebyLesson.length===0)){
 			setSimulate('noInclusionGol') //pare l caso q se selecciona una discapcidad pero el elemento no configura dicho elelmnto
 			return 0
@@ -728,7 +729,9 @@ export default function ReportStep(props) {
 			setCategories(categories)
 			console.log("las categorias************", categories, visual, diversity,withoutInclusionGol)
 
-   };
+	};
+	
+	
    const UnitsCourse=() => {
 		console.log("******************UNITSCOURSE***************")
 		let variablesUnidad=[]
@@ -1412,12 +1415,14 @@ export default function ReportStep(props) {
 		let guidedWTopics=0
 
       props.courseInformation.program.map((unit, indexUnit)=>{
-			
 			//cabezera de la unidad
 			let inclusion=courseInformation.support;
-			if(inclusion[1]!=undefined){
+			console.log("inclusion------>**", inclusion, unit.items)
+			if(inclusion[1]!=undefined){	
 				unit.items.map((item,indexItem)=>{		
 					let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+						
+						console.log("Tipo de elemento******", item)
 						if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
 							inclusion[1][1].isChecked===true || withoutChecked===true)){
 							item.attributes.accessibility.isA11Y!=undefined?
@@ -1737,6 +1742,8 @@ export default function ReportStep(props) {
 		console.log("En topicos totalconfig------------------------------->", contWithInclusionGol,tasknoconfig )
 		newRandomTopics('topic')
 	};
+	
+	
 	const TemplateCourse=() =>{
 		console.log("******************TEMPLATECOURSE***************")	
 		let variablesUnidad=[]
@@ -2409,6 +2416,7 @@ export default function ReportStep(props) {
 	
 	return (
 		<div className="form-input-container">
+			{console.log("SIMULATE----->", simulate )}
 			<div className="form-input-steps">
 				<h2>{props.language.reportstep}</h2><br/>
 				{simulate === "allAchieved" && (
@@ -2432,29 +2440,34 @@ export default function ReportStep(props) {
 					</React.Fragment>
 				)}
 					
-					{simulate === "noInclusionGol" && (   
-				<React.Fragment>
+				{simulate === "noInclusionGol" && (   
+						<React.Fragment>
 
-					{/* <AccessibilityAchieved
-						Icon={<FontAwesomeIcon icon={faWrench} />}
-						caption={"you have not configured accessibility in the audiences Step"}
-					/> */}
-					
-					<Grid container spacing={1}>
-							{
-							categories.map(category => {
-								return(
-									category.topics.length!=0?
-									<Grid item xs={12} md={6}>
-									<AccessibilityCard flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
-								</Grid>
-								:undefined
-								)
-								
-							}) 	
-							}
-					</Grid> 
-				</React.Fragment> 
+							{/* <AccessibilityAchieved
+								Icon={<FontAwesomeIcon icon={faWrench} />}
+								caption={"you have not configured accessibility in the audiences Step"}
+							/> */}
+							
+							<Grid container spacing={1}>
+									{
+									categories.map(category => {
+										return(
+											category.topics.length!=0?
+											<Grid item xs={12} md={6}>
+												<AccessibilityCard flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
+											</Grid>
+										:
+										
+											<AccessibilityEmpty
+												Icon={<FontAwesomeIcon icon={faLowVision} />}
+												caption={"check"}
+											/>
+										)
+										
+									}) 	
+									}
+							</Grid> 
+						</React.Fragment> 
 				)}
 					
 
@@ -2827,6 +2840,32 @@ function AccessibilityAchieved({ Icon, caption, className }) {
 			<div>
 				<div style={style}><Avatar className={classes.avatar}>{Icon}</Avatar></div>
 				<div className={classes.caption}>{caption}</div>
+			</div>
+		</Box>
+			
+			
+		</Grid>
+	);
+}
+
+function AccessibilityEmpty({ Icon, caption, className }) {
+	const classes = useStyles();
+	const style = {
+		display:'flex',
+		justifyContent:'center'
+	 };
+	return (
+		<Grid 
+			item 
+			xs={12} 
+			sm={6} 
+		>
+			<Box
+			style={style}
+		>
+			<div>
+				<div style={style}><Avatar className={classes.avatar}>{Icon}</Avatar></div>
+				 <div className={classes.caption}>{caption}</div> 
 			</div>
 		</Box>
 			

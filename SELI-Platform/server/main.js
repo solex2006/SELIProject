@@ -108,6 +108,92 @@ WebApp.connectHandlers.use('/upload', function (req, res) {
     }); 
 });
 
+
+WebApp.connectHandlers.use('/file', function (req, res) {
+
+  console.log('el tipo y el id',req.query.type, req.query.id)
+  //console.log(Courses.find({_id:req.query.id }))
+  let courses = Courses.find({_id: req.query.id}).fetch();
+  //console.log(courses)
+   let items = courses[0]
+   const regex = new RegExp('path', 'i');
+      const result = queryJson.search(items, regex);
+      const deep_value = (obj, path) => 
+        path
+          .replace(/\[|\]\.?/g, '.')
+          .split('.')
+          .filter(s => s)
+          .reduce((acc, val) => acc && acc[val], obj);
+
+      //save json file
+      let database = JSON.stringify(items);
+      //const databson = BSON.serialize(items);
+      let name=`${items._id}`+".json"
+      //let namebson=`${file._id}`+".bson"
+      fs.writeFileSync('/opt/Seli/UploadFiles/'+name, database);
+      //fs.writeFileSync('/opt/Seli/UploadFiles/'+namebson, databson);
+
+      //create the routes
+      let address=[];
+    //  console.log("resultado**********----->",result)
+      result.map((route, indexRoute)=>{
+        let ruta='';
+        route.map((singleRoute, indexSingleRoute)=>{
+          if(singleRoute==='0' || singleRoute==='1' || singleRoute==='2' || singleRoute==='3' ){
+            ruta=ruta +'['+ singleRoute + ']'+'.'
+          }
+          else{
+            if(singleRoute==='program' || singleRoute==='items' || singleRoute==='activities' || singleRoute==='attributes'){
+              ruta=ruta+singleRoute
+            }
+            else{
+              ruta=ruta+'.'+singleRoute
+            }
+            
+          }
+        })
+        if(ruta.charAt(0) === '.'){
+          ruta = ruta.substring(1);
+        }
+       // console.log("la ruta:--> ", items.eval(ruta))
+        ruta=deep_value(items, ruta)
+        if (ruta!='/opt/Seli/UploadFiles'){
+          address.push(ruta)
+        } 
+        //delete repeated
+        address = [...new Set(address)];
+        console.log("la ruta:--> ", address)
+      })
+
+      const zip = new AdmZip();
+      for(var i = 0; i < address.length;i++){
+        try{
+          zip.addLocalFile(address[i]);
+        }catch (error) {
+          console.error("**************",error);
+        }
+      }
+      //add database into the folder
+      zip.addLocalFile('/opt/Seli/UploadFiles/'+name);
+      //zip.addLocalFile('/opt/Seli/UploadFiles/'+namebson);
+      const downloadName = `SELI-courses.${items._id}.zip`;
+      const data = zip.toBuffer();
+      // save file zip in root directory
+     // zip.writeZip('/opt/Seli/zip'+"/"+downloadName);
+
+      //download the file
+      let headers = {
+        'Content-Type':'application/octet-stream',
+        'Content-Disposition':`attachment; filename=${downloadName}`,
+        'Content-Length':data.length
+      };
+      
+      
+      res.writeHead(200, headers);
+      return res.end(data);  
+
+})
+
 Meteor.methods({
   getIP: function(){
       var ip = this.connection.clientAddress;
@@ -118,8 +204,8 @@ Meteor.methods({
 Meteor.methods({
   getFiles: function(file, type){ 
     let items = file 
-    // console.log("los items------>", items)
-    WebApp.connectHandlers.use('/file', function (req, res) {
+    console.log("los items------>", items, type)
+   /*  WebApp.connectHandlers.use('/file', function (req, res) {
       const regex = new RegExp('path', 'i');
       const result = queryJson.search(items, regex);
       const deep_value = (obj, path) => 
@@ -139,7 +225,7 @@ Meteor.methods({
 
       //create the routes
       let address=[];
-      console.log("resultado**********----->",result)
+    //  console.log("resultado**********----->",result)
       result.map((route, indexRoute)=>{
         let ruta='';
         route.map((singleRoute, indexSingleRoute)=>{
@@ -192,14 +278,11 @@ Meteor.methods({
         'Content-Length':data.length
       };
       
-      /* let headers = {
-        'Content-Type': 'text/json',
-        'Content-Disposition': 'attachment;'+ 'filename='+name
-      }; */
+      
       res.writeHead(200, headers);
       return res.end(data);
-    });
-  }
+    });*/
+  } 
 });
 
 Meteor.methods({

@@ -76,14 +76,37 @@ export default class CoursesList extends React.Component {
   downloadCourse= (id) => {
     let myCourses = this.state.myCourses;
     let course=myCourses.filter(objeto=>objeto._id===id)
-    console.log("CURSO A DESCARGAR********", id, course[0])
-    Meteor.call('getFiles', course[0], "course", function(error, result){
+    console.log("CURSO A DESCARGAR********", id, course[0]._id)
+    /* Meteor.call('getFiles', course[0], "course", function(error, result){
       if(!error){
         console.log( "resultado", result )
         //SessionLog.insert({ "UserId": response._id, "Datetime": new Date(), "IPAddress": result });
       }
-    }); 
-    window.open(Meteor.settings.public.URL_SITE+'file', "_blank")
+    });  */
+    //window.open(Meteor.settings.public.URL_SITE+'file', "_blank")
+
+    /* const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(course[0])
+  };
+  fetch(Meteor.settings.public.URL_SITE+'file', requestOptions)
+      .then(response => response.json())
+      .then(data => console.log(data)); */
+      //window.open(Meteor.settings.public.URL_SITE+'file', "_blank")
+
+      var params = {
+        id: course[0]._id,
+        type: 'course'
+    };
+    
+    //Add authentication headers in URL
+    var url = [Meteor.settings.public.URL_SITE+'file', $.param(params)].join('?');
+    
+    //Open window
+    window.open(url);
+
+  
   }
 
   deleteSelected = (courses) => {

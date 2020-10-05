@@ -238,7 +238,7 @@ export default function AudienceApp(props) {
     newAudiencesGol[0].label = language.Cognitive;
     newAudiencesGol[1].label = language.Elderly;
     newAudiencesGol[2].label = language.Hearing;
-    newAudiencesGol[3].label = language.Hearing;
+    newAudiencesGol[3].label = language.Visual;
     setAudiences(newAudiences);
     setAudiencesGol(newAudiencesGol);
   }, [language.languageIndex]);
