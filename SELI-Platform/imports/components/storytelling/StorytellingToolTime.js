@@ -1422,7 +1422,7 @@ class StorytellingToolTime extends React.Component {
                       <div className="center-row-image-time"> 
                         {
                           this.state.imageType === 'upload' ?
-                            this.state.story.nodes[this.state.selectedNode].images.length &&
+                            this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage] &&
                             this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].file !== '' ?
                               <div className="center-row-time">
                                 <Button
@@ -1459,7 +1459,7 @@ class StorytellingToolTime extends React.Component {
                             undefined                     
                         }
                         {
-                          this.state.story.nodes[this.state.selectedNode].images.length &&
+                          this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage] &&
                           this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage]["file"] !== '' ?
                             <div><br/><br/>
                               <ImagePreview
