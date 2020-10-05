@@ -830,11 +830,11 @@ export default class CoursesDashboard extends React.Component {
       ))
     }
 
-    fullempty= this.state.publishedCourses.filter(course=>(
+   /*  fullempty= this.state.publishedCourses.filter(course=>(
       course.report!=undefined && (course.report.length===0)
     ))//si un curso tiene el array del reporte vacion lo guarda
     
-    full=full.concat(fullempty)
+    full=full.concat(fullempty) */
 
    
 

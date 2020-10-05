@@ -537,8 +537,9 @@ class Quiz extends React.Component {
                             checked={this.state.answers[this.state.selected][index] === true}
                             onChange={() => this.handleChange(index, event)}
                             inputProps={{
-                              'aria-label': 'primary checkbox',
+                              'aria-label': text,
                             }}
+                            
                           />
                         }
                         label={text}
