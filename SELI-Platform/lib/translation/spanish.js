@@ -1238,6 +1238,7 @@ var SPANISH = {
   fileSucessfullyUploaded: "¡Archivo cargado correctamente!",
   courseUpload: "Subir curso",
   storyUpload: "Subir historia",
+  EmptyAccessibility:'Por favor revisar que el programa no este vacio o agregar el contenido multimedia qye configura la Audiencia seleccionada',
 }
 export default SPANISH;
 

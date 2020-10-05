@@ -1238,6 +1238,7 @@ var PORTUGUESE = {
   fileSucessfullyUploaded: "File sucessfully uploaded!",
   courseUpload: "Upload course",
   storyUpload: "Upload story",
+  EmptyAccessibility:'Please check that the program is not empty or add the multimedia content that configures the selected audience',
 }
 export default PORTUGUESE;
 

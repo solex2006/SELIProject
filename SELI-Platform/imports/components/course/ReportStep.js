@@ -105,6 +105,10 @@ const useStyles = makeStyles(theme => ({
 	caption: {
 		...theme.typography.h4
 	},
+	captionempty:{
+		fontSize:'1.1rem',
+		padding:'1vh 0vw'
+	},
 	tip: {
 		color: theme.palette.text.secondary
 	},
@@ -118,6 +122,18 @@ const useStyles = makeStyles(theme => ({
 		width: "8em",
 		height: "8em",
 		backgroundColor: "#66bb6a",
+		color: "#fffff",
+		"& .MuiSvgIcon-root": {
+			fontSize: "6.5rem"
+		},
+		"& .svg-inline--fa": {
+			fontSize: "6.5rem"
+		}
+	},
+	avatarRed: {
+		width: "8em",
+		height: "8em",
+		backgroundColor: "#F24747",
 		color: "#fffff",
 		"& .MuiSvgIcon-root": {
 			fontSize: "6.5rem"
@@ -163,7 +179,6 @@ const a11yCOLOR = [
 	"#9ccc65", //good:
 	"#66bb6a" //valid:
 ];
-
 export default function ReportStep(props) {
 	useEffect(()=>{// 
 		 props.validate('PassReport')    
@@ -555,7 +570,7 @@ export default function ReportStep(props) {
 		let diversity=[]
 
 		if((withoutInclusionGol.percentagebyUnit.length===0 && withoutInclusionGol.percentagebyLesson.length===0)){
-			setSimulate('noInclusionGol') //pare l caso q se selecciona una discapcidad pero el elemento no configura dicho elelmnto
+			setSimulate('noInclusionGolEmpty') //pare l caso q se selecciona una discapcidad pero el elemento no configura dicho elelmnto
 			return 0
 		} 
 		
@@ -1743,7 +1758,6 @@ export default function ReportStep(props) {
 		newRandomTopics('topic')
 	};
 	
-	
 	const TemplateCourse=() =>{
 		console.log("******************TEMPLATECOURSE***************")	
 		let variablesUnidad=[]
@@ -2419,25 +2433,38 @@ export default function ReportStep(props) {
 			{console.log("SIMULATE----->", simulate )}
 			<div className="form-input-steps">
 				<h2>{props.language.reportstep}</h2><br/>
-				{simulate === "allAchieved" && (
-					<React.Fragment>
-						<div>Your course is fully accessible</div>
-						<Grid
-							container
-							spacing={1}
-							style={style}
-							
-						>
-							{categories.map(category => (
+
+				{
+					simulate === "noInclusionGolEmpty" && (
+						<React.Fragment>
+							<AccessibilityEmpty
+								Icon={<FontAwesomeIcon icon={faUniversalAccess} />}
+								caption={props.language.EmptyAccessibility}
+							/>	
+						</React.Fragment>
+					)
+				}
+
+				{
+					simulate === "allAchieved" && (
+						<React.Fragment>
+							<div>Your course is fully accessible</div>
+							<Grid
+								container
+								spacing={1}
+								style={style}
 								
-									<AccessibilityAchieved
-										Icon={category.icon}
-										caption={category.label}
-									/>
-								
-							))}
-						</Grid>
-					</React.Fragment>
+							>
+								{categories.map(category => (
+									
+										<AccessibilityAchieved
+											Icon={category.icon}
+											caption={category.label}
+										/>
+									
+								))}
+							</Grid>
+						</React.Fragment>
 				)}
 					
 				{simulate === "noInclusionGol" && (   
@@ -2449,22 +2476,18 @@ export default function ReportStep(props) {
 							/> */}
 							
 							<Grid container spacing={1}>
+									{console.log("Categories******", categories)}
 									{
-									categories.map(category => {
-										return(
-											category.topics.length!=0?
-											<Grid item xs={12} md={6}>
-												<AccessibilityCard flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
-											</Grid>
-										:
-										
-											<AccessibilityEmpty
-												Icon={<FontAwesomeIcon icon={faLowVision} />}
-												caption={"check"}
-											/>
-										)
-										
-									}) 	
+										categories.map(category => {
+											return(
+												category.topics.length!=0?
+												<Grid item xs={12} md={6}>
+													<AccessibilityCard flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
+												</Grid>
+												:
+												undefined
+											)
+										}) 	
 									}
 							</Grid> 
 						</React.Fragment> 
@@ -2514,7 +2537,7 @@ export default function ReportStep(props) {
 								))}
 						</Grid>
 					</div>
-				) }
+				)}
 
 				{ simulate === "inclusionGol" && (
 					<div>
@@ -2576,7 +2599,7 @@ export default function ReportStep(props) {
 								))}
 							</Grid>
 					</div>
-				) }
+				)}
 
 
 					
@@ -2852,25 +2875,18 @@ function AccessibilityEmpty({ Icon, caption, className }) {
 	const classes = useStyles();
 	const style = {
 		display:'flex',
-		justifyContent:'center'
+		justifyContent:'center',
+		maxWidth:'100%',
 	 };
 	return (
-		<Grid 
-			item 
-			xs={12} 
-			sm={6} 
-		>
-			<Box
+		<Box
 			style={style}
 		>
 			<div>
-				<div style={style}><Avatar className={classes.avatar}>{Icon}</Avatar></div>
-				 <div className={classes.caption}>{caption}</div> 
+				<div style={style}><Avatar className={classes.avatarRed}>{Icon}</Avatar></div>
+				 <div className={classes.captionempty}>{caption}</div> 
 			</div>
 		</Box>
-			
-			
-		</Grid>
 	);
 }
 

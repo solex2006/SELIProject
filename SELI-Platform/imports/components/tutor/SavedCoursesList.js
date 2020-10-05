@@ -77,36 +77,14 @@ export default class CoursesList extends React.Component {
     let myCourses = this.state.myCourses;
     let course=myCourses.filter(objeto=>objeto._id===id)
     console.log("CURSO A DESCARGAR********", id, course[0]._id)
-    /* Meteor.call('getFiles', course[0], "course", function(error, result){
-      if(!error){
-        console.log( "resultado", result )
-        //SessionLog.insert({ "UserId": response._id, "Datetime": new Date(), "IPAddress": result });
-      }
-    });  */
-    //window.open(Meteor.settings.public.URL_SITE+'file', "_blank")
-
-    /* const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(course[0])
-  };
-  fetch(Meteor.settings.public.URL_SITE+'file', requestOptions)
-      .then(response => response.json())
-      .then(data => console.log(data)); */
-      //window.open(Meteor.settings.public.URL_SITE+'file', "_blank")
-
       var params = {
         id: course[0]._id,
         type: 'course'
     };
-    
     //Add authentication headers in URL
     var url = [Meteor.settings.public.URL_SITE+'file', $.param(params)].join('?');
-    
     //Open window
     window.open(url);
-
-  
   }
 
   deleteSelected = (courses) => {
@@ -223,13 +201,11 @@ export default class CoursesList extends React.Component {
                 </div>
               :
               <div className="empty-dashboard">
-                
                 <div className="empty-dashboard-row">
                   <p className="empty-dashboard-text">{this.props.language.noCourseSavedText}</p>
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
-                
-                <Button onClick={() => this.props.showComponent('create')} variant="contained" color="secondary" className="empty-dashboard-button">{this.props.language.createCourse}</Button>
+                  <Button onClick={() => this.props.showComponent('create')} variant="contained" color="secondary" className="empty-dashboard-button">{this.props.language.createCourse}</Button>
               </div>
             }
           </React.Fragment>
