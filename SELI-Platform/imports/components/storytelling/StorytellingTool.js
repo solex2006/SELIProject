@@ -398,6 +398,10 @@ class StorytellingTool extends React.Component {
       this.props.handleControlMessage(true, this.props.language.storyMustHave);
       return false;
     }
+    if (story.nodes.findIndex(node => node.type === "end") === -1) {
+      this.props.handleControlMessage(true, this.props.language.storyMustEnd);
+      return false;
+    }
     for (var i = 0; i < story.nodes.length; i++) {
       if (story.nodes[i].name === "") {
         this.props.handleControlMessage(true, this.props.language.allScenesMust);
@@ -421,16 +425,6 @@ class StorytellingTool extends React.Component {
         });
         return false;
       }
-    }
-    let hasEnd = false;
-    for (var i = 0; i < story.nodes.length; i++) {
-      if (story.nodes[i].type === 'end') {
-        hasEnd = true;
-      }
-    }
-    if (!hasEnd) {
-      this.props.handleControlMessage(true, this.props.storyMustEnd);
-      return false;
     }
     return true;
   }
