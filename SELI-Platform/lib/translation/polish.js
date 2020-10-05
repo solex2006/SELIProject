@@ -762,7 +762,7 @@
   storyDeletedSuccess: "Historia/historia usunięta z powodzeniem!",
   notHaveStoriesYet: "Nie masz jeszcze żadnej historii",
   createAStory: "Utwórz historię",
-  storyMustHave: "Twoja historia musi mieć: początek, 1 scenę, koniec",
+  storyMustHave: "Twoja historia musi mieć: początek, przynajmniej jedna scenę, koniec",
   allScenesMust: "Wszystkie sceny tej historii muszą mieć nazwę",
   allScenesAudio: "Wszystkie sceny tej historii muszą mieć nagranie audio",
   allScenesImage: "Wszystkie sceny tej historii muszą mieć obraz",

@@ -762,7 +762,7 @@ var PORTUGUESE = {
   storyDeletedSuccess: "História / histórias excluídas com sucesso!",
   notHaveStoriesYet: "Você ainda não tem nenhuma história",
   createAStory: "Crie uma história",
-  storyMustHave: "Sua história deve ter: início, 1 cena, fim",
+  storyMustHave: "Sua história deve ter: início, pelo menos uma cena, fim",
   allScenesMust: "Todas as cenas da história devem ter um nome",
   allScenesAudio: "Todas as cenas da história devem ter um registro de áudio",
   allScenesImage: "Todas as cenas da história devem ter uma imagem",

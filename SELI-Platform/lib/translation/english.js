@@ -762,7 +762,7 @@ var ENGLISH = {
   storyDeletedSuccess: "Story/stories deleted successfully!",
   notHaveStoriesYet: "You don't have any story yet",
   createAStory: "Create a story",
-  storyMustHave: "Your story must have: start, 1 scene, end",
+  storyMustHave: "Your story must have: start, al least one scene, end",
   allScenesMust: "All the scenes of the story must have a name",
   allScenesAudio: "All the scenes of the story must have an audio record",
   allScenesImage: "All the scenes of the story must have an image",

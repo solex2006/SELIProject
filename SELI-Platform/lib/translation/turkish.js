@@ -762,7 +762,7 @@ var TURKISH = {
   storyDeletedSuccess: "Hikaye/Hikayeler / öykü başarıyla silindi!",
   notHaveStoriesYet: "Henüz bir hikayen yok",
   createAStory: "Bir hikaye oluşturun",
-  storyMustHave: "Hikayenizde mutlaka başlangıç, 1 sahne, bitiş olmalı.",
+  storyMustHave: "Hikayenizde mutlaka başlangıç, en az bir sahne, bitiş olmalı.",
   allScenesMust: "Hikayenin tüm sahnelerinin bir adı olmalı",
   allScenesAudio: "Hikayenin tüm sahnelerinde ses kaydı olmalı",
   allScenesImage: "Hikayenin tüm sahnelerinde bir resim olmalı",
