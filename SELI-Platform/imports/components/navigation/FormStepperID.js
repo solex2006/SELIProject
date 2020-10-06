@@ -1026,9 +1026,9 @@ useEffect(()=>{
               <Button onClick={() => props.saveAction()} variant="outlined" color="primary">
                 {props.saveLabel}
               </Button>
-              <Button onClick={() => props.finalAction()} variant="contained" color="primary">
+              {/* <Button onClick={() => props.finalAction()} variant="contained" color="primary">
                 {props.finalLabel}
-              </Button>
+              </Button> */}
             </ButtonGroup>
           </Grid>
         </Grid>
