@@ -64,6 +64,11 @@ export default class StorytellingFrames extends React.Component {
     clearInterval(this.myInterval)
   }
 
+  thisTime = () => {
+    var date = new Date(this.props.story.lastModified);
+    return date.toLocaleDateString('en-US');
+  }
+
   render() {
     return(
       <div>
@@ -113,7 +118,7 @@ export default class StorytellingFrames extends React.Component {
                         : ""
                       }
                     </div>
-                    <div className="storytelling-player-end-date">{this.props.story.lastModified ? this.props.story.lastModified.toLocaleDateString('en-US') : ""}</div>
+                    <div className="storytelling-player-end-date">{this.props.story.lastModified ? this.thisTime() : ""}</div>
                     <div 
                       className="storytelling-player-end-copyright"
                       style={{backgroundImage: "url(cc.png)"}}

@@ -74,12 +74,18 @@ export default class CoursesList extends React.Component {
   }
 
   downloadCourse= (id) => {
+<<<<<<< HEAD
     let myCourses = this.state.myCourses;
     let course=myCourses.filter(objeto=>objeto._id===id)
     console.log("CURSO A DESCARGAR********", id, course[0]._id)
       var params = {
         id: course[0]._id,
         type: 'course'
+=======
+    var params = {
+      id: id,
+      type: 'course'
+>>>>>>> 3297077014de7f6c3ef7957517a28105f619baed
     };
     //Add authentication headers in URL
     var url = [Meteor.settings.public.URL_SITE+'file', $.param(params)].join('?');

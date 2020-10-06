@@ -138,16 +138,16 @@ export default class Stories extends React.Component {
   }
 
   downloadStory = (id) => {
-    let myStories = this.state.myStories;
-    let story = myStories.filter(object => object._id===id)
-    console.log("CURSO A DESCARGAR********", id, story[0])
-    Meteor.call('getFiles', story[0], "story", function(error, result){
-      if(!error){
-        console.log( "resultado", result )
-        //SessionLog.insert({ "UserId": response._id, "Datetime": new Date(), "IPAddress": result });
-      }
-    }); 
-    window.open(Meteor.settings.public.URL_SITE+'file', "_blank")
+    var params = {
+      id: id,
+      type: 'story'
+    };
+    
+    //Add authentication headers in URL
+    var url = [Meteor.settings.public.URL_SITE+'file', $.param(params)].join('?');
+    
+    //Open window
+    window.open(url);
   }
 
   handleClickOpen = () => {
