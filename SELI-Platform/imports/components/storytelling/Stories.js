@@ -142,10 +142,9 @@ export default class Stories extends React.Component {
       id: id,
       type: 'story'
     };
-    
     //Add authentication headers in URL
-    var url = [Meteor.settings.public.URL_SITE+'file', $.param(params)].join('?');
-    
+    const searchParams = new URLSearchParams(params); 
+    var url = [Meteor.settings.public.URL_SITE+'file', searchParams].join('?');
     //Open window
     window.open(url);
   }

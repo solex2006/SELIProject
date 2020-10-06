@@ -79,7 +79,8 @@ export default class CoursesList extends React.Component {
       type: 'course'
     };
     //Add authentication headers in URL
-    var url = [Meteor.settings.public.URL_SITE+'file', $.param(params)].join('?');
+    const searchParams = new URLSearchParams(params); 
+    var url = [Meteor.settings.public.URL_SITE+'file', searchParams].join('?');
     //Open window
     window.open(url);
   }
