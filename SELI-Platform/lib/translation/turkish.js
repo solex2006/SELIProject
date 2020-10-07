@@ -1232,13 +1232,13 @@ var TURKISH = {
   learningConstraintHelp: "Öğrencinin sahip olabileceği öğrenme kısıtlamaları ekleyin.",
   affectiveDomainHelp: "Etkisel alan ...",
   psychomotorDomainHelp: "Psikomotor alanı ...",
-  uploading: "Uploading",
-  pleaseWait: "please wait",
-  selectYourFile: "Select your file",
-  fileSucessfullyUploaded: "File sucessfully uploaded!",
-  courseUpload: "Upload course",
-  storyUpload: "Upload story",
-  EmptyAccessibility:'Please check that the program is not empty or add the multimedia content that configures the selected audience',
+  uploading: "Yükleniyor",
+  pleaseWait: "lütfen bekleyiniz",
+  selectYourFile: "Dosyanızı seçiniz",
+  fileSucessfullyUploaded: "Dosya başarıyla yüklendi!",
+  courseUpload: "Dersi yükle",
+  storyUpload: "Hikayeyi yükle",
+  EmptyAccessibility:'Lütfen programın boş olmadığını kontrol edin veya seçilen kitleyi yapılandıran multimedya içeriğini ekleyin',
 
   AccessibilityType: 
   {
