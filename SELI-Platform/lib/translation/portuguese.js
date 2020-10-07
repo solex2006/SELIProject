@@ -1158,7 +1158,7 @@ var PORTUGUESE = {
   requiredStep: "Passo obrigatório",
   optional: "Opcional",
   addNewAudience: "Adicionar novo público",
-  deleteItemBelow: "Você solicitou deletar o item:",
+  deleteItemBelow: "Você solicitou deletar o item",
   wantProceed: "Deseja continuar?",
   warning: "Aviso",
   hardwareRequirements: "Requerimentos de hardware",
@@ -1239,7 +1239,6 @@ var PORTUGUESE = {
   courseUpload: "Upload course",
   storyUpload: "Upload story",
   EmptyAccessibility:'Please check that the program is not empty or add the multimedia content that configures the selected audience',
-
   AccessibilityType: 
   {
     Name: [
@@ -1250,7 +1249,16 @@ var PORTUGUESE = {
       'Linguagem de sinais',
       'Tempo adicional em questionários'
     ]
-  }
+  },
+  deleteUnitTopic: "Are you sure you want to delete this unit/topic ?",
+  graded: "graded",
+  peerReviewed: "Peer Reviewed",
+  inGroup: "In group",
+  partOfProject: "Part of course's project",
+  rows: "rows",
+  firstPage: "First page",
+  lastPage: "Last page",
+  noTasks: "No tasks",
 }
 export default PORTUGUESE;
 

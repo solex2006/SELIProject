@@ -1158,7 +1158,7 @@
   requiredStep: "Required step",
   optional: "Optional",
   addNewAudience: "Add new audience",
-  deleteItemBelow: "You requested to delete the item:",
+  deleteItemBelow: "You requested to delete the item",
   wantProceed: "Do you want to proceed?",
   warning: "Warning",
   hardwareRequirements: "Hardware requirements",
@@ -1239,7 +1239,6 @@
   courseUpload: "Upload course",
   storyUpload: "Upload story",
   EmptyAccessibility:'Please check that the program is not empty or add the multimedia content that configures the selected audience',
-
   AccessibilityType: 
   {
     Name: [
@@ -1250,7 +1249,16 @@
       'Sign Language',
       'Extra time on quizzes'
     ]
-  }
+  },
+  deleteUnitTopic: "Are you sure you want to delete this unit/topic ?",
+  graded: "graded",
+  peerReviewed: "Peer Reviewed",
+  inGroup: "In group",
+  partOfProject: "Part of course's project",
+  rows: "rows",
+  firstPage: "First page",
+  lastPage: "Last page",
+  noTasks: "No tasks",
 }
 export default POLISH;
 

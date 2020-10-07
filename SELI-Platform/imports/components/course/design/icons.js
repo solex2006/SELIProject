@@ -16,8 +16,10 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import AddIcon from "@material-ui/icons/Add";
-const tableIcons = {
-    Add: forwardRef((props, ref) =>  <Button {...props} ref={ref} id="addRow" variant="outlined" color="secondary" startIcon={<AddIcon />}>Add item </Button>),
+
+function tableIcons (addItem) {
+  const icons = {
+    Add: forwardRef((props, ref) =>  <Button {...props} ref={ref} id="addRow" variant="outlined" color="secondary" startIcon={<AddIcon />}>{addItem}</Button>),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
     Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
     Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
@@ -35,4 +37,7 @@ const tableIcons = {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
-  export default tableIcons;
+  return icons
+}
+
+export default tableIcons;

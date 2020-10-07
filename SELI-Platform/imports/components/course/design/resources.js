@@ -194,7 +194,7 @@ export default function ActivityResources(props) {
                 describedBy={key + "-helper-text_mainContent"}
               />
             </FormControl>
-
+            <br/>
             {showTableIntoLesson("games") && 
               <Games  
                 language={language}
@@ -294,7 +294,7 @@ export default function ActivityResources(props) {
           describedBy={key + "-helper-text_mainContent"}
         />
       </FormControl>
-
+      <br/>
       {showTable("games") && 
         <Games 
         language={language} 

@@ -183,7 +183,7 @@ export default function DesignStep(props) {
       courseInfo.design.push(newFirstData);
       courseInfo.program.push(newFirstProgramData);
       setData(courseInfo.design);
-      setcourseInformation(courseInfo);
+      //setcourseInformation(courseInfo);
     }
     setExpanded(organization === "unit" ? "unit1" : "topic1");
   }, []); 
@@ -559,7 +559,7 @@ export default function DesignStep(props) {
             <DialogContent className="success-dialog-content">
               <div className="organization-form">
                 <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                  Are you sure you want to delete this unit/topic ?
+                  {language.deleteUnitTopic}
                 </DialogContentText>
               </div>
               <WarningIcon className="warning-dialog-icon"/>

@@ -218,12 +218,11 @@ export default class CourseInformation extends React.Component {
             margin="normal"
             variant="outlined"
           >
-            <MenuItem value={4}>{`${this.props.language.turkish} (TR)`}</MenuItem>
             <MenuItem value={0}>{`${this.props.language.english} (US)`}</MenuItem>
             <MenuItem value={1}>{`${this.props.language.spanish} (ES)`}</MenuItem>
             <MenuItem value={2}>{`${this.props.language.portuguese} (PT)`}</MenuItem>
             <MenuItem value={3}>{`${this.props.language.polish} (PL)`}</MenuItem>
-            
+            <MenuItem value={4}>{`${this.props.language.turkish} (TR)`}</MenuItem>
           </TextField>
           <FeedbackHelp
             validation={{

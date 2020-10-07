@@ -64,7 +64,7 @@ export default function ActivityDesign(props) {
   const [state, setState] = React.useState({
     columns: [
       {
-        title: "Task Title",
+        title: language.title,
         field: "activity",
         editComponent: props => (
           <TextField
@@ -95,7 +95,7 @@ export default function ActivityDesign(props) {
         )
       },
       {
-        title: "Type",
+        title: language.type,
         field: "type",
         lookup: typeActivies,
 
@@ -120,10 +120,10 @@ export default function ActivityDesign(props) {
           );
         }
       },
-      { title: "Graded", field: "graded", type: "boolean" },
-      { title: "Peer Reviewed", field: "preeReview", type: "boolean" },
-      { title: "in group", field: "group", type: "number" },
-      { title: "Part of course's project", field: "project", type: "boolean", hidden: false },
+      { title: language.graded, field: "graded", type: "boolean" },
+      { title: language.peerReviewed, field: "preeReview", type: "boolean" },
+      { title: language.inGroup, field: "group", type: "number" },
+      { title: language.partOfProject, field: "project", type: "boolean", hidden: false },
     ],
     data: activities
   });
@@ -137,7 +137,7 @@ export default function ActivityDesign(props) {
   return (
     <React.Fragment>
       <MaterialTable
-        icons={tableIcons}
+        icons={tableIcons(language.Additem)}
         title={language.Taskslist}
         options={{ search: false, actionsColumnIndex: 6}}
         columns={state.columns}
@@ -252,6 +252,15 @@ export default function ActivityDesign(props) {
         localization={{
           pagination: {
             // labelDisplayedRows: '{from}-{to} of {count}'
+            labelRowsSelect: language.rows,
+            firstAriaLabel: language.firstPage,
+            firstTooltip: language.firstPage,
+            previousAriaLabel: language.previousPage,
+            previousTooltip: language.previousPage,
+            nextAriaLabel: language.nextPage,
+            nextTooltip: language.nextPage,
+            lastAriaLabel: language.lastPage,
+            lastTooltip: language.lastPage
           },
           toolbar: {
             // nRowsSelected: '{0} row(s) selected'
@@ -260,7 +269,15 @@ export default function ActivityDesign(props) {
             actions: "" //removed title of action column
           },
           body: {
-            emptyDataSourceMessage: "No tasks"
+            emptyDataSourceMessage: language.tasks,
+            addTooltip: language.add,
+            deleteTooltip: language.delete,
+            editTooltip: language.edit,
+            editRow: {
+              deleteText: `${language.deleteItemBelow}, ${language.wantProceed}`,
+              cancelTooltip: language.cancel,
+              saveTooltip: language.save
+            }
           }
         }}
       />

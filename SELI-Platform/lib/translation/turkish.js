@@ -1158,7 +1158,7 @@ var TURKISH = {
   requiredStep: "Gerekli adım",
   optional: "İsteğe bağlı",
   addNewAudience: "Yeni kitle ekle",
-  deleteItemBelow: "Öğeyi silmeyi istediniz:",
+  deleteItemBelow: "Öğeyi silmeyi istediniz",
   wantProceed: "Devam etmek istiyor musunuz?",
   warning: "Uyarı",
   hardwareRequirements: "Donanım Gereksinimleri",
@@ -1239,7 +1239,6 @@ var TURKISH = {
   courseUpload: "Dersi yükle",
   storyUpload: "Hikayeyi yükle",
   EmptyAccessibility:'Lütfen programın boş olmadığını kontrol edin veya seçilen kitleyi yapılandıran multimedya içeriğini ekleyin',
-
   AccessibilityType: 
   {
     Name: [
@@ -1250,7 +1249,16 @@ var TURKISH = {
       'İşaret Dili',
       'Anketlerde ek süre'
     ]
-  }
+  },
+  deleteUnitTopic: "Are you sure you want to delete this unit/topic ?",
+  graded: "graded",
+  peerReviewed: "Peer Reviewed",
+  inGroup: "In group",
+  partOfProject: "Part of course's project",
+  rows: "rows",
+  firstPage: "First page",
+  lastPage: "Last page",
+  noTasks: "No tasks",
 }
 export default TURKISH;
 
