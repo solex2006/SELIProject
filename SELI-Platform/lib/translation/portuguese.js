@@ -1239,6 +1239,18 @@ var PORTUGUESE = {
   courseUpload: "Upload course",
   storyUpload: "Upload story",
   EmptyAccessibility:'Please check that the program is not empty or add the multimedia content that configures the selected audience',
+
+  AccessibilityType: 
+  {
+    Name: [
+      'Alternativas de texto ao conteúdo de vídeo', 
+      'Alternativas de texto para conteúdo de imagem',
+      'Legendas em vídeos', 
+      'Descrição de áudio', 
+      'Linguagem de sinais',
+      'Tempo adicional em questionários'
+    ]
+  }
 }
 export default PORTUGUESE;
 

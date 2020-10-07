@@ -1239,6 +1239,18 @@ var TURKISH = {
   courseUpload: "Upload course",
   storyUpload: "Upload story",
   EmptyAccessibility:'Please check that the program is not empty or add the multimedia content that configures the selected audience',
+
+  AccessibilityType: 
+  {
+    Name: [
+      'Video İçeriğine Metin Alternatifleri', 
+      'Görüntü İçeriğine Metin Alternatifleri',
+      'Videolarda Altyazılar', 
+      'Sesli Açıklama', 
+      'İşaret Dili',
+      'Anketlerde ek süre'
+    ]
+  }
 }
 export default TURKISH;
 

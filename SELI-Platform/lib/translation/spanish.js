@@ -1239,6 +1239,18 @@ var SPANISH = {
   courseUpload: "Subir curso",
   storyUpload: "Subir historia",
   EmptyAccessibility:'Por favor revisar que el programa no este vacio o agregar el contenido multimedia qye configura la Audiencia seleccionada',
+
+  AccessibilityType: 
+  {
+    Name: [
+      'Alternativas de texto al contenido de video', 
+      'Alternativas de texto al contenido de la imagen',
+      'Subtítulos en videos', 
+      'Descripción de audio', 
+      'Lenguaje de señas',
+      'Tiempo adicional en cuestionarios'
+    ]
+  }
 }
 export default SPANISH;
 

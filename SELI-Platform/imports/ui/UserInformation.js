@@ -401,16 +401,14 @@ export default class UserInformation extends React.Component {
                 undefined
               }
             />
-           {/*  {
-              this.props.type === "tutor" ? 
-              undefined
-              :
+           {
+              this.props.type === "tutor" ? undefined :
               <AccessibilityRegistration
                 inEdition={false}
                 language={this.props.language}
                 userInformation={this.state.userInformation}
               ></AccessibilityRegistration>
-            } */}
+            }
           </div>
           {
             this.props.type === "tutor" ?

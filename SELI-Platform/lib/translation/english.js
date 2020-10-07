@@ -1239,6 +1239,18 @@ var ENGLISH = {
   courseUpload: "Upload course",
   storyUpload: "Upload story",
   EmptyAccessibility:'Please check that the program is not empty or add the multimedia content that configures the selected audience',
+
+  AccessibilityType: 
+  {
+    Name: [
+      'Text Alternatives To Video Content',
+      'Text Alternatives To Image Content',
+      'Captions in videos',
+      'Audio Description',
+      'Sign Language',
+      'Extra time on quizzes'
+    ]
+  }
 }
 export default ENGLISH;
 
