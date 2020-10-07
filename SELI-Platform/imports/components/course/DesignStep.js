@@ -185,6 +185,7 @@ export default function DesignStep(props) {
       setData(courseInfo.design);
       setcourseInformation(courseInfo);
     }
+    setExpanded(organization === "unit" ? "unit1" : "topic1");
   }, []); 
 
   useEffect(() => {

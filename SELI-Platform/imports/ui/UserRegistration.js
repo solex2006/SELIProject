@@ -349,6 +349,7 @@ export default class UserRegistration extends React.Component {
             userInformation={this.state.userInformation}
             handleEmail={this.handleEmail.bind(this)}
             handlePassword={this.handlePassword.bind(this)}
+            handleControlMessage={this.handleControlMessage.bind(this)}
             language={this.state.language}
             type={this.props.location.type}
           />,
