@@ -155,10 +155,12 @@ export default class User extends React.Component {
 
   showComponent = (component) => {
 
-    console.log('showComponent', component, this.state)
+    //console.log('showComponent---------------------------------------------------', component, this.state)
    
+    
 
     if (!(component === "create" && this.state.component === "create")){
+      //console.log("paso 2")
       if (this.state.component === "create" && !this.state.savedCourse){
         if (component !== "create") {
           this.setState({
@@ -169,19 +171,38 @@ export default class User extends React.Component {
       } else {
         this.setState({
           component: component,
-          savedCourse: true,
+          savedCourse: false,
         });
       }
     }
 
     if(this.state.component==='edit' && this.state.savedCourse===false ){
-      console.log("create****************",component,this.state.component,this.state.savedCourse, this.state )
+     // console.log("paso3****************",component,this.state.component,this.state.savedCourse, this.state )
       this.setState({
         savedCourseWindow: true,
         component: 'edit',
         nextComponent: component
       }); 
     } 
+    if(component==='published' && this.state.savedCourse===false ){
+      console.log("paso 1")
+      this.state.savedCourse=true
+      this.state.component='published'
+      this.setState({
+        component: component,
+        savedCourse: true,
+      });
+    }
+
+    /* if(this.state.component==='edit' && this.state.savedCourse===true ){
+      console.log("createsave****************",component,this.state.component,this.state.savedCourse, this.state )
+      this.setState({
+        component: component,
+        savedCourse: false,
+      }); 
+    }
+ */
+
 
       
   }
