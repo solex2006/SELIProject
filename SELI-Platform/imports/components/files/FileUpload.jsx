@@ -90,6 +90,14 @@ class FileUpload extends Component {
 
         });
       } else {
+        this.setState({
+          uploading: [],
+          progress: 0,
+          inProgress: false
+        }, () => {
+          // Remove the filename from the upload box
+          this.refs['fileinput' + this.props.type].value = '';
+        });
         if (this.props.handleControlMessage){
           return (this.props.handleControlMessage(true, this.props.language.sizeLessThan));
         }
