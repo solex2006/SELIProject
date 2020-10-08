@@ -1158,7 +1158,7 @@ var PORTUGUESE = {
   requiredStep: "Passo obrigatório",
   optional: "Opcional",
   addNewAudience: "Adicionar novo público",
-  deleteItemBelow: "Você solicitou deletar o item:",
+  deleteItemBelow: "Você solicitou deletar o item",
   wantProceed: "Deseja continuar?",
   warning: "Aviso",
   hardwareRequirements: "Requerimentos de hardware",
@@ -1239,10 +1239,33 @@ var PORTUGUESE = {
   courseUpload: "Upload course",
   storyUpload: "Upload story",
   EmptyAccessibility:'Please check that the program is not empty or add the multimedia content that configures the selected audience',
+<<<<<<< HEAD
   cognitiveMessage:'You have selected cognitive in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
   visualMessage:'You have selected visual in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
   hearingMessage:'You have selected hearing in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
   elderlyMessage:'You have selected diversity in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
+=======
+  AccessibilityType: 
+  {
+    Name: [
+      'Alternativas de texto ao conteúdo de vídeo', 
+      'Alternativas de texto para conteúdo de imagem',
+      'Legendas em vídeos', 
+      'Descrição de áudio', 
+      'Linguagem de sinais',
+      'Tempo adicional em questionários'
+    ]
+  },
+  deleteUnitTopic: "Are you sure you want to delete this unit/topic ?",
+  graded: "graded",
+  peerReviewed: "Peer Reviewed",
+  inGroup: "In group",
+  partOfProject: "Part of course's project",
+  rows: "rows",
+  firstPage: "First page",
+  lastPage: "Last page",
+  noTasks: "No tasks",
+>>>>>>> 8a1645052a38aa95aedbe6c37c7da4cedcd79508
 }
 export default PORTUGUESE;
 

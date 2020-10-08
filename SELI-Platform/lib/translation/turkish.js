@@ -1158,7 +1158,7 @@ var TURKISH = {
   requiredStep: "Gerekli adım",
   optional: "İsteğe bağlı",
   addNewAudience: "Yeni kitle ekle",
-  deleteItemBelow: "Öğeyi silmeyi istediniz:",
+  deleteItemBelow: "Öğeyi silmeyi istediniz",
   wantProceed: "Devam etmek istiyor musunuz?",
   warning: "Uyarı",
   hardwareRequirements: "Donanım Gereksinimleri",
@@ -1232,6 +1232,7 @@ var TURKISH = {
   learningConstraintHelp: "Öğrencinin sahip olabileceği öğrenme kısıtlamaları ekleyin.",
   affectiveDomainHelp: "Etkisel alan ...",
   psychomotorDomainHelp: "Psikomotor alanı ...",
+<<<<<<< HEAD
   uploading: "Uploading",
   pleaseWait: "please wait",
   selectYourFile: "Select your file",
@@ -1243,6 +1244,35 @@ var TURKISH = {
   visualMessage:'You have selected visual in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
   hearingMessage:'You have selected hearing in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
   elderlyMessage:'You have selected diversity in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
+=======
+  uploading: "Yükleniyor",
+  pleaseWait: "lütfen bekleyiniz",
+  selectYourFile: "Dosyanızı seçiniz",
+  fileSucessfullyUploaded: "Dosya başarıyla yüklendi!",
+  courseUpload: "Dersi yükle",
+  storyUpload: "Hikayeyi yükle",
+  EmptyAccessibility:'Lütfen programın boş olmadığını kontrol edin veya seçilen kitleyi yapılandıran multimedya içeriğini ekleyin',
+  AccessibilityType: 
+  {
+    Name: [
+      'Video İçeriğine Metin Alternatifleri', 
+      'Görüntü İçeriğine Metin Alternatifleri',
+      'Videolarda Altyazılar', 
+      'Sesli Açıklama', 
+      'İşaret Dili',
+      'Anketlerde ek süre'
+    ]
+  },
+  deleteUnitTopic: "Are you sure you want to delete this unit/topic ?",
+  graded: "graded",
+  peerReviewed: "Peer Reviewed",
+  inGroup: "In group",
+  partOfProject: "Part of course's project",
+  rows: "rows",
+  firstPage: "First page",
+  lastPage: "Last page",
+  noTasks: "No tasks",
+>>>>>>> 8a1645052a38aa95aedbe6c37c7da4cedcd79508
 }
 export default TURKISH;
 

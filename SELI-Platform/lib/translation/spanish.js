@@ -1040,16 +1040,16 @@ var SPANISH = {
   Editlessonname: "Editar el nombre de la lección",
   Deletelesson: "Eliminar lección",
   Addlesson: "Agregar lección",
-  Additem: "Añadir artículo",
+  Additem: "Añadir ítem",
   ExternalResource: "Recurso externo",
   ExternalURL: "URL externa",
-  CopyVersion: "Copiar versión",
+  CopyVersion: "Versión fotocopiada",
   Nopresentations: "Sin presentaciones",
   paper: "papel",
   book: "libro",
   printed: "impreso",
   digital: "digital",
-  Nogames: "No juegos",
+  Nogames: "Sin juegos",
   Nopresentation: "Sin presentación",
   errorMsgleast: "Este campo es obligatorio (al menos uno de los elementos)",
   errorMsgall: "Todos estos campos son obligatorios, por favor complételos.",
@@ -1146,9 +1146,9 @@ var SPANISH = {
   instructionCourseSyllabus: "Sube tu plan de curso.",
   addQuestion: "Agregar pregunta",
   titleAndCreditAreQuestion: "El titulo de la pregunta es un campo requerido: ",
-  maxlearningobjectives: "Maximo 10 items en cada categoria de los Objetivos de Aprendizaje Cognitivo",
-  maxlearningOutcomes: "Maximo 10 items en cada categoria de los Objetivos de Aprendizaje",
-  maxlearningContrain: "Maximo 10 items en cada categoria de los Objetivos con Restriccion",
+  maxlearningobjectives: "Maximo 10 ítems en cada categoria de los Objetivos de Aprendizaje Cognitivo",
+  maxlearningOutcomes: "Maximo 10 ítems en cada categoria de los Objetivos de Aprendizaje",
+  maxlearningContrain: "Maximo 10 ítems en cada categoria de los Objetivos con Restriccion",
   validateSylabus: "El Silabo es un campo requerido, por favor subir un documento PDF",
   courseNotPublished: "Este curso no está publicado, comuníquese con el tutor para obtener más información: ",
   guided: "Guiado",
@@ -1158,7 +1158,7 @@ var SPANISH = {
   requiredStep: "Paso requerido",
   optional: "Opcional",
   addNewAudience: "Agregar nueva audiencia",
-  deleteItemBelow: "Solicitó eliminar el ítem:",
+  deleteItemBelow: "Solicitó eliminar el ítem",
   wantProceed: "¿Desea continuar?",
   warning: "Advertencia",
   hardwareRequirements: "Requisitos de hardware",
@@ -1238,11 +1238,35 @@ var SPANISH = {
   fileSucessfullyUploaded: "¡Archivo cargado correctamente!",
   courseUpload: "Subir curso",
   storyUpload: "Subir historia",
+<<<<<<< HEAD
   EmptyAccessibility:'Por favor revisar que el programa no este vacio o agregar el contenido multimedia qye configura la Audiencia seleccionada',
   cognitiveMessage:'Usted ha seleccionado cognitivo en accesibilidad, revise que este recurso de accesibilidad este bien configurado para todos los grupos de accesibilidad.',
   visualMessage:'Usted ha seleccionado visual en accesibilidad, revise que este recurso de accesibilidad este bien configurado para todos los grupos de accesibilidad.',
   hearingMessage:'Usted ha seleccionado auditivo en accesibilidad, revise que este recurso de accesibilidad este bien configurado para todos los grupos de accesibilidad.',
   elderlyMessage:'Usted ha seleccionado diversidad en accesibilidad, revise que este recurso de accesibilidad este bien configurado para todos los grupos de accesibilidad.',
+=======
+  EmptyAccessibility: 'Por favor revisar que el programa tenga el contenido multimedia de acuerdo a la audiencia seleccionada',
+  AccessibilityType: 
+  {
+    Name: [
+      'Alternativas de texto al contenido de video', 
+      'Alternativas de texto al contenido de la imagen',
+      'Subtítulos en videos', 
+      'Descripción de audio', 
+      'Lenguaje de señas',
+      'Tiempo adicional en cuestionarios'
+    ]
+  },
+  deleteUnitTopic: "¿Está seguro de que desea eliminar esta/e unidad/tema?",
+  graded: "Calificada",
+  peerReviewed: "Revisada por pares",
+  inGroup: "En grupo",
+  partOfProject: "Parte del proyecto del curso",
+  rows: "filas",
+  firstPage: "Página inicial",
+  lastPage: "Página final",
+  noTasks: "No tasks",
+>>>>>>> 8a1645052a38aa95aedbe6c37c7da4cedcd79508
 }
 export default SPANISH;
 

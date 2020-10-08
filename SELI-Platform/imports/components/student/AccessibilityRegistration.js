@@ -8,7 +8,6 @@ import {
     ListItemSecondaryAction,
     ListSubheader
 }  from '@material-ui/core';
-import { Disabilities } from '../../../lib/DisabilitiesCollection';
 import PeopleIcon from '@material-ui/icons/People';
 import BounceLoader from 'react-spinners/BounceLoader';
 
@@ -28,7 +27,7 @@ export default class AccessibilityRegistration extends React.Component {
             loading: true
         }, () => {
             Tracker.autorun(() => {
-                let disabilities = Disabilities.find().fetch();
+                let disabilities = [ { _id: 0 }, { _id: 1 }, { _id: 2 }, { _id: 3 }, { _id: 4 }, { _id: 5 } ];
                 this.setState({
                     disabilitieAllowed: disabilities
                 }, () => {
@@ -94,7 +93,7 @@ export default class AccessibilityRegistration extends React.Component {
                     <List className="form-input-list" subheader={<li />}>
                         <ListSubheader className="list-subheader">
                             <p className="form-select-text">
-                                {this.props.language.disabilitieRequirement}
+                                {this.props.language.disabilities}
                             </p>
                         </ListSubheader>
                         {list.map((option, index) => (
@@ -102,7 +101,7 @@ export default class AccessibilityRegistration extends React.Component {
                                 <ListItemIcon>
                                     <PeopleIcon/>
                                 </ListItemIcon>
-                                <ListItemText className="form-list-text-item" id={option._id} primary={`${option.name}`} secondary={`${option.description}`}/>
+                                <ListItemText className="form-list-text-item" id={option._id} primary={`${this.props.language.AccessibilityType.Name[option._id]}`}/>
                                 <ListItemSecondaryAction>
                                     <Checkbox
                                         edge="end"

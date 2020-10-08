@@ -1158,7 +1158,7 @@ var ENGLISH = {
   requiredStep: "Required step",
   optional: "Optional",
   addNewAudience: "Add new audience",
-  deleteItemBelow: "You requested to delete the item:",
+  deleteItemBelow: "You requested to delete the item",
   wantProceed: "Do you want to proceed?",
   warning: "Warning",
   hardwareRequirements: "Hardware requirements",
@@ -1239,10 +1239,33 @@ var ENGLISH = {
   courseUpload: "Upload course",
   storyUpload: "Upload story",
   EmptyAccessibility:'Please check that the program is not empty or add the multimedia content that configures the selected audience',
+<<<<<<< HEAD
   cognitiveMessage:'You have selected cognitive in accessibility, check that is accessibility resource was well configured for all impairment groups selected.',
   visualMessage:'You have selected visual in accessibility, check that is accessibility resource was well configured for all impairment groups selected.',
   hearingMessage:'You have selected hearing in accessibility, check that is accessibility resource was well configured for all impairment groups selected.',
   elderlyMessage:'You have selected diversity in accessibility, check that is accessibility resource was well configured for all impairment groups selected.',
+=======
+  AccessibilityType: 
+  {
+    Name: [
+      'Text Alternatives To Video Content',
+      'Text Alternatives To Image Content',
+      'Captions in videos',
+      'Audio Description',
+      'Sign Language',
+      'Extra time on quizzes'
+    ]
+  },
+  deleteUnitTopic: "Are you sure you want to delete this unit/topic?",
+  graded: "graded",
+  peerReviewed: "Peer Reviewed",
+  inGroup: "In group",
+  partOfProject: "Part of course's project",
+  rows: "rows",
+  firstPage: "First page",
+  lastPage: "Last page",
+  noTasks: "No tasks",
+>>>>>>> 8a1645052a38aa95aedbe6c37c7da4cedcd79508
 }
 export default ENGLISH;
 

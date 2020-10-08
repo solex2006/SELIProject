@@ -12,19 +12,22 @@ export default function SupplementaryTexts(props) {
   const {language,handleSelectResourcesIntoLessons,lessonIndex,type, handleSelectResourcesLessons,courseInformation,handleSelectResources, parentIndex, tools}=props
 
   useEffect(()=>{
- 
     if(type==='lessonInto'){
-      let update=state;
-      update.data=courseInformation[parentIndex].lessons[lessonIndex].tools[4].items;
-      setState(update) 
-    }else{
-      let update=state;
-      update.data=courseInformation[parentIndex].tools[4].items;
-     setState(update) 
+      setState(prevState=>{
+        return {
+          ...prevState,
+          data: courseInformation[parentIndex].lessons[lessonIndex].tools[4].items,
+        }
+      })
+    } else {
+      setState(prevState=>{
+        return {
+          ...prevState,
+          data: courseInformation[parentIndex].tools[4].items,
+        }
+      })
     }
-  },[])
-
- 
+  }, [])
 
   const classes = useStyles();
 
@@ -182,7 +185,7 @@ export default function SupplementaryTexts(props) {
         options={{ search: false, actionsColumnIndex: 5 }}
         columns={state.columns}
         data={state.data}
-        icons={tableIcons}
+        icons={tableIcons(language.Additem)}
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
@@ -266,6 +269,15 @@ export default function SupplementaryTexts(props) {
         localization={{
           pagination: {
             // labelDisplayedRows: '{from}-{to} of {count}'
+            labelRowsSelect: language.rows,
+            firstAriaLabel: language.firstPage,
+            firstTooltip: language.firstPage,
+            previousAriaLabel: language.previousPage,
+            previousTooltip: language.previousPage,
+            nextAriaLabel: language.nextPage,
+            nextTooltip: language.nextPage,
+            lastAriaLabel: language.lastPage,
+            lastTooltip: language.lastPage
           },
           toolbar: {
             // nRowsSelected: '{0} row(s) selected'
@@ -274,7 +286,15 @@ export default function SupplementaryTexts(props) {
             actions: "" //removed title of action column
           },
           body: {
-            emptyDataSourceMessage: language.Nopresentations
+            emptyDataSourceMessage: language.Nopresentations,
+            addTooltip: language.add,
+            deleteTooltip: language.delete,
+            editTooltip: language.edit,
+            editRow: {
+              deleteText: `${language.deleteItemBelow}, ${language.wantProceed}`,
+              cancelTooltip: language.cancel,
+              saveTooltip: language.save
+            }
           }
         }}
       />
