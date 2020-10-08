@@ -33,17 +33,17 @@ export default class TextAlternatives extends React.Component {
                 this.props.item.attributes.accessibility.dataField===undefined?
                   undefined
                 :
-                  <div> 
+                  <React.Fragment>
                     {
                       this.props.item.attributes.accessibility.dataField.shortDescription!="" ?
-                        <div aria-label={this.props.language.shortDescription_a11y_label}>
+                        <div id={`${this.props.item.type === "audio" ? "audio" : "video"}_${this.props.item.id}_shortDescr`}>
                           <h2 className="description">{this.props.language.shortDescription_a11y_label}</h2>
                           {this.props.item.attributes.accessibility.dataField.shortDescription}
                         </div>
                       :
                         <div>{this.props.language.NoshortDescription}</div>
                     }  
-                  </div>
+                  </React.Fragment>
               }
               </Grid>
               <Grid item xs={12}>
@@ -51,7 +51,7 @@ export default class TextAlternatives extends React.Component {
                   this.props.item.attributes.accessibility.dataField===undefined?
                     undefined
                   :
-                    <div> 
+                    <React.Fragment>
                       {
                         this.props.item.attributes.accessibility.dataField.longDescription.blocks[0].text!="" ?
                           this.props.item.type === "audio" ?
@@ -62,30 +62,31 @@ export default class TextAlternatives extends React.Component {
                                 id={"audio_" + this.props.item.id + "_transcriptBox_showhide"}
                                 onClick={() => this.setExpanded()}
                               >
-                                <h2 className="audio-transcription">{this.props.language.showHideTranscription}</h2> 
+                                <h2 className="audio-transcription">{!this.state.expanded ? this.props.language.showTranscription : this.props.language.hideTranscription}</h2> 
                               </summary>
                               <div
                                 id={"audio_" + this.props.item.id + "_transcriptBox"}
                                 aria-expanded={this.state.expanded}
-                                aria-label={this.props.language.longDescription_a11y_placeholder_audio}
                                 classnName="show-hide-transciption"
                               >
-                                <Editor 
-                                  id={"audio_" + this.props.item.id + "_transcriptText"}
-                                  editorState={this.signalText()} 
-                                  readOnly={true}
+                                <div id={"audio_" + this.props.item.id + "_transcriptText"}>
+                                  <Editor 
+                                    ariaOwneeID={"audio_" + this.props.item.id + "_transcriptText"}
+                                    editorState={this.signalText()} 
+                                    readOnly={true}
                                 />
+                                </div>
                               </div>
                             </details>
                           :
-                            <div aria-label={this.props.language.longDescription_a11y_label}>
+                            <div id={`video_${this.props.item.id}_longDescr`}>
                               <h2 className="description">{this.props.language.longDescription_a11y_label}</h2> 
                               <Editor editorState={this.signalText()} readOnly={true} />
                             </div>
                         :
                           <div>{this.props.language.NolongDescription}</div>
                       }  
-                    </div>
+                    </React.Fragment>
                 }
               </Grid>
             </Grid>
