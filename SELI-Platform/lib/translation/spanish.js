@@ -1239,6 +1239,10 @@ var SPANISH = {
   courseUpload: "Subir curso",
   storyUpload: "Subir historia",
   EmptyAccessibility:'Por favor revisar que el programa no este vacio o agregar el contenido multimedia qye configura la Audiencia seleccionada',
+  cognitiveMessage:'Usted ha seleccionado cognitivo en accesibilidad, revise que este recurso de accesibilidad este bien configurado para todos los grupos de accesibilidad.',
+  visualMessage:'Usted ha seleccionado visual en accesibilidad, revise que este recurso de accesibilidad este bien configurado para todos los grupos de accesibilidad.',
+  hearingMessage:'Usted ha seleccionado auditivo en accesibilidad, revise que este recurso de accesibilidad este bien configurado para todos los grupos de accesibilidad.',
+  elderlyMessage:'Usted ha seleccionado diversidad en accesibilidad, revise que este recurso de accesibilidad este bien configurado para todos los grupos de accesibilidad.',
 }
 export default SPANISH;
 

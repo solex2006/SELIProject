@@ -152,6 +152,8 @@ export default function FormStepperID(props) {
   const [width, height] = useWindowSize();
   const [showButton, setshowButton] = useState('');
   const [showButtonNext, setshowButtonNext] = useState('');
+  const [showButtonPublish, setshowButtonPublish] = useState('none');
+  
   //nuevos parametros
   const [addie, setAddie] = React.useState(false);
   const [stepStatus, setStepStatus] = React.useState({
@@ -729,7 +731,7 @@ useEffect(()=>{
 },[])
 
 useEffect(()=>{
-  //console.log("activestep", activeStep)
+  console.log("activestep", activeStep)
   if(activeStep===1){
     setshowButton('')
   }else if(activeStep===0){
@@ -739,6 +741,13 @@ useEffect(()=>{
   }
   else if(activeStep!=7){
     setshowButtonNext('')
+  }
+
+  if(activeStep===7){
+    setshowButtonPublish('')
+
+  }else if(activeStep!=7){
+    setshowButtonPublish('none')
   }
 },[activeStep])
 
@@ -1026,7 +1035,7 @@ useEffect(()=>{
               <Button onClick={() => props.saveAction()} variant="outlined" color="primary">
                 {props.saveLabel}
               </Button>
-              <Button onClick={() => props.finalAction()} variant="contained" color="primary">
+              <Button style={{display:showButtonPublish}} onClick={() => props.finalAction()} variant="contained" color="primary">
                 {props.finalLabel}
               </Button>
             </ButtonGroup>

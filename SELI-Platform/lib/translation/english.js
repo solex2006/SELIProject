@@ -1239,6 +1239,10 @@ var ENGLISH = {
   courseUpload: "Upload course",
   storyUpload: "Upload story",
   EmptyAccessibility:'Please check that the program is not empty or add the multimedia content that configures the selected audience',
+  cognitiveMessage:'You have selected cognitive in accessibility, check that is accessibility resource was well configured for all impairment groups selected.',
+  visualMessage:'You have selected visual in accessibility, check that is accessibility resource was well configured for all impairment groups selected.',
+  hearingMessage:'You have selected hearing in accessibility, check that is accessibility resource was well configured for all impairment groups selected.',
+  elderlyMessage:'You have selected diversity in accessibility, check that is accessibility resource was well configured for all impairment groups selected.',
 }
 export default ENGLISH;
 

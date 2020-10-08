@@ -154,6 +154,8 @@ export default class User extends React.Component {
   }
 
   showComponent = (component) => {
+
+    console.log('showComponent', component, this.state)
    
 
     if (!(component === "create" && this.state.component === "create")){
@@ -167,7 +169,7 @@ export default class User extends React.Component {
       } else {
         this.setState({
           component: component,
-          savedCourse: false,
+          savedCourse: true,
         });
       }
     }
@@ -580,6 +582,23 @@ export default class User extends React.Component {
     }
     this.navigateTo(selected)
   }
+  disableDialog=()=>{
+    console.log("desabilita el dialogo**************************")
+    /* this.state.savedCourseWindow=false
+    this.state.chekingSesion=false
+    this.state.openDialog=false */
+    this.refs.CreateCourse.saveCourse();
+     this.setState({ 
+     savedCourseWindow: false,
+     // chekingSesion: false,
+      //openDialog: false, 
+    }); 
+
+    this.showComponent('published')
+ 
+
+    
+  }
 
   render() {
     return(
@@ -651,6 +670,7 @@ export default class User extends React.Component {
                     {
                       this.state.component === 'create' || this.state.component === 'edit' ?
                         <CreateCourse
+                        disableDialog={this.disableDialog.bind(this)}
                           ref="CreateCourse"
                           savedCourseState={this.savedCourseState.bind(this)}
                           language={this.state.language}
