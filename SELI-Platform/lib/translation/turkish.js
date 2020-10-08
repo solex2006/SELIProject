@@ -1232,7 +1232,6 @@ var TURKISH = {
   learningConstraintHelp: "Öğrencinin sahip olabileceği öğrenme kısıtlamaları ekleyin.",
   affectiveDomainHelp: "Etkisel alan ...",
   psychomotorDomainHelp: "Psikomotor alanı ...",
-<<<<<<< HEAD
   uploading: "Uploading",
   pleaseWait: "please wait",
   selectYourFile: "Select your file",
@@ -1244,14 +1243,6 @@ var TURKISH = {
   visualMessage:'You have selected visual in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
   hearingMessage:'You have selected hearing in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
   elderlyMessage:'You have selected diversity in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
-=======
-  uploading: "Yükleniyor",
-  pleaseWait: "lütfen bekleyiniz",
-  selectYourFile: "Dosyanızı seçiniz",
-  fileSucessfullyUploaded: "Dosya başarıyla yüklendi!",
-  courseUpload: "Dersi yükle",
-  storyUpload: "Hikayeyi yükle",
-  EmptyAccessibility:'Lütfen programın boş olmadığını kontrol edin veya seçilen kitleyi yapılandıran multimedya içeriğini ekleyin',
   AccessibilityType: 
   {
     Name: [
@@ -1272,7 +1263,6 @@ var TURKISH = {
   firstPage: "First page",
   lastPage: "Last page",
   noTasks: "No tasks",
->>>>>>> 8a1645052a38aa95aedbe6c37c7da4cedcd79508
 }
 export default TURKISH;
 
