@@ -255,43 +255,7 @@ export default class AudioItem extends React.Component {
             }
           });
         }
-}
-
-/*   allTranscription=()=>{
-    return(
-      <div style={{display: this.state.captions==='captions'? "block" : "none"}}>
-          <div id="id_video_box">
-            <h3>{ this.props.item.attributes.audio.name}</h3>
-              <audio id="audio" controls 
-              aria-describedby="transcriptText" 
-              aria-label={this.props.language.ariaLabelTranscription}
-              src={this.props.item.attributes.audio.link} type='audio/mpeg'>
-              <p>{this.props.language.alertCompatibility} <code>audio</code></p>
-            </audio>
-          </div>
-          <br/>
-          <p id="speaking" aria-live="rude"></p>
-          <br/>
-          <details>
-              <summary aria-controls="transcriptBox" tabindex="0" aria-expanded="false" id="show-hide-transcript">{this.props.language.showHideTranscription}</summary>
-              <div id="transcriptBox" aria-expanded="false">
-                </div>
-                <div id="transcriptText">
-                  {
-                    this.props.item.attributes.accessibility.dataField.text.map((text,index)=>{
-                      let timeDetail=this.props.item.attributes.accessibility.dataField.time[index].split(":");
-                      let timeSeconds=parseInt(timeDetail[0])*60*60+parseInt(timeDetail[1])*60+parseInt(timeDetail[2])
-                      console.log(this.props.item.attributes.accessibility.dataField.time[index].split(":"))
-                      return(
-                        <p key={index} id={"c"+(index+1)} data-time={timeSeconds} class="cue" aria-live="rude" tabindex="1" dangerouslySetInnerHTML={{ __html: text }} onKeyDown={this.audioCaption} onClick={this.mouseClick} ontimeupdate={this.updateAudio} />
-                      )
-                    })
-                  }
-                </div>
-          </details>  
-      </div>
-    )
-  } */
+  }
 
   render() {
     return(

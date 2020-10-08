@@ -578,6 +578,7 @@ export default function VerticalTabs(props) {
 											signLanguageTip: data.signLanguageTip,
 											handleInputOnFile:data.handleInputOnFile
 										}}
+										handleControlMessage={props.handleControlMessage.bind(this)}
 										language={props.language}/>
 									</TabPanel>}
 								 {support.some(object => ["Cognitive"].includes(object)) &&
