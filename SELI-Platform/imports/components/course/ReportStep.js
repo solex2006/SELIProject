@@ -36,6 +36,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { Redirect } from "react-router-dom";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import WarningIcon from '@material-ui/icons/Warning';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -194,6 +200,7 @@ export default function ReportStep(props) {
 	const [sylabusTotal, setsylabusTotal]= useState(0)
 	const [IndexActividad, setIndexActividad]= useState(0)
 	const [checkingAudiences, setcheckingAudiences]=useState(props.courseInformation.support[1])
+	const [dialog1, setDialog1]=useState(false)
 
    const [percentagesWithoutUnit, setPercentagesWithoutUnit]=useState({
       guidedWithoutUnit:[],
@@ -1127,7 +1134,9 @@ export default function ReportStep(props) {
 							NotAccessibleCaptions,
 							NotAccessibleDescription,
 							NotAccessibleSign,
-							guidedWTopics:tasknoconfig.guidedWTopics
+							guidedWTopics:tasknoconfig.guidedWTopics,
+							unidlesson:indexUnit,
+							lesson:indexLesson
 						})
 					}
 					
@@ -1259,6 +1268,8 @@ export default function ReportStep(props) {
 			visual=0, hearing=0, cognitive=0, diversity=0
 		})
 		variablesLeccion.map((value,index)=>{
+
+			console.log("88888888888888888888888888888888888888888888888888888888888888888888888888888888888888",value)
 				//para visual
 				let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
 					value.contwarningAlertFalse)
@@ -1355,10 +1366,10 @@ export default function ReportStep(props) {
 				tasknoconfig.guidedWTopics=0 //new
 				
 				percentagebyLesson.push([
-					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
-					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
-					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
-					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+					{title: value.title, unidad:value.unidlesson, lesson:value.lesson, type:'unid', a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+					{title: value.title, unidad:value.unidlesson, lesson:value.lesson, type:'unid', a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+					{title: value.title, unidad:value.unidlesson, lesson:value.lesson, type:'unid', a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+					{title: value.title, unidad:value.unidlesson, lesson:value.lesson, type:'unid', a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
 				])
 				visual=0, hearing=0, cognitive=0, diversity=0
 		})
@@ -2419,6 +2430,7 @@ export default function ReportStep(props) {
 	
 	const [simulate, setSimulate] = React.useState(false);
 	const [redirect, setredirect]=React.useState(null)
+	const [unidlesson, setunidlesson]=useState('')
 	if (redirect) {
 		return <Redirect to={redirect} />
 	 }
@@ -2427,6 +2439,30 @@ export default function ReportStep(props) {
 		display:'flex',
 		justifyContent:'center'
 	 };
+
+	function changedialog(index){
+		console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjj",index)
+		setDialog1(true)
+		setunidlesson(index.topic)
+		/* if(type==="dialog"){
+			setDialog1(true)
+		} */
+		
+	}
+	
+	function handleClose(){
+		setDialog1(false)
+	}
+
+	
+	
+	function putUnidLesson(unit){
+		console.log("***************pasae l topico------------------------------",unit)
+		
+	}
+
+
+	
 	
 	return (
 		<div className="form-input-container">
@@ -2482,7 +2518,7 @@ export default function ReportStep(props) {
 											return(
 												category.topics.length!=0?
 												<Grid item xs={12} md={6}>
-													<AccessibilityCard flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
+													<AccessibilityCard putUnidLesson={putUnidLesson} dialog={changedialog} flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
 												</Grid>
 												:
 												undefined
@@ -2532,7 +2568,7 @@ export default function ReportStep(props) {
 								.filter(c => !c.selected)
 								.map(category => (
 									<Grid item xs={12} md={6}>
-										<AccessibilityCard handleBack={props.handleBack} category={category} />
+										<AccessibilityCard putUnidLesson={putUnidLesson} dialog={changedialog} handleBack={props.handleBack} category={category} />
 									</Grid>
 								))}
 						</Grid>
@@ -2594,10 +2630,13 @@ export default function ReportStep(props) {
 								{console.log('checkingAudiences:--------->', checkingAudiences)}
 								{categories.filter(goals => goals.selected).map((category, index) => (
 									<Grid item xs={12} md={6} key={index}>
-										<AccessibilityCard handleBack={props.handleBack} category={category} />
+										<AccessibilityCard putUnidLesson={putUnidLesson} dialog={changedialog} handleBack={props.handleBack} category={category} />
 									</Grid>
 								))}
 							</Grid>
+
+
+					
 					</div>
 				)}
 
@@ -2628,6 +2667,36 @@ export default function ReportStep(props) {
 					:
 					undefined
 				}
+				{
+					console.log("el dialog///////////", dialog1)
+				}
+
+				{ dialog1===true?
+							<Dialog
+								open={dialog1}
+								onClose={()=>handleClose}
+								aria-labelledby="alert-dialog-confirmation"
+								aria-describedby="alert-dialog-confirmation"
+							>
+									<DialogTitle className="success-dialog-title" id="alert-dialog-title">Change step</DialogTitle>
+									<DialogContent className="success-dialog-content">
+									<DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+										Do you want to go to the selected topic-unit?
+									</DialogContentText>
+									<WarningIcon className="warning-dialog-icon"/> 
+									</DialogContent>
+									<DialogActions>
+									<Button onClick={()=>handleClose()} color="primary" autoFocus>
+										{props.language.no}
+									</Button>
+									<Button onClick={()=>props.handleBack(categories,unidlesson)} variant="outlined"  color="primary" autoFocus>
+										{props.language.yes}
+									</Button>
+									</DialogActions>
+							</Dialog>
+							:
+							undefined
+					}
 			</div>
 		</div>
 	);
@@ -2666,8 +2735,8 @@ function Chart({ percent, id, flagmesage }) {
 		</Container>
 	);
 }
-function AccessibilityCard({ category, handleBack, flagmesage }) {
-   console.log("newRandomTopics------------>", category)
+function AccessibilityCard({ category, handleBack, flagmesage,dialog,putUnidLesson }) {
+   console.log("newRandomTopics------------>", category, dialog)
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const [max, setMax] = React.useState(
@@ -2746,7 +2815,7 @@ function AccessibilityCard({ category, handleBack, flagmesage }) {
 														key={"listtopic-itemtxt" + category.key + "-" + index}
 														primary={topic.title}
 														secondary={
-															<AccessibilityLinearProgress handleBack={handleBack} topic={topic} max={topic.a11yValid} />
+															<AccessibilityLinearProgress putUnidLesson={putUnidLesson} dialog={dialog} handleBack={handleBack} topic={topic} max={topic.a11yValid} />
 														}
 													/>
 												</ListItem>
@@ -2971,16 +3040,18 @@ function AccessibilityProgress({ max, size }) {
 
 	return <CircularProgressWithLabel value={progress} size={size} />;
 }
-function LinearProgressWithLabel(props) {
-	return (
-		<Box display="flex" alignItems="center" onClick={()=>props.handleBack(props)}>
+function LinearProgressWithLabel(propss) {
+	console.log("PROPIEDADESFINAL",propss)
+	return (//onClick={()=>props.handleBack(props)}
+		<Box display="flex" alignItems="center" onClick={()=>propss.dialog(propss)
+		}>
 	
 				<Box width="100%" mr={1}>
-					<LinearProgress variant="determinate" {...props} />
+					<LinearProgress variant="determinate" {...propss} />
 				</Box>
 				<Box minWidth={35}>
 					<Typography variant="body2" color="textSecondary">{`${Math.round(
-						props.value
+						propss.value
 					)}%`}</Typography>
 				</Box>
 		
@@ -2988,7 +3059,7 @@ function LinearProgressWithLabel(props) {
 	);
 }
 
-function AccessibilityLinearProgress({ max, size, handleBack, topic }) {
+function AccessibilityLinearProgress({ max, size, handleBack, topic,dialog,putUnidLesson }) {
 	const classes = useStyles();
 	const [progress, setProgress] = React.useState(0);
 
@@ -3005,7 +3076,7 @@ function AccessibilityLinearProgress({ max, size, handleBack, topic }) {
 
 	return (
 		<div className={classes.root}>
-			<LinearProgressWithLabel handleBack={handleBack}  topic={topic} value={progress} />
+			<LinearProgressWithLabel putUnidLesson={putUnidLesson} dialog={dialog} handleBack={handleBack}  topic={topic} value={progress} />
 		</div>
 	);
 }

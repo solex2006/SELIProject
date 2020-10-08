@@ -272,39 +272,43 @@ export default class CreateCourse extends React.Component {
     this.updateCourseInformation({...this.state.databaseCourse});
   }
 
-  handleBack=(props)=>{
-    console.log("en el handle back",props.topic)
-    if(props.topic.type==='topic'){
+  handleBack=(props, index)=>{
+   
+
+    let tipo=props[0].topics[0].type
+    console.log("en el handle back**********************",props, index)
+
+    if(index.type==='topic'){
       this.setState({
         activeStep:Math.random(),
-        selected:[props.topic.indice,0,0,0]
+        selected:[index.indice,0,0,0]
       })
     }
-    if(props.topic.type==='template'){
-      if(props.topic.actividad!=undefined){
+    if(index.type==='template'){
+      if(index.actividad!=undefined){
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,0,props.topic.actividad!=undefined?props.topic.actividad:0,2]
+          selected:[index.unidad,0,index.actividad!=undefined?index.actividad:0,2]
         })
       }else{
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,0,0,0]
+          selected:[index.unidad,0,0,0]
         })
       }
       
     }
-    if(props.topic.type==='unit'){
-      if(props.topic.lesson!=undefined){
+    if(index.type==='unid'){
+      if(index.lesson!=undefined){
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,props.topic.lesson!=undefined?props.topic.lesson:0,0,1]
+          selected:[index.unidad!=undefined?index.unidad:0,index.lesson!=undefined?index.lesson:0,0,1]
         })
       }
-      if(props.topic.lesson===undefined){
+      if(index.lesson===undefined){
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,0,0,0]
+          selected:[index.unidad!=undefined?index.unidad:0,0,0,0]
         })
       }
       
@@ -918,7 +922,7 @@ export default class CreateCourse extends React.Component {
                                     {this.props.language.cancel} 
                                 </Button>
                                 <Button onClick={() => this.publishCourse('flagPublish')} color="primary" autoFocus>
-                                {this.props.language.ok}
+                                  {this.props.language.ok}
                               </Button>
                               </div>
                           }
