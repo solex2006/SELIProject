@@ -216,6 +216,7 @@ export default function CourseSearch(props) {
 		<React.Fragment>
 			<Paper className={classes.searchDetailed} component="article" elevation={0}>
 				<SearchToolBar
+					language={props.language}
 					OrSearch={props.OrSearch}
 					getParamsofSearch= {props.getParamsofSearch}
 					getParamsLanguage= {props.getParamsLanguage}

@@ -65,12 +65,12 @@ export default function MediaCard(props) {
    }, [])
 
    const getcourses=()=>{  
-      console.log("courseget", course, props.user[0].username) 
+     // console.log("courseget", course, props.user[0].username) 
    
        Tracker.autorun(() => {
          let courses = Courses.find({createdBy:props.user[0].username}).fetch();
          let coursespublish=courses.filter(course=>course.published===true)
-         console.log(courses)
+         //console.log(courses)
          setCourse(coursespublish)
        })
    }
@@ -106,7 +106,7 @@ export default function MediaCard(props) {
       {
         course!=''?
         course.map((value,index)=>{
-          console.log("el curso------>:",value)
+          //console.log("el curso------>:",value)
           return(
               <Card className={classes.root} key={index}>
               <CardActionArea>
@@ -121,12 +121,12 @@ export default function MediaCard(props) {
                   </Typography>
                   <Typography variant="body2" color="textSecondary" component="p">
                   <Typography gutterBottom variant="h6" component="h4">
-                    Description:
+                    {props.language.description}:
                   </Typography>
                     {value.description}
                   </Typography>
                   <Typography className={classes.title} color="textSecondary" gutterBottom>
-                   Created by: {value.createdBy}
+                   {props.language.createdBy}: {value.createdBy}
                   </Typography>
 
                   <CardActions  disableSpacing>

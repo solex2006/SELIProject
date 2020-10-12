@@ -200,7 +200,7 @@ export default class CoursesDashboard extends React.Component {
           <header className='headersearch'>
             <h2>{title}</h2>
           </header>
-          <div className='subheader'>Showing {this.state.myFilterThree.length} of {arrayCourses.length} subscribed courses that correspond to your search.</div>
+          <div className='subheader'>{this.props.language.Showing} {this.state.myFilterThree.length} {this.props.language.of} {arrayCourses.length} {this.props.language.subscribedtoyoursearch}</div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
             {
@@ -250,7 +250,7 @@ export default class CoursesDashboard extends React.Component {
           <header className='headersearch'>
             <h2>{title}</h2>
           </header>
-          <div className='subheader'>Showing {this.state.myFilterThreeSeli.length} of {arrayCourses.length} subscribed courses that correspond to your search. </div>
+          <div className='subheader'>{this.props.language.Showing} {this.state.myFilterThreeSeli.length} {this.props.language.of}  {arrayCourses.length} {this.props.language.subscribedtoyoursearch} </div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
               {
@@ -294,7 +294,7 @@ export default class CoursesDashboard extends React.Component {
         <CardContent className='headersearch'>
           <Typography
             variant="body2" color="textSecondary" component="div">
-            There are no search results.
+            {this.props.language.Theresearchresults}
           </Typography>
         </CardContent>
       </Paper>
@@ -676,9 +676,9 @@ export default class CoursesDashboard extends React.Component {
 
   //it is the new functinality for OR search
   OrSearch=(params,languages, audiences, instructors)=>{
-    console.log("todos los parametros de busqueda", params,languages, this.state.duration ,audiences, instructors, this.state.online)
+    //console.log("todos los parametros de busqueda", params,languages, this.state.duration ,audiences, instructors, this.state.online)
     //this.getParamsofSearch()
-    console.log("1. First Search params of serach and published courses", this.state.publishedCourses)
+    //console.log("1. First Search params of serach and published courses", this.state.publishedCourses)
     let full=[]
     let fullempty=[]
     let searchAL=[]
@@ -1011,6 +1011,7 @@ export default class CoursesDashboard extends React.Component {
       <div className="courses-dashboard-container">
         {console.log("recarga", this.state)}
         <CourseSearch
+          language={this.props.language}
           getParamsofSearch={this.getParamsofSearch}
           getParamsLanguage={this.getParamsLanguage}
           getParamsDuration={this.getParamsDuration}
@@ -1029,10 +1030,10 @@ export default class CoursesDashboard extends React.Component {
         {
           this.state.generalDetailedFlag===false?
           <div>
-            {this.paperSearchMyCourses('My Courses', this.state.myFiltersuscribdedCourses)}
-            {this.paperSearchSeli('SELI Courses', this.state.myFilterSeliCourses)}
-            {this.paperSupportNews('Support')}
-            {this.paperSupportNews('News')}
+            {this.paperSearchMyCourses(this.props.language.myCourses, this.state.myFiltersuscribdedCourses)}
+            {this.paperSearchSeli(this.props.language.seliCourses, this.state.myFilterSeliCourses)}
+            {this.paperSupportNews(this.props.language.support)}
+            {this.paperSupportNews(this.props.language.news)}
           </div>
           :
           <div>
@@ -1040,7 +1041,7 @@ export default class CoursesDashboard extends React.Component {
               {//for  OnlineCourses
                 this.state.onlineTag===true?
                 <React.Fragment>
-                  {this.paperSearchMyCourses('100% online courses', this.state.onlineCourses)}
+                  {this.paperSearchMyCourses(this.props.language.onlinecourses100, this.state.onlineCourses)}
                 </React.Fragment>
                 :
                 undefined
@@ -1051,7 +1052,7 @@ export default class CoursesDashboard extends React.Component {
               {// foraccessibilitie Tag
                 this.state.accessibilitie.a11yCog==='full'?
                 <React.Fragment>
-                  {this.paperSearchMyCourses('Fully Cognitive', this.state.fullyCognitive)}
+                  {this.paperSearchMyCourses(this.props.language.FullyCognitive, this.state.fullyCognitive)}
                 </React.Fragment>
                 :
                 undefined
@@ -1059,7 +1060,7 @@ export default class CoursesDashboard extends React.Component {
               {
                 this.state.accessibilitie.a11yHear==='full'?
                 <React.Fragment>
-                  {this.paperSearchMyCourses('Fully Hearing', this.state.fullyHearing)}
+                  {this.paperSearchMyCourses(this.props.language.FullyHearing, this.state.fullyHearing)}
                 </React.Fragment>
                 :
                 undefined
@@ -1067,7 +1068,7 @@ export default class CoursesDashboard extends React.Component {
               {
                 this.state.accessibilitie.a11yVis==='full'?
                 <React.Fragment>
-                  {this.paperSearchMyCourses('Fully Visual', this.state.fullyVisual)}
+                  {this.paperSearchMyCourses(this.props.language.FullyVisual, this.state.fullyVisual)}
                 </React.Fragment>
                 :
                 undefined
@@ -1078,7 +1079,7 @@ export default class CoursesDashboard extends React.Component {
               {//for  OnlineCourses
                 this.state.onsearchflag===true?
                 <React.Fragment>
-                  {this.paperSearchMyCourses('Detailed Search', this.state.orsearch)}
+                  {this.paperSearchMyCourses(this.props.language.DetailedSearch, this.state.orsearch)}
                 </React.Fragment>
                 :
                 undefined

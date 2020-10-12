@@ -142,22 +142,22 @@ export default function CourseContent(props) {
                         coursePlan.guidedCoursePlan!='free' ?
                         <div>
                             <p>
-                                <strong>Learning Goals</strong>:{" "}
+                                <strong>{props.language.LearningGoals}</strong>:{" "}
                                 {topic.learnGols}
                             </p>
 
                             <p>
-                                <strong>Prerequisites</strong>:{" "}
+                                <strong>{props.language.Prerequisites}</strong>:{" "}
                                 {topic.preKnowledge}
                             </p>
                                     
                             <p>
-                                <strong>Content</strong>: {" "}
+                                <strong>{props.language.Content}</strong>: {" "}
                                 {topic.mainContent}
                             </p>
 
                             <p>
-                                <strong>Materials</strong>:
+                                <strong>{props.language.Materials}</strong>:
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  &&
                                     (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
@@ -270,13 +270,13 @@ export default function CourseContent(props) {
                                                         <li>{sup.title}</li>
                                                     ))
                                                     :
-                                                    <li>There are no readings</li>
+                                                    <li>{props.language.TherearenoReadings}</li>
                                                     
                                                 }
                                                 
                                             </ul>
                                             :
-                                            <p>There are no readings</p>
+                                            <p>{props.language.TherearenoReadings}</p>
                                         }              
                                     </div>
                                     :
@@ -291,7 +291,7 @@ export default function CourseContent(props) {
                                                    
                                                     <div>
 
-                                                    {console.log("eeeeeeeeeeee",lesson.tools)}
+        
                                                         {
                                                             lesson.tools[4].checked===true?
                                                             
@@ -302,13 +302,13 @@ export default function CourseContent(props) {
                                                                         <li>{sup.title}</li>
                                                                     ))
                                                                     :
-                                                                    <li>There are no readings</li>
+                                                                    <li>{props.language.TherearenoReadings}</li>
                                                                     
                                                                 }
                                                                 
                                                             </ul>
                                                             :
-                                                            <p>There are no readings</p>
+                                                            <p>{props.language.TherearenoReadings}</p>
                                                         }
                                                     </div>
                                                 :
@@ -324,11 +324,11 @@ export default function CourseContent(props) {
                             <p className='crnheading' id={"topic-"+indexUnit+"-assess"}>
                                
                                 <ul className='resources' style={{display:'block'}}>
-                                <li style={{fontSize :'13px', fontWeight: 'bold'}}>Assessment Methods</li>
+                                <li style={{fontSize :'13px', fontWeight: 'bold'}}>{props.language.AssessmentMethods}</li>
                                     <li >
                                         <MenuBookIcon/>
                                         {" "}
-                                        Total of Quiz tasks:{" "} 
+                                        {props.language.TotalofQuiztasks}:{" "} 
                                         {
                                             (coursePlan.guidedCoursePlan==='guided'  &&
                                             coursePlan.courseTemplate==='without'   &&
@@ -353,7 +353,7 @@ export default function CourseContent(props) {
                                     <li >
                                         <AssignmentOutlinedIcon/>
                                         {" "}
-                                        Total of Activities:{" "} 
+                                        {props.language.TotalofActivities}:{" "} 
                                         {
                                             (coursePlan.guidedCoursePlan==='guided'  &&
                                             coursePlan.courseTemplate==='without' &&
@@ -380,7 +380,7 @@ export default function CourseContent(props) {
                                             <li >
                                                 <ForumIcon/>
                                                 {" "}
-                                                Total of Forums: {" "}
+                                                {props.language.TotalofForums}: {" "}
                                                 {
                                                     (coursePlan.guidedCoursePlan==='guided'  &&
                                                     coursePlan.courseTemplate==='without' &&
@@ -401,7 +401,7 @@ export default function CourseContent(props) {
                                         <li >
                                             <ForumIcon/>
                                             {" "}
-                                            Total of Readings: {" "} {TotaloFreeTopic(indexUnit)[0]}
+                                            {props.language.TotalofReadings}: {" "} {TotaloFreeTopic(indexUnit)[0]}
                                         </li>
 
                                         :
@@ -414,7 +414,7 @@ export default function CourseContent(props) {
                                         <li >
                                             <ForumIcon/>
                                             {" "}
-                                            Total of Readings: {" "} {TotaloFreeUnit(indexUnit)[0]}
+                                            {props.language.TotalofReadings}: {" "} {TotaloFreeUnit(indexUnit)[0]}
                                         </li>
 
                                         :

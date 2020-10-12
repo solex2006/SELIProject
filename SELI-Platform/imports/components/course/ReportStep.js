@@ -1157,7 +1157,7 @@ export default function ReportStep(props) {
 			})
 		})	
 		
-		console.log("percentagebyUnit y percentagebyLesson: variablesUnidad, variablesLeccion-------->",variablesUnidad,variablesLeccion, percentagebyLesson )
+	//	console.log("percentagebyUnit y percentagebyLesson: variablesUnidad, variablesLeccion-------->",variablesUnidad,variablesLeccion, percentagebyLesson )
 		variablesUnidad.map((value,index)=>{
 			//para visual
 			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
@@ -1269,7 +1269,7 @@ export default function ReportStep(props) {
 		})
 		variablesLeccion.map((value,index)=>{
 
-			console.log("88888888888888888888888888888888888888888888888888888888888888888888888888888888888888",value)
+			//console.log("88888888888888888888888888888888888888888888888888888888888888888888888888888888888888",value)
 				//para visual
 				let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
 					value.contwarningAlertFalse)

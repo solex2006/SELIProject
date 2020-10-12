@@ -104,7 +104,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const CourseSummary = ({coursedata}) => {
+const CourseSummary = ({coursedata, language}) => {
 	const classes = useStyles();
 	return (
 		<Paper elevation={1} className={classes.summary}>
@@ -116,8 +116,8 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Complete this course with a passing grade."}
-						primary={"Course completition certificate"}
+						secondary={language.passingGrade}
+						primary={language.completitionCertificate}
 					/>
 				</ListItem>
 				<ListItem>
@@ -127,7 +127,7 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Estimated course duration"}
+						secondary={language.estimatedCourseDuration}
 						primary={coursedata.duration}
 					/>
 				</ListItem>
@@ -138,7 +138,7 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Course language"}
+						secondary={language.CourseLanguage}
 						primary={
 								coursedata.language===0 ?
 								"English (US)"
@@ -167,7 +167,7 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Course modality"}
+						secondary={language.CourseModality}
 						primary={coursedata.modality}  
 					/>
 				</ListItem>
@@ -177,6 +177,7 @@ const CourseSummary = ({coursedata}) => {
 };
 
 const CourseHeader = ({classes, coursedata, tutordata, language, goToUser}) => {
+	console.log("paso 4***********", language)
 	const [tutordata1,setTutor]=useState(tutordata)
 	return (
 		<React.Fragment>
@@ -252,6 +253,7 @@ export default function MainPage(props) {
 					<React.Fragment>
 						<img src={coursedata.image.link} alt="" className={classes.courseImg} />
 						<CourseHeader 
+						language={props.language}
 						coursedata={coursedata}
 						classes={classes}
 						tutordata={tutordata}
@@ -262,7 +264,7 @@ export default function MainPage(props) {
 			<Paper component="article" elevation={0} className="course-presentation-paper">
 			<section aria-labelledby="courseInfo">
 				<header className='crnheading'>
-					<h2 >Course Information</h2>
+				<h2 >{props.language.CourseInformation}</h2>
 				</header>
 				<Grid
 					container
@@ -285,7 +287,7 @@ export default function MainPage(props) {
 							:
 							<div className='crnheading'>
 								<h3 className={classes.body1}>
-									By the end of this course, you will be able to:
+									{props.language.outcomeslegend}
 								</h3>
 								<Lista 
 									title='LearningOutcomesMainContent'
@@ -298,6 +300,7 @@ export default function MainPage(props) {
 					<Grid item xs={12} md={6}>
 						<CourseSummary
 							coursedata={coursedata}
+							language={props.language}
 						/>
 					</Grid>
 				</Grid>
@@ -311,7 +314,7 @@ export default function MainPage(props) {
 					undefined
 					:
 				<section aria-label="Course design">
-					<h2 >Course Design</h2>			
+					<h2 >{props.language.CourseDesign}</h2>			
 					<div >
 						<Lista 
 							title='AudiencesMainContent'
@@ -324,16 +327,17 @@ export default function MainPage(props) {
 			<Paper component="article" elevation={0} className="course-presentation-paper1">
 		
 			<div className='crnheading1'>
-				<h2 >Course Content</h2>
+			<h2>{props.language.CourseContent}</h2>
 			</div>
 		
 				<CourseContent
+				language={props.language}
 					data={props.course.design}
 					coursePlan={props.course.coursePlan}
 					program={props.course.program}
 				/>
 				<p id='courseSylabus'>
-					Read the course syllabus for a complete view of the course program
+					{props.language.readCourseSylabus}
 				</p>
 				<div className='crnheading'>
 					<SyllabusButton
@@ -344,13 +348,13 @@ export default function MainPage(props) {
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper1"> 
 				<div className='crnheading'>
-					<h2 >Requirements</h2>
+			<h2 >{props.language.requirements}</h2>
 				</div>
 				<HardwareSoftwareReq
 					data={coursedata.requirements}
 				/> 
 			</Paper>
-			{console.log(props.course)}
+			
 			<div className="course-presentation-actions-container">
 				{
 					props.course.published ?
@@ -432,7 +436,7 @@ export default function MainPage(props) {
 							<InstructorProfileAvatar
 								goToUser={props.goToUser}
 								language={props.language}
-								name={"Created by " + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
+								name={props.language.createdBy + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
 								className={classes.caption}
 								coursedata={coursedata}
 								tutordata={tutordata}

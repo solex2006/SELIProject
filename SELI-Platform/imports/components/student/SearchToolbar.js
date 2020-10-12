@@ -281,15 +281,15 @@ export default function SearchToolBar(props) {
 	
 	const SKILLS = ['Version Control', 'Full Stack', 'Data Base'];
 	const AUDIENCE =  [
-			"Graduate students", 
-			"Informal students", 
-			"Teachers and Professors",
-			"Preschool kids", 
-			"Post graduate student",  
-			"Pregrade student",  
-			"High School Students",  
-			"Middle School Students",  
-			"Elementary School Students",  
+			props.language.Graduatestudents, 
+			props.language.Informalstudents,
+			props.language.TeachersandProfessors,
+			props.language.Preschoolkids,
+			props.language.Postgraduatestudent,
+			props.language.Pregradestudent,
+			props.language.HighSchoolStudents, 
+			props.language.MiddleSchoolStudents,
+			props.language.ElementarySchoolStudents,
 	];
 	const AREAS = ['Arts', 'Computer Science', 'Math and Logic', 'Music'];
 
@@ -410,7 +410,7 @@ export default function SearchToolBar(props) {
 					<InputBase
 						value={query}
 						className={classes.input}
-						placeholder="Search SeLI Platform"
+						placeholder={props.language.SearchSeLIPlatform}
 						inputProps={{ 'aria-label': 'search seli courses' }}
 						onChange={search}
 					/>
@@ -437,7 +437,7 @@ export default function SearchToolBar(props) {
 							<SortIcon />
 						</IconButton>
 					) : (
-						<SortCourse selected={props.selected} />
+						<SortCourse selected={props.selected} language={props.language} />
 					)}
 					{showDetailedFilter && (
 						<React.Fragment>
@@ -455,7 +455,7 @@ export default function SearchToolBar(props) {
 									for="filtertb"
 									id="filtertb-label"
 								>
-									Filter by
+									{props.language.filterBy}
 								</label>
 								
 								<ToggleButton
@@ -467,7 +467,7 @@ export default function SearchToolBar(props) {
 									selected={selectedaccessible}
 								>
 									<AccessibilityNewIcon />
-									Fully accessible
+									{props.language.FullyAccessible}
 								</ToggleButton>
 								</ToggleButtonGroup>
 
@@ -488,7 +488,7 @@ export default function SearchToolBar(props) {
 								
 								>
 									<CastForEducationIcon />
-									100% online
+									100% {props.language.online}
 								</ToggleButton>
 							</ToggleButtonGroup >
 							<RantingCourse />
@@ -515,7 +515,7 @@ export default function SearchToolBar(props) {
 								setOpenFilter(true);
 							}}
 						>
-							{showDetailedFilter ? 'More filters' : 'Filter'}
+							{showDetailedFilter ? props.language.Morefilters : props.language.Filter}
 						</Button>
 					)}
 				</div>
@@ -533,14 +533,14 @@ export default function SearchToolBar(props) {
 				controls={
 					<React.Fragment>
 						<Button color="primary" onClick={() => setOpenSorter(false)}>
-							Cancel
+							{props.language.cancel}
 						</Button>
 						<Button
 							color="primary"
 							variant="outlined"
 							onClick={() => setOpenSorter(false)}
 						>
-							Confirm
+							{props.language.confirm}
 						</Button>
 					</React.Fragment>
 				}
@@ -593,7 +593,7 @@ export default function SearchToolBar(props) {
 								setRanting(3);
 							}}
 						>
-							Clear all filters
+							{props.language.Clearallfilters}
 						</Button>
 						<Button
 							color="primary"
@@ -609,14 +609,14 @@ export default function SearchToolBar(props) {
 								setselectedaccessible(false)
 							}}
 						>
-							Apply filters
+							{props.language.Applyfilters}
 						</Button>
 					</React.Fragment>
 				}
 			>
             <RantingCourse
                feedback={true}
-               label={'Show only courses equal or greater than '}
+               label={props.language.Showcoursesequal}
 				/>
 				<FormControlLabel
 					className={classes.formControl}
@@ -633,7 +633,7 @@ export default function SearchToolBar(props) {
 							inputProps={{ 'aria-label': 'Show only 100% online courses' }}
 						/>
 					}
-					label="Show only 100% online courses"
+					label={props.language.Showonlinecourses}
 				/>
 				<FormControlLabel
 					className={classes.formControl}
@@ -659,7 +659,7 @@ export default function SearchToolBar(props) {
 							}}
 						/>
 					}
-					label="Show only fully accessible courses"
+					label={props.language.Showonlyaccessible}
 				/>
 				<FormControlLabel
 					className={classes.formControl}
@@ -693,7 +693,7 @@ export default function SearchToolBar(props) {
 							}}
 						/>
 					}
-					label="Show only partially and fully accessible courses"
+					label={props.language.Showpartiallyandfully}
 				/>
 				
             <Accordion>
@@ -707,7 +707,7 @@ export default function SearchToolBar(props) {
 							id="accessibility-label"
 							className={classes.heading}
 						>
-							Accessibility
+							{props.language.accessibility}
 						</Typography>
 					</AccordionSummary>
 					
@@ -722,10 +722,10 @@ export default function SearchToolBar(props) {
 							className={classes.accordionbtn}
 							onClick={() => setAccessibility(INITIAL_ACCESSIBILITY)}
 						>
-							Clear filter
+							{props.language.Clearfilter}
 						</Button>
 						<FormControl className={classes.formControl}>
-							<FormLabel component="legend">Cognitive Accessibility</FormLabel>
+							<FormLabel component="legend">{props.language.CognitiveAccessibility}</FormLabel>
 							<RadioGroup
 								aria-label="Cognitive Accessibility"
 								name="a11yCog"
@@ -735,22 +735,22 @@ export default function SearchToolBar(props) {
 								<FormControlLabel
 									value="full"
 									control={<Radio />}
-									label="Show only fully Cognitive accessible courses"
+									label={props.language.ShowonlyfullyCognitive}
 								/>
 								<FormControlLabel
 									value="partial"
 									control={<Radio />}
-									label="Show partially and fully Cognitive accessible courses"
+									label={props.language.ShowpartiallyfullyCognitive}
 								/>
 								<FormControlLabel
 									value="no-filter"
 									control={<Radio />}
-									label="Show all courses, even Cognitive inaccessible courses"
+									label={props.language.ShowCognitiveinaccessible}
 								/>
 							</RadioGroup>
 						</FormControl>
 						<FormControl className={classes.formControl}>
-							<FormLabel component="legend">Hearing Accessibility</FormLabel>
+							<FormLabel component="legend">{props.language.HearingAccessibility}</FormLabel>
 							<RadioGroup
 								aria-label="Hearing Accessibility"
 								name="a11yHear"
@@ -760,22 +760,22 @@ export default function SearchToolBar(props) {
 								<FormControlLabel
 									value="full"
 									control={<Radio />}
-									label="Show onlly fully Hearing accessible courses"
+									label={props.language.ShowfullyHearing}
 								/>
 								<FormControlLabel
 									value="partial"
 									control={<Radio />}
-									label="Show partially and fully Hearing accessible courses"
+									label={props.language.ShowpartiallyfullyHearing}
 								/>
 								<FormControlLabel
 									value="no-filter"
 									control={<Radio />}
-									label="Show all courses, even Hearing inaccessible courses"
+									label={props.language.ShowHearinginaccessible}
 								/>
 							</RadioGroup>
 						</FormControl>
 						<FormControl className={classes.formControl}>
-							<FormLabel component="legend">Visually Accessibility</FormLabel>
+							<FormLabel component="legend">{props.language.VisuallyAccessibility}</FormLabel>
 							<RadioGroup
 								aria-label="Visually Accessibility"
 								name="a11yVis"
@@ -785,17 +785,17 @@ export default function SearchToolBar(props) {
 								<FormControlLabel
 									value="full"
 									control={<Radio />}
-									label="Show only fully Visually accessible courses"
+									label={props.language.ShowfullyVisually}
 								/>
 								<FormControlLabel
 									value="partial"
 									control={<Radio />}
-									label="Show partially and fully Visually accessible courses"
+									label={props.language.ShowpartiallyfullyVisually}
 								/>
 								<FormControlLabel
 									value="no-filter"
 									control={<Radio />}
-									label="Show all courses, even Visual inaccessible courses"
+									label={props.language.ShowcoursesVisualinaccessible}
 								/>
 							</RadioGroup>
 						</FormControl>
@@ -809,7 +809,7 @@ export default function SearchToolBar(props) {
 						id="lang-header"
 					>
 						<Typography component={'h3'} className={classes.heading}>
-							Course Language
+							{props.language.CourseLanguage}
 						</Typography>
 					</AccordionSummary>
 					<AccordionDetails
@@ -830,7 +830,7 @@ export default function SearchToolBar(props) {
 								polish:false,
 							}))}
 						>
-							Clear filter
+							{props.language.Clearfilter}
 						</Button>
 						<FormControl component="fieldset" className={classes.formControl}>
 							<FormHelperText>Select one or more languages</FormHelperText>
@@ -843,7 +843,7 @@ export default function SearchToolBar(props) {
 											name="pt"
 										/>
 									}
-									label="Portugues"
+									label={props.language.portuguese}
 								/>
 								<FormControlLabel
 									control={
@@ -853,7 +853,7 @@ export default function SearchToolBar(props) {
 											name="en"
 										/>
 									}
-									label="English"
+									label={props.language.english}
 								/>
 								<FormControlLabel
 									control={
@@ -863,7 +863,7 @@ export default function SearchToolBar(props) {
 											name="es"
 										/>
 									}
-									label="Spanish"
+									label={props.language.spanish}
 								/>
 								<FormControlLabel
 									control={
@@ -873,7 +873,7 @@ export default function SearchToolBar(props) {
 											name="es"
 										/>
 									}
-									label="Turkish"
+									label={props.language.turkish}
 								/>
 								<FormControlLabel
 									control={
@@ -883,7 +883,7 @@ export default function SearchToolBar(props) {
 											name="es"
 										/>
 									}
-									label="Polish"
+									label={props.language.polish}
 								/>
 							</FormGroup>
 						</FormControl>
@@ -901,7 +901,7 @@ export default function SearchToolBar(props) {
 							id="duration-label"
 							className={classes.heading}
 						>
-							Course Duration
+							{props.language.CourseDuration}
 						</Typography>
 					</AccordionSummary>
 					<AccordionDetails
@@ -915,7 +915,7 @@ export default function SearchToolBar(props) {
 							className={classes.accordionbtn}
 							onClick={() => setDuration([5,200])}
 						>
-							Reset Duration
+							{props.language.ResetDuration}
 						</Button>
 						<DurationSlider
 							min={duration[0]}
@@ -936,7 +936,7 @@ export default function SearchToolBar(props) {
 							id="audience-label"
 							className={classes.heading}
 						>
-							Course's Target Audience
+							{props.language.CourseAudience}
 						</Typography>
 					</AccordionSummary>
 					<AccordionDetails
@@ -961,9 +961,9 @@ export default function SearchToolBar(props) {
 									ElementarySchoolStudents:false,
 							})}
 							>
-								Clear filter
+								{props.language.Clearfilter}
 							</Button>
-							<FormHelperText>Select one or more audience</FormHelperText>
+							<FormHelperText>{props.language.Selectoneaudience}</FormHelperText>
 							<FormGroup aria-labelledby="audience-label">
 								{AUDIENCE.map((audience,indexAudience) => (
 									<FormControlLabel
@@ -995,7 +995,7 @@ export default function SearchToolBar(props) {
 							id="name-label"
 							className={classes.heading}
 						>
-							Course's Instructor
+							{props.language.CourseInstructor}
 						</Typography>
 					</AccordionSummary>
 					<AccordionDetails
@@ -1010,7 +1010,7 @@ export default function SearchToolBar(props) {
 								className={classes.accordionbtn}
 								onClick={() => getTutors()}
 							>
-								Clear filter
+								{props.language.Clearfilter}
 							</Button>
 							<FormHelperText>Select one or more names</FormHelperText>
 							<FormGroup aria-labelledby="audience-label">
@@ -1079,8 +1079,8 @@ export default function SearchToolBar(props) {
 	function SortCourse(props) {
 		console.log("SortCourse------",props)
 		const options = [
-			'Alphabetic',
-			'Most Recent',
+			props.language.Alphabetic,
+			props.language.MostRecent,
 			//'Most Relevant',
 		 ];
 
@@ -1114,7 +1114,7 @@ export default function SearchToolBar(props) {
 		return (
 		  <div >
 			  
-			 <List component="nav" aria-label="Device settings" subheader={<ListSubheader>Sort by</ListSubheader>}>
+			 <List component="nav" aria-label="Device settings" subheader={<ListSubheader>{props.language.Sortby}</ListSubheader>}>
 				<ListItem
 				  button
 				  aria-haspopup="true"
