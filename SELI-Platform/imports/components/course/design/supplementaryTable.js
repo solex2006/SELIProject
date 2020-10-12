@@ -5,6 +5,7 @@ import MaterialTable from "material-table";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import FeedbackHelp from "../feedback";
 import tableIcons from '../design/icons'
+import {onlySpaces} from '../../../../lib/textFieldValidations';
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -33,7 +34,7 @@ export default function SupplementaryTexts(props) {
 
 
   const suplementaryItemsTypes = [language.paper, language.book, language.other];
-  const copyTypes = [language.printed, language.digital];
+  const copyTypes = [language.digital, language.printed];
 
   function selectOptions(options) {
     let rows = [];
@@ -191,8 +192,9 @@ export default function SupplementaryTexts(props) {
             new Promise((resolve, reject) => {
               newData.submitted = true;
               if(newData.type===undefined){newData.type="1"}
+              if(newData.copy===undefined){newData.copy="0"}
               setTimeout(() => {
-              if (!newData.title) {
+              if (!newData.title || onlySpaces(newData.title)) {
                 newData.error = true;
                 newData.label = language.required;
                 newData.helperText = language.Namerequired;
@@ -220,7 +222,7 @@ export default function SupplementaryTexts(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 newData.submitted = true;
-                if (!newData.title) {
+                if (!newData.title || onlySpaces(newData.title)) {
                   newData.error = true;
                   newData.label = language.required;
                   newData.helperText = language.Namerequired;

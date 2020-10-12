@@ -63,3 +63,16 @@ export const noSpecialCharacters = (evt) => {
     }
   }
 }
+
+export const onlySpaces = (evt) => {
+  var value = true;
+  if (evt && evt !== "") {
+    var key = evt.split(" ");
+    key.map((word) => {
+      if (word !== "") {
+        value = false;
+      }
+    })
+  }
+  return value;
+}

@@ -110,7 +110,7 @@ export default function DesignStep(props) {
     ],
     activities: [
       {
-        activity: "Example",
+        activity: language.task,
         type: "1",
         graded: true,
         group: 0,
@@ -126,7 +126,7 @@ export default function DesignStep(props) {
     lessons: [
       {
         key: "lesson1",
-        title: "Lesson 01",
+        title: `${language.lesson} 1`,
         tools: [
           { checked: false, key: "audio", label: language.Audios },
           { checked: false, key: "games", label: language.Games, items: [] },
@@ -137,7 +137,7 @@ export default function DesignStep(props) {
         ],
         activities: [
           {
-            activity: "Example",
+            activity: language.task,
             type: "1",
             graded: true,
             group: 0,

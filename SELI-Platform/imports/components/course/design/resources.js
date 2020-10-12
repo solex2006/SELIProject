@@ -104,7 +104,7 @@ export default function ActivityResources(props) {
       <div className="design-into-resources">
       {
       toolsOptionsSub.length!=0?
-        <FormControl
+      <FormControl
         required
         //error={error}
         component="fieldset"
@@ -151,7 +151,7 @@ export default function ActivityResources(props) {
     return(
         <div className="design-into-resources"> 
             <FormControl
-              required
+              //required
               // error={error}
               component="fieldset"
               className={classes.formControl}
@@ -250,7 +250,7 @@ export default function ActivityResources(props) {
       type==='lessonInto'?  
       <div className="design-into-resources"> 
       <FormControl
-        required
+        //required
         // error={error}
         component="fieldset"
         className={classes.formControl}
