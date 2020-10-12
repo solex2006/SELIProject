@@ -163,38 +163,39 @@ export default function CourseContent(props) {
                                     (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
                                     || coursePlan.courseTemplate==='consistent' || coursePlan.courseTemplate==='toyBox' ) && 
                                     coursePlan.courseStructure==='topic')?       
-                                    <div>
+                                    <div style={{paddingLeft:'20px'}}>
                                         { 
                                             <div>
-                                                <ul className='resources'>
+                                                <div>
                                                     {topic.tools.map((tool,indextool)=>(//the resources of the lesson
+                                                   
                                                         tool.checked===true?
-                                                            <li  className='elemntoflist' key={indextool}>
+                                                            <div  className='elemntoflist' key={indextool}>
+                                                                { console.log("tool------------------------------", tool)}
                                                                 {
                                                                     indextool===4?
                                                                     undefined
                                                                     :
-                                                                    <p>{tool.label}</p>
-                                                                    
+                                                                    <div>
+                                                                        <p style={{fontWeight:'bold', display:'block'}}>{tool.label}</p>
+                                                                        {
+                                                                            tool.items!=undefined?
+                                                                                tool.items.map((item, indexItem)=>(
+                                                                                    (item.url!=undefined)?
+                                                                                        <a style={{paddingLeft:'30px',display:'block'}} href={item.url}>{item.title}</a>
+                                                                                    :
+                                                                                    <label style={{paddingLeft:'30px',display:'block'}}>{item.title}</label>
+                                                                                ))
+                                                                            :
+                                                                            undefined
+                                                                        }
+                                                                    </div>                                           
                                                                 }
-                                                            </li>
+                                                            </div>
                                                         :
                                                         undefined
                                                     ))}
-                                                </ul>
-                                                    {/* <div className='crnheading'>
-                                                    <h3>Tasks list of {topic.title}</h3>
-                                                    </div> */}
-                                               {/*  <ul>
-                                                        {
-                                                            topic.activities.map((activity,indextool)=>(
-                                                                <li  key={indextool}> 
-                                                                    {activity.activity}
-                                                                </li> 
-                                                            ))
-                                                        }
-                                                </ul> */}
-
+                                                </div>
                                             </div> 
                                         }
                                     </div>
@@ -210,35 +211,35 @@ export default function CourseContent(props) {
                                                     <div className='crnheading'>
                                                         <h4 id={'lesson-'+index}>{lesson.title}</h4>
                                                     </div>
-                                                    <ul className='resources'>
+                                                    <div style={{paddingLeft:'20px'}} >
                                                         {lesson.tools.map((tool,indextool)=>(//the resources of the lesson
                                                             tool.checked===true?
-                                                                <li className='elemntoflist' key={indextool}>
-                                                                    {
-                                                                        indextool===4?
-                                                                        undefined
-                                                                        :
-                                                                        <p>{tool.label}</p>
-                                                                        
-                                                                    }
-                                                                   
-                                                                </li>
+                                                            <div  className='elemntoflist' key={indextool}>
+                                                                { console.log("tool------------------------------", tool)}
+                                                                {
+                                                                    indextool===4?
+                                                                    undefined
+                                                                    :
+                                                                    <div>
+                                                                        <p style={{fontWeight:'bold', display:'block'}}>{tool.label}</p>
+                                                                        {
+                                                                            tool.items!=undefined?
+                                                                                tool.items.map((item, indexItem)=>(
+                                                                                    (item.url!=undefined)?
+                                                                                        <a style={{paddingLeft:'30px',display:'block'}} href={item.url}>{item.title}</a>
+                                                                                    :
+                                                                                    <label style={{paddingLeft:'30px',display:'block'}}>{item.title}</label>
+                                                                                ))
+                                                                            :
+                                                                            undefined
+                                                                        }
+                                                                    </div>                                           
+                                                                }
+                                                            </div>   
                                                             :
                                                             undefined
                                                         ))}
-                                                    </ul>
-                                                    {/* <div className='crnheading'>
-                                                        <h3>Tasks list of {lesson.title}</h3>
-                                                    </div> */}
-                                                    {/* <ul >
-                                                        {
-                                                            topic.lessons[index].activities.map((activity,indextool)=>(
-                                                                <li key={indextool}> 
-                                                                    {activity.activity}
-                                                                </li> 
-                                                            ))
-                                                        }
-                                                    </ul> */}  
+                                                    </div>
                                                 </div>      
                                             ))
                                         }
@@ -251,7 +252,7 @@ export default function CourseContent(props) {
                             <p className='crnheading' id={"topic-"+indexUnit+"-readings"}>
                             <hr/>
                             <br/>
-                                <h5>Readings</h5>
+                            <h5>{props.language.Readings}</h5>
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  &&
                                     (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
@@ -267,7 +268,8 @@ export default function CourseContent(props) {
                                                 {
                                                  topic.tools[4].items.length!=0?
                                                     topic.tools[4].items.map((sup,indexSup)=>(
-                                                        <li>{sup.title}</li>
+                                                      
+                                                        <a style={{paddingLeft:'30px',display:'block'}} href={sup.url}>{sup.title}</a>
                                                     ))
                                                     :
                                                     <li>{props.language.TherearenoReadings}</li>
@@ -299,7 +301,8 @@ export default function CourseContent(props) {
                                                                 {
                                                                 lesson.tools[4].items.length!=0?
                                                                     lesson.tools[4].items.map((sup,indexSup)=>(
-                                                                        <li>{sup.title}</li>
+                                                                        <a style={{paddingLeft:'30px',display:'block'}} href={sup.url}>{sup.title}</a>
+                                                                       
                                                                     ))
                                                                     :
                                                                     <li>{props.language.TherearenoReadings}</li>
