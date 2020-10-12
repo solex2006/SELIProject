@@ -118,8 +118,8 @@ export default function DesignStep(props) {
         preeReview: false,
         submitted: true,
         error: true,
-        label: "required",
-        helperText: "Name is required.",
+        label: language.required,
+        helperText: language.Namerequired,
         validateInput: true
       }
     ],
@@ -145,8 +145,8 @@ export default function DesignStep(props) {
             preeReview: false,
             submitted: true,
             error: true,
-            label: "required",
-            helperText: "Name is required.",
+            label: language.required,
+            helperText: language.Namerequired,
             validateInput: true
           }
         ]
@@ -388,7 +388,7 @@ export default function DesignStep(props) {
                 <div className={!unit.editing ? classes.hidden : ""}>
                   <TextField
                     id={"unit_" + unitIndex + "txtField"}
-                    label={"Title"}
+                    label={language.title}
                     value={controlEdit.tempValue}
                     onChange={event => updateTempValue(event.target.value)}
                   />
@@ -418,7 +418,7 @@ export default function DesignStep(props) {
                       errorType: "",
                       a11y: null
                     }}
-                    tipMsg="instructions"
+                    tipMsg={organization === "unit" ? language.unitName : language.topicName}
                     describedBy={"i05-helper-text"}
                   />
                 </div>

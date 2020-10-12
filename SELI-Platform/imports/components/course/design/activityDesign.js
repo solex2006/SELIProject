@@ -81,7 +81,7 @@ export default function ActivityDesign(props) {
               !props.value &&
               props.rowData.validateInput &&
               props.rowData.submitted
-                ? "This Field is Required"
+                ? language.required
                 : ""
             }
             value={props.value ? props.value : ""}

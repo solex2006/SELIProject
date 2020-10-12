@@ -69,7 +69,7 @@ export default function SupplementaryTexts(props) {
               !props.value &&
               props.rowData.validateInput &&
               props.rowData.submitted
-                ? "Required"
+                ? language.required
                 : ""
             }
             value={props.value ? props.value : ""}
@@ -159,7 +159,7 @@ export default function SupplementaryTexts(props) {
               !props.value &&
               props.rowData.validateInput &&
               props.rowData.submitted
-                ? "Required"
+                ? language.required
                 : ""
             }
             value={props.value ? props.value : ""}
@@ -288,7 +288,7 @@ export default function SupplementaryTexts(props) {
             actions: "" //removed title of action column
           },
           body: {
-            emptyDataSourceMessage: language.Nopresentations,
+            emptyDataSourceMessage: language.noSupplementary,
             addTooltip: language.add,
             deleteTooltip: language.delete,
             editTooltip: language.edit,

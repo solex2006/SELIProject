@@ -66,7 +66,7 @@ export default function Presentation(props) {
                 !props.value &&
                 props.rowData.validateInput &&
                 props.rowData.submitted
-                  ? "Required"
+                  ? language.required
                   : ""
               }
               value={props.value ? props.value : ""}
@@ -151,7 +151,7 @@ export default function Presentation(props) {
                 !props.value &&
                 props.rowData.validateInput &&
                 props.rowData.submitted
-                  ? "Required"
+                  ? language.required
                   : ""
               }
               value={props.value ? props.value : ""}

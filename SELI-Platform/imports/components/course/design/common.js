@@ -137,7 +137,7 @@ export default function DesignCourseCommons(props) {
       /><br/>
       <TextField
         id={key + "_ObjMain"}
-        label={language.Maincontent}
+        label={`${language.Maincontent} (${language.required})`}
         aria-describedBy={key + "-helper-text_mainContent"}
         value={main!='' ? main : mainContent }
         required
