@@ -1471,7 +1471,7 @@ export default function AnalysisStep(props) {
             <TextField
               value={pedagogical}
               //required
-              label={`${labels.pedagogicalconsiderations} ${props.language.required}`}
+              label={`${labels.pedagogicalconsiderations} (${props.language.required})`}
               variant="outlined"
               multiline
               rowsMax={5}

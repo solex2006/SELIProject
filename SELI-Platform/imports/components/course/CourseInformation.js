@@ -150,7 +150,7 @@ export default class CourseInformation extends React.Component {
           <h2>{this.props.language.information}</h2><br/>
           <TextField
             id="title-input"
-            label={`${this.props.language.courseTitle} ${this.props.language.required}`}
+            label={`${this.props.language.courseTitle} (${this.props.language.required})`}
             aria-label={this.props.language.textEditor_a11y_title}
             margin="normal"
             variant="outlined"
@@ -187,7 +187,7 @@ export default class CourseInformation extends React.Component {
           />
           <TextField
             id="description-input"
-            label={`${this.props.language.courseDescription} ${this.props.language.required}`}
+            label={`${this.props.language.courseDescription} (${this.props.language.required})`}
             aria-label={this.props.language.description}
             margin="normal"
             variant="outlined"
@@ -209,7 +209,7 @@ export default class CourseInformation extends React.Component {
           <TextField
             id="subject-select-currency"
             select
-            label={`${this.props.language.language} ${this.props.language.required}`}
+            label={`${this.props.language.language} (${this.props.language.required})`}
             aria-label={this.props.language.language}
             value={this.state.courseInformation.language}
             onChange={this.handleChange('language')}
@@ -235,7 +235,7 @@ export default class CourseInformation extends React.Component {
           <div className="row-input">
             <TextField
               id="keyWord-input"
-              label={`${this.props.language.courseKeyWords} ${this.props.language.required}`}
+              label={`${this.props.language.courseKeyWords} (${this.props.language.required})`}
               aria-label={this.props.language.courseKeyWords}
               margin="normal"
               variant="outlined"
@@ -282,7 +282,7 @@ export default class CourseInformation extends React.Component {
               {() => (
                 <Input
                   id="filled-secondary"
-                  label={`${this.props.language.duration} ${this.props.language.required} *`}
+                  label={`${this.props.language.duration} (${this.props.language.required})*`}
                   aria-label={this.props.language.duration}
                   size="small"
                   className="duration-course-information"
@@ -376,7 +376,7 @@ export default class CourseInformation extends React.Component {
                 className="form-image-icon"
               />
                 {this.props.language.selectCourseImage} <br/>
-                {this.props.language.required} *
+                {`(${this.props.language.required})`}*
               </Button>
           }
           <br/><br/><br/>

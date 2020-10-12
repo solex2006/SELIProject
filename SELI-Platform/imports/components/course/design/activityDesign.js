@@ -4,7 +4,8 @@ import TextField from "@material-ui/core/TextField";
 import MaterialTable from "material-table";
 import React, {useEffect,  useState}from "react";
 import FeedbackHelp from "../feedback";
-import tableIcons from '../design/icons'
+import tableIcons from '../design/icons';
+import {onlySpaces} from '../../../../lib/textFieldValidations';
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -80,7 +81,7 @@ export default function ActivityDesign(props) {
               !props.value &&
               props.rowData.validateInput &&
               props.rowData.submitted
-                ? "This Field is Required"
+                ? language.required
                 : ""
             }
             value={props.value ? props.value : ""}
@@ -149,7 +150,7 @@ export default function ActivityDesign(props) {
                 newData.submitted = true;
                 if(newData.type===undefined){newData.type="1"}
                
-                if (!newData.activity) {
+                if (!newData.activity || onlySpaces(newData.activity)) {
                   newData.error = true;
                   newData.label = language.required;
                   newData.helperText = language.Namerequired;
@@ -180,7 +181,7 @@ export default function ActivityDesign(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 newData.submitted = true;
-                if (!newData.activity) {
+                if (!newData.activity || onlySpaces(newData.activity)) {
                   newData.error = true;
                   newData.label = language.required;
                   newData.helperText = language.Namerequired;

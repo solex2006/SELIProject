@@ -5,7 +5,8 @@ import TextField from "@material-ui/core/TextField";
 import MaterialTable from "material-table";
 import React,{useEffect} from "react";
 import FeedbackHelp from "../feedback";
-import tableIcons from '../design/icons'
+import tableIcons from '../design/icons';
+import {onlySpaces} from '../../../../lib/textFieldValidations';
 
 const useStyles = makeStyles(theme => ({}));
 export default function Presentation(props) {
@@ -65,7 +66,7 @@ export default function Presentation(props) {
                 !props.value &&
                 props.rowData.validateInput &&
                 props.rowData.submitted
-                  ? "Required"
+                  ? language.required
                   : ""
               }
               value={props.value ? props.value : ""}
@@ -150,7 +151,7 @@ export default function Presentation(props) {
                 !props.value &&
                 props.rowData.validateInput &&
                 props.rowData.submitted
-                  ? "Required"
+                  ? language.required
                   : ""
               }
               value={props.value ? props.value : ""}
@@ -185,7 +186,7 @@ export default function Presentation(props) {
               setTimeout(() => {
               newData.submitted = true;
               if(newData.type===undefined){newData.type="1"}
-              if (!newData.title) {
+              if (!newData.title || onlySpaces(newData.title)) {
                 newData.error = true;
                 newData.label = language.required;
                 newData.helperText = language.Namerequired;
@@ -213,7 +214,7 @@ export default function Presentation(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 newData.submitted = true;
-                if (!newData.title) {
+                if (!newData.title || onlySpaces(newData.title)) {
                   newData.error = true;
                   newData.label = language.required;
                   newData.helperText = language.Namerequired;
