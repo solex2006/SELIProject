@@ -921,62 +921,64 @@ export default class StoriesDashboard extends React.Component {
         {
           this.state.generalDetailedFlag===false?
           <div>
-            {this.paperSearchMyCourses('My Stories', this.state.myFiltersuscribdedCourses)}
+            {/* {this.paperSearchMyCourses('My Stories', this.state.myFiltersuscribdedCourses)} */}
             {this.paperSearchSeli('SELI Stories', this.state.myFilterSeliCourses)}
             {this.paperSupportNews('Support')}
             {this.paperSupportNews('News')}
           </div>
-          :
-          <div>
-             <React.Fragment>  
-              {//for  OnlineCourses
-                this.state.onlineTag===true?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('100% online courses', this.state.onlineCourses)}
-                </React.Fragment>
-                :
-                undefined
-              }
-            </React.Fragment>
+          : 
+          undefined
+          
+          //  <div>
+              // <React.Fragment>  
+          //     {//for  OnlineCourses
+          //       this.state.onlineTag===true?
+          //       <React.Fragment>
+          //         {this.paperSearchMyCourses('100% online courses', this.state.onlineCourses)}
+          //       </React.Fragment>
+          //       :
+          //       undefined
+          //     }
+          //   </React.Fragment>
 
-            <React.Fragment>
-              {// foraccessibilitie Tag
-                this.state.accessibilitie.a11yCog==='full'?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Fully Cognitive', this.state.fullyCognitive)}
-                </React.Fragment>
-                :
-                undefined
-              }
-              {
-                this.state.accessibilitie.a11yHear==='full'?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Fully Hearing', this.state.fullyHearing)}
-                </React.Fragment>
-                :
-                undefined
-              } 
-              {
-                this.state.accessibilitie.a11yVis==='full'?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Fully Visual', this.state.fullyVisual)}
-                </React.Fragment>
-                :
-                undefined
-              }
-            </React.Fragment>
+          //   <React.Fragment>
+          //     {// foraccessibilitie Tag
+          //       this.state.accessibilitie.a11yCog==='full'?
+          //       <React.Fragment>
+          //         {this.paperSearchMyCourses('Fully Cognitive', this.state.fullyCognitive)}
+          //       </React.Fragment>
+          //       :
+          //       undefined
+          //     }
+          //     {
+          //       this.state.accessibilitie.a11yHear==='full'?
+          //       <React.Fragment>
+          //         {this.paperSearchMyCourses('Fully Hearing', this.state.fullyHearing)}
+          //       </React.Fragment>
+          //       :
+          //       undefined
+          //     } 
+          //     {
+          //       this.state.accessibilitie.a11yVis==='full'?
+          //       <React.Fragment>
+          //         {this.paperSearchMyCourses('Fully Visual', this.state.fullyVisual)}
+          //       </React.Fragment>
+          //       :
+          //       undefined
+          //     }
+          //   </React.Fragment>
 
-            <React.Fragment>  
-              {//for  OnlineCourses
-                this.state.onsearchflag===true?
-                <React.Fragment>
-                  {this.paperSearchMyCourses('Detailed Search', this.state.orsearch)}
-                </React.Fragment>
-                :
-                undefined
-              }
-            </React.Fragment>
-          </div>
+          //   <React.Fragment>  
+          //     {//for  OnlineCourses
+          //       this.state.onsearchflag===true?
+          //       <React.Fragment>
+          //         {this.paperSearchMyCourses('Detailed Search', this.state.orsearch)}
+          //       </React.Fragment>
+          //       :
+          //       undefined
+          //     }
+            //  </React.Fragment>
+          //  </div>
         } 
       </div>
     )

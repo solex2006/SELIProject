@@ -89,6 +89,9 @@ class StorytellingToolTime extends React.Component {
     super(props);
     this.waveObjects = [];
     this.state = {
+      audioControl: false,
+      resultControl: false,
+      imageControl: false,
       story: {
         name: "",
         published: false,
@@ -485,6 +488,14 @@ class StorytellingToolTime extends React.Component {
   }
 
   validateStory = () => {
+    var validImage = this.state.story.nodes.map(item => item.images);
+    if(validImage[0] == 0) {
+      this.props.handleControlMessage(true, this.props.language.allScenesImage);
+      this.state.imageControl = false;
+    }
+    else {
+      this.state.imageControl = true;
+    }
     let story = this.state.story;
     for (var i = 0; i < story.nodes.length; i++) {
       if (story.nodes[i].audio === "") {
@@ -492,10 +503,17 @@ class StorytellingToolTime extends React.Component {
         this.setState({
           selectedNode: i,
         });
-        return false;
+        this.state.audioControl = false;
+      }else {
+        this.state.audioControl = true;
       }
     }
-    return true;
+    if(this.state.audioControl == true && this.state.imageControl == true) {
+      this.state.resultControl = true;
+    }else {
+      this.state.resultControl = false;
+    }
+    return this.state.resultControl;
   }
 
   handleSaveStory = () => {
