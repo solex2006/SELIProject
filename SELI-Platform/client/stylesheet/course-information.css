@@ -368,6 +368,10 @@
   overflow-y: scroll;
 }
 
+.add-keyword-button {
+  margin-left: 10px;
+}
+
 @media only screen and (max-width: 1080px)  {
   .form-input-steps {
     width: calc(100% - 4vw);
