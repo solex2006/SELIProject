@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import Loading from '../../components/tools/Loading';
-import { Stories } from '../../../lib/StoryCollection';
 import Table from '../data_display/Table';
 
 import StudentProfile from './StudentProfile';
