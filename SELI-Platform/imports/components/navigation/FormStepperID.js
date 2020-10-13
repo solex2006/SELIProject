@@ -142,6 +142,7 @@ function useWindowSize() {
 }
 
 export default function FormStepperID(props) {
+  console.log("PROPIEDADES pasos---------------------------", props)
   const [validateInformation,setvalidateInformation]=useState({
     informationStep:props.forms[0].props.courseInformation,
   });
@@ -153,6 +154,17 @@ export default function FormStepperID(props) {
   const [showButton, setshowButton] = useState('');
   const [showButtonNext, setshowButtonNext] = useState('');
   const [showButtonPublish, setshowButtonPublish] = useState('none');
+
+  const [stepsLabels, setstepsLabels]=useState ([
+    {label: props.language.informationLabel, icon: <InfoIcon className="step-icon"/>},
+    {label: props.language.audiencesLabel, icon: <GroupIcon className="step-icon"/>},
+    {label: props.language.requirementsLabel, icon: <PlaylistAddCheckIcon className="step-icon"/>},
+    {label: props.language.planLabel, icon: <AssistantIcon className="step-icon"/>},
+    {label: props.language.analysisstepLabel, icon: <SchoolIcon className="step-icon"/>},
+    {label: props.language.desingPhaseLabel, icon: <AssignmentIcon className="step-icon"/>},
+    {label: props.language.programLabel, icon: <MenuBookIcon className="step-icon"/>},
+    {label: props.language.reportstepLabel, icon: <MenuBookIcon className="step-icon"/>}
+  ])
   
   //nuevos parametros
   const [addie, setAddie] = React.useState(false);
@@ -757,14 +769,14 @@ useEffect(()=>{
         <div className="form-stepper-information-id">
           <h1 style={{color: getComputedStyle(document.documentElement).getPropertyValue('--' + props.color)}} className="form-stepper-title">{props.title}</h1>
           {width >= 1300 && <p className="form-stepper-active-step-id">{`${props.language.step}  
-          ${(props.coursePlan.guidedCoursePlan==="free" && activeStep>3)?parseInt(activeStep ):parseInt(activeStep + 1)} ${props.language.of} ${props.coursePlan.guidedCoursePlan==="free"?steps.length-1:steps.length}: ${steps[activeStep].label}`}</p>}
+          ${(props.coursePlan.guidedCoursePlan==="free" && activeStep>3)?parseInt(activeStep ):parseInt(activeStep + 1)} ${props.language.of} ${props.coursePlan.guidedCoursePlan==="free"?steps.length-1:steps.length}: ${stepsLabels[activeStep].label}`}</p>}
         </div>
         {
           props.steps.length > 1 ?
             width < 1300 ?
               <div>      
                 <Button className="form-stepper-selector-button" color={props.color} aria-describedby={id} onClick={handleClick}>
-                  {`${props.language.step}  ${parseInt(activeStep + 1)} ${props.language.of} ${props.coursePlan.guidedCoursePlan==="free"?steps.length-1:steps.length}: ${steps[activeStep].label}`}
+                  {`${props.language.step}  ${parseInt(activeStep + 1)} ${props.language.of} ${props.coursePlan.guidedCoursePlan==="free"?steps.length-1:steps.length}: ${stepsLabels[activeStep].label}`}
                   <KeyboardArrowDownIcon className="form-stepper-selector-button-icon"/>
                 </Button>              
                 <Popover

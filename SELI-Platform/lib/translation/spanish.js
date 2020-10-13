@@ -1340,6 +1340,14 @@ var SPANISH = {
   links: "Enlaces",
   embeddedContent: "Contenido embebido",
   unityContent: "Contenido Unity",
+  informationLabel: "Información general sobre el curso",
+  audiencesLabel: "Identifique a su audiencia y sus necesidades",
+  requirementsLabel: "Requisitos técnicos previos para el curso",
+  planLabel: "Elija un modelo que lo guiará a crear un material instructivo",
+  analysisstepLabel: "Identifique sus objetivos educativos",
+  desingPhaseLabel: "Definición de objetivos de aprendizaje, planificación de lecciones y selección de medios",
+  programLabel: "Inserción de contenido",
+  reportstepLabel: "Acccesibilidad en su curso"
 }
 export default SPANISH;
 
