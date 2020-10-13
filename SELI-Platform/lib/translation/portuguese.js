@@ -1342,6 +1342,14 @@ var PORTUGUESE = {
   links: "Links",
   embeddedContent: "Embedded content",
   unityContent: "Unity content",
+  informationLabel:"General information about the course",
+  audiencesLabel:"Identify your audience and their necessities",
+  requirementsLabel:"Technical pre-requisites for the course",
+  planLabel:" Choose a model that will guide you creating an instructional material",
+  analysisstepLabel:"Identify your instructional goals",
+  desingPhaseLabel:"Definition of learning objectives, lesson planning and media selection",
+  programLabel:"Content insertion.",
+  reportstepLabel:"How accessible is your course?"
 }
 export default PORTUGUESE;
 
