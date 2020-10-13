@@ -10,6 +10,8 @@ import AppBar from '../components/navigation/AppBar';
 
 import Presentation from '../components/navigation/Presentation';
 import PublishedCoursesList from '../components/tutor/PublishedCoursesList';
+import PublishedStoriesList from '../components/tutor/PublishedStoriesList';
+
 import SavedCoursesList from '../components/tutor/SavedCoursesList';
 import CreateCourse from '../components/tutor/CreateCourse';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
@@ -25,6 +27,10 @@ import SubscribedCourses from '../components/student/SubscribedCourses';
 import Course from '../components/student/Course';
 import MyCertificates from '../components/student/MyCertificates';
 import DashboardComponent from '../components/dashboard/dashboard';
+import StoriesDashboard from '../components/student/StoriesDashboard';
+import Community from '../ui/Community';
+
+
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
@@ -45,6 +51,7 @@ import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
+
 
 export default class User extends React.Component {
   
@@ -598,6 +605,38 @@ export default class User extends React.Component {
                       :
                       undefined
                     }
+                    {
+                      this.state.component === 'Community' ?
+                    <Community
+                      user={this.state.user}
+                      language={this.state.language}
+                      subscribe={this.subscribe.bind(this)}
+                          unsubscribe={this.openUnsubscribe.bind(this)}
+                          disabled={this.state.showLoadingMessage}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                          searchText={this.state.searchText ? this.state.searchText : undefined}
+                          texttoSearch={this.state.texttoSearch ? this.state.texttoSearch : undefined}
+                          cleanSearchText={this.cleanSearchText.bind(this)}
+                    />  
+                    :
+                    undefined  
+                  }
+                     {
+                      this.state.component === 'community' ?
+                    <StoriesDashboard
+                      user={this.state.user}
+                      language={this.state.language}
+                      subscribe={this.subscribe.bind(this)}
+                          unsubscribe={this.openUnsubscribe.bind(this)}
+                          disabled={this.state.showLoadingMessage}
+                          handleControlMessage={this.handleControlMessage.bind(this)}
+                          searchText={this.state.searchText ? this.state.searchText : undefined}
+                          texttoSearch={this.state.texttoSearch ? this.state.texttoSearch : undefined}
+                          cleanSearchText={this.cleanSearchText.bind(this)}
+                    />  
+                    :
+                    undefined  
+                  }
                     {
                       this.state.component === 'published' ?
                         <PublishedCoursesList

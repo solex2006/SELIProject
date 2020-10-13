@@ -1,3 +1,5 @@
+
+
 var OPTIONS = [
   {
     label: [
@@ -68,6 +70,16 @@ var OPTIONS = [
           "Hikaye oluştur (Zaman çizelgesi)",
         ],
         component: 'storytelling-time',
+      },
+      {
+        label: [
+          "SELI Stories",
+          "Historias SELI",
+          "Histórias SELI",
+          "SELI Stories",
+          "SELI Hikayeleri",
+        ],
+        component: 'community',
       },
     ],
   },

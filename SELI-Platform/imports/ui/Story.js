@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
+import { Link } from 'react-router-dom';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
@@ -26,6 +28,7 @@ export default class Story extends React.Component {
     super(props);
     this.state = {
       story: undefined,
+      _id: "",
     }
   }
 
@@ -37,9 +40,9 @@ export default class Story extends React.Component {
     this.setState({
       loadingStory: true,
     }, () => {
-      let _id = this.props.location.hash.substr(1);
+      this.state._id = this.props.location.hash.substr(1);
       Tracker.autorun(() => {
-        let story = Activities.find({_id: _id}).fetch();
+        let story = Activities.find({_id: this.state._id}).fetch();
         if (story.length) {
           story = story[0];
           let type = story.activity.type;
@@ -71,11 +74,19 @@ export default class Story extends React.Component {
     });
   }
 
-  sendComment = (comment) => {
+
+
+  sendComment = (comment) => 
+  
+  {
+
+    let UserID = Meteor.userId().toString();
+    var UserNameByID = Meteor.users.findOne({_id: UserID});
+    let UserName = UserNameByID.username;
     Comments.insert({
       comment: comment,
-      user: Meteor.userId() !== null ? Meteor.userId() : "guest" ,
-      story: this.state.story._id,
+      user: Meteor.userId() !== null ? UserName : "guest" ,
+      story: this.state._id,
       show: true,
       date: new Date(),
     }, () => {
@@ -137,8 +148,8 @@ export default class Story extends React.Component {
 
   getTitleOfStory() {
     try {
-      let _id = this.props.location.hash.substr(1);
-      let story = Activities.find({ _id: _id}).fetch();
+      this.state._id = this.props.location.hash.substr(1);
+      let story = Activities.find({ _id: this.state._id}).fetch();
       if(story.length){
         story = story[0];
         story = story.activity;
@@ -152,8 +163,8 @@ export default class Story extends React.Component {
 
   getImageUrlForSocial(){
     try{
-    let _id = this.props.location.hash.substr(1);
-    let result = Activities.find({ _id: _id}).fetch();
+      this.state._id = this.props.location.hash.substr(1);
+    let result = Activities.find({ _id: this.state._id}).fetch();
       if(result.length){
         result = result[0];
         result = result.activity.data;

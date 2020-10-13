@@ -11,6 +11,7 @@ import { createBrowserHistory } from 'history';
 import { Tracker } from 'meteor/tracker';
 import Home from '../imports/ui/Home';
 import User from '../imports/ui/User';
+import Community from '../imports/ui/Community';
 import Administrator from '../imports/ui/Administrator';
 import UserRegistration from '../imports/ui/UserRegistration';
 import RetrievePasswd from '../imports/ui/RetrievePasswd';
@@ -22,6 +23,7 @@ import CoursesDashboard from '../imports/ui/CoursesDashboard';
 import TutorRequestList from '../imports/components/administrator/TutorRequestList';
 import CertificateValidation from '../imports/ui/CertificateValidation';
 import {Helmet} from "react-helmet";
+import StoriesDashboard from '../imports/components/student/StoriesDashboard';
 
 const history = createBrowserHistory();
 window.browserHistory = history;
@@ -45,6 +47,7 @@ Meteor.startup(() => {
         <Route exact path="/" component={Home} history={history}/>
         <Route exact path="/user" component={User} history={history}/>
         <Route exact path="/administrator" component={Administrator} history={history}/>
+        <Route exact path="/Community" component={Community} history={history}/>
         <Route exact path="/UserRegistration" component={UserRegistration} history={history}/>
         <Route exact path="/RetrievePasswd" component={RetrievePasswd} history={history}/>
         <Route exact path="/unityWebgl" component={UnityWebgl} history={history}/>

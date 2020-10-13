@@ -44,8 +44,9 @@ export default class Stories extends React.Component {
     }, () => {
       Tracker.autorun(() => {
         let myStories = Activities.find({
-          'activity.user': Meteor.userId(),
-          'activity.type': { $in: [ "storytelling", "storytelling-time" ] },
+          'activity.public': true,
+          'activity.type': { $in: [ "storytelling", "storytelling-time"
+         ] },
         }).fetch();
         this.setState({
           myStories: myStories,
@@ -201,6 +202,7 @@ export default class Stories extends React.Component {
 
   render() {
     return(
+      
       <div className="management-container">
         {
           this.state.loading ?
@@ -208,6 +210,7 @@ export default class Stories extends React.Component {
               <Loading message={this.props.language.loadingMyStories}/>
             </div>
           :
+
           <React.Fragment>
             {
               this.state.results ?

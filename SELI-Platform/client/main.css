@@ -83,6 +83,10 @@ th {
   font-weight: normal !important;
 }
 
+.SeliStoriesDiv{
+  margin-left: 50px;
+}
+
 .center-button-container {
   width: 100%;
   padding: 1vh 0;

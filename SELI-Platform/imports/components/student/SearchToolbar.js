@@ -389,8 +389,8 @@ export default function SearchToolBar(props) {
 					<InputBase
 						value={query}
 						className={classes.input}
-						placeholder="Search SELI Courses"
-						inputProps={{ 'aria-label': 'search seli courses' }}
+						placeholder="Search SELI Courses or Stories"
+						inputProps={{ 'aria-label': 'search seli courses or stories' }}
 						onChange={search}
 					/>
 					<IconButton onClick={()=>GeneralSearch()} className={classes.iconButton} aria-label="search">

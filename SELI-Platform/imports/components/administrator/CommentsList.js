@@ -96,6 +96,7 @@ export default class CommentsList extends React.Component {
       { id: 'comment', numeric: false, disablePadding: true, label: 'Comment' },
       { id: 'user', numeric: true, disablePadding: false, label: 'Username' },
       { id: 'course', numeric: true, disablePadding: false, label: 'Course' },
+      { id: 'story', numeric: true, disablePadding: false, label: 'Story' },
       { id: 'show', numeric: true, disablePadding: false, label: 'Displayed' },
       { id: 'date', numeric: true, disablePadding: false, label: 'Date commented' },
       { id: 'actions', numeric: true, disablePadding: false, label: 'Actions' },
@@ -108,6 +109,7 @@ export default class CommentsList extends React.Component {
         comment: comment.comment,
         user: comment.user,
         course: comment.course,
+        story: comment.story,
         show: comment.show ? 'Yes' : 'No',
         date: comment.date.toLocaleDateString('en-US'),
         _id: comment._id

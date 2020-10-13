@@ -18,8 +18,9 @@ import LanguageSelector from './LanguageSelector';
 import UserMenu from './UserMenu';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
-import { Courses } from '../../../lib/CourseCollection'
-import filter from '@mcabreradev/filter'
+import { Courses } from '../../../lib/CourseCollection';
+import filter from '@mcabreradev/filter';
+import { Link } from 'react-router-dom';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Grow ref={ref} {...props} />;
@@ -124,7 +125,6 @@ export default class AppBar extends React.Component {
   }
 
   handleSearchButton=(event)=>{
-    //console.log(this.state.searchText)
     //let courses= Courses.find({}).fetch()
     let courses = Courses.find({published: true}).fetch();
     //console.log(courses)
@@ -142,7 +142,15 @@ export default class AppBar extends React.Component {
         <div className="app-bar-container" >
           <div className="app-bar-container-text">
             {this.props.language.seliProject}
+            
+            <div className="SeliStoriesDiv"
+            onClick={() => this.redirect('/community', false)}
+            >
+            {this.props.language.seliStories}              
+
+            </div>
           </div>
+
           <div className="bar-button-container" >
             {
               this.props.user !== undefined ?
