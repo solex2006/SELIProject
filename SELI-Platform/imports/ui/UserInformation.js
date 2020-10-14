@@ -17,7 +17,7 @@ import AccessibilityRegistration from '../components/student/AccessibilityRegist
 
 
 import EmailIcon from '@material-ui/icons/Email';
-import {validateOnlyLetters, validateOnlyNumbers} from '../../lib/textFieldValidations';
+import {validateOnlyNumbers} from '../../lib/textFieldValidations';
 
 import {noSpecialCharacters} from '../../lib/textFieldValidations';
 
@@ -272,7 +272,7 @@ export default class UserInformation extends React.Component {
             :
               this.props.type === "tutor" ?
                 <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="secondary">
-                  <ImageSharpIcon className="form-image-icon"/>{this.props.language.selectYourProfilePhoto} <br/> {`${this.props.language.required}*`}
+                  <ImageSharpIcon className="form-image-icon"/>{this.props.language.selectYourProfilePhoto} <br/> {`(${this.props.language.required})`}
                 </Button>
               :
                 <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="secondary">

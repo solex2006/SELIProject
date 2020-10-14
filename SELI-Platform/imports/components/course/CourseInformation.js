@@ -7,7 +7,7 @@ import ImageSharpIcon from '@material-ui/icons/ImageSharp';
 import MenuItem from '@material-ui/core/MenuItem';
 import Help from '../tools/Help';
 import FormPreview from '../files/previews/FormPreview';
-import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldValidations';
+import {validateOnlyLetters, validateLettersString, onlySpaces} from '../../../lib/textFieldValidations';
 import Paper from "@material-ui/core/Paper";
 import InputMask from "react-input-mask";
 import Input from "@material-ui/core/TextField";
@@ -16,7 +16,10 @@ import Grid from "@material-ui/core/Grid";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from "@material-ui/core/FormLabel";
+import Fab from '@material-ui/core/Fab';
+import AddIcon from "@material-ui/icons/Add";
+import Tooltip from '@material-ui/core/Tooltip';
+
 export default class CourseInformation extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +35,7 @@ export default class CourseInformation extends React.Component {
 
   componentDidMount(){
     if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
-        && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
+        && this.state.courseInformation.keyWords.length > 2 && this.state.courseInformation.image!=undefined 
         && (this.state.courseInformation.language===0 
           || this.state.courseInformation.language===1
         ||this.state.courseInformation.language===2 
@@ -46,7 +49,7 @@ export default class CourseInformation extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
-        && this.state.courseInformation.keyWords.length!=0 && this.state.courseInformation.image!=undefined 
+        && this.state.courseInformation.keyWords.length > 2 && this.state.courseInformation.image!=undefined 
         && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
         ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3 || this.state.courseInformation.language===4)){
       this.props.validate('passInformation')
@@ -70,6 +73,10 @@ export default class CourseInformation extends React.Component {
       courseInformation.description = event.target.value;
     }
     else if (name === 'duration') {
+      var durationAux = event.target.value.split(":");
+      var aux1 = durationAux[1].substring(0,1);
+      var aux2 = durationAux[2].substring(0,1);
+      if ((aux1 !== "_" && aux1 < 6) && (aux2 !== "_" && aux2 < 6))
       courseInformation.duration = event.target.value;
     }
     else if (name === 'durationWeeks') {
@@ -85,6 +92,7 @@ export default class CourseInformation extends React.Component {
 
   addKeyWord(){
     let keyWord = document.getElementById('keyWord-input').value;
+    if (validateLettersString(keyWord) && !onlySpaces(keyWord))
     if(keyWord !== '') {
       let courseInformation = this.state.courseInformation;
       keyWord = keyWord.trim().split(/\s+/);
@@ -242,6 +250,18 @@ export default class CourseInformation extends React.Component {
               className="button-input"
               onKeyPress={() => this.keyController(event)}
             />
+            <div className="add-keyword-button">
+              <Tooltip title={this.props.language.add}>
+                <Fab
+                  size="small"
+                  className="form-file-selected-button"
+                  onClick={() => this.addKeyWord()}
+                >
+                  <AddIcon />
+                </Fab>
+              </Tooltip>
+            </div>
+            
           </div>
           {
             this.state.courseInformation.keyWords.length ?
@@ -282,7 +302,7 @@ export default class CourseInformation extends React.Component {
               {() => (
                 <Input
                   id="filled-secondary"
-                  label={`${this.props.language.duration} (${this.props.language.required})*`}
+                  label={`${this.props.language.duration} (${this.props.language.required})`}
                   aria-label={this.props.language.duration}
                   size="small"
                   className="duration-course-information"
@@ -335,16 +355,6 @@ export default class CourseInformation extends React.Component {
                   label={this.props.language.hybrid}
                 />
               </RadioGroup>
-              {/* <FeedbackHelp
-                validation={{
-                  error: analysisTooltip.modality,
-                  errorMsg: labels.errorMsg,
-                  errorType: "",
-                  a11y: null
-                }}
-                tipMsg="Select beteween online course or blend online and face-to-face course."
-                describedBy={"modality-helper-text"}
-              /> */}
             </form>
             </Grid>
           </Grid>
@@ -376,7 +386,7 @@ export default class CourseInformation extends React.Component {
                 className="form-image-icon"
               />
                 {this.props.language.selectCourseImage} <br/>
-                {`(${this.props.language.required})`}*
+                {`(${this.props.language.required})`}
               </Button>
           }
           <br/><br/><br/>

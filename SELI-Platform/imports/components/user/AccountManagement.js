@@ -14,7 +14,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import FileUpload from '../files/FileUpload';
 import ImagePreview from '../files/previews/ImagePreview';
 import Library from '../tools/Library';
-import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldValidations';
+import {validateOnlyNumbers} from '../../../lib/textFieldValidations';
 
 import {noSpecialCharacters} from '../../../lib/textFieldValidations';
 
