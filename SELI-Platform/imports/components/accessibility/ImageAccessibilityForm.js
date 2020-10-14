@@ -135,7 +135,7 @@ export default function ImageAccessibility(props) {
 							//ariaDescribedBy
 							//editorData
 							placeholder="Content identification"
-							required={true}
+							//required={true}
 							tip={shortDescriptionTip}
 							step={'shortAltHelper_'+ dataField.imagePurpose}
 							language={props.language}
@@ -153,7 +153,7 @@ export default function ImageAccessibility(props) {
 							//ariaDescribedBy
 							//editorData
 							placeholder={props.language.longDescription_a11y_placeholder_image}
-							required={true}
+							//required={true}
 							tip={longDescriptionTip}
 							step={'longAltHelper_'+dataField.imagePurpose}
 							stepLabel=''

@@ -689,7 +689,7 @@
   other: "inne",
   progress_a11y: "Progres związany z dostępnością",
   seizureRisk_a11y_has: "Czy ta treść mogła wywołać napady drgawek światłoczułych?",
-  shortDescription_a11y_label: "Krótki opis",
+  shortDescription_a11y_label: "Krótki opis (Required for inclusion)",
   shortDescription_a11y_placeholder: "Identyfikacja zawartości",
   shortDescription_a11y_tip: "Przedstawić opisową identyfikację treści",
   shortDescription_a11y_tip_image_complex: "Stwórz krótki opis, aby określić i przedstawić ogólny zarys informacji.",
