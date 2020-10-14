@@ -243,16 +243,7 @@ export default function CoursePlanStep(props) {
             describedBy={"i05-helper-text"}
           />
         }
-        {/* <FeedbackHelp
-          validation={{
-            error: false,
-            errorMsg: "",
-            errorType: "",
-            a11y: null
-          }}
-          tipMsg={language.documentupload}
-          describedBy={"i05-helper-text"}
-        /> */}
+        
         
         {courseInformation.coursePlan.guidedCoursePlan === "free" && (
           <React.Fragment>
@@ -390,7 +381,21 @@ export default function CoursePlanStep(props) {
         />
           </React.Fragment>
         )}
-        <br/><br/><br/><br/>
+        <br/>
+        <FeedbackHelp
+          validation={{
+            error: false,
+            errorMsg: "xxxx",
+            errorType: "xxxxxtttt",
+            a11y: null
+          }}
+          tipMsg={language.appropriateOption}
+          describedBy={"i05-helper-text"}
+          stepHelp={{
+            step: "textHelper",
+            stepLabel: "Course Plan Help"
+          }}
+        /> 
       </div>
       <Dialog
         open={changeStructure}
