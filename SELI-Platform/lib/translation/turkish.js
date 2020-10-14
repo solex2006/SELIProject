@@ -774,7 +774,7 @@ var TURKISH = {
   loadingMyStories: "Hikayelerim yükleniyor ...",
   informationUpdated: "Bilgiler güncellendi",
   tutorBasicInformation: "Eğitmen hakkında temel bilgiler: ",
-  change: "Change",
+  change: "Değiştir",
   thanksForInformation: "Gönderilen bilgiler çok değerli, yardımlarınız için teşekkür ederiz",
   uploadAudioButtonLabel: "Bir ses dosyası yüklemek için tıklayın",
   keywordsMaximumMessage: "Boşluk ile ayrılmış en fazla 3 anahtar kelime",
@@ -1008,7 +1008,7 @@ var TURKISH = {
   delivercontent: "İçerik nasıl teslim edilecek",
   pedagogical: "Webde Öğretme ve Öğrenmeye Yönelik Pedagojik Hususlar ve Fırsatlar, öğretim ve öğrenim için web tabanlı teknolojilerin kuram, uygulama ve geliştirilmesine dahası eğitim sistemi üzerindeki etkisine odaklanır",
   pedagogicalconsiderations: "Pedagojik Hususlar",
-  learningCon: "A constraint is a boundary which encourages the learner to emerge with certain behaviours",
+  learningCon: "Kısıt, öğrenciyi belirli davranışlarla ortaya çıkmaya teşvik eden bir sınırdır.",
   unit01: "Ünite 01",
   topic01: "Konu 01",
   Learningobjectives: "Öğrenme Hedefleri (gerekli)",
@@ -1348,7 +1348,7 @@ var TURKISH = {
   desingPhaseLabel:"Öğrenme hedeflerinin tanımı, ders planlaması ve medya seçimi",
   programLabel:"İçerik ekleme.",
   reportstepLabel:"Dersiniz ne kadar erişilebilir",
-  alreadyAudiences:"already exist in the list of audiences.Please, select it from the list",
+  alreadyAudiences:"Zaten kitle listesinde mevcut. Lütfen listeden seçin",
 }
 export default TURKISH;
 
