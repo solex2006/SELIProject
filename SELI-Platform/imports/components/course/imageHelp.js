@@ -37,7 +37,7 @@ const tutorialSteps = [
 
 
 
-const tutorialSteps2=[
+/* const tutorialSteps2=[
 	{
 		labelTitle:'Guided or Free CoursePlan',
 		label:'You can choose between create the course plan in SELI platform or outside the platform'
@@ -71,7 +71,7 @@ const tutorialSteps2=[
 		label:"Outlines a lesson-by-lesson guide of class, a learning plan, the learning objectives, assessment approach, and expectations."
 	},
 	
-]
+] */
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,12 +101,14 @@ const useStyles = makeStyles((theme) => ({
  }
 }));
 
-export default function TextMobileStepper() {
+export default function TextMobileStepper(props) {
+	console.log("FINAL ********************Props", props)
   const classes = useStyles();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = tutorialSteps2.length;
+  const maxSteps = props.helpsTips.length;
 
+  //const [tutorialSteps2, settutorialSteps2]=useState(props.helpsTips)
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -118,7 +120,7 @@ export default function TextMobileStepper() {
   return (
     <div className={classes.root}>
       <Paper square elevation={0} className={classes.header}>
-        <Typography style={{fontWeight:'bold'}}>{tutorialSteps2[activeStep].labelTitle}</Typography>
+        <Typography style={{fontWeight:'bold'}}>{props.helpsTips[activeStep].labelTitle}</Typography>
       </Paper>
      {/*  <img
         className={classes.img}
@@ -126,7 +128,7 @@ export default function TextMobileStepper() {
         alt={tutorialSteps[activeStep].labelTitle}
       /> */}
 		<Paper square elevation={0} >
-        <Typography style={{textAlign:'justify'}}>{tutorialSteps2[activeStep].label}</Typography>
+        <Typography style={{textAlign:'justify'}}>{props.helpsTips[activeStep].label}</Typography>
       </Paper>
       <MobileStepper
         steps={maxSteps}
