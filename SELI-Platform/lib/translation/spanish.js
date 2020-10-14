@@ -1349,7 +1349,8 @@ var SPANISH = {
   analysisstepLabel: "Identifique sus objetivos educativos",
   desingPhaseLabel: "Definición de objetivos de aprendizaje, planificación de lecciones y selección de medios",
   programLabel: "Inserción de contenido",
-  reportstepLabel: "Acccesibilidad en su curso"
+  reportstepLabel: "Acccesibilidad en su curso",
+  alreadyAudiences:"ya existe en la lista de Audiencias",
 }
 export default SPANISH;
 

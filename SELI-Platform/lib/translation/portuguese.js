@@ -1349,7 +1349,8 @@ var PORTUGUESE = {
   analysisstepLabel:"Identify your instructional goals",
   desingPhaseLabel:"Definition of learning objectives, lesson planning and media selection",
   programLabel:"Content insertion.",
-  reportstepLabel:"How accessible is your course?"
+  reportstepLabel:"How accessible is your course?",
+  alreadyAudiences:"already exist in the list of audiences.Please, select it from the list",
 }
 export default PORTUGUESE;
 

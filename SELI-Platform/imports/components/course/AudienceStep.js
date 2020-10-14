@@ -263,8 +263,8 @@ export default function AudienceApp(props) {
     AddHardware: language.AddHardware,
     AddSoftware: language.AddSoftware,
     errorMsg: language.errorMsg,
-    openHardware: language.repeated,
-    openSoftware: language.repeated,
+    openHardware: language.alreadyAudiences,
+    openSoftware: language.alreadyAudiences,
 
   })///messages
   const [message, setmessage]=useState(requirementTooltip.errorMsg)
@@ -316,39 +316,54 @@ export default function AudienceApp(props) {
   }
   const handleDeleteAudience = (index) => () => {
     console.log("borrado",tooltip.audienceError)
+    
      setopen(true)
      setindexdelete(index)
      setlabelindexdelete(otherAudiences[index].label)
-     audienceTooltip.audienceError=true;
+     //audienceTooltip.audienceError=true;
+     let ischecked=audiences.filter(audience=>audience.isChecked===false)
+     console.log("data*****", audiences, otherAudiences.length, ischecked.length)
+     if(ischecked.length==9 && otherAudiences.length==1){
+      
+      audienceTooltip.audienceError=true;
+     }
+     
      setaudienceTooltip(audienceTooltip)
      
    
   };
-  const handleNewAudience = () => {
+  const handleNewAudience = (e) => {
     let pass= numberAudiences()
-    console.log("pass****",pass)
-    if(pass==="valid"){
-      setfeedbackError(true)
-      setOtherAudiences(prev => [
-        ...prev,
-        { label: "", editing: true }
-      ]);
-  
-      setControlEdit({
-        tempValue: "",
-        adding: true,
-        editing: true
-      }); 
+    console.log("pass****",pass, e.keyCode)
+
+    if(e.keyCode===32){
+      //continue
+      console.log(e.keyCode)
     }else{
-      console.log("aqui va toolTip")
-      settooltip(true)
-      setmessage("You can only add five extra audiences.")
-      setControlEdit({
-        tempValue: "",
-        adding: false,
-        editing: false
-      });
+      if(pass==="valid"){
+        setfeedbackError(true)
+        setOtherAudiences(prev => [
+          ...prev,
+          { label: "", editing: true }
+        ]);
+    
+        setControlEdit({
+          tempValue: "",
+          adding: true,
+          editing: true
+        }); 
+      }else{
+        console.log("aqui va toolTip")
+        settooltip(true)
+        setmessage("You can only add five extra audiences.")
+        setControlEdit({
+          tempValue: "",
+          adding: false,
+          editing: false
+        });
+      }
     }
+    
      
   };
   const handleEditAudience = index => () => {
@@ -466,11 +481,16 @@ export default function AudienceApp(props) {
     });
 
     console.log("el valor", value)
-   
-    if(value.replace(/\s/g,"") == ""){
+    
+    
+    if(/^(?:[A-Za-z0-9_ ]+)*$/.test(value)===false){ //validate characters 
       setsaveButton(true)
     }else{
       setsaveButton(false)
+    }
+
+    if(value.replace(/\s/g,"") == ""){
+      setsaveButton(true)
     }
 
     if(value!="") {
@@ -496,13 +516,14 @@ export default function AudienceApp(props) {
     if((valueinArray!=undefined) || (valueinOtherArray!=undefined)){
       
       if(valueinArray===undefined){
-        console.log("coincide",valueinOtherArray)
+        
         setfeedbackError(true)
-        setmessage(requirementTooltip.openSoftware)
+        setmessage(valueinOtherArray+" "+requirementTooltip.openSoftware)
         return "equal"
       }else if(valueinOtherArray===undefined){
+        console.log("coincide777",valueinOtherArray, valueinArray, controlEdit.tempValue)
         setfeedbackError(true)
-        setmessage(requirementTooltip.openSoftware)
+        setmessage(controlEdit.tempValue+" "+requirementTooltip.openSoftware)
         return "equal"
       }else{
         return "equal"
@@ -656,7 +677,6 @@ export default function AudienceApp(props) {
                     className={!audience.editing ? classes.hidden : ""}
                     value={controlEdit.tempValue}
                     onChange={event => updateTempValue(event.target.value, index)}
-                    
                   />
                   <FeedbackHelp
                       language={language}
