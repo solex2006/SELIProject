@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { Email } from '@material-ui/icons';
 
 Meteor.methods({
   'GetUsers'(){
@@ -193,3 +194,13 @@ Meteor.methods({
   }
 });
 
+Meteor.methods({
+  'checkRepeatedEmail'(userId, email){
+    const user = Meteor.users.findOne({'emails.address': email});
+    if (user !== undefined && user._id !== userId) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+});

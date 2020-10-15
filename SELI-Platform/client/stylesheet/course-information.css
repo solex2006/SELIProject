@@ -23,7 +23,7 @@
 }
 
 .form-input-column {
-  min-width: 40vw;
+  max-width: calc(720px);
   max-height: 100%;
   padding: 2.5vh 6vw;
 }
@@ -395,6 +395,8 @@
     height: auto;
   }
   .form-input-column {
+    max-width: 100%;
+    padding: 1vh 1vw;
     margin-bottom: 20px; 
   }
   .form-image-button {

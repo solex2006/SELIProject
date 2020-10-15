@@ -33,6 +33,8 @@ var TURKISH = {
   username: "Kullanıcı adı",
   email: "E-mail",
   password: "Şifre",
+  currentPassword: "Mevcut şifre",
+  currentPasswordIncorrect: "Mevcut şifre yanlış",
   dontHaveAccount: "Hesabınız yok mu?",
   fullname: "Tüm isminiz",
   confirmPassword: "Şifreyi onayla",

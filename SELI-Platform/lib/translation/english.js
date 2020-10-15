@@ -33,6 +33,8 @@ var ENGLISH = {
   username: "Username",
   email: "Email",
   password: "Password",
+  currentPassword: "Current password",
+  currentPasswordIncorrect: "The current password in incorrect",
   dontHaveAccount: "Don't have an account?",
   fullname: "Fullname",
   confirmPassword: "Confirm password",
