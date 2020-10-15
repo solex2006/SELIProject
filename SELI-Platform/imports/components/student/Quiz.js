@@ -13,6 +13,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
@@ -70,7 +71,8 @@ class Quiz extends React.Component {
       extendedTime: "",
       newaddTime: "",
       selectedtime: '',
-      noTime: false
+      noTime: false,
+      thefocus:0,
     }
   }
 
@@ -165,11 +167,16 @@ class Quiz extends React.Component {
   }
 
   handleNext = () => {
+    console.log("The active element is now:before  " + $(document.activeElement), "ccccccccc", $(document));
+    document.activeElement.blur();
+    console.log("The active element is now: " + $(document.activeElement).prop('tagName'));
+    console.log("The Focus-------------------------->",this.state.thefocus)
     let selected = this.state.selected;
     selected++;
     this.setState({
       selected: selected,
       answer: '',
+     // thefocus: this.state.thefocus+1,
     })
   }
 
@@ -370,7 +377,7 @@ class Quiz extends React.Component {
   cambio = () => {
     const { classes } = this.props;
     return (
-      <div key={this.state.selectedtime}>
+      <div tabindex="0" key={this.state.selectedtime}>
         <TimerMachine
           timeStart={this.state.selectedtime} // start at 10 seconds
           timeEnd={0}       // end at 20 seconds
@@ -471,9 +478,9 @@ class Quiz extends React.Component {
             undefined
             :
             <Paper elevation={10} className="quiz-dashboard-side" >
-              <h2 className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</h2>
+              <p tabindex="0" className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</p>
               <QuestionAnswerIcon className="quiz-dashboard-icon" />
-              <p className="quiz-dashboard-label-text">{this.props.language.timeLeft}</p>
+              <p tabindex="0" className="quiz-dashboard-label-text">{this.props.language.timeLeft}</p>
               {
                 this.cambio()
               }
@@ -514,18 +521,22 @@ class Quiz extends React.Component {
             undefined
         }
         <Paper elevation={8} className="quiz-dashboard-questions-container">
-          <p className="question-dashboard-label-text">{this.props.language.chooseCorrectAnswer}</p>
+          <p tabindex="0" className="question-dashboard-label-text">{this.props.language.chooseCorrectAnswer}</p>
           <Divider />
           <div className="question-dashboard-container">
-            <FormControl component="fieldset" className="question-dashboard-form-control">
-              <h3 component="legend" className="question-dashboard-form-label MuiFormLabel-root question-dashboard-form-label">{this.props.quiz.attributes.questions[this.state.selected].questionTitle}</h3>
+           
+            {/* <FormControl component="fieldset" className="question-dashboard-form-control">
+              <h3 component="legend" tabindex="0" className="question-dashboard-form-label MuiFormLabel-root question-dashboard-form-label">{this.props.quiz.attributes.questions[this.state.selected].questionTitle}</h3>
               <RadioGroup
-                aria-label="answer"
+                aria-label="answers"
                 name="answer"
                 className="question-dashboard-radio-group-student"
                 aria-required="true"
+                inputProps={{
+                  'tabindex':"0"
+                }}
+                
               >
-                {console.log("las preguntas en el estudienate", this.props.quiz.attributes)}
                 {
                   this.props.quiz.attributes.questions[this.state.selected].questionTitle!=''?
                   this.props.quiz.attributes.questions[this.state.selected].answersText.map((text, index) => {
@@ -538,6 +549,7 @@ class Quiz extends React.Component {
                             onChange={() => this.handleChange(index, event)}
                             inputProps={{
                               'aria-label': text,
+                              'tabindex':"0"
                             }}
                             
                           />
@@ -550,12 +562,51 @@ class Quiz extends React.Component {
                   undefined
                 }
               </RadioGroup>
+            </FormControl> */}
+               
+
+
+            <FormControl tabindex="0" component="fieldset" className="question-dashboard-form-control">
+            <h3 component="legend" tabindex="0" className="question-dashboard-form-label MuiFormLabel-root question-dashboard-form-label">{this.props.quiz.attributes.questions[this.state.selected].questionTitle}</h3>
+              <FormGroup >
+                  {
+                      this.props.quiz.attributes.questions[this.state.selected].questionTitle!=''?
+                      this.props.quiz.attributes.questions[this.state.selected].answersText.map((text, index) => {
+                        return (
+                          <FormControlLabel
+                          
+                            control={
+                              <Checkbox
+                                className={"question-dashboard-form-control-label"}
+                                checked={this.state.answers[this.state.selected][index] === true}
+                                onChange={() => this.handleChange(index, event)}
+                                inputProps={{
+                                  'aria-label': text,
+                                }}
+                                
+                              />
+                            }
+                            label={text}
+                            tabindex="0"
+                          />
+                        )
+                      })
+                      :
+                      undefined
+                  }
+                
+                </FormGroup>
             </FormControl>
+
+
+
+
+
           </div>
           {
             this.state.showFinishConfirmation ?
               <div className="question-dashboard-actions">
-                <p className="question-dashboard-label-text">{this.props.language.sureFinishQuiz}</p>
+                <p tabindex="0"  className="question-dashboard-label-text">{this.props.language.sureFinishQuiz}</p>
                 <Button
                   className="question-dashboard-button"
                   color="primary"
@@ -598,6 +649,7 @@ class Quiz extends React.Component {
                     </Button>
                     :
                     <Button
+                      tabindex="0"
                       className="question-dashboard-button"
                       color="primary"
                       variant="contained"

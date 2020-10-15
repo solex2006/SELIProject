@@ -185,18 +185,20 @@ export default class QuizItem extends React.Component {
                   <h3 className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">{this.props.item.attributes.title}</h3>
                 </div>
               </ExpansionPanelSummary>
+
+
               <ExpansionPanelDetails className="item-quiz-detail">
                 <div className="item-quiz-detail-container">
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                  <Typography tabindex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit + " minutes"}
                   </Typography>
                   {/* <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.creditResources + ": " + this.props.item.attributes.creditResources}
                   </Typography> */}
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                  <Typography tabindex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.numberQuestions + ": " + this.props.item.attributes.questions.length}
                   </Typography>
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                  <Typography tabindex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.item.attributes.awardPoints ? this.props.language.awardPoints : this.props.language.noAwardPoints}
                   </Typography>
                   <div className="quiz-item-tick-container">
@@ -204,6 +206,7 @@ export default class QuizItem extends React.Component {
                   </div>
                 </div>
               </ExpansionPanelDetails>
+
               <Divider />
               {
                 !this.props.fromProgram &&
@@ -248,7 +251,7 @@ export default class QuizItem extends React.Component {
         >
           <AppBar position="static" className="course-dialog-app-bar">
             <Toolbar style={{position: 'relative'}}>
-              <IconButton disabled={this.state.doingQuiz} edge="start" color="inherit" onClick={this.handleClose} aria-label="close">
+              <IconButton disabled={this.state.doingQuiz} edge="start" color="inherit" onClick={this.handleClose} >
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h1">
@@ -262,7 +265,7 @@ export default class QuizItem extends React.Component {
                 <div className="full-screen-dialog-mid-container">
                   <div className="center-row">
                     <AnnouncementIcon className="quiz-dialog-icon-big"/>
-                    <DialogContentText className="quiz-dialog-content-text" id="alert-dialog-description">
+                    <DialogContentText tabindex="0" className="quiz-dialog-content-text" id="alert-dialog-description">
                       {this.props.language.sureStartQuiz} 
                     </DialogContentText>
                   </div>
