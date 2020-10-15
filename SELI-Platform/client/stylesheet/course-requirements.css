@@ -51,32 +51,39 @@
   text-align: justify !important;
 }
 
- .form-list-text-item .MuiListItemText-primary {
-   letter-spacing: 1px !important;
- }
+.form-list-text-item .MuiListItemText-primary {
+  letter-spacing: 1px !important;
+}
 
- .requirement-request-container {
-   padding: 2.5vh 0 !important;
-   margin-top: 10vh;
-   margin-bottom: 20vh;
-   background-color: #f5f5f5;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   font-size: 1.15em !important;
-   letter-spacing: 1px;
-   text-transform: uppercase;
- }
+.requirement-request-container {
+  padding: 2.5vh 0 !important;
+  margin-top: 10vh;
+  margin-bottom: 20vh;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.15em !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
 
- .request-button {
-   margin: 0 !important;
-   font-size: 1.15em !important;
-   letter-spacing: 1px !important;
-   margin-left: 0.5vw !important;
- }
+.request-button {
+  margin: 0 !important;
+  font-size: 1.15em !important;
+  letter-spacing: 1px !important;
+  margin-left: 0.5vw !important;
+}
 
- .form-radio-label {
-   display: flex !important;
-   align-items: center !important;
-   margin-right: 14px !important;
- }
+.form-radio-label {
+  display: flex !important;
+  align-items: center !important;
+  margin-right: 14px !important;
+}
+
+@media only screen and (max-width: 1080px)  {
+  .form-input-list {
+    width: calc(100% - 2vw) !important;
+    padding: 0 1vw !important;
+  }
+}

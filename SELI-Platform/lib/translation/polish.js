@@ -33,6 +33,8 @@
   username: "Nazwa użytkownika",
   email: "Twój Email",
   password: "Hasło",
+  currentPassword: "Aktualne hasło",
+  currentPasswordIncorrect: "Aktualne hasło jest nieprawidłowe",
   dontHaveAccount: "Nie masz konta?",
   fullname: "Pełne imię",
   confirmPassword: "Potwierdź hasło",

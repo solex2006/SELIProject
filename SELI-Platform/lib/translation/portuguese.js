@@ -33,6 +33,8 @@ var PORTUGUESE = {
   username: "Nome de usuário",
   email: "Email",
   password: "Senha",
+  currentPassword: "Senha atual",
+  currentPasswordIncorrect: "A senha atual está incorreta",
   dontHaveAccount: "Não tem uma conta?",
   fullname: "Nome completo",
   confirmPassword: "Confirme sua senha",
