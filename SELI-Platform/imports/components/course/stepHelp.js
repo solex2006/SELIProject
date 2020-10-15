@@ -13,6 +13,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Help(props) {
+  console.log("help", props)
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -61,7 +62,10 @@ export default function Help(props) {
       >
         <div className="help-container">
           <p className="help-text">{props.text}</p>
-          <ImageHelpStepper helper={props.helper} language={props.language} />
+          <ImageHelpStepper
+          helpsTips={props.helpsTips}
+           helper={props.helper} language={props.language}
+            />
         </div>
       </Popover>
     </React.Fragment>

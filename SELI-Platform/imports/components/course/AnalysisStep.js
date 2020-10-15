@@ -14,7 +14,6 @@ import DoneIcon from "@material-ui/icons/Done";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import FeedbackHelp from "./feedback";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -32,7 +31,7 @@ import StarBorder from '@material-ui/icons/StarBorder';
 import DescriptionSharpIcon from '@material-ui/icons/DescriptionSharp';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
 import Divider from '@material-ui/core/Divider';
-
+import FeedbackHelp from "../../components/course/feedback"
 const useStyles = makeStyles(theme => ({
   
   textInput: {
@@ -98,6 +97,33 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const analysisTipsHelps=[
+  {
+    labelTitle:'Learning objectives',
+    label:"State what will be expected to be learned by students and show what the students will know and why they are doing. State what is expected to be learned by students. Bloom's taxonomy divides learning objectives into three domains: cognitive domain, affective domain and psychomotor domain. Cognitive Domain comprises intellectual skills such as memorization, comprehension, application, analysis, synthesis / creation, assessment. The affective domain comprises feelings, values, enthusiasm, motivation and attitude. Psychomotor domain is about physical and motor skills."
+  },
+  {
+    labelTitle:"Cognitive Domain",
+    label:"Involves the acquisition of a new knowledge, intellectual development, skill and attitudes. It is divided into six categories: remembering, understanding, applying, analyzing, evaluating, creating. The objectives are described using action verbs and nouns that seek to describe the desired cognitive processes."
+  },
+  {
+    labelTitle:"Affective Domain",
+    label:"Involves feelings, attitudes, and emotions. It includes the ways in which people deal with external and internal phenomenon emotionally, such as values, enthusiasms, and motivations. This domain is categorized into five levels, which include receiving, responding, valuing, organization, and characterization. These subdomains form a hierarchical structure and are arranged from simple feelings or motivations to those that are more complex."
+  },
+  {
+    labelTitle:"Psychomotor Domain",
+    label:"Includes physical movement, coordination, and use of the motor-skill areas. This domain is categorized into eight levels, which include origination, adaptation, complex overt response, mechanism, guided response, set, and perception."
+  },
+  {
+    labelTitle:"Learning Constrainst",
+    label:"Learning outcomes should be brief, clear, specific statements of what learners will be able to do at the end of a lesson as a result of the activities, teaching and learning that has taken place. The Learning outcomes is based on three areas of learning: knowledge, skills and attitudes."
+  },
+  {
+    labelTitle:"Pedagogical Considerations",
+    label:"Pedagogical Considerations concentrates on theory, application, and the development of technologies for teaching and learning and its influence on the education system."
+  },
+]
+
 export default function AnalysisStep(props) {
   const {courseInformation,language } = props;
   useEffect(()=>{
@@ -140,9 +166,6 @@ export default function AnalysisStep(props) {
       setpsychomotorDomain(courseInformation.analysis[6])
     }
   },[])
-
-  
-
   useEffect(()=>{// 
     console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,analysisTooltip)
         if(pedagogical!=undefined  &&
@@ -196,6 +219,8 @@ export default function AnalysisStep(props) {
   const [feedbackErrorLearningO, setfeedbackErrorLearningO]=useState(true)
   const [constraints, setConstraints] = useState([
   ]);
+
+  
 
   
   const [goals, setGoals] = useState({
@@ -1182,7 +1207,6 @@ export default function AnalysisStep(props) {
           
         </div>   
         </Grid>
-
         <Grid container className={classes.formGroup}>
             <Grid item xs={12} className={classes.Behavioral}>
               <h2 className={classes.Behavioral}>{language.learningOutcomes}</h2>
@@ -1511,7 +1535,23 @@ export default function AnalysisStep(props) {
           </form>
         </Grid>
         </Grid>
-    
+
+        <br/>
+        <FeedbackHelp
+          validation={{
+            error: false,
+            errorMsg: "xxxx",
+            errorType: "xxxxxtttt",
+            a11y: null
+          }}
+          tipMsg={language.appropriateOption}
+          describedBy={"i05-helper-text"}
+          stepHelp={{
+            step: "textHelper",
+            stepLabel: "Course Analysis Help",
+            helpsTips:{analysisTipsHelps}
+          }}
+        />
         <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
             <DialogTitle className="success-dialog-title" id="simple-dialog-title">{language.warning}</DialogTitle>
               <DialogContent className="success-dialog-content">

@@ -483,7 +483,7 @@ export default function AudienceApp(props) {
     console.log("el valor", value)
     
     
-    if(/^(?:[A-Za-z0-9_ ]+)*$/.test(value)===false){ //validate characters 
+    if(/^(?:[A-Za-zñığüşöçİĞÜŞÖÇ0-9_ ]+)*$/.test(value)===false){ //validate characters /^[a-zA-ZñığüşöçİĞÜŞÖÇ0-9 ]*$/;
       setsaveButton(true)
     }else{
       setsaveButton(false)

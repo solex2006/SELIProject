@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
  */
 export default function FeedbackHelp(props) {
   const classes = useStyles();
-  //console.log("Accesibility HELP ERROR",props.error)
+  console.log("Accesibility HELP ERROR",props)
 
   const { validation, tipMsg, describedBy, stepHelp, decisionHelp, language } = props;
 
@@ -101,6 +101,7 @@ export default function FeedbackHelp(props) {
       <div className="feedback-container">
         {stepHelp && (
           <Help
+            helpsTips={props.stepHelp.helpsTips.analysisTipsHelps}
             helper={stepHelp.step}
             aria-label="Accessibilit tip"
             text={stepHelp.stepLabel}
