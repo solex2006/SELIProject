@@ -200,13 +200,22 @@ export default class UserInformation extends React.Component {
             response ? message = this.props.language.validEmail : message = this.props.language.invalidEmail;
             this.setState({
               emailResult: true,
-              validEmail: response,
-              emailHelperMessage: message,
             }, () => {
-              this.setState({
-                validatingEmail: false,
-              }, () => {
-                this.state.validEmail ? this.props.handleEmail(true) : this.props.handleEmail(false)
+              Meteor.call("checkRepeatedEmail", this.state.userInformation._id, this.state.userInformation.email, (error, responseR) =>  {
+                if (error || responseR) {
+                  if (responseR) {
+                    message = this.props.language.emailAlreadyExists;
+                  } else {
+                    message = error.reason;
+                  }
+                }
+                this.setState({
+                  validatingEmail: false,
+                  validEmail: response && !responseR,
+                  emailHelperMessage: message,
+                }, () => {
+                  this.state.validEmail ? this.props.handleEmail(true) : this.props.handleEmail(false)
+                });
               });
             })
           });
@@ -290,190 +299,192 @@ export default class UserInformation extends React.Component {
               undefined
           }
         </div>
-        <div className="form-input-column">
-          <div className="sign-form">
-            <TextField
-              id="email-input"
-              label={this.props.language.email}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              autoComplete={"off"}
-              required
-              value={this.state.userInformation.email}
-              onChange={this.handleChange('email')}
-              onBlur={() => this.validateEmail()}
-              onKeyPress={() => this.keyController(event, 'email')}
-              error={this.state.showError && this.state.userInformation.email === ''}
-              helperText={
-                <div>
-                  {
-                    this.state.emailResult && !this.state.validatingEmail ?
-                      <div className="form-helper-container">
-                        {
-                          this.state.validEmail ?
-                            <div className="success-helper-text">
+        <div className="account-management-form-input-column">
+          <div className="form-input-column">
+            <div className="sign-form">
+              <TextField
+                id="email-input"
+                label={this.props.language.email}
+                margin="normal"
+                variant="outlined"
+                fullWidth
+                autoComplete={"off"}
+                required
+                value={this.state.userInformation.email}
+                onChange={this.handleChange('email')}
+                onBlur={() => this.validateEmail()}
+                onKeyPress={() => this.keyController(event, 'email')}
+                error={this.state.showError && this.state.userInformation.email === ''}
+                helperText={
+                  <div>
+                    {
+                      this.state.emailResult && !this.state.validatingEmail ?
+                        <div className="form-helper-container">
+                          {
+                            this.state.validEmail ?
+                              <div className="success-helper-text">
+                                <p>{this.state.emailHelperMessage}</p>
+                              </div>
+                            :
+                            <div className="error-helper-text">
                               <p>{this.state.emailHelperMessage}</p>
                             </div>
-                          :
-                          <div className="error-helper-text">
-                            <p>{this.state.emailHelperMessage}</p>
-                          </div>
-                        }
-                      </div>
-                    :
-                    undefined
-                  }
-                  {
-                    this.state.validatingEmail ?
-                      <div className="form-helper-container">
-                        <p>{this.state.emailHelperMessage}</p>
-                        <LinearProgress className="helper-progress"/>
-                      </div>
-                    :
-                    undefined
-                  }
-                </div>
-              }
-            />
-            <TextField
-              id="name-input"
-              label={this.props.language.fullname}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              autoComplete={"off"}
-              required
-              value={this.state.userInformation.fullname}
-              onChange={this.handleChange('fullname')}
-              error={this.state.showError && this.state.userInformation.fullname === ''}
-            />
-            <TextField
-              id="username-input"
-              label={this.props.language.username}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              autoComplete={"off"}
-              required
-              value={this.state.userInformation.username}
-              onChange={this.handleChange('username')}
-              onKeyPress={() => this.keyController(event, 'username')}
-              error={this.state.showError && this.state.userInformation.username === ''}
-            />
-            <TextField
-              id="password-input"
-              label={this.props.language.password}
-              margin="normal"
-              variant="outlined"
-              type="password"
-              fullWidth
-              required
-              error={this.state.showError && this.state.userInformation.password === ''}
-              onChange={this.handleChange('password')}
-            />
-            <TextField
-              id="confirm-password-input"
-              label={this.props.language.confirmPassword}
-              margin="normal"
-              variant="outlined"
-              type="password"
-              fullWidth
-              disabled={this.state.userInformation.password === ''}
-              error={this.state.showError && this.state.passwordToConfirm === ''}
-              required
-              onChange={this.handleChange('confirmPassword')}
-              helperText={
-                this.state.passwordResult ?
-                  <div className="form-helper-container">
-                    {
-                      this.state.equalPasswords ?
-                        <div className="success-helper-text">
-                          <p>{this.state.passwordHelperMessage}</p>
+                          }
                         </div>
                       :
-                      <div className="error-helper-text">
-                        <p>{this.state.passwordHelperMessage}</p>
-                      </div>
+                      undefined
+                    }
+                    {
+                      this.state.validatingEmail ?
+                        <div className="form-helper-container">
+                          <p>{this.state.emailHelperMessage}</p>
+                          <LinearProgress className="helper-progress"/>
+                        </div>
+                      :
+                      undefined
                     }
                   </div>
-                :
-                undefined
+                }
+              />
+              <TextField
+                id="username-input"
+                label={this.props.language.username}
+                margin="normal"
+                variant="outlined"
+                fullWidth
+                autoComplete={"off"}
+                required
+                value={this.state.userInformation.username}
+                onChange={this.handleChange('username')}
+                onKeyPress={() => this.keyController(event, 'username')}
+                error={this.state.showError && this.state.userInformation.username === ''}
+              />
+              <TextField
+                id="name-input"
+                label={this.props.language.fullname}
+                margin="normal"
+                variant="outlined"
+                fullWidth
+                autoComplete={"off"}
+                required
+                value={this.state.userInformation.fullname}
+                onChange={this.handleChange('fullname')}
+                error={this.state.showError && this.state.userInformation.fullname === ''}
+              />
+              <TextField
+                id="password-input"
+                label={this.props.language.password}
+                margin="normal"
+                variant="outlined"
+                type="password"
+                fullWidth
+                required
+                error={this.state.showError && this.state.userInformation.password === ''}
+                onChange={this.handleChange('password')}
+              />
+              <TextField
+                id="confirm-password-input"
+                label={this.props.language.confirmPassword}
+                margin="normal"
+                variant="outlined"
+                type="password"
+                fullWidth
+                disabled={this.state.userInformation.password === ''}
+                error={this.state.showError && this.state.passwordToConfirm === ''}
+                required
+                onChange={this.handleChange('confirmPassword')}
+                helperText={
+                  this.state.passwordResult ?
+                    <div className="form-helper-container">
+                      {
+                        this.state.equalPasswords ?
+                          <div className="success-helper-text">
+                            <p>{this.state.passwordHelperMessage}</p>
+                          </div>
+                        :
+                        <div className="error-helper-text">
+                          <p>{this.state.passwordHelperMessage}</p>
+                        </div>
+                      }
+                    </div>
+                  :
+                  undefined
+                }
+              />
+              {
+                this.props.type === "tutor" ? undefined :
+                <AccessibilityRegistration
+                  inEdition={false}
+                  language={this.props.language}
+                  userInformation={this.state.userInformation}
+                ></AccessibilityRegistration>
               }
-            />
-           {
-              this.props.type === "tutor" ? undefined :
-              <AccessibilityRegistration
-                inEdition={false}
-                language={this.props.language}
-                userInformation={this.state.userInformation}
-              ></AccessibilityRegistration>
-            }
-          </div>
-          {
-            this.props.type === "tutor" ?
-              <div className="sign-form">
-                <TextField
-                  id="website-input"
-                  label={this.props.language.personalWebsite}
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  value={this.state.userInformation.website}
-                  onChange={this.handleChange('website')}
-                />
-                <TextField
-                  id="google-link-input"
-                  label={this.props.language.googleLink}
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  value={this.state.userInformation.googleLink}
-                  onChange={this.handleChange('googleLink')}
-                />
-                <div className="form-multiple-input-row">
+            </div>
+            {
+              this.props.type === "tutor" ?
+                <div className="sign-form">
                   <TextField
-                    label={this.props.language.countryCode}
-                    margin="normal"
-                    variant="outlined"
-                    className="form-multiple-input"
-                    value={this.state.userInformation.countryCode}
-                    onChange={this.handleChange('countryCode')}
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start">{`(+)`}</InputAdornment>,
-                    }}
-                    inputProps={{ min: "1", max: "999", step: "1", maxLength: "3" }}
-                    onKeyPress={() => validateOnlyNumbers(event)}
-                  />
-                  <TextField
-                    id="phone-number-input"
-                    label={this.props.language.phoneNumber}
+                    id="website-input"
+                    label={this.props.language.personalWebsite}
                     margin="normal"
                     variant="outlined"
                     fullWidth
-                    inputProps={{ min: "1000000000", max: "9999999999", step: "1", maxLength: "20" }}
-                    value={this.state.userInformation.phoneNumber}
-                    onChange={this.handleChange('phoneNumber')}
-                    onKeyPress={() => validateOnlyNumbers(event)}
+                    value={this.state.userInformation.website}
+                    onChange={this.handleChange('website')}
+                  />
+                  <TextField
+                    id="google-link-input"
+                    label={this.props.language.googleLink}
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    value={this.state.userInformation.googleLink}
+                    onChange={this.handleChange('googleLink')}
+                  />
+                  <div className="form-multiple-input-row">
+                    <TextField
+                      label={this.props.language.countryCode}
+                      margin="normal"
+                      variant="outlined"
+                      className="form-multiple-input"
+                      value={this.state.userInformation.countryCode}
+                      onChange={this.handleChange('countryCode')}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start">{`(+)`}</InputAdornment>,
+                      }}
+                      inputProps={{ min: "1", max: "999", step: "1", maxLength: "3" }}
+                      onKeyPress={() => validateOnlyNumbers(event)}
+                    />
+                    <TextField
+                      id="phone-number-input"
+                      label={this.props.language.phoneNumber}
+                      margin="normal"
+                      variant="outlined"
+                      fullWidth
+                      inputProps={{ min: "1000000000", max: "9999999999", step: "1", maxLength: "20" }}
+                      value={this.state.userInformation.phoneNumber}
+                      onChange={this.handleChange('phoneNumber')}
+                      onKeyPress={() => validateOnlyNumbers(event)}
+                    />
+                  </div>
+                  <TextField
+                    id="biography-input"
+                    label={this.props.language.biography}
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    multiline
+                    rows={3}
+                    value={this.state.userInformation.biography}
+                    onChange={this.handleChange('biography')}
+                    error={this.state.showError && this.state.userInformation.biography === ''}
                   />
                 </div>
-                <TextField
-                  id="biography-input"
-                  label={this.props.language.biography}
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  multiline
-                  rows={3}
-                  value={this.state.userInformation.biography}
-                  onChange={this.handleChange('biography')}
-                  error={this.state.showError && this.state.userInformation.biography === ''}
-                />
-              </div>
-            :
-              undefined
-          }
+              :
+                undefined
+            }
+          </div>
         </div>
         <Dialog
           open={this.state.open}
