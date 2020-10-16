@@ -72,41 +72,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const analysisTipsHelps=[
-	{
-		labelTitle:'Guided or Free CoursePlan',
-		label:'You can choose between create the course plan in SELI platform or outside the platform'
-	},
-	{
-		labelTitle:'Template Course Spiral',
-		label:"In this model, the course is organised in small units where concepts are introduced to facilitate the resolution of problems or activities by students. Each unit must introduce a concept, without going into details. In the cycle, the next unit will present the contents in more depth and additional topics can be included. Each unit must be interrelated to enable students to solve significant problems or activities presented at the beginning of the course. This model can be used in any course in which there are a large number of concepts that must be mastered together. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#spiral)"
-	},
-	{
-		labelTitle:'Template Course Consistent',
-		label:"To teach complex content find a complex and consistent metaphor for the topic being taught. The basis of the metaphor needs to be known to the students. This helps students relate the topic being taught to larger goals, that is, they realize how things fit together. The students need a way to think of the content as a whole. Especially when the details themselves are unfamiliar and new to them. A consistent metaphor with the content being taught and its basic elements, will help students to reflect on the content by making valid inferences when thinking about the metaphor. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#consistentmetaphor)"
-	},
-	{
-		labelTitle:" Template Course ToyBox",
-		label:"The content is given to the students letting them 'play' with pedagogical tools. Students work on problems and it's important to give them some examples and / or exercises to provide a rich set of experiences about what is important and what can be done to solve the problem. It can be used in several courses and at several levels. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#toybox)"
-	},
-	{
-		labelTitle:"Template Course Without",
-		label:"You can define your template course freely and you can insert the yourself resources."
-	},
-	{
-		labelTitle:" Structure CourseUnit | By units ",
-		label:"Organize your course by units and lessons, for example: Unit 1 - Introduction, Unit 2 - Presentation, Unit 3 - Algorithms, etc."
-	},
-	{
-		labelTitle:"StructureCourseTopics | ByTopics",
-		label:"Organize your course by topics. You have a free topics creation, for example: Extra Resources, Class 1, Class 2, Class 3, Attachments."
-	},
-	{
-		labelTitle:" CourseSyllabus",
-		label:"Outlines a lesson-by-lesson guide of class, a learning plan, the learning objectives, assessment approach, and expectations."
-	},
-	
-]
+
 
 export default function CoursePlanStep(props) {
   const classes = useStyles();
@@ -419,6 +385,7 @@ export default function CoursePlanStep(props) {
         )}
         <br/>
         <FeedbackHelp
+        language={props.language}
           validation={{
             error: false,
             errorMsg: "xxxx",
@@ -429,8 +396,8 @@ export default function CoursePlanStep(props) {
           describedBy={"i05-helper-text"}
           stepHelp={{
             step: "textHelper",
-            stepLabel: "Course Plan Help",
-            helpsTips:{analysisTipsHelps}
+            stepLabel: props.language.CoursePlanHelp,
+            helpsTips:props.language.coursePlanTipsHelps
           }}
         /> 
       </div>

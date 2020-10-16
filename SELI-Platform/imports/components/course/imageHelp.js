@@ -75,7 +75,7 @@ const tutorialSteps = [
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 1000,
+    maxWidth: 1400,
     //flexGrow: 1,
   },
   header: {
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     height: 255,
-    maxWidth: 400,
+    maxWidth: 550,
     overflow: 'hidden',
     display: 'block',
     width: '100%',
@@ -128,7 +128,7 @@ export default function TextMobileStepper(props) {
         alt={tutorialSteps[activeStep].labelTitle}
       /> */}
 		<Paper square elevation={0} >
-        <Typography style={{textAlign:'justify'}}>{props.helpsTips[activeStep].label}</Typography>
+        <Typography style={{textAlign:'justify', fontSize: '12px'}}>{props.helpsTips[activeStep].label}</Typography>
       </Paper>
       <MobileStepper
         steps={maxSteps}

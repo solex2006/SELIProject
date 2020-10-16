@@ -21,7 +21,8 @@ import Button from '@material-ui/core/Button';
 import WarningIcon from '@material-ui/icons/Warning';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
-import FeedbackHelp from "./feedback";
+//import FeedbackHelp from "./feedback";
+import FeedbackHelp from "../../components/course/feedback"
 
 //import AccessibilityDialog from '../../components/accessibility/AccessibilityDialog'
 
@@ -59,6 +60,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#e0e0e0!important"
   }
 }));
+
+
+
 
 export default function AudienceApp(props) {
   const { handleComplete, handleSkip, completed, skiped, courseInformation, cancelCounter, language } = props;
@@ -860,6 +864,24 @@ export default function AudienceApp(props) {
             />
           </List>
         </div>
+
+        <br/>
+        <FeedbackHelp
+        language={props.language}
+          validation={{
+            error: false,
+            errorMsg: "xxxx",
+            errorType: "xxxxxtttt",
+            a11y: null
+          }}
+          tipMsg={language.appropriateOption}
+          describedBy={"i05-helper-text"}
+          stepHelp={{
+            step: "textHelper",
+            stepLabel: props.language.CourseAudiencesHelp ,
+            helpsTips:props.language.audiencesTipsHelps
+          }}
+        />
         <Dialog disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
           <DialogTitle className="success-dialog-title" id="simple-dialog-title">{language.warning}</DialogTitle>
           <DialogContent className="success-dialog-content">

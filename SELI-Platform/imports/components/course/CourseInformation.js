@@ -11,7 +11,7 @@ import {validateOnlyLetters, validateLettersString, onlySpaces} from '../../../l
 import Paper from "@material-ui/core/Paper";
 import InputMask from "react-input-mask";
 import Input from "@material-ui/core/TextField";
-import FeedbackHelp from "./feedback";
+//import FeedbackHelp from "./feedback";
 import Grid from "@material-ui/core/Grid";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -19,18 +19,28 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Fab from '@material-ui/core/Fab';
 import AddIcon from "@material-ui/icons/Add";
 import Tooltip from '@material-ui/core/Tooltip';
+import FeedbackHelp from "../../components/course/feedback"
+
+
+
+
 
 export default class CourseInformation extends React.Component {
+
+  
   constructor(props) {
+    console.log("information-------" ,props.language.informationTipsHelps)
     super(props);
     this.state = {
       courseInformation: this.props.courseInformation,
       weekHourOption: 'hours',
       alert:"Noalert",
       modality:'',
-      modality2:true
+      modality2:true,
     }
   }
+
+  
 
 
   componentDidMount(){
@@ -389,6 +399,24 @@ export default class CourseInformation extends React.Component {
                 {`(${this.props.language.required})`}
               </Button>
           }
+          <br/>
+          {console.log("sdadadsdasd", this.state.analysisTipsHelps)}
+            <FeedbackHelp
+             language={this.props.language}
+              validation={{
+                error: false,
+                errorMsg: "xxxx",
+                errorType: "xxxxxtttt",
+                a11y: null
+              }}
+              tipMsg={this.props.language.appropriateOption}
+              describedBy={"i05-helper-text"}
+              stepHelp={{
+                step: "textHelper",
+                stepLabel: this.props.language.CourseInformationHelp,
+                helpsTips:this.props.language.informationTipsHelps
+              }}
+            />
           <br/><br/><br/>
         </div>
       </div>

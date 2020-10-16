@@ -16,7 +16,8 @@ import React, { useState, useEffect } from "react";
 import ActivityDesign from "./design/activityDesign";
 import DesignCourseCommons from "./design/common";
 import LessonDesign from "./design/lessonDesign";
-import FeedbackHelp from "./feedback";
+//import FeedbackHelp from "./feedback";
+import FeedbackHelp from "../../components/course/feedback"
 //Dialog
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -65,6 +66,12 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#e0e0e0!important"
   }
 }));
+
+
+
+
+
+
 
 export default function DesignStep(props) {
   const {courseInformation,language } = props;
@@ -528,6 +535,25 @@ export default function DesignStep(props) {
           tipMsg={organization === "unit" ? language.addUnit : language.addTopic}
           describedBy={"i05-helper-text"}
         />
+
+        <br/>
+        <FeedbackHelp
+        language={props.language}
+          validation={{
+            error: false,
+            errorMsg: "xxxx",
+            errorType: "xxxxxtttt",
+            a11y: null
+          }}
+          tipMsg={language.appropriateOption}
+          describedBy={"i05-helper-text"}
+          stepHelp={{
+            step: "textHelper",
+            stepLabel: props.language.CourseDesignHelp,
+            helpsTips:props.language.DesignTipsHelps
+          }}
+        />
+
         <Dialog
           open={openDialog}
           onClose={handleClose}

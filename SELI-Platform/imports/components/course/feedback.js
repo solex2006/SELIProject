@@ -106,7 +106,7 @@ export default function FeedbackHelp(props) {
             aria-label="Accessibilit tip"
             text={stepHelp.stepLabel}
             color="primary"
-            buttonLabel="More details"
+            buttonLabel={props.language.feedback_a11y_helpStep_button}
             useStyle={classes.iconButton}
           />
         )}

@@ -1351,6 +1351,178 @@
   programLabel:"Content insertion.",
   reportstepLabel:"How accessible is your course",
   alreadyAudiences:"already exist in the list of audiences",
+  courseInfo1:"A brief description about the course main content. For example: This course can transform your writing skills. Prepare for college-level writing and research.",
+  courseInfo2:"Words related to course main content. For example: Grammar, English Grammar, Writing.",
+  CourseInformationHelp:"Course Information Help",
+  CourseAudiencesHelp:"Course Audiences Help",
+  audiencesTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:"How to define the audience?",
+        label:"Teachers: Person who helps students to acquire knowledge, competence or virtue. Informal Students: Students that don't studying in a formal schools like university or studying alone or are self-taught. Undergraduate Students: University students that still not finish the graduate course. High School Students: Students in secondary school. Middle School Students: Students between elementary school and high school. Elementary School Students: Before Middle School, for children between the ages of 6-11. Preschool Kids: For kids from 2 to 5 years old-held in a Nursery School."
+      },
+      {
+        labelTitle:"Cognitive disabilities",
+        label:"Cognitive disabilities involve neurodiversity and neurological disorders, as well as behavioral and mental health disorders that are not necessarily neurological. They may affect any part of the nervous system and impact how well people hear, move, see, speak, and understand information. Cognitive disabilities do not necessarily affect the intelligence of a person."
+      },
+      {
+        labelTitle:"Examples of the disabilities (for cognitive)",
+        label:"Attention deficit hyperactivity disorder 'ADHD', Autism spectrum disorder 'ASD', Intellectual disabilities, Learning disabilities, Mental health disabilities, Memory impairments, Multiple sclerosis, Neurodiversity, Perceptual disabilities, Seizure disorders"
+      },
+      {
+        labelTitle:"Examples of barriers (for cognitive)",
+        label:" Complex navigation mechanisms and page layouts that are difficult to understand and use, Complex sentences that are difficult to read and unusual words that are difficult to understand, Long passages of text without images, graphs, or other illustrations to highlight the context, Moving, blinking, or flickering content, and background audio that cannot be turned off, Web browsers and media players that do not provide mechanisms to suppress animations and audio, Visual page designs that cannot be adapted using web browser controls or custom style sheets."
+      },
+      {
+        labelTitle:"Example of adaptations (for cognitive)",
+        label:"Providing visual cues and props to reinforce, Use songs, rhymes or rhythms to help students remember information, Teach students to use self-questioning techniques"
+      },
+      {
+        labelTitle:"Diversity of Abilities",
+        label:"There are many reasons why people may be experiencing varying degrees of auditory, cognitive, physical, speech, and visual disabilities."
+      },
+      {
+        labelTitle:"Examples the disabilities (for diversity)",
+        label:"Age-related impairments, Multiple disabilities, Health conditions, Changing abilities, Temporary impairments, Situational limitations"
+      },
+      {
+        labelTitle:"Examples of barriers (for diversity)",
+        label:"Websites without accessibility content, Electronic devices in case of health conditions"
+      },
+      {
+        labelTitle:"Example of adaptations (for diversity)",
+        label:"Providing many practice opportunities and include problem solving, reasoning and real-life application to help with transfer of information."
+      },
+      {
+        labelTitle:"Hearing disabilities",
+        label:"A person who is not able to hear as well as someone with normal hearing – hearing thresholds of 25 dB or better in both ears – is said to have hearing loss. Hearing loss may be mild, moderate, severe, or profound. It can affect one ear or both ears, and leads to difficulty in hearing conversational speech or loud sound. (https://www.who.int/news-room/fact-sheets/detail/deafness-and-hearing-loss)"
+      },
+      {
+        labelTitle:"Examples the disabilities (for hearing).",
+        label:"Hearing loss, Deafness"
+      },
+      {
+        labelTitle:"Examples of barriers (for hearing).",
+        label:"Audio contents, Video contents without subtitles."
+      },
+      {
+        labelTitle:"Example of adaptations (for hearing).",
+        label:"Providing visual cues and props to reinforce, Providing video-taped with subtitles."
+      },
+      {
+        labelTitle:"Visual disabilities",
+        label:"Visual disabilities range from mild or moderate vision loss in one or both eyes (“low vision”) to substantial and uncorrectable vision loss in both eyes (“blindness”). Some people have reduced or lack of sensitivity to certain colors (“color blindness”), or increased sensitivity to bright colors. These variations in perception of colors and brightness can be independent of the visual acuity."
+      },
+      {
+        labelTitle:"Examples the disabilities (for visual)",
+        label:"Color blindness, Low vision, Blindness, Deaf-blindness"
+      },
+      {
+        labelTitle:"Examples of barriers (for visual)",
+        label:"Images, controls, and other structural elements that do not have equivalent text alternatives. Text, images, and page layouts that cannot be resized, or that lose information when resized. Missing visual and non-visual orientation cues, page structure, and other navigational aids. Video content that does not have text or audio alternatives, or an audio-description track. Inconsistent, unpredictable, and overly complicated navigation mechanisms and page functions. Text and images with insufficient contrast between foreground and background color combinations. Websites, web browsers, and authoring tools that do not support the use of custom color combinations. Websites, web browsers, and authoring tools that do not provide full keyboard support."
+      },
+      {
+        labelTitle:"Example of adaptations (for visual)",
+        label:"Providing audio lessons, Have available textbooks on CD ROM."
+      },
+    ]
+  },
+  coursePlanTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:'Guided or Free CoursePlan',
+        label:'You can choose between create the course plan in SELI platform or outside the platform'
+      },
+      {
+        labelTitle:'Template Course Spiral',
+        label:"In this model, the course is organised in small units where concepts are introduced to facilitate the resolution of problems or activities by students. Each unit must introduce a concept, without going into details. In the cycle, the next unit will present the contents in more depth and additional topics can be included. Each unit must be interrelated to enable students to solve significant problems or activities presented at the beginning of the course. This model can be used in any course in which there are a large number of concepts that must be mastered together. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#spiral)"
+      },
+      {
+        labelTitle:'Template Course Consistent',
+        label:"To teach complex content find a complex and consistent metaphor for the topic being taught. The basis of the metaphor needs to be known to the students. This helps students relate the topic being taught to larger goals, that is, they realize how things fit together. The students need a way to think of the content as a whole. Especially when the details themselves are unfamiliar and new to them. A consistent metaphor with the content being taught and its basic elements, will help students to reflect on the content by making valid inferences when thinking about the metaphor. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#consistentmetaphor)"
+      },
+      {
+        labelTitle:" Template Course ToyBox",
+        label:"The content is given to the students letting them 'play' with pedagogical tools. Students work on problems and it's important to give them some examples and / or exercises to provide a rich set of experiences about what is important and what can be done to solve the problem. It can be used in several courses and at several levels. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#toybox)"
+      },
+      {
+        labelTitle:"Template Course Without",
+        label:"You can define your template course freely and you can insert the yourself resources."
+      },
+      {
+        labelTitle:" Structure CourseUnit | By units ",
+        label:"Organize your course by units and lessons, for example: Unit 1 - Introduction, Unit 2 - Presentation, Unit 3 - Algorithms, etc."
+      },
+      {
+        labelTitle:"StructureCourseTopics | ByTopics",
+        label:"Organize your course by topics. You have a free topics creation, for example: Extra Resources, Class 1, Class 2, Class 3, Attachments."
+      },
+      {
+        labelTitle:" CourseSyllabus",
+        label:"Outlines a lesson-by-lesson guide of class, a learning plan, the learning objectives, assessment approach, and expectations."
+      },
+      
+    ]
+  },
+  CoursePlanHelp:"Course Plan Help",
+  AnalysisTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:'Learning objectives',
+        label:"State what will be expected to be learned by students and show what the students will know and why they are doing. State what is expected to be learned by students. Bloom's taxonomy divides learning objectives into three domains: cognitive domain, affective domain and psychomotor domain. Cognitive Domain comprises intellectual skills such as memorization, comprehension, application, analysis, synthesis / creation, assessment. The affective domain comprises feelings, values, enthusiasm, motivation and attitude. Psychomotor domain is about physical and motor skills."
+      },
+      {
+        labelTitle:"Cognitive Domain",
+        label:"Involves the acquisition of a new knowledge, intellectual development, skill and attitudes. It is divided into six categories: remembering, understanding, applying, analyzing, evaluating, creating. The objectives are described using action verbs and nouns that seek to describe the desired cognitive processes."
+      },
+      {
+        labelTitle:"Affective Domain",
+        label:"Involves feelings, attitudes, and emotions. It includes the ways in which people deal with external and internal phenomenon emotionally, such as values, enthusiasms, and motivations. This domain is categorized into five levels, which include receiving, responding, valuing, organization, and characterization. These subdomains form a hierarchical structure and are arranged from simple feelings or motivations to those that are more complex."
+      },
+      {
+        labelTitle:"Psychomotor Domain",
+        label:"Includes physical movement, coordination, and use of the motor-skill areas. This domain is categorized into eight levels, which include origination, adaptation, complex overt response, mechanism, guided response, set, and perception."
+      },
+      {
+        labelTitle:"Learning Constrainst",
+        label:"Learning outcomes should be brief, clear, specific statements of what learners will be able to do at the end of a lesson as a result of the activities, teaching and learning that has taken place. The Learning outcomes is based on three areas of learning: knowledge, skills and attitudes."
+      },
+      {
+        labelTitle:"Pedagogical Considerations",
+        label:"Pedagogical Considerations concentrates on theory, application, and the development of technologies for teaching and learning and its influence on the education system."
+      },
+    ]
+  },
+  CourseAnalysisHelp:"Course Analysis Help",
+  DesignTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:"By Unit/By topic",
+        label:"Title: Add the unit/topic title. Learning Objectives: Add Learning Objectives that shows what the students will know when learning in this unit/topic. Pre-existing knowledge: Previous necessary knowledge to understand this unit/topic. Main Content: Subjects to be addressed. Evaluation: Mechanisms and criteria to assess whether the learning objectives have been achieved"
+      },
+      {
+        labelTitle:"Tasks list",
+        label:"Action to be taken by the student to achieve the learning objectives "
+      },
+      {
+        labelTitle:" Lesson",
+        label:"Select the resources tool you are going to use in this unit/topic"
+      },
+    ]
+  },
+  CourseDesignHelp:"Course Design Help",
+  informationTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:"Course Description",
+        label:"A brief description about the course main content. For example: This course can transform your writing skills. Prepare for college-level writing and research."
+      },
+      {
+        labelTitle:"keywords",
+        label:"Words related to course main content. For example: Grammar, English Grammar, Writing."
+      },
+    ]
+  }
 }
 export default POLISH;
 

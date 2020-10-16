@@ -1351,6 +1351,177 @@ var SPANISH = {
   programLabel: "Inserción de contenido",
   reportstepLabel: "Acccesibilidad en su curso",
   alreadyAudiences:"ya existe en la lista de Audiencias",
+  courseInfo1: "Una breve descripción sobre el contenido principal del curso. Por ejemplo: este curso puede transformar sus habilidades de escritura. Prepárese para la escritura y la investigación de nivel universitario",
+  courseInfo2: "Palabras relacionadas con el contenido principal del curso. Por ejemplo: gramática, gramática inglesa, redacción",
+  CourseInformationHelp: "Información de ayuda para el curso",
+  CourseAudiencesHelp: "Ayuda para las audiencias",
+  audiencesTipsHelps: {
+    analysisTipsHelps: [
+      {
+        labelTitle: "¿Cómo definir la audiencia?",
+        label: "Docentes: Persona que ayuda a los estudiantes a adquirir conocimientos, competencias o virtudes. Estudiantes informales: Estudiantes que no estudian en una escuela formal como la universidad o que estudian solos o son autodidactas. Estudiantes de pregrado: Estudiantes universitarios que aún no terminan el curso de posgrado. Estudiantes de secundaria: estudiantes de secundaria. Estudiantes de secundaria: estudiantes de primaria y secundaria. Estudiantes de primaria: antes de la secundaria, para niños de 6 a 11 años. Niños de preescolar: para niños de 2 a 5 años en una escuela infantil "
+      },
+      {
+        labelTitle: "Discapacidades cognitivas",
+        label: "Las discapacidades cognitivas implican neurodiversidad y trastornos neurológicos, así como trastornos de la salud mental y del comportamiento que no son necesariamente neurológicos. Pueden afectar a cualquier parte del sistema nervioso y afectar la forma en que las personas escuchan, se mueven, ven, hablan y comprenden la información . Las discapacidades cognitivas no afectan necesariamente la inteligencia de una persona. "
+      },
+      {
+        labelTitle: "Ejemplos de discapacidades (cognitivas)",
+        label: "Trastorno por déficit de atención con hiperactividad 'TDAH', Trastorno del espectro autista 'TEA', Discapacidades intelectuales, Discapacidades del aprendizaje, Discapacidades de salud mental, Discapacidades de la memoria, Esclerosis múltiple, Neurodiversidad, Discapacidades de percepción, Trastornos convulsivos"
+      },
+      {
+        labelTitle: "Ejemplos de barreras (cognitivas)",
+        label: "Mecanismos de navegación complejos y diseños de página que son difíciles de entender y usar, oraciones complejas que son difíciles de leer y palabras inusuales que son difíciles de entender, pasajes largos de texto sin imágenes, gráficos u otras ilustraciones para resaltar el contexto, Contenido en movimiento, parpadeante o parpadeante, y audio de fondo que no se puede apagar, navegadores web y reproductores multimedia que no proporcionan mecanismos para suprimir animaciones y audio, diseños de páginas visuales que no se pueden adaptar mediante controles de navegador web o hojas de estilo personalizadas "
+      },
+      {
+        labelTitle: "Ejemplo de adaptaciones (para cognitivo)",
+        label: "Proporcionar pistas visuales y accesorios para reforzar, usar canciones, rimas o ritmos para ayudar a los estudiantes a recordar información, enseñar a los estudiantes a usar técnicas de auto cuestionamiento"
+      },
+      {
+        labelTitle: "Diversidad de habilidades",
+        label: "Hay muchas razones por las que las personas pueden experimentar diversos grados de discapacidades auditivas, cognitivas, físicas, del habla y visuales."
+      },
+      {
+        labelTitle: "Ejemplos de discapacidades (para la diversidad)",
+        label: "Discapacidades relacionadas con la edad, Discapacidades múltiples, Condiciones de salud, Habilidades cambiantes, Discapacidades temporales, Limitaciones situacionales"
+      },
+      {
+        labelTitle: "Ejemplos de barreras (para la diversidad)",
+        label: "Sitios web sin contenido de accesibilidad, dispositivos electrónicos en caso de problemas de salud"
+      },
+      {
+        labelTitle: "Ejemplo de adaptaciones (para diversidad)",
+        label: "Brinda muchas oportunidades de práctica e incluye resolución de problemas, razonamiento y aplicación en la vida real para ayudar con la transferencia de información."
+      },
+      {
+        labelTitle: "Discapacidades auditivas",
+        label: "Se dice que una persona que no puede oír tan bien como alguien con audición normal (umbrales de audición de 25 dB o más en ambos oídos) tiene pérdida auditiva. La pérdida auditiva puede ser leve, moderada, severa o profunda. Puede afectar un oído o ambos oídos y provoca dificultad para escuchar el habla conversacional o el sonido fuerte. (Https://www.who.int/news-room/fact-sheets/detail/deafness-and-hearing-loss)."
+      },
+      {
+        labelTitle: "Ejemplos de discapacidades (para la audición).",
+        label: "Pérdida auditiva, sordera"
+      },
+      {
+        labelTitle: "Ejemplos de barreras (para la audición).",
+        label: "Contenidos de audio, Contenidos de video sin subtítulos."
+      },
+      {
+        labelTitle: "Ejemplo de adaptaciones (para escuchar).",
+        label: "Proporcionar pistas visuales y accesorios para reforzar, Proporcionar videos grabados con subtítulos."
+      },
+      {
+        labelTitle: "Discapacidades visuales",
+        label: "Las discapacidades visuales van desde la pérdida de la visión leve o moderada en uno o ambos ojos (baja visión) hasta la pérdida sustancial e incorregible de la visión en ambos ojos (ceguera). Algunas personas tienen una sensibilidad reducida o falta de sensibilidad a ciertos colores (Daltonismo), o una mayor sensibilidad a los colores brillantes. Estas variaciones en la percepción de los colores y el brillo pueden ser independientes de la agudeza visual. "
+      },
+      {
+        labelTitle: "Ejemplos de discapacidades (visual)",
+        label: "Daltonismo, baja visión, ceguera, sordoceguera"
+      },
+      {
+        labelTitle: "Ejemplos de barreras (para visual)",
+        label: "Imágenes, controles y otros elementos estructurales que no tienen alternativas de texto equivalentes. Texto, imágenes y diseños de página que no se pueden cambiar de tamaño o que pierden información cuando se cambia el tamaño. Faltan indicaciones de orientación visuales y no visuales, estructura de página, y otras ayudas para la navegación. Contenido de video que no tiene alternativas de texto o audio, o una pista de descripción de audio. Mecanismos de navegación y funciones de página inconsistentes, impredecibles y demasiado complicados. Texto e imágenes con contraste insuficiente entre las combinaciones de colores de primer plano y de fondo. Sitios web , navegadores web y herramientas de creación que no admiten el uso de combinaciones de colores personalizadas. Sitios web, navegadores web y herramientas de creación que no ofrecen compatibilidad total con el teclado "
+      },
+      {
+        labelTitle: "Ejemplo de adaptaciones (visual)",
+        label: "Proporcionar lecciones de audio, tener libros de texto disponibles en CD ROM."
+      },
+    ]
+  },
+  coursePlanTipsHelps: {
+    analysisTipsHelps: [
+      {
+        labelTitle: 'Plan de curso guiado o Libre',
+        label: 'Puedes elegir entre crear el plan del curso en la plataforma SELI o fuera de la plataforma.'
+      },
+      {
+        labelTitle: 'Plantilla de curso en espiral',
+        label: "En este modelo, el curso se organiza en pequeñas unidades donde se introducen conceptos para facilitar la resolución de problemas o actividades por parte de los estudiantes. Cada unidad debe introducir un concepto, sin entrar en detalles. En el ciclo, la siguiente unidad presentará los contenidos en mayor profundidad y se pueden incluir temas adicionales. Cada unidad debe estar interrelacionada para permitir que los estudiantes resuelvan problemas significativos o actividades presentadas al inicio del curso. Este modelo se puede utilizar en cualquier curso en el que haya un gran número de conceptos que deben dominarse juntos. Enlace para referencia (http://csis.pace.edu/~bergin/PedPat1.3.html#spiral) "
+      },
+      {
+        labelTitle: 'Curso de plantilla consistente',
+        label: "Para enseñar contenido complejo, busque una metáfora compleja y coherente para el tema que se enseña. Los alumnos deben conocer la base de la metáfora. Esto ayuda a los alumnos a relacionar el tema que se enseña con objetivos más amplios, es decir, se dan cuenta de cómo las cosas encajan. Los estudiantes necesitan una forma de pensar en el contenido como un todo. Especialmente cuando los detalles en sí mismos no están familiarizados y son nuevos para ellos. Una metáfora consistente con el contenido que se enseña y sus elementos básicos, ayudará a los estudiantes a reflexionar sobre el contenido haciendo inferencias válidas al pensar en la metáfora. Enlace para referencia (http://csis.pace.edu/~bergin/PedPat1.3.html#consistentmetaphor)."
+      },
+      {
+        labelTitle: "Modelo de curso ToyBox",
+        label: "El contenido se le da a los estudiantes dejándolos 'jugar' con herramientas pedagógicas. Los estudiantes trabajan en problemas y es importante darles algunos ejemplos y / o ejercicios para brindarles un conjunto rico de experiencias sobre lo que es importante y lo que puede ser hecho para resolver el problema. Se puede utilizar en varios cursos y en varios niveles. Enlace para referencia (http://csis.pace.edu/~bergin/PedPat1.3.html#toybox). "
+      },
+      {
+        labelTitle: "Plantilla de curso Libre",
+        label: "Puede definir su curso de plantilla libremente y puede insertar los recursos usted mismo."
+      },
+      {
+        labelTitle: "Estructura de curso por unidades | Por unidades",
+        label: "Organice su curso por unidades y lecciones, por ejemplo: Unidad 1 - Introducción, Unidad 2 - Presentación, Unidad 3 - Algoritmos, etc."
+      },
+      {
+        labelTitle: "Estructura de curso por Topicos | ByTopics",
+        label: "Organice su curso por temas. Tiene una creación de temas gratuita, por ejemplo: Recursos adicionales, Clase 1, Clase 2, Clase 3, Archivos adjuntos"
+      },
+      {
+        labelTitle: "Silabo del Curso",
+        label: "Describe una guía lección por lección de la clase, un plan de aprendizaje, los objetivos de aprendizaje, el enfoque de evaluación y las expectativas"
+      },
+    ]
+  },
+  CoursePlanHelp: "Ayuda para plan del curso",
+  AnalysisTipsHelps: {
+    analysisTipsHelps: [
+      {
+        labelTitle: 'Objetivos de aprendizaje',
+        label: "Enuncie lo que se espera que aprendan los estudiantes y muestre lo que los estudiantes sabrán y por qué lo están haciendo. Enuncie lo que se espera que aprendan los estudiantes. La taxonomía de Bloom divide los objetivos de aprendizaje en tres dominios: dominio cognitivo, dominio afectivo y dominio psicomotor. El dominio cognitivo comprende habilidades intelectuales como la memorización, comprensión, aplicación, análisis, síntesis / creación, evaluación. El dominio afectivo comprende sentimientos, valores, entusiasmo, motivación y actitud. El dominio psicomotor se refiere a habilidades físicas y motoras. "
+      },
+      {
+        labelTitle: "Dominio cognitivo",
+        label: "Implica la adquisición de un nuevo conocimiento, desarrollo intelectual, habilidad y actitudes. Se divide en seis categorías: recordar, comprender, aplicar, analizar, evaluar, crear. Los objetivos se describen utilizando verbos de acción y sustantivos que buscan describir los procesos cognitivos deseados. "
+      },
+      {
+        labelTitle: "Dominio afectivo",
+        label: "Implica sentimientos, actitudes y emociones. Incluye las formas en que las personas afrontan emocionalmente los fenómenos externos e internos, como los valores, el entusiasmo y las motivaciones. Este dominio se clasifica en cinco niveles, que incluyen recibir, responder y valorar , organización y caracterización. Estos subdominios forman una estructura jerárquica y están ordenados desde simples sentimientos o motivaciones hasta aquellos que son más complejos. "
+      },
+      {
+        labelTitle: "Dominio psicomotor",
+        label: "Incluye movimiento físico, coordinación y uso de las áreas de habilidades motoras. Este dominio se clasifica en ocho niveles, que incluyen origen, adaptación, respuesta abierta compleja, mecanismo, respuesta guiada, conjunto y percepción"
+      },
+      {
+        labelTitle: "Restricción de aprendizaje",
+        label: "Los resultados del aprendizaje deben ser declaraciones breves, claras y específicas de lo que los alumnos podrán hacer al final de una lección como resultado de las actividades, la enseñanza y el aprendizaje que se hayan realizado. Los resultados del aprendizaje se basan en tres áreas del aprendizaje: conocimientos, habilidades y actitudes."
+      },
+      {
+        labelTitle: "Consideraciones pedagógicas",
+        label: "Consideraciones pedagógicas que se concentra en la teoría, la aplicación y el desarrollo de tecnologías para la enseñanza y el aprendizaje y su influencia en el sistema educativo"
+      },
+    ]
+  },
+  CourseAnalysisHelp: "Ayuda para análisis del curso",
+  DesignTipsHelps: {
+    analysisTipsHelps: [
+      {
+        labelTitle: "Por unidad / Por tema",
+        label: "Título: agregue el título de la unidad / tema. Objetivos de aprendizaje: Agregar objetivos de aprendizaje que muestren lo que los estudiantes sabrán cuando aprendan en esta unidad / tema. Conocimientos preexistentes: Conocimientos previos necesarios para comprender esta unidad / tema. Contenido principal : Temas a tratar. Evaluación: Mecanismos y criterios para evaluar si se han alcanzado los objetivos de aprendizaje "
+      },
+      {
+        labelTitle: "Lista de tareas",
+        label: "Acción que debe realizar el alumno para lograr los objetivos de aprendizaje"
+      },
+      {
+        labelTitle: "Lección",
+        label: "Seleccione la herramienta de recursos que va a utilizar en esta unidad / tema"
+      },
+    ]
+  },
+  CourseDesignHelp: "Ayuda para el diseño del curso",
+  informationTipsHelps: {
+    analysisTipsHelps: [
+      {
+        labelTitle: "Descripción del curso",
+        label: "Una breve descripción sobre el contenido principal del curso. Por ejemplo: Este curso puede transformar sus habilidades de escritura. Prepárese para la escritura y la investigación de nivel universitario."
+      },
+      {
+        labelTitle: "Palabras clave",
+        label: "Palabras relacionadas con el contenido principal del curso. Por ejemplo: gramática, gramática inglesa, redacción."
+      },
+    ]
+  }
 }
 export default SPANISH;
 
