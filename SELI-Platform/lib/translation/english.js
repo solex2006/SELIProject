@@ -1018,7 +1018,7 @@ var ENGLISH = {
   Maincontent: "Main content",
   Evaluation: "Evaluation (Required)",
   instructionslearning: "Add Learning Objectives that shows what the students will know learning in this unit/topic",
-  instructionsPreExisting: "Previous necessary knnowledge to understand this unit/topic",
+  instructionsPreExisting: "Previous necessary knowledge to understand this unit/topic",
   instructionsMainContent: "Subjects to be addressed",
   instructionsEvaluation: "Mechanisms and criteria to assess whether the learning objectives have been achieved",
   instructionsResources: "Fundamental or complementary materials, communication services or features used during learning and to support tasks",

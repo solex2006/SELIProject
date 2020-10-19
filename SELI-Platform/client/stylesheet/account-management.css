@@ -86,7 +86,7 @@
 
 @media only screen and (max-width: 1080px)  {
   .account-management-container {
-    display: inline;
+    display: block;
     overflow-y: scroll !important;
   }
   .account-management-file-column {
