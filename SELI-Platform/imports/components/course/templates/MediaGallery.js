@@ -39,30 +39,46 @@ export default class MediaGallery extends React.Component {
               {this.props.contentCode === "image" ? "Image gallery" : "Video gallery"}
 						</div>
 						<details className="template-instructions-gallery" id="gallery-description">
-							<summary id="gallery-instructions">Instructions</summary>
+							<summary id="gallery-instructions">{this.props.language.instructions}</summary>
 							{
 								this.props.contentCode === "image" ?
 									<ul>
 										<li>
-											Arrows key <kbd>left</kbd> and <kbd>right</kbd> rovers in gallery's image
+                      <div dangerouslySetInnerHTML={{__html: this.props.language.imageGalleryLabel0}}/>
 										</li>
 										<li>
-											<kbd>Enter</kbd> key opens image in full width.
+                      <div dangerouslySetInnerHTML={{__html: this.props.language.imageGalleryLabel1}}/>
 										</li>
-
 										<li>
-											Image's long description, if configured by instructor, will be displayed in full width option.
+                      {this.props.language.imageGalleryLabel2}
 										</li>
 									</ul>
 								:
 									<ul>
 										<li>
-											Arrows key <kbd>left</kbd> and <kbd>right</kbd> rovers in gallery's image.
+                      <div dangerouslySetInnerHTML={{__html: this.props.language.videoGalleryLabel0}}/>
 										</li>
 										<li>
-											<kbd>Enter</kbd> key opens video player.
-									</li>
-							</ul>
+                      <div dangerouslySetInnerHTML={{__html: this.props.language.videoGalleryLabel1}}/>
+										</li>
+										<li>
+                      {this.props.language.videoGalleryLabel2}
+                      <ul>
+                        <li>
+                          {this.props.language.Captions}
+                        </li>
+                        <li>
+                          {this.props.language.audioDescription}
+                        </li>
+                        <li>
+                          {this.props.language.longDescription_a11y_label_audio}
+                        </li>
+                        <li>
+                          {this.props.language.signLanguageInterpreter}
+                        </li>
+                      </ul>
+										</li>
+                  </ul>
 							}
 						</details>
 					</Grid>

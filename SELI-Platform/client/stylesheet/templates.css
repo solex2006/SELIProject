@@ -83,8 +83,8 @@
 }
 
 .template-instructions-gallery {
-  margin-left: 15px;
-  margin-bottom: 5px;
+  width: calc(100% - 10px);
+  margin: 5px 5px;
 }
 
 .template-paper-gallery-preview {
@@ -112,6 +112,7 @@
   position: absolute;
   bottom: 0px;
   left: 0px;
+  overflow: hidden;
 }
 
 .template-image-gallery-preview {
@@ -156,6 +157,24 @@
   top: 0px;
   left: 0px;
   z-index: 1000;
+}
+
+kbd {
+  background-color: #eee;
+  border-radius: 3px;
+  border: 1px solid #b4b4b4;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .2), 0 2px 0 0 rgba(255, 255, 255, .7) inset;
+  color: #333;
+  display: inline-block;
+  font-size: .85em;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 4px;
+  white-space: nowrap;
+}
+
+ul > li {
+  margin-left: 1em;
 }
 
 /* Media Queries: Tablet Landscape */

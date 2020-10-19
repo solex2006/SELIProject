@@ -1355,6 +1355,13 @@ var SPANISH = {
   courseInfo2: "Palabras relacionadas con el contenido principal del curso. Por ejemplo: gramática, gramática inglesa, redacción",
   CourseInformationHelp: "Información de ayuda para el curso",
   CourseAudiencesHelp: "Ayuda para las audiencias",
+  imageGalleryLabel0: "Use las flechas del teclado <kbd> izquierda </kbd> y <kbd> derecha </kbd> para navegar en la galería de imagenes.",
+  imageGalleryLabel1: "La tecla <kbd> Enter </kbd> abre la imagen en pantalla completa.",
+  imageGalleryLabel2: "Si el instructor configuro previamente, la descripción larga de la imagen se mostrará en la pantalla completa.",
+  videoGalleryLabel0: "Use las flechas del teclado  <kbd> izquierda </kbd> y <kbd> derecha </kbd> para navegar en la lista de reproducción de video.",
+  videoGalleryLabel1: "La tecla <kbd> Enter </kbd> abre el reproductor de video",
+  videoGalleryLabel2: "Si el instructor configuro previamente, el reproductor de video puede tener las opciónes para:",
+  signLanguageInterpreter: "Intérprete de lenguaje de señas",
   audiencesTipsHelps: {
     analysisTipsHelps: [
       {
