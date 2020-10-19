@@ -290,7 +290,7 @@ export default function ActivityResources(props) {
             errorType: "",
             a11y: null
           }}
-          tipMsg="Select the resources tool you are goint to ue in this topic"
+          tipMsg={language.instructionsResources}
           describedBy={key + "-helper-text_mainContent"}
         />
       </FormControl>
