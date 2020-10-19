@@ -30,8 +30,10 @@ export const validateOnlyLetters = (evt) => {
     theEvent.returnValue = false;
     if (theEvent.preventDefault) {
       theEvent.preventDefault();
+      return false;
     }
   }
+  return true;
 }
 
 export const noSpecialCharacters = (evt) => {

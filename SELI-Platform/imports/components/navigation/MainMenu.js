@@ -100,14 +100,14 @@ export default class MainMenu extends React.Component {
   }
   render() {
     return(
-      <div >
+      <React.Fragment >
         <Menu
           // customOnKeyDown={this.closeAllMenusOnEsc()} 
           pageWrapId={ "page-wrap" }
           outerContainerId={ "outer-container" }
           isOpen={ this.state.menuOpen }
           tabIndex="0"
-          onKeyPress={ this.buildHandleEnterKeyPressMenu } 
+          onKeyPress={ this.buildHandleEnterKeyPressMenu }
           customBurgerIcon={
             <MdMenu 
               tabIndex="-1"
@@ -117,6 +117,7 @@ export default class MainMenu extends React.Component {
             />
           }
           onStateChange={(state) => this.handleMenuStateChange(state)}
+          className="menu-left-panel-container"
         >
           <Button tabIndex={this.state.menuOpen ? "0" : "-1"} onClick={() => this.showComponent("home")} className="menu-title">{this.props.language.seliLearningPlatform}</Button>
           <Divider className="user-menu-profile-divider" light={true}/>
@@ -125,12 +126,13 @@ export default class MainMenu extends React.Component {
               this.state.options.map(options => {
                 return(
                   <ExpansionPanel
-                  tabIndex="-1" 
+                    tabIndex="-1" 
                     className="menu-expansion-panel"
                     defaultExpanded={ true }
-                    onChange={this.handleChange(options.label[this.props.language.languageIndex])}>
+                    onChange={this.handleChange(options.label[this.props.language.languageIndex])}
+                  >
                     <ExpansionPanelSummary
-                    tabIndex="-1" 
+                      tabIndex="-1" 
                       className="menu-expansion-summary"
                       expandIcon={
                         <ExpandMoreIcon tabIndex={this.state.menuOpen ? "0" : "-1"} className="menu-expand-more-icon"/>
@@ -144,10 +146,10 @@ export default class MainMenu extends React.Component {
                           options.suboptions.map((suboptions, index) => {
                             return(
                               <div 
-                              tabIndex={this.state.menuOpen ? "0" : "-1"}
-                              onClick={() => this.showComponent(suboptions.component)}
-                              onKeyPress={ this.buildHandleEnterKeyPress(() => this.showComponent(suboptions.component)) } 
-                              className="sub-menu-option">{suboptions.label[this.props.language.languageIndex]}
+                                tabIndex={this.state.menuOpen ? "0" : "-1"}
+                                onClick={() => this.showComponent(suboptions.component)}
+                                onKeyPress={ this.buildHandleEnterKeyPress(() => this.showComponent(suboptions.component)) } 
+                                className="sub-menu-option">{suboptions.label[this.props.language.languageIndex]}
                               </div>
                             )
                           })
@@ -169,7 +171,7 @@ export default class MainMenu extends React.Component {
             <div className="options-padding" style={{height: '5vh'}}></div>
           </div>
         </Menu>
-      </div>
+      </React.Fragment>
   )
 }
 }
