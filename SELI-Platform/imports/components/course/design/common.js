@@ -115,7 +115,7 @@ export default function DesignCourseCommons(props) {
         label={language.Preexistingknowlegde}
         aria-describedBy={key + "-helper-text_preKnowledge"}
         value={preKnow!=''? preKnow :preKnowledge}
-        required
+        //required
         fullWidth
         multiline
         variant="outlined"

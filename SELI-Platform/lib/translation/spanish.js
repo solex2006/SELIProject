@@ -1016,7 +1016,7 @@ var SPANISH = {
   Learningobjectives: "Objetivos de aprendizaje (obligatorio)",
   Preexistingknowlegde: "Conocimientos preexistentes",
   Maincontent: "Contenido principal",
-  Evaluation: "Evaluación (requerido)",
+  Evaluation: "Evaluación (Requerido)",
   instructionslearning: "Agregar objetivos de aprendizaje que muestren lo que los estudiantes sabrán aprendiendo en esta unidad / tema",
   instructionsPreExisting: "Conocimientos previos necesarios para comprender esta unidad / tema",
   instructionsMainContent: "Temas a tratar",

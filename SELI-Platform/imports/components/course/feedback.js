@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
  */
 export default function FeedbackHelp(props) {
   const classes = useStyles();
-  console.log("Accesibility HELP ERROR",props)
+  //console.log("Accesibility HELP ERROR",props)
 
   const { validation, tipMsg, describedBy, stepHelp, decisionHelp, language } = props;
 

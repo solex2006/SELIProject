@@ -381,6 +381,7 @@ export default function SearchToolBar(props) {
 	
  
 	const search=(event)=>{
+		event.preventDefault();
 		setQuery(event.target.value)
 		console.log(event.target.value)
 	}
@@ -401,24 +402,38 @@ export default function SearchToolBar(props) {
 		
 	}
 
+	const searchkey=(e)=>{
+		e.preventDefault();
+		console.log("***********qqqqqqqqqqqq",e.keyCode)
+		if (e.keyCode == 13) {
+			e.preventDefault();
+	  }
+	}
 
 
 	return (
 		<React.Fragment>
 			<Paper component="form" className={classes.searchbar} elevation={0}>
 				<div className={classes.searchcontainer}>
-					<InputBase
+					<input
 						value={query}
 						className={classes.input}
 						placeholder={props.language.SearchSeLIPlatform}
 						inputProps={{ 'aria-label': 'search seli courses' }}
 						onChange={search}
+						onKeyUp={searchkey}
+						onKeyPress={e => {
+							if (e.key === 'Enter') {
+								e.preventDefault()
+								GeneralSearch()
+							};
+						 }}
 					/>
 					<Tooltip title="Search">
 						<IconButton onClick={()=>GeneralSearch()} className={classes.iconButton} aria-label="search">
 							<SearchIcon />
 						</IconButton>
-					</Tooltip>
+					</Tooltip> 
 					
 			
 				</div>
