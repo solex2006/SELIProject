@@ -431,6 +431,7 @@ export default function DesignStep(props) {
                 </div>
               </ExpansionPanelSummary>
               <ExpansionPanelActions>
+               {console.log("Informations------",courseInformation)}
                 <Button
                   id={"unit_" + unitIndex + "btnEdit"}
                   onClick={() => editUnitTopicName(unitIndex)}
@@ -439,7 +440,31 @@ export default function DesignStep(props) {
                   color="secondary"
                   startIcon={<EditIcon />}
                 >
-                  {language.Editunitname}
+                  {
+                    (courseInformation.coursePlan.courseStructure==='unit' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.Editunitname
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='free' )?
+                    language.Edittopicname
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && 
+                    (courseInformation.coursePlan.courseTemplate==='spiral' || courseInformation.coursePlan.courseTemplate==='consistent' || courseInformation.coursePlan.courseTemplate==='toyBox') && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.Edittemplatename
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.Edittopicname
+                    :
+                    (courseInformation.coursePlan.courseStructure==='unit' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='free' )?
+                    language.Editunitname
+                    :
+                    undefined
+                  }
+                 
                 </Button>
                 <Button
                   id={"unit_" + unitIndex + "btnDelete"}
@@ -449,7 +474,30 @@ export default function DesignStep(props) {
                   color="secondary"
                   startIcon={<RemoveIcon />}
                 >
-                  {language.Deleteunit}
+                  {
+                    (courseInformation.coursePlan.courseStructure==='unit' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.Deleteunit
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='free' )?
+                    language.deleteTopic
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && 
+                    (courseInformation.coursePlan.courseTemplate==='spiral' || courseInformation.coursePlan.courseTemplate==='consistent' || courseInformation.coursePlan.courseTemplate==='toyBox') && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.deleteTemplate
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.deleteTopic
+                    :
+                    (courseInformation.coursePlan.courseStructure==='unit' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='free' )?
+                    language.Deleteunit
+                    :
+                    undefined
+                  }
                 </Button>
                 {unitIndex !== 0 && (
                   <IconButton

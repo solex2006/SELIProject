@@ -137,6 +137,13 @@ export default class AppBar extends React.Component {
     this.props.searchValue(search,this.state.searchText )
   }
 
+  onkeyup=(e)=>{
+    console.log("el evento",e.keyCode  )
+    if(e.keyCode===13){
+      this.handleSearchButton()
+    }
+  }
+
   appbar=()=>{
     return(
       <div>
@@ -191,6 +198,7 @@ export default class AppBar extends React.Component {
                 inputProps={{'aria-label': this.props.language.learnAbout}}
                 autoFocus={true}
                 onChange={this.handleSearchText}
+                onKeyUp={this.onkeyup}
               />
             </Paper>
             <Button className="app-bar-search-button" onClick={this.handleSearchButton}>{this.props.language.searchCourses}</Button>

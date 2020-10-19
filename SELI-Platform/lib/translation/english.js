@@ -1013,10 +1013,10 @@ var ENGLISH = {
   learningCon: "A constraint is a boundary which encourages the learner to emerge with certain behaviours",
   unit01: "New Unit",
   topic01: "New Topic",
-  Learningobjectives: "Learning Objectives (required)",
+  Learningobjectives: "Learning Objectives (Required)",
   Preexistingknowlegde: "Pre-existing knowlegde",
   Maincontent: "Main content",
-  Evaluation: "Evaluation (required)",
+  Evaluation: "Evaluation (Required)",
   instructionslearning: "Add Learning Objectives that shows what the students will know learning in this unit/topic",
   instructionsPreExisting: "Previous necessary knowledge to understand this unit/topic",
   instructionsMainContent: "Subjects to be addressed",
@@ -1529,7 +1529,12 @@ var ENGLISH = {
         label:"Words related to course main content. For example: Grammar, English Grammar, Writing.",
       },
     ]
-  }
+  },
+  Edittopicname:"Edit topic name",
+  Edittemplatename:"Edit template name",
+  deleteTopic:"Delete Topic",
+  deleteTemplate:"Delete Template",
+
 }
 export default ENGLISH;
 
