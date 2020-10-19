@@ -1024,7 +1024,7 @@
   instructionsResources: "Fundamental or complementary materials, communication services or features used during learning and to support tasks",
   PresentationMaterial: "SELI platform supports main type of presentation files (e.g, *.ppt, *.pdf) and H5P presentations. You can also add reference to other types of presentation",
   SuplemantaryMaterial: "You can list books, papers and others supplementary texts",
-  GamesMatarial: "List the Games that are going to be used in this [unnit/topic]. SELI platform supports Unity and H5P games.",
+  GamesMatarial: "List the Games that are going to be used in this [unit/topic]. SELI platform supports Unity and H5P games. You can also add reference to other types of game.",
   Resources: "Resources",
   Games: "Games",
   Namerequired: "Name is required",
