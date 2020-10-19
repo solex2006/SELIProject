@@ -162,7 +162,7 @@ export default function SupplementaryTexts(props) {
                 ? language.required
                 : ""
             }
-            value={props.value ? props.value : ""}
+            value={props.rowData.external===false? ''  :props.value ? props.value : "" }
             onChange={e => {
               if (props.rowData.validateInput) {
                 props.rowData.validateInput = false;
@@ -190,6 +190,7 @@ export default function SupplementaryTexts(props) {
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
+              if(newData.external===false){newData.url=''}
               newData.submitted = true;
               if(newData.type===undefined){newData.type="1"}
               if(newData.copy===undefined){newData.copy="0"}
@@ -222,6 +223,7 @@ export default function SupplementaryTexts(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 newData.submitted = true;
+                if(newData.external===false){newData.url=''}
                 if (!newData.title || onlySpaces(newData.title)) {
                   newData.error = true;
                   newData.label = language.required;

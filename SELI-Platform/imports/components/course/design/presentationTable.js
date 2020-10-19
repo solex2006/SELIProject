@@ -116,7 +116,8 @@ export default function Presentation(props) {
           
           <Checkbox
             {...props}
-            disabled={(props.rowData.type ==='2') }
+            checked={props.rowData.external ===true}
+            disabled={props.rowData.type ==='2' }
             onChange={e => {
               props.rowData.external=e.target.checked;
               props.onChange(e.target.checked);
@@ -126,11 +127,13 @@ export default function Presentation(props) {
       ) 
       },
 
+      
 
       {
         title: language.ExternalURL,
         field: "url",
         editComponent: props => (
+         
           <TextField
             type="url"
             inputProps={{
@@ -155,7 +158,7 @@ export default function Presentation(props) {
                 ? language.required
                 : ""
             }
-            value={props.value ? props.value : ""}
+            value={props.rowData.external===false? ''  :props.value ? props.value : "" }
             onChange={e => {
               if (props.rowData.validateInput) {
                 props.rowData.validateInput = false;
@@ -184,6 +187,8 @@ export default function Presentation(props) {
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
+               
+                if(newData.external===false){newData.url=''}
               newData.submitted = true;
               if(newData.type===undefined){newData.type="1"}
               if (!newData.title || onlySpaces(newData.title)) {
@@ -212,7 +217,9 @@ export default function Presentation(props) {
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
+                console.log("edited*******",newData )
                 newData.submitted = true;
+                if(newData.external===false){newData.url=''}
                 if (!newData.title || onlySpaces(newData.title)) {
                   newData.error = true;
                   newData.label = language.required;
