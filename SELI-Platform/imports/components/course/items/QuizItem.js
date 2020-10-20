@@ -190,7 +190,7 @@ export default class QuizItem extends React.Component {
               <ExpansionPanelDetails className="item-quiz-detail">
                 <div className="item-quiz-detail-container">
                   <Typography tabindex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit + " minutes"}
+                    {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit }
                   </Typography>
                   {/* <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.creditResources + ": " + this.props.item.attributes.creditResources}

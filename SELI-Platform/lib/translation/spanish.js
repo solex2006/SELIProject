@@ -984,7 +984,7 @@ var SPANISH = {
   AddHardware: "Agregue hardware que son obligatorios para realizar este curso.",
   AddSoftware: "Agregue los softwares que son obligatorios para tomar este curso.",
   errorMsg: "Este campo es requerido. Por favor complétalo",
-  openHardware: "Ya agregaste este artículo antes.",
+  openHardware: "Ya agregaste este",
   openSoftware: "Ya agregaste este artículo antes.",
   MSOffice: "MSOffice (ejemplo)",
   WebCam: "WebCam (ejemplo)",
@@ -1529,7 +1529,12 @@ var SPANISH = {
         label: "Palabras relacionadas con el contenido principal del curso. Por ejemplo: gramática, gramática inglesa, redacción."
       },
     ]
-  }
+  },
+  Edittopicname:"Edit nombre de topico",
+  Edittemplatename:"Editar nombre de template",
+  deleteTopic:"Borrar Topico",
+  deleteTemplate:"Borrar Template",
+  before:"antes",
 }
 export default SPANISH;
 

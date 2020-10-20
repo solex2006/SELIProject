@@ -1532,7 +1532,12 @@ var TURKISH = {
         label:"Ders ana içeriğiyle ilgili kelimeler. Örneğin Dilbilgisi, İngilizce Dilbilgisi, Yazma."
       },
     ]
-  }
+  },
+  Edittopicname:"Edit topic name",
+  Edittemplatename:"Edit template name",
+  deleteTopic:"Delete Topic",
+  deleteTemplate:"Delete Template",
+  before:"before.",
 }
 export default TURKISH;
 

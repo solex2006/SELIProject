@@ -984,7 +984,7 @@ var ENGLISH = {
   AddHardware: "Add hardwares that are mandatory to take this course.",
   AddSoftware: "Add softwares that are mandatory to take this course.",
   errorMsg: "This field is required. Please complete it",
-  openHardware: "You already add this item before.",
+  openHardware: "You have already added ",
   openSoftware: "You already add this item before.",
   MSOffice: "MSOffice (example)",
   WebCam: "WebCam (example)",
@@ -1535,6 +1535,8 @@ var ENGLISH = {
   Edittemplatename:"Edit template name",
   deleteTopic:"Delete Topic",
   deleteTemplate:"Delete Template",
+  before:"before.",
+
 
 }
 export default ENGLISH;

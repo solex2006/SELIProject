@@ -984,7 +984,7 @@ var PORTUGUESE = {
   AddHardware: "Adicionar hardwares necessários para fazer este curso.",
   AddSoftware: "Adicionar softwares necessários para fazer este curso.",
   errorMsg: "Este campo é obrigatório. Por favor complete-o.",
-  openHardware: "Você já adicionou este item.",
+  openHardware: "You have already added ",
   openSoftware: "Você já adicionou este item.",
   MSOffice: "MSOffice (exemplo)",
   WebCam: "WebCam (exemplo)",
@@ -1532,7 +1532,12 @@ var PORTUGUESE = {
         label:"Words related to course main content. For example: Grammar, English Grammar, Writing."
       },
     ]
-  }
+  },
+  Edittopicname:"Edit topic name",
+  Edittemplatename:"Edit template name",
+  deleteTopic:"Delete Topic",
+  deleteTemplate:"Delete Template",
+  before:"before.",
 }
 export default PORTUGUESE;
 

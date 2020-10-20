@@ -267,7 +267,7 @@ export default function AudienceApp(props) {
     AddHardware: language.AddHardware,
     AddSoftware: language.AddSoftware,
     errorMsg: language.errorMsg,
-    openHardware: language.alreadyAudiences,
+    openHardware: language.openHardware,
     openSoftware: language.alreadyAudiences,
 
   })///messages
@@ -520,9 +520,9 @@ export default function AudienceApp(props) {
     if((valueinArray!=undefined) || (valueinOtherArray!=undefined)){
       
       if(valueinArray===undefined){
-        
+  
         setfeedbackError(true)
-        setmessage(valueinOtherArray+" "+requirementTooltip.openSoftware)
+        setmessage(requirementTooltip.openHardware+controlEdit.tempValue+" "+props.language.before)
         return "equal"
       }else if(valueinOtherArray===undefined){
         console.log("coincide777",valueinOtherArray, valueinArray, controlEdit.tempValue)
