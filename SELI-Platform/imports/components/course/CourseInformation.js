@@ -150,8 +150,8 @@ export default class CourseInformation extends React.Component {
       this.addKeyWord();
     }
     else {
-      if (!validateOnlyLetters(event));
-      this.props.handleControlMessage(true, this.props.language.courseKeyWordsHelper1)
+      if (!validateOnlyLetters(event))
+      this.props.handleControlMessage(true, this.props.language.courseKeyWordsHelper1);
     }
   }
 
