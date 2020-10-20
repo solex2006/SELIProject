@@ -1419,7 +1419,7 @@ var TURKISH = {
       },
       {
         labelTitle:"Görme engelleri",
-        label:"Görme engelleri, bir veya iki gözde hafif veya orta derecede görme kaybından (az görme), her iki gözde de önemli ve düzeltilemez görme kaybına (körlük) kadar değişir. Bazı insanlar, belirli renklere karşı duyarlılığı azalmış veya yoksundur ("renk körlüğü") veya parlak renklere karşı duyarlılığı artmıştır. Renk ve parlaklık algısındaki bu farklılıklar görme keskinliğinden bağımsız olabilir."
+        label:"Görme engelleri, bir veya iki gözde hafif veya orta derecede görme kaybından (az görme), her iki gözde de önemli ve düzeltilemez görme kaybına (körlük) kadar değişir. Bazı insanlar, belirli renklere karşı duyarlılığı azalmış veya yoksundur (\"renk körlüğü\") veya parlak renklere karşı duyarlılığı artmıştır. Renk ve parlaklık algısındaki bu farklılıklar görme keskinliğinden bağımsız olabilir."
       },
       {
         labelTitle:"Engellere örnekler (görsel için)",
