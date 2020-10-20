@@ -577,7 +577,11 @@ const handleDeleteSoftwares = (index) => () => {
             <ListItem
               key="addsoft"
               button
-              onClick={() => {
+              onClick={(e) => {
+                if(e.keyCode===32){
+                  //continue
+                  console.log(e.keyCode)
+                }else{
                   setOtherSoftwares(prev => [
                     ...prev,
                     { label: "New Software", editing: true }
@@ -588,6 +592,8 @@ const handleDeleteSoftwares = (index) => () => {
                     adding: true,
                     editing: true
                   });
+                }
+                    
                   //setfeedbackError(true)
               }}
               id="addsoft"
@@ -744,17 +750,23 @@ const handleDeleteSoftwares = (index) => () => {
             <ListItem
               key="addsoft"
               button
-              onClick={() => {
-                setOtherHardware(prev => [
-                  ...prev,
-                  { label: "New Hardware", editing: true }
-                ]);
-
-                setControlEdit({
-                  tempValue: "",
-                  adding: true,
-                  editing: true
-                });
+              onClick={(e) => {
+                if(e.keyCode===32){
+                  //continue
+                  console.log(e.keyCode)
+                }else{
+                  setOtherHardware(prev => [
+                    ...prev,
+                    { label: "New Hardware", editing: true }
+                  ]);
+  
+                  setControlEdit({
+                    tempValue: "",
+                    adding: true,
+                    editing: true
+                  });
+                }
+                
               // setfeedbackErrorH(true)
               }}
               id="addsoft"

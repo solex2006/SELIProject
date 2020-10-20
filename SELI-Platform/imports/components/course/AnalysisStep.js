@@ -454,25 +454,36 @@ export default function AnalysisStep(props) {
     settypetodelete('LearningObjectives')
 	};
 
-  const handleNewOutcomes = category => {
-		console.log(category);
-		setOutcomes({
-			...outcomes,
-			[category]: [
-				...outcomes[category],
-				{
-					label: "New outcomes",
-					aux: outcomesTaxonomy[category][0].key,
-					editing: true
-				}
-			]
-		});
-		setControlEdit({
-			tempValue: "",
-			tempAuxValue: outcomesTaxonomy[category][0].key,
-			adding: true,
-			editing: true
-		});
+  const handleNewOutcomes = (e, category) => {
+    
+    
+    
+    if(e.keyCode===32){
+      //continue
+      console.log(e.keyCode)
+    }else{
+
+      setOutcomes({
+        ...outcomes,
+        [category]: [
+          ...outcomes[category],
+          {
+            label: "New outcomes",
+            aux: outcomesTaxonomy[category][0].key,
+            editing: true
+          }
+        ]
+      });
+      setControlEdit({
+        tempValue: "",
+        tempAuxValue: outcomesTaxonomy[category][0].key,
+        adding: true,
+        editing: true
+      });
+
+    }
+
+		
   };
   
   const handleCancelEditOutcome = (index, category) => {
@@ -586,30 +597,35 @@ export default function AnalysisStep(props) {
      settypetodelete('outcomes')
 	};
 
-  const handleNewLearning = category => {
-		console.log("la categoria.....",category);
-		setGoals({
-			...goals,
-			[category]: [
-				...goals[category],
-				{
-					label: "New Learning",
-					aux: goalsTaxonomy[category][0].key,
-					editing: true
-				}
-			]
-    });
-    
-    let addNewknowledges=courseinformation;
-    addNewknowledges.analysis[3]=goals;
-    setcourseInformation(addNewknowledges) 
+  const handleNewLearning = (e, category) => {
+  //  console.log("la categoria.....",category);
+    if(e.keyCode===32){
+      //continue
+      console.log(e.keyCode)
+    }else{
+      setGoals({
+        ...goals,
+        [category]: [
+          ...goals[category],
+          {
+            label: "New Learning",
+            aux: goalsTaxonomy[category][0].key,
+            editing: true
+          }
+        ]
+      });
+      
+      let addNewknowledges=courseinformation;
+      addNewknowledges.analysis[3]=goals;
+      setcourseInformation(addNewknowledges) 
 
-		setControlEdit({
-			tempValue: "",
-			tempAuxValue: goalsTaxonomy[category][0].key,
-			adding: true,
-			editing: true
-		});
+      setControlEdit({
+        tempValue: "",
+        tempAuxValue: goalsTaxonomy[category][0].key,
+        adding: true,
+        editing: true
+      });
+    }
 	};
 
   const handleDeleteRequisite = index => () => {   
@@ -853,16 +869,16 @@ export default function AnalysisStep(props) {
             }
           }}
         />
-        <FeedbackHelp
+        {/* <FeedbackHelp
           validation={{
             error: false,
             errorMsg: "",
             errorType: "",
             a11y: null
           }}
-          tipMsg={label==="affectiveDomain" ? language.affectiveDomainHelp : language.psychomotorDomainHelp}
+          tipMsg={""}//{label==="affectiveDomain" ? language.affectiveDomainHelp : language.psychomotorDomainHelp}
           describedBy={"i05-helper-text"}
-        />
+        /> */}
       </div>
     )
   }
@@ -1137,7 +1153,7 @@ export default function AnalysisStep(props) {
                     <ListItem
                       key="addrequisite"
                       button
-                      onClick={() => handleNewLearning(category)}
+                      onClick={(e) => handleNewLearning(e,category)}
                       id="addrequisite"
                       disabled={controlEdit.editing}
                       className={classes.addButton}
@@ -1324,7 +1340,7 @@ export default function AnalysisStep(props) {
                     <ListItem
                       key="addrequisite"
                       button
-                      onClick={() => handleNewOutcomes(category)}
+                      onClick={(e) => handleNewOutcomes(e, category)}
                       id="addrequisite"
                       disabled={controlEdit.editing}
                       className={classes.addButton}
@@ -1332,7 +1348,7 @@ export default function AnalysisStep(props) {
                       <AddIcon /> <ListItemText primary={language.add} />
                     </ListItem>
                   </List>
-                  <FeedbackHelp
+                  {/* <FeedbackHelp
                     validation={{
                       error: false,
                       errorMsg: "",
@@ -1341,7 +1357,7 @@ export default function AnalysisStep(props) {
                     }}
                     tipMsg={language[`${Object.getOwnPropertyNames(outcomes)[index]}ObjectivesAre`]}
                     describedBy={"i05-helper-text"}
-                  />
+                  /> */}
                   <Divider light/>
                 </form>
                 <br/>
