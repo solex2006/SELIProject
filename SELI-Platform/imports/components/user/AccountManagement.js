@@ -285,7 +285,7 @@ export default class AccountManagement extends Component {
         Accounts.changePassword(this.state.currentPassword, this.state.userInformation.password, (error) => {
           if (error) {
             var message = error.reason;
-            if (error.reason === "Incorrect password")
+            if (error.reason === "Incorrect password" || error.reason === "Match failed")
             message = this.props.language.currentPasswordIncorrect;
             this.props.handleControlMessage(true, message, false, '', '');
           } else {
@@ -388,7 +388,6 @@ export default class AccountManagement extends Component {
               onChange={this.handleChange('username')}
               onKeyPress={() => this.keyController(event, 'username')}
               error={this.state.showError && this.state.username === ''}
-              //helperText={this.props.language.usernameHelper}
             />
             <TextField
               id="name-input"

@@ -32,7 +32,6 @@
   margin: 2vh 0.5vw !important;
   transition: 0.15s !important;
 	display: "tabel-cell";
-	padding-right: 1em;
 }
 
 .course-card:hover {

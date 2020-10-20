@@ -150,7 +150,8 @@ export default class CourseInformation extends React.Component {
       this.addKeyWord();
     }
     else {
-      validateOnlyLetters(event);
+      if (!validateOnlyLetters(event))
+      this.props.handleControlMessage(true, this.props.language.courseKeyWordsHelper1);
     }
   }
 
@@ -297,7 +298,7 @@ export default class CourseInformation extends React.Component {
               error: false,
               a11y: null
             }}
-            tipMsg={`${this.props.language.courseKeyWordsHelper}.`}
+            tipMsg={`${this.props.language.courseKeyWordsHelper0} ${this.props.language.courseKeyWordsHelper1}`}
             describedBy={"i01-helper-text"}
           />
           <p className="form-message"> {this.props.language.courseKeyWordsHelp}

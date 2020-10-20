@@ -17,6 +17,7 @@ export const validateOnlyNumbers = (evt) => {
 }
 
 export const validateOnlyLetters = (evt) => {
+  var value = true;
   var theEvent = evt || window.event;
   if (theEvent.type === 'paste') {
     key = event.clipboardData.getData('text/plain');
@@ -27,11 +28,13 @@ export const validateOnlyLetters = (evt) => {
   }
   var regex = /^[a-zA-ZñığüşöçİĞÜŞÖÇ\s]*$/;
   if (!regex.test(key)) {
+    value = false;
     theEvent.returnValue = false;
     if (theEvent.preventDefault) {
       theEvent.preventDefault();
     }
   }
+  return value;
 }
 
 export const noSpecialCharacters = (evt) => {
