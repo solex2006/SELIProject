@@ -167,10 +167,10 @@ class Quiz extends React.Component {
   }
 
   handleNext = () => {
-    console.log("The active element is now:before  " + $(document.activeElement), "ccccccccc", $(document));
+   // console.log("The active element is now:before  " + $(document.activeElement), "ccccccccc", $(document));
     document.activeElement.blur();
-    console.log("The active element is now: " + $(document.activeElement).prop('tagName'));
-    console.log("The Focus-------------------------->",this.state.thefocus)
+   // console.log("The active element is now: " + $(document.activeElement).prop('tagName'));
+    //console.log("The Focus-------------------------->",this.state.thefocus)
     let selected = this.state.selected;
     selected++;
     this.setState({
