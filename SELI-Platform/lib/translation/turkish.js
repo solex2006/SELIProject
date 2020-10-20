@@ -1352,184 +1352,184 @@ var TURKISH = {
   programLabel:"İçerik ekleme.",
   reportstepLabel:"Dersiniz ne kadar erişilebilir",
   alreadyAudiences:"Zaten kitle listesinde mevcut. Lütfen listeden seçin",
-  courseInfo1:"A brief description about the course main content. For example: This course can transform your writing skills. Prepare for college-level writing and research.",
-  courseInfo2:"Words related to course main content. For example: Grammar, English Grammar, Writing.",
-  CourseInformationHelp:"Course Information Help",
-  CourseAudiencesHelp:"Course Audiences Help",
-  imageGalleryLabel0: "Arrows key <kbd>left</kbd> and <kbd>right</kbd> rovers in gallery's image.",
-  imageGalleryLabel1: "<kbd>Enter</kbd> key opens image in full width.",
-  imageGalleryLabel2: "Image's long description, if configured by instructor, will be displayed in full width option.",
+  courseInfo1:"Kursun ana içeriği hakkında kısa bir açıklama. Örneğin: Bu kurs yazma becerilerinizi dönüştürebilir. Üniversite düzeyinde yazma ve araştırma için hazırlanın.",
+  courseInfo2:"Ders ana içeriğiyle ilgili kelimeler. Örneğin: Dilbilgisi İngilizce dilbilgisi, Yazma.",
+  CourseInformationHelp:"Ders Bilgileri Yardımı",
+  CourseAudiencesHelp:"Ders Kitleleri Yardımı",
+  imageGalleryLabel0: "Arrows key <kbd>left</kbd> and <kbd>right</kbd>galerinin resminde gezinir.",
+  imageGalleryLabel1: "<kbd>Enter</kbd> tuşu, görüntüyü tam genişlikte açar.",
+  imageGalleryLabel2: "Eğitmen tarafından yapılandırılırsa resmin uzun açıklaması, tam genişlik seçeneğinde görüntülenecektir.",
   videoGalleryLabel0: "Arrows key <kbd>left</kbd> and <kbd>right</kbd> rovers in video playlist.",
   videoGalleryLabel1: "<kbd>Enter</kbd> key opens video player",
-  videoGalleryLabel2: "If setted by instructor, video player can have option for:",
-  signLanguageInterpreter: "Sign language interpreter",
+  videoGalleryLabel2: "Eğitmen tarafından ayarlandıysa, video oynatıcı şu seçeneklere sahip olabilir::",
+  signLanguageInterpreter: "İşaret dili tercümanı",
   audiencesTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:"How to define the audience?",
-        label:"Teachers: Person who helps students to acquire knowledge, competence or virtue. Informal Students: Students that don't studying in a formal schools like university or studying alone or are self-taught. Undergraduate Students: University students that still not finish the graduate course. High School Students: Students in secondary school. Middle School Students: Students between elementary school and high school. Elementary School Students: Before Middle School, for children between the ages of 6-11. Preschool Kids: For kids from 2 to 5 years old-held in a Nursery School."
+        labelTitle:"Kitle nasıl tanımlanır?",
+        label:"Öğretmenler: Öğrencilerin bilgi, yeterlilik veya erdem elde etmelerine yardımcı olan kişi. Gayri Resmi Öğrenciler: Üniversite gibi resmi okullarda okumayan veya tek başına okuyan veya kendi kendine eğitim gören öğrenciler. Lisans Öğrencileri: Halen lisansüstü dersini tamamlamayan üniversite öğrencileri. Lise Öğrencileri: Ortaokuldaki öğrenciler. Ortaokul Öğrencileri: İlkokul ve lise arasındaki öğrenciler. İlkokul Öğrencileri: Ortaokul öncesi 6-11 yaş arası çocuklar. Okul Öncesi Çocuklar: Bir Anaokulunda tutulan 2-5 yaş arası çocuklar ."
       },
       {
-        labelTitle:"Cognitive disabilities",
-        label:"Cognitive disabilities involve neurodiversity and neurological disorders, as well as behavioral and mental health disorders that are not necessarily neurological. They may affect any part of the nervous system and impact how well people hear, move, see, speak, and understand information. Cognitive disabilities do not necessarily affect the intelligence of a person."
+        labelTitle:"bilişsel engeller",
+        label:"Bilişsel engeller, nörolojik çeşitlilik ve nörolojik bozuklukların yanı sıra, zorunlu olarak nörolojik olmayan davranışsal ve zihinsel sağlık bozukluklarını içerir. Sinir sisteminin herhangi bir bölümünü etkileyebilirler ve insanların bilgiyi ne kadar iyi duyduğunu, hareket ettiğini, gördüğünü, konuştuğunu ve anladığını etkileyebilirler. Bilişsel engeller, bir kişinin zekasını mutlaka etkilemez."
       },
       {
-        labelTitle:"Examples of the disabilities (for cognitive)",
-        label:"Attention deficit hyperactivity disorder 'ADHD', Autism spectrum disorder 'ASD', Intellectual disabilities, Learning disabilities, Mental health disabilities, Memory impairments, Multiple sclerosis, Neurodiversity, Perceptual disabilities, Seizure disorders"
+        labelTitle:"Engel örnekleri (bilişsel)",
+        label:"Dikkat eksikliği hiperaktivite bozukluğu 'DEHB', Otizm spektrum bozukluğu 'ASD', Zeka engelleri, Öğrenme güçlükleri, Ruh sağlığı bozuklukları, Hafıza bozuklukları, Multipl skleroz, Nörodeşitlilik, Algısal engeller, Nöbet bozuklukları"
       },
       {
-        labelTitle:"Examples of barriers (for cognitive)",
-        label:" Complex navigation mechanisms and page layouts that are difficult to understand and use, Complex sentences that are difficult to read and unusual words that are difficult to understand, Long passages of text without images, graphs, or other illustrations to highlight the context, Moving, blinking, or flickering content, and background audio that cannot be turned off, Web browsers and media players that do not provide mechanisms to suppress animations and audio, Visual page designs that cannot be adapted using web browser controls or custom style sheets."
+        labelTitle:"Engel örnekleri (bilişsel için)",
+        label:"Anlaşılması ve kullanılması zor olan karmaşık gezinme mekanizmaları ve sayfa düzenleri, Okunması zor olan karmaşık cümleler ve anlaşılması zor olan alışılmadık sözcükler, Bağlamı vurgulamak için resimler, grafikler veya diğer resimler içermeyen uzun metin pasajları, Hareket etme, yanıp sönme veya titreyen içerik ve kapatılamayan arka plan sesi, animasyonları ve sesi bastırmak için mekanizmalar sağlamayan Web tarayıcıları ve medya oynatıcıları, Web tarayıcısı kontrolleri veya özel stil sayfaları kullanılarak uyarlanamayan görsel sayfa tasarımları."
       },
       {
-        labelTitle:"Example of adaptations (for cognitive)",
-        label:"Providing visual cues and props to reinforce, Use songs, rhymes or rhythms to help students remember information, Teach students to use self-questioning techniques"
+        labelTitle:"Uyarlama örnekleri (bilişsel için)",
+        label:"Öğrencilerin bilgileri hatırlamalarına yardımcı olmak için şarkılar, tekerlemeler veya ritimler kullanın Öğrencilere kendi kendini sorgulama tekniklerini kullanmayı öğretin"
       },
       {
-        labelTitle:"Diversity of Abilities",
-        label:"There are many reasons why people may be experiencing varying degrees of auditory, cognitive, physical, speech, and visual disabilities."
+        labelTitle:"Yetenek Çeşitliliği",
+        label:"İnsanların farklı derecelerde işitsel, bilişsel, fiziksel, konuşma ve görme engelleri yaşamalarının birçok nedeni vardır."
       },
       {
-        labelTitle:"Examples the disabilities (for diversity)",
-        label:"Age-related impairments, Multiple disabilities, Health conditions, Changing abilities, Temporary impairments, Situational limitations"
+        labelTitle:"Engel örnekleri (çeşitlilik için)",
+        label:"Yaşa bağlı bozukluklar, Birden çok engel, Sağlık koşulları, Değişen yetenekler, Geçici bozukluklar, Durumsal sınırlamalar"
       },
       {
-        labelTitle:"Examples of barriers (for diversity)",
-        label:"Websites without accessibility content, Electronic devices in case of health conditions"
+        labelTitle:"Engel örnekleri (çeşitlilik için)",
+        label:"Erişilebilirlik içeriği olmayan web siteleri, sağlık durumlarında elektronik cihazlar"
       },
       {
-        labelTitle:"Example of adaptations (for diversity)",
-        label:"Providing many practice opportunities and include problem solving, reasoning and real-life application to help with transfer of information."
+        labelTitle:"Uyarlama örnekleri (çeşitlilik için)",
+        label:"Bilgi aktarımına yardımcı olmak için birçok uygulama fırsatı sağlamak ve problem çözme, muhakeme ve gerçek yaşam uygulaması içerir."
       },
       {
-        labelTitle:"Hearing disabilities",
-        label:"A person who is not able to hear as well as someone with normal hearing – hearing thresholds of 25 dB or better in both ears – is said to have hearing loss. Hearing loss may be mild, moderate, severe, or profound. It can affect one ear or both ears, and leads to difficulty in hearing conversational speech or loud sound. (https://www.who.int/news-room/fact-sheets/detail/deafness-and-hearing-loss)"
+        labelTitle:"İşitme engelli",
+        label:"- her iki kulakta 25 dB veya daha çok işitme eşikleri - olan birinin işitme kaybı olduğu söylenir. İşitme kaybı hafif, orta, şiddetli veya çok şiddetli olabilir. Bir kulağı veya her iki kulağı da etkileyebilir ve konuşma konuşmalarını veya yüksek sesi duymada zorluğa yol açar. (https://www.who.int/news-room/fact-sheets/detail/deafness-and-hearing-loss)"
       },
       {
-        labelTitle:"Examples the disabilities (for hearing).",
-        label:"Hearing loss, Deafness"
+        labelTitle:"Engel örnekleri (işitme için).",
+        label:"İşitme kaybı, Sağırlık"
       },
       {
-        labelTitle:"Examples of barriers (for hearing).",
-        label:"Audio contents, Video contents without subtitles."
+        labelTitle:"Engel örnekleri (işitme için).",
+        label:"Ses içerikleri, Altyazısız video içerikleri."
       },
       {
-        labelTitle:"Example of adaptations (for hearing).",
-        label:"Providing visual cues and props to reinforce, Providing video-taped with subtitles."
+        labelTitle:"Uyarlama örnekleri (işitme için).",
+        label:"Görsel ipuçları ve güçlendirmek için sahne sağlamak, Altyazılı video kaydı sağlamak."
       },
       {
-        labelTitle:"Visual disabilities",
-        label:"Visual disabilities range from mild or moderate vision loss in one or both eyes (“low vision”) to substantial and uncorrectable vision loss in both eyes (“blindness”). Some people have reduced or lack of sensitivity to certain colors (“color blindness”), or increased sensitivity to bright colors. These variations in perception of colors and brightness can be independent of the visual acuity."
+        labelTitle:"Görme engelleri",
+        label:"Görme engelleri, bir veya iki gözde hafif veya orta derecede görme kaybından (az görme), her iki gözde de önemli ve düzeltilemez görme kaybına (körlük) kadar değişir. Bazı insanlar, belirli renklere karşı duyarlılığı azalmış veya yoksundur ("renk körlüğü") veya parlak renklere karşı duyarlılığı artmıştır. Renk ve parlaklık algısındaki bu farklılıklar görme keskinliğinden bağımsız olabilir."
       },
       {
-        labelTitle:"Examples the disabilities (for visual)",
-        label:"Color blindness, Low vision, Blindness, Deaf-blindness"
+        labelTitle:"Engellere örnekler (görsel için)",
+        label:"Renk körlüğü, Az görme, Körlük, Sağır körlüğü"
       },
       {
-        labelTitle:"Examples of barriers (for visual)",
-        label:"Images, controls, and other structural elements that do not have equivalent text alternatives. Text, images, and page layouts that cannot be resized, or that lose information when resized. Missing visual and non-visual orientation cues, page structure, and other navigational aids. Video content that does not have text or audio alternatives, or an audio-description track. Inconsistent, unpredictable, and overly complicated navigation mechanisms and page functions. Text and images with insufficient contrast between foreground and background color combinations. Websites, web browsers, and authoring tools that do not support the use of custom color combinations. Websites, web browsers, and authoring tools that do not provide full keyboard support."
+        labelTitle:"Engel örnekleri (görsel için)",
+        label:"Eşdeğer metin alternatiflerine sahip olmayan görüntüler, kontroller ve diğer yapısal öğeler. Yeniden boyutlandırılamayan veya yeniden boyutlandırıldığında bilgi kaybeden metinler, resimler ve sayfa düzenleri. Eksik görsel ve görsel olmayan yönlendirme ipuçları, sayfa yapısı ve diğer gezinme yardımcıları. Metin veya ses alternatifleri ya da bir sesli açıklama parçası olmayan video içeriği. Tutarsız, öngörülemeyen ve aşırı karmaşık gezinme mekanizmaları ve sayfa işlevleri. Ön plan ve arka plan renk kombinasyonları arasında yetersiz kontrasta sahip metin ve resimler. Özel renk kombinasyonlarının kullanımını desteklemeyen web siteleri, web tarayıcıları ve yazma araçları. Tam klavye desteği sağlamayan web siteleri, web tarayıcıları ve yazma araçları."
       },
       {
-        labelTitle:"Example of adaptations (for visual)",
-        label:"Providing audio lessons, Have available textbooks on CD ROM."
+        labelTitle:"Uyarlama örnekleri (görsel için)",
+        label:"Sesli dersler sağlamak, CD ROM'da ders kitaplarını bulundurmak."
       },
     ]
   },
   coursePlanTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:'Guided or Free CoursePlan',
-        label:'You can choose between create the course plan in SELI platform or outside the platform'
+        labelTitle:'Rehberli veya Özgür Ders Planı',
+        label:'SELI platformunda veya platformun dışında ders planı oluşturmayı seçebilirsiniz.'
       },
       {
-        labelTitle:'Template Course Spiral',
-        label:"In this model, the course is organised in small units where concepts are introduced to facilitate the resolution of problems or activities by students. Each unit must introduce a concept, without going into details. In the cycle, the next unit will present the contents in more depth and additional topics can be included. Each unit must be interrelated to enable students to solve significant problems or activities presented at the beginning of the course. This model can be used in any course in which there are a large number of concepts that must be mastered together. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#spiral)"
+        labelTitle:'Spiralli Ders Şablonu',
+        label:"Bu modelde ders, problemlerin veya etkinliklerin öğrenciler tarafından çözülmesini kolaylaştırmak için kavramların tanıtıldığı küçük birimler halinde düzenlenir. Her birim, ayrıntılara girmeden bir konsept tanıtmalıdır. Döngüde, bir sonraki ünite içeriği daha derinlemesine sunacak ve ek konular dahil edilebilir. Öğrencilerin dersin başında sunulan önemli problemleri veya aktiviteleri çözmelerini sağlamak için her ünite birbiriyle ilişkili olmalıdır. Bu model, birlikte ustalaşılması gereken çok sayıda kavramın olduğu herhangi bir kursta kullanılabilir. Referans için bağlantı (http://csis.pace.edu/~bergin/PedPat1.3.html#spiral)"
       },
       {
-        labelTitle:'Template Course Consistent',
-        label:"To teach complex content find a complex and consistent metaphor for the topic being taught. The basis of the metaphor needs to be known to the students. This helps students relate the topic being taught to larger goals, that is, they realize how things fit together. The students need a way to think of the content as a whole. Especially when the details themselves are unfamiliar and new to them. A consistent metaphor with the content being taught and its basic elements, will help students to reflect on the content by making valid inferences when thinking about the metaphor. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#consistentmetaphor)"
+        labelTitle:'Tutarlı Ders Şablonu',
+        label:"Karmaşık içeriği öğretmek için öğretilen konu için karmaşık ve tutarlı bir metafor bulun. Metaforun temeli öğrenciler tarafından bilinmelidir. Bu, öğrencilerin öğretilen konuyu daha büyük hedeflerle ilişkilendirmelerine, yani işlerin nasıl birbirine uyduğunu anlamalarına yardımcı olur. Öğrencilerin içeriği bir bütün olarak düşünmenin bir yolunu bulmaları gerekir. Özellikle ayrıntıların kendileri için yabancı ve yeni olduğunda. Öğretilen içerik ve temel unsurları ile tutarlı bir metafor, öğrencilerin metafor hakkında düşünürken geçerli çıkarımlar yaparak içerik üzerinde düşünmelerine yardımcı olacaktır. Referans için bağlantı (http://csis.pace.edu/~bergin/PedPat1.3.html#consistentmetaphor)"
       },
       {
-        labelTitle:" Template Course ToyBox",
-        label:"The content is given to the students letting them 'play' with pedagogical tools. Students work on problems and it's important to give them some examples and / or exercises to provide a rich set of experiences about what is important and what can be done to solve the problem. It can be used in several courses and at several levels. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#toybox)"
+        labelTitle:" Oyuncak Kutusu Ders Şablonu",
+        label:"İçerik, öğrencilere pedagojik araçlarla 'oynamalarına' izin verilerek verilir. Öğrenciler problemler üzerinde çalışırlar ve onlara bazı örnekler ve / veya alıştırmalar vermek, neyin önemli olduğu ve problemi çözmek için neler yapılabileceği hakkında zengin bir deneyim seti sağlamak için önemlidir. Birkaç derste ve çeşitli düzeylerde kullanılabilir. Referans için bağlantı (http://csis.pace.edu/~bergin/PedPat1.3.html#toybox)"
       },
       {
-        labelTitle:"Template Course Without",
-        label:"You can define your template course freely and you can insert the yourself resources."
+        labelTitle:"Ders şablonu olmadan",
+        label:"Ders şablonunu özgürce tanımlayabilir ve kaynakları kendiniz ekleyebilirsiniz."
       },
       {
-        labelTitle:" Structure CourseUnit | By units ",
-        label:"Organize your course by units and lessons, for example: Unit 1 - Introduction, Unit 2 - Presentation, Unit 3 - Algorithms, etc."
+        labelTitle:" Yapı Ders Birimi | Birimlere göre ",
+        label:"Dersinizi ünitelere ve derslere göre düzenleyin, örneğin: Ünite 1 - Giriş, Ünite 2 - Sunum, Ünite 3 - Algoritmalar, vb.."
       },
       {
-        labelTitle:"StructureCourseTopics | ByTopics",
-        label:"Organize your course by topics. You have a free topics creation, for example: Extra Resources, Class 1, Class 2, Class 3, Attachments."
+        labelTitle:"Yapı Ders Konuları | Konu Başlıkları",
+        label:"Dersinizi konuya göre düzenleyin. Özgür bir konu oluşturuyorsunuz, örneğin: Ekstra Kaynaklar, Sınıf 1, Sınıf 2, Sınıf 3, Ekler."
       },
       {
-        labelTitle:" CourseSyllabus",
-        label:"Outlines a lesson-by-lesson guide of class, a learning plan, the learning objectives, assessment approach, and expectations."
+        labelTitle:" Ders Müfredatı",
+        label:"Ders bazında bir ders kılavuzu, bir öğrenme planı, öğrenme hedefleri, değerlendirme yaklaşımı ve beklentileri ana hatlarıyla belirtir.."
       },
       
     ]
   },
-  CoursePlanHelp:"Course Plan Help",
+  CoursePlanHelp:"Ders Plan Yardımı",
   
   AnalysisTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:'Learning objectives',
-        label:"State what will be expected to be learned by students and show what the students will know and why they are doing. State what is expected to be learned by students. Bloom's taxonomy divides learning objectives into three domains: cognitive domain, affective domain and psychomotor domain. Cognitive Domain comprises intellectual skills such as memorization, comprehension, application, analysis, synthesis / creation, assessment. The affective domain comprises feelings, values, enthusiasm, motivation and attitude. Psychomotor domain is about physical and motor skills."
+        labelTitle:'Öğrenme hedefleri',
+        label:"Öğrenciler tarafından nelerin öğrenilmesinin bekleneceğini belirtin ve öğrencilerin ne bileceklerini ve neden yaptıklarını gösterin. Öğrenciler tarafından öğrenilmesi beklenenleri belirtin. Bloom'un taksonomisi öğrenme hedeflerini üç alana ayırır: bilişsel alan, duyuşsal alan ve psikomotor alan. Bilişsel Alan, ezberleme, anlama, uygulama, analiz, sentez / yaratma, değerlendirme gibi entelektüel becerileri içerir. Duyuşsal alan duyguları, değerleri, coşkuyu, motivasyonu ve tutumu kapsar. Psikomotor alan, fiziksel ve motor becerilerle ilgilidir."
       },
       {
-        labelTitle:"Cognitive Domain",
-        label:"Involves the acquisition of a new knowledge, intellectual development, skill and attitudes. It is divided into six categories: remembering, understanding, applying, analyzing, evaluating, creating. The objectives are described using action verbs and nouns that seek to describe the desired cognitive processes."
+        labelTitle:"Bilişsel Alan",
+        label:"Yeni bilgi, entelektüel gelişim, beceri ve tutumların edinilmesini içerir. Altı kategoriye ayrılmıştır: hatırlamak, anlamak, uygulamak, analiz etmek, değerlendirmek, yaratmak. Hedefler, istenen bilişsel süreçleri tanımlamaya çalışan eylem fiilleri ve isimler kullanılarak tanımlanır."
       },
       {
-        labelTitle:"Affective Domain",
-        label:"Involves feelings, attitudes, and emotions. It includes the ways in which people deal with external and internal phenomenon emotionally, such as values, enthusiasms, and motivations. This domain is categorized into five levels, which include receiving, responding, valuing, organization, and characterization. These subdomains form a hierarchical structure and are arranged from simple feelings or motivations to those that are more complex."
+        labelTitle:"Duyuşsal alan",
+        label:"Duyguları, tutumları ve hisleri içerir. Değerler, coşku ve motivasyonlar gibi insanların duygusal olarak dış ve iç fenomenlerle başa çıkma yollarını içerir. Bu alan, alma, yanıtlama, değer verme, düzenleme ve karakterizasyon dahil olmak üzere beş seviyede kategorize edilmiştir. Bu alt alanlar hiyerarşik bir yapı oluşturur ve basit duygulardan veya motivasyonlardan daha karmaşık olanlara kadar düzenlenir."
       },
       {
-        labelTitle:"Psychomotor Domain",
-        label:"Includes physical movement, coordination, and use of the motor-skill areas. This domain is categorized into eight levels, which include origination, adaptation, complex overt response, mechanism, guided response, set, and perception."
+        labelTitle:"Psikomotor Alan",
+        label:"Fiziksel hareket, koordinasyon ve motor beceri alanlarının kullanımını içerir. Bu alan, oluşturma, uyarlama, karmaşık açık yanıt, mekanizma, yönlendirmeli yanıt, küme ve algılama dahil olmak üzere sekiz düzeyde kategorize edilmiştir."
       },
       {
-        labelTitle:"Learning Constrainst",
-        label:"Learning outcomes should be brief, clear, specific statements of what learners will be able to do at the end of a lesson as a result of the activities, teaching and learning that has taken place. The Learning outcomes is based on three areas of learning: knowledge, skills and attitudes."
+        labelTitle:"Öğrenme Kısıtlaması",
+        label:"Öğrenme çıktıları, gerçekleşen faaliyetler, öğretme ve öğrenmenin bir sonucu olarak öğrencilerin dersin sonunda neler yapabileceklerine dair kısa, açık ve spesifik ifadeler olmalıdır. Öğrenme çıktıları üç öğrenme alanına dayanmaktadır: bilgi, beceriler ve tutumlar."
       },
       {
-        labelTitle:"Pedagogical Considerations",
-        label:"Pedagogical Considerations concentrates on theory, application, and the development of technologies for teaching and learning and its influence on the education system."
+        labelTitle:"Pedagojik Hususlar",
+        label:"Pedagojik Hususlar, teori, uygulama ve öğretme ve öğrenme için teknolojilerin geliştirilmesi ve eğitim sistemi üzerindeki etkisine odaklanır."
       },
     ]
   },
-  CourseAnalysisHelp:"Course Analysis Help",
+  CourseAnalysisHelp:"Ders Analiz Yardımı",
 
   DesignTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:"By Unit/By topic",
-        label:"Title: Add the unit/topic title. Learning Objectives: Add Learning Objectives that shows what the students will know when learning in this unit/topic. Pre-existing knowledge: Previous necessary knowledge to understand this unit/topic. Main Content: Subjects to be addressed. Evaluation: Mechanisms and criteria to assess whether the learning objectives have been achieved"
+        labelTitle:"Üniteye göre / Konuya göre",
+        label:"Title: Ünite / konu başlığını ekleyin. Öğrenme Hedefleri: Öğrencilerin bu ünitede / konuda öğrenirken ne öğreneceklerini gösteren Öğrenme Hedefleri ekleyin. Önceden var olan bilgi: Bu üniteyi / konuyu anlamak için önceden gerekli bilgi. Ana İçerik: Ele alınacak konular. Değerlendirme: Öğrenme hedeflerine ulaşılıp ulaşılmadığını değerlendirmek için mekanizmalar ve kriterler"
       },
       {
-        labelTitle:"Tasks list",
-        label:"Action to be taken by the student to achieve the learning objectives "
+        labelTitle:"Görev listesi",
+        label:"Öğrenim hedeflerine ulaşmak için öğrenci tarafından yapılacak eylem "
       },
       {
-        labelTitle:" Lesson",
-        label:"Select the resources tool you are going to use in this unit/topic"
+        labelTitle:" Ders",
+        label:"Bu ünitede / konuda kullanacağınız kaynaklar aracını seçin"
       },
     ]
   },
-  CourseDesignHelp:"Course Design Help",
+  CourseDesignHelp:"Ders Tasarım Yardımı",
   informationTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:"Course Description",
-        label:"A brief description about the course main content. For example: This course can transform your writing skills. Prepare for college-level writing and research."
+        labelTitle:"Ders Tanımı",
+        label:"Dersin ana içeriği hakkında kısa bir açıklama. Örneğin: Bu ders yazma becerilerinizi dönüştürebilir. Üniversite düzeyinde yazma ve araştırma için hazırlanın."
       },
       {
-        labelTitle:"keywords",
-        label:"Words related to course main content. For example: Grammar, English Grammar, Writing."
+        labelTitle:"anahtar kelimeler",
+        label:"Ders ana içeriğiyle ilgili kelimeler. Örneğin Dilbilgisi, İngilizce Dilbilgisi, Yazma."
       },
     ]
   }
