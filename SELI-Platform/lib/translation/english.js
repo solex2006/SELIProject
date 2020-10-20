@@ -79,7 +79,7 @@ var ENGLISH = {
   documentation: "Documentation",
   searchCourses: "Search courses",
   userInformation: "User information",
-  usernameHelper: "We recommend not changing your username so often, every 5 months could be fine",
+  usernameHelper: "The username is unique, you will not be able to change it later.",
   changeYourPassword: "CHANGE YOUR PASSWORD",
   newPassword: "New password",
   confirmNewPassword: "Confirm new password",

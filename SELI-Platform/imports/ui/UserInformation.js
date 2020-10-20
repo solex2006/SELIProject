@@ -14,7 +14,7 @@ import ImagePreview from '../components/files/previews/ImagePreview';
 import Library from '../components/tools/Library';
 import FormPreview from '../components/files/previews/FormPreview';
 import AccessibilityRegistration from '../components/student/AccessibilityRegistration';
-
+import FeedbackHelp from "../components/course/feedback"
 
 import EmailIcon from '@material-ui/icons/Email';
 import {validateOnlyNumbers} from '../../lib/textFieldValidations';
@@ -358,6 +358,14 @@ export default class UserInformation extends React.Component {
                 onChange={this.handleChange('username')}
                 onKeyPress={() => this.keyController(event, 'username')}
                 error={this.state.showError && this.state.userInformation.username === ''}
+              />
+              <FeedbackHelp
+                validation={{
+                  error: false,
+                  a11y: null
+                }}
+                tipMsg={`${this.props.language.usernameHelper}`}
+                describedBy={"i01-helper-text"}
               />
               <TextField
                 id="name-input"

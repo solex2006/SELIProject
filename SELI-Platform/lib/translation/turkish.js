@@ -79,7 +79,7 @@ var TURKISH = {
   documentation: "Belgeleme",
   searchCourses: "Dersleri ara",
   userInformation: "Kullanıcı bilgisi",
-  usernameHelper: "Kullanıcı adınızı sık sık değiştirmemenizi öneririz, her 5 ayda bir iyi olabilir",
+  usernameHelper: "Kullanıcı adı benzersizdir, daha sonra değiştiremezsiniz.",
   changeYourPassword: "ŞİFRENİ DEĞİŞTİR",
   newPassword: "Yeni Şifre",
   confirmNewPassword: "Yeni şifreyi onayla",

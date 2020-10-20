@@ -79,7 +79,7 @@
   documentation: "Dokumentacja",
   searchCourses: "Wyszukaj kursy",
   userInformation: "Informacje użytkownika",
-  usernameHelper: "Zalecamy nie zmieniać nazwy użytkownika zbyt często, co 5 miesięcy to optymalny czas.",
+  usernameHelper: "Nazwa użytkownika jest unikalna, nie będziesz mógł jej później zmienić.",
   changeYourPassword: "ZMIEŃ TWOJE HASŁO",
   newPassword: "Nowe hasło",
   confirmNewPassword: "Potwierdź swoje hasło",

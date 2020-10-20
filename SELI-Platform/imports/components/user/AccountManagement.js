@@ -388,7 +388,6 @@ export default class AccountManagement extends Component {
               onChange={this.handleChange('username')}
               onKeyPress={() => this.keyController(event, 'username')}
               error={this.state.showError && this.state.username === ''}
-              //helperText={this.props.language.usernameHelper}
             />
             <TextField
               id="name-input"
