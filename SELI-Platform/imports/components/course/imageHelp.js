@@ -75,8 +75,9 @@ const tutorialSteps = [
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 1400,
-    //flexGrow: 1,
+    maxWidth: 'auto',
+    marginTop:'5px',
+   // backgroundColor: 'lightblue',
   },
   header: {
     display: 'flex',
@@ -98,6 +99,10 @@ const useStyles = makeStyles((theme) => ({
 	//height: 50,
 	paddingLeft: theme.spacing(2),
 	backgroundColor: theme.palette.background.default,
+ },
+ paragrap:{
+   paddingRight:'10px',
+   paddingLeft:'10px'
  }
 }));
 
@@ -119,16 +124,15 @@ export default function TextMobileStepper(props) {
 
   return (
     <div className={classes.root}>
+      
       <Paper square elevation={0} className={classes.header}>
-        <Typography style={{fontWeight:'bold'}}>{props.helpsTips[activeStep].labelTitle}</Typography>
+        <Typography style={{fontWeight:'bold', fontSize: '16px'}}><p className="help-text">{props.text}</p></Typography>
       </Paper>
-     {/*  <img
-        className={classes.img}
-        src={tutorialSteps[activeStep].imgPath}
-        alt={tutorialSteps[activeStep].labelTitle}
-      /> */}
-		<Paper square elevation={0} >
-        <Typography style={{textAlign:'justify', fontSize: '12px'}}>{props.helpsTips[activeStep].label}</Typography>
+      <Paper square elevation={0} className={classes.header}>
+        <Typography style={{fontWeight:'bold', fontSize: '16px'}}>{props.helpsTips[activeStep].labelTitle}</Typography>
+      </Paper>
+		<Paper className={classes.paragrap} square elevation={0} >
+        <Typography style={{textAlign:'justify', fontSize: '14px'}}>{props.helpsTips[activeStep].label}</Typography>
       </Paper>
       <MobileStepper
         steps={maxSteps}

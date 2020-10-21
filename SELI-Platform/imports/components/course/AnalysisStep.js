@@ -887,6 +887,7 @@ export default function AnalysisStep(props) {
     <div className="form-input-container">
       <div className="form-input-steps">
         <h2 className={classes.psychomotorDomain}>{labels.AnalysisPhaseTitle}</h2>
+        
           {/* <Typography variant="h6" className={classes.title}>Analysis Phase</Typography> */}
           <p className={classes.psychomotorDomain}>
             {labels.analysisphase}
@@ -1528,6 +1529,7 @@ export default function AnalysisStep(props) {
         </Grid>
 
         <br/>
+        <br/>
         <FeedbackHelp
         language={props.language}
           validation={{
@@ -1544,6 +1546,7 @@ export default function AnalysisStep(props) {
             helpsTips:props.language.AnalysisTipsHelps,
           }}
         />
+        
         <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
             <DialogTitle className="success-dialog-title" id="simple-dialog-title">{language.warning}</DialogTitle>
               <DialogContent className="success-dialog-content">
