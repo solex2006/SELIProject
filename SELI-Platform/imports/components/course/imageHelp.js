@@ -76,7 +76,7 @@ const tutorialSteps = [
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 'auto',
-    marginTop:'5px',
+    marginTop:'2px',
    // backgroundColor: 'lightblue',
   },
   header: {
