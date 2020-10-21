@@ -1536,6 +1536,8 @@
   deleteTopic:"Delete Topic",
   deleteTemplate:"Delete Template",
   before:"before.",
+  moveUp: "Move up",
+  moveDown: "Move down",
 }
 export default POLISH;
 

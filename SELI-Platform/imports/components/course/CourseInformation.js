@@ -21,15 +21,9 @@ import AddIcon from "@material-ui/icons/Add";
 import Tooltip from '@material-ui/core/Tooltip';
 import FeedbackHelp from "../../components/course/feedback"
 
-
-
-
-
 export default class CourseInformation extends React.Component {
 
-  
   constructor(props) {
-    console.log("information-------" ,props.language.informationTipsHelps)
     super(props);
     this.state = {
       courseInformation: this.props.courseInformation,
@@ -39,9 +33,6 @@ export default class CourseInformation extends React.Component {
       modality2:true,
     }
   }
-
-  
-
 
   componentDidMount(){
     if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 

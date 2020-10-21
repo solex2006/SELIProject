@@ -172,6 +172,21 @@
   flex-wrap: wrap;
 }
 
+.design-move-icons {
+  color: var(--secondary) !important;
+  border: 1px solid var(--secondary) !important;
+}
+
+.design-expantion-panel-icon {
+  color: var(--secondary) !important;
+}
+
+.design-expantion-panel-summary{
+  color: var(--secondary) !important;
+  background-color: #202020f3 !important;
+  border-radius: 5px !important;
+}
+
 /* Media Queries: Tablet Landscape */
 @media screen and (max-width: 1080px) {
   .design-into-resources {

@@ -1535,6 +1535,8 @@ var SPANISH = {
   deleteTopic:"Borrar Topico",
   deleteTemplate:"Borrar Template",
   before:"antes",
+  moveUp: "Mover hacia arriba",
+  moveDown: "Mover hacia abajo",
 }
 export default SPANISH;
 

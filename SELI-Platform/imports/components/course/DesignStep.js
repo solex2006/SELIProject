@@ -7,6 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ClearIcon from "@material-ui/icons/Clear";
 import RemoveIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
@@ -19,6 +20,7 @@ import LessonDesign from "./design/lessonDesign";
 //import FeedbackHelp from "./feedback";
 import FeedbackHelp from "../../components/course/feedback"
 //Dialog
+import Tooltip from '@material-ui/core/Tooltip';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
@@ -88,6 +90,7 @@ export default function DesignStep(props) {
   });
   const [openDialog, setOpenDialog] = useState(false);
   const [indexUnitTopic, setIndexUnitTopic] = useState(-1);
+  const [key, setKey] = useState(0);
 
   function updateTempValue(value) {
     setControlEdit(prev => {
@@ -101,7 +104,7 @@ export default function DesignStep(props) {
 
   const [data, setData] = useState([]);
   const firstData = {
-    key: organization === "unit" ? "unit1" : "topic1",
+    key: organization === "unit" ? "unit0" : "topic0",
     title: organization === "unit" ? language.unit01 : language.topic01,
     learnGols: '',
     preKnowledge: '',
@@ -288,7 +291,7 @@ export default function DesignStep(props) {
 
   const addUnitTopic = () => {
     var newFirstData = firstData;
-    newFirstData.key = `${organization === "unit" ? "unit1" : "topic1"}${data.length ? data.length : "0"}`;
+    newFirstData.key = `${organization === "unit" ? "unit" : "topic"}${data.length ? data.length : "0"}`;
     newFirstData.editing = true;
     let prev = data;
     prev.push(newFirstData);
@@ -307,6 +310,23 @@ export default function DesignStep(props) {
       adding: true,
       editing: true
     });
+  }
+
+  const handleMove = (index, newIndex) => {
+    let prev = data;
+    let courseInfo = courseinformation;
+    prev = changeOrdinal(prev, index, newIndex);
+    courseInfo.program = changeOrdinal(courseInfo.program, index, newIndex);
+    setData(prev);
+    setcourseInformation(courseInfo);
+    setKey(key + 1);
+  }
+
+  const changeOrdinal = (array, index, newIndex) => {
+    const startIndex = index < 0 ? array.length + index : index;
+    const item = array.splice(newIndex, 1)[0];
+    array.splice(startIndex, 0, item);
+    return array;
   }
 
   const handleDeleteUnitTopic = (unitIndex) => {
@@ -376,7 +396,7 @@ export default function DesignStep(props) {
 
   return(
     <div className="form-input-container">
-      <div className="form-input-steps">
+      <div className="form-input-steps" key={key}>
         <h2>{language.desingPhase}</h2><br/>
         {data.map((unit, unitIndex) => (
           <div key={unitIndex}>
@@ -387,13 +407,15 @@ export default function DesignStep(props) {
               className="design-expantion-panel-container"
             >
               <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={<ExpandMoreIcon className="design-expantion-panel-icon"/>}
                 aria-controls="panel1bh-content"
                 id={"panel1bh-header-" + unit.key}
+                className="design-expantion-panel-summary"
               >
                 <h3 className={unit.editing ? classes.hidden : ""}>{unit.title}</h3>        
-                <div className={!unit.editing ? classes.hidden : ""}>
+                <div className={!unit.editing ? classes.hidden : "design-expantion-panel-icon"}>
                   <TextField
+                    autoFocus={true}
                     id={"unit_" + unitIndex + "txtField"}
                     label={language.title}
                     value={controlEdit.tempValue}
@@ -431,7 +453,6 @@ export default function DesignStep(props) {
                 </div>
               </ExpansionPanelSummary>
               <ExpansionPanelActions>
-               {console.log("Informations------",courseInformation)}
                 <Button
                   id={"unit_" + unitIndex + "btnEdit"}
                   onClick={() => editUnitTopicName(unitIndex)}
@@ -464,7 +485,6 @@ export default function DesignStep(props) {
                     :
                     undefined
                   }
-                 
                 </Button>
                 <Button
                   id={"unit_" + unitIndex + "btnDelete"}
@@ -499,15 +519,31 @@ export default function DesignStep(props) {
                     undefined
                   }
                 </Button>
-                {unitIndex !== 0 && (
-                  <IconButton
-                    id={"unit_" + unitIndex + "btnMoveUp"}
-                    edge="end"
-                    aria-label={"Move unit up"}
-                    // onClick={handleMoveUnit(unitIndex)}
-                  >
-                    <ArrowDropUpIcon />
-                  </IconButton>
+                {unitIndex < data.length - 1 && (
+                  <Tooltip title={language.moveDown}>
+                    <IconButton
+                      id={"unit_" + unitIndex + "btnMoveUp"}
+                      edge="end"
+                      aria-label={language.moveDown}
+                      onClick={() => handleMove(unitIndex, unitIndex + 1)}
+                      className="design-move-icons"
+                    >
+                      <ArrowDropDownIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+                {unitIndex > 0 && (
+                  <Tooltip title={language.moveUp}>
+                    <IconButton
+                      id={"unit_" + unitIndex + "btnMoveUp"}
+                      edge="end"
+                      aria-label={language.moveUp}
+                      onClick={() => handleMove(unitIndex, unitIndex - 1)}
+                      className="design-move-icons"
+                    >
+                      <ArrowDropUpIcon />
+                    </IconButton>
+                  </Tooltip>
                 )}
               </ExpansionPanelActions>
               {
