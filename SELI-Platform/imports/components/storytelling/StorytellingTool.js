@@ -51,6 +51,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import AudioPlayer from 'react-h5-audio-player';
 import ReactPlayer from 'react-player';
 import 'react-h5-audio-player/lib/styles.css';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -92,13 +93,17 @@ class StorytellingTool extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      
+      categoryArray: [],
       story: {
+        categoryType: '',
         name: "",
         published: false,
         activityId: undefined,
         courseId: undefined,
         user: Meteor.userId(),
         creationDate: new Date(),
+        categories:[],
         nodes: [
           {
             type: 'start',
@@ -113,6 +118,7 @@ class StorytellingTool extends React.Component {
             image: '',
             audio: '',
             video: '',
+            
             ordinal: 0,
             _id: 1,
           },
@@ -184,7 +190,6 @@ class StorytellingTool extends React.Component {
       this.openDialog("reuseVideo");
     }
   }
-
   componentDidMount() {
     if (this.props.storyToEdit !== undefined) {
       this.setState({
@@ -193,6 +198,7 @@ class StorytellingTool extends React.Component {
           published: this.props.storyToEdit.activity.published,
           activityId: this.props.storyToEdit.activity.activityId,
           courseId: this.props.storyToEdit.activity.courseId,
+          categories: this.props.storyToEdit.activity.categories,
           user: this.props.storyToEdit.activity.user,
           creationDate: this.props.storyToEdit.activity.date,
           nodes: this.props.storyToEdit.activity.data,
@@ -414,6 +420,7 @@ class StorytellingTool extends React.Component {
 
   validateStory = (publish) => {
     let story = this.state.story;
+    story.nodes[this.state.selectedNode].categories = this.state.story.categories;
     if (story.nodes.length < 3) {
       this.props.handleControlMessage(true, this.props.language.storyMustHave);
       return false;
@@ -470,6 +477,7 @@ class StorytellingTool extends React.Component {
           { $set: {
             'activity.name': this.state.story.name,
             'activity.data': this.state.story.nodes,
+            'activity.categories': this.state.story.categories,            
             'activity.public': this.state.story.isPublic,
           }}
           , () => {
@@ -618,6 +626,7 @@ class StorytellingTool extends React.Component {
         'activity.name': this.state.story.name,
         'activity.data': this.state.story.nodes,
         'activity.public': this.state.story.isPublic,
+        'activity.categories': this.state.story.categories,            
         'activity.courseId': course,
       }}
       , () => {
@@ -647,6 +656,33 @@ class StorytellingTool extends React.Component {
       show: false,
       action:"nopublish"
   })}
+
+  SelectCategoriesScenes = () => {
+    var CategoriesData = [];
+    CategoriesData.push(this.state.story.categories.map((category) => category));
+    var controlEqual = false;
+    for(var i = 0; i < CategoriesData[0].length; i++){
+    if(CategoriesData[0][i] == this.state.categoryType){
+    controlEqual = true;
+    this.props.handleControlMessage(true, 'Aynı kategoriyi 2 defa seçtiniz');
+    return controlEqual;
+  } 
+  else{
+    controlEqual = false;
+  }
+}
+  if(this.state.story.categories.length == 3 || controlEqual == true) {
+    this.props.handleControlMessage(true, '3 ten fazla kategori seçtiniz ');
+
+    }else {
+    this.state.story.categories.push(this.state.categoryType);
+    this.props.handleControlMessage(true, this.state.categoryType +' '+ 'kategorisini seçtiniz');
+    this.setState({
+      categories: this.state.story.categories,
+      
+    });
+    }
+  }
 
   completeActivity = (id, label, courseId) => {
     let courses = this.state.courses;
@@ -998,6 +1034,7 @@ class StorytellingTool extends React.Component {
                       {this.props.language.saveStory}
                     </Button>
 
+
                     <Button
                       className="storytelling-media-button"
                       variant="outlined"
@@ -1006,7 +1043,7 @@ class StorytellingTool extends React.Component {
                     >
                       {this.props.language.publishStory}
                     </Button>
-                    
+
                   </div>
                   <FormGroup style={{marginTop: "1.5vh"}}>
                     <FormControlLabel
@@ -1015,6 +1052,9 @@ class StorytellingTool extends React.Component {
                     />
                   </FormGroup>
                 </div>
+                
+                <div className="center-row" style={{"margin-top": "1vw"}}>
+                  </div>
                 <div className="storytelling-menu-body-full">
                   { 
                     this.state.story.nodes[this.state.selectedNode].type !== "end" ? 
@@ -1541,6 +1581,57 @@ class StorytellingTool extends React.Component {
                   </DialogContentText>
                   <WarningIcon className="warning-dialog-icon"/>
                 </DialogContent>
+                <Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                        onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'culture')}
+                        >Culture</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'education')}
+                        >Education</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'engineering')}
+                        >Engineering</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'inclusion')}
+                        >Inclusion</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'life')}
+                        >Life</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'science')}
+                        >Science</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'school')}
+                        >School</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'sports')}
+                        >Sports</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes(this.state.categoryType = 'technology')}
+                        >Technology</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes(this.state.categoryType = 'university')}
+                        >University</Button>   
 
                 <DialogActions>
                   <Button onClick={() => this.handleClose()} color="primary" autoFocus>

@@ -357,6 +357,15 @@
   white-space: nowrap;
 }
 
+.storytellingTexts {
+  height: 35px;
+
+}
+
+.categoryButtons {
+  white-space: pre-wrap;
+}
+
 .storytelling-player-description-time {
   width: 98vw;
   padding: 1.5vh 1vw;

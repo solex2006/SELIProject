@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Divider from '@material-ui/core/Divider';
 import Loading from '../../components/tools/Loading';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from '../../style/theme';
 import { Courses } from '../../../lib/CourseCollection';
 import StoryCard from '../../components/course/StoryCard';
 import InfoIcon from '@material-ui/icons/Info';
@@ -29,6 +31,9 @@ export default class StoriesDashboard extends React.Component {
     console.log("StoriesDashboard", props)
     super(props);
     this.state = {
+      categoryName: [],
+      activeData: [],
+      categoryList: [],
       fullyCognitive:[], 
       fullyHearing:[],
       fullyVisually:[],
@@ -63,6 +68,8 @@ export default class StoriesDashboard extends React.Component {
       duration:[],
       online:false,
       onsearchflag:false,
+      dataProps:[],
+      propData: [],
     }
     
   }
@@ -576,10 +583,24 @@ export default class StoriesDashboard extends React.Component {
         }
     }) 
     this.state.mysuscribdedCourses=titleMyCourses
-    let myFiltersuscribdedCoursesTitle=this.state.mysuscribdedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
-    // let myFiltersuscribdedCoursesSubTitle=this.state.mysuscribdedCourses.filter(course => course.subtitle.search(this.state.texttoSearch.toLowerCase()) !=-1);
-    this.state.myFiltersuscribdedCourses=(myFiltersuscribdedCoursesTitle.concat())
-    this.state.myFiltersuscribdedCourses.sort(function (a, b) {
+    this.state.dataProps = this.state.publishedCourses.map(i => i.activity.data);
+
+    for (var i = 0; i < this.state.dataProps.length; i++) {
+      var dataInfo = this.state.dataProps[i].map(s=>s.categories);
+  if(dataInfo[i] !== undefined) {
+      this.state.categoryList = dataInfo[i].category;
+  }else {
+    for (var i = 0; i < dataInfo.length; i++) {
+    if(dataInfo[i] !== undefined) {
+    this.state.categoryList = dataInfo[i].category;
+      }
+    }
+  }
+}
+let myFiltersuscribdedCoursesTitle=this.state.mysuscribdedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
+// let myFiltersuscribdedCoursesSubTitle=this.state.mysuscribdedCourses.filter(course => course.subtitle.search(this.state.texttoSearch.toLowerCase()) !=-1);
+this.state.myFiltersuscribdedCourses=(myFiltersuscribdedCoursesTitle.concat())
+this.state.myFiltersuscribdedCourses.sort(function (a, b) {
       if (a.title > b.title) {
         return 1;
       }
@@ -596,11 +617,44 @@ export default class StoriesDashboard extends React.Component {
   searchSELICoursesDetailed=()=>{
     console.log("searchSELICoursesDetailed", this.state, this.props )
     console.log("text to search", this.state.texttoSearch )
+    this.state.dataProps = this.state.publishedCourses.map(i => i.activity.data);
+
+
+    for (var i = 0; i < this.state.dataProps.length; i++) {
+      var dataInfo = this.state.dataProps[i].map(s=>s.categories);
+  if(dataInfo[i] !== undefined) {
+      this.state.categoryList = dataInfo[i].category;
+  }else {
+    for (var i = 0; i < dataInfo.length; i++) {
+    if(dataInfo[i] !== undefined) {
+    this.state.categoryList = dataInfo[i].category;
+      }
+    }
+  }
+
+    }
+    var activeData = [];
+    activeData = this.state.publishedCourses.map(item => item.activity);
+    for (var i = 0; i < activeData.length; i++) {
+
+      // for(var i2 = 0; i2 < x[i].length;) {
+      if(activeData[i].categories !== null){
+        var categoryName = [];
+    categoryName = activeData[i];
+      }
+      // }
     
+    }
+    console.log(activeData.map(item => item.categories));
+
+var x = activeData.map(item => item.categories);
+var y = x[0].map((item) => item);
+console.log(y);
+
     let myFilterSeliCoursesTitle=this.state.publishedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
-    // let myFilterSeliCoursesSubTitle=this.state.publishedCourses.filter(course => course.subtitle.search(this.state.texttoSearch.toLowerCase()) !=-1);
-    this.state.myFilterSeliCourses=(myFilterSeliCoursesTitle)
-    this.state.myFilterSeliCourses.sort(function (a, b) {
+   let myFilterSeliCoursesSubTitle=activeData.filter(course => course.categories[0].search(this.state.texttoSearch.toLowerCase()) !=-1);
+   this.state.myFilterSeliCourses=(myFilterSeliCoursesTitle.concat(myFilterSeliCoursesSubTitle));
+   this.state.myFilterSeliCourses.sort(function (a, b) {
       if (a.title > b.title) {
         return 1;
       }

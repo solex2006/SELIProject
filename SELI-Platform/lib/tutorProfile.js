@@ -108,7 +108,7 @@ var OPTIONS = [
           "SELI Stories",
           "SELI Hikayeleri",
         ],
-        component: 'community',
+        component: 'StoriesDashboard',
       },
     ],
   },

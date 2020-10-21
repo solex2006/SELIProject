@@ -16,6 +16,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import LanguageIcon from '@material-ui/icons/Language';
 import DoneIcon from '@material-ui/icons/Done';
 
+import Chip from '@material-ui/core/Chip';
+import Input from "@material-ui/core/TextField";
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Dialog from '@material-ui/core/Dialog';
@@ -89,6 +91,9 @@ class StorytellingToolTime extends React.Component {
     super(props);
     this.waveObjects = [];
     this.state = {
+      courseInformation: [],
+      categoryType: '',
+      categoryCheck: false,
       audioControl: false,
       resultControl: false,
       imageControl: false,
@@ -98,6 +103,7 @@ class StorytellingToolTime extends React.Component {
         activityId: undefined,
         courseId: undefined,
         user: Meteor.userId(),
+        categories:[],
         creationDate: new Date(),
         nodes: [
           {
@@ -143,7 +149,7 @@ class StorytellingToolTime extends React.Component {
       img:[],
       renameFile: false,
     }
-  }
+ }
   
   filterRepitedFiles = (data) => {
     let filteredArr = data.reduce((acc, current) => {
@@ -183,6 +189,7 @@ class StorytellingToolTime extends React.Component {
           published: this.props.storyToEdit.activity.published,
           activityId: this.props.storyToEdit.activity.activityId,
           courseId: this.props.storyToEdit.activity.courseId,
+          categories: this.props.storyToEdit.activity.categories,
           user: this.props.storyToEdit.activity.user,
           creationDate: this.props.storyToEdit.activity.date,
           nodes: this.props.storyToEdit.activity.data,
@@ -301,6 +308,7 @@ class StorytellingToolTime extends React.Component {
       audio: '',
       images: [],
       scripts: [],
+      categories: [],
       ordinal: index + 1,
     };
     story.nodes.splice(index + 1, 0, node);
@@ -488,6 +496,12 @@ class StorytellingToolTime extends React.Component {
   }
 
   validateStory = () => {
+    let story = this.state.story;
+    story.nodes[this.state.selectedNode].categories = this.state.categories;
+    this.setState({
+      story: story,
+    });
+
     var validImage = this.state.story.nodes.map(item => item.images);
     if(validImage[0] == 0) {
       this.props.handleControlMessage(true, this.props.language.allScenesImage);
@@ -496,7 +510,6 @@ class StorytellingToolTime extends React.Component {
     else {
       this.state.imageControl = true;
     }
-    let story = this.state.story;
     for (var i = 0; i < story.nodes.length; i++) {
       if (story.nodes[i].audio === "") {
         this.props.handleControlMessage(true, this.props.language.allScenesAudio);
@@ -535,6 +548,7 @@ class StorytellingToolTime extends React.Component {
             'activity.workshop': this.state.story.workshop,
             'activity.project': this.state.story.project,
             'activity.facilitators': this.state.story.facilitators,
+            'activity.categories': this.state.story.categories,            
             'activity.lastModified': new Date(),
             'activity.endType': this.state.story.endType,
             'activity.endFrame': this.state.story.endFrame
@@ -603,6 +617,52 @@ class StorytellingToolTime extends React.Component {
     this.setState({
       showPreview: false,
     });
+  }
+
+  SelectCategories = () => {
+
+    var categoriesData = [];
+    categoriesData.push(this.state.story.categories.map((category) => category));
+    var controlEqual = false;
+    for(var i = 0; i < categoriesData[0].length; i++){
+    if(categoriesData[0][i] == this.state.categoryType){
+    controlEqual = true;
+    this.props.handleControlMessage(true, 'Aynı kategoriyi 2 defa seçtiniz');
+    return controlEqual;
+  } 
+  else{
+    controlEqual = false;
+
+  }
+}
+
+    if(this.state.story.categories.length == 3 || controlEqual == true) {
+      this.props.handleControlMessage(true, '3 ten fazla kategori seçtiniz ');
+
+    }else {
+    this.state.story.categories.push(this.state.categoryType);
+    this.setState({
+    
+
+      categories: this.state.story.categories,
+      
+      
+    });
+    this.props.handleControlMessage(true, this.state.categoryType +' '+ 'kategorisini seçtiniz');
+
+
+    }
+
+
+
+    //   if(this.state.categoryType == this.state.story.keyWords) {
+    //     this.props.handleControlMessage(true, this.state.categoryType +''+ 'zaten Mevcut');
+    //     }
+    //   else {
+    // this.state.story.keyWords += this.state.categoryType;
+
+    //   }
+    
   }
 
   handlePublishOnCourse = () => {
@@ -694,6 +754,7 @@ class StorytellingToolTime extends React.Component {
         'activity.data': this.state.story.nodes,
         'activity.public': this.state.story.isPublic,
         'activity.courseId': course,
+        'activity.categories': this.state.story.categories,
       }}
       , () => {
         this.props.handleControlMessage(true, this.props.language.storyPublished);
@@ -861,6 +922,61 @@ class StorytellingToolTime extends React.Component {
     e.preventDefault()
   }
 
+
+  addKeyWord(){
+    var x = Activities.find({}).fetch(); 
+    this.state.courseInformation = x.map(i => i.activity);
+    let keyWord = document.getElementById('keyWord-input').value;
+    if(keyWord !== '') {
+      let courseInformation = this.state.courseInformation;
+      keyWord = keyWord.trim().split(/\s+/);
+      if (keyWord.length <= 3) {
+        let finalKeyWord = '';
+        keyWord[0] = keyWord[0].charAt(0).toUpperCase() + keyWord[0].slice(1);
+        for (var i = 0; i < keyWord.length; i++) {
+          finalKeyWord = finalKeyWord + keyWord[i];
+          if (i < 2) {
+            finalKeyWord = finalKeyWord + " ";
+          }
+        }
+        let duplicate= courseInformation.categories.includes(finalKeyWord)
+        if(duplicate){
+          this.props.handleControlMessage(true, this.props.language.repeatedkeywords)
+       
+        }else{
+          courseInformation.categories.push(finalKeyWord);
+          this.setState({
+            courseInformation: courseInformation,
+          });
+        }
+      }
+      else {
+        this.props.handleControlMessage(true, this.props.language.keywordsMaximumMessage);
+      }
+    }
+    else {
+      this.props.handleControlMessage(true, this.props.language.keywordsEmptyMessage);
+    }
+    document.getElementById('keyWord-input').value = "";
+  }
+
+  deleteKeyWord(index) {
+    let courseInformation = this.state.courseInformation;
+    courseInformation.categories.splice(index, 1);
+    this.setState({
+      courseInformation: courseInformation,
+    });
+  }
+
+  keyController(event) {
+    if (event.which == 13 || event.keyCode == 13) {
+      this.addKeyWord();
+    }
+    else {
+      validateOnlyLetters(event);
+    }
+  }
+
   selectColor = (language) => {
     if (  this.state.story.nodes[this.state.selectedNode].scripts.length &&
           this.state.story.nodes[this.state.selectedNode].scripts[this.state.selectedScript].script[language] !== ""){
@@ -1003,6 +1119,7 @@ class StorytellingToolTime extends React.Component {
               <div className="storytelling-work-area-full-time">
                 <div className="storytelling-title-area-time">
                   <h2 className="storytelling-work-area-title-time">{this.props.language.storyFlow}</h2>
+                  
                   {
                     this.state.saved ?
                       <div>
@@ -1367,6 +1484,82 @@ class StorytellingToolTime extends React.Component {
                         onChange={this.handleChange('storyName')}
                         helperText={this.props.language.storyNameHelper}
                       />
+                      <div className="categoryButtons">
+                     
+                      <Button
+                          color="primary"
+                          className="storytelling"
+                          variant="outlined"
+                          onClick={() => this.SelectCategories( this.state.categoryType = 'culture')}
+                        > 
+                        Culture</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategories( this.state.categoryType = 'education')}
+                        >Education</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategories( this.state.categoryType = 'engineering')}
+                        >Engineering</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategories( this.state.categoryType = 'inclusion')}
+                >Inclusion</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategories( this.state.categoryType = 'life')}
+                        >Life</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategories( this.state.categoryType = 'science')}
+                        >Science</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategories( this.state.categoryType = 'school')}
+                        >School</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategories( this.state.categoryType = 'sports')}
+                        >Sports</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategories(this.state.categoryType = 'technology')}
+                        >Technology</Button><Button
+                        color="primary"
+                        className="storytelling"
+                        variant="outlined"
+                          onClick={() => this.SelectCategories(this.state.categoryType = 'university')}
+                        >University</Button>
+          </div>
+          {/* {
+            this.state.courseInformation.keyWords.length ?
+              <div className="chips-container">
+                {this.state.courseInformation.keyWords.map((keyWord, index) => {
+                  
+                  return(
+                    <Chip
+                      size="small"
+                      avatar={<Avatar>{keyWord.charAt(0)}</Avatar>}
+                      label={keyWord}
+                      className="chip"
+                      color="primary"
+                      onDelete={() => this.deleteKeyWord(index)}
+                    />
+                  )
+                })}
+              </div>
+            :
+            undefined
+          }
+           */}
                       {/* <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
                         {this.props.language.storyNameText}
                       </DialogContentText>

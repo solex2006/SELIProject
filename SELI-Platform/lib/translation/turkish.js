@@ -500,7 +500,7 @@ var TURKISH = {
   startingCourse: "Ders başlıyor, lütfen bekleyin",
   subscribeJoin: "Abone ol (Ders sınıfına katıl)",
   loadingComments: "Yorumlar yükleniyor...",
-  commentOf: "Yorumu",
+  commentOf: "Yorum Sahibi",
   openMedia: "Açık medya oynatıcı",
   addToLibrary: "Kütüphaneye ekle",
   seliMediaPlayer: "SELI Medya Oynatıcı",

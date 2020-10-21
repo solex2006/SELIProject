@@ -96,15 +96,25 @@ class StoryCard extends React.Component {
       description: '',
       descriptionScenes: '',
       descriptionStories: '',
+      Categories: [],
     }
+    var categoryNames = this.props.course.activity.categories.map((category) => category);
+    for (var i = 0; i < categoryNames.length; i++) {
+    if(categoryNames[i]) {
+    var categoryInfo = categoryNames[i];
+    if(categoryInfo !== null){
+      this.state.Categories.push(categoryInfo) ;
+      }
+    }
+  }
     this.state.descriptionScenes = this.props.course.activity.data.map(item => item.english);
     if(this.props.course.activity.data.map(item => item.description)[0]){
       this.state.descriptionStories = this.props.course.activity.data.map(item => item.description.english); 
     }
     else{
-      var temp = this.props.course.activity.data.map(item => item.scripts)[0];
-      var temp2 = temp.map(a => a.script.english);
-      this.state.descriptionStories = temp2;
+      var descriptionData = this.props.course.activity.data.map(item => item.scripts)[0];
+      var descriptionEnglish = descriptionData.map(a => a.script.english);
+      this.state.descriptionStories = descriptionEnglish;
     }
     if (this.state.descriptionStories == null ){
       this.state.description = this.state.descriptionScenes;
@@ -266,7 +276,7 @@ class StoryCard extends React.Component {
                     aria-label="recipe"
                     className="course-card-avatar"
                   >
-                    <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
+                     <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
                   </Avatar>
                 }
                 className="course-card-header"
@@ -288,6 +298,9 @@ class StoryCard extends React.Component {
                 </Typography>
                 <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
                   {`${this.props.language.author}: ${this.state.UsersStoryUserName}`}
+                </Typography>
+                <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
+                  {`Categories : ${this.state.Categories}`}
                 </Typography>
               </CardContent>
               <CardActions  disableSpacing>

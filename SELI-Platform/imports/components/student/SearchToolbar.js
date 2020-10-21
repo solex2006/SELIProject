@@ -306,7 +306,14 @@ export default function SearchToolBar(props) {
 			return { ...tmp, full: full, partial: partial };
 		});
 	};
+	searchSELICategories=()=>{
 
+		var	publishedCourses= [];
+		var myFilterSeliCourses=[];
+		let categoriesSearch=publishedCourses.filter(course => course.activity.categories.search('culture') !=-1);
+		// let myFilterSeliCoursesSubTitle=this.state.publishedCourses.filter(course => course.subtitle.search(this.state.texttoSearch.toLowerCase()) !=-1);
+		myFilterSeliCourses=(categoriesSearch)
+	  }
 	function RantingCourse({ feedback, label }) {
 		const classes = useStyles();
 		//	sizeRanting: feedback ? "100%" : "200px"
@@ -1004,9 +1011,14 @@ export default function SearchToolBar(props) {
 		return (
 			<FormControl className={classes.select}>
 				<TextField id="modality" label="Sort by" select value={1}>
-					<MenuItem value="1">Alphabetic</MenuItem>
+					{/* <MenuItem value="1" onClick={GeneralSearch}>Genel Kültür</MenuItem>
+					<MenuItem value="2" onClick={GeneralSearch}>Sanata</MenuItem>
+					<MenuItem value="3" onClick={GeneralSearch}>Bilim</MenuItem>
+					<MenuItem value="4" onClick={GeneralSearch}>Spor</MenuItem>
+					<MenuItem value="5" onClick={GeneralSearch}>Teknoloji</MenuItem> */}
+					{/* {/* <MenuItem value="1">Alphabetic</MenuItem> */}
 					<MenuItem value="2" onClick={sortByMostRecent}>Most Recent</MenuItem>
-					{/* <MenuItem value="3">Most Relevant</MenuItem> */}
+					<MenuItem value="3">Most Relevant</MenuItem> 
 				</TextField>
 			</FormControl>
 		);
