@@ -5,7 +5,8 @@ import TextField from "@material-ui/core/TextField";
 import MaterialTable from "material-table";
 import React,{useEffect} from "react";
 import FeedbackHelp from "../feedback";
-import tableIcons from '../design/icons'
+import tableIcons from '../design/icons';
+import {onlySpaces} from '../../../../lib/textFieldValidations';
 
 const useStyles = makeStyles(theme => ({}));
 export default function Presentation(props) {
@@ -13,15 +14,20 @@ export default function Presentation(props) {
 
   useEffect(()=>{
     if(type==='lessonInto'){
-      let update=state;
-      update.data=courseInformation[parentIndex].lessons[lessonIndex].tools[1].items;
-      setState(update) 
-    }else{
-    let update=state;
-    update.data=courseInformation[parentIndex].tools[1].items;
-     setState(update) 
+      setState(prevState=>{
+        return {
+          ...prevState,
+          data: courseInformation[parentIndex].lessons[lessonIndex].tools[1].items,
+        }
+      })
+    } else {
+      setState(prevState=>{
+        return {
+          ...prevState,
+          data: courseInformation[parentIndex].tools[1].items,
+        }
+      })
     }
-    
   },[])
   
   const classes = useStyles();
@@ -60,7 +66,7 @@ export default function Presentation(props) {
                 !props.value &&
                 props.rowData.validateInput &&
                 props.rowData.submitted
-                  ? "Required"
+                  ? language.required
                   : ""
               }
               value={props.value ? props.value : ""}
@@ -108,7 +114,8 @@ export default function Presentation(props) {
        
             <Checkbox
               {...props}
-              disabled={props.rowData.type != 3}
+              checked={props.rowData.external ===true}
+              disabled={props.rowData.type == 2}
               onChange={e => {
                 props.rowData.external=e.target.checked;
                 props.onChange(e.target.checked);
@@ -131,7 +138,7 @@ export default function Presentation(props) {
                   "/https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/"
               }}
               required={!props.rowData.external}
-              disabled={props.rowData.type==='3'? false:!props.rowData.external?true:false}
+              disabled={!props.rowData.external}
               error={
                 props.rowData.external &&
                 !props.value &&
@@ -145,10 +152,10 @@ export default function Presentation(props) {
                 !props.value &&
                 props.rowData.validateInput &&
                 props.rowData.submitted
-                  ? "Required"
+                  ? language.required
                   : ""
               }
-              value={props.value ? props.value : ""}
+              value={props.rowData.external===false? ''  :props.value ? props.value : "" }
               onChange={e => {
                 if (props.rowData.validateInput) {
                   props.rowData.validateInput = false;
@@ -169,18 +176,19 @@ export default function Presentation(props) {
   return (
     <React.Fragment>
       <MaterialTable
-        icons={tableIcons}
+        icons={tableIcons(language.Additem)}
         title={language.Games}
-        options={{ search: true, actionsColumnIndex: 4 }}
+        options={{ search: false, actionsColumnIndex: 4 }}
         columns={state.columns}
         data={state.data}
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
+                if(newData.external===false){newData.url=''}
               newData.submitted = true;
               if(newData.type===undefined){newData.type="1"}
-              if (!newData.title) {
+              if (!newData.title || onlySpaces(newData.title)) {
                 newData.error = true;
                 newData.label = language.required;
                 newData.helperText = language.Namerequired;
@@ -208,7 +216,8 @@ export default function Presentation(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 newData.submitted = true;
-                if (!newData.title) {
+                if(newData.external===false){newData.url=''}
+                if (!newData.title || onlySpaces(newData.title)) {
                   newData.error = true;
                   newData.label = language.required;
                   newData.helperText = language.Namerequired;
@@ -258,6 +267,15 @@ export default function Presentation(props) {
         localization={{
           pagination: {
             // labelDisplayedRows: '{from}-{to} of {count}'
+            labelRowsSelect: language.rows,
+            firstAriaLabel: language.firstPage,
+            firstTooltip: language.firstPage,
+            previousAriaLabel: language.previousPage,
+            previousTooltip: language.previousPage,
+            nextAriaLabel: language.nextPage,
+            nextTooltip: language.nextPage,
+            lastAriaLabel: language.lastPage,
+            lastTooltip: language.lastPage
           },
           toolbar: {
             // nRowsSelected: '{0} row(s) selected'
@@ -266,7 +284,15 @@ export default function Presentation(props) {
             actions: "" //removed title of action column
           },
           body: {
-            emptyDataSourceMessage: language.Nogames
+            emptyDataSourceMessage: language.Nogames,
+            addTooltip: language.add,
+            deleteTooltip: language.delete,
+            editTooltip: language.edit,
+            editRow: {
+              deleteText: `${language.deleteItemBelow}, ${language.wantProceed}`,
+              cancelTooltip: language.cancel,
+              saveTooltip: language.save
+            }
           }
         }}
       />
@@ -280,6 +306,7 @@ export default function Presentation(props) {
         tipMsg={language.GamesMatarial}
         describedBy={"i05-helper-text"}
       />
+      <br/>
     </React.Fragment>
   );
 }

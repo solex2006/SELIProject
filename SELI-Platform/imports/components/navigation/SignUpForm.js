@@ -1,18 +1,8 @@
 import React from 'react';
-import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
-import TextField from '@material-ui/core/TextField';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import userInformation from '../../ui/UserInformation';
-
-import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
-
-import ControlSnackbar from '../tools/ControlSnackbar';
 
 import {noSpecialCharacters} from '../../../lib/textFieldValidations';
-import { FaWindows } from 'react-icons/fa';
 
 export default class SignUpForm extends React.Component {
   constructor(props) {
@@ -36,6 +26,7 @@ export default class SignUpForm extends React.Component {
     this.props.history.push({
       pathname: url,
       type: type,
+      course: this.props.course,
       state: {
         language: this.props.language,
       }

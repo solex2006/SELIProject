@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1200;
-  background-color: rgba(255, 255, 255, 0.45);
+  background-color: rgba(167, 167, 167, 0.45);
 }
 
 .course-menu-button {
@@ -179,5 +179,9 @@
 @media screen and (max-width: 1080px) {
   .course-menu-options-container {
     width: 85vw;
+  }
+  .course-menu-button-container {
+    top: calc(var(--app-bar-height) + 1px);
+    right: 8px;
   }
 } 

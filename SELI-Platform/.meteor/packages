@@ -27,3 +27,6 @@ accounts-password
 simple:rest
 session
 insecure
+http
+cfs:standard-packages
+cfs:filesystem

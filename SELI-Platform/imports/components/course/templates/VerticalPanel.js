@@ -19,7 +19,7 @@ export default class VerticalPanel extends React.Component {
   }
 
   onDragStart = ({isSource, payload, willAcceptDrop}) => {
-    if (isSource) this.props.handleMenu(false);
+    if (isSource) this.props.handleMenu("close");
   }
 
   render() {
@@ -44,6 +44,7 @@ export default class VerticalPanel extends React.Component {
               </div>
               <Divider light/>
               <Container
+                dragClass="drag-class-items"
                 orientation="horizontal"
                 groupName="1"
                 behaviour="copy"
@@ -54,7 +55,10 @@ export default class VerticalPanel extends React.Component {
                   this.props.contentItems.map((p,i) => {
                     return (
                       <Draggable key={i}>
-                        <ContentMenuItem type={p.type} language={this.props.language}/>
+                        <ContentMenuItem 
+                          type={p.type}
+                          language={this.props.language}
+                        />
                       </Draggable>
                     );
                   })

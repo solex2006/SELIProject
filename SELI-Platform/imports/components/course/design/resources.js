@@ -27,13 +27,6 @@ const useStyles = makeStyles(theme => ({
   hidden: {
     display: "none"
   },
-  intoresources:{
-    display: 'flex',
-    flexDirection:'column',
-    flexWrap:'wrap',
-    justifyContent:'space-between',
-    alignItems:'center'
-  },
   addButton: {
     color: theme.palette.secondary.main
   },
@@ -108,10 +101,10 @@ export default function ActivityResources(props) {
 
   const subActivityTool=(indexActivitie)=>{
     return(
-      <div className={classes.intoresources}>
+      <div className="design-into-resources">
       {
       toolsOptionsSub.length!=0?
-        <FormControl
+      <FormControl
         required
         //error={error}
         component="fieldset"
@@ -156,9 +149,9 @@ export default function ActivityResources(props) {
 
   const toolsIntoLessons=(lessonIndex)=>{
     return(
-        <div className={classes.intoresources}> 
+        <div className="design-into-resources"> 
             <FormControl
-              required
+              //required
               // error={error}
               component="fieldset"
               className={classes.formControl}
@@ -201,7 +194,7 @@ export default function ActivityResources(props) {
                 describedBy={key + "-helper-text_mainContent"}
               />
             </FormControl>
-
+            <br/>
             {showTableIntoLesson("games") && 
               <Games  
                 language={language}
@@ -242,7 +235,6 @@ export default function ActivityResources(props) {
               />
             )}
     </div>
-     
     )
   }
 
@@ -256,9 +248,9 @@ export default function ActivityResources(props) {
       toolsIntoLessons()
       :
       type==='lessonInto'?  
-      <div className={classes.intoresources}> 
+      <div className="design-into-resources"> 
       <FormControl
-        required
+        //required
         // error={error}
         component="fieldset"
         className={classes.formControl}
@@ -298,11 +290,11 @@ export default function ActivityResources(props) {
             errorType: "",
             a11y: null
           }}
-          tipMsg="Select the resources tool you are goint to ue in this topic"
+          tipMsg={language.instructionsResources}
           describedBy={key + "-helper-text_mainContent"}
         />
       </FormControl>
-
+      <br/>
       {showTable("games") && 
         <Games 
         language={language} 

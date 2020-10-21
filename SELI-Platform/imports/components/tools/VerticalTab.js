@@ -116,7 +116,7 @@ export default function VerticalTabs(props) {
 
 	let indexTab = 0;
 	let indexPanel = 0;
-	console.log("*******data and props*********", props)
+	//console.log("*******data and props*********", props)
 	let data = useData(props.language, props.contentTypeAdded, props.item.accessibility, props.item);
 	
 
@@ -548,8 +548,10 @@ export default function VerticalTabs(props) {
 											handleRadioButtonOnChangeValidator: data.handleRadioButtonOnChangeValidator,
 											dataField: data.dataField,
 											captionsTip: data.captionsTip,
-											captionValidator: data.captionValidator
+											captionValidator: data.captionValidator,
+											handleInputOnFile:data.handleInputOnFile
 										}}
+										handleControlMessage={props.handleControlMessage.bind(this)}
 										language={props.language}/>
 									</TabPanel>}
 								{support.some(object => ["Cognitive","Speech","Visual"].includes(object)) &&
@@ -562,7 +564,9 @@ export default function VerticalTabs(props) {
 											audioDescriptionRequiredTip: data.audioDescriptionRequiredTip,
 											disabled_necAudioDesc: data.disabled_necAudioDesc,
 											disabled_uploadAudioDesc: data.disabled_uploadAudioDesc,
+											handleInputOnFile:data.handleInputOnFile
 										}}
+										handleControlMessage={props.handleControlMessage.bind(this)}
 										language={props.language}/>
 									</TabPanel>}
 								{support.some(object => ["Hearing","Cognitive"].includes(object)) &&
@@ -571,8 +575,10 @@ export default function VerticalTabs(props) {
 											handleRadioButtonOnChange: data.handleRadioButtonOnChange,
 											dataField: data.dataField,
 											handleRadioButtonOnChangeValidator: data.handleRadioButtonOnChangeValidator,
-											signLanguageTip: data.signLanguageTip
+											signLanguageTip: data.signLanguageTip,
+											handleInputOnFile:data.handleInputOnFile
 										}}
+										handleControlMessage={props.handleControlMessage.bind(this)}
 										language={props.language}/>
 									</TabPanel>}
 								 {support.some(object => ["Cognitive"].includes(object)) &&

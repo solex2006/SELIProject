@@ -174,9 +174,9 @@ export default class PdfFormulario extends React.Component {
   render() {
     return(
       <div>
-         <div> 
+        <div> 
         {
-           this.props.courseInformation.sylabus===undefined?
+          this.props.courseInformation.sylabus===undefined?
             <PdfForm
               getPdfAttributesFunction={pdfAttributes => this.getItemAttributes = pdfAttributes}
               contentToEdit={this.state.courseInformation.sylabus}
@@ -184,22 +184,22 @@ export default class PdfFormulario extends React.Component {
               language={this.props.language}
               preview={this.state.preview}
             />
-         :
-         <FormPreview
+          :
+            <FormPreview
               loadSylabus={this.props.loadSylabus}
               file={this.props.courseInformation.sylabus}
               type="pdf"
               courseSyllabus={this.props.language.courseSyllabus}
               resetSylabus={this.props.resetSylabus}
+              language={this.props.language}
             />
-         
         }
         <div className="dialog-actions-container">
-            <Tooltip title={this.props.language.saveSylabusAccessibiltie}>
+          <Tooltip title={this.props.language.saveSylabusAccessibiltie}>
             <Fab onClick={() => this.createContent()} aria-label={this.props.language.createContent} className="dialog-fab" color="primary">
               <DoneIcon/>
             </Fab>
-            </Tooltip>
+          </Tooltip>
         </div>
           {
             this.state.showAccessibilityOptions && (this.state.contentTypeAdded === 'pdf' ) ?  

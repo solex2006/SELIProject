@@ -5,6 +5,7 @@ import MaterialTable from "material-table";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import FeedbackHelp from "../feedback";
 import tableIcons from '../design/icons'
+import {onlySpaces} from '../../../../lib/textFieldValidations';
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -12,25 +13,28 @@ export default function SupplementaryTexts(props) {
   const {language,handleSelectResourcesIntoLessons,lessonIndex,type, handleSelectResourcesLessons,courseInformation,handleSelectResources, parentIndex, tools}=props
 
   useEffect(()=>{
- 
     if(type==='lessonInto'){
-      let update=state;
-      update.data=courseInformation[parentIndex].lessons[lessonIndex].tools[4].items;
-      setState(update) 
-    }else{
-      let update=state;
-      update.data=courseInformation[parentIndex].tools[4].items;
-     setState(update) 
+      setState(prevState=>{
+        return {
+          ...prevState,
+          data: courseInformation[parentIndex].lessons[lessonIndex].tools[4].items,
+        }
+      })
+    } else {
+      setState(prevState=>{
+        return {
+          ...prevState,
+          data: courseInformation[parentIndex].tools[4].items,
+        }
+      })
     }
-  },[])
-
- 
+  }, [])
 
   const classes = useStyles();
 
 
   const suplementaryItemsTypes = [language.paper, language.book, language.other];
-  const copyTypes = [language.printed, language.digital];
+  const copyTypes = [language.digital, language.printed];
 
   function selectOptions(options) {
     let rows = [];
@@ -65,7 +69,7 @@ export default function SupplementaryTexts(props) {
               !props.value &&
               props.rowData.validateInput &&
               props.rowData.submitted
-                ? "Required"
+                ? language.required
                 : ""
             }
             value={props.value ? props.value : ""}
@@ -155,10 +159,10 @@ export default function SupplementaryTexts(props) {
               !props.value &&
               props.rowData.validateInput &&
               props.rowData.submitted
-                ? "Required"
+                ? language.required
                 : ""
             }
-            value={props.value ? props.value : ""}
+            value={props.rowData.external===false? ''  :props.value ? props.value : "" }
             onChange={e => {
               if (props.rowData.validateInput) {
                 props.rowData.validateInput = false;
@@ -179,17 +183,19 @@ export default function SupplementaryTexts(props) {
     <React.Fragment>
       <MaterialTable
         title={language.SupplementaryText}
-        options={{ search: true, actionsColumnIndex: 5 }}
+        options={{ search: false, actionsColumnIndex: 5 }}
         columns={state.columns}
         data={state.data}
-        icons={tableIcons}
+        icons={tableIcons(language.Additem)}
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
+              if(newData.external===false){newData.url=''}
               newData.submitted = true;
               if(newData.type===undefined){newData.type="1"}
+              if(newData.copy===undefined){newData.copy="0"}
               setTimeout(() => {
-              if (!newData.title) {
+              if (!newData.title || onlySpaces(newData.title)) {
                 newData.error = true;
                 newData.label = language.required;
                 newData.helperText = language.Namerequired;
@@ -217,7 +223,8 @@ export default function SupplementaryTexts(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 newData.submitted = true;
-                if (!newData.title) {
+                if(newData.external===false){newData.url=''}
+                if (!newData.title || onlySpaces(newData.title)) {
                   newData.error = true;
                   newData.label = language.required;
                   newData.helperText = language.Namerequired;
@@ -266,6 +273,15 @@ export default function SupplementaryTexts(props) {
         localization={{
           pagination: {
             // labelDisplayedRows: '{from}-{to} of {count}'
+            labelRowsSelect: language.rows,
+            firstAriaLabel: language.firstPage,
+            firstTooltip: language.firstPage,
+            previousAriaLabel: language.previousPage,
+            previousTooltip: language.previousPage,
+            nextAriaLabel: language.nextPage,
+            nextTooltip: language.nextPage,
+            lastAriaLabel: language.lastPage,
+            lastTooltip: language.lastPage
           },
           toolbar: {
             // nRowsSelected: '{0} row(s) selected'
@@ -274,7 +290,15 @@ export default function SupplementaryTexts(props) {
             actions: "" //removed title of action column
           },
           body: {
-            emptyDataSourceMessage: language.Nopresentations
+            emptyDataSourceMessage: language.noSupplementary,
+            addTooltip: language.add,
+            deleteTooltip: language.delete,
+            editTooltip: language.edit,
+            editRow: {
+              deleteText: `${language.deleteItemBelow}, ${language.wantProceed}`,
+              cancelTooltip: language.cancel,
+              saveTooltip: language.save
+            }
           }
         }}
       />

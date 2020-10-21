@@ -20,8 +20,12 @@ import {validateOnlyNumbers} from '../../../lib/textFieldValidations';
 import NumericInput from 'react-numeric-input';
 import TimePickers from './TimePicker'
 import AccessibilityHelp from '../tools/AccessibilityHelp';
+import BadgeUpload from '../files/BadgeUpload';
+import ImagePreview from '../files/previews/ImagePreview';
+import createBadge from '../badge/CreateBadge';
 
 export default class QuizForm extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -30,6 +34,7 @@ export default class QuizForm extends React.Component {
       approvalPercentages: ['50', '60', '70', '80', '90'],
       questionSelected: 0,
       addedQuestions: 0,
+      showBadgeOptions: false,
       attributes: {
         showCheckBox:false,
         quizTitle: '',
@@ -41,6 +46,12 @@ export default class QuizForm extends React.Component {
         accessibility: {
           pureDecorative: false,
           percentage: 0,
+        },
+         badgeClass: {
+          name: '',
+          description: '',
+          image: undefined,
+          criteria: '',
         },
         questions: [
           {
@@ -199,8 +210,10 @@ export default class QuizForm extends React.Component {
  
         }
       else if (event<index){
+        console.log("this.state.questionSelected--->", this.state.questionSelected,questions)
 
           questions[this.state.questionSelected].answersText.pop();
+          questions[this.state.questionSelected].correctAnswers.pop();
 
       }
     
@@ -214,20 +227,42 @@ export default class QuizForm extends React.Component {
     else if (name === 'correctAnswers') {
       attributes.questions[this.state.questionSelected].correctAnswers[index] = event.target.checked;
     }
+    else if (name === 'badgeName') {
+      attributes.badgeClass.name = event.target.value;
+    }
+    else if (name === 'badgeDescription') {
+      attributes.badgeClass.description = event.target.value;
+    }
+    else if (name === 'badgeCriteria') {
+      attributes.badgeClass.criteria = event.target.value;
+    }
+    else if (name === 'allowBadge') {
+      this.setState({showBadgeOptions:!this.state.showBadgeOptions});
+    }
     this.setState({
       attributes: attributes,
     });
   };
 
- myFormat=(num)=> {
-    return num + '%';
-}
-myFormatminutes=(num)=> {
-  return num + 'min';
-}
+  myFormat=(num)=> {
+      return num + '%';
+  }
+  myFormatminutes=(num)=> {
+    return num + 'min';
+  }
   validateContent = (content) => {
-    if (!this.validateQuestion(content.questions[this.state.questionSelected])) {
-      this.props.handleControlMessage(true, this.props.language.completeLastQuestion);
+    
+    let questions=[...content.questions];
+    questions.filter((question,indexQuestion) =>{
+      if(question.questionTitle==='' && question.correctAnswers.length===0 && question.answersText.length===0){
+        questions.splice(indexQuestion)
+      }
+    });
+    console.log("EN LA VALIDACION this.state.addedQuestions---->",this.state.addedQuestions, content.questions, questions)
+   // console.log("paso5",this.validateQuestion(content.questions[this.state.questionSelected], questions, 'validation'))
+
+    if (!this.validateQuestion(content.questions[this.state.questionSelected], questions, 'validation')) {
+      //this.props.handleControlMessage(true, this.props.language.completeLastQuestion);
       return false;
     }
     //else if (content.quizTitle === '' || content.creditResources === '') {
@@ -235,20 +270,39 @@ myFormatminutes=(num)=> {
       this.props.handleControlMessage(true, this.props.language.titleAndCreditAreR);
       return false;
     }
-    else if ((this.state.addedQuestions + 1) < 2) {
+    else if (content.questionTitle === '') {
+      this.props.handleControlMessage(true, this.props.language.titleAndCreditAreQuestion );
+      return false;
+    }
+    
+    else if ((questions.length ) <2) {
       this.props.handleControlMessage(true, this.props.language.atLeast2Questions);
       return false;
     }
+   /*  else if ((this.state.addedQuestions + 1) < 2) {
+      this.props.handleControlMessage(true, this.props.language.atLeast2Questions);
+      return false;
+    } */
     
     return true;
   }
 
   getQuizAttributes(){
+    console.log('getQuizAttribute')
     let quizContent = this.state.attributes;
+    console.log('getQuizAttribute--->:',quizContent)
     if (this.validateContent(quizContent)) {
-      let questions = quizContent.questions.slice(0, (this.state.addedQuestions + 1));
+      let questions = quizContent.questions //.slice(0, (this.state.addedQuestions + 1));
       quizContent.expanded = true;
+      console.log("QUESTIONS ANTES*********************",questions,quizContent.questions)
+      questions.filter((question,indexQuestion) =>{
+        if(question.questionTitle==='' && question.correctAnswers.length===0  ){
+          questions.splice(indexQuestion)
+        }
+      });
+      console.log("QUESTIONS*********************",questions)
       quizContent.questions = questions;
+      createBadge(quizContent.badgeClass)
       return quizContent;
     }
     else {
@@ -256,28 +310,76 @@ myFormatminutes=(num)=> {
     }
   }
 
-  validateQuestion = (question) => {
-    if (question.questionTitle === '') {
-      this.props.handleControlMessage(true, this.props.language.titleIsR);
-      return false;
-    }
-    for (var i = 0; i < question.answersText.length; i++) {
-      if (question.answersText[i] === '') {
-        this.props.handleControlMessage(true, `${this.props.language.addAnswerOfQ} ${i + 1}`);
+  validateQuestion = (question, questions, flag) => {
+    console.log("en el validation---->",question, questions,"number of questions-->" ,this.state.attributes.numberofQuestions)  
+    if(flag==='validation'){
+      let flag=""
+      questions.map((question, indexQuestion)=>{
+        if (question.questionTitle === '') {
+          this.props.handleControlMessage(true,  `${this.props.language.titleIsR} ${indexQuestion+1}`);
+          console.log("paso1 ",)
+          flag=false
+          return false;
+          
+        }
+        for (var i = 0; i < question.answersText.length; i++) {
+          if (question.answersText[i] === '') {
+            this.props.handleControlMessage(true, `${this.props.language.addAnswerOfQ} ${indexQuestion+1}`);
+            console.log("paso2 ",)
+            flag=false
+            return false;
+          
+          }
+        }
+        if (!question.correctAnswers[0] && !question.correctAnswers[1] && !question.correctAnswers[2] && !question.correctAnswers[3]) {
+          this.props.handleControlMessage(true, `${this.props.language.selectOneCorrect} ${indexQuestion+1}`);
+          console.log("paso3 ",)
+          flag=false
+          return false;
+          
+        }
+        console.log("pas41 ",)
+        if(flag===false){
+          flag=false
+        }else{
+          flag=true
+          return true;
+        }
+        
+      })
+      if(flag!=''){
+        console.log("pas4111 ",)
+        return flag
+      }
+
+    }else{
+      if (question.questionTitle === '') {
+        this.props.handleControlMessage(true, this.props.language.titleIsR);
         return false;
       }
+      for (var i = 0; i < question.answersText.length; i++) {
+        if (question.answersText[i] === '') {
+          this.props.handleControlMessage(true, `${this.props.language.addAnswerOfQ} ${i + 1}`);
+          return false;
+        }
+      }
+      if (!question.correctAnswers[0] && !question.correctAnswers[1] && !question.correctAnswers[2] && !question.correctAnswers[3]) {
+        this.props.handleControlMessage(true, this.props.language.selectOneCorrect);
+        return false;
+      }
+      return true;
     }
-    if (!question.correctAnswers[0] && !question.correctAnswers[1] && !question.correctAnswers[2] && !question.correctAnswers[3]) {
-      this.props.handleControlMessage(true, this.props.language.selectOneCorrect);
-      return false;
-    }
-    return true;
+
+      
+
+  
+    
   }
 
   getAddedQuestions = () => {
     let addedQuestions = 0;
     for (var i = 0; i < this.state.attributes.questions.length; i++) {
-      if (this.validateQuestion(this.state.attributes.questions[i])) {
+      if (this.validateQuestion(this.state.attributes.questions[i],this.state.attributes.questions)) {
         addedQuestions++;
       }
     }
@@ -287,9 +389,10 @@ myFormatminutes=(num)=> {
   }
 
   getAddedQuestionsEdit = () => {
+    console.log(" getAddedQuestionsEdit",this.state.attributes.questions)
     let addedQuestions = 0;
     for (var i = 0; i < this.state.attributes.questions.length; i++) {
-      if (this.validateQuestion(this.state.attributes.questions[i])) {
+      if (this.validateQuestion(this.state.attributes.questions[i],this.state.attributes.questions)) {
         addedQuestions++;
       }
     }
@@ -317,23 +420,23 @@ myFormatminutes=(num)=> {
       addedQuestions: addedQuestions,
     });
   }
-
   handleClickQuestion = (index) => {
+    console.log("index, this.state.questionSelected", index, this.state.questionSelected );
     if (index === this.state.questionSelected) {
       return;
     }
-    else if (index < this.state.questionSelected || index < (this.state.addedQuestions + 1)) {
+     if (index < this.state.questionSelected || index < (this.state.addedQuestions + 1)) {
       this.setState({
         questionSelected: index,
       });
     }
-    else if ((this.state.questionSelected + 1) === index) {
-      if (this.validateQuestion(this.state.attributes.questions[this.state.questionSelected])) {
+     if ((this.state.questionSelected + 1) === index) {
+    //  if (this.validateQuestion(this.state.attributes.questions[this.state.questionSelected],this.state.attributes.questions)) {
         this.getAddedQuestions();
         this.setState({
           questionSelected: index,
         });
-      }
+     // }
     }
   }
 
@@ -361,9 +464,9 @@ myFormatminutes=(num)=> {
         let attributes = this.state.attributes;
         for (var i = attributes.questions.length; i < 10; i++) {
           attributes.questions.push({
-            correctAnswers: [false, false, false, false],
+            correctAnswers: [],
             questionTitle: '',
-            answersText: ['', '', '', ''],
+            answersText: [],
           });
         }
         this.setState({
@@ -374,12 +477,39 @@ myFormatminutes=(num)=> {
       })
     }
   }
+  // badge addition
+  getbadgeClass(file){
+    let attributes = this.state.attributes;
+    attributes.badgeClass.image = file;
+ 
+    this.setState({
+      attributes: attributes,
+      showPreview: true,
+      showLibrary: false,
+    })
+    console.log(this.state.attributes.badgeClass)
+    this.handleClickOpen();
+  }
+  unPickBadgeImage(){
+    let attributes = this.state.attributes;
+    attributes.badgeClass.image = undefined;
+    this.setState({
+      showPreview: false,
+      attributes: attributes,
+    });
+  }
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   render() {
     return(
       <div className="dialog-form-container">
         <div className="quiz-header-container">
-
           <div className="quiz-input-container">
             <TextField
               id="quiz-input"
@@ -406,7 +536,7 @@ myFormatminutes=(num)=> {
               <AccessibilityHelp idName='captions-radiogroup' error={this.state.limitHelp } tip={this.props.language.helpTimeRestriction}/>
             </div>
 
-            <div className="quiz-input-container">
+          <div className="quiz-input-container">
             <p className="form-dialog-question-button-container-text">{this.props.language.approvalPercentage}</p>  
               <NumericInput
                 className="quiz-inputnumeric"
@@ -465,7 +595,7 @@ myFormatminutes=(num)=> {
               key={Math.random()}
               mobile
               defaultValue={this.state.attributes.questions[this.state.questionSelected].correctAnswers.length}
-              min={1}
+              min={0}
               max={500}
               onChange={this.handleChange('numberofAnswers', this.state.attributes.questions[this.state.questionSelected].correctAnswers.length)}
               required
@@ -506,6 +636,95 @@ myFormatminutes=(num)=> {
             }
           </div> 
         </div>
+         {/* Badge section */}
+        <Divider />
+        <div className="center-row">
+          <FormControl className="quiz-form-control" component="fieldset">
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch onChange={this.handleChange('allowBadge')} value="allowBadge" />}
+                label={this.state.showBadgeOptions?this.props.language.removeBadge:this.props.language.addBadge}
+              />
+            </FormGroup>
+          </FormControl>
+        </div>
+         { 
+            this.state.showBadgeOptions ?
+            <div className="badgeCreationOptions">
+              <div className="badge-form-container">
+                <div className="badge-image-upload ">
+                  {
+                    this.state.showPreview ?
+                      <div className="form-preview-container">
+                        <ImagePreview
+                          file={this.state.attributes.badgeClass.image}
+                          language={this.props.language}
+                          unPickFile={this.unPickBadgeImage.bind(this)}
+                        />
+                      </div>
+                      :
+                      <div className="form-file-container">
+                        <BadgeUpload
+                          type={this.state.fileType}
+                          user={Meteor.userId()}
+                          accept={this.state.accept}
+                          getFileInformation={this.getbadgeClass.bind(this)}
+                          label={this.props.language.selectBadgeImage}
+                        />
+                      </div>
+                  }
+                </div>
+                {/*  */}
+
+                <div className="badge-form-input-column">
+                  <div className="sign-form">
+                    <TextField
+                      id="name-input"
+                      label={this.props.language.name}
+                      margin="normal"
+                      variant="outlined"
+                      fullWidth
+                      autoComplete={"off"}
+                      required
+                      value={this.state.attributes.badgeClass.name}
+                      onChange={this.handleChange('badgeName')}
+                      error={this.state.showError && this.state.attributes.badgeClass.name === ''}
+                    />
+                    <TextField
+                      id="description-input"
+                      label={this.props.language.description}
+                      margin="normal"
+                      variant="outlined"
+                      fullWidth
+                      autoComplete={"off"}
+                      required
+                      multiline
+                      rows={2}
+                      value={this.state.attributes.badgeClass.description}
+                      onChange={this.handleChange('badgeDescription')}
+                      error={this.state.showError && this.state.attributes.badgeClass.description === ''}
+                    />
+                     <TextField
+                      id="description-input"
+                      label={this.props.language.criteria}
+                      margin="normal"
+                      variant="outlined"
+                      fullWidth
+                      autoComplete={"off"}
+                      required
+                      multiline
+                      rows={3}
+                      value={this.state.attributes.badgeClass.criteria}
+                      onChange={this.handleChange('badgeCriteria')}
+                      error={this.state.showError && this.state.attributes.badgeClass.criteria === ''}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            :
+            undefined
+        }
       </div>
     );
   }

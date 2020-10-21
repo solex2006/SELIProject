@@ -20,6 +20,7 @@ export default class CourseContent extends React.Component {
   }
 
   componentDidMount() {
+    document.getElementById("courseContainer").scroll(0,0);
   }
 
   loadingData = () => {
@@ -67,7 +68,7 @@ export default class CourseContent extends React.Component {
   }
 
   loadingPage = () => {
-    var {arrayOfItems, arrayOfDesignItems, tools,
+    const {arrayOfItems, arrayOfDesignItems, tools,
       toComplete, topicLessonLabel, taskLength, unitTopicLength, 
       lessonLength, previousLessonLength, previousTaskLength} = this.loadingData();
     return(
@@ -113,7 +114,7 @@ export default class CourseContent extends React.Component {
                   //disabled={this.props.selected[0] === 0}
                   size="small"
                   className="course-content-footer-fab"
-                  onClick={() => this.props.handlePrevious(this.props.course.coursePlan.courseStructure, previousTaskLength, unitTopicLength, previousLessonLength)}
+                  onClick={() => this.props.handlePrevious(this.props.course.coursePlan.courseTemplate, this.props.course.coursePlan.courseStructure, previousTaskLength, unitTopicLength, previousLessonLength)}
                 >
                   <NavigateBeforeIcon/>
                 </Fab>
@@ -123,7 +124,7 @@ export default class CourseContent extends React.Component {
                   //disabled={this.props.selected[0] === this.props.course.program.length - 1}
                   size="small"
                   className="course-content-footer-fab"
-                  onClick={() => this.props.handleNext(this.props.course.coursePlan.courseStructure, taskLength, unitTopicLength, lessonLength)}
+                  onClick={() => this.props.handleNext(this.props.course.coursePlan.courseTemplate, this.props.course.coursePlan.courseStructure, taskLength, unitTopicLength, lessonLength)}
                 >
                   <NavigateNextIcon/>
                 </Fab>
@@ -172,7 +173,7 @@ export default class CourseContent extends React.Component {
 
   render() {
     return(
-      <div className="course-content-container">
+      <div id="courseContainer" className="course-content-container">
         { this.props.course.program.length &&
           <React.Fragment>
             <div className="course-content-breadcrumbs-container">

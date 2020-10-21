@@ -162,7 +162,7 @@ export default function CourseContent(props) {
       let activity=0
       let quiz=0
       
-      console.log("por topicos",props.program[topic])
+     // console.log("por topicos",props.program[topic])
       props.program[topic].items.map((item,indexitem)=>{  
          if(item.type==='text'){
             text+=1
@@ -197,7 +197,7 @@ export default function CourseContent(props) {
 
                      <div className='crnheading'>
                         <section aria-label="TOPIC 1: Introduction to ISD">
-                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">TOPIC: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
+                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">{props.language.topic}: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
                            <div className='descriptiontext'>{topic.mainContent}</div>
                            
                            <div className='previewcontent'>
@@ -222,13 +222,13 @@ export default function CourseContent(props) {
                      <div>  
                         <div className='crnheading'>
                         <section aria-label="TOPIC 1: Introduction to ISD">
-                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">UNIT: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
+                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">{props.language.unit}: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
                            <div className='descriptiontext'>{topic.mainContent}</div>
                            <div className='previewcontent'>
                               {
                                  topic.lessons.map((lesson,index)=>(
                                     <div key={index}>
-                                       <div className='crnheading' key={index}><h3 id="content-topic-n" tabIndex="-1">Lesson: {' '+(parseInt(index)+1)}: {lesson.title}</h3></div>
+                                       <div className='crnheading' key={index}><h3 id="content-topic-n" tabIndex="-1">{props.language.lesson}: {' '+(parseInt(index)+1)}: {lesson.title}</h3></div>
                                        <div className='previewcontent'>
                                        <CollectionsBookmarkIcon />
                                           <span className='boxResource'>Games: {TotalofResourcesLessons(indexUnit,index).games} </span>
@@ -254,7 +254,7 @@ export default function CourseContent(props) {
                      <div>  
                         <div className='crnheading'>
                         <section aria-label="units">
-                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">UNIT: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
+                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">{props.language.unit}: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
                            <div className='descriptiontext'>{topic.mainContent}</div>
                            <div className='previewcontent'>
                               <CollectionsBookmarkIcon />
@@ -270,7 +270,7 @@ export default function CourseContent(props) {
                               {
                                  topic.lessons.map((lesson,index)=>(
                                     <div key={index}>       
-                                       <div className='crnheading' key={index}><h3 id="content-topic-n" tabIndex="-1">Lesson: {' '+(parseInt(index)+1)}: {lesson.title}</h3></div>
+                                       <div className='crnheading' key={index}><h3 id="content-topic-n" tabIndex="-1">{props.language.lesson}: {' '+(parseInt(index)+1)}: {lesson.title}</h3></div>
                                        <div className='previewcontent'>
                                        <CollectionsBookmarkIcon />
                                           <span className='boxResource'>Readings: {TotalofResourcesFreeUnitLesson(indexUnit,index)[0]} </span>
@@ -297,7 +297,7 @@ export default function CourseContent(props) {
                      (coursePlan.guidedCoursePlan==='free'  && coursePlan.courseTemplate==='without' && coursePlan.courseStructure==='topic')?       
                      <div className='crnheading'>
                         <section aria-label="TOPIC 1: Introduction to ISD">
-                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">TOPIC: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
+                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">{props.language.topic}: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
                            <div className='descriptiontext'>{topic.mainContent}</div>
                            <div className='previewcontent'>
                            <CollectionsBookmarkIcon />

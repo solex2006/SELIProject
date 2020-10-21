@@ -91,7 +91,8 @@ export default class CreateCourse extends React.Component {
       updateSteps:'',
       reset: "",
       activeStep:'',
-      cancelCounter: 0
+      cancelCounter: 0,
+      flagPublish:false
     }
   }
 
@@ -142,6 +143,12 @@ export default class CreateCourse extends React.Component {
       this.loadingHeaders();
       this.loadingData();
     }
+
+    if ((prevState.activeStep !== this.state.activeStep)){
+      console.log("*******se cambio*******")
+    }
+
+    
     
     
   }
@@ -265,53 +272,55 @@ export default class CreateCourse extends React.Component {
     this.updateCourseInformation({...this.state.databaseCourse});
   }
 
-  handleBack=(props)=>{
-    console.log("en el handle back",props.topic)
-    if(props.topic.type==='topic'){
+  handleBack=(props, index)=>{
+   
+
+    let tipo=props[0].topics[0].type
+    console.log("en el handle back**********************",props, index)
+
+    if(index.type==='topic'){
       this.setState({
         activeStep:Math.random(),
-        selected:[props.topic.indice,0,0,0]
+        selected:[index.indice,0,0,0]
       })
     }
-    if(props.topic.type==='template'){
-      if(props.topic.actividad!=undefined){
+    if(index.type==='template'){
+      if(index.actividad!=undefined){
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,0,props.topic.actividad!=undefined?props.topic.actividad:0,2]
+          selected:[index.unidad,0,index.actividad!=undefined?index.actividad:0,2]
         })
       }else{
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,0,0,0]
+          selected:[index.unidad,0,0,0]
         })
       }
       
     }
-    if(props.topic.type==='unit'){
-      if(props.topic.lesson!=undefined){
+    if(index.type==='unid'){
+      if(index.lesson!=undefined){
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,props.topic.lesson!=undefined?props.topic.lesson:0,0,1]
+          selected:[index.unidad!=undefined?index.unidad:0,index.lesson!=undefined?index.lesson:0,0,1]
         })
       }
-      if(props.topic.lesson===undefined){
+      if(index.lesson===undefined){
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,0,0,0]
+          selected:[index.unidad!=undefined?index.unidad:0,0,0,0]
         })
       }
       
     }
-   // this.loadingData()[props.topic.unidad,0props.topic,0,actividad,1]
+
   }
 
   handleCahngetick=()=>{
-    console.log("asdsssssssssssssssssssssssssssssssssssssssssssssssss")
     this.setState({flagtick:!this.state.flagtick})
   }
 
   checksteps(type){
-    console.log("check step",  this.state.courseInformation.stepscompleted, this.state)
     this.state.nopublish=false;
     let checkFree=false;
     let checkGuided=false;
@@ -323,35 +332,40 @@ export default class CreateCourse extends React.Component {
     let step5=this.state.courseInformation.stepscompleted.includes(5)
     let step6=this.state.courseInformation.stepscompleted.includes(6)
     let step7=this.state.courseInformation.stepscompleted.includes(7)
-   
-     
-     if(this.state.courseInformation.coursePlan.guidedCoursePlan==='free'){
+
+ 
+    let validatingCourse = this.validatePublishCourse();
+    if(this.state.courseInformation.coursePlan.guidedCoursePlan==='free'){
       if(step0===false){
         this.state.numberofStep=1
         this.setState(this.state)
       } else if (step1===false){
-       this.state.numberofStep=2
-       this.setState(this.state)
+        this.state.numberofStep=2
+        this.setState(this.state)
       }else if(step3===false){
-       this.state.numberofStep=4
-       this.setState(this.state)
+        this.state.numberofStep=4
+        this.setState(this.state)
       }else if(step5===false){
-       this.state.numberofStep=6
+        this.state.numberofStep=6
         this.setState(this.state)
       }else if(step6===false){
-       this.state.numberofStep=7
-       this.setState(this.state)
+        this.state.numberofStep=7
+        this.setState(this.state)
       }else if(step7===false){
-       this.state.numberofStep=8
-       this.setState(this.state)
+        this.state.numberofStep=8
+        this.setState(this.state)
       }
       (
         step0===true&&  step1===true&&  step3===true&& step5===true&& step6===true
       )
       ? checkFree=true: checkFree===false; 
-      if(checkFree===false){
-        this.state.flagErrorSteps=true
-        this.state.open=true
+      if(!validatingCourse.caseStep || checkFree===false){
+        this.state.flagErrorSteps = true;
+        this.state.open = true;
+        if (!validatingCourse.caseStep) {
+          this.state.completeStepAux = validatingCourse.completeStepAux
+          this.state.numberofStep=1
+        } else this.state.completeStepAux = ""
       //  this.state.action=true
         this.setState(this.state)
       }else{
@@ -364,31 +378,35 @@ export default class CreateCourse extends React.Component {
         this.state.numberofStep=1
         this.setState(this.state)
       } else if (step1===false){
-       this.state.numberofStep=2
-       this.setState(this.state)
+        this.state.numberofStep=2
+        this.setState(this.state)
       }else if(step3===false){
-       this.state.numberofStep=4
-       this.setState(this.state)
+        this.state.numberofStep=4
+        this.setState(this.state)
       }else if(step4===false){
-       this.state.numberofStep=5
-       this.setState(this.state)
+        this.state.numberofStep=5
+        this.setState(this.state)
       }else if(step5===false){
-       this.state.numberofStep=6
+        this.state.numberofStep=6
         this.setState(this.state)
       }else if(step6===false){
-       this.state.numberofStep=7
-       this.setState(this.state)
+        this.state.numberofStep=7
+        this.setState(this.state)
       }else if(step7===false){
-       this.state.numberofStep=8
-       this.setState(this.state)
+        this.state.numberofStep=8
+        this.setState(this.state)
       }
       (
         step0===true&&  step1===true&& step3===true&& step4===true&& step5===true&& step6===true
       )
       ? checkGuided=true: checkGuided===false; 
-      if(checkGuided===false){
-        this.state.flagErrorSteps=true
-        this.state.open=true
+      if(!validatingCourse.caseStep || checkGuided===false){
+        this.state.flagErrorSteps = true;
+        this.state.open = true;
+        if (!validatingCourse.caseStep) {
+          this.state.completeStepAux = validatingCourse.completeStepAux
+          this.state.numberofStep=1
+        } else this.state.completeStepAux = ""
       //  this.state.action=true
         this.setState(this.state)
       }else{
@@ -397,23 +415,35 @@ export default class CreateCourse extends React.Component {
         this.setState(this.state)
       }
     }
-    console.log("resultdos",  this.state)
   }
 
-  publishCourse() {
-    if (this.validatePublishCourse()) {
-      this.saveCourse();
-      if (this.state.saved) {
-        Courses.update(
-          { _id: this.state.saved },
-          { $set: {published: true}}
-        );
-        this.props.showComponent('published')
-        this.props.handleControlMessage(true, this.props.language.coursePublishedS, true, 'preview', this.props.language.seePreview, this.state.saved);
-      } else {
-        this.props.handleControlMessage(true, this.props.language.saveCourse);
-      }
-    } 
+  publishCourse(type) {
+    
+    this.saveCourse();
+    console.log("pub**************", this.state.saved)
+    if (this.state.saved) {
+      Courses.update(
+        { _id: this.state.saved },
+        { $set: {published: true}}
+      );
+      this.props.showComponent('published')
+      this.props.handleControlMessage(true, this.props.language.coursePublishedS, true, 'preview', this.props.language.seePreview, this.state.saved);
+    } else {
+      this.props.handleControlMessage(true, this.props.language.saveCourse);
+    }
+    if(type==='flagPublish'){
+      this.props.disableDialog()
+      //this.props.showComponent('published')
+      
+      this.setState({
+        open:false,
+        //selected:[0, 0, 0, 1]
+      })
+      
+     
+      console.log("pub;ishhhhhhhhh**************", this.state)
+      
+    }
   }
 
   saveCourse() {
@@ -534,58 +564,33 @@ export default class CreateCourse extends React.Component {
   }
 
   validatePublishCourse = () => {
-    console.log("se va a publicar el curso---",this.state)
-    this.state.open=true;
-      this.setState(this.state)
-    this.checksteps()
-    
     let courseInformation = this.state.courseInformation;
-   
-    
-    /* this.state.reportflag=7
-    this.setState(this.state) */
-
+    let completeStepAux = "";
+    let caseStep = true;
     if (
       courseInformation.title === '' ||
       courseInformation.description === '' ||
       courseInformation.duration === ''
     ) {
-      this.props.handleControlMessage(true, `${this.props.language.fieldsMarkedWith} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
-      return false;
+      completeStepAux = `${this.props.language.fieldsMarkedWith}.`;
+      caseStep = false;
     }
     else if (courseInformation.image === undefined) {
-      this.props.handleControlMessage(true, `${this.props.language.chooseCourseImage} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
-      return false;
+      completeStepAux = `${this.props.language.chooseCourseImage}.`;
+      caseStep = false;
     }
-    /* else if (courseInformation.sylabus === undefined) {
-      this.props.handleControlMessage(true, `${this.props.language.chooseCourseSyllabus} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
-      return false;
-    } */
-    else if (courseInformation.keyWords.length < 3 || courseInformation.keyWords.length > 5) {
-      this.props.handleControlMessage(true, `${this.props.language.addOneOrMore} (${this.props.language.step}: ${this.props.language.information}).`, false, '', '');
-      return false;
+    else if (courseInformation.keyWords.length < 3 || courseInformation.keyWords.length > 10) {
+      completeStepAux = `${this.props.language.addOneOrMore}.`;
+      caseStep = false;
     }
-    /* else if (courseInformation.organization === '') {
-      this.props.handleControlMessage(true, `${this.props.language.organizationRequirement} (${this.props.language.step}: ${this.props.language.program}).`, false, '', '');
-      return false;
-    }  */
-    if (courseInformation.duration.indexOf('_') !== -1) {
-      this.props.handleControlMessage(true, `${this.props.language.durationInvalidEntry}`, false, '', '');
-      return false;
-    } else {
-      let duration = courseInformation.duration.split(':');
-      if (duration[0] < 5) {
-        this.props.handleControlMessage(true, `${this.props.language.minimumCourseDuration}.`, false, '', '');
-        return false;
-      } 
+    else if (courseInformation.duration.indexOf('_') !== -1) {
+      completeStepAux = `${this.props.language.durationInvalidEntry}`;
+      caseStep = false;
+    } else if (courseInformation.duration && courseInformation.duration.split(':')[0] < 5) {
+      completeStepAux = `${this.props.language.minimumCourseDuration}.`;
+      caseStep = false;
     }
-    let emptyContent = false;
-    if (emptyContent) {
-      return false;
-    }
-
-   
-    return true;
+    return {caseStep, completeStepAux};
   }
 
   validateSaveCourse = () => {
@@ -602,14 +607,76 @@ export default class CreateCourse extends React.Component {
   }
 
   handleOpen = (action) => {
-    //console.log("open",action)
-    
-    if (action === "upload" || this.validatePublishCourse()) {
-      this.setState({
-        open: true,
-        action,
-      })
-    }
+    //go to generate the report
+     console.log("cambia de paso", this.state.courseInformation.report , this.state.courseInformation)
+     if(this.state.courseInformation.support[1]!=undefined){
+      //choose one element in audiencesStep
+          if(this.state.courseInformation.report[0]!=100 && this.state.courseInformation.support[1][0].isChecked===true ){
+            this.setState({
+              flagPublish:true,
+              messagePublish: this.props.language.cognitiveMessage
+            })
+          }else if(this.state.courseInformation.report[0]===100 && this.state.courseInformation.support[1][0].isChecked===true ){
+            this.setState({
+              flagPublish:false,
+            })
+          }
+          
+          if(this.state.courseInformation.report[2]!=100 && this.state.courseInformation.support[1][2].isChecked===true ){
+            this.setState({
+              flagPublish:true,
+              messagePublish: this.props.language.hearingMessage
+            })
+          }else if(this.state.courseInformation.report[2]===100 && this.state.courseInformation.support[1][2].isChecked===true ){
+            this.setState({
+              flagPublish:false,
+            })
+          }
+          if(this.state.courseInformation.report[3]!=100 && this.state.courseInformation.support[1][3].isChecked===true ){
+            this.setState({
+              flagPublish:true,
+              messagePublish: this.props.language.visualMessage
+            })
+          }else if(this.state.courseInformation.report[3]===100 && this.state.courseInformation.support[1][3].isChecked===true ){
+            this.setState({
+              flagPublish:false,
+            })
+          }
+          if((this.state.courseInformation.report[0]!=100 || this.state.courseInformation.report[1]!=100 || this.state.courseInformation.report[2]!=100 ||
+              this.state.courseInformation.report[3]!=100) && this.state.courseInformation.support[1][1].isChecked===true ){
+            this.setState({
+              flagPublish:true,
+              messagePublish: this.props.language.elderlyMessage
+            })
+          }else if((this.state.courseInformation.report[0]===100 || this.state.courseInformation.report[1]===100 || this.state.courseInformation.report[2]===100 ||
+            this.state.courseInformation.report[3]===100) && this.state.courseInformation.support[1][1].isChecked===true ){
+          this.setState({
+            flagPublish:false,
+            //messagePublish: this.props.language.elderlyMessage
+          })
+        }
+        if((this.state.courseInformation.support[1][0].isChecked===false && this.state.courseInformation.support[1][1].isChecked===false &&
+          this.state.courseInformation.support[1][2].isChecked===false && this.state.courseInformation.support[1][3].isChecked===false)){
+        this.setState({
+          flagPublish:false,
+        })
+      }
+
+     }
+
+   /* if(this.state.courseInformation.stepscompleted.includes(0) && this.state.courseInformation.stepscompleted.includes(1) && 
+      this.state.courseInformation.stepscompleted.includes(5) ){
+        this.state.activeStep=7;
+        this.setState({
+          activeStep:7
+        })
+        console.log("--------------",this.state)
+    } */
+
+    this.setState({
+      open: true,
+      action,
+    })
   }
 
   handlePreview = () => {
@@ -617,12 +684,17 @@ export default class CreateCourse extends React.Component {
   }
 
   handlePublish = () => {
+    this.checksteps();
     this.handleOpen("publish");
-   
   }
 
   handleClose = (type) => {
      // this.state.action='publish';
+      /* if(type==='flagPublish'){
+        this.state.flagPublish=false
+        this.setState({flagPublish:false})
+      } */
+
      if(type==='alert'){
       this.state.nopublish=true;
       this.state.open=false;
@@ -764,7 +836,7 @@ export default class CreateCourse extends React.Component {
           :
           undefined
         }
-      <Dialog
+        <Dialog
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
@@ -775,196 +847,204 @@ export default class CreateCourse extends React.Component {
           keepMounted
           maxWidth={false}
         >
-          {console.log("this.state.action and this.state.flagErrorSteps",this.state.action, this.state.flagErrorSteps)}
           {
             this.state.action === "preview" || this.state.action === "publish"   ?
-            <React.Fragment>
-
-              {
-                this.state.flagErrorSteps===true?
-                <React.Fragment>
-                    <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                      {this.props.language.missingInformation}
-                    </DialogTitle>
-                    <DialogContent className="success-dialog-content">
-                      <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                      {this.props.language.completeStep1+`${this.state.numberofStep===1?this.props.language.information:
-                      this.state.numberofStep===2?this.props.language.audiences:
-                      this.state.numberofStep===4?this.props.language.plan:
-                      this.state.numberofStep===5?this.props.language.analysisstep:
-                      this.state.numberofStep===6?this.props.language.desingPhase:
-                      this.state.numberofStep===7?this.props.language.program:
-                      this.state.numberofStep===8?this.props.language.reportstep:''} ` +this.props.language.completeStep2}
-                      </DialogContentText>
-                      <InfoIcon  className="alert-dialog-icon"/>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={() => this.handleClose('alert')} color="primary" autoFocus>
-                      Completar curso
-                      </Button>
-                      
-                    </DialogActions>
-                </React.Fragment>
-                :
-                this.state.nopublish===true?
-                undefined
-                :
-                <React.Fragment>
-                  <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                    {this.state.action === "preview" ? this.props.language.coursePreview : this.props.language.publishCourse}
-                  </DialogTitle>
-                  <DialogContent className="success-dialog-content">
-                    <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                      {this.state.action === "preview" ? this.props.language.ifYouWantCP : this.props.language.ifYouWantPC}
-                    </DialogContentText>
-                    <InfoIcon className="warning-dialog-icon"/>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                    {this.props.language.cancel}
-                    </Button>
-                    {
-                      this.state.action === "preview" ?
-                        <Link className="button-link"
-                          target="_blank"
-                          onClick={() => this.confirmPreview()} 
-                          to={{
-                            pathname: "/coursePreview",
-                            hash: this.state.saved,
-                            state: { fromDashboard: true },
-                          }}
-                        >
-                          <Button color="primary" autoFocus>
-                            {this.props.language.saoPreview}
-                          </Button>
-                        </Link>
-                      :
-                        <Button onClick={() => this.publishCourse()} color="primary" autoFocus>
-                          {this.props.language.ok}
+              <React.Fragment>
+                {
+                  this.state.flagErrorSteps===true?
+                    <React.Fragment>
+                      <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                        {this.props.language.missingInformation}
+                      </DialogTitle>
+                      <DialogContent className="success-dialog-content">
+                        <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                          {this.props.language.completeStep1+`${
+                            this.state.numberofStep===1?this.props.language.information:
+                            this.state.numberofStep===2?this.props.language.audiences:
+                            this.state.numberofStep===4?this.props.language.plan:
+                            this.state.numberofStep===5?this.props.language.analysisstep:
+                            this.state.numberofStep===6?this.props.language.desingPhase:
+                            this.state.numberofStep===7?this.props.language.program:
+                            this.state.numberofStep===8?this.props.language.reportstep:''} ` +this.props.language.completeStep2}
+                        </DialogContentText>
+                        {
+                          this.state.completeStepAux && this.state.completeStepAux !== "" &&
+                          <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                            {this.state.completeStepAux}
+                          </DialogContentText>
+                        }
+                        <InfoIcon  className="alert-dialog-icon"/>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={() => this.handleClose('alert')} color="primary" autoFocus>
+                          {this.props.language.close}
                         </Button>
-                    }
-                  </DialogActions>
-                </React.Fragment>
-              
-              } 
-            </React.Fragment>
-              :
-             <React.Fragment> 
+                      </DialogActions>
+                    </React.Fragment>
+                  :
+                    this.state.nopublish===true?
+                      undefined
+                    :
+                      <React.Fragment>
+                        <DialogTitle className="success-dialog-title" id="alert-dialog-title">
+                          {this.state.action === "preview" ? this.props.language.coursePreview : this.props.language.publishCourse}
+                        </DialogTitle>
+                        <DialogContent className="success-dialog-content">
+                          <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+                            {this.state.action === "preview" ? this.props.language.ifYouWantCP : this.state.flagPublish===true? this.state.messagePublish:  this.props.language.ifYouWantPC}
+                          </DialogContentText>
+                          <InfoIcon className="warning-dialog-icon"/>
+                        </DialogContent>
+                        <DialogActions> 
+                          {
+                            this.state.action === "preview" ?
+                              <Link className="button-link"
+                                target="_blank"
+                                onClick={() => this.confirmPreview()} 
+                                to={{
+                                  pathname: "/coursePreview",
+                                  hash: this.state.saved,
+                                  state: { fromDashboard: true },
+                                }}
+                              >
+                                <Button color="primary" autoFocus>
+                                  {this.props.language.saoPreview}
+                                </Button>
+                              </Link>
+                            :
+                            this.state.flagPublish===true?
+                              <Button onClick={() => this.handleClose('flagPublish')} color="primary" autoFocus>
+                                {this.props.language.ok} 
+                              </Button>
+                              :
+                              <div>
+                                <Button onClick={() => this.handleClose('flagPublish')} color="primary" autoFocus>
+                                    {this.props.language.cancel} 
+                                </Button>
+                                <Button onClick={() => this.publishCourse('flagPublish')} color="primary" autoFocus>
+                                  {this.props.language.ok}
+                              </Button>
+                              </div>
+                          }
+                        </DialogActions>
+                      </React.Fragment>
+                } 
+              </React.Fragment>
+            :
+              <React.Fragment> 
                 {
                   (this.state.fileType==='pdf' || this.state.fileType===undefined )?
-                  <div className="form-preview-container">
-                    <PdfFormulario
-                      expandedNodes={this.props.expandedNodes}
-                      courseInformation={this.state.courseInformation}
-                      handleControlMessage={this.props.handleControlMessage.bind(this)}
-                      language={this.props.language}
-                      selected={this.state.selected}
-                      expandedNodes={this.state.expandedNodes}
-                      onClose={this.handleClose.bind(this)}
-                      initial='program'
-                      reset={this.state.reset}
-                    />
-                  </div>
-                  :
-                  <React.Fragment>
-                    <DialogTitle className="dialog-title">
-                      <AppBar className="dialog-app-bar" color="primary" position="static">
-                        <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
-                          <AppsIcon/>
-                          <h4 className="dialog-label-title">{this.state.fileType === "image" ? this.props.language.chooseOrUploadImage : this.props.language.chooseOrUploadSyllabus}</h4>
-                          <IconButton
-                            id="close-icon"
-                            edge="end"
-                            className="dialog-toolbar-icon"
-                            onClick={this.handleClose}
-                          >
-                            <CloseIcon/>
-                          </IconButton>
-                        </Toolbar>
-                      </AppBar>
-                    </DialogTitle>
-                <div className="file-form-dialog">
-                  {
-                    this.state.showLibrary ?
-                      <Library
-                        user={Meteor.userId()}
-                        type={this.state.fileType}
-                        getFileInformation={this.getFileInformation.bind(this)}
-                        hideLibrary={this.hideLibrary.bind(this)}
+                    <div className="form-preview-container">
+                      <PdfFormulario
+                        expandedNodes={this.props.expandedNodes}
+                        courseInformation={this.state.courseInformation}
+                        handleControlMessage={this.props.handleControlMessage.bind(this)}
                         language={this.props.language}
+                        selected={this.state.selected}
+                        expandedNodes={this.state.expandedNodes}
+                        onClose={this.handleClose.bind(this)}
+                        initial='program'
+                        reset={this.state.reset}
                       />
-                    :
-                      <div>
-                        <div className="library-button-container">
-                          <Fab onClick={() => this.showLibrary()}>
-                            <FolderSpecialIcon/>
-                          </Fab>
-                          <p className="media-fab-text">{this.props.language.library}</p>
-                        </div>
+                    </div>
+                  :
+                    <React.Fragment>
+                      <DialogTitle className="dialog-title">
+                        <AppBar className="dialog-app-bar" color="primary" position="static">
+                          <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
+                            <AppsIcon/>
+                            <h4 className="dialog-label-title">{this.state.fileType === "image" ? this.props.language.chooseOrUploadImage : this.props.language.chooseOrUploadSyllabus}</h4>
+                            <IconButton
+                              id="close-icon"
+                              edge="end"
+                              className="dialog-toolbar-icon"
+                              onClick={this.handleClose}
+                            >
+                              <CloseIcon/>
+                            </IconButton>
+                          </Toolbar>
+                        </AppBar>
+                      </DialogTitle>
+                      <div className="file-form-dialog">
                         {
-                          this.state.showPreview ?
-                            <div className="form-preview-container">
-                              {
-                                this.state.fileType === "image" ?
-                                <ImagePreview
-                                  file={this.state.image}
-                                  unPickFile={this.unPickFile.bind(this)}
-                                  language={this.props.language}
-                                  tipo={"Course"}
-                                /> 
-                                :
-                                <PdfPreview
-                                  file={this.state.sylabus}
-                                  unPickFile={this.unPickFile.bind(this)}
-                                  language={this.props.language}
-                                />
-                              }
-                              
-                            </div>
-                          :
-                          <div className="form-file-container">
-                            <FileUpload
-                              type={this.state.fileType}
+                          this.state.showLibrary ?
+                            <Library
                               user={Meteor.userId()}
-                              accept={this.state.accept}
-                              handleControlMessage={this.props.handleControlMessage.bind(this)}
+                              type={this.state.fileType}
                               getFileInformation={this.getFileInformation.bind(this)}
-                              label={this.state.fileType === 'image' ? this.props.language.uploadImageButtonLabel : this.props.language.uploadPdfButtonLabel }
+                              hideLibrary={this.hideLibrary.bind(this)}
                               language={this.props.language}
                             />
-                          </div>
+                          :
+                            <div>
+                              <div className="library-button-container">
+                                <Fab onClick={() => this.showLibrary()}>
+                                  <FolderSpecialIcon/>
+                                </Fab>
+                                <p className="media-fab-text">{this.props.language.library}</p>
+                              </div>
+                              {
+                                this.state.showPreview ?
+                                  <div className="form-preview-container">
+                                    {
+                                      this.state.fileType === "image" ?
+                                      <ImagePreview
+                                        file={this.state.image}
+                                        unPickFile={this.unPickFile.bind(this)}
+                                        language={this.props.language}
+                                        tipo={"Course"}
+                                      /> 
+                                      :
+                                      <PdfPreview
+                                        file={this.state.sylabus}
+                                        unPickFile={this.unPickFile.bind(this)}
+                                        language={this.props.language}
+                                      />
+                                    }
+                                    
+                                  </div>
+                                :
+                                <div className="form-file-container">
+                                  <FileUpload
+                                    type={this.state.fileType}
+                                    user={Meteor.userId()}
+                                    accept={this.state.accept}
+                                    handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                    getFileInformation={this.getFileInformation.bind(this)}
+                                    label={this.state.fileType === 'image' ? this.props.language.uploadImageButtonLabel : this.props.language.uploadPdfButtonLabel }
+                                    language={this.props.language}
+                                  />
+                                </div>
+                              }
+                            </div>
                         }
                       </div>
-                  }
-                  
-                </div>
-                <div className="form-editor-label">
-                  <AccessibilityHelp 
-                      id={'short-description-help-container'} 
-                      name={'shortDescriptionHelpContainer'} 
-                      error={!this.state.showPreview} 
-                      tip={this.state.fileType === 'image' ? (!this.state.showPreview ? this.props.language.uploadImage: this.props.language.uploadImageCorrect):(!this.state.showPreview ? this.props.language.uploadPdf: this.props.language.uploadPdfCorrect)}
-                      //step={props.step}
-                      //stepLabel={props.stepLabel}
-                      language={this.props.language}
-                  />
-                </div>
-                <div className="dialog-actions-container">
-                  <Tooltip title={this.props.language.done}>
-                    <Fab 
-                      onClick={() => this.selectFile(this.state.fileType)} 
-                      disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} 
-                      className="dialog-fab" 
-                      color="primary"
-                    >
-                      <AssignmentTurnedInIcon/>
-                    </Fab>
-                  </Tooltip>
-                </div>
-              </React.Fragment>
+                      <div className="form-editor-label">
+                        <AccessibilityHelp 
+                            id={'short-description-help-container'} 
+                            name={'shortDescriptionHelpContainer'} 
+                            error={!this.state.showPreview} 
+                            tip={this.state.fileType === 'image' ? (!this.state.showPreview ? this.props.language.uploadImage: this.props.language.uploadImageCorrect):(!this.state.showPreview ? this.props.language.uploadPdf: this.props.language.uploadPdfCorrect)}
+                            //step={props.step}
+                            //stepLabel={props.stepLabel}
+                            language={this.props.language}
+                        />
+                      </div>
+                      <div className="dialog-actions-container">
+                        <Tooltip title={this.props.language.done}>
+                          <Fab 
+                            onClick={() => this.selectFile(this.state.fileType)} 
+                            disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} 
+                            className="dialog-fab" 
+                            color="primary"
+                          >
+                            <AssignmentTurnedInIcon/>
+                          </Fab>
+                        </Tooltip>
+                      </div>
+                    </React.Fragment>
                 }
-          </React.Fragment>
-         
+            </React.Fragment>
           }
         </Dialog>
       </div>

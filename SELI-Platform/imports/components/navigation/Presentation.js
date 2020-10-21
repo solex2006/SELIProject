@@ -134,7 +134,7 @@ export default class Presentation extends React.Component {
                     {this.props.language.joinOurClassroom}
                   </h2>
                   {
-                    Meteor.userId() ?
+                    /* Meteor.userId() ?
                       <Paper elevation={15} className="dashboard-paper">
                         <InputBase
                           fullWidth
@@ -152,7 +152,7 @@ export default class Presentation extends React.Component {
                         <Divider orientation="vertical" />
                       </Paper>
                     :
-                      undefined
+                      undefined */
                   }
                 </div>
               </div>

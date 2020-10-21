@@ -8,20 +8,31 @@ export default class VideoPreview extends React.Component {
       autoplay: false,
       captions: '',
       loaded: false,
-      playing: false
+      playing: false,
     }
   }
 
-
   componentDidMount(){
-    if(this.props.dataField!=undefined){
-      if(this.props.dataField.fileTranscription && this.props.dataField.fileTranscription.length>0){
-        this.setState({
-          captions:this.props.dataField.fileTranscription[0].link
+    document.getElementById("video-preview-information").addEventListener('webkitfullscreenchange', this.onFullScreen)
+  }
+
+  loadingConfig = () => {
+    let configFile = {file: {
+      tracks: []
+    }};
+    if(this.props.dataField !== undefined){
+      if(this.props.dataField.fileTranscription && this.props.dataField.fileTranscription.length > 0){
+        configFile.file.tracks = [];
+        this.props.dataField.fileTranscription.map((track) => {
+          configFile.file.tracks.push(
+            {kind: 'subtitles', src: track.link}
+          )
         })
+        configFile.file.tracks[0].default = true;
       }
     }
-    document.getElementById("video-preview-information").addEventListener('webkitfullscreenchange', this.onFullScreen)
+    let key = configFile.file.tracks.length;
+    return {configFile, key};
   }
 
   onFullScreen = (e) => {
@@ -79,30 +90,25 @@ export default class VideoPreview extends React.Component {
   }
 
   render() {
+    const initConfiguration = this.loadingConfig();
     return(
-      <div>
+      <React.Fragment>
         <ReactPlayer
           ref="video"
           id="video-preview-information"
           className="course-creator-preview-player"
           controls
+          key={initConfiguration.key}
           playing={this.state.playing}
           url={this.props.file.link}
           onReady={this.ready}
           onPlay={this.play}
           onPause={this.pause}
           onSeek={this.seek}
-          config={{file: {
-            attributes: {
-              crossOrigin: 'true'
-            },
-            tracks: [
-              {kind: 'subtitles', src: this.state.captions ? this.state.captions : ""}
-            ]
-          }}}
+          config={initConfiguration.configFile}
         />
         {this.signVideo()}
-      </div>
+      </React.Fragment>
       );
     }
   }

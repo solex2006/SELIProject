@@ -1,24 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
-import Input from '@material-ui/core/Input';
-import VolumeUp from '@material-ui/icons/VolumeUp';
 import PhotoSizeSelectLargeSharpIcon from '@material-ui/icons/PhotoSizeSelectLargeSharp';
 
-const useStyles = makeStyles({
-  root: {
-    width: 190,
-  },
-  input: {
-    width: 42,
-  },
-});
-
 export default DiscreteSlider=(props)=> {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(props.size);
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
@@ -34,42 +19,35 @@ export default DiscreteSlider=(props)=> {
     
     if (value < 80) {
       setValue(80);
-    } else if (value >310 ) {
-      setValue(310);
+    } else if (value >360 ) {
+      setValue(360);
     }
   };
   return (
-    <div className={classes.root}>
-      <Grid container spacing={2} alignItems="center">
-        <Grid item>
-        <PhotoSizeSelectLargeSharpIcon/>
-        </Grid>
-        <Grid item xs>
-          <Slider
-            value={typeof value === 'number' ? value : 0}
-            onChange={handleSliderChange}
-            aria-labelledby="input-slider"
-            max={310}
-            min={80}
-          />
-        </Grid>
-        <Grid item>
-          <Input
-            className={classes.input}
-            value={value}
-            margin="dense"
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-            inputProps={{
-              step: 5,
-              min: 80,
-              max: 310,
-              type: 'number',
-              'aria-labelledby': 'input-slider',
-            }}
-          />
-        </Grid>
-      </Grid>
+    <div className="discrete-slider-container">
+      <PhotoSizeSelectLargeSharpIcon/>
+      <Slider
+        className="discrete-slider-import"
+        value={typeof value === 'number' ? value : 0}
+        onChange={handleSliderChange}
+        aria-labelledby="input-slider"
+        max={360}
+        min={80}
+      />
+      {/* <Input
+          className={classes.input}
+          value={value}
+          margin="dense"
+          onChange={handleInputChange}
+          onBlur={handleBlur}
+          inputProps={{
+            step: 5,
+            min: 80,
+            max: 360,
+            type: 'number',
+            'aria-labelledby': 'input-slider',
+          }}
+      /> */}
     </div>
   );
 }

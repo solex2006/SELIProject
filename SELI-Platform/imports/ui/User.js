@@ -51,12 +51,13 @@ import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
+import BadgeVerification from './BadgeVerification';
+import BadgeCollection from '../components/student/BadgeCollection';
 
 
 export default class User extends React.Component {
   
   constructor(props) {
-    console.log("User props:", props )
     super(props);
     this.state = {
       component: 'home',
@@ -160,7 +161,13 @@ export default class User extends React.Component {
   }
 
   showComponent = (component) => {
+
+    //console.log('showComponent---------------------------------------------------', component, this.state)
+   
+    
+
     if (!(component === "create" && this.state.component === "create")){
+      //console.log("paso 2")
       if (this.state.component === "create" && !this.state.savedCourse){
         if (component !== "create") {
           this.setState({
@@ -175,6 +182,36 @@ export default class User extends React.Component {
         });
       }
     }
+
+    if(this.state.component==='edit' && this.state.savedCourse===false ){
+     // console.log("paso3****************",component,this.state.component,this.state.savedCourse, this.state )
+      this.setState({
+        savedCourseWindow: true,
+        component: 'edit',
+        nextComponent: component
+      }); 
+    } 
+    if(component==='published' && this.state.savedCourse===false ){
+      console.log("paso 1")
+      this.state.savedCourse=true
+      this.state.component='published'
+      this.setState({
+        component: component,
+        savedCourse: true,
+      });
+    }
+
+    /* if(this.state.component==='edit' && this.state.savedCourse===true ){
+      console.log("createsave****************",component,this.state.component,this.state.savedCourse, this.state )
+      this.setState({
+        component: component,
+        savedCourse: false,
+      }); 
+    }
+ */
+
+
+      
   }
 
   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
@@ -459,6 +496,7 @@ export default class User extends React.Component {
   };
 
   handleCloseSave = () => {
+    console.log("222222222222222222222",this.state)
     this.setState({ 
       savedCourseWindow: false,
       savedCourse: false,
@@ -527,31 +565,37 @@ export default class User extends React.Component {
     });
   }
 
-  handleNext = (structure, taskLength, unitTopicLength, lessonLength) => {
+  handleNext = (template, structure, taskLength, unitTopicLength, lessonLength) => {
     let selected = this.state.selected;
     if (selected[3] === 0) {
-      if (structure === 'unit') {selected[3] = 1}
-      else {selected[3] = 2}
+      if (structure === 'unit' && lessonLength > 0) {selected[3] = 1}
+      else {
+        if (template !== 'without' && taskLength > 0) selected[3] = 2
+        else if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
+      }
     } else if (selected[3] === 1) {
       if (selected[1] < lessonLength - 1) {selected[1] = selected[1] + 1}
       else {
-        if (selected[0] < unitTopicLength -1) selected = [selected[0] + 1, 0, 0, 0]
+        if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
       }
     } else if (selected[3] === 2) {
       if (selected[2] < taskLength - 1) {selected[2] = selected[2] + 1}
       else {
-        if (selected[0] < unitTopicLength -1) selected = [selected[0] + 1, 0, 0, 0]
+        if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
       }
     } 
     this.navigateTo(selected)
   }
 
-  handlePrevious = (structure, previousTaskLength, unitTopicLength, previousLessonLength) => {
+  handlePrevious = (template, structure, previousTaskLength, unitTopicLength, previousLessonLength) => {
     let selected = this.state.selected;
     if (selected[3] === 0) {
       if (selected[0] > 0) {
-        if (structure === 'unit') {selected = [selected[0] - 1, selected[1] = previousLessonLength - 1, 0, 1]}
-        else {selected = [selected[0] - 1, 0, selected[2] = previousTaskLength - 1, 2]}
+        if (structure === 'unit' && previousLessonLength > 0) {selected = [selected[0] - 1, selected[1] = previousLessonLength - 1, 0, 1]}
+        else {
+          if (template !== 'without' && previousTaskLength > 0) selected = [selected[0] - 1, 0, selected[2] = previousTaskLength - 1, 2]
+          else if (unitTopicLength > 0) selected = [selected[0] - 1, 0, 0, 0]
+        }
       }
     } else if (selected[3] === 1) {
       if (selected[1] > 0) {selected[1] = selected[1] - 1}
@@ -565,6 +609,23 @@ export default class User extends React.Component {
       }
     }
     this.navigateTo(selected)
+  }
+  disableDialog=()=>{
+    console.log("desabilita el dialogo**************************")
+    /* this.state.savedCourseWindow=false
+    this.state.chekingSesion=false
+    this.state.openDialog=false */
+    this.refs.CreateCourse.saveCourse();
+     this.setState({ 
+     savedCourseWindow: false,
+     // chekingSesion: false,
+      //openDialog: false, 
+    }); 
+
+    this.showComponent('published')
+ 
+
+    
   }
 
   render() {
@@ -654,6 +715,7 @@ export default class User extends React.Component {
                     {
                       this.state.component === 'create' || this.state.component === 'edit' ?
                         <CreateCourse
+                        disableDialog={this.disableDialog.bind(this)}
                           ref="CreateCourse"
                           savedCourseState={this.savedCourseState.bind(this)}
                           language={this.state.language}
@@ -766,6 +828,26 @@ export default class User extends React.Component {
                           handleControlMessage={this.handleControlMessage.bind(this)}
                           handleClickCourse={this.handleClickCourse.bind(this)}
                           showComponent={this.showComponent.bind(this)}
+                        />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'badgeVerification' ?
+                      <BadgeVerification
+                          language={this.state.language}
+                          user={this.state.user}
+                          history={this.props.history}
+                      />
+                      :
+                      undefined
+                    }
+                    {
+                      this.state.component === 'badgeCollection' ?
+                        <BadgeCollection
+                          language={this.state.language}
+                          user={this.state.user}
+                          history={this.props.history}  
                         />
                       :
                       undefined

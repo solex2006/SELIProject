@@ -50,7 +50,7 @@ export default class AppBar extends React.Component {
     return Session.get("verifyPass");
   }
 
-  handleClickOpen = (action) => {
+  handleClickOpen = (action, course) => {
     let dialogTitle = "";
     let color = "";
     if(action === "in"){
@@ -67,6 +67,7 @@ export default class AppBar extends React.Component {
       dialogTitle: dialogTitle,
       color: color,
       action: action,
+      course: course
     }, () => {
       this.setState({ open: true });
     });
@@ -136,6 +137,13 @@ export default class AppBar extends React.Component {
     this.props.searchValue(search,this.state.searchText )
   }
 
+  onkeyup=(e)=>{
+    console.log("el evento",e.keyCode  )
+    if(e.keyCode===13){
+      this.handleSearchButton()
+    }
+  }
+
   appbar=()=>{
     return(
       <div>
@@ -155,8 +163,8 @@ export default class AppBar extends React.Component {
             {
               this.props.user !== undefined ?
                 <div >
-                  <Button tabIndex="1" onClick={() => this.toggleSearchBar()} className="no-text-button">
-                    <SearchIcon tabIndex="1"  className="app-bar-search-icon"/>
+                  <Button onClick={() => this.toggleSearchBar()} className="no-text-button">
+                    <SearchIcon className="app-bar-search-icon"/>
                   </Button>
                 </div>
               :
@@ -165,7 +173,7 @@ export default class AppBar extends React.Component {
             {
               this.props.fromAnotherSource ? undefined :
                 this.props.user === undefined ?
-                  <div tabIndex="1">
+                  <div>
                     <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
                       {this.props.language.signIn}
                     </Button>
@@ -198,6 +206,7 @@ export default class AppBar extends React.Component {
                 inputProps={{'aria-label': this.props.language.learnAbout}}
                 autoFocus={true}
                 onChange={this.handleSearchText}
+                onKeyUp={this.onkeyup}
               />
             </Paper>
             <Button className="app-bar-search-button" onClick={this.handleSearchButton}>{this.props.language.searchCourses}</Button>
@@ -225,6 +234,7 @@ export default class AppBar extends React.Component {
                   <SignInForm
                     language={this.props.language}
                     history={this.props.history}
+                    course={this.state.course}
                   />
                 :
                 undefined
@@ -235,6 +245,7 @@ export default class AppBar extends React.Component {
                     handleClose={this.handleClose.bind(this)}
                     history={this.props.history}
                     language={this.props.language}
+                    course={this.state.course}
                   />
                 :
                 undefined
@@ -248,7 +259,7 @@ export default class AppBar extends React.Component {
                 <DialogContentText>
                   {this.props.language.dontHaveAccount}
                 </DialogContentText>
-                <Button onClick={() => this.handleClickOpen("up")} color="secondary" variant="outlined">
+                <Button onClick={() => this.handleClickOpen("up", this.state.course ? this.state.course : undefined)} color="secondary" variant="outlined">
                   {this.props.language.signUp}
                 </Button>
               </DialogActions>
@@ -261,7 +272,7 @@ export default class AppBar extends React.Component {
                 <DialogContentText>
                   {this.props.language.alreadyHaveAccount}
                 </DialogContentText>
-                <Button onClick={() => this.handleClickOpen("in")} color="primary" variant="outlined">
+                <Button onClick={() => this.handleClickOpen("in", this.state.course ? this.state.course : undefined)} color="primary" variant="outlined">
                   {this.props.language.signIn}
                 </Button>
               </DialogActions>

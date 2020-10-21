@@ -23,7 +23,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Slide from '@material-ui/core/Slide';
 import {Activities} from '../../../../lib/ActivitiesCollection';
-
+import { BadgeNotification } from '../../../components/student/BadgeNotification';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -36,6 +36,7 @@ export default class QuizItem extends React.Component {
       expanded: 'quiz-panel',
       resolved: false,
       time:'',
+      winBadge: false,
     }
   }
 
@@ -64,7 +65,7 @@ export default class QuizItem extends React.Component {
 
   checkResolved = () => {
     this.props.toResolve.map(activity => {
-      (activity._id === this.props.item.id && activity.resolved) ? this.setState({resolved: true}) : undefined
+      (activity._id === this.props.item.id && activity.resolved) ? this.setState({resolved: true,winBadge: true}) : undefined
     })
   }
 
@@ -86,6 +87,15 @@ export default class QuizItem extends React.Component {
     this.setState({
       showConfirmation: true,
       open: true,
+    });
+  }
+
+  getUserBadge(badgeInformation) {
+    this.setState({badgeInformation:badgeInformation},()=>{
+      console.log(this.state.badgeInformation);
+      console.log(this.state.winBadge)
+
+
     });
   }
 
@@ -175,18 +185,20 @@ export default class QuizItem extends React.Component {
                   <h3 className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">{this.props.item.attributes.title}</h3>
                 </div>
               </ExpansionPanelSummary>
+
+
               <ExpansionPanelDetails className="item-quiz-detail">
                 <div className="item-quiz-detail-container">
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit + " minutes"}
+                  <Typography tabindex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                    {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit }
                   </Typography>
                   {/* <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.creditResources + ": " + this.props.item.attributes.creditResources}
                   </Typography> */}
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                  <Typography tabindex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.numberQuestions + ": " + this.props.item.attributes.questions.length}
                   </Typography>
-                  <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                  <Typography tabindex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.item.attributes.awardPoints ? this.props.language.awardPoints : this.props.language.noAwardPoints}
                   </Typography>
                   <div className="quiz-item-tick-container">
@@ -194,6 +206,7 @@ export default class QuizItem extends React.Component {
                   </div>
                 </div>
               </ExpansionPanelDetails>
+
               <Divider />
               {
                 !this.props.fromProgram &&
@@ -238,7 +251,7 @@ export default class QuizItem extends React.Component {
         >
           <AppBar position="static" className="course-dialog-app-bar">
             <Toolbar style={{position: 'relative'}}>
-              <IconButton disabled={this.state.doingQuiz} edge="start" color="inherit" onClick={this.handleClose} aria-label="close">
+              <IconButton disabled={this.state.doingQuiz} edge="start" color="inherit" onClick={this.handleClose} >
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h1">
@@ -252,7 +265,7 @@ export default class QuizItem extends React.Component {
                 <div className="full-screen-dialog-mid-container">
                   <div className="center-row">
                     <AnnouncementIcon className="quiz-dialog-icon-big"/>
-                    <DialogContentText className="quiz-dialog-content-text" id="alert-dialog-description">
+                    <DialogContentText tabindex="0" className="quiz-dialog-content-text" id="alert-dialog-description">
                       {this.props.language.sureStartQuiz} 
                     </DialogContentText>
                   </div>
@@ -274,6 +287,7 @@ export default class QuizItem extends React.Component {
                   handleClose={this.handleClose.bind(this)}
                   time={this.state.time}
                   language={this.props.language}
+                  badgeInformation={this.getUserBadge.bind(this)}
                 />
               :
               undefined
@@ -328,6 +342,18 @@ export default class QuizItem extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <div>
+          {
+          
+          this.state.winBadge  &&this.state.badgeInformation && 
+            <BadgeNotification
+              modalOpen = {true} 
+              badgeInformation={this.state.badgeInformation}
+              language={this.props.language}
+            />
+
+          }
+        </div>
       </div>
       );
     }

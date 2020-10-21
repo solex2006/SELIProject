@@ -108,6 +108,16 @@ export default class CoursePreview extends React.Component {
     });
   }
 
+  goToLogIn = (action) => {
+    let courseInfo = {};
+    courseInfo.courseId = this.state.course._id;
+    this.props.history.push({
+      pathname: "/", 
+      course: courseInfo,
+      action: action
+    });
+  }
+
   navigateTo(level, to) {
     this.setState({
       selected: to,
@@ -197,10 +207,10 @@ export default class CoursePreview extends React.Component {
                   <main id="page-wrap">
                     <React.Fragment>
                       {
-                        this.state.course === undefined || this.state.progress === undefined?
+                        this.state.course === undefined?
                           undefined
                         :
-                          <div>
+                          <React.Fragment>
                             <AppBar
                               history={this.props.history}
                               language={this.state.language}
@@ -212,11 +222,12 @@ export default class CoursePreview extends React.Component {
                               course={this.state.course}
                               progress={this.state.progress}
                               goToUser={this.goToUser.bind(this)}
+                              goToLogIn={this.goToLogIn.bind(this)}
                               navigateTo={this.navigateTo.bind(this)}
                               selected={this.state.selected}
                               language={this.state.language}
                             />
-                          </div>
+                          </React.Fragment>
                       }
                     </React.Fragment>
                   </main>

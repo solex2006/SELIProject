@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 import {
   Route,
   Router,
-  Switch,
-  BrowserRouter
+  Switch
 } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Tracker } from 'meteor/tracker';
@@ -22,15 +21,15 @@ import MediaPlayer from '../imports/components/student/MediaPlayer';
 import CoursesDashboard from '../imports/ui/CoursesDashboard';
 import TutorRequestList from '../imports/components/administrator/TutorRequestList';
 import CertificateValidation from '../imports/ui/CertificateValidation';
+import BadgeVerification from '../imports/ui/BadgeVerification';
 import {Helmet} from "react-helmet";
 import StoriesDashboard from '../imports/components/student/StoriesDashboard';
+import Badge from '../imports/components/badge/Badge';
 
 const history = createBrowserHistory();
-window.browserHistory = history;
-Tracker.autorun(() => {
-
+  window.browserHistory = history;
+  Tracker.autorun(() => {
 });
-
 
 Meteor.startup(() => {
   ReactDOM.render(
@@ -58,6 +57,9 @@ Meteor.startup(() => {
         <Route exact path="/StoriesDashboard" component={StoriesDashboard} history={history}/>
         <Route exact path="/tutorRequests" component={TutorRequestList} history={history}/>
         <Route exact path="/certificatesValidation" component={CertificateValidation} history={history}/>
+        <Route exact path="/badges/verification" component={BadgeVerification} history={history}/>
+        <Route exact path="/badges/:id" component={Badge} history={history}/>
+
       </Switch>
     </Router>, document.getElementById('render-target')
   );

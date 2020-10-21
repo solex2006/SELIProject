@@ -18,6 +18,13 @@
   background-color: rgba(255, 255, 255, 0);
 }
 
+.course-item-video-card-media-action-area-template {
+  display: flex !important;
+  align-items: center;
+  padding: 0.5vh 0;
+  background-color: rgba(255, 255, 255, 0);
+}
+
 .course-item-video-card-media {
   width: 50% !important;
 }
@@ -109,15 +116,12 @@
   color: #616161 !important;
   display: flex;
   align-items: center;
+  text-overflow: ellipsis !important;
 }
 
 .course-item-card-subtitle {
   letter-spacing: 1px !important;
   margin-left: 0.5vw !important;
-}
-
-.course-item-card-title {
-  text-overflow: ellipsis !important;
 }
 
 .course-item-audio-card-content {
@@ -157,14 +161,29 @@ display: flex;
   text-justify: inter-word;
 }
 
+.audio-transcription{
+  margin-left: 20px;
+}
+
+.show-hide-transciption {
+  margin-top: 5px;
+  animation: fadeInDown 0.5s;
+}
+
 /* Media Queries: Tablet Landscape */
 @media screen and (max-width: 1080px) {
-  
   .course-item-audio-card {
     width: 100% !important;
   }
-
   .course-item-video-card-media-action-area {
+    display: inline !important;
+  }
+  .course-item-comment-card-media-fab {
+    margin: 1px !important;
+  }
+} 
+@media screen and (max-width: 1600px) {
+  .course-item-video-card-media-action-area-template {
     display: inline !important;
   }
 } 

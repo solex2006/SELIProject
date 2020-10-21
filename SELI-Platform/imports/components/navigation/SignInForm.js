@@ -1,5 +1,4 @@
 import React from 'react';
-import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
@@ -62,14 +61,29 @@ export default class SignInForm extends React.Component {
           user: Meteor.user(),
         }, () => {
           if (this.state.user.profile.type === 'tutor' || this.state.user.profile.type === 'student') {
-            this.props.history.push("/user");
+            if (this.props.course) {
+              this.props.history.push({
+                pathname: "/coursePreview",
+                hash: this.props.course.courseId,
+              });
+            } else {
+              this.props.history.push("/user");
+            }
           }
           else if (this.state.user.profile.type === 'administrator') {
             this.props.history.push("/administrator");
           }
         })
+        this.addBadgeValueToOldUsers(this.state.userInformation);
       }
     })
+  }
+  addBadgeValueToOldUsers= (user) => {
+    const currentUser = Meteor.users.findOne({username:user.username});
+    //console.log(currentUser);
+    if(!currentUser.profile.badge){
+      Meteor.users.update({"_id" :currentUser._id },{$set : {"profile.badge":[]}})
+    }
   }
 
   keyController = (event) => {

@@ -18,7 +18,8 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import DialogFullWidth from './shared/dialog_fullwidth'
-//import CoursesDashboard from '../../../imports/ui/CoursesDashboard'
+
+
 import MediaCard from './shared/PublishedCourses'
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -68,15 +69,15 @@ function InstructorProfileCard(user) {
 				<InstructorProfile />
 			</CardContent>
 			<CardActions>
-				<Button variant="contained" >Published courses</Button>
+				<Button variant="contained" >{language.publishedCourses}</Button>
 			</CardActions>
 		</Card>
 	);
 }
 
-function InstructorProfileDialog({ handleClose, open, user }) {
+function InstructorProfileDialog({ handleClose, open, user, language, goToUser }) {
 	const classes = useStyles();
-	
+	console.log("*************bug***********",language)
 	const [opendialog, setOpendialog] = useState(false);
 	
  	const handleClosedialog = value => {
@@ -95,13 +96,14 @@ function InstructorProfileDialog({ handleClose, open, user }) {
 		>
 			<DialogContent>
 				<InstructorProfile 
+				language={language}
 				user={user}
 				/>
 			</DialogContent>
 
 			<DialogActions>
-				<Button color="primary" onClick={handleClose}>Close</Button>
-				<Button variant="outlined" color="primary" onClick={() => setOpendialog(true)}>Published courses</Button>
+				<Button color="primary" onClick={handleClose}>{language.close}</Button>
+	<Button variant="outlined" color="primary" onClick={() => setOpendialog(true)}>{language.publishedCourses}</Button>
 			</DialogActions>
 			<DialogFullWidth
 					open={opendialog}
@@ -109,9 +111,13 @@ function InstructorProfileDialog({ handleClose, open, user }) {
 					title="Courses"
 					key="courses"
 			>
-				<MediaCard
-				user={user}
-				/>
+
+
+				 <MediaCard
+				 goToUser={goToUser}
+				 language={language}
+				 user={user}
+				/> 
 			</DialogFullWidth>
 		</Dialog>
 	);
@@ -123,7 +129,9 @@ function InstructorProfileAvatar({
 	className,
 	disabledDialog,
 	coursedata,
-	tutordata
+	tutordata,
+	language,
+	goToUser
 }) {
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
@@ -132,7 +140,7 @@ function InstructorProfileAvatar({
 		setOpen(false);
 	};
 
-	//console.log("InstructorProfileAvatarcoursedata---------------------",tutordata)
+	console.log("paso 5 InstructorProfileAvatarcoursedata---------------------",language)
 	return (
 		<React.Fragment>
 			{disabledDialog ? (
@@ -156,17 +164,18 @@ function InstructorProfileAvatar({
 					startIcon={<Avatar />}
 					className={className}
 					onClick={() => setOpen(true)}
+					aria-describedby='teacherProfile'
 				>
 					{name}
 				</Button>
 			)}
-			<InstructorProfileDialog open={open} handleClose={handleClose} user={tutordata} />
+			<InstructorProfileDialog goToUser={goToUser} open={open} handleClose={handleClose} user={tutordata} language={language}/>
 		</React.Fragment>
 	);
 }
 
-export default function InstructorProfile({ user }) {
-	console.log('user-------------------->',user)
+export default function InstructorProfile({ user, language }) {
+	//console.log('user-------------------->',user)
 	const classes = useStyles();
 	return (
 		<React.Fragment>
@@ -191,11 +200,11 @@ export default function InstructorProfile({ user }) {
 						className={classes.info}
 					>
 						<Grid item>
-							<p className={classes.name}>{user[0].username}</p>
+							<p className={classes.name}>{user[0].profile.fullname}</p>
 						</Grid>
 						<Grid item>
 							<p className={classes.prof} color="textSecondary">
-								Professional title
+								{language.ProfessionalTitle}
 							</p>
 						</Grid>
 						<Grid item>

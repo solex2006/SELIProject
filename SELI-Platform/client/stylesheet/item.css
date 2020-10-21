@@ -67,6 +67,7 @@
   width: 100% !important;
   height: auto;
   position: relative;
+  overflow: hidden;
 }
 
 .content-boxstudent {
@@ -78,10 +79,6 @@
 
 .menu-item-list {
   width: 250px !important;
-}
-
-.list-subheader {
-  text-align: center !important;
 }
 
 .item-drag-handle {
@@ -129,6 +126,23 @@
 
 /* Image */
 
+.discrete-slider-container {
+  background-color: #eeeeee;
+  padding: 0 15px;
+  border-radius: 15px;
+  width: calc(100% - 120px);
+  margin-top: 10px;
+  margin-left: 10px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.discrete-slider-import {
+  margin-left: 12px;
+}
+
 .image-content-item {
   width: 100% !important;
   height: auto;
@@ -136,20 +150,27 @@
   justify-content: center;
 }
 
-.image-item-container-child {
-  margin-right: 1vw;
-  margin-top: 8px;
-  margin-bottom: 20px;
-  width: 360px;
-  height: 270px;
+.image-item-container {
+  width: calc(100% - 30px);
+  padding: 10px 15px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   cursor: pointer;
 }
 
-.image-item-container {
-  width: 95%;
-  padding-top: 1.5vh;
+.image-item-container-template {
+  width: calc(100% - 30px);
+  padding: 10px 15px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  cursor: pointer;
+}
+
+.file-image-preview-image {
+  padding-right: 10px;
+  max-height: 100%;
 }
 
 .image-item {
@@ -453,10 +474,12 @@
 }
 
 .item-quiz-panel {
+  width: 100%;
   background-color: transparent !important;
 }
 
 .activity-parent-panel {
+  width: 100%;
   background-color: transparent !important;
 }
 
@@ -483,9 +506,8 @@
 
 .item-quiz-detail-container {
   position: relative;
-  width: 88%;
-  left: 5vw;
-  padding: 2.5vh 0;
+  width: calc(100% - 2vw);
+  padding: 2.5vh 1vw;
 }
 
 .item-quiz-detail {
@@ -532,8 +554,8 @@
 }
 
 .activity-item-container-instruction {
-  width: 100%;
-  padding: 1.5vh 2.5%;
+  width: calc(100% - 5%);
+  margin: 1.5vh 2.5%;
   color: #616161;
 }
 
@@ -641,5 +663,10 @@ summary:hover {
     max-width: 350px !important;
     height: 200px !important;
     padding: 0.5vh 0 !important;
+  }
+} 
+@media screen and (max-width: 1600px) {
+  .image-item-container-template {
+    display: inline;
   }
 } 

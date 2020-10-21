@@ -33,7 +33,7 @@ export function VideoTextAltA11Y(props){
 	} = props.data;
 
 	function getFileInformation() {
-		console.log('yes');
+		//console.log('yes');
 	}
 
 	return(
@@ -53,7 +53,7 @@ export function VideoTextAltA11Y(props){
 						//ariaDescribedBy
 						//editorData
 						placeholder={props.language.shortDescription_a11y_placeholder}
-						required={true}
+						//required={true}
 						tip={shortDescriptionTip}
 						language={props.language}
 					/>
@@ -66,7 +66,7 @@ export function VideoTextAltA11Y(props){
 						name="longDescription"
 						label={props.language.longDescription_a11y_label_audio}
 						placeholder={props.language.longDescription_a11y_label_video}
-						required={true}
+						//required={true}
 						tip={
 							<React.Fragment>
 								{longDescriptionTip}
@@ -108,28 +108,36 @@ export function VideoMediaCaptionsAltA11Y(props){
 		captionsTip,
 		captionValidator,
 		handleRadioButtonOnChangeValidator,
+		handleInputOnFile,
 	} = props.data;
 	//console.log("datos de video--",captionsTip, dataField)
 	const [showPreviewSignal, setshowPreviewSignal] = useState(false);
 	const [newCaption, setnewCaption] = useState(false);
 	
 	const getFileInformationCaption=(file)=>{		
-	    handleRadioButtonOnChangeValidator('captionsEmbedded','no')
+		handleRadioButtonOnChangeValidator('captionsEmbedded','no')
 		dataField.fileTranscription[0]=file
 		setshowPreviewSignal(true)
 		setnewCaption(false)
 	}
 	
 	const  noCaption=()=>{
-		dataField.fileTranscription[0]=undefined
+		dataField.fileTranscription=[]
 		setshowPreviewSignal(false)
 		return undefined
 	}
 	
 	const unPickFileSignal=()=>{
-		dataField.fileTranscription[0]=undefined
+		dataField.fileTranscription=[]
 		setnewCaption(true)
 	}
+	useEffect(()=>{
+		if(dataField.fileTranscription.length === 0){
+			//dataField.captionsEmbeddedError=true
+			handleInputOnFile('captions')
+		}
+
+	},[dataField.fileTranscription.length])
 
 	return(
 		<section id='video-captions'>
@@ -171,11 +179,13 @@ export function VideoMediaCaptionsAltA11Y(props){
 						{dataField.fileTranscription[0]===undefined?
 						<div className="uploadsignals">
 							<FileUpload
-							type="vtt"
-							user={Meteor.userId()}
-							accept={'.vtt'}
-							label={props.language.Captions}
-							getFileInformation={getFileInformationCaption}
+								type="caption"
+								user={Meteor.userId()}
+								accept={'.vtt'}
+								label={props.language.Captions}
+								getFileInformation={getFileInformationCaption}
+								handleControlMessage={props.handleControlMessage.bind(this)}
+								language={props.language}
 							/>
 						</div>
 						:
@@ -200,6 +210,7 @@ export function VideoMediaCaptionsAltA11Y(props){
 export function VideoMediaAudioDescriptioA11Y(props){
 	const {
 		handleRadioButtonOnChange,
+		handleInputOnFile,
 		dataField,
 		disabled_necAudioDesc,
 		disabled_uploadAudioDesc,
@@ -213,10 +224,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 
 	const handleRadioButtonOnChange1 =handleRadioButtonOnChange
 
-	//console.log("dataField",dataField)
-	//console.log("audioDescriptionRequiredTip",audioDescriptionRequiredTip)
-	//console.log("disabled_uploadAudioDesc",disabled_uploadAudioDesc)
-	//console.log("disabled_necAudioDesc",disabled_necAudioDesc)
+
 
 	const getFileInformationAudioDescription=(file)=>{
 		handleRadioButtonOnChangeValidator('audioDescription','no')
@@ -234,6 +242,14 @@ export function VideoMediaAudioDescriptioA11Y(props){
 		setshowPreviewSignal(false)
 		return undefined
 	}
+
+	useEffect(()=>{
+		if(dataField.fileAudioDescription[0]===undefined){
+			//console.log("se borro el archivo..... de audiodescription")
+			//dataField.audioDescriptionError=true
+			handleInputOnFile('audioDescription')
+		}
+	},[dataField.fileAudioDescription[0]])
 
 	return(
 		<section id='video-audio-description'>
@@ -310,6 +326,8 @@ export function VideoMediaAudioDescriptioA11Y(props){
 								user={Meteor.userId()}
 								label={props.language.uploadAudioButtonLabel}//label={this.props.language.uploadAudioButtonLabel}
 								getFileInformation={getFileInformationAudioDescription}
+								handleControlMessage={props.handleControlMessage}
+								language={props.language}
 								/>
 						</div>
 						:
@@ -332,6 +350,7 @@ export function VideoMediaAudioDescriptioA11Y(props){
 export function VideoMediaSignLanguageA11Y(props){
 	const {
 		handleRadioButtonOnChange,
+		handleInputOnFile,
 		dataField,
 		signLanguageTip,
 		handleRadioButtonOnChangeValidator,
@@ -362,6 +381,13 @@ export function VideoMediaSignLanguageA11Y(props){
 		dataField.fileVideoSignal[0]=undefined
 		setnewVideoSignal(true)
 	}
+	useEffect(()=>{
+		if(dataField.fileVideoSignal[0]===undefined){
+			//console.log("se borro el archivo..... de signlanguage")
+			//dataField.audioDescriptionError=true
+			handleInputOnFile('signLanguage')
+		}
+	},[dataField.fileVideoSignal[0]])
 
 	return(
 		<section id='video-sign-language'>
@@ -403,11 +429,13 @@ export function VideoMediaSignLanguageA11Y(props){
 						{dataField.fileVideoSignal[0]===undefined?
 						<div className="uploadsignals">
 							<FileUpload
-							type="video"
-							user={Meteor.userId()}
-							accept={'video/*'}
-							label={props.language.byUploadVideo}
-							getFileInformation={getFileInformationsignal}
+								type="video"
+								user={Meteor.userId()}
+								accept={'video/*'}
+								label={props.language.byUploadVideo}
+								getFileInformation={getFileInformationsignal}
+								handleControlMessage={props.handleControlMessage}
+								language={props.language}
 							/>
 						</div>
 						:
@@ -486,6 +514,7 @@ export default function VideoA11Y(props){
 		handleInputOnChange,
 		handleRadioButtonOnChange,
 		handleLongDescriptionPosition,
+		handleInputOnFile,
 		dataField,
 		shortDescriptionTip,
 		longDescriptionTip,
@@ -498,6 +527,7 @@ export default function VideoA11Y(props){
 		disabled_uploadAudioDesc,
 		isA11Y,
 	} = useDataField();
+	//console.log("actualiza lprogress",isA11Y)
 
 
 	/*
@@ -571,6 +601,7 @@ export default function VideoA11Y(props){
 				</header>
 				<VideoMediaAltA11Y data={{
 					handleRadioButtonOnChange,
+					handleInputOnFile,
 					dataField,
 					disabled_necAudioDesc,
 					disabled_uploadAudioDesc,
@@ -587,6 +618,7 @@ export default function VideoA11Y(props){
 				</header>
 				<VideoOthersA11Y data={{
 					handleRadioButtonOnChange,
+					handleInputOnFile,
 					dataField,
 					seizuresTip
 				}}/>
@@ -596,7 +628,7 @@ export default function VideoA11Y(props){
 }
 
 export const useDataField = (props) => {
-	console.log("props de ingreso en video", props)
+	//console.log("props de ingreso en video", props)
 	const [dataField, setDataField] = React.useState({
 		signLanguage: null,
 		seizures: null,
@@ -643,7 +675,7 @@ export const useDataField = (props) => {
 	];
 
 	useEffect(() => {
-		console.log("Video",props.item.dataField, props.item.isA11Y)
+		//console.log("Video",props.item.dataField, props.item.isA11Y)
 		if (props.item.dataField && props.item.isA11Y) {
 			setDataField(props.item.dataField);
 			setIsA11Y(props.item.isA11Y);
@@ -665,16 +697,11 @@ export const useDataField = (props) => {
 	}, [dataField]);
 
 	function captionValidator(validator){
-		console.log("----------->",validator, )
-		
-
-		console.log(props)
-
 		//setCaptionValidator(validator)
 	}
 
 	function handleInputOnChange ({ target: { name, value } }){
-		console.log(" handleInputOnChange", name, value )
+		//console.log(" handleInputOnChange", name, value )
 		let errField = name + 'Error';
 		let errValue = false;
 
@@ -695,10 +722,47 @@ export const useDataField = (props) => {
 			[errField]: errValue,
 		}));
 
-		console.log("dataFieldVideo",dataField)
+		//console.log("dataFieldVideo",dataField)
 		let arr = [...isA11Y];
 		arr.find(a => a.name == name).is_a11y = !errValue;
 		setIsA11Y(arr)
+		
+	}
+
+	function handleInputOnFile (type){
+		//console.log("change file....",dataField, isA11Y,type)
+		if(type==='captions'){
+			isA11Y[3].is_a11y=false
+			setIsA11Y(isA11Y)
+			setDataField(dataField => ({...dataField,
+				captionsEmbeddedError:true
+			}));
+
+		}
+		if(type==='audioDescription'){
+			isA11Y[4].is_a11y=false
+			setIsA11Y(isA11Y)
+			setDataField(dataField => ({...dataField,
+				audioDescriptionError:true
+			}));
+
+		}
+		if(type==='signLanguage'){
+			isA11Y[5].is_a11y=false
+			setIsA11Y(isA11Y)
+			setDataField(dataField => ({...dataField,
+				signLanguageError:true
+			}));
+
+		}
+		
+		
+		//dataField.audioDescriptionError=true
+
+		//setDataField(dataField);
+		/* setDataField(dataField => ({...dataField,
+			audioDescriptionError:false
+		})); */
 		
 	}
 	
@@ -706,10 +770,21 @@ export const useDataField = (props) => {
 		let data = {
 			[name]: value,
 		};
-		console.log("en la funcion handleRadioButtonOnChange", "name" ,name, "value",value)
+		//console.log("en la funcion handleRadioButtonOnChange", "name" ,name, "value",value,"datafile->",dataField)
 		if(name === 'audioDescription')
 		{
-			let errValue = value === 'yes' ? false : ((dataField.audioDescriptionRequired === 'yes') && !dataField.hasAudioDescriptionFile);
+			let errValue='';
+			if(value === 'yes'){
+				 errValue = value === 'yes' ? false : ((dataField.audioDescriptionRequired === 'yes') && !dataField.hasAudioDescriptionFile);
+			}
+			if(value === 'no'){
+				
+				
+				errValue = value === 'no' ? true : ((dataField.audioDescriptionRequired === 'no') && !dataField.hasAudioDescriptionFile);
+				if((dataField.audioDescription === 'yes') && dataField.fileAudioDescription.length!=0){
+					errValue=false
+				}
+			}
 
 			data = {...data,
 				audioDescriptionRequired: value === 'yes' ? value : dataField.audioDescriptionRequired,
@@ -722,7 +797,34 @@ export const useDataField = (props) => {
 		}
 		else if (name === 'audioDescriptionRequired')
 		{
-			let errValue = dataField.audioDescription === 'yes' ? false : ((value === 'yes') && !dataField.hasAudioDescriptionFile);
+			//fileAudioDescription
+		//	let errValue = dataField.audioDescription === 'yes' ? false : ((value === 'yes') && !dataField.hasAudioDescriptionFile);
+			let errValue=''
+
+			
+			if(dataField.audioDescription === 'yes' && dataField.fileAudioDescription.length!=0 ){
+				errValue =  false
+			}
+			if(!dataField.fileAudioDescription.length!=0){
+				//console.log("valor*******************", dataField.fileAudioDescription)
+				if(value==="no"){
+					errValue =  false
+				}else{
+					errValue =  true
+				}
+				if(value==="yes" && dataField.fileAudioDescription[0]===undefined ){
+					errValue =  true
+				} 
+			}
+			if(dataField.fileAudioDescription.length!=0){
+				//console.log("valor2*******************", dataField.fileAudioDescription)
+				if(value==="yes" && dataField.fileAudioDescription[0]===undefined ){
+					errValue =  true
+				} 
+			}
+				
+			//let errValue = dataField.audioDescription === 'yes' ? false : (value === 'yes' && !dataField.fileAudioDescription.length!=0);
+			
 			data = {...data,
 				audioDescriptionError: errValue,
 			};
@@ -736,7 +838,7 @@ export const useDataField = (props) => {
 			//captionsEmbedded - signLanguage - seizures
 			let errField = name + 'Error';
 			let errValue = value === 'no' ? true : false;
-			console.log("////////", errValue)
+			//console.log("////////", errValue)
 
 			data = {...data,
 				[errField]: errValue,
@@ -745,7 +847,7 @@ export const useDataField = (props) => {
 			let arr = [...isA11Y];
 			arr.find(a => a.name == name).is_a11y = !errValue;
 			setIsA11Y(arr);
-			console.log(arr) 
+			//console.log(arr) 
 		}
 
 		setDataField( dataField => ({ ...dataField,
@@ -757,7 +859,7 @@ export const useDataField = (props) => {
 		let data = {
 			[name]: value,
 		};
-		console.log("en la funcion handleRadioButtonOnChangeVALIDATOR", "name" ,name, "value",value)
+		//console.log("en la funcion handleRadioButtonOnChangeVALIDATOR", "name" ,name, "value",value)
 		
 		let errField = name + 'Error';
 		let errValue = false;
@@ -767,13 +869,13 @@ export const useDataField = (props) => {
 		let arr = [...isA11Y];
 		arr.find(a => a.name == name).is_a11y = !errValue;
 		setIsA11Y(arr);
-		console.log(arr) 
+		//console.log(arr) 
 		
 		setDataField( dataField => ({ ...dataField,
 			...data
 		}));
 	}
- 
+
 	function handleLongDescriptionPosition(value){
 		if( value === '')
 			value = 'bottom';
@@ -789,6 +891,7 @@ export const useDataField = (props) => {
 		handleRadioButtonOnChangeValidator:handleRadioButtonOnChangeValidator,
 		handleRadioButtonOnChange:handleRadioButtonOnChange,
 		handleLongDescriptionPosition:handleLongDescriptionPosition,
+		handleInputOnFile:handleInputOnFile,
 		dataField,
 		shortDescriptionTip,
 		longDescriptionTip,

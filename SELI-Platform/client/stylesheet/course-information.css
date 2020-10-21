@@ -1,10 +1,8 @@
 .user-information-container {
   width: 100%;
-  height: 100%;
+  height: 100% !important;
   display: flex;
-  position: relative;
   animation: fadeIn 1s;
-  overflow-y: scroll;
 }
 
 .course-information-container {
@@ -20,10 +18,14 @@
   width: var(--file-column-width);
   height: 100%;
   background-color: #fcfcfc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-input-column {
-  min-width: 40vw;
+  max-width: calc(720px);
   max-height: 100%;
   padding: 2.5vh 6vw;
 }
@@ -35,11 +37,17 @@
   padding-bottom: 35px;
 }
 
-.form-input-audiences {
-  height: calc(100% - 8vh) !important;
-  overflow-y: scroll;
-  padding: 4vh 6vw;
+.form-input-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
 }
+
+.form-input-steps {
+  width: calc(1080px - 120px);
+  padding: 4vh 60px;
+}
+
 .alignText{
   display: flex;
   flex-wrap: wrap;
@@ -68,6 +76,7 @@
   padding-left: 1vw;
   padding-right: 1vw;
   padding-top: 1vh;
+  width: 200px;
   align-items: center;
   display: flex;
 }
@@ -105,11 +114,9 @@
 }
 
 .chips-container {
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
   width: 100%;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
 }
 
@@ -249,10 +256,6 @@
 
 .form-file-selected-image-container {
   width: 100%;
-  height: 40vw;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
   animation: fadeInLeft 0.5s;
   background-color: #fafafa;
   transition: 0.5s;
@@ -362,13 +365,23 @@
 }
 
 .report{
+  height: calc(100vh - var(--form-stepper-height) - 2*var(--app-bar-height));
+  max-height: calc(100vh - var(--form-stepper-height) - 2*var(--app-bar-height));
   overflow-y: scroll;
 }
 
+.add-keyword-button {
+  margin-left: 10px;
+}
+
 @media only screen and (max-width: 1080px)  {
+  .form-input-steps {
+    width: calc(100% - 4vw);
+    padding: 4vh 2vw;
+  }
   .user-information-container {
-    flex-direction: column;
-    overflow-y: auto;
+    display: block;
+    overflow-y: scroll !important;
   }
   .form-dialog {
     width: 100vw !important;
@@ -382,6 +395,11 @@
   .form-file-column {
     width: 100%;
     height: auto;
+  }
+  .form-input-column {
+    max-width: 100%;
+    padding: 1vh 1vw;
+    margin-bottom: 20px; 
   }
   .form-image-button {
     height: 300px  !important;

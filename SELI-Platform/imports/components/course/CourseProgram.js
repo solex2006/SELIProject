@@ -43,6 +43,7 @@ import FreeWithout from './templates/FreeWithout';
 import TemplateParent from './templates/TemplateParent';
 
 export default class CourseProgram extends React.Component {
+  ///flag
   constructor(props) {
     super(props);
     this.state = {
@@ -87,12 +88,31 @@ export default class CourseProgram extends React.Component {
   };
 
   contentHandleClose = () => {
+    
+    console.log("cieraa",this.state.contentTypeAdded )
     this.setState({ 
       contentOpen: false, 
       contentToEdit: undefined, 
       contentTypeAdded: '', 
       showAccessibilityForm: false,
     });
+    if(this.state.contentTypeAdded==='quiz'){
+      
+      this.relativeProgramCommons("create");
+      this.contentHandleClose2()
+    }
+   
+  };
+  contentHandleClose2 = () => {
+    
+    console.log("cieraa2")
+    this.setState({ 
+      contentOpen: false, 
+      contentToEdit: undefined, 
+      contentTypeAdded: '', 
+      showAccessibilityForm: false,
+    });
+    
   };
 
   openDialog(e, templateCode){
@@ -178,12 +198,20 @@ export default class CourseProgram extends React.Component {
     if (action === "create" || action === "edit") {
       let itemContent = this.getItemAttributes();
       if (itemContent !== undefined) {
-        arrayOfItems[index].attributes = itemContent;
+        try{
+          arrayOfItems[index].attributes = itemContent;
+        }catch{
+          console.log("bug----->",arrayOfItems,index )
+          return 0;
+         // this.contentHandleClose2()
+        }
+        
+       
         if (action === "create") {
           if (this.state.contentTypeAdded === 'image') {
             let size = {
-              width: 500,
-              height: 300,
+              width: 480,
+              height: 360,
             }
             arrayOfItems[index].attributes.size = size;
           }
@@ -225,6 +253,7 @@ export default class CourseProgram extends React.Component {
   }
 
   finishCreateContent = (itemContent) => {
+    console.log("finishCreateContent*****")
     let showAccessibilityOptions = false;
     if (this.state.contentTypeAdded === "pdf" || this.state.contentTypeAdded === "audio" || this.state.contentTypeAdded === "image" || this.state.contentTypeAdded === "video" ||   this.state.contentTypeAdded==='quiz') {
       showAccessibilityOptions = true;
@@ -238,6 +267,10 @@ export default class CourseProgram extends React.Component {
       contentToConfigureAccessibility: itemContent,
     });
     this.resetMenuItems();
+    if(this.state.contentTypeAdded==='quiz'){
+     // this.contentHandleClose2();
+    }
+    //
   }
 
   editContent = () => {
@@ -245,6 +278,7 @@ export default class CourseProgram extends React.Component {
   }
 
   finishEditContent(){
+    console.log(" finishEditContent*****")
     this.contentHandleClose();
     this.resetMenuItems();
   }
@@ -278,7 +312,7 @@ export default class CourseProgram extends React.Component {
       contentOpen: true,
       contentaAdded: true,
       languageType: this.props.language[item.type],
-      contentToEdit: item,
+      contentToEdit: {...item},
     });
   }
 
@@ -420,7 +454,7 @@ export default class CourseProgram extends React.Component {
   }
 
   handleMenu = (value) => {
-    if (value) this.setState({showMenu: value});
+    if (value && value === "close") this.setState({showMenu: true});
     else this.setState({showMenu: !this.state.showMenu});
   }
 
@@ -755,6 +789,7 @@ export default class CourseProgram extends React.Component {
                   item={this.state.contentToConfigureAccessibility}
                   getAccessibilityPercentage={this.getAccessibilityPercentage.bind(this)}
                   setContentAccessibilityData={this.setContentAccessibilityData.bind(this)}
+                  handleControlMessage={this.props.handleControlMessage.bind(this)}
                   language={this.props.language}
                 />
               </React.Fragment>

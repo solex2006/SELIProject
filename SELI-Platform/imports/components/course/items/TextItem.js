@@ -1,5 +1,6 @@
 import React from 'react';
 import Code  from '../../tools/Code';
+import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 export default class TextItem extends React.Component {
   constructor(props) {
@@ -11,6 +12,12 @@ export default class TextItem extends React.Component {
 
   componentDidMount(){
 
+  }
+
+  Texteditor = (section) => {
+    const contentState = convertFromRaw(section);
+    const editorState =  EditorState.createWithContent(contentState);
+    return editorState;
   }
 
   render() {
@@ -50,9 +57,18 @@ export default class TextItem extends React.Component {
           }
           {
             this.props.item.attributes.type === 'section' ?
-              <div dangerouslySetInnerHTML={{__html: this.props.item.attributes.content}} id={this.props.item.id + "section"} className="text-item-section">
-
-              </div>
+              this.props.item.attributes.content && (
+                this.props.item.attributes.content.blocks ?
+                  <div  id={this.props.item.id + "section"} className="text-item-section">
+                    <Editor 
+                      editorState={this.Texteditor(this.props.item.attributes.content)} readOnly={true} 
+                    /> 
+                  </div>
+                :
+                  <div  id={this.props.item.id + "section"} className="text-item-section"
+                    dangerouslySetInnerHTML={{__html: this.props.item.attributes.content}}>
+                  </div>
+              )
             :
             undefined
           }

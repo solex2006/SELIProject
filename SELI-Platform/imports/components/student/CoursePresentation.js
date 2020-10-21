@@ -104,7 +104,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const CourseSummary = ({coursedata}) => {
+const CourseSummary = ({coursedata, language}) => {
 	const classes = useStyles();
 	return (
 		<Paper elevation={1} className={classes.summary}>
@@ -116,8 +116,8 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Complete this course with a passing grade."}
-						primary={"Course completition certificate"}
+						secondary={language.passingGrade}
+						primary={language.completitionCertificate}
 					/>
 				</ListItem>
 				<ListItem>
@@ -127,7 +127,7 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Estimated course duration"}
+						secondary={language.estimatedCourseDuration}
 						primary={coursedata.duration}
 					/>
 				</ListItem>
@@ -138,7 +138,7 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Course language"}
+						secondary={language.CourseLanguage}
 						primary={
 								coursedata.language===0 ?
 								"English (US)"
@@ -167,7 +167,7 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Course modality"}
+						secondary={language.CourseModality}
 						primary={coursedata.modality}  
 					/>
 				</ListItem>
@@ -176,8 +176,9 @@ const CourseSummary = ({coursedata}) => {
 	);
 };
 
-const CourseHeader = ({classes, coursedata, tutordata}) => {
-	//console.log("coursedata and props", coursedata,tutordata)
+const CourseHeader = ({classes, coursedata, tutordata, language, goToUser}) => {
+	console.log("paso 4***********", language)
+	const [tutordata1,setTutor]=useState(tutordata)
 	return (
 		<React.Fragment>
 			<div className="course-presentation-title-container">
@@ -189,11 +190,14 @@ const CourseHeader = ({classes, coursedata, tutordata}) => {
 				</span>
 			</div>
 			<InstructorProfileAvatar
-				name={"Created by " + coursedata.createdBy}
+				goToUser={goToUser}
+				language={language}
+				name={"Created by " + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
 				className={classes.caption}
 				coursedata={coursedata}
 				tutordata={tutordata}
 			/> 
+			<p id='teacherProfile' style={{display: "none"}}>Open teacher profile</p>
 		</React.Fragment>
 	);
 };
@@ -231,6 +235,8 @@ export default function MainPage(props) {
 					>
 						<Grid item lg={7}>
 							<CourseHeader 
+							   goToUser={props.goToUser}
+							   language={props.language}
 								classes={classes}
 								coursedata={coursedata}
 								tutordata={tutordata} />
@@ -247,6 +253,7 @@ export default function MainPage(props) {
 					<React.Fragment>
 						<img src={coursedata.image.link} alt="" className={classes.courseImg} />
 						<CourseHeader 
+						language={props.language}
 						coursedata={coursedata}
 						classes={classes}
 						tutordata={tutordata}
@@ -255,17 +262,18 @@ export default function MainPage(props) {
 				)}
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper">
-				<header>
-					<h2 className={classes.header2}>Course Information</h2>
+			<section aria-labelledby="courseInfo">
+				<header className='crnheading'>
+				<h2 >{props.language.CourseInformation}</h2>
 				</header>
 				<Grid
 					container
 					direction="row"
 					justify="flex-start"
-					alignItems="center"
-					spacing={1}
+					alignItems="strech"
+					spacing={4}
 				>
-					<Grid item xs={12}>
+					<Grid item xs={12} md={6}>
 						<p >
 							{coursedata.description}
 						</p>
@@ -277,24 +285,27 @@ export default function MainPage(props) {
 							props.course.coursePlan.courseStructure=== "topic" ))?
 							undefined
 							:
-							<div>
-								<p className={classes.body1}>
-									By the end of this course, you will be able to:
-								</p>
+							<div className='crnheading'>
+								<h3 className={classes.body1}>
+									{props.language.outcomeslegend}
+								</h3>
 								<Lista 
-									title='LearningOutcomes'
+									title='LearningOutcomesMainContent'
 									data={coursedata.analysis[4]}
 								/>
 							</div>
 							
 						}
 					</Grid>
-					<Grid item xs={12}>
+					<Grid item xs={12} md={6}>
 						<CourseSummary
 							coursedata={coursedata}
+							language={props.language}
 						/>
 					</Grid>
 				</Grid>
+			</section>
+			
 				{
 					(props.course.coursePlan.guidedCoursePlan==="free" && 
 					props.course.coursePlan.courseTemplate=== "without" && 
@@ -302,30 +313,31 @@ export default function MainPage(props) {
 					props.course.coursePlan.courseStructure=== "topic" ))?
 					undefined
 					:
-					<section aria-label="Course design">
-					<h3 className={classes.header2}>Course Design</h3>			
-					<List dense={true}>
+				<section aria-label="Course design">
+					<h2 >{props.language.CourseDesign}</h2>			
+					<div >
 						<Lista 
-							title='Audiences'
+							title='AudiencesMainContent'
 							data={coursedata.support}
 						/>
-					</List>
+					</div>
 				</section> 
 				}
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper1">
-				<header>
-				<div className='crnheading1'>
-					<h2 className={classes.header2}>Course Content</h2>
-				</div>
-				</header>
+		
+			<div className='crnheading1'>
+			<h2>{props.language.CourseContent}</h2>
+			</div>
+		
 				<CourseContent
+				language={props.language}
 					data={props.course.design}
 					coursePlan={props.course.coursePlan}
 					program={props.course.program}
 				/>
-				<p>
-					Read the course syllabus for a complete view of the course program
+				<p id='courseSylabus'>
+					{props.language.readCourseSylabus}
 				</p>
 				<div className='crnheading'>
 					<SyllabusButton
@@ -336,45 +348,82 @@ export default function MainPage(props) {
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper1"> 
 				<div className='crnheading'>
-					<h2 className={classes.header2}>Requirements</h2>
+			<h2 >{props.language.requirements}</h2>
 				</div>
 				<HardwareSoftwareReq
 					data={coursedata.requirements}
 				/> 
 			</Paper>
+			
 			<div className="course-presentation-actions-container">
 				{
-					props.goToUser ?
-						props.progress === "noProgress" ?
-							<Button
-								tabIndex="1" 
-								onClick={() => props.goToUser("subscribe")}
-								className="subscription-card-button"
-								variant="contained"
-								color="primary"
-							>
-								{props.language.subscribeJoin}
-							</Button>
+					props.course.published ?
+						props.goToUser ?
+							props.progress ?
+								props.progress === "noProgress" ?
+									<Button
+										//tabIndex="1" 
+										onClick={() => props.goToUser("subscribe")}
+										className="subscription-card-button"
+										variant="contained"
+										color="primary"
+									>
+										{props.language.subscribeJoin}
+									</Button>
+								:
+									<React.Fragment>
+										<Button
+											//tabIndex="1" 
+											onClick={() => props.goToUser("unsubscribe")}
+											className="subscription-card-button"
+											variant="outlined"
+											color="primary"
+										>
+											{props.language.unsubscribe}
+										</Button>
+										<Button
+											//tabIndex="1" 
+											onClick={() => props.goToUser("enter")}
+											className="subscription-card-button"
+											variant="contained"
+											color="primary"
+										>
+											{
+												
+												props.progress <= 0 ? props.language.startCourse :
+												props.progress > 0 && props.progress < 100 ? props.language.resumeCourse :
+												props.progress >= 100 ? props.language.reviewCourse : undefined
+											}
+										</Button>
+									</React.Fragment>
+							:
+								<React.Fragment>
+									<Button tabIndex="0" variant="contained" onClick={() => props.goToLogIn("in")} color="primary" className="bar-button">
+										{props.language.signIn}
+									</Button>
+									<Button tabIndex="0" variant="contained" onClick={() => props.goToLogIn("up")} color="secondary" className="bar-button">
+										{props.language.signUp}
+									</Button>
+								</React.Fragment>
 						:
 							<React.Fragment>
 								<Button
-									tabIndex="1" 
-									onClick={() => props.goToUser("unsubscribe")}
+									//tabIndex="1" 
+									onClick={() => props.unsubscribe(props.course._id)}
 									className="subscription-card-button"
-									variant="contained"
+									variant="outlined"
 									color="primary"
 								>
 									{props.language.unsubscribe}
 								</Button>
 								<Button
-									tabIndex="1" 
-									onClick={() => props.goToUser("enter")}
+									//tabIndex="1" 
+									onClick={() => props.navigateTo([0, 0, 0, 0])}
 									className="subscription-card-button"
 									variant="contained"
 									color="primary"
 								>
 									{
-										
 										props.progress <= 0 ? props.language.startCourse :
 										props.progress > 0 && props.progress < 100 ? props.language.resumeCourse :
 										props.progress >= 100 ? props.language.reviewCourse : undefined
@@ -383,28 +432,15 @@ export default function MainPage(props) {
 							</React.Fragment>
 					:
 						<React.Fragment>
-							<Button
-								tabIndex="1" 
-								onClick={() => props.unsubscribe(props.course._id)}
-								className="subscription-card-button"
-								variant="contained"
-								color="primary"
-							>
-								{props.language.unsubscribe}
-							</Button>
-							<Button
-								tabIndex="1" 
-								onClick={() => props.navigateTo([0, 0, 0, 0])}
-								className="subscription-card-button"
-								variant="contained"
-								color="primary"
-							>
-								{
-									props.progress <= 0 ? props.language.startCourse :
-									props.progress > 0 && props.progress < 100 ? props.language.resumeCourse :
-									props.progress >= 100 ? props.language.reviewCourse : undefined
-								}
-							</Button>
+							<div className="course-not-published">{props.language.courseNotPublished}</div>		
+							<InstructorProfileAvatar
+								goToUser={props.goToUser}
+								language={props.language}
+								name={props.language.createdBy + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
+								className={classes.caption}
+								coursedata={coursedata}
+								tutordata={tutordata}
+							/> 
 						</React.Fragment>
 				}
 			</div>

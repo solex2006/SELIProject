@@ -130,27 +130,33 @@ export default class AudioItem extends React.Component {
 
   audioPlayer=()=>{
     return(
-      <Card raised className="course-item-audio-card">
+      <Card tabIndex="-1" raised className="course-item-audio-card">
         <div className="course-item-audio-card-details">
           <CardMedia
             className="course-item-audio-card-image"
             image="/audio-gra.svg"
             title="Live from space album cover"
+            tabIndex="-1"
           />
-          <CardContent className="course-item-audio-card-content">
-            <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
+          <CardContent tabIndex="-1" className="course-item-audio-card-content">
+            <Typography tabIndex="-1" className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
               {this.props.item.attributes.source === 'upload' ? this.props.language.audioFile : this.props.language.recordedAudio}
             </Typography>
-            <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
+            <Typography tabIndex="-1" className="course-item-card-title" gutterBottom variant="h5" component="h2">
               {` ${this.props.item.attributes.title}`}
             </Typography>
           </CardContent>
         </div>
-        <div className="course-item-audio-card-controls2">
+        <div
+          id={"audio_" + this.props.item.id}
+          className="course-item-audio-card-controls2"
+          aria-describedby={"audio_" + this.props.item.id + "_transcriptText"}
+          aria-labelledby={"audio_" + this.props.item.id + "_shortDescr"}
+        >
           {
             this.props.item.attributes.audio &&
             <AudioPlayer 
-              volume 
+              volume
               src={this.props.item.attributes.audio.link}
               onPlay={this.playAudio}
             />
@@ -249,43 +255,7 @@ export default class AudioItem extends React.Component {
             }
           });
         }
-}
-
-/*   allTranscription=()=>{
-    return(
-      <div style={{display: this.state.captions==='captions'? "block" : "none"}}>
-          <div id="id_video_box">
-            <h3>{ this.props.item.attributes.audio.name}</h3>
-              <audio id="audio" controls 
-              aria-describedby="transcriptText" 
-              aria-label={this.props.language.ariaLabelTranscription}
-              src={this.props.item.attributes.audio.link} type='audio/mpeg'>
-              <p>{this.props.language.alertCompatibility} <code>audio</code></p>
-            </audio>
-          </div>
-          <br/>
-          <p id="speaking" aria-live="rude"></p>
-          <br/>
-          <details>
-              <summary aria-controls="transcriptBox" tabindex="0" aria-expanded="false" id="show-hide-transcript">{this.props.language.showHideTranscription}</summary>
-              <div id="transcriptBox" aria-expanded="false">
-                </div>
-                <div id="transcriptText">
-                  {
-                    this.props.item.attributes.accessibility.dataField.text.map((text,index)=>{
-                      let timeDetail=this.props.item.attributes.accessibility.dataField.time[index].split(":");
-                      let timeSeconds=parseInt(timeDetail[0])*60*60+parseInt(timeDetail[1])*60+parseInt(timeDetail[2])
-                      console.log(this.props.item.attributes.accessibility.dataField.time[index].split(":"))
-                      return(
-                        <p key={index} id={"c"+(index+1)} data-time={timeSeconds} class="cue" aria-live="rude" tabindex="1" dangerouslySetInnerHTML={{ __html: text }} onKeyDown={this.audioCaption} onClick={this.mouseClick} ontimeupdate={this.updateAudio} />
-                      )
-                    })
-                  }
-                </div>
-          </details>  
-      </div>
-    )
-  } */
+  }
 
   render() {
     return(

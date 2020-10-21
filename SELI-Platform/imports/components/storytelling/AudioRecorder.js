@@ -83,6 +83,7 @@ export default class AudioRecorder extends React.Component {
         usedInCourse: false,
         userId: Meteor.userId(),
         recorded: true,
+        type: "audio"
         //userId: Meteor.userId() // Optional, used to check on server for file tampering
       },
       streams: 'dynamic',

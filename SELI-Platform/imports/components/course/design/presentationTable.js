@@ -6,6 +6,8 @@ import React ,{useEffect} from "react";
 import FeedbackHelp from "../feedback";
 import tableIcons from '../design/icons'
 import Checkbox from "@material-ui/core/Checkbox";
+import {onlySpaces} from '../../../../lib/textFieldValidations';
+
 const useStyles = makeStyles(theme => ({}));
 
 export default function Presentation(props) {
@@ -13,13 +15,19 @@ export default function Presentation(props) {
 
   useEffect(()=>{
     if(type==='lessonInto'){
-      let update=state;
-      update.data=courseInformation[parentIndex].lessons[lessonIndex].tools[3].items;
-      setState(update) 
-    }else{
-      let update=state;
-      update.data=courseInformation[parentIndex].tools[3].items;
-      setState(update) 
+      setState(prevState=>{
+        return {
+          ...prevState,
+          data: courseInformation[parentIndex].lessons[lessonIndex].tools[3].items,
+        }
+      })
+    } else {
+      setState(prevState=>{
+        return {
+          ...prevState,
+          data: courseInformation[parentIndex].tools[3].items,
+        }
+      })
     }
   },[])
   
@@ -44,7 +52,7 @@ export default function Presentation(props) {
   const [state, setState] = React.useState({
     columns: [
       {
-        title: "Title",
+        title: language.title,
         field: "title",
         editComponent: props => (
           <TextField
@@ -60,7 +68,7 @@ export default function Presentation(props) {
               !props.value &&
               props.rowData.validateInput &&
               props.rowData.submitted
-                ? "Required"
+                ? language.required
                 : ""
             }
             value={props.value ? props.value : ""}
@@ -75,7 +83,7 @@ export default function Presentation(props) {
         )
       },
       {
-        title: "Type",
+        title: language.type,
         field: "type",
         lookup: itemsTypes,
         editComponent: props => {
@@ -101,14 +109,15 @@ export default function Presentation(props) {
       },
       
       { 
-        title: "External Resource", 
+        title: language.ExternalResource, 
         field: "external", 
         type: "boolean" ,
         editComponent: props => (
           
           <Checkbox
             {...props}
-            disabled={(props.rowData.type ==='2') }
+            checked={props.rowData.external ===true}
+            disabled={props.rowData.type ==='2' }
             onChange={e => {
               props.rowData.external=e.target.checked;
               props.onChange(e.target.checked);
@@ -118,11 +127,13 @@ export default function Presentation(props) {
       ) 
       },
 
+      
 
       {
-        title: "External URL",
+        title: language.ExternalURL,
         field: "url",
         editComponent: props => (
+         
           <TextField
             type="url"
             inputProps={{
@@ -144,10 +155,10 @@ export default function Presentation(props) {
               !props.value &&
               props.rowData.validateInput &&
               props.rowData.submitted
-                ? "Required"
+                ? language.required
                 : ""
             }
-            value={props.value ? props.value : ""}
+            value={props.rowData.external===false? ''  :props.value ? props.value : "" }
             onChange={e => {
               if (props.rowData.validateInput) {
                 props.rowData.validateInput = false;
@@ -168,17 +179,19 @@ export default function Presentation(props) {
     <React.Fragment>
       <MaterialTable
         title={language.Presentations}
-        options={{ search: true, actionsColumnIndex: 4 }}
+        options={{ search: false, actionsColumnIndex: 4 }}
         columns={state.columns}
         data={state.data}
-        icons={tableIcons}
+        icons={tableIcons(language.Additem)}
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
+               
+                if(newData.external===false){newData.url=''}
               newData.submitted = true;
               if(newData.type===undefined){newData.type="1"}
-              if (!newData.title) {
+              if (!newData.title || onlySpaces(newData.title)) {
                 newData.error = true;
                 newData.label = language.required;
                 newData.helperText = language.Namerequired;
@@ -204,8 +217,10 @@ export default function Presentation(props) {
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
+                console.log("edited*******",newData )
                 newData.submitted = true;
-                if (!newData.title) {
+                if(newData.external===false){newData.url=''}
+                if (!newData.title || onlySpaces(newData.title)) {
                   newData.error = true;
                   newData.label = language.required;
                   newData.helperText = language.Namerequired;
@@ -254,6 +269,15 @@ export default function Presentation(props) {
         localization={{
           pagination: {
             // labelDisplayedRows: '{from}-{to} of {count}'
+            labelRowsSelect: language.rows,
+            firstAriaLabel: language.firstPage,
+            firstTooltip: language.firstPage,
+            previousAriaLabel: language.previousPage,
+            previousTooltip: language.previousPage,
+            nextAriaLabel: language.nextPage,
+            nextTooltip: language.nextPage,
+            lastAriaLabel: language.lastPage,
+            lastTooltip: language.lastPage
           },
           toolbar: {
             // nRowsSelected: '{0} row(s) selected'
@@ -262,11 +286,18 @@ export default function Presentation(props) {
             actions: "" //removed title of action column
           },
           body: {
-            emptyDataSourceMessage: language.Nopresentation
+            emptyDataSourceMessage: language.Nopresentation,
+            addTooltip: language.add,
+            deleteTooltip: language.delete,
+            editTooltip: language.edit,
+            editRow: {
+              deleteText: `${language.deleteItemBelow}, ${language.wantProceed}`,
+              cancelTooltip: language.cancel,
+              saveTooltip: language.save
+            }
           }
         }}
       />
-
       <FeedbackHelp
         validation={{
           error: false,
@@ -277,6 +308,7 @@ export default function Presentation(props) {
         tipMsg={language.PresentationMaterial}
         describedBy={"i05-helper-text"}
       />
+      <br/>
     </React.Fragment>
   );
 }

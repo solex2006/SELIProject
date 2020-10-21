@@ -229,7 +229,7 @@
   opacity: 1;
 }
 
-@media only screen and (max-width: 1600px)  {
+@media only screen and (max-width: 1300px)  {
   .form-stepper-active-step-id {display: none !important;}
   .form-stepper-title {font-size: 21.5px !important;}
 }
@@ -241,14 +241,12 @@
   }
   .form-stepper-navigation {
     height: auto;
+    min-height: var(--form-stepper-height);
   }
   .form-stepper-actions {
     width: 50vw;
     display: flex;
     justify-content: center;
-  }
-  .form-stepper-content {
-    height: auto;
   }
   .navBar{
     justify-content: center;

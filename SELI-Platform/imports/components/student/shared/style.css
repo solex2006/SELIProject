@@ -22,6 +22,11 @@
    margin-bottom: 20px;
  
 }
+.crnheadingtitle{
+   margin-top: 20px;
+   margin-bottom: 20px;
+   font-size: 30px;
+}
 .crnheading1{
    display: block;
    margin-top: 15px;
@@ -44,8 +49,20 @@
 }
 
 .resources{
-   list-style-type: circle;
-  line-height: 1.9;
+	list-style: none;
+   display: flex;
+   flex-wrap: wrap;
+}
+.resourcesMainContent{
+   list-style: none;
+   padding-left: 15px;
+  
+}
+.elemntoflist{
+   padding-right: 10px;
+}
+#intent{
+   margin-left: 20px;
 }
 .resourcesbox{
   line-height: 1.9;

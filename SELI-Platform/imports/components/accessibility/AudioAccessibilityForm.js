@@ -38,7 +38,7 @@ export default function AudioA11Y(props) {
 						name="shortDescription"
 						label={props.language.shortDescription_a11y_label}
 						placeholder="Content identification"
-						required={true}
+						//required={true}
 						tip={shortDescriptionTip}
 						language={props.language}
 					/>
@@ -51,7 +51,7 @@ export default function AudioA11Y(props) {
 					name="longDescription"
 					label={props.language.longDescription_a11y_label_audio}
 					placeholder={props.language.longDescription_a11y_placeholder_audio}
-					required={true}
+					//required={true}
 					tip={longDescriptionTip}
 					position={dataField.longDescriptionPosition}
 					handlePosition={React.useCallback(handleLongDescriptionPosition)}

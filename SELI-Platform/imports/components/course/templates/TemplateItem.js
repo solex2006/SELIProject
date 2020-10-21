@@ -7,20 +7,28 @@ export default class TemplateItem extends React.Component {
     super(props);
     this.state = {
       backgroundColor: "#ffffff",
+      grabbing: false,
     }
   }
 
   onDragStart = ({isSource, payload, willAcceptDrop}) => {
-    if (!willAcceptDrop) {
+    if (willAcceptDrop) {
       this.setState({
-        backgroundColor: "#8d000034"
+        backgroundColor: "#008d0734",
+        grabbing: true
+      })
+    } else {
+      this.setState({
+        backgroundColor: "#8d000034",
+        grabbing: true
       })
     }
   }
 
   onDragEnd = ({isSource, payload, willAcceptDrop}) => {
     this.setState({
-      backgroundColor: "#ffffff"
+      backgroundColor: "#ffffff",
+      grabbing: false
     })
   }
 
@@ -63,11 +71,16 @@ export default class TemplateItem extends React.Component {
   render() {
     return(
       <div
-        style={
-          this.props.contentLength === 0 ?
-            {backgroundImage: "url(drag-drop.svg)", animation: "bounce 1s 1", "background-color": this.state.backgroundColor} : 
-            {backgroundImage: "none", "background-color": this.state.backgroundColor}
-        } className={this.props.classNameTemplate}
+        style={{
+          backgroundImage: 
+            this.state.grabbing ?
+              this.state.backgroundColor === "#008d0734" ? "url(drag-drop.svg)" : "url(notAllowed.svg)"
+            : 
+              this.props.contentLength === 0 ? "url(drag-drop.svg)" : "none", 
+          animation: "bounce 1s 1", 
+          backgroundColor: this.state.backgroundColor
+        }} 
+        className={this.props.classNameTemplate}
       >
         { this.props.contentLength === 0 && (
           <div className="template-background-text">
@@ -76,7 +89,12 @@ export default class TemplateItem extends React.Component {
         )}
         <Container
           dragClass="drag-class"
-          style={{width: "100%", height:"calc(100% - 37px)", minHeight: "163px"}}
+          style={{
+            width: "100%",
+            height: "calc(100% - 37px)", 
+            minHeight: "163px",
+            opacity: this.state.grabbing ?  "0.20" : "1"
+          }}
           groupName="1"
           behaviour="drop-zone"
           dragHandleSelector=".item-drag-handle"

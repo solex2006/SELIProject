@@ -3,11 +3,13 @@
 }
 
 .course-presentation-actions-container {
-  width: 100%;
+  width: calc(100% - 8vw);
   height: 15vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
+  padding: 0 4vw;
+  margin-top: 15px;
 }
 
 .course-presentation-title-container {
@@ -34,6 +36,10 @@
   padding-left: 60px;
   padding-right: 60px;
   padding-top: 10px;
+}
+
+.course-not-published {
+  padding-right: 10px;
 }
 
 /* Media Queries: Tablet Landscape */

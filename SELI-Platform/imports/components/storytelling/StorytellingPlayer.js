@@ -32,7 +32,7 @@ export default class StorytellingPlayer extends React.Component {
       scenePlaying: 0,
       showDescription: true,
       autoPlay: true,
-      playing: true,
+      playing: false,
       englishAvailable: false,
       spanishAvailable: false,
       portugueseAvailable: false,

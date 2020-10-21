@@ -18,6 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CourseFilesCollection from "../../../lib/CourseFilesCollection";
+import ImportButton from '../tools/ImportButton';
 
 export default class Stories extends React.Component {
   constructor(props) {
@@ -117,7 +118,7 @@ export default class Stories extends React.Component {
     let menuOptions = [
       {label: this.props.language.openInEditor, icon: <EditIcon/>, action: this.edit.bind(this)},
       {label: this.props.language.delete , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
-      //{label: this.props.language.download , icon: <DownloadIcon/>, action: this.showDownloadForm.bind(this)},
+      {label: this.props.language.download , icon: <DownloadIcon/>, action: this.downloadStory.bind(this)},
     ];
     myStories.map(story => {
       tableData.push({
@@ -135,6 +136,18 @@ export default class Stories extends React.Component {
         loading: false,
       })
     });
+  }
+
+  downloadStory = (id) => {
+    var params = {
+      id: id,
+      type: 'story'
+    };
+    //Add authentication headers in URL
+    const searchParams = new URLSearchParams(params); 
+    var url = [Meteor.settings.public.URL_SITE+'file', searchParams].join('?');
+    //Open window
+    window.open(url);
   }
 
   handleClickOpen = () => {
@@ -217,6 +230,12 @@ export default class Stories extends React.Component {
                 <div className="management-result-container">
                   <p className="management-title">{this.props.language.myStories}<CollectionsBookmarkIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
+                    <div className="import-button-container">
+                      <ImportButton
+                        file="story"
+                        language={this.props.language}
+                      />
+                    </div>
                     <Table
                       labels={{
                         title: this.props.language.youHaveStories, 

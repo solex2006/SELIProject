@@ -1,4 +1,5 @@
 import React from 'react';
+import A11yEditor, { getText } from '../inputs/editor/A11yEditor';
 import FileTypeSelector from '../tools/FileTypeSelector';
 import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import BackupIcon from '@material-ui/icons/Backup';
@@ -7,7 +8,6 @@ import ForumIcon from '@material-ui/icons/Forum';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
-import Editor from '../inputs/editor/Editor';
 import Help from '../tools/Help';
 
 export default class ActivityForm extends React.Component {
@@ -16,7 +16,7 @@ export default class ActivityForm extends React.Component {
     this.state = {
       fileTypes: [
         {
-          label: 'Pdf',
+          label: 'PDF',
           selected: false,
         },
         {
@@ -78,6 +78,8 @@ export default class ActivityForm extends React.Component {
     if (activityContent.type === 'upload') {
       activityContent.fileTypes = this.getFileTypes();
     }
+    const childText = getText();
+    activityContent.instruction = childText;
     if (this.validateContent(activityContent) ) {
       return activityContent;
     }
@@ -87,7 +89,7 @@ export default class ActivityForm extends React.Component {
   }
 
   validateContent = (content) => {
-    if (content.instruction === '') {
+    if (content.instruction === "" || content.instruction === null || content.instruction.blocks.text === "") {
       this.props.handleControlMessage(true, this.props.language.writeTheInstructions);
       return false;
     } else if (content.type === 'upload' && content.fileTypes === undefined) {
@@ -101,7 +103,7 @@ export default class ActivityForm extends React.Component {
     let fileTypes = this.state.fileTypes;
     let selected = [
       {
-        label: 'Pdf',
+        label: 'PDF',
         accept: '.pdf',
         selected: false,
       },
@@ -183,14 +185,18 @@ export default class ActivityForm extends React.Component {
       <div className="dialog-form-container">
         <div className="editor-block">
           <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
-          <Editor
+          <A11yEditor
+            textSection={this.state.attributes.instruction}
+            language={this.props.language}
+          />
+          {/* <Editor
             areaHeight='20vh'
             innerHTML={this.state.attributes.instruction}
             buttonLabels={false}
             addLinks={true}
             getInnerHtml={this.getInnerHtml.bind(this)}
             language={this.props.language}
-          />
+          /> */}
         </div> 
         <div className="editor-label1">{`${this.props.language.deliverType}:`}</div>
         <div className="square-box">

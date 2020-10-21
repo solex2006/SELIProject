@@ -429,360 +429,370 @@ const handleDeleteSoftwares = (index) => () => {
 };
 
   return (
-    <div className="form-input-audiences">
-      <h2>{language.CourseRequirements}</h2>
-      <h3 id="soft_title">{language.Softwarerequirements}</h3>
-      <div role="group" aria-labelledby="soft_title">
-        <List component="ul" key={"li04"}>
-          <FeedbackHelp
-            validation={{
-              error: false,
-              errorMsg: requirementTooltip.errorMsg,
-              errorType: "required",
-              a11y: null
-            }}
-            tipMsg={requirementTooltip.AddSoftware}
-            describedBy={"i02-helper-text"}
-          />
-          {otherSoftwares.map((software, index) => (
-          <ListItem
-            component="li"
-            key={"li_sft" + index}
-          >
-          <div className="feedbackRequirement">
-              <ListItemText
-                  key={"li_sft" + index + "listeItemTxt"}
-                  primary={software.label}
-                  className={software.editing ? classes.hidden : ""}
-              />
-              <div className={!software.editing ? classes.hidden : ""}>
-                <TextField
-                  key={"li_sft" + index + "txtField"}
-                  className={!software.editing ? classes.hidden : ""}
-                  value={controlEdit.tempValue}
-                  onChange={event => updateTempValue(event.target.value,"software",index)}
-                />
-                {
-                  feedbackError===true?
-                   <FeedbackHelp
-                    validation={{
-                      error: true,//feedbackError,
-                      errorMsg: message,
-                      errorType: "required",
-                      a11y: null
-                    }}
-                    tipMsg={null}//{requirementTooltip.newsoftware}
-                    describedBy={"i02-helper-text"}
-                  />
-                  :
-                  undefined 
-                }
-                
-              </div>    
-          </div>
- 
-              <ListItemSecondaryAction key={"li_sft" + index + "secAc"}>
-                {software.editing ? (
-                  <React.Fragment>
-                    <Tooltip title={tooltipmessages.SaveAddSoftware}>
-                    <IconButton
-                      key={"li_sft" + index + "btnEditSaveSoft"}
-                      edge="end"
-                      aria-label={"Save changes"}
-                      onClick={() => {
-                        let validateSoftware= validateSoftwares()
-                        if(validateSoftware==="noequal"){
-                          let newSoftwares = [...otherSoftwares];
-                          newSoftwares[index].editing = false;
-                          newSoftwares[index].label = controlEdit.tempValue;
-                          setOtherSoftwares(newSoftwares);
-                          let addNewSoftwares=courseinformation;
-                          addNewSoftwares.requirements[0]=newSoftwares
-                          setcourseInformation(addNewSoftwares)
-                          setControlEdit({tempValue: "", adding: false, editing: false});
-                          setfeedbackError(false)
-                          console.log("save Softeare",addNewSoftwares )
-                        }
-                        
-                      }}
-                      className={classes.saveButton}
-                      disabled={(controlEdit.tempValue === "" || saveButton===true)}//disabled={controlEdit.tempValue === ""}
-                    >
-                      <DoneIcon />
-                    </IconButton>
-                    </Tooltip>
-                    <Tooltip title={tooltipmessages.CancelAddSoftware}>
-                    <IconButton
-                      key={"li_sft" + index + "btnEditCancelSoft"}
-                      edge="end"
-                      aria-label={"Cancel changes"}
-                      onClick={() => {
-                        if (controlEdit.adding) deleteSoftware(index);
-                        else {
-                          let newSoftware = [...otherSoftwares];
-                          newSoftware[index].editing = false;
-                          setOtherSoftwares(newSoftware);
-                        }
-                        setControlEdit({
-                          tempValue: "",
-                          adding: false,
-                          editing: false
-                        });
-                      }}
-                      className={classes.deleteButton}
-                    >
-                      <ClearIcon />
-                    </IconButton>
-                    </Tooltip>
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <Tooltip title={tooltipmessages.EditSoftware}>
-                    <IconButton
-                      key={"li_sft" + index + "btnEditSoft"}
-                      edge="end"
-                      aria-label={"Edit software"}
-                      onClick={() => {
-                        let newSoftwares = [...otherSoftwares];
-                        newSoftwares[index].editing = true;
-                        console.log(newSoftwares);
-                        setOtherSoftwares(newSoftwares);
-                        setControlEdit({
-                          tempValue: otherSoftwares[index].label,
-                          adding: false,
-                          editing: true
-                        });
-                      }}
-                      disabled={controlEdit.editing}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    </Tooltip>
-                    <Tooltip title={tooltipmessages.DeleteSoftware}>
-                    <IconButton
-                      key={"li_sft" + index + "btnDeleteSoft"}
-                      edge="end"
-                      onClick={ handleDeleteSoftwares(index)}
-                      className={classes.deleteButton}
-                    >
-                      <RemoveIcon />
-                    </IconButton>
-                    </Tooltip>
-                  </React.Fragment>
-                )}
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-          <ListItem
-            key="addsoft"
-            button
-            onClick={() => {
-                setOtherSoftwares(prev => [
-                  ...prev,
-                  { label: "New Software", editing: true }
-                ]);
-
-                setControlEdit({
-                  tempValue: "",
-                  adding: true,
-                  editing: true
-                });
-                //setfeedbackError(true)
-            }}
-            id="addsoft"
-            disabled={controlEdit.editing}
-            className={classes.addButton}
-          >
-            <AddIcon /> <ListItemText primary="Add other software" />
-          </ListItem>
-        </List>
-      </div>
-
-
-      <h3 id="soft_title">Hardware requirements</h3>
-      <div role="group" aria-labelledby="soft_title" className="hardware">
-        <List component="ul" key={"li04"}>
-          <FeedbackHelp
+    <div className="form-input-container">
+      <div className="form-input-steps">
+        <h2>{language.CourseRequirements}</h2><br/>
+        <h3 id="soft_title">{language.Softwarerequirements}</h3>
+        <div role="group" aria-labelledby="soft_title">
+          <List component="ul" key={"li04"}>
+            <FeedbackHelp
               validation={{
                 error: false,
                 errorMsg: requirementTooltip.errorMsg,
                 errorType: "required",
                 a11y: null
               }}
-              tipMsg={requirementTooltip.AddHardware}
+              tipMsg={requirementTooltip.AddSoftware}
               describedBy={"i02-helper-text"}
-          />
-          {otherHardware.map((hardware, index) => (
+            />
+            {otherSoftwares.map((software, index) => (
             <ListItem
               component="li"
               key={"li_sft" + index}
             >
-              <div className="feedbackRequirement">
-                  <ListItemText
+            <div className="feedbackRequirement">
+                <ListItemText
                     key={"li_sft" + index + "listeItemTxt"}
-                    primary={hardware.label}
-                    className={hardware.editing ? classes.hidden : ""}
-                  />   
-                  <div className={!hardware.editing ? classes.hidden : ""}>
-                      <TextField
-                        key={"li_sft" + index + "txtField"}
-                        className={!hardware.editing ? classes.hidden : ""}
-                        value={controlEdit.tempValue}
-                        onChange={event => updateTempValue(event.target.value, "hardware",index)}
-                      />
-                      {
-                        feedbackErrorH===true?
-                        <FeedbackHelp
-                          validation={{
-                            error: true,
-                            errorMsg: message,
-                            errorType: "required",
-                            a11y: null
-                          }}
-                          tipMsg={null} //{requirementTooltip.newhardware}
-                          describedBy={"i02-helper-text"}
+                    primary={software.label}
+                    className={software.editing ? classes.hidden : ""}
+                />
+                <div className={!software.editing ? classes.hidden : ""}>
+                  <TextField
+                    key={"li_sft" + index + "txtField"}
+                    className={!software.editing ? classes.hidden : ""}
+                    value={controlEdit.tempValue}
+                    onChange={event => updateTempValue(event.target.value,"software",index)}
+                  />
+                  {
+                    feedbackError===true?
+                    <FeedbackHelp
+                      validation={{
+                        error: true,//feedbackError,
+                        errorMsg: message,
+                        errorType: "required",
+                        a11y: null
+                      }}
+                      tipMsg={null}//{requirementTooltip.newsoftware}
+                      describedBy={"i02-helper-text"}
+                    />
+                    :
+                    undefined 
+                  }
+                  
+                </div>    
+            </div>
+  
+                <ListItemSecondaryAction key={"li_sft" + index + "secAc"}>
+                  {software.editing ? (
+                    <React.Fragment>
+                      <Tooltip title={tooltipmessages.SaveAddSoftware}>
+                      <IconButton
+                        key={"li_sft" + index + "btnEditSaveSoft"}
+                        edge="end"
+                        aria-label={"Save changes"}
+                        onClick={() => {
+                          let validateSoftware= validateSoftwares()
+                          if(validateSoftware==="noequal"){
+                            let newSoftwares = [...otherSoftwares];
+                            newSoftwares[index].editing = false;
+                            newSoftwares[index].label = controlEdit.tempValue;
+                            setOtherSoftwares(newSoftwares);
+                            let addNewSoftwares=courseinformation;
+                            addNewSoftwares.requirements[0]=newSoftwares
+                            setcourseInformation(addNewSoftwares)
+                            setControlEdit({tempValue: "", adding: false, editing: false});
+                            setfeedbackError(false)
+                            console.log("save Softeare",addNewSoftwares )
+                          }
+                          
+                        }}
+                        className={classes.saveButton}
+                        disabled={(controlEdit.tempValue === "" || saveButton===true)}//disabled={controlEdit.tempValue === ""}
+                      >
+                        <DoneIcon />
+                      </IconButton>
+                      </Tooltip>
+                      <Tooltip title={tooltipmessages.CancelAddSoftware}>
+                      <IconButton
+                        key={"li_sft" + index + "btnEditCancelSoft"}
+                        edge="end"
+                        aria-label={"Cancel changes"}
+                        onClick={() => {
+                          if (controlEdit.adding) deleteSoftware(index);
+                          else {
+                            let newSoftware = [...otherSoftwares];
+                            newSoftware[index].editing = false;
+                            setOtherSoftwares(newSoftware);
+                          }
+                          setControlEdit({
+                            tempValue: "",
+                            adding: false,
+                            editing: false
+                          });
+                        }}
+                        className={classes.deleteButton}
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                      </Tooltip>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <Tooltip title={tooltipmessages.EditSoftware}>
+                      <IconButton
+                        key={"li_sft" + index + "btnEditSoft"}
+                        edge="end"
+                        aria-label={"Edit software"}
+                        onClick={() => {
+                          let newSoftwares = [...otherSoftwares];
+                          newSoftwares[index].editing = true;
+                          console.log(newSoftwares);
+                          setOtherSoftwares(newSoftwares);
+                          setControlEdit({
+                            tempValue: otherSoftwares[index].label,
+                            adding: false,
+                            editing: true
+                          });
+                        }}
+                        disabled={controlEdit.editing}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      </Tooltip>
+                      <Tooltip title={tooltipmessages.DeleteSoftware}>
+                      <IconButton
+                        key={"li_sft" + index + "btnDeleteSoft"}
+                        edge="end"
+                        onClick={ handleDeleteSoftwares(index)}
+                        className={classes.deleteButton}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                      </Tooltip>
+                    </React.Fragment>
+                  )}
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+            <ListItem
+              key="addsoft"
+              button
+              onClick={(e) => {
+                if(e.keyCode===32){
+                  //continue
+                  console.log(e.keyCode)
+                }else{
+                  setOtherSoftwares(prev => [
+                    ...prev,
+                    { label: "New Software", editing: true }
+                  ]);
+
+                  setControlEdit({
+                    tempValue: "",
+                    adding: true,
+                    editing: true
+                  });
+                }
+                    
+                  //setfeedbackError(true)
+              }}
+              id="addsoft"
+              disabled={controlEdit.editing}
+              className={classes.addButton}
+            >
+              <AddIcon /> <ListItemText primary={language.newsoftware} />
+            </ListItem>
+          </List>
+        </div>
+
+
+        <h3 id="soft_title">{language.hardwareRequirements}</h3>
+        <div role="group" aria-labelledby="soft_title" className="hardware">
+          <List component="ul" key={"li04"}>
+            <FeedbackHelp
+                validation={{
+                  error: false,
+                  errorMsg: requirementTooltip.errorMsg,
+                  errorType: "required",
+                  a11y: null
+                }}
+                tipMsg={requirementTooltip.AddHardware}
+                describedBy={"i02-helper-text"}
+            />
+            {otherHardware.map((hardware, index) => (
+              <ListItem
+                component="li"
+                key={"li_sft" + index}
+              >
+                <div className="feedbackRequirement">
+                    <ListItemText
+                      key={"li_sft" + index + "listeItemTxt"}
+                      primary={hardware.label}
+                      className={hardware.editing ? classes.hidden : ""}
+                    />   
+                    <div className={!hardware.editing ? classes.hidden : ""}>
+                        <TextField
+                          key={"li_sft" + index + "txtField"}
+                          className={!hardware.editing ? classes.hidden : ""}
+                          value={controlEdit.tempValue}
+                          onChange={event => updateTempValue(event.target.value, "hardware",index)}
                         />
-                        :
-                        undefined 
-                      }
-                      
-                  </div>    
-              </div>
-              <ListItemSecondaryAction key={"li_sft" + index + "secAc"}>
-                {hardware.editing ? (
-                  <React.Fragment>
-                    <Tooltip title={tooltipmessages.SaveAddHardware}>
-                    <IconButton
-                      key={"li_sft" + index + "btnEditSaveSoft"}
-                      edge="end"
-                      aria-label={"Save changes"}
-                      onClick={() => {
-                        let validateHardware= validateHardwares()
-                        if(validateHardware==="noequal"){
-                          let newHardwares = [...otherHardware];
-                          newHardwares[index].editing = false;
-                          newHardwares[index].label = controlEdit.tempValue;
-                          setOtherHardware(newHardwares);
-                          let addNewHardwares=courseinformation;
-                          addNewHardwares.requirements[1]=newHardwares
-                          setcourseInformation(addNewHardwares)
-                          setControlEdit({ tempValue: "", adding: false, editing: false});
-                          setfeedbackErrorH(false)
-                          console.log("save Hardwares",addNewHardwares )
+                        {
+                          feedbackErrorH===true?
+                          <FeedbackHelp
+                            validation={{
+                              error: true,
+                              errorMsg: message,
+                              errorType: "required",
+                              a11y: null
+                            }}
+                            tipMsg={null} //{requirementTooltip.newhardware}
+                            describedBy={"i02-helper-text"}
+                          />
+                          :
+                          undefined 
                         }
                         
-                      }}
-                      className={classes.saveButton}
-                      disabled={(controlEdit.tempValue === "" || saveButton===true)}//disabled={controlEdit.tempValue === ""}
-                    >
-                      <DoneIcon />
-                    </IconButton>
-                    </Tooltip>
-                    <Tooltip title={tooltipmessages.CancelAddHardware}>
-                    <IconButton
-                      key={"li_sft" + index + "btnEditCancelSoft"}
-                      edge="end"
-                      aria-label={"Cancel changes"}
-                      onClick={() => {
-                        if (controlEdit.adding) deleteHardware(index);
-                        else {
+                    </div>    
+                </div>
+                <ListItemSecondaryAction key={"li_sft" + index + "secAc"}>
+                  {hardware.editing ? (
+                    <React.Fragment>
+                      <Tooltip title={tooltipmessages.SaveAddHardware}>
+                      <IconButton
+                        key={"li_sft" + index + "btnEditSaveSoft"}
+                        edge="end"
+                        aria-label={"Save changes"}
+                        onClick={() => {
+                          let validateHardware= validateHardwares()
+                          if(validateHardware==="noequal"){
+                            let newHardwares = [...otherHardware];
+                            newHardwares[index].editing = false;
+                            newHardwares[index].label = controlEdit.tempValue;
+                            setOtherHardware(newHardwares);
+                            let addNewHardwares=courseinformation;
+                            addNewHardwares.requirements[1]=newHardwares
+                            setcourseInformation(addNewHardwares)
+                            setControlEdit({ tempValue: "", adding: false, editing: false});
+                            setfeedbackErrorH(false)
+                            console.log("save Hardwares",addNewHardwares )
+                          }
+                          
+                        }}
+                        className={classes.saveButton}
+                        disabled={(controlEdit.tempValue === "" || saveButton===true)}//disabled={controlEdit.tempValue === ""}
+                      >
+                        <DoneIcon />
+                      </IconButton>
+                      </Tooltip>
+                      <Tooltip title={tooltipmessages.CancelAddHardware}>
+                      <IconButton
+                        key={"li_sft" + index + "btnEditCancelSoft"}
+                        edge="end"
+                        aria-label={"Cancel changes"}
+                        onClick={() => {
+                          if (controlEdit.adding) deleteHardware(index);
+                          else {
+                            let newHardwares = [...otherHardware];
+                            newHardwares[index].editing = false;
+                            setOtherHardware(newHardwares);
+                          }
+                          setControlEdit({
+                            tempValue: "",
+                            adding: false,
+                            editing: false
+                          });
+                        }}
+                        className={classes.deleteButton}
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                      </Tooltip>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <Tooltip title={tooltipmessages.EditHardware}>
+                      <IconButton
+                        key={"li_sft" + index + "btnEditSoft"}
+                        edge="end"
+                        aria-label={"Edit hardware"}
+                        onClick={() => {
                           let newHardwares = [...otherHardware];
-                          newHardwares[index].editing = false;
+                          newHardwares[index].editing = true;
+                          console.log(newHardwares);
                           setOtherHardware(newHardwares);
-                        }
-                        setControlEdit({
-                          tempValue: "",
-                          adding: false,
-                          editing: false
-                        });
-                      }}
-                      className={classes.deleteButton}
-                    >
-                      <ClearIcon />
-                    </IconButton>
-                    </Tooltip>
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <Tooltip title={tooltipmessages.EditHardware}>
-                    <IconButton
-                      key={"li_sft" + index + "btnEditSoft"}
-                      edge="end"
-                      aria-label={"Edit hardware"}
-                      onClick={() => {
-                        let newHardwares = [...otherHardware];
-                        newHardwares[index].editing = true;
-                        console.log(newHardwares);
-                        setOtherHardware(newHardwares);
-                        setControlEdit({
-                          tempValue: otherSoftwares[index].label,
-                          adding: false,
-                          editing: true
-                        });
-                      }}
-                      disabled={controlEdit.editing}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    </Tooltip>
-                    <Tooltip title={tooltipmessages.DeleteHardware}>
-                    <IconButton
-                      key={"li_sft" + index + "btnDeleteSoft"}
-                      edge="end"
-                      onClick={handleDeleteHardwares(index)}
-                      className={classes.deleteButton}
-                    >
-                      <RemoveIcon />
-                    </IconButton>
-                    </Tooltip>
-                  </React.Fragment>
-                )}
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-          <ListItem
-            key="addsoft"
-            button
-            onClick={() => {
-              setOtherHardware(prev => [
-                ...prev,
-                { label: "New Hardware", editing: true }
-              ]);
-
-              setControlEdit({
-                tempValue: "",
-                adding: true,
-                editing: true
-              });
-             // setfeedbackErrorH(true)
-            }}
-            id="addsoft"
-            disabled={controlEdit.editing}
-            className={classes.addButton}
-          >
-            <AddIcon /> <ListItemText primary="Add other Hardware" />
-          </ListItem>
-        </List>
-      </div>
-   
-
-      <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-          <DialogTitle className="success-dialog-title" id="simple-dialog-title">Deleting Requirement</DialogTitle>
-            <DialogContent className="success-dialog-content">
-              <DialogContentText style={{padding: "0 1vw"}}>  You requested to delete {labelindexdelete}. Do you want to proceed?</DialogContentText>
-              <WarningIcon className="warning-dialog-icon"/> 
-            </DialogContent>
-              <DialogActions>
-                <Button onClick={() => setopen(false)} color="primary">No</Button>
-                <Button variant="outlined" onClick={() => {
-                  flagdeleteHardware===true? deleteHardware(indexdelete) : flagdeleteSoftware===true?  deleteSoftware(indexdelete):undefined
-                  setopen(false)
-                }} 
-                color="primary"><em>Yes</em></Button> 
-              </DialogActions>
-      </Dialog>
-    </div>
-    
+                          setControlEdit({
+                            tempValue: otherSoftwares[index].label,
+                            adding: false,
+                            editing: true
+                          });
+                        }}
+                        disabled={controlEdit.editing}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      </Tooltip>
+                      <Tooltip title={tooltipmessages.DeleteHardware}>
+                      <IconButton
+                        key={"li_sft" + index + "btnDeleteSoft"}
+                        edge="end"
+                        onClick={handleDeleteHardwares(index)}
+                        className={classes.deleteButton}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                      </Tooltip>
+                    </React.Fragment>
+                  )}
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+            <ListItem
+              key="addsoft"
+              button
+              onClick={(e) => {
+                if(e.keyCode===32){
+                  //continue
+                  console.log(e.keyCode)
+                }else{
+                  setOtherHardware(prev => [
+                    ...prev,
+                    { label: "New Hardware", editing: true }
+                  ]);
   
+                  setControlEdit({
+                    tempValue: "",
+                    adding: true,
+                    editing: true
+                  });
+                }
+                
+              // setfeedbackErrorH(true)
+              }}
+              id="addsoft"
+              disabled={controlEdit.editing}
+              className={classes.addButton}
+            >
+              <AddIcon /> <ListItemText primary={language.newhardware} />
+            </ListItem>
+          </List>
+        </div>
+        <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+            <DialogTitle className="success-dialog-title" id="simple-dialog-title">{language.warning}</DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText style={{padding: "0 1vw"}}>{`${language.deleteItemBelow}: "${labelindexdelete}" ${language.wantProceed}`}</DialogContentText>
+            <WarningIcon className="warning-dialog-icon"/> 
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setopen(false)} color="primary">{language.no}</Button>
+            <Button variant="outlined" onClick={() => {
+              flagdeleteHardware===true? deleteHardware(indexdelete) : flagdeleteSoftware===true?  deleteSoftware(indexdelete):undefined
+              setopen(false)
+            }} 
+          color="primary"><em>{language.yes}</em></Button> 
+          </DialogActions>
+        </Dialog>
+      </div>
+    </div>
   );
 }

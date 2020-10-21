@@ -79,12 +79,23 @@ export default class UserRegistration extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
-    this.props.history.push({
-      pathname: "/",
-      state: {
-        language: this.state.language,
-      }
-    });
+    if (this.props.history.location.course) {
+      this.props.history.push({
+        pathname: "/", 
+        course: this.props.history.location.course,
+        action: "in",
+        state: {
+          language: this.state.language,
+        }
+      });
+    } else {
+      this.props.history.push({
+        pathname: "/",
+        state: {
+          language: this.state.language,
+        }
+      });
+    }
   };
 
   componentDidMount() {
@@ -192,6 +203,7 @@ export default class UserRegistration extends React.Component {
         profileImage: information.image,
         verified: false,
         courses: [],
+        badge: [],
         type: 'tutor',
         configuration: {
           language: 'English (US)',
@@ -224,6 +236,7 @@ export default class UserRegistration extends React.Component {
         courses: [],
         type: 'student',
         certificates: [],
+        badge: [],
         configuration: {
           language: 'English (US)',
         },
@@ -248,12 +261,13 @@ export default class UserRegistration extends React.Component {
           Meteor.userId(),
           this.state.userInformation.email,
           (error) => {
-            if (error) {
+            /* if (error) {
               this.handleError(error);
             }
             else {
               this.requestSent();
-            }
+            } */
+            this.requestSent();
           }
         );
         Meteor.logout();
@@ -335,6 +349,7 @@ export default class UserRegistration extends React.Component {
             userInformation={this.state.userInformation}
             handleEmail={this.handleEmail.bind(this)}
             handlePassword={this.handlePassword.bind(this)}
+            handleControlMessage={this.handleControlMessage.bind(this)}
             language={this.state.language}
             type={this.props.location.type}
           />,

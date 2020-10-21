@@ -227,7 +227,8 @@ export default class PublishedCoursesList extends React.Component {
   };
 
   handleView= (profile, event, studentScores, index)=>{
-    this.average()
+    console.log("en el handle View",event, studentScores,"index-->:",index)
+    this.average(index)
     if (event === "course") {
       this.props.navigateTo([0, 0, 0, 0]);
       this.setState({
@@ -283,15 +284,28 @@ export default class PublishedCoursesList extends React.Component {
     return array.splice(index, 0, elementsArray);
   }
 
-  average=()=>{
-    let scores=this.state.studentScores 
+  average=(index)=>{
+    let scores1=this.state.studentScores 
+    let scores=[]
+    if (index!=undefined){
+      let title=scores1[index].activity.trueAnswers[0].quizTitle;
+      console.log("title",title)
+      scores=scores1.filter((quiz, indexQuiz)=>quiz.activity.trueAnswers[0].quizTitle===title);
+    }else{
+      scores=scores1;
+    }
+   
+    
+    console.log("scores1",scores)
+  
     let dupes = {};
+    console.log("Funcion Average", scores)
     scores.forEach((item,index) => {
       dupes[item.activity.activityId] = dupes[item.activity.activityId] || [];
       dupes[item.activity.activityId].push(index);
     });  
     let valuesofScores=[]
-    
+    console.log("dupes", dupes)
     for(let name in dupes){
       //average
       let average=0;
@@ -332,6 +346,13 @@ export default class PublishedCoursesList extends React.Component {
   }
 
   quizDetails=()=>{
+    this.state.studentScores[this.state.indexquiz].activity.trueAnswers.map((question, indexQuestion) =>{
+      if(question.questionTitle===''){
+        this.state.studentScores[this.state.indexquiz].activity.trueAnswers.splice(indexQuestion)
+        this.state.studentScores[this.state.indexquiz].activity.answers.splice(indexQuestion)
+      }
+    })
+
     console.log(this.state.course, "course...", this.state.studentScores, "indexquiz", this.state.indexquiz)
     return(
       <Paper elevation={8} className="quiz-dashboard-questions-containerTutor">
@@ -351,16 +372,23 @@ export default class PublishedCoursesList extends React.Component {
                 this.state.studentScores[this.state.indexquiz].activity.trueAnswers.map((question, indexQuestion) =>{
                   return(
                     <div>
-                      <div className="answers">{this.props.language.Question}: {question.questionTitle}</div>
                       {
-                          question.answersText.map((answersText, indexanswersText) =>{
-                            return(
-                              <div className="student-answers-block-q">
-                                <ul>{answersText}</ul>
-                              </div>
-                            )
-                          }) 
-                      } 
+                        question.questionTitle!=''?
+                         <div>
+                           <div className="answers">{this.props.language.Question}: {question.questionTitle}</div>
+                            {
+                              question.answersText.map((answersText, indexanswersText) =>{
+                                return(
+                                  <div className="student-answers-block-q">
+                                    <ul>{answersText}</ul>
+                                  </div>
+                                )
+                              }) 
+                            }
+                         </div>
+                        :
+                        undefined
+                      }   
                     </div>       
                   )   
                 })
@@ -370,6 +398,7 @@ export default class PublishedCoursesList extends React.Component {
             <div>
               <div className="answers">{this.props.language.StudentAnswers}<CreateRoundedIcon/></div>
               <div className="student-answers">
+                {console.log("this.state.studentScores------>",this.state.studentScores)}
                   {
                     this.state.studentScores[this.state.indexquiz].activity.answers.map((answers, indexanswers) =>{
                             return(
@@ -422,12 +451,10 @@ export default class PublishedCoursesList extends React.Component {
             <div >
               <div className="answers-scores">Scores<SpellcheckRoundedIcon/></div>
               <div className="student-scores-results">  
-              <div className="note"><h5>   {this.props.language.AverageGrade} </h5> <p>{this.state.valuesofScores[this.state.indexquiz][2]}</p></div>
-                <div className="note"><h5>{this.props.language.Maximumgrade}</h5> <p>{this.state.valuesofScores[this.state.indexquiz][0]}</p><SentimentVerySatisfiedIcon/> </div>
-                <div className="note"><h5>{this.props.language.Minimumgrade}</h5> <p>{this.state.valuesofScores[this.state.indexquiz][1]}</p><MoodBadIcon/> </div>
-                <div className="note"><h5>{this.props.language.NumberofAttemps}</h5><p>{this.state.valuesofScores[this.state.indexquiz][3]}</p><FormatListNumberedIcon/> </div> 
-                  <div className="note"><h5>{this.props.language.NumberofAttemps}</h5><p>{this.state.valuesofScores[this.state.indexquiz][3]}</p><FormatListNumberedIcon/> </div> 
-                <div className="note"><h5>{this.props.language.NumberofAttemps}</h5><p>{this.state.valuesofScores[this.state.indexquiz][3]}</p><FormatListNumberedIcon/> </div> 
+              <div className="note"><h5>  {this.props.language.AverageGrade} </h5> <p>{this.state.valuesofScores[0][2].toFixed(2)}</p></div>
+                <div className="note"><h5>{this.props.language.Maximumgrade}</h5> <p>{this.state.valuesofScores[0][0].toFixed(2)}</p><SentimentVerySatisfiedIcon/> </div>
+                <div className="note"><h5>{this.props.language.Minimumgrade}</h5> <p>{this.state.valuesofScores[0][1].toFixed(2)}</p><MoodBadIcon/> </div>
+                <div className="note"><h5>{this.props.language.NumberofAttemps}</h5><p>{this.state.valuesofScores[0][3].toFixed(2)}</p><FormatListNumberedIcon/> </div> 
               </div>
             </div>
             </RadioGroup>
@@ -491,9 +518,8 @@ export default class PublishedCoursesList extends React.Component {
             {
               this.state.results ?
                 <div className="management-result-container">
-                  <p className="management-title-published">{this.props.language.myPublishedCourses}<SchoolIcon className="management-title-icon"/></p>
+                  <p className="management-title">{this.props.language.myPublishedCourses}<SchoolIcon className="management-title-icon"/></p>
                   <p className="management-title-suggestion">{`(${this.props.language.toEditPublished})`}</p>
-                  <p className="management-title-suggestion-indent"></p>
                   <div className="management-table-container">
                     <Table
                       labels={{
@@ -562,6 +588,7 @@ export default class PublishedCoursesList extends React.Component {
                     hash: this.state.course_id,
                     state: { fromDashboard: true },
                   }}
+                  onClick={() => this.handleClose()}
                 >
                   <Button color="primary" autoFocus>
                     {this.props.language.yes}
@@ -598,85 +625,82 @@ export default class PublishedCoursesList extends React.Component {
                         <Loading message={this.props.language.loadingStudents}/>
                       </div>
                     :
-                      <React.Fragment>
+                      <div className="classroom-management-students-container">
                         {this.menu()}
-                        <div className="classroom-management-students-container">
-                          {
-                            this.state.studentInformation===''?
-                              <div>
-                                <DialogContentText className="classroom-dialog-title" id="alert-dialog-description">
-                                {this.props.language.studentsClassroom}
-                                </DialogContentText>
-                                <div className="library-files-container-student">
-                                  {this.state.courseProfiles.map((profile, index) => {
-                                    if (profile.courseProfile)
-                                    return(
-                                      <StudentProfile
-                                        profile={profile}
-                                        course={this.state.summaryCourse}
-                                        handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                        unsubscribe={this.props.unsubscribe.bind(this)}
-                                        handleView={this.handleView}
-                                        reload={this.openClassroomManagement.bind(this)}
-                                        language={this.props.language}
-                                      />
-                                    )
-                                  })}
-                                </div>
+                        {
+                          this.state.studentInformation===''?
+                            <div>
+                              <DialogContentText className="classroom-dialog-title" id="alert-dialog-description">
+                              {this.props.language.studentsClassroom}
+                              </DialogContentText>
+                              <div className="library-files-container-student">
+                                {this.state.courseProfiles.map((profile, index) => {
+                                  if (profile.courseProfile)
+                                  return(
+                                    <StudentProfile
+                                      profile={profile}
+                                      course={this.state.summaryCourse}
+                                      handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                      unsubscribe={this.props.unsubscribe.bind(this)}
+                                      handleView={this.handleView}
+                                      reload={this.openClassroomManagement.bind(this)}
+                                      language={this.props.language}
+                                    />
+                                  )
+                                })}
+                              </div>
+                            </div>
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.studentInformation==='quiz'?
+                            this.state.studentScores.length === 0 ?
+                              <div className="empty-dashboard-quiz">
+                                <p className="empty-dashboard-text">{this.props.language.courseNotHaveQuizes}</p>
+                                <InfoIcon className="empty-dashboard-icon"/>
                               </div>
                             :
-                              undefined
-                          }
-                          {
-                            this.state.studentInformation==='quiz'?
-                              this.state.studentScores.length === 0 ?
-                                <div className="empty-dashboard-quiz">
-                                  <p className="empty-dashboard-text">{this.props.language.courseNotHaveQuizes}</p>
-                                  <InfoIcon className="empty-dashboard-icon"/>
-                                </div>
-                              :
-                                this.quizes()
-                            :
-                              undefined
-                          }
-                          {
-                            this.state.studentInformation==='quizDetails'?
-                              this.quizDetails()
-                            :
-                              undefined
-                          }
-                          {
-                            this.state.studentInformation==='course'?
-                              <div>
-                                <CourseMenu
-                                  course={this.state.course}
-                                  progress={this.state.student.courseProfile.progress}
-                                  navigateTo={this.props.navigateTo.bind(this)}
-                                  selected={this.props.selected}
-                                  expandedNodes={this.props.expandedNodes}
-                                  handleView={this.handleView.bind(this)}
-                                  language={this.props.language}
-                                />
-                                <CourseContent
-                                  fromTutor={this.state.student.studentId}
-                                  course={this.state.course}
-                                  showComponent={this.props.showComponent.bind(this)}
-                                  handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                  handlePrevious={this.props.handlePrevious.bind(this)}
-                                  handleNext={this.props.handleNext.bind(this)}
-                                  navigateTo={this.props.navigateTo.bind(this)}
-                                  selected={this.props.selected}
-                                  toComplete={this.state.student.courseProfile.toComplete}
-                                  toResolve={this.state.student.courseProfile.toResolve}
-                                  language={this.props.language}
-                                  logStudentInteraction={this.logStudentInteraction.bind(this)}
-                                />
-                              </div>
-                            :
-                              undefined
-                          }
-                        </div>
-                      </React.Fragment>
+                              this.quizes()
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.studentInformation==='quizDetails'?
+                            this.quizDetails()
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.studentInformation==='course'?
+                            <div>
+                              <CourseMenu
+                                course={this.state.course}
+                                progress={this.state.student.courseProfile.progress}
+                                navigateTo={this.props.navigateTo.bind(this)}
+                                selected={this.props.selected}
+                                expandedNodes={this.props.expandedNodes}
+                                handleView={this.handleView.bind(this)}
+                                language={this.props.language}
+                              />
+                              <CourseContent
+                                fromTutor={this.state.student.studentId}
+                                course={this.state.course}
+                                showComponent={this.props.showComponent.bind(this)}
+                                handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                handlePrevious={this.props.handlePrevious.bind(this)}
+                                handleNext={this.props.handleNext.bind(this)}
+                                navigateTo={this.props.navigateTo.bind(this)}
+                                selected={this.props.selected}
+                                toComplete={this.state.student.courseProfile.toComplete}
+                                toResolve={this.state.student.courseProfile.toResolve}
+                                language={this.props.language}
+                              />
+                            </div>
+                          :
+                            undefined
+                        }
+                      </div>
                   }
                 </React.Fragment>
               :

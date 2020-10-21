@@ -12,10 +12,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WarningIcon from '@material-ui/icons/Warning';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import SchoolIcon from '@material-ui/icons/School';
 import InfoIcon from '@material-ui/icons/Info';
 import EditIcon from '@material-ui/icons/Edit';
-import LanguageIcon from '@material-ui/icons/Language';
 import DoneIcon from '@material-ui/icons/Done';
 
 import Button from '@material-ui/core/Button';
@@ -34,20 +32,10 @@ import StorytellingScene from './StorytellingScene';
 import StorytellingEnd from './StorytellingEnd';
 import StorytellingPlayer from './StorytellingPlayer';
 import { Activities } from '../../../lib/ActivitiesCollection';
-import { Feedback }   from '../../../lib/FeedbackCollection';
-import { Courses } from '../../../lib/CourseCollection';
-import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import { withStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 import AudioPlayer from 'react-h5-audio-player';
 import ReactPlayer from 'react-player';
 import 'react-h5-audio-player/lib/styles.css';
@@ -58,15 +46,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
-import { 
-  FacebookShareButton, FacebookIcon,
-  LinkedinShareButton, LinkedinIcon,
-  TwitterShareButton, TwitterIcon
-} from "react-share";
-
-import { Link } from "react-router-dom";
-
+import PublishMethods from './PublishMethods';
 
 const useStyles = theme => ({
   root: {
@@ -425,6 +405,10 @@ class StorytellingTool extends React.Component {
       this.props.handleControlMessage(true, this.props.language.storyMustHave);
       return false;
     }
+    if (story.nodes.findIndex(node => node.type === "end") === -1) {
+      this.props.handleControlMessage(true, this.props.language.storyMustEnd);
+      return false;
+    }
     for (var i = 0; i < story.nodes.length; i++) {
       if (story.nodes[i].name === "") {
         this.props.handleControlMessage(true, this.props.language.allScenesMust);
@@ -434,30 +418,20 @@ class StorytellingTool extends React.Component {
         });
         return false;
       }
-      if (story.nodes[i].audio === "" && i + 1 < story.nodes.length && publish) {
+      if (story.nodes[i].audio === "" && story.nodes[i].video === "" && i + 1 < story.nodes.length && publish) {
         this.props.handleControlMessage(true, this.props.language.allScenesAudio);
         this.setState({
           selectedNode: i,
         });
         return false;
       }
-      if (story.nodes[i].image === "" && publish) {
+      if (story.nodes[i].image === "" && story.nodes[i].video === "" && publish) {
         this.props.handleControlMessage(true, this.props.language.allScenesImage);
         this.setState({
           selectedNode: i,
         });
         return false;
       }
-    }
-    let hasEnd = false;
-    for (var i = 0; i < story.nodes.length; i++) {
-      if (story.nodes[i].type === 'end') {
-        hasEnd = true;
-      }
-    }
-    if (!hasEnd) {
-      this.props.handleControlMessage(true, this.props.storyMustEnd);
-      return false;
     }
     return true;
   }
@@ -536,87 +510,6 @@ class StorytellingTool extends React.Component {
     this.setState({
       showPreview: false,
     });
-  }
-
-  handlePublishOnCourse = () => {
-    let courses = [];
-    this.props.user.profile.courses.map(course => {
-      courses.push(course.courseId)
-    });
-    courses = Courses.find({_id: {$in: courses}}).fetch();
-    this.setState({
-      action: "publishOnCourse",
-      courses: courses,
-    })
-  }
-
-  handlePublishAsActivity = () => {
-    let courses = [];
-    let activities = [];
-    this.props.user.profile.courses.map(course => {
-      courses.push(course.courseId)
-    });
-    courses = Courses.find({_id: {$in: courses}}).fetch();
-    courses.map(course => {
-      if (course.organization.subunit) {
-        course.program.map(unit => {
-          unit.lessons.map(subunit => {
-            subunit.items.map(item => {
-              if (item.type === "activity" && item.attributes.type === "storyboard") {
-                for (var i = 0; i < this.props.user.profile.courses.length; i++) {
-                  for (var j = 0; j < this.props.user.profile.courses[i].toResolve.length; j++) {
-                    if (this.props.user.profile.courses[i].toResolve[j]._id === item.id && !this.props.user.profile.courses[i].toResolve[j].resolved) {
-                      activities.push({
-                        course: course.title,
-                        source: `${unit.name} - ${subunit.name}`,
-                        courseId: course._id,
-                        activityId: item.id,
-                        instruction: item.attributes.instruction,
-                      });
-                    }
-                  }
-                }
-              }
-            })
-          })
-        })
-      }
-      else {
-        course.program.map(unit => {
-          unit.items.map(item => {
-            if (item.type === "activity" && item.attributes.type === "storyboard") {
-              for (var i = 0; i < this.props.user.profile.courses.length; i++) {
-                for (var j = 0; j < this.props.user.profile.courses[i].toResolve.length; j++) {
-                  if (this.props.user.profile.courses[i].toResolve[j]._id === item.id && !this.props.user.profile.courses[i].toResolve[j].resolved) {
-                    activities.push({
-                      course: course.title,
-                      source: unit.name,
-                      courseId: course._id,
-                      activityId: item.id,
-                      instruction: item.attributes.instruction,
-                    });
-                  }
-                }
-              }
-            }
-          })
-        })
-      }
-      this.setState({
-        activities: activities,
-        courses: courses,
-        action: "publishAsActivity",
-      })
-    })
-  }
-
-  handlePublishOnSocialNetwork = () => {
-    const shareUrl = `${window.origin}/story#${this.state.saved}`
-    this.setState({
-      shareUrl: shareUrl,
-      title: this.props.language.publishOnSocialNetwork,
-      action: 'publishOnSocialNetwork',
-    })
   }
 
   publishOnCourse = (course) => {
@@ -920,12 +813,12 @@ class StorytellingTool extends React.Component {
   render() {
     const { classes } = this.props;
     return(
-      <div>
+      <React.Fragment>
         {
           !this.state.showPreview ?
             <div className="storytelling-tool-container">
               <div className="storytelling-work-area-full">
-                <div className="storytelling-work-area">
+                <div className="storytelling-title-area">
                   <h2 className="storytelling-work-area-title">{this.props.language.storyFlow}</h2>
                   {
                     this.state.story.nodes.length >= 2 ?
@@ -1480,7 +1373,7 @@ class StorytellingTool extends React.Component {
                         {
                           this.state.story.nodes[this.state.selectedNode].video !== '' ?
                             this.state.story.nodes[this.state.selectedNode].video.name === "externalVideoUrlStorytelling" ?
-                              <ReactPlayer className="course-creator-preview-player" url={this.state.story.nodes[this.state.selectedNode].video.link}/>
+                              <ReactPlayer controls className="course-creator-preview-player" url={this.state.story.nodes[this.state.selectedNode].video.link}/>
                             :
                               <div className="video-preview-container">
                                 <VideoPreview file={this.state.story.nodes[this.state.selectedNode].video}/>
@@ -1725,19 +1618,19 @@ class StorytellingTool extends React.Component {
                   this.state.action === "reuseAudio"?
                     <div className="library-files-container">
                       {this.state.dataAudio1.map(tile => (    
-                        <Card onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
+                        <div onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
                           <div className="card-media-audio-storytelling">
                             <AudioPlayer volume src={tile.link}/>
                           </div>
-                          <CardActions className="card-actions-bottom-container" disableSpacing>
+                          <div className="card-actions-bottom-container" disableSpacing>
                             {`${this.props.language.audioTitle}: ${tile.name}`}
                             <Tooltip title={this.props.language.edit}>
                               <IconButton className="card-button" onClick={() => this.changeFileName(tile.name, tile._id)} aria-label="delete">
                                 <EditIcon className="card-icon"/>
                               </IconButton>
                             </Tooltip>
-                          </CardActions> 
-                        </Card>
+                          </div> 
+                        </div>
                       ))}
                     </div>
                   :
@@ -1747,7 +1640,7 @@ class StorytellingTool extends React.Component {
                   this.state.action === "reuseVideo"?
                     <div className="library-files-container">
                       {this.state.dataVideo1.map(tile => (    
-                        <Card onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
+                        <div onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
                           <div className="card-media-audio-storytelling">
                             {
                               tile.name === "externalVideoUrlStorytelling" ?
@@ -1758,7 +1651,7 @@ class StorytellingTool extends React.Component {
                                 </div>
                             }  
                           </div>
-                          <CardActions className="card-actions-bottom-container" disableSpacing>
+                          <div className="card-actions-bottom-container" disableSpacing>
                             {`${this.props.language.videoTitle}: ${tile.name === "externalVideoUrlStorytelling" ? tile.link : tile.name}`}
                             {
                               tile.name === "externalVideoUrlStorytelling" ?
@@ -1770,8 +1663,8 @@ class StorytellingTool extends React.Component {
                                   </IconButton>
                                 </Tooltip>
                             }
-                          </CardActions>
-                        </Card>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   :
@@ -1829,180 +1722,17 @@ class StorytellingTool extends React.Component {
           </div>
         </Dialog>
         {/* After publish */}
-        <Dialog
-          open={this.state.openpublish} ///true for show
-          onClose={this.handleClosepublish}
-          aria-labelledby="alert-dialog-confirmation"
-          aria-describedby="alert-dialog-confirmation"
-          disableBackdropClick={true}
-        >
-          {
-            this.state.action === "boxpubshow" ?
-              <React.Fragment>
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {this.props.language.publishStory}
-                </DialogTitle>
-                <div className="center-row">
-                  {
-                    Meteor.user().profile.type === "student" ?
-                      <Button
-                        className="storytelling-publish-button"
-                        color="primary"
-                        onClick={() => this.handlePublishOnCourse()}
-                      >
-                        <p className="storytelling-publish-button-text">{this.props.language.publishOnACourse}</p>
-                        <SchoolIcon className="storytelling-publish-icon"/>
-                      </Button>
-                    :
-                    undefined
-                  }
-                  {
-                    Meteor.user().profile.type === "student" ?
-                      <Button
-                        className="storytelling-publish-button"
-                        color="primary"
-                        onClick={() => this.handlePublishAsActivity()}
-                      >
-                        <p className="storytelling-publish-button-text">{this.props.language.sendAsActivity}</p>
-                        <EditIcon className="storytelling-publish-icon"/>
-                      </Button>
-                    :
-                      undefined
-                  }
-                  <Button
-                    className="storytelling-publish-button"
-                    color="primary"
-                    onClick={() => this.handlePublishOnSocialNetwork()}
-                  >
-                    <p className="storytelling-publish-button-text">{this.props.language.publishOnSocialNetwork}</p>
-                    <LanguageIcon className="storytelling-publish-icon"/>
-                  </Button>
-                </div>
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {this.props.language.publishStoryText}
-                </DialogContentText>
-              </React.Fragment> 
-            :
-              undefined
-      
-          }
-          {
-            this.state.action === "publishOnSocialNetwork" ?
-              <React.Fragment>
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {this.props.language.publishOnSocialNetwork}
-                </DialogTitle>
-                <div className="storytelling-share-btn-group">
-                  <div className="storytelling-share-btn">
-                    <FacebookShareButton
-                      url={this.state.shareUrl}
-                      quote={this.state.title}>
-                      <FacebookIcon
-                        size={64}
-                        round />
-                    </FacebookShareButton>
-                  </div>
-                  <div className="storytelling-share-btn">
-                    <TwitterShareButton
-                      url={this.state.shareUrl}
-                      title={this.state.title}>
-                      <TwitterIcon
-                        size={64}
-                        round />
-                    </TwitterShareButton>  
-                  </div>
-                  <div className="storytelling-share-btn">
-                    <LinkedinShareButton
-                      url={this.state.shareUrl}
-                      windowWidth={750}
-                      windowHeight={600}>
-                      <LinkedinIcon
-                        size={64}
-                        round />
-                    </LinkedinShareButton>  
-                  </div>
-                </div>
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {
-                    <Link
-                      to={`/story#${this.state.saved}`}
-                    >{this.state.shareUrl}</Link>
-                  }
-                </DialogContentText>
-                <DialogActions>
-                  <Button onClick={() => this.handleyes()} color="primary" autoFocus>
-                    {this.props.language.back}
-                  </Button>
-                </DialogActions>
-              </React.Fragment>
-            :
-            undefined
-          }
-          {
-            this.state.action === "publishOnCourse" ?
-              <React.Fragment>
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {this.props.language.publishOnCourse}
-                </DialogTitle>
-                {
-                  this.state.courses.map(course => {
-                    return(
-                      <Button
-                        color="primary"
-                        className="storytelling-course-publish-button"
-                        onClick={() => this.publishOnCourse(course._id)}
-                      >
-                        {`- ${course.title}`}
-                      </Button>
-                    )
-                  })
-                }
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {this.props.language.publishStoryCourseText}
-                </DialogContentText>
-                <DialogActions>
-                  <Button onClick={() => this. handleyes()} color="primary" autoFocus>
-                    {this.props.language.back}
-                  </Button>
-                </DialogActions>
-              </React.Fragment>
-            :
-            undefined
-          }
-          {
-            this.state.action === "publishAsActivity" ?
-              <React.Fragment>
-                <DialogTitle className="success-dialog-title" id="alert-dialog-title">
-                  {this.props.language.sendAsActivity}
-                </DialogTitle>
-                <DialogContentText className="dialog-center-subtitle" id="alert-dialog-title">
-                  {`${this.props.language.publishStoryActivityText}:`}
-                </DialogContentText>
-                {
-                  this.state.activities.map(activity => {
-                    return(
-                      <Button
-                        color="primary"
-                        className="storytelling-course-activity-publish-button"
-                        onClick={() => this.completeActivity(activity.activityId, this.props.language.storySent, activity.courseId)}
-                      >
-                        {`${activity.course} - ${activity.source} | ${this.props.language.instructions} 
-                        ${activity.instruction.length <= 50 ? activity.instruction : `${activity.instruction.slice(0,50)}...`}`}
-                      </Button>
-                    )
-                  })
-                }
-                <DialogActions>
-                  <Button onClick={() => this.handleyes()} color="primary" autoFocus>
-                    {this.props.language.back}
-                  </Button>
-                </DialogActions>
-              </React.Fragment>
-            :
-            undefined
-          }         
-        </Dialog>
-      </div>
+        <PublishMethods
+          user={this.props.user}
+          openpublish={this.state.openpublish}
+          saved={this.state.saved}
+          handleClose={this.handleClose.bind(this)}
+          handleClosepublish={this.handleClosepublish.bind(this)}
+          handleyes={this.handleyes.bind(this)}
+          publishOnCourse={this.publishOnCourse.bind(this)}
+          language={this.props.language}
+        />
+      </React.Fragment>
     )
   }
 }

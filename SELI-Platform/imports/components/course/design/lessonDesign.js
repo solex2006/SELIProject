@@ -135,7 +135,7 @@ export default function DesignCourseApp(props) {
     ],
     activities: [
       {
-        activity: "Example",
+        activity: language.task,
         type: "1",
         graded: true,
         group: 0,
@@ -143,8 +143,8 @@ export default function DesignCourseApp(props) {
         preeReview: false,
         submitted: true,
         error: true,
-        label: "required",
-        helperText: "Name is required.",
+        label: language.required,
+        helperText: language.Namerequired,
         validateInput: true
       }
     ],
@@ -266,7 +266,7 @@ export default function DesignCourseApp(props) {
                   errorType: "",
                   a11y: null
                 }}
-                tipMsg="instructions"
+                tipMsg={language.lessonName}
                 describedBy={"i05-helper-text"}
               />
             </div>     
@@ -349,7 +349,7 @@ export default function DesignCourseApp(props) {
       <Button
         variant="outlined"
         color="secondary"
-        fullWidth
+        //fullWidth
         onClick={() => addLesson()}
       >
         {language.Addlesson}
@@ -395,7 +395,7 @@ export default function DesignCourseApp(props) {
           <DialogContent className="success-dialog-content">
             <div className="organization-form">
               <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                Are you sure you want to delete this lesson ?
+                {`${language.deleteItemBelow}, ${language.wantProceed}`}
               </DialogContentText>
             </div>
             <WarningIcon className="warning-dialog-icon"/>

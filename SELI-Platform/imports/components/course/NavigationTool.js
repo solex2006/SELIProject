@@ -112,6 +112,8 @@ export default class NavigationTool extends React.Component {
         this.props.reRender();
         this.props.turnOffSortMode();
       }
+      if (document.getElementById("courseContainer"))
+      document.getElementById("courseContainer").scroll(0,0);
     });
   }
 

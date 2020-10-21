@@ -1,18 +1,11 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import MessageIcon from '@material-ui/icons/Message';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Checkbox from '@material-ui/core/Checkbox';
 import { Meteor } from 'meteor/meteor';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
-import Popover from '@material-ui/core/Popover';
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import { Divider } from 'material-ui';
+import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 export default class CommentItem extends React.Component {
   constructor(props) {
@@ -64,6 +57,12 @@ export default class CommentItem extends React.Component {
       profile: profile,
     })
   }
+  
+  Texteditor = () => {
+    const contentState = convertFromRaw(this.props.comment.label);
+    const editorState =  EditorState.createWithContent(contentState);
+    return editorState;
+  }
 
   render() {
     return(
@@ -90,9 +89,20 @@ export default class CommentItem extends React.Component {
                 <p className="student-profile-information-text-secondary-comment">
                   {`${this.props.language.name}: ${this.state.profile.profile.fullname}`}
                 </p>
-                <div className="activity-item-container-instruction"
-                  dangerouslySetInnerHTML={{__html: this.props.comment.label}}>
-                </div>
+                {
+                  this.props.comment.label && (
+                    this.props.comment.label.blocks ?
+                      <div className="activity-item-container-instruction">
+                        <Editor 
+                          editorState={this.Texteditor()} readOnly={true} 
+                        /> 
+                      </div>
+                    :
+                      <div className="activity-item-container-instruction"
+                        dangerouslySetInnerHTML={{__html: this.props.comment.label}}>
+                      </div>
+                  )
+                }
               </Paper>
               {
                 this.props.comment.userId === Meteor.userId() ?

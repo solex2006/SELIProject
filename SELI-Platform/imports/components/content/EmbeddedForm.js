@@ -34,8 +34,11 @@ export default class EmbeddedForm extends React.Component {
 
   getEmbeddedAttributes(){
     let emebedContent = this.state.attributes;
+    let url = emebedContent.url;
     let size = {width: "100%", height: this.vhToPixels(100)};
     emebedContent.size = size;
+    url = url.replace(/^http:\/\//i, 'https://');
+    emebedContent.url = url;
     if (this.validateContent(emebedContent)) {
       return emebedContent;
     }
@@ -98,10 +101,10 @@ export default class EmbeddedForm extends React.Component {
         />
         <div className="center-button-container">
           <Help
-              helper="hp5Helper"
-              text={this.props.language.helpH5p}
-              language={this.props.language}
-            />
+            helper="default"
+            text={this.props.language.helpH5p}
+            language={this.props.language}
+          />
         </div>
         {/*  <div className="margin-center-row">
           <p className="form-label">{this.props.language.textPosition}</p>
@@ -120,7 +123,7 @@ export default class EmbeddedForm extends React.Component {
             </ToggleButtonGroup>
           </Grid>
         </div>
-       <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
+        <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
           <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
           <Editor
             areaHeight="20vh"

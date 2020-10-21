@@ -90,6 +90,7 @@ export default function DesignCourseCommons(props) {
         required
         fullWidth
         multiline
+        variant="outlined"
         value={ learning!='' ?learning : learnGols}
         onChange={event => {
           setLearning(event.target.value)
@@ -108,14 +109,16 @@ export default function DesignCourseCommons(props) {
         }}
         tipMsg={language.instructionslearning}
         describedBy={key + "-helper-text_Obj"}
-      />
+      /><br/>
       <TextField
         id={key + "_ObjPreexisting"}
         label={language.Preexistingknowlegde}
         aria-describedBy={key + "-helper-text_preKnowledge"}
         value={preKnow!=''? preKnow :preKnowledge}
+        //required
         fullWidth
         multiline
+        variant="outlined"
         onChange={event => {
           setpreKnow(event.target.value)
           unit.preKnowledge = event.target.value;
@@ -131,14 +134,16 @@ export default function DesignCourseCommons(props) {
         }}
         tipMsg={language.instructionsPreExisting}
         describedBy={key + "-helper-text_preKnowledge"}
-      />
+      /><br/>
       <TextField
         id={key + "_ObjMain"}
-        label={language.Maincontent}
+        label={`${language.Maincontent} (${language.required})`}
         aria-describedBy={key + "-helper-text_mainContent"}
         value={main!='' ? main : mainContent }
-        fullWidth
         required
+        fullWidth
+        multiline
+        variant="outlined"
         onChange={event => {
           setMain(event.target.value)
           unit.mainContent = event.target.value;
@@ -154,14 +159,16 @@ export default function DesignCourseCommons(props) {
         }}
         tipMsg={language.instructionsMainContent}
         describedBy={key + "-helper-text_mainContent"}
-      />
+      /><br/>
       <TextField
         id={key + "_ObjEvaluation"}
         label={language.Evaluation}
         aria-describedBy={key + "-helper-text_mainContent"}
         value={eval!= ''? eval : evaluation}
-        fullWidth
         required
+        fullWidth
+        multiline
+        variant="outlined"
         onChange={event => {
           setEvaluation(event.target.value)
           unit.evaluation = event.target.value;

@@ -34,7 +34,6 @@ export default function CourseContent(props) {
        
         return {quiz, actividad, forum}    
     }
-
     const TotalofQuizTypeTopic=(unit)=>{
             let quiz=0
             let actividad=0
@@ -54,9 +53,6 @@ export default function CourseContent(props) {
            
         return {quiz, actividad, forum} 
     }
-    
-   
-
     const TotaloFreeTopic=(topico)=>{
           // console.log("props en TotaloFreeTopic", props) 
       let text=0
@@ -135,49 +131,77 @@ export default function CourseContent(props) {
 
     return (
         <div>
+            {console.log("course.map----->",course)}
             {
             course.map((topic, indexUnit)=>(
                 <div>
                     <div className='crnheading'>
-                        <h3 id="content-topic-n" tabIndex="-1">{topic.title}</h3>
+                        <h4 id={"content-topic-"+indexUnit}  tabIndex="-1" >{topic.title}</h4>
                     </div>
                     {
                         coursePlan.guidedCoursePlan!='free' ?
                         <div>
-                             
-                            <div>
-                            <div className='crnheading'>
-                                <h3 >Learning Goals</h3>
-                            </div>
-                            <div className='descriptiontext' >{topic.learnGols}</div>
-                            </div>
+                            <p>
+                                <strong>{props.language.LearningGoals}</strong>:{" "}
+                                {topic.learnGols}
+                            </p>
 
-                            <div>
-                                <div className='crnheading'>
-                                    <h3> Prerequisites</h3>
-                                </div>
-                                <div className='descriptiontext'>{topic.preKnowledge}</div>
-                            </div>
-                            
+                            <p>
+                                <strong>{props.language.Prerequisites}</strong>:{" "}
+                                {topic.preKnowledge}
+                            </p>
+                                    
+                            <p>
+                                <strong>{props.language.Content}</strong>: {" "}
+                                {topic.mainContent}
+                            </p>
 
-                            <div>
-                                <div className='crnheading'>
-                                    <h3>Content</h3>
-                                </div>
-                                <div className='descriptiontext'>{topic.mainContent}</div>
-                            </div>
-                        </div>
-                        
-                        :
-                        undefined
-                    }
-                    {
-                        coursePlan.guidedCoursePlan!='free' ?
-                        <div>
-                            <div>
-                            <div className='crnheading'>
-                                <h3>Materials</h3>
-                            </div>
+                            <p>
+                                <strong>{props.language.Materials}</strong>:
+                                {
+                                    (coursePlan.guidedCoursePlan==='guided'  &&
+                                    (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
+                                    || coursePlan.courseTemplate==='consistent' || coursePlan.courseTemplate==='toyBox' ) && 
+                                    coursePlan.courseStructure==='topic')?       
+                                    <div style={{paddingLeft:'20px'}}>
+                                        { 
+                                            <div>
+                                                <div>
+                                                    {topic.tools.map((tool,indextool)=>(//the resources of the lesson
+                                                   
+                                                        tool.checked===true?
+                                                            <div  className='elemntoflist' key={indextool}>
+                                                                { console.log("tool------------------------------", tool)}
+                                                                {
+                                                                    indextool===4?
+                                                                    undefined
+                                                                    :
+                                                                    <div>
+                                                                        <p style={{fontWeight:'bold', display:'block'}}>{tool.label}</p>
+                                                                        {
+                                                                            tool.items!=undefined?
+                                                                                tool.items.map((item, indexItem)=>(
+                                                                                    (item.url!=undefined)?
+                                                                                        <a style={{paddingLeft:'30px',display:'block'}} href={item.url}>{item.title}</a>
+                                                                                    :
+                                                                                    <label style={{paddingLeft:'30px',display:'block'}}>{item.title}</label>
+                                                                                ))
+                                                                            :
+                                                                            undefined
+                                                                        }
+                                                                    </div>                                           
+                                                                }
+                                                            </div>
+                                                        :
+                                                        undefined
+                                                    ))}
+                                                </div>
+                                            </div> 
+                                        }
+                                    </div>
+                                    :
+                                    undefined                        
+                                }
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  && coursePlan.courseTemplate==='without' && coursePlan.courseStructure==='unit')?       
                                     <div>
@@ -185,28 +209,37 @@ export default function CourseContent(props) {
                                             topic.lessons.map((lesson,index)=>(
                                                 <div key ={index}>
                                                     <div className='crnheading'>
-                                                        <h3>{lesson.title}</h3>
+                                                        <h4 id={'lesson-'+index}>{lesson.title}</h4>
                                                     </div>
-                                                    <ul className='resources'>
+                                                    <div style={{paddingLeft:'20px'}} >
                                                         {lesson.tools.map((tool,indextool)=>(//the resources of the lesson
                                                             tool.checked===true?
-                                                                <li  key={indextool}>{tool.label}</li>
+                                                            <div  className='elemntoflist' key={indextool}>
+                                                                { console.log("tool------------------------------", tool)}
+                                                                {
+                                                                    indextool===4?
+                                                                    undefined
+                                                                    :
+                                                                    <div>
+                                                                        <p style={{fontWeight:'bold', display:'block'}}>{tool.label}</p>
+                                                                        {
+                                                                            tool.items!=undefined?
+                                                                                tool.items.map((item, indexItem)=>(
+                                                                                    (item.url!=undefined)?
+                                                                                        <a style={{paddingLeft:'30px',display:'block'}} href={item.url}>{item.title}</a>
+                                                                                    :
+                                                                                    <label style={{paddingLeft:'30px',display:'block'}}>{item.title}</label>
+                                                                                ))
+                                                                            :
+                                                                            undefined
+                                                                        }
+                                                                    </div>                                           
+                                                                }
+                                                            </div>   
                                                             :
                                                             undefined
                                                         ))}
-                                                    </ul>
-                                                    <div className='crnheading'>
-                                                    <h3>Tasks list of {lesson.title}</h3>
                                                     </div>
-                                                    <ul >
-                                                        {
-                                                            topic.lessons[index].activities.map((activity,indextool)=>(
-                                                                <li key={indextool}> 
-                                                                    {activity.activity}
-                                                                </li> 
-                                                            ))
-                                                        }
-                                                    </ul>  
                                                 </div>      
                                             ))
                                         }
@@ -214,195 +247,195 @@ export default function CourseContent(props) {
                                     :
                                     undefined                        
                                 }
+                            </p>
+                        
+                            <p className='crnheading' id={"topic-"+indexUnit+"-readings"}>
+                            <hr/>
+                            <br/>
+                            <h5>{props.language.Readings}</h5>
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  &&
                                     (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
                                     || coursePlan.courseTemplate==='consistent' || coursePlan.courseTemplate==='toyBox' ) && 
                                     coursePlan.courseStructure==='topic')?       
-                                    <div>
-                                        { 
-                                            <div>
-                                                <ul className='resources'>
-                                                        {topic.tools.map((tool,indextool)=>(//the resources of the lesson
-                                                            tool.checked===true?
-                                                                <li  key={indextool}>{tool.label}</li>
-                                                            :
-                                                            undefined
-                                                        ))}
-                                                    </ul>
-                                                    <div className='crnheading'>
-                                                    <h3>Tasks list of {topic.title}</h3>
-                                                    </div>
-                                                    <ul >
-                                                        {
-                                                            topic.activities.map((activity,indextool)=>(
-                                                                <li  key={indextool}> 
-                                                                    {activity.activity}
-                                                                </li> 
-                                                            ))
-                                                        }
-                                                </ul>
-
-                                            </div> 
-                                        }
+                                    <div>       
+                                       
+                                        {
+                                        
+                                            topic.tools[4].checked===true?
+                                            
+                                            <ul >
+                                                {
+                                                 topic.tools[4].items.length!=0?
+                                                    topic.tools[4].items.map((sup,indexSup)=>(
+                                                      
+                                                        <a style={{paddingLeft:'30px',display:'block'}} href={sup.url}>{sup.title}</a>
+                                                    ))
+                                                    :
+                                                    <li>{props.language.TherearenoReadings}</li>
+                                                    
+                                                }
+                                                
+                                            </ul>
+                                            :
+                                            <p>{props.language.TherearenoReadings}</p>
+                                        }              
                                     </div>
                                     :
                                     undefined                        
-                                }
-                            </div>
-                            <div>
-                        <div>
-                            <div id='topic-n-readings' className='crnheading'>
-                                <h3>SuplemantaryMaterial </h3>
-                            </div>
-                            {
-                                (coursePlan.guidedCoursePlan==='guided'  && coursePlan.courseTemplate==='without' && coursePlan.courseStructure==='unit')?       
-                                <div>
-                                    {
-                                        topic.lessons.map((lesson,index)=>(
-                                            lesson.tools[4].checked===true?
-                                            <ul className='resources' key={index}>
-                                                {lesson.tools[4].items.map((item,index)=>(
-                                                        <li key={index}>{item.title}</li>    
-                                                ))} 
-                                            </ul>
-                                            :
-                                            undefined
-                                        ))
-                                    }
-                                </div>
-                                :
-                                undefined                        
-                            }
-                            {
-                                (coursePlan.guidedCoursePlan==='guided'  &&
-                                (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
-                                || coursePlan.courseTemplate==='consistent' || coursePlan.courseTemplate==='toyBox' ) && 
-                                coursePlan.courseStructure==='topic')?       
-                                <div>
-                                    { 
-                                            topic.tools[4].checked===true?
-                                                <ul className='resources'>
-                                                    {topic.tools[4].items.map((item,index)=>(
-                                                            <li key={index}>{item.title}</li>    
-                                                    ))} 
-                                                </ul>
-                                            :
-                                            undefined
-                                    }
-                                </div>
-                                :
-                                undefined                        
-                            }
-                        </div>
-                    </div>
-                        </div>
-                        :
-                        undefined
-                    }
-                    <div>
-                        <div className='crnheading'>
-                            <h3 id="topic-n-assess" tabIndex="-1">
-                                Assessment Methods
-                            </h3>
-                        </div>
-                        <ul className='resources'>
-                            <li >
-                                <MenuBookIcon/>
-                                {" "}
-                                Total of Quiz tasks:{" "} 
+                                } 
                                 {
-                                    (coursePlan.guidedCoursePlan==='guided'  &&
-                                     coursePlan.courseTemplate==='without'   &&
-                                     coursePlan.courseStructure==='unit')? 
-                                     TotalofQuizTypeUnit(indexUnit).quiz
-                                     :
-                                    (coursePlan.guidedCoursePlan==='free'    &&
-                                     coursePlan.courseTemplate==='without'   &&
-                                     coursePlan.courseStructure==='topic')?
-                                     TotaloFreeTopic(indexUnit)[5]
-                                     :
-                                     (coursePlan.guidedCoursePlan==='free'   &&
-                                     coursePlan.courseTemplate==='without'   &&
-                                     coursePlan.courseStructure==='unit')?
-                                     TotaloFreeUnit(indexUnit) [5]
-                                     :
-                                     TotalofQuizTypeTopic(indexUnit).quiz
-                                      
-                                }
-                              
-                            </li>
-                            <li >
-                                <AssignmentOutlinedIcon/>
-                                {" "}
-                                Total of Activities:{" "} 
-                                {
-                                    (coursePlan.guidedCoursePlan==='guided'  &&
-                                     coursePlan.courseTemplate==='without' &&
-                                     coursePlan.courseStructure==='unit')? 
-                                     TotalofQuizTypeUnit(indexUnit).actividad
-                                    :
-                                    (coursePlan.guidedCoursePlan==='free'  &&
-                                     coursePlan.courseTemplate==='without' &&
-                                     coursePlan.courseStructure==='topic')?
-                                     TotaloFreeTopic(indexUnit)[4]
-                                     :
-                                     (coursePlan.guidedCoursePlan==='free'   &&
-                                     coursePlan.courseTemplate==='without'   &&
-                                     coursePlan.courseStructure==='unit')?
-                                     TotaloFreeUnit(indexUnit)[4]
-                                     :
-                                     TotalofQuizTypeTopic(indexUnit).actividad
-                                      
-                                }
-                            </li>
+                                    (coursePlan.guidedCoursePlan==='guided'  && coursePlan.courseTemplate==='without' && coursePlan.courseStructure==='unit')?       
+                                    <div>       
+                                        {
+                                            topic.lessons.map((lesson,index)=>(
+                                                lesson.tools[4].checked===true?
+                                                   
+                                                    <div>
 
-                            {
-                                (coursePlan.guidedCoursePlan!='free')? 
+        
+                                                        {
+                                                            lesson.tools[4].checked===true?
+                                                            
+                                                            <ul >
+                                                                {
+                                                                lesson.tools[4].items.length!=0?
+                                                                    lesson.tools[4].items.map((sup,indexSup)=>(
+                                                                        <a style={{paddingLeft:'30px',display:'block'}} href={sup.url}>{sup.title}</a>
+                                                                       
+                                                                    ))
+                                                                    :
+                                                                    <li>{props.language.TherearenoReadings}</li>
+                                                                    
+                                                                }
+                                                                
+                                                            </ul>
+                                                            :
+                                                            <p>{props.language.TherearenoReadings}</p>
+                                                        }
+                                                    </div>
+                                                :
+                                                    undefined
+                                            ))    
+                                        }              
+                                    </div>
+                                    :
+                                    undefined                        
+                                }                              
+                            </p>
+                       
+                            <p className='crnheading' id={"topic-"+indexUnit+"-assess"}>
+                               
+                                <ul className='resources' style={{display:'block'}}>
+                                <li style={{fontSize :'13px', fontWeight: 'bold'}}>{props.language.AssessmentMethods}</li>
                                     <li >
-                                        <ForumIcon/>
+                                        <MenuBookIcon/>
                                         {" "}
-                                        Total of Forums: {" "}
+                                        {props.language.TotalofQuiztasks}:{" "} 
+                                        {
+                                            (coursePlan.guidedCoursePlan==='guided'  &&
+                                            coursePlan.courseTemplate==='without'   &&
+                                            coursePlan.courseStructure==='unit')? 
+                                            TotalofQuizTypeUnit(indexUnit).quiz
+                                            :
+                                            (coursePlan.guidedCoursePlan==='free'    &&
+                                            coursePlan.courseTemplate==='without'   &&
+                                            coursePlan.courseStructure==='topic')?
+                                            TotaloFreeTopic(indexUnit)[5]
+                                            :
+                                            (coursePlan.guidedCoursePlan==='free'   &&
+                                            coursePlan.courseTemplate==='without'   &&
+                                            coursePlan.courseStructure==='unit')?
+                                            TotaloFreeUnit(indexUnit) [5]
+                                            :
+                                            TotalofQuizTypeTopic(indexUnit).quiz
+                                            
+                                        }
+                                    
+                                    </li>
+                                    <li >
+                                        <AssignmentOutlinedIcon/>
+                                        {" "}
+                                        {props.language.TotalofActivities}:{" "} 
                                         {
                                             (coursePlan.guidedCoursePlan==='guided'  &&
                                             coursePlan.courseTemplate==='without' &&
                                             coursePlan.courseStructure==='unit')? 
-                                            TotalofQuizTypeUnit(indexUnit).forum
+                                            TotalofQuizTypeUnit(indexUnit).actividad
                                             :
-                                            TotalofQuizTypeTopic(indexUnit).forum
+                                            (coursePlan.guidedCoursePlan==='free'  &&
+                                            coursePlan.courseTemplate==='without' &&
+                                            coursePlan.courseStructure==='topic')?
+                                            TotaloFreeTopic(indexUnit)[4]
+                                            :
+                                            (coursePlan.guidedCoursePlan==='free'   &&
+                                            coursePlan.courseTemplate==='without'   &&
+                                            coursePlan.courseStructure==='unit')?
+                                            TotaloFreeUnit(indexUnit)[4]
+                                            :
+                                            TotalofQuizTypeTopic(indexUnit).actividad
                                             
                                         }
                                     </li>
-                                    :
-                                    undefined
-                            }
-                            {
-                                (coursePlan.guidedCoursePlan==='free'   &&
-                                coursePlan.courseTemplate==='without'   &&
-                                (coursePlan.courseStructure==='topic'))? 
-                                <li >
-                                    <ForumIcon/>
-                                    {" "}
-                                    Total of Readings: {" "} {TotaloFreeTopic(indexUnit)[0]}
-                                </li>
 
-                                :
-                                undefined
-                            }
-                            {
-                                (coursePlan.guidedCoursePlan==='free'   &&
-                                coursePlan.courseTemplate==='without'   &&
-                                (coursePlan.courseStructure==='unit'))? 
-                                <li >
-                                    <ForumIcon/>
-                                    {" "}
-                                    Total of Readings: {" "} {TotaloFreeUnit(indexUnit)[0]}
-                                </li>
+                                    {
+                                        (coursePlan.guidedCoursePlan!='free')? 
+                                            <li >
+                                                <ForumIcon/>
+                                                {" "}
+                                                {props.language.TotalofForums}: {" "}
+                                                {
+                                                    (coursePlan.guidedCoursePlan==='guided'  &&
+                                                    coursePlan.courseTemplate==='without' &&
+                                                    coursePlan.courseStructure==='unit')? 
+                                                    TotalofQuizTypeUnit(indexUnit).forum
+                                                    :
+                                                    TotalofQuizTypeTopic(indexUnit).forum
+                                                    
+                                                }
+                                            </li>
+                                            :
+                                            undefined
+                                    }
+                                    {
+                                        (coursePlan.guidedCoursePlan==='free'   &&
+                                        coursePlan.courseTemplate==='without'   &&
+                                        (coursePlan.courseStructure==='topic'))? 
+                                        <li >
+                                            <ForumIcon/>
+                                            {" "}
+                                            {props.language.TotalofReadings}: {" "} {TotaloFreeTopic(indexUnit)[0]}
+                                        </li>
 
-                                :
-                                undefined
-                            }
-                        </ul>
+                                        :
+                                        undefined
+                                    }
+                                    {
+                                        (coursePlan.guidedCoursePlan==='free'   &&
+                                        coursePlan.courseTemplate==='without'   &&
+                                        (coursePlan.courseStructure==='unit'))? 
+                                        <li >
+                                            <ForumIcon/>
+                                            {" "}
+                                            {props.language.TotalofReadings}: {" "} {TotaloFreeUnit(indexUnit)[0]}
+                                        </li>
+
+                                        :
+                                        undefined
+                                    }
+                                </ul>
+
+                            </p>
+                            <hr/>
+                         </div> 
+                        
+                        :
+                        undefined
+                    }
+                    
+
+                    <div>
+                    
                     </div>
                 </div>
             

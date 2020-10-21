@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-
+import { Meteor } from 'meteor/meteor';
 import Loading from '../../components/tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
 import Table from '../data_display/Table';
-
 import SchoolIcon from '@material-ui/icons/School';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WarningIcon from '@material-ui/icons/Warning';
 import InfoIcon from '@material-ui/icons/Info';
-
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import ImportButton from '../tools/ImportButton';
+//const backup = require('mongodb-backup');
 
 export default class CoursesList extends React.Component {
   constructor(props) {
@@ -73,6 +73,18 @@ export default class CoursesList extends React.Component {
     });
   }
 
+  downloadCourse= (id) => {
+    var params = {
+      id: id,
+      type: 'course'
+    };
+    //Add authentication headers in URL
+    const searchParams = new URLSearchParams(params); 
+    var url = [Meteor.settings.public.URL_SITE+'file', searchParams].join('?');
+    //Open window
+    window.open(url);
+  }
+
   deleteSelected = (courses) => {
     let coursesToDelete = [];
     courses.map(course => {coursesToDelete.push(course)});
@@ -84,7 +96,6 @@ export default class CoursesList extends React.Component {
       coursesToDelete: coursesToDelete,
     });
   }
-
   delete = () => {
     this.state.coursesToDelete.map((course, index) => {
       let students = Courses.findOne({_id: course}).classroom;
@@ -101,7 +112,6 @@ export default class CoursesList extends React.Component {
     this.setSelected();
     this.props.handleControlMessage(true, this.props.language.courseDeletedS, false, '', '');
   }
-
   createTableData = (myCourses) => {
     let tableData = [];
     let headRows = [
@@ -113,6 +123,7 @@ export default class CoursesList extends React.Component {
     let menuOptions = [
       {label: this.props.language.resumeEditing , icon: <EditIcon/>, action: this.edit.bind(this)},
       {label: this.props.language.deleteCourse , icon: <DeleteIcon/>, action: this.showDeleteConfirmation.bind(this)},
+      {label: this.props.language.download , icon: <DeleteIcon/>, action: this.downloadCourse.bind(this)}
     ];
     myCourses.map(course => {
       tableData.push({
@@ -136,16 +147,12 @@ export default class CoursesList extends React.Component {
       })
     });
   }
-
   handleClickOpen = () => {
     this.setState({ open: true });
   };
-
   handleClose = () => {
     this.setState({ open: false, coursesToDelete:[] });
   };
-
-  setSelected(){}
 
   render() {
     return(
@@ -162,6 +169,12 @@ export default class CoursesList extends React.Component {
                 <div className="management-result-container">
                   <p className="management-title">{this.props.language.mySavedCourses}<SchoolIcon className="management-title-icon"/></p>
                   <div className="management-table-container">
+                    <div className="import-button-container">
+                      <ImportButton
+                        file="course"
+                        language={this.props.language}
+                      />
+                    </div>
                     <Table
                       labels={{
                         title: this.props.language.youHaveCourses, 
@@ -190,7 +203,7 @@ export default class CoursesList extends React.Component {
                   <p className="empty-dashboard-text">{this.props.language.noCourseSavedText}</p>
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
-                <Button onClick={() => this.props.showComponent('create')} variant="contained" color="secondary" className="empty-dashboard-button">{this.props.language.createCourse}</Button>
+                  <Button onClick={() => this.props.showComponent('create')} variant="contained" color="secondary" className="empty-dashboard-button">{this.props.language.createCourse}</Button>
               </div>
             }
           </React.Fragment>
