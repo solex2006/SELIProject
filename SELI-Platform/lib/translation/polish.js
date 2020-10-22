@@ -1230,7 +1230,7 @@
   contentsObjectivesAre: "Contents objectives are ...",
   skillsObjectivesAre: "Refers to a wide range of cognitive (mental), physical and emotional skills including science processes, critical thinking, problem solving, decision making, communication, research, mathematical, psychomotor and interpersonal relations.",
   valuesObjectivesAre: "Values objectives are ...",
-  behavioralOutcomeHelp: "Add behavioral outcomes that shows what the student needs to know or be able to do like abilities that combine content, skills and values.",
+  behavioralOutcomeHelp: "Add learning outcomes that shows what the student needs to know or be able to do like abilities that combine content, skills and values.",
   learningConstraintHelp: "Add learning constraints that the student may have.",
   affectiveDomainHelp: "Affective domain is ...",
   psychomotorDomainHelp: "Psychomotor domain is ...",
