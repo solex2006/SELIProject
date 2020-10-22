@@ -1230,7 +1230,7 @@ var PORTUGUESE = {
   contentsObjectivesAre: "Objetivos de conteúdo são ...",
   skillsObjectivesAre: "Refere-se a uma grande gama de habilidades cognitivas (mentais), físicas e emocionais, incluindo processos científicos, pensamento crítico, resolução de problemas, tomadas de decisões, comunicação, pesquisa, relações interpessoais, matemáticas e psicomotoras.",
   valuesObjectivesAre: "Objetivos de valores são ...",
-  behavioralOutcomeHelp: "Adicione resultados de comportamento que mostrem o que o aluno precisa saber ou ser capaz de fazer, como proficiências que combinem conteúdos, habilidades, e valoes.",
+  behavioralOutcomeHelp: "Adicione resultados de aprendizado que mostrem o que o aluno precisa saber ou ser capaz de fazer, como proficiências que combinem conteúdos, habilidades, e valoes.",
   learningConstraintHelp: "Adicionar restrições educacionais que o estudante poderá ter.",
   affectiveDomainHelp: "Domínio afetivo é ...",
   psychomotorDomainHelp: "Domínio psicomotor é ...",
