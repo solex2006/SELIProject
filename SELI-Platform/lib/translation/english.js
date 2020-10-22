@@ -1222,7 +1222,7 @@ var ENGLISH = {
   skillsObjectives: "Skills objectives",
   valuesObjectives: "Values objectives",
   rememberingObjectivesAre: "Remembering objectives recall facts and basic concepts, for example: choose, define, describe, show, match, relate, duplicate, recognize, reproduce.",
-  understandingObjectivesAre: "Understanding objectives explain ideas or concepts like explain, summarize, illustrate, classify, describe, discuss, explain, compare, paraphrase.",
+  understandingObjectivesAre: "Understanding objectives explain ideas or concepts like explain, summarize, illustrate, classify, describe, discuss, compare, paraphrase.",
   applyingObjectivesAre: "Applying objectives use information in new situations like use, identify, organize, construct, executions, solve, use, demonstrate, interpret.",
   analyzingObjectivesAre: "Analyzing objectives draw connections among ideas, for example: analyse, categorize, classify, list, compare, organize, relate, test.",
   evaluatingObjectivesAre: "Evaluating objectives justify a stand or decision, for example: conclude, evaluate, critique, justify, prove, defend, judge, support, value.",
