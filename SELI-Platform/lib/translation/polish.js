@@ -1538,6 +1538,8 @@
   before:"before.",
   moveUp: "Move up",
   moveDown: "Move down",
+  imageGallery: "Image gallery",
+  videoGallery: "Video gallery",
 }
 export default POLISH;
 

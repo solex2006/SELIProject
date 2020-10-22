@@ -200,7 +200,7 @@ export default class Course extends React.Component {
     this.setState({ openComment: false });
   }
 
-  openMedia = (media, mediaType, mediaTitle) => {
+  openMedia = (media) => {
     this.setState({
       media: media,
       openMedia: true,
@@ -332,7 +332,7 @@ export default class Course extends React.Component {
         >
           <AppBar position="static" className="course-dialog-app-bar">
             <Toolbar style={{position: 'relative'}}>
-              <IconButton edge="start" color="inherit" onClick={this.handleCloseMedia} aria-label="close">
+              <IconButton edge="start" color="inherit" onClick={this.handleCloseMedia} aria-label={this.props.language.close}>
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h6">

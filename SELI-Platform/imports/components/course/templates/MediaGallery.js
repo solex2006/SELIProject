@@ -36,7 +36,7 @@ export default class MediaGallery extends React.Component {
 				>
 					<Grid item xs={12} lg={12}>
 						<div className="template-title-gallery" id="gallery-title">
-              {this.props.contentCode === "image" ? "Image gallery" : "Video gallery"}
+              {this.props.contentCode === "image" ? this.props.language.imageGallery : this.props.language.videoGallery}
 						</div>
 						<details className="template-instructions-gallery" id="gallery-description">
 							<summary id="gallery-instructions">{this.props.language.instructions}</summary>

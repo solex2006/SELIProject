@@ -1537,6 +1537,8 @@ var SPANISH = {
   before:"antes",
   moveUp: "Mover hacia arriba",
   moveDown: "Mover hacia abajo",
+  imageGallery: "Galería de imágenes",
+  videoGallery: "Galería de videos",
 }
 export default SPANISH;
 

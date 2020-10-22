@@ -584,7 +584,7 @@ export default function DesignStep(props) {
                       organization={organization}
                     />
                   :
-                    guidedCoursePlan === "guided" && <ActivityDesign
+                    guidedCoursePlan === "guided" && template !== "without" && <ActivityDesign
                       language={language}
                       courseInformation={courseinformation.design}
                       programInformation={courseinformation.program}

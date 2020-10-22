@@ -142,7 +142,7 @@ function useWindowSize() {
 }
 
 export default function FormStepperID(props) {
-  console.log("PROPIEDADES pasos---------------------------", props)
+  //console.log("PROPIEDADES pasos---------------------------", props)
   const [validateInformation,setvalidateInformation]=useState({
     informationStep:props.forms[0].props.courseInformation,
   });
@@ -278,7 +278,7 @@ export default function FormStepperID(props) {
           steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
   
-        //console.log("newActiveStep,activeStep****************", newActiveStep,activeStep)
+        ////console.log("newActiveStep,activeStep****************", newActiveStep,activeStep)
    if(props.coursePlan.guidedCoursePlan==='free'){
       if(newActiveStep!=3){
         if(newActiveStep==1){
@@ -300,7 +300,7 @@ export default function FormStepperID(props) {
         }
       }
       else{
-        //console.log("step 3333333333333333333",stepStatus.completed)
+        ////console.log("step 3333333333333333333",stepStatus.completed)
         if(newActiveStep==3 && stepStatus.completed.has(0) && stepStatus.completed.has(1) ){
           setActiveStep(newActiveStep);
         }else if(newActiveStep==5 && stepStatus.completed.has(4)){
@@ -309,7 +309,7 @@ export default function FormStepperID(props) {
         
      }
    }else{
-    //console.log("****************", newActiveStep,stepStatus.completed)
+    ////console.log("****************", newActiveStep,stepStatus.completed)
     if(newActiveStep==1){
       setActiveStep(newActiveStep);
     }else if(newActiveStep===2  && stepStatus.completed.has(0) && stepStatus.completed.has(1) ){
@@ -356,7 +356,7 @@ export default function FormStepperID(props) {
   
 
   function handleBack() {
-    console.log("handleback in stepper ID",activeStep )
+    //console.log("handleback in stepper ID",activeStep )
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
@@ -416,7 +416,7 @@ const save=()=>{
 
 // let reportflag=props.reportflag
  useEffect(()=>{
-  //console.log("active step en KIDD",props.activeStep)
+  ////console.log("active step en KIDD",props.activeStep)
   if(props.activeStep!=''){
     handleBack()
   }
@@ -425,7 +425,7 @@ const save=()=>{
 },[props.activeStep])   
 
 useEffect(()=>{
-  //console.log("props.updateSteps",props.updateSteps)
+  ////console.log("props.updateSteps",props.updateSteps)
 
   let newDisabled = new Set(stepStatus.disabled.values());
   let newFailed = new Set(stepStatus.failed.values());
@@ -486,7 +486,7 @@ useEffect(()=>{
 
   //////
   if(props.updateSteps==='passAudience'){  
-    //console.log("dentro del no pass audience", newCompleted, newDisabled, newFailed)
+    ////console.log("dentro del no pass audience", newCompleted, newDisabled, newFailed)
       if(stepStatus.completed.has(0)){
         newDisabled.delete(3);
       }   
@@ -622,7 +622,7 @@ useEffect(()=>{
     stepstatus1.stepscompleted=[...new Set(stepstatus1.stepscompleted)]
     setvalidateInformation(stepstatus1)
   }else if(props.updateSteps==='NopassCourseAnalysis'){
-    //console.log("dentro del no pass analisis", newCompleted, newDisabled, newFailed)
+    ////console.log("dentro del no pass analisis", newCompleted, newDisabled, newFailed)
    
         newCompleted.delete(4);
         newCompleted.delete(7);
@@ -686,7 +686,7 @@ useEffect(()=>{
   
 
   if(props.updateSteps==='PassProgram'){
-    //console.log("dentro del complete program",props.forms[0].props.courseInformation )
+    ////console.log("dentro del complete program",props.forms[0].props.courseInformation )
     newCompleted.add(6)
     newCompleted.add(7)
     newDisabled.delete(7)
@@ -724,12 +724,12 @@ useEffect(()=>{
 
 
 useEffect(()=>{
-  console.log("RESATURA LOS PASOS  YA GUARDADOS",stepStatus,validateInformation,activeStep)
+  //console.log("RESATURA LOS PASOS  YA GUARDADOS",stepStatus,validateInformation,activeStep)
   //steps aprobados
     if(props.forms[0].props.courseInformation.stepsflag==='saved'){
       let estado= stepStatus
       props.forms[0].props.courseInformation.stepscompleted.map((aprobed,index)=>{
-        //console.log("paso",aprobed)
+        ////console.log("paso",aprobed)
         estado.completed.add(aprobed)
         estado.failed.delete(aprobed)
         estado.disabled.delete(aprobed)
@@ -743,7 +743,7 @@ useEffect(()=>{
 },[])
 
 useEffect(()=>{
-  console.log("activestep", activeStep)
+  //console.log("activestep", activeStep)
   if(activeStep===1){
     setshowButton('')
   }else if(activeStep===0){
