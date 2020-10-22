@@ -6,6 +6,7 @@ import NativeSelect from "@material-ui/core/NativeSelect";
 import FeedbackHelp from "../feedback";
 import tableIcons from '../design/icons'
 import {onlySpaces} from '../../../../lib/textFieldValidations';
+import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -133,7 +134,27 @@ export default function SupplementaryTexts(props) {
           );
         }
       },
-      { title: language.ExternalResource, field: "external", type: "boolean" },
+      
+      { 
+        title: language.ExternalResource,
+        field: "external", 
+        type: "boolean" ,
+        editComponent: props => (
+          <Checkbox
+            {...props}
+            checked={(props.rowData.type ==='2' || props.rowData.copy ==='1')?  true :props.rowData.external ===true}
+            disabled={(props.rowData.type ==='2' || props.rowData.copy ==='1')?  true: false}//  
+            onChange={e => {
+              console.log("xxxxxxxxxxxxxsup",props, e.target.checked)
+              props.rowData.external=e.target.checked;
+              props.onChange(e.target.checked);
+            }}
+          />
+       
+      ) 
+        
+      },
+      
       {
         title: language.ExternalURL,
         field: "url",
@@ -144,23 +165,19 @@ export default function SupplementaryTexts(props) {
               pattern:
                 "/https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/"
             }}
-            required={!props.rowData.external}
-            disabled={!props.rowData.external}
+            //required={!props.rowData.external}
+            disabled={((props.rowData.copy==='1') || (props.rowData.external===true))?false: !props.rowData.external}
             error={
-              props.rowData.external &&
-              !props.value &&
-              props.rowData.validateInput &&
-              props.rowData.submitted
-                ? props.rowData.error
-                : false
+             // console.log("dssdfdsfsdf",props)
+              
+                 ((props.rowData.copy==='1') || (props.rowData.external===true)) ?
+                true:
+                false 
             }
             helperText={
-              props.rowData.external &&
-              !props.value &&
-              props.rowData.validateInput &&
-              props.rowData.submitted
-                ? language.required
-                : ""
+              ((props.rowData.copy==='1') || (props.rowData.external===true)) ?
+              "External URL cannot be empty":
+              ""
             }
             value={props.rowData.external===false? ''  :props.value ? props.value : "" }
             onChange={e => {
@@ -172,10 +189,46 @@ export default function SupplementaryTexts(props) {
             }}
           />
         )
-      }
+      },
+      {
+        title: "External Reference",
+        field: "reference",
+        //validate: (props.rowData) => rowData.reference === '' ? 'External refere cannot be empty' : '',
+        editComponent: props => (
+          <TextField
+            type="text"
+            required={!props.rowData.external}
+            disabled={ (props.rowData.type ==='2' || props.rowData.copy ==='1')?  false : !props.rowData.external}
+            error={
+             //console.log("propssssss",props, props.rowData)
+             (props.rowData.copy==='1' || props.rowData.type==='2') ?
+             true:
+             false
+             
+            }
+            helperText={
+              (props.rowData.copy==='1' || props.rowData.type==='2') ?
+             "External reference cannot be empty":
+             ""
+            }
+            value={props.value ? props.value : ""}
+            onChange={e => {
+              if (props.rowData.validateInput) {
+                props.rowData.validateInput = false;
+              }
+
+              props.onChange(e.target.value);
+            }}
+          />
+        )
+      },
+      
     ],
     data: [
      
+    ],
+    options:[
+     { sorting: true}
     ]
   });
 
@@ -183,13 +236,39 @@ export default function SupplementaryTexts(props) {
     <React.Fragment>
       <MaterialTable
         title={language.SupplementaryText}
-        options={{ search: false, actionsColumnIndex: 5 }}
+        options={{ search: true, actionsColumnIndex: 6 }}
         columns={state.columns}
         data={state.data}
         icons={tableIcons(language.Additem)}
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
+              console.log("save---",newData)
+              if((newData.copy!=undefined && newData.copy==='1') && (newData.external!=undefined && newData.external===true) && (newData.url===undefined || newData.url===''  || newData.reference===undefined || newData.reference==='' )){reject(); return;}
+              if((newData.type!=undefined && newData.type==='2') && (newData.external!=undefined && newData.external===true) && (newData.url===undefined || newData.url===''  || newData.reference===undefined || newData.reference==='' )){reject(); return;}
+              if((newData.copy!=undefined && newData.copy==='1') && (newData.url===undefined || newData.url===''  || newData.reference===undefined || newData.reference==='' )){reject(); return;}
+              
+              
+              if(((newData.type!=undefined && newData.type==='2' ) || (newData.copy!=undefined && newData.copy==='1')) && (newData.reference!=undefined && newData.reference!='')){console.log("pasa")}
+              else if( (newData.copy!=undefined && newData.copy==='1') && (newData.external!=undefined && newData.external===true) && (newData.url!=undefined && newData.url!='' )){console.log("pasa")}
+              else if( (newData.external!=undefined && newData.external===true) && (newData.url!=undefined && newData.url!='' ) && 
+              ((newData.type===undefined ) && (newData.type===undefined)) ){console.log("pasa")}
+              else if((newData.copy!=undefined && newData.copy==='1') && (newData.external!=undefined && newData.external===true) && (newData.url!=undefined && newData.url!='' ) && (newData.reference!=undefined && newData.reference!='' )){console.log("pasa")}
+              else if( 
+                (newData.type===undefined && newData.copy===undefined && newData.external===undefined) ||
+                ((newData.type!=undefined && newData.type!='2') && newData.copy===undefined && newData.external===undefined) ||
+                ((newData.copy!=undefined && newData.copy!='1') && newData.type===undefined && newData.external===undefined) ||
+                (newData.type===undefined && newData.copy===undefined && (newData.external!=undefined && newData.external===false)) ||
+                (((newData.type!=undefined && newData.type!='2') && newData.copy!=undefined && newData.copy!='1')) && (newData.external!=undefined && newData.external===false)){console.log("pasa")}
+             else if((newData.type!=undefined && (newData.type!='2')) && (newData.external!=undefined && newData.external===false)){console.log("pasa")}
+             else if((newData.type!=undefined && (newData.type==='1')) && (newData.external!=undefined && newData.external===true) && (newData.url!=undefined && newData.url!='')){console.log("pasa")}
+             else if((newData.type!=undefined && (newData.type==='0')) && (newData.external!=undefined && newData.external===true) && (newData.url!=undefined && newData.url!='')){console.log("pasa")}
+                else{reject(); return;}
+
+
+              (newData.type!=undefined && newData.type!='2' ) || (newData.copy!=undefined && newData.copy!='1') || (newData.reference!=undefined && newData.reference!='')
+
+
               if(newData.external===false){newData.url=''}
               newData.submitted = true;
               if(newData.type===undefined){newData.type="1"}
