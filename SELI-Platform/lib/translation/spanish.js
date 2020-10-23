@@ -1230,7 +1230,7 @@ var SPANISH = {
   contentsObjectivesAre: "Los objetivos de contenido son ...",
   skillsObjectivesAre: "Se refiere a una amplia gama de habilidades cognitivas (mentales), físicas y emocionales, incluidos los procesos científicos, el pensamiento crítico, la resolución de problemas, la toma de decisiones, la comunicación, la investigación, las relaciones matemáticas, psicomotoras e interpersonales.",
   valuesObjectivesAre: "Los objetivos de valoración son ...",
-  behavioralOutcomeHelp: "Agregue resultados de comportamiento que muestren lo que el estudiante necesita saber o ser capaz de hacer, como habilidades que combinan contenido y valores",
+  behavioralOutcomeHelp: "Agregue resultados de aprendizaje que muestren lo que el estudiante necesita saber o ser capaz de hacer, como habilidades que combinan contenido y valores",
   learningConstraintHelp: "Agregue restricciones de aprendizaje que el estudiante pueda tener",
   affectiveDomainHelp: "El dominio afectivo es ...",
   psychomotorDomainHelp: "El dominio psicomotor es ...",
@@ -1535,6 +1535,10 @@ var SPANISH = {
   deleteTopic:"Borrar Topico",
   deleteTemplate:"Borrar Template",
   before:"antes",
+  moveUp: "Mover hacia arriba",
+  moveDown: "Mover hacia abajo",
+  imageGallery: "Galería de imágenes",
+  videoGallery: "Galería de videos",
 }
 export default SPANISH;
 

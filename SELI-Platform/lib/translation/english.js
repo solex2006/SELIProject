@@ -1222,7 +1222,7 @@ var ENGLISH = {
   skillsObjectives: "Skills objectives",
   valuesObjectives: "Values objectives",
   rememberingObjectivesAre: "Remembering objectives recall facts and basic concepts, for example: choose, define, describe, show, match, relate, duplicate, recognize, reproduce.",
-  understandingObjectivesAre: "Understanding objectives explain ideas or concepts like explain, summarize, illustrate, classify, describe, discuss, explain, compare, paraphrase.",
+  understandingObjectivesAre: "Understanding objectives explain ideas or concepts like explain, summarize, illustrate, classify, describe, discuss, compare, paraphrase.",
   applyingObjectivesAre: "Applying objectives use information in new situations like use, identify, organize, construct, executions, solve, use, demonstrate, interpret.",
   analyzingObjectivesAre: "Analyzing objectives draw connections among ideas, for example: analyse, categorize, classify, list, compare, organize, relate, test.",
   evaluatingObjectivesAre: "Evaluating objectives justify a stand or decision, for example: conclude, evaluate, critique, justify, prove, defend, judge, support, value.",
@@ -1230,7 +1230,7 @@ var ENGLISH = {
   contentsObjectivesAre: "Contents objectives are ...",
   skillsObjectivesAre: "Refers to a wide range of cognitive (mental), physical and emotional skills including science processes, critical thinking, problem solving, decision making, communication, research, mathematical, psychomotor and interpersonal relations.",
   valuesObjectivesAre: "Values objectives are ...",
-  behavioralOutcomeHelp: "Add behavioral outcomes that show what the student needs to know or be able to do like abilities that combine content, skills and values.",
+  behavioralOutcomeHelp: "Add learning outcomes that show what the student needs to know or be able to do like abilities that combine content, skills and values.",
   learningConstraintHelp: "Add learning constraints that the student may have.",
   affectiveDomainHelp: "Affective domain is ...",
   psychomotorDomainHelp: "Psychomotor domain is ...",
@@ -1536,8 +1536,10 @@ var ENGLISH = {
   deleteTopic:"Delete Topic",
   deleteTemplate:"Delete Template",
   before:"before.",
-
-
+  moveUp: "Move up",
+  moveDown: "Move down",
+  imageGallery: "Image gallery",
+  videoGallery: "Video gallery",
 }
 export default ENGLISH;
 

@@ -328,20 +328,23 @@ export default function DesignCourseApp(props) {
                   lessonIndex={lessonIndex}
                 />
               </div>
-              <div className={classes.activitydesign}>
-                <ActivityDesign
-                  language={language}
-                  type='lesson'
-                  handleSelectResourcesActivities={handleSelectResourcesActivities}
-                  courseInformation={designInformation}
-                  programInformation={programInformation}
-                  activities={lesson.activities}
-                  handleActivities={handleActivities}
-                  parentIndex={unitIndex}
-                  lessonIndex={lessonIndex}
-                  template={template}
-                />
-              </div>
+              {
+                template !== "without" &&
+                <div className={classes.activitydesign}>
+                  <ActivityDesign
+                    language={language}
+                    type='lesson'
+                    handleSelectResourcesActivities={handleSelectResourcesActivities}
+                    courseInformation={designInformation}
+                    programInformation={programInformation}
+                    activities={lesson.activities}
+                    handleActivities={handleActivities}
+                    parentIndex={unitIndex}
+                    lessonIndex={lessonIndex}
+                    template={template}
+                  />
+                </div>
+              }
             </ExpansionPanelDetails>
           )}
         </ExpansionPanel>

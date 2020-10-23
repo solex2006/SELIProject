@@ -113,12 +113,12 @@ export default function Presentation(props) {
         field: "external", 
         type: "boolean" ,
         editComponent: props => (
-          
           <Checkbox
             {...props}
-            checked={props.rowData.external ===true}
-            disabled={props.rowData.type ==='2' }
+            checked={props.rowData.type ==='3'? true: props.rowData.type ==='2'? false :props.rowData.external ===true}
+            disabled={ props.rowData.type ==='3' || props.rowData.type ==='2'}//  
             onChange={e => {
+
               props.rowData.external=e.target.checked;
               props.onChange(e.target.checked);
             }}
@@ -143,20 +143,14 @@ export default function Presentation(props) {
             required={!props.rowData.external}
             disabled={!props.rowData.external}
             error={
-              props.rowData.external &&
-              !props.value &&
-              props.rowData.validateInput &&
-              props.rowData.submitted
-                ? props.rowData.error
-                : false
+              (props.rowData.external===true) ?
+              true:
+              false
             }
             helperText={
-              props.rowData.external &&
-              !props.value &&
-              props.rowData.validateInput &&
-              props.rowData.submitted
-                ? language.required
-                : ""
+              (props.rowData.external===true) ?
+              "External URL cannot be empty":
+              ""
             }
             value={props.rowData.external===false? ''  :props.value ? props.value : "" }
             onChange={e => {
@@ -179,14 +173,22 @@ export default function Presentation(props) {
     <React.Fragment>
       <MaterialTable
         title={language.Presentations}
-        options={{ search: false, actionsColumnIndex: 4 }}
+        options={{ search: true, actionsColumnIndex: 4 }}
         columns={state.columns}
         data={state.data}
         icons={tableIcons(language.Additem)}
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
+
               setTimeout(() => {
+                if((newData.external!=undefined && newData.external===true) && (newData.url!=undefined && newData.url!='') ){console.log("pasa")}
+                else if((newData.external===undefined || newData.external===false)){console.log("pasa")}
+                else if((newData.type==='1' || newData.type==='2' || newData.type==='3') ){console.log("pasa")}
+                else{
+                  reject();
+                  return;
+                }
                
                 if(newData.external===false){newData.url=''}
               newData.submitted = true;

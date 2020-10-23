@@ -114,8 +114,8 @@ export default function Presentation(props) {
        
             <Checkbox
               {...props}
-              checked={props.rowData.external ===true}
-              disabled={props.rowData.type == 2}
+              checked={props.rowData.type ==='3'? true:props.rowData.external ===false}
+              disabled={props.rowData.type ===undefined? true: (props.rowData.type ==='3' || props.rowData.type ==='1'  || props.rowData.type ==='2') }
               onChange={e => {
                 props.rowData.external=e.target.checked;
                 props.onChange(e.target.checked);
@@ -138,7 +138,7 @@ export default function Presentation(props) {
                   "/https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/"
               }}
               required={!props.rowData.external}
-              disabled={!props.rowData.external}
+              disabled={props.rowData.type==='3'?false: (props.rowData.type!='3' )?  true: true }
               error={
                 props.rowData.external &&
                 !props.value &&
@@ -155,7 +155,7 @@ export default function Presentation(props) {
                   ? language.required
                   : ""
               }
-              value={props.rowData.external===false? ''  :props.value ? props.value : "" }
+              value={props.rowData.external===false? '': (props.rowData.type==='1' || props.rowData.type==='2')? '':props.value ? props.value : '' }
               onChange={e => {
                 if (props.rowData.validateInput) {
                   props.rowData.validateInput = false;
@@ -178,12 +178,13 @@ export default function Presentation(props) {
       <MaterialTable
         icons={tableIcons(language.Additem)}
         title={language.Games}
-        options={{ search: false, actionsColumnIndex: 4 }}
+        options={{ search: true, actionsColumnIndex: 4 }}
         columns={state.columns}
         data={state.data}
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
+              if(newData.type==='1' || newData.type==='2'){newData.url=""}
               setTimeout(() => {
                 if(newData.external===false){newData.url=''}
               newData.submitted = true;

@@ -1230,7 +1230,7 @@ var TURKISH = {
   contentsObjectivesAre: "İçerik hedefleri ...",
   skillsObjectivesAre: "Bilim süreçleri, eleştirel düşünme, problem çözme, karar verme, iletişim, araştırma, matematiksel, psikomotor ve kişilerarası ilişkiler dahil olmak üzere çok çeşitli bilişsel (zihinsel), fiziksel ve duygusal becerileri ifade eder",
   valuesObjectivesAre: "Değerlerin hedefleri ...",
-  behavioralOutcomeHelp: "Öğrencinin neleri bilmesi gerektiğini veya içeriği, becerileri ve değerleri birleştiren yetenekler gibi neler yapabileceğini gösteren davranışsal sonuçlar ekleyin.",
+  behavioralOutcomeHelp: "Add learning outcomes that show what the student needs to know or be able to do like abilities that combine content, skills and values.",
   learningConstraintHelp: "Öğrencinin sahip olabileceği öğrenme kısıtlamaları ekleyin.",
   affectiveDomainHelp: "Etkisel alan ...",
   psychomotorDomainHelp: "Psikomotor alanı ...",
@@ -1538,6 +1538,10 @@ var TURKISH = {
   deleteTopic:"Delete Topic",
   deleteTemplate:"Delete Template",
   before:"before.",
+  moveUp: "Move up",
+  moveDown: "Move down",
+  imageGallery: "Image gallery",
+  videoGallery: "Video gallery",
 }
 export default TURKISH;
 
