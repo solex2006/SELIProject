@@ -16,7 +16,6 @@ import RetrievePasswd from '../imports/ui/RetrievePasswd';
 import CoursePreview from '../imports/ui/CoursePreview';
 import Story from '../imports/ui/Story';
 import UnityWebgl from '../imports/ui/UnityWebgl';
-import MediaPlayer from '../imports/components/student/MediaPlayer';
 import CoursesDashboard from '../imports/ui/CoursesDashboard';
 import TutorRequestList from '../imports/components/administrator/TutorRequestList';
 import CertificateValidation from '../imports/ui/CertificateValidation';
@@ -49,7 +48,6 @@ Meteor.startup(() => {
         <Route exact path="/unityWebgl" component={UnityWebgl} history={history}/>
         <Route exact path="/coursePreview" component={CoursePreview} history={history}/>
         <Route exact path="/story" component={Story} history={history}/>
-        <Route exact path="/media" component={MediaPlayer} history={history}/>
         <Route exact path="/dashboard" component={CoursesDashboard} history={history}/>
         <Route exact path="/tutorRequests" component={TutorRequestList} history={history}/>
         <Route exact path="/certificatesValidation" component={CertificateValidation} history={history}/>

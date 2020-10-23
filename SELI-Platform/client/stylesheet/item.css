@@ -156,7 +156,6 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  cursor: pointer;
 }
 
 .image-item-container-template {
@@ -165,12 +164,12 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  cursor: pointer;
 }
 
 .file-image-preview-image {
   padding-right: 10px;
   max-height: 100%;
+  cursor: pointer;
 }
 
 .image-item {
