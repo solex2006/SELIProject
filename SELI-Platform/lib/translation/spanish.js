@@ -1013,7 +1013,7 @@ var SPANISH = {
   pedagogicalconsiderations: "Consideraciones pedagógicas",
   learningCon: "Una restricción es un límite que anima al alumno a emerger con ciertos comportamientos.",
   unit01: "Nueva Unidad",
-  topic01: "Nuevo Tema",
+  topic01: "Nuevo Topico",
   Learningobjectives: "Objetivos de aprendizaje (obligatorio)",
   Preexistingknowlegde: "Conocimientos preexistentes",
   Maincontent: "Contenido principal",

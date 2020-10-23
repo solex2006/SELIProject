@@ -1540,6 +1540,8 @@ var ENGLISH = {
   moveDown: "Move down",
   imageGallery: "Image gallery",
   videoGallery: "Video gallery",
+  YouTitlebefore:"You already add this title before.",
+  
 }
 export default ENGLISH;
 

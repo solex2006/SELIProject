@@ -91,8 +91,24 @@ export default function DesignStep(props) {
   const [openDialog, setOpenDialog] = useState(false);
   const [indexUnitTopic, setIndexUnitTopic] = useState(-1);
   const [key, setKey] = useState(0);
+  const [validateTitle, setvalidateTitle]=useState(false)
 
   function updateTempValue(value) {
+    console.log("valor del titulo---->", value, data)
+    //data.pop()
+   // let last=data.length
+
+    for (let i=0; i<data.length-1; i++){
+      console.log("xxxx---->", data[i].title)
+        if(data[i].title===value){
+          console.log("Repetido---->")
+          setvalidateTitle(true)
+        }else{
+          console.log("Repetidox2---->")
+          setvalidateTitle(false)
+        }
+    }
+   
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
@@ -346,7 +362,9 @@ export default function DesignStep(props) {
   }
 
   const editUnitTopicName = (unitIndex) => {
+    
     let prev = data;
+    console.log("editUnitTopicName", unitIndex, prev[unitIndex].title )
     prev[unitIndex].editing = true;
     setData(prev);
     let courseInfo=courseinformation;
@@ -360,6 +378,7 @@ export default function DesignStep(props) {
   }
 
   const saveEdit = (unitIndex) => {
+    setvalidateTitle(false)
     let prev = data;
     prev[unitIndex].editing = false;
     prev[unitIndex].title = controlEdit.tempValue;
@@ -376,14 +395,31 @@ export default function DesignStep(props) {
   }
 
   const cancelEdit = (unitIndex) => {
+    setvalidateTitle(false)
     let prev = data;
     prev[unitIndex].editing = false;
-    setData(prev);
-    setControlEdit({
-      tempValue: "",
-      adding: false,
-      editing: false
-    });
+    console.log("eeeeeeeee",prev, unitIndex, data[2], prev.slice(-1)[0].title)
+//"Tópico 01" "Unidade 01" "Nuevo Topico" "Nueva Unidad" "Ünite 01"  "Konu 01"
+    if(prev.slice(-1)[0].title=="New Topic" || prev.slice(-1)[0].title==="New Unit" || 
+    prev.slice(-1)[0].title=="Tópico 01" || prev.slice(-1)[0].title=="Unidade 01" || prev.slice(-1)[0].title=="Nuevo Topico" || 
+    prev.slice(-1)[0].title=="Nueva Unidad" || prev.slice(-1)[0].title=="Ünite 01" || prev.slice(-1)[0].title=="Konu 01"){
+      prev.pop()
+      setData(prev);
+      setControlEdit({
+        tempValue: "",
+        adding: false,
+        editing: false
+      }); 
+    }else{
+      setData(prev);
+      setControlEdit({
+        tempValue: "",
+        adding: false,
+        editing: false
+      }); 
+    }
+    
+    
   }
 
   const handleOpen = () => {
@@ -412,6 +448,7 @@ export default function DesignStep(props) {
                 id={"panel1bh-header-" + unit.key}
                 className="design-expantion-panel-summary"
               >
+                {console.log("lo q de be ir", unit.editing)}
                 <h3 className={unit.editing ? classes.hidden : ""}>{unit.title}</h3>        
                 <div className={!unit.editing ? classes.hidden : "design-expantion-panel-icon"}>
                   <TextField
@@ -427,7 +464,7 @@ export default function DesignStep(props) {
                     aria-label={"Save changes"}
                     onClick={event => saveEdit(unitIndex)}
                     className={classes.saveButton}
-                    disabled={controlEdit.tempValue === ""}
+                    disabled={controlEdit.tempValue === ""? true : validateTitle===true? true: false}
                   >
                     <DoneIcon />
                   </IconButton>
@@ -442,8 +479,8 @@ export default function DesignStep(props) {
                   </IconButton>
                   <FeedbackHelp
                     validation={{
-                      error: false,
-                      errorMsg: "",
+                      error: validateTitle,
+                      errorMsg: props.language.YouTitlebefore,
                       errorType: "",
                       a11y: null
                     }}
