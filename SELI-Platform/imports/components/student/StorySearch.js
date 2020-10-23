@@ -216,7 +216,7 @@ export default function StorySearch(props) {
        
 		<React.Fragment>
 			<Paper className={classes.searchDetailed} component="article" elevation={0}>
-				<SearchToolBar
+				{/* <SearchToolBar
 					OrSearch={props.OrSearch}
 					getParamsofSearch= {props.getParamsofSearch}
 					getParamsLanguage= {props.getParamsLanguage}
@@ -228,7 +228,7 @@ export default function StorySearch(props) {
 					getAccessibleFlag= {props.getAccessibleFlag}
 					getGeneralSearch={props.getGeneralSearch}
 					sortByMostRecent={props.sortByMostRecent}
-				/>
+				/> */}
 			</Paper>
 		</React.Fragment>
 	);
