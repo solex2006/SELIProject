@@ -34,3 +34,12 @@
   color: #616161 !important;
   font-size: 2.05em !important;
 }
+
+.comment-content-block{
+  display: flex;
+  flex-direction: row;
+}
+.comment-badge-image{
+    height: 50px;
+    width: 50px; 
+}

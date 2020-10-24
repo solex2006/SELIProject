@@ -142,22 +142,25 @@ export default class CommentItem extends React.Component {
                   <MoreHorizRoundedIcon />
                 </IconButton>
               </div>
-              <p className="student-profile-information-text-secondary-comment">
-                {`${this.props.language.name}: ${this.state.profile.profile.fullname}`}
-              </p>
-              {this.props.comment.label &&
-                (this.props.comment.label.blocks ? (
-                  <div className="activity-item-container-instruction">
-                    <Editor editorState={this.Texteditor()} readOnly={true} />
-                  </div>
-                ) : (
-                  <div
-                    className="activity-item-container-instruction"
-                    dangerouslySetInnerHTML={{
-                      __html: this.props.comment.label,
-                    }}
-                  ></div>
-                ))}
+              <div className="comment-content-block">
+                <p className="student-profile-information-text-secondary-comment">
+                  {`${this.props.language.name}: ${this.state.profile.profile.fullname}`}
+                </p>
+                {this.props.comment.label &&
+                  (this.props.comment.label.blocks ? (
+                    <div className="activity-item-container-instruction">
+                      <Editor editorState={this.Texteditor()} readOnly={true} />
+                    </div>
+                  ) : (
+                    <div
+                      className="activity-item-container-instruction"
+                      dangerouslySetInnerHTML={{
+                        __html: this.props.comment.label,
+                      }}
+                    ></div>
+                  ))}
+                <img className="comment-badge-image" src="http://localhost:3000/Users/beldier/seli/seliDocuments/CourseFilesCollection/8sPg5jZDhf5cFt5wr/original/8sPg5jZDhf5cFt5wr.png"></img>
+              </div>
             </Paper>
             {this.props.comment.userId === Meteor.userId() ? (
               <Tooltip
