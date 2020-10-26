@@ -3,10 +3,7 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import AudioPlayer from 'react-h5-audio-player';
 import Link from '@material-ui/core/Link';
 export default class AudioPreview extends React.Component {
   constructor(props) {
@@ -47,9 +44,12 @@ export default class AudioPreview extends React.Component {
         <div className="file-preview-container">
           {
             this.props.file!=null?
-              <div className="audio-file-preview">
-                <AudioPlayer volume src={this.props.file.link}/>
-              </div>
+              <audio 
+                ref="audioFilePreview" 
+                className="audio-file-preview"
+                src={this.props.file.link} 
+                controls
+              />
             :
             undefined
           }

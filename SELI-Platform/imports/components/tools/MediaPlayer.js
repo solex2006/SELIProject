@@ -15,7 +15,6 @@ import SubtitlesIcon from '@material-ui/icons/Subtitles';
 
 import Slide from '@material-ui/core/Slide';
 import ReactPlayer from 'react-player';
-import AudioPlayer from 'react-h5-audio-player';
 import Fullscreen from "react-full-screen";
 
 import TextAlternatives from '../accessibility/alternative/TextAlternatives';
@@ -231,7 +230,12 @@ export default class MediaPlayer extends React.Component {
               <Typography className="course-item-card-subtitle" variant="subtitle1" style={{color: "white"}}>
                 {`${this.props.language.audioDescription}:`}
               </Typography>
-              <AudioPlayer volume src={this.state.media.attributes.accessibility.dataField.fileAudioDescription[0].link}/>
+              <audio 
+                ref="audioMediaPreview" 
+                className="audio-file-preview"
+                src={this.state.media.attributes.accessibility.dataField.fileAudioDescription[0].link}
+                controls
+              />
             </div>
           :      
             undefined

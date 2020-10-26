@@ -2,7 +2,6 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import VideoPreview from './VideoPreview';
-import AudioPlayer from 'react-h5-audio-player';
 import TextAlternatives from '../../accessibility/alternative/TextAlternatives';
 import MediaPlayer from '../../tools/MediaPlayer';
 
@@ -81,7 +80,12 @@ export default class VideoItem extends React.Component {
                   <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
                     {`${this.props.language.audioDescription}:`}
                   </Typography>
-                  <AudioPlayer volume src={this.props.item.attributes.accessibility.dataField.fileAudioDescription[0].link}/>
+                  <audio 
+                    ref="audioDescription" 
+                    className="audio-file-preview"
+                    src={this.props.item.attributes.accessibility.dataField.fileAudioDescription[0].link} 
+                    controls
+                  />
                 </div>
               :      
                 undefined

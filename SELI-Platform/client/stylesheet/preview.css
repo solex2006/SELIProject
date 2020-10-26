@@ -196,15 +196,10 @@
 }
 
 .audio-file-preview {
-  width: 95%;
-  height: 5vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 75%;
-  margin-right: 1vw;
+  width: 100%;
   display: flex;
   align-items: center;
-  animation: fadeInDown 0.5s;
+  justify-content: center;
 }
 
 .pdf-file-preview {
@@ -265,13 +260,6 @@
 
 /* Media Queries: Tablet Landscape */
 @media screen and (max-width: 1080px) {
-  .audio-file-preview {
-    width: 100% !important;
-    height: auto !important;
-    background-size: 100%;
-    margin-right: 0vw;
-    overflow: hidden;
-  }
   .file-preview-information {
     width: 90% !important;
   }

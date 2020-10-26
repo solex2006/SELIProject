@@ -6,14 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import Link from '@material-ui/core/Link';
 import TextAlternatives from '../../accessibility/alternative/TextAlternatives';
-import AudioPlayer from 'react-h5-audio-player';
 //import CheckboxLabels from './CheckBox';
 
 export default class AudioItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      signalShow:'',
       autoplay:false,
       key:78,
       shortlongDescription:'',
@@ -25,93 +23,6 @@ export default class AudioItem extends React.Component {
     var win = window.open(this.props.item.attributes.externalLink, '_blank');
     win.focus();
   }
-
-  checkboxaudio=(event,name)=>{
-    console.log("event and name", event, name)
-    if(event===true && name==='signLanguage'){//Videosignal
-      this.setState({
-        signalShow: "signalShow"
-      })
-    }
-    else if(event===false && name==='signLanguage'){
-      this.setState({
-        signalShow:'nosignalShow',
-      })
-    }
-  }
-
-  playAudio=(event)=>{
-    if(this.state.signalShow==='signalShow'){
-      this.setState({
-        autoplay:true,
-        key:Math.random()
-      })
-    }
-  }
-
-/*   checkBoxLabels=()=>{
-    return(
-      <div className="checkBoxItem">
-        {
-          this.props.item.attributes.accessibility.dataField===undefined?
-            undefined
-          :
-            <div className="checkBoxItem">    
-                <div className="checkboxstyle">
-                  <CheckboxLabels
-                      language={this.props.language}
-                      checkbox={this.checkbox}
-                      type="shortLongDescription"
-                      label={this.props.language.textAlternatives}
-                  />
-                </div>
-                <div>
-                  {
-                    this.props.item.attributes.accessibility.isA11Y[2].is_a11y===true?
-                      <div className="checkboxstyle">
-                        <CheckboxLabels
-                            language={this.props.language}
-                            checkbox={this.checkbox}
-                            type="captions"
-                            label={this.props.language.audioTranscription}
-                        />
-                      </div>
-                      :
-                      undefined
-                  }
-                </div>
-                
-            </div>
-        }
-        
-      </div>
-    )
-  }
-
-  checkbox=(event, name)=>{
-    //console.log("event and name", event, name)
-    if(event===true && name==='shortLongDescription'){
-      this.setState({
-        shortlongDescription:'shortlongDescription',
-      })
-    }
-    else if(event===false && name==='shortLongDescription'){
-      this.setState({
-        shortlongDescription:'noshortlongDescription'
-      })
-    }else if(event===true && name==='captions'){
-      this.setState({
-        captions:'captions'
-      })
-    }else if(event===false && name==='captions'){
-      this.setState({
-        captions:'nocaptions'
-      })
-      var player = document.getElementById("audio"); 
-      player.pause()
-        
-    }
-  } */
 
   signalText=()=>{
     const contentState = convertFromRaw(this.props.item.attributes.accessibility.dataField.longDescription);
@@ -155,10 +66,11 @@ export default class AudioItem extends React.Component {
         >
           {
             this.props.item.attributes.audio &&
-            <AudioPlayer 
-              volume
+            <audio 
+              ref="audioItemPreview" 
+              className="audio-file-preview"
               src={this.props.item.attributes.audio.link}
-              onPlay={this.playAudio}
+              controls
             />
           }
             {/* <Tooltip title={this.props.language.addToMyLibrary}>
@@ -262,7 +174,6 @@ export default class AudioItem extends React.Component {
       <div className="content-box">
         <div className="image-content-item">
           <div className="audio-item-container">
-            {/* this.checkBoxLabels() */}
             {
               this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='top'?
                 this.textAlternatives()
