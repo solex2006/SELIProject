@@ -91,6 +91,7 @@ export default class TextAlternatives extends React.Component {
               </Grid>
             </Grid>
           :
+            this.props.item.attributes.accessibility && this.props.item.attributes.accessibility.dataField &&
             <Grid container spacing={3}>
               <Grid item xs={12}>       
               {

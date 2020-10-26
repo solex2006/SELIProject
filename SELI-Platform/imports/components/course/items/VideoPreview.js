@@ -39,7 +39,7 @@ export default class VideoPreview extends React.Component {
     var isFullscreenNow = document.webkitFullscreenElement !== null
     if (isFullscreenNow) {
       this.pause();
-      this.props.openMediaChild();
+      this.props.handleOpenMedia(0);
     }
   }
   

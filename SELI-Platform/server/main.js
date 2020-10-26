@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { JsonRoutes } from 'meteor/simple:json-routes';
 import '../imports/api/courseFiles';
 import {Courses} from '../lib/CourseCollection';
 import {Activities} from '../lib/ActivitiesCollection';
@@ -345,6 +346,14 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(() => {
+    JsonRoutes.setResponseHeaders({
+      "Cache-Control": "no-store",
+      "Pragma": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With"
+    });
+
     let smtp_domain = Meteor.settings.private.SMTP_DOMAIN;
     let smtp_port = Meteor.settings.private.SMTP_PORT;
     let smtp_user = Meteor.settings.private.SMTP_USER;

@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
 
-import Loading from '../tools/Loading';
-
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import Popover from '@material-ui/core/Popover';
@@ -14,14 +12,12 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import ReplayIcon from '@material-ui/icons/Replay';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import VideoPreview from './VideoPreview';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 import ReactPlayer from 'react-player';
-import { Activities } from '../../../lib/ActivitiesCollection';
 //import Size from './Size'
 
 export default class StorytellingPlayer extends React.Component {
