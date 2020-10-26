@@ -1009,7 +1009,7 @@ var PORTUGUESE = {
   repeated: "Você já adicionou este item.",
   modality: "Modalidade",
   delivercontent: "Como o conteúdo será entregue",
-  pedagogical: "Considerações Pedagógicas e Oportunidades para Ensinar e Aprender na Web foca na teoria, aplicação e desenvolvimento de tecnologias baseadas na web para ensino e aprendizagem e suas influências no sistema educacional",
+  pedagogical: "Add the pedagogical considerations about the course.",
   pedagogicalconsiderations: "Considerações Pedagógicas",
   learningCon: "Uma restrição é um limite que incentiva o aluno a emergir com certos comportamentos",
   unit01: "Unidade 01",
@@ -1492,10 +1492,18 @@ var PORTUGUESE = {
         labelTitle:"Psychomotor Domain",
         label:"Includes physical movement, coordination, and use of the motor-skill areas. This domain is categorized into eight levels, which include origination, adaptation, complex overt response, mechanism, guided response, set, and perception."
       },
+    ]
+  },
+  AnalysisTipsHelpsTwo:{
+    analysisTipsHelps:[
       {
         labelTitle:"Learning Constrainst",
         label:"Learning outcomes should be brief, clear, specific statements of what learners will be able to do at the end of a lesson as a result of the activities, teaching and learning that has taken place. The Learning outcomes is based on three areas of learning: knowledge, skills and attitudes."
       },
+    ]
+  },
+  AnalysisTipsHelpsThree:{
+    analysisTipsHelps:[
       {
         labelTitle:"Pedagogical Considerations",
         label:"Pedagogical Considerations concentrates on theory, application, and the development of technologies for teaching and learning and its influence on the education system."

@@ -73,6 +73,7 @@ class Quiz extends React.Component {
       selectedtime: '',
       noTime: false,
       thefocus:0,
+      num:1
     }
   }
 
@@ -167,12 +168,18 @@ class Quiz extends React.Component {
   }
 
   handleNext = () => {
-   // console.log("The active element is now:before  " + $(document.activeElement), "ccccccccc", $(document));
+  this.state.num=this.state.num+1
+  this.setState(this.state)
+  // console.log("The active element is now:before  ", this.state, this.state.selected);
+  //if(this.state.num!=this.state.answers){
     document.activeElement.blur();
+  
+    
    // console.log("The active element is now: " + $(document.activeElement).prop('tagName'));
     //console.log("The Focus-------------------------->",this.state.thefocus)
     let selected = this.state.selected;
     selected++;
+    console.log("The active element is now:before  ", this.state, this.state.selected);
     this.setState({
       selected: selected,
       answer: '',
@@ -605,9 +612,10 @@ class Quiz extends React.Component {
           </div>
           {
             this.state.showFinishConfirmation ?
-              <div className="question-dashboard-actions">
+              <div  className="question-dashboard-actions">
                 <p tabindex="0"  className="question-dashboard-label-text">{this.props.language.sureFinishQuiz}</p>
-                <Button
+                <div>
+                <Button 
                   className="question-dashboard-button"
                   color="primary"
                   onClick={() => this.cancelFinish()}
@@ -615,12 +623,15 @@ class Quiz extends React.Component {
                   {this.props.language.no}
                 </Button>
                 <Button
+        
                   className="question-dashboard-button"
                   color="primary"
                   onClick={() => this.handleFinish(true, "finish")}
                 >
                   {this.props.language.yes}
                 </Button>
+                </div>
+                
               </div>
               :
               <div className="question-dashboard-actions">
@@ -640,6 +651,7 @@ class Quiz extends React.Component {
                 {
                   this.state.selected === this.props.quiz.attributes.questions.length - 1 ?
                     <Button
+                      tabindex="0"
                       className="question-dashboard-button"
                       color="primary"
                       variant="contained"

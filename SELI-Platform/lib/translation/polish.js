@@ -1009,7 +1009,7 @@
   repeated: "You already add this item before.",
   modality: "Modality",
   delivercontent: "How the content will be delivered",
-  pedagogical: " Pedagogical Considerations and Opportunities for Teaching and Learning on the Web concentrates on theory, application, and the development of web-based technologies for teaching and learning and its influence on the education system",
+  pedagogical: "Add the pedagogical considerations about the course.",
   pedagogicalconsiderations: "Pedagogical Considerations",
   learningCon: "A constraint is a boundary which encourages the learner to emerge with certain behaviours",
   unit01: "Unit 01",
@@ -1491,10 +1491,18 @@
         labelTitle:"Psychomotor Domain",
         label:"Includes physical movement, coordination, and use of the motor-skill areas. This domain is categorized into eight levels, which include origination, adaptation, complex overt response, mechanism, guided response, set, and perception."
       },
+    ]
+  },
+  AnalysisTipsHelpsTwo:{
+    analysisTipsHelps:[
       {
         labelTitle:"Learning Constrainst",
         label:"Learning outcomes should be brief, clear, specific statements of what learners will be able to do at the end of a lesson as a result of the activities, teaching and learning that has taken place. The Learning outcomes is based on three areas of learning: knowledge, skills and attitudes."
       },
+    ]
+  },
+  AnalysisTipsHelpsThree:{
+    analysisTipsHelps:[
       {
         labelTitle:"Pedagogical Considerations",
         label:"Pedagogical Considerations concentrates on theory, application, and the development of technologies for teaching and learning and its influence on the education system."

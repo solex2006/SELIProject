@@ -115,7 +115,7 @@ export default function Presentation(props) {
         editComponent: props => (
           <Checkbox
             {...props}
-            checked={props.rowData.type ==='3'? true: props.rowData.type ==='2'? false :props.rowData.external ===true}
+            checked={props.rowData.type ==='3'? true: props.rowData.type =='2'? false :props.rowData.external ===true}
             disabled={ props.rowData.type ==='3' || props.rowData.type ==='2'}//  
             onChange={e => {
 
@@ -141,8 +141,10 @@ export default function Presentation(props) {
                 "/https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/"
             }}
             required={!props.rowData.external}
-            disabled={!props.rowData.external}
+            disabled={props.rowData.type==='2'? true: !props.rowData.external} //!props.rowData.external
             error={
+              props.rowData.type==='2'?
+              false:
               (props.rowData.external===true) ?
               true:
               false
@@ -182,9 +184,11 @@ export default function Presentation(props) {
             new Promise((resolve, reject) => {
 
               setTimeout(() => {
+                console.log("loque se va ha gaurdar", newData )
                 if((newData.external!=undefined && newData.external===true) && (newData.url!=undefined && newData.url!='') ){console.log("pasa")}
+                else if( newData.type==='3' && newData.external===undefined){newData.external=true; console.log("pasa3333")}
                 else if((newData.external===undefined || newData.external===false)){console.log("pasa")}
-                else if((newData.type==='1' || newData.type==='2' || newData.type==='3') ){console.log("pasa")}
+                else if((newData.type==='1' || newData.type==='2' ) ){newData.external=false; console.log("pasadddd")}
                 else{
                   reject();
                   return;

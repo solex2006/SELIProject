@@ -328,16 +328,22 @@ export default function AnalysisStep(props) {
 
   const [disabledVerb, setdisabledVerb]=useState(false);
 
-  const handleNewConstraint = () => {
-    setConstraints([
-      ...constraints,
-      { label: "New constraint", editing: true }
-    ]);
-    setControlEdit({
-      tempValue: "",
-      adding: true,
-      editing: true
-    });
+  const handleNewConstraint = (e) => {
+    if(e.keyCode===32){
+      //continue
+      console.log(e.keyCode)
+    }else{
+      setConstraints([
+        ...constraints,
+        { label: "New constraint", editing: true }
+      ]);
+      setControlEdit({
+        tempValue: "",
+        adding: true,
+        editing: true
+      });
+    }
+    
   };
  
   const handleCancelEditLearning = (index, category) => {
@@ -1013,9 +1019,24 @@ export default function AnalysisStep(props) {
                 tipMsg={language.learningObjectivesDefinition}
                 describedBy={"i05-helper-text"}
               />
-              {/* <p>
-                {labels.learningObjectivesDefinition}
-              </p> */}
+              
+              <FeedbackHelp
+                language={props.language}
+                  validation={{
+                    error: false,
+                    errorMsg: "xxxx",
+                    errorType: "xxxxxtttt",
+                    a11y: null
+                  }}
+               //   tipMsg={language.appropriateOption}
+                  describedBy={"i05-helper-text"}
+                  stepHelp={{
+                    step: "textHelper",
+                    stepLabel: props.language.CourseAnalysisHelp,
+                    helpsTips:props.language.AnalysisTipsHelps,
+                  }}
+              />
+
               < br/>
                 <h3>{labels.CognitiveDomain}</h3>
             < br/>
@@ -1213,6 +1234,7 @@ export default function AnalysisStep(props) {
                 tipMsg={language.behavioralOutcomeHelp}
                 describedBy={"i05-helper-text"}
               />
+
             </Grid>
           {Object.keys(outcomes).map((category, index) => (
             <Grid item xs={12}>
@@ -1379,6 +1401,25 @@ export default function AnalysisStep(props) {
                 tipMsg={language.learningConstraintHelp}
                 describedBy={"i05-helper-text"}
               />
+
+              <FeedbackHelp
+                language={props.language}
+                  validation={{
+                    error: false,
+                    errorMsg: "xxxx",
+                    errorType: "xxxxxtttt",
+                    a11y: null
+                  }}
+                 // tipMsg={language.appropriateOption}
+                  describedBy={"i05-helper-text"}
+                  stepHelp={{
+                    step: "textHelper",
+                    stepLabel: props.language.CourseAnalysisHelp,
+                    helpsTips:props.language.AnalysisTipsHelpsTwo,
+                  }}
+              />
+
+              
             </Grid>
           <Grid item xs={12}>
             <form>
@@ -1530,21 +1571,22 @@ export default function AnalysisStep(props) {
 
         <br/>
         <br/>
+        
         <FeedbackHelp
-        language={props.language}
-          validation={{
-            error: false,
-            errorMsg: "xxxx",
-            errorType: "xxxxxtttt",
-            a11y: null
-          }}
-          tipMsg={language.appropriateOption}
-          describedBy={"i05-helper-text"}
-          stepHelp={{
-            step: "textHelper",
-            stepLabel: props.language.CourseAnalysisHelp,
-            helpsTips:props.language.AnalysisTipsHelps,
-          }}
+          language={props.language}
+            validation={{
+              error: false,
+              errorMsg: "xxxx",
+              errorType: "xxxxxtttt",
+              a11y: null
+            }}
+           // tipMsg={language.appropriateOption}
+            describedBy={"i05-helper-text"}
+            stepHelp={{
+              step: "textHelper",
+              stepLabel: props.language.CourseAnalysisHelp,
+              helpsTips:props.language.AnalysisTipsHelpsThree,
+            }}
         />
         
         <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>

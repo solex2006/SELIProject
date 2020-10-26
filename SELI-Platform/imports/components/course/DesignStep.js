@@ -70,11 +70,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
-
-
-
-
 export default function DesignStep(props) {
   const {courseInformation,language } = props;
 
@@ -99,12 +94,12 @@ export default function DesignStep(props) {
    // let last=data.length
 
     for (let i=0; i<data.length-1; i++){
-      console.log("xxxx---->", data[i].title)
+      //console.log("xxxx---->", data[i].title)
         if(data[i].title===value){
-          console.log("Repetido---->")
+          //console.log("Repetido---->")
           setvalidateTitle(true)
         }else{
-          console.log("Repetidox2---->")
+          //console.log("Repetidox2---->")
           setvalidateTitle(false)
         }
     }
@@ -215,19 +210,29 @@ export default function DesignStep(props) {
   }, []); 
 
   useEffect(() => {
+    //console.log("la validacion----", props.courseInformation.design)
     if(organization==='unit' && template!='without') {
       setOrganization('topic')
     }
     if(guidedCoursePlan==='free' && template==='without' && (organization==='unit' || organization==='topic')){
       props.validate('passCourseDesign')
     }else{
+      let validatecount=0
       props.courseInformation.design.map((unit, index)=>{
         if (unit.learnGols!='' && unit.mainContent!='' && unit.evaluation!='') {
-          props.validate('passCourseDesign')
-        } else {
-          props.validate('NopassCourseDesign')
-        }
+          validatecount+=1
+         // props.validate('passCourseDesign')
+        } 
       })
+
+    //console.log("ValidateCount", validatecount, props.courseInformation.design.length )
+
+    if(validatecount==props.courseInformation.design.length){
+      props.validate('passCourseDesign')
+    }
+    else {
+      props.validate('NopassCourseDesign')
+    }
     }
   }); 
 
@@ -364,7 +369,7 @@ export default function DesignStep(props) {
   const editUnitTopicName = (unitIndex) => {
     
     let prev = data;
-    console.log("editUnitTopicName", unitIndex, prev[unitIndex].title )
+    //console.log("editUnitTopicName", unitIndex, prev[unitIndex].title )
     prev[unitIndex].editing = true;
     setData(prev);
     let courseInfo=courseinformation;
@@ -398,7 +403,7 @@ export default function DesignStep(props) {
     setvalidateTitle(false)
     let prev = data;
     prev[unitIndex].editing = false;
-    console.log("eeeeeeeee",prev, unitIndex, data[2], prev.slice(-1)[0].title)
+   // console.log("eeeeeeeee",prev, unitIndex, data[2], prev.slice(-1)[0].title)
 //"Tópico 01" "Unidade 01" "Nuevo Topico" "Nueva Unidad" "Ünite 01"  "Konu 01"
     if(prev.slice(-1)[0].title=="New Topic" || prev.slice(-1)[0].title==="New Unit" || 
     prev.slice(-1)[0].title=="Tópico 01" || prev.slice(-1)[0].title=="Unidade 01" || prev.slice(-1)[0].title=="Nuevo Topico" || 
@@ -666,7 +671,7 @@ export default function DesignStep(props) {
             errorType: "xxxxxtttt",
             a11y: null
           }}
-          tipMsg={language.appropriateOption}
+         // tipMsg={language.appropriateOption}
           describedBy={"i05-helper-text"}
           stepHelp={{
             step: "textHelper",

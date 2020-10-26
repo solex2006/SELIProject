@@ -401,7 +401,7 @@ export default class CourseInformation extends React.Component {
                 errorType: "xxxxxtttt",
                 a11y: null
               }}
-              tipMsg={this.props.language.appropriateOption}
+             // tipMsg={this.props.language.appropriateOption}
               describedBy={"i05-helper-text"}
               stepHelp={{
                 step: "textHelper",

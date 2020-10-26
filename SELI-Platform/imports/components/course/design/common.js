@@ -68,12 +68,24 @@ export default function DesignCourseCommons(props) {
 
   useEffect(() => {
     //for validate the step
-    //console.log("Validate desig STEP", learning,preKnow,main,eval )
-    if(learning!='' && main!='' && eval!=''){
+    //console.log("Validate desig STEP", learning,preKnow,main,eval, courseInformation )
+    let validatecount=0
+    courseInformation.map((unit, index)=>{
+      if (unit.learnGols!='' && unit.mainContent!='' && unit.evaluation!='') {
+        validatecount+=1
+       // props.validate('passCourseDesign')
+      } 
+    })
+
+    //console.log("ValidateCount", validatecount )
+
+    if(validatecount==courseInformation.length){
       props.validate('passCourseDesign')
-    } else {
+    }
+    else {
       props.validate('NopassCourseDesign')
     }
+
   });
 
   const [learning, setLearning]=useState(learnGols);
@@ -87,11 +99,11 @@ export default function DesignCourseCommons(props) {
         id={key + "_ObjLearning"}
         label={language.Learningobjectives}
         aria-describedBy={key + "-helper-text_Obj"}
-        required
+        //required
         fullWidth
         multiline
         variant="outlined"
-        value={ learning!='' ?learning : learnGols}
+        value={learning}
         onChange={event => {
           setLearning(event.target.value)
           //console.log('Unit en el common', unit, unitIndex)
@@ -114,7 +126,7 @@ export default function DesignCourseCommons(props) {
         id={key + "_ObjPreexisting"}
         label={language.Preexistingknowlegde}
         aria-describedBy={key + "-helper-text_preKnowledge"}
-        value={preKnow!=''? preKnow :preKnowledge}
+        value={preKnow}
         //required
         fullWidth
         multiline
@@ -139,7 +151,7 @@ export default function DesignCourseCommons(props) {
         id={key + "_ObjMain"}
         label={`${language.Maincontent} (${language.required})`}
         aria-describedBy={key + "-helper-text_mainContent"}
-        value={main!='' ? main : mainContent }
+        value={main}
         required
         fullWidth
         multiline
@@ -164,7 +176,7 @@ export default function DesignCourseCommons(props) {
         id={key + "_ObjEvaluation"}
         label={language.Evaluation}
         aria-describedBy={key + "-helper-text_mainContent"}
-        value={eval!= ''? eval : evaluation}
+        value={eval}
         required
         fullWidth
         multiline
