@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({}));
 export default function ActivityDesign(props) {
   const {language, type, courseInformation, programInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
 
+  const [taskInfo, settaskInfo]=useState(false)
   useEffect(()=>{
     if(courseInformation.length!=0){
       if(type=='lesson'){
@@ -62,6 +63,19 @@ export default function ActivityDesign(props) {
 
     return rows;
   }
+  const validateRepeated=(data, estado)=>{
+    courseInformation[parentIndex].activities.map((activity,index)=>{
+      if(activity.activity===data.activity){
+        console.log("Repetido---->",data, state, courseInformation[parentIndex].activities )
+        settaskInfo(true)
+        //return true
+      }else{
+        console.log("Repetidox2---->",data, state, courseInformation[parentIndex].activities)
+        settaskInfo(false)
+        //return false
+      }
+    })
+  }
   const [state, setState] = React.useState({
     columns: [
       {
@@ -71,21 +85,30 @@ export default function ActivityDesign(props) {
           <TextField
             type="text"
             error={
-              !props.value &&
-              props.rowData.validateInput &&
-              props.rowData.submitted
-                ? props.rowData.error
-                : false
+              //validateRepeated(props.rowData, state)
+              courseInformation[parentIndex].activities.findIndex(activity=>activity.activity==props.rowData.activity)!=-1?
+              true:!props.value && props.rowData.validateInput && props.rowData.submitted ? props.rowData.error: false
+             //validateRepeated(props.rowData, state)
+            //  console.log("asdasdasdasdeeeee",validateRepeated(props.rowData, state))
+              /* for (let i=0; i<data.length-1; i++){
+                console.log("xxxx---->", data[i].title)
+                  if(data[i].title===value){
+                    console.log("Repetido---->")
+                    setvalidateTitle(true)
+                  }else{
+                    console.log("Repetidox2---->")
+                    setvalidateTitle(false)
+                  }
+               }*/
+            /*   !props.value && props.rowData.validateInput && props.rowData.submitted ? props.rowData.error: false */
             }
             helperText={
-              !props.value &&
-              props.rowData.validateInput &&
-              props.rowData.submitted
-                ? language.required
-                : ""
+              courseInformation[parentIndex].activities.findIndex(activity=>activity.activity==props.rowData.activity)!=-1?
+              language.YouTitlebefore : !props.value && props.rowData.validateInput && props.rowData.submitted ? language.required : "" 
             }
             value={props.value ? props.value : ""}
             onChange={e => {
+              validateRepeated(props.rowData, state)
               if (props.rowData.validateInput) {
                 props.rowData.validateInput = false;
               }
@@ -173,6 +196,7 @@ export default function ActivityDesign(props) {
                     handleActivities(parentIndex, data, programActivities);
                   }
                   console.log("guarda", data, programActivities )
+                 // settaskInfo(programActivities)
                   return { ...prevState, data, programActivities};
                 });
               }, 600);

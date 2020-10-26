@@ -95,6 +95,7 @@ export default function DesignCourseApp(props) {
   const [programActivities, setProgramActivities] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [indexStateLesson, setIndexStateLesson] = useState(-1);
+  const [validateTitleLesson, setvalidateTitleLesson]=useState(false)
 
   useEffect(() => {
     if(designInformation.length !== 0){
@@ -102,6 +103,9 @@ export default function DesignCourseApp(props) {
       setProgramActivities(programInformation[unitIndex].lessons);
     }
   }, [])
+  useEffect(()=>{
+    console.log("se valida leccion:",validateTitleLesson)
+  },[validateTitleLesson])
 
   const handleActivities = (lessonIndex, activities, pActivities) => {
     let prev = [...data];
@@ -114,6 +118,18 @@ export default function DesignCourseApp(props) {
   };
 
   function updateTempValue(value) {
+    console.log("valueee",value, data)
+    data.map((title, indextitle)=>{
+      if(title.title!=''){
+        if(title.title==value){
+          console.log("sssss")
+          setvalidateTitleLesson(true)
+        }else{
+          setvalidateTitleLesson(false)
+        }
+      }
+      
+    })
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
@@ -152,6 +168,7 @@ export default function DesignCourseApp(props) {
   }
 
   const addLesson = () => {
+    setvalidateTitleLesson(false)
     let prev = data;
     let programInfo = programActivities;
     let newLesson = lesson;
@@ -172,6 +189,7 @@ export default function DesignCourseApp(props) {
   }
 
   const editLesson = (lessonIndex) => {
+    
     let prev = data;
     let programInfo = programActivities;
     prev[lessonIndex].editing = false;
@@ -236,7 +254,7 @@ export default function DesignCourseApp(props) {
                 aria-label={"Save changes"}
                 onClick={event => editLesson(lessonIndex)}
                 className={classes.saveButton}
-                disabled={controlEdit.tempValue === ""}
+                disabled={controlEdit.tempValue === ""? true : validateTitleLesson===true? true: false}
               >
                 <DoneIcon />
               </IconButton>
@@ -259,10 +277,11 @@ export default function DesignCourseApp(props) {
               >
                 <ClearIcon />
               </IconButton>
+              
               <FeedbackHelp
                 validation={{
-                  error: false,
-                  errorMsg: "",
+                  error: validateTitleLesson,
+                  errorMsg: props.language.YouTitlebefore,
                   errorType: "",
                   a11y: null
                 }}

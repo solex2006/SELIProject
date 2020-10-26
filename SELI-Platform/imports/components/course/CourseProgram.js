@@ -38,8 +38,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import VerticalPanel from './templates/VerticalPanel';
-import MediaPlayer from '../student/MediaPlayer';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 //Teamplates
 import FreeWithout from './templates/FreeWithout';
 import TemplateParent from './templates/TemplateParent';
@@ -70,8 +68,6 @@ export default class CourseProgram extends React.Component {
       prevIndexState: 0,
       showPreview: false,
       showMenu: true,
-      showMedia: false,
-      media: ''
     }
   }
 
@@ -457,21 +453,6 @@ export default class CourseProgram extends React.Component {
     this.setState({
       showPreview: false,
     });
-    this.closeMedia();
-  }
-
-  closeMedia = () => {
-    this.setState({
-      showMedia: false,
-      media: '',
-    })
-  }
-
-  openMedia = (media) => {
-    this.setState({
-      media: media,
-      showMedia: true,
-    })
   }
 
   handleMenu = (value) => {
@@ -557,41 +538,26 @@ export default class CourseProgram extends React.Component {
           <AppBar position="static" className="course-dialog-app-bar">
             <Toolbar style={{position: 'relative'}}>
               <IconButton edge="start" color="inherit" 
-                onClick={this.state.showMedia ? this.closeMedia : this.closePreview}
+                onClick={this.closePreview}
                 aria-label={this.props.language.close}
               >
-                {this.state.showMedia ? <ArrowBackIcon /> : <CloseIcon />}
+                <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h6">
-                {
-                  this.state.showMedia ? 
-                    `${this.props.language.seliMediaPlayer} | ${this.state.media ? this.state.media.attributes.title : ""}`
-                  : this.props.language.coursePreview
-                }
+                {this.props.language.coursePreview}
               </Typography>
               <p className="app-tooltip">{this.props.language.pressEsc}</p>
             </Toolbar>
           </AppBar>
-          {
-            this.state.showMedia ?
-              <DialogContent className="media-dialog-content">
-                <MediaPlayer
-                  media={this.state.media}
-                  language={this.props.language}
-                />
-              </DialogContent>
-            :
-              <DialogContent className="classroom-dialog-content">
-                <CourseContent
-                  fromTutor={Meteor.userId()}
-                  fromPreview
-                  course={this.state.courseInformation}
-                  selected={this.props.selected}
-                  language={this.props.language}
-                  openMedia={this.openMedia.bind(this)}
-                />
-              </DialogContent>
-          }
+          <DialogContent className="classroom-dialog-content">
+            <CourseContent
+              fromTutor={Meteor.userId()}
+              fromPreview
+              course={this.state.courseInformation}
+              selected={this.props.selected}
+              language={this.props.language}
+            />
+          </DialogContent>
         </Dialog>
         <Dialog
           open={this.state.contentOpen}

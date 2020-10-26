@@ -1,21 +1,32 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
 import VideoThumbnail from 'react-video-thumbnail';
 import ReactPlayer from 'react-player';
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import Grid from "@material-ui/core/Grid";
+import MediaPlayer from '../../tools/MediaPlayer';
 
 export default class MediaGallery extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      openMedia: false,
+      index: 0
     }
 	}
 	
-	openFullScreen = (media) => {
-		if (this.props.openMedia) this.props.openMedia(media);
-	}
+	handleOpenMedia = (index) => {
+		this.setState({
+      openMedia: true,
+      index: index,
+    });
+  }
+  
+  handleCloseMedia = () => {
+    this.setState({
+      openMedia: false,
+      index: 0
+    });
+  }
 
 	onClick = () => {}
 
@@ -84,22 +95,17 @@ export default class MediaGallery extends React.Component {
 					</Grid>
 					{this.props.contentItems.map((tile, index) => (
 						<Grid item >
-							<Paper
+							<figure
 								tabIndex="0"
-								elevation={8}
 								className="template-paper-gallery-preview"
-								onClick={() => this.openFullScreen(tile)}
-								//onKeyDown={() => this.openFullScreen(tile)}
+								onClick={() => this.handleOpenMedia(index)}
 							>
 								{  
 									this.props.contentCode === "image" ?
-										<div
+										<img
 											className="template-image-gallery-preview"
-											style={{
-												backgroundImage: `url(${tile.attributes.image.link})`,
-												//transform: `rotate(${this.state.imageValue && this.state.imageValue.rotate ? this.state.imageValue.rotate : 0}deg)`,
-											}}
-										></div>
+											src={tile.attributes.image.link}
+										/>
 									:
 										<React.Fragment>
 											<PlayCircleOutlineIcon className="template-play-icon" />
@@ -130,13 +136,20 @@ export default class MediaGallery extends React.Component {
 											</div>
 										</React.Fragment>
 								}
-								<div className="template-paper-title-gallery-preview">
+								<figcaption className="template-paper-title-gallery-preview">
 									{tile.attributes.title}
-								</div>
-							</Paper>
+								</figcaption>
+							</figure>
 						</Grid>
 					))}
 				</Grid>
+        <MediaPlayer
+          index={this.state.index}
+          openMedia={this.state.openMedia}
+          mediaItems={this.props.contentItems}
+          handleCloseMedia={this.handleCloseMedia.bind(this)}
+          language={this.props.language}
+        />
       </div>
     );
   }

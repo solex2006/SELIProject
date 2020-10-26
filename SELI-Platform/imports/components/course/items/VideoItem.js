@@ -1,14 +1,10 @@
 import React from 'react';
-/* import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button'; */
 import Typography from '@material-ui/core/Typography';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import VideoPreview from './VideoPreview';
 import AudioPlayer from 'react-h5-audio-player';
-//import CheckboxLabels from './CheckBox';
 import TextAlternatives from '../../accessibility/alternative/TextAlternatives';
+import MediaPlayer from '../../tools/MediaPlayer';
 
 export default class VideoItem extends React.Component {
   constructor(props) {
@@ -19,7 +15,9 @@ export default class VideoItem extends React.Component {
       autoplay:false,
       key:'78',
       editorState:'',
-      shortlongDescription:''
+      shortlongDescription:'',
+      openMedia: false,
+      index: 0
     }
   }
 
@@ -37,12 +35,22 @@ export default class VideoItem extends React.Component {
     )
   }
 
-  openMediaChild = () => {
-    if (this.props.openMedia) {
+  handleOpenMedia = (index) => {
+    if (!this.props.fromProgram) {
       const cancellFullScreen = document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen || document.msExitFullscreen;
       cancellFullScreen.call(document);
-      this.props.openMedia(this.props.item);
+      this.setState({
+        openMedia: true,
+        index: index,
+      });
     }
+  }
+  
+  handleCloseMedia = () => {
+    this.setState({
+      openMedia: false,
+      index: 0
+    });
   }
 
   render() {
@@ -55,7 +63,7 @@ export default class VideoItem extends React.Component {
                 <VideoPreview 
                   file={this.props.item.attributes.video}
                   dataField={this.props.item.attributes.accessibility.dataField ? this.props.item.attributes.accessibility.dataField : undefined}
-                  openMediaChild={this.openMediaChild.bind(this)}
+                  handleOpenMedia={this.handleOpenMedia.bind(this)}
                 />
               )}
               <div className="course-item-video-card-media-content">
@@ -84,16 +92,6 @@ export default class VideoItem extends React.Component {
               :
                 undefined
             }
-            {/* {
-              this.props.item.attributes.externalLink !== '' ?
-                <CardActions className="course-item-video-card-media-actions-container">
-                  <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
-                    {this.props.language.learnMore}
-                  </Button>
-                </CardActions>
-              :
-                undefined
-            } */}
           </div>
         </div>
         {this.props.fromProgram && 
@@ -102,6 +100,13 @@ export default class VideoItem extends React.Component {
             language={this.props.language}
           />
         }
+        <MediaPlayer
+          index={this.state.index}
+          openMedia={this.state.openMedia}
+          mediaItems={[this.props.item]}
+          handleCloseMedia={this.handleCloseMedia.bind(this)}
+          language={this.props.language}
+        />
       </div>
       );
     }
