@@ -486,7 +486,7 @@ class StorytellingToolTime extends React.Component {
 
   validateStory = () => {
     let story = this.state.story;
-    story.nodes[this.state.selectedNode].categories = this.state.categories;
+    story.categories = this.state.story.categories;
     this.setState({
       story: story,
     });
@@ -609,6 +609,7 @@ class StorytellingToolTime extends React.Component {
   }
 
   SelectCategories = () => {
+    debugger;
 
     var categoriesData = [];
     categoriesData.push(this.state.story.categories.map((category) => category));

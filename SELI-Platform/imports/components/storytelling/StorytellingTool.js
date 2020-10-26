@@ -400,7 +400,7 @@ class StorytellingTool extends React.Component {
 
   validateStory = (publish) => {
     let story = this.state.story;
-    story.nodes[this.state.selectedNode].categories = this.state.story.categories;
+    story.categories = this.state.story.categories;
     if (story.nodes.length < 3) {
       this.props.handleControlMessage(true, this.props.language.storyMustHave);
       return false;
