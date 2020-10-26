@@ -104,13 +104,16 @@ export default class VideoItem extends React.Component {
             language={this.props.language}
           />
         }
-        <MediaPlayer
-          index={this.state.index}
-          openMedia={this.state.openMedia}
-          mediaItems={[this.props.item]}
-          handleCloseMedia={this.handleCloseMedia.bind(this)}
-          language={this.props.language}
-        />
+        {
+          !this.props.fromProgram &&
+          <MediaPlayer
+            index={this.state.index}
+            openMedia={this.state.openMedia}
+            mediaItems={[this.props.item]}
+            handleCloseMedia={this.handleCloseMedia.bind(this)}
+            language={this.props.language}
+          />
+        }
       </div>
       );
     }

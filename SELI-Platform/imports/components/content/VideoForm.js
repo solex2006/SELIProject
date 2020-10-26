@@ -1,18 +1,12 @@
 import React from 'react';
 import FileUpload from '../files/FileUpload';
 import VideoPreview from '../files/previews/VideoPreview';
-import Editor from '../inputs/editor/Editor';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Library from '../tools/Library';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import HttpIcon from '@material-ui/icons/Http';
-import ReactPlayer from 'react-player';
 import TextField from '@material-ui/core/TextField';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
@@ -32,6 +26,8 @@ export default class VideoForm extends React.Component {
         hasDescription: true,
         description: '',
         subtitles: [],
+        url: "",
+        isValid: true,
         accessibility: {
           pureDecorative: false,
           percentage: 0,
@@ -165,7 +161,15 @@ export default class VideoForm extends React.Component {
     this.setState({
       showHelperText: false,
       url: event.target.value,
-      validUrl: false,
+      isValid: true,
+    }, () => {
+      this.validateUrl()
+    })
+  }
+
+  onErrorVideo = () => {
+    this.setState({
+      isValid: false,
     }, () => {
       this.validateUrl()
     })
@@ -174,11 +178,10 @@ export default class VideoForm extends React.Component {
   validateUrl(){
     let attributes = this.state.attributes;
     let url = document.getElementById('url-input').value;
-    let isValid = ReactPlayer.canPlay(url);
     let helperColor = '';
     let showHelperText = true;
     let urlMessage = '';
-    if (isValid) {
+    if (this.state.isValid) {
       let video = {
         name: 'External video',
         link: url,
@@ -196,7 +199,6 @@ export default class VideoForm extends React.Component {
       showHelperText: showHelperText,
       urlMessage: urlMessage,
       helperColor: helperColor,
-      validUrl: isValid,
       url: url,
       attributes: attributes,
     });
@@ -229,8 +231,7 @@ export default class VideoForm extends React.Component {
         }
         else {
           this.setState({
-            validUrl: true,
-            url: (this.state.attributes.video!=undefined)? (this.state.attributes.video.link): (undefined),
+            url: (this.state.attributes.video!=undefined) ? (this.state.attributes.video.link): (undefined),
             helperColor: "#4caf50",
             urlMessage: this.props.language.thePlayerCan,
             showHelperText: true,
@@ -302,12 +303,14 @@ export default class VideoForm extends React.Component {
                             />
                           :
                             <div>
-                              {
-                                this.state.validUrl ?
-                                  <ReactPlayer controls className="course-creator-preview-player" url={this.state.url}/>
-                                :
-                                  undefined
-                              }
+                              <video
+                                ref="urlVideo"
+                                id="video-preview-url" 
+                                className="course-creator-preview-player"
+                                src={this.state.url}
+                                onError={this.onErrorVideo}
+                                controls
+                              />
                               <div className="url-input-container">
                                 <TextField
                                   id="url-input"
