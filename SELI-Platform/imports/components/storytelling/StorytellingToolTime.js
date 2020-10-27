@@ -489,7 +489,7 @@ class StorytellingToolTime extends React.Component {
     story.categories = this.state.story.categories;
     this.setState({
       story: story,
-    });
+    }); 
 
     var validImage = this.state.story.nodes.map(item => item.images);
     if(validImage[0] == 0) {
