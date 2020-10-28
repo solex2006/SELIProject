@@ -150,15 +150,7 @@ export default class AppBar extends React.Component {
         <div className="app-bar-container" >
           <div className="app-bar-container-text">
             {this.props.language.seliProject}
-            
-            <div className="SeliStoriesDiv"
-            onClick={() => this.redirect('/StoriesDashboard', false)}
-            >
-            {this.props.language.seliStories}              
-
-            </div>
           </div>
-
           <div className="bar-button-container" >
             {
               this.props.user !== undefined ?

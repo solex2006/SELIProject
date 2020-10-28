@@ -667,22 +667,7 @@ export default class User extends React.Component {
                       undefined
                     }
                     
-                     {
-                      this.state.component === 'StoriesDashboard' ?
-                    <StoriesDashboard
-                      user={this.state.user}
-                      language={this.state.language}
-                      subscribe={this.subscribe.bind(this)}
-                          unsubscribe={this.openUnsubscribe.bind(this)}
-                          disabled={this.state.showLoadingMessage}
-                          handleControlMessage={this.handleControlMessage.bind(this)}
-                          searchText={this.state.searchText ? this.state.searchText : undefined}
-                          texttoSearch={this.state.texttoSearch ? this.state.texttoSearch : undefined}
-                          cleanSearchText={this.cleanSearchText.bind(this)}
-                    />  
-                    :
-                    undefined  
-                  }
+                     
                     {
                       this.state.component === 'published' ?
                         <PublishedCoursesList

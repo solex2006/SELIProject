@@ -52,9 +52,24 @@ export default class MainMenu extends React.Component {
     });
   };
 
+  redirect = url => {
+    this.props.history.push({
+      pathname: url,
+      state: {
+        language: this.props.language,
+      }
+    });
+  }
+
   showComponent(component){
     this.closeMenu();
-    this.props.showComponent(component);
+    if(component === 'Community') {
+     this.redirect('/Community', false)
+
+    }
+    else{
+      this.props.showComponent(component);
+    }
   }
 
   componentDidMount(){

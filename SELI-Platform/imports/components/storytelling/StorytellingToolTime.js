@@ -137,6 +137,16 @@ class StorytellingToolTime extends React.Component {
       dataAudioId: [],
       img:[],
       renameFile: false,
+      educationColor:'primary',
+      engineeringColor:'primary',
+      inclusionColor:'primary',
+      lifeColor:'primary',
+      scienceColor:'primary',
+      schoolColor:'primary',
+      sportsColor:'primary',
+      technologyColor:'primary',
+      universityColor:'primary',
+      cultureColor: 'primary',
     }
  }
   
@@ -607,10 +617,59 @@ class StorytellingToolTime extends React.Component {
       showPreview: false,
     });
   }
+  handleClick = () => {
+    this.setState({
+      cultureColor:'danger'
+    });
+  }
+  educationClick = () => {
+    this.setState({
+      educationColor:'danger'
+    });
+  }
+  engineeringClick = () => {
+    this.setState({
+      engineeringColor:'danger'
+    });
+  }
+  inclusionClick = () => {
+    this.setState({
+      inclusionColor:'danger'
+    });
+  }
+  lifeClick = () => {
+    this.setState({
+      lifeColor:'danger'
+    });
+  }
+  scienceClick = () => {
+    this.setState({
+      scienceColor:'danger'
+    });
+  }
+  schoolClick = () => {
+    this.setState({
+      schoolColor:'danger'
+    });
+  }
+  sportsClick = () => {
+    this.setState({
+      sportsColor:'danger'
+    });
+  }
+  technologyClick = () => {
+    this.setState({
+      technologyColor:'danger'
+    });
+  }
+  universityClick = () => {
+    this.setState({
+      universityColor:'danger'
+    });
+  }
+
 
   SelectCategories = () => {
-    debugger;
-
     var categoriesData = [];
     categoriesData.push(this.state.story.categories.map((category) => category));
     var controlEqual = false;
@@ -631,6 +690,7 @@ class StorytellingToolTime extends React.Component {
 
     }else {
     this.state.story.categories.push(this.state.categoryType);
+
     this.setState({
     
 
@@ -1410,58 +1470,57 @@ class StorytellingToolTime extends React.Component {
                         helperText={this.props.language.storyNameHelper}
                       />
                       <div className="categoryButtons">
-                     
                       <Button
-                          color="primary"
-                          className="storytelling"
+                          id="culture"
+                          className="cultureBtn"
                           variant="outlined"
-                          onClick={() => this.SelectCategories( this.state.categoryType = 'culture')}
-                        > 
-                        Culture</Button><Button
-                        color="primary"
-                        className="storytelling"
+                          onClick={() => {this.SelectCategories( this.state.categoryType = 'culture'); this.handleClick();}}
+                          color={this.state.cultureColor}
+                        >Culture</Button><Button
+                        color={this.state.educationColor}
+                        className="educationBtn"
                         variant="outlined"
-                          onClick={() => this.SelectCategories( this.state.categoryType = 'education')}
+                          onClick={() => {this.SelectCategories( this.state.categoryType = 'education'); this.educationClick();}}
                         >Education</Button><Button
-                        color="primary"
-                        className="storytelling"
+                        color={this.state.engineeringColor}
+                        className="engineeringBtn"
                         variant="outlined"
-                          onClick={() => this.SelectCategories( this.state.categoryType = 'engineering')}
+                          onClick={() =>  {this.SelectCategories( this.state.categoryType = 'engineering'); this.engineeringClick();}}
                         >Engineering</Button><Button
-                        color="primary"
-                        className="storytelling"
+                        color={this.state.inclusionColor}
+                        className="inclusionBtn"
                         variant="outlined"
-                          onClick={() => this.SelectCategories( this.state.categoryType = 'inclusion')}
-                >Inclusion</Button><Button
-                        color="primary"
-                        className="storytelling"
+                          onClick={() => {this.SelectCategories( this.state.categoryType = 'inclusion'); this.inclusionClick();}}
+                        >Inclusion</Button><Button
+                        color={this.state.lifeColor}
+                        className="lifeBtn"
                         variant="outlined"
-                          onClick={() => this.SelectCategories( this.state.categoryType = 'life')}
+                          onClick={() => {this.SelectCategories( this.state.categoryType = 'life'); this.lifeClick();}}
                         >Life</Button><Button
-                        color="primary"
-                        className="storytelling"
+                        color={this.state.scienceColor}
+                        className="scienceBtn"
                         variant="outlined"
-                          onClick={() => this.SelectCategories( this.state.categoryType = 'science')}
+                          onClick={() => {this.SelectCategories( this.state.categoryType = 'science'); this.scienceClick();}}
                         >Science</Button><Button
-                        color="primary"
-                        className="storytelling"
+                        color={this.state.schoolColor}
+                        className="schoolBtn"
                         variant="outlined"
-                          onClick={() => this.SelectCategories( this.state.categoryType = 'school')}
+                          onClick={() => {this.SelectCategories( this.state.categoryType = 'school'); this.schoolClick();}}
                         >School</Button><Button
-                        color="primary"
-                        className="storytelling"
+                        color={this.state.sportsColor}
+                        className="sportsBtn"
                         variant="outlined"
-                          onClick={() => this.SelectCategories( this.state.categoryType = 'sports')}
+                          onClick={() => {this.SelectCategories( this.state.categoryType = 'sports'); this.sportsClick();}}
                         >Sports</Button><Button
-                        color="primary"
-                        className="storytelling"
+                        color={this.state.technologyColor}
+                        className="technologyBtn"
                         variant="outlined"
-                          onClick={() => this.SelectCategories(this.state.categoryType = 'technology')}
+                          onClick={() => {this.SelectCategories(this.state.categoryType = 'technology'); this.technologyClick();}}
                         >Technology</Button><Button
-                        color="primary"
-                        className="storytelling"
+                        color={this.state.universityColor}
+                        className="universityBtn"
                         variant="outlined"
-                          onClick={() => this.SelectCategories(this.state.categoryType = 'university')}
+                          onClick={() => {this.SelectCategories(this.state.categoryType = 'university'); this.universityClick();}}
                         >University</Button>
           </div>
           {/* {
