@@ -1,0 +1,17 @@
+nav {
+    display: inline-block;
+    margin-top:24px;
+    font-size: 17px;
+    padding: 4px
+}
+.nav-Links{
+    display: inline-block;
+    width: 40%;
+    list-style: none;
+}
+
+nav li{
+    color:white;
+    text-transform: uppercase;
+    padding: 5px;
+}
