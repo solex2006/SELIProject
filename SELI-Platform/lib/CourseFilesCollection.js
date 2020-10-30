@@ -37,7 +37,7 @@ const CourseFilesCollection = new FilesCollection({
         return true;
       }
     } else if(file.meta.type==='caption'){
-      if (/vtt|srt/i.test(file.extension)) { //for vtt only
+      if (/vtt|srt/i.test(file.extension)) { //for vtt and srt subtitles
         return true;
       }
     } else if(file.meta.type==='compressed'){

@@ -46,12 +46,12 @@ export default class MediaPlayer extends React.Component {
       playing: false,
       fullScreen: false,
       muted: false,
-      started: false,
       playedSeconds: 0,
       volume: 0.8,
       timeLabel: "00:00",
       captions: [],
       hasA11y: false,
+      isA11y: true,
       disableCaptions: true,
     }
   }
@@ -103,7 +103,29 @@ export default class MediaPlayer extends React.Component {
   }
 
   handlePlayPause = () => {
-    this.setState({ playing: !this.state.playing })
+    this.setState({ playing: !this.state.playing });
+    if (this.state.isA11y) {
+      if (!this.state.playing) {
+        this.player.play();
+      } else {
+        this.player.pause();
+      }
+    }
+    if (this.validateA11ySign()) {
+      if (!this.state.playing) {
+        this.refs.videoSign.play();
+      } else {
+        this.refs.videoSign.pause();
+      }
+    }
+  }
+
+  loadedData = () => {
+    this.handleDuration(this.player.duration);
+  }
+
+  loadedDataSign = () => {
+    this.refs.videoSign.volume = 0;
   }
 
   handleToggleFullscreen = () => {
@@ -127,20 +149,12 @@ export default class MediaPlayer extends React.Component {
   }
 
   handleProgress = state => {
-    this.toTimeLabel(state.playedSeconds);
+    var time = 0;
+    if (this.state.isA11y) time = this.player.currentTime;
+    else time = state.playedSeconds;
+    this.toTimeLabel(time);
     this.setState({
-      playedSeconds: state.playedSeconds,
-    })
-    // We only want to update time slider if we are not currently seeking
-    if (!this.state.seeking) {
-      this.setState(state)
-    }
-  }
-
-  handleStart = () => {
-    this.setState({
-      started: true,
-      playing: true,
+      playedSeconds: time,
     })
   }
 
@@ -148,18 +162,19 @@ export default class MediaPlayer extends React.Component {
     var newFloatValue = parseFloat(newValue);
     this.toTimeLabel(newValue);
     this.setState({ playedSeconds: newFloatValue })
-    this.player.seekTo(newFloatValue);
+    if (this.state.isA11y) this.player.currentTime = newFloatValue;
+    else this.player.seekTo(newFloatValue);
     this.handleSeekChangeA11y(newFloatValue);
   }
 
   handleSeekChangeA11y = (value) => {
-    if (this.state.media.attributes.accessibility.dataField && this.state.media.attributes.accessibility.dataField.signLanguage==="no" && this.state.media.attributes.accessibility.dataField.fileVideoSignal[0]!=null){
+    if (this.validateA11ySign()){
       var videoTime = value;
-      var videoSignTime = this.refs.videoSign.getDuration();
+      var videoSignTime = this.refs.videoSign.duration;
       if (videoTime > videoSignTime) {
-        this.refs.videoSign.seekTo(videoSignTime, 'seconds');
+        this.refs.videoSign.currentTime = videoSignTime;
       } else {
-        this.refs.videoSign.seekTo(videoTime, 'seconds');
+        this.refs.videoSign.currentTime = videoTime;
       }
     }
   }
@@ -168,6 +183,9 @@ export default class MediaPlayer extends React.Component {
     this.setState({
       volume: parseFloat(newValue)
     }, () => {
+      if (this.state.isA11y) {
+        this.player.volume = this.state.volume;
+      }
       this.state.volume === 0 ? this.setState({muted: true}) : this.setState({muted: false})
     });
   }
@@ -193,11 +211,43 @@ export default class MediaPlayer extends React.Component {
     });
   }
 
+  handleChange = () => {
+    if (this.state.captions.length) {
+      this.setState({captions: []});
+    } else {
+      this.setState({captions: this.state.tracks});
+    }
+    if (this.state.playing) {
+      this.handlePlayPause();
+    }
+  }
+
+  handleNext = () => {
+    this.setData(this.state.index + 1);
+  }
+
+  handleBack = () => {
+    this.setData(this.state.index - 1);
+  }
+
+  onErrorVideo = (event) => {
+    this.setState({
+      isA11y: false,
+    })
+  }
+
+  validateA11ySign = () => {
+    if (this.state.media.attributes.accessibility.dataField && this.state.media.attributes.accessibility.dataField.signLanguage==="no" && this.state.media.attributes.accessibility.dataField.fileVideoSignal[0]!=null) 
+      return true;
+    else 
+      return false;
+  }
+
   a11yContent = () => {
     return (
       <div className={!this.state.fullScreen && "media-a11y-container"}>
         {
-          this.state.media.type === 'video' && this.state.media.attributes.accessibility.dataField.signLanguage==="no" && this.state.media.attributes.accessibility.dataField.fileVideoSignal[0]!=null?
+          this.state.media.type === 'video' && this.validateA11ySign() ?
             <div className={!this.state.fullScreen && "AudioPlayer"}>
               {
                 !this.state.fullScreen &&
@@ -210,14 +260,14 @@ export default class MediaPlayer extends React.Component {
                 elevation={15}
                 className={!this.state.fullScreen ? "media-player-a11y-container" : "media-player-a11y-container-fullscreen"}
               >
-                <ReactPlayer
+                <video
                   ref="videoSign"
                   className="media-player-a11y-video"
                   id="video-sign-language"
+                  preload="auto"
                   controls={false}
-                  playing={this.state.playing && this.state.started}
-                  url={this.state.media.attributes.accessibility.dataField.fileVideoSignal[0].link}
-                  volume={0}
+                  src={this.state.media.attributes.accessibility.dataField.fileVideoSignal[0].link}
+                  onLoadedData={this.loadedDataSign}
                 />
               </Paper>
             </div>
@@ -225,7 +275,7 @@ export default class MediaPlayer extends React.Component {
             undefined   
         }
         {
-          !this.state.fullScreen && this.state.media.type === 'video' && this.state.media.attributes.accessibility.dataField!=undefined && this.state.media.attributes.accessibility.dataField.fileAudioDescription[0]!=null ?
+          !this.state.fullScreen && this.state.media.type === 'video' && this.validateA11ySign() ?
             <div className="AudioPlayer">
               <Typography className="course-item-card-subtitle" variant="subtitle1" style={{color: "white"}}>
                 {`${this.props.language.audioDescription}:`}
@@ -250,25 +300,6 @@ export default class MediaPlayer extends React.Component {
         }
       </div>
     )
-  }
-
-  handleChange = () => {
-    if (this.state.captions.length) {
-      this.setState({captions: []});
-    } else {
-      this.setState({captions: this.state.tracks});
-    }
-    if (this.state.playing) {
-      this.handlePlayPause();
-    }
-  }
-
-  handleNext = () => {
-    this.setData(this.state.index + 1);
-  }
-
-  handleBack = () => {
-    this.setData(this.state.index - 1);
   }
 
   render() {
@@ -306,28 +337,44 @@ export default class MediaPlayer extends React.Component {
                     className={this.state.fullScreen ? "media-player-container-full" : "media-player-container"}
                   >
                     <div className="fullscreen-media-container">
-                      <ReactPlayer
-                        onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
-                        ref={this.ref}
-                        url={this.state.media.attributes.video.link}
-                        className={this.state.hasA11y && !this.state.fullScreen ? "video-media-player-a11y" : "video-media-player"}
-                        controls={false}
-                        playing={this.state.playing}
-                        onProgress={this.handleProgress}
-                        muted={this.state.muted}
-                        volume={this.state.volume}
-                        onSeek={e => this.handleSeek}
-                        onDuration={this.handleDuration}
-                        onStart={this.handleStart}
-                        onBuffer={this.handleBuffer}
-                        onBufferEnd={this.handleBufferEnd}
-                        config={{file: {
-                          /* attributes: {
-                            crossOrigin: 'true'
-                          }, */
-                          tracks: this.state.captions
-                        }}}
-                      />
+                      {
+                        this.state.isA11y ?
+                          <video
+                            onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
+                            ref={this.ref}
+                            src={this.state.media.attributes.video.link}
+                            className={this.state.hasA11y && !this.state.fullScreen ? "video-media-player-a11y" : "video-media-player"}
+                            preload="auto"
+                            controls={false}
+                            onTimeUpdate={this.handleProgress}
+                            muted={this.state.muted}
+                            onLoadedData={this.loadedData}
+                            onError={() => this.onErrorVideo(event)}
+                          >
+                            {
+                              this.state.captions.length &&
+                              <track kind="subtitles" src={this.state.captions[0].src} default/>
+                            }
+                          </video>
+                        :
+                          <ReactPlayer
+                            onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
+                            ref={this.ref}
+                            url={this.state.media.attributes.video.link}
+                            className={this.state.hasA11y && !this.state.fullScreen ? "video-media-player-a11y" : "video-media-player"}
+                            controls={false}
+                            playing={this.state.playing}
+                            onProgress={this.handleProgress}
+                            muted={this.state.muted}
+                            volume={this.state.volume}
+                            onDuration={this.handleDuration}
+                            onBuffer={this.handleBuffer}
+                            onBufferEnd={this.handleBufferEnd}
+                            config={{file: {
+                              tracks: this.state.captions
+                            }}}
+                          />
+                      }
                       {this.state.hasA11y && this.a11yContent()}
                     </div>
                     <Slide direction="left" in={this.state.showControls} mountOnEnter unmountOnExit timeout={{enter: 0, exit: 0}}>
