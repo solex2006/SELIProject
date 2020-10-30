@@ -275,7 +275,7 @@ export default class MediaPlayer extends React.Component {
             undefined   
         }
         {
-          !this.state.fullScreen && this.state.media.type === 'video' && this.validateA11ySign() ?
+          !this.state.fullScreen && this.state.media.type === 'video' && this.state.media.attributes.accessibility.dataField!=undefined && this.state.media.attributes.accessibility.dataField.fileAudioDescription[0]!=null ?
             <div className="AudioPlayer">
               <Typography className="course-item-card-subtitle" variant="subtitle1" style={{color: "white"}}>
                 {`${this.props.language.audioDescription}:`}
