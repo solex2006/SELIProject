@@ -553,7 +553,7 @@ var PORTUGUESE = {
   commentSuccessfullySent: "Comentário enviado com sucesso!",
   pleaseGoCertificates: "Por favor vá para meus certificados.",
   pleaseContactAdmin: "Por favor contate o administrador.",
-  certificateGenerated: "Certificado gerado com sucesso!",
+  certificateGenerated: "Wait...!",
   certificateNotGenerated: "Certificado não pôde ser gerado",
   willBeRedirected: "Tem certeza que deseja ser redirecionado para a pré-visualização do curso?",
   storiesPerPage: "Histórias por página: ",

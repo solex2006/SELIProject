@@ -553,7 +553,7 @@ var TURKISH = {
   commentSuccessfullySent: "Yorum başarıyla gönderildi!",
   pleaseGoCertificates: "Lütfen sertifikalarıma git.",
   pleaseContactAdmin: "Lütfen yöneticiye başvurun.",
-  certificateGenerated: "Sertifika başarıyla oluşturuldu!",
+  certificateGenerated: "Wait... !",
   certificateNotGenerated: "Sertifika oluşturulamadı",
   willBeRedirected: "Kurs önizlemesine yönlendirilmek istediğinizden emin misiniz?",
   storiesPerPage: "Sayfa başına hikaye: ",

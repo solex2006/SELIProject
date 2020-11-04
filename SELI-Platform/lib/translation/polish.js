@@ -553,7 +553,7 @@
   commentSuccessfullySent: "Komentarz wysłany z sukcesem!",
   pleaseGoCertificates: "Idź do moich certyfikatów.",
   pleaseContactAdmin: "Skontaktuj się z administratorem.",
-  certificateGenerated: "Certyfikat wygenerowany z sukcesem!",
+  certificateGenerated: "Wait...!",
   certificateNotGenerated: "Nie możemy wygenerować certfikatu!",
   willBeRedirected: "Czy na pewno chcesz zostać przekierowany do podglądu kursu?",
   storiesPerPage: "Historie na stronie: ",

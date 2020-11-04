@@ -43,7 +43,21 @@ import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfie
 import MoodBadIcon from '@material-ui/icons/MoodBad';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { StudentEventLog } from '../../../lib/StudentEventCollection';
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+import Certificates from './certificates'
 
+
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import Slide from '@material-ui/core/Slide';
+  
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 export default class PublishedCoursesList extends React.Component {
   constructor(props) {
     super(props);
@@ -54,10 +68,15 @@ export default class PublishedCoursesList extends React.Component {
       studentScores: [],
       course: [],
       indexquiz:'',
-      valuesofScores:[]
+      valuesofScores:[],
+      flag:'',
+      hash:'',
+      count:0,
+      showCertificates:false,
+      open:false
     }
   }
-
+  //notify = () => toast(<div><a href={'https://201.159.223.92/vows/'+`${this.state.hash}`} target="_blank">The certificate was generated successfully, click to open:</a></div>);
   componentDidMount() {
     this.getMyCourses(this.props.user.username);
     
@@ -505,6 +524,55 @@ export default class PublishedCoursesList extends React.Component {
     )
   }
 
+  componentDidUpdate(prevState){
+   /*  if(this.state.flag!=prevState.flag){
+      console.log("cierra la alerta")
+      this.setState({
+        flag:'none'
+      })
+    } */
+  }
+
+  flag=(hashes)=>{
+    let hash=hashes.slice(-1)[0] 
+    console.log("antes del TOAST", hash)
+    if(hash!=undefined && hash!=""){
+      console.log("debe msotrar el TOAST", hashes)
+      if(this.state.count==0){
+        toast(<div>The certificate was generated successfully!. </div>);
+      }
+      this.state.count+=1
+    }
+    
+  }
+
+  showCertificates=()=>{
+    console.log("click OPEN")
+    this.setState({
+      //studentInformation:'certificates',
+      showCertificates:true,
+      //open:true
+    }) 
+  }
+
+  closeCertificates=()=>{
+    console.log("CLOSEEE")
+    this.state.showCertificates=false
+  this.state.studentInformation=''
+    this.setState({
+      showCertificates:false,
+      studentInformation:''
+    })
+  }
+
+  handleCloseCert = () => {
+    this.setState({
+      open:false
+    })
+  //  setOpen(false);
+    //props.closeCertificates()
+  };
+ 
   render() {
     return(
       <div className="management-container">
@@ -552,6 +620,15 @@ export default class PublishedCoursesList extends React.Component {
             }
           </React.Fragment>
         }
+
+       
+        {
+          /* this.state.showCertificates===true?
+            <Certificates/>
+          :
+          undefined */
+        }
+
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -644,14 +721,44 @@ export default class PublishedCoursesList extends React.Component {
                                       unsubscribe={this.props.unsubscribe.bind(this)}
                                       handleView={this.handleView}
                                       reload={this.openClassroomManagement.bind(this)}
+                                      flag={this.flag.bind(this)}
                                       language={this.props.language}
                                     />
                                   )
                                 })}
                               </div>
+                              <Button onClick={() =>this.showCertificates()} color="primary" autoFocus>
+                                  Check Certificates
+                              </Button>
                             </div>
                           :
-                            undefined
+                           undefined
+                        }
+                        {console.log("showwww",this.state, this.props)}
+                        {
+                          this.state.showCertificates===true?
+                          <Certificates
+                            open={Math.random()}
+                            courseProfiles={this.state.courseProfiles}
+                          />
+                          :
+                          undefined
+                        }
+                        {
+
+                          <div>
+                         
+                          <ToastContainer
+                            position="top-center"
+                            autoClose={false}
+                            newestOnTop={false}
+                            closeOnClick={false}
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                          />
+                          </div>
+                          
                         }
                         {
                           this.state.studentInformation==='quiz'?

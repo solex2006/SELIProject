@@ -553,7 +553,7 @@ var ENGLISH = {
   commentSuccessfullySent: "Comment successfully sent!",
   pleaseGoCertificates: "Please go to my certificates.",
   pleaseContactAdmin: "Please contact the administrator.",
-  certificateGenerated: "Certificate successfully generated!",
+  certificateGenerated: "Wait...!",
   certificateNotGenerated: "Certificate couldn't be generated",
   willBeRedirected: "Are you sure you want to be redirected to the course preview?",
   storiesPerPage: "Stories per page: ",
