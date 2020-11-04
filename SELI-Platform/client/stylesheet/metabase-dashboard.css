@@ -16,6 +16,16 @@
     border:none;
     overflow:hidden;
 }
+.student-dashboard-main-frame{
+    position:fixed; 
+    top: calc(var(--app-bar-height) + var(--app-bar-height));
+    display: flex;
+    animation: fadeIn 0.5s;
+    width: 100vw;
+    height: calc(100vh - var(--app-bar-height));
+    border:none;
+    overflow:hidden;
+}
 .metabase-appbar{
     max-width: 100%;
     min-width: 100%;

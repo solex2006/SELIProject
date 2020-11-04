@@ -22,20 +22,7 @@ export default class StudentDashboard extends React.Component {
         let iframeUrl;
         let user = this.props.user;
         if (user) {
-            let jwt = require("jsonwebtoken");
-            let METABASE_SITE_URL = Meteor.settings.public.METABASE_DOMAIN;
-            let METABASE_SECRET_KEY = Meteor.settings.public.METABASE_KEY;
-            let token;
-            let payload;
-
-            payload = {
-                resource: { dashboard: 4 },
-                params: { "id": Meteor.userId() },
-                exp: Math.round(Date.now() / 1000) + (10 * 60)
-            };
-            
-            token = jwt.sign(payload, METABASE_SECRET_KEY);
-            iframeUrl = METABASE_SITE_URL + "/embed/dashboard/" + token + "#bordered=true&titled=true";
+            iframeUrl = Meteor.settings.public.STUDENT_DASHBOARD_SITE_URL;
             this.setState({ iframeUrl : iframeUrl });
         }
     }
@@ -56,7 +43,7 @@ export default class StudentDashboard extends React.Component {
             :
                 <React.Fragment>
                     <div>
-                        <iframe className="metabase-main-frame" src={this.state.iframeUrl}></iframe>
+                        <iframe className="student-dashboard-main-frame" src={this.state.iframeUrl}></iframe>
                     </div>
                 </React.Fragment>
             }

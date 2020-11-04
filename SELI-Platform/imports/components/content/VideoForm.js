@@ -10,6 +10,7 @@ import Tab from '@material-ui/core/Tab';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
+import ReactPlayer from 'react-player';
 
 export default class VideoForm extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ export default class VideoForm extends React.Component {
         subtitles: [],
         url: "",
         isValid: true,
+        isA11y: true,
         accessibility: {
           pureDecorative: false,
           percentage: 0,
@@ -162,16 +164,23 @@ export default class VideoForm extends React.Component {
       showHelperText: false,
       url: event.target.value,
       isValid: true,
+      isA11y: true
     }, () => {
       this.validateUrl()
     })
   }
 
-  onErrorVideo = () => {
+  onErrorVideo = (event) => {
     this.setState({
-      isValid: false,
+      isA11y: false,
     }, () => {
-      this.validateUrl()
+      if (!ReactPlayer.canPlay(this.state.url)) {
+        this.setState({isValid: false}, () => {
+          this.validateUrl();
+        })
+      } else {
+        this.validateUrl();
+      }
     })
   }
 
@@ -187,8 +196,13 @@ export default class VideoForm extends React.Component {
         link: url,
       };
       attributes.video = video;
-      urlMessage = this.props.language.thePlayerCan;
-      helperColor = "#4caf50";
+      if (this.state.isA11y) {
+        urlMessage = this.props.language.thePlayerCan;
+        helperColor = "#4caf50";
+      } else {
+        urlMessage = this.props.language.feedback_a11y_accessibility_no;
+        helperColor = "#d1a101";
+      }
     }
     else {
       attributes.video = undefined;
@@ -289,7 +303,7 @@ export default class VideoForm extends React.Component {
                   </div>
                   {
                     !this.state.showPreview ?
-                      <div>
+                      <React.Fragment>
                         {
                           this.state.attributes.source === "upload" ?
                             <FileUpload
@@ -302,15 +316,26 @@ export default class VideoForm extends React.Component {
                               language={this.props.language}
                             />
                           :
-                            <div>
-                              <video
-                                ref="urlVideo"
-                                id="video-preview-url" 
-                                className="course-creator-preview-player"
-                                src={this.state.url}
-                                onError={this.onErrorVideo}
-                                controls
-                              />
+                            <React.Fragment>
+                              {
+                                this.state.isA11y ?
+                                  <video
+                                    ref="urlVideo"
+                                    id="video-preview-url" 
+                                    className="course-creator-preview-player"
+                                    src={this.state.url}
+                                    onError={() => this.onErrorVideo(event)}
+                                    controls
+                                  />
+                                :
+                                  <ReactPlayer
+                                    ref="urlVideo"
+                                    id="video-preview-url" 
+                                    className="course-creator-preview-player"
+                                    url={this.state.url}
+                                    controls={true}
+                                  />
+                              }
                               <div className="url-input-container">
                                 <TextField
                                   id="url-input"
@@ -325,20 +350,15 @@ export default class VideoForm extends React.Component {
                                   helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
                                 />
                               </div>
-
-                            </div>
+                            </React.Fragment>
                         }
-                      </div>
+                      </React.Fragment>
                     :
-                      <div>
-                        <div>
-                          <VideoPreview
-                            file={this.state.attributes.video}
-                            unPickFile={this.unPickFile.bind(this)}
-                            language={this.props.language}
-                          />
-                        </div>
-                      </div>
+                      <VideoPreview
+                        file={this.state.attributes.video}
+                        unPickFile={this.unPickFile.bind(this)}
+                        language={this.props.language}
+                      />
                   }
                   <div className="form-editor-label">
                     <AccessibilityHelp 

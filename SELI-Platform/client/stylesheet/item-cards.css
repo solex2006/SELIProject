@@ -133,10 +133,10 @@
 }
 
 .videosignal{
-    position: absolute;
-    top: -110px !important;
-    left: 30px !important;
-    width: 144px !important;
+  position: absolute;
+  top: 18px !important;
+  left: 30px !important;
+  width: 144px !important;
 }
 
 .videoPreview{
