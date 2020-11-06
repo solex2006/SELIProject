@@ -366,20 +366,21 @@ if (Meteor.isServer) {
       url: "certificate-result",
       getArgsFromRequest: function (request) {
         var content = request.body;
-        return [content.idStudent, content.certificateHash];
+        return [content.idStudent, content.certificateHash, content];
       } 
     }
     
     SimpleRest.setMethodOptions('certificate-result', options);
 
     Meteor.methods({
-      'certificate-result': function (idStudent,certificateHash) {
+      'certificate-result': function (idStudent,certificateHash,content) {
         console.log("id",idStudent);
         console.log("cert",certificateHash);
+        console.log("contenido",content);
         let updateResult= Meteor.users.update(
           {_id : idStudent },
           { $push : 
-            { "profile.certificates" : certificateHash }}
+            { "profile.certificates" : certificateHash,  "profile.check": false }}
         );
         if(updateResult){
           return "Certificado registrado--------------------";

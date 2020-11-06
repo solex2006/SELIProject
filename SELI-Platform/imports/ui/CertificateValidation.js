@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -63,9 +63,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function CenteredGrid() {
+export default function CenteredGrid(props) {
+  console.log("En mostrar certificado", props, props.match.params.id)
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [id, setId]=useState(props.match.params.id);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -74,28 +76,6 @@ export default function CenteredGrid() {
 
   return (
     <div className={classes.root}>
-
-    {/* <NotifyMe
-      data={[
-        {
-          "update":"70 new employees are shifted",
-          "timestamp":1596119688264
-        },
-        {
-          "update":"Time to take a Break, TADA!!!",
-          "timestamp":1596119686811
-        }
-      ]}
-      storageKey='notific_key'
-      notific_key='timestamp'
-      notific_value='update'
-      heading='Notification Alerts'
-      sortedByKey={false}
-      showDate={true}
-      size={64}
-      color="yellow"
-    /> */}
-
       <h1>Smart Ecosystem for Learning and Inclusion</h1>
       <p>Course Certificate</p>
       <p>Nombre del curso</p>
@@ -131,7 +111,7 @@ export default function CenteredGrid() {
         </Card>
         </Grid>
         <Grid item xs={8}>
-          <iframe src="https://201.159.223.92/vows/0xf49c5524Cf292b1e21226f89d5f90b866Fcd3F9e" height="500px" width="100%" title="Iframe Example"></iframe>
+          <iframe src={"https://201.159.223.92/vows/"+id} height="500px" width="100%" title="Iframe Example"></iframe>
         </Grid>
       </Grid>
 
