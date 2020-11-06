@@ -738,6 +738,7 @@ export default class PublishedCoursesList extends React.Component {
                         {
                           this.state.showCertificates===true?
                           <Certificates
+                            courseData={this.state.course}
                             open={Math.random()}
                             courseProfiles={this.state.courseProfiles}
                           />

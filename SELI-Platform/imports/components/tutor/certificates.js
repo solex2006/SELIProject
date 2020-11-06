@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import MaterialTable from "material-table";
-
+import {Link,Route} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
@@ -37,11 +37,9 @@ export default function Certificates(props) {
   const [columns, setColumns]=useState([])
   const [data, setData]=useState([])
   useEffect(()=>{
-   console.log("propiedades11111111111111",props)
+   console.log("propiedades11111111111111",props,props.courseData.creationDate)
    //get certiifcates of each student
    getCertificates()
-
-
    setOpen(true)
   },[props.open])
 
@@ -51,6 +49,7 @@ export default function Certificates(props) {
      let columns=[]
       props.courseProfiles.map((student, indexStudent)=>{
          let user = Meteor.users.find({_id: student.studentId}).fetch();
+         console.log("certifictes*********",user[0].profile.certificates)
          studentInfo={
             id:student.studentId,
             name: student.studentInformation.fullname,
@@ -65,8 +64,19 @@ export default function Certificates(props) {
           { title: 'Email', field: 'email' },
           { title: 'Certificate', field: 'certificate' },
       ]
+        let hashcert=user[0].profile.certificates[user[0].profile.certificates.length-1];
+        data.push({ name: student.studentInformation.fullname, email: student.studentInformation.email, certificate: 
+        typeof(hashcert)==="object" ? 
+          <Link to={{pathname:'certificatesValidation/'+hashcert.certificateHash, state:{infoStudent: {
+            certificateHash:hashcert.certificateHash,
+            course:props.courseData.title,
+            date:props.courseData.creationDate.toString(),
+            description:props.courseData.description,
+            name:student.studentInformation.fullname,
+            tutor:props.courseData.createdBy,
+          }}}} >See Certificate</Link>:
+        <span>---</span>})
         
-        data.push({ name: student.studentInformation.fullname, email: student.studentInformation.email, certificate: <a href={`https://201.159.223.92/vows/`+user[0].profile.certificates[user[0].profile.certificates.length-1]} target="_blank">See Certificate</a>})
          
         setColumns(columns)
         setData(data)
