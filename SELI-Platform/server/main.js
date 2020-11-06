@@ -380,7 +380,7 @@ if (Meteor.isServer) {
         let updateResult= Meteor.users.update(
           {_id : idStudent },
           { $push : 
-            { "profile.certificates" : certificateHash,  "profile.check": false }}
+            { "profile.certificates" : content,  "profile.check": false }}
         );
         if(updateResult){
           return "Certificado registrado--------------------";
