@@ -58,35 +58,31 @@ export default class AudioItem extends React.Component {
             </Typography>
           </CardContent>
         </div>
-        <div
-          id={"audio_" + this.props.item.id}
-          className="course-item-audio-card-controls2"
-          aria-describedby={"audio_" + this.props.item.id + "_transcriptText"}
-          aria-labelledby={"audio_" + this.props.item.id + "_shortDescr"}
-        >
-          {
-            this.props.item.attributes.audio &&
-            <audio 
-              ref="audioItemPreview" 
-              className="audio-file-preview"
-              src={this.props.item.attributes.audio.link}
-              controls
-            />
-          }
-            {/* <Tooltip title={this.props.language.addToMyLibrary}>
-              <Link className="course-item-audio-card-icon-button" aria-label="add to favorites">
-                <FolderSpecialIcon className="course-item-audio-card-icon"/>
-              </Link>
-            </Tooltip>  */}
-            {
-              this.props.item.attributes.externalLink !== '' ?
-                <Link onClick={() => this.openExternalLink()} className="course-item-video-card-media-button MuiButtonBase-root MuiButton-root MuiButton-text course-item-video-card-media-button MuiButton-textPrimary MuiButton-textSizeSmall MuiButton-sizeSmall" size="small" color="primary">
-                  {this.props.language.externalLink}
-                </Link>
-              :
-                undefined
-            }
-        </div>
+        {
+          this.props.item.attributes.audio &&
+          <audio
+            ref="audioItemPreview" 
+            className="course-item-audio-card-controls2"
+            id={"audio_" + this.props.item.id}
+            aria-describedby={"audio_" + this.props.item.id + "_transcriptText"}
+            aria-labelledby={"audio_" + this.props.item.id + "_shortDescr"}
+            src={this.props.item.attributes.audio.link}
+            controls
+          />
+        }
+        {/* <Tooltip title={this.props.language.addToMyLibrary}>
+          <Link className="course-item-audio-card-icon-button" aria-label="add to favorites">
+            <FolderSpecialIcon className="course-item-audio-card-icon"/>
+          </Link>
+        </Tooltip>  */}
+        {
+          this.props.item.attributes.externalLink !== '' ?
+            <Link onClick={() => this.openExternalLink()} className="course-item-video-card-media-button MuiButtonBase-root MuiButton-root MuiButton-text course-item-video-card-media-button MuiButton-textPrimary MuiButton-textSizeSmall MuiButton-sizeSmall" size="small" color="primary">
+              {this.props.language.externalLink}
+            </Link>
+          :
+            undefined
+        }
       </Card> 
     )
   }
@@ -179,10 +175,8 @@ export default class AudioItem extends React.Component {
                 this.textAlternatives()
               :
                 undefined
-            } 
-            <Card raised className="course-item-audio-card">         
-              {this.audioPlayer()}
-            </Card> 
+            }         
+            {this.audioPlayer()}
             {
               this.props.item.attributes.accessibility.dataField !=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
                 this.textAlternatives()

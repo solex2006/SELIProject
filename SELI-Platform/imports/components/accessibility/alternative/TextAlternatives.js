@@ -71,10 +71,12 @@ export default class TextAlternatives extends React.Component {
                               >
                                 <div id={"audio_" + this.props.item.id + "_transcriptText"}>
                                   <Editor 
-                                    ariaOwneeID={"audio_" + this.props.item.id + "_transcriptText"}
+                                    //ariaOwneeID={"audio_" + this.props.item.id + "_transcriptText"}
+                                    //ariaActiveDescendantID={"audio_" + this.props.item.id + "_transcriptText"}
+                                    //ariaDescribedBy={"audio_" + this.props.item.id + "_transcriptText"}
                                     editorState={this.signalText()} 
                                     readOnly={true}
-                                />
+                                  />
                                 </div>
                               </div>
                             </details>
