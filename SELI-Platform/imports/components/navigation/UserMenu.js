@@ -220,7 +220,7 @@ export default function UserMenu(props) {
         }}
       >
         {
-          certificates.map((certificate, indexCertificate)=>{
+          /* certificates.map((certificate, indexCertificate)=>{
             return(
               <CardHeader
                 avatar={
@@ -238,7 +238,7 @@ export default function UserMenu(props) {
               }
               />
             )
-          })
+          }) */
         }
       </Popover>
       </div>
