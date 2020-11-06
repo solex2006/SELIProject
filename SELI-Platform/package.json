@@ -62,6 +62,7 @@
     "mv": "^2.1.1",
     "object-str-find": "^0.1.1",
     "openbadges-bakery-v2": "^2.1.0",
+    "popper.js": "^1.16.1",
     "prom-client": "^10.2.3",
     "query-json": "^2.0.1",
     "querystring": "^0.2.0",
@@ -97,7 +98,6 @@
     "react-native": "^0.62.2",
     "react-native-elements": "^1.2.7",
     "react-native-vector-icons": "^6.6.0",
-    "react-notification-timeline": "0.0.8",
     "react-number-format": "^4.4.1",
     "react-numeric-input": "^2.2.3",
     "react-player": "^1.15.2",
@@ -111,10 +111,10 @@
     "react-share": "^3.0.1",
     "react-smooth-dnd": "^0.11.1",
     "react-speech": "^1.0.2",
-    "react-spinners": "^0.5.13",
+    "react-spinners": "^0.9.0",
     "react-stopwatch": "^2.0.4",
     "react-swipeable-views": "^0.13.3",
-    "react-swipeable-views-utils": "^0.13.3",
+    "react-swipeable-views-utils": "^0.13.9",
     "react-time-picker": "^4.0.1",
     "react-timer-machine": "^1.0.2",
     "react-toastify": "^6.0.9",
@@ -134,7 +134,8 @@
     "utf-8-validate": "^5.0.2",
     "uuid": "^8.3.0",
     "var_dump-js": "0.0.1",
-    "wavesurfer.js": "^4.0.1"
+    "wavesurfer.js": "^4.0.1",
+    "webpack": "^4.0.0"
   },
   "meteor": {
     "mainModule": {
@@ -153,5 +154,8 @@
   ],
   "extends": [
     "plugin: jsx-a11y/recommended"
-  ]
+  ],
+  "optionalDependencies": {
+    "fsevents": "^2.1.3"
+  }
 }
