@@ -68,6 +68,7 @@ export default function CenteredGrid(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [id, setId]=useState(props.match.params.id);
+  const [studentData, setStudentData]=useState(props.history.location.state.infoStudent);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -78,7 +79,7 @@ export default function CenteredGrid(props) {
     <div className={classes.root}>
       <h1>Smart Ecosystem for Learning and Inclusion</h1>
       <p>Course Certificate</p>
-      <p>Nombre del curso</p>
+      <p>{studentData.course}</p>
 
       <Grid container spacing={1}>
         <Grid item xs={4}>
@@ -86,24 +87,24 @@ export default function CenteredGrid(props) {
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
-                A
+                C
               </Avatar>
             }
             
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
+            title={studentData.name}
+            subheader={(new Date()).toString()}
           />
           
           <CardContent>
             <Typography variant="body2" color="textPrimary" component="p">
-            Completed by Juan Gabriel Barros Gavilanes
+            Completed by: {studentData.name}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-            June 27, 2017
+            {studentData.date}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-            Juan Gabriel Barros Gavilanes 's account is verified. 
-            Coursera certifies their successful completion of English for Science, Technology, Engineering, and Mathematics
+            {studentData.name} 's account is verified. 
+            SELI: Smart Ecosystem for Learning and Inclusion certifies their successful completion of {studentData.course} course.
             </Typography>
           </CardContent>
          

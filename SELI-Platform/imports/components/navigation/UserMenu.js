@@ -16,7 +16,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import {Link} from "react-router-dom";
+import {Link,Route} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
@@ -87,7 +87,7 @@ export default function UserMenu(props) {
 
   useEffect(()=>{
     //carga toods los certificados al estudiante
-    console.log("certiifcados al estudante",props.user)
+    console.log("certiifcados al estudante",props)
     infoStudent.name=props.user.profile.fullname;
     infoStudent.coursename="cambiar por el nombre del curso"
     setInfoStudent(infoStudent)
@@ -190,58 +190,64 @@ export default function UserMenu(props) {
 
   return (
     <div  style={{display:'flex'}}>
-      <div>
-        {/* <IconButton aria-label="notifications" style={{backgroundColor:'white'}} size="medium" onClick={handleClick}><NotificationsIcon fontSize="medium" /></IconButton> */}
-       
-        <a className={classes.faglobe}>
-          <span className={classes.spanfacomment}>
-          <IconButton aria-label="notifications" style={{backgroundColor:'white'}} size="medium" onClick={handleClick}><NotificationsIcon fontSize="medium" /></IconButton>
-          </span>
-          <span className={check===false? classes.spannum: classes.checktrue}>
-            <span className={classes.circle} >
-              <span className={classes.texto}>2</span>
-            </span>
-          </span>
-       
-          
-        </a>
-        <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        {
-          /* certificates.map((certificate, indexCertificate)=>{
-            return(
-              <CardHeader
-                avatar={
-                  <Avatar aria-label="recipe" className={classes.avatar}>
-                    C
-                  </Avatar>
+      {
+        props.user.profile.type==='student'?
+          <div>
+            <a className={classes.faglobe}>
+              <span className={classes.spanfacomment}>
+              <IconButton aria-label="notifications" style={{backgroundColor:'white'}} size="medium" onClick={handleClick}><NotificationsIcon fontSize="medium" /></IconButton>
+              </span>
+              <span className={check===false? classes.spannum: classes.checktrue}>
+                <span className={classes.circle} >
+                  <span className={classes.texto}>2</span>
+                </span>
+              </span>    
+            </a>
+            <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            {
+              certificates.map((certificate, indexCertificate)=>{
+                
+                if(typeof(certificate)==="object"){
+                  console.log("-----",typeof(certificate), certificate)
+                  return(
+                    <CardHeader
+                      avatar={
+                        <Avatar aria-label="recipe" className={classes.avatar}>
+                          C
+                        </Avatar>
+                      }
+                      title="Congratulations you have a new certificate !"
+                      subheader={<Link to={{
+                        pathname:'certificatesValidation/'+certificate.certificateHash,
+                        state: {
+                          infoStudent: certificate
+                        }
+                      }} >See Certificate</Link>
+                    }
+                    />
+                  )
                 }
-                title="Congratulations you have a new certificate !"
-                subheader={<Link to={{
-                  pathname:'certificatesValidation/'+certificate,
-                  state: {
-                    infoStudent: infoStudent
-                  }
-                }}>See Certificate</Link>
-              }
-              />
-            )
-          }) */
-        }
-      </Popover>
-      </div>
+            
+              }) 
+            }
+          </Popover>
+          </div>
+        :
+        undefined
+      }
       
       <div 
         tabIndex="0" 
