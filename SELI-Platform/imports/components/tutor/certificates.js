@@ -14,6 +14,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import MaterialTable from "material-table";
 import {Link,Route} from "react-router-dom";
+import tableIcons from '../../components/course/design/icons';
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
@@ -111,26 +112,10 @@ export default function Certificates(props) {
         </AppBar>
            {console.log("certificates---->", certificates,data,columns)}
            <MaterialTable
-               title="One Detail Panel Preview"
+               icons={tableIcons(props.language.Additem)}
+               title="Certificates"
                columns={columns}
                data={data}
-               detailPanel={rowData => {
-    
-                return (
-                  <div style={{margin: '0 auto'}}>
-                    <iframe
-                     width="75%"
-                     height="50%"
-                     src={`https://201.159.223.92/vows/`+certificates}
-                     frameborder="0"
-                     align = "middle"
-                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                     allowfullscreen
-                    />
-                  </div>
-                  
-        ) 
-      }}
     />
           
        

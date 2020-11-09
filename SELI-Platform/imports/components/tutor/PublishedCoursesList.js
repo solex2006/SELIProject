@@ -539,7 +539,7 @@ export default class PublishedCoursesList extends React.Component {
     if(hash!=undefined && hash!=""){
       console.log("debe msotrar el TOAST", hashes)
       if(this.state.count==0){
-        toast(<div>The certificate was generated successfully!. </div>);
+        toast(<div style={{color:'brown', textAlign:'justify', padding:'10px'}}>The request has been sent, the generation time can be 3-10 min, check the certificates section. </div>);
       }
       this.state.count+=1
     }
@@ -738,6 +738,7 @@ export default class PublishedCoursesList extends React.Component {
                         {
                           this.state.showCertificates===true?
                           <Certificates
+                          language={this.props.language}
                             courseData={this.state.course}
                             open={Math.random()}
                             courseProfiles={this.state.courseProfiles}

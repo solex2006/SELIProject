@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
   },
   spanfacomment: {
-    position: 'absolute',
+    //position: 'absolute',
     fontSize: '0.6em',
     top: '-4px',
     color: 'red',
@@ -191,81 +191,81 @@ export default function UserMenu(props) {
   return (
     <div  style={{display:'flex'}}>
       {
-        props.user.profile.type==='student'?
-          <div>
-            <a className={classes.faglobe}>
-              <span className={classes.spanfacomment}>
-              <IconButton aria-label="notifications" style={{backgroundColor:'white'}} size="medium" onClick={handleClick}><NotificationsIcon fontSize="medium" /></IconButton>
-              </span>
-              <span className={check===false? classes.spannum: classes.checktrue}>
-                <span className={classes.circle} >
-                  <span className={classes.texto}>2</span>
+          props.user.profile.type==='student'?
+            <div>
+              <a className={classes.faglobe}>
+                <span className={classes.spanfacomment}>
+                <IconButton aria-label="notifications" style={{backgroundColor:'white', padding:'7px',marginBottom: '6px',}} size="medium" onClick={handleClick}><NotificationsIcon fontSize="medium" /></IconButton>
                 </span>
-              </span>    
-            </a>
-            <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-          >
-            {
-              certificates.map((certificate, indexCertificate)=>{
-                
-                if(typeof(certificate)==="object"){
-                  console.log("-----",typeof(certificate), certificate)
-                  return(
-                    <CardHeader
-                      avatar={
-                        <Avatar aria-label="recipe" className={classes.avatar}>
-                          C
-                        </Avatar>
-                      }
-                      title="Congratulations you have a new certificate !"
-                      subheader={<Link to={{
-                        pathname:'certificatesValidation/'+certificate.certificateHash,
-                        state: {
-                          infoStudent: certificate
+                <span className={check===false? classes.spannum: classes.checktrue}>
+                  <span className={classes.circle} >
+                    <span className={classes.texto}>1</span>
+                  </span>
+                </span>    
+              </a>
+              <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+              }}
+              style={{overflowY:'scroll', height:'250px'}}
+            >
+              {
+                certificates.map((certificate, indexCertificate)=>{
+                  
+                  if(typeof(certificate)==="object"){
+                    console.log("-----",typeof(certificate), certificate)
+                    return(
+                      <CardHeader
+                        avatar={
+                          <Avatar aria-label="recipe" className={classes.avatar} size="small">
+                            C
+                          </Avatar>
                         }
-                      }} >See Certificate</Link>
-                    }
-                    />
-                  )
-                }
-            
-              }) 
-            }
-          </Popover>
-          </div>
-        :
-        undefined
-      }
-      
+                        title="Congratulations you have a new certificate !"
+                        subheader={<Link to={{
+                          pathname:'certificatesValidation/'+certificate.certificateHash,
+                          state: {
+                            infoStudent: certificate
+                          }
+                        }} >See Certificate</Link>
+                      }
+                      />
+                    )
+                  }
+              
+                }) 
+              }
+            </Popover>
+            </div>
+          :
+          undefined
+        }
       <div 
         tabIndex="0" 
         onClick={toggleDrawer('right', true)} 
         onKeyPress={toggleDrawer('right', true)}
         className="user-menu-container"
       >
+        
         {
           props.user.profile.profileImage !== undefined ?
-            <Avatar
-            size="small"
+            <Avatar  
               className="user-menu-button-avatar"
               alt={props.user.username}
               src={props.user.profile.profileImage.link}
             />
           :
           <Avatar
-          size="small"
+           
             className="user-menu-button-avatar"
             alt={props.user.username}
             src='user.svg'
