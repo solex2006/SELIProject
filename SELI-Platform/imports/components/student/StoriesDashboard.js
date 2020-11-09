@@ -94,7 +94,7 @@ export default class StoriesDashboard extends React.Component {
 
     //Search on the suscribded Course List
     this.state.publishedCourses.map((course, indexCourse)=>{
-      course.title=course.activity.name.toLowerCase()
+      course.title=course.activity.name.toLowerCase();
     })
     // this.searchMyCourses()
     this.searchSELICourses()
@@ -951,12 +951,8 @@ console.log(y);
   
   render() {
     return(
-      
-      
-      
       <div className="courses-dashboard-container">
         {console.log("recarga", this.state)}
-        
         <StorySearch
           getParamsofSearch={this.getParamsofSearch}
           getParamsLanguage={this.getParamsLanguage}
@@ -970,8 +966,6 @@ console.log(y);
           sortByMostRecent={this.sortByMostRecent}
           OrSearch={this.OrSearch}
         />
-        
-      
         {
           this.state.generalDetailedFlag===false?
           <div>
@@ -982,7 +976,6 @@ console.log(y);
           </div>
           : 
           undefined
-          
           //  <div>
               // <React.Fragment>  
           //     {//for  OnlineCourses

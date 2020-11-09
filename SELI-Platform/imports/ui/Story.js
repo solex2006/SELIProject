@@ -80,9 +80,11 @@ export default class Story extends React.Component {
   
   {
 
-    let UserID = Meteor.userId().toString();
+    let UserID = Meteor.userId() ? Meteor.userId().toString() : 'guest';
     var UserNameByID = Meteor.users.findOne({_id: UserID});
-    let UserName = UserNameByID.username;
+    if(UserNameByID != undefined){
+      var UserName = UserNameByID.username;
+    }
     Comments.insert({
       comment: comment,
       user: Meteor.userId() !== null ? UserName : "guest" ,

@@ -98,16 +98,16 @@ class StoryCard extends React.Component {
       descriptionStories: '',
       Categories: [],
     }
-    //database düzenlemesi gerekiyor eski derslerin categorisi olmadığı için patlıyor.
-  //   var categoryNames = this.props.course.activity.categories.map((category) => category);
-  //   for (var i = 0; i < categoryNames.length; i++) {
-  //   if(categoryNames[i]) {
-  //   var categoryInfo = categoryNames[i];
-  //   if(categoryInfo !== null){
-  //     this.state.Categories.push(categoryInfo) ;
-  //     }
-  //   }
-  // }
+    // database düzenlemesi gerekiyor eski derslerin categorisi olmadığı için patlıyor.
+    var categoryNames = this.props.course.activity.categories.map((category) => category);
+    for (var i = 0; i < categoryNames.length; i++) {
+    if(categoryNames[i]) {
+    var categoryInfo = categoryNames[i];
+    if(categoryInfo !== null){
+      this.state.Categories.push(categoryInfo) ;
+      }
+    }
+  }
     this.state.descriptionScenes = this.props.course.activity.data.map(item => item.english);
     if(this.props.course.activity.data.map(item => item.description)[0]){
       this.state.descriptionStories = this.props.course.activity.data.map(item => item.description.english); 
@@ -127,10 +127,12 @@ class StoryCard extends React.Component {
     this.state.label= labelname.toString();
     var UserIDInfo = this.props.course.activity.user;
     let UsersStoryId= Meteor.users.findOne({_id: UserIDInfo});
-    this.state.UsersStoryUserName= UsersStoryId.username;
+    if(UsersStoryId != undefined) {
+      this.state.UsersStoryUserName= UsersStoryId.username;
+
+    }
 
   }
-
   componentDidMount() {
     this.getImageColors();
     // this.getKeyWords();
@@ -301,7 +303,7 @@ class StoryCard extends React.Component {
                   {`${this.props.language.author}: ${this.state.UsersStoryUserName}`}
                 </Typography>
                 <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
-                  {/* {`Categories : ${this.state.Categories}`} */}
+                  {`Categories : ${this.state.Categories}`}
                 </Typography>
               </CardContent>
               <CardActions  disableSpacing>

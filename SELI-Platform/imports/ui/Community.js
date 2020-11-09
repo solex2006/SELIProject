@@ -96,22 +96,19 @@ export default class Community extends React.Component {
   componentWillMount() {//antes de render
     Session.set({language: Session.get('language') ? Session.get('language') : english});
     Tracker.autorun(() => {
-      var stories = Activities.find({'activity.type': { $in: [ "storytelling", "storytelling-time" ] },}).fetch();
       this.setState({
-        stories: stories,
         language: Session.get('language') ? Session.get('language') : english,
-      }, () => {
+        publishedCourses : Activities.find({'activity.type': { $in: [ "storytelling", "storytelling-time" ] },}).fetch(),
 
-        this.state.publishedCourses = this.state.courses;
+      }, () => {
+      this.state.publishedCourses.map((course, indexCourse)=>{
+        course.title=course.activity.name.toLowerCase()
+      })
+      // this.searchMyCourses()
+      this.searchSELICourses()
       });
     });
-
     //Search on the suscribded Course List
-    this.state.publishedCourses.map((course, indexCourse)=>{
-      course.title=course.activity.name.toLowerCase()
-    })
-    // this.searchMyCourses()
-    this.searchSELICourses()
     console.log("conpnet will mount", this.state.publishedCourses)
   }
 
@@ -185,8 +182,9 @@ export default class Community extends React.Component {
 
   searchSELICourses=()=>{
     console.log("searchSELICourses", this.state, this.props )
-    if(this.props.texttoSearch!=undefined){
-      let myFilterSeliCourses=this.state.publishedCourses.filter(course => course.title.search(this.props.texttoSearch.toLowerCase()) !=-1);
+    if(this.props.texttoSearch != undefined){
+      console.log(this.state.publishedCourses);
+      let myFilterSeliCourses=this.state.publishedCourses.filter(course => course.activity.name.search(this.props.texttoSearch.toLowerCase()) !=-1);
     this.state.myFilterSeliCourses=myFilterSeliCourses
     this.setState(this.state)
    // console.log("Seli Courses y Filtrados: ",this.state.publishedCourses, myFilterSeliCourses )
@@ -294,7 +292,7 @@ export default class Community extends React.Component {
                     <StoryCard
                     course={course}
                     index={index}
-                    language={this.props.language}
+                    language={this.state.language}
                     disabled={this.props.disabled}
                     // subscribe={this.props.subscribe.bind(this)}
                     // unsubscribe={this.props.unsubscribe.bind(this)}
@@ -583,6 +581,7 @@ export default class Community extends React.Component {
     this.state.texttoSearch=text
     this.state.generalDetailedFlag=false
     this.setState(this.state)
+    this.searchSELICourses();
     this.searchSELICoursesDetailed()
   }
 
