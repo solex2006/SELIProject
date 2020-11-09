@@ -241,14 +241,14 @@ export default class StudentProfile extends React.Component {
 
   componentDidUpdate(prevProps,prevState) {
     // Uso tipico (no olvides de comparar las props):
-    if (this.state.certificateCreated===true) {
+   /*  if (this.state.certificateCreated===true) {
       
       setTimeout(()=>{     
         //busca el Hash en la base de Datos
         let hash=Meteor.users.find({_id : this.props.profile.studentId  }).fetch()[0].profile.certificates;
         this.props.flag(hash)
       },7000)
-    }
+    } */
   }
   searchCertificateHash = (id) => {
     console.log("search certiifcate", id)
