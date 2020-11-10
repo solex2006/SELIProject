@@ -201,6 +201,23 @@ export default class Presentation extends React.Component {
                   </Button>
                 </div>
               </div>
+              <div id="dashboard-5" className="dashboard">
+                <div className="dashboard-center-container">
+                  <h1 className="dashboard-text-large">
+                    {this.props.language.seliStories}
+                  </h1>
+                  <AccessibilityNewIcon className="dashboard-large-icon"/>
+                  <p className="dashboard-paragraph">
+                    {this.props.language.seliPresentation}
+                  </p>
+                  <Button
+                    className="dashboard-link-button-white"
+                    onClick={() => this.redirect('/community', true)}
+                  >
+                    <MoreHorizIcon className="dashboard-link-icon"/> {this.props.language.seliStories}
+                  </Button>
+                </div>
+              </div>
             </Swiper>
             <Tooltip title={this.state.playing ? this.props.language.stopSlider : this.props.language.resumeSlider} placement="left">
               <Fab onClick={() => this.handleAutoplay()} className="control-slider-fab" color="primary" size="small">

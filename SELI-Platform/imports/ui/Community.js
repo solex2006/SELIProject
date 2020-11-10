@@ -220,7 +220,7 @@ export default class Community extends React.Component {
           <header className='headersearch'>
             <h2>{title}</h2>
           </header>
-          <div className='subheader'>Showing {this.state.myFilterThree.length} of {arrayCourses.length} subscribed stories that correspond to your search.</div>
+          <div className='subheader'>Showing {this.state.myFilterThree.length} of {arrayCourses.length} stories that correspond to your search.</div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
             {
@@ -283,7 +283,7 @@ export default class Community extends React.Component {
           <header className='headersearch'>
             <h2>{title}</h2>
           </header>
-          <div className='subheader'>Showing {this.state.myFilterThreeSeli.length} of {arrayCourses.length} subscribed stories that correspond to your search. </div>
+          <div className='subheader'>Showing {this.state.myFilterThreeSeli.length} of {arrayCourses.length} stories that correspond to your search. </div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
               {
