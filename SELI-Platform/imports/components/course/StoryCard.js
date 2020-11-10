@@ -98,7 +98,7 @@ class StoryCard extends React.Component {
       descriptionStories: '',
       Categories: [],
     }
-    // database düzenlemesi gerekiyor eski derslerin categorisi olmadığı için patlıyor.
+    if(this.props.course.activity.categories != undefined) {
     var categoryNames = this.props.course.activity.categories.map((category) => category);
     for (var i = 0; i < categoryNames.length; i++) {
     if(categoryNames[i]) {
@@ -108,6 +108,7 @@ class StoryCard extends React.Component {
       }
     }
   }
+}
     this.state.descriptionScenes = this.props.course.activity.data.map(item => item.english);
     if(this.props.course.activity.data.map(item => item.description)[0]){
       this.state.descriptionStories = this.props.course.activity.data.map(item => item.description.english); 
