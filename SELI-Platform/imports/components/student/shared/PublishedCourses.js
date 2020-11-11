@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -15,7 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SchoolIcon from '@material-ui/icons/School';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import CommentIcon from '@material-ui/icons/Comment';
-
+import Avatar from '@material-ui/core/Avatar';
 import Loading from '../../tools/Loading';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -106,31 +107,51 @@ export default function MediaCard(props) {
       {
         course!=''?
         course.map((value,index)=>{
-          //console.log("el curso------>:",value)
+          console.log("el curso------>:",value)
           return(
               <Card className={classes.root} key={index}>
-              <CardActionArea>
+              <div style={{fontSize:'10px'}}>
+              <CardHeader
+                avatar={
+                  <Avatar
+                    //style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
+                    aria-label="avatar"
+                    className="course-card-avatar"
+                  >
+                    <h2>{value.title.charAt(0).toUpperCase()}</h2>
+                  </Avatar>
+                }
+                className="course-card-header"
+                style={{fontSize:'14px'}}
+                title={
+                  <h2  tabindex="0" className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{value.title}</h2>
+                }
+                subheader={
+                  <h3  tabindex="0" className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{value.subtitle}</h3>
+                }
+              />
                 <CardMedia
                   className={classes.media}
                   image={value.image.link}
                   title="Contemplative Reptile"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
+                  <Typography tabindex="0" gutterBottom variant="h5" component="h2">
                     {value.title}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                  <Typography gutterBottom variant="h6" component="h4">
+                  
+                  <Typography tabindex="0" gutterBottom variant="h6" component="h3">
                     {props.language.description}:
-                  </Typography>
+                  </Typography >
+                  <Typography tabindex="0" variant="body2" color="textSecondary" component="p">
                     {value.description}
                   </Typography>
-                  <Typography className={classes.title} color="textSecondary" gutterBottom>
+                  <Typography tabindex="0" className={classes.title} color="textSecondary" gutterBottom>
                    {props.language.createdBy}: {value.createdBy}
                   </Typography>
 
                   <CardActions  disableSpacing>
-                    <Link className="button-link MuiButtonBase-root MuiButton-root MuiButton-outlined course-card-button"
+                    <Link className="button-link  MuiButton-root MuiButton-outlined course-card-button"
                       target="_blank"
                       to={{
                         pathname: "/coursePreview",
@@ -178,7 +199,7 @@ export default function MediaCard(props) {
                       <IconButton
                         className="course-card-icon-button"
                         onClick={() => showComments(value._id)}
-                        aria-label="left course"
+                        aria-label="course comments"
                       >
                         <CommentIcon className="course-card-icon"/>
                       </IconButton>
@@ -188,7 +209,7 @@ export default function MediaCard(props) {
 
 
                 </CardContent>
-              </CardActionArea>
+              </div>
             </Card>
           )
         })

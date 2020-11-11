@@ -43,6 +43,7 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import SimpleDialog from './shared/dialog';
 import FullDialog from './shared/dialog_fullwidth';
 import DurationSlider from './shared/duration-slider';
+import DurationSlider2 from './shared/durationSliderv2';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { Courses } from '../../../lib/CourseCollection';
@@ -178,7 +179,7 @@ export default function SearchToolBar(props) {
 	const [openFilter, setOpenFilter] = React.useState(false);
 	const [openSorter, setOpenSorter] = React.useState(false);
 	const [area, setArea] = React.useState([]);
-	const [duration, setDuration] = React.useState([5, 200]);
+	const [duration, setDuration] = React.useState([21599,720000]);
 	const [audiences, setAudiences] = React.useState({
 			Graduatestudents:false, 
 			Informalstudents:false, 
@@ -340,7 +341,7 @@ export default function SearchToolBar(props) {
 			<FormControl className={classes.ranting}>
 				<Grid container spacing={1}>
 					<Grid item>
-						<Rating
+						{/* <Rating
 							aria-label="Course ranting"
 							aria-describedby="ranting-description"
 							role="radiogroup"
@@ -353,7 +354,7 @@ export default function SearchToolBar(props) {
 							onChangeActive={(event, newHover) => {
 								setHover(newHover);
 							}}
-						/>
+						/> */}
 					</Grid>
 					<Grid item>
 						<FormLabel component="legend" id="ranting-description">
@@ -582,7 +583,7 @@ export default function SearchToolBar(props) {
 							color="primary"
 							onClick={() => {
 								setArea([]);
-								setDuration([5, 200]);
+								setDuration([21599,720000]);
 								setAudiences(prev=>({
 										Graduatestudents:false, 
 										Informalstudents:false, 
@@ -928,15 +929,20 @@ export default function SearchToolBar(props) {
 							size="small"
 							startIcon={<ClearIcon />}
 							className={classes.accordionbtn}
-							onClick={() => setDuration([5,200])}
+							onClick={() => setDuration([21599,720000])}
 						>
 							{props.language.ResetDuration}
 						</Button>
-						<DurationSlider
+						{/* <DurationSlider
 							min={duration[0]}
 							max={duration[1]}
 							getParamsDuration={props.getParamsDuration}
-						/>
+						/>  */}
+						 <DurationSlider2
+							min={duration[0]}
+							max={duration[1]}
+							getParamsDuration={props.getParamsDuration}
+						/> 
 					</AccordionDetails>
 				</Accordion>
      
