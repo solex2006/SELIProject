@@ -265,12 +265,25 @@ export default function DesignCourseApp(props) {
                 onClick={event => {
                   setData(prev => {
                     prev[lessonIndex].editing = false;
-                    setControlEdit({
-                      tempValue: "",
-                      adding: false,
-                      editing: false
-                    });
-                    return [...prev];
+                    console.log("leccio**********",prev)
+                     if(prev.slice(-1)[0].title==""){
+                      prev.pop()
+                      setControlEdit({
+                        tempValue: "",
+                        adding: false,
+                        editing: false
+                      });
+                      return [...prev];
+                      
+                    }
+                    else{ 
+                      setControlEdit({
+                        tempValue: "",
+                        adding: false,
+                        editing: false
+                      });
+                      return [...prev];
+                    }    
                   });
                 }}
                 className={classes.deleteButton}

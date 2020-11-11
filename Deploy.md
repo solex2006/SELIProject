@@ -46,7 +46,8 @@ In ".deploy/settings.json" fill the variables according with the parameters of y
     "METABASE_DOMAIN": "https://metabase.example.com",
     "METABASE_KEY": "******************************************************",
     "BLOCKCHAIN_DOMAIN": "https://blockchain.example.com",
-    "BLOCKCHAIN_USERKEY": "********************************"
+    "BLOCKCHAIN_USERKEY": "********************************",
+    "URL_SITE": "https://seli.example.com/"
   }
 }
 ```

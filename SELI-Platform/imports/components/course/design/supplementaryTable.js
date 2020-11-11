@@ -246,6 +246,8 @@ export default function SupplementaryTexts(props) {
               console.log("save---",newData)
               if((newData.copy!=undefined && newData.copy==='1') && (newData.external!=undefined && newData.external===true) && (newData.url===undefined || newData.url===''  || newData.reference===undefined || newData.reference==='' )){reject(); return;}
               if((newData.type!=undefined && newData.type==='2') && (newData.external!=undefined && newData.external===true) && (newData.url===undefined || newData.url===''  || newData.reference===undefined || newData.reference==='' )){reject(); return;}
+              if((newData.copy!=undefined && newData.copy==='1') && (newData.url!=undefined  || newData.reference!=undefined )){newData.external=true}
+              if((newData.type!=undefined && newData.type==='2') ){newData.external=true}
               if((newData.copy!=undefined && newData.copy==='1') && (newData.url===undefined || newData.url===''  || newData.reference===undefined || newData.reference==='' )){reject(); return;}
               
               

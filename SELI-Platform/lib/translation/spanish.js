@@ -553,7 +553,7 @@ var SPANISH = {
   commentSuccessfullySent: "¡Comentario enviado con éxito!",
   pleaseGoCertificates: "Por favor, vaya a mis certificados",
   pleaseContactAdmin: "Por favor, póngase en contacto con el administrador",
-  certificateGenerated: "¡Certificado generado con éxito!",
+  certificateGenerated: "¡Espere...!",
   certificateNotGenerated: "No se pudo generar el certificado",
   willBeRedirected: "¿Está seguro que desea ser redirigido a la vista previa del curso?",
   storiesPerPage: "Historias por página: ",
@@ -1009,7 +1009,7 @@ var SPANISH = {
   repeated: "Ya agregaste este artículo antes.",
   modality: "Modalidad",
   delivercontent: "Cómo se entregará el contenido",
-  pedagogical: " Consideraciones pedagógicas y oportunidades para la enseñanza y el aprendizaje en la web se concentra en la teoría, la aplicación y el desarrollo de tecnologías basadas en la web para la enseñanza y el aprendizaje y su influencia en el sistema educativo.",
+  pedagogical: "Agrega pedagogicas consideraciones sobre el curso",
   pedagogicalconsiderations: "Consideraciones pedagógicas",
   learningCon: "Una restricción es un límite que anima al alumno a emerger con ciertos comportamientos.",
   unit01: "Nueva Unidad",
@@ -1472,8 +1472,8 @@ var SPANISH = {
     ]
   },
   CoursePlanHelp: "Ayuda para plan del curso",
-  AnalysisTipsHelps: {
-    analysisTipsHelps: [
+  AnalysisTipsHelps:{
+    analysisTipsHelps:[
       {
         labelTitle: 'Objetivos de aprendizaje',
         label: "Enuncie lo que se espera que aprendan los estudiantes y muestre lo que los estudiantes sabrán y por qué lo están haciendo. Enuncie lo que se espera que aprendan los estudiantes. La taxonomía de Bloom divide los objetivos de aprendizaje en tres dominios: dominio cognitivo, dominio afectivo y dominio psicomotor. El dominio cognitivo comprende habilidades intelectuales como la memorización, comprensión, aplicación, análisis, síntesis / creación, evaluación. El dominio afectivo comprende sentimientos, valores, entusiasmo, motivación y actitud. El dominio psicomotor se refiere a habilidades físicas y motoras. "
@@ -1490,10 +1490,18 @@ var SPANISH = {
         labelTitle: "Dominio psicomotor",
         label: "Incluye movimiento físico, coordinación y uso de las áreas de habilidades motoras. Este dominio se clasifica en ocho niveles, que incluyen origen, adaptación, respuesta abierta compleja, mecanismo, respuesta guiada, conjunto y percepción"
       },
+    ]
+  },
+  AnalysisTipsHelpsTwo:{
+    analysisTipsHelps:[
       {
         labelTitle: "Restricción de aprendizaje",
         label: "Los resultados del aprendizaje deben ser declaraciones breves, claras y específicas de lo que los alumnos podrán hacer al final de una lección como resultado de las actividades, la enseñanza y el aprendizaje que se hayan realizado. Los resultados del aprendizaje se basan en tres áreas del aprendizaje: conocimientos, habilidades y actitudes."
       },
+    ]
+  },
+  AnalysisTipsHelpsThree:{
+    analysisTipsHelps:[
       {
         labelTitle: "Consideraciones pedagógicas",
         label: "Consideraciones pedagógicas que se concentra en la teoría, la aplicación y el desarrollo de tecnologías para la enseñanza y el aprendizaje y su influencia en el sistema educativo"

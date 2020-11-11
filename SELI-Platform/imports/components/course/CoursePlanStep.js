@@ -392,7 +392,7 @@ export default function CoursePlanStep(props) {
             errorType: "xxxxxtttt",
             a11y: null
           }}
-          tipMsg={language.appropriateOption}
+         // tipMsg={language.appropriateOption}
           describedBy={"i05-helper-text"}
           stepHelp={{
             step: "textHelper",

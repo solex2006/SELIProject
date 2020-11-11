@@ -284,6 +284,7 @@
 .audio-item-container {
   width: 95%;
   padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
   /* display: flex; */
   align-items: center;
   justify-content: center;

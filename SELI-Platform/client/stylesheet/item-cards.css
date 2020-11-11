@@ -99,10 +99,10 @@
 }
 
 .course-item-audio-card-controls2 {
+  width: calc(100% - 1vw);
   margin-top: 0.5vh !important;
-  margin-bottom: 0.5vh !important;
   justify-content: flex-start !important;
-  padding: 0 0.5vh !important;
+  padding: 0 0.5vw !important;
 }
 
 .course-item-audio-card-image {
@@ -133,10 +133,10 @@
 }
 
 .videosignal{
-    position: absolute;
-    top: -110px !important;
-    left: 30px !important;
-    width: 144px !important;
+  position: absolute;
+  top: 18px !important;
+  left: 30px !important;
+  width: 144px !important;
 }
 
 .videoPreview{
@@ -165,7 +165,7 @@ display: flex;
   margin-left: 20px;
 }
 
-.show-hide-transciption {
+.show-hide-transcription {
   margin-top: 5px;
   animation: fadeInDown 0.5s;
 }

@@ -553,7 +553,7 @@ var ENGLISH = {
   commentSuccessfullySent: "Comment successfully sent!",
   pleaseGoCertificates: "Please go to my certificates.",
   pleaseContactAdmin: "Please contact the administrator.",
-  certificateGenerated: "Certificate successfully generated!",
+  certificateGenerated: "Wait...!",
   certificateNotGenerated: "Certificate couldn't be generated",
   willBeRedirected: "Are you sure you want to be redirected to the course preview?",
   storiesPerPage: "Stories per page: ",
@@ -1009,7 +1009,7 @@ var ENGLISH = {
   repeated: "You already add this item before.",
   modality: "Modality",
   delivercontent: "How the content will be delivered",
-  pedagogical: " Pedagogical Considerations and Opportunities for Teaching and Learning on the Web concentrates on theory, application, and the development of web-based technologies for teaching and learning and its influence on the education system",
+  pedagogical: "Add the pedagogical considerations about the course.",
   pedagogicalconsiderations: "Pedagogical Considerations",
   learningCon: "A constraint is a boundary which encourages the learner to emerge with certain behaviours",
   unit01: "New Unit",
@@ -1363,6 +1363,7 @@ var ENGLISH = {
   videoGalleryLabel1: "<kbd>Enter</kbd> key opens video player",
   videoGalleryLabel2: "If setted by instructor, video player can have option for:",
   signLanguageInterpreter: "Sign language interpreter",
+  
   audiencesTipsHelps:{
     analysisTipsHelps:[
       {
@@ -1491,10 +1492,18 @@ var ENGLISH = {
         labelTitle:"Psychomotor Domain",
         label:"Includes physical movement, coordination, and use of the motor-skill areas. This domain is categorized into eight levels, which include origination, adaptation, complex overt response, mechanism, guided response, set, and perception."
       },
+    ]
+  },
+  AnalysisTipsHelpsTwo:{
+    analysisTipsHelps:[
       {
         labelTitle:"Learning Constrainst",
         label:"Learning outcomes should be brief, clear, specific statements of what learners will be able to do at the end of a lesson as a result of the activities, teaching and learning that has taken place. The Learning outcomes is based on three areas of learning: knowledge, skills and attitudes."
       },
+    ]
+  },
+  AnalysisTipsHelpsThree:{
+    analysisTipsHelps:[
       {
         labelTitle:"Pedagogical Considerations",
         label:"Pedagogical Considerations concentrates on theory, application, and the development of technologies for teaching and learning and its influence on the education system."

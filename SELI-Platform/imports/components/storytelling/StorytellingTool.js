@@ -36,10 +36,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { withStyles } from '@material-ui/core/styles';
-import AudioPlayer from 'react-h5-audio-player';
 import ReactPlayer from 'react-player';
-import 'react-h5-audio-player/lib/styles.css';
-import Checkbox from '@material-ui/core/Checkbox';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -1619,9 +1616,12 @@ class StorytellingTool extends React.Component {
                     <div className="library-files-container">
                       {this.state.dataAudio1.map(tile => (    
                         <div onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
-                          <div className="card-media-audio-storytelling">
-                            <AudioPlayer volume src={tile.link}/>
-                          </div>
+                          <audio 
+                            ref="reuseAudio" 
+                            className="card-media-audio-storytelling"
+                            src={tile.link} 
+                            controls
+                          />
                           <div className="card-actions-bottom-container" disableSpacing>
                             {`${this.props.language.audioTitle}: ${tile.name}`}
                             <Tooltip title={this.props.language.edit}>
