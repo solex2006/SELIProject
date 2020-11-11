@@ -964,12 +964,12 @@ var PORTUGUESE = {
   Preschoolkids: "Crianças Pré-escolares",
   InclusionGoals: "Metas de inclusão",
   Validatetheinclusion: "Se deseja validar a inclusão do seu curso para algum grupo específico, selecione-os na lista acima. Você pode selecionar quantos desejar.",
-  Cognitive: "Cognitive disabilities",
-  Elderly: "Diversity of Abilities",
-  Hearing: "Hearing disabilities",
-  Language: "Language",
-  Speech: "Speech disabilities",
-  Visual: "Visual disabilities",
+  Cognitive: "Deficiências cognitivas",
+  Elderly: "Diversidade de Habilidades",
+  Hearing: "Deficiências auditivas",
+  Language: "Idioma",
+  Speech: "Deficiências de fala",
+  Visual: "Deficiências visuais",
   CourseRequirements: "Requisitos do curso",
   SaveAddHardware: "Salvar inclusão de hardware",
   CancelAddHardware: "Cancelar inclusão de hardware",
@@ -1221,30 +1221,30 @@ var PORTUGUESE = {
   contentsObjectives: "Objetivos de conteúdo",
   skillsObjectives: "Objetivos de habilidades",
   valuesObjectives: "Objetivos de valores",
-  rememberingObjectivesAre: "Remembering objectives recall facts and basic concepts, for example: choose, define, describe, show, match, relate, duplicate, recognize, reproduce.",
-  understandingObjectivesAre: "Understanding objectives explain ideas or concepts like explain, summarize, illustrate, classify, describe, discuss, explain, compare, paraphrase.",
-  applyingObjectivesAre: "Applying objectives use information in new situations like use, identify, organize, construct, executions, solve, use, demonstrate, interpret.",
-  analyzingObjectivesAre: "Analyzing objectives draw connections among ideas, for example: analyse, categorize, classify, list, compare, organize, relate, test.",
-  evaluatingObjectivesAre: "Evaluating objectives justify a stand or decision, for example: conclude, evaluate, critique, justify, prove, defend, judge, support, value.",
-  creatingObjectivesAre: "Creating objectives produces a new or original work, for example: built, design, develop, formulate, investigate, elaborate, plan.",
+  rememberingObjectivesAre: "Objetivos de memorização agregam fatos e conceitos básicos, por exemplo: escolher, definir, descrever, mostrar, combinar, relacionar, duplicar, reconhecer, reproduzir.",
+  understandingObjectivesAre: "Objetivos de entendimento explicam ideias ou conceitos como explicar, resumir, ilustrar, classificar, descrever, discutir, comparar, parafrasear.",
+  applyingObjectivesAre: "Objetivos de aplicação usam informações em novas situações como usar, identificar, organizar, construir, executar, resolver, demonstrar, interpretar.",
+  analyzingObjectivesAre: "Objetivos de análise fazem conexões entre ideias, por exemplo: analisar, categorizar, classificar, listar, comparar, organizar, relacionar, testar.",
+  evaluatingObjectivesAre: "Objetivos de avaliação justificam uma posição ou decisão, por exemplo: concluir, avaliar, criticar, justificar, provar, defender, julgar, apoiar, valorar.",
+  creatingObjectivesAre: "Objetivos de criação produzem um trabalho novo ou original, por exemplo: construir, projetar, desenvolver, formular, investigar, elaborar, planejar.",
   contentsObjectivesAre: "Objetivos de conteúdo são ...",
   skillsObjectivesAre: "Refere-se a uma grande gama de habilidades cognitivas (mentais), físicas e emocionais, incluindo processos científicos, pensamento crítico, resolução de problemas, tomadas de decisões, comunicação, pesquisa, relações interpessoais, matemáticas e psicomotoras.",
   valuesObjectivesAre: "Objetivos de valores são ...",
-  behavioralOutcomeHelp: "Adicione resultados de aprendizado que mostrem o que o aluno precisa saber ou ser capaz de fazer, como proficiências que combinem conteúdos, habilidades, e valoes.",
+  behavioralOutcomeHelp: "Adicione resultados de aprendizado que mostrem o que o aluno precisa saber ou ser capaz de fazer, como proficiências que combinem conteúdos, habilidades, e valores.",
   learningConstraintHelp: "Adicionar restrições educacionais que o estudante poderá ter.",
   affectiveDomainHelp: "Domínio afetivo é ...",
   psychomotorDomainHelp: "Domínio psicomotor é ...",
-  uploading: "Uploading",
-  pleaseWait: "please wait",
-  selectYourFile: "Select your file",
-  fileSucessfullyUploaded: "File sucessfully uploaded!",
-  courseUpload: "Upload course",
-  storyUpload: "Upload story",
-  EmptyAccessibility:'Please check that the program is not empty or add the multimedia content that configures the selected audience',
-  cognitiveMessage:'You have selected cognitive in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
-  visualMessage:'You have selected visual in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
-  hearingMessage:'You have selected hearing in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
-  elderlyMessage:'You have selected diversity in accessibility, check that is accessibility resource was well configured for all impairment group selected.',
+  uploading: "Enviando",
+  pleaseWait: "Por favor aguarde",
+  selectYourFile: "Selecione o arquivo",
+  fileSucessfullyUploaded: "Arquivo enviado com sucesso!",
+  courseUpload: "Enviar curso",
+  storyUpload: "Enviar história",
+  EmptyAccessibility:'Verifique se o programa não está vazio ou adicione o conteúdo multimídia que configura o público selecionado',
+  cognitiveMessage:'Você selecionou cognitivo em acessibilidade, verifique se o recurso de acessibilidade foi bem configurado para todos os grupos de deficiência selecionados.',
+  visualMessage:'Você selecionou visual em acessibilidade, verifique se o recurso de acessibilidade foi bem configurado para todos os grupos de deficiência selecionados.',
+  hearingMessage:'Você selecionou audição em acessibilidade, verifique se o recurso de acessibilidade foi bem configurado para todos os grupos de deficiência selecionados.',
+  elderlyMessage:'Você selecionou diversidade em acessibilidade, verifique se o recurso de acessibilidade foi bem configurado para todos os grupos de deficiência selecionados.',
   AccessibilityType: 
   {
     Name: [
@@ -1256,300 +1256,300 @@ var PORTUGUESE = {
       'Tempo adicional em questionários'
     ]
   },
-  deleteUnitTopic: "Are you sure you want to delete this unit/topic ?",
-  graded: "graded",
-  peerReviewed: "Peer Reviewed",
-  inGroup: "In group",
-  partOfProject: "Part of course's project",
-  rows: "rows",
-  firstPage: "First page",
-  lastPage: "Last page",
-  noTasks: "No tasks",
-  CourseInformation:"Course Information",
-  CourseDesign:"Course Design",
-  CourseContent:"Course Content",
+  deleteUnitTopic: "Tem certeza que deseja deletar essa unidade/tópico?",
+  graded: "avaliado",
+  peerReviewed: "Revisado por pares",
+  inGroup: "Em grupo",
+  partOfProject: "Parte do projeto do curso",
+  rows: "linhas",
+  firstPage: "Primeira página",
+  lastPage: "Última página",
+  noTasks: "Sem tarefas",
+  CourseInformation:"Informações do curso",
+  CourseDesign:"Design do curso",
+  CourseContent:"Conteúdo do curso",
   readCourseSylabus:"Read the course syllabus for a complete view of the course program",
-  passingGrade:"Complete this course with a passing grade.",
-  completitionCertificate:"Course completition certificate",
-  CourseLanguage:"Course language",
-  CourseModality:"Course modality",
-  OpenProfile:"Open teacher profile",
-  ProfessionalTitle:"Professional title",
-  TableofContents:"Table of Contents",
-  LearningGoals:"Learning Goals",
-  Readings:"Readings",
-  AssessmentMethods:"Assessment Methods",
-  TechnologicalRequirements:"Technological Requirements",
-  OpenSyllabus:"Open Syllabus",
-  AffectiveDomainObjectives:"Affective Domain Objectives",
-  PsychomotorDomainObjectives:"Psychomotor Domain Objectives",
-  onlinecourseMessage:"As a online course, it's required that you have access to a computer 'desktop or mobile' with internet connection.",
-  NohardwareRequirement:"No hardware requirement.",
-  NosoftwareRequirement:"No software requirement.",
-  EducationLanguage:"Education Language",
-  Prerequisites:"Prerequisites",
-  Content:"Content",
-  Materials:"Materials",
-  TherearenoReadings:"There are no readings",
-  TotalofQuiztasks:"Total of Quiz tasks",
-  TotalofActivities:"Total of Activities",
-  TotalofReadings:"Total of Readings",
-  TotalofForums:"Total of Forums",
-  FullyAccessible:"Fully accessible",
-  Morefilters:"More filters",
-  Filter:"Filter",
-  Clearallfilters:"Clear all filters",
-  Applyfilters:"Apply filters",
-  Showonlinecourses:"Show only 100% online courses",
-  Showonlyaccessible:"Show only fully accessible courses",
-  Showcoursesequal:"Show only courses equal or greater than ",
-  Showpartiallyandfully:"Show only partially and fully accessible courses",
-  Clearfilter:"Clear filter",
-  ShowonlyfullyCognitive:"Show only fully Cognitive accessible courses",
-  ShowpartiallyfullyCognitive:"Show partially and fully Cognitive accessible courses",
-  ShowCognitiveinaccessible:"Show all courses, even Cognitive inaccessible courses",
-  ShowfullyHearing:"Show onlly fully Hearing accessible courses",
-  ShowpartiallyfullyHearing:"Show partially and fully Hearing accessible courses",
-  ShowHearinginaccessible:"Show all courses, even Hearing inaccessible courses",
-  ShowfullyVisually:"Show only fully Visually accessible courses",
-  ShowpartiallyfullyVisually:"Show partially and fully Visually accessible courses",
-  ShowcoursesVisualinaccessible:"Show all courses, even Visual inaccessible courses",
-  CourseDuration:"Course Duration",
-  ResetDuration:"Reset Duration",
-  CourseAudience:"Course's Target Audience",
-  Sortby:"Sort by",
-  Alphabetic:"Alphabetic",
-  MostRecent:"Most Recent",
-  news:"News",
-  onlinecourses100:"100% online courses",
-  DetailedSearch:"Detailed Search",
-  FullyVisual:"Fully Visual",
-  FullyHearing:"Fully Hearing",
-  FullyCognitive:"Fully Cognitive",
-  CognitiveAccessibility:"Cognitive Accessibility",
-  HearingAccessibility:"Hearing Accessibility",
-  VisuallyAccessibility:"Visually Accessibility",
-  CourseInstructor:"Course's Instructor",
-  Selectoneaudience:"Select one or more audience",
-  SearchSeLIPlatform:"Search SeLI Platform",
-  Showing:"Showing",
-  subscribedtoyoursearch:"subscribed courses that correspond to your search",
-  Theresearchresults:"There are no search results",
-  activityItem: "Activity item",
-  problemItem: "Problem item",
-  quizItem: "Quiz item",
-  forumItem: "Forum Item",
-  files: "Files",
+  passingGrade:"Conclua esse curso com uma nota de aprovação.",
+  completitionCertificate:"Certificado de conclusão do curso",
+  CourseLanguage:"Idioma do curso",
+  CourseModality:"Modalidade do curso",
+  OpenProfile:"Abrir perfil do professor",
+  ProfessionalTitle:"Título profissional",
+  TableofContents:"Índice",
+  LearningGoals:"Metas de Aprendizagem",
+  Readings:"Leituras",
+  AssessmentMethods:"Métodos de Avaliação",
+  TechnologicalRequirements:"Requisitos Técnológicos",
+  OpenSyllabus:"Abrir plano de ensino",
+  AffectiveDomainObjectives:"Objetivos do domínio afetivo",
+  PsychomotorDomainObjectives:"Objetivos do domínio psicomotor",
+  onlinecourseMessage:"Como um curso online, é necessário que você tenha acesso a um computador 'desktop ou celular' com conexão à internet.",
+  NohardwareRequirement:"Sem requisitos de hardware.",
+  NosoftwareRequirement:"Sem requisitos de software.",
+  EducationLanguage:"Linguagem educacional",
+  Prerequisites:"Pré-requisitos",
+  Content:"Conteúdo",
+  Materials:"Materiais",
+  TherearenoReadings:"Não há leituras",
+  TotalofQuiztasks:"Total de tarefas de quiz",
+  TotalofActivities:"Total de atividades",
+  TotalofReadings:"Total de leituras",
+  TotalofForums:"Total de fóruns",
+  FullyAccessible:"Completamente acessível",
+  Morefilters:"Mais filtros",
+  Filter:"Filtro",
+  Clearallfilters:"Limpar todos os filtros",
+  Applyfilters:"Aplicar filtros",
+  Showonlinecourses:"Mostrar apenas cursos 100% online",
+  Showonlyaccessible:"Mostrar apenas cursos completamente acessíveis",
+  Showcoursesequal:"Mostrar apenas cursos iguais ou maior que ",
+  Showpartiallyandfully:"Mostrar apenas cursos parcialmente e completamente acessíveis",
+  Clearfilter:"Limpar filtro",
+  ShowonlyfullyCognitive:"Mostrar apenas cursos completamente acessíveis para deficiências cognitivas",
+  ShowpartiallyfullyCognitive:"Mostrar apenas cursos parcialmente e completamente acessíveis para deficiências cognitivas",
+  ShowCognitiveinaccessible:"Mostrar todos os cursos, incluindo os inacessíveis para deficiências cognitivas",
+  ShowfullyHearing:"Mostrar apenas cursos completamente acessíveis para deficiências auditivas",
+  ShowpartiallyfullyHearing:"Mostrar apenas cursos parcialmente e completamente acessíveis para deficiências auditivas",
+  ShowHearinginaccessible:"Mostrar todos os cursos, incluindo os inacessíveis para deficiências auditivas",
+  ShowfullyVisually:"Mostrar apenas cursos completamente acessíveis para deficiências visuais",
+  ShowpartiallyfullyVisually:"Mostrar apenas cursos parcialmente e completamente acessíveis para deficiências visuais",
+  ShowcoursesVisualinaccessible:"Mostrar todos os cursos, incluindo os inacessíveis para deficiências visuais",
+  CourseDuration:"Duração do curso",
+  ResetDuration:"Redefinir Duração",
+  CourseAudience:"Público-alvo do curso",
+  Sortby:"Ordenar por",
+  Alphabetic:"Alfabeticamente",
+  MostRecent:"Mais Recentes",
+  news:"Notícias",
+  onlinecourses100:"Cursos 100% online",
+  DetailedSearch:"Pesquisa detalhada",
+  FullyVisual:"Acessibilidade visual completa",
+  FullyHearing:"Acessibilidade auditiva completa",
+  FullyCognitive:"Acessibilidade cognitiva completa",
+  CognitiveAccessibility:"Acessibilidade cognitiva",
+  HearingAccessibility:"Acessibilidade auditiva",
+  VisuallyAccessibility:"Acessibilidade visual",
+  CourseInstructor:"Instrutor do curso",
+  Selectoneaudience:"Selecione um ou mais públicos",
+  SearchSeLIPlatform:"Pesquise na Plataforma SELI",
+  Showing:"Mostrando",
+  subscribedtoyoursearch:"cursos inscritos que correspondem à sua pesquisa",
+  Theresearchresults:"Não há resultados de pesquisa",
+  activityItem: "Item de atividade",
+  problemItem: "Item de problema",
+  quizItem: "Item de quiz",
+  forumItem: "Item de fórum",
+  files: "Arquivos",
   links: "Links",
-  embeddedContent: "Embedded content",
-  unityContent: "Unity content",
-  informationLabel:"General information about the course",
-  audiencesLabel:"Identify your audience and their necessities",
-  requirementsLabel:"Technical pre-requisites for the course",
-  planLabel:" Choose a model that will guide you creating an instructional material",
-  analysisstepLabel:"Identify your instructional goals",
-  desingPhaseLabel:"Definition of learning objectives, lesson planning and media selection",
-  programLabel:"Content insertion.",
-  reportstepLabel:"How accessible is your course?",
-  alreadyAudiences:"already exist in the list of audiences.Please, select it from the list",
+  embeddedContent: "Conteúdo embutido",
+  unityContent: "Conteúdo de Unity",
+  informationLabel:"Informações gerais sobre o curso",
+  audiencesLabel:"Identifique seu público e suas necessidades",
+  requirementsLabel:"Pré-requisitos técnicos para o curse",
+  planLabel:"Escolha um modelo que o guiará na criação do material instrucional",
+  analysisstepLabel:"Identifique suas metas instrucionais",
+  desingPhaseLabel:"Definição de objetivos de aprendizado, planejamento de lições e seleção de mídia",
+  programLabel:"Inserção de conteúdo.",
+  reportstepLabel:"Quão acessível é seu curso?",
+  alreadyAudiences:"já existe na lista de públicos. Por favor, selecione-o na lista",
   courseInfo1:"A brief description about the course main content. For example: This course can transform your writing skills. Prepare for college-level writing and research.",
   courseInfo2:"Words related to course main content. For example: Grammar, English Grammar, Writing.",
-  CourseInformationHelp:"Course Information Help",
-  CourseAudiencesHelp:"Course Audiences Help",
-  imageGalleryLabel0: "Arrows key <kbd>left</kbd> and <kbd>right</kbd> rovers in gallery's image.",
-  imageGalleryLabel1: "<kbd>Enter</kbd> key opens image in full width.",
-  imageGalleryLabel2: "Image's long description, if configured by instructor, will be displayed in full width option.",
-  videoGalleryLabel0: "Arrows key <kbd>left</kbd> and <kbd>right</kbd> rovers in video playlist.",
-  videoGalleryLabel1: "<kbd>Enter</kbd> key opens video player",
-  videoGalleryLabel2: "If setted by instructor, video player can have option for:",
-  signLanguageInterpreter: "Sign language interpreter",
+  CourseInformationHelp:"Ajuda sobre Informação do curso",
+  CourseAudiencesHelp:"Ajuda sobre Públicos",
+  imageGalleryLabel0: "As setas do teclado <kbd>esquerda</kbd> e <kbd>direita</kbd> navegam pelas imagens da galeria.",
+  imageGalleryLabel1: "A tecla <kbd>Enter</kbd> abre a imagem em sua largura total.",
+  imageGalleryLabel2: "A descrição longa da imagem, se configurada pelo instrutor, será mostrada na opção de largura total.",
+  videoGalleryLabel0: "As setas do teclado <kbd>esquerda</kbd> e <kbd>direita</kbd> navegam pelos vídeos da galeria.",
+  videoGalleryLabel1: "A tecla <kbd>Enter</kbd> abre o reprodutor de vídeo",
+  videoGalleryLabel2: "Se configurado pelo instrutor, o reprodutor de vídeo pode ter opções de:",
+  signLanguageInterpreter: "Intérprete de língua de sinais",
   audiencesTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:"How to define the audience?",
-        label:"Teachers: Person who helps students to acquire knowledge, competence or virtue. Informal Students: Students that don't studying in a formal schools like university or studying alone or are self-taught. Undergraduate Students: University students that still not finish the graduate course. High School Students: Students in secondary school. Middle School Students: Students between elementary school and high school. Elementary School Students: Before Middle School, for children between the ages of 6-11. Preschool Kids: For kids from 2 to 5 years old-held in a Nursery School."
+        labelTitle:"Como definir o público?",
+        label:"Professores: Pessoa que ajuda os alunos a adquirir conhecimentos, competências ou virtude. Estudantes Informais: Alunos que não estudam em escolas formais, como universidades, ou estudam sozinhos ou são autodidatas. Alunos de Graduação: Estudantes universitários que ainda não concluíram a pós-graduação. Alunos de ensino médio: alunos de ensino médio. Alunos de ensino fundamental II: alunos entre o ensino fundamental I e médio. Alunos de ensino fundamental I: antes do ensino fundamental II, para crianças entre 6 e 11 anos. Crianças pré-escolares: para crianças de 2 a 5 anos de idade em creches. "
       },
       {
-        labelTitle:"Cognitive disabilities",
-        label:"Cognitive disabilities involve neurodiversity and neurological disorders, as well as behavioral and mental health disorders that are not necessarily neurological. They may affect any part of the nervous system and impact how well people hear, move, see, speak, and understand information. Cognitive disabilities do not necessarily affect the intelligence of a person."
+        labelTitle:"Deficiências cognitivas",
+        label:"As deficiências cognitivas envolvem neurodiversidade e distúrbios neurológicos, bem como distúrbios comportamentais e de saúde mental que não são necessariamente neurológicos. Eles podem afetar qualquer parte do sistema nervoso e afetar a forma como as pessoas ouvem, se movem, veem, falam e entendem as informações. As deficiências cognitivas não afetam necessariamente a inteligência de uma pessoa."
       },
       {
-        labelTitle:"Examples of the disabilities (for cognitive)",
-        label:"Attention deficit hyperactivity disorder 'ADHD', Autism spectrum disorder 'ASD', Intellectual disabilities, Learning disabilities, Mental health disabilities, Memory impairments, Multiple sclerosis, Neurodiversity, Perceptual disabilities, Seizure disorders"
+        labelTitle:"Exemplos de deficiências cognitivas",
+        label:"Transtorno de déficit de atenção e hiperatividade 'TDAH', Transtorno do espectro do autismo 'TEA', Deficiências intelectuais, Deficiências de aprendizagem, Deficiências de saúde mental, Deficiências de memória, Esclerose múltipla, Neurodiversidade, Deficiências perceptivas, Distúrbios convulsivos"
       },
       {
-        labelTitle:"Examples of barriers (for cognitive)",
-        label:" Complex navigation mechanisms and page layouts that are difficult to understand and use, Complex sentences that are difficult to read and unusual words that are difficult to understand, Long passages of text without images, graphs, or other illustrations to highlight the context, Moving, blinking, or flickering content, and background audio that cannot be turned off, Web browsers and media players that do not provide mechanisms to suppress animations and audio, Visual page designs that cannot be adapted using web browser controls or custom style sheets."
+        labelTitle:"Exemplos de barreiras (para deficiências cognitivas)",
+        label:"Mecanismos de navegação complexos e layouts de página que são difíceis de entender e usar, Frases complexas que são difíceis de ler e palavras incomuns que são difíceis de entender, Longas passagens de texto sem imagens, gráficos ou outras ilustrações para destacar o contexto, Conteúdo que se move ou pisca e áudio de fundo que não pode ser desligado, navegadores da Web e reprodutores de mídia que não fornecem mecanismos para suprimir animações e áudio, designs de página visual que não podem ser adaptados usando controles de navegador da web ou folhas de estilo personalizadas."
       },
       {
-        labelTitle:"Example of adaptations (for cognitive)",
-        label:"Providing visual cues and props to reinforce, Use songs, rhymes or rhythms to help students remember information, Teach students to use self-questioning techniques"
+        labelTitle:"Exemplos de Adaptações (para deficiências cognitivas)",
+        label:"Fornecer indicações visuais e adereços para reforçar, Usar canções, rimas ou ritmos para ajudar os alunos a se lembrar das informações, Ensinar os alunos a usar técnicas de autoquestionamento"
       },
       {
-        labelTitle:"Diversity of Abilities",
-        label:"There are many reasons why people may be experiencing varying degrees of auditory, cognitive, physical, speech, and visual disabilities."
+        labelTitle:"Diversidade de Habilidades",
+        label:"Existem muitas razões pelas quais as pessoas podem ter diversos graus de deficiência auditiva, cognitiva, física, de fala e visual."
       },
       {
-        labelTitle:"Examples the disabilities (for diversity)",
-        label:"Age-related impairments, Multiple disabilities, Health conditions, Changing abilities, Temporary impairments, Situational limitations"
+        labelTitle:"Exemplos de deficiência diversas",
+        label:"Deficiências relacionadas à idade, Deficiências múltiplas, Condições de saúde, Habilidades em mudanças, Deficiências temporárias, Limitações situacionais"
       },
       {
-        labelTitle:"Examples of barriers (for diversity)",
-        label:"Websites without accessibility content, Electronic devices in case of health conditions"
+        labelTitle:"Exemplos de Barreiras (para deficiências diversas)",
+        label:"Websites sem conteúdo de acessibilidade, Dispositivos eletrônicos para condições de saúde"
       },
       {
-        labelTitle:"Example of adaptations (for diversity)",
-        label:"Providing many practice opportunities and include problem solving, reasoning and real-life application to help with transfer of information."
+        labelTitle:"Exemplos de Adaptações (para deficiências diversas)",
+        label:"Fornecer muitas oportunidades de prática e incluir solução de problemas, raciocínio e aplicação na vida real para ajudar na transferência de informações."
       },
       {
-        labelTitle:"Hearing disabilities",
-        label:"A person who is not able to hear as well as someone with normal hearing – hearing thresholds of 25 dB or better in both ears – is said to have hearing loss. Hearing loss may be mild, moderate, severe, or profound. It can affect one ear or both ears, and leads to difficulty in hearing conversational speech or loud sound. (https://www.who.int/news-room/fact-sheets/detail/deafness-and-hearing-loss)"
+        labelTitle:"Deficiências Auditivas",
+        label:"Uma pessoa que não consegue ouvir tão bem quanto alguém com audição normal - limiares de audição de 25 dB ou maior em ambas as orelhas - diz ter perda auditiva. A perda auditiva pode ser leve, moderada, grave ou profunda. Pode afetar um ou ambos os ouvidos e causar dificuldade em ouvir conversas ou sons altos. (https://www.who.int/news-room/fact-sheets/detail/deafness-and-hearing-loss)"
       },
       {
-        labelTitle:"Examples the disabilities (for hearing).",
-        label:"Hearing loss, Deafness"
+        labelTitle:"Exemplos de deficiências auditivas",
+        label:"Perda de audição, Surdez"
       },
       {
-        labelTitle:"Examples of barriers (for hearing).",
-        label:"Audio contents, Video contents without subtitles."
+        labelTitle:"Exemplos de Barreiras (para deficiências auditivas)",
+        label:"Conteúdos de áudio, Conteúdos de vídeo sem legendas."
       },
       {
-        labelTitle:"Example of adaptations (for hearing).",
-        label:"Providing visual cues and props to reinforce, Providing video-taped with subtitles."
+        labelTitle:"Exemplos de Adaptações (para deficiências auditivas)",
+        label:"Fornecer indicações visuais e adereços para reforçar, Fornecimento de legendas em vídeos."
       },
       {
-        labelTitle:"Visual disabilities",
-        label:"Visual disabilities range from mild or moderate vision loss in one or both eyes (“low vision”) to substantial and uncorrectable vision loss in both eyes (“blindness”). Some people have reduced or lack of sensitivity to certain colors (“color blindness”), or increased sensitivity to bright colors. These variations in perception of colors and brightness can be independent of the visual acuity."
+        labelTitle:"Deficiências Visuais",
+        label:"As deficiências visuais variam de perda de visão leve ou moderada em um ou ambos os olhos (“baixa visão”) a perda de visão substancial e incorrigível em ambos os olhos (“cegueira”). Algumas pessoas têm sensibilidade reduzida ou falta de sensibilidade a certas cores (“daltonismo”) ou sensibilidade aumentada a cores brilhantes. Essas variações na percepção de cores e brilho podem ser independentes da acuidade visual."
       },
       {
-        labelTitle:"Examples the disabilities (for visual)",
-        label:"Color blindness, Low vision, Blindness, Deaf-blindness"
+        labelTitle:"Exemplos de deficiências visuais",
+        label:"Daltonismo, Baixa visão, Cegueira, Surdocegueira"
       },
       {
-        labelTitle:"Examples of barriers (for visual)",
-        label:"Images, controls, and other structural elements that do not have equivalent text alternatives. Text, images, and page layouts that cannot be resized, or that lose information when resized. Missing visual and non-visual orientation cues, page structure, and other navigational aids. Video content that does not have text or audio alternatives, or an audio-description track. Inconsistent, unpredictable, and overly complicated navigation mechanisms and page functions. Text and images with insufficient contrast between foreground and background color combinations. Websites, web browsers, and authoring tools that do not support the use of custom color combinations. Websites, web browsers, and authoring tools that do not provide full keyboard support."
+        labelTitle:"Exemplos de Barreiras (para deficiências visuais)",
+        label:"Imagens, controles e outros elementos estruturais que não possuem alternativas de texto equivalentes. Textos, imagens e layouts de página que não podem ser redimensionados ou que perdem informações ao serem redimensionados. Falta de dicas de orientação visuais e não visuais, estrutura da página e outros recursos de navegação. Conteúdo de vídeo que não possui alternativas de texto ou áudio, ou uma trilha de descrição de áudio. Mecanismos de navegação e funções de página inconsistentes, imprevisíveis e excessivamente complicados. Texto e imagens com contraste insuficiente entre as combinações de cores de primeiro e segundo plano. Sites, navegadores da web e ferramentas de autoria que não oferecem suporte ao uso de combinações de cores personalizadas. Sites, navegadores da web e ferramentas de criação que não oferecem suporte completo para teclado."
       },
       {
-        labelTitle:"Example of adaptations (for visual)",
-        label:"Providing audio lessons, Have available textbooks on CD ROM."
+        labelTitle:"Exemplos de Adaptações (para deficiências visuais)",
+        label:"Fornecer lições em áudio, Ter livros didáticos em CD ROM."
       },
     ]
   },
   coursePlanTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:'Guided or Free CoursePlan',
-        label:'You can choose between create the course plan in SELI platform or outside the platform'
+        labelTitle:'Plano de Curso Guiado ou Livre',
+        label:'Você pode escolher entre criar o plano de curso na plataforma SELI ou fora dela'
       },
       {
-        labelTitle:'Template Course Spiral',
-        label:"In this model, the course is organised in small units where concepts are introduced to facilitate the resolution of problems or activities by students. Each unit must introduce a concept, without going into details. In the cycle, the next unit will present the contents in more depth and additional topics can be included. Each unit must be interrelated to enable students to solve significant problems or activities presented at the beginning of the course. This model can be used in any course in which there are a large number of concepts that must be mastered together. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#spiral)"
+        labelTitle:'Modelo de Curso Espiral',
+        label:"Neste modelo, o curso é organizado em pequenas unidades onde os conceitos são introduzidos para facilitar a resolução de problemas ou atividades pelos alunos. Cada unidade deve apresentar um conceito, sem entrar em detalhes. No ciclo, a próxima unidade apresentará os conteúdos com mais profundidade e tópicos adicionais podem ser incluídos. Cada unidade deve estar inter-relacionada para permitir que os alunos resolvam problemas ou atividades significativas apresentadas no início do curso. Este modelo pode ser usado em qualquer curso em que haja um grande número de conceitos que devem ser dominados juntos. Link para referência (http://csis.pace.edu/~bergin/PedPat1.3.html#spiral)"
       },
       {
-        labelTitle:'Template Course Consistent',
-        label:"To teach complex content find a complex and consistent metaphor for the topic being taught. The basis of the metaphor needs to be known to the students. This helps students relate the topic being taught to larger goals, that is, they realize how things fit together. The students need a way to think of the content as a whole. Especially when the details themselves are unfamiliar and new to them. A consistent metaphor with the content being taught and its basic elements, will help students to reflect on the content by making valid inferences when thinking about the metaphor. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#consistentmetaphor)"
+        labelTitle:'Modelo de Curso Metáfora Consistente',
+        label:"Para ensinar conteúdo complexo, encontre uma metáfora complexa e consistente para o tópico que está sendo ensinado. A base da metáfora precisa ser conhecida pelos alunos. Isso ajuda os alunos a relacionar o tópico que está sendo ensinado a objetivos maiores, ou seja, eles percebem como as coisas se encaixam. Os alunos precisam pensar no conteúdo como um todo. Especialmente quando os próprios detalhes são desconhecidos e novos para eles. Uma metáfora consistente com o conteúdo que está sendo ensinado e seus elementos básicos, ajudará os alunos a refletir sobre o conteúdo, fazendo inferências válidas ao pensar sobre a metáfora. Link para referência (http://csis.pace.edu/~bergin/PedPat1.3.html#consistentmetaphor)"
       },
       {
-        labelTitle:" Template Course ToyBox",
-        label:"The content is given to the students letting them 'play' with pedagogical tools. Students work on problems and it's important to give them some examples and / or exercises to provide a rich set of experiences about what is important and what can be done to solve the problem. It can be used in several courses and at several levels. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#toybox)"
+        labelTitle:"Modelo de Curso Caixa de Brinquedos",
+        label:"O conteúdo é entregue aos alunos permitindo que eles 'brinquem' com as ferramentas pedagógicas. Os alunos trabalham nos problemas e é importante dar-lhes alguns exemplos e / ou exercícios para fornecer um rico conjunto de experiências sobre o que é importante e o que pode ser feito para resolver o problema. Pode ser usado em vários cursos e em vários níveis. Link para referência (http://csis.pace.edu/~bergin/PedPat1.3.html#toybox)"
       },
       {
-        labelTitle:"Template Course Without",
-        label:"You can define your template course freely and you can insert the yourself resources."
+        labelTitle:"Curso sem Modelo",
+        label:"Você pode fazer um curso sem um modelo pré-determinado, e pode inserir recursos da sua maneira."
       },
       {
-        labelTitle:" Structure CourseUnit | By units ",
-        label:"Organize your course by units and lessons, for example: Unit 1 - Introduction, Unit 2 - Presentation, Unit 3 - Algorithms, etc."
+        labelTitle:" Estrutura do Curso | Por Unidades ",
+        label:"Organize seu curso por unidades e lições, por exemplo: Unidade 1 - Introdução, Unidade 2 - Apresentação, Unidade 3 - Algoritmos, etc."
       },
       {
-        labelTitle:"StructureCourseTopics | ByTopics",
-        label:"Organize your course by topics. You have a free topics creation, for example: Extra Resources, Class 1, Class 2, Class 3, Attachments."
+        labelTitle:"Estrutura do Curso | Por Tópicos",
+        label:"Organize seu curso por tópicos. Você pode criar tópicos livremente, por exemplo: Recursos Extras, Aula 1, Aula 2, Aula 3, Anexos."
       },
       {
-        labelTitle:" CourseSyllabus",
-        label:"Outlines a lesson-by-lesson guide of class, a learning plan, the learning objectives, assessment approach, and expectations."
+        labelTitle:"Plano de Ensino do Curso",
+        label:"Descreve um guia aula-a-aula, um plano de aprendizado, os objetivos de aprendizado, a abordagem de avaliação e as expectativas."
       },
       
     ]
   },
-  CoursePlanHelp:"Course Plan Help",
+  CoursePlanHelp:"Ajuda sobre o Plano do Curso",
   
   AnalysisTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:'Learning objectives',
-        label:"State what will be expected to be learned by students and show what the students will know and why they are doing. State what is expected to be learned by students. Bloom's taxonomy divides learning objectives into three domains: cognitive domain, affective domain and psychomotor domain. Cognitive Domain comprises intellectual skills such as memorization, comprehension, application, analysis, synthesis / creation, assessment. The affective domain comprises feelings, values, enthusiasm, motivation and attitude. Psychomotor domain is about physical and motor skills."
+        labelTitle:'Objetivos de Aprendizado',
+        label:"Declare o que se espera que os alunos aprendam e mostre o que eles saberão e por que o estão fazendo. A taxonomia de Bloom divide os objetivos de aprendizagem em três domínios: domínio cognitivo, domínio afetivo e domínio psicomotor. O domínio cognitivo compreende habilidades intelectuais como memorização, compreensão, aplicação, análise, síntese/criação, avaliação. O domínio afetivo compreende sentimentos, valores, entusiasmo, motivação e atitude. O domínio psicomotor diz respeito às habilidades físicas e motoras. "
       },
       {
-        labelTitle:"Cognitive Domain",
-        label:"Involves the acquisition of a new knowledge, intellectual development, skill and attitudes. It is divided into six categories: remembering, understanding, applying, analyzing, evaluating, creating. The objectives are described using action verbs and nouns that seek to describe the desired cognitive processes."
+        labelTitle:"Domínio Cognitivo",
+        label:"Envolve a aquisição de um novo conhecimento, desenvolvimento intelectual, habilidade e atitudes. É dividido em seis categorias: lembrar, compreender, aplicar, analisar, avaliar, criar. Os objetivos são descritos por meio de verbos e substantivos de ação que procuram descrever os processos cognitivos desejados."
       },
       {
-        labelTitle:"Affective Domain",
-        label:"Involves feelings, attitudes, and emotions. It includes the ways in which people deal with external and internal phenomenon emotionally, such as values, enthusiasms, and motivations. This domain is categorized into five levels, which include receiving, responding, valuing, organization, and characterization. These subdomains form a hierarchical structure and are arranged from simple feelings or motivations to those that are more complex."
+        labelTitle:"Domínio Afetivo",
+        label:"Envolve sentimentos, atitudes e emoções. Inclui as maneiras pelas quais as pessoas lidam com fenômenos externos e internos emocionalmente, como valores, entusiasmos e motivações. Este domínio é categorizado em cinco níveis, que incluem receber, responder, valorizar, organização e caracterização. Esses subdomínios formam uma estrutura hierárquica e são organizados desde sentimentos ou motivações simples até aqueles que são mais complexos."
       },
       {
-        labelTitle:"Psychomotor Domain",
-        label:"Includes physical movement, coordination, and use of the motor-skill areas. This domain is categorized into eight levels, which include origination, adaptation, complex overt response, mechanism, guided response, set, and perception."
+        labelTitle:"Domínio Psicomotor",
+        label:"Inclui movimento físico, coordenação, e uso de habilidades motoras. Esse dominio é categorizado em oito níveis, que incluem origem, adaptação, resposta evidente complexa, mecanismo, resposta guiada, conjunto e percepção"
       },
     ]
   },
   AnalysisTipsHelpsTwo:{
     analysisTipsHelps:[
       {
-        labelTitle:"Learning Constrainst",
-        label:"Learning outcomes should be brief, clear, specific statements of what learners will be able to do at the end of a lesson as a result of the activities, teaching and learning that has taken place. The Learning outcomes is based on three areas of learning: knowledge, skills and attitudes."
+        labelTitle:"Resultados de Aprendizado",
+        label:"Resualtados de Aprendizado devem ser afirmações breves, claras e específicas sobre o que os alunos serão capazes de fazer ao final de uma lição como resultado das atividades, ensino e aprendizado que ocorreram. Os resultados de Aprendizado são baseados em três áreas do aprendizado: conhecimento, habilidades e atitudes."
       },
     ]
   },
   AnalysisTipsHelpsThree:{
     analysisTipsHelps:[
       {
-        labelTitle:"Pedagogical Considerations",
-        label:"Pedagogical Considerations concentrates on theory, application, and the development of technologies for teaching and learning and its influence on the education system."
+        labelTitle:"Considerações Pedagógicas",
+        label:"Considerações Pedagógicas concentram-se na teoria, aplicação, e no desenvolvimento de tecnologias para ensino e aprendizado e sua influência no sistema educacional."
       },
     ]
   },
-  CourseAnalysisHelp:"Course Analysis Help",
+  CourseAnalysisHelp:"Ajuda sobre a Análise do curso",
 
   DesignTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:"By Unit/By topic",
-        label:"Title: Add the unit/topic title. Learning Objectives: Add Learning Objectives that shows what the students will know when learning in this unit/topic. Pre-existing knowledge: Previous necessary knowledge to understand this unit/topic. Main Content: Subjects to be addressed. Evaluation: Mechanisms and criteria to assess whether the learning objectives have been achieved"
+        labelTitle:"Por Unidades/Por Tópicos",
+        label:"Título: Adicione o título da unidade/tópico. Objetivos de Aprendizado: Adicione Objetivos de Aprendizado que mostrem o que os aunos aprenderão nessa unidade/tópico. Conhecimento pré-existente: Conhecimento anterior necessário para entender esta unidade/tópico. Conteúdo principal: Assuntos que serão abordados. Avaliação: Mecanismos e critérios para avaliar se os objetivos educacionais foram atingidos"
       },
       {
-        labelTitle:"Tasks list",
-        label:"Action to be taken by the student to achieve the learning objectives "
+        labelTitle:"Lista de Tarefas",
+        label:"Ações a serem tomadas pelo aluno para atingir os objetivos educacionais"
       },
       {
-        labelTitle:" Lesson",
-        label:"Select the resources tool you are going to use in this unit/topic"
+        labelTitle:" Lição",
+        label:"Selecione a ferramenta de recursos que irá utilizar nessa unidade/tópico"
       },
     ]
   },
-  CourseDesignHelp:"Course Design Help",
+  CourseDesignHelp:"Ajuda sobre o Design do Curso",
   informationTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:"Course Description",
-        label:"A brief description about the course main content. For example: This course can transform your writing skills. Prepare for college-level writing and research."
+        labelTitle:"Descrição do Curso",
+        label:"Uma breve descrição do conteúdo principal do curso. Por exemplo: Esse curso poderá transformar suas habilidades de escrita. Prepare-se para escrita e pesquisa de nível universitário."
       },
       {
-        labelTitle:"keywords",
-        label:"Words related to course main content. For example: Grammar, English Grammar, Writing."
+        labelTitle:"palavras-chave",
+        label:"Palavras relacionadas ao conteúdo príncipal do curso. Por exemplo: Gramática, Gramática Brasileira, Escrita."
       },
     ]
   },
-  Edittopicname:"Edit topic name",
-  Edittemplatename:"Edit template name",
-  deleteTopic:"Delete Topic",
-  deleteTemplate:"Delete Template",
-  before:"before.",
-  moveUp: "Move up",
-  moveDown: "Move down",
-  imageGallery: "Image gallery",
-  videoGallery: "Video gallery",
+  Edittopicname:"Editar nome do tópico",
+  Edittemplatename:"Editar nome do modelo",
+  deleteTopic:"Deletar Tópico",
+  deleteTemplate:"Deletar Modelo",
+  before:"antes.",
+  moveUp: "Mover para cima",
+  moveDown: "Mover para baixo",
+  imageGallery: "Galeria de Imagens",
+  videoGallery: "Galeria de Vídeos",
 }
 export default PORTUGUESE;
 
