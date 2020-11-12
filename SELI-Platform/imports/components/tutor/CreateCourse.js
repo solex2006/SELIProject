@@ -447,6 +447,7 @@ export default class CreateCourse extends React.Component {
   }
 
   saveCourse() {
+    console.log("save Cpurse*****",this.validateSaveCourse())
     if (this.validateSaveCourse()) {
       let user = Meteor.user();
       let courseInformation = this.state.courseInformation;

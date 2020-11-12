@@ -189,8 +189,9 @@ export default class User extends React.Component {
       this.state.savedCourse=true
       this.state.component='published'
       this.setState({
-        component: component,
+        component: 'edit',//component: component,
         savedCourse: true,
+        
       });
     }
 
@@ -504,6 +505,7 @@ export default class User extends React.Component {
   }
 
   saveCourse = () => {
+    console.log("click to save777777777777777",this.refs.CreateCourse.saveCourse())
     this.refs.CreateCourse.saveCourse();
     this.setState({ 
       savedCourseWindow: false,

@@ -827,7 +827,7 @@ var ENGLISH = {
   fileTitle: "File title",
   renameFileTitle: "Rename file title",
   minimumCourseDuration: "The duration of the course must be a minimum of 5 hours",
-  ifYouWantPC: "You are going to publish your course. After this, you will not be able to edit the course until you unpublish it.",
+  ifYouWantPC: "You request to Publish your course. All unsaved progress will be saved and the course will be made available in SELI's catalogue. No modifications is allowed in published courses, but you can at any moment unpublish the course. What would you like to do?",
   numberofAnswers: " Select the number of answers",
   toActivityStoryboard: "To complete this activity, select a story",
   completeActivityStoryboard: "Select a story to complete the activity",
