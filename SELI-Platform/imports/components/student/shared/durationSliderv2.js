@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import DurationInput from 'react-duration'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 
 
 const useStyles = makeStyles(theme => ({
@@ -24,9 +24,17 @@ const useStyles = makeStyles(theme => ({
 export default function DurationSlider2({ min, max,  getParamsDuration }) {
    const classes = useStyles();
    console.log("qqqqqqq-------------------",min,max)
-   
    const [stateMin, setstateMin] = useState({duration: min})
-   const [stateMax, setstateMax] = useState({duration:max })
+   const [stateMax, setstateMax] = useState({duration: max })
+
+   useEffect(()=>{
+      //console.log("max and min-------------------")
+   
+      setstateMin({duration: 21599})
+      stateMin.duration=21599
+   },[])
+   
+   
 	
 
 	return (
@@ -34,6 +42,7 @@ export default function DurationSlider2({ min, max,  getParamsDuration }) {
          <div classes={classes.input}>
             <div classes={classes.box}>
                <p className="MuiFormHelperText-root">Minimum duration</p>
+               {console.log("sdfsdf",stateMin)}
                <DurationInput
                   minValue={21599}
                   maxValue={720000}

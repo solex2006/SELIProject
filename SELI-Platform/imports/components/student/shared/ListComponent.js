@@ -93,11 +93,11 @@ export default function Lista(props) {
     return(
       <div>
                 <ul className='resourcesMainContent'>
-                    <li className='crnheading'>This course is designed for these target audiences:</li>
+                    <li tabIndex='0' className='crnheading'>This course is designed for these target audiences:</li>
                     {
                     props.data[0].map((value,index)=>(
                         value.isChecked===true ?
-                            <li className='elemntoflist' key={value.id}>{value.label}</li>
+                            <li tabIndex='0' className='elemntoflist' key={value.id}>{value.label}</li>
                         :
                         undefined    
                     ))
@@ -105,7 +105,7 @@ export default function Lista(props) {
                     {
                         props.data[2]!=undefined ?
                         props.data[2].map((value,index)=>(//other Audiences
-                            <li  className='elemntoflist' key={value.label}>
+                            <li tabIndex='0' className='elemntoflist' key={value.label}>
                                 {value.label}
                             </li>    
                         ))
@@ -121,7 +121,7 @@ export default function Lista(props) {
                 <ul className='resourcesMainContent'>
                     {
                         props.data[1]!=undefined ?
-                            <li className='crnheading'>This course is designed to be inclusive for:</li>
+                            <li tabIndex='0' className='crnheading'>This course is designed to be inclusive for:</li>
                             :
                         undefined
                     }  
@@ -129,7 +129,7 @@ export default function Lista(props) {
                         props.data[1]!=undefined ?
                             props.data[1].map((value,index)=>(//Inclusion Goals  
                                 value.isChecked===true ?
-                                    <li className='elemntoflist' key={value.id}>
+                                    <li tabIndex='0' className='elemntoflist' key={value.id}>
                                         {value.label}
                                     </li>
                                 :
@@ -149,15 +149,15 @@ export default function Lista(props) {
           <React.Fragment>
               <div>
                   <br/>
-                  <strong className='descriptiontext'>Cognitive Domain Objectives:</strong>
+                  <strong tabIndex='0' className='descriptiontext'>Cognitive Domain Objectives:</strong>
 
-                  {console.log("el error--->", props.data)}
+                 
                   {
                     (props.data.analyzing.length!=0 && props.data.analyzing!=undefined) ?
                     <ul >
                         {
                             props.data.analyzing.map((value,index)=>(
-                                <li >
+                                <li tabIndex='0'>
                                     {value.aux+': '+value.label}
                                 </li>
                             ))
@@ -172,7 +172,7 @@ export default function Lista(props) {
                     <ul >
                         {
                             props.data.creating.map((value,index)=>(
-                                <li >
+                                <li tabIndex='0'>
                                     {value.aux+': '+value.label}
                                 </li>
                             ))
@@ -186,7 +186,7 @@ export default function Lista(props) {
                     <ul >
                         {
                             props.data.evaluating.map((value,index)=>(
-                                <li >
+                                <li tabIndex='0'>
                                     {value.aux+': '+value.label}
                                 </li>
                             ))
@@ -200,7 +200,7 @@ export default function Lista(props) {
                     <ul >
                         {
                             props.data.remembering.map((value,index)=>(
-                                <li >
+                                <li tabIndex='0'>
                                     {value.aux+': '+value.label}
                                 </li>
                             ))
@@ -215,7 +215,7 @@ export default function Lista(props) {
                     <ul >
                         {
                             props.data.understanding.map((value,index)=>(
-                                <li >
+                                <li tabIndex='0'>
                                     {value.aux+': '+value.label}
                                 </li>
                             ))
@@ -239,7 +239,7 @@ export default function Lista(props) {
                         <ul >
                             
                                
-                                    <li >
+                                    <li tabIndex='0'>
                                         {value.aux+': '+value.label}
                                     </li>
                                
@@ -255,7 +255,7 @@ export default function Lista(props) {
                         <ul >
                             
                                 
-                                    <li >
+                                    <li tabIndex='0'>
                                         {value.aux+': '+value.label}
                                     </li>
                                 
@@ -269,7 +269,7 @@ export default function Lista(props) {
                      props.data.values.map((value,index)=>(
                         <ul >
                            
-                                    <li >
+                                    <li tabIndex='0'>
                                         {value.aux+': '+value.label}
                                     </li>
                             
@@ -293,7 +293,7 @@ export default function Lista(props) {
                       <ul className='resources' >
                           
                              
-                                  <li >
+                                  <li tabIndex='0'>
                                      to {value.aux+' '+value.label}
                                   </li>
                              
@@ -309,7 +309,7 @@ export default function Lista(props) {
                       <ul className='resources'>
                           
                               
-                                  <li >
+                                  <li tabIndex='0'>
                                      to {value.aux+' '+value.label}
                                   </li>
                               
@@ -323,7 +323,7 @@ export default function Lista(props) {
                    props.data.values.map((value,index)=>(
                       <ul className='resources'>
                          
-                                  <li className='resources'>
+                                  <li tabIndex='0' className='resources'>
                                       to {value.aux+' '+value.label}
                                   </li>
                           
