@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
+import { Meteor } from 'meteor/meteor';
 
 import { scaleRotate as Menu } from 'react-burger-menu';
 
@@ -54,7 +55,10 @@ export default class MainMenu extends React.Component {
 
   showComponent(component){
     this.closeMenu();
-    this.props.showComponent(component);
+    if(component === 'STUDENT_DASHBOARD_SITE_URL')
+      this.redirect(Meteor.settings.public.STUDENT_DASHBOARD_SITE_URL);
+    else
+      this.props.showComponent(component);
   }
 
   componentDidMount(){

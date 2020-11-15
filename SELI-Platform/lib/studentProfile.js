@@ -88,7 +88,7 @@ var OPTIONS = [
           "Moja tablica",
           "Gösterge Panelim",
         ],
-        component: 'dashboard',
+        component: 'STUDENT_DASHBOARD_SITE_URL',
       }
     ],
   },
