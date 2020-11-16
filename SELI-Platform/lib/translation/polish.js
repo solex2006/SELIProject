@@ -1366,24 +1366,24 @@
   audiencesTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:"How to define the audience?",
-        label:"Teachers: Person who helps students to acquire knowledge, competence or virtue. Informal Students: Students that don't studying in a formal schools like university or studying alone or are self-taught. Undergraduate Students: University students that still not finish the graduate course. High School Students: Students in secondary school. Middle School Students: Students between elementary school and high school. Elementary School Students: Before Middle School, for children between the ages of 6-11. Preschool Kids: For kids from 2 to 5 years old-held in a Nursery School."
+        labelTitle:"Jak zdefiniować odbiorców?",
+        label:"Nauczyciele: Osoba, która pomaga uczniom w zdobywaniu wiedzy, kompetencji lub wartości. Uczniowie nieformalni: Uczniowie, którzy nie uczą się w oficjalnych szkołach, takich jak uniwersytet, studiują sami lub są samoukami. Studenci studiów licencjackich: Studenci uniwersytetu, którzy nie ukończyli jeszcze kursu dyplomowego. Uczniowie szkół średnich: Uczniowie w szkole średniej. Uczniowie w szkole ponadpodstawowej: Uczniowie między szkołą podstawową a wyższą. Uczniowie szkół podstawowych: Uczniowie szkół podstawowych: Przed szkołą średnią. Dzieci w wieku przedszkolnym: Dla dzieci w wieku od 2 do 5 lat, przebywających w przedszkolu."
       },
       {
         labelTitle:"Cognitive disabilities",
-        label:"Cognitive disabilities involve neurodiversity and neurological disorders, as well as behavioral and mental health disorders that are not necessarily neurological. They may affect any part of the nervous system and impact how well people hear, move, see, speak, and understand information. Cognitive disabilities do not necessarily affect the intelligence of a person."
+        label:"Niepełnosprawności poznawcze wiążą się z zaburzeniami neurodegradacyjnymi i neurologicznymi, jak również zaburzeniami zachowania i zdrowia psychicznego, które niekoniecznie są neurologiczne. Mogą one dotyczyć każdej części układu nerwowego i wpływać na to, jak dobrze ludzie słyszą, poruszają się, widzą, mówią i rozumieją informacje. Zaburzenia poznawcze niekoniecznie mają wpływ na inteligencję danej osoby."
       },
       {
-        labelTitle:"Examples of the disabilities (for cognitive)",
-        label:"Attention deficit hyperactivity disorder 'ADHD', Autism spectrum disorder 'ASD', Intellectual disabilities, Learning disabilities, Mental health disabilities, Memory impairments, Multiple sclerosis, Neurodiversity, Perceptual disabilities, Seizure disorders"
+        labelTitle:"Przykłady niepełnosprawności (w przypadku poznawczych)",
+        label:"Deficyt uwagi zaburzenia nadpobudliwości 'ADHD', spektrum zaburzeń autystycznych 'ASD', niepełnosprawność intelektualna, trudności w uczeniu się, zaburzenia zdrowia psychicznego, zaburzenia pamięci, stwardnienie rozsiane, neurodegradacja, zaburzenia percepcji, zaburzenia drgawkowe"
       },
       {
-        labelTitle:"Examples of barriers (for cognitive)",
-        label:" Complex navigation mechanisms and page layouts that are difficult to understand and use, Complex sentences that are difficult to read and unusual words that are difficult to understand, Long passages of text without images, graphs, or other illustrations to highlight the context, Moving, blinking, or flickering content, and background audio that cannot be turned off, Web browsers and media players that do not provide mechanisms to suppress animations and audio, Visual page designs that cannot be adapted using web browser controls or custom style sheets."
+        labelTitle:"Przykłady barier (poznawczych)",
+        label:" Złożone mechanizmy nawigacyjne i układy stron, które są trudne do zrozumienia i użycia, Złożone zdania, które są trudne do odczytania i nietypowe słowa, które są trudne do zrozumienia, Długie fragmenty tekstu bez obrazów, wykresów lub innych ilustracji w celu podkreślenia kontekstu, Ruchoma, migająca lub migocząca zawartość i dźwięk w tle, którego nie można wyłączyć, Przeglądarki internetowe i odtwarzacze multimedialne, które nie zapewniają mechanizmów tłumiących animacje i dźwięk, Wizualne projekty stron, których nie można dostosować za pomocą elementów sterujących przeglądarki internetowej lub niestandardowych arkuszy stylów."
       },
       {
-        labelTitle:"Example of adaptations (for cognitive)",
-        label:"Providing visual cues and props to reinforce, Use songs, rhymes or rhythms to help students remember information, Teach students to use self-questioning techniques"
+        labelTitle:"Przykładowe adaptacje (dla poznawczych)",
+        label:"Udostępnianie wizualnych wskazówek i rekwizytów w celu wzmocnienia, Stosowanie piosenek, rymów lub rytmów, aby pomóc uczniom w zapamiętywaniu informacji, Prowadzenie zajęć z użyciem technik zadawania pytań."
       },
       {
         labelTitle:"Diversity of Abilities",
@@ -1509,45 +1509,45 @@
       },
     ]
   },
-  CourseAnalysisHelp:"Course Analysis Help",
+  CourseAnalysisHelp:"Pomoc w analizie kursu",
   DesignTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:"By Unit/By topic",
-        label:"Title: Add the unit/topic title. Learning Objectives: Add Learning Objectives that shows what the students will know when learning in this unit/topic. Pre-existing knowledge: Previous necessary knowledge to understand this unit/topic. Main Content: Subjects to be addressed. Evaluation: Mechanisms and criteria to assess whether the learning objectives have been achieved"
+        labelTitle:"Według jednostki/tematu",
+        label:"Tytuł: Dodaj tytuł jednostki/tytułu tematu. Cele dydaktyczne: Dodaj Cele dydaktyczne, które pokazują, co uczniowie będą wiedzieć podczas nauki w tej jednostce/temacie. Istniejąca wiedza: Wcześniejsza wiedza niezbędna do zrozumienia tej jednostki/tematu. Główna treść: Przedmioty, które mają być poruszone. Ocena: Mechanizmy i kryteria pozwalające ocenić, czy cele nauczania zostały osiągnięte."
       },
       {
-        labelTitle:"Tasks list",
-        label:"Action to be taken by the student to achieve the learning objectives "
+        labelTitle:"Lista zadań",
+        label:"Działania, które ma podjąć uczeń, aby osiągnąć cele kształcenia "
       },
       {
-        labelTitle:" Lesson",
-        label:"Select the resources tool you are going to use in this unit/topic"
+        labelTitle:" Lekcja",
+        label:"Wybierz narzędzie zasobów, którego będziesz używać w tej/tym jednostce/temacie"
       },
     ]
   },
-  CourseDesignHelp:"Course Design Help",
+  CourseDesignHelp:"Pomoc w projektowaniu kursu",
   informationTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:"Course Description",
-        label:"A brief description about the course main content. For example: This course can transform your writing skills. Prepare for college-level writing and research."
+        labelTitle:"Opis kursu",
+        label:"Krótki opis głównej treści kursu. Na przykład: Ten kurs może zmienić twoje umiejętności pisania. Przygotuj się do pisania i badań na poziomie szkoły średniej"
       },
       {
-        labelTitle:"keywords",
-        label:"Words related to course main content. For example: Grammar, English Grammar, Writing."
+        labelTitle:"Słowa kluczowe",
+        label:"Słowa związane z główną treścią kursu. Na przykład: Gramatyka, gramatyka angielska, pisanie."
       },
     ]
   },
-  Edittopicname:"Edit topic name",
-  Edittemplatename:"Edit template name",
-  deleteTopic:"Delete Topic",
-  deleteTemplate:"Delete Template",
-  before:"before.",
-  moveUp: "Move up",
-  moveDown: "Move down",
-  imageGallery: "Image gallery",
-  videoGallery: "Video gallery",
+  Edittopicname:"Edycja nazwy tematu",
+  Edittemplatename:"Edycja nazwy szablonu",
+  deleteTopic:"Usuń Temat",
+  deleteTemplate:"Usuń szablon",
+  before:"przed.",
+  moveUp: "Przenieść do góry",
+  moveDown: "Przenieść na dół ",
+  imageGallery: "Galeria zdjęć",
+  videoGallery: "Galeria filmów",
 }
 export default POLISH;
 
