@@ -51,6 +51,28 @@ export default class ImageItem extends React.Component {
     });
   }
 
+  imageItem = () => {
+    const a11y = this.props.item.attributes.accessibility;
+    var altText = "";
+    if (a11y.dataField && a11y.dataField.shortDescription !== "") {
+      if (this.props.item.attributes.accessibility.dataField.imagePurpose==='deco') altText =""
+      else altText = a11y.dataField.shortDescription
+    } else altText = this.props.item.attributes.title;
+    return (
+      <img
+        tabIndex={altText !== "" ? "0" : "-1"}
+        src={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())}
+        style={{
+          height: `${this.state.height}px`,
+          transform: `rotate(${this.props.item.attributes.image!=undefined?this.props.item.attributes.image.coordenada:0}deg)`,
+        }}
+        alt={altText}
+        className="file-image-preview-image"
+        onClick={() => this.handleOpenMedia(0)}
+      />
+    )
+  }
+
   render() {
     return(
       <div className="content-box">
@@ -61,25 +83,14 @@ export default class ImageItem extends React.Component {
             undefined
         }
         {this.props.fromProgram && <DiscreteSlider size={this.props.item.attributes.size.height} adjust={this.adjust}/>}
-        <div className="image-content-item">
-          <div
-            style={{flexDirection: this.props.item.attributes.alignment}} 
-            className={this.props.fromTemplate ? "image-item-container-template" : "image-item-container"}
-          >
-            <div onClick={() => this.handleOpenMedia(0)} className="file-image-preview-image">
-              <img
-                src={(this.props.item.attributes.image!=undefined)?(this.props.item.attributes.image.link):(Math.random())}
-                style={{
-                  height: `${this.state.height}px`,
-                  transform: `rotate(${this.props.item.attributes.image!=undefined?this.props.item.attributes.image.coordenada:0}deg)`,
-                }}
-                //className="file-image-preview"
-              />
-            </div>
-            <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
-              {`${this.props.item.attributes.title}`}
-            </Typography>
-          </div>
+        <div
+          style={{flexDirection: this.props.item.attributes.alignment}} 
+          className={this.props.fromTemplate ? "image-item-container-template" : "image-item-container"}
+        >
+          {this.imageItem()}
+          <Typography tabIndex="0" className="course-item-card-title" gutterBottom variant="h5" component="h2">
+            {`${this.props.item.attributes.title}`}
+          </Typography>
         </div>
         {
           this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?

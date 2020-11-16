@@ -30,7 +30,6 @@ export default class MediaGallery extends React.Component {
   }
 
   handleOpenMediaKey = (event) => {
-    console.log(event.target.id, event.which, event.keyCode)
     if (event.which == 13 || event.keyCode == 13 ||
         event.which == 32 || event.keyCode == 32) {
       this.handleOpenMedia();
@@ -96,7 +95,6 @@ export default class MediaGallery extends React.Component {
   }
 
   render() {
-    console.log(document.activeElement.id)
     return(
       <div className="template-media-gallery">
         <div className="template-title-gallery" id={`${this.props.contentCode}-gallery-title`}>

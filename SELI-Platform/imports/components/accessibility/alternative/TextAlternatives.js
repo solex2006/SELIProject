@@ -95,10 +95,10 @@ export default class TextAlternatives extends React.Component {
               <Grid item xs={12}>       
               {
                 this.props.item.attributes.accessibility.dataField.imagePurpose==='info'?
-                  <div> 
+                  <React.Fragment> 
                     <h2 className="description">{this.props.language.image_a11y_purpose_informative_label}</h2>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
-                  </div>
+                  </React.Fragment>
                 :
                   undefined
               }
@@ -110,20 +110,22 @@ export default class TextAlternatives extends React.Component {
               }
               {
                 this.props.item.attributes.accessibility.dataField.imagePurpose==='txt'?
-                  <div> 
+                  <React.Fragment> 
                     <h2 className="description">{this.props.language.image_a11y_purpose_text}</h2>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
-                  </div>
+                  </React.Fragment>
                 :
                   undefined
               }
               {
                 this.props.item.attributes.accessibility.dataField.imagePurpose==='cplx' ?
-                  <div> 
+                  <React.Fragment> 
                     <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
-                    <Editor editorState={this.signalText()} readOnly={true}/>
-                  </div>
+                    <figcaption tabIndex="0">
+                      <Editor editorState={this.signalText()} readOnly={true}/>
+                    </figcaption>
+                  </React.Fragment>
                 :
                   undefined
               }

@@ -223,11 +223,23 @@ export default class MediaPlayer extends React.Component {
   }
 
   handleNext = () => {
-    this.setData(this.state.index + 1);
+    if (this.state.index < this.props.mediaItems.length - 1) this.setData(this.state.index + 1)
+    else this.setData(0);
   }
 
   handleBack = () => {
-    this.setData(this.state.index - 1);
+    if (this.state.index > 0) this.setData(this.state.index - 1)
+    else this.setData(this.props.mediaItems.length - 1);
+  }
+
+  handleNavigate = (event) => {
+    if (event.which == 27 || event.keyCode == 27) {
+      this.props.handleCloseMedia();
+    } else if (event.which == 37 || event.keyCode == 37) {
+      this.handleBack();
+    } else if (event.which == 39 || event.keyCode == 39) {
+      this.handleNext();
+    }
   }
 
   onErrorVideo = (event) => {
@@ -302,6 +314,24 @@ export default class MediaPlayer extends React.Component {
     )
   }
 
+  imageItem = () => {
+    const a11y = this.state.media.attributes.accessibility;
+    var altText = "";
+    if (a11y.dataField && a11y.dataField.shortDescription !== "") {
+      if (this.state.media.attributes.accessibility.dataField.imagePurpose==='deco') altText =""
+      else altText = a11y.dataField.shortDescription
+    } else altText = this.state.media.attributes.title;
+    return (
+      <img
+        tabIndex={altText !== "" ? "0" : "-1"}
+        className={this.state.hasA11y ? "image-media-player-paper-a11y" : "image-media-player-paper"}
+        src={this.state.media.attributes.image.link}
+        alt={altText}
+      >
+      </img>
+    )
+  }
+
   render() {
     return(
       <React.Fragment>
@@ -310,20 +340,23 @@ export default class MediaPlayer extends React.Component {
           onClose={this.props.handleCloseMedia}
           TransitionComponent={Transition}
           fullScreen
-          aria-labelledby="alert-dialog-confirmation"
-          aria-describedby="alert-dialog-confirmation"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="course-dialog-title"
+          aria-describedby="exit-player-tooltip"
           disableBackdropClick={true}
           className="media-dialog"
+          onKeyDown={this.handleNavigate}
         >
           <AppBar position="static" className="course-dialog-app-bar">
             <Toolbar style={{position: 'relative'}}>
               <IconButton edge="start" color="inherit" onClick={this.props.handleCloseMedia} aria-label={this.props.language.close}>
                 <CloseIcon />
               </IconButton>
-              <Typography className="course-dialog-title" variant="h6">
+              <Typography id="course-dialog-title" className="course-dialog-title" variant="h6">
                 {`${this.props.language.seliMediaPlayer} | ${this.state.media.attributes ? this.state.media.attributes.title : ""}`}
               </Typography>
-              <p className="app-tooltip">{this.props.language.pressEscCourse}</p>
+              <p id="exit-player-tooltip" className="app-tooltip">{this.props.language.pressEscCourse}</p>
             </Toolbar>
           </AppBar>
           <DialogContent className="media-dialog-content">
@@ -468,11 +501,7 @@ export default class MediaPlayer extends React.Component {
               this.state.media.type === 'image' ?
                 <div className="media-player-container">
                   <div className="fullscreen-media-container-stepper">
-                    <img 
-                      className={this.state.hasA11y ? "image-media-player-paper-a11y" : "image-media-player-paper"}
-                      src={this.state.media.attributes.image.link}
-                    >
-                    </img>
+                    {this.imageItem()}
                     {this.state.hasA11y && this.a11yContent()}
                   </div>
                   <MobileStepper
@@ -483,9 +512,9 @@ export default class MediaPlayer extends React.Component {
                     activeStep={this.state.index}
                     nextButton={
                       <Button 
-                        className={!(this.state.index === this.props.mediaItems.length - 1) && "media-mobile-stepper-button"}
+                        className="media-mobile-stepper-button"
                         size="small"
-                        onClick={this.handleNext} disabled={this.state.index === this.props.mediaItems.length - 1}
+                        onClick={this.handleNext}
                       >
                         {this.props.language.next}
                         {<KeyboardArrowRight />}
@@ -493,9 +522,9 @@ export default class MediaPlayer extends React.Component {
                     }
                     backButton={
                       <Button
-                        className={!(this.state.index === 0) &&"media-mobile-stepper-button"}
+                        className="media-mobile-stepper-button"
                         size="small" 
-                        onClick={this.handleBack} disabled={this.state.index === 0}
+                        onClick={this.handleBack}
                       >
                         {<KeyboardArrowLeft />}
                         {this.props.language.back}
