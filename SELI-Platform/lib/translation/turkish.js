@@ -827,7 +827,7 @@ var TURKISH = {
   fileTitle: "Dosya başlığı",
   renameFileTitle: "Dosya başlığını yeniden adlandır",
   minimumCourseDuration: "Kurs süresi en az 5 saat olmalıdır",
-  ifYouWantPC: "Dersinizi yayınlayacaksınız. Bundan sonra, dersi yayından kaldırıncaya kadar dersi düzenleyemezsiniz.",
+  ifYouWantPC: "You request to Publish your course. All unsaved progress will be saved and the course will be made available in SELI's catalogue. No modifications is allowed in published courses, but you can at any moment unpublish the course. What would you like to do?",
   numberofAnswers: "Cevap sayısını seçin",
   toActivityStoryboard: "Bu etkinliği tamamlamak için bir hikaye seçin",
   completeActivityStoryboard: "Etkinliği tamamlamak için bir hikaye seçin",

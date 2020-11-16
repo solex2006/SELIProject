@@ -209,12 +209,12 @@ class CourseCard extends React.Component {
     return (
       <React.Fragment>
         <Card className="course-card">
-          <CardActionArea >
+          <div >
             <CardHeader
               avatar={
                 <Avatar
                   style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
-                  aria-label="recipe"
+                  aria-label="avatar"
                   className="course-card-avatar"
                 >
                   <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
@@ -222,10 +222,10 @@ class CourseCard extends React.Component {
               }
               className="course-card-header"
               title={
-                <h2 className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{this.props.course.title}</h2>
+                <h2  tabindex="0" className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{this.props.course.title}</h2>
               }
               subheader={
-                <h3 className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
+                <h3  tabindex="0" className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
               }
             /> 
             <CardMedia
@@ -234,29 +234,34 @@ class CourseCard extends React.Component {
               title={this.state.label}
             />
             <CardContent >
-              <Typography variant="body2" color="textSecondary" component="p">
+              <Typography  tabindex="0" variant="body2" color="textSecondary" component="p">
                 {this.props.course.description}
               </Typography>
-              <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
+              <Typography  tabindex="0" className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
                 {`${this.props.language.author}: ${this.props.course.createdBy}`}
               </Typography>
             </CardContent>
             <CardActions  disableSpacing>
-              <Link className="button-link MuiButtonBase-root MuiButton-root MuiButton-outlined course-card-button"
-                target="_blank"
-                to={{
-                  pathname: "/coursePreview",
-                  hash: this.props.course._id,
-                  state: { fromDashboard: true },
-                }}
-                onClick={() => 
-                  {
-                    StudentLog.insert({ "UserId": Meteor.userId(), "CourseId" : this.props.course._id, 
-                    "Datetime": new Date(), "Action": "Course Preview" });
+             
+                <Link
+                  tabindex="0" 
+                  className="button-link  MuiButton-root MuiButton-outlined course-card-button" 
+                  target="_blank"
+                  to={{
+                    pathname: "/coursePreview",
+                    hash: this.props.course._id,
+                    state: { fromDashboard: true },
                   }}
-              >
-                {this.props.language.coursePreview}
-              </Link>
+                  onClick={() => 
+                    {
+                      StudentLog.insert({ "UserId": Meteor.userId(), "CourseId" : this.props.course._id, 
+                      "Datetime": new Date(), "Action": "Course Preview" });
+                    }}
+                >
+                  {this.props.language.coursePreview}
+                </Link>
+       
+              
               {
                 !this.state.subscribed ?
                   <Tooltip title={this.props.language.subscribeJoin}>
@@ -285,13 +290,13 @@ class CourseCard extends React.Component {
                 <IconButton
                   className="course-card-icon-button"
                   onClick={() => this.showComments()}
-                  aria-label="left course"
+                  aria-label="Course Comments"
                 >
                   <CommentIcon className="course-card-icon"/>
                 </IconButton>
               </Tooltip>
             </CardActions>
-          </CardActionArea>
+          </div>
         </Card>
         <Dialog
           open={this.state.open}

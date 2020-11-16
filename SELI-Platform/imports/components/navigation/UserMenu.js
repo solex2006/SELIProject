@@ -222,7 +222,9 @@ export default function UserMenu(props) {
                 certificates.map((certificate, indexCertificate)=>{
                   
                   if(typeof(certificate)==="object"){
-                    console.log("-----",typeof(certificate), certificate)
+                    
+                    let hashInfo=`${certificate.certificateHash}--${certificate.course}--${certificate.date}--${certificate.description}--${certificate.idStudent}--${certificate.name}--${certificate.name}`
+                    console.log("-----", hashInfo, certificate)
                     return(
                       <CardHeader
                         avatar={
@@ -231,12 +233,10 @@ export default function UserMenu(props) {
                           </Avatar>
                         }
                         title="Congratulations you have a new certificate !"
-                        subheader={<Link to={{
-                          pathname:'certificatesValidation/'+certificate.certificateHash,
-                          state: {
-                            infoStudent: certificate
-                          }
-                        }} >See Certificate</Link>
+                        subheader={<Link 
+                          to={'/certificatesValidation/'+ window.btoa(unescape(encodeURIComponent(hashInfo)))  } 
+                          target='_blank'
+                          >See Certificate</Link>
                       }
                       />
                     )

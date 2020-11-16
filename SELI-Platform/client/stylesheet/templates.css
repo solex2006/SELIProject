@@ -65,16 +65,18 @@
 
 .template-media-gallery {
   display: flex;
-  width: 100%;
+  flex-direction: column;
+  width: calc(100% - 10px);
+  padding: 5px;
   margin-bottom: 30px;
   justify-content: center;
+  color: white;
+  background-color: #121212;
 }
 
 .template-child-gallery {
   width: calc(100%) !important;
-  background-color: #121212;
-	padding: 5px;
-	color: white;
+  margin: 0px !important;
 }
 
 .template-title-gallery {
@@ -96,8 +98,13 @@
   justify-content: center;
 }
 
-.template-paper-gallery-preview:hover, 
-.template-paper-gallery-preview:focus {
+.template-paper-gallery-preview-selected {
+  width: 300px;
+  height: 300px;
+  position: relative;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
   transform: scale(1.05);
   transition: 0.25s;
 }

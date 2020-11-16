@@ -405,7 +405,9 @@ export default class CoursesDashboard extends React.Component {
   }
 
   getParamsDuration=(duration, flag)=>{
-    console.log("getParamsDuration, myflagCourses---->",duration, this.state.publishedCourses)
+    console.log("getParamsDuration, myflagCourses---->",duration, flag)
+   // let horas=
+    //let minutes=
     this.setState({
       duration:duration
     })

@@ -10,30 +10,143 @@ export default class MediaGallery extends React.Component {
     super(props);
     this.state = {
       openMedia: false,
+      canFocus: "-1",
       index: 0
     }
 	}
 	
-	handleOpenMedia = (index) => {
+	handleOpenMedia = () => {
 		this.setState({
       openMedia: true,
-      index: index,
     });
+  }
+
+  handleOpenMediaClick = (index) => {
+		this.setState({
+      index: index
+    }, () => {
+      this.handleOpenMedia();
+    });
+  }
+
+  handleOpenMediaKey = (event) => {
+    console.log(event.target.id, event.which, event.keyCode)
+    if (event.which == 13 || event.keyCode == 13 ||
+        event.which == 32 || event.keyCode == 32) {
+      this.handleOpenMedia();
+    } else  if (event.which == 37 || event.keyCode == 37) {
+      this.setState({canFocus: "0"}, () => {
+        if (document.activeElement === document.getElementById("child-gallery")) {
+          document.getElementById(this.props.contentItems[this.props.contentItems.length - 1].id).focus();
+        } else {
+          if (this.state.index > 0) {
+            this.setState({ index: this.state.index - 1 }, () => { 
+              document.getElementById(this.props.contentItems[this.state.index].id).focus();
+            });
+          } else {
+            this.setState({ index: this.props.contentItems.length - 1 }, () => { 
+              document.getElementById(this.props.contentItems[this.state.index].id).focus();
+            });
+          }
+        }
+      })
+    } else if (event.which == 39 || event.keyCode == 39) {
+      this.setState({canFocus: "0"}, () => {
+        if (document.activeElement === document.getElementById("child-gallery")) {
+          document.getElementById(this.props.contentItems[0].id).focus();
+        } else {
+          if (this.state.index < this.props.contentItems.length - 1) {
+            this.setState({ index: this.state.index + 1 }, () => {
+              document.getElementById(this.props.contentItems[this.state.index].id).focus();
+            });
+          } else {
+            this.setState({ index: 0 }, () => { 
+              document.getElementById(this.props.contentItems[this.state.index].id).focus();
+            });
+          }
+        }
+      })
+    } else if (event.which == 9 || event.keyCode == 9) {
+      this.setState({canFocus: "-1"})
+    }
   }
   
   handleCloseMedia = () => {
     this.setState({
       openMedia: false,
-      index: 0
     });
   }
 
-	onClick = () => {}
+  onClick = () => {}
+  
+  imageItem = (tile) => {
+    const a11y = tile.attributes.accessibility;
+    var altText = "";
+    if (a11y.dataField && a11y.dataField.shortDescription !== "") altText = a11y.dataField.shortDescription
+    else altText = tile.attributes.title;
+    return (
+      <img
+        id={tile.id}
+        tabIndex={this.state.canFocus}
+        className="template-image-gallery-preview"
+        alt={altText}
+        src={tile.attributes.image.link}
+      />
+    )
+  }
 
   render() {
+    console.log(document.activeElement.id)
     return(
       <div className="template-media-gallery">
+        <div className="template-title-gallery" id={`${this.props.contentCode}-gallery-title`}>
+          {this.props.contentCode === "image" ? this.props.language.imageGallery : this.props.language.videoGallery}
+        </div>
+        <details className="template-instructions-gallery" id={`${this.props.contentCode}-gallery-description`}>
+          <summary id="gallery-instructions">{this.props.language.instructions}</summary>
+          {
+            this.props.contentCode === "image" ?
+              <ul>
+                <li>
+                  <div dangerouslySetInnerHTML={{__html: this.props.language.imageGalleryLabel0}}/>
+                </li>
+                <li>
+                  <div dangerouslySetInnerHTML={{__html: this.props.language.imageGalleryLabel1}}/>
+                </li>
+                <li>
+                  {this.props.language.imageGalleryLabel2}
+                </li>
+              </ul>
+            :
+              <ul>
+                <li>
+                  <div dangerouslySetInnerHTML={{__html: this.props.language.videoGalleryLabel0}}/>
+                </li>
+                <li>
+                  <div dangerouslySetInnerHTML={{__html: this.props.language.videoGalleryLabel1}}/>
+                </li>
+                <li>
+                  {this.props.language.videoGalleryLabel2}
+                  <ul>
+                    <li>
+                      {this.props.language.Captions}
+                    </li>
+                    <li>
+                      {this.props.language.audioDescription}
+                    </li>
+                    <li>
+                      {this.props.language.longDescription_a11y_label_audio}
+                    </li>
+                    <li>
+                      {this.props.language.signLanguageInterpreter}
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+          }
+        </details>
         <Grid
+          id="child-gallery"
 					className='template-child-gallery'
 					container
 					spacing={2}
@@ -41,75 +154,30 @@ export default class MediaGallery extends React.Component {
 					justify="flex-start"
 					alignItems="flex-start"
 					tabIndex={0}
-					aria-labelledby="gallery-title"
-					aria-describedby="gallery-description"
-					role="grid"
+					aria-labelledby={`${this.props.contentCode}-gallery-title`}
+					aria-describedby={`${this.props.contentCode}-gallery-description`}
+          role="grid"
+          onKeyDown={this.handleOpenMediaKey}
 				>
-					<Grid item xs={12} lg={12}>
-						<div className="template-title-gallery" id="gallery-title">
-              {this.props.contentCode === "image" ? this.props.language.imageGallery : this.props.language.videoGallery}
-						</div>
-						<details className="template-instructions-gallery" id="gallery-description">
-							<summary id="gallery-instructions">{this.props.language.instructions}</summary>
-							{
-								this.props.contentCode === "image" ?
-									<ul>
-										<li>
-                      <div dangerouslySetInnerHTML={{__html: this.props.language.imageGalleryLabel0}}/>
-										</li>
-										<li>
-                      <div dangerouslySetInnerHTML={{__html: this.props.language.imageGalleryLabel1}}/>
-										</li>
-										<li>
-                      {this.props.language.imageGalleryLabel2}
-										</li>
-									</ul>
-								:
-									<ul>
-										<li>
-                      <div dangerouslySetInnerHTML={{__html: this.props.language.videoGalleryLabel0}}/>
-										</li>
-										<li>
-                      <div dangerouslySetInnerHTML={{__html: this.props.language.videoGalleryLabel1}}/>
-										</li>
-										<li>
-                      {this.props.language.videoGalleryLabel2}
-                      <ul>
-                        <li>
-                          {this.props.language.Captions}
-                        </li>
-                        <li>
-                          {this.props.language.audioDescription}
-                        </li>
-                        <li>
-                          {this.props.language.longDescription_a11y_label_audio}
-                        </li>
-                        <li>
-                          {this.props.language.signLanguageInterpreter}
-                        </li>
-                      </ul>
-										</li>
-                  </ul>
-							}
-						</details>
-					</Grid>
 					{this.props.contentItems.map((tile, index) => (
 						<Grid item >
 							<figure
-								tabIndex="0"
-								className="template-paper-gallery-preview"
-								onClick={() => this.handleOpenMedia(index)}
+                role="group"
+								className={
+                  this.state.index === index ? "template-paper-gallery-preview-selected"
+                  : "template-paper-gallery-preview"
+                }
+                onClick={() => this.handleOpenMediaClick(index)}
 							>
 								{  
 									this.props.contentCode === "image" ?
-										<img
-											className="template-image-gallery-preview"
-											src={tile.attributes.image.link}
-										/>
+										this.imageItem(tile)
 									:
 										<React.Fragment>
 											<PlayCircleOutlineIcon className="template-play-icon" />
-											<div 
+											<div
+                        id={tile.id}
+                        tabIndex={this.state.canFocus}
 												className="template-video-gallery-preview"
 											>
 												{

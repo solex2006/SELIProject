@@ -29,11 +29,16 @@ const useStyles = makeStyles((theme) => ({
     marginLeft:'auto',
     marginRight:'auto',
     maxWidth:'85rem',
-    marginTop:'100px'
-   
+    paddingBottom:'18%',
+    paddingTop:'100px'
+   // marginTop:'100px',
+  },
+  rootMain:{ 
+    backgroundColor:'#f5f5f5'
+  // backgroundImage: `url("https://www.unir.net/empresa/desarrollo-directivo/wp-content/uploads/2019/06/Equipo.jpg")`
   },
   target:{
-    backgroundColor:'#CADDF7'
+    backgroundColor:'#f5f5f5'
   },
   paper: {
     padding: theme.spacing(2),
@@ -59,16 +64,30 @@ const useStyles = makeStyles((theme) => ({
   },
   footer:{
     marginTop:'30px',
-
+  },
+  description:{
+    display:'flex',
+    alignContent:'center',
+    paddingTop:'30px',
+    alignItems:'center'
+  },
+  section:{
+    backgroundImage: `url("https://empresas.infoempleo.com/hrtrends/media/2019/04/HRTRENDS-RECLUTAMIENTO-COMO_UNIR_UN_EQUIPO_DE_TRABAJO.jpg")`,
+    paddingBottom:'40px',
+    paddingTop:'25px',
+    paddingLeft: '270px',
+    paddingRight: '270px',
+    color:'#1d1d21',
   }
 }));
 
 export default function CenteredGrid(props) {
-  console.log("En mostrar certificado", props, props.match.params.id)
+  console.log("En mostrar certificado", props, )
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [id, setId]=useState(props.match.params.id);
-  const [studentData, setStudentData]=useState(props.history.location.state.infoStudent);
+  const [studentData, setStudentData]=useState((decodeURIComponent(escape(window.atob( props.match.params.id)))).split("--"));
+  
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -76,52 +95,60 @@ export default function CenteredGrid(props) {
   
 
   return (
-    <div className={classes.root}>
-      <h1>Smart Ecosystem for Learning and Inclusion</h1>
-      <p>Course Certificate</p>
-      <p>{studentData.course}</p>
+    <div className={classes.rootMain}>
+       <section className={classes.section}>
+          <h1 style={{textAlignLast:'center', paddingBottom:'10px'}}>Smart Ecosystem for Learning and Inclusion</h1>
+          <p style={{fontSize:'x-large', padding:'10px 10px 50px 50px', textAlign:'center'}}>Welcome to the SELI Project!</p>
+          The concept of the project approaches the topic of digital exclusion and the inaccessibility of education for disadvantaged groups as forming a 
+          set of challenges that offer the potential for improving the digital competences of teachers in the LAC and EU regions, and can lead to the extensive 
+          participation of citizens who have relatively poor access to innovative technologies involved in education, training and inclusion through ICT. 
+          Project activities are related to fostering more efficient ICT solutions for better education and inclusion.
+      </section>
 
-      <Grid container spacing={1}>
-        <Grid item xs={4}>
-        <Card className={classes.target}>
-          <CardHeader
-            avatar={
-              <Avatar aria-label="recipe" className={classes.avatar}>
-                C
-              </Avatar>
-            }
+      <div className={classes.root}>
+        <p style={{paddingBottom:'20px', textAlign:'center', textTransform:'uppercase'}}>{studentData[1]}</p>
+
+        <Grid container spacing={1}>
+          <Grid className={classes.description} item xs={12} sm={12} md={4}>
+          <Card className={classes.target}>
+            <CardHeader
+              avatar={
+                <Avatar aria-label="recipe" className={classes.avatar}>
+                  C
+                </Avatar>
+              }
+              
+              title={studentData.name}
+              subheader={(new Date()).toString()}
+            />
             
-            title={studentData.name}
-            subheader={(new Date()).toString()}
-          />
+            <CardContent>
+              <Typography variant="body2" color="textPrimary" component="p">
+              Completed by: {studentData[5]}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+              {studentData[2]}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+              {studentData[5]} 's account is verified. 
+              SELI: Smart Ecosystem for Learning and Inclusion certifies their successful completion of {studentData[1]} course.
+              </Typography>
+            </CardContent>
           
-          <CardContent>
-            <Typography variant="body2" color="textPrimary" component="p">
-            Completed by: {studentData.name}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-            {studentData.date}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-            {studentData.name} 's account is verified. 
-            SELI: Smart Ecosystem for Learning and Inclusion certifies their successful completion of {studentData.course} course.
-            </Typography>
-          </CardContent>
-         
-          
-        </Card>
+            
+          </Card>
+          </Grid>
+          <Grid item xs={12} sm={12} md={8}>
+            <iframe src={"https://201.159.223.92/vows/"+studentData[0]} height="500px" width="100%" title="Certificate"></iframe>
+          </Grid>
         </Grid>
-        <Grid item xs={8}>
-          <iframe src={"https://201.159.223.92/vows/"+id} height="500px" width="100%" title="Iframe Example"></iframe>
-        </Grid>
-      </Grid>
 
-      <footer className={classes.footer}>
-        <p>Copyright &copy; 2020 SELI Team.</p>
-      </footer>
+        <footer className={classes.footer}>
+          <p>Copyright &copy; 2020 SELI Team.</p>
+        </footer>
+      </div>
 
-
-     
     </div>
+    
   );
 }

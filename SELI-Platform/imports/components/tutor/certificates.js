@@ -50,7 +50,7 @@ export default function Certificates(props) {
      let columns=[]
       props.courseProfiles.map((student, indexStudent)=>{
          let user = Meteor.users.find({_id: student.studentId}).fetch();
-         console.log("certifictes*********",user[0].profile.certificates)
+         //console.log("certifictes*********",user[0].profile.certificates)
          studentInfo={
             id:student.studentId,
             name: student.studentInformation.fullname,
@@ -64,24 +64,25 @@ export default function Certificates(props) {
           { title: 'Name', field: 'name' },
           { title: 'Email', field: 'email' },
           { title: 'Certificate', field: 'certificate' },
-      ]
-        let hashcert=user[0].profile.certificates[user[0].profile.certificates.length-1];
-        data.push({ name: student.studentInformation.fullname, email: student.studentInformation.email, certificate: 
-        typeof(hashcert)==="object" ? 
-          <Link to={{pathname:'certificatesValidation/'+hashcert.certificateHash, state:{infoStudent: {
-            certificateHash:hashcert.certificateHash,
-            course:props.courseData.title,
-            date:props.courseData.creationDate.toString(),
-            description:props.courseData.description,
-            name:student.studentInformation.fullname,
-            tutor:props.courseData.createdBy,
-          }}}} >See Certificate</Link>:
-        <span>---</span>})
-        
+         ]
          
+        let hashcert=user[0].profile.certificates[user[0].profile.certificates.length-1];
+        //console.log("-------------------******",hashcert)
+        let hashInfo=''
+        if (hashcert !=undefined){
+           hashInfo=`${hashcert.certificateHash}--${props.courseData.title}--${props.courseData.creationDate.toString()}--${props.courseData.description}--${'1234'}--${student.studentInformation.fullname}--${props.courseData.createdBy}`
+        }
+          data.push({ name: student.studentInformation.fullname, email: student.studentInformation.email, certificate: 
+          typeof(hashcert)==="object" ? 
+            <Link 
+             to={'/certificatesValidation/'+ window.btoa(unescape(encodeURIComponent(hashInfo)))}
+             target='_blank' 
+            >See Certificate</Link>:
+          <span>---</span>})
+       
         setColumns(columns)
         setData(data)
-         console.log("index and certs-------------->",user[0].profile.certificates[user[0].profile.certificates.length-1], user[0].profile.certificates )
+        // console.log("index and certs-------------->",user[0].profile.certificates[user[0].profile.certificates.length-1], user[0].profile.certificates )
          //let myCourses = Courses.find({createdBy: user, published: true}).fetch();
       })
   }
@@ -110,7 +111,7 @@ export default function Certificates(props) {
             </Button>
           </Toolbar>
         </AppBar>
-           {console.log("certificates---->", certificates,data,columns)}
+          
            <MaterialTable
                icons={tableIcons(props.language.Additem)}
                title="Certificates"
