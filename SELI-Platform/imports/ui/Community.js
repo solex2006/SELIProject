@@ -39,6 +39,7 @@ export default class Community extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      categoryBool: false,
       categoryType:'',
       texttoSearch:'',
       accessibilitie:{},
@@ -139,7 +140,18 @@ export default class Community extends React.Component {
   }
 
   SelectCategoriesScenes=()=>{
-    if (this.state.categoryType =='culture'){
+   for(var i=0; i < this.state.publishedCourses.length; i++)
+   {
+   if(this.state.publishedCourses[i].categories){
+    this.state.categoryBool = true;
+   }else{
+    i = this.state.publishedCourses.length + 2;
+    this.state.categoryBool = false;
+   }
+   }
+    if(this.state.categoryBool !== false)
+    {
+    if(this.state.categoryType =='culture'){
     let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('culture'));
       
     this.state.myFilterSeliCourses=(SeliCategories);
@@ -292,6 +304,7 @@ export default class Community extends React.Component {
       return 0;
     });
     }
+  }
     this.setState(this.state)
   
   }
@@ -1075,9 +1088,8 @@ export default class Community extends React.Component {
 
   render() {
     const categoryButtons = {
-      margin: "0.2%",
-      marginTop:"0.9%",
-      fontSize: "13px",
+      margin: "1%",
+      marginTop:"1%",
     };
     console.log(this.state.language);
     return(
