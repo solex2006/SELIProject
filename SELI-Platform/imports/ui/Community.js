@@ -39,6 +39,7 @@ export default class Community extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      categoryType:'',
       texttoSearch:'',
       accessibilitie:{},
       generalDetailedFlag:false,
@@ -53,7 +54,7 @@ export default class Community extends React.Component {
       myflagCourses:false,
       generalDetailedFlag:false,
       myFilterSeliCourses:[],
-
+      denemearray:[],  
       myFilterThree:[],
 
       language: '',
@@ -93,7 +94,7 @@ export default class Community extends React.Component {
       language: language,
     });
   }
-  componentWillMount() {//antes de render
+  componentDidMount() {//antes de render
     Session.set({language: Session.get('language') ? Session.get('language') : english});
     Tracker.autorun(() => {
       this.setState({
@@ -137,6 +138,164 @@ export default class Community extends React.Component {
     }
   }
 
+  SelectCategoriesScenes=()=>{
+    if (this.state.categoryType =='culture'){
+    let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('culture'));
+      
+    this.state.myFilterSeliCourses=(SeliCategories);
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+   
+
+    }
+    if (this.state.categoryType =='education'){
+    let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('education'));
+        
+    this.state.myFilterSeliCourses=(SeliCategories);
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    }
+    if (this.state.categoryType =='engineering'){
+    let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('engineering'));
+          
+    this.state.myFilterSeliCourses=(SeliCategories);
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+   
+    }
+    if (this.state.categoryType =='inclusion'){
+    let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('inclusion'));
+            
+    this.state.myFilterSeliCourses=(SeliCategories);
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    }
+    if (this.state.categoryType =='life'){
+    let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('life'));
+           
+    this.state.myFilterSeliCourses=(SeliCategories);
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    }
+    if (this.state.categoryType =='science'){
+    let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('science'));
+             
+    this.state.myFilterSeliCourses=(SeliCategories);
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    }
+    if (this.state.categoryType =='school'){
+    let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('school'));
+                
+    this.state.myFilterSeliCourses=(SeliCategories);
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    }
+    if (this.state.categoryType =='sports'){
+    let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('sports'));
+                    
+    this.state.myFilterSeliCourses=(SeliCategories);
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    }
+    if (this.state.categoryType =='technology'){
+    let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('technology'));
+                     
+    this.state.myFilterSeliCourses=(SeliCategories);
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    }
+    if (this.state.categoryType =='university'){
+    let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('university'));
+                       
+    this.state.myFilterSeliCourses=(SeliCategories);
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+      if (a.title > b.title) {
+        return 1;
+      }
+      if (a.title < b.title) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    }
+    this.setState(this.state)
+  
+  }
+
   searchMyCourses=()=>{
     //put in lowercase te titles of the courses to improve the search
     let titleMyCourses=[]
@@ -151,7 +310,7 @@ export default class Community extends React.Component {
     if(this.props.texttoSearch!=undefined){
       console.log("this.props.texttoSearch", this.props.texttoSearch)
       let myFiltersuscribdedCourses=this.state.mysuscribdedCourses.filter(course => course.title.search(this.props.texttoSearch.toLowerCase()) !=-1);
-      // let myFiltersuscribdedCoursesSub=this.state.mysuscribdedCourses.filter(course => course.subtitle.search(this.props.texttoSearch.toLowerCase()) !=-1);
+      // let myFiltersuscribdedCoursesSub=this.state.mysuscribdedCourses.filter(course => course.script.english.search(this.props.texttoSearch.toLowerCase()) !=-1);
       this.state.myFiltersuscribdedCourses=myFiltersuscribdedCourses.concat()
       //ordena por alfabeto
       this.state.myFiltersuscribdedCourses.sort(function (a, b) {
@@ -582,7 +741,7 @@ export default class Community extends React.Component {
     this.state.generalDetailedFlag=false
     this.setState(this.state)
     this.searchSELICourses();
-    this.searchSELICoursesDetailed()
+    this.searchSELICoursesDetailed();
   }
 
 
@@ -590,11 +749,10 @@ export default class Community extends React.Component {
   searchSELICoursesDetailed=()=>{
     console.log("searchSELICoursesDetailed", this.state, this.props )
     console.log("text to search", this.state.texttoSearch )
-    this.state.dataProps = this.state.publishedCourses.map(i => i.activity.data);
 
 
-    for (var i = 0; i < this.state.dataProps.length; i++) {
-      var dataInfo = this.state.dataProps[i].map(s=>s.categories);
+    for (var i = 0; i < this.state.publishedCourses.length; i++) {
+      var dataInfo = this.state.publishedCourses.map(s=>s.categories);
   if(dataInfo[i] !== undefined) {
       this.state.categoryList = dataInfo[i].category;
   }else {
@@ -605,34 +763,32 @@ export default class Community extends React.Component {
     }
   }
 
-    }debugger;
-    var activeData = [];
-    activeData = this.state.publishedCourses.map(item => item.activity.data);
-    for (var i = 0; i < activeData.length; i++) {
+    }
+    for (var i = 0; i < this.state.publishedCourses.length; i++) {
 
-      // for(var i2 = 0; i2 < x[i].length;) {
-      if(activeData[i][0].categories !== null){
-    console.log(activeData[i][0]);
+      if(this.state.publishedCourses[i].categories !== null){
+    console.log(this.state.publishedCourses[i]);
         var categoryName = [];
-    categoryName = activeData[i][0];
+        categoryName.push(this.state.publishedCourses[i].categories);
     console.log(Object.values(categoryName));
       }
-      // }
-    
     }
+    if(this.state.texttoSearch == ""){
+    }else{
     let myFilterSeliCoursesTitle=this.state.publishedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
-  //  let myFilterSeliCoursesSubTitle=Object.values(categoryName).filter(course => course.category.search(this.state.texttoSearch) !=-1);
-   this.state.myFilterSeliCourses=(myFilterSeliCoursesTitle.concat());
-   this.state.myFilterSeliCourses.sort(function (a, b) {
-      if (a.title > b.title) {
-        return 1;
-      }
-      if (a.title < b.title) {
-        return -1;
-      }
-      // a must be equal to b
-      return 0;
-    });
+    // let myFilterSeliCoursesSubTitle = this.state.publishedCourses.find(this.state.texttoSearch.toLowerCase());
+    this.state.myFilterSeliCourses=(myFilterSeliCoursesTitle.concat());
+    }
+    this.state.myFilterSeliCourses.sort(function (a, b) {
+       if (a.title > b.title) {
+         return 1;
+       }
+       if (a.title < b.title) {
+         return -1;
+       }
+       // a must be equal to b
+       return 0;
+     });
     this.setState(this.state)
     console.log("Seli Courses y Filtrados Detailed: ",this.state.publishedCourses,  this.state.myFilterSeliCourses )
   }
@@ -918,6 +1074,11 @@ export default class Community extends React.Component {
 }
 
   render() {
+    const categoryButtons = {
+      margin: "0.2%",
+      marginTop:"0.9%",
+      fontSize: "13px",
+    };
     console.log(this.state.language);
     return(
       <div>
@@ -946,10 +1107,9 @@ export default class Community extends React.Component {
                     :
                     undefined  
                   }
-                  
+                 
                   <div className="courses-dashboard-container">
         {console.log("recarga", this.state)}
-        
         <StorySearch
           getParamsofSearch={this.getParamsofSearch}
           getParamsLanguage={this.getParamsLanguage}
@@ -963,7 +1123,68 @@ export default class Community extends React.Component {
           sortByMostRecent={this.sortByMostRecent}
           OrSearch={this.OrSearch}
         />
-        
+       <Button
+                        color="primary"
+                        className="categoryButtons"
+                        style={categoryButtons}
+                        variant="outlined"
+                        onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'culture')}
+                        >Culture</Button><Button
+                        color="primary"
+                        className="categoryButtons"
+                        style={categoryButtons}
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'education')}
+                        >Education</Button><Button
+                        color="primary"
+                        style={categoryButtons}
+                        className="categoryButtons"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'engineering')}
+                        >Engineering</Button><Button
+                        color="primary"
+                        style={categoryButtons}
+                        className="categoryButtons"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'inclusion')}
+                        >Inclusion</Button><Button
+                        color="primary"
+                        style={categoryButtons}
+                        className="categoryButtons"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'life')}
+                        >Life</Button><Button
+                        color="primary"
+                        style={categoryButtons}
+                        className="categoryButtons"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'science')}
+                        >Science</Button><Button
+                        color="primary"
+                        style={categoryButtons}
+                        className="categoryButtons"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'school')}
+                        >School</Button><Button
+                        color="primary"
+                        style={categoryButtons}
+                        className="categoryButtons"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'sports')}
+                        >Sports</Button><Button
+                        color="primary"
+                        style={categoryButtons}
+                        className="categoryButtons"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes(this.state.categoryType = 'technology')}
+                        >Technology</Button><Button
+                        color="primary"
+                        style={categoryButtons}
+                        className="categoryButtons"
+                        variant="outlined"
+                          onClick={() => this.SelectCategoriesScenes(this.state.categoryType = 'university')}
+                        >University</Button>
+                        
       
         {
           this.state.generalDetailedFlag===false?

@@ -34,7 +34,7 @@ import {
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
 import { Rating, ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import SearchToolBar from './SearchToolbar'
+import StorySearchToolbar from './StorySearchToolbar'
 
 const useStyles = makeStyles(theme => ({
    searchDetailed:{
@@ -216,7 +216,7 @@ export default function StorySearch(props) {
        
 		<React.Fragment>
 			<Paper className={classes.searchDetailed} component="article" elevation={0}>
-				{/* <SearchToolBar
+				<StorySearchToolbar
 					OrSearch={props.OrSearch}
 					getParamsofSearch= {props.getParamsofSearch}
 					getParamsLanguage= {props.getParamsLanguage}
@@ -228,7 +228,7 @@ export default function StorySearch(props) {
 					getAccessibleFlag= {props.getAccessibleFlag}
 					getGeneralSearch={props.getGeneralSearch}
 					sortByMostRecent={props.sortByMostRecent}
-				/> */}
+				/>
 			</Paper>
 		</React.Fragment>
 	);

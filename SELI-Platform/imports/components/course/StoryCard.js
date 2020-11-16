@@ -98,8 +98,8 @@ class StoryCard extends React.Component {
       descriptionStories: '',
       Categories: [],
     }
-    if(this.props.course.activity.categories != undefined) {
-    var categoryNames = this.props.course.activity.categories.map((category) => category);
+    if(this.props.course.categories != undefined) {
+    var categoryNames = this.props.course.categories.map((category) => category);
     for (var i = 0; i < categoryNames.length; i++) {
     if(categoryNames[i]) {
     var categoryInfo = categoryNames[i];
@@ -304,7 +304,7 @@ class StoryCard extends React.Component {
                   {`${this.props.language.author}: ${this.state.UsersStoryUserName}`}
                 </Typography>
                 <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
-                  {`Categories : ${this.state.Categories}`}
+                  {`Categories : ${this.props.course.categories}`}
                 </Typography>
               </CardContent>
               <CardActions  disableSpacing>

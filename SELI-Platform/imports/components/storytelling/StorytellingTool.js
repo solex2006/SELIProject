@@ -70,7 +70,7 @@ class StorytellingTool extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      categories:[],
       categoryArray: [],
       story: {
         categoryType: '',
@@ -80,7 +80,6 @@ class StorytellingTool extends React.Component {
         courseId: undefined,
         user: Meteor.userId(),
         creationDate: new Date(),
-        categories:[],
         nodes: [
           {
             type: 'start',
@@ -175,12 +174,12 @@ class StorytellingTool extends React.Component {
           published: this.props.storyToEdit.activity.published,
           activityId: this.props.storyToEdit.activity.activityId,
           courseId: this.props.storyToEdit.activity.courseId,
-          categories: this.props.storyToEdit.activity.categories,
           user: this.props.storyToEdit.activity.user,
           creationDate: this.props.storyToEdit.activity.date,
           nodes: this.props.storyToEdit.activity.data,
           isPublic: this.props.storyToEdit.activity.public,
         },
+        categories: this.props.storyToEdit.categories,
         saved: this.props.storyToEdit._id,
       })
     }
@@ -397,7 +396,7 @@ class StorytellingTool extends React.Component {
 
   validateStory = (publish) => {
     let story = this.state.story;
-    story.categories = this.state.story.categories;
+    story.categories = this.state.categories;
     if (story.nodes.length < 3) {
       this.props.handleControlMessage(true, this.props.language.storyMustHave);
       return false;
@@ -448,7 +447,7 @@ class StorytellingTool extends React.Component {
           { $set: {
             'activity.name': this.state.story.name,
             'activity.data': this.state.story.nodes,
-            'activity.categories': this.state.story.categories,            
+            'categories': this.state.categories,            
             'activity.public': this.state.story.isPublic,
           }}
           , () => {
@@ -516,7 +515,7 @@ class StorytellingTool extends React.Component {
         'activity.name': this.state.story.name,
         'activity.data': this.state.story.nodes,
         'activity.public': this.state.story.isPublic,
-        'activity.categories': this.state.story.categories,            
+        'categories': this.state.categories,            
         'activity.courseId': course,
       }}
       , () => {
@@ -549,7 +548,7 @@ class StorytellingTool extends React.Component {
 
   SelectCategoriesScenes = () => {
     var CategoriesData = [];
-    CategoriesData.push(this.state.story.categories.map((category) => category));
+    CategoriesData.push(this.state.categories.map((category) => category));
     var controlEqual = false;
     for(var i = 0; i < CategoriesData[0].length; i++){
     if(CategoriesData[0][i] == this.state.categoryType){
@@ -561,14 +560,14 @@ class StorytellingTool extends React.Component {
     controlEqual = false;
   }
 }
-  if(this.state.story.categories.length == 3 || controlEqual == true) {
+  if(this.state.categories.length == 3 || controlEqual == true) {
     this.props.handleControlMessage(true, '3 ten fazla kategori seçtiniz ');
 
     }else {
-    this.state.story.categories.push(this.state.categoryType);
+    this.state.categories.push(this.state.categoryType);
     this.props.handleControlMessage(true, this.state.categoryType +' '+ 'kategorisini seçtiniz');
     this.setState({
-      categories: this.state.story.categories,
+      categories: this.state.categories,
       
     });
     }

@@ -84,13 +84,13 @@ class StorytellingToolTime extends React.Component {
       audioControl: false,
       resultControl: false,
       imageControl: false,
+      categories:[],
       story: {
         name: "",
         published: false,
         activityId: undefined,
         courseId: undefined,
         user: Meteor.userId(),
-        categories:[],
         creationDate: new Date(),
         nodes: [
           {
@@ -186,7 +186,6 @@ class StorytellingToolTime extends React.Component {
           published: this.props.storyToEdit.activity.published,
           activityId: this.props.storyToEdit.activity.activityId,
           courseId: this.props.storyToEdit.activity.courseId,
-          categories: this.props.storyToEdit.activity.categories,
           user: this.props.storyToEdit.activity.user,
           creationDate: this.props.storyToEdit.activity.date,
           nodes: this.props.storyToEdit.activity.data,
@@ -198,6 +197,7 @@ class StorytellingToolTime extends React.Component {
           endType: this.props.storyToEdit.activity.endType,
           endFrame: this.props.storyToEdit.activity.endFrame,
         },
+        categories: this.props.storyToEdit.categories,
         saved: this.props.storyToEdit._id,
       })
       if (this.props.storyToEdit.activity.data[0].images.length) {
@@ -305,7 +305,6 @@ class StorytellingToolTime extends React.Component {
       audio: '',
       images: [],
       scripts: [],
-      categories: [],
       ordinal: index + 1,
     };
     story.nodes.splice(index + 1, 0, node);
@@ -494,7 +493,7 @@ class StorytellingToolTime extends React.Component {
 
   validateStory = () => {
     let story = this.state.story;
-    story.categories = this.state.story.categories;
+    story.categories = this.state.categories;
     this.setState({
       story: story,
     }); 
@@ -545,7 +544,7 @@ class StorytellingToolTime extends React.Component {
             'activity.workshop': this.state.story.workshop,
             'activity.project': this.state.story.project,
             'activity.facilitators': this.state.story.facilitators,
-            'activity.categories': this.state.story.categories,            
+            'categories': this.state.categories,            
             'activity.lastModified': new Date(),
             'activity.endType': this.state.story.endType,
             'activity.endFrame': this.state.story.endFrame
@@ -669,7 +668,7 @@ class StorytellingToolTime extends React.Component {
 
   SelectCategories = () => {
     var categoriesData = [];
-    categoriesData.push(this.state.story.categories.map((category) => category));
+    categoriesData.push(this.state.categories.map((category) => category));
     var controlEqual = false;
     for(var i = 0; i < categoriesData[0].length; i++){
     if(categoriesData[0][i] == this.state.categoryType){
@@ -683,16 +682,16 @@ class StorytellingToolTime extends React.Component {
   }
 }
 
-    if(this.state.story.categories.length == 3 || controlEqual == true) {
+    if(this.state.categories.length == 3 || controlEqual == true) {
       this.props.handleControlMessage(true, '3 ten fazla kategori seçtiniz ');
 
     }else {
-    this.state.story.categories.push(this.state.categoryType);
+    this.state.categories.push(this.state.categoryType);
 
     this.setState({
     
 
-      categories: this.state.story.categories,
+      categories: this.state.categories,
       
       
     });
@@ -802,7 +801,7 @@ class StorytellingToolTime extends React.Component {
         'activity.data': this.state.story.nodes,
         'activity.public': this.state.story.isPublic,
         'activity.courseId': course,
-        'activity.categories': this.state.story.categories,
+        'categories': this.state.categories,
       }}
       , () => {
         this.props.handleControlMessage(true, this.props.language.storyPublished);
