@@ -1476,36 +1476,35 @@
   AnalysisTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:'Learning objectives',
-        label:"State what will be expected to be learned by students and show what the students will know and why they are doing. State what is expected to be learned by students. Bloom's taxonomy divides learning objectives into three domains: cognitive domain, affective domain and psychomotor domain. Cognitive Domain comprises intellectual skills such as memorization, comprehension, application, analysis, synthesis / creation, assessment. The affective domain comprises feelings, values, enthusiasm, motivation and attitude. Psychomotor domain is about physical and motor skills."
+        labelTitle:'Cele nauczania',
+        label:"Podaj, czego oczekuje się od uczniów i pokaż, co uczniowie będą wiedzieć i dlaczego to robią. Podaj, czego oczekuje się od uczniów i pokaż, czego się nauczą i dlaczego to robią. Taksonomia Blooma dzieli cele nauczania na trzy dziedziny: poznawczą, afektywną i psychomotoryczną. Domena kognitywna obejmuje umiejętności intelektualne, takie jak zapamiętywanie, rozumienie, stosowanie, analiza, synteza / tworzenie, ocena. Domena afektywna obejmuje uczucia, wartości, entuzjazm, motywację i postawę. Domena psychomotoryczna obejmuje umiejętności fizyczne i motoryczne,"
       },
       {
-        labelTitle:"Cognitive Domain",
-        label:"Involves the acquisition of a new knowledge, intellectual development, skill and attitudes. It is divided into six categories: remembering, understanding, applying, analyzing, evaluating, creating. The objectives are described using action verbs and nouns that seek to describe the desired cognitive processes."
+        labelTitle:"Kognitywne Obszary",
+        label:"IPolega na zdobywaniu nowej wiedzy, rozwoju intelektualnym, umiejętności i postaw. Jest on podzielony na sześć kategorii: pamiętanie, rozumienie, stosowanie, analizowanie, ocenianie, tworzenie. Cele są opisane za pomocą czasowników oznaczających działanie i rzeczowników, które mają na celu opisanie pożądanych procesów poznawczych."
       },
       {
-        labelTitle:"Affective Domain",
-        label:"Involves feelings, attitudes, and emotions. It includes the ways in which people deal with external and internal phenomenon emotionally, such as values, enthusiasms, and motivations. This domain is categorized into five levels, which include receiving, responding, valuing, organization, and characterization. These subdomains form a hierarchical structure and are arranged from simple feelings or motivations to those that are more complex."
-      },
+        labelTitle:"Afektywne Obszary",
+        label:"Obejmuje uczucia, postawy i emocje. Obejmuje sposoby, w jakie ludzie podchodzą do zewnętrznych i wewnętrznych zjawisk emocjonalnie, takich jak wartości, entuzjazm i motywacje. Dziedzina ta jest podzielona na pięć poziomów, które obejmują przyjmowanie, odpowiadanie, ocenianie, organizację i charakteryzowanie. Poddomeny te tworzą hierarchiczną strukturę i są poukładane od prostych uczuć lub motywacji do tych, które są bardziej złożone."      },
       {
-        labelTitle:"Psychomotor Domain",
-        label:"Includes physical movement, coordination, and use of the motor-skill areas. This domain is categorized into eight levels, which include origination, adaptation, complex overt response, mechanism, guided response, set, and perception."
+        labelTitle:"Psychomotoryczne Obszary",
+        label:"Obejmuje ruch fizyczny, koordynację i wykorzystanie obszarów motorycznych. Dziedzina ta jest podzielona na osiem poziomów, które obejmują powstanie, adaptację, złożoną odpowiedź jawną, mechanizm, odpowiedź kierowaną, zestaw i percepcję."
       },
     ]
   },
   AnalysisTipsHelpsTwo:{
     analysisTipsHelps:[
       {
-        labelTitle:"Learning Constrainst",
-        label:"Learning outcomes should be brief, clear, specific statements of what learners will be able to do at the end of a lesson as a result of the activities, teaching and learning that has taken place. The Learning outcomes is based on three areas of learning: knowledge, skills and attitudes."
+        labelTitle:"Ograniczenie w uczeniu się",
+        label:"Efekty kształcenia/uczenia się powinny być krótkie, jasne i konkretne. Są to stwierdzenia dotyczące tego, co uczący się będą w stanie zrobić na koniec lekcji w wyniku przeprowadzonych działań, nauczania i uczenia się. Efekty uczenia się opierają się na trzech obszarach: wiedzy, umiejętności i postaw."
       },
     ]
   },
   AnalysisTipsHelpsThree:{
     analysisTipsHelps:[
       {
-        labelTitle:"Pedagogical Considerations",
-        label:"Pedagogical Considerations concentrates on theory, application, and the development of technologies for teaching and learning and its influence on the education system."
+        labelTitle:"Aspekty pedagogiczne",
+        label:"Rozważania pedagogiczne koncentrują się na teorii, zastosowaniu i rozwoju technologii nauczania i uczenia się oraz ich wpływie na system edukacji.."
       },
     ]
   },
