@@ -83,7 +83,8 @@ export default class ImageItem extends React.Component {
             undefined
         }
         {this.props.fromProgram && <DiscreteSlider size={this.props.item.attributes.size.height} adjust={this.adjust}/>}
-        <div
+        <figure 
+          role="group"
           style={{flexDirection: this.props.item.attributes.alignment}} 
           className={this.props.fromTemplate ? "image-item-container-template" : "image-item-container"}
         >
@@ -91,7 +92,7 @@ export default class ImageItem extends React.Component {
           <Typography tabIndex="0" className="course-item-card-title" gutterBottom variant="h5" component="h2">
             {`${this.props.item.attributes.title}`}
           </Typography>
-        </div>
+        </figure>
         {
           this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.longDescriptionPosition ==='bottom'?
             this.textAlternatives()

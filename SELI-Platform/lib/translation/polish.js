@@ -1469,7 +1469,6 @@
         labelTitle:" Sylabus kursu",
         label:"Przedstawia przewodnik po lekcji, plan nauki, cele nauczania, podejście do oceny i oczekiwania.."
       },
-      
     ]
   },
   CoursePlanHelp:"Pomoc w planowaniu kursu",
@@ -1485,7 +1484,8 @@
       },
       {
         labelTitle:"Afektywne Obszary",
-        label:"Obejmuje uczucia, postawy i emocje. Obejmuje sposoby, w jakie ludzie podchodzą do zewnętrznych i wewnętrznych zjawisk emocjonalnie, takich jak wartości, entuzjazm i motywacje. Dziedzina ta jest podzielona na pięć poziomów, które obejmują przyjmowanie, odpowiadanie, ocenianie, organizację i charakteryzowanie. Poddomeny te tworzą hierarchiczną strukturę i są poukładane od prostych uczuć lub motywacji do tych, które są bardziej złożone."      },
+        label:"Obejmuje uczucia, postawy i emocje. Obejmuje sposoby, w jakie ludzie podchodzą do zewnętrznych i wewnętrznych zjawisk emocjonalnie, takich jak wartości, entuzjazm i motywacje. Dziedzina ta jest podzielona na pięć poziomów, które obejmują przyjmowanie, odpowiadanie, ocenianie, organizację i charakteryzowanie. Poddomeny te tworzą hierarchiczną strukturę i są poukładane od prostych uczuć lub motywacji do tych, które są bardziej złożone."
+      },
       {
         labelTitle:"Psychomotoryczne Obszary",
         label:"Obejmuje ruch fizyczny, koordynację i wykorzystanie obszarów motorycznych. Dziedzina ta jest podzielona na osiem poziomów, które obejmują powstanie, adaptację, złożoną odpowiedź jawną, mechanizm, odpowiedź kierowaną, zestaw i percepcję."
@@ -1547,6 +1547,13 @@
   moveDown: "Przenieść na dół ",
   imageGallery: "Galeria zdjęć",
   videoGallery: "Galeria filmów",
+  YouTitlebefore:"You already add this title before.",
+  mute: "mute",
+  unmute: "unmute",
+  timePosition: "time position",
+  volumeControl: "volume control",
+  fullscreen: "fullscreen",
+  exitFullscreen: "exit fullscreen",
 }
 export default POLISH;
 

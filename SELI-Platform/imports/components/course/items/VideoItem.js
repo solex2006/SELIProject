@@ -57,9 +57,13 @@ export default class VideoItem extends React.Component {
       <div className="content-box">
         <div className="image-content-item">
           <div className="course-item-video-card">
-            <div className={this.props.fromTemplate ? "course-item-video-card-media-action-area-template" : "course-item-video-card-media-action-area"}>
+            <figure
+              id={`video_box_${this.props.item.id}`}
+              className={this.props.fromTemplate ? "course-item-video-card-media-action-area-template" : "course-item-video-card-media-action-area"}
+            >
               { this.props.item.attributes.video && (
-                <VideoPreview 
+                <VideoPreview
+                  id={this.props.item.id}
                   file={this.props.item.attributes.video}
                   dataField={this.props.item.attributes.accessibility.dataField ? this.props.item.attributes.accessibility.dataField : undefined}
                   handleOpenMedia={this.handleOpenMedia.bind(this)}
@@ -69,11 +73,11 @@ export default class VideoItem extends React.Component {
                 <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
                   {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
                 </Typography>
-                <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
+                <Typography tabIndex="0" className="course-item-card-title" gutterBottom variant="h5" component="h3">
                   {` ${this.props.item.attributes.title}`}
                 </Typography>
               </div>
-            </div>
+            </figure>
             {
               this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.fileAudioDescription[0]!=null ?
                 <div className="AudioPlayer">

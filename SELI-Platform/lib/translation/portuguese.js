@@ -1469,11 +1469,9 @@ var PORTUGUESE = {
         labelTitle:"Plano de Ensino do Curso",
         label:"Descreve um guia aula-a-aula, um plano de aprendizado, os objetivos de aprendizado, a abordagem de avaliação e as expectativas."
       },
-      
     ]
   },
   CoursePlanHelp:"Ajuda sobre o Plano do Curso",
-  
   AnalysisTipsHelps:{
     analysisTipsHelps:[
       {
@@ -1511,7 +1509,6 @@ var PORTUGUESE = {
     ]
   },
   CourseAnalysisHelp:"Ajuda sobre a Análise do curso",
-
   DesignTipsHelps:{
     analysisTipsHelps:[
       {
@@ -1550,6 +1547,13 @@ var PORTUGUESE = {
   moveDown: "Mover para baixo",
   imageGallery: "Galeria de Imagens",
   videoGallery: "Galeria de Vídeos",
+  YouTitlebefore:"You already add this title before.",
+  mute: "mute",
+  unmute: "unmute",
+  timePosition: "time position",
+  volumeControl: "volume control",
+  fullscreen: "fullscreen",
+  exitFullscreen: "exit fullscreen",
 }
 export default PORTUGUESE;
 
