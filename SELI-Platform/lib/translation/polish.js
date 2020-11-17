@@ -1382,40 +1382,40 @@
         label:" Złożone mechanizmy nawigacyjne i układy stron, które są trudne do zrozumienia i użycia, Złożone zdania, które są trudne do odczytania i nietypowe słowa, które są trudne do zrozumienia, Długie fragmenty tekstu bez obrazów, wykresów lub innych ilustracji w celu podkreślenia kontekstu, Ruchoma, migająca lub migocząca zawartość i dźwięk w tle, którego nie można wyłączyć, Przeglądarki internetowe i odtwarzacze multimedialne, które nie zapewniają mechanizmów tłumiących animacje i dźwięk, Wizualne projekty stron, których nie można dostosować za pomocą elementów sterujących przeglądarki internetowej lub niestandardowych arkuszy stylów."
       },
       {
-        labelTitle:"Przykładowe adaptacje (dla poznawczych)",
+        labelTitle:"Przykładowe adaptacje (dla barier poznawczych)",
         label:"Udostępnianie wizualnych wskazówek i rekwizytów w celu wzmocnienia, Stosowanie piosenek, rymów lub rytmów, aby pomóc uczniom w zapamiętywaniu informacji, Prowadzenie zajęć z użyciem technik zadawania pytań."
       },
       {
-        labelTitle:"Diversity of Abilities",
-        label:"There are many reasons why people may be experiencing varying degrees of auditory, cognitive, physical, speech, and visual disabilities."
+        labelTitle:"Różnorodność umiejętności",
+        label:"Istnieje wiele powodów, dla których ludzie mogą mieć różne stopnie niepełnosprawności słuchowej, poznawczej, fizycznej, mowy i wzrokowej."
       },
       {
-        labelTitle:"Examples the disabilities (for diversity)",
-        label:"Age-related impairments, Multiple disabilities, Health conditions, Changing abilities, Temporary impairments, Situational limitations"
+        labelTitle:"Przykłady niepełnosprawności (dla różnorodności)",
+        label:"Upośledzenia związane z wiekiem, Wielokrotna niepełnosprawność, Warunki zdrowotne, Zmieniające się zdolności, Tymczasowe upośledzenia, Ograniczenia sytuacyjne"
       },
       {
-        labelTitle:"Examples of barriers (for diversity)",
-        label:"Websites without accessibility content, Electronic devices in case of health conditions"
+        labelTitle:"Przykłady barier (dla różnorodności)",
+        label:"Strony internetowe bez treści ułatwiających dostęp, Urządzenia elektroniczne w przypadku stanu zdrowia"
       },
       {
-        labelTitle:"Example of adaptations (for diversity)",
-        label:"Providing many practice opportunities and include problem solving, reasoning and real-life application to help with transfer of information."
+        labelTitle:"Przykładowe adaptacje (dla różnorodności)",
+        label:"Zapewnienie wielu możliwości praktycznych, w tym rozwiązywania problemów, rozumowania i stosowania w praktyce, aby pomóc w przekazywaniu informacji.."
       },
       {
-        labelTitle:"Hearing disabilities",
-        label:"A person who is not able to hear as well as someone with normal hearing – hearing thresholds of 25 dB or better in both ears – is said to have hearing loss. Hearing loss may be mild, moderate, severe, or profound. It can affect one ear or both ears, and leads to difficulty in hearing conversational speech or loud sound. (https://www.who.int/news-room/fact-sheets/detail/deafness-and-hearing-loss)"
+        labelTitle:"Upośledzenie słuchu",
+        label:"Mówi się, że osoba, która nie słyszy, podobnie jak osoba z normalnym słuchem - z progiem słyszenia 25 dB lub lepszym w obu uszach - ma ubytek słuchu. Ubytek słuchu może być lekki, umiarkowany, ciężki lub głęboki. Może on dotyczyć jednego lub obu uszu i prowadzić do trudności w słyszeniu mowy lub głośnych dźwięków. (https://www.who.int/news-room/fact-sheets/detail/deafness-and-hearing-loss)"
       },
       {
-        labelTitle:"Examples the disabilities (for hearing).",
-        label:"Hearing loss, Deafness"
+        labelTitle:"Przykłady niepełnosprawności (dla słuchu).",
+        label:"Utrata słuchu, Głuchota"
       },
       {
-        labelTitle:"Examples of barriers (for hearing).",
-        label:"Audio contents, Video contents without subtitles."
+        labelTitle:"Przykłady barier (dla słuchu).",
+        label:"Zawartość audio, zawartość video bez napisów."
       },
       {
-        labelTitle:"Example of adaptations (for hearing).",
-        label:"Providing visual cues and props to reinforce, Providing video-taped with subtitles."
+        labelTitle:"Przykładowe adaptacje (dla słuchu).",
+        label:"Udostępnianie wizualnych wskazówek i rekwizytów do wzmocnienia, Udostępnianie nagrań wideo z napisami."
       },
       {
         labelTitle:"Visual disabilities",
