@@ -1418,61 +1418,61 @@
         label:"Udostępnianie wizualnych wskazówek i rekwizytów do wzmocnienia, Udostępnianie nagrań wideo z napisami."
       },
       {
-        labelTitle:"Visual disabilities",
-        label:"Visual disabilities range from mild or moderate vision loss in one or both eyes (“low vision”) to substantial and uncorrectable vision loss in both eyes (“blindness”). Some people have reduced or lack of sensitivity to certain colors (“color blindness”), or increased sensitivity to bright colors. These variations in perception of colors and brightness can be independent of the visual acuity."
+        labelTitle:"Upośledzenie wzroku",
+        label:"Niesprawność wzroku obejmuje zakres od lekkiej lub umiarkowanej utraty wzroku w jednym lub obu oczach ('słabe widzenie') do znacznej i niemożliwej do skorygowania utraty wzroku w obu oczach ('ślepota'). Niektóre osoby mają obniżoną lub niską wrażliwość na pewne kolory ('ślepota na kolory'), lub podwyższoną wrażliwość na jasne kolory. Te różnice w postrzeganiu kolorów i jasności mogą być niezależne od ostrości wzroku.."
       },
       {
-        labelTitle:"Examples the disabilities (for visual)",
-        label:"Color blindness, Low vision, Blindness, Deaf-blindness"
+        labelTitle:"Przykłady niepełnosprawności (dla wzroku)",
+        label:"Ślepota kolorystyczna, Słabe widzenie, Ślepota, głuchopta i ślepota"
       },
       {
-        labelTitle:"Examples of barriers (for visual)",
-        label:"Images, controls, and other structural elements that do not have equivalent text alternatives. Text, images, and page layouts that cannot be resized, or that lose information when resized. Missing visual and non-visual orientation cues, page structure, and other navigational aids. Video content that does not have text or audio alternatives, or an audio-description track. Inconsistent, unpredictable, and overly complicated navigation mechanisms and page functions. Text and images with insufficient contrast between foreground and background color combinations. Websites, web browsers, and authoring tools that do not support the use of custom color combinations. Websites, web browsers, and authoring tools that do not provide full keyboard support."
+        labelTitle:"Przykłady barier (dla widzenia)",
+        label:"Obrazy, elementy sterujące i inne elementy konstrukcyjne, które nie mają równoważnych alternatyw tekstowych. Tekst, obrazy i układy stron, dla których nie można zmienić rozmiaru lub które po zmianie rozmiaru tracą informacje. Brakujące wizualne i nie-wizualne wskazówki dotyczące orientacji, struktury strony i innych pomocy nawigacyjnych. Zawartość wideo, która nie ma alternatywy tekstowej lub dźwiękowej, lub ścieżki dźwiękowego opisu. Niespójne, nieprzewidywalne i zbyt skomplikowane mechanizmy nawigacyjne i funkcje strony. Tekst i obrazy o niewystarczającym kontraście pomiędzy kombinacjami kolorów pierwszego planu i tła. Strony internetowe, przeglądarki internetowe i narzędzia autorskie, które nie obsługują niestandardowych kombinacji kolorów. Strony internetowe, przeglądarki internetowe i narzędzia autoryzacyjne, które nie obsługują pełnej obsługi klawiatury.."
       },
       {
-        labelTitle:"Example of adaptations (for visual)",
-        label:"Providing audio lessons, Have available textbooks on CD ROM."
+        labelTitle:"Przykładowe adaptacje (dla upośledzeń związanych z narzędziem wzroku)",
+        label:"Dostarczanie lekcji audio, udostępnienie podręczników na CD ROM-ie."
       },
     ]
   },
   coursePlanTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:'Guided or Free CoursePlan',
-        label:'You can choose between create the course plan in SELI platform or outside the platform'
+        labelTitle:'Prowadzony lub wolny plan kursu',
+        label:'Możesz wybrać pomiędzy utworzeniem planu kursu w platformie SELI lub poza nią'
       },
       {
-        labelTitle:'Template Course Spiral',
-        label:"In this model, the course is organised in small units where concepts are introduced to facilitate the resolution of problems or activities by students. Each unit must introduce a concept, without going into details. In the cycle, the next unit will present the contents in more depth and additional topics can be included. Each unit must be interrelated to enable students to solve significant problems or activities presented at the beginning of the course. This model can be used in any course in which there are a large number of concepts that must be mastered together. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#spiral)"
+        labelTitle:'Szblon kursu spiralnego',
+        label:"W tym modelu kurs jest organizowany w małych jednostkach, w których wprowadza się koncepcje ułatwiające rozwiązywanie problemów lub czynności przez studentów. Każda jednostka musi wprowadzić jakąś koncepcję, bez wchodzenia w szczegóły. W cyklu, następna jednostka przedstawi treści bardziej dogłębnie i możliwe będzie włączenie dodatkowych tematów. Każda jednostka musi być wzajemnie powiązana, aby umożliwić studentom rozwiązywanie istotnych problemów lub działań przedstawionych na początku kursu. Model ten może być wykorzystany w każdym kursie, w którym istnieje duża liczba koncepcji, które muszą być wspólnie opanowane. Link do strony internetowej (http://csis.pace.edu/~bergin/PedPat1.3.html#spiral)"
       },
       {
-        labelTitle:'Template Course Consistent',
-        label:"To teach complex content find a complex and consistent metaphor for the topic being taught. The basis of the metaphor needs to be known to the students. This helps students relate the topic being taught to larger goals, that is, they realize how things fit together. The students need a way to think of the content as a whole. Especially when the details themselves are unfamiliar and new to them. A consistent metaphor with the content being taught and its basic elements, will help students to reflect on the content by making valid inferences when thinking about the metaphor. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#consistentmetaphor)"
+        labelTitle:'Szablon kurs spójny',
+        label:"Aby nauczyć złożonych treści, znajdź skomplikowaną i spójną metaforę nauczanego tematu. Podstawy tej metafory muszą być znane uczniom. Pomoże to uczniom powiązać nauczany temat z większymi celami, to znaczy uświadomić sobie, jak rzeczy do siebie pasują. Uczniowie potrzebują sposobu, by myśleć o treści jako całości. Zwłaszcza gdy same szczegóły są im nieznane i nowe. Spójna metafora z nauczanymi treściami i ich podstawowymi elementami pomoże uczniom zastanowić się nad treścią, wyciągając właściwe wnioski podczas myślenia o metaforze. Link do odnośnika (http://csis.pace.edu/~bergin/PedPat1.3.html#consistentmetafora)"
       },
       {
-        labelTitle:" Template Course ToyBox",
-        label:"The content is given to the students letting them 'play' with pedagogical tools. Students work on problems and it's important to give them some examples and / or exercises to provide a rich set of experiences about what is important and what can be done to solve the problem. It can be used in several courses and at several levels. Link for reference (http://csis.pace.edu/~bergin/PedPat1.3.html#toybox)"
+        labelTitle:" Szablon kursu ToyBox",
+        label:"Treść jest przekazywana studentom, umożliwiając im 'zabawę' narzędziami pedagogicznymi. Uczniowie pracują nad problemami i ważne jest, aby dać im kilka przykładów i/lub ćwiczeń, które dostarczą bogatego zestawu doświadczeń na temat tego, co jest ważne i co można zrobić, aby rozwiązać problem. Może być używany na kilku kursach i na kilku poziomach. Link do źródła informacji (http://csis.pace.edu/~bergin/PedPat1.3.html#toybox)"
       },
       {
-        labelTitle:"Template Course Without",
-        label:"You can define your template course freely and you can insert the yourself resources."
+        labelTitle:"Bez szablonu kursu",
+        label:"Możesz dowolnie definiować swój szablon kursu i wstawiać własne zasoby."
       },
       {
-        labelTitle:" Structure CourseUnit | By units ",
-        label:"Organize your course by units and lessons, for example: Unit 1 - Introduction, Unit 2 - Presentation, Unit 3 - Algorithms, etc."
+        labelTitle:" Struktuta kursu Jednostki | Wyświetlaj jako jednostki ",
+        label:"Zorganizuj swój kurs według jednostek i lekcji, na przykład: Jednostka 1 - Wprowadzenie, Jednostka 2 - Prezentacja, Jednostka 3 - Algorytmy, itp.."
       },
       {
-        labelTitle:"StructureCourseTopics | ByTopics",
-        label:"Organize your course by topics. You have a free topics creation, for example: Extra Resources, Class 1, Class 2, Class 3, Attachments."
+        labelTitle:"Struktura Kursu Tematy | Wyświetlaj jako tematy",
+        label:"Zorganizuj swój kurs według tematów. Na przykład: Dodatkowe zasoby, Klasa 1, Klasa 2, Klasa 3, Załączniki."
       },
       {
-        labelTitle:" CourseSyllabus",
-        label:"Outlines a lesson-by-lesson guide of class, a learning plan, the learning objectives, assessment approach, and expectations."
+        labelTitle:" Sylabus kursu",
+        label:"Przedstawia przewodnik po lekcji, plan nauki, cele nauczania, podejście do oceny i oczekiwania.."
       },
       
     ]
   },
-  CoursePlanHelp:"Course Plan Help",
+  CoursePlanHelp:"Pomoc w planowaniu kursu",
   AnalysisTipsHelps:{
     analysisTipsHelps:[
       {
