@@ -113,11 +113,6 @@ export default function Lista(props) {
                         undefined
                     }     
                 </ul>
-                
-               
-                
-        
-             
                 <ul className='resourcesMainContent'>
                     {
                         props.data[1]!=undefined ?
@@ -291,13 +286,9 @@ export default function Lista(props) {
                   props.data.contents.length!=0?
                   props.data.contents.map((value,index)=>(
                       <ul className='resources' >
-                          
-                             
                                   <li tabIndex='0'>
                                      to {value.aux+' '+value.label}
                                   </li>
-                             
-                          
                       </ul>
                   ))
                   :
@@ -306,9 +297,7 @@ export default function Lista(props) {
               {
                   props.data.skills.length!=0?
                   props.data.skills.map((value,index)=>(
-                      <ul className='resources'>
-                          
-                              
+                      <ul className='resources'>      
                                   <li tabIndex='0'>
                                      to {value.aux+' '+value.label}
                                   </li>

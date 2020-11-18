@@ -134,7 +134,9 @@ class Quiz extends React.Component {
 
     if(prevState.showFinishConfirmation!=this.state.showFinishConfirmation){
       //console.log("sea ctualzaoasdsdasd", document.getElementById('finishquiz'))
-      document.getElementById('finishquiz').focus()
+      if(document.getElementById('finishquiz')!=null){
+        document.getElementById('finishquiz').focus()
+      } 
 
     }
     if (prevState.selectedtime !== this.state.selectedtime) {
@@ -544,18 +546,18 @@ class Quiz extends React.Component {
         <Paper elevation={8} className="quiz-dashboard-questions-container">
           <p tabindex="0"  className="question-dashboard-label-text">{this.props.language.chooseCorrectAnswer}</p>
           <Divider />
+        
+          <p tabindex="0">  {this.props.quiz.attributes.questions[this.state.selected].questionTitle}</p>
+              
           <div className="question-dashboard-container">
            
                
 
 
-           {/*  <React.Fragment component="fieldset" className="question-dashboard-form-control"> */}
-           <React.Fragment>
-            {/* <h3 component="legend" tabindex="0" className="question-dashboard-form-label MuiFormLabel-root question-dashboard-form-label">{this.props.quiz.attributes.questions[this.state.selected].questionTitle}</h3> */}
-            <FormLabel id={"qtitle-" + this.state.selected} component="legend">
-              {this.props.quiz.attributes.questions[this.state.selected].questionTitle}
-            </FormLabel>
-              <React.Fragment >
+          
+           <div>
+              <div >
+                
                   {
                       this.props.quiz.attributes.questions[this.state.selected].questionTitle!=''?
                       <FormGroup role="group" aria-labelledby={"qtitle-" + this.state.selected}>
@@ -593,8 +595,8 @@ class Quiz extends React.Component {
                       
                   }
                 
-                </React.Fragment>
-            </React.Fragment>
+                </div>
+            </div>
             {/* </FormControl> */}
             
 
