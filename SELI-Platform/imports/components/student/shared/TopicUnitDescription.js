@@ -136,28 +136,28 @@ export default function CourseContent(props) {
             course.map((topic, indexUnit)=>(
                 <div>
                     <div className='crnheading'>
-                        <h4 id={"content-topic-"+indexUnit}  tabIndex="-1" >{topic.title}</h4>
+                        <h4 id={"content-topic-"+indexUnit}  tabIndex="0" >{topic.title}</h4>
                     </div>
                     {
                         coursePlan.guidedCoursePlan!='free' ?
                         <div>
-                            <p>
+                            <p tabIndex="0">
                                 <strong>{props.language.LearningGoals}</strong>:{" "}
                                 {topic.learnGols}
                             </p>
 
-                            <p>
+                            <p tabIndex="0">
                                 <strong>{props.language.Prerequisites}</strong>:{" "}
                                 {topic.preKnowledge}
                             </p>
                                     
-                            <p>
+                            <p tabIndex="0">
                                 <strong>{props.language.Content}</strong>: {" "}
                                 {topic.mainContent}
                             </p>
 
                             <p>
-                                <strong>{props.language.Materials}</strong>:
+                                <strong tabIndex="0">{props.language.Materials}</strong>:
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  &&
                                     (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
@@ -177,12 +177,12 @@ export default function CourseContent(props) {
                                                                     undefined
                                                                     :
                                                                     <div>
-                                                                        <p style={{fontWeight:'bold', display:'block'}}>{tool.label}</p>
+                                                                        <p tabIndex="0" style={{fontWeight:'bold', display:'block'}}>{tool.label}</p>
                                                                         {
                                                                             tool.items!=undefined?
                                                                                 tool.items.map((item, indexItem)=>(
                                                                                     (item.url!=undefined)?
-                                                                                        <a style={{paddingLeft:'30px',display:'block'}} href={item.url}>{item.title}</a>
+                                                                                        <a tabIndex='0'style={{paddingLeft:'30px',display:'block'}} href={item.url}>{item.title}</a>
                                                                                     :
                                                                                     <label style={{paddingLeft:'30px',display:'block'}}>{item.title}</label>
                                                                                 ))
@@ -209,7 +209,7 @@ export default function CourseContent(props) {
                                             topic.lessons.map((lesson,index)=>(
                                                 <div key ={index}>
                                                     <div className='crnheading'>
-                                                        <h4 id={'lesson-'+index}>{lesson.title}</h4>
+                                                        <h4 tabIndex="0" id={'lesson-'+index}>{lesson.title}</h4>
                                                     </div>
                                                     <div style={{paddingLeft:'20px'}} >
                                                         {lesson.tools.map((tool,indextool)=>(//the resources of the lesson
@@ -221,12 +221,12 @@ export default function CourseContent(props) {
                                                                     undefined
                                                                     :
                                                                     <div>
-                                                                        <p style={{fontWeight:'bold', display:'block'}}>{tool.label}</p>
+                                                                        <p tabIndex="0" style={{fontWeight:'bold', display:'block'}}>{tool.label}</p>
                                                                         {
                                                                             tool.items!=undefined?
                                                                                 tool.items.map((item, indexItem)=>(
                                                                                     (item.url!=undefined)?
-                                                                                        <a style={{paddingLeft:'30px',display:'block'}} href={item.url}>{item.title}</a>
+                                                                                        <a tabIndex='0' style={{paddingLeft:'30px',display:'block'}} href={item.url}>{item.title}</a>
                                                                                     :
                                                                                     <label style={{paddingLeft:'30px',display:'block'}}>{item.title}</label>
                                                                                 ))
@@ -252,13 +252,13 @@ export default function CourseContent(props) {
                             <p className='crnheading' id={"topic-"+indexUnit+"-readings"}>
                             <hr/>
                             <br/>
-                            <h5>{props.language.Readings}</h5>
+                            <h5 tabIndex="0">{props.language.Readings}</h5>
                                 {
                                     (coursePlan.guidedCoursePlan==='guided'  &&
                                     (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
                                     || coursePlan.courseTemplate==='consistent' || coursePlan.courseTemplate==='toyBox' ) && 
                                     coursePlan.courseStructure==='topic')?       
-                                    <div>       
+                                    <div tabIndex="0">       
                                        
                                         {
                                         
@@ -269,7 +269,7 @@ export default function CourseContent(props) {
                                                  topic.tools[4].items.length!=0?
                                                     topic.tools[4].items.map((sup,indexSup)=>(
                                                       
-                                                        <a style={{paddingLeft:'30px',display:'block'}} href={sup.url}>{sup.title}</a>
+                                                        <a tabIndex='0' style={{paddingLeft:'30px',display:'block'}} href={sup.url}>{sup.title}</a>
                                                     ))
                                                     :
                                                     <li>{props.language.TherearenoReadings}</li>
@@ -278,7 +278,7 @@ export default function CourseContent(props) {
                                                 
                                             </ul>
                                             :
-                                            <p>{props.language.TherearenoReadings}</p>
+                                            <p tabIndex="0">{props.language.TherearenoReadings}</p>
                                         }              
                                     </div>
                                     :
@@ -291,7 +291,7 @@ export default function CourseContent(props) {
                                             topic.lessons.map((lesson,index)=>(
                                                 lesson.tools[4].checked===true?
                                                    
-                                                    <div>
+                                                    <div tabIndex="0">
 
         
                                                         {
@@ -311,7 +311,7 @@ export default function CourseContent(props) {
                                                                 
                                                             </ul>
                                                             :
-                                                            <p>{props.language.TherearenoReadings}</p>
+                                                            <p tabIndex="0">{props.language.TherearenoReadings}</p>
                                                         }
                                                     </div>
                                                 :
@@ -327,8 +327,8 @@ export default function CourseContent(props) {
                             <p className='crnheading' id={"topic-"+indexUnit+"-assess"}>
                                
                                 <ul className='resources' style={{display:'block'}}>
-                                <li style={{fontSize :'13px', fontWeight: 'bold'}}>{props.language.AssessmentMethods}</li>
-                                    <li >
+                                <li tabIndex='0' style={{fontSize :'13px', fontWeight: 'bold'}}>{props.language.AssessmentMethods}</li>
+                                    <li tabIndex='0'>
                                         <MenuBookIcon/>
                                         {" "}
                                         {props.language.TotalofQuiztasks}:{" "} 
@@ -353,7 +353,7 @@ export default function CourseContent(props) {
                                         }
                                     
                                     </li>
-                                    <li >
+                                    <li tabIndex='0'>
                                         <AssignmentOutlinedIcon/>
                                         {" "}
                                         {props.language.TotalofActivities}:{" "} 
@@ -380,7 +380,7 @@ export default function CourseContent(props) {
 
                                     {
                                         (coursePlan.guidedCoursePlan!='free')? 
-                                            <li >
+                                            <li tabIndex='0'>
                                                 <ForumIcon/>
                                                 {" "}
                                                 {props.language.TotalofForums}: {" "}
@@ -401,7 +401,7 @@ export default function CourseContent(props) {
                                         (coursePlan.guidedCoursePlan==='free'   &&
                                         coursePlan.courseTemplate==='without'   &&
                                         (coursePlan.courseStructure==='topic'))? 
-                                        <li >
+                                        <li tabIndex='0'>
                                             <ForumIcon/>
                                             {" "}
                                             {props.language.TotalofReadings}: {" "} {TotaloFreeTopic(indexUnit)[0]}
@@ -414,7 +414,7 @@ export default function CourseContent(props) {
                                         (coursePlan.guidedCoursePlan==='free'   &&
                                         coursePlan.courseTemplate==='without'   &&
                                         (coursePlan.courseStructure==='unit'))? 
-                                        <li >
+                                        <li tabIndex='0'>
                                             <ForumIcon/>
                                             {" "}
                                             {props.language.TotalofReadings}: {" "} {TotaloFreeUnit(indexUnit)[0]}

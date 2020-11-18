@@ -29,7 +29,7 @@ export default function Lista(props) {
 
   const Audiences=()=>{
       return(
-        <div className='resources'>
+        <div tabIndex='0' className='resources'>
           
           
                 {   

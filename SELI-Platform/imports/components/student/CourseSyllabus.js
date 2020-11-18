@@ -82,26 +82,26 @@ function Syllabus(props) {
 				<hr/>
 				<details>
 					<summary className={classes.summary}>
-						<h2 id="toc" tabIndex="-1">
+						<h2 id="toc" tabIndex="0">
 							{props.language.TableofContents}
 						</h2>
 					</summary>
 					
 					<ol>
 						<li>
-							<a href="#info">{props.language.CourseInformation}</a>
+							<a tabIndex='0' href="#info">{props.language.CourseInformation}</a>
 						</li>
 						<li>
-							<a href="#info-pedag">{props.language.pedagogicalconsiderations}</a>
+							<a tabIndex='0' href="#info-pedag">{props.language.pedagogicalconsiderations}</a>
 						</li>
 						<li>
-							<a href="#info-goals">{props.language.LearningGoals}</a>
+							<a tabIndex='0' href="#info-goals">{props.language.LearningGoals}</a>
 						</li>
 						<li>
-							<a href="#info-outcomes">{props.language.learningOutcomes}</a>
+							<a tabIndex='0' href="#info-outcomes">{props.language.learningOutcomes}</a>
 						</li>
 						<li>
-							<a href="#info-content">{props.language.CourseContent}</a>
+							<a tabIndex='0' href="#info-content">{props.language.CourseContent}</a>
 							<ol id="intent">
 									{
 										props.courseInformation.design.map((topic, indexUnit)=>(
@@ -116,10 +116,10 @@ function Syllabus(props) {
 															<li><a href={"#content-topic-"+indexUnit}>{props.language.topic}: {topic.title}</a></li>
 															<ol id="intent">
 																<li>
-																	<a href={'#topic-'+indexUnit+'-readings'}>{props.language.Readings}</a>
+																	<a tabIndex='0' href={'#topic-'+indexUnit+'-readings'}>{props.language.Readings}</a>
 																</li>
 																<li>
-																	<a href={'#topic-'+indexUnit+'-assess'}>{props.language.AssessmentMethods}</a>
+																	<a tabIndex='0' href={'#topic-'+indexUnit+'-assess'}>{props.language.AssessmentMethods}</a>
 																</li>
 															</ol>
 														</React.Fragment>
@@ -127,7 +127,7 @@ function Syllabus(props) {
 													(props.courseInformation.coursePlan.guidedCoursePlan==='guided'  && props.courseInformation.coursePlan.courseTemplate==='without' && props.courseInformation.coursePlan.courseStructure==='unit')?
 														<React.Fragment>
 															<li>
-																<a href={"#content-topic-"+indexUnit}>{props.language.unit}: {topic.title}</a>
+																<a tabIndex='0' href={"#content-topic-"+indexUnit}>{props.language.unit}: {topic.title}</a>
 																
 																	<ol id="intent" key={indexUnit}>
 																		{
@@ -139,10 +139,10 @@ function Syllabus(props) {
 																		}
 																		
 																		<li>
-																			<a href={'#topic-'+indexUnit+'-readings'}>{props.language.Readings}</a>
+																			<a tabIndex='0' href={'#topic-'+indexUnit+'-readings'}>{props.language.Readings}</a>
 																		</li>
 																		<li>
-																			<a href={'#topic-'+indexUnit+'-assess'}>{props.language.AssessmentMethods}</a>
+																			<a tabIndex='0' href={'#topic-'+indexUnit+'-assess'}>{props.language.AssessmentMethods}</a>
 																		</li>
 																	
 																	</ol>
@@ -157,7 +157,7 @@ function Syllabus(props) {
 											:
 											(props.courseInformation.coursePlan.guidedCoursePlan==='free'  && props.courseInformation.coursePlan.courseTemplate==='without' && props.courseInformation.coursePlan.courseStructure==='topic')? //par diferente de free
 												<React.Fragment>	
-													<li key={indexUnit}><a href={"#content-topic-"+indexUnit}>{props.language.topic}: {topic.title}</a></li>
+													<li key={indexUnit}><a tabIndex='0' href={"#content-topic-"+indexUnit}>{props.language.topic}: {topic.title}</a></li>
 												</React.Fragment>
 											:
 											(props.courseInformation.coursePlan.guidedCoursePlan==='free'  && props.courseInformation.coursePlan.courseTemplate==='without' && props.courseInformation.coursePlan.courseStructure==='unit')?
@@ -168,7 +168,7 @@ function Syllabus(props) {
 															{
 																props.courseInformation.design[indexUnit].lessons.map((lesson, indexLesson)=>(
 																	<li>
-																		<a href={"#lesson-"+indexLesson}>{props.language.lesson}: {lesson.title}</a>
+																		<a  href={"#lesson-"+indexLesson}>{props.language.lesson}: {lesson.title}</a>
 																	</li>
 																))
 															}
@@ -186,10 +186,10 @@ function Syllabus(props) {
 						<li>
 								<a href="#tecnological">{props.language.TechnologicalRequirements}</a>
 								<ol id="intent">
-									<li>
-										<a href="#tecnologicalhard">{props.language.hardwareRequirements}</a>
+									<li tabIndex='0'>
+										<a  href="#tecnologicalhard">{props.language.hardwareRequirements}</a>
 									</li>
-									<li>
+									<li tabIndex='0'>
 										<a href="#tecnologicalsoft">{props.language.Softwarerequirements}</a>
 									</li>
 								</ol> 
@@ -207,24 +207,24 @@ function Syllabus(props) {
 
 	return (
 		<div className='crnoutcomeinfo'>	
-			<p className='crnheadingtitle'>
+			<p tabIndex='0' className='crnheadingtitle'>
 				<em>{props.courseInformation.title} : {props.courseInformation.subtitle}</em>
 			</p>
-			<p className='crnheading' >
+			<p tabIndex='0' className='crnheading' >
 				<strong>Instructor</strong>: {props.courseInformation.createdBy}
 			</p>
 			<img alt="" style={{padding:'15px', display:'block', marginLeft:'auto', marginRight: 'auto'}} src="seli-logo.png" alt="logo" width="120" height="70"></img>
 				
 			{indexes()}
 
-			<h2 id="info" tabIndex="-1" className='crnheading'>
+			<h2 id="info" tabIndex="0" className='crnheading'>
 				{props.language.CourseInformation}
 			</h2>
 			<hr/>
-			<p className='crnheading'>
+			<p tabIndex='0' className='crnheading'>
 				<strong>{props.language.courseDescription}</strong>: {props.courseInformation.description}
 			</p>
-			<p className='crnheading'>
+			<p tabIndex='0' className='crnheading'>
 				<strong>{props.language.EducationLanguage}</strong>: 
 				{
 					props.courseInformation.language===0 ?
@@ -245,11 +245,11 @@ function Syllabus(props) {
 					"Not Defined"
 					}
 			</p>
-			<p className='crnheading'>
+			<p tabIndex='0' className='crnheading'>
 				<strong>{props.language.duration}</strong>: {props.courseInformation.duration}
 			</p>
 			<p className='crnheading'>
-				<strong>{props.language.audiences}</strong>: 
+				<strong tabIndex='0'>{props.language.audiences}</strong>: 
 				<Lista 
 				title={props.language.audiences}
 				data={props.courseInformation.support}
@@ -266,32 +266,32 @@ function Syllabus(props) {
 				:
 				<div>
 
-					<h3 className='crnheading' id="info-pedag" tabIndex="-1">
+					<h3 className='crnheading' id="info-pedag" tabIndex="0">
 						{props.language.pedagogicalconsiderations}
 					</h3>
-					<p>{props.courseInformation.analysis[2]}</p>
+					<p tabIndex="0">{props.courseInformation.analysis[2]}</p>
 					<hr/>
-					<h3 className='crnheading' id="info-goals" tabIndex="-1">
+					<h3 className='crnheading' id="info-goals" tabIndex="0">
 						{props.language.LearningGoals}
 					</h3>
-					<p className='descriptiontext'>{props.language.learningObjectivesDefinition}</p>
+					<p tabIndex='0' className='descriptiontext'>{props.language.learningObjectivesDefinition}</p>
 					<Lista 
 							title={props.language.LearningGoals}
 							data={props.courseInformation.analysis[3]}
 					/>
-					<p className='crnheading'>
-						<strong >{props.language.AffectiveDomainObjectives}</strong>:{" "}
+					<p  className='crnheading'>
+						<strong tabIndex="0">{props.language.AffectiveDomainObjectives}</strong>:{" "}
 						{props.courseInformation.analysis[5]}
 					</p>
 					<p className='crnheading'>
-						<strong >{props.language.PsychomotorDomainObjectives}</strong>:{" "}
+						<strong tabIndex="0">{props.language.PsychomotorDomainObjectives}</strong>:{" "}
 						{props.courseInformation.analysis[6]}
 					</p>
 					<hr/>
-					<h3 className='crnheading' id="info-outcomes" tabIndex="-1">
+					<h3 className='crnheading' id="info-outcomes" tabIndex="0">
 						{props.language.learningOutcomes}
 					</h3>
-					<div className='descriptiontext'>{props.language.outcomeslegend}</div>
+					<div tabIndex='0' className='descriptiontext'>{props.language.outcomeslegend}</div>
 					<Lista 
 						title={props.language.learningOutcomes}
 						data={props.courseInformation.analysis[4]}
@@ -299,7 +299,7 @@ function Syllabus(props) {
 				</div>
 			}	
 			<hr/>
-			<h3 className='crnheading' id="info-content" tabIndex="-1">
+			<h3 className='crnheading' id="info-content" tabIndex="0">
 				{props.language.CourseContent}
 			</h3>
 			<CourseContent
@@ -310,12 +310,12 @@ function Syllabus(props) {
 			/>
 
 		
-			<h2 className='crnheading' id="tecnological" >{props.language.TechnologicalRequirements}</h2>
-			<p className='descriptiontext'>
+			<h2 tabIndex='0' className='crnheading' id="tecnological" >{props.language.TechnologicalRequirements}</h2>
+			<p tabIndex='0' className='descriptiontext'>
 				{props.language.onlinecourseMessage}
 			</p>
 			<ol className='crnheading' style={{listStyleType: 'none', fontWeight: 'bold',}}>
-				<li className='crnheading' id="tecnologicalhard">{props.language.hardwareRequirements}</li>
+				<li tabIndex='0' className='crnheading' id="tecnologicalhard">{props.language.hardwareRequirements}</li>
 			
 				
 				{
@@ -334,7 +334,7 @@ function Syllabus(props) {
 					
 					</ol>
 					:
-					<li style={{listStyleType: 'none', fontWeight: 'normal'}} className='descriptiontext'>
+					<li tabIndex='0' style={{listStyleType: 'none', fontWeight: 'normal'}} className='descriptiontext'>
 						{props.language.NohardwareRequirement}
 					</li>
 				}
@@ -343,7 +343,7 @@ function Syllabus(props) {
 			
 
 			<ol className='crnheading' style={{listStyleType: 'none', fontWeight: 'bold',}}>
-				<li className='crnheading' id="tecnologicalhard">{props.language.Softwarerequirements}</li>
+				<li tabIndex='0' className='crnheading' id="tecnologicalhard">{props.language.Softwarerequirements}</li>
 				
 				{
 					props.courseInformation.requirements.length!=0 ?
@@ -351,14 +351,14 @@ function Syllabus(props) {
 						{	
 							props.courseInformation.requirements!=undefined?
 							props.courseInformation.requirements[0].map((item, index) =>(
-									<li key={index}>{item.label}</li>
+									<li tabIndex='0' key={index}>{item.label}</li>
 								)) 
 							:
 							undefined
 						}
 					</ol>
 					:
-					<li style={{listStyleType: 'none', fontWeight: 'normal'}}>
+					<li tabIndex='0' style={{listStyleType: 'none', fontWeight: 'normal'}}>
 						{props.language.NosoftwareRequirement}
 					</li>
 				} 
