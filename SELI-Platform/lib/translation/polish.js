@@ -790,7 +790,7 @@
   audience1: "Pedagogika",
   audience2: "Informatyka",
   audience3: "Matematyka",
-  level1: "Podyplomowe ",
+  level1: "Podyplomowe",
   level2: "Wyższe",
   level3: "Średnie",
   level4: "Podstawowe",

@@ -173,6 +173,12 @@ const StyledToggleButtonGroup = withStyles(theme => ({
 }))(ToggleButtonGroup);
 
 export default function StorySearchToolbar(props) {
+		this.state = {
+			language: "",
+		}
+		Session.set({language: Session.get('language') ? Session.get('language') : english});
+		this.state.language= Session.get('language') ? Session.get('language') : english;
+	
 	console.log("propiedades SearchToolBar", props)
 	const [query, setQuery] = React.useState('');
 	const [openFilter, setOpenFilter] = React.useState(false);
@@ -180,15 +186,15 @@ export default function StorySearchToolbar(props) {
 	const [area, setArea] = React.useState([]);
 	const [duration, setDuration] = React.useState([5, 200]);
 	const [audiences, setAudiences] = React.useState({
-			// Graduatestudents:false, 
-			// Informalstudents:false, 
-			// TeachersandProfessors:false,
-			// Preschoolkids:false, 
-			// Postgraduatestudent:false,  
-			// Pregradestudent:false,  
-			// HighSchoolStudents:false,  
-			// MiddleSchoolStudents:false,  
-			// ElementarySchoolStudents:false,
+			Graduatestudents:false, 
+			Informalstudents:false, 
+			TeachersandProfessors:false,
+			Preschoolkids:false, 
+			Postgraduatestudent:false,  
+			Pregradestudent:false,  
+			HighSchoolStudents:false,  
+			MiddleSchoolStudents:false,  
+			ElementarySchoolStudents:false,
 	});
 	const [skills, setSkills] = React.useState([]);
 	const [languages, setLanguages] = React.useState({
@@ -264,6 +270,37 @@ export default function StorySearchToolbar(props) {
 	
 	},[props.selected]) 
 	
+	
+	setLanguage = (option) => {
+		let language = this.state.language;
+		if (option === 'Portuguese (PT)') {
+		  Session.set({language: portuguese});
+		  language = portuguese;
+		}
+		else if (option === 'English (US)') {
+		  Session.set({language: english});
+		  language = english;
+		} 
+		else if (option === 'Spanish (ES)') {
+		  Session.set({language: spanish});
+		  language = spanish;
+		}
+		else if (option === 'Polish (PL)') {
+		  Session.set({language: polish});
+		  language = polish;
+		}
+		else if (option === 'Turkish (TR)') {
+		  Session.set({language: turkish});
+		  language = turkish;
+		}
+		this.setState({
+		  language: language,
+		});
+	  }
+
+	 
+
+	
 
 	const getTutors=()=>{
 		let createdBy={}
@@ -281,15 +318,15 @@ export default function StorySearchToolbar(props) {
 	
 	const SKILLS = ['Version Control', 'Full Stack', 'Data Base'];
 	const AUDIENCE =  [
-			// props.language.Graduatestudents, 
-			// props.language.Informalstudents,
-			// props.language.TeachersandProfessors,
-			// props.language.Preschoolkids,
-			// props.language.Postgraduatestudent,
-			// props.language.Pregradestudent,
-			// props.language.HighSchoolStudents, 
-			// props.language.MiddleSchoolStudents,
-			// props.language.ElementarySchoolStudents,
+			this.state.language.Graduatestudents, 
+			this.state.language.Informalstudents,
+			this.state.language.TeachersandProfessors,
+			this.state.language.Preschoolkids,
+			this.state.language.Postgraduatestudent,
+			this.state.language.Pregradestudent,
+			this.state.language.HighSchoolStudents, 
+			this.state.language.MiddleSchoolStudents,
+			this.state.language.ElementarySchoolStudents,
 	];
 	const AREAS = ['Arts', 'Computer Science', 'Math and Logic', 'Music'];
 
@@ -418,7 +455,7 @@ export default function StorySearchToolbar(props) {
 					<input
 						value={query}
 						className={classes.input}
-						placeholder={"props.language.SearchSeLIPlatform"}
+						placeholder={this.state.language.SearchSeLIPlatform}
 						// inputProps={{ 'aria-label': 'search seli courses' }}
 						onChange={search}
 						onKeyUp={searchkey}
@@ -452,7 +489,7 @@ export default function StorySearchToolbar(props) {
 							<SortIcon />
 						</IconButton>
 					) : (
-						<SortCourse selected={props.selected} language={props.language} />
+						<SortCourse selected={props.selected} language={this.state.language} />
 					)}
 					{showDetailedFilter && (
 						<React.Fragment>
@@ -470,7 +507,7 @@ export default function StorySearchToolbar(props) {
 									for="filtertb"
 									id="filtertb-label"
 								>
-									{"props.language.filterBy"}
+									{this.state.language.filterBy}
 								</label>
 								
 								<ToggleButton
@@ -482,7 +519,7 @@ export default function StorySearchToolbar(props) {
 									selected={selectedaccessible}
 								>
 									<AccessibilityNewIcon />
-									{"props.language.FullyAccessible"}
+									{this.state.language.FullyAccessible}
 								</ToggleButton>
 								</ToggleButtonGroup>
 
@@ -503,7 +540,7 @@ export default function StorySearchToolbar(props) {
 								
 								>
 									<CastForEducationIcon />
-									100% {"props.language.online"}
+									100% {this.state.language.online}
 								</ToggleButton>
 							</ToggleButtonGroup >
 							<RantingCourse />
@@ -530,7 +567,7 @@ export default function StorySearchToolbar(props) {
 								setOpenFilter(true);
 							}}
 						>
-							{showDetailedFilter ? "props.language.Morefilters" : "props.language.Filter"}
+							{showDetailedFilter ? this.state.language.Morefilters : this.state.language.Filter}
 						</Button>
 					)}
 				</div> */}
@@ -548,14 +585,14 @@ export default function StorySearchToolbar(props) {
 				controls={
 					<React.Fragment>
 						<Button color="primary" onClick={() => setOpenSorter(false)}>
-							{"props.language.cancel"}
+							{this.state.language.cancel}
 						</Button>
 						<Button
 							color="primary"
 							variant="outlined"
 							onClick={() => setOpenSorter(false)}
 						>
-							{"props.language.confirm"}
+							{this.state.language.confirm}
 						</Button>
 					</React.Fragment>
 				}
@@ -608,7 +645,7 @@ export default function StorySearchToolbar(props) {
 								setRanting(3);
 							}}
 						>
-							{"props.language.Clearallfilters"}
+							{this.state.language.Clearallfilters}
 						</Button>
 						<Button
 							color="primary"
@@ -624,14 +661,14 @@ export default function StorySearchToolbar(props) {
 								setselectedaccessible(false)
 							}}
 						>
-							{"props.language.Applyfilters"}
+							{this.state.language.Applyfilters}
 						</Button>
 					</React.Fragment>
 				}
 			>
             <RantingCourse
                feedback={true}
-               label={"props.language.Showcoursesequal"}
+               label={this.state.language.Showcoursesequal}
 				/>
 				<FormControlLabel
 					className={classes.formControl}
@@ -648,7 +685,7 @@ export default function StorySearchToolbar(props) {
 							inputProps={{ 'aria-label': 'Show only 100% online courses' }}
 						/>
 					}
-					label={"props.language.Showonlinecourses"}
+					label={this.state.language.Showonlinecourses}
 				/>
 				<FormControlLabel
 					className={classes.formControl}
@@ -674,7 +711,7 @@ export default function StorySearchToolbar(props) {
 							}}
 						/>
 					}
-					label={"props.language.Showonlyaccessible"}
+					label={this.state.language.Showonlyaccessible}
 				/>
 				<FormControlLabel
 					className={classes.formControl}
@@ -708,7 +745,7 @@ export default function StorySearchToolbar(props) {
 							}}
 						/>
 					}
-					label={"props.language.Showpartiallyandfully"}
+					label={this.state.language.Showpartiallyandfully}
 				/>
 				
             <Accordion>
@@ -722,7 +759,7 @@ export default function StorySearchToolbar(props) {
 							id="accessibility-label"
 							className={classes.heading}
 						>
-							{"props.language.accessibility"}
+							{this.state.language.accessibility}
 						</Typography>
 					</AccordionSummary>
 					
@@ -737,10 +774,10 @@ export default function StorySearchToolbar(props) {
 							className={classes.accordionbtn}
 							onClick={() => setAccessibility(INITIAL_ACCESSIBILITY)}
 						>
-							{"props.language.Clearfilter"}
+							{this.state.language.Clearfilter}
 						</Button>
 						<FormControl className={classes.formControl}>
-							<FormLabel component="legend">{"props.language.CognitiveAccessibility"}</FormLabel>
+							<FormLabel component="legend">{this.state.language.CognitiveAccessibility}</FormLabel>
 							<RadioGroup
 								aria-label="Cognitive Accessibility"
 								name="a11yCog"
@@ -750,22 +787,22 @@ export default function StorySearchToolbar(props) {
 								<FormControlLabel
 									value="full"
 									control={<Radio />}
-									label={"props.language.ShowonlyfullyCognitive"}
+									label={this.state.language.ShowonlyfullyCognitive}
 								/>
 								<FormControlLabel
 									value="partial"
 									control={<Radio />}
-									label={"props.language.ShowpartiallyfullyCognitive"}
+									label={this.state.language.ShowpartiallyfullyCognitive}
 								/>
 								<FormControlLabel
 									value="no-filter"
 									control={<Radio />}
-									label={"props.language.ShowCognitiveinaccessible"}
+									label={this.state.language.ShowCognitiveinaccessible}
 								/>
 							</RadioGroup>
 						</FormControl>
 						<FormControl className={classes.formControl}>
-							<FormLabel component="legend">{"props.language.HearingAccessibility"}</FormLabel>
+							<FormLabel component="legend">{this.state.language.HearingAccessibility}</FormLabel>
 							<RadioGroup
 								aria-label="Hearing Accessibility"
 								name="a11yHear"
@@ -775,22 +812,22 @@ export default function StorySearchToolbar(props) {
 								<FormControlLabel
 									value="full"
 									control={<Radio />}
-									label={"props.language.ShowfullyHearing"}
+									label={this.state.language.ShowfullyHearing}
 								/>
 								<FormControlLabel
 									value="partial"
 									control={<Radio />}
-									label={"props.language.ShowpartiallyfullyHearing"}
+									label={this.state.language.ShowpartiallyfullyHearing}
 								/>
 								<FormControlLabel
 									value="no-filter"
 									control={<Radio />}
-									label={"props.language.ShowHearinginaccessible"}
+									label={this.state.language.ShowHearinginaccessible}
 								/>
 							</RadioGroup>
 						</FormControl>
 						<FormControl className={classes.formControl}>
-							<FormLabel component="legend">{"props.language.VisuallyAccessibility"}</FormLabel>
+							<FormLabel component="legend">{this.state.language.VisuallyAccessibility}</FormLabel>
 							<RadioGroup
 								aria-label="Visually Accessibility"
 								name="a11yVis"
@@ -800,17 +837,17 @@ export default function StorySearchToolbar(props) {
 								<FormControlLabel
 									value="full"
 									control={<Radio />}
-									label={"props.language.ShowfullyVisually"}
+									label={this.state.language.ShowfullyVisually}
 								/>
 								<FormControlLabel
 									value="partial"
 									control={<Radio />}
-									label={"props.language.ShowpartiallyfullyVisually"}
+									label={this.state.language.ShowpartiallyfullyVisually}
 								/>
 								<FormControlLabel
 									value="no-filter"
 									control={<Radio />}
-									label={"props.language.ShowcoursesVisualinaccessible"}
+									label={this.state.language.ShowcoursesVisualinaccessible}
 								/>
 							</RadioGroup>
 						</FormControl>
@@ -824,7 +861,7 @@ export default function StorySearchToolbar(props) {
 						id="lang-header"
 					>
 						<Typography component={'h3'} className={classes.heading}>
-							{"props.language.CourseLanguage"}
+							{this.state.language.CourseLanguage}
 						</Typography>
 					</AccordionSummary>
 					<AccordionDetails
@@ -845,7 +882,7 @@ export default function StorySearchToolbar(props) {
 								polish:false,
 							}))}
 						>
-							{"props.language.Clearfilter"}
+							{this.state.language.Clearfilter}
 						</Button>
 						<FormControl component="fieldset" className={classes.formControl}>
 							<FormHelperText>Select one or more languages</FormHelperText>
@@ -858,7 +895,7 @@ export default function StorySearchToolbar(props) {
 											name="pt"
 										/>
 									}
-									label={"props.language.portuguese"}
+									label={this.state.language.portuguese}
 								/>
 								<FormControlLabel
 									control={
@@ -868,7 +905,7 @@ export default function StorySearchToolbar(props) {
 											name="en"
 										/>
 									}
-									label={"props.language.english"}
+									label={this.state.language.english}
 								/>
 								<FormControlLabel
 									control={
@@ -878,7 +915,7 @@ export default function StorySearchToolbar(props) {
 											name="es"
 										/>
 									}
-									label={"props.language.spanish"}
+									label={this.state.language.spanish}
 								/>
 								<FormControlLabel
 									control={
@@ -888,7 +925,7 @@ export default function StorySearchToolbar(props) {
 											name="es"
 										/>
 									}
-									label={"props.language.turkish"}
+									label={this.state.language.turkish}
 								/>
 								<FormControlLabel
 									control={
@@ -898,7 +935,7 @@ export default function StorySearchToolbar(props) {
 											name="es"
 										/>
 									}
-									label={"props.language.polish"}
+									label={this.state.language.polish}
 								/>
 							</FormGroup>
 						</FormControl>
@@ -916,7 +953,7 @@ export default function StorySearchToolbar(props) {
 							id="duration-label"
 							className={classes.heading}
 						>
-							{"props.language.CourseDuration"}
+							{this.state.language.CourseDuration}
 						</Typography>
 					</AccordionSummary>
 					<AccordionDetails
@@ -930,7 +967,7 @@ export default function StorySearchToolbar(props) {
 							className={classes.accordionbtn}
 							onClick={() => setDuration([5,200])}
 						>
-							{"props.language.ResetDuration"}
+							{this.state.language.ResetDuration}
 						</Button>
 						<DurationSlider
 							min={duration[0]}
@@ -951,7 +988,7 @@ export default function StorySearchToolbar(props) {
 							id="audience-label"
 							className={classes.heading}
 						>
-							{"props.language.CourseAudience"}
+							{this.state.language.CourseAudience}
 						</Typography>
 					</AccordionSummary>
 					<AccordionDetails
@@ -976,9 +1013,9 @@ export default function StorySearchToolbar(props) {
 									ElementarySchoolStudents:false,
 							})}
 							>
-								{"props.language.Clearfilter"}
+								{this.state.language.Clearfilter}
 							</Button>
-							<FormHelperText>{"props.language.Selectoneaudience"}</FormHelperText>
+							<FormHelperText>{this.state.language.Selectoneaudience}</FormHelperText>
 							<FormGroup aria-labelledby="audience-label">
 								{AUDIENCE.map((audience,indexAudience) => (
 									<FormControlLabel
@@ -1010,7 +1047,7 @@ export default function StorySearchToolbar(props) {
 							id="name-label"
 							className={classes.heading}
 						>
-							{"props.language.CourseInstructor"}
+							{this.state.language.CourseInstructor}
 						</Typography>
 					</AccordionSummary>
 					<AccordionDetails
@@ -1025,7 +1062,7 @@ export default function StorySearchToolbar(props) {
 								className={classes.accordionbtn}
 								onClick={() => getTutors()}
 							>
-								{"props.language.Clearfilter"}
+								{this.state.language.Clearfilter}
 							</Button>
 							<FormHelperText>Select one or more names</FormHelperText>
 							<FormGroup aria-labelledby="audience-label">
@@ -1094,8 +1131,8 @@ export default function StorySearchToolbar(props) {
 	function SortCourse(props) {
 		console.log("SortCourse------",props)
 		const options = [
-			// props.language.Alphabetic,
-			// props.language.MostRecent,
+			// this.state.language.Alphabetic,
+			// this.state.language.MostRecent,
 			//'Most Relevant',
 		 ];
 
@@ -1129,7 +1166,7 @@ export default function StorySearchToolbar(props) {
 		return (
 		  <div >
 			  
-			 <List component="nav" aria-label="Device settings" subheader={<ListSubheader>{"props.language.Sortby"}</ListSubheader>}>
+			 <List component="nav" aria-label="Device settings" subheader={<ListSubheader>{this.state.language.Sortby}</ListSubheader>}>
 				<ListItem
 				  button
 				  aria-haspopup="true"

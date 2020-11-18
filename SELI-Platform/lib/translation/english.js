@@ -790,7 +790,7 @@ var ENGLISH = {
   audience1: "Pedagogy",
   audience2: "Computing",
   audience3: "Mathematics",
-  level1: "Postgraduate ",
+  level1: "Postgraduate",
   level2: "Undergraduate",
   level3: "Secondary",
   level4: "Primary",

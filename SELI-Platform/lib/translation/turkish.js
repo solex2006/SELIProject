@@ -790,7 +790,7 @@ var TURKISH = {
   audience1: "Pedegoji",
   audience2: "Bilgisayar",
   audience3: "Matematik",
-  level1: "Doktora ",
+  level1: "Doktora",
   level2: "Lisans",
   level3: "Ortaokul",
   level4: "İlkokul",

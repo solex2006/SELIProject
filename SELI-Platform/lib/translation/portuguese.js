@@ -790,7 +790,7 @@ var PORTUGUESE = {
   audience1: "Pedagogia",
   audience2: "Computação",
   audience3: "Matemática",
-  level1: "Pós-Graduação ",
+  level1: "Pós-Graduação",
   level2: "Graduação Universitária",
   level3: "Secundária",
   level4: "Primária",

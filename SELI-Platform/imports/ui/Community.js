@@ -60,7 +60,6 @@ export default class Community extends React.Component {
 
       language: '',
     }
-    var activityData  = Activities.find({'name': 'denemesanat'}).fetch();
 
   }
 
@@ -402,6 +401,7 @@ export default class Community extends React.Component {
                   course={course}
                   index={index}
                   language={this.props.language}
+                  setLanguage={this.setLanguage.bind(this)}
                   disabled={this.props.disabled}
                   // subscribe={this.props.subscribe.bind(this)}
                   // unsubscribe={this.props.unsubscribe.bind(this)}
@@ -440,7 +440,6 @@ export default class Community extends React.Component {
       </Paper>
     )
   }
-
   paperSearchSeli=(title, arrayCourses)=>{
     if(arrayCourses.length >3  && this.state.flagCourses===true){
       this.state.myFilterThreeSeli=arrayCourses
@@ -465,7 +464,8 @@ export default class Community extends React.Component {
                     course={course}
                     index={index}
                     language={this.state.language}
-                    disabled={this.props.disabled}
+                  setLanguage={this.setLanguage.bind(this)}
+                  disabled={this.props.disabled}
                     // subscribe={this.props.subscribe.bind(this)}
                     // unsubscribe={this.props.unsubscribe.bind(this)}
                     key={index}
@@ -789,9 +789,9 @@ export default class Community extends React.Component {
     if(this.state.texttoSearch == ""){
     }else{
     let myFilterSeliCoursesTitle=this.state.publishedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
-    // let myFilterSeliCoursesSubTitle = this.state.publishedCourses.find(this.state.texttoSearch.toLowerCase());
+    // var myFilterSeliCoursesSubTitle= descriptionSearch.filter(course => course.english.search(this.state.texttoSearch.toLowerCase()));
     this.state.myFilterSeliCourses=(myFilterSeliCoursesTitle.concat());
-    }
+    }    
     this.state.myFilterSeliCourses.sort(function (a, b) {
        if (a.title > b.title) {
          return 1;
@@ -1111,6 +1111,7 @@ export default class Community extends React.Component {
                       user={undefined}
                       language={this.state.language}
                           disabled={this.state.showLoadingMessage}
+                      setLanguage={this.setLanguage.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
                           searchText={this.state.searchText ? this.state.searchText : undefined}
                           texttoSearch={this.state.texttoSearch ? this.state.texttoSearch : undefined}

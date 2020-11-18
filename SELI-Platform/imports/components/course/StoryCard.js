@@ -97,6 +97,7 @@ class StoryCard extends React.Component {
       descriptionScenes: '',
       descriptionStories: '',
       Categories: [],
+      language:'',
     }
     if(this.props.course.categories !== undefined) {
     var categoryNames = this.props.course.categories.map((category) => category);
@@ -109,21 +110,7 @@ class StoryCard extends React.Component {
     }
   }
 }
-    this.state.descriptionScenes = this.props.course.activity.data.map(item => item.english);
-    if(this.props.course.activity.data.map(item => item.description)[0]){
-      this.state.descriptionStories = this.props.course.activity.data.map(item => item.description.english); 
-    }
-    else{
-      var descriptionData = this.props.course.activity.data.map(item => item.scripts)[0];
-      var descriptionEnglish = descriptionData.map(a => a.script.english);
-      this.state.descriptionStories = descriptionEnglish;
-    }
-    if (this.state.descriptionStories == null ){
-      this.state.description = this.state.descriptionScenes;
-    }else{
-      this.state.description = this.state.descriptionStories;
-    }
-    
+
     var labelname = this.props.course.activity.name;
     this.state.label= labelname.toString();
     var UserIDInfo = this.props.course.activity.user;
@@ -134,13 +121,97 @@ class StoryCard extends React.Component {
     }
 
   }
+
+  setLanguage = (option) => {
+    let language = this.props.language;
+    if (option === 'Portuguese (PT)') {
+      Session.set({language: portuguese});
+      language = portuguese;
+    }
+    else if (option === 'English (US)') {
+      Session.set({language: english});
+      language = english;
+    } 
+    else if (option === 'Spanish (ES)') {
+      Session.set({language: spanish});
+      language = spanish;
+    }
+    else if (option === 'Polish (PL)') {
+      Session.set({language: polish});
+      language = polish;
+    }
+    else if (option === 'Turkish (TR)') {
+      Session.set({language: turkish});
+      language = turkish;
+    }
+    this.setState({
+      language: language,
+    });
+  }
+
   componentDidMount() {
     this.getImageColors();
     // this.getKeyWords();
     // this.checkSubscriptions();
-    
+    this.getLanguageforDescription()
+  }
+  componentDidUpdate(prevProps){
+    if (prevProps.language.languageIndex !== this.props.language.languageIndex){
+      this.getLanguageforDescription();
+    }
   }
 
+  getLanguageforDescription() {
+    if(this.props.course.activity.data.map(item => item.description)[0]){
+      if(this.props.language.languageIndex == "0"){
+      this.state.descriptionStories = this.props.course.activity.data.map(item => item.description.english); 
+      }
+      if(this.props.language.languageIndex == "1"){
+      this.state.descriptionStories = this.props.course.activity.data.map(item => item.description.spanish); 
+      }
+      if(this.props.language.languageIndex == "2"){
+      this.state.descriptionStories = this.props.course.activity.data.map(item => item.description.portuguese); 
+      }
+      if(this.props.language.languageIndex == "3"){
+      this.state.descriptionStories = this.props.course.activity.data.map(item => item.description.polish); 
+      }
+      if(this.props.language.languageIndex == "4"){
+      this.state.descriptionStories = this.props.course.activity.data.map(item => item.description.turkish); 
+      }
+    }
+    else{
+      if(this.props.language.languageIndex == "0"){
+      var descriptionData = this.props.course.activity.data.map(item => item.scripts)[0];
+      var descriptionEnglish = descriptionData.map(a => a.script.english);
+      this.state.descriptionStories = descriptionEnglish;
+      }
+      if(this.props.language.languageIndex == "1"){
+      var descriptionData = this.props.course.activity.data.map(item => item.scripts)[0];
+      var descriptionSpanish = descriptionData.map(a => a.script.spanish);
+      this.state.descriptionStories = descriptionSpanish;
+    }
+      if(this.props.language.languageIndex == "2"){
+      var descriptionData = this.props.course.activity.data.map(item => item.scripts)[0];
+      var descriptionPortuguese = descriptionData.map(a => a.script.portuguese);
+      this.state.descriptionStories = descriptionPortuguese;
+    }
+      if(this.props.language.languageIndex == "3"){
+      var descriptionData = this.props.course.activity.data.map(item => item.scripts)[0];
+      var descriptionPolish = descriptionData.map(a => a.script.polish);
+      this.state.descriptionStories = descriptionPolish;
+    }
+      if(this.props.language.languageIndex == "4"){
+      var descriptionData = this.props.course.activity.data.map(item => item.scripts)[0];
+      var descriptionTurkish = descriptionData.map(a => a.script.turkish);
+      this.state.descriptionStories = descriptionTurkish;
+    }
+    }
+    if (this.state.descriptionStories == null ){
+      this.state.description = this.state.descriptionScenes;
+    }else{
+      this.state.description = this.state.descriptionStories;
+    }
+  }
   // getKeyWords = () => {
   //   let keyWords = this.props.course.keyWords;
   //   let label = '';
