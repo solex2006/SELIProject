@@ -1547,6 +1547,13 @@ var SPANISH = {
   moveDown: "Mover hacia abajo",
   imageGallery: "Galería de imágenes",
   videoGallery: "Galería de videos",
+  YouTitlebefore:"Ya se ha agregado este título anteriormente.",
+  mute: "mutear",
+  unmute: "desmutear",
+  timePosition: "posición de tiempo",
+  volumeControl: "control de volumen",
+  fullscreen: "pantalla completa",
+  exitFullscreen: "salir de pantalla completa",
 }
 export default SPANISH;
 

@@ -30,7 +30,6 @@ export default class MediaGallery extends React.Component {
   }
 
   handleOpenMediaKey = (event) => {
-    console.log(event.target.id, event.which, event.keyCode)
     if (event.which == 13 || event.keyCode == 13 ||
         event.which == 32 || event.keyCode == 32) {
       this.handleOpenMedia();
@@ -95,8 +94,48 @@ export default class MediaGallery extends React.Component {
     )
   }
 
+  videoItem = (tile) => {
+    const a11y = tile.attributes.accessibility;
+    var altText = "";
+    if (a11y.dataField && a11y.dataField.shortDescription !== "") altText = a11y.dataField.shortDescription
+    else altText = tile.attributes.title;
+    return (
+      <React.Fragment>
+        <PlayCircleOutlineIcon className="template-play-icon" />
+        <div
+          id={tile.id}
+          tabIndex={this.state.canFocus}
+          className="template-video-gallery-preview"
+          aria-label={altText}
+        >
+          {
+            tile.attributes.source === "upload" ?
+              <VideoThumbnail
+                tabIndex="-1"
+                videoUrl={tile.attributes.video.link}
+                //thumbnailHandler={(thumbnail) => console.log(thumbnail)}
+                width={300}
+                height={268}
+              />
+            :
+              <React.Fragment>
+                <ReactPlayer
+                  url={tile.attributes.video.link}
+                  className="template-video-preview-external"
+                  controls={false}
+                  light={true}
+                  onClick={this.onClick}
+                  playIcon={null}
+                />
+                <div className="template-video-preview-external-overlay"/>
+              </React.Fragment>
+          }
+        </div>
+      </React.Fragment>
+    )
+  }
+
   render() {
-    console.log(document.activeElement.id)
     return(
       <div className="template-media-gallery">
         <div className="template-title-gallery" id={`${this.props.contentCode}-gallery-title`}>
@@ -162,7 +201,7 @@ export default class MediaGallery extends React.Component {
 					{this.props.contentItems.map((tile, index) => (
 						<Grid item >
 							<figure
-                role="group"
+                //role="group"
 								className={
                   this.state.index === index ? "template-paper-gallery-preview-selected"
                   : "template-paper-gallery-preview"
@@ -173,36 +212,7 @@ export default class MediaGallery extends React.Component {
 									this.props.contentCode === "image" ?
 										this.imageItem(tile)
 									:
-										<React.Fragment>
-											<PlayCircleOutlineIcon className="template-play-icon" />
-											<div
-                        id={tile.id}
-                        tabIndex={this.state.canFocus}
-												className="template-video-gallery-preview"
-											>
-												{
-													tile.attributes.source === "upload" ?
-														<VideoThumbnail
-															videoUrl={tile.attributes.video.link}
-															//thumbnailHandler={(thumbnail) => console.log(thumbnail)}
-															width={300}
-															height={268}
-														/>
-													:
-														<React.Fragment>
-															<ReactPlayer
-																url={tile.attributes.video.link}
-																className="template-video-preview-external"
-																controls={false}
-																light={true}
-																onClick={this.onClick}
-																playIcon={null}
-															/>
-															<div className="template-video-preview-external-overlay"/>
-														</React.Fragment>
-												}
-											</div>
-										</React.Fragment>
+										this.videoItem(tile)
 								}
 								<figcaption className="template-paper-title-gallery-preview">
 									{tile.attributes.title}

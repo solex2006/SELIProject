@@ -1469,11 +1469,9 @@ var TURKISH = {
         labelTitle:" Ders Müfredatı",
         label:"Ders bazında bir ders kılavuzu, bir öğrenme planı, öğrenme hedefleri, değerlendirme yaklaşımı ve beklentileri ana hatlarıyla belirtir.."
       },
-      
     ]
   },
   CoursePlanHelp:"Ders Plan Yardımı",
-  
   AnalysisTipsHelps:{
     analysisTipsHelps:[
       {
@@ -1511,7 +1509,6 @@ var TURKISH = {
     ]
   },
   CourseAnalysisHelp:"Ders Analiz Yardımı",
-
   DesignTipsHelps:{
     analysisTipsHelps:[
       {
@@ -1550,6 +1547,13 @@ var TURKISH = {
   moveDown: "Move down",
   imageGallery: "Image gallery",
   videoGallery: "Video gallery",
+  YouTitlebefore:"You already add this title before.",
+  mute: "mute",
+  unmute: "unmute",
+  timePosition: "time position",
+  volumeControl: "volume control",
+  fullscreen: "fullscreen",
+  exitFullscreen: "exit fullscreen",
 }
 export default TURKISH;
 

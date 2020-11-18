@@ -1363,7 +1363,6 @@ var ENGLISH = {
   videoGalleryLabel1: "<kbd>Enter</kbd> key opens video player",
   videoGalleryLabel2: "If setted by instructor, video player can have option for:",
   signLanguageInterpreter: "Sign language interpreter",
-  
   audiencesTipsHelps:{
     analysisTipsHelps:[
       {
@@ -1470,7 +1469,6 @@ var ENGLISH = {
         labelTitle:" CourseSyllabus",
         label:"Outlines a lesson-by-lesson guide of class, a learning plan, the learning objectives, assessment approach, and expectations."
       },
-      
     ]
   },
   CoursePlanHelp:"Course Plan Help",
@@ -1528,7 +1526,7 @@ var ENGLISH = {
     ]
   }, 
   CourseDesignHelp:"Course Design Help",
-   informationTipsHelps:{
+  informationTipsHelps:{
     analysisTipsHelps:[
       {
         labelTitle:"Course Description",
@@ -1550,7 +1548,12 @@ var ENGLISH = {
   imageGallery: "Image gallery",
   videoGallery: "Video gallery",
   YouTitlebefore:"You already add this title before.",
-  
+  mute: "mute",
+  unmute: "unmute",
+  timePosition: "time position",
+  volumeControl: "volume control",
+  fullscreen: "fullscreen",
+  exitFullscreen: "exit fullscreen",
 }
 export default ENGLISH;
 

@@ -120,8 +120,9 @@
 }
 
 .course-item-card-subtitle {
+  display: flex;
+  align-items: center;
   letter-spacing: 1px !important;
-  margin-left: 0.5vw !important;
 }
 
 .course-item-audio-card-content {

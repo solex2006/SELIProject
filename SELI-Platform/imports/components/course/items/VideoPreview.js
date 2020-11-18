@@ -13,7 +13,7 @@ export default class VideoPreview extends React.Component {
   }
 
   componentDidMount(){
-    document.getElementById("video-preview-information").addEventListener('webkitfullscreenchange', this.onFullScreen)
+    document.getElementById("video_" + this.props.id).addEventListener('webkitfullscreenchange', this.onFullScreen)
   }
 
   loadingConfig = () => {
@@ -45,8 +45,6 @@ export default class VideoPreview extends React.Component {
   
   ready = () => {
     this.setState({loaded: true});
-    //var tracks = this.refs.video.textTracks[0];
-    //tracks.mode = 'showing';
   }
 
   readySign = () => {
@@ -115,10 +113,11 @@ export default class VideoPreview extends React.Component {
             <video
               ref="video"
               key={initConfiguration.key}
-              id="video-preview-information"
+              id={"video_" + this.props.id}
               className="course-creator-preview-player"
-              preload="auto"
-              src={this.props.file.link}
+              autoPlay={false}
+              aria-describedby={"video_" + this.props.id + "_longDescr"}
+              aria-labelledby={"video_" + this.props.id + "_shortDescr"}
               onLoadedData={this.ready}
               onPlay={this.play}
               onPause={this.pause}
@@ -126,6 +125,7 @@ export default class VideoPreview extends React.Component {
               onError={() => this.onErrorVideo(event)}
               controls
             >
+              <source src={this.props.file.link} />
               {
                 initConfiguration.configFile.file.tracks.length &&
                 <track kind="subtitles" src={initConfiguration.configFile.file.tracks[0].src} default/>
@@ -134,8 +134,11 @@ export default class VideoPreview extends React.Component {
           :
             <ReactPlayer
               ref="video"
-              id="video-preview-information"
+              id={"video_" + this.props.id}
               className="course-creator-preview-player"
+              autoPlay={false}
+              aria-describedby={"video_" + this.props.id + "_longDescr"}
+              aria-labelledby={"video_" + this.props.id + "_shortDescr"}
               controls
               key={initConfiguration.key}
               url={this.props.file.link}

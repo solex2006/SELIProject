@@ -30,20 +30,17 @@ export default class TextAlternatives extends React.Component {
             <Grid container spacing={1}>
               <Grid item xs={12}>
               {
-                this.props.item.attributes.accessibility.dataField===undefined?
-                  undefined
-                :
-                  <React.Fragment>
+                this.props.item.attributes.accessibility.dataField &&
+                <React.Fragment>
+                  <h2 className="description">{this.props.language.shortDescription_a11y_label}</h2>
+                  <div id={`${this.props.item.type === "audio" ? "audio" : "video"}_${this.props.item.id}_shortDescr`}>
                     {
-                      this.props.item.attributes.accessibility.dataField.shortDescription!="" ?
-                        <div id={`${this.props.item.type === "audio" ? "audio" : "video"}_${this.props.item.id}_shortDescr`}>
-                          <h2 className="description">{this.props.language.shortDescription_a11y_label}</h2>
-                          {this.props.item.attributes.accessibility.dataField.shortDescription}
-                        </div>
-                      :
-                        <div>{this.props.language.NoshortDescription}</div>
-                    }  
-                  </React.Fragment>
+                      this.props.item.attributes.accessibility.dataField.shortDescription!="" ? 
+                      this.props.item.attributes.accessibility.dataField.shortDescription :
+                      this.props.item.attributes.title
+                    }
+                  </div>
+                </React.Fragment>
               }
               </Grid>
               <Grid item xs={12}>
@@ -78,10 +75,12 @@ export default class TextAlternatives extends React.Component {
                               </div>
                             </details>
                           :
-                            <div id={`video_${this.props.item.id}_longDescr`}>
-                              <h2 className="description">{this.props.language.longDescription_a11y_label}</h2> 
-                              <Editor editorState={this.signalText()} readOnly={true} />
-                            </div>
+                            <React.Fragment>
+                              <h2 className="description">{this.props.language.longDescription_a11y_label}</h2>
+                              <figcaption id={"video_" + this.props.item.id + "_longDescr"}>
+                                <Editor editorState={this.signalText()} readOnly={true} />
+                              </figcaption>
+                            </React.Fragment>
                         :
                           <div>{this.props.language.NolongDescription}</div>
                       }  
@@ -95,10 +94,10 @@ export default class TextAlternatives extends React.Component {
               <Grid item xs={12}>       
               {
                 this.props.item.attributes.accessibility.dataField.imagePurpose==='info'?
-                  <div> 
+                  <React.Fragment> 
                     <h2 className="description">{this.props.language.image_a11y_purpose_informative_label}</h2>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
-                  </div>
+                  </React.Fragment>
                 :
                   undefined
               }
@@ -110,20 +109,22 @@ export default class TextAlternatives extends React.Component {
               }
               {
                 this.props.item.attributes.accessibility.dataField.imagePurpose==='txt'?
-                  <div> 
+                  <React.Fragment> 
                     <h2 className="description">{this.props.language.image_a11y_purpose_text}</h2>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
-                  </div>
+                  </React.Fragment>
                 :
                   undefined
               }
               {
                 this.props.item.attributes.accessibility.dataField.imagePurpose==='cplx' ?
-                  <div> 
+                  <React.Fragment> 
                     <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
-                    <Editor editorState={this.signalText()} readOnly={true}/>
-                  </div>
+                    <figcaption tabIndex="0">
+                      <Editor editorState={this.signalText()} readOnly={true}/>
+                    </figcaption>
+                  </React.Fragment>
                 :
                   undefined
               }
