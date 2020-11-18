@@ -143,14 +143,6 @@ export default class CreateCourse extends React.Component {
       this.loadingHeaders();
       this.loadingData();
     }
-
-    if ((prevState.activeStep !== this.state.activeStep)){
-      console.log("*******se cambio*******")
-    }
-
-    
-    
-    
   }
 
   loadingHeaders = () => {
@@ -173,6 +165,10 @@ export default class CreateCourse extends React.Component {
       courseInformation: newValue,
       cancelCounter: this.state.cancelCounter + 1
     });
+  }
+
+  updateSelected = (newValue) => {
+    this.setState({selected: newValue})
   }
 
   validate=(data=>{
@@ -239,6 +235,7 @@ export default class CreateCourse extends React.Component {
           template={this.state.courseInformation.coursePlan.courseTemplate}
           organization={this.state.courseInformation.coursePlan.courseStructure}
           cancelCounter={this.state.cancelCounter}
+          updateSelected={this.updateSelected.bind(this)}
           language={this.props.language}
         />,
         <CourseProgram
@@ -273,11 +270,7 @@ export default class CreateCourse extends React.Component {
   }
 
   handleBack=(props, index)=>{
-   
-
     let tipo=props[0].topics[0].type
-    console.log("en el handle back**********************",props, index)
-
     if(index.type==='topic'){
       this.setState({
         activeStep:Math.random(),

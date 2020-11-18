@@ -71,7 +71,7 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function DesignStep(props) {
-  const {courseInformation,language } = props;
+  const {courseInformation, language } = props;
 
   const classes = useStyles();
   const [template, setTemplate] = useState(props.courseInformation.coursePlan.courseTemplate);
@@ -86,13 +86,9 @@ export default function DesignStep(props) {
   const [openDialog, setOpenDialog] = useState(false);
   const [indexUnitTopic, setIndexUnitTopic] = useState(-1);
   const [key, setKey] = useState(0);
-  const [validateTitle, setvalidateTitle]=useState(false)
+  const [validateTitle, setvalidateTitle] = useState(false);
 
   function updateTempValue(value) {
-    console.log("valor del titulo---->", value, data)
-    //data.pop()
-   // let last=data.length
-
     for (let i=0; i<data.length-1; i++){
       //console.log("xxxx---->", data[i].title)
         if(data[i].title===value){
@@ -103,7 +99,6 @@ export default function DesignStep(props) {
           setvalidateTitle(false)
         }
     }
-   
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
@@ -206,7 +201,9 @@ export default function DesignStep(props) {
       setData(courseInfo.design);
       //setcourseInformation(courseInfo);
     }
-    setExpanded(organization === "unit" ? "unit1" : "topic1");
+    setExpanded(
+      courseInformation.design.length < 2 ? 0 : false
+    );
   }, []); 
 
   useEffect(() => {
@@ -363,6 +360,8 @@ export default function DesignStep(props) {
     courseInfo.design=prev;
     courseInfo.program.splice(indexUnitTopic, 1);
     setcourseInformation(courseInfo);
+    props.updateSelected([0, 0, 0, 0]);
+    setExpanded(false);
     handleClose();
   }
 
@@ -397,6 +396,7 @@ export default function DesignStep(props) {
       adding: false,
       editing: false
     });
+    setExpanded(unitIndex);
   }
 
   const cancelEdit = (unitIndex) => {
@@ -443,8 +443,8 @@ export default function DesignStep(props) {
           <div key={unitIndex}>
             <br/>
             <ExpansionPanel
-              expanded={expanded === unit.key}
-              onChange={handleChange(unit.key)}
+              expanded={expanded === unitIndex}
+              onChange={handleChange(unitIndex)}
               className="design-expantion-panel-container"
             >
               <ExpansionPanelSummary
@@ -453,7 +453,6 @@ export default function DesignStep(props) {
                 id={"panel1bh-header-" + unit.key}
                 className="design-expantion-panel-summary"
               >
-                {console.log("lo q de be ir", unit.editing)}
                 <h3 className={unit.editing ? classes.hidden : ""}>{unit.title}</h3>        
                 <div className={!unit.editing ? classes.hidden : "design-expantion-panel-icon"}>
                   <TextField
