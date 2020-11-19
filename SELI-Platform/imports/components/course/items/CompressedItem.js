@@ -26,13 +26,19 @@ export default class CompressedItem extends React.Component {
         <div className="file-content-item">
         <div id={this.props.item.attributes.compressed.id+"container"+this.props.item.id} className="pdf-item-container" style={{justifyContent: this.props.item.attributes.alignment}}>
             <div className="item-instruction-column">
-              <p className="instruction-title">{`${this.props.language.title}: ${this.props.item.attributes.compressed.name}`}</p>
+              <p id={`dial-title-${this.props.item.id}`} tabIndex="0"  className="instruction-title">{`${this.props.language.title}: ${this.props.item.attributes.compressed.name}`}</p>
             </div>
             <div id={ this.props.item.attributes.compressed.id+this.props.item.id } className="pdf-item">
               <FileDial
+                id={this.props.item.id}
                 type={this.props.item.type}
                 color={'secondary'}
                 actions={this.state.actions}
+                labels={{
+                  ariaLabel: this.props.language.compressed,
+                  closeLabel: this.props.language.close,
+                  navigationLabel: this.props.language.speedDialNavigation 
+                }}
                 icon={<ArchiveIcon/>}
               />
             </div>

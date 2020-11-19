@@ -1554,6 +1554,7 @@ var SPANISH = {
   volumeControl: "control de volumen",
   fullscreen: "pantalla completa",
   exitFullscreen: "salir de pantalla completa",
+  speedDialNavigation: "Use las flechas del teclado izquierda y derecha para navegar en las opciones del elemento.",
 }
 export default SPANISH;
 

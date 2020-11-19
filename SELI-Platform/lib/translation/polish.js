@@ -1554,6 +1554,7 @@
   volumeControl: "volume control",
   fullscreen: "fullscreen",
   exitFullscreen: "exit fullscreen",
+  speedDialNavigation: "Use the left and right arrow keys to navigate into the item options",
 }
 export default POLISH;
 
