@@ -26,6 +26,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 import StorytellingObject from './StorytellingObject';
 import StorytellingPlayerTime from './StorytellingPlayerTime';
@@ -673,7 +677,10 @@ class StorytellingToolTime extends React.Component {
     for(var i = 0; i < categoriesData[0].length; i++){
     if(categoriesData[0][i] == this.state.categoryType){
     controlEqual = true;
-    this.props.handleControlMessage(true, 'Aynı kategoriyi 2 defa seçtiniz');
+    var sameCheck = this.state.categoryType.toString();
+    var categoryList = this.state.categories;
+    this.state.categories = categoryList.filter((x) => x !== sameCheck);
+
     return controlEqual;
   } 
   else{
@@ -681,11 +688,17 @@ class StorytellingToolTime extends React.Component {
 
   }
 }
-
-    if(this.state.categories.length == 3 || controlEqual == true) {
+    if(this.state.categories.length == 3) {
       this.props.handleControlMessage(true, '3 ten fazla kategori seçtiniz ');
+      if(controlEqual == true){
+        this.setState({
+          categories: this.state.categories,
+          
+        });
+        this.props.handleControlMessage(true, 'Category Removed');
 
-    }else {
+    }
+  }else {
     this.state.categories.push(this.state.categoryType);
 
     this.setState({
@@ -699,18 +712,9 @@ class StorytellingToolTime extends React.Component {
 
 
     }
-
-
-
-    //   if(this.state.categoryType == this.state.story.keyWords) {
-    //     this.props.handleControlMessage(true, this.state.categoryType +''+ 'zaten Mevcut');
-    //     }
-    //   else {
-    // this.state.story.keyWords += this.state.categoryType;
-
-    //   }
-    
   }
+
+  
 
   handlePublishOnCourse = () => {
     let courses = [];
@@ -1467,84 +1471,100 @@ class StorytellingToolTime extends React.Component {
                         helperText={this.props.language.storyNameHelper}
                       />
                       <div className="categoryButtons">
-                      <Button
-                          id="culture"
-                          className="cultureBtn"
-                          variant="outlined"
-                          onClick={() => {this.SelectCategories( this.state.categoryType = 'culture'); this.handleClick();}}
-                          color={this.state.cultureColor}
-                        >Culture</Button><Button
-                        color={this.state.educationColor}
-                        className="educationBtn"
-                        variant="outlined"
-                          onClick={() => {this.SelectCategories( this.state.categoryType = 'education'); this.educationClick();}}
-                        >Education</Button><Button
-                        color={this.state.engineeringColor}
-                        className="engineeringBtn"
-                        variant="outlined"
-                          onClick={() =>  {this.SelectCategories( this.state.categoryType = 'engineering'); this.engineeringClick();}}
-                        >Engineering</Button><Button
-                        color={this.state.inclusionColor}
-                        className="inclusionBtn"
-                        variant="outlined"
-                          onClick={() => {this.SelectCategories( this.state.categoryType = 'inclusion'); this.inclusionClick();}}
-                        >Inclusion</Button><Button
-                        color={this.state.lifeColor}
-                        className="lifeBtn"
-                        variant="outlined"
-                          onClick={() => {this.SelectCategories( this.state.categoryType = 'life'); this.lifeClick();}}
-                        >Life</Button><Button
-                        color={this.state.scienceColor}
-                        className="scienceBtn"
-                        variant="outlined"
-                          onClick={() => {this.SelectCategories( this.state.categoryType = 'science'); this.scienceClick();}}
-                        >Science</Button><Button
-                        color={this.state.schoolColor}
-                        className="schoolBtn"
-                        variant="outlined"
-                          onClick={() => {this.SelectCategories( this.state.categoryType = 'school'); this.schoolClick();}}
-                        >School</Button><Button
-                        color={this.state.sportsColor}
-                        className="sportsBtn"
-                        variant="outlined"
-                          onClick={() => {this.SelectCategories( this.state.categoryType = 'sports'); this.sportsClick();}}
-                        >Sports</Button><Button
-                        color={this.state.technologyColor}
-                        className="technologyBtn"
-                        variant="outlined"
-                          onClick={() => {this.SelectCategories(this.state.categoryType = 'technology'); this.technologyClick();}}
-                        >Technology</Button><Button
-                        color={this.state.universityColor}
-                        className="universityBtn"
-                        variant="outlined"
-                          onClick={() => {this.SelectCategories(this.state.categoryType = 'university'); this.universityClick();}}
-                        >University</Button>
+                      <ListItem >
+              <Checkbox
+                color="primary"
+                edge="start"
+                onClick={() => this.SelectCategories( this.state.categoryType = 'culture')}
+                ></Checkbox>
+                <ListItemText
+                primary={"Culture"}
+              />
+             
+              <Checkbox
+                color="primary"
+                edge="start"
+                onClick={() => this.SelectCategories( this.state.categoryType = 'education')}
+                ></Checkbox>
+                <ListItemText
+                primary={"Education"}
+              />
+               </ListItem>
+              <ListItem>
+              <Checkbox
+                color="primary"
+                edge="start"
+                onClick={() => this.SelectCategories( this.state.categoryType = 'engineering')}
+                ></Checkbox>
+                <ListItemText
+                primary={"Engineering"}
+              />
+              <Checkbox
+                color="primary"
+                edge="start"
+                onClick={() => this.SelectCategories( this.state.categoryType = 'inclusion')}
+                ></Checkbox>
+                <ListItemText
+                primary={"Inclusion"}
+              />
+               </ListItem>
+              <ListItem>
+              <Checkbox
+                color="primary"
+                edge="start"
+                onClick={() => this.SelectCategories( this.state.categoryType = 'life')}
+                ></Checkbox>
+                <ListItemText
+                primary={"Life"}
+              />
+              <Checkbox
+                color="primary"
+                edge="start"
+                onClick={() => this.SelectCategories( this.state.categoryType = 'science')}
+                ></Checkbox>
+                <ListItemText
+                primary={"Science"}
+              />
+               </ListItem>
+              <ListItem>
+              <Checkbox
+                color="primary"
+                edge="start"
+                onClick={() => this.SelectCategories( this.state.categoryType = 'school')}
+                ></Checkbox>
+                <ListItemText
+                primary={"School"}
+              />
+              <Checkbox
+                color="primary"
+                edge="start"
+                onClick={() => this.SelectCategories( this.state.categoryType = 'sports')}
+                ></Checkbox>
+                <ListItemText
+                primary={"Sports"}
+              />
+               </ListItem>
+              <ListItem>
+              <Checkbox
+                color="primary"
+                edge="start"
+                onClick={() => this.SelectCategories( this.state.categoryType = 'technology')}
+                ></Checkbox>
+                <ListItemText
+                primary={"Technology"}
+              />
+              <Checkbox
+                color="primary"
+                edge="start"
+                onClick={() => this.SelectCategories( this.state.categoryType = 'university')}
+                ></Checkbox>
+                <ListItemText
+                primary={"University"}
+              />
+               </ListItem>
+                     
           </div>
-          {/* {
-            this.state.courseInformation.keyWords.length ?
-              <div className="chips-container">
-                {this.state.courseInformation.keyWords.map((keyWord, index) => {
-                  
-                  return(
-                    <Chip
-                      size="small"
-                      avatar={<Avatar>{keyWord.charAt(0)}</Avatar>}
-                      label={keyWord}
-                      className="chip"
-                      color="primary"
-                      onDelete={() => this.deleteKeyWord(index)}
-                    />
-                  )
-                })}
-              </div>
-            :
-            undefined
-          }
-           */}
-                      {/* <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                        {this.props.language.storyNameText}
-                      </DialogContentText>
-                      <WarningIcon className="warning-dialog-icon"/> */}
+          
                     </React.Fragment>
                 }
                 </DialogContent>

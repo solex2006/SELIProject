@@ -159,6 +159,9 @@ class StoryCard extends React.Component {
     if (prevProps.language.languageIndex !== this.props.language.languageIndex){
       this.getLanguageforDescription();
     }
+    if (prevProps.course.activity.name)  {
+      this.getLanguageforDescription();
+    }
   }
 
   getLanguageforDescription() {
@@ -365,7 +368,7 @@ class StoryCard extends React.Component {
               <CardMedia
                 className={classes.media}
                 image={this.state.StoryImageURL}
-                title={this.state.label}                
+                title={this.props.course.activity.name}                
               />
               <CardContent >
                 <Typography variant="body2" color="textSecondary" component="p">
