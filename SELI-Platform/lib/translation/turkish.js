@@ -1572,6 +1572,7 @@ var TURKISH = {
     ]
   },
   Evaluation2:"Evaluation",
+  speedDialNavigation: "Use the left and right arrow keys to navigate into the item options",
 }
 export default TURKISH;
 

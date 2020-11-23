@@ -1572,6 +1572,7 @@ var SPANISH = {
     ]
   },
   Evaluation2:"Evaluacion",
+  speedDialNavigation: "Use las flechas del teclado izquierda y derecha para navegar en las opciones del elemento.",
 }
 export default SPANISH;
 
