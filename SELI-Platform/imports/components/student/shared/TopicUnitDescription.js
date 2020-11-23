@@ -424,7 +424,44 @@ export default function CourseContent(props) {
                                         undefined
                                     }
                                 </ul>
+                            </p>
+                            <hr/>
 
+
+                            <p className='crnheading' id={"topic-"+indexUnit+"-assess"}>
+                               
+                                <p className='resources' style={{display:'block'}}>
+                               
+                                   
+                                    
+                                    {
+                                        (coursePlan.guidedCoursePlan==='guided'   &&
+                                        coursePlan.courseTemplate==='without'   &&
+                                        (coursePlan.courseStructure==='topic' || coursePlan.courseStructure==='unit'))? 
+                                        <p tabIndex='-1'>
+                                             <p tabIndex='0' style={{fontSize :'13px', fontWeight: 'bold'}}>{props.language.Evaluation2}</p>
+                                             <p tabIndex='0' style={{fontSize :'14px', marginTop:'8px'}}>{topic.evaluation}</p>
+                                          
+                                        </p>
+
+                                        :
+                                        undefined
+                                    }
+                                    {
+                                         (coursePlan.guidedCoursePlan==='guided'  &&
+                                         (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
+                                         || coursePlan.courseTemplate==='consistent' || coursePlan.courseTemplate==='toyBox' ) && 
+                                         coursePlan.courseStructure==='topic')?
+                                         <p tabIndex='-1'>
+                                             <p tabIndex='0' style={{fontSize :'13px', fontWeight: 'bold'}}>{props.language.Evaluation2}</p>
+                                             <p tabIndex='0' style={{fontSize :'14px', marginTop:'8px'}}>{topic.evaluation}</p>
+                                          
+                                        </p>
+                                         :
+                                         undefined
+                                    }
+                                   
+                                </p>
                             </p>
                             <hr/>
                          </div> 

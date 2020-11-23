@@ -10,7 +10,7 @@ import Radio from '@material-ui/core/Radio';
 //a11y components
 
 import AccessibilityHelp from '../tools/AccessibilityHelp';
-
+import FeedbackHelp from "../../components/course/feedback"
 import TimePickers from '../content/TimePicker'
 
 
@@ -89,6 +89,22 @@ export function PdfAccessibilityText(props) {
 					/>
 				</RadioGroup>
 				<AccessibilityHelp idName='audioDescr-necessary-radiogroup' error={dataField.hasImageError} tip={hasAltTip} />
+				<FeedbackHelp
+					language={props.language}
+					validation={{
+						error: false,
+						errorMsg: "xxxx",
+						errorType: "xxxxxtttt",
+						a11y: null
+					}}
+					// tipMsg={language.appropriateOption}
+					describedBy={"i05-helper-text"}
+					stepHelp={{
+						step: "textHelper",
+						stepLabel: props.language.CourseSilabusHelp,
+						helpsTips:props.language.sylabusTipsHelps
+					}}
+				/>
 			</FormControl>
 		</Grid>
       </Grid>

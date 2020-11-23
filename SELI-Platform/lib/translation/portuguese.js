@@ -1554,6 +1554,24 @@ var PORTUGUESE = {
   volumeControl: "volume control",
   fullscreen: "fullscreen",
   exitFullscreen: "exit fullscreen",
+  CourseSilabusHelp:"Syllabus Help",
+  sylabusTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:'PDF Documents',
+        label:'If you added alternative text for an image in MS Word or Open Office, then that text will carry over when you save the document as a PDF. You can fix your images in Acrobat by clicking “Set Alternate Text” under “Accessibility” tools. More details: https://www.adobe.com/accessibility/pdf/pdf-accessibility-overview.html'
+      },
+      {
+        labelTitle:'MS Word Documents',
+        label:' You can add alt text to images right-clicking the object and select Edit Alt Text or Select the object and Select Format > Alt Text. More details: https://support.microsoft.com/en-us/office/video-improve-accessibility-with-alt-text-9c57ee44-bb48-40e3-aad4-7647fc1dba51'
+      },
+      {
+        labelTitle:'Open Office Documents',
+        label:'To add alternative text to an image, right-click the image and select Picture (or double click the picture, or select Format > Picture from the menu bar). Then select the Options tab and enter the description in the box labeled Alternative (Text only). More details: https://www.openoffice.org/ui/accessibility/'
+      },
+    ]
+  },
+  Evaluation2:"Evaluation",
 }
 export default PORTUGUESE;
 
