@@ -132,7 +132,7 @@ export default function TextMobileStepper(props) {
         <Typography style={{fontWeight:'bold', fontSize: '16px'}}>{props.helpsTips[activeStep].labelTitle}</Typography>
       </Paper>
 		<Paper className={classes.paragrap} square elevation={0} >
-        <Typography style={{textAlign:'justify', fontSize: '14px'}}>{props.helpsTips[activeStep].label}</Typography>
+        <div style={{textAlign:'justify', fontSize: '14px'}} dangerouslySetInnerHTML={{__html: props.helpsTips[activeStep].label}} />
       </Paper>
       <MobileStepper
         steps={maxSteps}

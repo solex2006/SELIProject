@@ -1367,7 +1367,7 @@ var TURKISH = {
     analysisTipsHelps:[
       {
         labelTitle:"Kitle nasıl tanımlanır?",
-        label:"Öğretmenler: Öğrencilerin bilgi, yeterlilik veya erdem elde etmelerine yardımcı olan kişi. Gayri Resmi Öğrenciler: Üniversite gibi resmi okullarda okumayan veya tek başına okuyan veya kendi kendine eğitim gören öğrenciler. Lisans Öğrencileri: Halen lisansüstü dersini tamamlamayan üniversite öğrencileri. Lise Öğrencileri: Ortaokuldaki öğrenciler. Ortaokul Öğrencileri: İlkokul ve lise arasındaki öğrenciler. İlkokul Öğrencileri: Ortaokul öncesi 6-11 yaş arası çocuklar. Okul Öncesi Çocuklar: Bir Anaokulunda tutulan 2-5 yaş arası çocuklar ."
+        label:"<b>Teachers</b>: Person who helps students to acquire knowledge, competence or virtue. <br>  <b>Informal Students:</b> Students that don't studying in a formal schools like university or studying alone or are self-taught. <br><b>Undergraduate Students:</b> University students that still not finish the graduate course. <br><b>High School Students:</b> Students in secondary school. <br><b>Middle School Students:</b> Students between elementary school and high school. <br><b>Elementary School Students:</b> Before Middle School, for children between the ages of 6-11. <br><b>Preschool Kids:</b> For kids from 2 to 5 years old-held in a Nursery School."
       },
       {
         labelTitle:"bilişsel engeller",
@@ -1379,7 +1379,7 @@ var TURKISH = {
       },
       {
         labelTitle:"Engel örnekleri (bilişsel için)",
-        label:"Anlaşılması ve kullanılması zor olan karmaşık gezinme mekanizmaları ve sayfa düzenleri, Okunması zor olan karmaşık cümleler ve anlaşılması zor olan alışılmadık sözcükler, Bağlamı vurgulamak için resimler, grafikler veya diğer resimler içermeyen uzun metin pasajları, Hareket etme, yanıp sönme veya titreyen içerik ve kapatılamayan arka plan sesi, animasyonları ve sesi bastırmak için mekanizmalar sağlamayan Web tarayıcıları ve medya oynatıcıları, Web tarayıcısı kontrolleri veya özel stil sayfaları kullanılarak uyarlanamayan görsel sayfa tasarımları."
+        label:"Complex navigation mechanisms and page layouts that are difficult to understand and use. <br>Complex sentences that are difficult to read and unusual words that are difficult to understand. <br> Long passages of text without images, graphs, or other illustrations to highlight the context.<br> Moving, blinking, or flickering content, and background audio that cannot be turned off.<br> Web browsers and media players that do not provide mechanisms to suppress animations and audio.<br> Visual page designs that cannot be adapted using web browser controls or custom style sheets."
       },
       {
         labelTitle:"Uyarlama örnekleri (bilişsel için)",

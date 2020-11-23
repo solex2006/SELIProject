@@ -1367,7 +1367,7 @@ var ENGLISH = {
     analysisTipsHelps:[
       {
         labelTitle:"How to define the audience?",
-        label:"Teachers: Person who helps students to acquire knowledge, competence or virtue. Informal Students: Students that don't studying in a formal schools like university or studying alone or are self-taught. Undergraduate Students: University students that still not finish the graduate course. High School Students: Students in secondary school. Middle School Students: Students between elementary school and high school. Elementary School Students: Before Middle School, for children between the ages of 6-11. Preschool Kids: For kids from 2 to 5 years old-held in a Nursery School."
+        label:"<b>Teachers</b>: Person who helps students to acquire knowledge, competence or virtue. <br>  <b>Informal Students:</b> Students that don't studying in a formal schools like university or studying alone or are self-taught. <br><b>Undergraduate Students:</b> University students that still not finish the graduate course. <br><b>High School Students:</b> Students in secondary school. <br><b>Middle School Students:</b> Students between elementary school and high school. <br><b>Elementary School Students:</b> Before Middle School, for children between the ages of 6-11. <br><b>Preschool Kids:</b> For kids from 2 to 5 years old-held in a Nursery School."
       },
       {
         labelTitle:"Cognitive disabilities",
@@ -1379,7 +1379,7 @@ var ENGLISH = {
       },
       {
         labelTitle:"Examples of barriers (for cognitive)",
-        label:" Complex navigation mechanisms and page layouts that are difficult to understand and use, Complex sentences that are difficult to read and unusual words that are difficult to understand, Long passages of text without images, graphs, or other illustrations to highlight the context, Moving, blinking, or flickering content, and background audio that cannot be turned off, Web browsers and media players that do not provide mechanisms to suppress animations and audio, Visual page designs that cannot be adapted using web browser controls or custom style sheets."
+        label:"Complex navigation mechanisms and page layouts that are difficult to understand and use. <br>Complex sentences that are difficult to read and unusual words that are difficult to understand. <br> Long passages of text without images, graphs, or other illustrations to highlight the context.<br> Moving, blinking, or flickering content, and background audio that cannot be turned off.<br> Web browsers and media players that do not provide mechanisms to suppress animations and audio.<br> Visual page designs that cannot be adapted using web browser controls or custom style sheets."
       },
       {
         labelTitle:"Example of adaptations (for cognitive)",

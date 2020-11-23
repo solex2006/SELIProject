@@ -1367,7 +1367,7 @@ var SPANISH = {
     analysisTipsHelps: [
       {
         labelTitle: "¿Cómo definir la audiencia?",
-        label: "Docentes: Persona que ayuda a los estudiantes a adquirir conocimientos, competencias o virtudes. Estudiantes informales: Estudiantes que no estudian en una escuela formal como la universidad o que estudian solos o son autodidactas. Estudiantes de pregrado: Estudiantes universitarios que aún no terminan el curso de posgrado. Estudiantes de secundaria: estudiantes de secundaria. Estudiantes de secundaria: estudiantes de primaria y secundaria. Estudiantes de primaria: antes de la secundaria, para niños de 6 a 11 años. Niños de preescolar: para niños de 2 a 5 años en una escuela infantil "
+        label: "<b>Docentes:</b> Persona que ayuda a los estudiantes a adquirir conocimientos, competencias o virtudes. <br><b>Estudiantes informales:</b> Estudiantes que no estudian en una escuela formal como la universidad o que estudian solos o son autodidactas.<br><b>Estudiantes de pregrado:</b> Estudiantes universitarios que aún no terminan el curso de posgrado. <br><b>Estudiantes de secundaria:</b> estudiantes de secundaria. <br><b>Estudiantes de primaria:</b> antes de la secundaria, para niños de 6 a 11 años.<br><b> Niños de preescolar:</b> para niños de 2 a 5 años en una escuela infantil "
       },
       {
         labelTitle: "Discapacidades cognitivas",
@@ -1379,7 +1379,7 @@ var SPANISH = {
       },
       {
         labelTitle: "Ejemplos de barreras (cognitivas)",
-        label: "Mecanismos de navegación complejos y diseños de página que son difíciles de entender y usar, oraciones complejas que son difíciles de leer y palabras inusuales que son difíciles de entender, pasajes largos de texto sin imágenes, gráficos u otras ilustraciones para resaltar el contexto, Contenido en movimiento, parpadeante o parpadeante, y audio de fondo que no se puede apagar, navegadores web y reproductores multimedia que no proporcionan mecanismos para suprimir animaciones y audio, diseños de páginas visuales que no se pueden adaptar mediante controles de navegador web o hojas de estilo personalizadas "
+        label: "Mecanismos de navegación complejos y diseños de página que son difíciles de entender y usar.<br> Oraciones complejas que son difíciles de leer y palabras inusuales que son difíciles de entender. <br> Pasajes largos de texto sin imágenes, gráficos u otras ilustraciones para resaltar el contexto. <br> Contenido en movimiento, parpadeante o parpadeante, y audio de fondo que no se puede apagar.<br> Navegadores web y reproductores multimedia que no proporcionan mecanismos para suprimir animaciones y audio. <br> Diseños de páginas visuales que no se pueden adaptar mediante controles de navegador web o hojas de estilo personalizadas. "
       },
       {
         labelTitle: "Ejemplo de adaptaciones (para cognitivo)",

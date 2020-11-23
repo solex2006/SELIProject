@@ -1367,7 +1367,7 @@
     analysisTipsHelps:[
       {
         labelTitle:"Jak zdefiniować odbiorców?",
-        label:"Nauczyciele: Osoba, która pomaga uczniom w zdobywaniu wiedzy, kompetencji lub wartości. Uczniowie nieformalni: Uczniowie, którzy nie uczą się w oficjalnych szkołach, takich jak uniwersytet, studiują sami lub są samoukami. Studenci studiów licencjackich: Studenci uniwersytetu, którzy nie ukończyli jeszcze kursu dyplomowego. Uczniowie szkół średnich: Uczniowie w szkole średniej. Uczniowie w szkole ponadpodstawowej: Uczniowie między szkołą podstawową a wyższą. Uczniowie szkół podstawowych: Uczniowie szkół podstawowych: Przed szkołą średnią. Dzieci w wieku przedszkolnym: Dla dzieci w wieku od 2 do 5 lat, przebywających w przedszkolu."
+        label:"<b>Teachers</b>: Person who helps students to acquire knowledge, competence or virtue. <br>  <b>Informal Students:</b> Students that don't studying in a formal schools like university or studying alone or are self-taught. <br><b>Undergraduate Students:</b> University students that still not finish the graduate course. <br><b>High School Students:</b> Students in secondary school. <br><b>Middle School Students:</b> Students between elementary school and high school. <br><b>Elementary School Students:</b> Before Middle School, for children between the ages of 6-11. <br><b>Preschool Kids:</b> For kids from 2 to 5 years old-held in a Nursery School."
       },
       {
         labelTitle:"Cognitive disabilities",
@@ -1379,7 +1379,7 @@
       },
       {
         labelTitle:"Przykłady barier (poznawczych)",
-        label:" Złożone mechanizmy nawigacyjne i układy stron, które są trudne do zrozumienia i użycia, Złożone zdania, które są trudne do odczytania i nietypowe słowa, które są trudne do zrozumienia, Długie fragmenty tekstu bez obrazów, wykresów lub innych ilustracji w celu podkreślenia kontekstu, Ruchoma, migająca lub migocząca zawartość i dźwięk w tle, którego nie można wyłączyć, Przeglądarki internetowe i odtwarzacze multimedialne, które nie zapewniają mechanizmów tłumiących animacje i dźwięk, Wizualne projekty stron, których nie można dostosować za pomocą elementów sterujących przeglądarki internetowej lub niestandardowych arkuszy stylów."
+        label:"Complex navigation mechanisms and page layouts that are difficult to understand and use. <br>Complex sentences that are difficult to read and unusual words that are difficult to understand. <br> Long passages of text without images, graphs, or other illustrations to highlight the context.<br> Moving, blinking, or flickering content, and background audio that cannot be turned off.<br> Web browsers and media players that do not provide mechanisms to suppress animations and audio.<br> Visual page designs that cannot be adapted using web browser controls or custom style sheets."
       },
       {
         labelTitle:"Przykładowe adaptacje (dla barier poznawczych)",
