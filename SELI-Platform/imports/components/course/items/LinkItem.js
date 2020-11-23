@@ -20,24 +20,38 @@ export default class LinkItem extends React.Component {
     return editorState;
   }
 
+  handleKeyPress = (event) => {
+    console.log(event.keyCode)
+    if (event.which == 13 || event.keyCode == 13) {
+      this.openExternalLink();
+    }
+  }
+
   render() {
     return(
       <div className="content-box">
-        <div onClick={() => this.openExternalLink()} className="link-content-item">
-          {
-            this.props.item.attributes.description && (
-              this.props.item.attributes.description.blocks ?
-                <div className="link-item-container-html">
+        <div 
+          className="link-content-item"
+          tabIndex="0" 
+          onClick={() => this.openExternalLink()}
+          onKeyPress={() => this.handleKeyPress(event)}
+          aria-describedby={`link-content-${this.props.item.id}`}
+        >
+          <div id={`link-content-${this.props.item.id}`} className="link-item-container-html">
+            <div aria-label={`${this.props.language.link}.`}></div>
+            {
+              this.props.item.attributes.description && (
+                this.props.item.attributes.description.blocks ?
                   <Editor 
                     editorState={this.Texteditor(this.props.item.attributes.description)} readOnly={true} 
                   /> 
-                </div>
-              :
-                <div className="link-item-container-html"
-                  dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}>
-                </div>
-            )
-          }
+                :
+                  <div 
+                    dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}>
+                  </div>
+              )
+            }
+          </div>
         </div>
       </div>
       );

@@ -1,77 +1,73 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import React, {useEffect} from 'react';
 import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import Link from '@material-ui/core/Link';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: 380,
-  },
-  speedDial: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(3),
-  },
-}));
+import CloseIcon from '@material-ui/icons/Close';
 
 export default function FileDial(props) {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const [hidden, setHidden] = React.useState(false);
+  const [actions, setActions] = React.useState(props.actions)
+  const [open, setOpen] = React.useState(false);
 
-  const handleVisibility = () => {
-    setOpen(false);
-    setHidden(prevHidden => !prevHidden);
-  };
-
-  const handleClick = () => {
-    setOpen(prevOpen => !prevOpen);
-  };
+  useEffect(() => {
+    var newActions = actions;
+    newActions.push({ icon: <CloseIcon />, name: props.labels.closeLabel, action: handleCloseIcon});
+    setActions(newActions);
+  }, [])
 
   const handleOpen = () => {
-    if (!hidden) {
-      setOpen(true);
-    }
-  };
+    setOpen(true);
+  }
 
   const handleClose = () => {
     setOpen(false);
-  };
+  }
+
+  const handleCloseIcon = () => {
+    document.getElementById(`dial-container-${props.id}`).focus();
+    handleClose();
+  }
 
   return (
     <div className="file-dial-container">
       <SpeedDial
-        ariaLabel="SpeedDial tooltip example"
+        ariaLabel={props.labels.ariaLabel}
         className="file-dial-container"
-        hidden={hidden}
+        hidden={false}
         icon={props.icon}
-        //onBlur={handleClose}
-        onClick={handleClick}
-        //onClose={handleClose}
-        //onFocus={handleOpen}
-        //onMouseEnter={handleOpen}
-        //onMouseLeave={handleClose}
+        onOpen={handleOpen}
+        onClose={handleClose}
         open={open}
-        direction="right"
-        ButtonProps={{
+        direction="left"
+        FabProps={{
+          id: `dial-container-${props.id}`,
+          "aria-describedby": "speed-dial-navigation",
           color: props.color
         }}
       >
-        {props.actions.map(action => (
-          <Link
-            className="MuiButtonBase-root MuiFab-root MuiSpeedDial-fab MuiFab-primary"
+        {actions.map(action => (
+          <SpeedDialAction
             key={action.name}
+            icon={action.icon}
             tooltipTitle={action.name}
             onClick={action.action}
             tooltipPlacement="bottom"
-          >
-            {action.icon}
-          </Link>
+            FabProps={{
+              role: "none"
+            }}
+          />
         ))}
       </SpeedDial>
+      {actions.map((action, index) => (
+        <div 
+          id={`${props.labels.ariaLabel}-action-${index}-label`}
+          aria-label={action.name}
+          style={{display: "none"}}
+        />
+      ))}
+      <div
+        id="speed-dial-navigation"
+        aria-label={props.labels.navigationLabel}
+        style={{ display: "none" }}
+      />
     </div>
   );
 }

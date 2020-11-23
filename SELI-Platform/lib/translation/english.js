@@ -1356,10 +1356,10 @@ var ENGLISH = {
   courseInfo2:"Words related to course main content. For example: Grammar, English Grammar, Writing.",
   CourseInformationHelp:"Course Information Help",
   CourseAudiencesHelp:"Course Audiences Help",
-  imageGalleryLabel0: "Arrows key <kbd>left</kbd> and <kbd>right</kbd> rovers in gallery's image.",
+  imageGalleryLabel0: "Arrows keys <kbd>left</kbd> and <kbd>right</kbd> rovers in gallery's image.",
   imageGalleryLabel1: "<kbd>Enter</kbd> key opens image in full width.",
   imageGalleryLabel2: "Image's long description, if configured by instructor, will be displayed in full width option.",
-  videoGalleryLabel0: "Arrows key <kbd>left</kbd> and <kbd>right</kbd> rovers in video playlist.",
+  videoGalleryLabel0: "Arrows keys <kbd>left</kbd> and <kbd>right</kbd> rovers in video playlist.",
   videoGalleryLabel1: "<kbd>Enter</kbd> key opens video player",
   videoGalleryLabel2: "If setted by instructor, video player can have option for:",
   signLanguageInterpreter: "Sign language interpreter",
@@ -1554,6 +1554,7 @@ var ENGLISH = {
   volumeControl: "volume control",
   fullscreen: "fullscreen",
   exitFullscreen: "exit fullscreen",
+  speedDialNavigation: "Use the left and right arrow keys to navigate into the item options",
 }
 export default ENGLISH;
 
