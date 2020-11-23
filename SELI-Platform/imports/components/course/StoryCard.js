@@ -158,9 +158,11 @@ class StoryCard extends React.Component {
   componentDidUpdate(prevProps){
     if (prevProps.language.languageIndex !== this.props.language.languageIndex){
       this.getLanguageforDescription();
+      this.getImageColors();
     }
     if (prevProps.course.activity.name)  {
       this.getLanguageforDescription();
+      this.getImageColors();
     }
   }
 
