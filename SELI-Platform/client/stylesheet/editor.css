@@ -33,10 +33,6 @@
   animation: fadeInUp 0.35s;
 }
 
-.square-box{
-  margin: 10px 10px;
-  display: inline;
-}
 .editor-button {
   padding: 0.5vh 0 !important;
   width: 1vw;
