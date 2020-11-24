@@ -1538,41 +1538,41 @@ var TURKISH = {
       },
     ]
   },
-  Edittopicname:"Edit topic name",
-  Edittemplatename:"Edit template name",
-  deleteTopic:"Delete Topic",
-  deleteTemplate:"Delete Template",
-  before:"before.",
-  moveUp: "Move up",
-  moveDown: "Move down",
-  imageGallery: "Image gallery",
-  videoGallery: "Video gallery",
-  YouTitlebefore:"You already add this title before.",
-  mute: "mute",
-  unmute: "unmute",
-  timePosition: "time position",
-  volumeControl: "volume control",
-  fullscreen: "fullscreen",
-  exitFullscreen: "exit fullscreen",
-  CourseSilabusHelp:"Syllabus Help",
+  Edittopicname:"Ders adını düzenleyin",
+  Edittemplatename:"Şablon adını düzenleyin",
+  deleteTopic:"Konuyu Sil",
+  deleteTemplate:"Şablonu Sil",
+  before:"önce.",
+  moveUp: "Yukarı taşı",
+  moveDown: "Aşağı indir",
+  imageGallery: "Resim Galerisi",
+  videoGallery: "Video Galerisi",
+  YouTitlebefore:"Bu başlığı daha önce zaten eklediniz.",
+  mute: "sesi kapat",
+  unmute: "sesi aç",
+  timePosition: "zaman konumu",
+  volumeControl: "ses kontrol",
+  fullscreen: "tam ekran",
+  exitFullscreen: "tam ekrandan çık",
+  CourseSilabusHelp:"Müfredat Yardımı",
   sylabusTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:'PDF Documents',
-        label:'If you added alternative text for an image in MS Word or Open Office, then that text will carry over when you save the document as a PDF. You can fix your images in Acrobat by clicking “Set Alternate Text” under “Accessibility” tools. More details: https://www.adobe.com/accessibility/pdf/pdf-accessibility-overview.html'
+        labelTitle:'PDF Dosyaları',
+        label:'MS Word veya Open Office içerisinde bir görüntü için alternatif metin eklerseniz, bu metin belgeyi PDF olarak kaydettiğinizde taşınır. Görüntülerinizi Acrobat içerisinde "Erişilebilirlik" araçları altında "Alternatif Metni Ayarla" yı tıklayarak düzeltebilirsiniz. Daha fazla detay: https://www.adobe.com/accessibility/pdf/pdf-accessibility-overview.html'
       },
       {
-        labelTitle:'MS Word Documents',
+        labelTitle:'MS Word Dosyaları',
         label:' You can add alt text to images right-clicking the object and select Edit Alt Text or Select the object and Select Format > Alt Text. More details: https://support.microsoft.com/en-us/office/video-improve-accessibility-with-alt-text-9c57ee44-bb48-40e3-aad4-7647fc1dba51'
       },
       {
-        labelTitle:'Open Office Documents',
-        label:'To add alternative text to an image, right-click the image and select Picture (or double click the picture, or select Format > Picture from the menu bar). Then select the Options tab and enter the description in the box labeled Alternative (Text only). More details: https://www.openoffice.org/ui/accessibility/'
+        labelTitle:'Open Office Dosyaları',
+        label:'Bir resme alternatif metin eklemek için, resme sağ tıklayın ve Resimi seçin (veya resme çift tıklayın ya da menü çubuğundan Biçim> Resimi seçin). Ardından Seçenekler sekmesini seçin ve Alternatif (Yalnızca metin) etiketli kutuya açıklamayı girin. Daha fazla detay: https://www.openoffice.org/ui/accessibility/'
       },
     ]
   },
-  Evaluation2:"Evaluation",
-  speedDialNavigation: "Use the left and right arrow keys to navigate into the item options",
+  Evaluation2:"Değerlendirme",
+  speedDialNavigation: "Öğe seçeneklerine gitmek için sol ve sağ ok tuşlarını kullanın",
 }
 export default TURKISH;
 
