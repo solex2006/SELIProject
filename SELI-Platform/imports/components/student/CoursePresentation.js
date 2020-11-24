@@ -130,7 +130,7 @@ const CourseSummary = ({coursedata, language}) => {
 					<ListItemText
 						tabIndex='0'
 						secondary={language.estimatedCourseDuration}
-						primary={coursedata.duration}
+						primary={<time>{parseInt(coursedata.duration.split(":"))+":"+coursedata.duration.split(":")[1]+":"+coursedata.duration.split(":")[2]}</time>}
 					/>
 				</ListItem>
 				<ListItem>
