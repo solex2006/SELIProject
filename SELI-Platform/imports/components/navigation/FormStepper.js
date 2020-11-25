@@ -4,17 +4,13 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Popover from '@material-ui/core/Popover';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import Divider from '@material-ui/core/Divider';
-import DoneIcon from '@material-ui/icons/Done';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
-import InfoIcon from '@material-ui/icons/Info';
+
 
 export default function FormStepper(props) {
   const [activeStep, setActiveStep] = React.useState(0);

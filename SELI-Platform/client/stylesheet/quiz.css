@@ -9,11 +9,12 @@
 }
 
 .quiz-input-container{
-  width: 100%;
+  width: 90%;
   padding: 0 2.5%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .question-form{
@@ -89,7 +90,10 @@
   font-size: 0.85em;
   letter-spacing: 1px;
   color: #616161;
-  margin-right: 1vw;
+  margin-right: 0.5vw;
+}
+.TimePickers{
+  justify-items: center;
 }
 
 .form-dialog-question-button-container-text-select {
@@ -160,6 +164,7 @@ display: flex
 .quiz-dashboard-primary-text {
   color: var(--primary);
   font-size: 1.85em;
+  font-size: 0.75vw;
   letter-spacing: 1px;
   width: 80%;
   padding: 2vh 10%;

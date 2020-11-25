@@ -5,6 +5,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 
 export default class FormPreview extends React.Component {
+  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -13,17 +15,20 @@ export default class FormPreview extends React.Component {
   }
 
   setSelected(){}
-
+  
   render() {
     return(
       <div className="form-file-selected-container">
         <div className="form-file-selected-actions">
-          <Tooltip title={this.props.type === "image" ? "Change course image" : "Change course sylabus"} aria-label="edit">
+          <Tooltip title={this.props.type === "image" ? this.props.language.changeImage : this.props.language.changeCourseSyllabus} aria-label="edit">
             <Fab
               size="small"
-              aria-label="edit"
+              aria-label={this.props.type === "image" ? this.props.language.changeImage : this.props.language.changeCourseSyllabus} 
               className="form-file-selected-button"
-              onClick={() => this.props.changeFile(this.props.type)}
+              onClick={ this.props.type === "image" ? 
+                () => this.props.changeFile(this.props.type) :
+                () => this.props.resetSylabus()
+              }
             >
               <EditIcon />
             </Fab>
@@ -31,20 +36,19 @@ export default class FormPreview extends React.Component {
         </div>
         {
           this.props.type === "image" ?
-            <div
-              style={{backgroundImage: `url(${this.props.file.link})`}}
+            <img
+              src={this.props.file.link}
               className="form-file-selected-image-container"
-            >
-            </div>
+            />
           :
-          undefined
+            undefined
         }
         {
           this.props.type === "pdf" ?
             <div className="form-file-selected-file-container">
               <p className="form-file-selected-file-title">{this.props.courseSyllabus}</p>
               <BookIcon className="file-selected-icon"/>
-              <p className="form-file-selected-file-subtitle">{`${this.props.file.name}`}</p>
+              <p className="form-file-selected-file-subtitle">{`${this.props.file.pdf.name}`}</p>
             </div>
           :
           undefined

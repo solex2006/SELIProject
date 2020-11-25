@@ -1,18 +1,13 @@
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import CourseFilesCollection from '../../../lib/CourseFilesCollection';
 import { _ } from 'meteor/underscore';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Loading from '../tools/Loading';
-
+//import ipfs from './Ipfs'
 const debug = require('debug')('demo:file');
-
 class FileUpload extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +26,8 @@ class FileUpload extends Component {
       // We upload only one file, in case
       // there was multiple files selected
       var file = e.currentTarget.files[0];
-      if (file) {
+      if (file && file.size > 0 && file.size <= 104857600) {
+        //console.log("type de archivo a subir---", this.props.type, file)
         let uploadInstance = CourseFilesCollection.insert({
           file: file,
           meta: {
@@ -40,6 +36,7 @@ class FileUpload extends Component {
             isFavorite: false,
             usedInCourse: false,
             userId: self.props.user,
+            type: this.props.type
             //userId: Meteor.userId() // Optional, used to check on server for file tampering
           },
           streams: 'dynamic',
@@ -50,43 +47,68 @@ class FileUpload extends Component {
         self.setState({
           uploading: uploadInstance, // Keep track of this instance to use below
           inProgress: true // Show the progress bar now
-        });
+        }, () => {
 
-        // These are the event functions, don't need most of them, it shows where we are in the process
-        uploadInstance.on('start', function () {
-          //console.log('Starting');
-        })
+          // These are the event functions, don't need most of them, it shows where we are in the process
+          uploadInstance.on('start', function () {
+            //console.log('Starting');
+          })
 
-        uploadInstance.on('end', function (error, fileObj) {
-          //console.log('On end File Object: ', fileObj);
-        })
+          uploadInstance.on('end', function (error, fileObj) {
+            //console.log('On end File Object: ', fileObj);
+          })
 
-        uploadInstance.on('uploaded', function (error, fileObj) {
-          // Reset our state for the next file
-          self.setState({
-            uploading: [],
-            progress: 0,
-            inProgress: false
-          }, () => {
-            // Remove the filename from the upload box
-            self.refs['fileinput' + self.props.type].value = '';
+          uploadInstance.on('uploaded', function (error, fileObj) {
+            if (!error) {
+              // Reset our state for the next file
+              self.setState({
+                uploading: [],
+                progress: 0,
+                inProgress: false
+              }, () => {
+                // Remove the filename from the upload box
+                self.refs['fileinput' + self.props.type].value = '';
+              });
+              self.getFileInformation(fileObj);
+            }
+          })
+
+          uploadInstance.on('error', function (error, fileObj) {
+            //console.log('Error during upload: ' + error)
+            self.handleErrorUpload();
+            self.cancelUpload();
           });
-          self.getFileInformation(fileObj);
-        })
 
-        uploadInstance.on('error', function (error, fileObj) {
-          console.log('Error during upload: ' + error)
-        });
-
-        uploadInstance.on('progress', function (progress, fileObj) {
-          // Update our progress bar
-          self.setState({
-            progress: progress
+          uploadInstance.on('progress', function (progress, fileObj) {
+            // Update our progress bar
+            self.setState({
+              progress: progress
+            });
           });
-        });
 
-        uploadInstance.start(); // Must manually start the upload
+          uploadInstance.start(); // Must manually start the upload
+
+        });
+      } else {
+        this.setState({
+          uploading: [],
+          progress: 0,
+          inProgress: false
+        }, () => {
+          // Remove the filename from the upload box
+          this.refs['fileinput' + this.props.type].value = '';
+        });
+        if (this.props.handleControlMessage){
+          return (this.props.handleControlMessage(true, this.props.language.sizeLessThan));
+        }
       }
+    }
+  }
+
+  handleErrorUpload = () => {
+    if (this.props.handleControlMessage){
+      const typeMessage = "no" + this.props.type.charAt(0).toUpperCase() + this.props.type.slice(1) + "Founded";
+      return (this.props.handleControlMessage(true, this.props.language[typeMessage]));
     }
   }
 
@@ -116,7 +138,6 @@ class FileUpload extends Component {
       this.refs['fileinput' + this.props.type].value = '';
     });
   }
-
   // This is our progress bar, bootstrap styled
   // Remove this function if not needed
   showUploads() {
@@ -126,7 +147,7 @@ class FileUpload extends Component {
           <div className="uploading-file-container">
             <div className="uploading-file-column">
               <div className="uploading-file-row">
-                <p className="uploading-file-text">{"Uploading " + this.props.type + ", please wait..."}</p>
+                <p className="uploading-file-text">{`${this.props.language.uploading} ${this.props.type}, ${this.props.language.pleaseWait}`}</p>
                 <div className="uploading-file-progress-container">
                   <CircularProgress
                     value={this.state.progress}
@@ -143,7 +164,7 @@ class FileUpload extends Component {
               <div className="uploading-file-row">
                 <div className="uploading-file-actions">
                   <Button className="uploading-file-button" onClick={() => this.cancelUpload()} color="secondary" variant="contained">
-                    Cancel upload
+                    {this.props.language.cancel}
                   </Button>
                 </div>
               </div>
@@ -153,15 +174,12 @@ class FileUpload extends Component {
       );
     }
   }
-
-
   handleKeyPress = (event) => {
-    console.log('enter press here! ')
+    //console.log('enter press here! ')
     if(event.key === 'Enter'){
       console.log('enter press here! ')
     }
   }
-
   triggerInputFile = () => {
     //console.log("FILEINPUT",this.refs)
     this.refs["fileinput" + this.props.type].click();
@@ -171,11 +189,11 @@ class FileUpload extends Component {
     debug("Rendering FileUpload",this.props.docsReadyYet);
     if (this.props.files && this.props.docsReadyYet) {
       return (
-        <div  tabIndex="-1">
+        <div  tabIndex="-1" className="compressed">
           {
             !this.state.inProgress ?
               <div  className="upload-container">
-                <div class="upload-btn-wrapper center-row">
+                <div className="upload-btn-wrapper center-row">
                   {
                     this.props.color ?
                       <Button onClick={this.triggerInputFile} id="da" className="sign-button" color={this.props.color} variant="outlined">{this.props.label}</Button>
@@ -203,7 +221,7 @@ class FileUpload extends Component {
     else {
       return (
         <div>
-          <Loading message="Loading file uploader..."/>
+          <Loading message={this.props.language.loadingUploader}/>
         </div>
       );
     }
@@ -214,12 +232,18 @@ class FileUpload extends Component {
 // This is the HOC - included in this file just for convenience, but usually kept
 // in a separate file to provide separation of concerns.
 //
+
 export default withTracker( ( props ) => {
-  const filesHandle = Meteor.subscribe('files.all');
-  const docsReadyYet = filesHandle.ready();
-  const files = CourseFilesCollection.find({}, {sort: {name: 1}}).fetch();
-  return {
-    docsReadyYet,
-    files,
-  };
+
+
+    const filesHandle = Meteor.subscribe('files.all');
+    const docsReadyYet = filesHandle.ready();
+    const files = CourseFilesCollection.find({}, {sort: {name: 1}}).fetch();
+    return {
+      docsReadyYet,
+      files,
+    };
+  
+  
 })(FileUpload);
+

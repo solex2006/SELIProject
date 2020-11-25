@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { Email } from '@material-ui/icons';
 
 Meteor.methods({
   'GetUsers'(){
@@ -21,6 +22,19 @@ Meteor.methods({
     return users;
   }
 });
+Meteor.methods({
+  'GetTutorsCourse'(name){
+    var users = Meteor.users.find({username:name ,'profile.type': 'tutor'}).fetch();
+    return users;
+  }
+});
+
+Meteor.methods({
+  'GetTutorsCourseDetails'(name){
+    var users = Meteor.courses.find({createdBy:name}).fetch();
+    return users;
+  }
+})
 
 Meteor.methods({
   'GetStudents'(){
@@ -70,8 +84,7 @@ Meteor.methods({
 
 Meteor.methods({
   'GetUserById'(_id){
-    let user = Meteor.users.find({_id: _id}).fetch();
-    return user;
+    return Meteor.users.findOne({_id: _id});
   }
 });
 
@@ -90,6 +103,21 @@ Meteor.methods({
       }}
     )
     return true;
+  }
+});
+
+Meteor.methods({
+  'UpdateProgress'(_id, courseId, progress){
+    let user = Meteor.users.find({_id: _id}).fetch();
+    user = user[0];
+    let index = user.profile.courses.findIndex(course => course.courseId === courseId);
+    user.profile.courses[index].progress = progress;
+    Meteor.users.update(
+      { _id: _id },
+      { $set: {
+        profile: user.profile,
+      }}
+    )
   }
 });
 
@@ -163,5 +191,16 @@ Meteor.methods({
       userId,
       email
     )
+  }
+});
+
+Meteor.methods({
+  'checkRepeatedEmail'(userId, email){
+    const user = Meteor.users.findOne({'emails.address': email});
+    if (user !== undefined && user._id !== userId) {
+      return true;
+    } else {
+      return false;
+    }
   }
 });

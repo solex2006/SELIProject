@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
+import { Meteor } from 'meteor/meteor';
 
 import { scaleRotate as Menu } from 'react-burger-menu';
 
@@ -9,6 +10,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import tutorProfile from '../../../lib/tutorProfile';
@@ -53,7 +55,10 @@ export default class MainMenu extends React.Component {
 
   showComponent(component){
     this.closeMenu();
-    this.props.showComponent(component);
+    if(component === 'STUDENT_DASHBOARD_SITE_URL')
+      this.redirect(Meteor.settings.public.STUDENT_DASHBOARD_SITE_URL);
+    else
+      this.props.showComponent(component);
   }
 
   componentDidMount(){
@@ -99,40 +104,42 @@ export default class MainMenu extends React.Component {
   }
   render() {
     return(
-      <div >
+      <React.Fragment >
         <Menu
-       // customOnKeyDown={this.closeAllMenusOnEsc()} 
-          
+          // customOnKeyDown={this.closeAllMenusOnEsc()} 
           pageWrapId={ "page-wrap" }
           outerContainerId={ "outer-container" }
           isOpen={ this.state.menuOpen }
+          tabIndex="0"
+          onKeyPress={ this.buildHandleEnterKeyPressMenu }
           customBurgerIcon={
-            
             <MdMenu 
-              tabIndex="1"
-              onKeyPress={ this.buildHandleEnterKeyPressMenu } 
+              tabIndex="-1"
+              //onKeyPress={ this.buildHandleEnterKeyPressMenu } 
               color={ "#FFFFFF" }
               size={ "1.75em" }
             />
-         
           }
-          onStateChange={(state) => this.handleMenuStateChange(state)}>
-          <div  onClick={() => this.showComponent("home")} className="menu-title">{this.props.language.seliLearningPlatform}</div>
+          onStateChange={(state) => this.handleMenuStateChange(state)}
+          className="menu-left-panel-container"
+        >
+          <Button tabIndex={this.state.menuOpen ? "0" : "-1"} onClick={() => this.showComponent("home")} className="menu-title">{this.props.language.seliLearningPlatform}</Button>
           <Divider className="user-menu-profile-divider" light={true}/>
           <div className="options-container">
             {
               this.state.options.map(options => {
                 return(
                   <ExpansionPanel
-                  tabIndex="-1" 
+                    tabIndex="-1" 
                     className="menu-expansion-panel"
                     defaultExpanded={ true }
-                    onChange={this.handleChange(options.label[this.props.language.languageIndex])}>
+                    onChange={this.handleChange(options.label[this.props.language.languageIndex])}
+                  >
                     <ExpansionPanelSummary
-                    tabIndex="-1" 
+                      tabIndex="-1" 
                       className="menu-expansion-summary"
                       expandIcon={
-                        <ExpandMoreIcon tabIndex="0" className="menu-expand-more-icon"/>
+                        <ExpandMoreIcon tabIndex={this.state.menuOpen ? "0" : "-1"} className="menu-expand-more-icon"/>
                       }
                     >
                     <Typography tabIndex="-1"   className="menu-option">{options.label[this.props.language.languageIndex]}</Typography>
@@ -141,13 +148,12 @@ export default class MainMenu extends React.Component {
                       <div tabIndex="-1"  className="sub-menu-container">
                         {
                           options.suboptions.map((suboptions, index) => {
-                         
                             return(
                               <div 
-                              tabIndex="0" 
-                              onClick={() => this.showComponent(suboptions.component)}
-                              onKeyPress={ this.buildHandleEnterKeyPress(() => this.showComponent(suboptions.component)) } 
-                              className="sub-menu-option">{suboptions.label[this.props.language.languageIndex]}
+                                tabIndex={this.state.menuOpen ? "0" : "-1"}
+                                onClick={() => this.showComponent(suboptions.component)}
+                                onKeyPress={ this.buildHandleEnterKeyPress(() => this.showComponent(suboptions.component)) } 
+                                className="sub-menu-option">{suboptions.label[this.props.language.languageIndex]}
                               </div>
                             )
                           })
@@ -159,17 +165,17 @@ export default class MainMenu extends React.Component {
               })
             }
             <div className="main-menu-social-container">
-              <IconButton onClick={() => this.redirect('http://seliproject.org/')} className="social-icon-button">
+              <IconButton tabIndex={this.state.menuOpen ? "0" : "-1"} onClick={() => this.redirect('http://seliproject.org/')} className="social-icon-button">
                 <FaGlobe/>
               </IconButton>
-              <IconButton onClick={() => this.redirect('https://www.facebook.com/SELIProject/?ref=br_rs')} className="social-icon-button">
+              <IconButton tabIndex={this.state.menuOpen ? "0" : "-1"} onClick={() => this.redirect('https://www.facebook.com/SELIProject/?ref=br_rs')} className="social-icon-button">
                 <FaFacebookSquare/>
               </IconButton>
             </div>
             <div className="options-padding" style={{height: '5vh'}}></div>
           </div>
         </Menu>
-      </div>
+      </React.Fragment>
   )
 }
 }

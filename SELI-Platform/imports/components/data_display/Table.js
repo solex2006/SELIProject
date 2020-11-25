@@ -106,10 +106,6 @@ EnhancedTableHead.propTypes = {
 };
 
 const useToolbarStyles = makeStyles(theme => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
   highlight:
     theme.palette.type === 'light'
       ? {
@@ -136,7 +132,7 @@ const EnhancedTableToolbar = props => {
   const { numSelected } = props;
   return (
     <Toolbar
-      className={clsx(classes.root, {
+      className={clsx("management-table-head", {
         [classes.highlight]: numSelected > 0,
       })}
     >
@@ -199,19 +195,8 @@ EnhancedTableToolbar.propTypes = {
 };
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing(3),
-  },
-  paper: {
-    width: '100%',
-    marginBottom: theme.spacing(2),
-  },
   table: {
     minWidth: 750,
-  },
-  tableWrapper: {
-    overflowX: 'auto',
   },
 }));
 
@@ -296,8 +281,8 @@ export default function EnhancedTable(props) {
   }
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
+    <div className="management-table-root">
+      <Paper className="management-table-paper">
         <EnhancedTableToolbar
           numSelected={selected.length}
           labels={props.labels}
@@ -309,7 +294,7 @@ export default function EnhancedTable(props) {
           addLabel={props.add ? props.addLabel : undefined}
           deleteSelected={() => deleteSelected()}
         />
-        <div className={classes.tableWrapper}>
+        <div className="management-table-content">
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"

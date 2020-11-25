@@ -9,6 +9,8 @@ import { Courses } from '../../lib/CourseCollection';
 
 import CourseCard from '../components/course/CourseCard';
 
+
+
 export default class CoursesDashboard extends React.Component {
   constructor(props) {
     super(props);

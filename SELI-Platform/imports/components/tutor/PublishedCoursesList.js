@@ -8,8 +8,6 @@ import Table from '../data_display/Table';
 import StudentProfile from './StudentProfile';
 import CourseMenu from '../student/CourseMenu';
 import CourseContent from '../student/CourseContent';
-import { Activities } from '../../../lib/ActivitiesCollection';
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 
 import SchoolIcon from '@material-ui/icons/School';
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
@@ -32,9 +30,7 @@ import Typography from '@material-ui/core/Typography';
 import AppsIcon from '@material-ui/icons/Apps';
 import DenseTable from './DenseTable';
 import Paper from '@material-ui/core/Paper';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -46,6 +42,22 @@ import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
 import MoodBadIcon from '@material-ui/icons/MoodBad';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+import { StudentEventLog } from '../../../lib/StudentEventCollection';
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+import Certificates from './certificates'
+
+
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import Slide from '@material-ui/core/Slide';
+  
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 export default class PublishedCoursesList extends React.Component {
   constructor(props) {
     super(props);
@@ -55,12 +67,16 @@ export default class PublishedCoursesList extends React.Component {
       studentInformation: '',
       studentScores: [],
       course: [],
-      stories: [],
       indexquiz:'',
-      valuesofScores:[]
+      valuesofScores:[],
+      flag:'',
+      hash:'',
+      count:0,
+      showCertificates:false,
+      open:false
     }
   }
-
+  //notify = () => toast(<div><a href={'https://201.159.223.92/vows/'+`${this.state.hash}`} target="_blank">The certificate was generated successfully, click to open:</a></div>);
   componentDidMount() {
     this.getMyCourses(this.props.user.username);
     
@@ -117,7 +133,8 @@ export default class PublishedCoursesList extends React.Component {
     let tableData = [];
     let headRows = [
       { id: 'title', numeric: false, disablePadding: true, label: this.props.language.title },
-      { id: 'organization', numeric: true, disablePadding: false, label: this.props.language.organization },
+      { id: 'template', numeric: true, disablePadding: false, label: this.props.language.template },
+      { id: 'organization', numeric: true, disablePadding: false, label: this.props.language.courseOrganization },
       { id: 'duration', numeric: true, disablePadding: false, label: this.props.language.duration },
       { id: 'creationDate', numeric: true, disablePadding: false, label: this.props.language.creationDate },
       { id: 'actions', numeric: true, disablePadding: false, label: this.props.language.actions },
@@ -128,7 +145,18 @@ export default class PublishedCoursesList extends React.Component {
       {label: this.props.language.unpublishCourse , icon: <UnarchiveIcon/>, action: this.showUnpublishConfirmation.bind(this)},
     ];
     myCourses.map(course => {
-      tableData.push({title: course.title, organization: course.organization.label, duration: `${course.duration} hours`, creationDate: course.creationDate.toLocaleDateString('en-US'), _id: course._id})
+      tableData.push({
+        title: course.title,
+        template: course.coursePlan ?
+            course.coursePlan.courseTemplate === "without" ? this.props.language.Withouttemplate :
+            course.coursePlan.courseTemplate === "spiral" ? this.props.language.SpiralModel :
+            course.coursePlan.courseTemplate === "consistent" ? this.props.language.Consistent :
+            this.props.language.ToyBox
+        : "",
+        organization: course.coursePlan ? course.coursePlan.courseStructure === "unit" ? this.props.language.byUnitsAndLessons : this.props.language.byTopics : "", 
+        duration: course.duration,
+        creationDate: course.creationDate.toLocaleDateString('en-US'),
+        _id: course._id})
     })
     this.setState({
       headRows: headRows,
@@ -165,14 +193,15 @@ export default class PublishedCoursesList extends React.Component {
         Tracker.autorun(() => {
           Meteor.call("GetUserById", student, (error, response) =>  {
               if (response) {
-                let courseProfile = response[0].profile.courses.find(course => course.courseId === _id);
+                let courseProfile = response.profile.courses.find(course => course.courseId === _id);
                 courseProfiles.push({
                   studentId: student,
                   courseProfile: courseProfile,
                   studentInformation: {
-                    fullname: response[0].profile.fullname,
-                    username: response[0].username,
-                    dateJoined: response[0].createdAt,
+                    fullname: response.profile.fullname,
+                    username: response.username,
+                    email: response.emails[0].address,
+                    dateJoined: response.createdAt,
                   }
                 });
               }
@@ -189,11 +218,17 @@ export default class PublishedCoursesList extends React.Component {
     else {
       results = false;
     }
+    let summaryCourse = {};
+    summaryCourse.title = course.title;
+    summaryCourse.description = course.description;
+    summaryCourse.createdBy = course.createdBy;
+    summaryCourse.duration = course.duration;
     this.setState({
       openClassroom: true,
       studentInformation: '',
       studentScores: [],
       course,
+      summaryCourse,
       classroomResults: results,
     });
   }
@@ -211,11 +246,12 @@ export default class PublishedCoursesList extends React.Component {
   };
 
   handleView= (profile, event, studentScores, index)=>{
-    this.average()
+    console.log("en el handle View",event, studentScores,"index-->:",index)
+    this.average(index)
     if (event === "course") {
+      this.props.navigateTo([0, 0, 0, 0]);
       this.setState({
         student: profile,
-        selected: [0, 0],
       })
     }
     if (event === "quiz") {
@@ -234,7 +270,6 @@ export default class PublishedCoursesList extends React.Component {
   }
 
   quizes= ()=>{
-   
     return(
       <React.Fragment>
         <div className="library-files-containerquiz">
@@ -264,19 +299,32 @@ export default class PublishedCoursesList extends React.Component {
   }
 
 
- insertAt=(array, index, elementsArray)=> {
-   return array.splice(index, 0, elementsArray);
-}
+  insertAt=(array, index, elementsArray)=> {
+    return array.splice(index, 0, elementsArray);
+  }
 
-  average=()=>{
-    let scores=this.state.studentScores 
+  average=(index)=>{
+    let scores1=this.state.studentScores 
+    let scores=[]
+    if (index!=undefined){
+      let title=scores1[index].activity.trueAnswers[0].quizTitle;
+      console.log("title",title)
+      scores=scores1.filter((quiz, indexQuiz)=>quiz.activity.trueAnswers[0].quizTitle===title);
+    }else{
+      scores=scores1;
+    }
+   
+    
+    console.log("scores1",scores)
+  
     let dupes = {};
+    console.log("Funcion Average", scores)
     scores.forEach((item,index) => {
       dupes[item.activity.activityId] = dupes[item.activity.activityId] || [];
       dupes[item.activity.activityId].push(index);
     });  
     let valuesofScores=[]
-    
+    console.log("dupes", dupes)
     for(let name in dupes){
       //average
       let average=0;
@@ -298,7 +346,6 @@ export default class PublishedCoursesList extends React.Component {
         dupes[name].map((repeat,index)=>{
           this.insertAt(valuesofScores, repeat, total );
         })
-       
       }else {
         dupes[name].map((repeat,index)=>{
           average=scores[repeat].activity.score
@@ -318,6 +365,13 @@ export default class PublishedCoursesList extends React.Component {
   }
 
   quizDetails=()=>{
+    this.state.studentScores[this.state.indexquiz].activity.trueAnswers.map((question, indexQuestion) =>{
+      if(question.questionTitle===''){
+        this.state.studentScores[this.state.indexquiz].activity.trueAnswers.splice(indexQuestion)
+        this.state.studentScores[this.state.indexquiz].activity.answers.splice(indexQuestion)
+      }
+    })
+
     console.log(this.state.course, "course...", this.state.studentScores, "indexquiz", this.state.indexquiz)
     return(
       <Paper elevation={8} className="quiz-dashboard-questions-containerTutor">
@@ -337,16 +391,23 @@ export default class PublishedCoursesList extends React.Component {
                 this.state.studentScores[this.state.indexquiz].activity.trueAnswers.map((question, indexQuestion) =>{
                   return(
                     <div>
-                      <div className="answers">{this.props.language.Question}: {question.questionTitle}</div>
                       {
-                          question.answersText.map((answersText, indexanswersText) =>{
-                            return(
-                              <div className="student-answers-block-q">
-                                <ul>{answersText}</ul>
-                              </div>
-                            )
-                          }) 
-                      } 
+                        question.questionTitle!=''?
+                         <div>
+                           <div className="answers">{this.props.language.Question}: {question.questionTitle}</div>
+                            {
+                              question.answersText.map((answersText, indexanswersText) =>{
+                                return(
+                                  <div className="student-answers-block-q">
+                                    <ul>{answersText}</ul>
+                                  </div>
+                                )
+                              }) 
+                            }
+                         </div>
+                        :
+                        undefined
+                      }   
                     </div>       
                   )   
                 })
@@ -356,6 +417,7 @@ export default class PublishedCoursesList extends React.Component {
             <div>
               <div className="answers">{this.props.language.StudentAnswers}<CreateRoundedIcon/></div>
               <div className="student-answers">
+                {console.log("this.state.studentScores------>",this.state.studentScores)}
                   {
                     this.state.studentScores[this.state.indexquiz].activity.answers.map((answers, indexanswers) =>{
                             return(
@@ -408,10 +470,10 @@ export default class PublishedCoursesList extends React.Component {
             <div >
               <div className="answers-scores">Scores<SpellcheckRoundedIcon/></div>
               <div className="student-scores-results">  
-               <div className="note"><h5>   {this.props.language.AverageGrade} </h5> <p>{this.state.valuesofScores[this.state.indexquiz][2]}</p></div>
-                  <div className="note"><h5>{this.props.language.Maximumgrade}</h5> <p>{this.state.valuesofScores[this.state.indexquiz][0]}</p><SentimentVerySatisfiedIcon/> </div>
-                  <div className="note"><h5>{this.props.language.Minimumgrade}</h5> <p>{this.state.valuesofScores[this.state.indexquiz][1]}</p><MoodBadIcon/> </div>
-                  <div className="note"><h5>{this.props.language.NumberofAttemps}</h5><p>{this.state.valuesofScores[this.state.indexquiz][3]}</p><FormatListNumberedIcon/> </div> 
+              <div className="note"><h5>  {this.props.language.AverageGrade} </h5> <p>{this.state.valuesofScores[0][2].toFixed(2)}</p></div>
+                <div className="note"><h5>{this.props.language.Maximumgrade}</h5> <p>{this.state.valuesofScores[0][0].toFixed(2)}</p><SentimentVerySatisfiedIcon/> </div>
+                <div className="note"><h5>{this.props.language.Minimumgrade}</h5> <p>{this.state.valuesofScores[0][1].toFixed(2)}</p><MoodBadIcon/> </div>
+                <div className="note"><h5>{this.props.language.NumberofAttemps}</h5><p>{this.state.valuesofScores[0][3].toFixed(2)}</p><FormatListNumberedIcon/> </div> 
               </div>
             </div>
             </RadioGroup>
@@ -421,143 +483,96 @@ export default class PublishedCoursesList extends React.Component {
     )
   }
 
-  handleNextUnit = () => {
-    let index = this.state.selected[0];
-    this.navigateTo('unit', [(index + 1), undefined])
-  }
-
-  handlePreviousUnit = () => {
-    let index = this.state.selected[0];
-    this.navigateTo('unit', [(index - 1), undefined])
-  }
-
-  handleNextSubunit = () => {
-    let parent = this.state.selected[1];
-    let child = this.state.selected[0];
-    if (child + 1 === this.state.course.program[this.state.selected[1]].lessons.length) {
-      this.navigateTo('unit', [0, parent + 1])
-    }
-    else {
-      this.navigateTo('unit', [child + 1, parent])
-    }
-  }
-
-  handlePreviousSubunit = () => {
-    let parent = this.state.selected[1];
-    let child = this.state.selected[0];
-    if (child === 0) {
-      this.navigateTo('unit', [this.state.course.program[parent - 1].lessons.length - 1, parent - 1])
-    }
-    else {
-      this.navigateTo('unit', [child - 1, parent])
-    }
-  }
-
-  navigateTo(level, to) {
-    let selected = this.state.selected;
-    selected.splice(0, selected.length)
-    selected.push(to[0], to[1]);
-    this.setState({
-      selected: selected,
-      coursePresentation: false,
-      courseContent: true,
-    });
-  }
-
-  showPresentation() {
-    let selected = this.state.selected;
-    selected.splice(0, selected.length)
-    selected.push(-1, -1);
-    this.setState({
-      selected: selected,
-      coursePresentation: true,
-      courseContent: false,
-    });
-  }
-
-  handleCloseStories = () => {
-    this.setState({
-      openStories: false,
-    });
-  };
-
-
-  showCourseStories = () => {
-    this.setState({
-      loadingStories: true,
-    }, () => {
-      Tracker.autorun(() => {
-        let stories = Activities.find({'activity.type': 'storytelling', 'activity.courseId': this.state.course._id}).fetch();
-        this.buildStories(stories);
-      });
-    });
-  }
-
-  buildStories = (stories) => {
-    if (stories.length) {
-      let users = [];
-      stories.map(story => {
-        let user = Meteor.users.find({_id: story.activity.user}).fetch();
-        story.userInformation = user[0];
-      })
-      this.setState({
-        stories: stories,
-        results: true,
-        loadingStories: false,
-        openStories: true,
-      })
-    }
-    else {
-      this.setState({
-        results: false,
-        loadingStories: false,
-      }, () => {
-        this.props.handleControlMessage(true, this.props.language.notStoriesMessage)
-      })
-    }
-  }
-
   menu = () => {
     return(
-      <div className="course-content-container-quiz">
-        <div className="course-content-breadcrumbs-container-quiz">
-          <Paper elevation={0} className="course-content-breadcrumbs-paper-quiz">
-            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-              { this.state.studentInformation !== "" ?
-                  <Typography onClick={() => this.handleView({}, "")} className="course-content-breadcrumb-text">
-                    {this.state.course.title}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "course" ?
-                  <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                    {this.state.student.studentInformation.fullname}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "course" && this.state.course.organization.subunit ?
-                  <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                    {`${this.props.language.unit} ${this.state.selected[1] + 1}: ${this.state.course.program[this.state.selected[1]].name}`}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "course" && this.state.course.organization.subunit ?
-                  <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                    {`${this.props.language.lesson} ${this.state.selected[0] + 1}: ${this.state.course.program[this.state.selected[1]].lessons[this.state.selected[0]].name}`}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "course" && !this.state.course.organization.subunit ?
-                  <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
-                    {`${this.props.language.topic} ${this.state.selected[0] + 1}: ${this.state.course.program[this.state.selected[0]].name}`}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "quiz" || this.state.studentInformation === "quizDetails" ?
-                  <Typography onClick={() => this.handleView({}, "quiz", this.state.studentScores)} className="course-content-breadcrumb-text">
-                    {this.props.language.quiz}
-                  </Typography> : undefined }
-              { this.state.studentInformation === "quizDetails" ?
-                  <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
-                    quiz details *
-                  </Typography> : undefined }
-            </Breadcrumbs>
-          </Paper>
-        </div>
-      </div>
+      <Paper elevation={0} className="course-content-breadcrumbs-paper-quiz">
+        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+          { this.state.studentInformation !== "" ?
+              <Typography onClick={() => this.handleView({}, "")} className="course-content-breadcrumb-text">
+                {this.state.course.title}
+              </Typography> : undefined }
+          { this.state.studentInformation === "course" ?
+              <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
+                {this.state.student.studentInformation.fullname}
+              </Typography> : undefined }
+          { this.state.studentInformation === "course" &&
+              <Typography onClick={() => this.props.navigateTo([this.props.selected[0], 0, 0, 0])} id="course-content-breadcrumb-unitTopic" className="course-content-breadcrumb-text">
+                {`${this.state.course.coursePlan.courseStructure === "unit" ? 
+                this.props.language.unit : this.props.language.topic
+                } ${this.props.selected[0] + 1}: ${this.state.course.program[this.props.selected[0]].name}`}
+              </Typography>}
+          { this.state.studentInformation === "course" && this.state.course.coursePlan.courseStructure === "unit" && this.props.selected[3] > 0 &&
+              <Typography onClick={() => this.props.navigateTo([this.props.selected[0], this.props.selected[1], 0, 1])} id="course-content-breadcrumb-lesson" className="course-content-breadcrumb-text">
+                {`${this.props.language.lesson} ${this.props.selected[1] + 1}: ${this.state.course.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}
+              </Typography>}
+          { this.state.studentInformation === "course" && this.state.course.coursePlan.courseStructure !== "without" && this.props.selected[3] > 1 &&
+              <Typography id="course-content-breadcrumb-task" className="course-content-breadcrumb-text">
+                { this.state.course.coursePlan.courseStructure === "unit" ? 
+                  `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.state.course.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}` :
+                  `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.state.course.program[this.props.selected[0]].activities[this.props.selected[2]].name}`}
+              </Typography>}
+          { this.state.studentInformation === "quiz" || this.state.studentInformation === "quizDetails" ?
+              <Typography onClick={() => this.handleView({}, "quiz", this.state.studentScores)} className="course-content-breadcrumb-text">
+                {this.props.language.quiz}
+              </Typography> : undefined }
+          { this.state.studentInformation === "quizDetails" ?
+              <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
+                quiz details *
+              </Typography> : undefined }
+        </Breadcrumbs>
+      </Paper>
     )
   }
 
+  componentDidUpdate(prevState){
+   /*  if(this.state.flag!=prevState.flag){
+      console.log("cierra la alerta")
+      this.setState({
+        flag:'none'
+      })
+    } */
+  }
+
+  flag=(hashes)=>{
+    let hash=hashes.slice(-1)[0] 
+    console.log("antes del TOAST", hash)
+    if(hash!=undefined && hash!=""){
+      console.log("debe msotrar el TOAST", hashes)
+      if(this.state.count==0){
+        toast(<div style={{color:'brown', textAlign:'justify', padding:'10px'}}>The request has been sent, the generation time can be 3-10 min, check the certificates section. </div>);
+      }
+      this.state.count+=1
+    }
+    
+  }
+
+  showCertificates=()=>{
+    console.log("click OPEN")
+    this.setState({
+      //studentInformation:'certificates',
+      showCertificates:true,
+      //open:true
+    }) 
+  }
+
+  closeCertificates=()=>{
+    console.log("CLOSEEE")
+    this.state.showCertificates=false
+  this.state.studentInformation=''
+    this.setState({
+      showCertificates:false,
+      studentInformation:''
+    })
+  }
+
+  handleCloseCert = () => {
+    this.setState({
+      open:false
+    })
+  //  setOpen(false);
+    //props.closeCertificates()
+  };
+ 
   render() {
     return(
       <div className="management-container">
@@ -571,9 +586,8 @@ export default class PublishedCoursesList extends React.Component {
             {
               this.state.results ?
                 <div className="management-result-container">
-                  <p className="management-title-published">{this.props.language.myPublishedCourses}<SchoolIcon className="management-title-icon"/></p>
+                  <p className="management-title">{this.props.language.myPublishedCourses}<SchoolIcon className="management-title-icon"/></p>
                   <p className="management-title-suggestion">{`(${this.props.language.toEditPublished})`}</p>
-                  <p className="management-title-suggestion-indent"></p>
                   <div className="management-table-container">
                     <Table
                       labels={{
@@ -606,11 +620,21 @@ export default class PublishedCoursesList extends React.Component {
             }
           </React.Fragment>
         }
+
+       
+        {
+          /* this.state.showCertificates===true?
+            <Certificates/>
+          :
+          undefined */
+        }
+
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.dialogConfirmationTitle}</DialogTitle>
           <DialogContent className="success-dialog-content">
@@ -635,11 +659,13 @@ export default class PublishedCoursesList extends React.Component {
                 </Button>
               :
                 <Link className="button-link"
+                  target="_blank"
                   to={{
                     pathname: "/coursePreview",
                     hash: this.state.course_id,
                     state: { fromDashboard: true },
                   }}
+                  onClick={() => this.handleClose()}
                 >
                   <Button color="primary" autoFocus>
                     {this.props.language.yes}
@@ -676,89 +702,114 @@ export default class PublishedCoursesList extends React.Component {
                         <Loading message={this.props.language.loadingStudents}/>
                       </div>
                     :
-                      <React.Fragment>
+                      <div className="classroom-management-students-container">
                         {this.menu()}
-                        <div className="classroom-management-students-container">
-                          {
-                            this.state.studentInformation===''?
-                              <div>
-                                <DialogContentText className="classroom-dialog-title" id="alert-dialog-description">
-                                {this.props.language.studentsClassroom}
-                                </DialogContentText>
-                                <div className="library-files-container-student">
-                                  {this.state.courseProfiles.map((profile, index) => {
-                                    return(
-                                      <StudentProfile
-                                        profile={profile}
-                                        handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                        handleView={this.handleView}
-                                        reload={this.openClassroomManagement.bind(this)}
-                                        language={this.props.language}
-                                      />
-                                    )
-                                  })}
-                                </div>
+                        {
+                          this.state.studentInformation===''?
+                            <div>
+                              <DialogContentText className="classroom-dialog-title" id="alert-dialog-description">
+                              {this.props.language.studentsClassroom}
+                              </DialogContentText>
+                              <div className="library-files-container-student">
+                                {this.state.courseProfiles.map((profile, index) => {
+                                  if (profile.courseProfile)
+                                  return(
+                                    <StudentProfile
+                                      profile={profile}
+                                      course={this.state.summaryCourse}
+                                      handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                      unsubscribe={this.props.unsubscribe.bind(this)}
+                                      handleView={this.handleView}
+                                      reload={this.openClassroomManagement.bind(this)}
+                                      flag={this.flag.bind(this)}
+                                      language={this.props.language}
+                                    />
+                                  )
+                                })}
+                              </div>
+                              <Button onClick={() =>this.showCertificates()} color="primary" autoFocus>
+                                  Check Certificates
+                              </Button>
+                            </div>
+                          :
+                           undefined
+                        }
+                        {console.log("showwww",this.state, this.props)}
+                        {
+                          this.state.showCertificates===true?
+                          <Certificates
+                          language={this.props.language}
+                            courseData={this.state.course}
+                            open={Math.random()}
+                            courseProfiles={this.state.courseProfiles}
+                          />
+                          :
+                          undefined
+                        }
+                        {
+
+                          <div>
+                         
+                          <ToastContainer
+                            position="top-center"
+                            autoClose={false}
+                            newestOnTop={false}
+                            closeOnClick={false}
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                          />
+                          </div>
+                          
+                        }
+                        {
+                          this.state.studentInformation==='quiz'?
+                            this.state.studentScores.length === 0 ?
+                              <div className="empty-dashboard-quiz">
+                                <p className="empty-dashboard-text">{this.props.language.courseNotHaveQuizes}</p>
+                                <InfoIcon className="empty-dashboard-icon"/>
                               </div>
                             :
-                              undefined
-                          }
-                          {
-                            this.state.studentInformation==='quiz'?
-                              this.state.studentScores.length === 0 ?
-                                <div className="empty-dashboard-quiz">
-                                  <p className="empty-dashboard-text">{this.props.language.courseNotHaveQuizes}</p>
-                                  <InfoIcon className="empty-dashboard-icon"/>
-                                </div>
-                              :
-                                this.quizes()
-                            :
-                              undefined
-                          }
-                          {
-                            this.state.studentInformation==='quizDetails'?
-                              this.quizDetails()
-                            :
-                              undefined
-                          }
-                          {
-                            this.state.studentInformation==='course'?
-                              <div>
-                                <CourseMenu
-                                  course={this.state.course}
-                                  progress={this.state.student.courseProfile.progress}
-                                  navigateTo={this.navigateTo.bind(this)}
-                                  selected={this.state.selected}
-                                  showPresentation={this.showPresentation.bind(this)}
-                                  showCourseStories={this.showCourseStories.bind(this)}
-                                  handleView={this.handleView.bind(this)}
-                                  language={this.props.language}
-                                />
-                                <CourseContent
-                                  fromTutor={this.state.student.studentId}
-                                  course={this.state.course}
-                                  showComponent={this.props.showComponent.bind(this)}
-                                  handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                  handlePreviousUnit={this.handlePreviousUnit.bind(this)}
-                                  handleNextUnit={this.handleNextUnit.bind(this)}
-                                  handlePreviousSubunit={this.handlePreviousSubunit.bind(this)}
-                                  handleNextSubunit={this.handleNextSubunit.bind(this)}
-                                  //completeActivity={this.completeActivity.bind(this)}
-                                  navigateTo={this.navigateTo.bind(this)}
-                                  //completeUnit={this.completeUnit.bind(this)}
-                                  //completeSubunit={this.completeSubunit.bind(this)}
-                                  //openMediaPlayer={this.openMediaPlayer.bind(this)}
-                                  //leaveComment={this.leaveComment.bind(this)}
-                                  selected={this.state.selected}
-                                  toComplete={this.state.student.courseProfile.toComplete}
-                                  toResolve={this.state.student.courseProfile.toResolve}
-                                  language={this.props.language}
-                                />
-                              </div>
-                            :
-                              undefined
-                          }
-                        </div>
-                      </React.Fragment>
+                              this.quizes()
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.studentInformation==='quizDetails'?
+                            this.quizDetails()
+                          :
+                            undefined
+                        }
+                        {
+                          this.state.studentInformation==='course'?
+                            <div>
+                              <CourseMenu
+                                course={this.state.course}
+                                progress={this.state.student.courseProfile.progress}
+                                navigateTo={this.props.navigateTo.bind(this)}
+                                selected={this.props.selected}
+                                expandedNodes={this.props.expandedNodes}
+                                handleView={this.handleView.bind(this)}
+                                language={this.props.language}
+                              />
+                              <CourseContent
+                                fromTutor={this.state.student.studentId}
+                                course={this.state.course}
+                                showComponent={this.props.showComponent.bind(this)}
+                                handleControlMessage={this.props.handleControlMessage.bind(this)}
+                                handlePrevious={this.props.handlePrevious.bind(this)}
+                                handleNext={this.props.handleNext.bind(this)}
+                                navigateTo={this.props.navigateTo.bind(this)}
+                                selected={this.props.selected}
+                                toComplete={this.state.student.courseProfile.toComplete}
+                                toResolve={this.state.student.courseProfile.toResolve}
+                                language={this.props.language}
+                              />
+                            </div>
+                          :
+                            undefined
+                        }
+                      </div>
                   }
                 </React.Fragment>
               :
@@ -768,51 +819,6 @@ export default class PublishedCoursesList extends React.Component {
                   <InfoIcon className="empty-dashboard-icon"/>
                 </div>
               </div>
-            }
-          </DialogContent>
-        </Dialog>
-        <Dialog
-          open={this.state.openStories}
-          onClose={this.handleCloseStories}
-          aria-labelledby="alert-dialog-confirmation"
-          aria-describedby="alert-dialog-confirmation"
-          className="media-dialog"
-        >
-          <DialogTitle className="dialog-title">
-            <AppBar className="dialog-app-bar" color="primary" position="static">
-              <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
-                <AppsIcon/>
-                <h4 className="dialog-label-title">{this.props.language.courseStories}</h4>     
-                <IconButton
-                  id="close-icon"
-                  edge="end"
-                  className="dialog-toolbar-icon"
-                  onClick={this.handleCloseStories}
-                >
-                  <CloseIcon/>
-                </IconButton>
-              </Toolbar>
-            </AppBar>
-          </DialogTitle>
-          <DialogContent className="stories-dialog-content">
-            {
-              this.state.stories.map(story => {
-                return(
-                  <Paper elevation={5} className="story-item-container">
-                    <LibraryBooksIcon className="story-item-icon"/>
-                    <p className="story-item-text-primary">{story.activity.name}</p>
-                    <p className="story-item-text-secondary">{`By: ${story.userInformation.username}`}</p>
-                    <Link className="story-item-button"
-                      //target="_blank"
-                      to={`/story#${story._id}`}
-                    >
-                      <Button variant="contained" color="primary">
-                        {this.props.language.open}
-                      </Button>
-                    </Link>
-                  </Paper>
-                )
-              })
             }
           </DialogContent>
         </Dialog>

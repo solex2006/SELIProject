@@ -83,6 +83,7 @@ export default class AudioRecorder extends React.Component {
         usedInCourse: false,
         userId: Meteor.userId(),
         recorded: true,
+        type: "audio"
         //userId: Meteor.userId() // Optional, used to check on server for file tampering
       },
       streams: 'dynamic',
@@ -179,7 +180,7 @@ export default class AudioRecorder extends React.Component {
           {
             this.state.saveButton ?
               <Tooltip title="Save audio">
-                <Fab size="small" onClick={() => this.saveRecordedAudio()} color="secondary" className="recorder-button" onClick={() => this.saveRecordedAudio()}>
+                <Fab size="small" onClick={() => this.saveRecordedAudio()} color="secondary" className="recorder-button">
                   <SaveIcon/>
                 </Fab>
               </Tooltip>

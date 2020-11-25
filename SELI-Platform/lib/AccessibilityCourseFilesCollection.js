@@ -1,4 +1,5 @@
 import { FilesCollection } from 'meteor/ostrio:files';
+import console = require('console');
 
 const AccessibilityCourseFilesCollection = new FilesCollection({
   storagePath: '../../data/AccessibilityCourseFiles',
@@ -18,7 +19,9 @@ const AccessibilityCourseFilesCollection = new FilesCollection({
     // to check file's "magic-numbers" use `mmmagic` or `file-type` package
     // real extension and mime-type can be checked on client (untrusted side)
     // and on server at `onAfterUpload` hook (trusted side)
-    if (file.size <= 2097152000) {
+
+    console.log("desde AccessibilitieCourseFilesCollection",file)
+    if (file.size <= 104857600) {
       return true;
     }
     return 'Please upload image, with size equal or less than 10MB';

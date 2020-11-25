@@ -195,6 +195,10 @@
   cursor: grabbing;
 }
 
+.drag-class-items {
+  cursor: grabbing;
+}
+
 .drop-class {
   transition: 0.5s;
 }
@@ -212,7 +216,7 @@
 }
 
 .url-input {
-  width: 25vw !important;
+  width: 90% !important;
   animation: fadeIn 1s;
 }
 .url-input-storytelling {

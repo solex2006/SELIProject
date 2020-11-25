@@ -45,6 +45,7 @@ export default class CommentDialog extends React.Component {
           onClose={this.props.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
         >
           <DialogContent className="success-dialog-content">
             <DialogTitle className="comment-dialog-text-text">

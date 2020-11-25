@@ -3,66 +3,64 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import ErrorIcon from '@material-ui/icons/Error';
-import ImageIcon from '@material-ui/icons/Image';
 import ImageSharpIcon from '@material-ui/icons/ImageSharp';
-import PictureAsPdfSharpIcon from '@material-ui/icons/PictureAsPdfSharp';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import MenuItem from '@material-ui/core/MenuItem';
-import FileUpload from '../files/FileUpload';
-import ImagePreview from '../files/previews/ImagePreview';
-import PdfPreview from '../files/previews/PdfPreview';
-import Library from '../tools/Library';
 import Help from '../tools/Help';
 import FormPreview from '../files/previews/FormPreview';
-import CourseFilesCollection from '../../../lib/CourseFilesCollection';
-import {validateOnlyLetters, validateOnlyNumbers} from '../../../lib/textFieldValidations';
-import Audiences from './Audiences';
-import FormLabel from '@material-ui/core/FormLabel';
-
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import AppsIcon from '@material-ui/icons/Apps';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import {validateOnlyLetters, validateLettersString, onlySpaces} from '../../../lib/textFieldValidations';
+import Paper from "@material-ui/core/Paper";
+import InputMask from "react-input-mask";
+import Input from "@material-ui/core/TextField";
+//import FeedbackHelp from "./feedback";
+import Grid from "@material-ui/core/Grid";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Fab from '@material-ui/core/Fab';
-import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import AddIcon from "@material-ui/icons/Add";
 import Tooltip from '@material-ui/core/Tooltip';
-import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
-import RadioButtonsGroup from './CheckBox'
-
+import FeedbackHelp from "../../components/course/feedback"
 
 export default class CourseInformation extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
       courseInformation: this.props.courseInformation,
       weekHourOption: 'hours',
+      alert:"Noalert",
+      modality:'',
+      modality2:true,
     }
   }
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
+  componentDidMount(){
+    if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
+        && this.state.courseInformation.keyWords.length > 2 && this.state.courseInformation.image!=undefined 
+        && (this.state.courseInformation.language===0 
+          || this.state.courseInformation.language===1
+        ||this.state.courseInformation.language===2 
+        || this.state.courseInformation.language===3 
+        || this.state.courseInformation.language===4)){
+      this.props.validate('passInformation')
+    } else {
+      this.props.validate('NopassInformation')
+    }
+  }
 
-  handleClose = () => {
-    if (this.state.courseInformation.image !== undefined) {
-      this.setState({
-        image: this.state.courseInformation.image,
-      });
+  componentDidUpdate(prevProps, prevState) {
+    if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
+        && this.state.courseInformation.keyWords.length > 2 && this.state.courseInformation.image!=undefined 
+        && (this.state.courseInformation.language===0 || this.state.courseInformation.language===1
+        ||this.state.courseInformation.language===2 || this.state.courseInformation.language===3 || this.state.courseInformation.language===4)){
+      this.props.validate('passInformation')
+    } else {
+      this.props.validate('NopassInformation')
     }
-    if (this.state.courseInformation.sylabus !== undefined) {
-      this.setState({
-        sylabus: this.state.courseInformation.sylabus,
-      });
+    if (prevProps.cancelCounter !== this.props.cancelCounter) {
+      this.setState({courseInformation: this.props.courseInformation})
     }
-    this.setState({ open: false });
-  };
+  }
 
   handleChange = name => event => {
     let courseInformation = this.state.courseInformation;
@@ -76,6 +74,10 @@ export default class CourseInformation extends React.Component {
       courseInformation.description = event.target.value;
     }
     else if (name === 'duration') {
+      var durationAux = event.target.value.split(":");
+      var aux1 = durationAux[1].substring(0,1);
+      var aux2 = durationAux[2].substring(0,1);
+      if ((aux1 !== "_" && aux1 < 6) && (aux2 !== "_" && aux2 < 6))
       courseInformation.duration = event.target.value;
     }
     else if (name === 'durationWeeks') {
@@ -91,28 +93,36 @@ export default class CourseInformation extends React.Component {
 
   addKeyWord(){
     let keyWord = document.getElementById('keyWord-input').value;
+    if (validateLettersString(keyWord) && !onlySpaces(keyWord))
     if(keyWord !== '') {
       let courseInformation = this.state.courseInformation;
       keyWord = keyWord.trim().split(/\s+/);
       if (keyWord.length <= 3) {
-        let finalKeyWord = '';
-        keyWord[0] = keyWord[0].charAt(0).toUpperCase() + keyWord[0].slice(1);
-        for (var i = 0; i < keyWord.length; i++) {
-          finalKeyWord = finalKeyWord + keyWord[i];
-          if (i < 2) {
-            finalKeyWord = finalKeyWord + " ";
+        if (courseInformation.keyWords.length < 10) {
+          let finalKeyWord = '';
+          keyWord[0] = keyWord[0].charAt(0).toUpperCase() + keyWord[0].slice(1);
+          for (var i = 0; i < keyWord.length; i++) {
+            finalKeyWord = finalKeyWord + keyWord[i];
+            if (i < 2) {
+              finalKeyWord = finalKeyWord + " ";
+            }
           }
+          let duplicate=courseInformation.keyWords.includes(finalKeyWord)
+          if(duplicate){
+            this.props.handleControlMessage(true, this.props.language.repeatedkeywords)
+          }else{
+            courseInformation.keyWords.push(finalKeyWord);
+            this.setState({
+              courseInformation: courseInformation,
+            });
+          }
+        } else {
+          this.props.handleControlMessage(true, this.props.language.addOneOrMore);
         }
-        courseInformation.keyWords.push(finalKeyWord);
-        this.setState({
-          courseInformation: courseInformation,
-        });
-      }
-      else {
+      } else {
         this.props.handleControlMessage(true, this.props.language.keywordsMaximumMessage);
       }
-    }
-    else {
+    } else {
       this.props.handleControlMessage(true, this.props.language.keywordsEmptyMessage);
     }
     document.getElementById('keyWord-input').value = "";
@@ -131,182 +141,45 @@ export default class CourseInformation extends React.Component {
       this.addKeyWord();
     }
     else {
-      validateOnlyLetters(event);
+      if (!validateOnlyLetters(event))
+      this.props.handleControlMessage(true, this.props.language.courseKeyWordsHelper1);
     }
   }
 
-  openFileSelector(fileType, accept){
-    this.setState({
-      showLibrary: false,
-      fileType: fileType,
-      accept: accept,
-      showPreview: false,
-    }, () => {this.handleClickOpen()});
-  }
-
-  openFileSelectorEdit(fileType, accept){
-    this.setState({
-      showLibrary: false,
-      fileType: fileType,
-      accept: accept,
-      showPreview: true,
-    }, () => {this.handleClickOpen()});
-  }
-
-  getFileInformation(file){
-    this.state.fileType === "image" ?
-    this.setState({
-      image: file,
-      showPreview: true,
-      showLibrary: false,
-    })
-    :
-    this.setState({
-      sylabus: file,
-      showPreview: true,
-      showLibrary: false,
-    })
-  }
-
-  unPickFile(){
-    this.state.fileType === "image" ?
-    this.setState({
-      showPreview: false,
-      image: undefined,
-    })
-    :
-    this.setState({
-      showPreview: false,
-      sylabus: undefined,
-    })
-  }
-
-  showLibrary(){
-    this.setState({
-      showLibrary: true,
-    })
-  }
-
-  hideLibrary(){
-    this.setState({
-      showLibrary: false,
-    })
-  }
-
-  selectFile(fileType) {
-    let courseInformation = this.state.courseInformation;
-    if (fileType === "image") {
-      courseInformation.image = this.state.image;
-      this.setState({
-        showPreview: false,
-        courseInformation: courseInformation,
-      });
-    }
-    else {
-      courseInformation.sylabus = this.state.sylabus
-      this.setState({
-        showPreview: false,
-        courseInformation: courseInformation,
-      })
-    }
-    this.handleClose();
-  }
-
-  changeFile(type) {
-    if (type === "image") {
-      this.openFileSelectorEdit("image", "image/*");
-    }
-    else {
-      this.openFileSelectorEdit("pdf", ".pdf");
-    }
-  }
-
-  componentDidMount() {
-    this.setState({
-      image: this.state.courseInformation.image,
-      sylabus: this.state.courseInformation.sylabus,
-    })
-    //console.log("CourseInformation",this.props.courseInformation)
-  }
-
-  getAudiences=(audiences, name)=>{
-    let courseInformation = this.state.courseInformation;
-    //console.log("Audiences in Course Information", audiences, name)
-   // console.log("CourseInformation:::::::::::", courseInformation )
-    //courseInformation.audiences = audiences;
-    if (name === 'signature') {
-      courseInformation.signature = audiences;
-    }
-    else if (name === 'level') {
-      courseInformation.level = audiences;
-    }
-    else if (name === 'type') {
-      courseInformation.type = audiences;
-    }
-  }
-
-  courseDuration=(hourWeek)=>{
-    console.log("Semana u hora: ",hourWeek)
-    if(hourWeek==="weeks"){
-      this.setState({
-        weekHourOption:'weeks'
-      })
-    }else if(hourWeek==="hours"){
-      this.setState({
-        weekHourOption:'hours'
-      })
+  keyControllerFalse = (event, name) => {
+    if (event.which == 13 || event.keyCode == 13) {
+      event.preventDefault();
+      return false;
     }
   }
 
   render() {
     return(
-      <div className="course-information-container">
-        <div className="form-file-column">
-          {
-            this.state.courseInformation.image !== undefined ?
-              <FormPreview
-                file={this.state.courseInformation.image}
-                type="image"
-                unPickFile={this.unPickFile.bind(this)}
-                changeFile={this.changeFile.bind(this)}
-                courseSyllabus={this.props.language.courseSyllabus}
-              />
-            :
-              <Button onClick={() => this.openFileSelector("image", "image/*")} className="form-image-button" fullWidth color="primary"><ImageSharpIcon className="form-image-icon"/>
-                {this.props.language.selectCourseImage} <br/>
-                {this.props.language.required}
-              </Button>
-          }
-          {
-            this.state.courseInformation.sylabus !== undefined ?
-              <FormPreview
-                file={this.state.courseInformation.sylabus}
-                type="pdf"
-                unPickFile={this.unPickFile.bind(this)}
-                changeFile={this.changeFile.bind(this)}
-                courseSyllabus={this.props.language.courseSyllabus}
-              />
-            :
-              <Button onClick={() => this.openFileSelector("pdf", ".pdf")} className="form-file-button" fullWidth color="secondary"><PictureAsPdfSharpIcon className="form-image-icon"/>
-                {this.props.language.selectCourseSyllabus} <br/>
-                {this.props.language.required}
-              </Button>
-          }
-        </div>
-        <div className="form-input-column">
+      <div className="form-input-container">
+        <div className="form-input-steps">
+          <h2>{this.props.language.information}</h2><br/>
           <TextField
             id="title-input"
-            label={this.props.language.courseTitle}
+            label={`${this.props.language.courseTitle} (${this.props.language.required})`}
+            aria-label={this.props.language.textEditor_a11y_title}
             margin="normal"
             variant="outlined"
             fullWidth
-            required
             value={this.state.courseInformation.title}
             onChange={this.handleChange('title')}
+          />
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.courseTitleInformation}.`}
+            describedBy={"i01-helper-text"}
           />
           <TextField
             id="subtitle-input"
             label={this.props.language.courseSubtitle}
+            aria-label={this.props.language.textEditor_a11y_subtitle}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -314,26 +187,44 @@ export default class CourseInformation extends React.Component {
             value={this.state.courseInformation.subtitle}
             onChange={this.handleChange('subtitle')}
           />
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.courseSubtitleInformation}.`}
+            describedBy={"i01-helper-text"}
+          />
           <TextField
             id="description-input"
-            label={this.props.language.courseDescription}
+            label={`${this.props.language.courseDescription} (${this.props.language.required})`}
+            aria-label={this.props.language.description}
             margin="normal"
             variant="outlined"
             fullWidth
-            required
+            //required
             multiline
             rows={3}
             value={this.state.courseInformation.description}
             onChange={this.handleChange('description')}
           />
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.courseDescriptionInformation}.`}
+            describedBy={"i01-helper-text"}
+          />
           <TextField
             id="subject-select-currency"
             select
-            label={this.props.language.language}
+            label={`${this.props.language.language} (${this.props.language.required})`}
+            aria-label={this.props.language.language}
             value={this.state.courseInformation.language}
             onChange={this.handleChange('language')}
             fullWidth
-            helperText={this.props.language.selectLanguageCourse}
+            // required
             margin="normal"
             variant="outlined"
           >
@@ -343,23 +234,41 @@ export default class CourseInformation extends React.Component {
             <MenuItem value={3}>{`${this.props.language.polish} (PL)`}</MenuItem>
             <MenuItem value={4}>{`${this.props.language.turkish} (TR)`}</MenuItem>
           </TextField>
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.selectLanguageCourse}.`}
+            describedBy={"i01-helper-text"}
+          />
           <div className="row-input">
             <TextField
               id="keyWord-input"
-              label={this.props.language.courseKeyWords}
+              label={`${this.props.language.courseKeyWords} (${this.props.language.required})`}
+              aria-label={this.props.language.courseKeyWords}
               margin="normal"
               variant="outlined"
-              required
               className="button-input"
-              helperText={this.props.language.courseKeyWordsHelper}
               onKeyPress={() => this.keyController(event)}
             />
+            <div className="add-keyword-button">
+              <Tooltip title={this.props.language.add}>
+                <Fab
+                  size="small"
+                  className="form-file-selected-button"
+                  onClick={() => this.addKeyWord()}
+                >
+                  <AddIcon />
+                </Fab>
+              </Tooltip>
+            </div>
+            
           </div>
           {
             this.state.courseInformation.keyWords.length ?
               <div className="chips-container">
                 {this.state.courseInformation.keyWords.map((keyWord, index) => {
-                  
                   return(
                     <Chip
                       size="small"
@@ -375,6 +284,14 @@ export default class CourseInformation extends React.Component {
             :
             undefined
           }
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.courseKeyWordsHelper0} ${this.props.language.courseKeyWordsHelper1}`}
+            describedBy={"i01-helper-text"}
+          />
           <p className="form-message"> {this.props.language.courseKeyWordsHelp}
             <Help
               helper="default"
@@ -382,160 +299,119 @@ export default class CourseInformation extends React.Component {
               language={this.props.language}
             />
           </p>
-          <div className="sub-course-information">
-            { 
-              this.state.weekHourOption==='weeks'?
-                  <TextField
-                        id="duration-input"
-                        label={this.props.language.estimatedCourseDuration}
-                        margin="normal"
-                        variant="outlined"
-                        type="number"
-                        fullWidth
-                        required
-                        InputProps={{
-                          endAdornment: <InputAdornment position="end">{this.props.language.week}</InputAdornment>,
-                        }}
-                        inputProps={{min: "1", max: "999", step: "1" }}
-                        value={this.state.courseInformation.durationweeks}
-                        onChange={this.handleChange('durationWeeks')}
-                        onKeyPress={() => validateOnlyNumbers(event)}
-                  /> 
-                :
-                undefined
-            }
-            {
-              this.state.weekHourOption==='hours'?
-                    <TextField
-                        id="duration-input"
-                        label={this.props.language.estimatedCourseDuration}
-                        margin="normal"
-                        variant="outlined"
-                        type="number"
-                        fullWidth
-                        required
-                        InputProps={{
-                          endAdornment: <InputAdornment position="end">{this.props.language.hours}</InputAdornment>,
-                        }}
-                        inputProps={{ min: "5", max: "999", step: "1" }}
-                        value={this.state.courseInformation.duration}
-                        onChange={this.handleChange('duration')}
-                        onKeyPress={() => validateOnlyNumbers(event)}
-                  />    
-                :
-                  undefined
-            }
-            <RadioButtonsGroup
-              language={this.props.language}
-              courseDuration={this.courseDuration}
-            />
-          </div>
-          <div className="sub-course-information">
-            <FormLabel component="legend">{`${this.props.language.audiences}:`}</FormLabel>
-            <Audiences
-              language={this.props.language}
-              getAudiences={this.getAudiences}
-            />
-          </div>
-          {/* <Button className={"buttomAudiences"} onClick={this.audiences} variant="outlined" color="primary">Audiences</Button>
+          <Paper className="sub-course-information" elevation={5} component="form">
+            <InputMask mask="999:99:99" value={this.state.courseInformation.duration} onChange={this.handleChange('duration')}>
+              {() => (
+                <Input
+                  id="filled-secondary"
+                  label={`${this.props.language.duration} (${this.props.language.required})`}
+                  aria-label={this.props.language.duration}
+                  size="small"
+                  className="duration-course-information"
+                  onKeyPress={this.keyControllerFalse}
+                  // variant="outlined"
+                />
+              )}
+            </InputMask>
+          </Paper>
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.estimatedCourseDuration}. ${this.props.language.minimumCourseDuration}.`}
+            describedBy={"i01-helper-text"}
+          />
+          <br/>
+          <Grid container >
+            <Grid item xs={12} >
+                <h4 >{this.props.language.modality}</h4>
+            </Grid>
+            <Grid item xs={12} >
+            <form >
+              {/* <FormLabel component="legend">
+                {this.props.language.delivercontent}
+              </FormLabel> */}
+              <RadioGroup
+                aria-label="Course delivery"
+                name="coursePlan"
+                value={this.state.courseInformation.modality}
+                onChange={event => {
+                  
+                  let courseInformation = this.state.courseInformation;
+                  courseInformation.modality = event.target.value;
+                  this.setState({
+                    courseInformation: courseInformation,
+                  });
+    
+                  }}
+              >
+                <FormControlLabel
+                  value="online"
+                  control={<Radio />}
+                  label={this.props.language.online}
+                />
+                <FormControlLabel
+                  value="hybrid"
+                  control={<Radio />}
+                  label={this.props.language.hybrid}
+                />
+              </RadioGroup>
+            </form>
+            </Grid>
+          </Grid>
+          <FeedbackHelp
+            validation={{
+              error: false,
+              a11y: null
+            }}
+            tipMsg={`${this.props.language.delivercontent}.`}
+            describedBy={"i01-helper-text"}
+          />
+          <br/>
           {
-            this.state.audiences==="audiences" ?
-              <Audiences
+            this.state.courseInformation.image !== undefined ?
+              <FormPreview
+                file={this.state.courseInformation.image}
+                type="image"
+                unPickFile={this.props.unPickFile.bind(this)}
+                changeFile={this.props.changeFile.bind(this)}
+                courseSyllabus={this.props.language.courseSyllabus}
                 language={this.props.language}
-                getAudiences={this.getAudiences}
               />
             :
-              undefined
-          }  */}
+              <Button 
+                onClick={() => this.props.openFileSelector("image", "image/*")}
+                aria-label={this.props.language.chooseCourseImage}
+                className="form-image-button" fullWidth 
+                color="primary"><ImageSharpIcon 
+                className="form-image-icon"
+              />
+                {this.props.language.selectCourseImage} <br/>
+                {`(${this.props.language.required})`}
+              </Button>
+          }
+          <br/>
+          {console.log("sdadadsdasd", this.state.analysisTipsHelps)}
+            <FeedbackHelp
+             language={this.props.language}
+              validation={{
+                error: false,
+                errorMsg: "xxxx",
+                errorType: "xxxxxtttt",
+                a11y: null
+              }}
+             // tipMsg={this.props.language.appropriateOption}
+              describedBy={"i05-helper-text"}
+              stepHelp={{
+                step: "textHelper",
+                stepLabel: this.props.language.CourseInformationHelp,
+                helpsTips:this.props.language.informationTipsHelps
+              }}
+            />
+          <br/><br/><br/>
         </div>
-        
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          className="form-dialog"
-          keepMounted
-          maxWidth={false}
-        >
-          <DialogTitle className="dialog-title">
-            <AppBar className="dialog-app-bar" color="primary" position="static">
-              <Toolbar className="dialog-tool-bar-information" variant="dense" disableGutters={true}>
-                <AppsIcon/>
-                <h4 className="dialog-label-title">{this.state.fileType === "image" ? this.props.language.chooseOrUploadImage : this.props.language.chooseOrUploadSyllabus}</h4>
-                <IconButton
-                  id="close-icon"
-                  edge="end"
-                  className="dialog-toolbar-icon"
-                  onClick={this.handleClose}
-                >
-                  <CloseIcon/>
-                </IconButton>
-              </Toolbar>
-            </AppBar>
-          </DialogTitle>
-          <DialogContent>
-            <div className="file-form-dialog">
-              {
-                this.state.showLibrary ?
-                  <Library
-                    user={Meteor.userId()}
-                    type={this.state.fileType}
-                    getFileInformation={this.getFileInformation.bind(this)}
-                    hideLibrary={this.hideLibrary.bind(this)}
-                    language={this.props.language}
-                  />
-                :
-                  <div>
-                    <div className="library-button-container">
-                      <Fab onClick={() => this.showLibrary()}>
-                        <FolderSpecialIcon/>
-                      </Fab>
-                      <p className="media-fab-text">{this.props.language.library}</p>
-                    </div>
-                    {
-                      this.state.showPreview ?
-                        <div className="form-preview-container">
-                          {
-                            this.state.fileType === "image" ?
-                              <ImagePreview
-                                file={this.state.image}
-                                unPickFile={this.unPickFile.bind(this)}
-                                language={this.props.language}
-                                tipo={"Course"}
-                              />
-                            :
-                            <PdfPreview
-                              file={this.state.sylabus}
-                              unPickFile={this.unPickFile.bind(this)}
-                              language={this.props.language}
-                            />
-                          }
-                        </div>
-                      :
-                      <div className="form-file-container">
-                        <FileUpload
-                          type={this.state.fileType}
-                          user={Meteor.userId()}
-                          accept={this.state.accept}
-                          getFileInformation={this.getFileInformation.bind(this)}
-                          label={this.state.fileType === 'image' ? this.props.language.uploadImageButtonLabel : this.props.language.uploadPdfButtonLabel }
-                        />
-                      </div>
-                    }
-                  </div>
-              }
-            </div>
-          </DialogContent>
-          <div className="dialog-actions-container">
-            <Tooltip title={this.props.language.done}>
-              <Fab onClick={() => this.selectFile(this.state.fileType)} disabled={this.state.fileType === "image" ? this.state.image === undefined : this.state.sylabus === undefined} className="dialog-fab" color="primary">
-                <AssignmentTurnedInIcon/>
-              </Fab>
-            </Tooltip>
-          </div>
-        </Dialog>
       </div>
-      );
-    }
+    );
   }
+}

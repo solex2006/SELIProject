@@ -6,17 +6,9 @@ import Loading from '../../components/tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
 
 import CourseSubscription from '../../components/course/CourseSubscription';
-
-import WarningIcon from '@material-ui/icons/Warning';
 import SchoolIcon from '@material-ui/icons/School';
 import InfoIcon from '@material-ui/icons/Info';
-
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default class SubscribedCourses extends React.Component {
   constructor(props) {
@@ -71,39 +63,15 @@ export default class SubscribedCourses extends React.Component {
     });
   }
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  unsubscribe = (courseId) => {
-    this.handleClickOpen();
-    this.setState({
-      dialogConfirmationTitle: this.props.language.unsubscribeCourse,
-      dialogConfirmationContentText: this.props.language.sureLeaveClassroom,
-      courseToUnsubscribe: courseId,
-      confirmAction: () => this.confirmUnsubscribe(),
-    });
-  }
-
-  confirmUnsubscribe = () => {
-    this.props.unsubscribe(this.state.courseToUnsubscribe);
-    this.handleClose();
-    this.getSubscribedCourses();
-  }
-
   handleClickCourse = (_id) => {
     const index = this.state.courses.findIndex(course => course.information._id === _id);
-    this.props.handleClickCourse(this.state.courses[index]);
+    this.props.handleClickCourse(this.state.courses[index].courseId, this.state.courses[index].information);
   }
 
   render() {
     return(
       <div  tabIndex="-1" className="subscriptions-dashboard-container">
-        <p  tabIndex="-1" className="management-title">{this.props.language.mySubscriptions}<SchoolIcon className="management-title-icon"/></p>
+        <h1  className="management-title">{this.props.language.mySubscriptions}<SchoolIcon className="management-title-icon"/></h1>
         <Divider/>
         {
           this.state.loading ?
@@ -123,7 +91,7 @@ export default class SubscribedCourses extends React.Component {
                           course={course.information}
                           progress={course.progress}
                           disabled={this.props.disabled}
-                          unsubscribe={this.unsubscribe.bind(this)}
+                          unsubscribe={this.props.unsubscribe.bind(this)}
                           handleClickCourse={this.handleClickCourse.bind(this)}
                           language={this.props.language}
                         />
@@ -142,29 +110,6 @@ export default class SubscribedCourses extends React.Component {
             }
           </div>
         }
-        <Dialog
-          tabIndex="-1"
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-confirmation"
-          aria-describedby="alert-dialog-confirmation"
-        >
-          <DialogTitle  tabIndex="-1" className="success-dialog-title" id="alert-dialog-title">{this.state.dialogConfirmationTitle}</DialogTitle>
-          <DialogContent tabIndex="-1" className="success-dialog-content">
-            <DialogContentText tabIndex="-1" className="success-dialog-content-text" id="alert-dialog-description">
-              {this.state.dialogConfirmationContentText}
-            </DialogContentText>
-            <WarningIcon tabIndex="-1" className="warning-dialog-icon"/>
-          </DialogContent>
-          <DialogActions>
-            <Button tabIndex="0" onClick={() => this.handleClose()} color="primary" autoFocus>
-              {this.props.language.cancel}
-            </Button>
-            <Button tabIndex="0" onClick={() => this.state.confirmAction()} color="primary" autoFocus>
-              {this.props.language.confirm}
-            </Button>
-          </DialogActions>
-        </Dialog>
       </div>
     )
   }

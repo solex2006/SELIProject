@@ -4,15 +4,12 @@ import { Session } from 'meteor/session';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../style/theme';
 
-import Loading from '../components/tools/Loading';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 import CommentDialog from '../components/student/comments/CommentDialog';
 import StorytellingPlayer from '../components/storytelling/StorytellingPlayer';
 import StorytellingPlayerTime from '../components/storytelling/StorytellingPlayerTime';
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import AppBar from '../components/navigation/AppBar';
 
 import { Activities } from '../../lib/ActivitiesCollection';
 import { Comments } from '../../lib/CommentsCollection';
@@ -22,6 +19,7 @@ import spanish from '../../lib/translation/spanish';
 import portuguese from '../../lib/translation/portuguese';
 import polish from '../../lib/translation/polish';
 import turkish from '../../lib/translation/turkish';
+import {Helmet} from "react-helmet";
 
 export default class Story extends React.Component {
   constructor(props) {
@@ -44,10 +42,13 @@ export default class Story extends React.Component {
         let story = Activities.find({_id: _id}).fetch();
         if (story.length) {
           story = story[0];
-          story.nodes = story.activity.data;
+          let type = story.activity.type;
+          story = story.activity;
+          story.nodes = story.data;
+          story.data = null;
           this.setState({
-            story: story,
-            type: story.activity.type,
+            story,
+            type,
             loadingStory: false,
           });
         }
@@ -134,46 +135,82 @@ export default class Story extends React.Component {
     Meteor.call("ChangeLanguague", Meteor.userId(), option, (error, response) =>  {});
   }
 
+  getTitleOfStory() {
+    try {
+      let _id = this.props.location.hash.substr(1);
+      let story = Activities.find({ _id: _id}).fetch();
+      if(story.length){
+        story = story[0];
+        story = story.activity;
+        if(story.name){
+          return story.name;
+        }      
+      }   
+    } catch  {  }    
+    return "SELI-Platform";
+  }
+
+  getImageUrlForSocial(){
+    try{
+    let _id = this.props.location.hash.substr(1);
+    let result = Activities.find({ _id: _id}).fetch();
+      if(result.length){
+        result = result[0];
+        result = result.activity.data;
+        result = result[0].images;
+        result = result[0].link;
+        if(result){
+          return result;
+        }      
+      }
+    }
+    catch {}
+    return "http://" + window.location.hostname + "/seli-logo.png";
+  }
+  
   render() {
     return(
       <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{this.getTitleOfStory()}</title>
+          <meta property="og:url"                content={window.location.href} />
+          <meta property="og:type"               content="website" />
+          <meta property="og:title"              content={this.getTitleOfStory()} />
+          <meta property="og:image"              content={this.getImageUrlForSocial()} />
+        </Helmet>
         <MuiThemeProvider theme={theme}>
           {  
             this.state.language && Session.get('language') ?  
               <React.Fragment>      
                 <div id="outer-container">
                   <main id="page-wrap">
-                    <React.Fragment>
-                      {
-                        !this.state.story ? undefined :
-                          <div className="storytelling-link-container">
-                            <AppBar position="static" className="course-dialog-app-bar">
-                              <Toolbar style={{position: 'relative'}}>
-                                <Typography className="course-dialog-title" variant="h6">
-                                  {this.state.language.seliStories}
-                                </Typography>
-                              </Toolbar>
-                            </AppBar>             
-                            {
-                              !this.state.type ? undefined :
-                                this.state.type === "storytelling" ?
-                                  <StorytellingPlayer
-                                    story={this.state.story}
-                                    comments={false}
-                                    link={true}
-                                    language={this.state.language}
-                                  />
-                                :
-                                  <StorytellingPlayerTime
-                                    story={this.state.story}
-                                    comments={false}
-                                    link={true}
-                                    language={this.state.language}
-                                  />
-                            }
-                          </div>
-                      }
-                    </React.Fragment>
+                    <AppBar
+                      history={this.props.history}
+                      language={this.state.language}
+                      setLanguage={this.setLanguage.bind(this)}
+                      user={undefined}
+                      fromAnotherSource
+                    />
+                    {
+                      !this.state.story || !this.state.type ? undefined :
+                        this.state.type === "storytelling" ?
+                          <StorytellingPlayer
+                            story={this.state.story}
+                            comments={true}
+                            link={true}
+                            showCommentDialog={this.showCommentDialog.bind(this)}
+                            language={this.state.language}
+                          />
+                        :
+                          <StorytellingPlayerTime
+                            story={this.state.story}
+                            comments={true}
+                            link={true}
+                            showCommentDialog={this.showCommentDialog.bind(this)}
+                            language={this.state.language}
+                          />
+                    }
                   </main>
                 </div>
                 <CommentDialog

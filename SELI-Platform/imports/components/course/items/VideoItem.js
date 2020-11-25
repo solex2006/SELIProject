@@ -1,27 +1,22 @@
 import React from 'react';
-import MenuItem from './MenuItem';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import ReactPlayer from 'react-player';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import ItemFeedback from '../../accessibility/ItemFeedback';
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
-import VideoPreview from '../../storytelling/VideoPreview';
+import VideoPreview from './VideoPreview';
+import TextAlternatives from '../../accessibility/alternative/TextAlternatives';
+import MediaPlayer from '../../tools/MediaPlayer';
 
 export default class VideoItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      signalShow:'',
+      signalShowAudioDescription:'',
+      autoplay:false,
+      key:'78',
+      editorState:'',
+      shortlongDescription:'',
+      openMedia: false,
+      index: 0
     }
   }
 
@@ -30,71 +25,99 @@ export default class VideoItem extends React.Component {
     win.focus();
   }
 
-  componentDidMount() {
+  textAlternatives = () => {
+    return(
+      <TextAlternatives
+        item={this.props.item}
+        language={this.props.language}
+      ></TextAlternatives>
+    )
+  }
 
+  handleOpenMedia = (index) => {
+    if (!this.props.fromProgram) {
+      const cancellFullScreen = document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen || document.msExitFullscreen;
+      cancellFullScreen.call(document);
+      this.setState({
+        openMedia: true,
+        index: index,
+      });
+    }
+  }
+  
+  handleCloseMedia = () => {
+    this.setState({
+      openMedia: false,
+      index: 0
+    });
   }
 
   render() {
     return(
       <div className="content-box">
         <div className="image-content-item">
-          <Card className="course-item-video-card">
-            <CardActionArea className="course-item-video-card-media-action-area">
-              {
-                this.props.item.attributes.source === 'upload' ?
-                  <VideoPreview file={this.props.item.attributes.video}/>
-                :
-                  <ReactPlayer className="course-creator-item-video-card-preview-player" url={this.props.item.attributes.video.link}/>
-              }
-              <CardContent className="course-item-video-card-media-content">
-                <Typography className="course-item-card-title" gutterBottom variant="h5" component="h2">
+          <div className="course-item-video-card">
+            <figure
+              id={`video_box_${this.props.item.id}`}
+              className={this.props.fromTemplate ? "course-item-video-card-media-action-area-template" : "course-item-video-card-media-action-area"}
+            >
+              { this.props.item.attributes.video && (
+                <VideoPreview
+                  id={this.props.item.id}
+                  file={this.props.item.attributes.video}
+                  dataField={this.props.item.attributes.accessibility.dataField ? this.props.item.attributes.accessibility.dataField : undefined}
+                  handleOpenMedia={this.handleOpenMedia.bind(this)}
+                />
+              )}
+              <div className="course-item-video-card-media-content">
+                <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
+                  {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
+                </Typography>
+                <Typography tabIndex="0" className="course-item-card-title" gutterBottom variant="h5" component="h3">
                   {` ${this.props.item.attributes.title}`}
                 </Typography>
-                <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
-                    {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
-                </Typography>
-                {
-                  this.props.item.attributes.hasDescription ?
-                  <div
-                    className="course-item-video-card-media-description"
-                    dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
-                  >
-                  </div>
-                  :
-                  undefined
-                }
-              </CardContent>
-            </CardActionArea>
-            <CardActions className="course-item-video-card-media-actions-container">
-              {
-                this.props.item.attributes.externalLink !== '' ?
-                  <Button onClick={() => this.openExternalLink()} className="course-item-video-card-media-button" size="small" color="primary">
-                    {this.props.language.learnMore}
-                  </Button>
-                :
-                  undefined
-              }
-            </CardActions>
-          </Card>
+              </div>
+            </figure>
+            {
+              this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.fileAudioDescription[0]!=null ?
+                <div className="AudioPlayer">
+                  <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
+                    {`${this.props.language.audioDescription}:`}
+                  </Typography>
+                  <audio 
+                    ref="audioDescription" 
+                    className="audio-file-preview"
+                    src={this.props.item.attributes.accessibility.dataField.fileAudioDescription[0].link} 
+                    controls
+                  />
+                </div>
+              :      
+                undefined
+            }
+            {
+              this.props.item.attributes.accessibility.dataField!=undefined ?
+                this.textAlternatives()
+              :
+                undefined
+            }
+          </div>
         </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            handleDecorative={this.props.handleDecorative.bind(this)}
-            editAccessibilityForm={this.props.editAccessibilityForm.bind(this)}
+        {this.props.fromProgram && 
+          <ItemFeedback
+            accessibility={this.props.item.attributes.accessibility}
             language={this.props.language}
           />
-        </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
-        <ItemFeedback
-          accessibility={this.props.item.attributes.accessibility}
-          language={this.props.language}
-        />
+        }
+        {
+          !this.props.fromProgram &&
+          <MediaPlayer
+            index={this.state.index}
+            openMedia={this.state.openMedia}
+            mediaItems={[this.props.item]}
+            handleCloseMedia={this.handleCloseMedia.bind(this)}
+            language={this.props.language}
+          />
+        }
       </div>
       );
     }

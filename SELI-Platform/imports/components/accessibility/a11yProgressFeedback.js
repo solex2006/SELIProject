@@ -2,8 +2,6 @@ import React, {useState, useEffect, useCallback} from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/styles';
-import { EditorFormatColorFill } from 'material-ui/svg-icons';
-
 
 //props{
 //	a11yFields: {name: string, is_a11y: boolean}
@@ -24,41 +22,30 @@ export default function A11YProgressFeedback(props){
 	
 
 
-
+	//console.log("propiedades A11YProgressFeedback----->", props)
 	useEffect(() => {
-		//console.log("propiedades----->", props.item.accessibility.isA11Y, props.a11yFields)
+		//console.log("propiedades A11YProgressFeedback----->", props)
 		updateProgress()
-
-			 /*  if(props.item.accessibility.dataField!=undefined){
-				if(props.item.accessibility.dataField.longDescription!="" && props.item.accessibility.dataField.shortDescription!=""){				
-					let propsCopy={ ...props };
-						propsCopy.item.accessibility.isA11Y[1].is_a11y=true
-						propsCopy.item.accessibility.isA11Y[0].is_a11y=true
-						console.log("propiedadesX2----->", propsCopy.item.accessibility, propsCopy.item.accessibility.isA11Y[0].is_a11y, propsCopy.item.accessibility.isA11Y[1].is_a11y)
-						ReuseProgress(propsCopy) 
-					
-				} else if (props.item.accessibility.dataField.longDescription!=""){
-					let propsCopy={ ...props };
-						propsCopy.item.accessibility.isA11Y[0].is_a11y=true
-						propsCopy.item.accessibility.isA11Y[1].is_a11y=false
-						//console.log("propiedadesX2----->", propsCopy.item.accessibility, propsCopy.item.accessibility.isA11Y[0].is_a11y, propsCopy.item.accessibility.isA11Y[1].is_a11y)
-						ReuseProgress(propsCopy)
-
-				}else if (props.item.accessibility.dataField.shortDescription!=""){
-					let propsCopy={ ...props };
-						propsCopy.item.accessibility.isA11Y[0].is_a11y=false
-						propsCopy.item.accessibility.isA11Y[1].is_a11y=true
-						//console.log("propiedadesX2----->", propsCopy.item.accessibility, propsCopy.item.accessibility.isA11Y[0].is_a11y, propsCopy.item.accessibility.isA11Y[1].is_a11y)
-						ReuseProgress(propsCopy)
-
-				}
-			}   */
- 
-	
-		
-
-	
 	},[props.a11yFields]);
+
+	if(props.a11yFields.length>4){
+		useEffect(() => {
+			//console.log("propiedades A11YProgressFeedback2222----->", props)
+			updateProgress()
+		},[props.a11yFields[3].is_a11y]);
+		
+		useEffect(() => {
+			//console.log("propiedades A11YProgressFeedback2222----->", props)
+			updateProgress()
+		},[props.a11yFields[4].is_a11y]);
+	
+		useEffect(() => {
+			//console.log("propiedades A11YProgressFeedback2222----->", props)
+			updateProgress()
+		},[props.a11yFields[5].is_a11y]);
+
+	}
+	
 
 
 
@@ -92,13 +79,24 @@ export default function A11YProgressFeedback(props){
 	}
 
 	function updateProgress(){
-	
+			//console.log("update progres bar", props.a11yFields)
+			let a11y =0
+			let a11yPercentage =0
 		let max =props.a11yFields.length;
-		let a11y = props.a11yFields.filter( el => el.is_a11y ).length;
-		let a11yPercentage = a11y * 100 / max;
-		setProgressPercent(a11yPercentage);
-		setProgressText(a11y + '/' + max);
-		
+		if(max===16){
+			a11y = props.a11yFields.filter( el => el.is_a11y ).length;
+			a11yPercentage = a11y * 100 / (max-1);
+			setProgressPercent(a11yPercentage);
+			//console.log("a11y",a11y, max-1,a11yPercentage)
+			setProgressText(a11y + '/' + (max-1));
+		}else{
+			 a11y = props.a11yFields.filter( el => el.is_a11y ).length;
+			 a11yPercentage = a11y * 100 / max;
+			setProgressPercent(a11yPercentage);
+			setProgressText(a11y + '/' + max);
+			//console.log("el texto",progressText)
+		}
+
 		props.getAccessibilityPercentage(a11yPercentage)
 		if (a11yPercentage < 20){
 			setProgressColor({color: a11yCOLOR.fail});
@@ -122,6 +120,7 @@ export default function A11YProgressFeedback(props){
 		<React.Fragment>
 			<Tooltip  title={'Accessibility progress ' + progressText} placement='right-start'>
 			<div className='accessibility-percentage-container'>
+				
 				<CircularProgress style={progressColor}
 					//color={progressColor}
 					variant='static'

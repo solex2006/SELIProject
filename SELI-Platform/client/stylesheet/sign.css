@@ -46,6 +46,11 @@
   margin: 0 0.5vw !important;
 }
 
+.sign-button-import {
+  letter-spacing: 2px !important;
+  margin: 10px 0.5vw !important;
+}
+
 .sign-button-default {
   width: 35%;
   padding: 0.75vh 1.95vw !important;
@@ -60,11 +65,20 @@
  
 }
 .sign-actions1 {
+  color: #df1010;
   justify-content: center !important;
   padding-bottom: 2vh !important;
   background-color: #fafafa;
   position: absolute;
+  border: 3px solid #df1010;
 }
+.more-time{
+  background-color: #fafafa;
+  color: #4caf50;
+  border: 3px solid green;
+
+}
+
 .alert{
   position: absolute;
 }

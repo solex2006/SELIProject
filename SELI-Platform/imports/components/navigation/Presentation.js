@@ -19,6 +19,7 @@ import Zoom from 'react-reveal/Zoom';
 import { Courses } from '../../../lib/CourseCollection'
 import filter from '@mcabreradev/filter'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import Link from '@material-ui/core/Link';
 
 export default class Presentation extends React.Component {
   constructor(props) {
@@ -107,33 +108,33 @@ export default class Presentation extends React.Component {
             <Swiper getSwiper={(swiper) => this.updateSwiper(swiper)} {...this.state.params}>
               <div id="dashboard-1" className="dashboard">
                 <div className="dashboard-center-container">
-                  <p className="dashboard-text-large">
+                  <h2 className="dashboard-text-large">
                     {this.props.language.seliFullText}
-                  </p>
-                  <p className="dashboard-text-medium">
+                  </h2>
+                  <h3 className="dashboard-text-medium">
                     {this.props.language.learningPlatform}
-                  </p>
+                  </h3>
                   <p className="dashboard-paragraph">
                     {this.props.language.seliPresentation}
                   </p>
-                  <Button
-                    className="dashboard-link-button"
+                  <Link
+                    className="dashboard-link-button MuiButtonBase-root MuiButton-root MuiButton-text dashboard-link-button"
                     onClick={() => this.redirect('http://seliproject.org/description', true)}
                   >
                     <MoreHorizIcon className="dashboard-link-icon"/> {this.props.language.learnMore}
-                  </Button>
+                  </Link>
                 </div>
               </div>
               <div id="dashboard-2" className="dashboard">
                 <div className="dashboard-center-container">
-                  <p className="dashboard-text-large">
+                  <h1 className="dashboard-text-large">
                     {this.props.language.hereToTeachYou}
-                  </p>
-                  <p className="dashboard-text-medium">
+                  </h1>
+                  <h2 className="dashboard-text-medium">
                     {this.props.language.joinOurClassroom}
-                  </p>
+                  </h2>
                   {
-                    Meteor.userId() ?
+                    /* Meteor.userId() ?
                       <Paper elevation={15} className="dashboard-paper">
                         <InputBase
                           fullWidth
@@ -151,15 +152,15 @@ export default class Presentation extends React.Component {
                         <Divider orientation="vertical" />
                       </Paper>
                     :
-                      undefined
+                      undefined */
                   }
                 </div>
               </div>
               <div id="dashboard-3" className="dashboard">
                 <div className="dashboard-center-container">
-                  <p className="dashboard-text-large">
+                  <h1 className="dashboard-text-large">
                     {this.props.language.thinkingOnAccessibility}
-                  </p>
+                  </h1>
                   <AccessibilityNewIcon className="dashboard-large-icon"/>
                   <p className="dashboard-paragraph">
                     {this.props.language.accessibilityPresentation}
@@ -174,9 +175,9 @@ export default class Presentation extends React.Component {
               </div>
               <div id="dashboard-4" className="dashboard">
                 <div className="dashboard-center-container">
-                  <p className="dashboard-text-large">
+                  <h1 className="dashboard-text-large">
                     {this.props.language.instructionalDesign}
-                  </p>
+                  </h1>
                   <p className="dashboard-paragraph">
                     {this.props.language.instructionalDesignPresentation}
                   </p>
@@ -189,9 +190,9 @@ export default class Presentation extends React.Component {
                   <p className="dashboard-text-large">
                     {this.props.language.teachOnSeli}
                   </p>
-                  <p className="dashboard-text-medium">
+                  <h2 className="dashboard-text-medium">
                     {this.props.language.teachOnSeliText}
-                  </p>
+                  </h2>
                   <Button
                     className="dashboard-link-button"
                     onClick={() => this.redirect('/UserRegistration', false)}
@@ -214,7 +215,7 @@ export default class Presentation extends React.Component {
           </div>
           <Rotate top left cascade>
             <div className="about-presentation-container">
-              <p className="h1-primary-title">{this.props.language.whatIsSeli}</p>
+              <h2 className="h1-primary-title">{this.props.language.whatIsSeli}</h2>
               <Divider />
             </div>
           </Rotate>

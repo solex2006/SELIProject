@@ -46,6 +46,7 @@ export default class CertificateGallery extends React.Component {
         this.setState({
           certificates: myCertificates,
         });
+        console.log("los certificados student",myCertificates )
     }
 
   render() {
@@ -54,7 +55,7 @@ export default class CertificateGallery extends React.Component {
         <GridList cellHeight={700} className={classes.gridList}  cols={2}>
             {this.state.certificates.map(link => (
             <GridListTile key={link}>
-                <iframe src={"https://blockchainseli.tk/vows/"+link} alt="Certificate" class="myCertificate"/>
+                <iframe src={"https://201.159.223.92/vows/"+link} alt="Certificate" class="myCertificate"/>
             </GridListTile>
             ))}
         </GridList>

@@ -23,10 +23,15 @@
 
 .MuiPaper-elevation1{
   box-shadow: none !important;
+  margin-right:80px !important
 }
 
 .MuiTypography-displayBlock {
   font-size: 1em !important;
+}
+
+.MuiPaper-rounded{
+  
 }
 
 /*.MuiExpansionPanelDetails-root {

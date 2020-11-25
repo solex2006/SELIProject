@@ -1,66 +1,58 @@
-import { Meteor } from 'meteor/meteor';
-import Loading from '../../components/tools/Loading';
-
-import React, { Component } from 'react';
+import React from 'react';
+import TeacherDashboard from '../dashboard/TeacherDashboard';
+import StudentDashboard from '../dashboard/StudentDashboard';
+import AdminDashboard from '../dashboard/AdminDashboard';
+import BounceLoader from 'react-spinners/BounceLoader';
 
 export default class DashboardComponent extends React.Component {
 
   constructor(props) {
-    super(props);
+    super();
 
     this.state = {
-      iframeUrl : null
+      user: null,
+      loading: true
     }
   }
 
   componentDidMount(){
-    let iframeUrl;
-    Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  
-    {
-      let user = response;
-      if (user.length) {
-        let jwt = require("jsonwebtoken");
-        let METABASE_SITE_URL = "https://metabase.ddns.net";
-        let METABASE_SECRET_KEY = "790ed9c1e1154c0072716babff490b51b2fd36df6322d9efd225c37a99fe6dc7";
-        let token;
-        let payload;
-
-        if(user[0].profile.type === 'tutor'){
-          payload = {
-            resource: { dashboard: 2 },
-            params: {
-              "id": Meteor.userId()
-            },
-            exp: Math.round(Date.now() / 1000) + (10 * 60) // 10 minute expiration
-          };
-        }
-        else if(user[0].profile.type === 'administrator'){
-          payload = {
-            resource: { dashboard: 1 },
-            params: {},
-            exp: Math.round(Date.now() / 1000) + (10 * 60) // 10 minute expiration
-          };
-        }
-        token = jwt.sign(payload, METABASE_SECRET_KEY);
-        iframeUrl = METABASE_SITE_URL + "/embed/dashboard/" + token + "#bordered=true&titled=true";
-        this.setState({ iframeUrl : iframeUrl });
-      }
-    });
+    this.setState({loading: true});
+    let user = Meteor.users.find({_id: Meteor.userId()}).fetch();
+    this.setState({ user: user[0], loading: false });
   }
 
   render() {
-    const { iframeUrl } = this.state;
-    if(iframeUrl === null){
-      return(
-          <div className="loading-course-container">
-            <Loading message="Loading Dashboard..."/>
-          </div>
-        );
-    }
-    else{
-      return(
-        <iframe className="metabase-main-frame" src={iframeUrl}></iframe>
-        );
-      }
-    }
+    return (
+      <div>
+        {
+          this.state.loading ?
+            <div className="loading-library-container">
+                <div className="loading-library-row">
+                    <div className="loading-library-container">
+                        <BounceLoader color={getComputedStyle(document.documentElement).getPropertyValue('--primary')}/>
+                    </div>
+                    <p className="loading-library-text">LOADING DASHBOARD</p>
+                </div>
+            </div>
+          :
+            this.state.user.profile.type === 'tutor' ?
+              <TeacherDashboard
+                user={this.state.user}
+              ></TeacherDashboard>
+            :
+            this.state.user.profile.type === 'student' ?
+              <StudentDashboard
+                user={this.state.user}
+              ></StudentDashboard>
+            :
+            this.state.user.profile.type === 'administrator' ?
+              <AdminDashboard
+                user={this.state.user}
+              ></AdminDashboard>
+            :
+              undefined
+        }
+      </div>
+    );
   }
+}

@@ -14,7 +14,7 @@
   width: calc(100% - 1vw);
   height: auto;
   padding-right: 1vw;
-  margin-top: 2.5vh;
+  margin-top: 1vh;
 }
 
 .editor-tools {
@@ -28,14 +28,11 @@
 
 .editor-block {
   width: 100%;
-  height: 30vh;
+  max-height: 30vh;
+  overflow-y: auto;
   animation: fadeInUp 0.35s;
 }
 
-.square-box{
-  margin: 10px 10px;
-  display: inline;
-}
 .editor-button {
   padding: 0.5vh 0 !important;
   width: 1vw;
@@ -94,7 +91,7 @@
 }
 
 .editor-label {
-  padding: 0 3.5vh !important;
+  margin-top: 1.5vh;
   text-align: center;
   font-size: 1.3em;
   color: #333;
@@ -115,7 +112,39 @@
   border: solid 1px #e0e0e0 !important;
 }
 
+.editor-link-button-story {
+  height: 40px !important;
+  color: #757575 !important;
+  border: solid 1px #e0e0e0 !important;
+}
+
 .editor-icon-link {
   color: #757575 !important;
   fill: #757575 !important;
+}
+
+.a11y-editor-container {
+  margin: 10px 10px;
+}
+
+.Draftail-Toolbar {
+  background-color: var(--app-bar-color) !important;
+}
+
+.Draftail-ToolbarButton {
+  color: #e0e0e0 !important;
+}
+
+.Draftail-ToolbarButton--active {
+  background-color: rgb(77, 77, 77) !important;
+  border-color: #9e9e9e !important;
+}
+
+@media only screen and (max-width: 1080px)  {
+  .editor-link-form-container {
+    width: calc(100% - 3vw);
+  }
+  .a11y-editor-container {
+    margin: 5px 2px;
+  }
 }

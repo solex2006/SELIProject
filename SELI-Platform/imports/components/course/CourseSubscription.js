@@ -2,24 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Meteor } from 'meteor/meteor';
-
-import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
-import SchoolIcon from '@material-ui/icons/School';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Fade from 'react-reveal/Fade';
-import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 
@@ -85,13 +73,13 @@ export default class CourseSubscription extends React.Component {
                 image={this.props.course.image.link}
                 title={this.state.label}
               />
-              <div tabIndex="-1" className="subscription-card-column">
-                <CardHeader
-                  tabIndex="-1"
-                  className="subscription-card-header"
-                  title={this.props.course.title}
-                  subheader={this.props.course.subtitle}
-                />
+              <div  className="subscription-card-column">
+                <div className="MuiCardHeader-root subscription-card-header subscription-card-header">
+                  <div className="MuiCardHeader-content">
+                    <h2 className="MuiTypography-root MuiCardHeader-title MuiTypography-h5 MuiTypography-displayBlock">{this.props.course.title}</h2>
+                    <h3 className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body1 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
+                  </div>
+                </div>
                 <CardContent tabIndex="-1" className="subscription-card-content">
                   <div tabIndex="-1" className="subscription-card-progress-container">
                     <LinearProgress
@@ -117,51 +105,16 @@ export default class CourseSubscription extends React.Component {
                   >
                     {this.props.language.unsubscribe}
                   </Button>
-                  {
-                    this.props.progress <= 0 ?
-                      <Button
-                        tabIndex="1"
-                        onClick={() => this.props.handleClickCourse(this.props.course._id)}
-                        className="subscription-card-button"
-                        variant="outlined"
-                        color="primary"
-                        disabled={this.props.disabled}
-                      >
-                        {this.props.language.startCourse}
-                      </Button>
-                    :
-                    undefined
-                  }
-                  {
-                    this.props.progress > 0 && this.props.progress < 100 ?
-                      <Button
-                        tabIndex="1"
-                        onClick={() => this.props.handleClickCourse(this.props.course._id)}
-                        className="subscription-card-button"
-                        variant="outlined"
-                        color="primary"
-                        disabled={this.props.disabled}
-                      >
-                        {this.props.language.resumeCourse}
-                      </Button>
-                    :
-                    undefined
-                  }
-                  {
-                    this.props.progress >= 100 ?
-                      <Button
-                        tabIndex="1"
-                        onClick={() => this.props.handleClickCourse(this.props.course._id)}
-                        className="subscription-card-button"
-                        variant="outlined"
-                        color="primary"
-                        disabled={this.props.disabled}
-                      >
-                        {this.props.language.reviewCourse}
-                      </Button>
-                    :
-                    undefined
-                  }
+                  <Button
+                    tabIndex="1"
+                    onClick={() => this.props.handleClickCourse(this.props.course._id)}
+                    className="subscription-card-button"
+                    variant="outlined"
+                    color="primary"
+                    disabled={this.props.disabled}
+                  >
+                    {this.props.language.seeCourse}
+                  </Button>
                 </CardActions>
               </div>
             </CardActionArea>

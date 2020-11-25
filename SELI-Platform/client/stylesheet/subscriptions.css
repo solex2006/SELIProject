@@ -10,11 +10,12 @@
 }
 
 .subscription-card-media {
-  width: 35vw !important;
+  width: 40vw !important;
   height: var(--subscription-card-height) !important;
 }
 
 .subscription-card {
+  width: calc(100% - 10vw);
   margin-bottom: 1vh !important;
   max-height: 50vh !important;
   padding: 0.5vh 5vw !important;
@@ -28,6 +29,7 @@
 }
 
 .subscription-card-area {
+  width: 100%;
   display: flex !important;
   justify-content: flex-start !important;
 }
@@ -53,6 +55,7 @@
 
 .subscription-card-column {
   height: var(--subscription-card-height);
+  width: calc(100% - 40vw);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,7 +63,7 @@
 }
 
 .subscription-card-content {
-  width: 53vw !important;
+  width: calc(100% - 2vw) !important;
   padding: 0 1vw !important
 }
 
@@ -132,3 +135,21 @@
 .maintenance-subscription-card .subscription-card-area:hover .maintenance-subscribed-hover{
   opacity: 1;
 }
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .subscription-card {
+    width: calc(100% - 2vw);
+    max-height: 50vh !important;
+    padding: 0.5vh 1vw !important;
+  }
+  .maintenance-subscription-card {
+    max-height: 50vh !important;
+    padding: 0.5vh 1vw !important;
+  }
+  .subscription-card-content {
+    width: calc(100% - 1vw) !important;
+    padding-left: 0.8vw !important;
+    padding-right: 0.2vw !important;
+  }
+} 

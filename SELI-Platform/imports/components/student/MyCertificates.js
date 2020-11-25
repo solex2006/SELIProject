@@ -77,11 +77,6 @@ export default class MyCertificates extends React.Component {
     this.setState({ open: false });
   };
 
-  handleClickCourse = (_id) => {
-    const index = this.state.courses.findIndex(course => course.information._id === _id);
-    this.props.handleClickCourse(this.state.courses[index]);
-  }
-
   render() {
     return(
       <div className="subscriptions-dashboard-container">
@@ -124,6 +119,7 @@ export default class MyCertificates extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
         >
           <DialogTitle className="success-dialog-title" id="alert-dialog-title">{this.state.dialogConfirmationTitle}</DialogTitle>
           <DialogContent className="success-dialog-content">

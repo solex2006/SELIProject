@@ -120,7 +120,8 @@ export default class H5PForm extends React.Component {
             {this.props.language.here}
           </Link>
         </div>
-        <div className="editor-block">
+        {/* <div className="editor-block">
+          <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
           <Editor
             areaHeight='20vh'
             innerHTML={this.state.attributes.instruction}
@@ -129,7 +130,7 @@ export default class H5PForm extends React.Component {
             getInnerHtml={this.getInnerHtml.bind(this)}
             language={this.props.language}
           />
-        </div>
+        </div> */}
       </div>
     )
   }

@@ -1,0 +1,67 @@
+.badge-form-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    position: relative;
+    animation: fadeIn 1s;
+}
+.badge-image-upload {
+    flex: 0 1 50%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    max-width: 50%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    animation: fadeIn 1s;
+}
+.badge-form-input-column {
+    flex: 0 1 50%;
+    display: flex;
+    max-width: 50%;
+    max-height: calc(100% - 5vh);
+    padding: 2.5vh 6vw;
+}
+.badge-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 13vh ;
+
+}
+.badge-item{
+    flex-direction: column;  
+}
+.badge-item{
+    width: 250px;
+    height: 250px;
+    border-radius: 40px;
+    box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+    cursor: pointer;
+    transition: 0.4s;
+    margin: 3px;
+    margin-top: 20px;
+}
+.badge-item:hover {
+    transform: scale(0.9, 0.9);
+    box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25), 
+      -5px -5px 30px 15px rgba(0,0,0,0.22);
+  }
+
+  
+  .badge-verification-container {
+    margin-top: 40px;
+    width: 100%;
+    height: calc(100% - var(--form-stepper-height));
+    display: flex;
+    position: relative;
+    overflow-y: scroll;
+    animation: fadeIn 1s;
+  }

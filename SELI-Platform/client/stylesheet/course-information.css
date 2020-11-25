@@ -1,8 +1,16 @@
+.user-information-container {
+  width: 100%;
+  height: 100% !important;
+  display: flex;
+  animation: fadeIn 1s;
+}
+
 .course-information-container {
   width: 100%;
   height: 100%;
   display: flex;
   position: relative;
+  overflow-y: scroll;
   animation: fadeIn 1s;
 }
 
@@ -10,24 +18,72 @@
   width: var(--file-column-width);
   height: 100%;
   background-color: #fcfcfc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-input-column {
-  width: calc(100vw - var(--file-column-width) - 12vw);
-  max-height: calc(100% - 5vh);
-  overflow-y: scroll;
+  max-width: calc(720px);
+  max-height: 100%;
   padding: 2.5vh 6vw;
 }
 
+.headAccessibility{
+  padding: 2.5vh 6vw;
+}
+.sylabusStyles{
+  padding-bottom: 35px;
+}
+
+.form-input-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.form-input-steps {
+  width: calc(1080px - 120px);
+  padding: 4vh 60px;
+}
+
+.alignText{
+  display: flex;
+  flex-wrap: wrap;
+}
+.allText{
+  display: flex;
+}
+#standard-select-currency{
+  padding-top: 22px;
+}
+
+.buttonsText{
+  padding-left: 15px;
+}
+
+.hardware{
+  display: inline;
+}
 .buttomAudiences{
   border-radius: 35px !important;
 }
 
 .sub-course-information {
-  width: 100%;
-  justify-content: center;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-top: 1vh;
+  width: 200px;
   align-items: center;
   display: flex;
+}
+
+.duration-course-information {
+  width: 100%;
+  height: 100%;
 }
 
 .buttomAudiencesSend{
@@ -58,11 +114,9 @@
 }
 
 .chips-container {
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
   width: 100%;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
 }
 
@@ -77,7 +131,7 @@
 .form-message{
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   color: #9e9e9e;
   height: 46px;
@@ -166,7 +220,9 @@
 }
 
 .file-form-dialog {
-  max-width: 67.5vw;
+  width: 67.5vw;
+  display: flex;
+  justify-content: center;
 }
 
 .form-preview-container {
@@ -200,10 +256,6 @@
 
 .form-file-selected-image-container {
   width: 100%;
-  height: calc((100vh - var(--form-stepper-height) - var(--app-bar-height))* 0.6)  !important;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
   animation: fadeInLeft 0.5s;
   background-color: #fafafa;
   transition: 0.5s;
@@ -304,10 +356,55 @@
 }
 
 .form-multiple-input {
-  width: 15vw !important;
-  margin-right: 8px !important;
+  min-width: 100px !important;
+  margin-right: 10px !important;
 }
 
 .form-multiple-input-row {
   display: flex;
+}
+
+.report{
+  height: calc(100vh - var(--form-stepper-height) - 2*var(--app-bar-height));
+  max-height: calc(100vh - var(--form-stepper-height) - 2*var(--app-bar-height));
+  overflow-y: scroll;
+}
+
+.add-keyword-button {
+  margin-left: 10px;
+}
+
+@media only screen and (max-width: 1080px)  {
+  .form-input-steps {
+    width: calc(100% - 4vw);
+    padding: 4vh 2vw;
+  }
+  .user-information-container {
+    display: block;
+    overflow-y: scroll !important;
+  }
+  .form-dialog {
+    width: 100vw !important;
+  }
+  .file-form-dialog {
+    width: auto;
+  }
+  .form-preview-container {
+    width: 80vw !important;
+  }
+  .form-file-column {
+    width: 100%;
+    height: auto;
+  }
+  .form-input-column {
+    max-width: 100%;
+    padding: 1vh 1vw;
+    margin-bottom: 20px; 
+  }
+  .form-image-button {
+    height: 300px  !important;
+  }
+  .form-request-information {
+    height: 150px  !important;
+  }
 }

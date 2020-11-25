@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import EditorA11Y from '../tools/a11yEditor';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
 import TextField from '@material-ui/core/TextField';
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // props {                                                                   			//
 // 	handleOnChange (fn) [optional],                                                     //

@@ -22,6 +22,10 @@
 }
 
 .row-list-selected-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: auto !important;
   border-radius: 0px !important;
   background-color: #f5f5f5 !important;
@@ -40,6 +44,10 @@
 
 #blue-avatar {
   background-color: #2196f3;
+}
+
+#green-avatar {
+  background-color: #288630;
 }
 
 #teal-avatar {

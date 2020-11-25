@@ -18,7 +18,9 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Editor from '../inputs/editor/Editor';
 import Tooltip from '@material-ui/core/Tooltip';
-
+import AccessibilityHelp from '../tools/AccessibilityHelp'
+import PositionedSnackbar from "./ContentAlert"
+import TextField from '@material-ui/core/TextField';
 
 export default class ImageForm extends React.Component {
   constructor(props) {
@@ -32,6 +34,7 @@ export default class ImageForm extends React.Component {
         image: undefined,
         hasDescription: true,
         description: '',
+        title: '',
         descriptionWidth: 'calc(100% - 500px)',
         alignment: 'row',
         accessibility: {
@@ -53,20 +56,24 @@ export default class ImageForm extends React.Component {
   }
 
   validateContent = (content) => {
+    if (content.title === '') {
+      this.props.handleControlMessage(true, this.props.language.titleImageRequired);
+      return false;
+    }
     if (content.image === undefined) {
       this.props.handleControlMessage(true, this.props.language.uploadAddUrlImage);
       return false;
     }
-    if (content.hasDescription && content.description === '') {
+    /* if (content.hasDescription && content.description === '') {
       this.props.handleControlMessage(true, this.props.language.enterDescriptionImage);
       return false;
-    }
+    } */
     return true;
   }
 
   getFileInformation(file){
     let attributes = this.state.attributes;
-    attributes.image = file;  ///deberia cambiar
+    attributes.image = file;
     this.setState({
       attributes: attributes,
       showPreview: true,
@@ -114,10 +121,15 @@ export default class ImageForm extends React.Component {
     else if (name === "hasDescription") {
       attributes.hasDescription = !attributes.hasDescription;
     }
+    if (name === "title") {
+      attributes.title = event.target.value;
+    }
     this.setState({
       attributes: attributes,
     });
   }
+
+  
 
   componentDidMount(){
     this.props.getImageAttributesFunction(() => this.getImageAttributes());
@@ -131,6 +143,11 @@ export default class ImageForm extends React.Component {
         if (this.state.attributes.image !== undefined) {
           this.setState({
             showPreview: true,
+          })
+        }
+        else {
+          this.setState({
+            showPreview: false,
           })
         }
       })
@@ -160,6 +177,18 @@ export default class ImageForm extends React.Component {
                 </Fab>
                 <p className="media-fab-text">{this.props.language.library}</p>
               </div>
+              <div className="course-creator-input-container">
+                <TextField
+                  id="title-input"
+                  label={this.props.language.imageTitle}
+                  margin="normal"
+                  variant="outlined"
+                  value={this.state.attributes.title}
+                  onChange={this.handleChange('title')}
+                  required
+                  className="form-padding-dialog-input"
+                />
+              </div>
               {
                 !this.state.showPreview ?
                   <div className="form-file-container">
@@ -168,7 +197,9 @@ export default class ImageForm extends React.Component {
                       user={Meteor.userId()}
                       accept={'image/*'}
                       label={this.props.language.uploadImageButtonLabel}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                       getFileInformation={this.getFileInformation.bind(this)}
+                      language={this.props.language}
                     />
                   </div>
                 :
@@ -180,18 +211,7 @@ export default class ImageForm extends React.Component {
                   coordenadaR={this.setState.coordenadaR}
                 />
               }
-              <div className="scroll-media-input-container">
-                <div className="margin-center-row">
-                  <br/>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={<Switch size="small" onChange={this.handleChange('hasDescription')} checked={this.state.attributes.hasDescription}/>}
-                      label={<p className="form-label">{this.props.language.imageWithText}</p>}
-                  />
-                  </FormGroup>
-                  <br/>
-                </div>
-                <div className="margin-center-row">
+              {/* <div className="margin-center-row">
                   <p className="form-label">{this.props.language.imagePosition}</p>
                   <Grid item>
                     <ToggleButtonGroup size="small" onChange={this.handleChange("alignment")} value={this.state.attributes.alignment} exclusive>
@@ -217,19 +237,20 @@ export default class ImageForm extends React.Component {
                       </ToggleButton>
                     </ToggleButtonGroup>
                   </Grid>
-                </div>
-                <div style={this.state.attributes.hasDescription ? undefined :{pointerEvents: "none", userSelect: "none"}} className="editor-block">
-                  <Editor
-                    areaHeight="18.5vh"
-                    buttonLabels={false}
-                    innerHTML={this.state.attributes.description}
-                    addLinks={true}
-                    getInnerHtml={this.getInnerHtml.bind(this)}
+                </div> */}
+              <div className="form-editor-label">
+                <AccessibilityHelp 
+                    id={'short-description-help-container'} 
+                    name={'shortDescriptionHelpContainer'} 
+                    error={!this.state.showPreview} 
+                    tip={!this.state.showPreview? this.props.language.uploadImage: this.props.language.uploadImageCorrect}
+                    //step={props.step}
+                    //stepLabel={props.stepLabel}
                     language={this.props.language}
-                  />
-                </div>
+                />
               </div>
-            </div>
+              </div>
+              
           :
           <Library
             user={Meteor.userId()}

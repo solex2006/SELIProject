@@ -1,8 +1,6 @@
 import React from 'react';
-import MenuItem from './MenuItem';
-import Link from '@material-ui/core/Link';
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
+import { Editor, EditorState, convertFromRaw } from "draft-js";
+
 export default class LinkItem extends React.Component {
   constructor(props) {
     super(props);
@@ -16,32 +14,45 @@ export default class LinkItem extends React.Component {
     win.focus();
   }
 
-  componentDidMount(){
+  Texteditor = (section) => {
+    const contentState = convertFromRaw(section);
+    const editorState =  EditorState.createWithContent(contentState);
+    return editorState;
+  }
 
+  handleKeyPress = (event) => {
+    console.log(event.keyCode)
+    if (event.which == 13 || event.keyCode == 13) {
+      this.openExternalLink();
+    }
   }
 
   render() {
     return(
       <div className="content-box">
-        <div onClick={() => this.openExternalLink()} className="link-content-item">
-          <div
-            className="link-item-container-html"
-            dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}
-          >
+        <div 
+          className="link-content-item"
+          tabIndex="0" 
+          onClick={() => this.openExternalLink()}
+          onKeyPress={() => this.handleKeyPress(event)}
+          aria-describedby={`link-content-${this.props.item.id}`}
+        >
+          <div id={`link-content-${this.props.item.id}`} className="link-item-container-html">
+            <div aria-label={`${this.props.language.link}.`}></div>
+            {
+              this.props.item.attributes.description && (
+                this.props.item.attributes.description.blocks ?
+                  <Editor 
+                    editorState={this.Texteditor(this.props.item.attributes.description)} readOnly={true} 
+                  /> 
+                :
+                  <div 
+                    dangerouslySetInnerHTML={{__html: this.props.item.attributes.description}}>
+                  </div>
+              )
+            }
           </div>
         </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            language={this.props.language}
-          />
-        </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
       </div>
       );
     }

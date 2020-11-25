@@ -86,19 +86,25 @@ Note: Beware of modifying this element as it can break the animations - you shou
   height: 100vh;
 }
 
+.menu-left-panel-container {
+  max-height: 100vh;
+}
+
 .menu-title {
-  display: flex;
-  letter-spacing: 2px;
-  height: auto;
-  font-size: 1.2em;
-  text-align: center;
-  text-transform: uppercase;
-  color: var(--white);
-  margin-top: 5vh;
-  margin-bottom: 3.5vh;
-  transition: 0.5s;
-  text-decoration: none;
-  padding: 0 5vw;
+  height: calc(var(--menu-seli-title-height) - 60px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-items: center !important;
+  letter-spacing: 2px !important;
+  font-size: 1.2em !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+  color: var(--white) !important;
+  margin: 30px 30px !important;
+  transition: 0.5s !important;
+  text-decoration: none !important;
+  max-width: 100% !important;
 }
 
 .primary-color-text {
@@ -114,12 +120,14 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .options-container {
-  width: 100%;
+  height: calc(100vh - var(--menu-seli-title-height) - 1px) !important;
+  width: auto;
   height: auto;
-  margin-top: 2.5vh;
+  overflow-y: scroll;
 }
 
 .menu-expansion-panel {
+  width: 100% !important;
   color: #FFF !important;
   font-family: 'Lato', sans-serif !important;
   background: var(--app-bar-color) !important;
@@ -147,7 +155,9 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .sub-menu-container {
+  width: 100% !important;
   background: var(--app-bar-color) !important;
+  margin-top: 2px;
 }
 
 .menu-expand-more-icon {
@@ -160,7 +170,8 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .sub-menu-option {
   display: flex;
-  width: 350px;
+  margin: 0 2px;
+  width: calc(100% - 4px);
   height: auto;
   text-indent: var(--menu-indent);
   transition: 0.5s;
@@ -181,7 +192,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .main-menu-social-container {
-  width: calc(350px - 5vw);
+  width: calc(100% - 5vw);
   height: auto;
   padding: 1.5vh 2.5vw;
   display: flex;

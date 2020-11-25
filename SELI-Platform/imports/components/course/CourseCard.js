@@ -37,10 +37,54 @@ import Comment from '../../components/student/comments/Comment';
 
 import {Comments} from '../../../lib/CommentsCollection';
 import { StudentLog } from '../../../lib/StudentLogCollection';
-
+import { withStyles } from '@material-ui/core/styles';
 var ColorThief = require('color-thief');
 
-export default class CourseCard extends React.Component {
+const useStyles =theme => ({
+	root: {
+		display: "flex",
+		flexWrap: "wrap",
+		"& > *": {
+			margin: theme.spacing(1),
+			width: theme.spacing(16),
+			height: theme.spacing(16)
+		}
+	},
+	card: {
+		maxWidth: 345,
+		//  maxHeight: 450,
+		display: "tabel-cell",
+		paddingRight: "1em"
+	},
+	media: {
+		height: 0,
+		paddingTop: "56.25%" // 16:9
+	},
+	searchbar: {
+		//padding: '2px 4px',
+		display: "flex",
+		alignItems: "center",
+		maxWidth: "95vw",
+		minWidth: "95vw",
+		background: "black",
+		"& *": {
+			color: "white"
+		}
+	},
+	input: {
+		marginLeft: theme.spacing(1),
+		flex: 1
+	},
+	iconButton: {
+		padding: 10
+	},
+	divider: {
+		height: 28,
+		margin: 4
+	}
+});
+
+class CourseCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -113,15 +157,12 @@ export default class CourseCard extends React.Component {
   }
 
   checkSubscriptions = () => {
-    let subscribed = false;
-    for (var i = 0; i < this.props.course.classroom.length; i++) {
-      if (this.props.course.classroom[i] === Meteor.userId()) {
-        subscribed = true;
-      }
+    let subscribed = this.props.userCourses.findIndex(course => course.courseId === this.props.course._id);
+    if (subscribed > -1){
+      this.setState({
+        subscribed: true,
+      });
     }
-    this.setState({
-      subscribed: subscribed,
-    });
   }
 
   handleClose = () => {
@@ -164,102 +205,106 @@ export default class CourseCard extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <div>
-        <Fade force top delay={this.props.index * 350}>
-          <Card className="course-card">
-            <CardActionArea>
-              <CardHeader
-                avatar={
-                  <Avatar
-                    style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
-                    aria-label="recipe"
-                    className="course-card-avatar"
-                  >
-                    {this.props.course.title.charAt(0).toUpperCase()}
-                  </Avatar>
-                }
-                className="course-card-header"
-                title={this.props.course.title}
-                subheader={this.props.course.subtitle}
-              />
-              <CardMedia
-                className="course-card-media"
-                image={this.props.course.image.link}
-                title={this.state.label}
-              />
-              <CardContent className="course-card-content">
-                <Typography className="course-card-description" variant="body2" color="textSecondary" component="p">
-                  {this.props.course.description}
-                </Typography>
-                <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
-                  {`${this.props.language.author}: ${this.props.course.createdBy}`}
-                </Typography>
-              </CardContent>
-              <CardActions className="course-card-actions" disableSpacing>
-                <Link className="button-link"
+      <React.Fragment>
+        <Card className="course-card">
+          <div >
+            <CardHeader
+              avatar={
+                <Avatar
+                  style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
+                  aria-label="avatar"
+                  className="course-card-avatar"
+                >
+                  <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
+                </Avatar>
+              }
+              className="course-card-header"
+              title={
+                <h2  tabindex="0" className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{this.props.course.title}</h2>
+              }
+              subheader={
+                <h3  tabindex="0" className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
+              }
+            /> 
+            <CardMedia
+              className={classes.media}
+              image={this.props.course.image.link}
+              title={this.state.label}
+            />
+            <CardContent >
+              <Typography  tabindex="0" variant="body2" color="textSecondary" component="p">
+                {this.props.course.description}
+              </Typography>
+              <Typography  tabindex="0" className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
+                {`${this.props.language.author}: ${this.props.course.createdBy}`}
+              </Typography>
+            </CardContent>
+            <CardActions  disableSpacing>
+             
+                <Link
+                  tabindex="0" 
+                  className="button-link  MuiButton-root MuiButton-outlined course-card-button" 
+                  target="_blank"
                   to={{
                     pathname: "/coursePreview",
                     hash: this.props.course._id,
                     state: { fromDashboard: true },
                   }}
-                >
-                  <Button
-                    className="course-card-button"
-                    aria-label="see preview"
-                    variant="outlined"
-                    onClick={() => 
+                  onClick={() => 
                     {
                       StudentLog.insert({ "UserId": Meteor.userId(), "CourseId" : this.props.course._id, 
                       "Datetime": new Date(), "Action": "Course Preview" });
                     }}
-                  >
-                    {this.props.language.coursePreview}
-                  </Button>
+                >
+                  {this.props.language.coursePreview}
                 </Link>
-                {
-                  !this.state.subscribed ?
-                    <Tooltip title={this.props.language.subscribeJoin}>
-                      <IconButton
-                        disabled={this.props.disabled}
-                        onClick={() => this.props.subscribe(this.props.course._id)}
-                        className="course-card-icon-button"
-                        aria-label="join course"
-                      >
-                        <SchoolIcon className="course-card-icon"/>
-                      </IconButton>
-                    </Tooltip>
-                  :
-                  <Tooltip title={this.props.language.unsubscribeToolti}>
+       
+              
+              {
+                !this.state.subscribed ?
+                  <Tooltip title={this.props.language.subscribeJoin}>
                     <IconButton
-                      className="course-card-icon-button"
                       disabled={this.props.disabled}
-                      onClick={() => this.props.unsubscribe(this.props.course._id)}
-                      aria-label="left course"
+                      onClick={() => this.props.subscribe(this.props.course._id)}
+                      className="course-card-icon-button"
+                      aria-label="join course"
                     >
-                      <UnsubscribeIcon className="course-card-icon"/>
+                      <SchoolIcon className="course-card-icon"/>
                     </IconButton>
                   </Tooltip>
-                }
-                <Tooltip title={this.props.language.courseCommentsTooltip}>
+                :
+                <Tooltip title={this.props.language.unsubscribeToolti}>
                   <IconButton
                     className="course-card-icon-button"
-                    onClick={() => this.showComments()}
+                    disabled={this.props.disabled}
+                    onClick={() => this.props.unsubscribe(this.props.course._id)}
                     aria-label="left course"
                   >
-                    <CommentIcon className="course-card-icon"/>
+                    <UnsubscribeIcon className="course-card-icon"/>
                   </IconButton>
                 </Tooltip>
-              </CardActions>
-            </CardActionArea>
-          </Card>
-        </Fade>
+              }
+              <Tooltip title={this.props.language.courseCommentsTooltip}>
+                <IconButton
+                  className="course-card-icon-button"
+                  onClick={() => this.showComments()}
+                  aria-label="Course Comments"
+                >
+                  <CommentIcon className="course-card-icon"/>
+                </IconButton>
+              </Tooltip>
+            </CardActions>
+          </div>
+        </Card>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
           className="comments-dialog"
+          //disableBackdropClick={true}
         >
           <DialogTitle className="comment-dialog-title">
             {this.props.language.comments}
@@ -300,7 +345,9 @@ export default class CourseCard extends React.Component {
             }
           </DialogContent>
         </Dialog>
-      </div>
+      </React.Fragment>
     );
   }
 }
+
+export default  withStyles(useStyles)(CourseCard)

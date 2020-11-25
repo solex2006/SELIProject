@@ -10,23 +10,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import SchoolIcon from '@material-ui/icons/School';
-import HelpIcon from '@material-ui/icons/Help';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ControlSnackbar from '../../components/tools/ControlSnackbar';
 import LanguageSelector from './LanguageSelector';
 import UserMenu from './UserMenu';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
 import { Courses } from '../../../lib/CourseCollection'
 import filter from '@mcabreradev/filter'
-import CoursesDashboard  from '../student/CoursesDashboard'
-
-
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Grow ref={ref} {...props} />;
@@ -56,7 +49,7 @@ export default class AppBar extends React.Component {
     return Session.get("verifyPass");
   }
 
-  handleClickOpen = (action) => {
+  handleClickOpen = (action, course) => {
     let dialogTitle = "";
     let color = "";
     if(action === "in"){
@@ -73,6 +66,7 @@ export default class AppBar extends React.Component {
       dialogTitle: dialogTitle,
       color: color,
       action: action,
+      course: course
     }, () => {
       this.setState({ open: true });
     });
@@ -140,45 +134,54 @@ export default class AppBar extends React.Component {
     this.setState({
       showPreview: 'showPreview'
     })
-    this.props.searchValue(search)
+    this.props.searchValue(search,this.state.searchText )
+  }
+
+  onkeyup=(e)=>{
+    console.log("el evento",e.keyCode  )
+    if(e.keyCode===13){
+      this.handleSearchButton()
+    }
   }
 
   appbar=()=>{
     return(
       <div>
         <div className="app-bar-container" >
-          <Button  onClick={() => this.props.showComponent('home')} className="bar-title">{this.props.language.seliProject}</Button>
+          <div className="app-bar-container-text">
+            {this.props.language.seliProject}
+          </div>
           <div className="bar-button-container" >
             {
               this.props.user !== undefined ?
                 <div >
-                  <Button tabIndex="1" onClick={() => this.toggleSearchBar()} className="no-text-button">
-                    <SearchIcon tabIndex="1"  className="app-bar-search-icon"/>
+                  <Button onClick={() => this.toggleSearchBar()} className="no-text-button">
+                    <SearchIcon className="app-bar-search-icon"/>
                   </Button>
                 </div>
               :
               undefined
             }
             {
-              this.props.user === undefined ?
-                <div tabIndex="1">
-                  <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
-                    {this.props.language.signIn}
-                  </Button>
-                  <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
-                    {this.props.language.signUp}
-                  </Button>
-                </div>
-              :
-              <UserMenu
-                language={this.props.language}
-                user={this.props.user}
-                showComponent={this.props.showComponent.bind(this)}
-                logOut={this.props.logOut.bind(this)}
-              />
+              this.props.fromAnotherSource ? undefined :
+                this.props.user === undefined ?
+                  <div>
+                    <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("in")} color="primary" className="bar-button">
+                      {this.props.language.signIn}
+                    </Button>
+                    <Button tabIndex="0" variant="contained" onClick={() => this.handleClickOpen("up")} color="secondary" className="bar-button">
+                      {this.props.language.signUp}
+                    </Button>
+                  </div>
+                :
+                <UserMenu
+                  language={this.props.language}
+                  user={this.props.user}
+                  showComponent={this.props.showComponent.bind(this)}
+                  logOut={this.props.logOut.bind(this)}
+                />
             }
             <LanguageSelector
-            
               language={this.props.language}
               setLanguage={this.props.setLanguage.bind(this)}
             />
@@ -192,9 +195,10 @@ export default class AppBar extends React.Component {
                 fullWidth
                 className="app-bar-search-input-base"
                 placeholder={this.props.language.learnAbout}
-                inputProps={{ 'aria-label': this.props.language.learnAbout}}
+                inputProps={{'aria-label': this.props.language.learnAbout}}
                 autoFocus={true}
                 onChange={this.handleSearchText}
+                onKeyUp={this.onkeyup}
               />
             </Paper>
             <Button className="app-bar-search-button" onClick={this.handleSearchButton}>{this.props.language.searchCourses}</Button>
@@ -211,6 +215,7 @@ export default class AppBar extends React.Component {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
           className="sign-container"
+          disableBackdropClick={true}
         >
         <DialogTitle id="alert-dialog-slide-title" className="sign-title" style={{color: this.state.color}}>{this.state.dialogTitle}</DialogTitle>
           <Divider/>
@@ -221,6 +226,7 @@ export default class AppBar extends React.Component {
                   <SignInForm
                     language={this.props.language}
                     history={this.props.history}
+                    course={this.state.course}
                   />
                 :
                 undefined
@@ -231,6 +237,7 @@ export default class AppBar extends React.Component {
                     handleClose={this.handleClose.bind(this)}
                     history={this.props.history}
                     language={this.props.language}
+                    course={this.state.course}
                   />
                 :
                 undefined
@@ -244,7 +251,7 @@ export default class AppBar extends React.Component {
                 <DialogContentText>
                   {this.props.language.dontHaveAccount}
                 </DialogContentText>
-                <Button onClick={() => this.handleClickOpen("up")} color="secondary" variant="outlined">
+                <Button onClick={() => this.handleClickOpen("up", this.state.course ? this.state.course : undefined)} color="secondary" variant="outlined">
                   {this.props.language.signUp}
                 </Button>
               </DialogActions>
@@ -257,7 +264,7 @@ export default class AppBar extends React.Component {
                 <DialogContentText>
                   {this.props.language.alreadyHaveAccount}
                 </DialogContentText>
-                <Button onClick={() => this.handleClickOpen("in")} color="primary" variant="outlined">
+                <Button onClick={() => this.handleClickOpen("in", this.state.course ? this.state.course : undefined)} color="primary" variant="outlined">
                   {this.props.language.signIn}
                 </Button>
               </DialogActions>
@@ -292,7 +299,7 @@ export default class AppBar extends React.Component {
             <CheckCircleIcon className="success-dialog-icon"/>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.handleCloseDialog()} color="secondary" variant="contained" autoFocus>
+            <Button onClick={() => this.handleCloseDialog()} color="secondary" variant="outlined" autoFocus>
               {this.props.language.ok}
             </Button>
           </DialogActions>

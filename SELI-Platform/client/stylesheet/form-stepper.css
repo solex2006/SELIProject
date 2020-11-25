@@ -1,7 +1,9 @@
 .form-stepper-container {
   width: 100vw;
-  position: fixed;
+  position: absolute;
+  top: var(--app-bar-height);
   height: calc(100vh - var(--app-bar-height));
+  overflow: hidden;
 }
 
 .form-stepper-navigation {
@@ -10,20 +12,73 @@
   align-items: center;
   height: var(--form-stepper-height);
   position: relative;
-  top: var(--app-bar-height);
   background-color: #f5f5f5;
   animation: fadeInDown 0.5s;
 }
 
-.form-stepper-information {
-  padding: 0 2vw;
+.form-stepper-navigation-id {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: var(--form-stepper-height) !important;
+  max-height: var(--form-stepper-height) !important;
+  position: relative;
+  background-color: #e8e8e8 !important;
+  animation: fadeInDown 0.5s;
 }
 
-.form-stepper-title {
-  font-size: 28.5px;
-  font-weight: 100;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+.form-stepper-navigation-bottom {
+  width: 98vw;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: var(--form-stepper-height);
+  position: fixed;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  background-color: #f5f5f5;
+  animation: fadeInDown 0.5s;
+}
+
+.form-stepper-large-steps {
+  width: 100%;
+  background-color: #e8e8e8 !important;
+  padding: 0px !important;
+  height: calc(100%) !important;
+  overflow: hidden;
+}
+
+.navBar{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.navBarBackNext {
+  display: flex;
+  align-items: center;
+}
+
+.parentNavBar{
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-stepper-information {
+  background-color: #e8e8e8;
+  padding: 9px;
+  display: inline !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.form-stepper-information-id {
+  background-color: #e8e8e8;
+  padding: 9px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-stepper-active-step {
@@ -33,16 +88,35 @@
   color: #757575;
 }
 
-.form-stepper-navigation-actions {
+.form-stepper-active-step-id {
+  text-align: center;
+  font-size: 13.5px;
+  letter-spacing: 0.75px;
+  color: #757575;
+}
 
+.form-stepper-title {
+  font-size: 28.5px;
+  font-weight: 100;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .form-stepper {
   background-color: #f5f5f5 !important;
 }
 
-.form-step {
+.form-stepper-id {
+  width: calc(100% - 350px);
+  position: absolute !important;
+  right: 0 !important;
+  background-color: #f5f5f5 !important;
+}
 
+.form-step {
+  padding: 0px !important;
+  margin: 0 10px;
 }
 
 .form-step-button {
@@ -53,8 +127,15 @@
   animation: fadeInDown 0.5s;
 }
 
-.form-step-button:hover {
+.form-step-button,
+.form-step-button-id:hover {
   text-indent: 0.5vw;
+}
+
+.form-step-button-id {
+  padding: 0.5vh 1vw !important;
+  transition: 0.5s;
+  animation: fadeInDown 0.5s;
 }
 
 .form-stepper-selector-button {
@@ -79,12 +160,17 @@
   padding-left: 3.5vw !important;
   padding-right: 3.5vw !important;
   opacity: 0.8;
+  text-align: center;
 }
 
 .form-stepper-content {
   position: relative;
-  top: var(--form-stepper-height);
   height: calc(100vh - var(--form-stepper-height) - var(--app-bar-height));
+}
+
+.form-stepper-content-id {
+  position: relative;
+  height: calc(100vh - var(--form-stepper-height) - 2*var(--app-bar-height));
 }
 
 .form-step-completed-step-container {
@@ -142,3 +228,33 @@
   transition: 0.5s;
   opacity: 1;
 }
+
+@media only screen and (max-width: 1300px)  {
+  .form-stepper-active-step-id {display: none !important;}
+  .form-stepper-title {font-size: 21.5px !important;}
+}
+
+@media only screen and (max-width: 1080px)  {
+  .form-stepper-information {
+    padding: 9px;
+    width: 50vw;
+  }
+  .form-stepper-navigation {
+    height: auto;
+    min-height: var(--form-stepper-height);
+  }
+  .form-stepper-actions {
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+  }
+  .navBar{
+    justify-content: center;
+    z-index: 100;
+  }
+  .navBarBackNext {
+    justify-content: center;
+    z-index: 100;
+  }
+}
+

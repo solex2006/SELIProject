@@ -40,24 +40,25 @@ const ResizableContent = props => {
 
   
   return (
-    <Fragment>
-      <div style={contentStyle}>{props.children}</div>
-      <ResizableRect
-        top={top}
-        rotatable
-        left={left}
-        aspectRatio
-        minWidth={10}
-        width={width}
-        minHeight={10}
-        height={height}
-        //onDrag={handleDrag}
-        onRotate={handleRotate}
-       // onResize={handleResize}
-        //zoomable="nw, ne, se, sw"
-        rotateAngle={rotateAngle}
-      />
-    </Fragment>
+    <div style={contentStyle}>{props.children}
+      <div className="resizable-content-container">
+        <ResizableRect
+          top={top}
+          rotatable
+          left={left}
+          aspectRatio
+          minWidth={10}
+          width={width}
+          minHeight={10}
+          height={height}
+          //onDrag={handleDrag}
+          onRotate={handleRotate}
+        // onResize={handleResize}
+          //zoomable="nw, ne, se, sw"
+          rotateAngle={rotateAngle}
+        />
+      </div>
+    </div>
   )
 }
 

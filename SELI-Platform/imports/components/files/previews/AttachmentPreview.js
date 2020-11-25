@@ -7,6 +7,7 @@ import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import AttachmentIcon from '@material-ui/icons/Attachment';
+import Link from '@material-ui/core/Link';
 
 export default class AttachmentPreview extends React.Component {
   constructor(props) {
@@ -48,9 +49,9 @@ export default class AttachmentPreview extends React.Component {
         </div>
           <div className="file-preview-actions">
             <Tooltip title={this.props.language.open} placement="left">
-              <IconButton onClick={() => this.open()} color="secondary" aria-label="open">
+              <Link onClick={() => this.open()} color="secondary" aria-label="open" className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorSecondary">
                 <img src="openNew.svg"/>
-              </IconButton>
+              </Link>
             </Tooltip>
             { this.props.preview ? undefined : 
               <Tooltip title={this.props.language.uploadAnother} placement="left">

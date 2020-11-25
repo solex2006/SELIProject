@@ -55,14 +55,14 @@ export default CheckboxList= (props)=> {
         }else{
           newChecked.push(value);
           newChecked = newChecked.filter(e => e !== 0);
-          console.log("Push audiences..", newChecked, value)
+          //console.log("Push audiences..", newChecked, value)
           //removeItemFromArr( newChecked, `${props.language.other}` );
           props.getAudiences(newChecked, props.name)
         }
         
       } else {
           newChecked.splice(currentIndex, 1);
-          console.log("Splice Audiences...", newChecked)
+          //console.log("Splice Audiences...", newChecked)
           //removeItemFromArr( newChecked, `${props.language.other}` );
           props.getAudiences(newChecked, props.name)
           if(value===`${props.language.other}` ){
@@ -78,7 +78,7 @@ export default CheckboxList= (props)=> {
   };
 
  const handleChange = (event) => {
-    console.log(event.target.value);
+   // console.log(event.target.value);
     setOther(event.target.value)  
   };
   const handleTextField = () => {

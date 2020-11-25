@@ -1,6 +1,7 @@
 import React from 'react';
-import Editor from '../inputs/editor/Editor';
+import A11yEditor, { getText } from '../inputs/editor/A11yEditor';
 import TextField from '@material-ui/core/TextField';
+import Help from '../tools/Help';
 
 export default class LinkForm extends React.Component {
   constructor(props) {
@@ -25,6 +26,8 @@ export default class LinkForm extends React.Component {
 
   getLinkAttributes(){
     let linkContent = this.state.attributes;
+    const childText = getText();
+    linkContent.description = childText;
     if (this.validateContent(linkContent) ) {
       return linkContent;
     }
@@ -34,7 +37,7 @@ export default class LinkForm extends React.Component {
   }
 
   validateContent = (content) => {
-    if (content.url === '' || content.description === '') {
+    if (content.url === '' || content.description === null || content.description.blocks.text === "") {
       this.props.handleControlMessage(true, this.props.language.urlAndDescriptionR);
       return false;
     }
@@ -75,18 +78,27 @@ export default class LinkForm extends React.Component {
           required
           className="form-padding-dialog-input"
         />
-        <div className="padding-center-row">
-          <p className="form-message">{this.props.language.textDescribingLink}</p>
+        <div className="center-button-container">
+          <Help
+              helper="hp5Helper"
+              text={this.props.language.helpH5p}
+              language={this.props.language}
+            />
         </div>
         <div className="editor-block">
-          <Editor
+          <p className="editor-label">{this.props.language.textDescribingLink}</p>
+          <A11yEditor
+            textSection={this.state.attributes.description}
+            language={this.props.language}
+          />
+          {/* <Editor
             areaHeight='20vh'
             innerHTML={this.state.attributes.description}
             buttonLabels={false}
             addLinks={false}
             getInnerHtml={this.getInnerHtml.bind(this)}
             language={this.props.language}
-          />
+          /> */}
         </div>
       </div>
     );

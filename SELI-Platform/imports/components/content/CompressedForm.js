@@ -1,17 +1,11 @@
 import React from 'react';
 import FileUpload from '../files/FileUpload';
 import CompressedPreview from '../files/previews/CompressedPreview';
-import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
-import HorizontalSplitIcon from '@material-ui/icons/HorizontalSplit';
-import Grid from '@material-ui/core/Grid';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Editor from '../inputs/editor/Editor';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
 import Library from '../tools/Library';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab'
+import AccessibilityHelp from '../tools/AccessibilityHelp'
 
 export default class CompressedForm extends React.Component {
   constructor(props) {
@@ -31,10 +25,10 @@ export default class CompressedForm extends React.Component {
       this.props.handleControlMessage(true, this.props.language.uploadAddUrlCompressed);
       return false;
     }
-    if (content.instruction === '') {
+    /* if (content.instruction === '') {
       this.props.handleControlMessage(true, this.props.language.enterDescriptionCompressed);
       return false;
-    }
+    } */
     return true;
   }
 
@@ -100,6 +94,10 @@ export default class CompressedForm extends React.Component {
           this.setState({
             showPreview: true,
           })
+        }else {
+          this.setState({
+            showPreview: false,
+          })
         }
       })
     }
@@ -125,7 +123,9 @@ export default class CompressedForm extends React.Component {
                       user={Meteor.userId()}
                       accept={['.zip', '.rar', '.tz', '.7z']}
                       label={this.props.language.uploadCompressedButtonLabel}
+                      handleControlMessage={this.props.handleControlMessage.bind(this)}
                       getFileInformation={this.getFileInformation.bind(this)}
+                      language={this.props.language}
                     />
                   </div>
                 :
@@ -135,9 +135,21 @@ export default class CompressedForm extends React.Component {
                   language={this.props.language}
                 />
               }
-              <div>
+              <div className="form-editor-label">
+                <AccessibilityHelp 
+                  id={'short-description-help-container'} 
+                  name={'shortDescriptionHelpContainer'} 
+                  error={!this.state.showPreview} 
+                  tip={!this.state.showPreview? this.props.language.uploadCompressed: this.props.language.uploadCompressedCorrect} 
+                  //step={props.step}
+                  //stepLabel={props.stepLabel}
+                  language={this.props.language}
+                />
+              </div>
+              {/* <div>
                 <p className="form-editor-label">{this.props.language.writeTheInstructions}</p>
                 <div className="editor-block">
+                  <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
                   <Editor
                     areaHeight="25vh"
                     buttonLabels={false}
@@ -147,7 +159,7 @@ export default class CompressedForm extends React.Component {
                     language={this.props.language}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           :
           <Library

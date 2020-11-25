@@ -22,8 +22,8 @@ export default class ImagePreview extends React.Component {
     this.setState({
       nameWithoutExtension: true,
     });
-    file.name = file.name.toString().split('.');
-    file.name = file.name[0];
+    //file.name = file.name.toString().split('.');
+    //file.name = file.name[0];
   }
 
   delete(){
@@ -41,7 +41,7 @@ export default class ImagePreview extends React.Component {
   }
 
   coordenadaCursos=(coordenada)=>{
-    console.log("COORDENADA CURSOS--->", coordenada )
+    //console.log("COORDENADA CURSOS--->", coordenada )
     this.props.coordenadasCursosImageForm(coordenada)
   }
   
@@ -56,17 +56,15 @@ content =()=>{
     return(
       <Fragment>
         <ResizableContent
-          top={22}
-          left={200}
+          //top={185}
+         // left={200}
           width={200}
           height={200}
           rotateAngle={0}
           //coordenada={this.props.coordenada}
           coordenadaCursos={this.coordenadaCursos}    
         > 
-          <div>
-              <img style={{width: '200px', height: '200px'}} src={this.props.file.link}></img>
-          </div>
+          <div style={{backgroundImage: `url(${this.props.file.link})`, backgroundColor: "black"}} className="file-image-preview"></div>  
         </ResizableContent>
       </Fragment>
     )

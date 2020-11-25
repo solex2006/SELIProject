@@ -1,10 +1,11 @@
 .course-item-video-card {
   width: 100% !important;
-  padding: 1.5vh 2.5%;
-  display: flex;
+  padding: 1.5vh 1vw;
   align-items: center;
   justify-content: center;
+  background-color: rgba(255, 255, 255, 0);
 }
+
 .course-item-video-card2 {
   width: 100% !important;
 
@@ -12,7 +13,16 @@
 
 .course-item-video-card-media-action-area {
   display: flex !important;
-  padding: 1vh 0;
+  align-items: center;
+  padding: 0.5vh 0;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.course-item-video-card-media-action-area-template {
+  display: flex !important;
+  align-items: center;
+  padding: 0.5vh 0;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .course-item-video-card-media {
@@ -60,8 +70,7 @@
 }
 
 .course-item-audio-card {
-  width: 25vw !important;
-  max-width: 35vw !important;
+  width: 500px !important;
 }
 
 .course-item-audio-card-details {
@@ -90,17 +99,16 @@
 }
 
 .course-item-audio-card-controls2 {
-  margin-bottom: 0.5vh !important;
+  width: calc(100% - 1vw);
+  margin-top: 0.5vh !important;
   justify-content: flex-start !important;
-  padding: 0 1vw !important;
+  padding: 0 0.5vw !important;
 }
 
 .course-item-audio-card-image {
-  width: 120px !important;
+  width: 160px !important;
   height: 120px !important;
   background-color: #333;
-  position: absolute !important;
-  right: 0 !important;
 }
 
 .course-item-card-title {
@@ -108,34 +116,28 @@
   color: #616161 !important;
   display: flex;
   align-items: center;
-}
-
-.course-item-card-subtitle {
-  letter-spacing: 1px !important;
-  margin-left: 0.5vw !important;
-}
-
-.course-item-card-title {
   text-overflow: ellipsis !important;
 }
 
-.course-item-audio-card-content {
-  width: calc(80% - 120px) !important;
+.course-item-card-subtitle {
+  display: flex;
+  align-items: center;
+  letter-spacing: 1px !important;
 }
 
-.course-item-audio-card-image {
-  position: absolute !important;
-  top: 0 !important;
+.course-item-audio-card-content {
+  width: 95% !important;
 }
+
 .checkboxstyle{
   margin-left: 10px
 }
 
 .videosignal{
-    position: absolute;
-    z-index: 1;
-    top: 15px;
-    left: 35px;
+  position: absolute;
+  top: 18px !important;
+  left: 30px !important;
+  width: 144px !important;
 }
 
 .videoPreview{
@@ -148,11 +150,7 @@
   margin-left: 40px
 }
 .AudioPlayer{
-  position: absolute;
-  z-index: 2;
-  top: 200px;
-  left: 35px;
-
+  padding: 15px;
 }
 
 .checkBoxItem{
@@ -160,5 +158,33 @@ display: flex;
 }
 
 .description{
-
+  text-align: justify;
+  text-justify: inter-word;
 }
+
+.audio-transcription{
+  margin-left: 20px;
+}
+
+.show-hide-transcription {
+  margin-top: 5px;
+  animation: fadeInDown 0.5s;
+}
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .course-item-audio-card {
+    width: 100% !important;
+  }
+  .course-item-video-card-media-action-area {
+    display: inline !important;
+  }
+  .course-item-comment-card-media-fab {
+    margin: 1px !important;
+  }
+} 
+@media screen and (max-width: 1600px) {
+  .course-item-video-card-media-action-area-template {
+    display: inline !important;
+  }
+} 

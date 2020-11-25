@@ -34,21 +34,21 @@ const useStyles =theme => ({
       
       longDescription:0, //general counts
       shortDescription:0,
-      captionsEmbebed:0,
+      captionsEmbedded:0,
       seizures:0,
       audioDescription:0,
       signLanguage:0,
 
       longDescription_a11y:0, //true counts
       shortDescription_a11y:0,
-      captionsEmbebed_a11y:0,
+      captionsEmbedded_a11y:0,
       seizures_a11y:0,
       audioDescription_a11y:0,
       signLanguage_a11y:0,
 
       longDescriptionIncomplete:0, //incomplete counts
       shortDescriptionIncomplete:0,
-      captionsEmbebedIncomplete:0,
+      captionsEmbeddedIncomplete:0,
       seizuresIncomplete:0,
       audioDescriptionIncomplete:0,
       signLanguageIncomplete:0,
@@ -62,9 +62,9 @@ const useStyles =theme => ({
   }
 
   reset=()=>{
-    this.state.longDescription=0,  this.state.shortDescription=0, this.state.captionsEmbebed=0, this.state.seizures=0, this.state.audioDescription=0, this.state.signLanguage=0
-    this.state.longDescription_a11y=0,  this.state.shortDescription_a11y=0, this.state.captionsEmbebed_a11y=0, this.state.seizures_a11y=0, this.state.audioDescription_a11y=0, this.state.signLanguage_a11y=0
-    this.state.longDescriptionIncomplete=0,  this.state.shortDescriptionIncomplete=0, this.state.captionsEmbebedIncomplete=0, this.state.seizuresIncomplete=0, this.state.audioDescriptionIncomplete=0, this.state.signLanguageIncomplete=0
+    this.state.longDescription=0,  this.state.shortDescription=0, this.state.captionsEmbedded=0, this.state.seizures=0, this.state.audioDescription=0, this.state.signLanguage=0
+    this.state.longDescription_a11y=0,  this.state.shortDescription_a11y=0, this.state.captionsEmbedded_a11y=0, this.state.seizures_a11y=0, this.state.audioDescription_a11y=0, this.state.signLanguage_a11y=0
+    this.state.longDescriptionIncomplete=0,  this.state.shortDescriptionIncomplete=0, this.state.captionsEmbeddedIncomplete=0, this.state.seizuresIncomplete=0, this.state.audioDescriptionIncomplete=0, this.state.signLanguageIncomplete=0
   }
   getAccessibilitiePercentages=()=>{
     //we do a map de the units and lessons 
@@ -92,11 +92,11 @@ const useStyles =theme => ({
                       this.state.shortDescription_a11y++
                     }
                     this.state.shortDescription++
-                  }else if(disabilitie.name==='captionsEmbebed'){
+                  }else if(disabilitie.name==='captionsEmbedded'){
                     if(disabilitie.is_a11y===true){
-                      this.state.captionsEmbebed_a11y++
+                      this.state.captionsEmbedded_a11y++
                     }
-                    this.state.captionsEmbebed++
+                    this.state.captionsEmbedded++
                   }else if(disabilitie.name==='seizures'){
                     if(disabilitie.is_a11y===true){
                       this.state.seizures_a11y++
@@ -123,8 +123,6 @@ const useStyles =theme => ({
       })
       //here make the calculation of percentages by unit
       this.percentages(Unid.name)
-      //console.log("Unidad q se va pasar" , Unid.name)
-      console.log("estado" , this.state) 
     })
     this.totalpercentages()
   }
@@ -136,7 +134,7 @@ const useStyles =theme => ({
     }else if(attribute.type==='video'){
       this.state.shortDescriptionIncomplete++
       this.state.longDescriptionIncomplete++
-      this.state.captionsEmbebedIncomplete++
+      this.state.captionsEmbeddedIncomplete++
       this.state.audioDescriptionIncomplete++
       this.state.signLanguageIncomplete++
       this.state.seizuresIncomplete++
@@ -155,7 +153,7 @@ const useStyles =theme => ({
     let signL=((this.state.signLanguage_a11y*100)/(this.state.signLanguage+this.state.signLanguageIncomplete))
     let seizures=((this.state.seizures_a11y*100)/(this.state.seizures+this.state.seizuresIncomplete))
     let audioD=((this.state.audioDescription_a11y*100)/(this.state.audioDescription+this.state.audioDescriptionIncomplete))
-    let captions=((this.state.captionsEmbebed_a11y*100)/(this.state.captionsEmbebed+this.state.captionsEmbebedIncomplete))
+    let captions=((this.state.captionsEmbedded_a11y*100)/(this.state.captionsEmbedded+this.state.captionsEmbeddedIncomplete))
     //let unid={unidname:[shortD,longD]}
     
 
@@ -179,7 +177,7 @@ const useStyles =theme => ({
     let signLRed=(((this.state.signLanguage-this.state.signLanguage_a11y)*100)/(this.state.signLanguage+this.state.signLanguageIncomplete))
     let seizuresRed=(((this.state.seizures-this.state.seizures_a11y)*100)/(this.state.seizures+this.state.seizures))
     let audioDRed=(((this.state.audioDescription-this.state.audioDescription_a11y)*100)/(this.state.audioDescription+this.state.audioDescriptionIncomplete))
-    let captionsRed=(((this.state.captionsEmbebed-this.state.captionsEmbebed_a11y)*100)/(this.state.captionsEmbebed+this.state.captionsEmbebedIncomplete))
+    let captionsRed=(((this.state.captionsEmbedded-this.state.captionsEmbedded_a11y)*100)/(this.state.captionsEmbedded+this.state.captionsEmbeddedIncomplete))
     
     
     //if video is not available then we put 100% in th eother option exept for shirt and long description
@@ -201,7 +199,7 @@ const useStyles =theme => ({
     let signLInc=(((this.state.signLanguageIncomplete)*100)/(this.state.signLanguage+this.state.signLanguageIncomplete))
     let seizuresInc=(((this.state.seizuresIncomplete)*100)/(this.state.seizures+this.state.seizures))
     let audioDInc=(((this.state.audioDescriptionIncomplete)*100)/(this.state.audioDescription+this.state.audioDescriptionIncomplete))
-    let captionsInc=(((this.state.captionsEmbebedIncomplete)*100)/(this.state.captionsEmbebed+this.state.captionsEmbebedIncomplete))
+    let captionsInc=(((this.state.captionsEmbeddedIncomplete)*100)/(this.state.captionsEmbedded+this.state.captionsEmbeddedIncomplete))
     
     if (Number.isNaN(longDInc)===true && Number.isNaN(signLInc)===true && Number.isNaN(seizuresInc)===true && Number.isNaN(audioDInc)===true && Number.isNaN(captionsInc)===true ){
       //only short description image
@@ -320,18 +318,7 @@ const useStyles =theme => ({
   render() {
     const { classes } = this.props;
     return(  
-     /*  <div className="course-creator-container">   
-        {console.log("Propiedades----->",this.props)}
-        {this.getAccessibilitiePercentages()}
-        {this.state.courseInformation.support.map((disabilitie,index)=>{
-          return(
-            <div  key={`break-${index}`}>
-               {disabilitie.name}
-            </div>
-          )
-        })}
-      </div> */
-
+    
       <Grid container className={classes.root} spacing={2}>
         {console.log("Propiedades----->",this.props)}
         {this.getAccessibilitiePercentages()}

@@ -1,8 +1,7 @@
 import React from 'react';
-import MenuItem from './MenuItem';
 import Code  from '../../tools/Code';
-import DragItem from './DragItem'
-import Divider from '@material-ui/core/Divider';
+import { Editor, EditorState, convertFromRaw } from "draft-js";
+
 export default class TextItem extends React.Component {
   constructor(props) {
     super(props);
@@ -15,23 +14,61 @@ export default class TextItem extends React.Component {
 
   }
 
+  Texteditor = (section) => {
+    const contentState = convertFromRaw(section);
+    const editorState =  EditorState.createWithContent(contentState);
+    return editorState;
+  }
+
   render() {
     return(
       <div className="content-box">
         <div className="text-content-item">
           {
             this.props.item.attributes.type === 'title' ?
-              <h2 className="text-item-title" style={{textAlign: this.props.item.attributes.alignment, fontSize: this.props.item.attributes.size}}>
-                {this.props.item.attributes.content}
-              </h2>
-            :
-            undefined
+                <div>
+                {
+                  this.props.item.attributes.size==="1.5em"?
+                    <h1 className="text-item-title" style={{textAlign: this.props.item.attributes.alignment, fontSize: '2em'}}>
+                      {this.props.item.attributes.content}
+                    </h1>
+                  :
+                  undefined
+                }
+                {
+                  this.props.item.attributes.size==="1.15em"?
+                    <h2 className="text-item-title" style={{textAlign: this.props.item.attributes.alignment,fontSize: '1.5em'}}>
+                      {this.props.item.attributes.content}
+                    </h2>
+                  :
+                  undefined
+                }
+                {
+                  this.props.item.attributes.size==="0.9em"?
+                    <h3 className="text-item-title" style={{textAlign: this.props.item.attributes.alignment,fontSize: '1.17em'}}>
+                      {this.props.item.attributes.content}
+                    </h3>
+                  :
+                  undefined
+                }
+              </div>
+              :
+              undefined
           }
           {
             this.props.item.attributes.type === 'section' ?
-              <div dangerouslySetInnerHTML={{__html: this.props.item.attributes.content}} id={this.props.item.id + "section"} className="text-item-section">
-
-              </div>
+              this.props.item.attributes.content && (
+                this.props.item.attributes.content.blocks ?
+                  <div  id={this.props.item.id + "section"} className="text-item-section">
+                    <Editor 
+                      editorState={this.Texteditor(this.props.item.attributes.content)} readOnly={true} 
+                    /> 
+                  </div>
+                :
+                  <div  id={this.props.item.id + "section"} className="text-item-section"
+                    dangerouslySetInnerHTML={{__html: this.props.item.attributes.content}}>
+                  </div>
+              )
             :
             undefined
           }
@@ -46,18 +83,6 @@ export default class TextItem extends React.Component {
             undefined
           }
         </div>
-        <div className="menu-content-item">
-          <MenuItem
-            item={this.props.item}
-            removeItem={this.props.removeItem.bind(this)}
-            editItem={this.props.editItem.bind(this)}
-            language={this.props.language}
-          />
-        </div>
-        <Divider orientation="vertical" />
-        <DragItem
-        language={this.props.language}
-        />
       </div>
       );
     }

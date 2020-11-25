@@ -7,6 +7,7 @@ import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
 import LinkButton from './LinkButton';
+import StoryButton from './StoryButton';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
@@ -21,6 +22,7 @@ import theme from '../../../style/theme.js';
 export default class Editor extends React.Component {
   constructor(props) {
     super(props);
+    this.links = [];
     this.state = {
       alignment: 'left',
       formats: [],
@@ -76,9 +78,16 @@ export default class Editor extends React.Component {
     editor.addEventListener("paste", function(event) {
       self.pasteWithNoStyle(event);
     }, false);
-    editor.addEventListener("keyup", function(event) {
+    editor.addEventListener("keydown", function(event) {
       if (event.keyCode === 13) {
         removeFormat();
+      }
+      if (event.keyCode === 9) {
+        if (event.shiftKey) {
+          self.links[1].focus();
+        } else {
+          self.links[0].focus();
+        }
       }
     });
   }
@@ -202,11 +211,10 @@ export default class Editor extends React.Component {
       <div style={{width: '100%', paddingBottom: '2.5vh'}}>
         <MuiThemeProvider theme={theme}>
           <div className="editor-container">
-            <p className="editor-label">{this.props.language.activityInstructions}</p>
             <div className="editor-tools">
               <Grid item>
                 <ToggleButtonGroup size="small" value={this.state.alignment} exclusive>
-                  <ToggleButton key={1} value="left" onClick={() => {changeAligment('justifyLeft'); this.setActiveAligment("left")}}>
+                  <ToggleButton ref={(ref) => this.links[1] = ref} key={1} value="left" onClick={() => {changeAligment('justifyLeft'); this.setActiveAligment("left")}}>
                     <Tooltip title={this.props.language.leftAlign}>
                       <FormatAlignLeftIcon className="toggle-button-icon"/>
                     </Tooltip>
@@ -246,6 +254,12 @@ export default class Editor extends React.Component {
                   <Grid style={{marginLeft: "1vw"}}>
                     <ToggleButtonGroup size="small">
                       <LinkButton buttonLabels={this.props.buttonLabels} language={this.props.language}/>
+                      { 
+                        this.props.stories ?
+                          <StoryButton stories={this.props.stories} buttonLabels={this.props.buttonLabels} language={this.props.language}/>
+                        : 
+                          undefined
+                      }
                     </ToggleButtonGroup>
                   </Grid>
                 :
@@ -257,9 +271,11 @@ export default class Editor extends React.Component {
                 id="editor-iframe"
                 className="editor-iframe"
                 name="editorIframe"
+                tabIndex="0"
               >
               </iframe>
             </div>
+            <div ref={(ref) => this.links[0] = ref} tabIndex="-1"></div>
           </div>
         </MuiThemeProvider>
       </div>

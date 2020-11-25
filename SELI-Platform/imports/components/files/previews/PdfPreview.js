@@ -8,11 +8,11 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import { FaRegFilePdf } from "react-icons/fa";
 
+
 export default class PdfPreview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
     }
   }
 
@@ -21,14 +21,13 @@ export default class PdfPreview extends React.Component {
     this.setState({
       nameWithoutExtension: true,
     });
-    file.name = file.name.toString().split('.');
-    file.name = file.name[0];
+    //file.name = file.name.toString().split('.');
+    //file.name = file.name[0];
   }
 
   delete(){
     Meteor.call("RemoveCourseFile", this.props.file._id, function (err) {
       if (err) {
-
       }
     });
     this.props.unPickFile();

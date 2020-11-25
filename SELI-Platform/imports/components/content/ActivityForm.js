@@ -1,16 +1,5 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormLabel from '@material-ui/core/FormLabel';
-import Divider from '@material-ui/core/Divider';
+import A11yEditor, { getText } from '../inputs/editor/A11yEditor';
 import FileTypeSelector from '../tools/FileTypeSelector';
 import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import BackupIcon from '@material-ui/icons/Backup';
@@ -19,7 +8,6 @@ import ForumIcon from '@material-ui/icons/Forum';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
-import Editor from '../inputs/editor/Editor';
 import Help from '../tools/Help';
 
 export default class ActivityForm extends React.Component {
@@ -28,7 +16,7 @@ export default class ActivityForm extends React.Component {
     this.state = {
       fileTypes: [
         {
-          label: 'Pdf',
+          label: 'PDF',
           selected: false,
         },
         {
@@ -61,7 +49,7 @@ export default class ActivityForm extends React.Component {
         },
       ],
       attributes: {
-        type: 'storyboard',
+        type: this.props.arrayOfDesignItems.type === "4" ? 'forum' : 'section',
         instruction: '',
         expanded: true,
       }
@@ -90,6 +78,8 @@ export default class ActivityForm extends React.Component {
     if (activityContent.type === 'upload') {
       activityContent.fileTypes = this.getFileTypes();
     }
+    const childText = getText();
+    activityContent.instruction = childText;
     if (this.validateContent(activityContent) ) {
       return activityContent;
     }
@@ -99,7 +89,7 @@ export default class ActivityForm extends React.Component {
   }
 
   validateContent = (content) => {
-    if (content.instruction === '') {
+    if (content.instruction === "" || content.instruction === null || content.instruction.blocks.text === "") {
       this.props.handleControlMessage(true, this.props.language.writeTheInstructions);
       return false;
     } else if (content.type === 'upload' && content.fileTypes === undefined) {
@@ -113,7 +103,7 @@ export default class ActivityForm extends React.Component {
     let fileTypes = this.state.fileTypes;
     let selected = [
       {
-        label: 'Pdf',
+        label: 'PDF',
         accept: '.pdf',
         selected: false,
       },
@@ -194,33 +184,39 @@ export default class ActivityForm extends React.Component {
     return(
       <div className="dialog-form-container">
         <div className="editor-block">
-          <Editor
+          <p className="editor-label">{`${this.props.language.activityInstructions}:`}</p>
+          <A11yEditor
+            textSection={this.state.attributes.instruction}
+            language={this.props.language}
+          />
+          {/* <Editor
             areaHeight='20vh'
             innerHTML={this.state.attributes.instruction}
             buttonLabels={false}
             addLinks={true}
             getInnerHtml={this.getInnerHtml.bind(this)}
             language={this.props.language}
-          />
-        </div>
+          /> */}
+        </div> 
         <div className="editor-label1">{`${this.props.language.deliverType}:`}</div>
-        <div className="square-box">
-          <Paper square>
-            <Tabs
-              color="primary"
-              value={this.state.attributes.type}
-              indicatorColor="primary"
-              textColor="primary"
-              className="form-tabs-container"
-              centered={true}
-            >
-              <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} />
-              <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} />
-              <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.textSection} icon={<SubjectIcon />} />
-              <Tab value={'forum'} onClick={() => this.selectType('forum')} className="form-tab" label={this.props.language.forum} icon={<ForumIcon />} />
-            </Tabs>
-          </Paper>
-        </div>
+        <Tabs
+          color="primary"
+          value={this.state.attributes.type}
+          indicatorColor="primary"
+          textColor="primary"
+          className="form-tabs-container"
+          centered={true}
+          wrapper={true}
+        >
+          { (this.props.arrayOfDesignItems.type === "4" || this.props.courseTemplate === "without") &&
+              <Tab value={'forum'} onClick={() => this.selectType('forum')} wrapper={true} wrapped={true} label={this.props.language.forum} icon={<ForumIcon />} />}
+          { (this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without") &&
+              <Tab value={'section'} onClick={() => this.selectType('section')} wrapper={true} wrapped={true} label={this.props.language.section} icon={<SubjectIcon />} />}
+          { (this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without") &&
+              <Tab value={'upload'} onClick={() => this.selectType('upload')} wrapper={true} wrapped={true} label={this.props.language.upload} icon={<BackupIcon />} />}
+          { (this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without") &&
+              <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} wrapper={true} wrapped={true} label={this.props.language.storyboard} icon={<LocalActivityIcon />} />}
+        </Tabs>
         {
           this.state.attributes.type === 'storyboard' ?
             <div className="form-activity-input-contained">

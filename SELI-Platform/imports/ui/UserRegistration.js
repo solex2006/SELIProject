@@ -4,7 +4,6 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
 import FormStepper from '../components/navigation/FormStepper';
-import MainMenu from '../components/navigation/MainMenu';
 import AppBar from '../components/navigation/AppBar';
 import ControlSnackbar from '../components/tools/ControlSnackbar';
 
@@ -14,7 +13,6 @@ import theme from '../style/theme';
 import UserInformation from './UserInformation';
 
 import InfoIcon from '@material-ui/icons/Info';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 import Button from '@material-ui/core/Button';
@@ -47,6 +45,7 @@ export default class UserRegistration extends React.Component {
         countryCode: '',
         phoneNumber: '',
         image: undefined,
+        disabilities: []
       },
       emailValidated: false,
       typeState: '',
@@ -80,12 +79,23 @@ export default class UserRegistration extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
-    this.props.history.push({
-      pathname: "/",
-      state: {
-        language: this.state.language,
-      }
-    });
+    if (this.props.history.location.course) {
+      this.props.history.push({
+        pathname: "/", 
+        course: this.props.history.location.course,
+        action: "in",
+        state: {
+          language: this.state.language,
+        }
+      });
+    } else {
+      this.props.history.push({
+        pathname: "/",
+        state: {
+          language: this.state.language,
+        }
+      });
+    }
   };
 
   componentDidMount() {
@@ -103,6 +113,7 @@ export default class UserRegistration extends React.Component {
             userInformation={this.state.userInformation}
             handleEmail={this.handleEmail.bind(this)}
             handlePassword={this.handlePassword.bind(this)}
+            handleControlMessage={this.handleControlMessage.bind(this)}
             language={this.state.language}
             type={this.props.location.type}
           />,
@@ -120,6 +131,7 @@ export default class UserRegistration extends React.Component {
             userInformation={this.state.userInformation}
             handleEmail={this.handleEmail.bind(this)}
             handlePassword={this.handlePassword.bind(this)}
+            handleControlMessage={this.handleControlMessage.bind(this)}
             language={this.state.language}
             type={this.props.location.type}
           />,
@@ -191,6 +203,7 @@ export default class UserRegistration extends React.Component {
         profileImage: information.image,
         verified: false,
         courses: [],
+        badge: [],
         type: 'tutor',
         configuration: {
           language: 'English (US)',
@@ -223,10 +236,12 @@ export default class UserRegistration extends React.Component {
         courses: [],
         type: 'student',
         certificates: [],
+        badge: [],
         configuration: {
           language: 'English (US)',
         },
-      },
+        disabilities: information.disabilities
+      }
     }, (error) => {
       if (error) {
         this.handleError(error);
@@ -246,12 +261,13 @@ export default class UserRegistration extends React.Component {
           Meteor.userId(),
           this.state.userInformation.email,
           (error) => {
-            if (error) {
+            /* if (error) {
               this.handleError(error);
             }
             else {
               this.requestSent();
-            }
+            } */
+            this.requestSent();
           }
         );
         Meteor.logout();
@@ -333,6 +349,7 @@ export default class UserRegistration extends React.Component {
             userInformation={this.state.userInformation}
             handleEmail={this.handleEmail.bind(this)}
             handlePassword={this.handlePassword.bind(this)}
+            handleControlMessage={this.handleControlMessage.bind(this)}
             language={this.state.language}
             type={this.props.location.type}
           />,
@@ -389,7 +406,7 @@ export default class UserRegistration extends React.Component {
                         <CheckCircleIcon className="success-dialog-icon"/>
                       </DialogContent>
                       <DialogActions>
-                        <Button onClick={() => this.handleClose()} color="secondary" variant="contained" autoFocus>
+                        <Button onClick={() => this.handleClose()} color="secondary" variant="outlined" autoFocus>
                           {this.state.language.ok}
                         </Button>
                       </DialogActions>
@@ -441,7 +458,7 @@ export default class UserRegistration extends React.Component {
                         <CheckCircleIcon className="success-dialog-icon"/>
                       </DialogContent>
                       <DialogActions>
-                        <Button onClick={() => this.handleClose()} color="secondary" variant="contained" autoFocus>
+                        <Button onClick={() => this.handleClose()} color="secondary" variant="outlined" autoFocus>
                           {this.state.language.ok}
                         </Button>
                       </DialogActions>

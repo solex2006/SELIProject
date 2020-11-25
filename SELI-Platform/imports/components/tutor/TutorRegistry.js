@@ -94,13 +94,14 @@ export default class TutorRegistry extends React.Component {
           onClose={this.handleClose}
           keepMounted
           TransitionComponent={Transition}
+          disableBackdropClick={true}
         >
           <DialogTitle className="modal-title" id="alert-dialog-title">{"Are you sure you want to delete this tutor?"}</DialogTitle>
           <DialogActions>
             <Button  onClick={this.handleClose} color="primary">
               No
             </Button>
-            <Button onClick={() => this.delete()} color="primary" autoFocus>
+            <Button variant="outlined" onClick={() => this.delete()} color="primary" autoFocus>
               Yes
             </Button>
           </DialogActions>
