@@ -23,7 +23,7 @@
     "@shagital/db-dumper": "^1.0.2",
     "adm-zip": "^0.4.16",
     "ale-mongoutils": "^1.0.3",
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.0",
     "bcrypt-nodejs": "0.0.3",
     "bind-decorator": "^1.0.11",
     "body-parser": "^1.19.0",
