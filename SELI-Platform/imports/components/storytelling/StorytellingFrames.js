@@ -8,7 +8,7 @@ export default class StorytellingFrames extends React.Component {
   }
 
   getFullName = (time) => {
-    Meteor.call("GetUserById", this.props.story.user, (error, response) =>  {
+    Meteor.call("GetUserById", (error, response) =>  {
       if (response) {
         this.setState({fullName: response.profile.fullname}, () => {
           this.setTimer(time);

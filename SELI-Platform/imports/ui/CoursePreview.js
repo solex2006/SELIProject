@@ -48,7 +48,7 @@ export default class CoursePreview extends React.Component {
           course: undefined,
         });
       });
-      Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
+      Meteor.call("GetUserById", (error, response) =>  {
         if (response) this.setInitVariables(response);
       });
     });

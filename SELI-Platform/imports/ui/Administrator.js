@@ -49,7 +49,7 @@ export default class Tutor extends React.Component {
     this.setState({
       chekingSesion: true,
     }, () => {
-      Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
+      Meteor.call("GetUserById", (error, response) =>  {
         checkUserType(response, 'administrator', this.props.history);
         this.setState({
           user: response,

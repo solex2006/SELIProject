@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { Email } from '@material-ui/icons';
 
 Meteor.methods({
   'GetUsers'(){
@@ -84,7 +83,7 @@ Meteor.methods({
 
 Meteor.methods({
   'GetUserById'(_id){
-    return Meteor.users.findOne({_id: _id});
+    return Meteor.user();
   }
 });
 
