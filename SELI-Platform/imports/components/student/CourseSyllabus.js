@@ -274,7 +274,7 @@ function Syllabus(props) {
 					<h3 className='crnheading' id="info-goals" tabIndex="0">
 						{props.language.LearningGoals}
 					</h3>
-					<p tabIndex='0' className='descriptiontext'>{props.language.learningObjectivesDefinition}</p>
+					<p tabIndex='0' className='descriptiontext'>{props.language.learningObjectivesDefinition}99999</p>
 					<Lista 
 							title={props.language.LearningGoals}
 							data={props.courseInformation.analysis[3]}
