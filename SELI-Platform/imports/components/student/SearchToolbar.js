@@ -179,7 +179,11 @@ export default function SearchToolBar(props) {
 	const [openFilter, setOpenFilter] = React.useState(false);
 	const [openSorter, setOpenSorter] = React.useState(false);
 	const [area, setArea] = React.useState([]);
-	const [duration, setDuration] = React.useState([21599,720000]);
+	const [duration, setDuration] = React.useState([5,200]);
+	const [durationMinutes, setDurationMinutes] = React.useState(0);
+	const [durationSeconds, setDurationSeconds] = React.useState(0);
+	const [durationMinutesTwo, setDurationMinutesTwo] = React.useState(0);
+	const [durationSecondsTwo, setDurationSecondsTwo] = React.useState(0);
 	const [audiences, setAudiences] = React.useState({
 			Graduatestudents:false, 
 			Informalstudents:false, 
@@ -256,9 +260,12 @@ export default function SearchToolBar(props) {
 	}
 
 	useEffect(() => {
-		
 		getTutors()
 	}, [])
+
+	
+
+
 	 useEffect(() => {
 		setselectedaccessible(false)
 		setselectedonline(false)
@@ -331,7 +338,7 @@ export default function SearchToolBar(props) {
 			1.5: '1.5 Stars',
 			2: '2 Stars',
 			2.5: '2.5 Stars',
-			3: '3 Stars',
+			//3: '3 Stars',
 			3.5: '3.5 Stars',
 			4: '4 Stars',
 			4.5: '4.5 Stars',
@@ -583,7 +590,7 @@ export default function SearchToolBar(props) {
 							color="primary"
 							onClick={() => {
 								setArea([]);
-								setDuration([21599,720000]);
+								setDuration([5,200]);
 								setAudiences(prev=>({
 										Graduatestudents:false, 
 										Informalstudents:false, 
@@ -632,7 +639,7 @@ export default function SearchToolBar(props) {
 			>
             <RantingCourse
                feedback={true}
-               label={props.language.Showcoursesequal}
+               //label={props.language.Showcoursesequal}
 				/>
 				<FormControlLabel
 					className={classes.formControl}
@@ -929,7 +936,13 @@ export default function SearchToolBar(props) {
 							size="small"
 							startIcon={<ClearIcon />}
 							className={classes.accordionbtn}
-							onClick={() => setDuration([21599,720000])}
+							onClick={() => {
+								setDuration([5,200])
+								setDurationMinutes(0)
+								setDurationSeconds(0)
+								setDurationMinutesTwo(0)
+								setDurationSecondsTwo(0)
+							}}
 						>
 							{props.language.ResetDuration}
 						</Button>
@@ -938,11 +951,76 @@ export default function SearchToolBar(props) {
 							max={duration[1]}
 							getParamsDuration={props.getParamsDuration}
 						/>  */}
-						 <DurationSlider2
+						 {/* <DurationSlider2
 							min={duration[0]}
 							max={duration[1]}
 							getParamsDuration={props.getParamsDuration}
-						/> 
+						/>  */}
+
+
+					<div style={{display:'block'}}>
+							<div>
+								<p className="MuiFormHelperText-root">Minimum duration</p>
+								<time> 
+									<input 
+										type="number" min="5" max="200" step="1"  aria-label="hours" value={duration[0]}
+										onChange={e=>{
+										
+											duration[0]= e.target.value;
+										
+											props.getParamsDuration([Math.floor(duration[0]),Math.floor(duration[1])], true)
+										}}
+									/>:
+									<input 
+										type="number" min="0" step="1" max="59"  aria-label="minutes" value={durationMinutes}
+										onChange={e=>{
+											setDurationMinutes(e.target.value); 
+											props.getParamsDuration([Math.floor(duration[0]),Math.floor(duration[1])], true)
+										}}
+										/>:
+									<input 
+										type="number" min="0" max="59" step="1"  aria-label="seconds" value={durationSeconds}
+										onChange={e=>{
+											setDurationSeconds(e.target.value);
+											props.getParamsDuration([Math.floor(duration[0]),Math.floor(duration[1])], true)
+										}}
+									/><p className="MuiFormHelperText-root" style={{display:'inline'}}>hh:mm:ss</p>
+								</time>
+								<p className="MuiFormHelperText-root">Minimum duration must be greater than 5:00:00 hh:mm:ss</p>
+							</div>
+
+							<div>
+								<p className="MuiFormHelperText-root">Maximum duration</p>
+								<time> 
+									<input 
+										type="number" min="5" max="200" step="1"  aria-label="hours" value={duration[1]}
+										onChange={e=>{
+										
+											duration[1]= e.target.value;
+										
+											props.getParamsDuration([Math.floor(duration[0]),Math.floor(duration[1])], true)
+										}}
+									/>:
+									<input 
+										type="number" min="0" step="1" max="59"  aria-label="minutes" value={durationMinutesTwo}
+										onChange={e=>{
+											setDurationMinutesTwo(e.target.value); 
+											props.getParamsDuration([Math.floor(duration[0]),Math.floor(duration[1])], true)
+										}}
+										/>:
+									<input 
+										type="number" min="0" max="59" step="1"  aria-label="seconds" value={durationSecondsTwo}
+										onChange={e=>{
+											setDurationSecondsTwo(e.target.value);
+											props.getParamsDuration([Math.floor(duration[0]),Math.floor(duration[1])], true)
+										}}
+									/>
+								</time><p className="MuiFormHelperText-root" style={{display:'inline'}}>hh:mm:ss</p>
+								<p className="MuiFormHelperText-root">Maximum duration must be smaller than 200:00:00 hh:mm:ss</p>
+							</div>
+						<div>
+					</div>
+					</div>
 					</AccordionDetails>
 				</Accordion>
      
