@@ -198,9 +198,9 @@ export default class CoursesDashboard extends React.Component {
       return(
         <Paper component="article" elevation={0}>
           <header className='headersearch'>
-            <h2>{title}</h2>
+            <h2 tabIndex='0'>{title}</h2>
           </header>
-          <div className='subheader'>{this.props.language.Showing} {this.state.myFilterThree.length} {this.props.language.of} {arrayCourses.length} {this.props.language.subscribedtoyoursearch}</div>
+          <div tabIndex='0' className='subheader'>{this.props.language.Showing} {this.state.myFilterThree.length} {this.props.language.of} {arrayCourses.length} {this.props.language.subscribedtoyoursearch}</div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
             {

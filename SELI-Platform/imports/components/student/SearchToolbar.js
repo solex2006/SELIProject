@@ -424,6 +424,7 @@ export default function SearchToolBar(props) {
 			<Paper component="form" className={classes.searchbar} elevation={0}>
 				<div className={classes.searchcontainer}>
 					<input
+						tabIndex='0'
 						value={query}
 						className={classes.input}
 						placeholder={props.language.SearchSeLIPlatform}
@@ -473,6 +474,7 @@ export default function SearchToolBar(props) {
 								className={classes.tbgroup}
 							>
 								<label
+									tabIndex='0'
 									className={classes.filterlabel}
 									data-shrink="true"
 									for="filtertb"
@@ -960,7 +962,7 @@ export default function SearchToolBar(props) {
 
 					<div style={{display:'block'}}>
 							<div>
-								<p className="MuiFormHelperText-root">Minimum duration</p>
+								<p className="MuiFormHelperText-root" tabIndex="0">Minimum duration</p>
 								<time> 
 									<input 
 										type="number" min="5" max="200" step="1"  aria-label="hours" value={duration[0]}
@@ -984,13 +986,13 @@ export default function SearchToolBar(props) {
 											setDurationSeconds(e.target.value);
 											props.getParamsDuration([Math.floor(duration[0]),Math.floor(duration[1])], true)
 										}}
-									/><p className="MuiFormHelperText-root" style={{display:'inline'}}>hh:mm:ss</p>
+									/><p className="MuiFormHelperText-root" tabIndex='0' style={{display:'inline'}}>hh:mm:ss</p>
 								</time>
-								<p className="MuiFormHelperText-root">Minimum duration must be greater than 5:00:00 hh:mm:ss</p>
+								<p className="MuiFormHelperText-root" tabIndex='0'>Minimum duration must be greater than 5:00:00 hh:mm:ss</p>
 							</div>
 
 							<div>
-								<p className="MuiFormHelperText-root">Maximum duration</p>
+								<p className="MuiFormHelperText-root" tabIndex="0">Maximum duration</p>
 								<time> 
 									<input 
 										type="number" min="5" max="200" step="1"  aria-label="hours" value={duration[1]}
@@ -1015,8 +1017,8 @@ export default function SearchToolBar(props) {
 											props.getParamsDuration([Math.floor(duration[0]),Math.floor(duration[1])], true)
 										}}
 									/>
-								</time><p className="MuiFormHelperText-root" style={{display:'inline'}}>hh:mm:ss</p>
-								<p className="MuiFormHelperText-root">Maximum duration must be smaller than 200:00:00 hh:mm:ss</p>
+								</time><p className="MuiFormHelperText-root" tabIndex='0' style={{display:'inline'}}>hh:mm:ss</p>
+								<p className="MuiFormHelperText-root" tabIndex='0'>Maximum duration must be smaller than 200:00:00 hh:mm:ss</p>
 							</div>
 						<div>
 					</div>
@@ -1155,18 +1157,19 @@ export default function SearchToolBar(props) {
 		 };
 		return (
 			<FormControl >
-			<Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+			<Button aria-controls="simple-menu" aria-label={valor} aria-haspopup="true" onClick={handleClick}>
         {valor}
       </Button>
 				<Menu
+					aria-label={valor}
 					id="simple-menu"
 					anchorEl={anchorEl}
 					keepMounted
 					open={Boolean(anchorEl)}
 					onClose={handleClose}
 				>
-					<MenuItem onClick={handleClose} value="Alphabetic">Alphabetic</MenuItem>
-					<MenuItem onClick={handleClose} value="Most Recent">Most Recent</MenuItem>
+					<MenuItem onClick={handleClose}  aria-label= 'Alphabetic' value="Alphabetic">Alphabetic</MenuItem>
+					<MenuItem onClick={handleClose}  aria-label='Most Recent'  value="Most Recent">Most Recent</MenuItem>
 					{/* <MenuItem value="3">Most Relevant</MenuItem> */}
 				</Menu>
 				
@@ -1213,12 +1216,12 @@ export default function SearchToolBar(props) {
 		return (
 		  <div >
 			  
-			 <List component="nav" aria-label="Device settings" subheader={<ListSubheader>{props.language.Sortby}</ListSubheader>}>
+			 <List  component="nav"  subheader={<ListSubheader tabIndex='0'>{props.language.Sortby}</ListSubheader>}>
 				<ListItem
 				  button
 				  aria-haspopup="true"
 				  aria-controls="lock-menu"
-				  aria-label="when device is locked"
+				  aria-label="Alphabetic"
 				  onClick={handleClickListItem}
 				>
 				  <ListItemText  primary={options[selectedIndex]} />

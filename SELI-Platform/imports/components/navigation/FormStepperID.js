@@ -142,7 +142,15 @@ function useWindowSize() {
 }
 
 export default function FormStepperID(props) {
-  //console.log("PROPIEDADES pasos---------------------------", props)
+  console.log("PROPIEDADES pasos---------------------------", props)
+  /* window.addEventListener('beforeunload', function (e) {
+    if(props.steps!=undefined){
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  }); */
+
+  
   const [validateInformation,setvalidateInformation]=useState({
     informationStep:props.forms[0].props.courseInformation,
   });
