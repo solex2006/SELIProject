@@ -80,8 +80,9 @@
 }
 
 .template-title-gallery {
-  color: var(--secondary);
-  margin-bottom: 15px;
+  color: white;
+  font-size: 1.5em;
+  margin: 10px 10px;
 }
 
 .template-instructions-gallery {
@@ -115,7 +116,7 @@
   background-color: #424242 !important;
   background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%);
   padding: 6px;
-  color: var(--secondary);
+  color: white;
   position: absolute;
   bottom: 0px;
   left: 0px;

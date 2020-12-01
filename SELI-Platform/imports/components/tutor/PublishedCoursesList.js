@@ -27,7 +27,6 @@ import IconButton from '@material-ui/core/IconButton';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import AppsIcon from '@material-ui/icons/Apps';
 import DenseTable from './DenseTable';
 import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
@@ -42,18 +41,10 @@ import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
 import MoodBadIcon from '@material-ui/icons/MoodBad';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import { StudentEventLog } from '../../../lib/StudentEventCollection';
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import Certificates from './certificates'
-
-
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import Slide from '@material-ui/core/Slide';
-  
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
