@@ -72,7 +72,7 @@ export default class User extends React.Component {
     if (this.props.history.location.user) {
       this.setInitVariables(this.props.history.location.user);
     } else {
-      Meteor.call("GetUserById", (error, response) =>  {
+      Meteor.call("GetUser", (error, response) =>  {
         if (response) this.setInitVariables(response);
         else this.props.history.push('/');
       });

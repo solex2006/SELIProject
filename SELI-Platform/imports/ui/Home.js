@@ -35,7 +35,7 @@ export default class Home extends React.Component {
     this.setState({
       language: Session.get('language') ? Session.get('language') : english,
     });
-    Meteor.call("GetUserById", (error, response) =>  {
+    Meteor.call("GetUser", (error, response) =>  {
       if (response) {
         this.setState({
           user: response,

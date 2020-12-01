@@ -82,8 +82,14 @@ Meteor.methods({
 });
 
 Meteor.methods({
-  'GetUserById'(_id){
+  'GetUser'(){
     return Meteor.user();
+  }
+});
+
+Meteor.methods({
+  'GetUserById'(_id){
+    return Meteor.users.findOne({_id: _id});
   }
 });
 

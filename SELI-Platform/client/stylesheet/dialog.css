@@ -195,7 +195,6 @@
 .course-creator-preview-player {
   min-width: 360px !important;
   width: calc(100% - 1vw) !important;
-  /* height: 240px !important; */
   margin-right: 0.5vw;
   margin-left: 0.5vw;
   animation: fadeInDown 0.5s;
