@@ -487,13 +487,15 @@ export default class CoursesDashboard extends React.Component {
 
   }
   getParamsTutors=(tutors)=>{
-     console.log("Resultados de busqueda getParamsTutors",tutors)  
+       
     let coursesbyTutors=[]
     Object.entries(tutors).forEach(([key, value]) => {
       if(value===true){
         this.setState({tutorsTag:true})
         this.state.publishedCourses.filter(course=>{
-          course.createdBy.toLowerCase().search(key.toLowerCase()) !=-1?
+          course.createdBy.toLowerCase()==(key.toLowerCase()) ?
+          //console.log("Resultados de busqueda getParamsTutors",course.createdBy.toLowerCase(), (key.toLowerCase()))
+         //course.createdBy.toLowerCase().search(key.toLowerCase()) !=-1?
           coursesbyTutors.push(course)
           :
           undefined
@@ -905,7 +907,7 @@ export default class CoursesDashboard extends React.Component {
     Object.entries(instructors).forEach(([key, value]) => {
       if(value===true){
         searchALD.filter(course=>{
-          course.createdBy.toLowerCase().search(key.toLowerCase()) !=-1?
+          course.createdBy.toLowerCase()==(key.toLowerCase())?
           searchALDI.push(course)
           :
           undefined

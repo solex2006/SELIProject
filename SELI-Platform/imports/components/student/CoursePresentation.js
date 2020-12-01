@@ -388,6 +388,7 @@ export default function MainPage(props) {
 										</Button>
 										<Button
 											//tabIndex="1" 
+											id='botonquita'
 											onClick={() => props.goToUser("enter")}
 											className="subscription-card-button"
 											variant="contained"
