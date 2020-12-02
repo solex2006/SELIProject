@@ -1142,61 +1142,61 @@ export default class Community extends React.Component {
                         style={categoryButtons}
                         variant="outlined"
                         onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'culture')}
-                        >Culture</Button><Button
+                        >{this.state.language.Culture}</Button><Button
                         color="primary"
                         className="categoryButtons"
                         style={categoryButtons}
                         variant="outlined"
                           onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'education')}
-                        >Education</Button><Button
+                >{this.state.language.Education}</Button><Button
                         color="primary"
                         style={categoryButtons}
                         className="categoryButtons"
                         variant="outlined"
                           onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'engineering')}
-                        >Engineering</Button><Button
+                        >{this.state.language.Engineering}</Button><Button
                         color="primary"
                         style={categoryButtons}
                         className="categoryButtons"
                         variant="outlined"
                           onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'inclusion')}
-                        >Inclusion</Button><Button
+                        >{this.state.language.Inclusion}</Button><Button
                         color="primary"
                         style={categoryButtons}
                         className="categoryButtons"
                         variant="outlined"
                           onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'life')}
-                        >Life</Button><Button
+                        >{this.state.language.Life}</Button><Button
                         color="primary"
                         style={categoryButtons}
                         className="categoryButtons"
                         variant="outlined"
                           onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'science')}
-                        >Science</Button><Button
+                        >{this.state.language.Science}</Button><Button
                         color="primary"
                         style={categoryButtons}
                         className="categoryButtons"
                         variant="outlined"
                           onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'school')}
-                        >School</Button><Button
+                        >{this.state.language.School}</Button><Button
                         color="primary"
                         style={categoryButtons}
                         className="categoryButtons"
                         variant="outlined"
                           onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'sports')}
-                        >Sports</Button><Button
+                        >{this.state.language.Sports}</Button><Button
                         color="primary"
                         style={categoryButtons}
                         className="categoryButtons"
                         variant="outlined"
                           onClick={() => this.SelectCategoriesScenes(this.state.categoryType = 'technology')}
-                        >Technology</Button><Button
+                        >{this.state.language.Technology}</Button><Button
                         color="primary"
                         style={categoryButtons}
                         className="categoryButtons"
                         variant="outlined"
                           onClick={() => this.SelectCategoriesScenes(this.state.categoryType = 'university')}
-                        >University</Button>
+                        >{this.state.language.University}</Button>
                         
       
         {

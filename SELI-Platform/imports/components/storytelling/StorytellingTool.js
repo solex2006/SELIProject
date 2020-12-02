@@ -1490,7 +1490,7 @@ class StorytellingTool extends React.Component {
                 onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'culture')}
                 ></Checkbox>
                 <ListItemText
-                primary={"Culture"}
+                primary={this.props.language.Culture}
               />
              
               <Checkbox
@@ -1499,7 +1499,7 @@ class StorytellingTool extends React.Component {
                 onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'education')}
                 ></Checkbox>
                 <ListItemText
-                primary={"Education"}
+                primary={this.props.language.Education}
               />
                </ListItem>
               <ListItem>
@@ -1509,7 +1509,7 @@ class StorytellingTool extends React.Component {
                 onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'engineering')}
                 ></Checkbox>
                 <ListItemText
-                primary={"Engineering"}
+                primary={this.props.language.Engineering}
               />
               <Checkbox
                 color="primary"
@@ -1517,7 +1517,7 @@ class StorytellingTool extends React.Component {
                 onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'inclusion')}
                 ></Checkbox>
                 <ListItemText
-                primary={"Inclusion"}
+                primary={this.props.language.Inclusion}
               />
                </ListItem>
               <ListItem>
@@ -1527,7 +1527,7 @@ class StorytellingTool extends React.Component {
                 onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'life')}
                 ></Checkbox>
                 <ListItemText
-                primary={"Life"}
+                primary={this.props.language.Life}
               />
               <Checkbox
                 color="primary"
@@ -1535,7 +1535,7 @@ class StorytellingTool extends React.Component {
                 onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'science')}
                 ></Checkbox>
                 <ListItemText
-                primary={"Science"}
+                primary={this.props.language.Science}
               />
                </ListItem>
               <ListItem>
@@ -1545,7 +1545,7 @@ class StorytellingTool extends React.Component {
                 onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'school')}
                 ></Checkbox>
                 <ListItemText
-                primary={"School"}
+                primary={this.props.language.School}
               />
               <Checkbox
                 color="primary"
@@ -1553,7 +1553,7 @@ class StorytellingTool extends React.Component {
                 onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'sports')}
                 ></Checkbox>
                 <ListItemText
-                primary={"Sports"}
+                primary={this.props.language.Sports}
               />
                </ListItem>
               <ListItem>
@@ -1563,7 +1563,7 @@ class StorytellingTool extends React.Component {
                 onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'technology')}
                 ></Checkbox>
                 <ListItemText
-                primary={"Technology"}
+                primary={this.props.language.Technology}
               />
               <Checkbox
                 color="primary"
@@ -1571,7 +1571,7 @@ class StorytellingTool extends React.Component {
                 onClick={() => this.SelectCategoriesScenes( this.state.categoryType = 'university')}
                 ></Checkbox>
                 <ListItemText
-                primary={"University"}
+                primary={this.props.language.University}
               />
                </ListItem>
 

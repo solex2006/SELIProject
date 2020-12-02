@@ -37,6 +37,7 @@ import Comment from '../../components/student/comments/Comment';
 
 import {Comments} from '../../../lib/CommentsCollection';
 import { StudentLog } from '../../../lib/StudentLogCollection';
+import { Activities } from '../../../lib/ActivitiesCollection';
 import { withStyles } from '@material-ui/core/styles';
 import { data } from 'jquery';
 var ColorThief = require('color-thief');
@@ -97,7 +98,26 @@ class StoryCard extends React.Component {
       descriptionScenes: '',
       descriptionStories: '',
       Categories: [],
+      categoryBool: false,
+      categoryType:'',
+      myFilterSeliCourses:[],
+      publishedCourses:[],
       language:'',
+      texttoSearch:'',
+      accessibilitie:{},
+      generalDetailedFlag:false,
+      courses: [],
+      mysuscribdedCourses:[],
+      myFiltersuscribdedCourses:[],
+      
+      
+      flagCourses:false,
+      myFilterThreeSeli:[],
+      myflagCourses:false,
+      generalDetailedFlag:false,
+      myFilterSeliCourses:[],
+      denemearray:[],  
+      myFilterThree:[],
     }
     if(this.props.course.categories !== undefined) {
     var categoryNames = this.props.course.categories.map((category) => category);
@@ -151,20 +171,28 @@ class StoryCard extends React.Component {
 
   componentDidMount() {
     this.getImageColors();
+    
     // this.getKeyWords();
     // this.checkSubscriptions();
     this.getLanguageforDescription()
+    
   }
   componentDidUpdate(prevProps){
     if (prevProps.language.languageIndex !== this.props.language.languageIndex){
       this.getLanguageforDescription();
       this.getImageColors();
     }
-    if (prevProps.course.activity.name)  {
-      this.getLanguageforDescription();
-      this.getImageColors();
+    if (prevProps.searchText !== this.props.searchText ){
+      if(this.props.searchText){
+        this.getImageColors();
+      }
     }
+    
+   
+
   }
+
+  
 
   getLanguageforDescription() {
     if(this.props.course.activity.data.map(item => item.description)[0]){
@@ -294,6 +322,244 @@ class StoryCard extends React.Component {
     // this.checkSubscriptions();
   }
 
+  SelectCategoriesScenes=()=>{
+    this.state.publishedCourses = Activities.find({'activity.type': { $in: [ "storytelling", "storytelling-time" ] },}).fetch();
+
+    for(var i=0; i < this.state.publishedCourses.length; i++)
+    {
+    if(this.state.publishedCourses[i].categories){
+     this.state.categoryBool = true;
+    }else{
+     i = this.state.publishedCourses.length + 2;
+     this.state.categoryBool = false;
+    }
+    }
+     if(this.state.categoryBool !== false)
+     {
+     if(this.state.categoryType =='culture'){
+     let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('culture'));
+       
+     this.state.myFilterSeliCourses=(SeliCategories);
+     this.state.myFilterSeliCourses.sort(function (a, b) {
+       if (a.title > b.title) {
+         return 1;
+       }
+       if (a.title < b.title) {
+         return -1;
+       }
+       // a must be equal to b
+       return 0;
+     });
+    
+ 
+     }
+     if (this.state.categoryType =='education'){
+     let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('education'));
+         
+     this.state.myFilterSeliCourses=(SeliCategories);
+     this.state.myFilterSeliCourses.sort(function (a, b) {
+       if (a.title > b.title) {
+         return 1;
+       }
+       if (a.title < b.title) {
+         return -1;
+       }
+       // a must be equal to b
+       return 0;
+     });
+     }
+     if (this.state.categoryType =='engineering'){
+     let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('engineering'));
+           
+     this.state.myFilterSeliCourses=(SeliCategories);
+     this.state.myFilterSeliCourses.sort(function (a, b) {
+       if (a.title > b.title) {
+         return 1;
+       }
+       if (a.title < b.title) {
+         return -1;
+       }
+       // a must be equal to b
+       return 0;
+     });
+    
+     }
+     if (this.state.categoryType =='inclusion'){
+     let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('inclusion'));
+             
+     this.state.myFilterSeliCourses=(SeliCategories);
+     this.state.myFilterSeliCourses.sort(function (a, b) {
+       if (a.title > b.title) {
+         return 1;
+       }
+       if (a.title < b.title) {
+         return -1;
+       }
+       // a must be equal to b
+       return 0;
+     });
+     }
+     if (this.state.categoryType =='life'){
+     let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('life'));
+            
+     this.state.myFilterSeliCourses=(SeliCategories);
+     this.state.myFilterSeliCourses.sort(function (a, b) {
+       if (a.title > b.title) {
+         return 1;
+       }
+       if (a.title < b.title) {
+         return -1;
+       }
+       // a must be equal to b
+       return 0;
+     });
+     }
+     if (this.state.categoryType =='science'){
+     let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('science'));
+              
+     this.state.myFilterSeliCourses=(SeliCategories);
+     this.state.myFilterSeliCourses.sort(function (a, b) {
+       if (a.title > b.title) {
+         return 1;
+       }
+       if (a.title < b.title) {
+         return -1;
+       }
+       // a must be equal to b
+       return 0;
+     });
+     }
+     if (this.state.categoryType =='school'){
+     let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('school'));
+                 
+     this.state.myFilterSeliCourses=(SeliCategories);
+     this.state.myFilterSeliCourses.sort(function (a, b) {
+       if (a.title > b.title) {
+         return 1;
+       }
+       if (a.title < b.title) {
+         return -1;
+       }
+       // a must be equal to b
+       return 0;
+     });
+     }
+     if (this.state.categoryType =='sports'){
+     let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('sports'));
+                     
+     this.state.myFilterSeliCourses=(SeliCategories);
+     this.state.myFilterSeliCourses.sort(function (a, b) {
+       if (a.title > b.title) {
+         return 1;
+       }
+       if (a.title < b.title) {
+         return -1;
+       }
+       // a must be equal to b
+       return 0;
+     });
+     }
+     if (this.state.categoryType =='technology'){
+     let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('technology'));
+                      
+     this.state.myFilterSeliCourses=(SeliCategories);
+     this.state.myFilterSeliCourses.sort(function (a, b) {
+       if (a.title > b.title) {
+         return 1;
+       }
+       if (a.title < b.title) {
+         return -1;
+       }
+       // a must be equal to b
+       return 0;
+     });
+     }
+     if (this.state.categoryType =='university'){
+     let SeliCategories = this.state.publishedCourses.filter(course => course.categories.includes('university'));
+                        
+     this.state.myFilterSeliCourses=(SeliCategories);
+     this.state.myFilterSeliCourses.sort(function (a, b) {
+       if (a.title > b.title) {
+         return 1;
+       }
+       if (a.title < b.title) {
+         return -1;
+       }
+       // a must be equal to b
+       return 0;
+     });
+     }
+   }
+     this.setState(this.state)
+   
+   }
+
+   searchMyCourses=()=>{
+    //put in lowercase te titles of the courses to improve the search
+    let titleMyCourses=[]
+     this.props.user.profile.courses.map((course, courseIndex)=>{
+        let indexRegistered=this.state.publishedCourses.findIndex(coursespub=>coursespub._id===course.courseId)
+        if (indexRegistered!=-1){
+          titleMyCourses.push(this.state.publishedCourses[indexRegistered])
+        }
+    }) 
+    this.state.mysuscribdedCourses=titleMyCourses
+
+    if(this.props.texttoSearch!=undefined){
+      console.log("this.props.texttoSearch", this.props.texttoSearch)
+      let myFiltersuscribdedCourses=this.state.mysuscribdedCourses.filter(course => course.title.search(this.props.texttoSearch.toLowerCase()) !=-1);
+      // let myFiltersuscribdedCoursesSub=this.state.mysuscribdedCourses.filter(course => course.script.english.search(this.props.texttoSearch.toLowerCase()) !=-1);
+      this.state.myFiltersuscribdedCourses=myFiltersuscribdedCourses.concat()
+      //ordena por alfabeto
+      this.state.myFiltersuscribdedCourses.sort(function (a, b) {
+        if (a.title > b.title) {
+          return 1;
+        }
+        if (a.title < b.title) {
+          return -1;
+        }
+        return 0;
+      });
+      this.setState(this.state)
+      //console.log("Cursos suscritos con titulo y filtrado",titleMyCourses, myFiltersuscribdedCourses )
+    }else{//if the search is undefined or empty
+      this.state.myFiltersuscribdedCourses=this.state.mysuscribdedCourses
+      this.state.myFiltersuscribdedCourses.sort(function (a, b) {
+        if (a.title > b.title) {
+          return 1;
+        }
+        if (a.title < b.title) {
+          return -1;
+        }
+        return 0;
+      });
+      this.setState(this.state)
+    }
+  }
+
+  searchSELICourses=()=>{
+    console.log("searchSELICourses", this.state, this.props )
+    if(this.props.texttoSearch != undefined){
+      console.log(this.state.publishedCourses);
+      let myFilterSeliCourses=this.state.publishedCourses.filter(course => course.activity.name.search(this.props.texttoSearch.toLowerCase()) !=-1);
+    this.state.myFilterSeliCourses=myFilterSeliCourses
+    this.setState(this.state)
+   // console.log("Seli Courses y Filtrados: ",this.state.publishedCourses, myFilterSeliCourses )
+    }else{//if the search is undefined or empty
+      this.state.myFilterSeliCourses=this.state.publishedCourses
+      this.state.myFilterSeliCourses.sort(function (a, b) {
+        if (a.title > b.title) {
+          return 1;
+        }
+        if (a.title < b.title) {
+          return -1;
+        }
+        return 0;
+      });
+      this.setState(this.state)
+    } 
+  }
+
   checkSubscriptions = () => {
     let subscribed = this.props.userCourses.findIndex(course => course.courseId === this.props.course._id);
     if (subscribed > -1){
@@ -380,7 +646,26 @@ class StoryCard extends React.Component {
                   {`${this.props.language.author}: ${this.state.UsersStoryUserName}`}
                 </Typography>
                 <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
-                  {`Categories : ${this.props.course.categories ? this.props.course.categories : ""}`} 
+                  {`${this.props.language.Categories} :`}
+                  <Button
+                        color="primary"
+                        className="categoryButtons"
+                        variant="outlined"
+                        onClick={() => this.SelectCategoriesScenes( this.state.categoryType = this.props.course.categories[0].toString())}
+                        >{this.props.course.categories[0]}</Button>
+                        <Button
+                        color="primary"
+                        className="categoryButtons"
+                        variant="outlined"
+                        onClick={() => this.SelectCategoriesScenes( this.state.categoryType = this.props.course.categories[1].toString())}
+                        >{this.props.course.categories[1]}</Button>
+                        <Button
+                        color="primary"
+                        className="categoryButtons"
+                        variant="outlined"
+                        onClick={() => this.SelectCategoriesScenes( this.state.categoryType = this.props.course.categories[2].toString())}
+                        >{this.props.course.categories[2]}</Button> 
+                  
                 </Typography>
               </CardContent>
               <CardActions  disableSpacing>

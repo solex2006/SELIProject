@@ -1475,19 +1475,22 @@ class StorytellingToolTime extends React.Component {
               <Checkbox
                 color="primary"
                 edge="start"
-                onClick={() => this.SelectCategories( this.state.categoryType = 'culture')}
+                onClick={() => this.SelectCategories( this.state.categoryType = 'culture' )}
+                value = {this.state.categories.findIndex(category => category ===  'culture' ) === -1 ? false : true}
                 ></Checkbox>
                 <ListItemText
-                primary={"Culture"}
+                primary={this.props.language.Culture}
               />
              
               <Checkbox
                 color="primary"
                 edge="start"
                 onClick={() => this.SelectCategories( this.state.categoryType = 'education')}
+                value = {this.state.categories.findIndex(category => category ===  'education' ) === -1 ? false : true}
+
                 ></Checkbox>
                 <ListItemText
-                primary={"Education"}
+                primary={this.props.language.Education}
               />
                </ListItem>
               <ListItem>
@@ -1495,17 +1498,22 @@ class StorytellingToolTime extends React.Component {
                 color="primary"
                 edge="start"
                 onClick={() => this.SelectCategories( this.state.categoryType = 'engineering')}
+                value = {this.state.categories.findIndex(category => category ===  'engineering' ) === -1 ? false : true}
+
                 ></Checkbox>
                 <ListItemText
-                primary={"Engineering"}
+                primary={this.props.language.Engineering}
               />
+
               <Checkbox
                 color="primary"
                 edge="start"
                 onClick={() => this.SelectCategories( this.state.categoryType = 'inclusion')}
+                value = {this.state.categories.findIndex(category => category ===  'inclusion' ) === -1 ? false : true}
+
                 ></Checkbox>
                 <ListItemText
-                primary={"Inclusion"}
+                primary={this.props.language.Inclusion}
               />
                </ListItem>
               <ListItem>
@@ -1513,17 +1521,21 @@ class StorytellingToolTime extends React.Component {
                 color="primary"
                 edge="start"
                 onClick={() => this.SelectCategories( this.state.categoryType = 'life')}
+                value = {this.state.categories.findIndex(category => category ===  'life' ) === -1 ? false : true}
+
                 ></Checkbox>
                 <ListItemText
-                primary={"Life"}
+                primary={this.props.language.Life}
               />
               <Checkbox
                 color="primary"
                 edge="start"
                 onClick={() => this.SelectCategories( this.state.categoryType = 'science')}
+                value = {this.state.categories.findIndex(category => category ===  'science' ) === -1 ? false : true}
+
                 ></Checkbox>
                 <ListItemText
-                primary={"Science"}
+                primary={this.props.language.Science}
               />
                </ListItem>
               <ListItem>
@@ -1531,17 +1543,21 @@ class StorytellingToolTime extends React.Component {
                 color="primary"
                 edge="start"
                 onClick={() => this.SelectCategories( this.state.categoryType = 'school')}
+                value = {this.state.categories.findIndex(category => category ===  'school' ) === -1 ? false : true}
+
                 ></Checkbox>
                 <ListItemText
-                primary={"School"}
+                primary={this.props.language.School}
               />
               <Checkbox
                 color="primary"
                 edge="start"
                 onClick={() => this.SelectCategories( this.state.categoryType = 'sports')}
+                value = {this.state.categories.findIndex(category => category ===  'sports' ) === -1 ? false : true}
+
                 ></Checkbox>
                 <ListItemText
-                primary={"Sports"}
+                primary={this.props.language.Sports}
               />
                </ListItem>
               <ListItem>
@@ -1549,17 +1565,21 @@ class StorytellingToolTime extends React.Component {
                 color="primary"
                 edge="start"
                 onClick={() => this.SelectCategories( this.state.categoryType = 'technology')}
+                value = {this.state.categories.findIndex(category => category ===  'technology' ) === -1 ? false : true}
+
                 ></Checkbox>
                 <ListItemText
-                primary={"Technology"}
+                primary={this.props.language.Technology}
               />
               <Checkbox
                 color="primary"
                 edge="start"
                 onClick={() => this.SelectCategories( this.state.categoryType = 'university')}
+                value = {this.state.categories.findIndex(category => category ===  'university' ) === -1 ? false : true}
+
                 ></Checkbox>
                 <ListItemText
-                primary={"University"}
+                primary={this.props.language.University}
               />
                </ListItem>
                      

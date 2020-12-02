@@ -85,6 +85,9 @@ export default class Story extends React.Component {
     if(UserNameByID != undefined){
       var UserName = UserNameByID.username;
     }
+  if(UserID == "guest"){
+    this.handleControlMessage(true, "Please, Sign up");
+  }else{
     Comments.insert({
       comment: comment,
       user: Meteor.userId() !== null ? UserName : "guest" ,
@@ -94,6 +97,8 @@ export default class Story extends React.Component {
     }, () => {
       this.handleControlMessage(true, "Comment successfully sent");
     })
+  }
+    
   }
 
   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
