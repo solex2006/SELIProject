@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { Email } from '@material-ui/icons';
 
 Meteor.methods({
   'GetUsers'(){
@@ -79,6 +78,12 @@ Meteor.methods({
       user.username === username ? exist = true : undefined
     })
     return exist;
+  }
+});
+
+Meteor.methods({
+  'GetUser'(){
+    return Meteor.user();
   }
 });
 

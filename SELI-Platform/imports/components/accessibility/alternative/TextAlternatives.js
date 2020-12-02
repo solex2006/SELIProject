@@ -77,9 +77,11 @@ export default class TextAlternatives extends React.Component {
                           :
                             <React.Fragment>
                               <h2 className="description">{this.props.language.longDescription_a11y_label}</h2>
-                              <figcaption id={"video_" + this.props.item.id + "_longDescr"}>
-                                <Editor editorState={this.signalText()} readOnly={true} />
-                              </figcaption>
+                              <div id={"video_" + this.props.item.id + "_longDescr"}>
+                                <figcaption>
+                                  <Editor editorState={this.signalText()} readOnly={true} />
+                                </figcaption>
+                              </div>
                             </React.Fragment>
                         :
                           <div>{this.props.language.NolongDescription}</div>

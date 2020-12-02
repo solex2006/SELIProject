@@ -24,6 +24,7 @@ export default function a11yShortDescription(props){
 		<React.Fragment>
 			<Grid  item id={'short-description-input-container'} role='grid'>
 				<TextField id={'short-description-input'}
+					tabIndex='0'
 					name={props.name}
 					label={props.label}
 					aria-describedby='short-description-help-container'

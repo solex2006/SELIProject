@@ -108,9 +108,17 @@ export default class Community extends React.Component {
       // this.searchMyCourses()
       this.searchSELICourses()
       });
+      if (this.props.history.location.user) {
+        this.setInitVariables(this.props.history.location.user);
+      } else {
+        Meteor.call("GetUser", (error, response) =>  {
+          this.setInitVariables(response);
+      })};
+      
     });
     //Search on the suscribded Course List
     console.log("conpnet will mount", this.state.publishedCourses)
+    
   }
 
   componentDidUpdate(prevProps, prevState){

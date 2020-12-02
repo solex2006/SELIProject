@@ -1378,7 +1378,7 @@ var SPANISH = {
     analysisTipsHelps: [
       {
         labelTitle: "¿Cómo definir la audiencia?",
-        label: "Docentes: Persona que ayuda a los estudiantes a adquirir conocimientos, competencias o virtudes. Estudiantes informales: Estudiantes que no estudian en una escuela formal como la universidad o que estudian solos o son autodidactas. Estudiantes de pregrado: Estudiantes universitarios que aún no terminan el curso de posgrado. Estudiantes de secundaria: estudiantes de secundaria. Estudiantes de secundaria: estudiantes de primaria y secundaria. Estudiantes de primaria: antes de la secundaria, para niños de 6 a 11 años. Niños de preescolar: para niños de 2 a 5 años en una escuela infantil "
+        label: "<b>Docentes:</b> Persona que ayuda a los estudiantes a adquirir conocimientos, competencias o virtudes. <br><b>Estudiantes informales:</b> Estudiantes que no estudian en una escuela formal como la universidad o que estudian solos o son autodidactas.<br><b>Estudiantes de pregrado:</b> Estudiantes universitarios que aún no terminan el curso de posgrado. <br><b>Estudiantes de secundaria:</b> estudiantes de secundaria. <br><b>Estudiantes de primaria:</b> antes de la secundaria, para niños de 6 a 11 años.<br><b> Niños de preescolar:</b> para niños de 2 a 5 años en una escuela infantil "
       },
       {
         labelTitle: "Discapacidades cognitivas",
@@ -1390,7 +1390,7 @@ var SPANISH = {
       },
       {
         labelTitle: "Ejemplos de barreras (cognitivas)",
-        label: "Mecanismos de navegación complejos y diseños de página que son difíciles de entender y usar, oraciones complejas que son difíciles de leer y palabras inusuales que son difíciles de entender, pasajes largos de texto sin imágenes, gráficos u otras ilustraciones para resaltar el contexto, Contenido en movimiento, parpadeante o parpadeante, y audio de fondo que no se puede apagar, navegadores web y reproductores multimedia que no proporcionan mecanismos para suprimir animaciones y audio, diseños de páginas visuales que no se pueden adaptar mediante controles de navegador web o hojas de estilo personalizadas "
+        label: "Mecanismos de navegación complejos y diseños de página que son difíciles de entender y usar.<br> Oraciones complejas que son difíciles de leer y palabras inusuales que son difíciles de entender. <br> Pasajes largos de texto sin imágenes, gráficos u otras ilustraciones para resaltar el contexto. <br> Contenido en movimiento, parpadeante o parpadeante, y audio de fondo que no se puede apagar.<br> Navegadores web y reproductores multimedia que no proporcionan mecanismos para suprimir animaciones y audio. <br> Diseños de páginas visuales que no se pueden adaptar mediante controles de navegador web o hojas de estilo personalizadas. "
       },
       {
         labelTitle: "Ejemplo de adaptaciones (para cognitivo)",
@@ -1565,6 +1565,24 @@ var SPANISH = {
   volumeControl: "control de volumen",
   fullscreen: "pantalla completa",
   exitFullscreen: "salir de pantalla completa",
+  CourseSilabusHelp:"Syllabus Help",
+  sylabusTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:'PDF Documents',
+        label:'If you added alternative text for an image in MS Word or Open Office, then that text will carry over when you save the document as a PDF. You can fix your images in Acrobat by clicking “Set Alternate Text” under “Accessibility” tools. More details: https://www.adobe.com/accessibility/pdf/pdf-accessibility-overview.html'
+      },
+      {
+        labelTitle:'MS Word Documents',
+        label:' You can add alt text to images right-clicking the object and select Edit Alt Text or Select the object and Select Format > Alt Text. More details: https://support.microsoft.com/en-us/office/video-improve-accessibility-with-alt-text-9c57ee44-bb48-40e3-aad4-7647fc1dba51'
+      },
+      {
+        labelTitle:'Open Office Documents',
+        label:'To add alternative text to an image, right-click the image and select Picture (or double click the picture, or select Format > Picture from the menu bar). Then select the Options tab and enter the description in the box labeled Alternative (Text only). More details: https://www.openoffice.org/ui/accessibility/'
+      },
+    ]
+  },
+  Evaluation2:"Evaluacion",
   speedDialNavigation: "Use las flechas del teclado izquierda y derecha para navegar en las opciones del elemento.",
 }
 export default SPANISH;

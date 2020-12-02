@@ -1378,7 +1378,7 @@ var TURKISH = {
     analysisTipsHelps:[
       {
         labelTitle:"Kitle nasıl tanımlanır?",
-        label:"Öğretmenler: Öğrencilerin bilgi, yeterlilik veya erdem elde etmelerine yardımcı olan kişi. Gayri Resmi Öğrenciler: Üniversite gibi resmi okullarda okumayan veya tek başına okuyan veya kendi kendine eğitim gören öğrenciler. Lisans Öğrencileri: Halen lisansüstü dersini tamamlamayan üniversite öğrencileri. Lise Öğrencileri: Ortaokuldaki öğrenciler. Ortaokul Öğrencileri: İlkokul ve lise arasındaki öğrenciler. İlkokul Öğrencileri: Ortaokul öncesi 6-11 yaş arası çocuklar. Okul Öncesi Çocuklar: Bir Anaokulunda tutulan 2-5 yaş arası çocuklar ."
+        label:"<b>Teachers</b>: Person who helps students to acquire knowledge, competence or virtue. <br>  <b>Informal Students:</b> Students that don't studying in a formal schools like university or studying alone or are self-taught. <br><b>Undergraduate Students:</b> University students that still not finish the graduate course. <br><b>High School Students:</b> Students in secondary school. <br><b>Middle School Students:</b> Students between elementary school and high school. <br><b>Elementary School Students:</b> Before Middle School, for children between the ages of 6-11. <br><b>Preschool Kids:</b> For kids from 2 to 5 years old-held in a Nursery School."
       },
       {
         labelTitle:"bilişsel engeller",
@@ -1390,7 +1390,7 @@ var TURKISH = {
       },
       {
         labelTitle:"Engel örnekleri (bilişsel için)",
-        label:"Anlaşılması ve kullanılması zor olan karmaşık gezinme mekanizmaları ve sayfa düzenleri, Okunması zor olan karmaşık cümleler ve anlaşılması zor olan alışılmadık sözcükler, Bağlamı vurgulamak için resimler, grafikler veya diğer resimler içermeyen uzun metin pasajları, Hareket etme, yanıp sönme veya titreyen içerik ve kapatılamayan arka plan sesi, animasyonları ve sesi bastırmak için mekanizmalar sağlamayan Web tarayıcıları ve medya oynatıcıları, Web tarayıcısı kontrolleri veya özel stil sayfaları kullanılarak uyarlanamayan görsel sayfa tasarımları."
+        label:"Complex navigation mechanisms and page layouts that are difficult to understand and use. <br>Complex sentences that are difficult to read and unusual words that are difficult to understand. <br> Long passages of text without images, graphs, or other illustrations to highlight the context.<br> Moving, blinking, or flickering content, and background audio that cannot be turned off.<br> Web browsers and media players that do not provide mechanisms to suppress animations and audio.<br> Visual page designs that cannot be adapted using web browser controls or custom style sheets."
       },
       {
         labelTitle:"Uyarlama örnekleri (bilişsel için)",
@@ -1486,36 +1486,36 @@ var TURKISH = {
   AnalysisTipsHelps:{
     analysisTipsHelps:[
       {
-        labelTitle:'Learning objectives',
-        label:"State what will be expected to be learned by students and show what the students will know and why they are doing. State what is expected to be learned by students. Bloom's taxonomy divides learning objectives into three domains: cognitive domain, affective domain and psychomotor domain. Cognitive Domain comprises intellectual skills such as memorization, comprehension, application, analysis, synthesis / creation, assessment. The affective domain comprises feelings, values, enthusiasm, motivation and attitude. Psychomotor domain is about physical and motor skills."
+        labelTitle:'Öğrenme hedefleri',
+        label:"Öğrencilerden ne öğrenilmesinin bekleneceğini belirtin ve öğrencilerin ne bileceğini ve neden yaptıklarını gösterin. Öğrenciler tarafından öğrenilmesi beklenenleri belirtin. Bloom'un taksonomisi, öğrenme hedeflerini üç alana ayırır: bilişsel alan, duyuşsal alan ve psikomotor alan. Bilişsel Alan, ezberleme, anlama, uygulama, analiz, sentez / yaratma, değerlendirme gibi entelektüel becerileri içerir. Duyuşsal alan duyguları, değerleri, coşkuyu, motivasyonu ve tutumu kapsar. Psikomotor alan, fiziksel ve motor becerilerle ilgilidir."
       },
       {
-        labelTitle:"Cognitive Domain",
-        label:"Involves the acquisition of a new knowledge, intellectual development, skill and attitudes. It is divided into six categories: remembering, understanding, applying, analyzing, evaluating, creating. The objectives are described using action verbs and nouns that seek to describe the desired cognitive processes."
+        labelTitle:"Bilişsel Alan",
+        label:"Yeni bir bilgi, entelektüel gelişim, beceri ve tutumlar edinmeyi içerir. Altı kategoriye ayrılmıştır: hatırlamak, anlamak, uygulamak, analiz etmek, değerlendirmek, yaratmak. Hedefler, istenen bilişsel süreçleri tanımlamaya çalışan eylem fiilleri ve isimler kullanılarak tanımlanır."
       },
       {
-        labelTitle:"Affective Domain",
-        label:"Involves feelings, attitudes, and emotions. It includes the ways in which people deal with external and internal phenomenon emotionally, such as values, enthusiasms, and motivations. This domain is categorized into five levels, which include receiving, responding, valuing, organization, and characterization. These subdomains form a hierarchical structure and are arranged from simple feelings or motivations to those that are more complex."
+        labelTitle:"Etkisel alan",
+        label:"Duyguları, tutumları ve duyguları içerir. Değerler, coşkular ve motivasyonlar gibi insanların duygusal olarak dış ve iç fenomenlerle başa çıkma yollarını içerir. Bu alan, alma, yanıtlama, değerlendirme, organizasyon ve karakterizasyon dahil olmak üzere beş seviyeye ayrılmıştır. Bu alt alanlar hiyerarşik bir yapı oluşturur ve basit duygulardan veya motivasyonlardan daha karmaşık olanlara kadar düzenlenir."
       },
       {
-        labelTitle:"Psychomotor Domain",
-        label:"Includes physical movement, coordination, and use of the motor-skill areas. This domain is categorized into eight levels, which include origination, adaptation, complex overt response, mechanism, guided response, set, and perception."
+        labelTitle:"Psikomotor Alan",
+        label:"Motor beceri alanlarının fiziksel hareketini, koordinasyonunu ve kullanımını içerir. Bu alan, yaratma, uyarlama, karmaşık açık yanıt, mekanizma, kılavuzlu yanıt, küme ve algılama dahil olmak üzere sekiz düzeyde kategorize edilmiştir."
       },
     ]
   },
   AnalysisTipsHelpsTwo:{
     analysisTipsHelps:[
       {
-        labelTitle:"Learning Constrainst",
-        label:"Learning outcomes should be brief, clear, specific statements of what learners will be able to do at the end of a lesson as a result of the activities, teaching and learning that has taken place. The Learning outcomes is based on three areas of learning: knowledge, skills and attitudes."
+        labelTitle:"Öğrenme Kısıtlamaları",
+        label:"Öğrenme çıktıları, gerçekleşen etkinlikler, öğretme ve öğrenmenin bir sonucu olarak öğrencilerin dersin sonunda neler yapabileceklerine dair kısa, açık ve spesifik ifadeler olmalıdır. Öğrenme çıktıları, öğrenmenin üç alanına dayanmaktadır: bilgi, beceriler ve tutumlar."
       },
     ]
   },
   AnalysisTipsHelpsThree:{
     analysisTipsHelps:[
       {
-        labelTitle:"Pedagogical Considerations",
-        label:"Pedagogical Considerations concentrates on theory, application, and the development of technologies for teaching and learning and its influence on the education system."
+        labelTitle:"Pedagojik Hususlar",
+        label:"Pedagojik Hususlar, teori, uygulama ve öğretme ve öğrenme için teknolojilerin geliştirilmesi ve eğitim sistemi üzerindeki etkisine odaklanır."
       },
     ]
   },
@@ -1549,23 +1549,41 @@ var TURKISH = {
       },
     ]
   },
-  Edittopicname:"Edit topic name",
-  Edittemplatename:"Edit template name",
-  deleteTopic:"Delete Topic",
-  deleteTemplate:"Delete Template",
-  before:"before.",
-  moveUp: "Move up",
-  moveDown: "Move down",
-  imageGallery: "Image gallery",
-  videoGallery: "Video gallery",
-  YouTitlebefore:"You already add this title before.",
-  mute: "mute",
-  unmute: "unmute",
-  timePosition: "time position",
-  volumeControl: "volume control",
-  fullscreen: "fullscreen",
-  exitFullscreen: "exit fullscreen",
-  speedDialNavigation: "Use the left and right arrow keys to navigate into the item options",
+  Edittopicname:"Ders adını düzenleyin",
+  Edittemplatename:"Şablon adını düzenleyin",
+  deleteTopic:"Konuyu Sil",
+  deleteTemplate:"Şablonu Sil",
+  before:"önce.",
+  moveUp: "Yukarı taşı",
+  moveDown: "Aşağı indir",
+  imageGallery: "Resim Galerisi",
+  videoGallery: "Video Galerisi",
+  YouTitlebefore:"Bu başlığı daha önce zaten eklediniz.",
+  mute: "sesi kapat",
+  unmute: "sesi aç",
+  timePosition: "zaman konumu",
+  volumeControl: "ses kontrol",
+  fullscreen: "tam ekran",
+  exitFullscreen: "tam ekrandan çık",
+  CourseSilabusHelp:"Müfredat Yardımı",
+  sylabusTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:'PDF Dosyaları',
+        label:'MS Word veya Open Office içerisinde bir görüntü için alternatif metin eklerseniz, bu metin belgeyi PDF olarak kaydettiğinizde taşınır. Görüntülerinizi Acrobat içerisinde "Erişilebilirlik" araçları altında "Alternatif Metni Ayarla" yı tıklayarak düzeltebilirsiniz. Daha fazla detay: https://www.adobe.com/accessibility/pdf/pdf-accessibility-overview.html'
+      },
+      {
+        labelTitle:'MS Word Dosyaları',
+        label:' Nesneye sağ tıklayarak görüntülere alternatif metin ekleyebilir ve Alternatif Metni Düzenle veya Nesneyi seç ve Biçim> Alternatif Metini seçebilirsiniz. Daha fazla detay: https://support.microsoft.com/en-us/office/video-improve-accessibility-with-alt-text-9c57ee44-bb48-40e3-aad4-7647fc1dba51'
+      },
+      {
+        labelTitle:'Open Office Dosyaları',
+        label:'Bir resme alternatif metin eklemek için, resme sağ tıklayın ve Resimi seçin (veya resme çift tıklayın ya da menü çubuğundan Biçim> Resimi seçin). Ardından Seçenekler sekmesini seçin ve Alternatif (Yalnızca metin) etiketli kutuya açıklamayı girin. Daha fazla detay: https://www.openoffice.org/ui/accessibility/'
+      },
+    ]
+  },
+  Evaluation2:"Değerlendirme",
+  speedDialNavigation: "Öğe seçeneklerine gitmek için sol ve sağ ok tuşlarını kullanın",
 }
 export default TURKISH;
 

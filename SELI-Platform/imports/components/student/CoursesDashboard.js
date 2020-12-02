@@ -198,9 +198,9 @@ export default class CoursesDashboard extends React.Component {
       return(
         <Paper component="article" elevation={0}>
           <header className='headersearch'>
-            <h2>{title}</h2>
+            <h2 tabIndex='0'>{title}</h2>
           </header>
-          <div className='subheader'>{this.props.language.Showing} {this.state.myFilterThree.length} {this.props.language.of} {arrayCourses.length} {this.props.language.subscribedtoyoursearch}</div>
+          <div tabIndex='0' className='subheader'>{this.props.language.Showing} {this.state.myFilterThree.length} {this.props.language.of} {arrayCourses.length} {this.props.language.subscribedtoyoursearch}</div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
             {
@@ -487,13 +487,15 @@ export default class CoursesDashboard extends React.Component {
 
   }
   getParamsTutors=(tutors)=>{
-     console.log("Resultados de busqueda getParamsTutors",tutors)  
+       
     let coursesbyTutors=[]
     Object.entries(tutors).forEach(([key, value]) => {
       if(value===true){
         this.setState({tutorsTag:true})
         this.state.publishedCourses.filter(course=>{
-          course.createdBy.toLowerCase().search(key.toLowerCase()) !=-1?
+          course.createdBy.toLowerCase()==(key.toLowerCase()) ?
+          //console.log("Resultados de busqueda getParamsTutors",course.createdBy.toLowerCase(), (key.toLowerCase()))
+         //course.createdBy.toLowerCase().search(key.toLowerCase()) !=-1?
           coursesbyTutors.push(course)
           :
           undefined
@@ -905,7 +907,7 @@ export default class CoursesDashboard extends React.Component {
     Object.entries(instructors).forEach(([key, value]) => {
       if(value===true){
         searchALD.filter(course=>{
-          course.createdBy.toLowerCase().search(key.toLowerCase()) !=-1?
+          course.createdBy.toLowerCase()==(key.toLowerCase())?
           searchALDI.push(course)
           :
           undefined

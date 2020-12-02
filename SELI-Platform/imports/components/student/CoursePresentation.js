@@ -130,7 +130,7 @@ const CourseSummary = ({coursedata, language}) => {
 					<ListItemText
 						tabIndex='0'
 						secondary={language.estimatedCourseDuration}
-						primary={coursedata.duration}
+						primary={<time>{parseInt(coursedata.duration.split(":"))+":"+coursedata.duration.split(":")[1]+":"+coursedata.duration.split(":")[2]}</time>}
 					/>
 				</ListItem>
 				<ListItem>
@@ -388,6 +388,7 @@ export default function MainPage(props) {
 										</Button>
 										<Button
 											//tabIndex="1" 
+											id='botonquita'
 											onClick={() => props.goToUser("enter")}
 											className="subscription-card-button"
 											variant="contained"

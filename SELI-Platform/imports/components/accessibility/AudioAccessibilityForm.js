@@ -32,6 +32,7 @@ export default function AudioA11Y(props) {
 			<Grid container spacing={1} direction='column' justify='flex-start'>
 				<Grid item id='short-description-container' role='grid'>
 					<A11YShortDescription 
+						tabIndex='0'
 						handleOnChange={React.useCallback(handleInputOnChange)}
 						error={dataField.shortDescriptionError}
 						value={dataField.shortDescription}

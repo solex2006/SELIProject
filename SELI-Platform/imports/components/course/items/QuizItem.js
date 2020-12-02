@@ -31,6 +31,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default class QuizItem extends React.Component {
   constructor(props) {
+   
     super(props);
     this.state = {
       expanded: 'quiz-panel',
@@ -40,6 +41,8 @@ export default class QuizItem extends React.Component {
     }
   }
 
+   
+ 
   handleChange = panel => (event, isExpanded) => {
     this.setState({
       expanded: isExpanded ? panel : false
@@ -70,6 +73,8 @@ export default class QuizItem extends React.Component {
   }
 
   componentDidMount(){
+   
+    
     //update the time in a quiz
     let timeHourMin=this.props.item.attributes.timeLimit.split(":") 
     let timeLimit=(parseInt(timeHourMin[0])*60+parseInt(timeHourMin[1])) 
@@ -182,23 +187,23 @@ export default class QuizItem extends React.Component {
                     {this.props.language.quiz}
                     </Button>
                   </h2>
-                  <h3 className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">{this.props.item.attributes.title}</h3>
+                  <h3 tabIndex='0' className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">{this.props.item.attributes.title}</h3>
                 </div>
               </ExpansionPanelSummary>
 
 
               <ExpansionPanelDetails className="item-quiz-detail">
                 <div className="item-quiz-detail-container">
-                  <Typography tabindex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                  <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit }
                   </Typography>
                   {/* <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.creditResources + ": " + this.props.item.attributes.creditResources}
                   </Typography> */}
-                  <Typography tabindex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                  <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.language.numberQuestions + ": " + this.props.item.attributes.questions.length}
                   </Typography>
-                  <Typography tabindex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                  <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                     {this.props.item.attributes.awardPoints ? this.props.language.awardPoints : this.props.language.noAwardPoints}
                   </Typography>
                   <div className="quiz-item-tick-container">
@@ -264,8 +269,8 @@ export default class QuizItem extends React.Component {
               this.state.showConfirmation ?
                 <div className="full-screen-dialog-mid-container">
                   <div className="center-row">
-                    <AnnouncementIcon className="quiz-dialog-icon-big"/>
-                    <DialogContentText tabindex="0" className="quiz-dialog-content-text" id="alert-dialog-description">
+                    <AnnouncementIcon tabIndex="0" className="quiz-dialog-icon-big"/>
+                    <DialogContentText tabIndex="0" className="quiz-dialog-content-text" id="alert-dialog-description22">
                       {this.props.language.sureStartQuiz} 
                     </DialogContentText>
                   </div>

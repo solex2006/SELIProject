@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 //Andres Heredia// 
 export default function Lista(props) {
+    console.log("learning goals*********************************",props)
   const classes = useStyles();
 
   const Audiences=()=>{
@@ -144,9 +145,7 @@ export default function Lista(props) {
           <React.Fragment>
               <div>
                   <br/>
-                  <strong tabIndex='0' className='descriptiontext'>Cognitive Domain Objectives:</strong>
-
-                 
+                  <strong tabIndex='0' className='descriptiontext'>Cognitive Domain Objectives:</strong> 
                   {
                     (props.data.analyzing.length!=0 && props.data.analyzing!=undefined) ?
                     <ul >
@@ -335,10 +334,10 @@ export default function Lista(props) {
                 props.title==='Audiences'?
                 <Audiences/>
                 :
-                props.title==='LearningGoals'?
+                props.title==='Learning Goals'?
                 <LearningGoals/>
                 :
-                props.title==='LearningOutcomes'?
+                props.title==='Learning outcomes'?
                 <LearningOutcomes/>
                 :
                 props.title==='LearningOutcomesMainContent'?
