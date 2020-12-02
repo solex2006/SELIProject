@@ -698,7 +698,7 @@ var PORTUGUESE = {
   shortDescription_a11y_tip_image_complex: "Crie uma descrição curta para identificar e fornecer uma breve visão geral das informações.",
   shortDescription_a11y_tip_image_informative: "Crie pelo menos uma descrição curta que transmita as informações essenciais apresentadas pela imagem, como o significado ou o conteúdo exibido visualmente, o que normalmente não é uma descrição literal da imagem.",
   shortDescription_a11y_tip_image_text: "Deve conter as mesmas palavras da imagem.",
-  signLanguage: "Linguagem de sinais",
+  signLanguage: "Língua de sinais",
   signLanguage_a11y_has: "Este conteúdo possui tradução em LIBRAS incorporada?",
   textAlternatives: "Alternativas textuais",
   textAlternatives_a11y_image: "Texto alternativo para imagens ",
@@ -1252,7 +1252,7 @@ var PORTUGUESE = {
       'Alternativas de texto para conteúdo de imagem',
       'Legendas em vídeos', 
       'Descrição de áudio', 
-      'Linguagem de sinais',
+      'Língua de sinais',
       'Tempo adicional em questionários'
     ]
   },
