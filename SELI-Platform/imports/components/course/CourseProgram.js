@@ -167,7 +167,7 @@ export default class CourseProgram extends React.Component {
     if (action === "create" || action === "cancel" || action === "getA11y" || action === "setA11y") {
       stateId = this.state.addedId;
     } else if (action === "edit") {
-      stateId = this.state.contentToEdit.id;
+      stateId = this.state.contentToEdit ? this.state.contentToEdit.id : this.state.addedId;
     } else if (action === "remove"){
       stateId = itemValue.id;
     } else if (action === "decorative"){
@@ -312,7 +312,7 @@ export default class CourseProgram extends React.Component {
       contentOpen: true,
       contentaAdded: true,
       languageType: this.props.language[item.type],
-      contentToEdit: {...item},
+      contentToEdit: item,
     });
   }
 
@@ -631,6 +631,7 @@ export default class CourseProgram extends React.Component {
                       getVideoAttributesFunction={videoAttributes => this.getItemAttributes = videoAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      continueEdit={this.relativeProgramCommons.bind(this)}
                       language={this.props.language}
                     />
                   :

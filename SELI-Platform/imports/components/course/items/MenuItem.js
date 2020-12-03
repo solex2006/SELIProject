@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
@@ -13,13 +12,9 @@ import Collapse from '@material-ui/core/Collapse';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import BuildIcon from '@material-ui/icons/Build';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import SettingsIcon from '@material-ui/icons/Settings';
-import CameraIcon from '@material-ui/icons/Camera';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 export default function MenuItem(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -141,7 +136,13 @@ export default function MenuItem(props) {
                         />
                       </ListItemSecondaryAction>
                     </ListItem> */}
-                    <ListItem button onClick={() => this.editAccessibility()} className="menu-content-accessibility-item">
+                    <ListItem button 
+                      disabled={
+                        props.item.type === "video" && props.item.attributes.isA11y !== undefined && props.item.attributes.isA11y === false
+                      }
+                      onClick={() => this.editAccessibility()} 
+                      className="menu-content-accessibility-item"
+                    >
                       <ListItemIcon>
                         <SettingsIcon />
                       </ListItemIcon>

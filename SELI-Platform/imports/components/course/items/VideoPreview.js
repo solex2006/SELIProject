@@ -31,7 +31,7 @@ export default class VideoPreview extends React.Component {
         configFile.file.tracks[0].default = true;
       }    
     }
-    let key = configFile.file.tracks.length;
+    let key = `${this.props.file ? this.props.file.link : "link"}-${configFile.file.tracks.length}`;
     return {configFile, key};
   }
 

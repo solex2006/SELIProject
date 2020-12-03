@@ -459,7 +459,7 @@ export default class QuizForm extends React.Component {
   componentWillMount(){ //se llama antes del render
     if (this.props.contentToEdit !== undefined) {
       this.setState({
-        attributes: this.props.contentToEdit.attributes,
+        attributes: {...this.props.contentToEdit.attributes},
       }, () => {
         let attributes = this.state.attributes;
         for (var i = attributes.questions.length; i < 10; i++) {
