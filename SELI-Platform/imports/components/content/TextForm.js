@@ -55,7 +55,7 @@ export default class TextForm extends React.Component {
   }
 
   validateContent = (content) => {
-    if (content.content === '' || (content.type === "section" && (content.content === null || content.content.blocks.text === ""))) {
+    if ((content.type === 'title' || content.type === "section") && (content.content === null || content.content === '' || content.content.blocks.text === "")) {
       this.props.handleControlMessage(true, this.props.language.addTextContent);
       return false;
     }
