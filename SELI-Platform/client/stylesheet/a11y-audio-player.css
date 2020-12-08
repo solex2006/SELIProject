@@ -1,0 +1,99 @@
+.a11y-audio-player-controllers-container {
+  width: calc(100%);
+  padding: 0vh 0vw;
+  background-color: var(--app-bar-color) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 0.95;
+  border-radius: 30px;
+  z-index: 100;
+}
+
+.a11y-audio-player-icon-button {
+  color: var(--white) !important;
+  position: relative;
+}
+
+.a11y-audio-player-icon-button-volume {
+  color: var(--white) !important;
+  position: relative;
+}
+
+.a11y-audio-player-icon {
+
+}
+
+.a11y-audio-player-medium-label {
+  color: var(--white) !important;
+  font-size: 2.5vh !important;
+  letter-spacing: 2px !important;
+  margin-right: 1vw !important;
+  animation: fadeIn 0.75s;
+  transition: 0.5s;
+}
+
+.a11y-audio-player-volume-container {
+  display: flex;
+  align-items: center;
+  width: auto;
+}
+
+.a11y-audio-player-slider {
+  display: flex !important;
+}
+
+.a11y-audio-player-slider-small {
+  width: calc(0vw - 15px) !important;
+  overflow: hidden !important;
+  margin-left: 15px !important;
+  -webkit-transition: width 0.5s ease-in-out !important;
+  -moz-transition: width 0.5s ease-in-out !important;
+  -o-transition: width 0.5s ease-in-out !important;
+  transition: width 0.5s ease-in-out !important;
+}
+
+.a11y-audio-player-volume-container:hover
+.a11y-audio-player-slider-small {
+  overflow: visible !important;
+  width: 6vw !important;
+}
+
+.a11y-audio-player-volume-container:focus-within
+.a11y-audio-player-slider-small {
+  overflow: visible !important;
+  width: 6vw !important;
+}
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .a11y-audio-player-controllers-container {
+    width: 100%;
+    padding: 0 0vw;
+  }
+  .a11y-audio-player-icon-button {
+    height: 40px;
+    width: 40px;
+    position: relative;
+    justify-content: center;
+  }
+  .a11y-audio-player-icon {
+    position: absolute;
+    font-size: 30px !important;
+  }
+  .a11y-audio-player-medium-label {
+    font-size: 17px !important;
+    letter-spacing: 1px !important;
+    margin: 0 0vw !important;
+  }
+  .a11y-audio-player-slider {
+    margin-left: 2vw;
+  }
+  .a11y-audio-player-slider-small {
+    width: 15vw !important;
+  }
+  .a11y-audio-player-volume-container:hover .a11y-audio-player-slider-small {
+    overflow: visible;
+    width: 15vw;
+  }
+} 

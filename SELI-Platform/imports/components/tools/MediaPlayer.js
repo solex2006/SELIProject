@@ -421,6 +421,7 @@ export default class MediaPlayer extends React.Component {
                                   controls={false}
                                   onTimeUpdate={this.handleProgress}
                                   muted={this.state.muted}
+                                  volume={this.state.volume}
                                   onLoadedData={this.loadedData}
                                   onError={() => this.onErrorVideo(event)}
                                 >
