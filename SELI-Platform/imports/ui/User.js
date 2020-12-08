@@ -553,6 +553,19 @@ export default class User extends React.Component {
   }
 
   navigateTo = (selected) => {
+    let botonOne=document.getElementById("botonfocus");
+    let boton1=document.getElementById("botonfocus1");
+    let boton2=document.getElementById("botonfocus2");
+    let boton3=document.getElementById("botonfocus3");
+    let audioBoton=document.getElementsByClassName("content-item");
+
+    console.log("naviagtototoototot---",botonOne,audioBoton)
+
+    boton1.blur();
+    boton2!=null? boton2.blur():undefined;
+    boton3!=null? boton3.blur():undefined;
+    botonOne.blur();
+    
     this.setState({
       selected: selected,
       coursePresentation: false,

@@ -9,7 +9,8 @@ export default class TextAlternatives extends React.Component {
       expanded: false,
     }
   }
-
+ 
+  
   signalText=()=>{
     const contentState = convertFromRaw(this.props.item.attributes.accessibility.dataField.longDescription);
     const editorState = EditorState.createWithContent(contentState);
@@ -24,7 +25,7 @@ export default class TextAlternatives extends React.Component {
 
   render() {
     return(
-      <div className="text-alt-container" style={this.props.fromMediaPlayer && {color: "white"}}>
+      <div tabIndex="0" className="text-alt-container" style={this.props.fromMediaPlayer && {color: "white"}}>
         {
           this.props.item.type === "audio" || this.props.item.type === "video"?
             <Grid container spacing={1}>
@@ -32,8 +33,8 @@ export default class TextAlternatives extends React.Component {
               {
                 this.props.item.attributes.accessibility.dataField &&
                 <React.Fragment>
-                  <h2 className="description">{this.props.language.shortDescription_a11y_label}</h2>
-                  <div id={`${this.props.item.type === "audio" ? "audio" : "video"}_${this.props.item.id}_shortDescr`}>
+                  <h2 tabIndex="0" className="description">{this.props.language.shortDescription_a11y_label}</h2>
+                  <div tabIndex="0" id={`${this.props.item.type === "audio" ? "audio" : "video"}_${this.props.item.id}_shortDescr`}>
                     {
                       this.props.item.attributes.accessibility.dataField.shortDescription!="" ? 
                       this.props.item.attributes.accessibility.dataField.shortDescription :
@@ -62,11 +63,12 @@ export default class TextAlternatives extends React.Component {
                                 <h2 className="audio-transcription">{!this.state.expanded ? this.props.language.showTranscription : this.props.language.hideTranscription}</h2> 
                               </summary>
                               <div
+                                tabIndex="0"
                                 id={"audio_" + this.props.item.id + "_transcriptBox"}
                                 aria-expanded={this.state.expanded}
                                 className="show-hide-transcription"
                               >
-                                <div id={"audio_" + this.props.item.id + "_transcriptText"}>
+                                <div tabIndex="0" id={"audio_" + this.props.item.id + "_transcriptText"}>
                                   <Editor
                                     editorState={this.signalText()} 
                                     readOnly={true}
@@ -77,7 +79,7 @@ export default class TextAlternatives extends React.Component {
                           :
                             <React.Fragment>
                               <h2 className="description">{this.props.language.longDescription_a11y_label}</h2>
-                              <div id={"video_" + this.props.item.id + "_longDescr"}>
+                              <div tabIndex="0" id={"video_" + this.props.item.id + "_longDescr"}>
                                 <figcaption>
                                   <Editor editorState={this.signalText()} readOnly={true} />
                                 </figcaption>
@@ -97,7 +99,7 @@ export default class TextAlternatives extends React.Component {
               {
                 this.props.item.attributes.accessibility.dataField.imagePurpose==='info'?
                   <React.Fragment> 
-                    <h2 className="description">{this.props.language.image_a11y_purpose_informative_label}</h2>
+                    <h2 tabIndex="0" className="description">{this.props.language.image_a11y_purpose_informative_label}</h2>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
                   </React.Fragment>
                 :
@@ -112,7 +114,7 @@ export default class TextAlternatives extends React.Component {
               {
                 this.props.item.attributes.accessibility.dataField.imagePurpose==='txt'?
                   <React.Fragment> 
-                    <h2 className="description">{this.props.language.image_a11y_purpose_text}</h2>
+                    <h2 tabIndex="0" className="description">{this.props.language.image_a11y_purpose_text}</h2>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
                   </React.Fragment>
                 :
@@ -121,7 +123,7 @@ export default class TextAlternatives extends React.Component {
               {
                 this.props.item.attributes.accessibility.dataField.imagePurpose==='cplx' ?
                   <React.Fragment> 
-                    <h2 className="description">{this.props.language.image_a11y_purpose_complex}</h2>
+                    <h2 tabIndex="0" className="description">{this.props.language.image_a11y_purpose_complex}</h2>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
                     <figcaption tabIndex="0">
                       <Editor editorState={this.signalText()} readOnly={true}/>

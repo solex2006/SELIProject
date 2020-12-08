@@ -32,6 +32,7 @@ export default class AudioItem extends React.Component {
 
   textAlternatives=()=>{
     return(
+      
       <TextAlternatives
         item={this.props.item}
         language={this.props.language}
@@ -125,6 +126,8 @@ export default class AudioItem extends React.Component {
   }
   
   componentDidMount=()=>{
+
+
         var cues = Array.prototype.slice.call(document.querySelectorAll(".cue"));
         var player = document.getElementById("audio");
         //console.log("audio update------------------------", this.state.captions)
@@ -167,7 +170,7 @@ export default class AudioItem extends React.Component {
 
   render() {
     return(
-      <div className="content-box">
+      <div className="content-box" id="text1">
         <div className="image-content-item">
           <div className="audio-item-container">
             {

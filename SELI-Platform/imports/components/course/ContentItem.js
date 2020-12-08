@@ -24,10 +24,14 @@ export default class ContentItem extends React.Component {
 
     }
   }
+  componentWillMount(){
+    ///let audioBoton=document.getElementById("foco");
+    //audioBoton.focus()
+  }
 
   render() {
     return(
-      <div className="content-item">
+      <div className="content-item" id="foco" >
         {
           this.props.item.attributes !== undefined ?
             <React.Fragment>

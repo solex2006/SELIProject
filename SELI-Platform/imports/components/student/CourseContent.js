@@ -21,6 +21,10 @@ export default class CourseContent extends React.Component {
 
   componentDidMount() {
     document.getElementById("courseContainer").scroll(0,0);
+    var focused = document.activeElement;
+    var foco=document.getElementById("courseContainer");
+    foco.focus()
+    console.log("rrrrrrrrrrrrrrrrrr",foco,focused)
   }
 
   loadingData = () => {
