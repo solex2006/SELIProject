@@ -136,7 +136,6 @@ export default class MediaPlayer extends Component {
             controls={false}
           />
           <IconButton
-            autoFocus
             onClick={this.handlePlayPause} 
             className="a11y-audio-player-icon-button" 
             aria-label={!this.state.playing ? this.props.buttonLabels.play : this.props.buttonLabels.pause}
