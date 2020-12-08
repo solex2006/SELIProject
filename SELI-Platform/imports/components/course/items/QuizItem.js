@@ -73,7 +73,10 @@ export default class QuizItem extends React.Component {
   }
 
   componentDidMount(){
-   
+   // let titulo=document.getElementsByClassName("course-content-breadcrumbs-container");
+   // console.log("wwwwwwwwwww",titulo)
+  //  titulo[0].focus()
+    
     
     //update the time in a quiz
     let timeHourMin=this.props.item.attributes.timeLimit.split(":") 
@@ -169,71 +172,73 @@ export default class QuizItem extends React.Component {
       <div className="content-box">
         <div className="quiz-content-item">
           <div className="quiz-container">
-            <ExpansionPanel
-              defaultExpanded
-              expanded={this.props.item.attributes.expanded}
-              onChange={this.handleChange('activity-panel')}
-              className="item-quiz-panel"
-            >   
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1c-content"
-                id={this.props.item.id}
-                className="item-quiz-expansion-summary"
-              >
-                <div className="item-quiz-expansion-summary-text-container">
-                  <h2 className="quiz-panel-title MuiTypography-root quiz-panel-title MuiTypography-body1">
-                    <Button className="quiz-panel-subtitle " aria-expanded="true" aria-controls="sect1" id="acc1id"  size="large" >
-                    {this.props.language.quiz}
-                    </Button>
-                  </h2>
-                  <h3 tabIndex='0' className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">{this.props.item.attributes.title}</h3>
-                </div>
-              </ExpansionPanelSummary>
-
-
-              <ExpansionPanelDetails className="item-quiz-detail">
-                <div className="item-quiz-detail-container">
-                  <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit }
-                  </Typography>
-                  {/* <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {this.props.language.creditResources + ": " + this.props.item.attributes.creditResources}
-                  </Typography> */}
-                  <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {this.props.language.numberQuestions + ": " + this.props.item.attributes.questions.length}
-                  </Typography>
-                  <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
-                    {this.props.item.attributes.awardPoints ? this.props.language.awardPoints : this.props.language.noAwardPoints}
-                  </Typography>
-                  <div className="quiz-item-tick-container">
-
-                  </div>
-                </div>
-              </ExpansionPanelDetails>
-
-              <Divider />
-              {
-                !this.props.fromProgram &&
-                <ExpansionPanelActions className="quiz-item-actions">
-                  {
-                    this.props.fromTutor ? undefined :
-                      <Button onClick={() => this.startQuiz()} size="medium" color="primary">
-                        {this.props.language.startQuiz}
+                <ExpansionPanel
+                  aria-label="quiz"
+                  defaultExpanded
+                  expanded={this.props.item.attributes.expanded}
+                  onChange={this.handleChange('activity-panel')}
+                  className="item-quiz-panel"
+              >   
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1c-content"
+                  id={this.props.item.id}
+                  className="item-quiz-expansion-summary"
+                >
+                  <div className="item-quiz-expansion-summary-text-container">
+                    <h2 className="quiz-panel-title MuiTypography-root quiz-panel-title MuiTypography-body1">
+                      <Button className="quiz-panel-subtitle " aria-expanded="true" aria-controls="sect1" id="acc1id"  size="large" >
+                      {this.props.language.quiz}
                       </Button>
-                  }
-                  {
-                    !this.state.resolved ? undefined :
-                      <div className="align-items-center">
-                        <Button onClick={() => this.showScore()} size="medium">
-                          {this.props.language.seeResults}
+                    </h2>
+                    <h3 tabIndex='-1' className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">{this.props.item.attributes.title}</h3>
+                  </div>
+                </ExpansionPanelSummary>
+
+
+                <ExpansionPanelDetails className="item-quiz-detail">
+                  <div className="item-quiz-detail-container">
+                    <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                      {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit }
+                    </Typography>
+                    {/* <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                      {this.props.language.creditResources + ": " + this.props.item.attributes.creditResources}
+                    </Typography> */}
+                    <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                      {this.props.language.numberQuestions + ": " + this.props.item.attributes.questions.length}
+                    </Typography>
+                    <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                      {this.props.item.attributes.awardPoints ? this.props.language.awardPoints : this.props.language.noAwardPoints}
+                    </Typography>
+                    <div className="quiz-item-tick-container">
+
+                    </div>
+                  </div>
+                </ExpansionPanelDetails>
+
+                <Divider />
+                {
+                  !this.props.fromProgram &&
+                  <ExpansionPanelActions className="quiz-item-actions">
+                    {
+                      this.props.fromTutor ? undefined :
+                        <Button onClick={() => this.startQuiz()} size="medium" color="primary">
+                          {this.props.language.startQuiz}
                         </Button>
-                        <CheckCircleIcon className="done-icon"/>
-                      </div>
-                  }
-                </ExpansionPanelActions>
-              }
-            </ExpansionPanel>
+                    }
+                    {
+                      !this.state.resolved ? undefined :
+                        <div className="align-items-center">
+                          <Button onClick={() => this.showScore()} size="medium">
+                            {this.props.language.seeResults}
+                          </Button>
+                          <CheckCircleIcon className="done-icon"/>
+                        </div>
+                    }
+                  </ExpansionPanelActions>
+                }
+              </ExpansionPanel>
+            
           </div>
         </div>
         {
@@ -244,12 +249,14 @@ export default class QuizItem extends React.Component {
           />
         }
         <Dialog
+          tabIndex="0"
           open={this.state.open}
           onClose={this.handleClose}
           TransitionComponent={Transition}
           fullScreen
-          aria-labelledby="alert-dialog-confirmation"
-          aria-describedby="alert-dialog-confirmation"
+          aria-labelledby="seli-quiz-title seli-quiz-description"
+          role="dialog"
+          aria-describedby="seli-quiz-description"
           disableBackdropClick={this.state.doingQuiz}
           disableEscapeKeyDown={this.state.doingQuiz}
           className="media-dialog"
@@ -259,7 +266,7 @@ export default class QuizItem extends React.Component {
               <IconButton disabled={this.state.doingQuiz} edge="start" color="inherit" onClick={this.handleClose} >
                 <CloseIcon />
               </IconButton>
-              <Typography className="course-dialog-title" variant="h1">
+              <Typography id="seli-quiz-title" className="course-dialog-title" variant="h1">
                 {this.props.language.seliQuiz}
               </Typography>
             </Toolbar>
@@ -267,10 +274,10 @@ export default class QuizItem extends React.Component {
           <DialogContent className="quiz-dialog-content">
             {
               this.state.showConfirmation ?
-                <div className="full-screen-dialog-mid-container">
-                  <div className="center-row">
-                    <AnnouncementIcon tabIndex="0" className="quiz-dialog-icon-big"/>
-                    <DialogContentText tabIndex="0" className="quiz-dialog-content-text" id="alert-dialog-description22">
+                <div className="full-screen-dialog-mid-container"  >
+                  <div className="center-row" id="seli-quiz-description">
+                    <AnnouncementIcon className="quiz-dialog-icon-big"/>
+                    <DialogContentText  className="quiz-dialog-content-text" id="alert-dialog-description22">
                       {this.props.language.sureStartQuiz} 
                     </DialogContentText>
                   </div>
@@ -300,6 +307,7 @@ export default class QuizItem extends React.Component {
           </DialogContent>
         </Dialog>
         <Dialog
+          role="dialog"
           open={this.state.openScore}
           onClose={this.handleCloseScore}
           TransitionComponent={Transition}

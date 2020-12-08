@@ -46,6 +46,7 @@ export default class TeacherDashboard extends React.Component {
     }
 
     componentDidMount(){
+        document.title="Teacher Dashboard"
         this.setState({loading: true});
         this.loadCourses();
         this.generateDashboardUrl();

@@ -421,6 +421,7 @@ export default class CourseProgram extends React.Component {
   }
 
   componentDidMount(){
+    document.title=this.props.language.program;
     this.loadingData();
   }
   

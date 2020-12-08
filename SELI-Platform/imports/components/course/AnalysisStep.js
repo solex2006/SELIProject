@@ -102,7 +102,7 @@ const useStyles = makeStyles(theme => ({
 export default function AnalysisStep(props) {
   const {courseInformation,language } = props;
   useEffect(()=>{
-    console.log("courseInformationAnalysisStep y Accesibility", courseInformation,courseInformation.accessibility )
+   // console.log("courseInformationAnalysisStep y Accesibility", courseInformation,courseInformation.accessibility )
     //updatemodalityradiobutton
     setmodality(courseInformation.analysis[1]);
     //updatetextEditor
@@ -142,7 +142,8 @@ export default function AnalysisStep(props) {
     }
   },[])
   useEffect(()=>{// 
-    console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,analysisTooltip)
+    document.title=props.language.AnalysisPhaseTitle;
+    //console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,analysisTooltip)
         if(pedagogical!=undefined  &&
            analysisTooltip.learningobjectives===false  && analysisTooltip.outcomes===false &&  analysisTooltip.pedagogical===false ){
             props.validate('passCourseAnalysis')

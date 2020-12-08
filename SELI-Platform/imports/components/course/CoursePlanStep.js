@@ -102,7 +102,8 @@ export default function CoursePlanStep(props) {
 
 
   useEffect(()=>{// guided spiral unit
-    console.log("courseInformation al actualizar ael silabo******************", props.courseInformation)
+    document.title=props.language.plan;
+   // console.log("courseInformation al actualizar ael silabo******************", props.courseInformation)
     if(coursePlan==='guided' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
         props.validate('passCoursePlan')
     }
@@ -193,7 +194,7 @@ export default function CoursePlanStep(props) {
     setchangeSylabus(Math.random())
   }
   const loadSylabus=(file)=>{
-    console.log("loadSylabus-------->",file)
+    //console.log("loadSylabus-------->",file)
    
       setflagSylabus(!flagSylabus)
     

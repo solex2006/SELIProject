@@ -90,6 +90,7 @@ export default function RequirementStep(props) {
   }, []);
 
   useEffect(()=>{
+    document.title =props.language.requirements; 
     //ve si al menos uno esta en true
     console.log("REQUIREMENTS STEP",otherHardware, otherSoftwares )
       if(otherHardware){

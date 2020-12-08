@@ -27,6 +27,7 @@ export default class CoursesList extends React.Component {
   }
 
   componentDidMount() {
+    document.title=this.props.language.mySavedCourses;
     this.getMyCourses(this.props.user.username);
   }
 
