@@ -31,7 +31,7 @@ export default class VideoPreview extends React.Component {
         configFile.file.tracks[0].default = true;
       }    
     }
-    let key = configFile.file.tracks.length;
+    let key = `${this.props.file ? this.props.file.link : "link"}-${configFile.file.tracks.length}`;
     return {configFile, key};
   }
 
@@ -116,8 +116,8 @@ export default class VideoPreview extends React.Component {
               id={"video_" + this.props.id}
               className="course-creator-preview-player"
               autoPlay={false}
-              aria-describedby={"video_" + this.props.id + "_longDescr"}
               aria-labelledby={"video_" + this.props.id + "_shortDescr"}
+              aria-describedby={"video_" + this.props.id + "_longDescr"}
               onLoadedData={this.ready}
               onPlay={this.play}
               onPause={this.pause}
@@ -137,8 +137,8 @@ export default class VideoPreview extends React.Component {
               id={"video_" + this.props.id}
               className="course-creator-preview-player"
               autoPlay={false}
-              aria-describedby={"video_" + this.props.id + "_longDescr"}
               aria-labelledby={"video_" + this.props.id + "_shortDescr"}
+              aria-describedby={"video_" + this.props.id + "_longDescr"}
               controls
               key={initConfiguration.key}
               url={this.props.file.link}

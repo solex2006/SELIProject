@@ -23,10 +23,14 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 /* Dialog */
 import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CloseIcon from '@material-ui/icons/Close';
+import InfoIcon from '@material-ui/icons/Info';
 
 const HIDE_TIME = 5000;
 
@@ -47,6 +51,7 @@ export default class MediaPlayer extends React.Component {
       hasA11y: false,
       isA11y: true,
       disableCaptions: true,
+      confirmOpen: false
     }
   }
 
@@ -234,7 +239,7 @@ export default class MediaPlayer extends React.Component {
     if (event.which == 9 || event.keyCode == 9) {
       if (!this.state.showControls) this.handleInactivity();
     }else if (event.which == 27 || event.keyCode == 27) {
-      this.props.handleCloseMedia();
+      this.handleClose();
     } else if (event.which == 37 || event.keyCode == 37) {
       this.handleBack();
     } else if (event.which == 39 || event.keyCode == 39) {
@@ -332,13 +337,26 @@ export default class MediaPlayer extends React.Component {
     )
   }
 
+  continueOpen = () => {
+    this.setState({
+      confirmOpen: true,
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      confirmOpen: false,
+    })
+    this.props.handleCloseMedia();
+  }
+
   render() {
     return(
       <React.Fragment>
         <Dialog
           open={this.props.openMedia}
-          onClose={this.props.handleCloseMedia}
-          fullScreen
+          onClose={this.handleClose}
+          fullScreen={this.state.media.type === 'video' && this.state.confirmOpen === false ? false : true}
           role="dialog"
           aria-modal="true"
           aria-labelledby="course-dialog-title"
@@ -348,209 +366,234 @@ export default class MediaPlayer extends React.Component {
           onKeyDown={this.handleNavigate}
           tabIndex={-1}
         >
-          <AppBar position="static" className="course-dialog-app-bar">
-            <Toolbar style={{position: 'relative'}}>
-              <IconButton tabIndex={this.state.fullScreen ? "-1" : "0"} edge="start" color="inherit" onClick={this.props.handleCloseMedia} aria-label={this.props.language.close}>
-                <CloseIcon />
-              </IconButton>
-              <Typography id="course-dialog-title" className="course-dialog-title" variant="h6">
-                {`${this.props.language.seliMediaPlayer} | ${this.state.media.attributes ? this.state.media.attributes.title : ""}`}
-              </Typography>
-              <p id="exit-player-tooltip" className="app-tooltip">{this.props.language.pressEscCourse}</p>
-            </Toolbar>
-          </AppBar>
-          <DialogContent className="media-dialog-content">
-            {
-              this.state.media.type === 'video' ?
-                <Fullscreen
-                  enabled={this.state.fullScreen}
-                  onChange={fullScreen => this.setState({fullScreen})}
-                  onKeyDown={this.state.fullScreen && this.handleNavigate}
-                >
-                  <div
-                    className={this.state.fullScreen ? "media-player-container-full" : "media-player-container"}
-                  >
-                    <div className="fullscreen-media-container">
-                      {
-                        this.state.isA11y ?
-                          <video
-                            onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
-                            ref={this.ref}
-                            className={this.state.hasA11y && !this.state.fullScreen ? "video-media-player-a11y" : "video-media-player"}
-                            aria-describedby={"video_" + this.props.id + "_longDescr"}
-                            aria-labelledby={"video_" + this.props.id + "_shortDescr"}
-                            controls={false}
-                            onTimeUpdate={this.handleProgress}
-                            muted={this.state.muted}
-                            onLoadedData={this.loadedData}
-                            onError={() => this.onErrorVideo(event)}
-                          >
-                            <source src={this.state.media.attributes.video.link} />
-                            {
-                              this.state.captions.length &&
-                              <track kind="subtitles" src={this.state.captions[0].src} default/>
-                            }
-                          </video>
-                        :
-                          <ReactPlayer
-                            onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
-                            ref={this.ref}
-                            url={this.state.media.attributes.video.link}
-                            className={this.state.hasA11y && !this.state.fullScreen ? "video-media-player-a11y" : "video-media-player"}
-                            aria-describedby={"video_" + this.props.id + "_longDescr"}
-                            aria-labelledby={"video_" + this.props.id + "_shortDescr"}
-                            controls={false}
-                            playing={this.state.playing}
-                            onProgress={this.handleProgress}
-                            muted={this.state.muted}
-                            volume={this.state.volume}
-                            onDuration={this.handleDuration}
-                            onBuffer={this.handleBuffer}
-                            onBufferEnd={this.handleBufferEnd}
-                            config={{file: {
-                              tracks: this.state.captions
-                            }}}
-                          />
-                      }
-                      {this.state.hasA11y && this.a11yContent()}
-                    </div>
-                    <Paper
-                      square
-                      elevation={15}
-                      className={
-                        !this.state.showControls ?
-                        "media-player-controllers-dissapear" :
-                        this.state.fullScreen || !this.state.hasA11y ? "media-player-controllers-container" : "media-player-controllers-container-a11y"
-                      }
-                    >
-                      <IconButton 
-                        onClick={this.handlePlayPause} 
-                        className="media-player-icon-button" 
-                        aria-label={!this.state.playing ? this.props.language.play : this.props.language.pause}
-                      >
-                        { 
-                          !this.state.playing ?
-                            <PlayArrowIcon className="media-player-icon"/>
-                          :
-                          <PauseIcon className="media-player-icon"/>
-                        }
-                      </IconButton>
-                      <Typography className="media-player-medium-label" variant="overline" display="block" gutterBottom>
-                        {this.state.timeLabel}
-                      </Typography>
-                      <Slider
-                        step={1 / (this.state.duration)}
-                        min={0}
-                        max={this.state.duration}
-                        valueLabelDisplay="off"
-                        value={this.state.playedSeconds}
-                        color="secondary"
-                        onChange={(event, newValue) => this.handleSeekChange(event, newValue)}
-                        className="media-player-slider"
-                        aria-label={this.props.language.timePosition}
-                      />
-                      <IconButton
-                        onClick={this.handleToggleMute}
-                        className="media-player-icon-button"
-                        aria-label={!this.state.muted && this.state.volume !== 0 ? this.props.language.mute : this.props.language.unmute}
-                      >
-                        {
-                          !this.state.muted && this.state.volume !== 0 ?
-                            <VolumeUpIcon className="media-player-icon"/>
-                          :
-                          <VolumeOffIcon className="media-player-icon"/>
-                        }
-                      </IconButton>
-                      <Slider
-                        step={0.1}
-                        min={0}
-                        max={1}
-                        value={this.state.volume}
-                        onChange={(event, newValue) => this.handleVolumeChange(event, newValue)}
-                        color="secondary"
-                        valueLabelDisplay="auto"
-                        className="media-player-slider-small"
-                        aria-label={this.props.language.volumeControl}
-                      />
-                      <IconButton 
-                        disabled={this.state.disableCaptions} 
-                        onClick={() => this.handleChange()} 
-                        className={this.state.captions && this.state.captions.length ? "media-player-icon-button" : "media-player-icon-button-des" }
-                        aria-label={this.props.language.Captions}
-                      >
-                        <SubtitlesIcon className="media-player-icon"/>
-                      </IconButton>
-                      <IconButton
-                        onClick={this.handleToggleFullscreen}
-                        className="media-player-icon-button"
-                        aria-label={!this.state.fullScreen ? this.props.language.fullscreen : this.props.language.exitFullscreen}
-                      >
-                        {
-                          !this.state.fullScreen ?
-                            <FullscreenIcon className="media-player-icon"/>
-                          :
-                          <FullscreenExitIcon className="media-player-icon"/>
-                        }
-                      </IconButton>
-                    </Paper>
-                  </div>
+          {
+            this.state.media.type === 'video' && this.state.confirmOpen === false ?
+              <React.Fragment>
+                <DialogTitle className="success-dialog-title" id="course-dialog-title">{this.props.language.openMedia}</DialogTitle>
+                <DialogContent className="success-dialog-content">
+                  <DialogContentText className="success-dialog-content-text" id="exit-player-tooltip">
+                    {this.props.language.wantProceed}
+                  </DialogContentText>
+                  <InfoIcon className="warning-dialog-icon"/>   
+                </DialogContent>
+                <DialogActions>
+                  <Button aria-label={this.props.language.cancel} onClick={() => this.handleClose()} color="primary">
+                    {this.props.language.cancel}
+                  </Button>
+                  <Button aria-label={this.props.language.confirm} onClick={() => this.continueOpen()} color="primary">
+                    {this.props.language.confirm}
+                  </Button>
+                </DialogActions>
+              </React.Fragment>
+            :
+              <React.Fragment>
+                <AppBar position="static" className="course-dialog-app-bar">
+                  <Toolbar style={{position: 'relative'}}>
+                    <IconButton tabIndex={this.state.fullScreen ? "-1" : "0"} edge="start" color="inherit" onClick={() => this.handleClose()} aria-label={this.props.language.close}>
+                      <CloseIcon />
+                    </IconButton>
+                    <Typography id="course-dialog-title" className="course-dialog-title" variant="h6">
+                      {`${this.props.language.seliMediaPlayer} | ${this.state.media.attributes ? this.state.media.attributes.title : ""}`}
+                    </Typography>
+                    <p id="exit-player-tooltip" className="app-tooltip">{this.props.language.pressEscCourse}</p>
+                  </Toolbar>
+                </AppBar>
+                <DialogContent className="media-dialog-content">
                   {
-                    this.state.isBuffering ?
-                      <div className="media-player-loading-container">
-                        <ScaleLoader
-                          color={getComputedStyle(document.documentElement).getPropertyValue('--secondary')}
-                          width={12}
-                          radius={2}
-                          margin="5px"
-                          height={100}
-                        />
-                      </div>
+                    this.state.media.type === 'video' ?
+                      <Fullscreen
+                        enabled={this.state.fullScreen}
+                        onChange={fullScreen => this.setState({fullScreen})}
+                        onKeyDown={this.state.fullScreen && this.handleNavigate}
+                      >
+                        <div
+                          className={this.state.fullScreen ? "media-player-container-full" : "media-player-container"}
+                        >
+                          <div className="fullscreen-media-container">
+                            {
+                              this.state.isA11y ?
+                                <video
+                                  onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
+                                  ref={this.ref}
+                                  className={this.state.hasA11y && !this.state.fullScreen ? "video-media-player-a11y" : "video-media-player"}
+                                  aria-describedby={"video_" + this.props.id + "_longDescr"}
+                                  aria-labelledby={"video_" + this.props.id + "_shortDescr"}
+                                  controls={false}
+                                  onTimeUpdate={this.handleProgress}
+                                  muted={this.state.muted}
+                                  volume={this.state.volume}
+                                  onLoadedData={this.loadedData}
+                                  onError={() => this.onErrorVideo(event)}
+                                >
+                                  <source src={this.state.media.attributes.video.link} />
+                                  {
+                                    this.state.captions.length &&
+                                    <track kind="subtitles" src={this.state.captions[0].src} default/>
+                                  }
+                                </video>
+                              :
+                                <ReactPlayer
+                                  onMouseMove={!this.state.showControls ? () => this.handleInactivity() : undefined}
+                                  ref={this.ref}
+                                  url={this.state.media.attributes.video.link}
+                                  className={this.state.hasA11y && !this.state.fullScreen ? "video-media-player-a11y" : "video-media-player"}
+                                  aria-describedby={"video_" + this.props.id + "_longDescr"}
+                                  aria-labelledby={"video_" + this.props.id + "_shortDescr"}
+                                  controls={false}
+                                  playing={this.state.playing}
+                                  onProgress={this.handleProgress}
+                                  muted={this.state.muted}
+                                  volume={this.state.volume}
+                                  onDuration={this.handleDuration}
+                                  onBuffer={this.handleBuffer}
+                                  onBufferEnd={this.handleBufferEnd}
+                                  config={{file: {
+                                    tracks: this.state.captions
+                                  }}}
+                                />
+                            }
+                            {this.state.hasA11y && this.a11yContent()}
+                          </div>
+                          <Paper
+                            square
+                            elevation={15}
+                            className={
+                              !this.state.showControls ?
+                              "media-player-controllers-dissapear" :
+                              this.state.fullScreen || !this.state.hasA11y ? "media-player-controllers-container" : "media-player-controllers-container-a11y"
+                            }
+                          >
+                            <IconButton
+                              autoFocus
+                              onClick={this.handlePlayPause} 
+                              className="media-player-icon-button" 
+                              aria-label={!this.state.playing ? this.props.language.play : this.props.language.pause}
+                            >
+                              { 
+                                !this.state.playing ?
+                                  <PlayArrowIcon className="media-player-icon"/>
+                                :
+                                <PauseIcon className="media-player-icon"/>
+                              }
+                            </IconButton>
+                            <Typography className="media-player-medium-label" variant="overline" display="block" gutterBottom>
+                              {this.state.timeLabel}
+                            </Typography>
+                            <Slider
+                              step={1 / (this.state.duration)}
+                              min={0}
+                              max={this.state.duration}
+                              valueLabelDisplay="off"
+                              value={this.state.playedSeconds}
+                              color="secondary"
+                              onChange={(event, newValue) => this.handleSeekChange(event, newValue)}
+                              className="media-player-slider"
+                              aria-label={this.props.language.timePosition}
+                            />
+                            <IconButton
+                              onClick={this.handleToggleMute}
+                              className="media-player-icon-button"
+                              aria-label={!this.state.muted && this.state.volume !== 0 ? this.props.language.mute : this.props.language.unmute}
+                            >
+                              {
+                                !this.state.muted && this.state.volume !== 0 ?
+                                  <VolumeUpIcon className="media-player-icon"/>
+                                :
+                                <VolumeOffIcon className="media-player-icon"/>
+                              }
+                            </IconButton>
+                            <Slider
+                              step={0.1}
+                              min={0}
+                              max={1}
+                              value={this.state.volume}
+                              onChange={(event, newValue) => this.handleVolumeChange(event, newValue)}
+                              color="secondary"
+                              valueLabelDisplay="auto"
+                              className="media-player-slider-small"
+                              aria-label={this.props.language.volumeControl}
+                            />
+                            <IconButton 
+                              disabled={this.state.disableCaptions} 
+                              onClick={() => this.handleChange()} 
+                              className={this.state.captions && this.state.captions.length ? "media-player-icon-button" : "media-player-icon-button-des" }
+                              aria-label={this.props.language.Captions}
+                            >
+                              <SubtitlesIcon className="media-player-icon"/>
+                            </IconButton>
+                            <IconButton
+                              onClick={this.handleToggleFullscreen}
+                              className="media-player-icon-button"
+                              aria-label={!this.state.fullScreen ? this.props.language.fullscreen : this.props.language.exitFullscreen}
+                            >
+                              {
+                                !this.state.fullScreen ?
+                                  <FullscreenIcon className="media-player-icon"/>
+                                :
+                                <FullscreenExitIcon className="media-player-icon"/>
+                              }
+                            </IconButton>
+                          </Paper>
+                        </div>
+                        {
+                          this.state.isBuffering ?
+                            <div className="media-player-loading-container">
+                              <ScaleLoader
+                                color={getComputedStyle(document.documentElement).getPropertyValue('--secondary')}
+                                width={12}
+                                radius={2}
+                                margin="5px"
+                                height={100}
+                              />
+                            </div>
+                          :
+                          undefined
+                        }
+                      </Fullscreen>
                     :
                     undefined
                   }
-                </Fullscreen>
-              :
-              undefined
-            }
-            {
-              this.state.media.type === 'image' ?
-                <div className="media-player-container">
-                  <div className="fullscreen-media-container-stepper">
-                    {this.imageItem()}
-                    {this.state.hasA11y && this.a11yContent()}
-                  </div>
-                  <MobileStepper
-                    className="media-mobile-stepper"
-                    steps={this.props.mediaItems.length}
-                    position="static"
-                    variant="text"
-                    activeStep={this.state.index}
-                    nextButton={
-                      <Button 
-                        className="media-mobile-stepper-button"
-                        size="small"
-                        onClick={this.handleNext}
-                      >
-                        {this.props.language.next}
-                        {<KeyboardArrowRight />}
-                      </Button>
-                    }
-                    backButton={
-                      <Button
-                        className="media-mobile-stepper-button"
-                        size="small" 
-                        onClick={this.handleBack}
-                      >
-                        {<KeyboardArrowLeft />}
-                        {this.props.language.back}
-                      </Button>
-                    }
-                  />
-                </div>
-              :
-                undefined
-            }
-          </DialogContent>
+                  {
+                    this.state.media.type === 'image' ?
+                      <div className="media-player-container">
+                        <div className="fullscreen-media-container-stepper">
+                          {this.imageItem()}
+                          {this.state.hasA11y && this.a11yContent()}
+                        </div>
+                        <MobileStepper
+                          className="media-mobile-stepper"
+                          steps={this.props.mediaItems.length}
+                          position="static"
+                          variant="text"
+                          activeStep={this.state.index}
+                          nextButton={
+                            <Button 
+                              className="media-mobile-stepper-button"
+                              size="small"
+                              onClick={this.handleNext}
+                            >
+                              {this.props.language.next}
+                              {<KeyboardArrowRight />}
+                            </Button>
+                          }
+                          backButton={
+                            <Button
+                              className="media-mobile-stepper-button"
+                              size="small" 
+                              onClick={this.handleBack}
+                            >
+                              {<KeyboardArrowLeft />}
+                              {this.props.language.back}
+                            </Button>
+                          }
+                        />
+                      </div>
+                    :
+                      undefined
+                  }
+                </DialogContent>
+              </React.Fragment>
+          }
         </Dialog>
       </React.Fragment>
     )

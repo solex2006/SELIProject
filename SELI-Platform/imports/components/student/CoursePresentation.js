@@ -379,6 +379,7 @@ export default function MainPage(props) {
 									<React.Fragment>
 										<Button
 											//tabIndex="1" 
+											id="botonfocus3"
 											onClick={() => props.goToUser("unsubscribe")}
 											className="subscription-card-button"
 											variant="outlined"
@@ -388,6 +389,7 @@ export default function MainPage(props) {
 										</Button>
 										<Button
 											//tabIndex="1" 
+											id="botonfocus2"
 											onClick={() => props.goToUser("enter")}
 											className="subscription-card-button"
 											variant="contained"
@@ -413,7 +415,8 @@ export default function MainPage(props) {
 						:
 							<React.Fragment>
 								<Button
-									//tabIndex="1" 
+									//tabIndex="1"
+									id="botonfocus1" 
 									onClick={() => props.unsubscribe(props.course._id)}
 									className="subscription-card-button"
 									variant="outlined"
@@ -422,7 +425,8 @@ export default function MainPage(props) {
 									{props.language.unsubscribe}
 								</Button>
 								<Button
-									//tabIndex="1" 
+									//tabIndex="1"
+									id="botonfocus" 
 									onClick={() => props.navigateTo([0, 0, 0, 0])}
 									className="subscription-card-button"
 									variant="contained"

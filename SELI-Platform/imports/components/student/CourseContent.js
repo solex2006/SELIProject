@@ -21,6 +21,14 @@ export default class CourseContent extends React.Component {
 
   componentDidMount() {
     document.getElementById("courseContainer").scroll(0,0);
+    var focused = document.activeElement;
+    focused.blur();
+
+    var foco=document.getElementById("botons");
+    foco.focus()
+    
+   
+   // console.log("rrrrrrrrrrrrrrrrrr",foco,focused)
   }
 
   loadingData = () => {
@@ -172,6 +180,7 @@ export default class CourseContent extends React.Component {
   render() {
     return(
       <div id="courseContainer" className="course-content-container">
+        <div aria-label="In this section is the course content, use tab to navigate" autofocus id="botons" tabIndex="0"></div>
         { this.props.course.program.length &&
           <React.Fragment>
             <div className="course-content-breadcrumbs-container">

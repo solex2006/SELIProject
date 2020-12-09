@@ -86,7 +86,7 @@ var ENGLISH = {
   saveChanges: "Save changes",
   student: "Student",
   administrator: "Administrator",
-  mySubscriptions: "MY SUBSCRIPTIONS",
+  mySubscriptions: "My Subscriptions",
   resumeCourse: "Resume course",
   unsubscribe: "Unsubscribe",
   unsubscribeCourse: "Unsubscribe Course",

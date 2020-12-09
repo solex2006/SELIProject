@@ -46,6 +46,7 @@ export default class TeacherDashboard extends React.Component {
     }
 
     componentDidMount(){
+        document.title="Teacher Dashboard"
         this.setState({loading: true});
         this.loadCourses();
         this.generateDashboardUrl();
@@ -249,7 +250,7 @@ export default class TeacherDashboard extends React.Component {
                 <div>
                     <AppBar position="static" className="metabase-appbar">
                         <Toolbar className="metabase-toolbar">
-                            <Typography variant="h6">
+                            <Typography tabIndex='0' variant="h6">
                                 Filter by:
                             </Typography>
                             { this.getFilterList("course-menu", 0) }

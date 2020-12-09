@@ -72,7 +72,7 @@ export default class User extends React.Component {
     if (this.props.history.location.user) {
       this.setInitVariables(this.props.history.location.user);
     } else {
-      Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
+      Meteor.call("GetUser", (error, response) =>  {
         if (response) this.setInitVariables(response);
         else this.props.history.push('/');
       });
@@ -184,7 +184,7 @@ export default class User extends React.Component {
         nextComponent: component
       }); 
     } 
-    if(component==='published' && this.state.savedCourse===false ){
+    /* if(component==='published' && this.state.savedCourse===false ){
       console.log("paso 1")
       this.state.savedCourse=true
       this.state.component='published'
@@ -193,7 +193,7 @@ export default class User extends React.Component {
         savedCourse: true,
         
       });
-    }
+    } */
 
     /* if(this.state.component==='edit' && this.state.savedCourse===true ){
       console.log("createsave****************",component,this.state.component,this.state.savedCourse, this.state )
@@ -553,6 +553,19 @@ export default class User extends React.Component {
   }
 
   navigateTo = (selected) => {
+    let botonOne=document.getElementById("botonfocus");
+    let boton1=document.getElementById("botonfocus1");
+    let boton2=document.getElementById("botonfocus2");
+    let boton3=document.getElementById("botonfocus3");
+    let audioBoton=document.getElementsByClassName("content-item");
+
+    console.log("naviagtototoototot---",botonOne,audioBoton)
+
+    boton1.blur();
+    boton2!=null? boton2.blur():undefined;
+    boton3!=null? boton3.blur():undefined;
+    botonOne.blur();
+    
     this.setState({
       selected: selected,
       coursePresentation: false,

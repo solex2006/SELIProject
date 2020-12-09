@@ -108,6 +108,7 @@ export default class TemplateItem extends React.Component {
             this.props.arrayOfItems.map((p, i) => {
               return (
                 <Draggable key={i}>
+                  
                   <ContentItem
                     fromTemplate
                     fromProgram

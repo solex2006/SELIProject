@@ -431,6 +431,7 @@ export default function CourseContent(props) {
                             <p className='crnheading' id={"topic-"+indexUnit+"-assess"}>
                                
                                 <p className='resources' style={{display:'block'}}>
+                                   
                                
                                    
                                     
@@ -449,7 +450,7 @@ export default function CourseContent(props) {
                                     }
                                     {
                                          (coursePlan.guidedCoursePlan==='guided'  &&
-                                         (coursePlan.courseTemplate==='without' || coursePlan.courseTemplate==='spiral' 
+                                         ( coursePlan.courseTemplate==='spiral' 
                                          || coursePlan.courseTemplate==='consistent' || coursePlan.courseTemplate==='toyBox' ) && 
                                          coursePlan.courseStructure==='topic')?
                                          <p tabIndex='-1'>

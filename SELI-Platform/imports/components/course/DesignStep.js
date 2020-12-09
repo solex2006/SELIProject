@@ -207,6 +207,7 @@ export default function DesignStep(props) {
   }, []); 
 
   useEffect(() => {
+    document.title=props.language.desingPhase;
     //console.log("la validacion----", props.courseInformation.design)
     if(organization==='unit' && template!='without') {
       setOrganization('topic')

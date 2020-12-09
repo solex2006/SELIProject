@@ -163,6 +163,7 @@ export default class CourseRequirements extends React.Component {
   };
 
   componentDidMount() {
+    document.title=this.props.language.CourseRequirements;
     this.setState({
       loading: true,
     }, () => {

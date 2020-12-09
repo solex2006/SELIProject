@@ -280,7 +280,7 @@ class CourseCard extends React.Component {
                     className="course-card-icon-button"
                     disabled={this.props.disabled}
                     onClick={() => this.props.unsubscribe(this.props.course._id)}
-                    aria-label="left course"
+                    aria-label="Unsubscribe (Leave course classroom)"
                   >
                     <UnsubscribeIcon className="course-card-icon"/>
                   </IconButton>

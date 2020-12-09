@@ -69,15 +69,21 @@ export default class VideoItem extends React.Component {
                   handleOpenMedia={this.handleOpenMedia.bind(this)}
                 />
               )}
-              <div className="course-item-video-card-media-content">
-                <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
-                  {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
-                </Typography>
-                <Typography tabIndex="0" className="course-item-card-title" gutterBottom variant="h5" component="h3">
-                  {` ${this.props.item.attributes.title}`}
-                </Typography>
-              </div>
             </figure>
+            <div className="course-item-video-card-media-content">
+              <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
+                {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
+              </Typography>
+              <Typography tabIndex="0" className="course-item-card-title" gutterBottom variant="h5" component="h3">
+                {` ${this.props.item.attributes.title}`}
+              </Typography>
+            </div>
+            {
+              this.props.item.attributes.accessibility.dataField!=undefined ?
+                this.textAlternatives()
+              :
+                undefined
+            }
             {
               this.props.item.attributes.accessibility.dataField!=undefined && this.props.item.attributes.accessibility.dataField.fileAudioDescription[0]!=null ?
                 <div className="AudioPlayer">
@@ -92,12 +98,6 @@ export default class VideoItem extends React.Component {
                   />
                 </div>
               :      
-                undefined
-            }
-            {
-              this.props.item.attributes.accessibility.dataField!=undefined ?
-                this.textAlternatives()
-              :
                 undefined
             }
           </div>

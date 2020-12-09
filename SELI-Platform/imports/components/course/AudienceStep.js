@@ -110,6 +110,7 @@ export default function AudienceApp(props) {
   }
 
   useEffect(()=>{
+    document.title=props.language.CourseAudience;
    // loadingData();
     //ve si al menos uno esta en true
     let validate=false;
@@ -319,14 +320,14 @@ export default function AudienceApp(props) {
     //console.log('courseinformation---',courseinformation)
   }
   const handleDeleteAudience = (index) => () => {
-    console.log("borrado",tooltip.audienceError)
+   // console.log("borrado",tooltip.audienceError)
     
      setopen(true)
      setindexdelete(index)
      setlabelindexdelete(otherAudiences[index].label)
      //audienceTooltip.audienceError=true;
      let ischecked=audiences.filter(audience=>audience.isChecked===false)
-     console.log("data*****", audiences, otherAudiences.length, ischecked.length)
+    // console.log("data*****", audiences, otherAudiences.length, ischecked.length)
      if(ischecked.length==9 && otherAudiences.length==1){
       
       audienceTooltip.audienceError=true;
@@ -338,7 +339,7 @@ export default function AudienceApp(props) {
   };
   const handleNewAudience = (e) => {
     let pass= numberAudiences()
-    console.log("pass****",pass, e.keyCode)
+    //console.log("pass****",pass, e.keyCode)
 
     if(e.keyCode===32){
       //continue
@@ -484,7 +485,7 @@ export default function AudienceApp(props) {
       return { ...prev, tempValue: value };
     });
 
-    console.log("el valor", value)
+  //  console.log("el valor", value)
     
     
     if(/^(?:[A-Za-zñığüşöçİĞÜŞÖÇ0-9_ ]+)*$/.test(value)===false){ //validate characters /^[a-zA-ZñığüşöçİĞÜŞÖÇ0-9 ]*$/;

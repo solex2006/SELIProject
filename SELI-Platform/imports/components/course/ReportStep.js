@@ -186,8 +186,10 @@ const a11yCOLOR = [
 	"#66bb6a" //valid:
 ];
 export default function ReportStep(props) {
+
 	useEffect(()=>{// 
-		 props.validate('PassReport')    
+		 props.validate('PassReport') 
+		 document.title =props.language.reportstep;  
 	})
    //console.clear()
 	const classes = useStyles();

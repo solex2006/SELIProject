@@ -21,7 +21,7 @@ export default class AccountManagement extends React.Component {
   }
 
   componentDidMount() {
-
+    document.title=this.props.language.userHelp;
   }
 
   validateSendMessage = () => {
