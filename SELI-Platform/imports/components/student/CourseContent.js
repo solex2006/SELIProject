@@ -4,7 +4,7 @@ import TemplateParent from '../course/templates/TemplateParent';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Typography from '@material-ui/core/Typography';
+//import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -24,11 +24,9 @@ export default class CourseContent extends React.Component {
     var focused = document.activeElement;
     focused.blur();
 
-    var foco=document.getElementById("botons");
-    foco.focus()
-    
-   
-   // console.log("rrrrrrrrrrrrrrrrrr",foco,focused)
+    /* var foco=document.getElementById("botons");
+    foco.focus() */
+
   }
 
   loadingData = () => {
@@ -180,39 +178,37 @@ export default class CourseContent extends React.Component {
   render() {
     return(
       <div id="courseContainer" className="course-content-container">
-        <div aria-label="In this section is the course content, use tab to navigate" autofocus id="botons" tabIndex="0"></div>
+        {/* <div aria-label="In this section is the course content, use tab to navigate" autofocus id="botons" tabIndex="0"></div> */}
         { this.props.course.program.length &&
           <React.Fragment>
-            <div className="course-content-breadcrumbs-container">
-              {
-                this.props.fromTutor ? undefined :
-                  <Paper elevation={0} className="course-content-breadcrumbs-paper">
-                    <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                      <Typography onClick={() => this.props.showComponent("subscribed")} className="course-content-breadcrumb-text">
-                        {this.props.language.courses}
-                      </Typography>
-                      <Typography onClick={() => this.props.navigateTo([-1, -1, -1, -1])} id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
-                        {this.props.course.title}
-                      </Typography>
-                      <Typography onClick={() => this.props.navigateTo([this.props.selected[0], 0, 0, 0])} id="course-content-breadcrumb-unitTopic" className="course-content-breadcrumb-text">
-                        {`${this.props.course.coursePlan.courseStructure === "unit" ? 
-                        this.props.language.unit : this.props.language.topic
-                        } ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[0]].name}`}
-                      </Typography>
-                      {this.props.course.coursePlan.courseStructure === "unit" && this.props.selected[3] > 0 &&
-                        <Typography onClick={() => this.props.navigateTo([this.props.selected[0], this.props.selected[1], 0, 1])} id="course-content-breadcrumb-lesson" className="course-content-breadcrumb-text">
-                          {`${this.props.language.lesson} ${this.props.selected[1] + 1}: ${this.props.course.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}
-                        </Typography>}
-                      {this.props.course.coursePlan.courseStructure !== "without" && this.props.selected[3] > 1 &&
-                      <Typography id="course-content-breadcrumb-task" className="course-content-breadcrumb-text">
-                        { this.props.course.coursePlan.courseStructure === "unit" ? 
-                          `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.props.course.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}` :
-                          `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.props.course.program[this.props.selected[0]].activities[this.props.selected[2]].name}`}
-                      </Typography>}
-                    </Breadcrumbs>
-                  </Paper>
-              }
-            </div>
+            {
+              !this.props.fromTutor &&
+              <Paper elevation={0} className="course-content-breadcrumbs-paper">
+                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                  <Button autoFocus onClick={() => this.props.showComponent("subscribed")} className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
+                    {this.props.language.courses}
+                  </Button>
+                  <Button onClick={() => this.props.navigateTo([-1, -1, -1, -1])} id="course-content-breadcrumb-title" className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
+                    {this.props.course.title}
+                  </Button>
+                  <Button onClick={() => this.props.navigateTo([this.props.selected[0], 0, 0, 0])} id="course-content-breadcrumb-unitTopic" className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
+                    {`${this.props.course.coursePlan.courseStructure === "unit" ? 
+                    this.props.language.unit : this.props.language.topic
+                    } ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[0]].name}`}
+                  </Button>
+                  {this.props.course.coursePlan.courseStructure === "unit" && this.props.selected[3] > 0 &&
+                    <Button onClick={() => this.props.navigateTo([this.props.selected[0], this.props.selected[1], 0, 1])} id="course-content-breadcrumb-lesson" className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
+                      {`${this.props.language.lesson} ${this.props.selected[1] + 1}: ${this.props.course.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}
+                    </Button>}
+                  {this.props.course.coursePlan.courseStructure !== "without" && this.props.selected[3] > 1 &&
+                  <Button id="course-content-breadcrumb-task" className="course-content-breadcrumb-text" disabled={true} style={{textTransform: 'none'}}>
+                    { this.props.course.coursePlan.courseStructure === "unit" ? 
+                      `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.props.course.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}` :
+                      `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.props.course.program[this.props.selected[0]].activities[this.props.selected[2]].name}`}
+                  </Button>}
+                </Breadcrumbs>
+              </Paper>
+            }
             { this.loadingPage() }
           </React.Fragment>
         }

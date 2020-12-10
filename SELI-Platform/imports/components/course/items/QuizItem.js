@@ -73,11 +73,6 @@ export default class QuizItem extends React.Component {
   }
 
   componentDidMount(){
-   // let titulo=document.getElementsByClassName("course-content-breadcrumbs-container");
-   // console.log("wwwwwwwwwww",titulo)
-  //  titulo[0].focus()
-    
-    
     //update the time in a quiz
     let timeHourMin=this.props.item.attributes.timeLimit.split(":") 
     let timeLimit=(parseInt(timeHourMin[0])*60+parseInt(timeHourMin[1])) 

@@ -340,6 +340,8 @@ export default class MediaPlayer extends React.Component {
   continueOpen = () => {
     this.setState({
       confirmOpen: true,
+    }, () => {
+      document.getElementById("dialog-media-player-title").focus();
     })
   }
 
@@ -348,6 +350,11 @@ export default class MediaPlayer extends React.Component {
       confirmOpen: false,
     })
     this.props.handleCloseMedia();
+  }
+
+  onEnter = () => {
+    if (this.state.media.type === 'image')
+    document.getElementById("dialog-media-player-title").focus();
   }
 
   render() {
@@ -359,12 +366,12 @@ export default class MediaPlayer extends React.Component {
           fullScreen={this.state.media.type === 'video' && this.state.confirmOpen === false ? false : true}
           role="dialog"
           aria-modal="true"
-          aria-labelledby="course-dialog-title"
           aria-describedby="exit-player-tooltip"
           disableBackdropClick={true}
           className="media-dialog"
           onKeyDown={this.handleNavigate}
           tabIndex={-1}
+          onEnter={this.onEnter}
         >
           {
             this.state.media.type === 'video' && this.state.confirmOpen === false ?
@@ -392,9 +399,11 @@ export default class MediaPlayer extends React.Component {
                     <IconButton tabIndex={this.state.fullScreen ? "-1" : "0"} edge="start" color="inherit" onClick={() => this.handleClose()} aria-label={this.props.language.close}>
                       <CloseIcon />
                     </IconButton>
-                    <Typography id="course-dialog-title" className="course-dialog-title" variant="h6">
-                      {`${this.props.language.seliMediaPlayer} | ${this.state.media.attributes ? this.state.media.attributes.title : ""}`}
-                    </Typography>
+                    <div tabIndex="0" id="dialog-media-player-title" aria-labelledby="dialog-media-player-title-content">
+                      <Typography id="dialog-media-player-title-content" className="course-dialog-title" variant="h6">
+                        {`${this.props.language.seliMediaPlayer} | ${this.state.media.attributes ? this.state.media.attributes.title : ""}`}
+                      </Typography>
+                    </div>
                     <p id="exit-player-tooltip" className="app-tooltip">{this.props.language.pressEscCourse}</p>
                   </Toolbar>
                 </AppBar>
@@ -464,7 +473,6 @@ export default class MediaPlayer extends React.Component {
                             }
                           >
                             <IconButton
-                              autoFocus
                               onClick={this.handlePlayPause} 
                               className="media-player-icon-button" 
                               aria-label={!this.state.playing ? this.props.language.play : this.props.language.pause}
@@ -480,7 +488,7 @@ export default class MediaPlayer extends React.Component {
                               {this.state.timeLabel}
                             </Typography>
                             <Slider
-                              step={1 / (this.state.duration)}
+                              step={10}
                               min={0}
                               max={this.state.duration}
                               valueLabelDisplay="off"

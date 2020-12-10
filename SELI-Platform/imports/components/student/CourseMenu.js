@@ -119,13 +119,14 @@ export default function CourseMenu(props) {
         <IconButton className="course-menu-button">
           <ListIcon fontSize="large"/>
         </IconButton>
-        <Button
+        <div
           //onClick={() => this.props.completeTopicLesson()}
           variant="contained"
           className="course-content-menu-button"
         >
-          {props.language.courseOrganization}
-        </Button>
+          { props.course.coursePlan.courseOrganization === "units" ?
+            props.language.units : props.language.topics}
+        </div>
       </div>
       <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
         {sideList('right')}

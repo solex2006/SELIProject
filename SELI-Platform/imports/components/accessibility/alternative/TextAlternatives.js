@@ -25,7 +25,7 @@ export default class TextAlternatives extends React.Component {
 
   render() {
     return(
-      <div tabIndex="0" className="text-alt-container" style={this.props.fromMediaPlayer && {color: "white"}}>
+      <div className="text-alt-container" style={this.props.fromMediaPlayer && {color: "white"}}>
         {
           this.props.item.type === "audio" || this.props.item.type === "video"?
             <Grid container spacing={1}>
@@ -78,7 +78,7 @@ export default class TextAlternatives extends React.Component {
                             </details>
                           :
                             <React.Fragment>
-                              <h2 className="description">{this.props.language.longDescription_a11y_label}</h2>
+                              <h2 tabIndex="0" className="description">{this.props.language.longDescription_a11y_label}</h2>
                               <div tabIndex="0" id={"video_" + this.props.item.id + "_longDescr"}>
                                 <figcaption>
                                   <Editor editorState={this.signalText()} readOnly={true} />
@@ -96,42 +96,24 @@ export default class TextAlternatives extends React.Component {
             this.props.item.attributes.accessibility && this.props.item.attributes.accessibility.dataField &&
             <Grid container spacing={3}>
               <Grid item xs={12}>       
-              {
-                this.props.item.attributes.accessibility.dataField.imagePurpose==='info'?
-                  <React.Fragment> 
-                    <h2 tabIndex="0" className="description">{this.props.language.image_a11y_purpose_informative_label}</h2>
+                <h2 tabIndex="0" className="description">{
+                  this.props.item.attributes.accessibility.dataField.imagePurpose === 'info' ? this.props.language.image_a11y_purpose_informative_label :
+                  this.props.item.attributes.accessibility.dataField.imagePurpose === 'deco' ? this.props.language.image_a11y_purpose_decorative_label :
+                  this.props.item.attributes.accessibility.dataField.imagePurpose === 'txt' ? this.props.language.image_a11y_purpose_text :
+                  this.props.item.attributes.accessibility.dataField.imagePurpose==='cplx' ? this.props.language.image_a11y_purpose_complex : undefined
+                }</h2>
+                {
+                  this.props.item.attributes.accessibility.dataField.imagePurpose !== 'deco' &&
+                  <div tabIndex="0" id={`image_${this.props.item.id}_shortDescr`}>
                     {this.props.item.attributes.accessibility.dataField.shortDescription}
-                  </React.Fragment>
-                :
-                  undefined
-              }
-              {
-                this.props.item.attributes.accessibility.dataField.imagePurpose==='deco'?
-                  <h2>{this.props.language.image_a11y_purpose_decorative_label}</h2>
-                :
-                  undefined
-              }
-              {
-                this.props.item.attributes.accessibility.dataField.imagePurpose==='txt'?
-                  <React.Fragment> 
-                    <h2 tabIndex="0" className="description">{this.props.language.image_a11y_purpose_text}</h2>
-                    {this.props.item.attributes.accessibility.dataField.shortDescription}
-                  </React.Fragment>
-                :
-                  undefined
-              }
-              {
-                this.props.item.attributes.accessibility.dataField.imagePurpose==='cplx' ?
-                  <React.Fragment> 
-                    <h2 tabIndex="0" className="description">{this.props.language.image_a11y_purpose_complex}</h2>
-                    {this.props.item.attributes.accessibility.dataField.shortDescription}
-                    <figcaption tabIndex="0">
-                      <Editor editorState={this.signalText()} readOnly={true}/>
-                    </figcaption>
-                  </React.Fragment>
-                :
-                  undefined
-              }
+                  </div>
+                }
+                {
+                  this.props.item.attributes.accessibility.dataField.imagePurpose === 'cplx' &&
+                  <figcaption tabIndex="0" id={`image_${this.props.item.id}_longDescr`}>
+                    <Editor editorState={this.signalText()} readOnly={true}/>
+                  </figcaption>
+                }
               </Grid>
             </Grid>
         }

@@ -561,10 +561,12 @@ export default class User extends React.Component {
 
     console.log("naviagtototoototot---",botonOne,audioBoton)
 
-    boton1.blur();
-    boton2!=null? boton2.blur():undefined;
-    boton3!=null? boton3.blur():undefined;
-    botonOne.blur();
+    if (this.state.user.profile.type === "student") {
+      boton1.blur();
+      boton2!=null? boton2.blur():undefined;
+      boton3!=null? boton3.blur():undefined;
+      botonOne.blur();
+    }
     
     this.setState({
       selected: selected,

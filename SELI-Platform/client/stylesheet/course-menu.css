@@ -1,6 +1,6 @@
 .course-menu-button-container {
   position: fixed;
-  top: calc(var(--app-bar-height) + 20px);
+  top: calc(var(--app-bar-height) + 15px);
   right: 20px;
   /* width: 50px; */
   height: 50px;
