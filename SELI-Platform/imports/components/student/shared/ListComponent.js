@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 
 //Andres Heredia// 
 export default function Lista(props) {
-    console.log("learning goals*********************************",props)
   const classes = useStyles();
 
   const Audiences=()=>{

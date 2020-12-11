@@ -99,13 +99,8 @@
   justify-content: center;
 }
 
-.template-paper-gallery-preview-selected {
-  width: 300px;
-  height: 300px;
-  position: relative;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
+.template-paper-gallery-preview:hover,
+.template-paper-gallery-preview:focus-within {
   transform: scale(1.05);
   transition: 0.25s;
 }

@@ -15,7 +15,8 @@ export default class CourseContent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      navigationContent: [],
+      currentId: ""
     }
   }
 
@@ -24,14 +25,88 @@ export default class CourseContent extends React.Component {
     var focused = document.activeElement;
     focused.blur();
 
-    /* var foco=document.getElementById("botons");
-    foco.focus() */
+    this.setNavigation();
 
   }
 
+  setNavigation = () => {
+    let navigationContent = [];
+    this.props.course.program.map((unitTopic, index) => {
+      navigationContent.push(`unitTopic-${index}`);
+      if (this.props.course.coursePlan.courseStructure === "unit") {
+        unitTopic.lessons.map((lesson) => {
+          navigationContent.push(lesson._id);
+          if (this.props.course.coursePlan.guidedCoursePlan === "guided")
+          lesson.activities.map((activity) => {
+            navigationContent.push(activity._id);
+          })
+        })
+      } else {
+        if (this.props.course.coursePlan.guidedCoursePlan === "guided")
+        unitTopic.activities.map((activity) => {
+          navigationContent.push(activity._id);
+        })
+      }
+    })
+    this.setState({
+      navigationContent,
+      currentId: navigationContent[0]
+    })
+  }
+
+  searchSelected = (action) => {
+    let futureId = "";
+    let index = this.state.navigationContent.indexOf(this.state.currentId);
+    if (action === "next") {
+      if (index < this.state.navigationContent.length - 1) {
+        futureId = this.state.navigationContent[index + 1];
+        this.finishDefineSelected(futureId);
+      }
+    } else {
+      if (index > 0) {
+        futureId = this.state.navigationContent[index - 1];
+        this.finishDefineSelected(futureId);
+      }
+    }
+  }
+
+  finishDefineSelected = (futureId) => {
+    this.setState({
+      currentId: futureId
+    }, () => {
+      let selected = this.defineSelected();
+      this.props.navigateTo(selected);
+    })
+  }
+
+  defineSelected = () => {
+    let selected = this.props.selected;
+    this.props.course.program.map((unitTopic, index) => {
+      if (this.state.currentId === `unitTopic-${index}`)
+      return selected = [index, 0, 0, 0];
+      if (this.props.course.coursePlan.courseStructure === "unit") {
+        unitTopic.lessons.map((lesson, lessonIndex) => {
+          if (this.state.currentId === lesson._id)
+          return selected = [index, lessonIndex, 0, 1];
+          if (this.props.course.coursePlan.guidedCoursePlan === "guided")
+          lesson.activities.map((activity, activityIndex) => {
+            if (this.state.currentId === activity._id)
+            return selected = [index, lessonIndex, activityIndex, 2];
+          })
+        })
+      } else {
+        if (this.props.course.coursePlan.guidedCoursePlan === "guided")
+        unitTopic.activities.map((activity, activityIndex) => {
+          if (this.state.currentId === activity._id)
+            return selected = [index, 0, activityIndex, 2];
+        })
+      }
+    })
+    return selected;
+  }
+
   loadingData = () => {
-    let arrayOfItems, arrayOfDesignItems, tools, toComplete, topicLessonLabel, taskLength, 
-        previousTaskLength, unitTopicLength, lessonLength, previousLessonLength;
+    let arrayOfItems, arrayOfDesignItems, tools, toComplete, topicLessonLabel;
     if (this.props.course.program.length) {
       if (this.props.selected[3] === 0) {
         arrayOfItems = this.props.course.program[this.props.selected[0]].items;
@@ -59,24 +134,15 @@ export default class CourseContent extends React.Component {
           tools = this.props.course.design[this.props.selected[0]].tools;
         }
       }
-      unitTopicLength = this.props.course.program.length;
-      lessonLength = this.props.course.program[this.props.selected[0]].lessons.length;
-      taskLength = this.props.course.program[this.props.selected[0]].activities.length;
-      if (this.props.selected[0] > 0) {
-        previousLessonLength = this.props.course.program[this.props.selected[0] - 1].lessons.length;
-        previousTaskLength = this.props.course.program[this.props.selected[0] - 1].activities.length;
-      }
       return {
-        arrayOfItems, arrayOfDesignItems, tools, toComplete, topicLessonLabel, taskLength,
-        unitTopicLength, lessonLength, previousLessonLength, previousTaskLength
+        arrayOfItems, arrayOfDesignItems, tools, toComplete, topicLessonLabel
       }
     }
   }
 
   loadingPage = () => {
     const {arrayOfItems, arrayOfDesignItems, tools,
-      toComplete, topicLessonLabel, taskLength, unitTopicLength, 
-      lessonLength, previousLessonLength, previousTaskLength} = this.loadingData();
+      toComplete, topicLessonLabel} = this.loadingData();
     return(
       <React.Fragment>
         {
@@ -118,7 +184,7 @@ export default class CourseContent extends React.Component {
                   //disabled={this.props.selected[0] === 0}
                   size="small"
                   className="course-content-footer-fab"
-                  onClick={() => this.props.handlePrevious(this.props.course.coursePlan.courseTemplate, this.props.course.coursePlan.courseStructure, previousTaskLength, unitTopicLength, previousLessonLength)}
+                  onClick={() => this.searchSelected("back")}
                 >
                   <NavigateBeforeIcon/>
                 </Fab>
@@ -128,7 +194,7 @@ export default class CourseContent extends React.Component {
                   //disabled={this.props.selected[0] === this.props.course.program.length - 1}
                   size="small"
                   className="course-content-footer-fab"
-                  onClick={() => this.props.handleNext(this.props.course.coursePlan.courseTemplate, this.props.course.coursePlan.courseStructure, taskLength, unitTopicLength, lessonLength)}
+                  onClick={() => this.searchSelected("next")}
                 >
                   <NavigateNextIcon/>
                 </Fab>

@@ -202,10 +202,7 @@ export default class MediaGallery extends React.Component {
 						<Grid item >
 							<figure
                 //role="group"
-								className={
-                  this.state.index === index ? "template-paper-gallery-preview-selected"
-                  : "template-paper-gallery-preview"
-                }
+								className="template-paper-gallery-preview"
                 onClick={() => this.handleOpenMediaClick(index)}
 							>
 								{  

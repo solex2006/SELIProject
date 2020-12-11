@@ -559,8 +559,6 @@ export default class User extends React.Component {
     let boton3=document.getElementById("botonfocus3");
     let audioBoton=document.getElementsByClassName("content-item");
 
-    console.log("naviagtototoototot---",botonOne,audioBoton)
-
     if (this.state.user.profile.type === "student") {
       boton1.blur();
       boton2!=null? boton2.blur():undefined;
@@ -575,53 +573,7 @@ export default class User extends React.Component {
     });
   }
 
-  handleNext = (template, structure, taskLength, unitTopicLength, lessonLength) => {
-    let selected = this.state.selected;
-    if (selected[3] === 0) {
-      if (structure === 'unit' && lessonLength > 0) {selected[3] = 1}
-      else {
-        if (template !== 'without' && taskLength > 0) selected[3] = 2
-        else if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
-      }
-    } else if (selected[3] === 1) {
-      if (selected[1] < lessonLength - 1) {selected[1] = selected[1] + 1}
-      else {
-        if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
-      }
-    } else if (selected[3] === 2) {
-      if (selected[2] < taskLength - 1) {selected[2] = selected[2] + 1}
-      else {
-        if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
-      }
-    } 
-    this.navigateTo(selected)
-  }
-
-  handlePrevious = (template, structure, previousTaskLength, unitTopicLength, previousLessonLength) => {
-    let selected = this.state.selected;
-    if (selected[3] === 0) {
-      if (selected[0] > 0) {
-        if (structure === 'unit' && previousLessonLength > 0) {selected = [selected[0] - 1, selected[1] = previousLessonLength - 1, 0, 1]}
-        else {
-          if (template !== 'without' && previousTaskLength > 0) selected = [selected[0] - 1, 0, selected[2] = previousTaskLength - 1, 2]
-          else if (unitTopicLength > 0) selected = [selected[0] - 1, 0, 0, 0]
-        }
-      }
-    } else if (selected[3] === 1) {
-      if (selected[1] > 0) {selected[1] = selected[1] - 1}
-      else {
-        if (unitTopicLength > 0) selected = [selected[0], 0, 0, 0]
-      }
-    } else if (selected[3] === 2) {
-      if (selected[2] > 0) {selected[2] = selected[2] - 1}
-      else {
-        if (unitTopicLength > 0) selected = [selected[0], 0, 0, 0]
-      }
-    }
-    this.navigateTo(selected)
-  }
   disableDialog=()=>{
-    console.log("desabilita el dialogo**************************")
     /* this.state.savedCourseWindow=false
     this.state.chekingSesion=false
     this.state.openDialog=false */
@@ -633,9 +585,6 @@ export default class User extends React.Component {
     }); 
 
     this.showComponent('published')
- 
-
-    
   }
 
   render() {
@@ -686,8 +635,6 @@ export default class User extends React.Component {
                           unsubscribe={this.unsubscribeFromCourse.bind(this)}
                           showComponent={this.showComponent.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
-                          handlePrevious={this.handlePrevious.bind(this)}
-                          handleNext={this.handleNext.bind(this)}
                           navigateTo={this.navigateTo.bind(this)}
                         />
                       :
@@ -732,8 +679,6 @@ export default class User extends React.Component {
                           showComponent={this.showComponent.bind(this)}
                           reRender={this.forceUpdate.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
-                          handlePrevious={this.handlePrevious.bind(this)}
-                          handleNext={this.handleNext.bind(this)}
                           navigateTo={this.navigateTo.bind(this)}
                         />
                       :

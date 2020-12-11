@@ -106,8 +106,6 @@ export default class TextForm extends React.Component {
     attributes.language = event.target.value;
     this.setState({
       attributes: attributes,
-    }, () => {
-      this.props.reRender()
     });
   }
 

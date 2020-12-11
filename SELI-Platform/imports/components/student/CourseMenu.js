@@ -124,7 +124,7 @@ export default function CourseMenu(props) {
           variant="contained"
           className="course-content-menu-button"
         >
-          { props.course.coursePlan.courseOrganization === "units" ?
+          { props.course.coursePlan.courseStructure === "unit" ?
             props.language.units : props.language.topics}
         </div>
       </div>

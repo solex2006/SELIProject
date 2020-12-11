@@ -380,7 +380,6 @@ export default function SyllabusButton(props) {
 		setOpen(false);
 	};
 
-	console.log("propiedades del silabo---->",props)
 	return (
 		<React.Fragment>
 			<Button

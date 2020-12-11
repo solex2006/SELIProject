@@ -789,8 +789,6 @@ export default class PublishedCoursesList extends React.Component {
                                 course={this.state.course}
                                 showComponent={this.props.showComponent.bind(this)}
                                 handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                handlePrevious={this.props.handlePrevious.bind(this)}
-                                handleNext={this.props.handleNext.bind(this)}
                                 navigateTo={this.props.navigateTo.bind(this)}
                                 selected={this.props.selected}
                                 toComplete={this.state.student.courseProfile.toComplete}
