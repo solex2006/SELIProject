@@ -25,6 +25,9 @@ export default class PdfItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      iframeFullUrl: "",
+      openReadDialog: false,
+      iframeFeOpen: false,
       actions: [
         { icon: <CloudDownloadIcon />, name: this.props.language.download, action: () => this.download()},
         { icon: <OpenInNewIcon />, name: this.props.language.readNewTab, action: () => this.openNewTab()},
@@ -34,6 +37,35 @@ export default class PdfItem extends React.Component {
       ],
     }
   }
+
+  componentDidMount(){
+      this.setIframeFullUrl();
+  }
+
+   setIframeFullUrl = () =>{
+    let end_point = 'http://fd.worldpixelmarket.com/books/reading/iframe';
+    var filename = this.props.item.attributes.pdf.link.substring(this.props.item.attributes.pdf.link.lastIndexOf('/')+1);
+    let user_id =  Meteor.userId();
+    let pdf_title =  this.props.item.attributes.pdf.name || filename;
+    let pdf_url = this.props.item.attributes.pdf.link;
+    let full_url = end_point+"?"+"user_id="+user_id+"&pdf_title="+pdf_title+"&pdf_url="+pdf_url;
+    var full_url_encode = new URL(full_url);
+    this.state.iframeFullUrl = full_url_encode;
+  }
+
+ handleReadOption = () => {
+    this.setState({ openReadDialog: true });
+   };
+
+  handleIframeFeClose = () => {
+    this.setState({ iframeFeOpen: false });
+  };
+  handleDialogClose = () => {
+    this.setState({ openReadDialog: false });
+  };
+  handleReadWithExpression = () =>{ 
+      this.setState({ iframeFeOpen: true });
+  };
 
   printPdf = () => {
     var iframe = document.createElement('iframe');
@@ -154,6 +186,71 @@ export default class PdfItem extends React.Component {
             </div>
           </DialogContent>
         </Dialog>
+
+        <Dialog
+        open={this.state.openReadDialog}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={this.handleDialogClose}
+        aria-labelledby="alert-dialog-read-title"
+        aria-describedby="alert-dialog-slide-description"
+        className="read-dialog-container"
+        disableBackdropClick={true}
+      >
+      <DialogTitle id="alert-dialog-read-title" className="success-dialog-title" >Read With Expression</DialogTitle>
+        <Divider/>
+        <DialogContent className="read-dialog-content">
+          <div className="read-dialog-form">
+          
+   <DialogActions className="read-actions">
+      <Button onClick={() => this.read()} color="primary" variant="outlined">
+        Simple Read
+      </Button>
+      <Button onClick={() => this.handleReadWithExpression()} color="primary" variant="outlined">
+        Read With Face Expression
+      </Button>
+    </DialogActions>
+
+          </div>
+        </DialogContent>
+        <Divider light={true}/>
+      </Dialog>
+
+
+      <Dialog
+          open={this.state.iframeFeOpen}
+          onClose={this.handleIframeFeClose}
+          TransitionComponent={Transition}
+          fullScreen
+          aria-labelledby="alert-dialog-confirmation"
+          aria-describedby="alert-dialog-confirmation"
+          disableBackdropClick={true}
+          className="media-dialog"
+        >
+          <AppBar2 position="static" className="course-dialog-app-bar">
+            <Toolbar style={{position: 'relative'}}>
+              <IconButton edge="start" color="inherit" onClick={this.handleIframeFeClose} aria-label="close">
+                <CloseIcon />
+              </IconButton>
+              <Typography className="course-dialog-title" variant="h6">
+                {this.props.language.seliPdfReader}
+              </Typography>
+              <p className="app-tooltip">{this.props.language.pressEscCourse}</p>
+            </Toolbar>
+          </AppBar2>
+          <DialogContent className="media-dialog-content">
+            <div className="pdf-dialog-content">
+
+ <iframe id="myIframe" src={this.state.iframeFullUrl} frameBorder="0" marginHeight="0" marginWidth="0" scrolling="Yes" width="100%" height="100%" >
+    Your browser doesn't support iframes
+</iframe>
+
+    </div>
+          </DialogContent>
+        </Dialog>
+
+
+
       </div>
       );
     }
