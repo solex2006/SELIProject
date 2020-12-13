@@ -31,7 +31,7 @@ export default class PdfItem extends React.Component {
       actions: [
         { icon: <CloudDownloadIcon />, name: this.props.language.download, action: () => this.download()},
         { icon: <OpenInNewIcon />, name: this.props.language.readNewTab, action: () => this.openNewTab()},
-        { icon: <ChromeReaderModeIcon />, name: this.props.language.readHere, action: () => this.read()},
+        { icon: <ChromeReaderModeIcon />, name: this.props.language.readHere, action: () => this.handleReadOption()},
         { icon: <PrintIcon />, name: this.props.language.print, action: () => this.printPdf()},
         //{ icon: <StarRateIcon />, name: this.props.language.addToMyLibrary},
       ],
