@@ -102,8 +102,9 @@ const useStyles = makeStyles(theme => ({
 export default function AnalysisStep(props) {
   const {courseInformation,language } = props;
   useEffect(()=>{
-   // console.log("courseInformationAnalysisStep y Accesibility", courseInformation,courseInformation.accessibility )
+    console.log("courseInformationAnalysisStep y Accesibility", courseInformation,courseInformation.accessibility )
     //updatemodalityradiobutton
+    setConstraints(courseInformation.analysis[0]);
     setmodality(courseInformation.analysis[1]);
     //updatetextEditor
     setpedagogical(courseInformation.analysis[2]);
@@ -143,7 +144,7 @@ export default function AnalysisStep(props) {
   },[])
   useEffect(()=>{// 
     document.title=props.language.AnalysisPhaseTitle;
-    //console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,analysisTooltip)
+    console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,analysisTooltip)
         if(pedagogical!=undefined  &&
            analysisTooltip.learningobjectives===false  && analysisTooltip.outcomes===false &&  analysisTooltip.pedagogical===false ){
             props.validate('passCourseAnalysis')
@@ -785,7 +786,7 @@ export default function AnalysisStep(props) {
           } 
          });
       }
-      if(type==='LOutcomes'){
+      if(type==='LOutcomes'){ 
         Object.entries(outcomes).forEach(([key, value]) => {      
           if(value.length>10){
               console.log("se estan colocando massss de 10 outcomes"); // "a 5", "b 7", "c 9"

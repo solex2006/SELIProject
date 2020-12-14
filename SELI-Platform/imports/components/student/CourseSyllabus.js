@@ -252,7 +252,7 @@ function Syllabus(props) {
 			<p className='crnheading'>
 				<strong tabIndex='0'>{props.language.audiences}</strong>: 
 				<Lista 
-				title={props.language.audiences}
+				title={'Audiences'}
 				data={props.courseInformation.support}
 				/>
 			</p>
@@ -277,7 +277,7 @@ function Syllabus(props) {
 					</h3>
 					<p tabIndex='0' className='descriptiontext'>{props.language.learningObjectivesDefinition}</p>
 					<Lista 
-							title={props.language.LearningGoals}
+							title={'LearningGoals'}
 							data={props.courseInformation.analysis[3]}
 					/>
 					<p  className='crnheading'>
@@ -292,11 +292,22 @@ function Syllabus(props) {
 					<h3 className='crnheading' id="info-outcomes" tabIndex="0">
 						{props.language.learningOutcomes}
 					</h3>
+					
+
 					<div tabIndex='0' className='descriptiontext'>{props.language.outcomeslegend}</div>
 					<Lista 
-						title={props.language.learningOutcomes}
+						title={'learningOutcomes'}
 						data={props.courseInformation.analysis[4]}
+					/> 
+					<h3 className='crnheading' id="info-outcomes" tabIndex="0">
+						{props.language.learningconstraint}
+						
+					</h3>
+					<Lista 
+						title={'learningconstraint'}
+						data={props.courseInformation.analysis[0]}
 					/>
+
 				</div>
 			}	
 			<hr/>
