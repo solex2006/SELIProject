@@ -1573,6 +1573,9 @@ var TURKISH = {
   },
   Evaluation2:"Değerlendirme",
   speedDialNavigation: "Öğe seçeneklerine gitmek için sol ve sağ ok tuşlarını kullanın",
+  infoSeizureRisk: "You are going to open the fullwidth preview.",
+  checkSeizureRisk: "Yes, I am aware of the risk.",
+  acceptSeizureRisk: "Check the box if you are agree about the warning.",
 }
 export default TURKISH;
 

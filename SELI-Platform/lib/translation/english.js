@@ -1577,8 +1577,6 @@ var ENGLISH = {
   checkSeizureRisk: "Yes, I am aware of the risk.",
   acceptSeizureRisk: "Check the box if you are agree about the warning.",
 }
-
-
 export default ENGLISH;
 
 //When adding new labels, please use double quotation marks.
