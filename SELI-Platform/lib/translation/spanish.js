@@ -1576,6 +1576,8 @@ var SPANISH = {
   infoSeizureRisk: "Esta iendo a abrir la vista previa en pantalla completa.",
   checkSeizureRisk: "Sí, soy consciente del riesgo.",
   acceptSeizureRisk: "Marque la casilla si está de acuerdo con la advertencia.",
+  badgeAwarded: "Emblema entregado",
+
 }
 export default SPANISH;
 

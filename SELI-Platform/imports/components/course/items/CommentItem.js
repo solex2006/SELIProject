@@ -22,6 +22,7 @@ import ImagePreview from '../../files/previews/ImagePreview';
 import createBadge from '../../badge/CreateBadge';
 import { bakeBadge} from '../../badge/AwardBadge';
 import { Activities } from '../../../../lib/ActivitiesCollection';
+import ControlSnackbar from '../../tools/ControlSnackbar';
 
 export default class CommentItem extends React.Component {
   constructor(props) {
@@ -156,12 +157,30 @@ export default class CommentItem extends React.Component {
     createBadge(badgeClass);
   }
   createContent = (event) => {
-    console.log(this.props)
+    this.handleControlMessage(true, this.props.language.badgeAwarded, true, '', '' , undefined);
     this.createBadgeClass()
     this.awardBadge();
     this.setState({ showBadgeForm: false, displayBadge: false });
 
   };
+
+  handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
+    if (show) {
+      this.setState({
+        showControlMessage: show,
+        controlMessage: message,
+        controlAction: action,
+        controlActionMessage: actionMessage,
+        showControlAction: showAction,
+        course: course,
+      });
+    }
+    else {
+      this.setState({
+        showControlMessage: show,
+      });
+    }
+  }
   handleChange = (name,inde) =>event => {
     let badgeClass = this.state.badgeClass;
     if (name === 'badgeName') {
@@ -206,12 +225,12 @@ export default class CommentItem extends React.Component {
                 {this.props.displayBadge &&
                 Meteor.userId() ===
                   this.props.tutorId ? (
-                  <IconButton
-                    onClick={this.openBadgeEditor.bind(this)}
-                    style={{ padding: "0px" }}
-                  >
-                    <MoreHorizRoundedIcon />
-                  </IconButton>
+                <IconButton
+                  onClick={this.openBadgeEditor.bind(this)}
+                  style={{ padding: "0px" }}
+                >
+                  <MoreHorizRoundedIcon />
+                </IconButton>
                 ) : undefined}
               </div>
               {/* <img src={this.state.badgeClass.image.link} alt="Awarded Badge" /> */}
@@ -247,6 +266,15 @@ export default class CommentItem extends React.Component {
             ) : undefined}
           </div>
         ) : undefined}
+        <ControlSnackbar
+          showControlMessage={this.state.showControlMessage}
+          showControlAction={"control action"}
+          controlMessage={this.state.controlMessage}
+          controlAction={() => {}}
+          controlActionMessage={this.state.controlActionMessage}
+          handleControlMessage={this.handleControlMessage.bind(this)}
+          time={8000}
+        />
         {/* Badge Section */}
         {this.state.showBadgeForm ? (
           <Dialog
