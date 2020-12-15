@@ -114,6 +114,7 @@
 }
 
 .course-item-card-title {
+  padding: 12px;
   letter-spacing: 1px !important;
   color: #616161 !important;
   display: flex;

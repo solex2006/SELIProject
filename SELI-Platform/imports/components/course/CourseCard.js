@@ -97,6 +97,11 @@ class CourseCard extends React.Component {
     this.getImageColors();
     this.getKeyWords();
     this.checkSubscriptions();
+
+    
+  }
+  componentDidUpdate(prevProps, prevState) {
+    this.state.subscribed=!this.state.subscribed
   }
 
   getKeyWords = () => {
@@ -279,7 +284,12 @@ class CourseCard extends React.Component {
                   <IconButton
                     className="course-card-icon-button"
                     disabled={this.props.disabled}
-                    onClick={() => this.props.unsubscribe(this.props.course._id)}
+                    onClick={() =>{
+                      console.log("99999999999999999999999999999999999999999999999999999999",this.state.subscribed )
+                     
+                     
+                      this.props.unsubscribe(this.props.course._id)}
+                    }
                     aria-label="Unsubscribe (Leave course classroom)"
                   >
                     <UnsubscribeIcon className="course-card-icon"/>

@@ -16,19 +16,23 @@
 
 .course-content-container {
   width: calc(100% - 130px);
-  height: calc(100vh - var(--app-bar-height) - 10vh);
-  padding: 5vh 65px;
+  height: calc(100% - 20vh);
+  padding: 10vh 65px;
   overflow-y: scroll;
 }
 
-.course-content-breadcrumbs-container {
-  padding-bottom: 1vh;
-  padding-left: 1vw;
-  width: calc(100% - 1vw - 65px);
-}
-
-.course-content-breadcrumbs-paper .MuiBreadcrumbs-separator{
-  margin-top: 2px !important;
+.course-content-breadcrumbs-paper {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: calc(15px);
+  min-height: 40px;
+  margin-left: -50px;
+  margin-right: 200px;
+  background-color: #fafafa;
+  opacity: 0.8;
+  z-index: 100;
+  text-transform: none !important;
 }
 
 .course-content-breadcrumbs-paper-quiz {
@@ -38,10 +42,11 @@
   top: calc(var(--app-bar-height) + 15px);
   min-height: 40px;
   margin-left: 60px;
-  margin-right: 80px;
+  margin-right: 200px;
   background-color: #fafafa;
   opacity: 0.8;
   z-index: 100;
+  text-transform: none !important;
 }
 
 .course-content-breadcrumb-text {
@@ -105,8 +110,8 @@
   letter-spacing: 1px !important;
   font-size: 1.25em !important;
   border-radius: 0 !important;
-  background-color: #fafafa !important;
   color: #333 !important;
+  padding-right: 10px;
 }
 
 .course-dial {
@@ -198,11 +203,16 @@
   }
   .course-content-container {
     width: calc(100% - 0px);
-    height: calc(100vh - var(--app-bar-height) - 2vh);
-    padding: 1vh 0px;
+    height: calc(100vh - var(--app-bar-height) - 4vh);
+    padding: 2vh 0px;
   }
   .course-content-menu-button {
     display: none !important;
+  }
+  .course-content-breadcrumbs-paper {
+    top: calc(1px);
+    margin-left: 1px;
+    margin-right: 70px;
   }
   .course-content-breadcrumbs-paper-quiz {
     top: calc(var(--app-bar-height) + 1px);

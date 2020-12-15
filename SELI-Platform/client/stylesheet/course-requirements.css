@@ -13,7 +13,7 @@
 }
 
 .list-subheader {
-  padding: 1.5vh 0 !important;
+  padding: 1vh 1.5vw !important;
   background-color: #fafafa !important;
 }
 
@@ -85,5 +85,8 @@
   .form-input-list {
     width: calc(100% - 2vw) !important;
     padding: 0 1vw !important;
+  }
+  .list-subheader {
+    padding: 0vh 1.5vw !important;
   }
 }

@@ -173,7 +173,9 @@ export default function DesignCourseApp(props) {
     let programInfo = programActivities;
     let newLesson = lesson;
     newLesson.key = "lesson" + data.length + unitIndex;
-    let activity = {_id: Math.random(), name: "", items: [], activities: []};
+    let activity = {_id: Math.random(), name: "", items: [], activities: [{
+      _id: Math.random(), name: language.task, items: []
+    }]};
     prev.push(newLesson);
     programInfo.push(activity);
     setData(prev);
@@ -360,23 +362,20 @@ export default function DesignCourseApp(props) {
                   lessonIndex={lessonIndex}
                 />
               </div>
-              {
-                template !== "without" &&
-                <div className={classes.activitydesign}>
-                  <ActivityDesign
-                    language={language}
-                    type='lesson'
-                    handleSelectResourcesActivities={handleSelectResourcesActivities}
-                    courseInformation={designInformation}
-                    programInformation={programInformation}
-                    activities={lesson.activities}
-                    handleActivities={handleActivities}
-                    parentIndex={unitIndex}
-                    lessonIndex={lessonIndex}
-                    template={template}
-                  />
-                </div>
-              }
+              <div className={classes.activitydesign}>
+                <ActivityDesign
+                  language={language}
+                  type='lesson'
+                  handleSelectResourcesActivities={handleSelectResourcesActivities}
+                  courseInformation={designInformation}
+                  programInformation={programInformation}
+                  activities={lesson.activities}
+                  handleActivities={handleActivities}
+                  parentIndex={unitIndex}
+                  lessonIndex={lessonIndex}
+                  template={template}
+                />
+              </div>
             </ExpansionPanelDetails>
           )}
         </ExpansionPanel>

@@ -128,7 +128,7 @@ export default class VerticalPanel extends React.Component {
                 coursePlan={this.props.courseInformation.coursePlan}
                 selected={this.props.selected}
                 expandedNodes={this.props.expandedNodes}
-                reRender={this.props.reRender.bind(this)}
+                loadingData={this.props.loadingData.bind(this)}
                 turnOffSortMode={this.props.turnOffSortMode.bind(this)}
                 setMenuTab={this.props.setMenuTab.bind(this)}
                 language={this.props.language}

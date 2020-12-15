@@ -42,6 +42,7 @@ export default class FreeWithout extends React.Component {
                 this.props.arrayOfItems.map((p, i) => {
                   return (
                     <Draggable key={i}>
+
                       <ContentItem
                         fromProgram
                         item={p}

@@ -83,7 +83,6 @@ export default function UserMenu(props) {
   const [check, setCheck]=useState(props.user.profile.check)
   const [certificates, setCertificates]=useState(props.user.profile.certificates)
   const [infoStudent, setInfoStudent]=useState({})
-  console.log("propiedades de la abrra de navegacion and check--->",props)
 
   useEffect(()=>{
     //carga toods los certificados al estudiante

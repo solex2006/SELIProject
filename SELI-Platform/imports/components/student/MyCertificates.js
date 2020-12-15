@@ -27,6 +27,7 @@ export default class MyCertificates extends React.Component {
   }
 
   componentDidMount() {
+    document.title=this.props.language.myCertificates
     this.props.getSubscribedCourses(() => this.getSubscribedCourses());
     this.getSubscribedCourses();
   }

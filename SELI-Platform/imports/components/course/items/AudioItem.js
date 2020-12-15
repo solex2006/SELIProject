@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import ItemFeedback from '../../accessibility/ItemFeedback';
 import Link from '@material-ui/core/Link';
 import TextAlternatives from '../../accessibility/alternative/TextAlternatives';
-//import CheckboxLabels from './CheckBox';
+import A11yAudioPlayer from '../../tools/A11yAudioPlayer';
 
 export default class AudioItem extends React.Component {
   constructor(props) {
@@ -32,6 +32,7 @@ export default class AudioItem extends React.Component {
 
   textAlternatives=()=>{
     return(
+      
       <TextAlternatives
         item={this.props.item}
         language={this.props.language}
@@ -60,13 +61,23 @@ export default class AudioItem extends React.Component {
         </div>
         {
           this.props.item.attributes.audio &&
-          <audio
-            ref="audioItemPreview" 
-            className="course-item-audio-card-controls2"
-            id={"audio_" + this.props.item.id}
-            aria-describedby={"audio_" + this.props.item.id + "_transcriptText"}
-            aria-labelledby={"audio_" + this.props.item.id + "_shortDescr"}
+          <A11yAudioPlayer
+            audioId={"audio_" + this.props.item.id}
+            ariaDescribedby={"audio_" + this.props.item.id + "_transcriptText"}
+            ariaLabelledby={"audio_" + this.props.item.id + "_shortDescr"}
             src={this.props.item.attributes.audio.link}
+            buttonLabels={{
+              play: this.props.language.play,
+              pause: this.props.language.pause,
+              timePosition: this.props.language.timePosition,
+              mute: this.props.language.mute,
+              unmute: this.props.language.unmute,
+              volumeControl: this.props.language.volumeControl,
+              options: this.props.language.options,
+              optionLabels: {
+                download: this.props.language.download
+              }
+            }}
             controls
           />
         }
@@ -125,6 +136,8 @@ export default class AudioItem extends React.Component {
   }
   
   componentDidMount=()=>{
+
+
         var cues = Array.prototype.slice.call(document.querySelectorAll(".cue"));
         var player = document.getElementById("audio");
         //console.log("audio update------------------------", this.state.captions)
@@ -167,7 +180,7 @@ export default class AudioItem extends React.Component {
 
   render() {
     return(
-      <div className="content-box">
+      <div className="content-box" id="text1">
         <div className="image-content-item">
           <div className="audio-item-container">
             {

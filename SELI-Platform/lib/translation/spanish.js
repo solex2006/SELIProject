@@ -1573,6 +1573,9 @@ var SPANISH = {
   },
   Evaluation2:"Evaluacion",
   speedDialNavigation: "Use las flechas del teclado izquierda y derecha para navegar en las opciones del elemento.",
+  infoSeizureRisk: "Esta iendo a abrir la vista previa en pantalla completa.",
+  checkSeizureRisk: "Sí, soy consciente del riesgo.",
+  acceptSeizureRisk: "Marque la casilla si está de acuerdo con la advertencia.",
 }
 export default SPANISH;
 

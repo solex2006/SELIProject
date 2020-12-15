@@ -260,6 +260,7 @@ export default function SearchToolBar(props) {
 	}
 
 	useEffect(() => {
+		document.title=props.language.myCourses;
 		getTutors()
 	}, [])
 

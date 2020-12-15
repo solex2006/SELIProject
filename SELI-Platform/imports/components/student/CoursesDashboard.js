@@ -236,21 +236,47 @@ export default class CoursesDashboard extends React.Component {
   }
 
   paperSearchSeli=(title, arrayCourses)=>{
-   
-    if(arrayCourses.length >3  && this.state.flagCourses===true){
-      this.state.myFilterThreeSeli=arrayCourses
+    console.log("Antes de Mostrar******", arrayCourses, this.state );
+    console.log("Banderas ******", this.state.flagCourses, arrayCourses.length );
+   // console.log(".........................................", this.sortByMostRecent(1));
+
+    if(arrayCourses.length >3  && this.state.flagCourses===true && this.state.flagAlphabetic==true){
+      let arratosearch=this.state.myFilterSeliCourses;
+      arratosearch.sort((a, b) =>(a.title>b.title)? 1: -1 ); 
+      this.state.myFilterThreeSeli=arratosearch
     } 
-    else if(arrayCourses.length >3 && this.state.flagCourses===false){
+    else if(arrayCourses.length >3  && this.state.flagCourses===false && this.state.flagAlphabetic==true){
+      let arratosearch=this.state.myFilterSeliCourses;
+      arratosearch.sort((a, b) =>(a.title>b.title)? 1: -1 ); 
+      this.state.myFilterThreeSeli=[arratosearch[0],arratosearch[1],arratosearch[2]]
+      
+    }else if(arrayCourses.length >3 && this.state.flagCourses===false){
       this.state.myFilterThreeSeli=[arrayCourses[0],arrayCourses[1],arrayCourses[2]]
-    }else{
+    }else if(arrayCourses.length >3 && this.state.flagCourses===true && this.state.flagMostRecent==true ){
+      let arratosearch=this.state.myFilterSeliCourses;
+      arratosearch.sort(function (a, b) {
+        return new Date(b.creationDate) - new Date(a.creationDate);
+      });
+      this.state.myFilterThreeSeli=arratosearch
+    } else{
       this.state.myFilterThreeSeli=arrayCourses
     }
+
+    if(arrayCourses.length>3 && this.state.flagCourses===false && this.state.flagMostRecent==true){
+      let arratosearch=this.state.myFilterSeliCourses;
+      arratosearch.sort(function (a, b) {
+        return new Date(b.creationDate) - new Date(a.creationDate);
+      });
+      this.state.myFilterThreeSeli=[arratosearch[0],arratosearch[1],arratosearch[2]]
+    }
+    
+
       return(
         <Paper component="article" elevation={0}>
           <header className='headersearch'>
-            <h2>{title}</h2>
+            <h2 tabIndex='0'>{title}</h2>
           </header>
-          <div className='subheader'>{this.props.language.Showing} {this.state.myFilterThreeSeli.length} {this.props.language.of}  {arrayCourses.length} {this.props.language.subscribedtoyoursearch} </div>
+          <div className='subheader' tabIndex='0'>{this.props.language.Showing} {this.state.myFilterThreeSeli.length} {this.props.language.of}  {arrayCourses.length} {this.props.language.subscribedtoyoursearch} </div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
               {
@@ -288,12 +314,12 @@ export default class CoursesDashboard extends React.Component {
   paperSupportNews=(title)=>{
     return(
       <Paper component="article" elevation={0}>
-        <header className='subheader'>
+        <header tabIndex='0' className='subheader'>
           <h2>{title}</h2>
         </header>
         <CardContent className='headersearch'>
           <Typography
-            variant="body2" color="textSecondary" component="div">
+            variant="body2" tabIndex='0' color="textSecondary" component="div">
             {this.props.language.Theresearchresults}
           </Typography>
         </CardContent>
@@ -1078,7 +1104,7 @@ export default class CoursesDashboard extends React.Component {
                 undefined
               }
             </React.Fragment>
-
+            
             <React.Fragment>  
               {//for  OnlineCourses
                 this.state.onsearchflag===true?

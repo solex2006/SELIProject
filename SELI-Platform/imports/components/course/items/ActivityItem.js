@@ -53,6 +53,7 @@ export default class ActivityItem extends React.Component {
   }
 
   componentDidMount(){
+    document.title=this.props.language.myStories;
     let dialogText;
     if (this.props.item.attributes.type === 'upload') {
       dialogText = this.props.language.toActivityUpload;

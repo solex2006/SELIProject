@@ -35,6 +35,7 @@ export default class CourseInformation extends React.Component {
   }
 
   componentDidMount(){
+    document.title=this.props.language.CourseInformation;
     if( this.state.courseInformation.title!='' && this.state.courseInformation.description!='' 
         && this.state.courseInformation.keyWords.length > 2 && this.state.courseInformation.image!=undefined 
         && (this.state.courseInformation.language===0 

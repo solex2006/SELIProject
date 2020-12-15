@@ -188,7 +188,8 @@ const a11yCOLOR = [
 export default function ReportStep(props) {
 
 	useEffect(()=>{// 
-		 props.validate('PassReport')    
+		 props.validate('PassReport') 
+		 document.title =props.language.reportstep;  
 	})
    //console.clear()
 	const classes = useStyles();
