@@ -1573,9 +1573,10 @@ var ENGLISH = {
   },
   Evaluation2:"Evaluation",
   speedDialNavigation: "Use the left and right arrow keys to navigate into the item options",
+  infoSeizureRisk: "You are going to open the fullwidth preview.",
+  checkSeizureRisk: "Yes, I am aware of the risk.",
+  acceptSeizureRisk: "Check the box if you are agree about the warning.",
 }
-
-
 export default ENGLISH;
 
 //When adding new labels, please use double quotation marks.

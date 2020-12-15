@@ -102,8 +102,10 @@ const useStyles = makeStyles(theme => ({
 export default function AnalysisStep(props) {
   const {courseInformation,language } = props;
   useEffect(()=>{
-   // console.log("courseInformationAnalysisStep y Accesibility", courseInformation,courseInformation.accessibility )
+    console.log("courseInformationAnalysisStep y Accesibility", courseInformation,courseInformation.accessibility )
     //updatemodalityradiobutton
+    console.log("las cosntarint******************************************************",courseInformation.analysis[0]);
+    setConstraints(courseInformation.analysis[0]===undefined?[]:courseInformation.analysis[0]);
     setmodality(courseInformation.analysis[1]);
     //updatetextEditor
     setpedagogical(courseInformation.analysis[2]);
@@ -143,7 +145,7 @@ export default function AnalysisStep(props) {
   },[])
   useEffect(()=>{// 
     document.title=props.language.AnalysisPhaseTitle;
-    //console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,analysisTooltip)
+    console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,analysisTooltip)
         if(pedagogical!=undefined  &&
            analysisTooltip.learningobjectives===false  && analysisTooltip.outcomes===false &&  analysisTooltip.pedagogical===false ){
             props.validate('passCourseAnalysis')
@@ -785,7 +787,7 @@ export default function AnalysisStep(props) {
           } 
          });
       }
-      if(type==='LOutcomes'){
+      if(type==='LOutcomes'){ 
         Object.entries(outcomes).forEach(([key, value]) => {      
           if(value.length>10){
               console.log("se estan colocando massss de 10 outcomes"); // "a 5", "b 7", "c 9"
@@ -1423,89 +1425,101 @@ export default function AnalysisStep(props) {
               
             </Grid>
           <Grid item xs={12}>
+          {  console.log("ddddddddddddddddddddd",constraints)}
             <form>
               <List component="ul" key={"li0"} id="li0">
-                {constraints.map((constraint, index) => (
-                  <ListItem
-                    button={!constraint.editing}
-                    component="li"
-                    key={"li" + index}
-                    className={classes.listItem}
-                  >
-                    <ListItemText
-                      key={"u2" + index + "listeItemTxt"}
-                      primary={constraint.label}
-                      className={constraint.editing ? classes.hidden : ""}
-                    />
-                    <div className={!constraint.editing ? classes.hidden : ""}>
-                        <TextField
-                          key={"u2" + index + "txtField"}
-                          className={!constraint.editing ? classes.hidden : ""}
-                          value={controlEdit.tempValue}
-                          onChange={event => updateTempValue(event.target.value, "LConstraint")}
-                          onKeyPress={keyController}
+                {
+                constraints!=undefined?
+                <div>
+                  {
+                    constraints.map((constraint, index) => (
+                      <ListItem
+                        button={!constraint.editing}
+                        component="li"
+                        key={"li" + index}
+                        className={classes.listItem}
+                      >
+                        <ListItemText
+                          key={"u2" + index + "listeItemTxt"}
+                          primary={constraint.label}
+                          className={constraint.editing ? classes.hidden : ""}
                         />
-                        <FeedbackHelp
-                          validation={{
-                            error: feedbackError,
-                            errorMsg: message,
-                            errorType: "required",
-                            a11y: null
-                          }}
-                          tipMsg={labels.completeObjective}
-                          describedBy={"i02-helper-text"}
-                        />
-                    </div>
+                        <div className={!constraint.editing ? classes.hidden : ""}>
+                            <TextField
+                              key={"u2" + index + "txtField"}
+                              className={!constraint.editing ? classes.hidden : ""}
+                              value={controlEdit.tempValue}
+                              onChange={event => updateTempValue(event.target.value, "LConstraint")}
+                              onKeyPress={keyController}
+                            />
+                            <FeedbackHelp
+                              validation={{
+                                error: feedbackError,
+                                errorMsg: message,
+                                errorType: "required",
+                                a11y: null
+                              }}
+                              tipMsg={labels.completeObjective}
+                              describedBy={"i02-helper-text"}
+                            />
+                        </div>
+  
+                        <ListItemSecondaryAction key={"u2" + index + "secAc"}>
+                          {constraint.editing ? (
+                            <React.Fragment>
+                              <IconButton
+                                key={"u2" + index + "btnEditSaveUnit"}
+                                edge="end"
+                                aria-label={"Save changes"}
+                                onClick={handleEditedRequisite(index)}
+                                className={classes.saveButton}
+                                disabled={(controlEdit.tempValue === "" || saveButton===true)}
+                              
+                              >
+                                <DoneIcon />
+                              </IconButton>
+                              <IconButton
+                                key={"u2" + index + "btnEditCancelUnit"}
+                                edge="end"
+                                aria-label={"Cancel changes"}
+                                onClick={handleCancelEditRequisite(index)}
+                                className={classes.deleteButton}
+                              >
+                                <ClearIcon />
+                              </IconButton>
+                            </React.Fragment>
+                          ) : (
+                            <React.Fragment>
+                              <IconButton
+                                key={"u2" + index + "btnEditUnit"}
+                                edge="end"
+                                aria-label={"Edit unit name"}
+                                onClick={handleEditRequisite(index)}
+                                disabled={controlEdit.editing}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                              <IconButton
+                                key={"u2" + index + "btnDeleteUnit"}
+                                edge="end"
+                                // aria-label={"Delete constraint " + constraint.label}
+                                onClick={handleDeleteRequisite(index)}
+                                className={classes.deleteButton}
+                              >
+                                <RemoveIcon />
+                              </IconButton>
+                            </React.Fragment>
+                          )}
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    ))
 
-                    <ListItemSecondaryAction key={"u2" + index + "secAc"}>
-                      {constraint.editing ? (
-                        <React.Fragment>
-                          <IconButton
-                            key={"u2" + index + "btnEditSaveUnit"}
-                            edge="end"
-                            aria-label={"Save changes"}
-                            onClick={handleEditedRequisite(index)}
-                            className={classes.saveButton}
-                            disabled={(controlEdit.tempValue === "" || saveButton===true)}
-                          
-                          >
-                            <DoneIcon />
-                          </IconButton>
-                          <IconButton
-                            key={"u2" + index + "btnEditCancelUnit"}
-                            edge="end"
-                            aria-label={"Cancel changes"}
-                            onClick={handleCancelEditRequisite(index)}
-                            className={classes.deleteButton}
-                          >
-                            <ClearIcon />
-                          </IconButton>
-                        </React.Fragment>
-                      ) : (
-                        <React.Fragment>
-                          <IconButton
-                            key={"u2" + index + "btnEditUnit"}
-                            edge="end"
-                            aria-label={"Edit unit name"}
-                            onClick={handleEditRequisite(index)}
-                            disabled={controlEdit.editing}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            key={"u2" + index + "btnDeleteUnit"}
-                            edge="end"
-                            // aria-label={"Delete constraint " + constraint.label}
-                            onClick={handleDeleteRequisite(index)}
-                            className={classes.deleteButton}
-                          >
-                            <RemoveIcon />
-                          </IconButton>
-                        </React.Fragment>
-                      )}
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))}
+                  }
+                </div>
+                  
+                :
+                undefined
+                }
                 <ListItem
                   key="addrequisite"
                   button

@@ -274,9 +274,9 @@ export default class CoursesDashboard extends React.Component {
       return(
         <Paper component="article" elevation={0}>
           <header className='headersearch'>
-            <h2>{title}</h2>
+            <h2 tabIndex='0'>{title}</h2>
           </header>
-          <div className='subheader'>{this.props.language.Showing} {this.state.myFilterThreeSeli.length} {this.props.language.of}  {arrayCourses.length} {this.props.language.subscribedtoyoursearch} </div>
+          <div className='subheader' tabIndex='0'>{this.props.language.Showing} {this.state.myFilterThreeSeli.length} {this.props.language.of}  {arrayCourses.length} {this.props.language.subscribedtoyoursearch} </div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
               {
@@ -314,12 +314,12 @@ export default class CoursesDashboard extends React.Component {
   paperSupportNews=(title)=>{
     return(
       <Paper component="article" elevation={0}>
-        <header className='subheader'>
+        <header tabIndex='0' className='subheader'>
           <h2>{title}</h2>
         </header>
         <CardContent className='headersearch'>
           <Typography
-            variant="body2" color="textSecondary" component="div">
+            variant="body2" tabIndex='0' color="textSecondary" component="div">
             {this.props.language.Theresearchresults}
           </Typography>
         </CardContent>

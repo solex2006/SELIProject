@@ -30,7 +30,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CloseIcon from '@material-ui/icons/Close';
-import InfoIcon from '@material-ui/icons/Info';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import FeedbackHelp from "../course/feedback";
 
 const HIDE_TIME = 5000;
 
@@ -51,7 +53,9 @@ export default class MediaPlayer extends React.Component {
       hasA11y: false,
       isA11y: true,
       disableCaptions: true,
-      confirmOpen: false
+      confirmOpen: false,
+      acceptOpen: false,
+      errorOpen: false,
     }
   }
 
@@ -338,16 +342,21 @@ export default class MediaPlayer extends React.Component {
   }
 
   continueOpen = () => {
-    this.setState({
-      confirmOpen: true,
-    }, () => {
-      document.getElementById("dialog-media-player-title").focus();
-    })
+    if (this.state.acceptOpen === false)
+      this.setState({errorOpen: true})
+    else
+      this.setState({
+        confirmOpen: true,
+      }, () => {
+        document.getElementById("dialog-media-player-title").focus();
+      })
   }
 
   handleClose = () => {
     this.setState({
       confirmOpen: false,
+      acceptOpen: false,
+      errorOpen: false,
     })
     this.props.handleCloseMedia();
   }
@@ -355,6 +364,21 @@ export default class MediaPlayer extends React.Component {
   onEnter = () => {
     if (this.state.media.type === 'image')
     document.getElementById("dialog-media-player-title").focus();
+  }
+
+  handleChangeConfirmation = () => {
+    this.setState({
+      acceptOpen: !this.state.acceptOpen
+    }, () => {
+      if (this.state.acceptOpen === true)
+      this.setState({errorOpen: false});
+    })
+  }
+
+  handleChangeConfirmationKey = (event) => {
+    if (event.which == 13 || event.keyCode == 13) {
+      this.handleChangeConfirmation();
+    }
   }
 
   render() {
@@ -366,6 +390,7 @@ export default class MediaPlayer extends React.Component {
           fullScreen={this.state.media.type === 'video' && this.state.confirmOpen === false ? false : true}
           role="dialog"
           aria-modal="true"
+          aria-labelledby="course-dialog-title"
           aria-describedby="exit-player-tooltip"
           disableBackdropClick={true}
           className="media-dialog"
@@ -378,10 +403,31 @@ export default class MediaPlayer extends React.Component {
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="course-dialog-title">{this.props.language.openMedia}</DialogTitle>
                 <DialogContent className="success-dialog-content">
-                  <DialogContentText className="success-dialog-content-text" id="exit-player-tooltip">
-                    {this.props.language.wantProceed}
+                  <DialogContentText className="success-dialog-content-text" id="seizure-player-tooltip">
+                    <FeedbackHelp
+                      language={this.props.language}
+                      validation={{
+                        error: this.state.errorOpen,
+                        errorMsg: this.props.language.acceptSeizureRisk,
+                        errorType: "a11y",
+                      // a11y: { valid: !audienceTooltip.audienceError }
+                      }}
+                      tipMsg={this.props.language.infoSeizureRisk}     
+                    />
                   </DialogContentText>
-                  <InfoIcon className="warning-dialog-icon"/>   
+                  <FormControlLabel
+                    aria-label={`${this.props.language.infoSeizureRisk} ${this.props.language.checkSeizureRisk}`}
+                    control={
+                      <Checkbox
+                        checked={this.state.acceptOpen}
+                        onChange={() => this.handleChangeConfirmation()}
+                        onKeyPress={(event) => this.handleChangeConfirmationKey(event)}
+                        value="autoPlay"
+                        color="primary"
+                      />
+                    }
+                    label={this.props.language.checkSeizureRisk}
+                  />
                 </DialogContent>
                 <DialogActions>
                   <Button aria-label={this.props.language.cancel} onClick={() => this.handleClose()} color="primary">

@@ -82,9 +82,18 @@ export default function FeedbackHelp(props) {
           </div>
         )}
         {validation.error && (
-          <div role="alert" className={classes.error}>
+          <div 
+            role="alert" 
+            aria-modal="true"
+            aria-labelledby="error-a11y-msg" 
+            aria-describedby="error-a11y-msg-content" 
+            className={classes.error}
+          >
             <div className="feedback-container">
-              <WarningIcon aria-label="Error" /> {validation.errorMsg}
+              <WarningIcon id="error-a11y-msg" aria-label="Error" /> 
+              <div id="error-a11y-msg-content">
+                {validation.errorMsg}
+              </div>
             </div>
           </div>
         )}

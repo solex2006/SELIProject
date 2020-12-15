@@ -250,6 +250,10 @@ export default class VideoForm extends React.Component {
     attributes.source = value;
     this.setState({
       attributes: attributes,
+      url: "",
+      isValid: true,
+      isA11y: true,
+      acceptA11y: false,
     });
   }
 
