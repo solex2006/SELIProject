@@ -39,6 +39,7 @@ export default class BadgeVerification extends React.Component {
   }
 
   componentDidMount() {
+    document.title=this.state.language.verificateBadge
     Session.set({
       language: Session.get("language") ? Session.get("language") : english,
     });

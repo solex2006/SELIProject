@@ -8,12 +8,12 @@ export default class VideoPreview extends React.Component {
       autoplay: false,
       captions: '',
       loaded: false,
-      playing: false,
+      isA11y: true
     }
   }
 
   componentDidMount(){
-    document.getElementById("video-preview-information").addEventListener('webkitfullscreenchange', this.onFullScreen)
+    document.getElementById("video_" + this.props.id).addEventListener('webkitfullscreenchange', this.onFullScreen)
   }
 
   loadingConfig = () => {
@@ -29,9 +29,9 @@ export default class VideoPreview extends React.Component {
           )
         })
         configFile.file.tracks[0].default = true;
-      }
+      }    
     }
-    let key = configFile.file.tracks.length;
+    let key = `${this.props.file ? this.props.file.link : "link"}-${configFile.file.tracks.length}`;
     return {configFile, key};
   }
 
@@ -39,51 +39,66 @@ export default class VideoPreview extends React.Component {
     var isFullscreenNow = document.webkitFullscreenElement !== null
     if (isFullscreenNow) {
       this.pause();
-      this.props.openMediaChild();
+      this.props.handleOpenMedia(0);
     }
   }
   
   ready = () => {
-    this.setState({loaded: true})
+    this.setState({loaded: true});
+  }
+
+  readySign = () => {
+    this.refs.videoSign.volume = 0;
   }
 
   play = () => {
-    if (this.state.loaded && this.props.dataField && this.props.dataField.signLanguage==="no" && this.props.dataField.fileVideoSignal[0]!=null) 
-    this.setState({playing: true})
+    if (this.state.loaded && this.validateA11ySign()) 
+    this.refs.videoSign.play();
   }
 
   pause = () => {
-    if (this.state.loaded && this.props.dataField && this.props.dataField.signLanguage==="no" && this.props.dataField.fileVideoSignal[0]!=null) 
-    this.setState({playing: false})
+    if (this.state.loaded && this.validateA11ySign()) 
+    this.refs.videoSign.pause();
   }
 
   seek = () => {
-    if (this.state.loaded && this.props.dataField && this.props.dataField.signLanguage==="no" && this.props.dataField.fileVideoSignal[0]!=null){
-      var videoTime = this.refs.video.getCurrentTime();
-      var videoSignTime = this.refs.videoSign.getDuration();
+    if (this.state.loaded && this.validateA11ySign()){
+      var videoTime = this.state.isA11y ? this.refs.video.currentTime : this.refs.video.getCurrentTime();
+      var videoSignTime = this.refs.videoSign.duration;
       if (videoTime > videoSignTime) {
-        this.refs.videoSign.seekTo(videoSignTime, 'seconds');
+        this.refs.videoSign.currentTime = videoSignTime;
       } else {
-        this.refs.videoSign.seekTo(videoTime, 'seconds');
+        this.refs.videoSign.currentTime = videoTime;
       }
     }
+  }
+
+  onErrorVideo = (event) => {
+    this.setState({
+      isA11y: false,
+    })
+  }
+
+  validateA11ySign = () => {
+    if (this.props.dataField && this.props.dataField.signLanguage==="no" && this.props.dataField.fileVideoSignal[0]!=null) 
+      return true;
+    else 
+      return false;
   }
 
   signVideo = () => {
     return(
       <React.Fragment>
         {
-          this.props.dataField && this.props.dataField.signLanguage==="no" && this.props.dataField.fileVideoSignal[0]!=null?
-            <ReactPlayer
-              ref="videoSign"
-              className="videosignal"
-              id="video-sign-language"
-              playing={this.state.playing}
-              url={this.props.dataField.fileVideoSignal[0].link}
-              volume={0}
-            />
-          :
-            undefined   
+          this.validateA11ySign() &&
+          <video
+            ref="videoSign"
+            className="videosignal"
+            id="video-sign-language"
+            preload="auto"
+            src={this.props.dataField.fileVideoSignal[0].link}
+            onLoadedData={this.readySign}
+          /> 
         }
       </React.Fragment>
     )
@@ -93,20 +108,47 @@ export default class VideoPreview extends React.Component {
     const initConfiguration = this.loadingConfig();
     return(
       <React.Fragment>
-        <ReactPlayer
-          ref="video"
-          id="video-preview-information"
-          className="course-creator-preview-player"
-          controls
-          key={initConfiguration.key}
-          playing={this.state.playing}
-          url={this.props.file.link}
-          onReady={this.ready}
-          onPlay={this.play}
-          onPause={this.pause}
-          onSeek={this.seek}
-          config={initConfiguration.configFile}
-        />
+        {
+          this.state.isA11y ?
+            <video
+              ref="video"
+              key={initConfiguration.key}
+              id={"video_" + this.props.id}
+              className="course-creator-preview-player"
+              autoPlay={false}
+              aria-labelledby={"video_" + this.props.id + "_shortDescr"}
+              aria-describedby={"video_" + this.props.id + "_longDescr"}
+              onLoadedData={this.ready}
+              onPlay={this.play}
+              onPause={this.pause}
+              onSeeked={this.seek}
+              onError={() => this.onErrorVideo(event)}
+              controls
+            >
+              <source src={this.props.file.link} />
+              {
+                initConfiguration.configFile.file.tracks.length &&
+                <track kind="subtitles" src={initConfiguration.configFile.file.tracks[0].src} default/>
+              }
+            </video>
+          :
+            <ReactPlayer
+              ref="video"
+              id={"video_" + this.props.id}
+              className="course-creator-preview-player"
+              autoPlay={false}
+              aria-labelledby={"video_" + this.props.id + "_shortDescr"}
+              aria-describedby={"video_" + this.props.id + "_longDescr"}
+              controls
+              key={initConfiguration.key}
+              url={this.props.file.link}
+              onReady={this.ready}
+              onPlay={this.play}
+              onPause={this.pause}
+              onSeek={this.seek}
+              config={initConfiguration.configFile}
+            />
+        }
         {this.signVideo()}
       </React.Fragment>
       );

@@ -69,7 +69,7 @@ function InstructorProfileCard(user) {
 				<InstructorProfile />
 			</CardContent>
 			<CardActions>
-				<Button variant="contained" >Published courses</Button>
+				<Button variant="contained" >{language.publishedCourses}</Button>
 			</CardActions>
 		</Card>
 	);
@@ -77,7 +77,7 @@ function InstructorProfileCard(user) {
 
 function InstructorProfileDialog({ handleClose, open, user, language, goToUser }) {
 	const classes = useStyles();
-	
+	console.log("*************bug***********",language)
 	const [opendialog, setOpendialog] = useState(false);
 	
  	const handleClosedialog = value => {
@@ -96,13 +96,14 @@ function InstructorProfileDialog({ handleClose, open, user, language, goToUser }
 		>
 			<DialogContent>
 				<InstructorProfile 
+				language={language}
 				user={user}
 				/>
 			</DialogContent>
 
 			<DialogActions>
-				<Button color="primary" onClick={handleClose}>Close</Button>
-				<Button variant="outlined" color="primary" onClick={() => setOpendialog(true)}>Published courses</Button>
+				<Button color="primary" onClick={handleClose}>{language.close}</Button>
+	<Button variant="outlined" color="primary" onClick={() => setOpendialog(true)}>{language.publishedCourses}</Button>
 			</DialogActions>
 			<DialogFullWidth
 					open={opendialog}
@@ -139,7 +140,7 @@ function InstructorProfileAvatar({
 		setOpen(false);
 	};
 
-	//console.log("InstructorProfileAvatarcoursedata---------------------",tutordata)
+	console.log("paso 5 InstructorProfileAvatarcoursedata---------------------",language)
 	return (
 		<React.Fragment>
 			{disabledDialog ? (
@@ -173,8 +174,8 @@ function InstructorProfileAvatar({
 	);
 }
 
-export default function InstructorProfile({ user }) {
-	console.log('user-------------------->',user)
+export default function InstructorProfile({ user, language }) {
+	//console.log('user-------------------->',user)
 	const classes = useStyles();
 	return (
 		<React.Fragment>
@@ -203,7 +204,7 @@ export default function InstructorProfile({ user }) {
 						</Grid>
 						<Grid item>
 							<p className={classes.prof} color="textSecondary">
-								Professional title
+								{language.ProfessionalTitle}
 							</p>
 						</Grid>
 						<Grid item>

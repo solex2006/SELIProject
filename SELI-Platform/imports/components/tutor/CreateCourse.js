@@ -91,7 +91,8 @@ export default class CreateCourse extends React.Component {
       updateSteps:'',
       reset: "",
       activeStep:'',
-      cancelCounter: 0
+      cancelCounter: 0,
+      flagPublish:false
     }
   }
 
@@ -142,8 +143,6 @@ export default class CreateCourse extends React.Component {
       this.loadingHeaders();
       this.loadingData();
     }
-    
-    
   }
 
   loadingHeaders = () => {
@@ -166,6 +165,10 @@ export default class CreateCourse extends React.Component {
       courseInformation: newValue,
       cancelCounter: this.state.cancelCounter + 1
     });
+  }
+
+  updateSelected = (newValue) => {
+    this.setState({selected: newValue})
   }
 
   validate=(data=>{
@@ -232,6 +235,7 @@ export default class CreateCourse extends React.Component {
           template={this.state.courseInformation.coursePlan.courseTemplate}
           organization={this.state.courseInformation.coursePlan.courseStructure}
           cancelCounter={this.state.cancelCounter}
+          updateSelected={this.updateSelected.bind(this)}
           language={this.props.language}
         />,
         <CourseProgram
@@ -265,39 +269,39 @@ export default class CreateCourse extends React.Component {
     this.updateCourseInformation({...this.state.databaseCourse});
   }
 
-  handleBack=(props)=>{
-    console.log("en el handle back",props.topic)
-    if(props.topic.type==='topic'){
+  handleBack=(props, index)=>{
+    let tipo=props[0].topics[0].type
+    if(index.type==='topic'){
       this.setState({
         activeStep:Math.random(),
-        selected:[props.topic.indice,0,0,0]
+        selected:[index.indice,0,0,0]
       })
     }
-    if(props.topic.type==='template'){
-      if(props.topic.actividad!=undefined){
+    if(index.type==='template'){
+      if(index.actividad!=undefined){
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,0,props.topic.actividad!=undefined?props.topic.actividad:0,2]
+          selected:[index.unidad,0,index.actividad!=undefined?index.actividad:0,2]
         })
       }else{
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,0,0,0]
+          selected:[index.unidad,0,0,0]
         })
       }
       
     }
-    if(props.topic.type==='unit'){
-      if(props.topic.lesson!=undefined){
+    if(index.type==='unid'){
+      if(index.lesson!=undefined){
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,props.topic.lesson!=undefined?props.topic.lesson:0,0,1]
+          selected:[index.unidad!=undefined?index.unidad:0,index.lesson!=undefined?index.lesson:0,0,1]
         })
       }
-      if(props.topic.lesson===undefined){
+      if(index.lesson===undefined){
         this.setState({
           activeStep:Math.random(),
-          selected:[props.topic.unidad,0,0,0]
+          selected:[index.unidad!=undefined?index.unidad:0,0,0,0]
         })
       }
       
@@ -406,8 +410,10 @@ export default class CreateCourse extends React.Component {
     }
   }
 
-  publishCourse() {
+  publishCourse(type) {
+    
     this.saveCourse();
+    console.log("pub**************", this.state.saved)
     if (this.state.saved) {
       Courses.update(
         { _id: this.state.saved },
@@ -418,9 +424,23 @@ export default class CreateCourse extends React.Component {
     } else {
       this.props.handleControlMessage(true, this.props.language.saveCourse);
     }
+    if(type==='flagPublish'){
+      this.props.disableDialog()
+      //this.props.showComponent('published')
+      
+      this.setState({
+        open:false,
+        //selected:[0, 0, 0, 1]
+      })
+      
+     
+      console.log("pub;ishhhhhhhhh**************", this.state)
+      
+    }
   }
 
   saveCourse() {
+    console.log("save Cpurse*****",this.validateSaveCourse())
     if (this.validateSaveCourse()) {
       let user = Meteor.user();
       let courseInformation = this.state.courseInformation;
@@ -582,6 +602,72 @@ export default class CreateCourse extends React.Component {
   }
 
   handleOpen = (action) => {
+    //go to generate the report
+     console.log("cambia de paso", this.state.courseInformation.report , this.state.courseInformation)
+     if(this.state.courseInformation.support[1]!=undefined){
+      //choose one element in audiencesStep
+          if(this.state.courseInformation.report[0]!=100 && this.state.courseInformation.support[1][0].isChecked===true ){
+            this.setState({
+              flagPublish:true,
+              messagePublish: this.props.language.cognitiveMessage
+            })
+          }else if(this.state.courseInformation.report[0]===100 && this.state.courseInformation.support[1][0].isChecked===true ){
+            this.setState({
+              flagPublish:false,
+            })
+          }
+          
+          if(this.state.courseInformation.report[2]!=100 && this.state.courseInformation.support[1][2].isChecked===true ){
+            this.setState({
+              flagPublish:true,
+              messagePublish: this.props.language.hearingMessage
+            })
+          }else if(this.state.courseInformation.report[2]===100 && this.state.courseInformation.support[1][2].isChecked===true ){
+            this.setState({
+              flagPublish:false,
+            })
+          }
+          if(this.state.courseInformation.report[3]!=100 && this.state.courseInformation.support[1][3].isChecked===true ){
+            this.setState({
+              flagPublish:true,
+              messagePublish: this.props.language.visualMessage
+            })
+          }else if(this.state.courseInformation.report[3]===100 && this.state.courseInformation.support[1][3].isChecked===true ){
+            this.setState({
+              flagPublish:false,
+            })
+          }
+          if((this.state.courseInformation.report[0]!=100 || this.state.courseInformation.report[1]!=100 || this.state.courseInformation.report[2]!=100 ||
+              this.state.courseInformation.report[3]!=100) && this.state.courseInformation.support[1][1].isChecked===true ){
+            this.setState({
+              flagPublish:true,
+              messagePublish: this.props.language.elderlyMessage
+            })
+          }else if((this.state.courseInformation.report[0]===100 || this.state.courseInformation.report[1]===100 || this.state.courseInformation.report[2]===100 ||
+            this.state.courseInformation.report[3]===100) && this.state.courseInformation.support[1][1].isChecked===true ){
+          this.setState({
+            flagPublish:false,
+            //messagePublish: this.props.language.elderlyMessage
+          })
+        }
+        if((this.state.courseInformation.support[1][0].isChecked===false && this.state.courseInformation.support[1][1].isChecked===false &&
+          this.state.courseInformation.support[1][2].isChecked===false && this.state.courseInformation.support[1][3].isChecked===false)){
+        this.setState({
+          flagPublish:false,
+        })
+      }
+
+     }
+
+   /* if(this.state.courseInformation.stepscompleted.includes(0) && this.state.courseInformation.stepscompleted.includes(1) && 
+      this.state.courseInformation.stepscompleted.includes(5) ){
+        this.state.activeStep=7;
+        this.setState({
+          activeStep:7
+        })
+        console.log("--------------",this.state)
+    } */
+
     this.setState({
       open: true,
       action,
@@ -599,6 +685,11 @@ export default class CreateCourse extends React.Component {
 
   handleClose = (type) => {
      // this.state.action='publish';
+      /* if(type==='flagPublish'){
+        this.state.flagPublish=false
+        this.setState({flagPublish:false})
+      } */
+
      if(type==='alert'){
       this.state.nopublish=true;
       this.state.open=false;
@@ -795,14 +886,11 @@ export default class CreateCourse extends React.Component {
                         </DialogTitle>
                         <DialogContent className="success-dialog-content">
                           <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                            {this.state.action === "preview" ? this.props.language.ifYouWantCP : this.props.language.ifYouWantPC}
+                            {this.state.action === "preview" ? this.props.language.ifYouWantCP : this.state.flagPublish===true? this.state.messagePublish:  this.props.language.ifYouWantPC}
                           </DialogContentText>
                           <InfoIcon className="warning-dialog-icon"/>
                         </DialogContent>
-                        <DialogActions>
-                          <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-                          {this.props.language.cancel}
-                          </Button>
+                        <DialogActions> 
                           {
                             this.state.action === "preview" ?
                               <Link className="button-link"
@@ -819,9 +907,19 @@ export default class CreateCourse extends React.Component {
                                 </Button>
                               </Link>
                             :
-                              <Button onClick={() => this.publishCourse()} color="primary" autoFocus>
-                                {this.props.language.ok}
+                            this.state.flagPublish===true?
+                              <Button onClick={() => this.handleClose('flagPublish')} color="primary" autoFocus>
+                                {this.props.language.ok} 
                               </Button>
+                              :
+                              <div>
+                                <Button onClick={() => this.handleClose('flagPublish')} color="primary" autoFocus>
+                                    {this.props.language.cancel} 
+                                </Button>
+                                <Button onClick={() => this.publishCourse('flagPublish')} color="primary" autoFocus>
+                                  {this.props.language.ok}
+                              </Button>
+                              </div>
                           }
                         </DialogActions>
                       </React.Fragment>

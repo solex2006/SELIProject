@@ -24,10 +24,17 @@ export default class ContentItem extends React.Component {
 
     }
   }
+  componentDidMount(){
+    let audioBoton=document.getElementById("foco");
+    audioBoton.focus()
+    //let titulo=document.getElementById("course-title");
+    //titulo.focus()
+  }
 
   render() {
     return(
-      <div className="content-item">
+      <div className="content-item" id="foco" aria-labelledby="acc1id" >
+        
         {
           this.props.item.attributes !== undefined ?
             <React.Fragment>
@@ -35,6 +42,7 @@ export default class ContentItem extends React.Component {
                 {
                   this.props.item.type === 'text' ?
                     <TextItem
+
                       item={this.props.item}
                       language={this.props.language}
                     />
@@ -46,7 +54,6 @@ export default class ContentItem extends React.Component {
                     <ImageItem
                       item={this.props.item}
                       language={this.props.language}
-                      openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
                       fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}
                       fromTemplate={this.props.fromTemplate ? this.props.fromTemplate: undefined}
                     />
@@ -58,7 +65,6 @@ export default class ContentItem extends React.Component {
                     <VideoItem
                       item={this.props.item}
                       language={this.props.language}
-                      openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
                       fromProgram={this.props.fromProgram ? this.props.fromProgram : undefined}
                       fromTemplate={this.props.fromTemplate ? this.props.fromTemplate: undefined}
                     />

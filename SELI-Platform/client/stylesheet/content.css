@@ -195,6 +195,10 @@
   cursor: grabbing;
 }
 
+.drag-class-items {
+  cursor: grabbing;
+}
+
 .drop-class {
   transition: 0.5s;
 }

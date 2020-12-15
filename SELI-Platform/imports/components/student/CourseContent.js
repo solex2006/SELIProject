@@ -4,7 +4,7 @@ import TemplateParent from '../course/templates/TemplateParent';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Typography from '@material-ui/core/Typography';
+//import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -15,17 +15,98 @@ export default class CourseContent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      navigationContent: [],
+      currentId: ""
     }
   }
 
   componentDidMount() {
     document.getElementById("courseContainer").scroll(0,0);
+    var focused = document.activeElement;
+    focused.blur();
+
+    this.setNavigation();
+
+  }
+
+  setNavigation = () => {
+    let navigationContent = [];
+    this.props.course.program.map((unitTopic, index) => {
+      navigationContent.push(`unitTopic-${index}`);
+      if (this.props.course.coursePlan.courseStructure === "unit") {
+        unitTopic.lessons.map((lesson) => {
+          navigationContent.push(lesson._id);
+          if (this.props.course.coursePlan.guidedCoursePlan === "guided")
+          lesson.activities.map((activity) => {
+            navigationContent.push(activity._id);
+          })
+        })
+      } else {
+        if (this.props.course.coursePlan.guidedCoursePlan === "guided")
+        unitTopic.activities.map((activity) => {
+          navigationContent.push(activity._id);
+        })
+      }
+    })
+    this.setState({
+      navigationContent,
+      currentId: navigationContent[0]
+    })
+  }
+
+  searchSelected = (action) => {
+    let futureId = "";
+    let index = this.state.navigationContent.indexOf(this.state.currentId);
+    if (action === "next") {
+      if (index < this.state.navigationContent.length - 1) {
+        futureId = this.state.navigationContent[index + 1];
+        this.finishDefineSelected(futureId);
+      }
+    } else {
+      if (index > 0) {
+        futureId = this.state.navigationContent[index - 1];
+        this.finishDefineSelected(futureId);
+      }
+    }
+  }
+
+  finishDefineSelected = (futureId) => {
+    this.setState({
+      currentId: futureId
+    }, () => {
+      let selected = this.defineSelected();
+      this.props.navigateTo(selected);
+    })
+  }
+
+  defineSelected = () => {
+    let selected = this.props.selected;
+    this.props.course.program.map((unitTopic, index) => {
+      if (this.state.currentId === `unitTopic-${index}`)
+      return selected = [index, 0, 0, 0];
+      if (this.props.course.coursePlan.courseStructure === "unit") {
+        unitTopic.lessons.map((lesson, lessonIndex) => {
+          if (this.state.currentId === lesson._id)
+          return selected = [index, lessonIndex, 0, 1];
+          if (this.props.course.coursePlan.guidedCoursePlan === "guided")
+          lesson.activities.map((activity, activityIndex) => {
+            if (this.state.currentId === activity._id)
+            return selected = [index, lessonIndex, activityIndex, 2];
+          })
+        })
+      } else {
+        if (this.props.course.coursePlan.guidedCoursePlan === "guided")
+        unitTopic.activities.map((activity, activityIndex) => {
+          if (this.state.currentId === activity._id)
+            return selected = [index, 0, activityIndex, 2];
+        })
+      }
+    })
+    return selected;
   }
 
   loadingData = () => {
-    let arrayOfItems, arrayOfDesignItems, tools, toComplete, topicLessonLabel, taskLength, 
-        previousTaskLength, unitTopicLength, lessonLength, previousLessonLength;
+    let arrayOfItems, arrayOfDesignItems, tools, toComplete, topicLessonLabel;
     if (this.props.course.program.length) {
       if (this.props.selected[3] === 0) {
         arrayOfItems = this.props.course.program[this.props.selected[0]].items;
@@ -53,24 +134,15 @@ export default class CourseContent extends React.Component {
           tools = this.props.course.design[this.props.selected[0]].tools;
         }
       }
-      unitTopicLength = this.props.course.program.length;
-      lessonLength = this.props.course.program[this.props.selected[0]].lessons.length;
-      taskLength = this.props.course.program[this.props.selected[0]].activities.length;
-      if (this.props.selected[0] > 0) {
-        previousLessonLength = this.props.course.program[this.props.selected[0] - 1].lessons.length;
-        previousTaskLength = this.props.course.program[this.props.selected[0] - 1].activities.length;
-      }
       return {
-        arrayOfItems, arrayOfDesignItems, tools, toComplete, topicLessonLabel, taskLength,
-        unitTopicLength, lessonLength, previousLessonLength, previousTaskLength
+        arrayOfItems, arrayOfDesignItems, tools, toComplete, topicLessonLabel
       }
     }
   }
 
   loadingPage = () => {
     const {arrayOfItems, arrayOfDesignItems, tools,
-      toComplete, topicLessonLabel, taskLength, unitTopicLength, 
-      lessonLength, previousLessonLength, previousTaskLength} = this.loadingData();
+      toComplete, topicLessonLabel} = this.loadingData();
     return(
       <React.Fragment>
         {
@@ -83,7 +155,6 @@ export default class CourseContent extends React.Component {
                   courseId={this.props.course._id}
                   fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
                   handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
-                  openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
                   completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
                   language={this.props.language}
                 ></ContentItem>
@@ -99,7 +170,6 @@ export default class CourseContent extends React.Component {
               toResolve={this.props.toResolve}
               courseId={this.props.course._id}
               fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-              openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
               handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
               completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
               language={this.props.language}
@@ -114,7 +184,7 @@ export default class CourseContent extends React.Component {
                   //disabled={this.props.selected[0] === 0}
                   size="small"
                   className="course-content-footer-fab"
-                  onClick={() => this.props.handlePrevious(this.props.course.coursePlan.courseTemplate, this.props.course.coursePlan.courseStructure, previousTaskLength, unitTopicLength, previousLessonLength)}
+                  onClick={() => this.searchSelected("back")}
                 >
                   <NavigateBeforeIcon/>
                 </Fab>
@@ -124,7 +194,7 @@ export default class CourseContent extends React.Component {
                   //disabled={this.props.selected[0] === this.props.course.program.length - 1}
                   size="small"
                   className="course-content-footer-fab"
-                  onClick={() => this.props.handleNext(this.props.course.coursePlan.courseTemplate, this.props.course.coursePlan.courseStructure, taskLength, unitTopicLength, lessonLength)}
+                  onClick={() => this.searchSelected("next")}
                 >
                   <NavigateNextIcon/>
                 </Fab>
@@ -174,38 +244,37 @@ export default class CourseContent extends React.Component {
   render() {
     return(
       <div id="courseContainer" className="course-content-container">
+        {/* <div aria-label="In this section is the course content, use tab to navigate" autofocus id="botons" tabIndex="0"></div> */}
         { this.props.course.program.length &&
           <React.Fragment>
-            <div className="course-content-breadcrumbs-container">
-              {
-                this.props.fromTutor ? undefined :
-                  <Paper elevation={0} className="course-content-breadcrumbs-paper">
-                    <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                      <Typography onClick={() => this.props.showComponent("subscribed")} className="course-content-breadcrumb-text">
-                        {this.props.language.courses}
-                      </Typography>
-                      <Typography onClick={() => this.props.navigateTo([-1, -1, -1, -1])} id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
-                        {this.props.course.title}
-                      </Typography>
-                      <Typography onClick={() => this.props.navigateTo([this.props.selected[0], 0, 0, 0])} id="course-content-breadcrumb-unitTopic" className="course-content-breadcrumb-text">
-                        {`${this.props.course.coursePlan.courseStructure === "unit" ? 
-                        this.props.language.unit : this.props.language.topic
-                        } ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[0]].name}`}
-                      </Typography>
-                      {this.props.course.coursePlan.courseStructure === "unit" && this.props.selected[3] > 0 &&
-                        <Typography onClick={() => this.props.navigateTo([this.props.selected[0], this.props.selected[1], 0, 1])} id="course-content-breadcrumb-lesson" className="course-content-breadcrumb-text">
-                          {`${this.props.language.lesson} ${this.props.selected[1] + 1}: ${this.props.course.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}
-                        </Typography>}
-                      {this.props.course.coursePlan.courseStructure !== "without" && this.props.selected[3] > 1 &&
-                      <Typography id="course-content-breadcrumb-task" className="course-content-breadcrumb-text">
-                        { this.props.course.coursePlan.courseStructure === "unit" ? 
-                          `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.props.course.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}` :
-                          `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.props.course.program[this.props.selected[0]].activities[this.props.selected[2]].name}`}
-                      </Typography>}
-                    </Breadcrumbs>
-                  </Paper>
-              }
-            </div>
+            {
+              !this.props.fromTutor &&
+              <Paper elevation={0} className="course-content-breadcrumbs-paper">
+                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                  <Button autoFocus onClick={() => this.props.showComponent("subscribed")} className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
+                    {this.props.language.courses}
+                  </Button>
+                  <Button onClick={() => this.props.navigateTo([-1, -1, -1, -1])} id="course-content-breadcrumb-title" className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
+                    {this.props.course.title}
+                  </Button>
+                  <Button onClick={() => this.props.navigateTo([this.props.selected[0], 0, 0, 0])} id="course-content-breadcrumb-unitTopic" className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
+                    {`${this.props.course.coursePlan.courseStructure === "unit" ? 
+                    this.props.language.unit : this.props.language.topic
+                    } ${this.props.selected[0] + 1}: ${this.props.course.program[this.props.selected[0]].name}`}
+                  </Button>
+                  {this.props.course.coursePlan.courseStructure === "unit" && this.props.selected[3] > 0 &&
+                    <Button onClick={() => this.props.navigateTo([this.props.selected[0], this.props.selected[1], 0, 1])} id="course-content-breadcrumb-lesson" className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
+                      {`${this.props.language.lesson} ${this.props.selected[1] + 1}: ${this.props.course.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}
+                    </Button>}
+                  {this.props.course.coursePlan.courseStructure !== "without" && this.props.selected[3] > 1 &&
+                  <Button id="course-content-breadcrumb-task" className="course-content-breadcrumb-text" disabled={true} style={{textTransform: 'none'}}>
+                    { this.props.course.coursePlan.courseStructure === "unit" ? 
+                      `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.props.course.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}` :
+                      `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.props.course.program[this.props.selected[0]].activities[this.props.selected[2]].name}`}
+                  </Button>}
+                </Breadcrumbs>
+              </Paper>
+            }
             { this.loadingPage() }
           </React.Fragment>
         }

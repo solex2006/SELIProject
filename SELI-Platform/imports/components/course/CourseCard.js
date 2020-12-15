@@ -97,6 +97,11 @@ class CourseCard extends React.Component {
     this.getImageColors();
     this.getKeyWords();
     this.checkSubscriptions();
+
+    
+  }
+  componentDidUpdate(prevProps, prevState) {
+    this.state.subscribed=!this.state.subscribed
   }
 
   getKeyWords = () => {
@@ -207,43 +212,45 @@ class CourseCard extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
-      
-          <Card className="course-card">
-            <CardActionArea >
-              <CardHeader
-                avatar={
-                  <Avatar
-                    style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
-                    aria-label="recipe"
-                    className="course-card-avatar"
-                  >
-                    <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
-                  </Avatar>
-                }
-                className="course-card-header"
-                title={
-                  <h2 className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{this.props.course.title}</h2>
-                }
-                subheader={
-                  <h3 className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
-                }
-              /> 
-              <CardMedia
-                className={classes.media}
-                image={this.props.course.image.link}
-                title={this.state.label}
-              />
-              <CardContent >
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {this.props.course.description}
-                </Typography>
-                <Typography className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
-                  {`${this.props.language.author}: ${this.props.course.createdBy}`}
-                </Typography>
-              </CardContent>
-              <CardActions  disableSpacing>
-                <Link className="button-link MuiButtonBase-root MuiButton-root MuiButton-outlined course-card-button"
+      <React.Fragment>
+        <Card className="course-card">
+          <div >
+            <CardHeader
+              avatar={
+                <Avatar
+                  style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
+                  aria-label="avatar"
+                  className="course-card-avatar"
+                >
+                  <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
+                </Avatar>
+              }
+              className="course-card-header"
+              title={
+                <h2  tabindex="0" className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{this.props.course.title}</h2>
+              }
+              subheader={
+                <h3  tabindex="0" className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
+              }
+            /> 
+            <CardMedia
+              className={classes.media}
+              image={this.props.course.image.link}
+              title={this.state.label}
+            />
+            <CardContent >
+              <Typography  tabindex="0" variant="body2" color="textSecondary" component="p">
+                {this.props.course.description}
+              </Typography>
+              <Typography  tabindex="0" className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
+                {`${this.props.language.author}: ${this.props.course.createdBy}`}
+              </Typography>
+            </CardContent>
+            <CardActions  disableSpacing>
+             
+                <Link
+                  tabindex="0" 
+                  className="button-link  MuiButton-root MuiButton-outlined course-card-button" 
                   target="_blank"
                   to={{
                     pathname: "/coursePreview",
@@ -258,50 +265,56 @@ class CourseCard extends React.Component {
                 >
                   {this.props.language.coursePreview}
                 </Link>
-                {
-                  !this.state.subscribed ?
-                    <Tooltip title={this.props.language.subscribeJoin}>
-                      <IconButton
-                        disabled={this.props.disabled}
-                        onClick={() => this.props.subscribe(this.props.course._id)}
-                        className="course-card-icon-button"
-                        aria-label="join course"
-                      >
-                        <SchoolIcon className="course-card-icon"/>
-                      </IconButton>
-                    </Tooltip>
-                  :
-                  <Tooltip title={this.props.language.unsubscribeToolti}>
+       
+              
+              {
+                !this.state.subscribed ?
+                  <Tooltip title={this.props.language.subscribeJoin}>
                     <IconButton
-                      className="course-card-icon-button"
                       disabled={this.props.disabled}
-                      onClick={() => this.props.unsubscribe(this.props.course._id)}
-                      aria-label="left course"
+                      onClick={() => this.props.subscribe(this.props.course._id)}
+                      className="course-card-icon-button"
+                      aria-label="join course"
                     >
-                      <UnsubscribeIcon className="course-card-icon"/>
+                      <SchoolIcon className="course-card-icon"/>
                     </IconButton>
                   </Tooltip>
-                }
-                <Tooltip title={this.props.language.courseCommentsTooltip}>
+                :
+                <Tooltip title={this.props.language.unsubscribeToolti}>
                   <IconButton
                     className="course-card-icon-button"
-                    onClick={() => this.showComments()}
-                    aria-label="left course"
+                    disabled={this.props.disabled}
+                    onClick={() =>{
+                      console.log("99999999999999999999999999999999999999999999999999999999",this.state.subscribed )
+                     
+                     
+                      this.props.unsubscribe(this.props.course._id)}
+                    }
+                    aria-label="Unsubscribe (Leave course classroom)"
                   >
-                    <CommentIcon className="course-card-icon"/>
+                    <UnsubscribeIcon className="course-card-icon"/>
                   </IconButton>
                 </Tooltip>
-              </CardActions>
-            </CardActionArea>
-          </Card>
-        
+              }
+              <Tooltip title={this.props.language.courseCommentsTooltip}>
+                <IconButton
+                  className="course-card-icon-button"
+                  onClick={() => this.showComments()}
+                  aria-label="Course Comments"
+                >
+                  <CommentIcon className="course-card-icon"/>
+                </IconButton>
+              </Tooltip>
+            </CardActions>
+          </div>
+        </Card>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-confirmation"
           aria-describedby="alert-dialog-confirmation"
           className="comments-dialog"
-          disableBackdropClick={true}
+          //disableBackdropClick={true}
         >
           <DialogTitle className="comment-dialog-title">
             {this.props.language.comments}
@@ -342,7 +355,7 @@ class CourseCard extends React.Component {
             }
           </DialogContent>
         </Dialog>
-      </div>
+      </React.Fragment>
     );
   }
 }

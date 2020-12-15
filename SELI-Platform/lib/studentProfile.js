@@ -73,6 +73,27 @@ var OPTIONS = [
   },
   {
     label: [
+      "Learning analytics",
+      "Analíticas de aprendizaje",
+      "Análise de aprendizado",
+      "Nauka analityki",
+      "Analitiği öğrenme",
+    ],
+    suboptions: [
+      {
+        label: [
+          "My Dashboard",
+          "Mi tablero",
+          "Meu painel",
+          "Moja tablica",
+          "Gösterge Panelim",
+        ],
+        component: 'STUDENT_DASHBOARD_SITE_URL',
+      }
+    ],
+  },
+  {
+    label: [
       "Certificates",
       "Certificados",
       "Certificados",

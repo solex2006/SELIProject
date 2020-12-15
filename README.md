@@ -1,4 +1,6 @@
 # SELIProject
+SELI Learning Platform aims to support individuals and institutions that care about achieving inclusive education. The platform is an open-source application and contributing to the advance of science.
+
 SELI Project
 
 Web Platform for Learning and Inclusion 

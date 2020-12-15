@@ -26,8 +26,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import AppsIcon from '@material-ui/icons/Apps';
+//import Typography from '@material-ui/core/Typography';
 import DenseTable from './DenseTable';
 import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
@@ -42,8 +41,14 @@ import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
 import MoodBadIcon from '@material-ui/icons/MoodBad';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import { StudentEventLog } from '../../../lib/StudentEventCollection';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Certificates from './certificates'
+import Slide from '@material-ui/core/Slide';
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 export default class PublishedCoursesList extends React.Component {
   constructor(props) {
     super(props);
@@ -54,11 +59,17 @@ export default class PublishedCoursesList extends React.Component {
       studentScores: [],
       course: [],
       indexquiz:'',
-      valuesofScores:[]
+      valuesofScores:[],
+      flag:'',
+      hash:'',
+      count:0,
+      showCertificates:false,
+      open:false
     }
   }
-
+  //notify = () => toast(<div><a href={'https://201.159.223.92/vows/'+`${this.state.hash}`} target="_blank">The certificate was generated successfully, click to open:</a></div>);
   componentDidMount() {
+    document.title=this.props.language.myPublishedCourses;
     this.getMyCourses(this.props.user.username);
     
   }
@@ -227,7 +238,7 @@ export default class PublishedCoursesList extends React.Component {
   };
 
   handleView= (profile, event, studentScores, index)=>{
-    console.log("en el handle View",event, studentScores,"index-->:",index)
+    //console.log("en el handle View",event, studentScores,"index-->:",index)
     this.average(index)
     if (event === "course") {
       this.props.navigateTo([0, 0, 0, 0]);
@@ -305,7 +316,7 @@ export default class PublishedCoursesList extends React.Component {
       dupes[item.activity.activityId].push(index);
     });  
     let valuesofScores=[]
-    console.log("dupes", dupes)
+    //console.log("dupes", dupes)
     for(let name in dupes){
       //average
       let average=0;
@@ -353,7 +364,7 @@ export default class PublishedCoursesList extends React.Component {
       }
     })
 
-    console.log(this.state.course, "course...", this.state.studentScores, "indexquiz", this.state.indexquiz)
+    //console.log(this.state.course, "course...", this.state.studentScores, "indexquiz", this.state.indexquiz)
     return(
       <Paper elevation={8} className="quiz-dashboard-questions-containerTutor">
         <p className="question-dashboard-label-text">{this.props.language.QuizViewTool}</p>
@@ -469,42 +480,91 @@ export default class PublishedCoursesList extends React.Component {
       <Paper elevation={0} className="course-content-breadcrumbs-paper-quiz">
         <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
           { this.state.studentInformation !== "" ?
-              <Typography onClick={() => this.handleView({}, "")} className="course-content-breadcrumb-text">
+              <Button onClick={() => this.handleView({}, "")} className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
                 {this.state.course.title}
-              </Typography> : undefined }
+              </Button> : undefined }
           { this.state.studentInformation === "course" ?
-              <Typography id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text">
+              <Button id="course-content-breadcrumb-actual" className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
                 {this.state.student.studentInformation.fullname}
-              </Typography> : undefined }
+              </Button> : undefined }
           { this.state.studentInformation === "course" &&
-              <Typography onClick={() => this.props.navigateTo([this.props.selected[0], 0, 0, 0])} id="course-content-breadcrumb-unitTopic" className="course-content-breadcrumb-text">
+              <Button onClick={() => this.props.navigateTo([this.props.selected[0], 0, 0, 0])} id="course-content-breadcrumb-unitTopic" className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
                 {`${this.state.course.coursePlan.courseStructure === "unit" ? 
                 this.props.language.unit : this.props.language.topic
                 } ${this.props.selected[0] + 1}: ${this.state.course.program[this.props.selected[0]].name}`}
-              </Typography>}
+              </Button>}
           { this.state.studentInformation === "course" && this.state.course.coursePlan.courseStructure === "unit" && this.props.selected[3] > 0 &&
-              <Typography onClick={() => this.props.navigateTo([this.props.selected[0], this.props.selected[1], 0, 1])} id="course-content-breadcrumb-lesson" className="course-content-breadcrumb-text">
+              <Button onClick={() => this.props.navigateTo([this.props.selected[0], this.props.selected[1], 0, 1])} id="course-content-breadcrumb-lesson" className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
                 {`${this.props.language.lesson} ${this.props.selected[1] + 1}: ${this.state.course.program[this.props.selected[0]].lessons[this.props.selected[1]].name}`}
-              </Typography>}
+              </Button>}
           { this.state.studentInformation === "course" && this.state.course.coursePlan.courseStructure !== "without" && this.props.selected[3] > 1 &&
-              <Typography id="course-content-breadcrumb-task" className="course-content-breadcrumb-text">
+              <Button id="course-content-breadcrumb-task" className="course-content-breadcrumb-text" disabled={true} style={{textTransform: 'none'}}>
                 { this.state.course.coursePlan.courseStructure === "unit" ? 
                   `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.state.course.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}` :
                   `${this.props.language.task} ${this.props.selected[2] + 1}: ${this.state.course.program[this.props.selected[0]].activities[this.props.selected[2]].name}`}
-              </Typography>}
+              </Button>}
           { this.state.studentInformation === "quiz" || this.state.studentInformation === "quizDetails" ?
-              <Typography onClick={() => this.handleView({}, "quiz", this.state.studentScores)} className="course-content-breadcrumb-text">
+              <Button onClick={() => this.handleView({}, "quiz", this.state.studentScores)} className="course-content-breadcrumb-text" style={{textTransform: 'none'}}>
                 {this.props.language.quiz}
-              </Typography> : undefined }
+              </Button> : undefined }
           { this.state.studentInformation === "quizDetails" ?
-              <Typography id="course-content-breadcrumb-title" className="course-content-breadcrumb-text">
+              <Button id="course-content-breadcrumb-title" className="course-content-breadcrumb-text" disabled={true} style={{textTransform: 'none'}}>
                 quiz details *
-              </Typography> : undefined }
+              </Button> : undefined }
         </Breadcrumbs>
       </Paper>
     )
   }
 
+  componentDidUpdate(prevState){
+   /*  if(this.state.flag!=prevState.flag){
+      console.log("cierra la alerta")
+      this.setState({
+        flag:'none'
+      })
+    } */
+  }
+
+  flag=(hashes)=>{
+    let hash=hashes.slice(-1)[0] 
+    console.log("antes del TOAST", hash)
+    if(hash!=undefined && hash!=""){
+      console.log("debe msotrar el TOAST", hashes)
+      if(this.state.count==0){
+        toast(<div style={{color:'brown', textAlign:'justify', padding:'10px'}}>The request has been sent, the generation time can be 3-10 min, check the certificates section. </div>);
+      }
+      this.state.count+=1
+    }
+    
+  }
+
+  showCertificates=()=>{
+    console.log("click OPEN")
+    this.setState({
+      //studentInformation:'certificates',
+      showCertificates:true,
+      //open:true
+    }) 
+  }
+
+  closeCertificates=()=>{
+    console.log("CLOSEEE")
+    this.state.showCertificates=false
+  this.state.studentInformation=''
+    this.setState({
+      showCertificates:false,
+      studentInformation:''
+    })
+  }
+
+  handleCloseCert = () => {
+    this.setState({
+      open:false
+    })
+  //  setOpen(false);
+    //props.closeCertificates()
+  };
+ 
   render() {
     return(
       <div className="management-container">
@@ -552,6 +612,15 @@ export default class PublishedCoursesList extends React.Component {
             }
           </React.Fragment>
         }
+
+       
+        {
+          /* this.state.showCertificates===true?
+            <Certificates/>
+          :
+          undefined */
+        }
+
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -609,9 +678,9 @@ export default class PublishedCoursesList extends React.Component {
               <IconButton edge="start" color="inherit" onClick={this.handleCloseClassroom} aria-label="close">
                 <CloseIcon />
               </IconButton>
-              <Typography className="course-dialog-title" variant="h6">
+              <Button className="course-dialog-title" variant="h6">
                 {this.props.language.classroomManagement}
-              </Typography>
+              </Button>
               <p className="app-tooltip">{this.props.language.pressEsc}</p>
             </Toolbar>
           </AppBar>
@@ -644,14 +713,46 @@ export default class PublishedCoursesList extends React.Component {
                                       unsubscribe={this.props.unsubscribe.bind(this)}
                                       handleView={this.handleView}
                                       reload={this.openClassroomManagement.bind(this)}
+                                      flag={this.flag.bind(this)}
                                       language={this.props.language}
                                     />
                                   )
                                 })}
                               </div>
+                              <Button onClick={() =>this.showCertificates()} color="primary" autoFocus>
+                                  Check Certificates
+                              </Button>
                             </div>
                           :
-                            undefined
+                           undefined
+                        }
+                        {console.log("showwww",this.state, this.props)}
+                        {
+                          this.state.showCertificates===true?
+                          <Certificates
+                          language={this.props.language}
+                            courseData={this.state.course}
+                            open={Math.random()}
+                            courseProfiles={this.state.courseProfiles}
+                          />
+                          :
+                          undefined
+                        }
+                        {
+
+                          <div>
+                         
+                          <ToastContainer
+                            position="top-center"
+                            autoClose={false}
+                            newestOnTop={false}
+                            closeOnClick={false}
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                          />
+                          </div>
+                          
                         }
                         {
                           this.state.studentInformation==='quiz'?
@@ -688,8 +789,6 @@ export default class PublishedCoursesList extends React.Component {
                                 course={this.state.course}
                                 showComponent={this.props.showComponent.bind(this)}
                                 handleControlMessage={this.props.handleControlMessage.bind(this)}
-                                handlePrevious={this.props.handlePrevious.bind(this)}
-                                handleNext={this.props.handleNext.bind(this)}
                                 navigateTo={this.props.navigateTo.bind(this)}
                                 selected={this.props.selected}
                                 toComplete={this.state.student.courseProfile.toComplete}

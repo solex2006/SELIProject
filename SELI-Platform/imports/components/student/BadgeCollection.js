@@ -19,6 +19,10 @@ export default class BadgeCollection extends React.Component {
     console.log(this.state);
   }
 
+  componentDidMount(){
+    document.title=this.props.language.myBadges
+  }
+
   setLanguage = (option) => {
     let language = this.state.language;
     if (option === "Portuguese (PT)") {

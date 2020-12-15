@@ -44,6 +44,7 @@ export default class VerticalPanel extends React.Component {
               </div>
               <Divider light/>
               <Container
+                dragClass="drag-class-items"
                 orientation="horizontal"
                 groupName="1"
                 behaviour="copy"
@@ -54,7 +55,10 @@ export default class VerticalPanel extends React.Component {
                   this.props.contentItems.map((p,i) => {
                     return (
                       <Draggable key={i}>
-                        <ContentMenuItem type={p.type} language={this.props.language}/>
+                        <ContentMenuItem 
+                          type={p.type}
+                          language={this.props.language}
+                        />
                       </Draggable>
                     );
                   })
@@ -124,7 +128,7 @@ export default class VerticalPanel extends React.Component {
                 coursePlan={this.props.courseInformation.coursePlan}
                 selected={this.props.selected}
                 expandedNodes={this.props.expandedNodes}
-                reRender={this.props.reRender.bind(this)}
+                loadingData={this.props.loadingData.bind(this)}
                 turnOffSortMode={this.props.turnOffSortMode.bind(this)}
                 setMenuTab={this.props.setMenuTab.bind(this)}
                 language={this.props.language}

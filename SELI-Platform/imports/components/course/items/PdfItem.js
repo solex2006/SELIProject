@@ -103,13 +103,19 @@ export default class PdfItem extends React.Component {
         <div className="file-content-item">
           <div id={this.props.item.attributes.pdf.id+"container"+this.props.item.id} className="pdf-item-container" style={{justifyContent: this.props.item.attributes.alignment}}>
             <div className="item-instruction-column">
-              <p className="instruction-title">{`${this.props.language.title}: ${this.props.item.attributes.pdf.name}`}</p>
+              <p id={`dial-title-${this.props.item.id}`} tabIndex="0" className="instruction-title">{`${this.props.language.title}: ${this.props.item.attributes.pdf.name}`}</p>
             </div>
             <div id={ this.props.item.attributes.pdf.id+this.props.item.id } className="pdf-item">
               <FileDial
+                id={this.props.item.id}
                 type={this.props.item.type}
                 color={'primary'}
                 actions={this.state.actions}
+                labels={{
+                  ariaLabel: this.props.language.pdf,
+                  closeLabel: this.props.language.close,
+                  navigationLabel: this.props.language.speedDialNavigation 
+                }}
                 icon={<PictureAsPdfIcon/>}
               />
             </div>

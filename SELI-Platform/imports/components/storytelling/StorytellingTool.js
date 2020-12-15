@@ -36,9 +36,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { withStyles } from '@material-ui/core/styles';
-import AudioPlayer from 'react-h5-audio-player';
 import ReactPlayer from 'react-player';
-import 'react-h5-audio-player/lib/styles.css';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -166,6 +164,7 @@ class StorytellingTool extends React.Component {
   }
 
   componentDidMount() {
+    document.title=this.props.language.storyFlow;
     if (this.props.storyToEdit !== undefined) {
       this.setState({
         story: {
@@ -398,6 +397,10 @@ class StorytellingTool extends React.Component {
       this.props.handleControlMessage(true, this.props.language.storyMustHave);
       return false;
     }
+    if (story.nodes.findIndex(node => node.type === "end") === -1) {
+      this.props.handleControlMessage(true, this.props.language.storyMustEnd);
+      return false;
+    }
     for (var i = 0; i < story.nodes.length; i++) {
       if (story.nodes[i].name === "") {
         this.props.handleControlMessage(true, this.props.language.allScenesMust);
@@ -421,16 +424,6 @@ class StorytellingTool extends React.Component {
         });
         return false;
       }
-    }
-    let hasEnd = false;
-    for (var i = 0; i < story.nodes.length; i++) {
-      if (story.nodes[i].type === 'end') {
-        hasEnd = true;
-      }
-    }
-    if (!hasEnd) {
-      this.props.handleControlMessage(true, this.props.storyMustEnd);
-      return false;
     }
     return true;
   }
@@ -1469,9 +1462,12 @@ class StorytellingTool extends React.Component {
                     <div className="library-files-container">
                       {this.state.dataAudio1.map(tile => (    
                         <div onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
-                          <div className="card-media-audio-storytelling">
-                            <AudioPlayer volume src={tile.link}/>
-                          </div>
+                          <audio 
+                            ref="reuseAudio" 
+                            className="card-media-audio-storytelling"
+                            src={tile.link} 
+                            controls
+                          />
                           <div className="card-actions-bottom-container" disableSpacing>
                             {`${this.props.language.audioTitle}: ${tile.name}`}
                             <Tooltip title={this.props.language.edit}>

@@ -72,6 +72,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+
 export default function CoursePlanStep(props) {
   const classes = useStyles();
   const {language}=props;
@@ -100,7 +102,8 @@ export default function CoursePlanStep(props) {
 
 
   useEffect(()=>{// guided spiral unit
-    console.log("courseInformation al actualizar ael silabo******************", props.courseInformation)
+    document.title=props.language.plan;
+   // console.log("courseInformation al actualizar ael silabo******************", props.courseInformation)
     if(coursePlan==='guided' && courseTemplate==='without' && (courseStructure==='unit' || courseStructure==='topic' )){
         props.validate('passCoursePlan')
     }
@@ -191,7 +194,7 @@ export default function CoursePlanStep(props) {
     setchangeSylabus(Math.random())
   }
   const loadSylabus=(file)=>{
-    console.log("loadSylabus-------->",file)
+    //console.log("loadSylabus-------->",file)
    
       setflagSylabus(!flagSylabus)
     
@@ -243,16 +246,7 @@ export default function CoursePlanStep(props) {
             describedBy={"i05-helper-text"}
           />
         }
-        {/* <FeedbackHelp
-          validation={{
-            error: false,
-            errorMsg: "",
-            errorType: "",
-            a11y: null
-          }}
-          tipMsg={language.documentupload}
-          describedBy={"i05-helper-text"}
-        /> */}
+        
         
         {courseInformation.coursePlan.guidedCoursePlan === "free" && (
           <React.Fragment>
@@ -390,7 +384,23 @@ export default function CoursePlanStep(props) {
         />
           </React.Fragment>
         )}
-        <br/><br/><br/><br/>
+        <br/>
+        <FeedbackHelp
+        language={props.language}
+          validation={{
+            error: false,
+            errorMsg: "xxxx",
+            errorType: "xxxxxtttt",
+            a11y: null
+          }}
+         // tipMsg={language.appropriateOption}
+          describedBy={"i05-helper-text"}
+          stepHelp={{
+            step: "textHelper",
+            stepLabel: props.language.CoursePlanHelp,
+            helpsTips:props.language.coursePlanTipsHelps
+          }}
+        /> 
       </div>
       <Dialog
         open={changeStructure}

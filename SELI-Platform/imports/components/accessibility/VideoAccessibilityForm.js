@@ -53,7 +53,7 @@ export function VideoTextAltA11Y(props){
 						//ariaDescribedBy
 						//editorData
 						placeholder={props.language.shortDescription_a11y_placeholder}
-						required={true}
+						//required={true}
 						tip={shortDescriptionTip}
 						language={props.language}
 					/>
@@ -66,7 +66,7 @@ export function VideoTextAltA11Y(props){
 						name="longDescription"
 						label={props.language.longDescription_a11y_label_audio}
 						placeholder={props.language.longDescription_a11y_label_video}
-						required={true}
+						//required={true}
 						tip={
 							<React.Fragment>
 								{longDescriptionTip}

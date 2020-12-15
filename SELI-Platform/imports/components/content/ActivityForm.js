@@ -161,7 +161,7 @@ export default class ActivityForm extends React.Component {
   componentWillMount(){
     if (this.props.contentToEdit !== undefined) {
       this.setState({
-        attributes: this.props.contentToEdit.attributes,
+        attributes: {...this.props.contentToEdit.attributes},
       }, () => {
         let fileTypes = this.state.fileTypes;
         if (this.state.attributes.type === "upload") {
@@ -200,27 +200,24 @@ export default class ActivityForm extends React.Component {
           /> */}
         </div> 
         <div className="editor-label1">{`${this.props.language.deliverType}:`}</div>
-        <div className="square-box">
-          <Paper square>
-            <Tabs
-              color="primary"
-              value={this.state.attributes.type}
-              indicatorColor="primary"
-              textColor="primary"
-              className="form-tabs-container"
-              centered={true}
-            >
-              { this.props.arrayOfDesignItems.type === "4" || this.props.courseTemplate === "without" ?
-                  <Tab value={'forum'} onClick={() => this.selectType('forum')} className="form-tab" label={this.props.language.forum} icon={<ForumIcon />} /> : undefined}
-              { this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without" ?
-                  <Tab value={'section'} onClick={() => this.selectType('section')} className="form-tab" label={this.props.language.section} icon={<SubjectIcon />} /> : undefined}
-              { this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without" ?
-                  <Tab value={'upload'} onClick={() => this.selectType('upload')} className="form-tab" label={this.props.language.upload} icon={<BackupIcon />} /> : undefined}
-              { this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without" ?
-                  <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} className="form-tab" label={this.props.language.storyboard} icon={<LocalActivityIcon />} /> : undefined}
-            </Tabs>
-          </Paper>
-        </div>
+        <Tabs
+          color="primary"
+          value={this.state.attributes.type}
+          indicatorColor="primary"
+          textColor="primary"
+          className="form-tabs-container"
+          centered={true}
+          wrapper={true}
+        >
+          { (this.props.arrayOfDesignItems.type === "4" || this.props.courseTemplate === "without") &&
+              <Tab value={'forum'} onClick={() => this.selectType('forum')} wrapper={true} wrapped={true} label={this.props.language.forum} icon={<ForumIcon />} />}
+          { (this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without") &&
+              <Tab value={'section'} onClick={() => this.selectType('section')} wrapper={true} wrapped={true} label={this.props.language.section} icon={<SubjectIcon />} />}
+          { (this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without") &&
+              <Tab value={'upload'} onClick={() => this.selectType('upload')} wrapper={true} wrapped={true} label={this.props.language.upload} icon={<BackupIcon />} />}
+          { (this.props.arrayOfDesignItems.type !== "4" || this.props.courseTemplate === "without") &&
+              <Tab value={'storyboard'} onClick={() => this.selectType('storyboard')} wrapper={true} wrapped={true} label={this.props.language.storyboard} icon={<LocalActivityIcon />} />}
+        </Tabs>
         {
           this.state.attributes.type === 'storyboard' ?
             <div className="form-activity-input-contained">

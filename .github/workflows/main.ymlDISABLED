@@ -1,0 +1,145 @@
+name: main
+
+# Controls when the action will run. Triggers the workflow on push or pull request 
+# events but only for the master branch
+on:
+  issues:
+    types: [opened, labeled, unlabeled]
+  pull_request:
+    types: [opened, labeled, unlabeled]
+  project_card:
+    types: [moved]
+env:
+  GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  job01: 
+#    needs: [assign_one_project]
+#    if: github.event_name == 'project_card'
+#    name: Auto card labeler
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # NOTE @v2 uses the token as an auth http header. Set it to
+          # a Personal Access Token instead of secrets.GITHUB_TOKEN
+          # so that tag pushes trigger repo push events.
+          token: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
+      
+      - uses: technote-space/auto-card-labeler@v1 
+        #GitHub actions that automatically labels Issues or PullRequests based on project card moves
+        if: github.event_name == 'project_card' && github.event.action == 'moved' 
+        with:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACTION_TOKEN }}
+            # Config file name.
+            #CONFIG_FILENAME: # default is card-labeler.yml
+
+      - name: commenter by label
+       #Label triggered GitHub Actions for posting a template message, automatically close or reopen issues or pull requests
+        uses: peaceiris/actions-label-commenter@v1.3.2 
+        if: |
+          (github.event_name == 'issues' || github.event_name == 'project_card') && 
+          (github.event.action == 'labeled' || github.event.action == 'unlabeled')
+        with:
+           github_token: ${{ secrets.GITHUB_TOKEN }}
+           config_file: .github/label-commenter-config.yml
+
+      - name: Move "Passed" to   "PASSED FUNCTIONAL TEST" column
+        uses: konradpabjan/move-labeled-or-milestoned-issue@v2.0
+        if: |
+          github.event_name == 'issues' && 
+          github.event.action == 'labeled' &&  
+          contains(github.event.issue.labels.*.name, 'passed :large_blue_circle:')
+        with:
+          action-token: "${{ secrets.MY_PERSONAL_ACTION_TOKEN }}"
+          project-url: "https://github.com/solex2006/SELIProject/projects/9"
+          column-name: "PASSED FUNCTIONAL TEST"
+          label-name: "passed :large_blue_circle:"
+#         columns-to-ignore: "In Review,Ready to deploy,Done"
+
+      - name: Move "Failed" to "FAILED" column
+        uses: konradpabjan/move-labeled-or-milestoned-issue@v2.0
+        if: |
+          github.event_name == 'issues' && 
+          github.event.action == 'labeled' &&  
+          contains(github.event.issue.labels.*.name, 'failed :red_circle:')
+        with:
+          action-token: "${{ secrets.MY_PERSONAL_ACTION_TOKEN }}"
+          project-url: "https://github.com/solex2006/SELIProject/projects/9"
+          column-name: "FAILED"
+          label-name: "failed :red_circle:"
+#         columns-to-ignore: "In Review,Ready to deploy,Done"
+
+      - name: Assign 'FEATURE REQUEST' to 'TRIAGE - FEATURE REQUEST'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: |
+          github.event_name == 'issues' && 
+          github.event.action == 'labeled' &&  
+          contains(github.event.issue.labels.*.name, 'Feature Request :bulb:')
+        with:
+          project: 'https://github.com/solex2006/SELIProject/projects/6'
+          column_name: 'NEEDS TRIAGE'
+      - name: Assign 'bug' label to 'TRIAGE - Bugs'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: |
+          github.event_name == 'issues' && 
+          github.event.action == 'labeled' &&
+          contains(github.event.issue.labels.*.name, ':bug:bug')
+        with:
+          project: 'https://github.com/solex2006/SELIProject/projects/7'
+          column_name: 'NEEDS TRIAGE'
+        
+      - name: Assign '1 - PLANNING' label to 'FEATURE SPECIFICATION'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: |
+          github.event_name == 'issues' && 
+          github.event.action == 'labeled' &&  (
+          contains(github.event.issue.labels.*.name, '1 - Planning') ||
+          contains(github.event.issue.labels.*.name, 'need specification'))
+        with:
+          project: 'https://github.com/solex2006/SELIProject/projects/8'
+          column_name: 'PENDING FEATURE REQUEST'
+
+      - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE - TO-DO'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: |
+          github.event_name == 'issues' && 
+          github.event.action == 'labeled' &&  
+          contains(github.event.issue.labels.*.name, '2 - Ready') &&
+          ( contains(github.event.issue.labels.*.name, 'Feature Specification') ||
+          contains(github.event.issue.labels.*.name, 'Feature Story'))  
+        with:
+          project: 'https://github.com/solex2006/SELIProject/projects/9'
+          column_name: 'TO-DO'
+
+
+      - name: Assign '2 - READY' label to 'DEVELOPMENT CYCLE - DESIGN NOTES'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: |
+          github.event_name == 'issues' && 
+          github.event.action == 'labeled' &&  
+          contains(github.event.issue.labels.*.name, '2 - Ready') &&
+          contains(github.event.issue.labels.*.name, 'Feature Design Notes :notebook:')
+        with:
+          project: 'https://github.com/solex2006/SELIProject/projects/9'
+          column_name: 'DESIGN NOTES'
+      
+      - name: Assign 'need tester' label to 'FUNCTIONALITY TEST CYCLE'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: |
+          github.event_name == 'issues' && 
+          github.event.action == 'labeled' &&  
+          contains(github.event.issue.labels.*.name, 'need tester')
+        with:
+          project: 'https://github.com/solex2006/SELIProject/projects/10'
+          column_name: 'TO-DO'
+
+      - name: Assign 'Pull Request' to 'PULL REQUEST CYCLE'
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        if: |
+          github.event_name == 'pull_request' &&
+          github.event.action == 'opened'
+        with:
+          project: 'https://github.com/solex2006/SELIProject/projects/11'
+          column_name: 'TO-DO'

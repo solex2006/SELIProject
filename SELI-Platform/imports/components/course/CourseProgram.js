@@ -167,7 +167,7 @@ export default class CourseProgram extends React.Component {
     if (action === "create" || action === "cancel" || action === "getA11y" || action === "setA11y") {
       stateId = this.state.addedId;
     } else if (action === "edit") {
-      stateId = this.state.contentToEdit.id;
+      stateId = this.state.contentToEdit ? this.state.contentToEdit.id : this.state.addedId;
     } else if (action === "remove"){
       stateId = itemValue.id;
     } else if (action === "decorative"){
@@ -312,7 +312,7 @@ export default class CourseProgram extends React.Component {
       contentOpen: true,
       contentaAdded: true,
       languageType: this.props.language[item.type],
-      contentToEdit: {...item},
+      contentToEdit: item,
     });
   }
 
@@ -361,7 +361,7 @@ export default class CourseProgram extends React.Component {
     else {
       this.props.handleControlMessage(true, this.props.language.firstAddSomeContent);
     }
-    this.reRender();
+    this.loadingData();
   }
 
   turnOffSortMode() {
@@ -403,7 +403,6 @@ export default class CourseProgram extends React.Component {
           - ${this.props.language.activity}: ${courseInformation.program[this.props.selected[0]].lessons[this.props.selected[1]].activities[this.props.selected[2]].name}`
         }
         else {
-          console.log("el serror",this.props.selected, courseInformation.program[this.props.selected[0]].activities, courseInformation.coursePlan.courseStructure)
           arrayOfItems = courseInformation.program[this.props.selected[0]].activities[this.props.selected[2]].items;
           arrayOfDesignItems = courseInformation.design[this.props.selected[0]].activities[this.props.selected[2]];
           tools = courseInformation.design[this.props.selected[0]].tools;
@@ -421,13 +420,8 @@ export default class CourseProgram extends React.Component {
   }
 
   componentDidMount(){
+    document.title=this.props.language.program;
     this.loadingData();
-  }
-  
-  reRender(){
-    this.forceUpdate();
-    this.loadingData();
-    this.setState({ state: this.state });
   }
 
   getAccessibilityPercentage = (value) => {
@@ -450,7 +444,9 @@ export default class CourseProgram extends React.Component {
   }
 
   closePreview = () => {
-    this.setState({showPreview: false});
+    this.setState({
+      showPreview: false,
+    });
   }
 
   handleMenu = (value) => {
@@ -518,7 +514,7 @@ export default class CourseProgram extends React.Component {
                 toggleSortMode={this.toggleSortMode.bind(this)}
                 handlePreview={this.handlePreview.bind(this)}
                 setDisabilitieOption={this.setDisabilitieOption.bind(this)}
-                reRender={this.reRender.bind(this)}
+                loadingData={this.loadingData.bind(this)}
                 turnOffSortMode={this.turnOffSortMode.bind(this)}
                 handleMenu={this.handleMenu.bind(this)}
                 language={this.props.language}
@@ -535,7 +531,10 @@ export default class CourseProgram extends React.Component {
         >
           <AppBar position="static" className="course-dialog-app-bar">
             <Toolbar style={{position: 'relative'}}>
-              <IconButton edge="start" color="inherit" onClick={this.closePreview} aria-label="close">
+              <IconButton edge="start" color="inherit" 
+                onClick={this.closePreview}
+                aria-label={this.props.language.close}
+              >
                 <CloseIcon />
               </IconButton>
               <Typography className="course-dialog-title" variant="h6">
@@ -601,7 +600,6 @@ export default class CourseProgram extends React.Component {
                   this.state.contentTypeAdded === 'text' && !this.state.showAccessibilityOptions ?
                     <TextForm
                       getTextAttributesFunction={textAttributes => this.getItemAttributes = textAttributes}
-                      reRender={this.reRender.bind(this)}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
                       language={this.props.language}
@@ -626,6 +624,7 @@ export default class CourseProgram extends React.Component {
                       getVideoAttributesFunction={videoAttributes => this.getItemAttributes = videoAttributes}
                       contentToEdit={this.state.contentToEdit}
                       handleControlMessage={this.props.handleControlMessage.bind(this)}
+                      continueEdit={this.relativeProgramCommons.bind(this)}
                       language={this.props.language}
                     />
                   :

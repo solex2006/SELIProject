@@ -2,11 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
 Meteor.methods({
-  'ChangeAccountInformation'(userInformation, newPassword, username){
+  'ChangeAccountInformation'(userInformation, username){
     Accounts.setUsername(userInformation._id, username);
-    if (newPassword) {
-      Accounts.setPassword(userInformation._id, userInformation.password, '');
-    }
     Meteor.users.update(
       { _id: userInformation._id },
       { $set: {

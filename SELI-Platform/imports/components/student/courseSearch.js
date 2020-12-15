@@ -216,6 +216,7 @@ export default function CourseSearch(props) {
 		<React.Fragment>
 			<Paper className={classes.searchDetailed} component="article" elevation={0}>
 				<SearchToolBar
+					language={props.language}
 					OrSearch={props.OrSearch}
 					getParamsofSearch= {props.getParamsofSearch}
 					getParamsLanguage= {props.getParamsLanguage}
@@ -227,9 +228,9 @@ export default function CourseSearch(props) {
 					getAccessibleFlag= {props.getAccessibleFlag}
 					getGeneralSearch={props.getGeneralSearch}
 					sortByMostRecent={props.sortByMostRecent}
-					 sortByMostRelevant={props.sortByMostRelevant}
-					 sortByAlphabetic={props.sortByAlphabetic}
-					 selected={props.selected}
+					sortByMostRelevant={props.sortByMostRelevant}
+					sortByAlphabetic={props.sortByAlphabetic}
+					selected={props.selected}
 				/>
 			</Paper>
 		</React.Fragment>

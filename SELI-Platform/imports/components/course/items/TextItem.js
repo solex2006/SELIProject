@@ -23,7 +23,7 @@ export default class TextItem extends React.Component {
   render() {
     return(
       <div className="content-box">
-        <div className="text-content-item">
+        <div className="text-content-item" tabIndex="0">
           {
             this.props.item.attributes.type === 'title' ?
                 <div>

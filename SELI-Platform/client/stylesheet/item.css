@@ -81,10 +81,6 @@
   width: 250px !important;
 }
 
-.list-subheader {
-  text-align: center !important;
-}
-
 .item-drag-handle {
   height: 100%;
   padding-left: 4px;
@@ -160,7 +156,6 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  cursor: pointer;
 }
 
 .image-item-container-template {
@@ -169,12 +164,11 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  cursor: pointer;
 }
 
 .file-image-preview-image {
-  padding-right: 10px;
   max-height: 100%;
+  cursor: pointer;
 }
 
 .image-item {
@@ -289,6 +283,7 @@
 .audio-item-container {
   width: 95%;
   padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
   /* display: flex; */
   align-items: center;
   justify-content: center;
@@ -317,10 +312,11 @@
 /* Link */
 
 .link-content-item {
-  width: 100% !important;
+  width: calc(100% - 5%) !important;
   height: auto;
   cursor: pointer;
   transition: 0.5s;
+  margin: 2.5vh 2.5%;
 }
 
 .link-content-item:hover {
@@ -329,7 +325,6 @@
 
 .link-item-container-html {
   width: 95%;
-  padding: 2.5vh 2.5%;
 }
 
 .link-item-container {
@@ -356,14 +351,18 @@
 
 .pdf-item-container {
   width: 100%;
+  min-height: 80px;
+  display: flex;
   align-items: center;
 }
 
 .pdf-item {
   width: auto;
-  height: 80px;
   display: flex;
   align-items: center;
+  position: absolute;
+  right: 2vw;
+  top: 12px;
 }
 
 .file-dial-container {
@@ -371,7 +370,6 @@
   height: 100% !important;
   flex-direction: row-reverse !important;
   align-items: center;
-  margin-right: 1.5vw;
 }
 
 .MuiSpeedDial-actions.MuiSpeedDial-directionRight {
@@ -379,7 +377,6 @@
 }
 
 .item-instruction-column {
-  margin-top: 15px;
   width: auto;
 }
 
@@ -393,7 +390,7 @@
 }
 
 .instruction-title {
-  width: 90%;
+  width: calc(100% - 4vw - 60px);
   margin: 0vh 2vw;
 }
 

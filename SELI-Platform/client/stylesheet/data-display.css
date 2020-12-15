@@ -1,3 +1,23 @@
+.inputfile-3 + label {
+  color: #283f72;
+}
+
+.boton1{
+  color: #283f72;
+  border-radius: 10px;
+  background-color: rgb(215, 215, 238);
+  padding: 8px;
+  margin: 5px;
+}
+
+.inputfile-3:focus + label,
+.inputfile-3.has-focus + label,
+.inputfile-3 + label:hover {
+  color: #722040;
+}
+
+
+
 .management-container {
   width: 100vw;
   height: calc(100vh - var(--app-bar-height));

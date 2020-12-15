@@ -153,6 +153,7 @@ export default class StudentProfile extends React.Component {
       duration: duration,
     };
     this.sendCertificate(certificateInfo,registerData);
+    this.handleClose()
   }
 
   sendCertificate(certificateInfo, registerData){
@@ -238,6 +239,21 @@ export default class StudentProfile extends React.Component {
     });
   };
 
+  componentDidUpdate(prevProps,prevState) {
+    // Uso tipico (no olvides de comparar las props):
+   /*  if (this.state.certificateCreated===true) {
+      
+      setTimeout(()=>{     
+        //busca el Hash en la base de Datos
+        let hash=Meteor.users.find({_id : this.props.profile.studentId  }).fetch()[0].profile.certificates;
+        this.props.flag(hash)
+      },7000)
+    } */
+  }
+  searchCertificateHash = (id) => {
+    console.log("search certiifcate", id)
+  };
+
   render() {
     return(
       <div className="student">
@@ -246,6 +262,7 @@ export default class StudentProfile extends React.Component {
             className="student-profile-information-container"
             elevation={4}
           >
+           
             <div>
               <p className="student-profile-information-text-primary">
                 {this.props.profile.studentInformation.username}
@@ -292,14 +309,9 @@ export default class StudentProfile extends React.Component {
             {
               this.state.expanded ?
                 <div className="student-profile-actions-container">
-                  {/* <Button
-                    className="student-profile-button"
-                    color="primary"
-                    variant="outlined"
-                  >
-                    {this.props.language.sendMessage}
-                  </Button> */}
-                  {console.log("datos----------",Meteor.userId(),this.props.profile.studentId)}
+                
+             
+                  
                   <Button
                     className="student-profile-button"
                     color="primary"

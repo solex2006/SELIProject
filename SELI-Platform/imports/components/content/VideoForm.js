@@ -1,21 +1,25 @@
 import React from 'react';
 import FileUpload from '../files/FileUpload';
 import VideoPreview from '../files/previews/VideoPreview';
-import Editor from '../inputs/editor/Editor';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Library from '../tools/Library';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import HttpIcon from '@material-ui/icons/Http';
-import ReactPlayer from 'react-player';
 import TextField from '@material-ui/core/TextField';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
+import ReactPlayer from 'react-player';
+import Button from '@material-ui/core/Button';
+
+/* Dialog */
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import InfoIcon from '@material-ui/icons/Info';
 
 export default class VideoForm extends React.Component {
   constructor(props) {
@@ -32,11 +36,16 @@ export default class VideoForm extends React.Component {
         hasDescription: true,
         description: '',
         subtitles: [],
+        isA11y: true,
         accessibility: {
           pureDecorative: false,
           percentage: 0,
         }
-      }
+      },
+      url: "",
+      isValid: true,
+      isA11y: true,
+      acceptA11y: false,
     }
   }
 
@@ -64,15 +73,31 @@ export default class VideoForm extends React.Component {
     });
   }
 
-  getVideoAttributes(){
-    let videoContent = this.state.attributes;
-    videoContent.video.link = encodeURI(videoContent.video.link);
-    if (this.validateContent(videoContent) ) {
-      return videoContent;
+  validateContentCommons = (content) => {
+    if (this.validateContent(content) ) {
+      return content;
     }
     else {
       return undefined;
     }
+  }
+
+  getVideoAttributes(){
+    let videoContent = this.state.attributes;
+    videoContent.video.link = encodeURI(videoContent.video.link);
+    videoContent.isA11y = this.state.isA11y;
+    if (this.state.isA11y || this.state.acceptA11y) {
+      return this.validateContentCommons(videoContent);
+    } else {
+      this.handleOpen();
+      return undefined;
+    }
+  }
+  
+  continueCreate = () => {
+    this.setState({acceptA11y: true}, () => {
+      this.props.continueEdit('edit');
+    });
   }
 
   validateContent = (content) => {
@@ -165,27 +190,46 @@ export default class VideoForm extends React.Component {
     this.setState({
       showHelperText: false,
       url: event.target.value,
-      validUrl: false,
+      isValid: true,
+      isA11y: true
     }, () => {
       this.validateUrl()
+    })
+  }
+
+  onErrorVideo = (event) => {
+    this.setState({
+      isA11y: false,
+    }, () => {
+      if (!ReactPlayer.canPlay(this.state.url)) {
+        this.setState({isValid: false}, () => {
+          this.validateUrl();
+        })
+      } else {
+        this.validateUrl();
+      }
     })
   }
 
   validateUrl(){
     let attributes = this.state.attributes;
     let url = document.getElementById('url-input').value;
-    let isValid = ReactPlayer.canPlay(url);
     let helperColor = '';
     let showHelperText = true;
     let urlMessage = '';
-    if (isValid) {
+    if (this.state.isValid) {
       let video = {
         name: 'External video',
         link: url,
       };
       attributes.video = video;
-      urlMessage = this.props.language.thePlayerCan;
-      helperColor = "#4caf50";
+      if (this.state.isA11y) {
+        urlMessage = this.props.language.thePlayerCan;
+        helperColor = "#4caf50";
+      } else {
+        urlMessage = this.props.language.feedback_a11y_accessibility_no;
+        helperColor = "#d1a101";
+      }
     }
     else {
       attributes.video = undefined;
@@ -196,7 +240,6 @@ export default class VideoForm extends React.Component {
       showHelperText: showHelperText,
       urlMessage: urlMessage,
       helperColor: helperColor,
-      validUrl: isValid,
       url: url,
       attributes: attributes,
     });
@@ -207,6 +250,10 @@ export default class VideoForm extends React.Component {
     attributes.source = value;
     this.setState({
       attributes: attributes,
+      url: "",
+      isValid: true,
+      isA11y: true,
+      acceptA11y: false,
     });
   }
 
@@ -218,7 +265,7 @@ export default class VideoForm extends React.Component {
   componentWillMount(){
     if (this.props.contentToEdit !== undefined) {
       this.setState({
-        attributes: this.props.contentToEdit.attributes,
+        attributes: {...this.props.contentToEdit.attributes},
       }, () => {
         if (this.state.attributes.video !== undefined && this.state.attributes.source === 'upload') {
           this.setState({
@@ -229,8 +276,7 @@ export default class VideoForm extends React.Component {
         }
         else {
           this.setState({
-            validUrl: true,
-            url: (this.state.attributes.video!=undefined)? (this.state.attributes.video.link): (undefined),
+            url: (this.state.attributes.video!=undefined) ? (this.state.attributes.video.link): (undefined),
             helperColor: "#4caf50",
             urlMessage: this.props.language.thePlayerCan,
             showHelperText: true,
@@ -239,6 +285,14 @@ export default class VideoForm extends React.Component {
         }
       })
     }
+  }
+
+  handleOpen = () => {
+    this.setState({open: true});
+  }
+
+  handleClose = () => {
+    this.setState({open: false});
   }
 
   render() {
@@ -288,7 +342,7 @@ export default class VideoForm extends React.Component {
                   </div>
                   {
                     !this.state.showPreview ?
-                      <div>
+                      <React.Fragment>
                         {
                           this.state.attributes.source === "upload" ?
                             <FileUpload
@@ -301,12 +355,25 @@ export default class VideoForm extends React.Component {
                               language={this.props.language}
                             />
                           :
-                            <div>
+                            <React.Fragment>
                               {
-                                this.state.validUrl ?
-                                  <ReactPlayer controls className="course-creator-preview-player" url={this.state.url}/>
+                                this.state.isA11y ?
+                                  <video
+                                    ref="urlVideo"
+                                    id="video-preview-url" 
+                                    className="course-creator-preview-player"
+                                    src={this.state.url}
+                                    onError={() => this.onErrorVideo(event)}
+                                    controls
+                                  />
                                 :
-                                  undefined
+                                  <ReactPlayer
+                                    ref="urlVideo"
+                                    id="video-preview-url" 
+                                    className="course-creator-preview-player"
+                                    url={this.state.url}
+                                    controls={true}
+                                  />
                               }
                               <div className="url-input-container">
                                 <TextField
@@ -322,20 +389,15 @@ export default class VideoForm extends React.Component {
                                   helperText={ this.state.showHelperText ? <div className="url-helper-text" style={{color: this.state.helperColor}}>{this.state.urlMessage}</div> : undefined }
                                 />
                               </div>
-
-                            </div>
+                            </React.Fragment>
                         }
-                      </div>
+                      </React.Fragment>
                     :
-                      <div>
-                        <div>
-                          <VideoPreview
-                            file={this.state.attributes.video}
-                            unPickFile={this.unPickFile.bind(this)}
-                            language={this.props.language}
-                          />
-                        </div>
-                      </div>
+                      <VideoPreview
+                        file={this.state.attributes.video}
+                        unPickFile={this.unPickFile.bind(this)}
+                        language={this.props.language}
+                      />
                   }
                   <div className="form-editor-label">
                     <AccessibilityHelp 
@@ -360,6 +422,29 @@ export default class VideoForm extends React.Component {
               language={this.props.language}
             />
         }
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          role="dialog"
+          className="media-dialog"
+          tabIndex={-1}
+        >
+          <DialogTitle className="success-dialog-title" id="course-dialog-title">{this.props.language.videoSettings_a11y}</DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText className="success-dialog-content-text" id="exit-player-tooltip">
+              {`${this.props.language.feedback_a11y_accessibility_no}. ${this.props.language.wantProceed}`}
+            </DialogContentText>
+            <InfoIcon className="warning-dialog-icon"/>   
+          </DialogContent>
+          <DialogActions>
+            <Button aria-label={this.props.language.cancel} onClick={() => this.handleClose()} color="primary">
+              {this.props.language.cancel}
+            </Button>
+            <Button aria-label={this.props.language.confirm} onClick={() => this.continueCreate()} color="primary">
+              {this.props.language.confirm}
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

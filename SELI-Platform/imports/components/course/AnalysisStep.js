@@ -6,7 +6,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import AccessibilityIcon from '@material-ui/icons/Accessibility';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import RemoveIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
@@ -15,11 +14,6 @@ import DoneIcon from "@material-ui/icons/Done";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import FeedbackHelp from "./feedback";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from "@material-ui/core/FormLabel";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -36,7 +30,8 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import DescriptionSharpIcon from '@material-ui/icons/DescriptionSharp';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
-
+import Divider from '@material-ui/core/Divider';
+import FeedbackHelp from "../../components/course/feedback"
 const useStyles = makeStyles(theme => ({
   
   textInput: {
@@ -102,11 +97,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+
 export default function AnalysisStep(props) {
   const {courseInformation,language } = props;
   useEffect(()=>{
     console.log("courseInformationAnalysisStep y Accesibility", courseInformation,courseInformation.accessibility )
     //updatemodalityradiobutton
+    setConstraints(courseInformation.analysis[0]);
     setmodality(courseInformation.analysis[1]);
     //updatetextEditor
     setpedagogical(courseInformation.analysis[2]);
@@ -144,10 +142,8 @@ export default function AnalysisStep(props) {
       setpsychomotorDomain(courseInformation.analysis[6])
     }
   },[])
-
-  
-
   useEffect(()=>{// 
+    document.title=props.language.AnalysisPhaseTitle;
     console.log("INFO cOURSE Analysis:modality, pedagogical,constraints",modality, pedagogical,analysisTooltip)
         if(pedagogical!=undefined  &&
            analysisTooltip.learningobjectives===false  && analysisTooltip.outcomes===false &&  analysisTooltip.pedagogical===false ){
@@ -202,6 +198,8 @@ export default function AnalysisStep(props) {
   ]);
 
   
+
+  
   const [goals, setGoals] = useState({
     remembering: [],
     understanding: [],
@@ -214,52 +212,52 @@ export default function AnalysisStep(props) {
 
   const [goalsTaxonomy, setGoalsTaxonomy] = useState({
     remembering: [
-			{ key: "duplicate", label: "to duplicate" },
-			{ key: "match", label: "to match" },
-			{ key: "describe", label: "to describe" },
-			{ key: "show", label: "to show" },
-      { key: "choose", label: "to choose" },
-      { key: "other", label: "other" }
+			{ key: "duplicate", label: language.toDuplicate },
+			{ key: "match", label: language.toMatch },
+			{ key: "describe", label: language.toDescribe },
+			{ key: "show", label: language.toShow },
+      { key: "choose", label: language.toChoose },
+      { key: "other", label: language.other }
     ],
     understanding: [
-			{ key: "explain", label: "to explain" },
-			{ key: "summarize", label: "to summarize" },
-			{ key: "paraphrase", label: "to paraphrase" },
-			{ key: "illustrate", label: "to illustrate" },
-      { key: "extend", label: "to extend" },
-      { key: "other", label: "other" }
+			{ key: "explain", label: language.toExplain },
+			{ key: "summarize", label: language.toSumarize },
+			{ key: "paraphrase", label: language.toParaphrase },
+			{ key: "illustrate", label: language.toIllustrate },
+      { key: "extend", label: language.toExtend },
+      { key: "other", label: language.other }
     ],
     applying: [
-			{ key: "duplicate", label: "to use" },
-			{ key: "identify", label: "to identify" },
-			{ key: "organize", label: "to organize" },
-			{ key: "construct", label: "to construct" },
-      { key: "solve", label: "to solve" },
-      { key: "other", label: "other" }
+			{ key: "duplicate", label: language.toUse },
+			{ key: "identify", label: language.toIdentify },
+			{ key: "organize", label: language.toOrganize },
+			{ key: "construct", label: language.toConstruct },
+      { key: "solve", label: language.toSolve },
+      { key: "other", label: language.other }
     ],
     analyzing: [
-			{ key: "constrast", label: "to contrast" },
-			{ key: "categorize", label: "to categorize" },
-			{ key: "classify", label: "to classify" },
-			{ key: "list", label: "to list" },
-      { key: "compare", label: "to compare" },
-      { key: "other", label: "other" }
+			{ key: "constrast", label: language.toContrast },
+			{ key: "categorize", label: language.toCategorize },
+			{ key: "classify", label: language.toClassify },
+			{ key: "list", label: language.toList },
+      { key: "compare", label: language.toCompare },
+      { key: "other", label: language.other }
 		],
 		evaluating: [
-			{ key: "conclude", label: "to conclude" },
-			{ key: "critique", label: "to critique" },
-			{ key: "justify", label: "to justify" },
-			{ key: "prove", label: "to prove" },
-      { key: "judge", label: "to judge" },
-      { key: "other", label: "other" }
+			{ key: "conclude", label: language.toConclude },
+			{ key: "critique", label: language.toCritique },
+			{ key: "justify", label: language.toJustify },
+			{ key: "prove", label: language.toProve },
+      { key: "judge", label: language.toJudge },
+      { key: "other", label: language.other }
     ],
     creating: [
-			{ key: "build", label: "to build" },
-			{ key: "develop", label: "to develop" },
-			{ key: "combine", label: "to combine" },
-			{ key: "design", label: "to design" },
-      { key: "elaborate", label: "to elaborate" },
-      { key: "other", label: "other" }
+			{ key: "build", label: language.toBuild },
+			{ key: "develop", label: language.toDevelop },
+			{ key: "combine", label: language.toCombine },
+			{ key: "design", label: language.toDesign },
+      { key: "elaborate", label: language.toElaborate },
+      { key: "other", label: language.other }
 		]
 	});
 
@@ -271,28 +269,28 @@ export default function AnalysisStep(props) {
 
   const [outcomesTaxonomy, setOutcomesTaxonomy] = useState({
 		contents: [
-			{ key: "understand", label: "to understand" },
-			{ key: "categorize", label: "to categorize" },
-			{ key: "describe", label: "to describe" },
-			{ key: "reproduce", label: "to reproduce" },
-      { key: "compare", label: "to compare" },
-      { key: "other", label: "other" }
+			{ key: "understand", label: language.toUnderstand },
+			{ key: "categorize", label: language.toCategorize },
+			{ key: "describe", label: language.toDescribe },
+			{ key: "reproduce", label: language.toReproduce },
+      { key: "compare", label: language.toCompare },
+      { key: "other", label: language.other }
 		],
 		skills: [
-			{ key: "design", label: "to design" },
-			{ key: "conduct", label: "to conduct" },
-			{ key: "evaluate", label: "to evaluate" },
-			{ key: "analyse", label: "to analyse" },
-      { key: "measure", label: "to measure" },
-      { key: "other", label: "other" }
+			{ key: "design", label: language.toDesign },
+			{ key: "conduct", label: language.toConduct },
+			{ key: "evaluate", label: language.toEvaluate },
+			{ key: "analyse", label: language.toAnalyse },
+      { key: "measure", label: language.toMeasure },
+      { key: "other", label: language.other }
 		],
 		values: [
-			{ key: "appreciate", label: "to appreciate" },
-			{ key: "act", label: "to act" },
-			{ key: "work", label: "to work" },
-			{ key: "aware", label: "to be aware" },
-      { key: "value", label: "to value" },
-      { key: "other", label: "other" }
+			{ key: "appreciate", label: language.toAppreciate },
+			{ key: "act", label: language.toAct },
+			{ key: "work", label: language.toWork },
+			{ key: "aware", label: language.toBeAware },
+      { key: "value", label: language.toValue },
+      { key: "other", label: language.other }
 		]
 	});
 
@@ -305,14 +303,7 @@ export default function AnalysisStep(props) {
     errorMsgleast:language.errorMsgleast,
     completeObjective:language.completeObjective,
     analysisphase:language.analysisphase,
-    knowledgeObjectives:language.knowledgeObjectives ,
-    skillsobjectives:language.skillsobjectives,
-    attitudesobjectives:language.attitudesobjectives,
     titleLO:language.titleLO,
-    tipmsgLO:language.tipmsgLO,
-    subtitleLO:language.subtitleLO,
-    subtitleSO:language.subtitleSO,
-    subtitleAO:language.subtitleAO,
     learningconstraint:language.learningconstraint,
     repeated:language.repeated,
     modality:language.modality,
@@ -324,13 +315,9 @@ export default function AnalysisStep(props) {
     affectiveDomain:language.affectiveDomain,
     psychomotorDomain:language.psychomotorDomain,
     Coursesummary:language.Coursesummary,
-    learningObjectivesDefinition:language.learningObjectivesDefinition,
     CognitiveDomain:language.CognitiveDomain,
     AnalysisPhaseTitle:language.AnalysisPhaseTitle,
-    Deletingaudience:language.Deletingaudience,
-    dialog1:language.dialog1,
-    dialog2:language.dialog2
-
+    Deletingaudience:language.Deletingaudience
   })
   const [message, setmessage]=useState(labels.errorMsg)
   const [open, setopen]= useState(false)
@@ -340,22 +327,25 @@ export default function AnalysisStep(props) {
   const [maxLearningobj, setmaxLearningobj]=useState(false);
   const [maxLearningout, setmaxLearningout]=useState(false);
   const [maxLearningcon, setmaxLearningcon]=useState(false);
-  
-  
-
 
   const [disabledVerb, setdisabledVerb]=useState(false);
 
-  const handleNewConstraint = () => {
-    setConstraints([
-      ...constraints,
-      { label: "New constraint", editing: true }
-    ]);
-    setControlEdit({
-      tempValue: "",
-      adding: true,
-      editing: true
-    });
+  const handleNewConstraint = (e) => {
+    if(e.keyCode===32){
+      //continue
+      console.log(e.keyCode)
+    }else{
+      setConstraints([
+        ...constraints,
+        { label: "New constraint", editing: true }
+      ]);
+      setControlEdit({
+        tempValue: "",
+        adding: true,
+        editing: true
+      });
+    }
+    
   };
  
   const handleCancelEditLearning = (index, category) => {
@@ -407,7 +397,6 @@ export default function AnalysisStep(props) {
     })
 
     Object.entries(goals).forEach(([key, value]) => {
-           
       if(value.length!=0){
         let newAnalysis=analysisTooltip;
         newAnalysis.learningobjectives=false;
@@ -467,33 +456,42 @@ export default function AnalysisStep(props) {
 
   const handleDeleteLearning = (index, category) => {
 		setopen(true)
-     setindexdelete(index)
-     setlabelindexdelete(goals[category][index].label)
-     setcategory(category)
-     settypetodelete('LearningObjectives')
-
-		
+    setindexdelete(index)
+    setlabelindexdelete(goals[category][index].label)
+    setcategory(category)
+    settypetodelete('LearningObjectives')
 	};
 
-  const handleNewOutcomes = category => {
-		console.log(category);
-		setOutcomes({
-			...outcomes,
-			[category]: [
-				...outcomes[category],
-				{
-					label: "New outcomes",
-					aux: outcomesTaxonomy[category][0].key,
-					editing: true
-				}
-			]
-		});
-		setControlEdit({
-			tempValue: "",
-			tempAuxValue: outcomesTaxonomy[category][0].key,
-			adding: true,
-			editing: true
-		});
+  const handleNewOutcomes = (e, category) => {
+    
+    
+    
+    if(e.keyCode===32){
+      //continue
+      console.log(e.keyCode)
+    }else{
+
+      setOutcomes({
+        ...outcomes,
+        [category]: [
+          ...outcomes[category],
+          {
+            label: "New outcomes",
+            aux: outcomesTaxonomy[category][0].key,
+            editing: true
+          }
+        ]
+      });
+      setControlEdit({
+        tempValue: "",
+        tempAuxValue: outcomesTaxonomy[category][0].key,
+        adding: true,
+        editing: true
+      });
+
+    }
+
+		
   };
   
   const handleCancelEditOutcome = (index, category) => {
@@ -607,30 +605,35 @@ export default function AnalysisStep(props) {
      settypetodelete('outcomes')
 	};
 
-  const handleNewLearning = category => {
-		console.log("la categoria.....",category);
-		setGoals({
-			...goals,
-			[category]: [
-				...goals[category],
-				{
-					label: "New Learning",
-					aux: goalsTaxonomy[category][0].key,
-					editing: true
-				}
-			]
-    });
-    
-    let addNewknowledges=courseinformation;
-    addNewknowledges.analysis[3]=goals;
-    setcourseInformation(addNewknowledges) 
+  const handleNewLearning = (e, category) => {
+  //  console.log("la categoria.....",category);
+    if(e.keyCode===32){
+      //continue
+      console.log(e.keyCode)
+    }else{
+      setGoals({
+        ...goals,
+        [category]: [
+          ...goals[category],
+          {
+            label: "New Learning",
+            aux: goalsTaxonomy[category][0].key,
+            editing: true
+          }
+        ]
+      });
+      
+      let addNewknowledges=courseinformation;
+      addNewknowledges.analysis[3]=goals;
+      setcourseInformation(addNewknowledges) 
 
-		setControlEdit({
-			tempValue: "",
-			tempAuxValue: goalsTaxonomy[category][0].key,
-			adding: true,
-			editing: true
-		});
+      setControlEdit({
+        tempValue: "",
+        tempAuxValue: goalsTaxonomy[category][0].key,
+        adding: true,
+        editing: true
+      });
+    }
 	};
 
   const handleDeleteRequisite = index => () => {   
@@ -783,7 +786,7 @@ export default function AnalysisStep(props) {
           } 
          });
       }
-      if(type==='LOutcomes'){
+      if(type==='LOutcomes'){ 
         Object.entries(outcomes).forEach(([key, value]) => {      
           if(value.length>10){
               console.log("se estan colocando massss de 10 outcomes"); // "a 5", "b 7", "c 9"
@@ -874,17 +877,16 @@ export default function AnalysisStep(props) {
             }
           }}
         />
-        <FeedbackHelp
+        {/* <FeedbackHelp
           validation={{
             error: false,
             errorMsg: "",
             errorType: "",
             a11y: null
           }}
-          tipMsg={label==="affectiveDomain" ? "Affective domain is....":"Psychomotor domain is...." }
+          tipMsg={""}//{label==="affectiveDomain" ? language.affectiveDomainHelp : language.psychomotorDomainHelp}
           describedBy={"i05-helper-text"}
-        />
-        
+        /> */}
       </div>
     )
   }
@@ -893,6 +895,7 @@ export default function AnalysisStep(props) {
     <div className="form-input-container">
       <div className="form-input-steps">
         <h2 className={classes.psychomotorDomain}>{labels.AnalysisPhaseTitle}</h2>
+        
           {/* <Typography variant="h6" className={classes.title}>Analysis Phase</Typography> */}
           <p className={classes.psychomotorDomain}>
             {labels.analysisphase}
@@ -1007,19 +1010,44 @@ export default function AnalysisStep(props) {
         <Grid container className={classes.formGroup}>
             <Grid item xs={12} >
               <h2>{props.language.titleLO}</h2>
-            < br/>
-              <p>
-                {labels.learningObjectivesDefinition}
-              </p>
+              < br/>
+              <FeedbackHelp
+                validation={{
+                  error: maxLearningobj===true? true: analysisTooltip.learningobjectives,
+                  errorMsg: maxLearningobj===true? props.language.maxlearningobjectives :labels.errorMsgleast,
+                  errorType: "",
+                  a11y: null
+                }}
+                tipMsg={language.learningObjectivesDefinition}
+                describedBy={"i05-helper-text"}
+              />
+              
+              <FeedbackHelp
+                language={props.language}
+                  validation={{
+                    error: false,
+                    errorMsg: "xxxx",
+                    errorType: "xxxxxtttt",
+                    a11y: null
+                  }}
+               //   tipMsg={language.appropriateOption}
+                  describedBy={"i05-helper-text"}
+                  stepHelp={{
+                    step: "textHelper",
+                    stepLabel: props.language.CourseAnalysisHelp,
+                    helpsTips:props.language.AnalysisTipsHelps,
+                  }}
+              />
+
               < br/>
                 <h3>{labels.CognitiveDomain}</h3>
             < br/>
-            </Grid>       
+            </Grid>     
           {Object.keys(goals).map((category, index) => (
             <Grid item xs={12}>
               <Grid item className="MuiFormLabel-root">
                 <label>
-                  {Object.getOwnPropertyNames(goals)[index]} objectives
+                  {language[`${Object.getOwnPropertyNames(goals)[index]}Objectives`]}
                 </label>
               </Grid>
               <Grid item>
@@ -1045,7 +1073,6 @@ export default function AnalysisStep(props) {
                           }
                           className={goal.editing ? classes.hidden : ""}
                         />
-                                
                         <div className='allText' >
                         <Paper className={!goal.editing ? classes.hidden : ""}>	
                           <div className='alignText'>
@@ -1075,7 +1102,7 @@ export default function AnalysisStep(props) {
                                 <TextField
                                   key={"u2" + index + "txtField"}
                                   value={controlEdit.tempValue}
-                                  label="Complete the objective"
+                                  label={language.completeObjective}
                                   onChange={event =>
                                     updateTempValue(event.target.value, "CDomain")
                                   }
@@ -1150,12 +1177,12 @@ export default function AnalysisStep(props) {
                     <ListItem
                       key="addrequisite"
                       button
-                      onClick={() => handleNewLearning(category)}
+                      onClick={(e) => handleNewLearning(e,category)}
                       id="addrequisite"
                       disabled={controlEdit.editing}
                       className={classes.addButton}
                     >
-                      <AddIcon /> <ListItemText primary="Add" />
+                      <AddIcon /> <ListItemText primary={language.add} />
                     </ListItem>
                   
                   </List>
@@ -1166,10 +1193,10 @@ export default function AnalysisStep(props) {
                       errorType: "",
                       a11y: null
                     }}
-                    tipMsg={category + " objectives are ...."}
+                    tipMsg={language[`${Object.getOwnPropertyNames(goals)[index]}ObjectivesAre`]}
                     describedBy={"i05-helper-text"}
                   />
-
+                  <Divider light/>
                 {/* <AccessibilityHelp 
                   id={'long-description-help-container'} 
                   name={'longDescriptionHelpContainer'} 
@@ -1179,26 +1206,13 @@ export default function AnalysisStep(props) {
                   stepLabel={"ASDasd"}
                   language={props.language}
                 /> */}
-
-
                 </form>
+                <br/>
               </Grid>
             </Grid>
           ))}
           <Grid item>
-              <FeedbackHelp
-                validation={{
-                  error: maxLearningobj===true? true: analysisTooltip.learningobjectives,
-                  errorMsg: maxLearningobj===true? props.language.maxlearningobjectives :labels.errorMsgleast,
-                  errorType: "",
-                  a11y: null
-                }}
-                tipMsg={"Learning objectives are..."}
-                describedBy={"i05-helper-text"}
-              />
-              
-          </Grid>
-        
+        </Grid>
         <div className={classes.inputText}>
           <h3 className={classes.affectiveDomain}>{labels.affectiveDomain}</h3>
             {InputText('affectiveDomain',affectiveDomain)}
@@ -1208,17 +1222,27 @@ export default function AnalysisStep(props) {
           
         </div>   
         </Grid>
-
         <Grid container className={classes.formGroup}>
             <Grid item xs={12} className={classes.Behavioral}>
-              <h2 className={classes.Behavioral}>Learning Outcomes</h2>
-              <p className={classes.Behavioral}>By the end of this course, students will be able...</p>
+              <h2 className={classes.Behavioral}>{language.learningOutcomes}</h2>
+              {/* <p className={classes.Behavioral}>{language.outcomeslegend}</p> */}
+              <FeedbackHelp
+                validation={{
+                  error: maxLearningout===true? true: analysisTooltip.outcomes,
+                  errorMsg: maxLearningout===true? props.language.maxlearningOutcomes :labels.errorMsgall,
+                  errorType: "",
+                  a11y: null
+                }}
+                tipMsg={language.behavioralOutcomeHelp}
+                describedBy={"i05-helper-text"}
+              />
+
             </Grid>
           {Object.keys(outcomes).map((category, index) => (
             <Grid item xs={12}>
               <Grid item className="MuiFormLabel-root">
                 <label>
-                  {Object.getOwnPropertyNames(outcomes)[index]} objectives
+                  {language[`${Object.getOwnPropertyNames(outcomes)[index]}Objectives`]}
                 </label>
               </Grid>
               <Grid item>
@@ -1270,7 +1294,7 @@ export default function AnalysisStep(props) {
                             </div>
                             <div>
                               <TextField
-                                label="Complete the objective"
+                                label={language.completeObjective}
                                 key={"u2" + index + "txtField"}
                                 value={controlEdit.tempValue}
                                 onChange={event =>
@@ -1341,34 +1365,63 @@ export default function AnalysisStep(props) {
                     <ListItem
                       key="addrequisite"
                       button
-                      onClick={() => handleNewOutcomes(category)}
+                      onClick={(e) => handleNewOutcomes(e, category)}
                       id="addrequisite"
                       disabled={controlEdit.editing}
                       className={classes.addButton}
                     >
-                      <AddIcon /> <ListItemText primary="Add" />
+                      <AddIcon /> <ListItemText primary={language.add} />
                     </ListItem>
                   </List>
-                  
+                  {/* <FeedbackHelp
+                    validation={{
+                      error: false,
+                      errorMsg: "",
+                      errorType: "",
+                      a11y: null
+                    }}
+                    tipMsg={language[`${Object.getOwnPropertyNames(outcomes)[index]}ObjectivesAre`]}
+                    describedBy={"i05-helper-text"}
+                  /> */}
+                  <Divider light/>
                 </form>
+                <br/>
               </Grid>
             </Grid>
           ))}
-          <FeedbackHelp
-            validation={{
-              error: maxLearningout===true? true: analysisTooltip.outcomes,
-              errorMsg: maxLearningout===true? props.language.maxlearningOutcomes :labels.errorMsgall,
-              errorType: "",
-              a11y: null
-            }}
-            tipMsg={"Behavioral Outcomes are ...."}
-            describedBy={"i05-helper-text"}
-          />
         </Grid>
-      
         <Grid container className={classes.formGroup}>
             <Grid item xs={12} className={classes.Behavioral}>
               <h2 className={classes.Behavioral}>{labels.learningconstraint}</h2>
+              <FeedbackHelp
+                validation={{
+                  error: maxLearningcon===true? true: false,
+                  errorMsg:props.language.maxlearningContrain ,
+                  errorType: "",
+                  a11y: null
+                }}
+                tipMsg={language.learningConstraintHelp}
+                describedBy={"i05-helper-text"}
+              />
+
+              <FeedbackHelp
+                language={props.language}
+                  validation={{
+                    error: false,
+                    errorMsg: "xxxx",
+                    errorType: "xxxxxtttt",
+                    a11y: null
+                  }}
+                 // tipMsg={language.appropriateOption}
+                  describedBy={"i05-helper-text"}
+                  stepHelp={{
+                    step: "textHelper",
+                    stepLabel: props.language.CourseAnalysisHelp,
+                    helpsTips:props.language.AnalysisTipsHelpsTwo,
+                  }}
+              />
+
+              
             </Grid>
           <Grid item xs={12}>
             <form>
@@ -1462,37 +1515,22 @@ export default function AnalysisStep(props) {
                   disabled={controlEdit.editing}
                   className={classes.addButton}
                 >
-                  <AddIcon /> <ListItemText primary="Add constraint" />
+                  <AddIcon /> <ListItemText primary={language.addConstraint} />
                 </ListItem>
               </List>
             </form>
-            <FeedbackHelp
-              validation={{
-                error: maxLearningcon===true? true: false,
-                errorMsg:props.language.maxlearningContrain ,
-                errorType: "",
-                a11y: null
-              }}
-              tipMsg={""}
-              describedBy={"i05-helper-text"}
-            />
           </Grid>
-          
         </Grid>
-      
-      
-        
-
         <Grid container className={classes.formGroup}>
-            <Grid item xs={12} className={classes.Behavioral}>
-                <h2 className={classes.Behavioral}>{labels.pedagogicalconsiderations}</h2>
-            </Grid>
+          <Grid item xs={12} className={classes.Behavioral}>
+              <h2 className={classes.Behavioral}>{labels.pedagogicalconsiderations}</h2>
+          </Grid>
           <Grid item xs={12} >
           <form className={classes.root}>
             <TextField
               value={pedagogical}
               //required
-              label={`${labels.pedagogicalconsiderations} ${props.language.required}`}
+              label={`${labels.pedagogicalconsiderations} (${props.language.required})`}
               variant="outlined"
               multiline
               rowsMax={5}
@@ -1532,15 +1570,35 @@ export default function AnalysisStep(props) {
           </form>
         </Grid>
         </Grid>
-    
+
+        <br/>
+        <br/>
+        
+        <FeedbackHelp
+          language={props.language}
+            validation={{
+              error: false,
+              errorMsg: "xxxx",
+              errorType: "xxxxxtttt",
+              a11y: null
+            }}
+           // tipMsg={language.appropriateOption}
+            describedBy={"i05-helper-text"}
+            stepHelp={{
+              step: "textHelper",
+              stepLabel: props.language.CourseAnalysisHelp,
+              helpsTips:props.language.AnalysisTipsHelpsThree,
+            }}
+        />
+        
         <Dialog  disableBackdropClick={true} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-            <DialogTitle className="success-dialog-title" id="simple-dialog-title">Delete Requirement</DialogTitle>
+            <DialogTitle className="success-dialog-title" id="simple-dialog-title">{language.warning}</DialogTitle>
               <DialogContent className="success-dialog-content">
-            <DialogContentText style={{padding: "0 1vw"}}> {labels.dialog1} {labelindexdelete}. {labels.dialog2}</DialogContentText>
+            <DialogContentText style={{padding: "0 1vw"}}>{`${language.deleteItemBelow}: "${labelindexdelete}" ${language.wantProceed}`}</DialogContentText>
                 <WarningIcon className="warning-dialog-icon"/> 
               </DialogContent>
               <DialogActions>
-                <Button onClick={() => setopen(false)} color="primary">No</Button>
+                <Button onClick={() => setopen(false)} color="primary">{language.no}</Button>
                 <Button variant="outlined" onClick={() => {
                   console.log("tipo a borrar", typetodelete)
                   if(typetodelete==='LearningObjectives'){
@@ -1552,7 +1610,7 @@ export default function AnalysisStep(props) {
                   }       
                   setopen(false)
                 }} 
-                color="primary"><em>Yes</em></Button> 
+                color="primary"><em>{language.yes}</em></Button> 
               </DialogActions>
         </Dialog>
       </div>

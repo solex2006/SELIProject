@@ -162,7 +162,7 @@ export default function CourseContent(props) {
       let activity=0
       let quiz=0
       
-      console.log("por topicos",props.program[topic])
+     // console.log("por topicos",props.program[topic])
       props.program[topic].items.map((item,indexitem)=>{  
          if(item.type==='text'){
             text+=1
@@ -196,16 +196,16 @@ export default function CourseContent(props) {
                      coursePlan.courseStructure==='topic')?    
 
                      <div className='crnheading'>
-                        <section aria-label="TOPIC 1: Introduction to ISD">
-                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">TOPIC: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
-                           <div className='descriptiontext'>{topic.mainContent}</div>
+                        <section aria-label="TOPIC">
+                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="0">{props.language.topic}: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
+                           <div className='descriptiontext' tabIndex='0'>{topic.mainContent}</div>
                            
                            <div className='previewcontent'>
                            <CollectionsBookmarkIcon />
-                              <span className='boxResource'>Games: {TotalofResources(indexUnit).games} </span>
-                              <span className='boxResource'>Presentations: {TotalofResources(indexUnit).presentations} </span>
-                              <span className='boxResource'>Readings: {TotalofResources(indexUnit).Supplementary} </span>
-                              <span className='boxResource'>Activities: {course[indexUnit].activities.length} </span>
+                              <span className='boxResource' tabIndex='0'>Games: {TotalofResources(indexUnit).games} </span>
+                              <span className='boxResource' tabIndex='0'>Presentations: {TotalofResources(indexUnit).presentations} </span>
+                              <span className='boxResource' tabIndex='0'> Readings: {TotalofResources(indexUnit).Supplementary} </span>
+                              <span className='boxResource' tabIndex='0'>Activities: {course[indexUnit].activities.length} </span>
                            </div>
                            
                         </section>
@@ -221,20 +221,20 @@ export default function CourseContent(props) {
                      (coursePlan.guidedCoursePlan==='guided'  && coursePlan.courseTemplate==='without' && coursePlan.courseStructure==='unit')?       
                      <div>  
                         <div className='crnheading'>
-                        <section aria-label="TOPIC 1: Introduction to ISD">
-                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">UNIT: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
-                           <div className='descriptiontext'>{topic.mainContent}</div>
+                        <section aria-label="TOPIC 1">
+                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="0">{props.language.unit}: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
+                           <div className='descriptiontext' tabIndex='0'>{topic.mainContent}</div>
                            <div className='previewcontent'>
                               {
                                  topic.lessons.map((lesson,index)=>(
                                     <div key={index}>
-                                       <div className='crnheading' key={index}><h3 id="content-topic-n" tabIndex="-1">Lesson: {' '+(parseInt(index)+1)}: {lesson.title}</h3></div>
+                                       <div className='crnheading' key={index}><h3 id="content-topic-n" tabIndex="-1">{props.language.lesson}: {' '+(parseInt(index)+1)}: {lesson.title}</h3></div>
                                        <div className='previewcontent'>
                                        <CollectionsBookmarkIcon />
-                                          <span className='boxResource'>Games: {TotalofResourcesLessons(indexUnit,index).games} </span>
-                                          <span className='boxResource'>Presentations: {TotalofResourcesLessons(indexUnit,index).presentations} </span>
-                                          <span className='boxResource'>Readings: {TotalofResourcesLessons(indexUnit,index).Supplementary} </span>
-                                          <span className='boxResource'>Activities: {course[indexUnit].lessons[index].activities.length} </span> 
+                                          <span className='boxResource' tabIndex='0'>Games: {TotalofResourcesLessons(indexUnit,index).games} </span>
+                                          <span className='boxResource' tabIndex='0'>Presentations: {TotalofResourcesLessons(indexUnit,index).presentations} </span>
+                                          <span className='boxResource' tabIndex='0'>Readings: {TotalofResourcesLessons(indexUnit,index).Supplementary} </span>
+                                          <span className='boxResource' tabIndex='0'>Activities: {course[indexUnit].lessons[index].activities.length} </span> 
                                        </div>
                                     </div>
                                  ))
@@ -254,31 +254,31 @@ export default function CourseContent(props) {
                      <div>  
                         <div className='crnheading'>
                         <section aria-label="units">
-                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">UNIT: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
-                           <div className='descriptiontext'>{topic.mainContent}</div>
+                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="0">{props.language.unit}: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
+                           <div className='descriptiontext' tabIndex='0'>{topic.mainContent}</div>
                            <div className='previewcontent'>
                               <CollectionsBookmarkIcon />
-                                 <span className='boxResource'>Readings: {TotalofResourcesFreeUnit(indexUnit)[0]} </span>
-                                 <span className='boxResource'>Images: {TotalofResourcesFreeUnit(indexUnit)[1]} </span>
-                                 <span className='boxResource'>Audios: {TotalofResourcesFreeUnit(indexUnit)[2]} </span>
-                                 <span className='boxResource'>Videos: {TotalofResourcesFreeUnit(indexUnit)[3]} </span> 
-                                 <span className='boxResource'>Activities: {TotalofResourcesFreeUnit(indexUnit)[4]} </span> 
-                                 <span className='boxResource'>Quizes: {TotalofResourcesFreeUnit(indexUnit)[5]} </span> 
+                                 <span className='boxResource' tabIndex='0'>Readings: {TotalofResourcesFreeUnit(indexUnit)[0]} </span>
+                                 <span className='boxResource' tabIndex='0'>Images: {TotalofResourcesFreeUnit(indexUnit)[1]} </span>
+                                 <span className='boxResource' tabIndex='0'>Audios: {TotalofResourcesFreeUnit(indexUnit)[2]} </span>
+                                 <span className='boxResource' tabIndex='0'>Videos: {TotalofResourcesFreeUnit(indexUnit)[3]} </span> 
+                                 <span className='boxResource' tabIndex='0'>Activities: {TotalofResourcesFreeUnit(indexUnit)[4]} </span> 
+                                 <span className='boxResource' tabIndex='0'>Quizes: {TotalofResourcesFreeUnit(indexUnit)[5]} </span> 
                            </div>
                            
                            <div className='previewcontent'>
                               {
                                  topic.lessons.map((lesson,index)=>(
                                     <div key={index}>       
-                                       <div className='crnheading' key={index}><h3 id="content-topic-n" tabIndex="-1">Lesson: {' '+(parseInt(index)+1)}: {lesson.title}</h3></div>
+                                       <div className='crnheading' key={index}><h3 id="content-topic-n" tabIndex="-1">{props.language.lesson}: {' '+(parseInt(index)+1)}: {lesson.title}</h3></div>
                                        <div className='previewcontent'>
                                        <CollectionsBookmarkIcon />
-                                          <span className='boxResource'>Readings: {TotalofResourcesFreeUnitLesson(indexUnit,index)[0]} </span>
-                                          <span className='boxResource'>Images: {TotalofResourcesFreeUnitLesson(indexUnit,index)[1]} </span>
-                                          <span className='boxResource'>Audios: {TotalofResourcesFreeUnitLesson(indexUnit,index)[2]} </span>
-                                          <span className='boxResource'>Videos: {TotalofResourcesFreeUnitLesson(indexUnit,index)[3]} </span> 
-                                          <span className='boxResource'>Activities: {TotalofResourcesFreeUnitLesson(indexUnit,index)[4]} </span> 
-                                          <span className='boxResource'>Quizes: {TotalofResourcesFreeUnitLesson(indexUnit,index)[5]} </span> 
+                                          <span className='boxResource' tabIndex='0'>Readings: {TotalofResourcesFreeUnitLesson(indexUnit,index)[0]} </span>
+                                          <span className='boxResource' tabIndex='0'>Images: {TotalofResourcesFreeUnitLesson(indexUnit,index)[1]} </span>
+                                          <span className='boxResource' tabIndex='0'>Audios: {TotalofResourcesFreeUnitLesson(indexUnit,index)[2]} </span>
+                                          <span className='boxResource' tabIndex='0'>Videos: {TotalofResourcesFreeUnitLesson(indexUnit,index)[3]} </span> 
+                                          <span className='boxResource' tabIndex='0'>Activities: {TotalofResourcesFreeUnitLesson(indexUnit,index)[4]} </span> 
+                                          <span className='boxResource' tabIndex='0'>Quizes: {TotalofResourcesFreeUnitLesson(indexUnit,index)[5]} </span> 
                                        </div>
                                     </div>
                                  ))
@@ -296,17 +296,17 @@ export default function CourseContent(props) {
                   {
                      (coursePlan.guidedCoursePlan==='free'  && coursePlan.courseTemplate==='without' && coursePlan.courseStructure==='topic')?       
                      <div className='crnheading'>
-                        <section aria-label="TOPIC 1: Introduction to ISD">
-                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="-1">TOPIC: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
-                           <div className='descriptiontext'>{topic.mainContent}</div>
+                        <section aria-label="TOPIC">
+                           <div className='crnheading'><h3 id="content-topic-n" tabIndex="0">{props.language.topic}: {' '+(parseInt(indexUnit)+1)}: {topic.title}</h3></div>
+                           <div className='descriptiontext' tabIndex='0'>{topic.mainContent}</div>
                            <div className='previewcontent'>
                            <CollectionsBookmarkIcon />
-                           <span className='boxResource'>Readings: {TotalofResourcesFreeTopic(indexUnit)[0]} </span>
-                           <span className='boxResource'>Images: {TotalofResourcesFreeTopic(indexUnit)[1]} </span>
-                           <span className='boxResource'>Audios: {TotalofResourcesFreeTopic(indexUnit)[2]} </span>
-                           <span className='boxResource'>Videos: {TotalofResourcesFreeTopic(indexUnit)[3]} </span> 
-                           <span className='boxResource'>Activities: {TotalofResourcesFreeTopic(indexUnit)[4]} </span> 
-                           <span className='boxResource'>Quizes: {TotalofResourcesFreeTopic(indexUnit)[5]} </span> 
+                           <span className='boxResource' tabIndex='0'>Readings: {TotalofResourcesFreeTopic(indexUnit)[0]} </span>
+                           <span className='boxResource' tabIndex='0'>Images: {TotalofResourcesFreeTopic(indexUnit)[1]} </span>
+                           <span className='boxResource' tabIndex='0'>Audios: {TotalofResourcesFreeTopic(indexUnit)[2]} </span>
+                           <span className='boxResource' tabIndex='0'>Videos: {TotalofResourcesFreeTopic(indexUnit)[3]} </span> 
+                           <span className='boxResource' tabIndex='0'>Activities: {TotalofResourcesFreeTopic(indexUnit)[4]} </span> 
+                           <span className='boxResource' tabIndex='0'>Quizes: {TotalofResourcesFreeTopic(indexUnit)[5]} </span> 
                               
                            </div>
                            

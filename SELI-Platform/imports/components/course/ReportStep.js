@@ -36,6 +36,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { Redirect } from "react-router-dom";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import WarningIcon from '@material-ui/icons/Warning';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -105,6 +111,10 @@ const useStyles = makeStyles(theme => ({
 	caption: {
 		...theme.typography.h4
 	},
+	captionempty:{
+		fontSize:'1.1rem',
+		padding:'1vh 0vw'
+	},
 	tip: {
 		color: theme.palette.text.secondary
 	},
@@ -118,6 +128,18 @@ const useStyles = makeStyles(theme => ({
 		width: "8em",
 		height: "8em",
 		backgroundColor: "#66bb6a",
+		color: "#fffff",
+		"& .MuiSvgIcon-root": {
+			fontSize: "6.5rem"
+		},
+		"& .svg-inline--fa": {
+			fontSize: "6.5rem"
+		}
+	},
+	avatarRed: {
+		width: "8em",
+		height: "8em",
+		backgroundColor: "#F24747",
 		color: "#fffff",
 		"& .MuiSvgIcon-root": {
 			fontSize: "6.5rem"
@@ -163,10 +185,11 @@ const a11yCOLOR = [
 	"#9ccc65", //good:
 	"#66bb6a" //valid:
 ];
-
 export default function ReportStep(props) {
+
 	useEffect(()=>{// 
-		 props.validate('PassReport')    
+		 props.validate('PassReport') 
+		 document.title =props.language.reportstep;  
 	})
    //console.clear()
 	const classes = useStyles();
@@ -179,6 +202,7 @@ export default function ReportStep(props) {
 	const [sylabusTotal, setsylabusTotal]= useState(0)
 	const [IndexActividad, setIndexActividad]= useState(0)
 	const [checkingAudiences, setcheckingAudiences]=useState(props.courseInformation.support[1])
+	const [dialog1, setDialog1]=useState(false)
 
    const [percentagesWithoutUnit, setPercentagesWithoutUnit]=useState({
       guidedWithoutUnit:[],
@@ -553,8 +577,9 @@ export default function ReportStep(props) {
 		let hearing=[]
 		let cognitive=[]
 		let diversity=[]
+
 		if((withoutInclusionGol.percentagebyUnit.length===0 && withoutInclusionGol.percentagebyLesson.length===0)){
-			setSimulate('noInclusionGol') //pare l caso q se selecciona una discapcidad pero el elemento no configura dicho elelmnto
+			setSimulate('noInclusionGolEmpty') //pare l caso q se selecciona una discapcidad pero el elemento no configura dicho elelmnto
 			return 0
 		} 
 		
@@ -728,7 +753,9 @@ export default function ReportStep(props) {
 			setCategories(categories)
 			console.log("las categorias************", categories, visual, diversity,withoutInclusionGol)
 
-   };
+	};
+	
+	
    const UnitsCourse=() => {
 		console.log("******************UNITSCOURSE***************")
 		let variablesUnidad=[]
@@ -1109,7 +1136,9 @@ export default function ReportStep(props) {
 							NotAccessibleCaptions,
 							NotAccessibleDescription,
 							NotAccessibleSign,
-							guidedWTopics:tasknoconfig.guidedWTopics
+							guidedWTopics:tasknoconfig.guidedWTopics,
+							unidlesson:indexUnit,
+							lesson:indexLesson
 						})
 					}
 					
@@ -1130,7 +1159,7 @@ export default function ReportStep(props) {
 			})
 		})	
 		
-		console.log("percentagebyUnit y percentagebyLesson: variablesUnidad, variablesLeccion-------->",variablesUnidad,variablesLeccion, percentagebyLesson )
+	//	console.log("percentagebyUnit y percentagebyLesson: variablesUnidad, variablesLeccion-------->",variablesUnidad,variablesLeccion, percentagebyLesson )
 		variablesUnidad.map((value,index)=>{
 			//para visual
 			let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
@@ -1241,6 +1270,8 @@ export default function ReportStep(props) {
 			visual=0, hearing=0, cognitive=0, diversity=0
 		})
 		variablesLeccion.map((value,index)=>{
+
+			//console.log("88888888888888888888888888888888888888888888888888888888888888888888888888888888888888",value)
 				//para visual
 				let noconfigvisual=(value.contTextFalse+value.contaudioDescriptionFalse+value.contnoTimeFalse+value.contextendedTimeFalse+
 					value.contwarningAlertFalse)
@@ -1337,10 +1368,10 @@ export default function ReportStep(props) {
 				tasknoconfig.guidedWTopics=0 //new
 				
 				percentagebyLesson.push([
-					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
-					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
-					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
-					{title: value.title, unidad:value.unidad, lesson:value.lesson, type:'unid', a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
+					{title: value.title, unidad:value.unidlesson, lesson:value.lesson, type:'unid', a11yValid:isNaN(visual)?0:visual , a11yMisConfig: 0, a11yNotConfig: noconfigvisual},
+					{title: value.title, unidad:value.unidlesson, lesson:value.lesson, type:'unid', a11yValid:isNaN(hearing)?0:hearing , a11yMisConfig: 0, a11yNotConfig: noconfighearing},
+					{title: value.title, unidad:value.unidlesson, lesson:value.lesson, type:'unid', a11yValid:isNaN(cognitive)?0:cognitive , a11yMisConfig: 0, a11yNotConfig: noconfigcognitive},
+					{title: value.title, unidad:value.unidlesson, lesson:value.lesson, type:'unid', a11yValid:isNaN(diversity)?0:diversity , a11yMisConfig: 0, a11yNotConfig: noconfigdiversity}
 				])
 				visual=0, hearing=0, cognitive=0, diversity=0
 		})
@@ -1412,12 +1443,14 @@ export default function ReportStep(props) {
 		let guidedWTopics=0
 
       props.courseInformation.program.map((unit, indexUnit)=>{
-			
 			//cabezera de la unidad
 			let inclusion=courseInformation.support;
-			if(inclusion[1]!=undefined){
+			console.log("inclusion------>**", inclusion, unit.items)
+			if(inclusion[1]!=undefined){	
 				unit.items.map((item,indexItem)=>{		
 					let withoutChecked=(inclusion[1][0].isChecked===false && inclusion[1][1].isChecked===false && inclusion[1][2].isChecked===false && inclusion[1][3].isChecked===false);
+						
+						console.log("Tipo de elemento******", item)
 						if(item.type==='image' && (inclusion[1][3].isChecked===true || inclusion[1][0].isChecked===true || 
 							inclusion[1][1].isChecked===true || withoutChecked===true)){
 							item.attributes.accessibility.isA11Y!=undefined?
@@ -1737,6 +1770,7 @@ export default function ReportStep(props) {
 		console.log("En topicos totalconfig------------------------------->", contWithInclusionGol,tasknoconfig )
 		newRandomTopics('topic')
 	};
+	
 	const TemplateCourse=() =>{
 		console.log("******************TEMPLATECOURSE***************")	
 		let variablesUnidad=[]
@@ -2398,6 +2432,7 @@ export default function ReportStep(props) {
 	
 	const [simulate, setSimulate] = React.useState(false);
 	const [redirect, setredirect]=React.useState(null)
+	const [unidlesson, setunidlesson]=useState('')
 	if (redirect) {
 		return <Redirect to={redirect} />
 	 }
@@ -2406,55 +2441,94 @@ export default function ReportStep(props) {
 		display:'flex',
 		justifyContent:'center'
 	 };
+
+	function changedialog(index){
+		console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjj",index)
+		setDialog1(true)
+		setunidlesson(index.topic)
+		/* if(type==="dialog"){
+			setDialog1(true)
+		} */
+		
+	}
+	
+	function handleClose(){
+		setDialog1(false)
+	}
+
+	
+	
+	function putUnidLesson(unit){
+		console.log("***************pasae l topico------------------------------",unit)
+		
+	}
+
+
+	
 	
 	return (
 		<div className="form-input-container">
+			{console.log("SIMULATE----->", simulate )}
 			<div className="form-input-steps">
 				<h2>{props.language.reportstep}</h2><br/>
-				{simulate === "allAchieved" && (
-					<React.Fragment>
-						<div>Your course is fully accessible</div>
-						<Grid
-							container
-							spacing={1}
-							style={style}
-							
-						>
-							{categories.map(category => (
+
+				{
+					simulate === "noInclusionGolEmpty" && (
+						<React.Fragment>
+							<AccessibilityEmpty
+								Icon={<FontAwesomeIcon icon={faUniversalAccess} />}
+								caption={props.language.EmptyAccessibility}
+							/>	
+						</React.Fragment>
+					)
+				}
+
+				{
+					simulate === "allAchieved" && (
+						<React.Fragment>
+							<div>Your course is fully accessible</div>
+							<Grid
+								container
+								spacing={1}
+								style={style}
 								
-									<AccessibilityAchieved
-										Icon={category.icon}
-										caption={category.label}
-									/>
-								
-							))}
-						</Grid>
-					</React.Fragment>
+							>
+								{categories.map(category => (
+									
+										<AccessibilityAchieved
+											Icon={category.icon}
+											caption={category.label}
+										/>
+									
+								))}
+							</Grid>
+						</React.Fragment>
 				)}
 					
-					{simulate === "noInclusionGol" && (   
-				<React.Fragment>
+				{simulate === "noInclusionGol" && (   
+						<React.Fragment>
 
-					{/* <AccessibilityAchieved
-						Icon={<FontAwesomeIcon icon={faWrench} />}
-						caption={"you have not configured accessibility in the audiences Step"}
-					/> */}
-					
-					<Grid container spacing={1}>
-							{
-							categories.map(category => {
-								return(
-									category.topics.length!=0?
-									<Grid item xs={12} md={6}>
-									<AccessibilityCard flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
-								</Grid>
-								:undefined
-								)
-								
-							}) 	
-							}
-					</Grid> 
-				</React.Fragment> 
+							{/* <AccessibilityAchieved
+								Icon={<FontAwesomeIcon icon={faWrench} />}
+								caption={"you have not configured accessibility in the audiences Step"}
+							/> */}
+							
+							<Grid container spacing={1}>
+									{console.log("Categories******", categories)}
+									{
+										categories.map(category => {
+											return(
+												category.topics.length!=0?
+												<Grid item xs={12} md={6}>
+													<AccessibilityCard putUnidLesson={putUnidLesson} dialog={changedialog} flagmesage='noInclusionGol'  handleBack={props.handleBack} category={category} />
+												</Grid>
+												:
+												undefined
+											)
+										}) 	
+									}
+							</Grid> 
+						</React.Fragment> 
 				)}
 					
 
@@ -2496,12 +2570,12 @@ export default function ReportStep(props) {
 								.filter(c => !c.selected)
 								.map(category => (
 									<Grid item xs={12} md={6}>
-										<AccessibilityCard handleBack={props.handleBack} category={category} />
+										<AccessibilityCard putUnidLesson={putUnidLesson} dialog={changedialog} handleBack={props.handleBack} category={category} />
 									</Grid>
 								))}
 						</Grid>
 					</div>
-				) }
+				)}
 
 				{ simulate === "inclusionGol" && (
 					<div>
@@ -2558,12 +2632,15 @@ export default function ReportStep(props) {
 								{console.log('checkingAudiences:--------->', checkingAudiences)}
 								{categories.filter(goals => goals.selected).map((category, index) => (
 									<Grid item xs={12} md={6} key={index}>
-										<AccessibilityCard handleBack={props.handleBack} category={category} />
+										<AccessibilityCard putUnidLesson={putUnidLesson} dialog={changedialog} handleBack={props.handleBack} category={category} />
 									</Grid>
 								))}
 							</Grid>
+
+
+					
 					</div>
-				) }
+				)}
 
 
 					
@@ -2592,6 +2669,36 @@ export default function ReportStep(props) {
 					:
 					undefined
 				}
+				{
+					console.log("el dialog///////////", dialog1)
+				}
+
+				{ dialog1===true?
+							<Dialog
+								open={dialog1}
+								onClose={()=>handleClose}
+								aria-labelledby="alert-dialog-confirmation"
+								aria-describedby="alert-dialog-confirmation"
+							>
+									<DialogTitle className="success-dialog-title" id="alert-dialog-title">Change step</DialogTitle>
+									<DialogContent className="success-dialog-content">
+									<DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
+										Do you want to go to the selected topic-unit?
+									</DialogContentText>
+									<WarningIcon className="warning-dialog-icon"/> 
+									</DialogContent>
+									<DialogActions>
+									<Button onClick={()=>handleClose()} color="primary" autoFocus>
+										{props.language.no}
+									</Button>
+									<Button onClick={()=>props.handleBack(categories,unidlesson)} variant="outlined"  color="primary" autoFocus>
+										{props.language.yes}
+									</Button>
+									</DialogActions>
+							</Dialog>
+							:
+							undefined
+					}
 			</div>
 		</div>
 	);
@@ -2630,8 +2737,8 @@ function Chart({ percent, id, flagmesage }) {
 		</Container>
 	);
 }
-function AccessibilityCard({ category, handleBack, flagmesage }) {
-   console.log("newRandomTopics------------>", category)
+function AccessibilityCard({ category, handleBack, flagmesage,dialog,putUnidLesson }) {
+   console.log("newRandomTopics------------>", category, dialog)
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const [max, setMax] = React.useState(
@@ -2710,7 +2817,7 @@ function AccessibilityCard({ category, handleBack, flagmesage }) {
 														key={"listtopic-itemtxt" + category.key + "-" + index}
 														primary={topic.title}
 														secondary={
-															<AccessibilityLinearProgress handleBack={handleBack} topic={topic} max={topic.a11yValid} />
+															<AccessibilityLinearProgress putUnidLesson={putUnidLesson} dialog={dialog} handleBack={handleBack} topic={topic} max={topic.a11yValid} />
 														}
 													/>
 												</ListItem>
@@ -2835,6 +2942,25 @@ function AccessibilityAchieved({ Icon, caption, className }) {
 	);
 }
 
+function AccessibilityEmpty({ Icon, caption, className }) {
+	const classes = useStyles();
+	const style = {
+		display:'flex',
+		justifyContent:'center',
+		maxWidth:'100%',
+	 };
+	return (
+		<Box
+			style={style}
+		>
+			<div>
+				<div style={style}><Avatar className={classes.avatarRed}>{Icon}</Avatar></div>
+				 <div className={classes.captionempty}>{caption}</div> 
+			</div>
+		</Box>
+	);
+}
+
 function OverallCard({ Icon, value, caption, tip, className }) {
 	const classes = useStyles();
 
@@ -2916,16 +3042,18 @@ function AccessibilityProgress({ max, size }) {
 
 	return <CircularProgressWithLabel value={progress} size={size} />;
 }
-function LinearProgressWithLabel(props) {
-	return (
-		<Box display="flex" alignItems="center" onClick={()=>props.handleBack(props)}>
+function LinearProgressWithLabel(propss) {
+	console.log("PROPIEDADESFINAL",propss)
+	return (//onClick={()=>props.handleBack(props)}
+		<Box display="flex" alignItems="center" onClick={()=>propss.dialog(propss)
+		}>
 	
 				<Box width="100%" mr={1}>
-					<LinearProgress variant="determinate" {...props} />
+					<LinearProgress variant="determinate" {...propss} />
 				</Box>
 				<Box minWidth={35}>
 					<Typography variant="body2" color="textSecondary">{`${Math.round(
-						props.value
+						propss.value
 					)}%`}</Typography>
 				</Box>
 		
@@ -2933,7 +3061,7 @@ function LinearProgressWithLabel(props) {
 	);
 }
 
-function AccessibilityLinearProgress({ max, size, handleBack, topic }) {
+function AccessibilityLinearProgress({ max, size, handleBack, topic,dialog,putUnidLesson }) {
 	const classes = useStyles();
 	const [progress, setProgress] = React.useState(0);
 
@@ -2950,7 +3078,7 @@ function AccessibilityLinearProgress({ max, size, handleBack, topic }) {
 
 	return (
 		<div className={classes.root}>
-			<LinearProgressWithLabel handleBack={handleBack}  topic={topic} value={progress} />
+			<LinearProgressWithLabel putUnidLesson={putUnidLesson} dialog={dialog} handleBack={handleBack}  topic={topic} value={progress} />
 		</div>
 	);
 }

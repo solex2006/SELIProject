@@ -7,6 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ClearIcon from "@material-ui/icons/Clear";
 import RemoveIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
@@ -16,8 +17,10 @@ import React, { useState, useEffect } from "react";
 import ActivityDesign from "./design/activityDesign";
 import DesignCourseCommons from "./design/common";
 import LessonDesign from "./design/lessonDesign";
-import FeedbackHelp from "./feedback";
+//import FeedbackHelp from "./feedback";
+import FeedbackHelp from "../../components/course/feedback"
 //Dialog
+import Tooltip from '@material-ui/core/Tooltip';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppsIcon from '@material-ui/icons/Apps';
@@ -66,8 +69,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
 export default function DesignStep(props) {
-  const {courseInformation,language } = props;
+  const {courseInformation, language } = props;
 
   const classes = useStyles();
   const [template, setTemplate] = useState(props.courseInformation.coursePlan.courseTemplate);
@@ -81,8 +85,20 @@ export default function DesignStep(props) {
   });
   const [openDialog, setOpenDialog] = useState(false);
   const [indexUnitTopic, setIndexUnitTopic] = useState(-1);
+  const [key, setKey] = useState(0);
+  const [validateTitle, setvalidateTitle] = useState(false);
 
   function updateTempValue(value) {
+    for (let i=0; i<data.length-1; i++){
+      //console.log("xxxx---->", data[i].title)
+        if(data[i].title===value){
+          //console.log("Repetido---->")
+          setvalidateTitle(true)
+        }else{
+          //console.log("Repetidox2---->")
+          setvalidateTitle(false)
+        }
+    }
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
@@ -94,7 +110,7 @@ export default function DesignStep(props) {
 
   const [data, setData] = useState([]);
   const firstData = {
-    key: organization === "unit" ? "unit1" : "topic1",
+    key: organization === "unit" ? "unit0" : "topic0",
     title: organization === "unit" ? language.unit01 : language.topic01,
     learnGols: '',
     preKnowledge: '',
@@ -110,7 +126,7 @@ export default function DesignStep(props) {
     ],
     activities: [
       {
-        activity: "Example",
+        activity: language.task,
         type: "1",
         graded: true,
         group: 0,
@@ -118,15 +134,15 @@ export default function DesignStep(props) {
         preeReview: false,
         submitted: true,
         error: true,
-        label: "required",
-        helperText: "Name is required.",
+        label: language.required,
+        helperText: language.Namerequired,
         validateInput: true
       }
     ],
     lessons: [
       {
         key: "lesson1",
-        title: "Lesson 01",
+        title: `${language.lesson} 1`,
         tools: [
           { checked: false, key: "audio", label: language.Audios },
           { checked: false, key: "games", label: language.Games, items: [] },
@@ -137,7 +153,7 @@ export default function DesignStep(props) {
         ],
         activities: [
           {
-            activity: "Example",
+            activity: language.task,
             type: "1",
             graded: true,
             group: 0,
@@ -145,8 +161,8 @@ export default function DesignStep(props) {
             preeReview: false,
             submitted: true,
             error: true,
-            label: "required",
-            helperText: "Name is required.",
+            label: language.required,
+            helperText: language.Namerequired,
             validateInput: true
           }
         ]
@@ -183,24 +199,38 @@ export default function DesignStep(props) {
       courseInfo.design.push(newFirstData);
       courseInfo.program.push(newFirstProgramData);
       setData(courseInfo.design);
-      setcourseInformation(courseInfo);
+      //setcourseInformation(courseInfo);
     }
+    setExpanded(
+      courseInformation.design.length < 2 ? 0 : false
+    );
   }, []); 
 
   useEffect(() => {
+    document.title=props.language.desingPhase;
+    //console.log("la validacion----", props.courseInformation.design)
     if(organization==='unit' && template!='without') {
       setOrganization('topic')
     }
     if(guidedCoursePlan==='free' && template==='without' && (organization==='unit' || organization==='topic')){
       props.validate('passCourseDesign')
     }else{
+      let validatecount=0
       props.courseInformation.design.map((unit, index)=>{
         if (unit.learnGols!='' && unit.mainContent!='' && unit.evaluation!='') {
-          props.validate('passCourseDesign')
-        } else {
-          props.validate('NopassCourseDesign')
-        }
+          validatecount+=1
+         // props.validate('passCourseDesign')
+        } 
       })
+
+    //console.log("ValidateCount", validatecount, props.courseInformation.design.length )
+
+    if(validatecount==props.courseInformation.design.length){
+      props.validate('passCourseDesign')
+    }
+    else {
+      props.validate('NopassCourseDesign')
+    }
     }
   }); 
 
@@ -280,7 +310,7 @@ export default function DesignStep(props) {
 
   const addUnitTopic = () => {
     var newFirstData = firstData;
-    newFirstData.key = `${organization === "unit" ? "unit1" : "topic1"}${data.length ? data.length : "0"}`;
+    newFirstData.key = `${organization === "unit" ? "unit" : "topic"}${data.length ? data.length : "0"}`;
     newFirstData.editing = true;
     let prev = data;
     prev.push(newFirstData);
@@ -301,6 +331,23 @@ export default function DesignStep(props) {
     });
   }
 
+  const handleMove = (index, newIndex) => {
+    let prev = data;
+    let courseInfo = courseinformation;
+    prev = changeOrdinal(prev, index, newIndex);
+    courseInfo.program = changeOrdinal(courseInfo.program, index, newIndex);
+    setData(prev);
+    setcourseInformation(courseInfo);
+    setKey(key + 1);
+  }
+
+  const changeOrdinal = (array, index, newIndex) => {
+    const startIndex = index < 0 ? array.length + index : index;
+    const item = array.splice(newIndex, 1)[0];
+    array.splice(startIndex, 0, item);
+    return array;
+  }
+
   const handleDeleteUnitTopic = (unitIndex) => {
     handleOpen();
     setIndexUnitTopic(unitIndex);
@@ -314,11 +361,15 @@ export default function DesignStep(props) {
     courseInfo.design=prev;
     courseInfo.program.splice(indexUnitTopic, 1);
     setcourseInformation(courseInfo);
+    props.updateSelected([0, 0, 0, 0]);
+    setExpanded(false);
     handleClose();
   }
 
   const editUnitTopicName = (unitIndex) => {
+    
     let prev = data;
+    //console.log("editUnitTopicName", unitIndex, prev[unitIndex].title )
     prev[unitIndex].editing = true;
     setData(prev);
     let courseInfo=courseinformation;
@@ -332,6 +383,7 @@ export default function DesignStep(props) {
   }
 
   const saveEdit = (unitIndex) => {
+    setvalidateTitle(false)
     let prev = data;
     prev[unitIndex].editing = false;
     prev[unitIndex].title = controlEdit.tempValue;
@@ -345,17 +397,35 @@ export default function DesignStep(props) {
       adding: false,
       editing: false
     });
+    setExpanded(unitIndex);
   }
 
   const cancelEdit = (unitIndex) => {
+    setvalidateTitle(false)
     let prev = data;
     prev[unitIndex].editing = false;
-    setData(prev);
-    setControlEdit({
-      tempValue: "",
-      adding: false,
-      editing: false
-    });
+   // console.log("eeeeeeeee",prev, unitIndex, data[2], prev.slice(-1)[0].title)
+//"Tópico 01" "Unidade 01" "Nuevo Topico" "Nueva Unidad" "Ünite 01"  "Konu 01"
+    if(prev.slice(-1)[0].title=="New Topic" || prev.slice(-1)[0].title==="New Unit" || 
+    prev.slice(-1)[0].title=="Tópico 01" || prev.slice(-1)[0].title=="Unidade 01" || prev.slice(-1)[0].title=="Nuevo Topico" || 
+    prev.slice(-1)[0].title=="Nueva Unidad" || prev.slice(-1)[0].title=="Ünite 01" || prev.slice(-1)[0].title=="Konu 01"){
+      prev.pop()
+      setData(prev);
+      setControlEdit({
+        tempValue: "",
+        adding: false,
+        editing: false
+      }); 
+    }else{
+      setData(prev);
+      setControlEdit({
+        tempValue: "",
+        adding: false,
+        editing: false
+      }); 
+    }
+    
+    
   }
 
   const handleOpen = () => {
@@ -368,26 +438,28 @@ export default function DesignStep(props) {
 
   return(
     <div className="form-input-container">
-      <div className="form-input-steps">
+      <div className="form-input-steps" key={key}>
         <h2>{language.desingPhase}</h2><br/>
         {data.map((unit, unitIndex) => (
           <div key={unitIndex}>
             <br/>
             <ExpansionPanel
-              expanded={expanded === unit.key}
-              onChange={handleChange(unit.key)}
+              expanded={expanded === unitIndex}
+              onChange={handleChange(unitIndex)}
               className="design-expantion-panel-container"
             >
               <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={<ExpandMoreIcon className="design-expantion-panel-icon"/>}
                 aria-controls="panel1bh-content"
                 id={"panel1bh-header-" + unit.key}
+                className="design-expantion-panel-summary"
               >
                 <h3 className={unit.editing ? classes.hidden : ""}>{unit.title}</h3>        
-                <div className={!unit.editing ? classes.hidden : ""}>
+                <div className={!unit.editing ? classes.hidden : "design-expantion-panel-icon"}>
                   <TextField
+                    autoFocus={true}
                     id={"unit_" + unitIndex + "txtField"}
-                    label={"Title"}
+                    label={language.title}
                     value={controlEdit.tempValue}
                     onChange={event => updateTempValue(event.target.value)}
                   />
@@ -397,7 +469,7 @@ export default function DesignStep(props) {
                     aria-label={"Save changes"}
                     onClick={event => saveEdit(unitIndex)}
                     className={classes.saveButton}
-                    disabled={controlEdit.tempValue === ""}
+                    disabled={controlEdit.tempValue === ""? true : validateTitle===true? true: false}
                   >
                     <DoneIcon />
                   </IconButton>
@@ -412,12 +484,12 @@ export default function DesignStep(props) {
                   </IconButton>
                   <FeedbackHelp
                     validation={{
-                      error: false,
-                      errorMsg: "",
+                      error: validateTitle,
+                      errorMsg: props.language.YouTitlebefore,
                       errorType: "",
                       a11y: null
                     }}
-                    tipMsg="instructions"
+                    tipMsg={organization === "unit" ? language.unitName : language.topicName}
                     describedBy={"i05-helper-text"}
                   />
                 </div>
@@ -431,7 +503,30 @@ export default function DesignStep(props) {
                   color="secondary"
                   startIcon={<EditIcon />}
                 >
-                  {language.Editunitname}
+                  {
+                    (courseInformation.coursePlan.courseStructure==='unit' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.Editunitname
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='free' )?
+                    language.Edittopicname
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && 
+                    (courseInformation.coursePlan.courseTemplate==='spiral' || courseInformation.coursePlan.courseTemplate==='consistent' || courseInformation.coursePlan.courseTemplate==='toyBox') && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.Edittemplatename
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.Edittopicname
+                    :
+                    (courseInformation.coursePlan.courseStructure==='unit' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='free' )?
+                    language.Editunitname
+                    :
+                    undefined
+                  }
                 </Button>
                 <Button
                   id={"unit_" + unitIndex + "btnDelete"}
@@ -441,17 +536,56 @@ export default function DesignStep(props) {
                   color="secondary"
                   startIcon={<RemoveIcon />}
                 >
-                  {language.Deleteunit}
+                  {
+                    (courseInformation.coursePlan.courseStructure==='unit' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.Deleteunit
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='free' )?
+                    language.deleteTopic
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && 
+                    (courseInformation.coursePlan.courseTemplate==='spiral' || courseInformation.coursePlan.courseTemplate==='consistent' || courseInformation.coursePlan.courseTemplate==='toyBox') && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.deleteTemplate
+                    :
+                    (courseInformation.coursePlan.courseStructure==='topic' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='guided' )?
+                    language.deleteTopic
+                    :
+                    (courseInformation.coursePlan.courseStructure==='unit' && courseInformation.coursePlan.courseTemplate==='without' && 
+                    courseInformation.coursePlan.guidedCoursePlan==='free' )?
+                    language.Deleteunit
+                    :
+                    undefined
+                  }
                 </Button>
-                {unitIndex !== 0 && (
-                  <IconButton
-                    id={"unit_" + unitIndex + "btnMoveUp"}
-                    edge="end"
-                    aria-label={"Move unit up"}
-                    // onClick={handleMoveUnit(unitIndex)}
-                  >
-                    <ArrowDropUpIcon />
-                  </IconButton>
+                {unitIndex < data.length - 1 && (
+                  <Tooltip title={language.moveDown}>
+                    <IconButton
+                      id={"unit_" + unitIndex + "btnMoveUp"}
+                      edge="end"
+                      aria-label={language.moveDown}
+                      onClick={() => handleMove(unitIndex, unitIndex + 1)}
+                      className="design-move-icons"
+                    >
+                      <ArrowDropDownIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+                {unitIndex > 0 && (
+                  <Tooltip title={language.moveUp}>
+                    <IconButton
+                      id={"unit_" + unitIndex + "btnMoveUp"}
+                      edge="end"
+                      aria-label={language.moveUp}
+                      onClick={() => handleMove(unitIndex, unitIndex - 1)}
+                      className="design-move-icons"
+                    >
+                      <ArrowDropUpIcon />
+                    </IconButton>
+                  </Tooltip>
                 )}
               </ExpansionPanelActions>
               {
@@ -527,6 +661,25 @@ export default function DesignStep(props) {
           tipMsg={organization === "unit" ? language.addUnit : language.addTopic}
           describedBy={"i05-helper-text"}
         />
+
+        <br/>
+        <FeedbackHelp
+        language={props.language}
+          validation={{
+            error: false,
+            errorMsg: "xxxx",
+            errorType: "xxxxxtttt",
+            a11y: null
+          }}
+         // tipMsg={language.appropriateOption}
+          describedBy={"i05-helper-text"}
+          stepHelp={{
+            step: "textHelper",
+            stepLabel: props.language.CourseDesignHelp,
+            helpsTips:props.language.DesignTipsHelps
+          }}
+        />
+
         <Dialog
           open={openDialog}
           onClose={handleClose}
@@ -558,7 +711,7 @@ export default function DesignStep(props) {
             <DialogContent className="success-dialog-content">
               <div className="organization-form">
                 <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                  Are you sure you want to delete this unit/topic ?
+                  {language.deleteUnitTopic}
                 </DialogContentText>
               </div>
               <WarningIcon className="warning-dialog-icon"/>

@@ -49,7 +49,6 @@ export default class TemplateParent extends React.Component {
               <MediaGallery
                 contentItems={contentItems}
                 contentCode={contentCode}
-                openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
                 language={this.props.language}
               />
             :
@@ -61,7 +60,6 @@ export default class TemplateParent extends React.Component {
                     courseId={this.props.courseId}
                     toResolve={this.props.toResolve}
                     fromTutor={this.props.fromTutor ? this.props.fromTutor : undefined}
-                    openMedia={this.props.openMedia ? this.props.openMedia.bind(this) : undefined}
                     handleControlMessage={this.props.handleControlMessage ? this.props.handleControlMessage.bind(this) : undefined}
                     completeActivity={this.props.completeActivity ? this.props.completeActivity.bind(this) : undefined}
                     language={this.props.language}
@@ -134,24 +132,24 @@ export default class TemplateParent extends React.Component {
               <div className="template-row">
                 {
                   this.props.selected[3] === 2 ?
-                    this.props.arrayOfDesignItems.type === "1" ? this.templateItem("task", "Activity Item", 0) :
-                    this.props.arrayOfDesignItems.type === "2" ? this.templateItem("task", "Problem Item", 0) :
-                    this.props.arrayOfDesignItems.type === "3" ? this.templateItem("task", "Quiz Item", 0) :
-                    this.props.arrayOfDesignItems.type === "4" ? this.templateItem("task", "Forum Item", 0) : undefined
+                    this.props.arrayOfDesignItems.type === "1" ? this.templateItem("task", this.props.language.activityItem, 0) :
+                    this.props.arrayOfDesignItems.type === "2" ? this.templateItem("task", this.props.language.problemItem, 0) :
+                    this.props.arrayOfDesignItems.type === "3" ? this.templateItem("task", this.props.language.quizItem, 0) :
+                    this.props.arrayOfDesignItems.type === "4" ? this.templateItem("task", this.props.language.forumItem, 0) : undefined
                   :
-                    this.templateItem("main", "Main Content", 0)
+                    this.templateItem("main", this.props.language.Maincontent, 0)
                 }
               </div>
               {
                 file && link ?
                   <div className="template-row">
-                    {this.templateItem("file", "Files", 1)}
-                    {this.templateItem("link", "Links", 1)}
+                    {this.templateItem("file", this.props.language.files, 1)}
+                    {this.templateItem("link", this.props.language.links, 1)}
                   </div>
                 :
                   (file || link) && <div className="template-row">
-                    {file && this.templateItem("file", "Files", 0)}
-                    {link && this.templateItem("link", "Links", 0)}
+                    {file && this.templateItem("file", this.props.language.files, 0)}
+                    {link && this.templateItem("link", this.props.language.links, 0)}
                   </div>
               }
               {
@@ -159,26 +157,26 @@ export default class TemplateParent extends React.Component {
                   mediaGallery ?
                     <React.Fragment>
                       <div className="template-row">
-                        {this.templateItem("image", "Images", 0)}
+                        {this.templateItem("image", this.props.language.Images, 0)}
                       </div>
                       <div className="template-row">
-                        {this.templateItem("video", "Videos", 0)}
+                        {this.templateItem("video", this.props.language.Videos, 0)}
                       </div>
                     </React.Fragment>
                   :
                     <div className="template-row">
-                      {this.templateItem("image", "Images", 1)}
-                      {this.templateItem("video", "Videos", 1)}
+                      {this.templateItem("image", this.props.language.Images, 1)}
+                      {this.templateItem("video", this.props.language.Videos, 1)}
                     </div>
                 :
                   (this.props.tools[2].checked || this.props.tools[5].checked) && <div className="template-row">
-                    {this.props.tools[2].checked && this.templateItem("image", "Images", 0)}
-                    {this.props.tools[5].checked && this.templateItem("video", "Videos", 0)}
+                    {this.props.tools[2].checked && this.templateItem("image", this.props.language.Images, 0)}
+                    {this.props.tools[5].checked && this.templateItem("video", this.props.language.Videos, 0)}
                   </div>
               }
-              {this.props.tools[0].checked && <div className="template-row">{this.templateItem("audio", "Audios", 0)}</div>}
-              {embedded && <div className="template-row">{this.templateItem("embeddedh5p", "Embedded Content", 0)}</div>}
-              {unity && <div className="template-row">{this.templateItem("unity", "Unity Content", 0)}</div>}
+              {this.props.tools[0].checked && <div className="template-row">{this.templateItem("audio", this.props.language.Audios, 0)}</div>}
+              {embedded && <div className="template-row">{this.templateItem("embeddedh5p", this.props.language.embeddedContent, 0)}</div>}
+              {unity && <div className="template-row">{this.templateItem("unity", this.props.language.unityContent, 0)}</div>}
             </React.Fragment>
           :
             <Container

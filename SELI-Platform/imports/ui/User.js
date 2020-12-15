@@ -72,7 +72,7 @@ export default class User extends React.Component {
     if (this.props.history.location.user) {
       this.setInitVariables(this.props.history.location.user);
     } else {
-      Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
+      Meteor.call("GetUser", (error, response) =>  {
         if (response) this.setInitVariables(response);
         else this.props.history.push('/');
       });
@@ -154,7 +154,13 @@ export default class User extends React.Component {
   }
 
   showComponent = (component) => {
+
+    //console.log('showComponent---------------------------------------------------', component, this.state)
+   
+    
+
     if (!(component === "create" && this.state.component === "create")){
+      //console.log("paso 2")
       if (this.state.component === "create" && !this.state.savedCourse){
         if (component !== "create") {
           this.setState({
@@ -169,6 +175,37 @@ export default class User extends React.Component {
         });
       }
     }
+
+    if(this.state.component==='edit' && this.state.savedCourse===false ){
+     // console.log("paso3****************",component,this.state.component,this.state.savedCourse, this.state )
+      this.setState({
+        savedCourseWindow: true,
+        component: 'edit',
+        nextComponent: component
+      }); 
+    } 
+    /* if(component==='published' && this.state.savedCourse===false ){
+      console.log("paso 1")
+      this.state.savedCourse=true
+      this.state.component='published'
+      this.setState({
+        component: 'edit',//component: component,
+        savedCourse: true,
+        
+      });
+    } */
+
+    /* if(this.state.component==='edit' && this.state.savedCourse===true ){
+      console.log("createsave****************",component,this.state.component,this.state.savedCourse, this.state )
+      this.setState({
+        component: component,
+        savedCourse: false,
+      }); 
+    }
+ */
+
+
+      
   }
 
   handleControlMessage = (show, message, showAction, action, actionMessage, course) => {
@@ -453,6 +490,7 @@ export default class User extends React.Component {
   };
 
   handleCloseSave = () => {
+    console.log("222222222222222222222",this.state)
     this.setState({ 
       savedCourseWindow: false,
       savedCourse: false,
@@ -467,6 +505,7 @@ export default class User extends React.Component {
   }
 
   saveCourse = () => {
+    console.log("click to save777777777777777",this.refs.CreateCourse.saveCourse())
     this.refs.CreateCourse.saveCourse();
     this.setState({ 
       savedCourseWindow: false,
@@ -514,6 +553,19 @@ export default class User extends React.Component {
   }
 
   navigateTo = (selected) => {
+    let botonOne=document.getElementById("botonfocus");
+    let boton1=document.getElementById("botonfocus1");
+    let boton2=document.getElementById("botonfocus2");
+    let boton3=document.getElementById("botonfocus3");
+    let audioBoton=document.getElementsByClassName("content-item");
+
+    if (this.state.user.profile.type === "student") {
+      boton1.blur();
+      boton2!=null? boton2.blur():undefined;
+      boton3!=null? boton3.blur():undefined;
+      botonOne.blur();
+    }
+    
     this.setState({
       selected: selected,
       coursePresentation: false,
@@ -521,50 +573,18 @@ export default class User extends React.Component {
     });
   }
 
-  handleNext = (template, structure, taskLength, unitTopicLength, lessonLength) => {
-    let selected = this.state.selected;
-    if (selected[3] === 0) {
-      if (structure === 'unit' && lessonLength > 0) {selected[3] = 1}
-      else {
-        if (template !== 'without' && taskLength > 0) selected[3] = 2
-        else if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
-      }
-    } else if (selected[3] === 1) {
-      if (selected[1] < lessonLength - 1) {selected[1] = selected[1] + 1}
-      else {
-        if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
-      }
-    } else if (selected[3] === 2) {
-      if (selected[2] < taskLength - 1) {selected[2] = selected[2] + 1}
-      else {
-        if (selected[0] < unitTopicLength - 1) selected = [selected[0] + 1, 0, 0, 0]
-      }
-    } 
-    this.navigateTo(selected)
-  }
+  disableDialog=()=>{
+    /* this.state.savedCourseWindow=false
+    this.state.chekingSesion=false
+    this.state.openDialog=false */
+    this.refs.CreateCourse.saveCourse();
+     this.setState({ 
+     savedCourseWindow: false,
+     // chekingSesion: false,
+      //openDialog: false, 
+    }); 
 
-  handlePrevious = (template, structure, previousTaskLength, unitTopicLength, previousLessonLength) => {
-    let selected = this.state.selected;
-    if (selected[3] === 0) {
-      if (selected[0] > 0) {
-        if (structure === 'unit' && previousLessonLength > 0) {selected = [selected[0] - 1, selected[1] = previousLessonLength - 1, 0, 1]}
-        else {
-          if (template !== 'without' && previousTaskLength > 0) selected = [selected[0] - 1, 0, selected[2] = previousTaskLength - 1, 2]
-          else if (unitTopicLength > 0) selected = [selected[0] - 1, 0, 0, 0]
-        }
-      }
-    } else if (selected[3] === 1) {
-      if (selected[1] > 0) {selected[1] = selected[1] - 1}
-      else {
-        if (unitTopicLength > 0) selected = [selected[0], 0, 0, 0]
-      }
-    } else if (selected[3] === 2) {
-      if (selected[2] > 0) {selected[2] = selected[2] - 1}
-      else {
-        if (unitTopicLength > 0) selected = [selected[0], 0, 0, 0]
-      }
-    }
-    this.navigateTo(selected)
+    this.showComponent('published')
   }
 
   render() {
@@ -615,8 +635,6 @@ export default class User extends React.Component {
                           unsubscribe={this.unsubscribeFromCourse.bind(this)}
                           showComponent={this.showComponent.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
-                          handlePrevious={this.handlePrevious.bind(this)}
-                          handleNext={this.handleNext.bind(this)}
                           navigateTo={this.navigateTo.bind(this)}
                         />
                       :
@@ -637,6 +655,7 @@ export default class User extends React.Component {
                     {
                       this.state.component === 'create' || this.state.component === 'edit' ?
                         <CreateCourse
+                        disableDialog={this.disableDialog.bind(this)}
                           ref="CreateCourse"
                           savedCourseState={this.savedCourseState.bind(this)}
                           language={this.state.language}
@@ -660,8 +679,6 @@ export default class User extends React.Component {
                           showComponent={this.showComponent.bind(this)}
                           reRender={this.forceUpdate.bind(this)}
                           handleControlMessage={this.handleControlMessage.bind(this)}
-                          handlePrevious={this.handlePrevious.bind(this)}
-                          handleNext={this.handleNext.bind(this)}
                           navigateTo={this.navigateTo.bind(this)}
                         />
                       :

@@ -95,6 +95,7 @@ export default function DesignCourseApp(props) {
   const [programActivities, setProgramActivities] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [indexStateLesson, setIndexStateLesson] = useState(-1);
+  const [validateTitleLesson, setvalidateTitleLesson]=useState(false)
 
   useEffect(() => {
     if(designInformation.length !== 0){
@@ -102,6 +103,9 @@ export default function DesignCourseApp(props) {
       setProgramActivities(programInformation[unitIndex].lessons);
     }
   }, [])
+  useEffect(()=>{
+    console.log("se valida leccion:",validateTitleLesson)
+  },[validateTitleLesson])
 
   const handleActivities = (lessonIndex, activities, pActivities) => {
     let prev = [...data];
@@ -114,6 +118,18 @@ export default function DesignCourseApp(props) {
   };
 
   function updateTempValue(value) {
+    console.log("valueee",value, data)
+    data.map((title, indextitle)=>{
+      if(title.title!=''){
+        if(title.title==value){
+          console.log("sssss")
+          setvalidateTitleLesson(true)
+        }else{
+          setvalidateTitleLesson(false)
+        }
+      }
+      
+    })
     setControlEdit(prev => {
       return { ...prev, tempValue: value };
     });
@@ -135,7 +151,7 @@ export default function DesignCourseApp(props) {
     ],
     activities: [
       {
-        activity: "Example",
+        activity: language.task,
         type: "1",
         graded: true,
         group: 0,
@@ -143,8 +159,8 @@ export default function DesignCourseApp(props) {
         preeReview: false,
         submitted: true,
         error: true,
-        label: "required",
-        helperText: "Name is required.",
+        label: language.required,
+        helperText: language.Namerequired,
         validateInput: true
       }
     ],
@@ -152,11 +168,14 @@ export default function DesignCourseApp(props) {
   }
 
   const addLesson = () => {
+    setvalidateTitleLesson(false)
     let prev = data;
     let programInfo = programActivities;
     let newLesson = lesson;
     newLesson.key = "lesson" + data.length + unitIndex;
-    let activity = {_id: Math.random(), name: "", items: [], activities: []};
+    let activity = {_id: Math.random(), name: "", items: [], activities: [{
+      _id: Math.random(), name: language.task, items: []
+    }]};
     prev.push(newLesson);
     programInfo.push(activity);
     setData(prev);
@@ -172,6 +191,7 @@ export default function DesignCourseApp(props) {
   }
 
   const editLesson = (lessonIndex) => {
+    
     let prev = data;
     let programInfo = programActivities;
     prev[lessonIndex].editing = false;
@@ -236,7 +256,7 @@ export default function DesignCourseApp(props) {
                 aria-label={"Save changes"}
                 onClick={event => editLesson(lessonIndex)}
                 className={classes.saveButton}
-                disabled={controlEdit.tempValue === ""}
+                disabled={controlEdit.tempValue === ""? true : validateTitleLesson===true? true: false}
               >
                 <DoneIcon />
               </IconButton>
@@ -247,26 +267,40 @@ export default function DesignCourseApp(props) {
                 onClick={event => {
                   setData(prev => {
                     prev[lessonIndex].editing = false;
-                    setControlEdit({
-                      tempValue: "",
-                      adding: false,
-                      editing: false
-                    });
-                    return [...prev];
+                    console.log("leccio**********",prev)
+                     if(prev.slice(-1)[0].title==""){
+                      prev.pop()
+                      setControlEdit({
+                        tempValue: "",
+                        adding: false,
+                        editing: false
+                      });
+                      return [...prev];
+                      
+                    }
+                    else{ 
+                      setControlEdit({
+                        tempValue: "",
+                        adding: false,
+                        editing: false
+                      });
+                      return [...prev];
+                    }    
                   });
                 }}
                 className={classes.deleteButton}
               >
                 <ClearIcon />
               </IconButton>
+              
               <FeedbackHelp
                 validation={{
-                  error: false,
-                  errorMsg: "",
+                  error: validateTitleLesson,
+                  errorMsg: props.language.YouTitlebefore,
                   errorType: "",
                   a11y: null
                 }}
-                tipMsg="instructions"
+                tipMsg={language.lessonName}
                 describedBy={"i05-helper-text"}
               />
             </div>     
@@ -395,7 +429,7 @@ export default function DesignCourseApp(props) {
           <DialogContent className="success-dialog-content">
             <div className="organization-form">
               <DialogContentText className="success-dialog-content-text" id="alert-dialog-description">
-                Are you sure you want to delete this lesson ?
+                {`${language.deleteItemBelow}, ${language.wantProceed}`}
               </DialogContentText>
             </div>
             <WarningIcon className="warning-dialog-icon"/>

@@ -36,24 +36,25 @@ You need to create your genesis file.
 ```bash
 {
 
-    "config":{
-        "chainId":15,
-        "homesteadBlock":0,
-        "eip155Block":0,
-        "eip158Block":0
-    },
-    "difficulty":"200000",
-    "gasLimit":"2100000000",
-    "alloc":{
-        "9da3813aad90cd9f5b8db5299b39594470728596":{
-            "balance":"11111111111111111111111111111111"
-        },
-        "b3105e05ce0af42842a5f37760967fac2fe83c8a":{
-            "balance":"22222222222222222222222222222222"
-        }
-    }
-
+"config":{
+"chainId":1923,
+"homesteadBlock":0,
+"eip150Block":0,
+"eip155Block":0,
+"eip158Block":0
+},
+"difficulty":"200000",
+"gasLimit":"2100000000",
+"alloc":{
+"0x45611aDAE0D07d69b688c169181F38d7dcf66e8D":{
+"balance":"11111111111111111111111111111111"
+},
+"0x409dE9b802368776426e84Ab53e57d568f8a43f5":{
+"balance":"22222222222222222222222222222222"
 }
+}
+}
+
 ```
 Now we need to initialize the Node with genesis file we created. Run the command below to initialize.
 ```bash
@@ -65,7 +66,7 @@ Now start the node, using the command below.
 
 
 ```bash
-geth --datadir="ethdata" --networkid 15 --nodiscover console --unlock 52ced5207daddd2081f623cd3c4bc2ef30b8447f --rpc --rpcport "8000" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --rpcapi "eth,net,web3,miner,debug,personal,rpc"
+geth --datadir="ethdata" --networkid 15 console --port 9091 --rpc --rpcport "8081" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --rpcapi "eth,net,web3,miner,debug,personal,rpc" --allow-insecure-unlock
 ```
 Make sure to replace the account number here after unlock with your Account number.
 

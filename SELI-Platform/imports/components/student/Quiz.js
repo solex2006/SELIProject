@@ -13,6 +13,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
@@ -46,6 +47,9 @@ const useStyles = theme => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  lista: {
+    listStyleType: "none"
+  }
 });
 
 
@@ -70,7 +74,9 @@ class Quiz extends React.Component {
       extendedTime: "",
       newaddTime: "",
       selectedtime: '',
-      noTime: false
+      noTime: false,
+      thefocus:0,
+      num:1
     }
   }
 
@@ -125,6 +131,14 @@ class Quiz extends React.Component {
 
   }
   componentDidUpdate(prevProps, prevState) {
+
+    if(prevState.showFinishConfirmation!=this.state.showFinishConfirmation){
+      //console.log("sea ctualzaoasdsdasd", document.getElementById('finishquiz'))
+      if(document.getElementById('finishquiz')!=null){
+        document.getElementById('finishquiz').focus()
+      } 
+
+    }
     if (prevState.selectedtime !== this.state.selectedtime) {
       this.setState({ start: false })
 
@@ -165,11 +179,22 @@ class Quiz extends React.Component {
   }
 
   handleNext = () => {
+  this.state.num=this.state.num+1
+  this.setState(this.state)
+  // console.log("The active element is now:before  ", this.state, this.state.selected);
+  //if(this.state.num!=this.state.answers){
+    document.activeElement.blur();
+  
+    
+   // console.log("The active element is now: " + $(document.activeElement).prop('tagName'));
+    //console.log("The Focus-------------------------->",this.state.thefocus)
     let selected = this.state.selected;
     selected++;
+    console.log("The active element is now:before  ", this.state, this.state.selected);
     this.setState({
       selected: selected,
       answer: '',
+     // thefocus: this.state.thefocus+1,
     })
   }
 
@@ -242,6 +267,7 @@ class Quiz extends React.Component {
   }
 
   handleFinish = (validate, type) => {
+   
     if (validate) {
       if (this.validateQuiz()) { // always validate inclusive without any question resolved
         let results = this.getQuizResults(this.state.answers);
@@ -249,7 +275,7 @@ class Quiz extends React.Component {
 
         results.score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
         let quiz = {
-          score: results.score,
+          score: results.score.toFixed(2),
           hits: results.hits,
           approved: approved,
           public: false,
@@ -299,9 +325,13 @@ class Quiz extends React.Component {
   }
 
   showFinishConfirmation = () => {
+    
     this.setState({
       showFinishConfirmation: true,
     })
+    let elemento=document.getElementById('finishquiz')
+    console.log("handle finish",elemento)
+    //document.getElementById('finishquiz').focus()
   }
 
   cancelFinish = () => {
@@ -370,7 +400,7 @@ class Quiz extends React.Component {
   cambio = () => {
     const { classes } = this.props;
     return (
-      <div key={this.state.selectedtime}>
+      <div tabindex="0" key={this.state.selectedtime}>
         <TimerMachine
           timeStart={this.state.selectedtime} // start at 10 seconds
           timeEnd={0}       // end at 20 seconds
@@ -471,9 +501,9 @@ class Quiz extends React.Component {
             undefined
             :
             <Paper elevation={10} className="quiz-dashboard-side" >
-              <h2 className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</h2>
+              <p tabindex="0" className="quiz-dashboard-primary-text">{this.props.quiz.attributes.quizTitle}</p>
               <QuestionAnswerIcon className="quiz-dashboard-icon" />
-              <p className="quiz-dashboard-label-text">{this.props.language.timeLeft}</p>
+              <p tabindex="0" className="quiz-dashboard-label-text">{this.props.language.timeLeft}</p>
               {
                 this.cambio()
               }
@@ -514,48 +544,69 @@ class Quiz extends React.Component {
             undefined
         }
         <Paper elevation={8} className="quiz-dashboard-questions-container">
-          <p className="question-dashboard-label-text">{this.props.language.chooseCorrectAnswer}</p>
+          <p tabindex="0"  className="question-dashboard-label-text">{this.props.language.chooseCorrectAnswer}</p>
           <Divider />
+        
+          <p tabindex="0">  {this.props.quiz.attributes.questions[this.state.selected].questionTitle}</p>
+              
           <div className="question-dashboard-container">
-            <FormControl component="fieldset" className="question-dashboard-form-control">
-              <h3 component="legend" className="question-dashboard-form-label MuiFormLabel-root question-dashboard-form-label">{this.props.quiz.attributes.questions[this.state.selected].questionTitle}</h3>
-              <RadioGroup
-                aria-label="answer"
-                name="answer"
-                className="question-dashboard-radio-group-student"
-                aria-required="true"
-              >
-                {console.log("las preguntas en el estudienate", this.props.quiz.attributes)}
-                {
-                  this.props.quiz.attributes.questions[this.state.selected].questionTitle!=''?
-                  this.props.quiz.attributes.questions[this.state.selected].answersText.map((text, index) => {
-                    return (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            className={"question-dashboard-form-control-label"}
-                            checked={this.state.answers[this.state.selected][index] === true}
-                            onChange={() => this.handleChange(index, event)}
-                            inputProps={{
-                              'aria-label': 'primary checkbox',
-                            }}
-                          />
-                        }
-                        label={text}
-                      />
-                    )
-                  })
-                  :
-                  undefined
-                }
-              </RadioGroup>
-            </FormControl>
+           
+               
+
+
+          
+           <div>
+              <div >
+                
+                  {
+                      this.props.quiz.attributes.questions[this.state.selected].questionTitle!=''?
+                      <FormGroup role="group" aria-labelledby={"qtitle-" + this.state.selected}>
+                          <ul>
+                            {
+                              this.props.quiz.attributes.questions[this.state.selected].answersText.map((text, index) => {
+                                return (
+                                      <li className={classes.lista}>
+                                        <FormControlLabel
+                                          control={
+                                            <Checkbox
+                                              className={"question-dashboard-form-control-label"}
+                                              checked={this.state.answers[this.state.selected][index] === true}
+                                              onChange={() => this.handleChange(index, event)}
+                                              /* inputProps={{
+                                                'aria-label': text,
+                                              }} */
+                                              name={"opcao_" + index}
+                                            />
+                                          }
+                                          label={text}
+                                          
+                                        />
+                                      </li>
+                                    
+                                  
+                                )
+                              })
+                            }
+                          </ul>
+                      </FormGroup>
+                      :
+                      undefined
+                      
+                      
+                  }
+                
+                </div>
+            </div>
+            {/* </FormControl> */}
+            
+
           </div>
           {
             this.state.showFinishConfirmation ?
-              <div className="question-dashboard-actions">
-                <p className="question-dashboard-label-text">{this.props.language.sureFinishQuiz}</p>
-                <Button
+              <div  className="question-dashboard-actions">
+                <p tabindex="0" id='finishquiz'  className="question-dashboard-label-text">{this.props.language.sureFinishQuiz}</p>
+                <div>
+                <Button 
                   className="question-dashboard-button"
                   color="primary"
                   onClick={() => this.cancelFinish()}
@@ -563,12 +614,15 @@ class Quiz extends React.Component {
                   {this.props.language.no}
                 </Button>
                 <Button
+        
                   className="question-dashboard-button"
                   color="primary"
                   onClick={() => this.handleFinish(true, "finish")}
                 >
                   {this.props.language.yes}
                 </Button>
+                </div>
+                
               </div>
               :
               <div className="question-dashboard-actions">
@@ -588,6 +642,7 @@ class Quiz extends React.Component {
                 {
                   this.state.selected === this.props.quiz.attributes.questions.length - 1 ?
                     <Button
+                      tabindex="0"
                       className="question-dashboard-button"
                       color="primary"
                       variant="contained"
@@ -597,6 +652,7 @@ class Quiz extends React.Component {
                     </Button>
                     :
                     <Button
+                      tabindex="0"
                       className="question-dashboard-button"
                       color="primary"
                       variant="contained"

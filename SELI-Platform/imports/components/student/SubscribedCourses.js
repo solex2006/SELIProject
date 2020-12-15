@@ -20,6 +20,7 @@ export default class SubscribedCourses extends React.Component {
   }
 
   componentDidMount() {
+    document.title=this.props.language.mySubscriptions
     this.props.getSubscribedCourses(() => this.getSubscribedCourses());
     this.getSubscribedCourses();
     //this.cursos.current.focus();

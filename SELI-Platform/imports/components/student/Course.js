@@ -6,7 +6,6 @@ import { Comments } from '../../../lib/CommentsCollection';
 import CourseMenu from './CourseMenu';
 import CoursePresentation from './CoursePresentation';
 import CourseContent from './CourseContent';
-import MediaPlayer from './MediaPlayer';
 import CommentDialog from '../student/comments/CommentDialog';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -19,14 +18,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 import AppsIcon from '@material-ui/icons/Apps';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import Slide from '@material-ui/core/Slide';
 import { StudentEventLog } from '../../../lib/StudentEventCollection';
-
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -40,7 +37,6 @@ export default class Course extends React.Component {
       progress: this.props.activeCourse.progress,
       toComplete: this.props.activeCourse.toComplete,
       toResolve: this.props.activeCourse.toResolve,
-      media: '',
       certificateCreated: false,
       certificateError: false,
       certificateDialogOpen: false,
@@ -192,19 +188,8 @@ export default class Course extends React.Component {
     });
   }
 
-  handleCloseMedia = () => {
-    this.setState({ openMedia: false });
-  }
-
   handleCloseComment = () => {
     this.setState({ openComment: false });
-  }
-
-  openMedia = (media, mediaType, mediaTitle) => {
-    this.setState({
-      media: media,
-      openMedia: true,
-    })
   }
 
   leaveComment = () => {
@@ -306,12 +291,9 @@ export default class Course extends React.Component {
               course={this.state.course}
               showComponent={this.props.showComponent.bind(this)}
               handleControlMessage={this.props.handleControlMessage.bind(this)}
-              handlePrevious={this.props.handlePrevious.bind(this)}
-              handleNext={this.props.handleNext.bind(this)}
               navigateTo={this.props.navigateTo.bind(this)}
               completeActivity={this.completeActivity.bind(this)}
               completeTopicLesson={this.completeTopicLesson.bind(this)}
-              openMedia={this.openMedia.bind(this)}
               leaveComment={this.leaveComment.bind(this)}
               selected={this.props.selected}
               toComplete={this.state.toComplete}
@@ -320,34 +302,6 @@ export default class Course extends React.Component {
               logStudentInteraction={this.logStudentInteraction.bind(this)}
             />
         }
-        <Dialog
-          open={this.state.openMedia}
-          onClose={this.handleCloseMedia}
-          TransitionComponent={Transition}
-          fullScreen
-          aria-labelledby="alert-dialog-confirmation"
-          aria-describedby="alert-dialog-confirmation"
-          disableBackdropClick={true}
-          className="media-dialog"
-        >
-          <AppBar position="static" className="course-dialog-app-bar">
-            <Toolbar style={{position: 'relative'}}>
-              <IconButton edge="start" color="inherit" onClick={this.handleCloseMedia} aria-label="close">
-                <CloseIcon />
-              </IconButton>
-              <Typography className="course-dialog-title" variant="h6">
-                {`${this.props.language.seliMediaPlayer} | ${this.state.media ? this.state.media.attributes.title : ""}`}
-              </Typography>
-              <p className="app-tooltip">{this.props.language.pressEscCourse}</p>
-            </Toolbar>
-          </AppBar>
-          <DialogContent className="media-dialog-content">
-            <MediaPlayer
-              media={this.state.media}
-              language={this.props.language}
-            />
-          </DialogContent>
-        </Dialog>
         <Dialog
           open={this.state.openStories}
           onClose={this.handleCloseStories}

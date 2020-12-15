@@ -12,15 +12,17 @@
 }
 
 .course-item-video-card-media-action-area {
-  display: flex !important;
+  display: flex;
   align-items: center;
+  height: auto;
   padding: 0.5vh 0;
   background-color: rgba(255, 255, 255, 0);
 }
 
 .course-item-video-card-media-action-area-template {
-  display: flex !important;
+  display: flex;
   align-items: center;
+  height: auto;
   padding: 0.5vh 0;
   background-color: rgba(255, 255, 255, 0);
 }
@@ -99,10 +101,10 @@
 }
 
 .course-item-audio-card-controls2 {
+  width: calc(100% - 1vw);
   margin-top: 0.5vh !important;
-  margin-bottom: 0.5vh !important;
   justify-content: flex-start !important;
-  padding: 0 0.5vh !important;
+  padding: 0 0.5vw !important;
 }
 
 .course-item-audio-card-image {
@@ -112,6 +114,7 @@
 }
 
 .course-item-card-title {
+  padding: 12px;
   letter-spacing: 1px !important;
   color: #616161 !important;
   display: flex;
@@ -120,8 +123,9 @@
 }
 
 .course-item-card-subtitle {
+  display: flex;
+  align-items: center;
   letter-spacing: 1px !important;
-  margin-left: 0.5vw !important;
 }
 
 .course-item-audio-card-content {
@@ -133,10 +137,10 @@
 }
 
 .videosignal{
-    position: absolute;
-    top: -110px !important;
-    left: 30px !important;
-    width: 144px !important;
+  position: absolute;
+  top: 18px !important;
+  left: 30px !important;
+  width: 144px !important;
 }
 
 .videoPreview{
@@ -165,7 +169,7 @@ display: flex;
   margin-left: 20px;
 }
 
-.show-hide-transciption {
+.show-hide-transcription {
   margin-top: 5px;
   animation: fadeInDown 0.5s;
 }

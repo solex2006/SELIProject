@@ -4,13 +4,15 @@ import TextField from "@material-ui/core/TextField";
 import MaterialTable from "material-table";
 import React, {useEffect,  useState}from "react";
 import FeedbackHelp from "../feedback";
-import tableIcons from '../design/icons'
+import tableIcons from '../design/icons';
+import {onlySpaces} from '../../../../lib/textFieldValidations';
 
 const useStyles = makeStyles(theme => ({}));
 
 export default function ActivityDesign(props) {
   const {language, type, courseInformation, programInformation, activities, handleActivities, parentIndex, template,lessonIndex, handleSelectResourcesActivities } = props;
 
+  const [taskInfo, settaskInfo]=useState(false)
   useEffect(()=>{
     if(courseInformation.length!=0){
       if(type=='lesson'){
@@ -61,30 +63,52 @@ export default function ActivityDesign(props) {
 
     return rows;
   }
+  const validateRepeated=(data, estado)=>{
+    courseInformation[parentIndex].activities.map((activity,index)=>{
+      if(activity.activity===data.activity){
+        console.log("Repetido---->",data, state, courseInformation[parentIndex].activities )
+        settaskInfo(true)
+        //return true
+      }else{
+        console.log("Repetidox2---->",data, state, courseInformation[parentIndex].activities)
+        settaskInfo(false)
+        //return false
+      }
+    })
+  }
   const [state, setState] = React.useState({
     columns: [
       {
-        title: "Task Title",
+        title: language.title,
         field: "activity",
         editComponent: props => (
           <TextField
             type="text"
             error={
-              !props.value &&
-              props.rowData.validateInput &&
-              props.rowData.submitted
-                ? props.rowData.error
-                : false
+              //validateRepeated(props.rowData, state)
+              courseInformation[parentIndex].activities.findIndex(activity=>activity.activity==props.rowData.activity)!=-1?
+              true:!props.value && props.rowData.validateInput && props.rowData.submitted ? props.rowData.error: false
+             //validateRepeated(props.rowData, state)
+            //  console.log("asdasdasdasdeeeee",validateRepeated(props.rowData, state))
+              /* for (let i=0; i<data.length-1; i++){
+                console.log("xxxx---->", data[i].title)
+                  if(data[i].title===value){
+                    console.log("Repetido---->")
+                    setvalidateTitle(true)
+                  }else{
+                    console.log("Repetidox2---->")
+                    setvalidateTitle(false)
+                  }
+               }*/
+            /*   !props.value && props.rowData.validateInput && props.rowData.submitted ? props.rowData.error: false */
             }
             helperText={
-              !props.value &&
-              props.rowData.validateInput &&
-              props.rowData.submitted
-                ? "This Field is Required"
-                : ""
+              courseInformation[parentIndex].activities.findIndex(activity=>activity.activity==props.rowData.activity)!=-1?
+              language.YouTitlebefore : !props.value && props.rowData.validateInput && props.rowData.submitted ? language.required : "" 
             }
             value={props.value ? props.value : ""}
             onChange={e => {
+              validateRepeated(props.rowData, state)
               if (props.rowData.validateInput) {
                 props.rowData.validateInput = false;
               }
@@ -95,7 +119,7 @@ export default function ActivityDesign(props) {
         )
       },
       {
-        title: "Type",
+        title: language.type,
         field: "type",
         lookup: typeActivies,
 
@@ -120,10 +144,10 @@ export default function ActivityDesign(props) {
           );
         }
       },
-      { title: "Graded", field: "graded", type: "boolean" },
-      { title: "Peer Reviewed", field: "preeReview", type: "boolean" },
-      { title: "in group", field: "group", type: "number" },
-      { title: "Part of course's project", field: "project", type: "boolean", hidden: false },
+      { title: language.graded, field: "graded", type: "boolean" },
+      { title: language.peerReviewed, field: "preeReview", type: "boolean" },
+      { title: language.inGroup, field: "group", type: "number" },
+      { title: language.partOfProject, field: "project", type: "boolean", hidden: false },
     ],
     data: activities
   });
@@ -137,7 +161,7 @@ export default function ActivityDesign(props) {
   return (
     <React.Fragment>
       <MaterialTable
-        icons={tableIcons}
+        icons={tableIcons(language.Additem)}
         title={language.Taskslist}
         options={{ search: false, actionsColumnIndex: 6}}
         columns={state.columns}
@@ -149,7 +173,7 @@ export default function ActivityDesign(props) {
                 newData.submitted = true;
                 if(newData.type===undefined){newData.type="1"}
                
-                if (!newData.activity) {
+                if (!newData.activity || onlySpaces(newData.activity)) {
                   newData.error = true;
                   newData.label = language.required;
                   newData.helperText = language.Namerequired;
@@ -172,6 +196,7 @@ export default function ActivityDesign(props) {
                     handleActivities(parentIndex, data, programActivities);
                   }
                   console.log("guarda", data, programActivities )
+                 // settaskInfo(programActivities)
                   return { ...prevState, data, programActivities};
                 });
               }, 600);
@@ -180,7 +205,7 @@ export default function ActivityDesign(props) {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 newData.submitted = true;
-                if (!newData.activity) {
+                if (!newData.activity || onlySpaces(newData.activity)) {
                   newData.error = true;
                   newData.label = language.required;
                   newData.helperText = language.Namerequired;
@@ -252,6 +277,15 @@ export default function ActivityDesign(props) {
         localization={{
           pagination: {
             // labelDisplayedRows: '{from}-{to} of {count}'
+            labelRowsSelect: language.rows,
+            firstAriaLabel: language.firstPage,
+            firstTooltip: language.firstPage,
+            previousAriaLabel: language.previousPage,
+            previousTooltip: language.previousPage,
+            nextAriaLabel: language.nextPage,
+            nextTooltip: language.nextPage,
+            lastAriaLabel: language.lastPage,
+            lastTooltip: language.lastPage
           },
           toolbar: {
             // nRowsSelected: '{0} row(s) selected'
@@ -260,7 +294,15 @@ export default function ActivityDesign(props) {
             actions: "" //removed title of action column
           },
           body: {
-            emptyDataSourceMessage: "No tasks"
+            emptyDataSourceMessage: language.tasks,
+            addTooltip: language.add,
+            deleteTooltip: language.delete,
+            editTooltip: language.edit,
+            editRow: {
+              deleteText: `${language.deleteItemBelow}, ${language.wantProceed}`,
+              cancelTooltip: language.cancel,
+              saveTooltip: language.save
+            }
           }
         }}
       />

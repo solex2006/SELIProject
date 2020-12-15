@@ -82,6 +82,12 @@ Meteor.methods({
 });
 
 Meteor.methods({
+  'GetUser'(){
+    return Meteor.user();
+  }
+});
+
+Meteor.methods({
   'GetUserById'(_id){
     return Meteor.users.findOne({_id: _id});
   }
@@ -193,3 +199,13 @@ Meteor.methods({
   }
 });
 
+Meteor.methods({
+  'checkRepeatedEmail'(userId, email){
+    const user = Meteor.users.findOne({'emails.address': email});
+    if (user !== undefined && user._id !== userId) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+});

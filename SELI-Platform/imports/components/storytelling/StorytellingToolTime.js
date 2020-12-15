@@ -32,8 +32,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { withStyles } from '@material-ui/core/styles';
-import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
 import SnackbarItem from '../navigation/Snackbar';
 import ImagePreviewFrame from '../files/previews/ImagePreview';
 
@@ -162,6 +160,7 @@ class StorytellingToolTime extends React.Component {
   }
 
   componentDidMount() {
+    document.title=this.props.language.storyFlow
     if (this.props.storyToEdit !== undefined) {
       this.setState({
         story: {
@@ -808,7 +807,7 @@ class StorytellingToolTime extends React.Component {
     return(
       <React.Fragment>
         {
-          [this.props.language.dstHelper2, this.props.language.dstHelper3, this.props.language.dstHelper4].map((item, index) => {
+          [this.props.language.dstHelper3, this.props.language.dstHelper4, this.props.language.dstHelper2].map((item, index) => {
             return(
               <SnackbarItem
                 index={index}
@@ -987,22 +986,28 @@ class StorytellingToolTime extends React.Component {
                         <StopIcon />
                       </Fab>
                     </Tooltip>
-                    <Tooltip title={this.props.language.back}>
-                      <Fab
-                        className="storytelling-action-button-time"
-                        onClick={() => this.sendAction('previous')}
-                      >
-                        <SkipPreviousIcon />
-                      </Fab>
-                    </Tooltip>
-                    <Tooltip title={this.props.language.next}>
-                      <Fab
-                        className="storytelling-action-button-time"
-                        onClick={() => this.sendAction('next')}
-                      >
-                        <SkipNextIcon />
-                      </Fab>
-                    </Tooltip>
+                    {
+                      this.state.story && this.state.story.nodes.length > 1 &&
+                      <Tooltip title={this.props.language.back}>
+                        <Fab
+                          className="storytelling-action-button-time"
+                          onClick={() => this.sendAction('previous')}
+                        >
+                          <SkipPreviousIcon />
+                        </Fab>
+                      </Tooltip>
+                    }
+                    {
+                      this.state.story && this.state.story.nodes.length > 1 &&
+                      <Tooltip title={this.props.language.next}>
+                        <Fab
+                          className="storytelling-action-button-time"
+                          onClick={() => this.sendAction('next')}
+                        >
+                          <SkipNextIcon />
+                        </Fab>
+                      </Tooltip>
+                    }
                     <Tooltip title={this.props.language.zoomIn}>
                       <Fab
                         className="storytelling-action-button-time"
@@ -1286,9 +1291,12 @@ class StorytellingToolTime extends React.Component {
                     <div className="library-files-container">
                       {this.state.dataAudio1.map(tile => (    
                         <div onDoubleClick={() => {this.getFileInformation(tile), this.handleClose()}} className="audio-card-storytelling">
-                          <div className="card-media-audio-storytelling">
-                            <AudioPlayer volume src={tile.link}/>
-                          </div>
+                          <audio 
+                            ref="reuseAudio" 
+                            className="card-media-audio-storytelling"
+                            src={tile.link} 
+                            controls
+                          />
                           <div className="card-actions-bottom-container" disableSpacing>
                             {`${this.props.language.audioTitle}: ${tile.name}`}
                             <Tooltip title={this.props.language.edit}>
@@ -1416,7 +1424,7 @@ class StorytellingToolTime extends React.Component {
                       <div className="center-row-image-time"> 
                         {
                           this.state.imageType === 'upload' ?
-                            this.state.story.nodes[this.state.selectedNode].images.length &&
+                            this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage] &&
                             this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage].file !== '' ?
                               <div className="center-row-time">
                                 <Button
@@ -1453,7 +1461,7 @@ class StorytellingToolTime extends React.Component {
                             undefined                     
                         }
                         {
-                          this.state.story.nodes[this.state.selectedNode].images.length &&
+                          this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage] &&
                           this.state.story.nodes[this.state.selectedNode].images[this.state.selectedImage]["file"] !== '' ?
                             <div><br/><br/>
                               <ImagePreview

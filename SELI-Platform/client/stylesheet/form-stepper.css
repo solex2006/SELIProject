@@ -248,9 +248,6 @@
     display: flex;
     justify-content: center;
   }
-  .form-stepper-content {
-    height: auto;
-  }
   .navBar{
     justify-content: center;
     z-index: 100;

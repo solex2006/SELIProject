@@ -104,10 +104,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const CourseSummary = ({coursedata}) => {
+const CourseSummary = ({coursedata, language}) => {
 	const classes = useStyles();
 	return (
-		<Paper elevation={1} className={classes.summary}>
+		<Paper  elevation={1} className={classes.summary}>
 			<List dense={true} className={classes.list}>
 				<ListItem>
 					<ListItemIcon>
@@ -116,8 +116,9 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Complete this course with a passing grade."}
-						primary={"Course completition certificate"}
+						tabIndex='0'
+						secondary={language.passingGrade}
+						primary={language.completitionCertificate}
 					/>
 				</ListItem>
 				<ListItem>
@@ -127,8 +128,9 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Estimated course duration"}
-						primary={coursedata.duration}
+						tabIndex='0'
+						secondary={language.estimatedCourseDuration}
+						primary={<time>{parseInt(coursedata.duration.split(":"))+":"+coursedata.duration.split(":")[1]+":"+coursedata.duration.split(":")[2]}</time>}
 					/>
 				</ListItem>
 				<ListItem>
@@ -138,7 +140,8 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Course language"}
+						tabIndex='0'
+						secondary={language.CourseLanguage}
 						primary={
 								coursedata.language===0 ?
 								"English (US)"
@@ -167,7 +170,8 @@ const CourseSummary = ({coursedata}) => {
 						</Avatar>
 					</ListItemIcon>
 					<ListItemText
-						secondary={"Course modality"}
+						tabIndex='0'
+						secondary={language.CourseModality}
 						primary={coursedata.modality}  
 					/>
 				</ListItem>
@@ -177,14 +181,15 @@ const CourseSummary = ({coursedata}) => {
 };
 
 const CourseHeader = ({classes, coursedata, tutordata, language, goToUser}) => {
+	//console.log("paso 4***********", language)
 	const [tutordata1,setTutor]=useState(tutordata)
 	return (
 		<React.Fragment>
 			<div className="course-presentation-title-container">
-				<div className="course-presentation-title">
+				<div tabIndex='0' className="course-presentation-title">
 				{coursedata.title}
 				</div>
-				<span className="course-presentation-subtitle">
+				<span tabIndex='0' className="course-presentation-subtitle">
 					{coursedata.subtitle}
 				</span>
 			</div>
@@ -252,6 +257,7 @@ export default function MainPage(props) {
 					<React.Fragment>
 						<img src={coursedata.image.link} alt="" className={classes.courseImg} />
 						<CourseHeader 
+						language={props.language}
 						coursedata={coursedata}
 						classes={classes}
 						tutordata={tutordata}
@@ -260,9 +266,9 @@ export default function MainPage(props) {
 				)}
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper">
-			<section aria-labelledby="courseInfo">
+			<section aria-labelledby="courseInformation">
 				<header className='crnheading'>
-					<h2 >Course Information</h2>
+				<h2 tabIndex='0' >{props.language.CourseInformation}</h2>
 				</header>
 				<Grid
 					container
@@ -272,7 +278,7 @@ export default function MainPage(props) {
 					spacing={4}
 				>
 					<Grid item xs={12} md={6}>
-						<p >
+						<p tabIndex='0'>
 							{coursedata.description}
 						</p>
 						
@@ -284,8 +290,8 @@ export default function MainPage(props) {
 							undefined
 							:
 							<div className='crnheading'>
-								<h3 className={classes.body1}>
-									By the end of this course, you will be able to:
+								<h3 tabIndex='0' className={classes.body1}>
+									{props.language.outcomeslegend}
 								</h3>
 								<Lista 
 									title='LearningOutcomesMainContent'
@@ -298,6 +304,7 @@ export default function MainPage(props) {
 					<Grid item xs={12} md={6}>
 						<CourseSummary
 							coursedata={coursedata}
+							language={props.language}
 						/>
 					</Grid>
 				</Grid>
@@ -311,7 +318,7 @@ export default function MainPage(props) {
 					undefined
 					:
 				<section aria-label="Course design">
-					<h2 >Course Design</h2>			
+					<h2 tabIndex='0'>{props.language.CourseDesign}</h2>			
 					<div >
 						<Lista 
 							title='AudiencesMainContent'
@@ -324,19 +331,21 @@ export default function MainPage(props) {
 			<Paper component="article" elevation={0} className="course-presentation-paper1">
 		
 			<div className='crnheading1'>
-				<h2 >Course Content</h2>
+			<h2 tabIndex='0'>{props.language.CourseContent}</h2>
 			</div>
 		
 				<CourseContent
+					language={props.language}
 					data={props.course.design}
 					coursePlan={props.course.coursePlan}
 					program={props.course.program}
 				/>
-				<p id='courseSylabus'>
-					Read the course syllabus for a complete view of the course program
+				<p id='courseSylabus' tabIndex='0'>
+					{props.language.readCourseSylabus}
 				</p>
 				<div className='crnheading'>
 					<SyllabusButton
+					   tabIndex='0'
 						courseInformation={props.course}
 						language={props.language}
 					/>
@@ -344,13 +353,13 @@ export default function MainPage(props) {
 			</Paper>
 			<Paper component="article" elevation={0} className="course-presentation-paper1"> 
 				<div className='crnheading'>
-					<h2 >Requirements</h2>
+			<h2 tabIndex="0">{props.language.requirements}</h2>
 				</div>
 				<HardwareSoftwareReq
 					data={coursedata.requirements}
 				/> 
 			</Paper>
-			{console.log(props.course)}
+			
 			<div className="course-presentation-actions-container">
 				{
 					props.course.published ?
@@ -370,6 +379,7 @@ export default function MainPage(props) {
 									<React.Fragment>
 										<Button
 											//tabIndex="1" 
+											id="botonfocus3"
 											onClick={() => props.goToUser("unsubscribe")}
 											className="subscription-card-button"
 											variant="outlined"
@@ -379,6 +389,7 @@ export default function MainPage(props) {
 										</Button>
 										<Button
 											//tabIndex="1" 
+											id="botonfocus2"
 											onClick={() => props.goToUser("enter")}
 											className="subscription-card-button"
 											variant="contained"
@@ -404,7 +415,8 @@ export default function MainPage(props) {
 						:
 							<React.Fragment>
 								<Button
-									//tabIndex="1" 
+									//tabIndex="1"
+									id="botonfocus1" 
 									onClick={() => props.unsubscribe(props.course._id)}
 									className="subscription-card-button"
 									variant="outlined"
@@ -413,7 +425,8 @@ export default function MainPage(props) {
 									{props.language.unsubscribe}
 								</Button>
 								<Button
-									//tabIndex="1" 
+									//tabIndex="1"
+									id="botonfocus" 
 									onClick={() => props.navigateTo([0, 0, 0, 0])}
 									className="subscription-card-button"
 									variant="contained"
@@ -432,7 +445,7 @@ export default function MainPage(props) {
 							<InstructorProfileAvatar
 								goToUser={props.goToUser}
 								language={props.language}
-								name={"Created by " + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
+								name={props.language.createdBy + (typeof(tutordata) ==='object' ? tutordata[0].profile.fullname:"")}
 								className={classes.caption}
 								coursedata={coursedata}
 								tutordata={tutordata}

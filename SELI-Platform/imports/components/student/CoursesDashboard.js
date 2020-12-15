@@ -198,9 +198,9 @@ export default class CoursesDashboard extends React.Component {
       return(
         <Paper component="article" elevation={0}>
           <header className='headersearch'>
-            <h2>{title}</h2>
+            <h2 tabIndex='0'>{title}</h2>
           </header>
-          <div className='subheader'>Showing {this.state.myFilterThree.length} of {arrayCourses.length} subscribed courses that correspond to your search.</div>
+          <div tabIndex='0' className='subheader'>{this.props.language.Showing} {this.state.myFilterThree.length} {this.props.language.of} {arrayCourses.length} {this.props.language.subscribedtoyoursearch}</div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
             {
@@ -236,21 +236,47 @@ export default class CoursesDashboard extends React.Component {
   }
 
   paperSearchSeli=(title, arrayCourses)=>{
-   
-    if(arrayCourses.length >3  && this.state.flagCourses===true){
-      this.state.myFilterThreeSeli=arrayCourses
+    console.log("Antes de Mostrar******", arrayCourses, this.state );
+    console.log("Banderas ******", this.state.flagCourses, arrayCourses.length );
+   // console.log(".........................................", this.sortByMostRecent(1));
+
+    if(arrayCourses.length >3  && this.state.flagCourses===true && this.state.flagAlphabetic==true){
+      let arratosearch=this.state.myFilterSeliCourses;
+      arratosearch.sort((a, b) =>(a.title>b.title)? 1: -1 ); 
+      this.state.myFilterThreeSeli=arratosearch
     } 
-    else if(arrayCourses.length >3 && this.state.flagCourses===false){
+    else if(arrayCourses.length >3  && this.state.flagCourses===false && this.state.flagAlphabetic==true){
+      let arratosearch=this.state.myFilterSeliCourses;
+      arratosearch.sort((a, b) =>(a.title>b.title)? 1: -1 ); 
+      this.state.myFilterThreeSeli=[arratosearch[0],arratosearch[1],arratosearch[2]]
+      
+    }else if(arrayCourses.length >3 && this.state.flagCourses===false){
       this.state.myFilterThreeSeli=[arrayCourses[0],arrayCourses[1],arrayCourses[2]]
-    }else{
+    }else if(arrayCourses.length >3 && this.state.flagCourses===true && this.state.flagMostRecent==true ){
+      let arratosearch=this.state.myFilterSeliCourses;
+      arratosearch.sort(function (a, b) {
+        return new Date(b.creationDate) - new Date(a.creationDate);
+      });
+      this.state.myFilterThreeSeli=arratosearch
+    } else{
       this.state.myFilterThreeSeli=arrayCourses
     }
+
+    if(arrayCourses.length>3 && this.state.flagCourses===false && this.state.flagMostRecent==true){
+      let arratosearch=this.state.myFilterSeliCourses;
+      arratosearch.sort(function (a, b) {
+        return new Date(b.creationDate) - new Date(a.creationDate);
+      });
+      this.state.myFilterThreeSeli=[arratosearch[0],arratosearch[1],arratosearch[2]]
+    }
+    
+
       return(
         <Paper component="article" elevation={0}>
           <header className='headersearch'>
-            <h2>{title}</h2>
+            <h2 tabIndex='0'>{title}</h2>
           </header>
-          <div className='subheader'>Showing {this.state.myFilterThreeSeli.length} of {arrayCourses.length} subscribed courses that correspond to your search. </div>
+          <div className='subheader' tabIndex='0'>{this.props.language.Showing} {this.state.myFilterThreeSeli.length} {this.props.language.of}  {arrayCourses.length} {this.props.language.subscribedtoyoursearch} </div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
               {
@@ -288,13 +314,13 @@ export default class CoursesDashboard extends React.Component {
   paperSupportNews=(title)=>{
     return(
       <Paper component="article" elevation={0}>
-        <header className='subheader'>
+        <header tabIndex='0' className='subheader'>
           <h2>{title}</h2>
         </header>
         <CardContent className='headersearch'>
           <Typography
-            variant="body2" color="textSecondary" component="div">
-            There are no search results.
+            variant="body2" tabIndex='0' color="textSecondary" component="div">
+            {this.props.language.Theresearchresults}
           </Typography>
         </CardContent>
       </Paper>
@@ -405,7 +431,9 @@ export default class CoursesDashboard extends React.Component {
   }
 
   getParamsDuration=(duration, flag)=>{
-    console.log("getParamsDuration, myflagCourses---->",duration, this.state.publishedCourses)
+    console.log("getParamsDuration, myflagCourses---->",duration, flag)
+   // let horas=
+    //let minutes=
     this.setState({
       duration:duration
     })
@@ -485,13 +513,15 @@ export default class CoursesDashboard extends React.Component {
 
   }
   getParamsTutors=(tutors)=>{
-     console.log("Resultados de busqueda getParamsTutors",tutors)  
+       
     let coursesbyTutors=[]
     Object.entries(tutors).forEach(([key, value]) => {
       if(value===true){
         this.setState({tutorsTag:true})
         this.state.publishedCourses.filter(course=>{
-          course.createdBy.toLowerCase().search(key.toLowerCase()) !=-1?
+          course.createdBy.toLowerCase()==(key.toLowerCase()) ?
+          //console.log("Resultados de busqueda getParamsTutors",course.createdBy.toLowerCase(), (key.toLowerCase()))
+         //course.createdBy.toLowerCase().search(key.toLowerCase()) !=-1?
           coursesbyTutors.push(course)
           :
           undefined
@@ -649,9 +679,8 @@ export default class CoursesDashboard extends React.Component {
     this.state.onlineTag=false
     this.state.selected=selected
     this.setState(this.state)
-
-
   }
+  
   sortByMostRelevant=(selected)=>{
     console.log("Sort by most relevant",this.state.myFilterSeliCourses)
     this.state.selected=selected
@@ -677,9 +706,9 @@ export default class CoursesDashboard extends React.Component {
 
   //it is the new functinality for OR search
   OrSearch=(params,languages, audiences, instructors)=>{
-    console.log("todos los parametros de busqueda", params,languages, this.state.duration ,audiences, instructors, this.state.online)
+    //console.log("todos los parametros de busqueda", params,languages, this.state.duration ,audiences, instructors, this.state.online)
     //this.getParamsofSearch()
-    console.log("1. First Search params of serach and published courses", this.state.publishedCourses)
+    //console.log("1. First Search params of serach and published courses", this.state.publishedCourses)
     let full=[]
     let fullempty=[]
     let searchAL=[]
@@ -831,11 +860,11 @@ export default class CoursesDashboard extends React.Component {
       ))
     }
 
-    fullempty= this.state.publishedCourses.filter(course=>(
+   /*  fullempty= this.state.publishedCourses.filter(course=>(
       course.report!=undefined && (course.report.length===0)
     ))//si un curso tiene el array del reporte vacion lo guarda
     
-    full=full.concat(fullempty)
+    full=full.concat(fullempty) */
 
    
 
@@ -904,7 +933,7 @@ export default class CoursesDashboard extends React.Component {
     Object.entries(instructors).forEach(([key, value]) => {
       if(value===true){
         searchALD.filter(course=>{
-          course.createdBy.toLowerCase().search(key.toLowerCase()) !=-1?
+          course.createdBy.toLowerCase()==(key.toLowerCase())?
           searchALDI.push(course)
           :
           undefined
@@ -1012,6 +1041,7 @@ export default class CoursesDashboard extends React.Component {
       <div className="courses-dashboard-container">
         {console.log("recarga", this.state)}
         <CourseSearch
+          language={this.props.language}
           getParamsofSearch={this.getParamsofSearch}
           getParamsLanguage={this.getParamsLanguage}
           getParamsDuration={this.getParamsDuration}
@@ -1030,10 +1060,10 @@ export default class CoursesDashboard extends React.Component {
         {
           this.state.generalDetailedFlag===false?
           <div>
-            {this.paperSearchMyCourses('My Courses', this.state.myFiltersuscribdedCourses)}
-            {this.paperSearchSeli('SELI Courses', this.state.myFilterSeliCourses)}
-            {this.paperSupportNews('Support')}
-            {this.paperSupportNews('News')}
+            {this.paperSearchMyCourses(this.props.language.myCourses, this.state.myFiltersuscribdedCourses)}
+            {this.paperSearchSeli(this.props.language.seliCourses, this.state.myFilterSeliCourses)}
+            {this.paperSupportNews(this.props.language.support)}
+            {this.paperSupportNews(this.props.language.news)}
           </div>
           :
           <div>
@@ -1041,7 +1071,7 @@ export default class CoursesDashboard extends React.Component {
               {//for  OnlineCourses
                 this.state.onlineTag===true?
                 <React.Fragment>
-                  {this.paperSearchMyCourses('100% online courses', this.state.onlineCourses)}
+                  {this.paperSearchMyCourses(this.props.language.onlinecourses100, this.state.onlineCourses)}
                 </React.Fragment>
                 :
                 undefined
@@ -1052,7 +1082,7 @@ export default class CoursesDashboard extends React.Component {
               {// foraccessibilitie Tag
                 this.state.accessibilitie.a11yCog==='full'?
                 <React.Fragment>
-                  {this.paperSearchMyCourses('Fully Cognitive', this.state.fullyCognitive)}
+                  {this.paperSearchMyCourses(this.props.language.FullyCognitive, this.state.fullyCognitive)}
                 </React.Fragment>
                 :
                 undefined
@@ -1060,7 +1090,7 @@ export default class CoursesDashboard extends React.Component {
               {
                 this.state.accessibilitie.a11yHear==='full'?
                 <React.Fragment>
-                  {this.paperSearchMyCourses('Fully Hearing', this.state.fullyHearing)}
+                  {this.paperSearchMyCourses(this.props.language.FullyHearing, this.state.fullyHearing)}
                 </React.Fragment>
                 :
                 undefined
@@ -1068,18 +1098,18 @@ export default class CoursesDashboard extends React.Component {
               {
                 this.state.accessibilitie.a11yVis==='full'?
                 <React.Fragment>
-                  {this.paperSearchMyCourses('Fully Visual', this.state.fullyVisual)}
+                  {this.paperSearchMyCourses(this.props.language.FullyVisual, this.state.fullyVisual)}
                 </React.Fragment>
                 :
                 undefined
               }
             </React.Fragment>
-
+            
             <React.Fragment>  
               {//for  OnlineCourses
                 this.state.onsearchflag===true?
                 <React.Fragment>
-                  {this.paperSearchMyCourses('Detailed Search', this.state.orsearch)}
+                  {this.paperSearchMyCourses(this.props.language.DetailedSearch, this.state.orsearch)}
                 </React.Fragment>
                 :
                 undefined

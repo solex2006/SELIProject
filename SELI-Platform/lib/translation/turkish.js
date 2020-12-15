@@ -33,6 +33,8 @@ var TURKISH = {
   username: "Kullanıcı adı",
   email: "E-mail",
   password: "Şifre",
+  currentPassword: "Mevcut şifre",
+  currentPasswordIncorrect: "Mevcut şifre yanlış",
   dontHaveAccount: "Hesabınız yok mu?",
   fullname: "Tüm isminiz",
   confirmPassword: "Şifreyi onayla",
@@ -59,7 +61,7 @@ var TURKISH = {
   dataBeingValidated: "Talep bilgilerini en kısa zamanda inceleyeceğiz ve kaydınızı tamamlamak için bir doğrulama bağlantısı içeren bir e-posta alacaksınız",
   emailValidated: "E-postanız doğrulandı",
   studentRegistration: "Öğrenci Kaydı",
-  required: "(zorunlu)",
+  required: "Zorunlu",
   biography: "Biyografi",
   personalWebsite: "Kişisel web sitesi",
   googleLink: "Google bağlantısı",
@@ -77,7 +79,7 @@ var TURKISH = {
   documentation: "Belgeleme",
   searchCourses: "Dersleri ara",
   userInformation: "Kullanıcı bilgisi",
-  usernameHelper: "Kullanıcı adınızı sık sık değiştirmemenizi öneririz, her 5 ayda bir iyi olabilir",
+  usernameHelper: "Kullanıcı adı benzersizdir, daha sonra değiştiremezsiniz.",
   changeYourPassword: "ŞİFRENİ DEĞİŞTİR",
   newPassword: "Yeni Şifre",
   confirmNewPassword: "Yeni şifreyi onayla",
@@ -231,7 +233,8 @@ var TURKISH = {
   courseSubtitle: "Ders alt başlığı",
   courseDescription: "Ders Tanımı",
   courseKeyWords: "Ders anahtar kelimeleri",
-  courseKeyWordsHelper: "Anahtar kelime eklemek için enter tuşuna basın. Öğrencinin kazanacağı dersi ve becerileri temsil eden en az 3 anahtar kelime ve en fazla 10 anahtar kelime girin. Bir anahtar kelimenin (#%+...) özel karakteri olmamalıdır",
+  courseKeyWordsHelper1: "Anahtar kelime eklemek için enter tuşuna basın. Öğrencinin kazanacağı dersi ve becerileri temsil eden en az 3 anahtar kelime ve en fazla 10 anahtar kelime girin.",
+  courseKeyWordsHelper0: "Bir anahtar kelimenin (#%+...) özel karakteri olmamalıdır.",
   courseKeyWordsHelp: "Anahtar kelimeler nelerdir?",
   hours: "Saat",
   chooseCourseImage: "Ders resmini yükle",
@@ -262,7 +265,6 @@ var TURKISH = {
   exampleByTopics: "Konumlara göredüzenlenen ders örneği",
   unitName: "Bölüm adı",
   topicName: "Konu adı",
-  pressEnterToAdd: "Eklemek için enter tuşuna basın",
   courseOrganizationChangeWarning: "Tasarım veya program adımında içerik oluşturduysanız, yapıyı değiştirmek bu bilgileri siler. Önceki yapıya geri dönmek ve silinen içeriği kurtarmak mümkün olmayacaktır.",
   ifYouWantCP: "Bu dersin önizlemesini görmek istiyorsanız kaydetmeniz gerekir.",
   saoPreview: "Önizlemeyi kaydet ve aç",
@@ -337,7 +339,6 @@ var TURKISH = {
   navigationEditor: "Gezinme düzenleyicisi",
   edit: "Düzenle",
   close: "Kapat",
-  pressEnterToEdit: "Düzenlemek için enter tuşuna basın",
   addingLessons: "Bölüme konu ekleme",
   atLeastAdd: "En azından işlemi tamamlamak için bir ders eklemelisin",
   creating: "Oluşturma",
@@ -552,7 +553,7 @@ var TURKISH = {
   commentSuccessfullySent: "Yorum başarıyla gönderildi!",
   pleaseGoCertificates: "Lütfen sertifikalarıma git.",
   pleaseContactAdmin: "Lütfen yöneticiye başvurun.",
-  certificateGenerated: "Sertifika başarıyla oluşturuldu!",
+  certificateGenerated: "Wait... !",
   certificateNotGenerated: "Sertifika oluşturulamadı",
   willBeRedirected: "Kurs önizlemesine yönlendirilmek istediğinizden emin misiniz?",
   storiesPerPage: "Sayfa başına hikaye: ",
@@ -568,9 +569,9 @@ var TURKISH = {
   addUnit: "Ünite ekle",
   addLesson: "Sınıf ekle",
   accessibilityCheck: "Erişilebilirlik kontrolü",
-  allDisabilitiesSelected: "Tüm dinleyiciler seçildi",
+  allDisabilitiesSelected: "Tüm özel gereksinimler seçildi",
   disabilitie: "Dinleyici",
-  disabilities: "Dinleyiciler",
+  disabilities: "Özel gereksinimler",
   allDisabilities: "Tüm engeller",
   congnitive: "Bilişsel",
   hearing: "İşitme",
@@ -627,7 +628,7 @@ var TURKISH = {
   feedback_a11y_helpStep_imageDecorative_example01_label: "Bitişik metin alternatifli resim",
   feedback_a11y_helpStep_imageDecorative_example01_long: "Uyuyan bir köpeğin bu resmi, bitişikteki metin tarafından yeterince tanımlanmıştır. Bu bilgileri tekrarlamaya gerek yoktur",
   feedback_a11y_helpStep_imageDecorative_example02_label: "Ambiyans için kullanılan resim (eye-candy)",
-  feedback_a11y_helpStep_imageDecorative_example02_long: "Bu resim yalnızca sayfaya ortam veya görsel ilgi eklemek için kullanılır. Not: Bu görüntünün amacı, sadece sayfanın görünümünü iyileştirmek yerine bir tesisi tanımlamak veya başka bilgiler vermekse, muhtemelen bilgilendirici olarak ele alınmalıdır. Yazar, görüntünün kullanım amacını belirler.",
+  feedback_a11y_helpStep_imageDecorative_example02_long: "Bu resim yalnızca sayfaya ortam veya görsel ilgi eklemek için kullanılır. Not: Bu görüntünün amacı, sadece sayfanın görünümünü iyileştirmek yerine bir tesisi tanımlamak veya başka bilgiler vermekse, muhtemelen bilgilendirici olarak ele alınmalıdır. Kullanıcı, görüntünün kullanım amacını belirler.",
   feedback_a11y_helpStep_imageFail: "Resmin kullanımı yukarıda listelenmiyor mu veya hangi alternatif metnin sağlanacağı belli değil?",
   feedback_a11y_helpStep_imageFailMessage: "Bu karar ağacı tüm vakaları kapsamaz. Metin alternatiflerinin sağlanması hakkında ayrıntılı bilgi için Görüntü Kavramları Sayfasına bakın.",
   feedback_a11y_helpStep_imageHasMeaning: "Görüntü geçerli sayfaya veya içeriğe anlam katıyor mu?",
@@ -636,7 +637,7 @@ var TURKISH = {
   feedback_a11y_helpStep_imageHasMeaning_03: "ve yakındaki gerçek metne gereksiz içerik gösterir.",
   feedback_a11y_helpStep_imageHasText: "Görüntü metin içeriyor mu?",
   feedback_a11y_helpStep_imageHasText_01: "ve metin yakınlarda gerçek metin olarak da bulunur.",
-  feedback_a11y_helpStep_imageHasText_02: "ve metin yalnızca görsel efektler için gösterilir.",
+  feedback_a11y_helpStcep_imageHasText_02: "ve metin yalnızca görsel efektler için gösterilir.",
   feedback_a11y_helpStep_imageHasText_03: "ve resimdeki metin başka şekilde mevcut değil",
   feedback_a11y_helpStep_imageInformative_example01_label: "Diğer bilgileri etiketlemek için kullanılan resimler.",
   feedback_a11y_helpStep_imageInformative_example01_long: "Bu örnekte, biri telefon, diğeri faks makinesinden olmak üzere iki resim simgesi gösterilmektedir. Her görüntüyü bir telefon numarası takip eder.",
@@ -681,17 +682,17 @@ var TURKISH = {
   link_a11y_text_placeholder: "Bağlantı amacı ...",
   link_a11y_text_tip: "Bağlantının veya bağlantının metni bağlantının amacını açıklamak amacıyla hazırlanmıştır. Bağlantının bir belgeye veya web uygulamasına götürdüğü durumlarda, bağlantının amacını açıklamak için belgenin veya web uygulamasının adı yeterli olacaktır (bu sizi dokümana veya web uygulamasına götürecektir)",
   longDescription_a11y_label: "Uzun Açıklama",
-  longDescription_a11y_label_audio: "Açıklama",
-  longDescription_a11y_label_video: "Video Açıklaması",
-  longDescription_a11y_placeholder_audio: "Ses dökümü",
-  longDescription_a11y_placeholder_image: "altyazı",
+  longDescription_a11y_label_audio: "Açıklama (Required for inclusion)",
+  longDescription_a11y_label_video: "Video Açıklaması (Required for inclusion)",
+  longDescription_a11y_placeholder_audio: "Ses dökümü (Required for inclusion)",
+  longDescription_a11y_placeholder_image: "altyazı (Required for inclusion)",
   longDescription_a11y_tip: "Önceden kaydedilmiş salt ses içeriğiyle aynı hikayeyi anlatan ve aynı bilgileri sunan bir belge oluşturmak. Hikayenin bir parçası olan tüm önemli diyalogu ve arka plan seslerinin açıklamalarını içerir.",
   mediaAlternatives_a11y_video: "Video içeriğine medya alternatifleri",
   no: "Hayır",
   other: "diğer",
   progress_a11y: "Erişilebilirlik ilerlemesi",
   seizureRisk_a11y_has: "Bu içerik ışığa duyarlı nöbetlere neden olabilir mi??",
-  shortDescription_a11y_label: "Kısa Açıklama",
+  shortDescription_a11y_label: "Kısa Açıklama (Required for inclusion)",
   shortDescription_a11y_placeholder: "İçerik tanımlama",
   shortDescription_a11y_tip: "İçeriğin açıklayıcı tanımlanmasını sağlayın",
   shortDescription_a11y_tip_image_complex: "Bilgileri tanımlamak ve kısa bir genel bakış sağlamak için kısa bir açıklama oluşturun.",
@@ -762,7 +763,7 @@ var TURKISH = {
   storyDeletedSuccess: "Hikaye/Hikayeler / öykü başarıyla silindi!",
   notHaveStoriesYet: "Henüz bir hikayen yok",
   createAStory: "Bir hikaye oluşturun",
-  storyMustHave: "Hikayenizde mutlaka başlangıç, 1 sahne, bitiş olmalı.",
+  storyMustHave: "Hikayenizde mutlaka başlangıç, en az bir sahne, bitiş olmalı.",
   allScenesMust: "Hikayenin tüm sahnelerinin bir adı olmalı",
   allScenesAudio: "Hikayenin tüm sahnelerinde ses kaydı olmalı",
   allScenesImage: "Hikayenin tüm sahnelerinde bir resim olmalı",
@@ -776,7 +777,7 @@ var TURKISH = {
   loadingMyStories: "Hikayelerim yükleniyor ...",
   informationUpdated: "Bilgiler güncellendi",
   tutorBasicInformation: "Eğitmen hakkında temel bilgiler: ",
-  change: "Change",
+  change: "Değiştir",
   thanksForInformation: "Gönderilen bilgiler çok değerli, yardımlarınız için teşekkür ederiz",
   uploadAudioButtonLabel: "Bir ses dosyası yüklemek için tıklayın",
   keywordsMaximumMessage: "Boşluk ile ayrılmış en fazla 3 anahtar kelime",
@@ -826,7 +827,7 @@ var TURKISH = {
   fileTitle: "Dosya başlığı",
   renameFileTitle: "Dosya başlığını yeniden adlandır",
   minimumCourseDuration: "Kurs süresi en az 5 saat olmalıdır",
-  ifYouWantPC: "Dersinizi yayınlayacaksınız. Bundan sonra, dersi yayından kaldırıncaya kadar dersi düzenleyemezsiniz.",
+  ifYouWantPC: "You request to Publish your course. All unsaved progress will be saved and the course will be made available in SELI's catalogue. No modifications is allowed in published courses, but you can at any moment unpublish the course. What would you like to do?",
   numberofAnswers: "Cevap sayısını seçin",
   toActivityStoryboard: "Bu etkinliği tamamlamak için bir hikaye seçin",
   completeActivityStoryboard: "Etkinliği tamamlamak için bir hikaye seçin",
@@ -929,7 +930,8 @@ var TURKISH = {
   audioTranscriptionTip: "Ses transkripsiyonu, herhangi bir video veya ses dosyasını metne dönüştürür ve hedef kitle için eksiksiz bir deneyim sunar",
   ariaLabelTranscription: "Bu kısa açıklamadır (içeriği tanımlayın). Bu ses içeriğinin aşağıdaki erişilebilirlik kaynakları vardır: ",
   alertCompatibility: "tarayıcınız uygun değil",
-  showHideTranscription: " Metni Göster/Gizle",
+  showTranscription: "Metni Göster",
+  hideTranscription: "Metni Gizle",
   sizeLessThan: "Lütfen 0'dan büyük ve 100 MB'den küçük bir dosya yükleyin.",
   editEndFrame: "Hikaye bilgilierini düzenle",
   workshop1: "Bu dijital hikâye",
@@ -1002,26 +1004,19 @@ var TURKISH = {
   CourseSubtitle: "Ders alt başlığı",
   completeObjective: "Hedefi tamamlayın",
   analysisphase: "Analiz aşaması, eğitim ihtiyaçlarının araştırılmasını, öğrencilerin tanımlanması, kısıtlamaların doğrulanmasını ve eğitim problemini anlamaktan oluşur.",
-  knowledgeObjectives: "Bilgi Amaçları, her bir amaç veya hedefin birincil odağına göre belirlenen ve gruplanan Öğrenme Öğesinin amaçlanan öğrenme amaçları veya hedefleridir bu nedenle öğretmenden Deneyimsel, Kavramsal, Analitik ve Uygulamalı hedefleri belirlemesi istenir.",
-  skillsobjectives: "Bilim süreçleri, eleştirel düşünme, problem çözme, karar verme, iletişim, araştırma, matematiksel, psikomotor ve kişilerarası ilişkiler dahil olmak üzere çok çeşitli bilişsel (zihinsel), fiziksel ve duygusal becerileri ifade eder",
-  attitudesobjectives: "Duyguları, inançları, eğilimleri, fikirleri ve değerleri ifade eder",
   titleLO: "Öğrenme hedefleri",
-  tipmsgLO: "Öğrencilerin neyi bileceklerini ve bunu neden üç öğrenme alanında yaptıklarını gösteren bir Öğrenme Hedefi ekleyin:bilgi, beceriler ve tutumlar",
-  subtitleLO: "Bilgi hedefleri",
-  subtitleSO: "Beceri hedefleri",
-  subtitleAO: "Tutum hedefleri",
   learningconstraint: "Öğrenme kısıtlaması",
   repeated: "Bu öğeyi daha önce eklediniz",
   modality: "Modalite",
   delivercontent: "İçerik nasıl teslim edilecek",
-  pedagogical: "Webde Öğretme ve Öğrenmeye Yönelik Pedagojik Hususlar ve Fırsatlar, öğretim ve öğrenim için web tabanlı teknolojilerin kuram, uygulama ve geliştirilmesine dahası eğitim sistemi üzerindeki etkisine odaklanır",
+  pedagogical: "Add the pedagogical considerations about the course.",
   pedagogicalconsiderations: "Pedagojik Hususlar",
-  learningCon: "A constraint is a boundary which encourages the learner to emerge with certain behaviours",
+  learningCon: "Kısıt, öğrenciyi belirli davranışlarla ortaya çıkmaya teşvik eden bir sınırdır.",
   unit01: "Ünite 01",
   topic01: "Konu 01",
   Learningobjectives: "Öğrenme Hedefleri (gerekli)",
   Preexistingknowlegde: "Önceden var olan bilgi",
-  Maincontent: "Ana içerik (gerekli)",
+  Maincontent: "Ana içerik",
   Evaluation: "Değerlendirme (gerekli)",
   instructionslearning: "Öğrencilerin bu konu/ünitede ne öğreneceklerini gösteren öğrenme hedefleri ekleyin",
   instructionsPreExisting: "Bu üniteyi/konuyu anlamak için önceden gerekli bilgi",
@@ -1051,13 +1046,13 @@ var TURKISH = {
   ExternalResource: "Dış kaynak",
   ExternalURL: "Dış URL",
   CopyVersion: "Sürümü kopyala",
-  Nopresentations: "Sunum Yok",
+  noSupplementary: "Ek metin yok",
   paper: "kağıt",
   book: "kitap",
   printed: "basılı",
   digital: "dijital",
   Nogames: "Oyun yok",
-  Nopresentation: "Sunum Yok",
+  Nopresentation: "Sunum yok",
   errorMsgleast: "Bu alan zorunludur (öğelerden en az biri)",
   errorMsgall: "Tüm bu alanlar zorunludur, lütfen doldurun.",
   Deleteunit: "Birimi kaldır",
@@ -1069,8 +1064,6 @@ var TURKISH = {
   CognitiveDomain: "Bilişsel Alan",
   AnalysisPhaseTitle: "Analiz Aşaması",
   Deletingaudience: "Hedef kitle siliniyor",
-  dialog1: "Silmeyi istediniz: ",
-  dialog2: "Devam etmek istiyor musunuz?",
   outcomeslegend: "Bu dersin sonunda öğrenciler şunları yapabilecektir..",
   repeatedkeywords: "anahtar kelimeler tekrarlanamaz",
   reportstep: "Erişilebilirlik raporu",
@@ -1158,12 +1151,431 @@ var TURKISH = {
   maxlearningobjectives: "Öğrenme Bilişsel Hedeflerinde her kategori için maksimum 10 madde",
   maxlearningOutcomes: "Öğrenme Çıktıları Hedeflerindeki her kategori için en fazla 10 madde",
   maxlearningContrain: "Öğrenme Kısıtlama Hedeflerindeki her kategori için maksimum 10 öğe",
-  validateSylabus: "The syllabus is a required field, please upload a PDF document",
-  courseNotPublished: "This course is not published, contact the tutor for more information: ",
-  guided: "Guided",
-  free: "Free",
-  online: "Online",
-  hybrid: "Hybrid",
+  validateSylabus: "Müfredat zorunlu bir alandır, lütfen bir PDF belgesi yükleyin",
+  courseNotPublished: "Bu ders yayınlanmadı, daha fazla bilgi için öğretmenle iletişime geçin: ",
+  guided: "Kılavuzlu",
+  free: "Bağımsız",
+  online: "İnternet üzerinden",
+  hybrid: "Hibrit",
+  requiredStep: "Gerekli adım",
+  optional: "İsteğe bağlı",
+  addNewAudience: "Yeni kitle ekle",
+  deleteItemBelow: "Öğeyi silmeyi istediniz",
+  wantProceed: "Devam etmek istiyor musunuz?",
+  warning: "Uyarı",
+  hardwareRequirements: "Donanım Gereksinimleri",
+  add: "Ekle",
+  addConstraint: "Kısıtlama ekle",
+  toDuplicate: "çoğaltmak",
+  toMatch: "eşleştirmek",
+  toDescribe: "tanımlamak",
+  toShow: "göstermek",
+  toChoose: "seçmek",
+  toExplain: "açıklamak",
+  toSumarize: "özetlemek",
+  toParaphrase: "başka kelimelerle açıklamak",
+  toIllustrate: "sergilemek",
+  toExtend: "uzatmak",
+  toUse: "kullanmak",
+  toIdentify: "tespit etmek",
+  toOrganize: "organize etmek",
+  toConstruct: "inşa etmek",
+  toSolve: "çözmek için",
+  toContrast: "karşılaştırmak",
+  toCategorize: "kategorize etmek",
+  toClassify: "sınıflandırmak",
+  toList: "listelemek",
+  toCompare: "kıyaslamak",
+  toConclude: "sonuçlandırmak",
+  toCritique: "eleştirmek",
+  toJustify: "haklı göstermek",
+  toProve: "kanıtlamak",
+  toJudge: "yargılamak",
+  toBuild: "kurmak",
+  toDevelop: "geliştirmek",
+  toCombine: "birleştirmek",
+  toDesign: "tasarlamak",
+  toElaborate: "detaylandırmak",
+  toUnderstand: "anlamak",
+  toCategorize: "kategorize etmek",
+  toDescribe: "tanımlamak",
+  toReproduce: "yeniden üretmek",
+  toCompare: "kıyaslamak",
+  toDesign: "tasarlamak",
+  toConduct: "yürütmek",
+  toEvaluate: "değerlendirmek",
+  toAnalyse: "analiz etmek",
+  toMeasure: "ölçmek",
+  toAppreciate: "takdir etmek",
+  toAct: "hareket etmek",
+  toWork: "çalışmak",
+  toBeAware: "farkında olmak",
+  toValue: "değer vermek",
+  learningOutcomes: "Öğrenme çıktıları",
+  rememberingObjectives: "Hedefleri hatırlamak",
+  understandingObjectives: "Hedefleri anlamak",
+  applyingObjectives: "Hedefleri anlamak",
+  analyzingObjectives: "Hedefleri analiz etmek",
+  evaluatingObjectives: "Hedeflerin değerlendirilmesi",
+  creatingObjectives: "Hedefler yaratmak",
+  contentsObjectives: "İçerik hedefleri",
+  skillsObjectives: "Beceri hedefleri",
+  valuesObjectives: "Değer hedefleri",
+  rememberingObjectivesAre: "Remembering objectives recall facts and basic concepts, for example: choose, define, describe, show, match, relate, duplicate, recognize, reproduce.",
+  understandingObjectivesAre: "Understanding objectives explain ideas or concepts like explain, summarize, illustrate, classify, describe, discuss, explain, compare, paraphrase.",
+  applyingObjectivesAre: "Applying objectives use information in new situations like use, identify, organize, construct, executions, solve, use, demonstrate, interpret.",
+  analyzingObjectivesAre: "Analyzing objectives draw connections among ideas, for example: analyse, categorize, classify, list, compare, organize, relate, test.",
+  evaluatingObjectivesAre: "Evaluating objectives justify a stand or decision, for example: conclude, evaluate, critique, justify, prove, defend, judge, support, value.",
+  creatingObjectivesAre: "Creating objectives produces a new or original work, for example: built, design, develop, formulate, investigate, elaborate, plan.",
+  contentsObjectivesAre: "İçerik hedefleri ...",
+  skillsObjectivesAre: "Bilim süreçleri, eleştirel düşünme, problem çözme, karar verme, iletişim, araştırma, matematiksel, psikomotor ve kişilerarası ilişkiler dahil olmak üzere çok çeşitli bilişsel (zihinsel), fiziksel ve duygusal becerileri ifade eder",
+  valuesObjectivesAre: "Değerlerin hedefleri ...",
+  behavioralOutcomeHelp: "Add learning outcomes that show what the student needs to know or be able to do like abilities that combine content, skills and values.",
+  learningConstraintHelp: "Öğrencinin sahip olabileceği öğrenme kısıtlamaları ekleyin.",
+  affectiveDomainHelp: "Etkisel alan ...",
+  psychomotorDomainHelp: "Psikomotor alanı ...",
+  uploading: "Yükleniyor",
+  pleaseWait: "lütfen bekleyin",
+  selectYourFile: "Dosyanızı seçin",
+  fileSucessfullyUploaded: "Dosya başarıyla yüklendi!",
+  courseUpload: "Dersi yükle",
+  storyUpload: "Hikaye yükle",
+  EmptyAccessibility:'Lütfen programın boş olmadığını kontrol edin veya seçilen kitleyi yapılandıran multimedya içeriğini ekleyin',
+  cognitiveMessage:'Erişilebilirlikte bilişsel seçtiniz, erişilebilirlik kaynağının seçilen tüm engel grupları için iyi yapılandırılmış olduğunu kontrol edin.',
+  visualMessage:'Erişilebilirlikte görmeyi seçtiniz, erişilebilirlik kaynağının seçilen tüm engel grupları için iyi yapılandırılmış olduğunu kontrol edin.',
+  hearingMessage:'Erişilebilirlikte işitmeyi seçtiniz, erişilebilirlik kaynağının seçilen tüm engel grupları için iyi yapılandırılmış olduğunu kontrol edin.',
+  elderlyMessage:'Erişilebilirlikte çeşitlilik seçtiniz, erişilebilirlik kaynağının seçilen tüm engel grupları için iyi yapılandırılmış olduğunu kontrol edin.',
+  AccessibilityType: 
+  {
+    Name: [
+      'Video İçeriğine Metin Alternatifleri', 
+      'Görüntü İçeriğine Metin Alternatifleri',
+      'Videolarda Altyazılar', 
+      'Sesli Açıklama', 
+      'İşaret Dili',
+      'Anketlerde ek süre'
+    ]
+  },
+  deleteUnitTopic: "Bu üniteyi / konuyu silmek istediğinizden emin misiniz?",
+  graded: "derecelendirilmiş",
+  peerReviewed: "Akran Değerlendirmesi",
+  inGroup: "Grup içinde",
+  partOfProject: "Ders projesinin bir parçası",
+  rows: "satırlar",
+  firstPage: "İlk sayfa",
+  lastPage: "Son sayfa",
+  noTasks: "Görev yok",
+  CourseInformation:"Ders Bilgisi",
+  CourseDesign:"Ders Tasarımı",
+  CourseContent:"Ders İçeriği",
+  readCourseSylabus:"Ders programının eksiksiz bir görünümü için kurs müfredatını okuyun",
+  passingGrade:"Bu dersi geçer bir notla tamamlayın.",
+  completitionCertificate:"Ders tamamlama sertifikası",
+  CourseLanguage:"Ders Dili",
+  CourseModality:"Ders yöntemi",
+  OpenProfile:"Öğretmen profilini aç",
+  ProfessionalTitle:"meslek ünvanı",
+  TableofContents:"İçindekiler",
+  LearningGoals:"Öğrenme hedefleri",
+  Readings:"Okumalar",
+  AssessmentMethods:"Değerlendirme yöntemleri",
+  TechnologicalRequirements:"Teknolojik Gereksinimler",
+  OpenSyllabus:"Müfredatı Aç",
+  AffectiveDomainObjectives:"Duygusal Etki Alanı Hedefleri",
+  PsychomotorDomainObjectives:"Psikomotor Alan Hedefleri",
+  onlinecourseMessage:"Çevrimiçi bir ders olarak, internet bağlantısı olan bir bilgisayara, masaüstü veya mobi erişiminizin olması gerekir.",
+  NohardwareRequirement:"Donanım gereksinimi yok.",
+  NosoftwareRequirement:"Yazılım gereksinimi yok.",
+  EducationLanguage:"Eğitim Dili",
+  Prerequisites:"Önkoşullar",
+  Content:"İçerik",
+  Materials:"Materyaller",
+  TherearenoReadings:"Okuma yok",
+  TotalofQuiztasks:"Tüm sınav görevleri",
+  TotalofActivities:"Aktivitelerin tümü",
+  TotalofReadings:"Okumaların tümü",
+  TotalofForums:"Forumların tümü",
+  FullyAccessible:"Tamamen erişilebilir",
+  Morefilters:"Daha fazla filtre",
+  Filter:"Filtre",
+  Clearallfilters:"Tüm filtreleri kaldır",
+  Applyfilters:"Filtreleri uygulayın",
+  Showonlinecourses:"Yalnızca% 100 çevrimiçi dersleri göster",
+  Showonlyaccessible:"Yalnızca tam erişilebilir dersleri göster",
+  Showcoursesequal:"Yalnızca eşit veya daha büyük kursları göster",
+  Showpartiallyandfully:"Yalnızca kısmen ve tamamen erişilebilir dersleri göster",
+  Clearfilter:"Filtreyi kaldır",
+  ShowonlyfullyCognitive:"Yalnızca tamamen Bilişsel olarak erişilebilir dersleri göster",
+  ShowpartiallyfullyCognitive:"Kısmen ve tamamen Bilişsel olarak erişilebilir dersleri göster",
+  ShowCognitiveinaccessible:"Bilişsel olarak erişilemez kurslar dahil tüm dersleri göster",
+  ShowfullyHearing:"Yalnızca İşitsel olarak tamamen erişilebilir dersleri göster",
+  ShowpartiallyfullyHearing:"Kısmen ve tamamen erişilebilir İşitme derslerini göster",
+  ShowHearinginaccessible:"Erişilemeyen işitme dersleri dahil tüm dersleri göster",
+  ShowfullyVisually:"Yalnızca Görsel olarak tamamen erişilebilir dersleri göster",
+  ShowpartiallyfullyVisually:"Kısmen ve tamamen Görsel olarak erişilebilir dersleri göster",
+  ShowcoursesVisualinaccessible:"Erişilemeyen Görsel dersleri dahil tüm dersleri göster",
+  CourseDuration:"Ders süresi",
+  ResetDuration:"Süreyi Sıfırla",
+  CourseAudience:"Dersin Hedef Kitlesi",
+  Sortby:"Göre sırala",
+  Alphabetic:"Alfabetik",
+  MostRecent:"En Yeniler",
+  news:"Haberler",
+  onlinecourses100:"% 100 çevrimiçi kurslar",
+  DetailedSearch:"Detaylı Arama",
+  FullyVisual:"Tamamen Görsel",
+  FullyHearing:"Tamamen İşitsel",
+  FullyCognitive:"Tamamen Bilişsel",
+  CognitiveAccessibility:"Bilişsel Erişilebilirlik",
+  HearingAccessibility:"İşitsel Erişilebilirlik",
+  VisuallyAccessibility:"Görsel Erişilebilirlik",
+  CourseInstructor:"Ders Eğitmeni",
+  Selectoneaudience:"Bir veya daha fazla kitle seçin",
+  SearchSeLIPlatform:"SeLI Platformunda Ara",
+  Showing:"Gösteriliyor",
+  subscribedtoyoursearch:"aramanıza karşılık bulunan abone olunan dersler",
+  Theresearchresults:"Arama sonucu yok",
+  activityItem: "Etkinlik öğesi",
+  problemItem: "Sorun öğesi",
+  quizItem: "Sınav öğesi",
+  forumItem: "Forum Öğesi",
+  files: "Dosyalar",
+  links: "Bağlantılar",
+  embeddedContent: "Gömülü içerik",
+  unityContent: "Unity içeriği",
+  informationLabel:"Ders hakkında genel bilgilendirme",
+  audiencesLabel:"Hedef kitlenizi ve ihtiyaçlarını belirleyin",
+  requirementsLabel:"Ders için teknik ön koşullar",
+  planLabel:" Bir eğitim materyali oluşturmanıza rehberlik edecek bir model seçin",
+  analysisstepLabel:"Öğretim hedeflerinizi belirleyin",
+  desingPhaseLabel:"Öğrenme hedeflerinin tanımı, ders planlaması ve medya seçimi",
+  programLabel:"İçerik ekleme.",
+  reportstepLabel:"Dersiniz ne kadar erişilebilir",
+  alreadyAudiences:"Zaten kitle listesinde mevcut. Lütfen listeden seçin",
+  courseInfo1:"Kursun ana içeriği hakkında kısa bir açıklama. Örneğin: Bu kurs yazma becerilerinizi dönüştürebilir. Üniversite düzeyinde yazma ve araştırma için hazırlanın.",
+  courseInfo2:"Ders ana içeriğiyle ilgili kelimeler. Örneğin: Dilbilgisi İngilizce dilbilgisi, Yazma.",
+  CourseInformationHelp:"Ders Bilgileri Yardımı",
+  CourseAudiencesHelp:"Ders Kitleleri Yardımı",
+  imageGalleryLabel0: "Arrows key <kbd>left</kbd> and <kbd>right</kbd>galerinin resminde gezinir.",
+  imageGalleryLabel1: "<kbd>Enter</kbd> tuşu, görüntüyü tam genişlikte açar.",
+  imageGalleryLabel2: "Eğitmen tarafından yapılandırılırsa resmin uzun açıklaması, tam genişlik seçeneğinde görüntülenecektir.",
+  videoGalleryLabel0: "Arrows key <kbd>left</kbd> and <kbd>right</kbd> rovers in video playlist.",
+  videoGalleryLabel1: "<kbd>Enter</kbd> key opens video player",
+  videoGalleryLabel2: "Eğitmen tarafından ayarlandıysa, video oynatıcı şu seçeneklere sahip olabilir::",
+  signLanguageInterpreter: "İşaret dili tercümanı",
+  audiencesTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:"Kitle nasıl tanımlanır?",
+        label:"<b>Teachers</b>: Person who helps students to acquire knowledge, competence or virtue. <br>  <b>Informal Students:</b> Students that don't studying in a formal schools like university or studying alone or are self-taught. <br><b>Undergraduate Students:</b> University students that still not finish the graduate course. <br><b>High School Students:</b> Students in secondary school. <br><b>Middle School Students:</b> Students between elementary school and high school. <br><b>Elementary School Students:</b> Before Middle School, for children between the ages of 6-11. <br><b>Preschool Kids:</b> For kids from 2 to 5 years old-held in a Nursery School."
+      },
+      {
+        labelTitle:"bilişsel engeller",
+        label:"Bilişsel engeller, nörolojik çeşitlilik ve nörolojik bozuklukların yanı sıra, zorunlu olarak nörolojik olmayan davranışsal ve zihinsel sağlık bozukluklarını içerir. Sinir sisteminin herhangi bir bölümünü etkileyebilirler ve insanların bilgiyi ne kadar iyi duyduğunu, hareket ettiğini, gördüğünü, konuştuğunu ve anladığını etkileyebilirler. Bilişsel engeller, bir kişinin zekasını mutlaka etkilemez."
+      },
+      {
+        labelTitle:"Engel örnekleri (bilişsel)",
+        label:"Dikkat eksikliği hiperaktivite bozukluğu 'DEHB', Otizm spektrum bozukluğu 'ASD', Zeka engelleri, Öğrenme güçlükleri, Ruh sağlığı bozuklukları, Hafıza bozuklukları, Multipl skleroz, Nörodeşitlilik, Algısal engeller, Nöbet bozuklukları"
+      },
+      {
+        labelTitle:"Engel örnekleri (bilişsel için)",
+        label:"Complex navigation mechanisms and page layouts that are difficult to understand and use. <br>Complex sentences that are difficult to read and unusual words that are difficult to understand. <br> Long passages of text without images, graphs, or other illustrations to highlight the context.<br> Moving, blinking, or flickering content, and background audio that cannot be turned off.<br> Web browsers and media players that do not provide mechanisms to suppress animations and audio.<br> Visual page designs that cannot be adapted using web browser controls or custom style sheets."
+      },
+      {
+        labelTitle:"Uyarlama örnekleri (bilişsel için)",
+        label:"Öğrencilerin bilgileri hatırlamalarına yardımcı olmak için şarkılar, tekerlemeler veya ritimler kullanın Öğrencilere kendi kendini sorgulama tekniklerini kullanmayı öğretin"
+      },
+      {
+        labelTitle:"Yetenek Çeşitliliği",
+        label:"İnsanların farklı derecelerde işitsel, bilişsel, fiziksel, konuşma ve görme engelleri yaşamalarının birçok nedeni vardır."
+      },
+      {
+        labelTitle:"Engel örnekleri (çeşitlilik için)",
+        label:"Yaşa bağlı bozukluklar, Birden çok engel, Sağlık koşulları, Değişen yetenekler, Geçici bozukluklar, Durumsal sınırlamalar"
+      },
+      {
+        labelTitle:"Engel örnekleri (çeşitlilik için)",
+        label:"Erişilebilirlik içeriği olmayan web siteleri, sağlık durumlarında elektronik cihazlar"
+      },
+      {
+        labelTitle:"Uyarlama örnekleri (çeşitlilik için)",
+        label:"Bilgi aktarımına yardımcı olmak için birçok uygulama fırsatı sağlamak ve problem çözme, muhakeme ve gerçek yaşam uygulaması içerir."
+      },
+      {
+        labelTitle:"İşitme engelli",
+        label:"- her iki kulakta 25 dB veya daha çok işitme eşikleri - olan birinin işitme kaybı olduğu söylenir. İşitme kaybı hafif, orta, şiddetli veya çok şiddetli olabilir. Bir kulağı veya her iki kulağı da etkileyebilir ve konuşma konuşmalarını veya yüksek sesi duymada zorluğa yol açar. (https://www.who.int/news-room/fact-sheets/detail/deafness-and-hearing-loss)"
+      },
+      {
+        labelTitle:"Engel örnekleri (işitme için).",
+        label:"İşitme kaybı, Sağırlık"
+      },
+      {
+        labelTitle:"Engel örnekleri (işitme için).",
+        label:"Ses içerikleri, Altyazısız video içerikleri."
+      },
+      {
+        labelTitle:"Uyarlama örnekleri (işitme için).",
+        label:"Görsel ipuçları ve güçlendirmek için sahne sağlamak, Altyazılı video kaydı sağlamak."
+      },
+      {
+        labelTitle:"Görme engelleri",
+        label:"Görme engelleri, bir veya iki gözde hafif veya orta derecede görme kaybından (az görme), her iki gözde de önemli ve düzeltilemez görme kaybına (körlük) kadar değişir. Bazı insanlar, belirli renklere karşı duyarlılığı azalmış veya yoksundur (\"renk körlüğü\") veya parlak renklere karşı duyarlılığı artmıştır. Renk ve parlaklık algısındaki bu farklılıklar görme keskinliğinden bağımsız olabilir."
+      },
+      {
+        labelTitle:"Engellere örnekler (görsel için)",
+        label:"Renk körlüğü, Az görme, Körlük, Sağır körlüğü"
+      },
+      {
+        labelTitle:"Engel örnekleri (görsel için)",
+        label:"Eşdeğer metin alternatiflerine sahip olmayan görüntüler, kontroller ve diğer yapısal öğeler. Yeniden boyutlandırılamayan veya yeniden boyutlandırıldığında bilgi kaybeden metinler, resimler ve sayfa düzenleri. Eksik görsel ve görsel olmayan yönlendirme ipuçları, sayfa yapısı ve diğer gezinme yardımcıları. Metin veya ses alternatifleri ya da bir sesli açıklama parçası olmayan video içeriği. Tutarsız, öngörülemeyen ve aşırı karmaşık gezinme mekanizmaları ve sayfa işlevleri. Ön plan ve arka plan renk kombinasyonları arasında yetersiz kontrasta sahip metin ve resimler. Özel renk kombinasyonlarının kullanımını desteklemeyen web siteleri, web tarayıcıları ve yazma araçları. Tam klavye desteği sağlamayan web siteleri, web tarayıcıları ve yazma araçları."
+      },
+      {
+        labelTitle:"Uyarlama örnekleri (görsel için)",
+        label:"Sesli dersler sağlamak, CD ROM'da ders kitaplarını bulundurmak."
+      },
+    ]
+  },
+  coursePlanTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:'Rehberli veya Özgür Ders Planı',
+        label:'SELI platformunda veya platformun dışında ders planı oluşturmayı seçebilirsiniz.'
+      },
+      {
+        labelTitle:'Spiralli Ders Şablonu',
+        label:"Bu modelde ders, problemlerin veya etkinliklerin öğrenciler tarafından çözülmesini kolaylaştırmak için kavramların tanıtıldığı küçük birimler halinde düzenlenir. Her birim, ayrıntılara girmeden bir konsept tanıtmalıdır. Döngüde, bir sonraki ünite içeriği daha derinlemesine sunacak ve ek konular dahil edilebilir. Öğrencilerin dersin başında sunulan önemli problemleri veya aktiviteleri çözmelerini sağlamak için her ünite birbiriyle ilişkili olmalıdır. Bu model, birlikte ustalaşılması gereken çok sayıda kavramın olduğu herhangi bir kursta kullanılabilir. Referans için bağlantı (http://csis.pace.edu/~bergin/PedPat1.3.html#spiral)"
+      },
+      {
+        labelTitle:'Tutarlı Ders Şablonu',
+        label:"Karmaşık içeriği öğretmek için öğretilen konu için karmaşık ve tutarlı bir metafor bulun. Metaforun temeli öğrenciler tarafından bilinmelidir. Bu, öğrencilerin öğretilen konuyu daha büyük hedeflerle ilişkilendirmelerine, yani işlerin nasıl birbirine uyduğunu anlamalarına yardımcı olur. Öğrencilerin içeriği bir bütün olarak düşünmenin bir yolunu bulmaları gerekir. Özellikle ayrıntıların kendileri için yabancı ve yeni olduğunda. Öğretilen içerik ve temel unsurları ile tutarlı bir metafor, öğrencilerin metafor hakkında düşünürken geçerli çıkarımlar yaparak içerik üzerinde düşünmelerine yardımcı olacaktır. Referans için bağlantı (http://csis.pace.edu/~bergin/PedPat1.3.html#consistentmetaphor)"
+      },
+      {
+        labelTitle:" Oyuncak Kutusu Ders Şablonu",
+        label:"İçerik, öğrencilere pedagojik araçlarla 'oynamalarına' izin verilerek verilir. Öğrenciler problemler üzerinde çalışırlar ve onlara bazı örnekler ve / veya alıştırmalar vermek, neyin önemli olduğu ve problemi çözmek için neler yapılabileceği hakkında zengin bir deneyim seti sağlamak için önemlidir. Birkaç derste ve çeşitli düzeylerde kullanılabilir. Referans için bağlantı (http://csis.pace.edu/~bergin/PedPat1.3.html#toybox)"
+      },
+      {
+        labelTitle:"Ders şablonu olmadan",
+        label:"Ders şablonunu özgürce tanımlayabilir ve kaynakları kendiniz ekleyebilirsiniz."
+      },
+      {
+        labelTitle:" Yapı Ders Birimi | Birimlere göre ",
+        label:"Dersinizi ünitelere ve derslere göre düzenleyin, örneğin: Ünite 1 - Giriş, Ünite 2 - Sunum, Ünite 3 - Algoritmalar, vb.."
+      },
+      {
+        labelTitle:"Yapı Ders Konuları | Konu Başlıkları",
+        label:"Dersinizi konuya göre düzenleyin. Özgür bir konu oluşturuyorsunuz, örneğin: Ekstra Kaynaklar, Sınıf 1, Sınıf 2, Sınıf 3, Ekler."
+      },
+      {
+        labelTitle:" Ders Müfredatı",
+        label:"Ders bazında bir ders kılavuzu, bir öğrenme planı, öğrenme hedefleri, değerlendirme yaklaşımı ve beklentileri ana hatlarıyla belirtir.."
+      },
+    ]
+  },
+  CoursePlanHelp:"Ders Plan Yardımı",
+  AnalysisTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:'Öğrenme hedefleri',
+        label:"Öğrencilerden ne öğrenilmesinin bekleneceğini belirtin ve öğrencilerin ne bileceğini ve neden yaptıklarını gösterin. Öğrenciler tarafından öğrenilmesi beklenenleri belirtin. Bloom'un taksonomisi, öğrenme hedeflerini üç alana ayırır: bilişsel alan, duyuşsal alan ve psikomotor alan. Bilişsel Alan, ezberleme, anlama, uygulama, analiz, sentez / yaratma, değerlendirme gibi entelektüel becerileri içerir. Duyuşsal alan duyguları, değerleri, coşkuyu, motivasyonu ve tutumu kapsar. Psikomotor alan, fiziksel ve motor becerilerle ilgilidir."
+      },
+      {
+        labelTitle:"Bilişsel Alan",
+        label:"Yeni bir bilgi, entelektüel gelişim, beceri ve tutumlar edinmeyi içerir. Altı kategoriye ayrılmıştır: hatırlamak, anlamak, uygulamak, analiz etmek, değerlendirmek, yaratmak. Hedefler, istenen bilişsel süreçleri tanımlamaya çalışan eylem fiilleri ve isimler kullanılarak tanımlanır."
+      },
+      {
+        labelTitle:"Etkisel alan",
+        label:"Duyguları, tutumları ve duyguları içerir. Değerler, coşkular ve motivasyonlar gibi insanların duygusal olarak dış ve iç fenomenlerle başa çıkma yollarını içerir. Bu alan, alma, yanıtlama, değerlendirme, organizasyon ve karakterizasyon dahil olmak üzere beş seviyeye ayrılmıştır. Bu alt alanlar hiyerarşik bir yapı oluşturur ve basit duygulardan veya motivasyonlardan daha karmaşık olanlara kadar düzenlenir."
+      },
+      {
+        labelTitle:"Psikomotor Alan",
+        label:"Motor beceri alanlarının fiziksel hareketini, koordinasyonunu ve kullanımını içerir. Bu alan, yaratma, uyarlama, karmaşık açık yanıt, mekanizma, kılavuzlu yanıt, küme ve algılama dahil olmak üzere sekiz düzeyde kategorize edilmiştir."
+      },
+    ]
+  },
+  AnalysisTipsHelpsTwo:{
+    analysisTipsHelps:[
+      {
+        labelTitle:"Öğrenme Kısıtlamaları",
+        label:"Öğrenme çıktıları, gerçekleşen etkinlikler, öğretme ve öğrenmenin bir sonucu olarak öğrencilerin dersin sonunda neler yapabileceklerine dair kısa, açık ve spesifik ifadeler olmalıdır. Öğrenme çıktıları, öğrenmenin üç alanına dayanmaktadır: bilgi, beceriler ve tutumlar."
+      },
+    ]
+  },
+  AnalysisTipsHelpsThree:{
+    analysisTipsHelps:[
+      {
+        labelTitle:"Pedagojik Hususlar",
+        label:"Pedagojik Hususlar, teori, uygulama ve öğretme ve öğrenme için teknolojilerin geliştirilmesi ve eğitim sistemi üzerindeki etkisine odaklanır."
+      },
+    ]
+  },
+  CourseAnalysisHelp:"Ders Analiz Yardımı",
+  DesignTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:"Üniteye göre / Konuya göre",
+        label:"Title: Ünite / konu başlığını ekleyin. Öğrenme Hedefleri: Öğrencilerin bu ünitede / konuda öğrenirken ne öğreneceklerini gösteren Öğrenme Hedefleri ekleyin. Önceden var olan bilgi: Bu üniteyi / konuyu anlamak için önceden gerekli bilgi. Ana İçerik: Ele alınacak konular. Değerlendirme: Öğrenme hedeflerine ulaşılıp ulaşılmadığını değerlendirmek için mekanizmalar ve kriterler"
+      },
+      {
+        labelTitle:"Görev listesi",
+        label:"Öğrenim hedeflerine ulaşmak için öğrenci tarafından yapılacak eylem "
+      },
+      {
+        labelTitle:" Ders",
+        label:"Bu ünitede / konuda kullanacağınız kaynaklar aracını seçin"
+      },
+    ]
+  },
+  CourseDesignHelp:"Ders Tasarım Yardımı",
+  informationTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:"Ders Tanımı",
+        label:"Dersin ana içeriği hakkında kısa bir açıklama. Örneğin: Bu ders yazma becerilerinizi dönüştürebilir. Üniversite düzeyinde yazma ve araştırma için hazırlanın."
+      },
+      {
+        labelTitle:"anahtar kelimeler",
+        label:"Ders ana içeriğiyle ilgili kelimeler. Örneğin Dilbilgisi, İngilizce Dilbilgisi, Yazma."
+      },
+    ]
+  },
+  Edittopicname:"Ders adını düzenleyin",
+  Edittemplatename:"Şablon adını düzenleyin",
+  deleteTopic:"Konuyu Sil",
+  deleteTemplate:"Şablonu Sil",
+  before:"önce.",
+  moveUp: "Yukarı taşı",
+  moveDown: "Aşağı indir",
+  imageGallery: "Resim Galerisi",
+  videoGallery: "Video Galerisi",
+  YouTitlebefore:"Bu başlığı daha önce zaten eklediniz.",
+  mute: "sesi kapat",
+  unmute: "sesi aç",
+  timePosition: "zaman konumu",
+  volumeControl: "ses kontrol",
+  fullscreen: "tam ekran",
+  exitFullscreen: "tam ekrandan çık",
+  CourseSilabusHelp:"Müfredat Yardımı",
+  sylabusTipsHelps:{
+    analysisTipsHelps:[
+      {
+        labelTitle:'PDF Dosyaları',
+        label:'MS Word veya Open Office içerisinde bir görüntü için alternatif metin eklerseniz, bu metin belgeyi PDF olarak kaydettiğinizde taşınır. Görüntülerinizi Acrobat içerisinde "Erişilebilirlik" araçları altında "Alternatif Metni Ayarla" yı tıklayarak düzeltebilirsiniz. Daha fazla detay: https://www.adobe.com/accessibility/pdf/pdf-accessibility-overview.html'
+      },
+      {
+        labelTitle:'MS Word Dosyaları',
+        label:' Nesneye sağ tıklayarak görüntülere alternatif metin ekleyebilir ve Alternatif Metni Düzenle veya Nesneyi seç ve Biçim> Alternatif Metini seçebilirsiniz. Daha fazla detay: https://support.microsoft.com/en-us/office/video-improve-accessibility-with-alt-text-9c57ee44-bb48-40e3-aad4-7647fc1dba51'
+      },
+      {
+        labelTitle:'Open Office Dosyaları',
+        label:'Bir resme alternatif metin eklemek için, resme sağ tıklayın ve Resimi seçin (veya resme çift tıklayın ya da menü çubuğundan Biçim> Resimi seçin). Ardından Seçenekler sekmesini seçin ve Alternatif (Yalnızca metin) etiketli kutuya açıklamayı girin. Daha fazla detay: https://www.openoffice.org/ui/accessibility/'
+      },
+    ]
+  },
+  Evaluation2:"Değerlendirme",
+  speedDialNavigation: "Öğe seçeneklerine gitmek için sol ve sağ ok tuşlarını kullanın",
+  infoSeizureRisk: "You are going to open the fullwidth preview.",
+  checkSeizureRisk: "Yes, I am aware of the risk.",
+  acceptSeizureRisk: "Check the box if you are agree about the warning.",
 }
 export default TURKISH;
 
