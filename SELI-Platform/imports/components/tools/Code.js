@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { ControlledEditor } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 
 export default function Code(props) {
 
@@ -22,7 +22,7 @@ export default function Code(props) {
 
   return (
     <div style={{paddingTop: "12px"}}>
-      <ControlledEditor
+      <Editor
         height={height}
         language={props.language}
         value={props.code}
