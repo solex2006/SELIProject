@@ -445,11 +445,15 @@ export default class ActivityItem extends React.Component {
                                 <p className="activity-instruction-title">{`${this.props.language.comments}:`}</p>
                                 {
                                   this.state.activityInformation.activity.data.map(comment => {
+                                    console.log(this.state.activityInformation)
                                     return(
                                       <CommentItem 
                                         comment={comment}
                                         deleteComment={this.deleteComment.bind(this)}
                                         language={this.props.language}
+                                        activityId={this.state.activityId}
+                                        displayBadge={this.state.activityInformation.activity.badge === ""}
+                                        tutorId = {this.state.activityInformation.activity.user}
                                       />
                                     )
                                   })

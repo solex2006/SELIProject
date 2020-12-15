@@ -19,9 +19,14 @@ import AppsIcon from '@material-ui/icons/Apps';
 import CloseIcon from '@material-ui/icons/Close';
 import DoneIcon from '@material-ui/icons/Done';
 import ImagePreview from '../../files/previews/ImagePreview';
+import createBadge from '../../badge/CreateBadge';
+import { bakeBadge} from '../../badge/AwardBadge';
+import { Activities } from '../../../../lib/ActivitiesCollection';
+
 export default class CommentItem extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = {
       showBadgeForm: false,
       badgeClass: {
@@ -30,6 +35,10 @@ export default class CommentItem extends React.Component {
         image: undefined,
         criteria: "",
       },
+      badgeAwarded: {
+        badge: "",
+      },
+      displayBadge: this.props.displayBadge,
     };
   }
 
@@ -85,17 +94,19 @@ export default class CommentItem extends React.Component {
     this.setState({ showBadgeForm: true });
     console.log("displayin badge editor");
   }
-  getbadgeClass(file){
- 
+  setBadgeClass(file) {
+    console.log(this.state.badgeClass)
     this.setState({
       badgeClass: { image: file },
       showPreview: true,
       showLibrary: false,
     });
-    console.log(this.state.badgeClass)
-  }
-  unPickBadgeImage(){
+    console.log(this.state.badgeClass);
+    //db.activities.update({activity:{type:"forum"}},{$set:{activity:{badge:""}}})
+      //  db.activities.update({"activity.type":"forum"},{$set:"activity.badge":"jkljj"})  
 
+  }
+  unPickBadgeImage() {
     this.setState({
       badgeClass: { image: undefined },
       showPreview: true,
@@ -104,12 +115,69 @@ export default class CommentItem extends React.Component {
   }
   contentHandleClose = () => {
     this.setState({ showBadgeForm: false });
+  };
+  awardBadge() {
+    Meteor.call(
+      "getUser",
+      this.props.comment.userId,
+      (error, result) => {
+        if (!error) {
+          var user  = result
+          console.log(this.state.badgeClass)
+          bakeBadge(this.state.badgeClass, user).then((data) => {
+            console.log(data);
+            const badgeAwarded = { badge: data };
+            this.setState({ badgeAwarded: badgeAwarded });
+            var activityUpdated = Activities.findOne({ _id: this.props.activityId});
+            console.log(activityUpdated)
+            activityUpdated.activity.badge = badgeAwarded
+            console.log(activityUpdated)
+            Activities.update({ _id: this.props.activityId}
+            ,
+              { $set: {
+                activity:activityUpdated.activity
+              }})
+          });
+        }
+        else{
+          console.error("Wrong id");
+        }
+      }
+    ); 
 
+    // retrieve all the info from the form and save in mongo
+  
   }
-  createContent = () => {
-    console.log('creating copntent');
+  createBadgeClass() {
+    var badgeClass = this.state.badgeClass;
+    //create badge class
+    console.log("Creating badge class");
+    console.log(badgeClass);
+    createBadge(badgeClass);
   }
-  handleChange(name) {}
+  createContent = (event) => {
+    console.log(this.props)
+    this.createBadgeClass()
+    this.awardBadge();
+    this.setState({ showBadgeForm: false, displayBadge: false });
+
+  };
+  handleChange = (name,inde) =>event => {
+    let badgeClass = this.state.badgeClass;
+    if (name === 'badgeName') {
+      badgeClass.name = event.target.value;
+    }
+    else if (name === 'badgeDescription') {
+      badgeClass.description = event.target.value;
+    }
+    else if (name === 'badgeCriteria') {
+      badgeClass.criteria = event.target.value;
+    }
+    this.setState({
+      badgeClass
+    });
+    console.log(this.state.badgeClass)
+  }
   render() {
     return (
       <div>
@@ -135,32 +203,34 @@ export default class CommentItem extends React.Component {
                       : this.props.comment.date.getMinutes()
                   } - ${this.props.comment.date.toLocaleDateString("en-US")}`}
                 </p>
-                <IconButton
-                  onClick={this.openBadgeEditor.bind(this)}
-                  style={{ padding: "0px" }}
-                >
-                  <MoreHorizRoundedIcon />
-                </IconButton>
+                {this.props.displayBadge &&
+                Meteor.userId() ===
+                  this.props.tutorId ? (
+                  <IconButton
+                    onClick={this.openBadgeEditor.bind(this)}
+                    style={{ padding: "0px" }}
+                  >
+                    <MoreHorizRoundedIcon />
+                  </IconButton>
+                ) : undefined}
               </div>
-              <div className="comment-content-block">
-                <p className="student-profile-information-text-secondary-comment">
-                  {`${this.props.language.name}: ${this.state.profile.profile.fullname}`}
-                </p>
-                {this.props.comment.label &&
-                  (this.props.comment.label.blocks ? (
-                    <div className="activity-item-container-instruction">
-                      <Editor editorState={this.Texteditor()} readOnly={true} />
-                    </div>
-                  ) : (
-                    <div
-                      className="activity-item-container-instruction"
-                      dangerouslySetInnerHTML={{
-                        __html: this.props.comment.label,
-                      }}
-                    ></div>
-                  ))}
-                <img className="comment-badge-image" src="http://localhost:3000/Users/beldier/seli/seliDocuments/CourseFilesCollection/8sPg5jZDhf5cFt5wr/original/8sPg5jZDhf5cFt5wr.png"></img>
-              </div>
+              {/* <img src={this.state.badgeClass.image.link} alt="Awarded Badge" /> */}
+              <p className="student-profile-information-text-secondary-comment">
+                {`${this.props.language.name}: ${this.state.profile.profile.fullname}`}
+              </p>
+              {this.props.comment.label &&
+                (this.props.comment.label.blocks ? (
+                  <div className="activity-item-container-instruction">
+                    <Editor editorState={this.Texteditor()} readOnly={true} />
+                  </div>
+                ) : (
+                  <div
+                    className="activity-item-container-instruction"
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.comment.label,
+                    }}
+                  ></div>
+                ))}
             </Paper>
             {this.props.comment.userId === Meteor.userId() ? (
               <Tooltip
@@ -178,7 +248,7 @@ export default class CommentItem extends React.Component {
           </div>
         ) : undefined}
         {/* Badge Section */}
-        {this.state.showBadgeForm  ? (
+        {this.state.showBadgeForm ? (
           <Dialog
             open={open}
             onClose={this.contentHandleClose}
@@ -245,7 +315,7 @@ export default class CommentItem extends React.Component {
                             type={this.state.fileType}
                             user={Meteor.userId()}
                             accept={this.state.accept}
-                            getFileInformation={this.getbadgeClass.bind(this)}
+                            getFileInformation={this.setBadgeClass.bind(this)}
                             label={this.props.language.selectBadgeImage}
                           />
                         </div>
@@ -313,7 +383,7 @@ export default class CommentItem extends React.Component {
             <div className="dialog-actions-container">
               <Tooltip title={this.props.language.createContent}>
                 <Fab
-                  onClick={() => this.createContent()}
+                  onClick={this.createContent}
                   aria-label={this.props.language.createContent}
                   className="dialog-fab"
                   color="primary"
