@@ -88,7 +88,7 @@ export default class CompressedForm extends React.Component {
   componentWillMount(){
     if (this.props.contentToEdit !== undefined) {
       this.setState({
-        attributes: this.props.contentToEdit.attributes,
+        attributes: {...this.props.contentToEdit.attributes},
       }, () => {
         if (this.state.attributes.compressed !== undefined) {
           this.setState({

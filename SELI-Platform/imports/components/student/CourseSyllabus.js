@@ -246,7 +246,8 @@ function Syllabus(props) {
 					}
 			</p>
 			<p tabIndex='0' className='crnheading'>
-				<strong>{props.language.duration}</strong>: {props.courseInformation.duration}
+				<strong>{props.language.duration}</strong>: {<time>{parseInt(props.courseInformation.duration.split(":"))+":"+props.courseInformation.duration.split(":")[1]+":"+props.courseInformation.duration.split(":")[2]}</time>}
+
 			</p>
 			<p className='crnheading'>
 				<strong tabIndex='0'>{props.language.audiences}</strong>: 

@@ -36,7 +36,9 @@ export default class Stories extends React.Component {
   }
 
   componentDidMount() {
+    document.title=this.props.language.myStories;
     this.getStories();
+    
   }
 
   getStories = () => {

@@ -11,6 +11,15 @@ import FolderSpecialIcon from '@material-ui/icons/FolderSpecial';
 import Fab from '@material-ui/core/Fab';
 import AccessibilityHelp from '../tools/AccessibilityHelp';
 import ReactPlayer from 'react-player';
+import Button from '@material-ui/core/Button';
+
+/* Dialog */
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import InfoIcon from '@material-ui/icons/Info';
 
 export default class VideoForm extends React.Component {
   constructor(props) {
@@ -27,14 +36,16 @@ export default class VideoForm extends React.Component {
         hasDescription: true,
         description: '',
         subtitles: [],
-        url: "",
-        isValid: true,
         isA11y: true,
         accessibility: {
           pureDecorative: false,
           percentage: 0,
         }
-      }
+      },
+      url: "",
+      isValid: true,
+      isA11y: true,
+      acceptA11y: false,
     }
   }
 
@@ -62,15 +73,31 @@ export default class VideoForm extends React.Component {
     });
   }
 
-  getVideoAttributes(){
-    let videoContent = this.state.attributes;
-    videoContent.video.link = encodeURI(videoContent.video.link);
-    if (this.validateContent(videoContent) ) {
-      return videoContent;
+  validateContentCommons = (content) => {
+    if (this.validateContent(content) ) {
+      return content;
     }
     else {
       return undefined;
     }
+  }
+
+  getVideoAttributes(){
+    let videoContent = this.state.attributes;
+    videoContent.video.link = encodeURI(videoContent.video.link);
+    videoContent.isA11y = this.state.isA11y;
+    if (this.state.isA11y || this.state.acceptA11y) {
+      return this.validateContentCommons(videoContent);
+    } else {
+      this.handleOpen();
+      return undefined;
+    }
+  }
+  
+  continueCreate = () => {
+    this.setState({acceptA11y: true}, () => {
+      this.props.continueEdit('edit');
+    });
   }
 
   validateContent = (content) => {
@@ -234,7 +261,7 @@ export default class VideoForm extends React.Component {
   componentWillMount(){
     if (this.props.contentToEdit !== undefined) {
       this.setState({
-        attributes: this.props.contentToEdit.attributes,
+        attributes: {...this.props.contentToEdit.attributes},
       }, () => {
         if (this.state.attributes.video !== undefined && this.state.attributes.source === 'upload') {
           this.setState({
@@ -254,6 +281,14 @@ export default class VideoForm extends React.Component {
         }
       })
     }
+  }
+
+  handleOpen = () => {
+    this.setState({open: true});
+  }
+
+  handleClose = () => {
+    this.setState({open: false});
   }
 
   render() {
@@ -383,6 +418,29 @@ export default class VideoForm extends React.Component {
               language={this.props.language}
             />
         }
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          role="dialog"
+          className="media-dialog"
+          tabIndex={-1}
+        >
+          <DialogTitle className="success-dialog-title" id="course-dialog-title">{this.props.language.videoSettings_a11y}</DialogTitle>
+          <DialogContent className="success-dialog-content">
+            <DialogContentText className="success-dialog-content-text" id="exit-player-tooltip">
+              {`${this.props.language.feedback_a11y_accessibility_no}. ${this.props.language.wantProceed}`}
+            </DialogContentText>
+            <InfoIcon className="warning-dialog-icon"/>   
+          </DialogContent>
+          <DialogActions>
+            <Button aria-label={this.props.language.cancel} onClick={() => this.handleClose()} color="primary">
+              {this.props.language.cancel}
+            </Button>
+            <Button aria-label={this.props.language.confirm} onClick={() => this.continueCreate()} color="primary">
+              {this.props.language.confirm}
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

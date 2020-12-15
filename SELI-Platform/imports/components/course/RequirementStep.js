@@ -64,6 +64,14 @@ const useStyles = makeStyles(theme => ({
 export default function RequirementStep(props) {
   const { language, courseInformation } = props;
   const classes = useStyles();
+  const [open, setopen]= useState(false)
+  window.addEventListener('beforeunload', function (e) {
+    //setopen(true)
+      e.preventDefault();
+      e.returnValue = '';
+     
+    
+  });
 
   useEffect(() => {
     console.log("comppnentDidMountRequirments", courseInformation)
@@ -82,6 +90,7 @@ export default function RequirementStep(props) {
   }, []);
 
   useEffect(()=>{
+    document.title =props.language.requirements; 
     //ve si al menos uno esta en true
     console.log("REQUIREMENTS STEP",otherHardware, otherSoftwares )
       if(otherHardware){
@@ -122,7 +131,7 @@ export default function RequirementStep(props) {
 
   })///messages
 
-  const [open, setopen]= useState(false)
+  
   const [message, setmessage]=useState(requirementTooltip.errorMsg)
 
   const [tooltipalert, settootipalert]=useState({

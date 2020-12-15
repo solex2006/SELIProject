@@ -160,7 +160,7 @@ export default class ActivityForm extends React.Component {
   componentWillMount(){
     if (this.props.contentToEdit !== undefined) {
       this.setState({
-        attributes: this.props.contentToEdit.attributes,
+        attributes: {...this.props.contentToEdit.attributes},
       }, () => {
         let fileTypes = this.state.fileTypes;
         if (this.state.attributes.type === "upload") {

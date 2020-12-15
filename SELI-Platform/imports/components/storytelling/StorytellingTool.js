@@ -164,6 +164,7 @@ class StorytellingTool extends React.Component {
   }
 
   componentDidMount() {
+    document.title=this.props.language.storyFlow;
     if (this.props.storyToEdit !== undefined) {
       this.setState({
         story: {

@@ -65,7 +65,7 @@ export default class Community extends React.Component {
     if (this.props.history.location.user) {
       this.setInitVariables(this.props.history.location.user);
     } else {
-      Meteor.call("GetUserById", Meteor.userId(), (error, response) =>  {
+      Meteor.call("GetUser", (error, response) =>  {
         this.setInitVariables(response);
       });
     }

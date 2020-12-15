@@ -27,7 +27,6 @@ import IconButton from '@material-ui/core/IconButton';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import AppsIcon from '@material-ui/icons/Apps';
 import DenseTable from './DenseTable';
 import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
@@ -42,18 +41,10 @@ import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
 import MoodBadIcon from '@material-ui/icons/MoodBad';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import { StudentEventLog } from '../../../lib/StudentEventCollection';
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import Certificates from './certificates'
-
-
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import Slide from '@material-ui/core/Slide';
-  
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -78,6 +69,7 @@ export default class PublishedCoursesList extends React.Component {
   }
   //notify = () => toast(<div><a href={'https://201.159.223.92/vows/'+`${this.state.hash}`} target="_blank">The certificate was generated successfully, click to open:</a></div>);
   componentDidMount() {
+    document.title=this.props.language.myPublishedCourses;
     this.getMyCourses(this.props.user.username);
     
   }
@@ -246,7 +238,7 @@ export default class PublishedCoursesList extends React.Component {
   };
 
   handleView= (profile, event, studentScores, index)=>{
-    console.log("en el handle View",event, studentScores,"index-->:",index)
+    //console.log("en el handle View",event, studentScores,"index-->:",index)
     this.average(index)
     if (event === "course") {
       this.props.navigateTo([0, 0, 0, 0]);
@@ -324,7 +316,7 @@ export default class PublishedCoursesList extends React.Component {
       dupes[item.activity.activityId].push(index);
     });  
     let valuesofScores=[]
-    console.log("dupes", dupes)
+    //console.log("dupes", dupes)
     for(let name in dupes){
       //average
       let average=0;
@@ -372,7 +364,7 @@ export default class PublishedCoursesList extends React.Component {
       }
     })
 
-    console.log(this.state.course, "course...", this.state.studentScores, "indexquiz", this.state.indexquiz)
+    //console.log(this.state.course, "course...", this.state.studentScores, "indexquiz", this.state.indexquiz)
     return(
       <Paper elevation={8} className="quiz-dashboard-questions-containerTutor">
         <p className="question-dashboard-label-text">{this.props.language.QuizViewTool}</p>

@@ -275,7 +275,7 @@ class Quiz extends React.Component {
 
         results.score >= this.props.quiz.attributes.approvalPercentage ? approved = true : approved = false;
         let quiz = {
-          score: results.score,
+          score: results.score.toFixed(2),
           hits: results.hits,
           approved: approved,
           public: false,

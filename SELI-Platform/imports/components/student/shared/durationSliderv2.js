@@ -23,16 +23,17 @@ const useStyles = makeStyles(theme => ({
 
 export default function DurationSlider2({ min, max,  getParamsDuration }) {
    const classes = useStyles();
-   console.log("qqqqqqq-------------------",min,max)
+   console.log("qqqqqqq-------------------",min,max,getParamsDuration)
+
    const [stateMin, setstateMin] = useState({duration: min})
    const [stateMax, setstateMax] = useState({duration: max })
 
    useEffect(()=>{
-      //console.log("max and min-------------------")
+      console.log("max and min-------------------")
    
-      setstateMin({duration: 21599})
-      stateMin.duration=21599
-   },[])
+      setstateMin({duration:min})
+      setstateMax({duration:max})
+   })
    
    
 	
@@ -42,9 +43,21 @@ export default function DurationSlider2({ min, max,  getParamsDuration }) {
          <div classes={classes.input}>
             <div classes={classes.box}>
                <p className="MuiFormHelperText-root">Minimum duration</p>
-               {console.log("sdfsdf",stateMin)}
-               <DurationInput
-                  minValue={21599}
+               {console.log("sdfsdf",min, max, stateMin)}
+               <time> 
+                  <input 
+                     type="number" min="5" max="200" step="1"  aria-label="hours" value={stateMin.duration}
+                     onChange={e=>{
+                       
+                        setstateMin({duration: e.target.value})
+                          getParamsDuration([Math.floor(stateMin.duration),Math.floor(stateMax.duration)], true)
+                     }}
+                  />:
+                  <input type="number" min="0" step="1" max="59"  aria-label="minutes" value="59"/>:
+                  <input type="number" min="0" max="59" step="1"  aria-label="seconds" value="59"/>
+               </time>
+               {/* <DurationInput
+                  minValue={min}
                   maxValue={720000}
                   buttonIncrement={60}
                   value={ stateMin.duration }
@@ -52,14 +65,26 @@ export default function DurationSlider2({ min, max,  getParamsDuration }) {
                      setstateMin({duration: new_duration})
                      getParamsDuration([Math.floor(stateMin.duration/ 3600),Math.floor(stateMax.duration/ 3600)], true)
                   }}
-               />
+               /> */}
                <p className="MuiFormHelperText-root">Minimum duration must be greater than 5:59:59 hh:mm:ss</p>
             </div>
             
             <div classes={classes.box}>
                <p className="MuiFormHelperText-root">Maximum duration</p>
-               <DurationInput
-                  minValue={21599}
+               <time> 
+                  <input 
+                     type="number" min="5" max="200" step="1"  aria-label="hours" value={stateMax.duration}
+                     onChange={e=>{
+                       
+                        setstateMin({duration: e.target.value})
+                          getParamsDuration([Math.floor(stateMin.duration),Math.floor(stateMax.duration)], true)
+                     }}
+                  />:
+                  <input type="number" min="0" step="1" max="59"  aria-label="minutes" value="59"/>:
+                  <input type="number" min="0" max="59" step="1"  aria-label="seconds" value="59"/>
+               </time>
+               {/* <DurationInput
+                  minValue={min}
                   maxValue={720000}
                   buttonIncrement={60}
                   value={ stateMax.duration }
@@ -67,7 +92,7 @@ export default function DurationSlider2({ min, max,  getParamsDuration }) {
                      setstateMax({duration: new_duration})
                      getParamsDuration([Math.floor(stateMin.duration/ 3600),Math.floor(stateMax.duration/ 3600)], true)
                   }}
-               />
+               /> */}
                <p className="MuiFormHelperText-root">Maximum duration must be smaller than 200:00:00 hh:mm:ss</p>
             </div>
          </div>
