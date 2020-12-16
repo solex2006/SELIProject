@@ -469,7 +469,7 @@ export default function DesignStep(props) {
                     aria-label={"Save changes"}
                     onClick={event => saveEdit(unitIndex)}
                     className={classes.saveButton}
-                    disabled={controlEdit.tempValue === ""? true : validateTitle===true? true: false}
+                    disabled={controlEdit.tempValue.trim() === ""? true : validateTitle===true? true: false}
                   >
                     <DoneIcon />
                   </IconButton>

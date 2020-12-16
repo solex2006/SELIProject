@@ -125,7 +125,6 @@ export default function Presentation(props) {
         ) 
       },
 
-      
       {
         title: language.ExternalURL,
         field: "url",
@@ -140,20 +139,16 @@ export default function Presentation(props) {
               required={!props.rowData.external}
               disabled={props.rowData.type==='3'?false: (props.rowData.type!='3' )?  true: true }
               error={
-                props.rowData.external &&
-                !props.value &&
-                props.rowData.validateInput &&
-                props.rowData.submitted
-                  ? props.rowData.error
+                //console.log("props",props);
+                (props.value==undefined && props.rowData.type==='3')?
+                true
                   : false
               }
               helperText={
-                props.rowData.external &&
-                !props.value &&
-                props.rowData.validateInput &&
-                props.rowData.submitted
-                  ? language.required
+                ((props.value==undefined || props.value==="") && props.rowData.type==='3')?
+                language.required
                   : ""
+                 
               }
               value={props.rowData.external===false? '': (props.rowData.type==='1' || props.rowData.type==='2')? '':props.value ? props.value : '' }
               onChange={e => {
@@ -184,6 +179,24 @@ export default function Presentation(props) {
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
+
+              {
+                console.log("new data",newData.type, newData.external, newData.url);
+              }
+              if((newData.type==='1' || newData.type==='2') && newData.external===undefined && newData.url===undefined){console.log("pasa")}
+              else if(newData.external===undefined && newData.url==undefined ){reject(); return;}
+              
+
+              else if((newData.external!=undefined && newData.external===true) && (newData.url!=undefined && newData.url!='') ){console.log("pasa")}
+              else if( newData.type==='3' && newData.external===undefined){newData.external=true; console.log("pasa3333")}
+              else if((newData.external===false)){console.log("pasa")}
+              
+              else{
+                reject();
+                return;
+              }
+           
+              
               if(newData.type==='1' || newData.type==='2'){newData.url=""}
               setTimeout(() => {
                 if(newData.external===false){newData.url=''}

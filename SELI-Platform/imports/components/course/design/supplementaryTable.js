@@ -148,6 +148,9 @@ export default function SupplementaryTexts(props) {
               console.log("xxxxxxxxxxxxxsup",props, e.target.checked)
               props.rowData.external=e.target.checked;
               props.onChange(e.target.checked);
+              if(props.rowData.external===false){
+                props.rowData.reference="";
+              }
             }}
           />
        
@@ -269,9 +272,9 @@ export default function SupplementaryTexts(props) {
 
 
               (newData.type!=undefined && newData.type!='2' ) || (newData.copy!=undefined && newData.copy!='1') || (newData.reference!=undefined && newData.reference!='')
+             
 
-
-              if(newData.external===false){newData.url=''}
+              if(newData.external===false){newData.url='' ; newData.reference=""}
               newData.submitted = true;
               if(newData.type===undefined){newData.type="1"}
               if(newData.copy===undefined){newData.copy="0"}
