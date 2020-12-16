@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 
 export default class VideoPreview extends React.Component {
   constructor(props) {
@@ -12,8 +13,8 @@ export default class VideoPreview extends React.Component {
     }
   }
 
-  componentDidMount(){
-    document.getElementById("video_" + this.props.id).addEventListener('webkitfullscreenchange', this.onFullScreen)
+  componentDidMount = () => {
+    document.getElementById("video_" + this.props.id).addEventListener('webkitfullscreenchange', this.onFullScreen);
   }
 
   loadingConfig = () => {
@@ -86,6 +87,15 @@ export default class VideoPreview extends React.Component {
       return false;
   }
 
+  handleOpenChild = (event) => {
+    if (event.which == 13 || event.keyCode == 13) {
+      if (this.props.allowSeizures[0] === false) {
+        this.refs.video.pause();
+        this.props.handleOpenMedia(0);
+      }
+    }
+  }
+
   signVideo = () => {
     return(
       <React.Fragment>
@@ -109,12 +119,16 @@ export default class VideoPreview extends React.Component {
     return(
       <React.Fragment>
         {
+          this.props.allowSeizures[0] === false &&
+          <PlayCircleOutlineIcon className="template-play-icon-solo" />
+        }
+        {
           this.state.isA11y ?
             <video
               ref="video"
               key={initConfiguration.key}
               id={"video_" + this.props.id}
-              className="course-creator-preview-player"
+              className="course-creator-player"
               autoPlay={false}
               aria-labelledby={"video_" + this.props.id + "_shortDescr"}
               aria-describedby={"video_" + this.props.id + "_longDescr"}
@@ -123,7 +137,16 @@ export default class VideoPreview extends React.Component {
               onPause={this.pause}
               onSeeked={this.seek}
               onError={() => this.onErrorVideo(event)}
-              controls
+              controls={this.props.allowSeizures[0]}
+              onClick={
+                this.props.allowSeizures[0] === false ?
+                  () => this.props.handleOpenMedia(0) : undefined
+              }
+              onKeyPress={this.handleOpenChild}
+              style={{
+                cursor: this.props.allowSeizures[0] === false && "pointer"
+              }}
+              tabIndex={this.props.allowSeizures[0] === false && "0"}
             >
               <source src={this.props.file.link} />
               {
@@ -135,11 +158,11 @@ export default class VideoPreview extends React.Component {
             <ReactPlayer
               ref="video"
               id={"video_" + this.props.id}
-              className="course-creator-preview-player"
+              className="course-creator-player"
               autoPlay={false}
               aria-labelledby={"video_" + this.props.id + "_shortDescr"}
               aria-describedby={"video_" + this.props.id + "_longDescr"}
-              controls
+              controls={this.props.allowSeizures[0]}
               key={initConfiguration.key}
               url={this.props.file.link}
               onReady={this.ready}
@@ -147,6 +170,15 @@ export default class VideoPreview extends React.Component {
               onPause={this.pause}
               onSeek={this.seek}
               config={initConfiguration.configFile}
+              onClick={
+                this.props.allowSeizures[0] === false ?
+                  () => this.props.handleOpenMedia(0) : undefined
+              }
+              onKeyPress={(event) => this.handleOpenChild(event)}
+              style={{
+                cursor: this.props.allowSeizures[0] === false && "pointer"
+              }}
+              tabIndex={this.props.allowSeizures[0] === false && "0"}
             />
         }
         {this.signVideo()}

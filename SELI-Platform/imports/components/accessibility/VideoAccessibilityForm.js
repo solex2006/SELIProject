@@ -485,7 +485,7 @@ export function VideoOthersA11Y(props){
 					name='seizures'
 					id='seizures-yes'
 					label={props.language.yes}
-					value='no'
+					value='yes'
 					control={<Radio color='primary' />}
 					labelPlacement='end'
 				/>
@@ -493,7 +493,7 @@ export function VideoOthersA11Y(props){
 					name='seizures'
 					id='seizures-no'
 					label={props.language.no}
-					value='yes'
+					value='no'
 					control={<Radio color='secondary' />}
 					labelPlacement='end'
 				/>

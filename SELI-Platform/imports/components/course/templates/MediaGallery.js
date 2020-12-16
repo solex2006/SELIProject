@@ -11,9 +11,28 @@ export default class MediaGallery extends React.Component {
     this.state = {
       openMedia: false,
       canFocus: "-1",
+      allowSeizures: [],
       index: 0
     }
-	}
+  }
+  
+  componentDidMount = () => {
+    let allowSeizures = [];
+    this.props.contentItems.map((item) => {
+      if (item.attributes.accessibility.dataField && item.attributes.accessibility.dataField.seizures === "yes") {
+        allowSeizures.push(false);
+      } else {
+        allowSeizures.push(true);
+      }
+    })
+    this.setState({allowSeizures});
+  }
+
+  handleAllowSeizures = (value) => {
+    let allowSeizures = this.state.allowSeizures;
+    allowSeizures[this.state.index] = value;
+    this.setState({allowSeizures});
+  }
 	
 	handleOpenMedia = () => {
 		this.setState({
@@ -222,6 +241,8 @@ export default class MediaGallery extends React.Component {
           index={this.state.index}
           openMedia={this.state.openMedia}
           mediaItems={this.props.contentItems}
+          allowSeizures={this.state.allowSeizures}
+          handleAllowSeizures={this.handleAllowSeizures.bind(this)}
           handleCloseMedia={this.handleCloseMedia.bind(this)}
           language={this.props.language}
         />

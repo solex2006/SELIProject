@@ -192,6 +192,14 @@
   width: 90%;
 }
 
+.course-creator-player {
+  max-width: calc(100% - 1vw);
+  max-height: 360px;
+  margin: 0px 0.5vw;
+  animation: fadeInDown 0.5s;
+  background-color: black;
+}
+
 .course-creator-preview-player {
   min-width: 360px !important;
   width: calc(100% - 1vw) !important;
@@ -403,6 +411,9 @@
   .course-creator-preview-player {
     min-width: 250px !important;
     height: 250px !important;
+  }
+  .course-creator-player {
+    max-width: calc(100% - 25px) !important;
   }
   .configure-accessibility-actions {
     width: 100%;

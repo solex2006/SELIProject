@@ -1573,7 +1573,7 @@ var PORTUGUESE = {
   },
   Evaluation2:"Evaluation",
   speedDialNavigation: "Use the left and right arrow keys to navigate into the item options",
-  infoSeizureRisk: "You are going to open the fullwidth preview.",
+  infoSeizureRisk: "The video you selected could provoke photosensitive seizures, are you sure you want to open the fullwidth preview?",
   checkSeizureRisk: "Yes, I am aware of the risk.",
   acceptSeizureRisk: "Check the box if you are agree about the warning.",
 }

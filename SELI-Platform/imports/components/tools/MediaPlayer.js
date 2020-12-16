@@ -53,7 +53,6 @@ export default class MediaPlayer extends React.Component {
       hasA11y: false,
       isA11y: true,
       disableCaptions: true,
-      confirmOpen: false,
       acceptOpen: false,
       errorOpen: false,
     }
@@ -344,17 +343,19 @@ export default class MediaPlayer extends React.Component {
   continueOpen = () => {
     if (this.state.acceptOpen === false)
       this.setState({errorOpen: true})
-    else
+    else {
+      this.props.handleAllowSeizures(true, this.props.index);
       this.setState({
-        confirmOpen: true,
+        acceptOpen: false,
+        errorOpen: false,
       }, () => {
         document.getElementById("dialog-media-player-title").focus();
       })
+    }
   }
 
   handleClose = () => {
     this.setState({
-      confirmOpen: false,
       acceptOpen: false,
       errorOpen: false,
     })
@@ -362,7 +363,7 @@ export default class MediaPlayer extends React.Component {
   }
 
   onEnter = () => {
-    if (this.state.media.type === 'image')
+    if (this.state.media.type === 'image' || this.props.allowSeizures[this.props.index] === true)
     document.getElementById("dialog-media-player-title").focus();
   }
 
@@ -387,7 +388,7 @@ export default class MediaPlayer extends React.Component {
         <Dialog
           open={this.props.openMedia}
           onClose={this.handleClose}
-          fullScreen={this.state.media.type === 'video' && this.state.confirmOpen === false ? false : true}
+          fullScreen={this.state.media.type === 'video' && this.props.allowSeizures[this.props.index] === false ? false : true}
           role="dialog"
           aria-modal="true"
           aria-labelledby="course-dialog-title"
@@ -399,7 +400,7 @@ export default class MediaPlayer extends React.Component {
           onEnter={this.onEnter}
         >
           {
-            this.state.media.type === 'video' && this.state.confirmOpen === false ?
+            this.state.media.type === 'video' && this.props.allowSeizures[this.props.index] === false ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="course-dialog-title">{this.props.language.openMedia}</DialogTitle>
                 <DialogContent className="success-dialog-content">
