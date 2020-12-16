@@ -256,7 +256,7 @@ export default function DesignCourseApp(props) {
                 aria-label={"Save changes"}
                 onClick={event => editLesson(lessonIndex)}
                 className={classes.saveButton}
-                disabled={controlEdit.tempValue === ""? true : validateTitleLesson===true? true: false}
+                disabled={controlEdit.tempValue.trim() === ""? true : validateTitleLesson===true? true: false}
               >
                 <DoneIcon />
               </IconButton>

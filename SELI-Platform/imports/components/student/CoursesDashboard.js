@@ -556,7 +556,7 @@ export default class CoursesDashboard extends React.Component {
   }
 
   getOnlineFlag=(flag)=>{
-   // console.log("Bandera Online", flag )
+    console.log("Bandera Online", flag )
     this.state.online=flag
     this.state.accessibilitie.a11yVis=null
     this.state.accessibilitie.a11yHear=null
@@ -706,7 +706,7 @@ export default class CoursesDashboard extends React.Component {
 
   //it is the new functinality for OR search
   OrSearch=(params,languages, audiences, instructors)=>{
-    //console.log("todos los parametros de busqueda", params,languages, this.state.duration ,audiences, instructors, this.state.online)
+    console.log("todos los parametros de busqueda", params,languages, this.state.duration ,audiences, instructors, this.state.online)
     //this.getParamsofSearch()
     //console.log("1. First Search params of serach and published courses", this.state.publishedCourses)
     let full=[]
