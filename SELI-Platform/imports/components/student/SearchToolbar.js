@@ -47,6 +47,7 @@ import DurationSlider2 from './shared/durationSliderv2';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { Courses } from '../../../lib/CourseCollection';
+import { TramOutlined } from '@material-ui/icons';
 const useStyles = makeStyles(theme => ({
    searchDetailed:{
       marginTop: '30px'
@@ -625,14 +626,21 @@ export default function SearchToolBar(props) {
 							color="primary"
 							variant="outlined"
 							onClick={() => {
-								props.getParamsofSearch(accessibility)
-								props.getParamsLanguage(languages)
-								props.getParamsAudiences(audiences)
-								props.getParamsTutors(instructors)
-								props.OrSearch(accessibility,languages, audiences, instructors )
-								setOpenFilter(false);
-								setselectedonline(false)
-								setselectedaccessible(false)
+								console.log("selectedaccessibl", selectedonline,switchOnline );
+								 if(switchOnline===true){
+									setOpenFilter(false);
+									console.log("-----------------------------------------------------------------");
+									props.getOnlineFlag(true)
+								}else{
+									props.getParamsofSearch(accessibility)
+									props.getParamsLanguage(languages)
+									props.getParamsAudiences(audiences)
+									props.getParamsTutors(instructors)
+									props.OrSearch(accessibility,languages, audiences, instructors )
+									setOpenFilter(false);
+									setselectedonline(false)
+									setselectedaccessible(false) 	
+								} 
 							}}
 						>
 							{props.language.Applyfilters}
