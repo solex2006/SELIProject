@@ -1576,6 +1576,8 @@ var SPANISH = {
   infoSeizureRisk: "El video que seleccionó podría provocar ataques fotosensibles, ¿está seguro de que desea abrir la vista previa de ancho completo?",
   checkSeizureRisk: "Sí, estoy consciente del riesgo.",
   acceptSeizureRisk: "Marque la casilla si está de acuerdo con la advertencia.",
+  minutes: "minutos",
+  seconds: "segundos",
 }
 export default SPANISH;
 

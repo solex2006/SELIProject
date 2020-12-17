@@ -28,6 +28,7 @@ export default class MediaPlayer extends Component {
       playedSeconds: 0,
       volume: 0.8,
       timeLabel: "00:00",
+      valuetext: "",
       open: false,
       anchorEl: null
     }
@@ -79,7 +80,13 @@ export default class MediaPlayer extends Component {
 
     let timeLabel = minutes.toString().padStart(2, '0') + ':' +
     seconds.toString().padStart(2, '0');
+    let timeSplit = timeLabel.split(":");
+    timeSplit = `${
+      timeSplit[0].replace(/^0+/, '') === "" ? "0" : timeSplit[0].replace(/^0+/, '')
+      } ${this.props.labels.timeLabels.minutes}, ${timeSplit[1].replace(/^0+/, '') === "" ? "0" : timeSplit[1].replace(/^0+/, '')
+      } ${this.props.labels.timeLabels.seconds}`;
     this.setState({
+      valuetext: timeSplit,
       timeLabel: timeLabel,
     });
   }
@@ -138,7 +145,7 @@ export default class MediaPlayer extends Component {
           <IconButton
             onClick={this.handlePlayPause} 
             className="a11y-audio-player-icon-button" 
-            aria-label={!this.state.playing ? this.props.buttonLabels.play : this.props.buttonLabels.pause}
+            aria-label={!this.state.playing ? this.props.labels.play : this.props.labels.pause}
           >
             { 
               !this.state.playing ?
@@ -159,7 +166,8 @@ export default class MediaPlayer extends Component {
             color="secondary"
             onChange={(event, newValue) => this.handleSeekChange(event, newValue)}
             className="a11y-audio-player-slider"
-            aria-label={this.props.buttonLabels.timePosition}
+            aria-label={this.props.labels.timePosition}
+            aria-valuetext={this.state.valuetext}
           />
           <div
             className="a11y-audio-player-volume-container"
@@ -173,12 +181,12 @@ export default class MediaPlayer extends Component {
               color="secondary"
               valueLabelDisplay="auto"
               className="a11y-audio-player-slider-small"
-              aria-label={this.props.buttonLabels.volumeControl}
+              aria-label={this.props.labels.volumeControl}
             />
             <IconButton
               onClick={() => this.handleToggleMute()}
               className="a11y-audio-player-icon-button"
-              aria-label={!this.state.muted && this.state.volume !== 0 ? this.props.buttonLabels.mute : this.props.buttonLabels.unmute}
+              aria-label={!this.state.muted && this.state.volume !== 0 ? this.props.labels.mute : this.props.labels.unmute}
             >
               {
                 !this.state.muted && this.state.volume !== 0 ?
@@ -192,7 +200,7 @@ export default class MediaPlayer extends Component {
             aria-haspopup="true"
             onClick={this.handleOptions} 
             className="a11y-audio-player-icon-button"
-            aria-label={this.props.buttonLabels.options}
+            aria-label={this.props.labels.options}
           >
             <MoreVertIcon className="a11y-audio-player-icon"/>
           </IconButton>
@@ -215,7 +223,7 @@ export default class MediaPlayer extends Component {
               aria-labelledby="nested-list-subheader"
               subheader={
                 <ListSubheader component="div" id="nested-list-subheader" className="list-subheader">
-                  {this.props.buttonLabels.options.toUpperCase()}
+                  {this.props.labels.options.toUpperCase()}
                 </ListSubheader>
               }
               className="menu-item-list"
@@ -226,7 +234,7 @@ export default class MediaPlayer extends Component {
                   <ListItemIcon>
                     <CloudDownloadIcon />
                   </ListItemIcon>
-                  <ListItemText primary={this.props.buttonLabels.optionLabels.download} />
+                  <ListItemText primary={this.props.labels.optionLabels.download} />
                 </ListItem>
               </a>
             </List>

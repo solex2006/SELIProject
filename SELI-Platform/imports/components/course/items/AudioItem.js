@@ -66,7 +66,7 @@ export default class AudioItem extends React.Component {
             ariaDescribedby={"audio_" + this.props.item.id + "_transcriptText"}
             ariaLabelledby={"audio_" + this.props.item.id + "_shortDescr"}
             src={this.props.item.attributes.audio.link}
-            buttonLabels={{
+            labels={{
               play: this.props.language.play,
               pause: this.props.language.pause,
               timePosition: this.props.language.timePosition,
@@ -76,6 +76,10 @@ export default class AudioItem extends React.Component {
               options: this.props.language.options,
               optionLabels: {
                 download: this.props.language.download
+              },
+              timeLabels: {
+                minutes: this.props.language.minutes,
+                seconds: this.props.language.seconds
               }
             }}
             controls
