@@ -182,13 +182,12 @@ export default function Presentation(props) {
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
-
               setTimeout(() => {
-                console.log("loque se va ha gaurdar", newData )
                 if((newData.external!=undefined && newData.external===true) && (newData.url!=undefined && newData.url!='') ){console.log("pasa")}
                 else if( newData.type==='3' && newData.external===undefined){newData.external=true; console.log("pasa3333")}
                 else if((newData.external===undefined || newData.external===false)){console.log("pasa")}
-                else if((newData.type==='1' || newData.type==='2' ) ){newData.external=false; console.log("pasadddd")}
+                else if((newData.type==='1' || newData.type==='2' ) && newData.external===true && newData.url!=undefined ){newData.external=false; console.log("pasadddd")}
+               
                 else{
                   reject();
                   return;

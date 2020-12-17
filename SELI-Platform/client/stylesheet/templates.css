@@ -160,6 +160,17 @@
   z-index: 1000;
 }
 
+.template-play-icon-solo {
+  color: var(--secondary);
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0) 100%);
+  border-radius: 60px !important;
+  width: 60px !important;
+  height: 60px !important;
+  position: absolute;
+  top: 15px;
+  left: calc(0.5vw + 20px);
+}
+
 kbd {
   background-color: #eee;
   border-radius: 3px;
@@ -185,5 +196,9 @@ ul > li {
   }
   .template-row-item {
     width: calc(100% - 2px) !important;
+  }
+  .template-play-icon-solo {
+    top: 30px;
+    left: 15px;
   }
 } 

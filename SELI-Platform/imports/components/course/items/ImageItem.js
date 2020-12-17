@@ -86,7 +86,7 @@ export default class ImageItem extends React.Component {
         <figure 
           role="group"
           style={{flexDirection: this.props.item.attributes.alignment}} 
-          className={this.props.fromTemplate ? "image-item-container-template" : "image-item-container"}
+          className="media-item-container"
         >
           {this.imageItem()}
           <Typography tabIndex="0" className="course-item-card-title" gutterBottom variant="h5" component="h2">

@@ -16,8 +16,23 @@ export default class VideoItem extends React.Component {
       editorState:'',
       shortlongDescription:'',
       openMedia: false,
+      allowSeizures: [true],
       index: 0
     }
+  }
+
+  componentDidMount = () => {
+    if (this.props.item.attributes.accessibility.dataField && this.props.item.attributes.accessibility.dataField.seizures === "yes") {
+      this.setState({
+        allowSeizures: [false],
+      })
+    }
+  }
+
+  handleAllowSeizures = (value) => {
+    this.setState({
+      allowSeizures: [value]
+    })
   }
 
   openExternalLink = () => {
@@ -59,25 +74,26 @@ export default class VideoItem extends React.Component {
           <div className="course-item-video-card">
             <figure
               id={`video_box_${this.props.item.id}`}
-              className={this.props.fromTemplate ? "course-item-video-card-media-action-area-template" : "course-item-video-card-media-action-area"}
+              className="media-item-container"
             >
               { this.props.item.attributes.video && (
                 <VideoPreview
                   id={this.props.item.id}
                   file={this.props.item.attributes.video}
                   dataField={this.props.item.attributes.accessibility.dataField ? this.props.item.attributes.accessibility.dataField : undefined}
+                  allowSeizures={this.state.allowSeizures}
                   handleOpenMedia={this.handleOpenMedia.bind(this)}
                 />
               )}
+              <div>
+                <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
+                  {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
+                </Typography>
+                <Typography tabIndex="0" className="course-item-card-title" gutterBottom variant="h5" component="h3">
+                  {this.props.item.attributes.title}
+                </Typography>
+              </div>
             </figure>
-            <div className="course-item-video-card-media-content">
-              <Typography className="course-item-card-subtitle" variant="subtitle1" color="textSecondary">
-                {this.props.item.attributes.source === 'upload' ? this.props.language.videoFile : this.props.language.externalVideo}
-              </Typography>
-              <Typography tabIndex="0" className="course-item-card-title" gutterBottom variant="h5" component="h3">
-                {` ${this.props.item.attributes.title}`}
-              </Typography>
-            </div>
             {
               this.props.item.attributes.accessibility.dataField!=undefined ?
                 this.textAlternatives()
@@ -114,6 +130,8 @@ export default class VideoItem extends React.Component {
             index={this.state.index}
             openMedia={this.state.openMedia}
             mediaItems={[this.props.item]}
+            allowSeizures={this.state.allowSeizures}
+            handleAllowSeizures={this.handleAllowSeizures.bind(this)}
             handleCloseMedia={this.handleCloseMedia.bind(this)}
             language={this.props.language}
           />

@@ -1573,10 +1573,12 @@ var TURKISH = {
   },
   Evaluation2:"Değerlendirme",
   speedDialNavigation: "Öğe seçeneklerine gitmek için sol ve sağ ok tuşlarını kullanın",
-  infoSeizureRisk: "You are going to open the fullwidth preview.",
+  infoSeizureRisk: "The video you selected could provoke photosensitive seizures, are you sure you want to open the fullwidth preview?",
   checkSeizureRisk: "Yes, I am aware of the risk.",
   acceptSeizureRisk: "Check the box if you are agree about the warning.",
   badgeAwarded: "Badge awarded",
+  minutes: "minutes",
+  seconds: "seconds",
 }
 export default TURKISH;
 

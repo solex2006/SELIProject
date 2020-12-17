@@ -11,22 +11,6 @@
 
 }
 
-.course-item-video-card-media-action-area {
-  display: flex;
-  align-items: center;
-  height: auto;
-  padding: 0.5vh 0;
-  background-color: rgba(255, 255, 255, 0);
-}
-
-.course-item-video-card-media-action-area-template {
-  display: flex;
-  align-items: center;
-  height: auto;
-  padding: 0.5vh 0;
-  background-color: rgba(255, 255, 255, 0);
-}
-
 .course-item-video-card-media {
   width: 50% !important;
 }
@@ -36,11 +20,6 @@
   justify-content: flex-end !important;
   align-items: center !important;
   padding-right: 1vw;
-}
-
-.course-item-video-card-media-content {
-  padding: 1.5vh 5% !important;
-  width: 50%;
 }
 
 .course-item-video-card-media-button {
@@ -114,7 +93,7 @@
 }
 
 .course-item-card-title {
-  padding: 12px;
+  padding: 0 12px;
   letter-spacing: 1px !important;
   color: #616161 !important;
   display: flex;
@@ -125,6 +104,7 @@
 .course-item-card-subtitle {
   display: flex;
   align-items: center;
+  padding: 0 12px;
   letter-spacing: 1px !important;
 }
 
@@ -179,15 +159,7 @@ display: flex;
   .course-item-audio-card {
     width: 100% !important;
   }
-  .course-item-video-card-media-action-area {
-    display: inline !important;
-  }
   .course-item-comment-card-media-fab {
     margin: 1px !important;
-  }
-} 
-@media screen and (max-width: 1600px) {
-  .course-item-video-card-media-action-area-template {
-    display: inline !important;
   }
 } 

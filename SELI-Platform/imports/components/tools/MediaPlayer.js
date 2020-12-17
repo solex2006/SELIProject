@@ -49,11 +49,11 @@ export default class MediaPlayer extends React.Component {
       playedSeconds: 0,
       volume: 0.8,
       timeLabel: "00:00",
+      valuetext: "",
       captions: [],
       hasA11y: false,
       isA11y: true,
       disableCaptions: true,
-      confirmOpen: false,
       acceptOpen: false,
       errorOpen: false,
     }
@@ -209,7 +209,13 @@ export default class MediaPlayer extends React.Component {
 
     let timeLabel = minutes.toString().padStart(2, '0') + ':' +
     seconds.toString().padStart(2, '0');
+    let timeSplit = timeLabel.split(":");
+    timeSplit = `${
+      timeSplit[0].replace(/^0+/, '') === "" ? "0" : timeSplit[0].replace(/^0+/, '')
+      } ${this.props.language.minutes}, ${timeSplit[1].replace(/^0+/, '') === "" ? "0" : timeSplit[1].replace(/^0+/, '')
+      } ${this.props.language.seconds}`;
     this.setState({
+      valuetext: timeSplit,
       timeLabel: timeLabel,
     });
   }
@@ -344,17 +350,19 @@ export default class MediaPlayer extends React.Component {
   continueOpen = () => {
     if (this.state.acceptOpen === false)
       this.setState({errorOpen: true})
-    else
+    else {
+      this.props.handleAllowSeizures(true, this.props.index);
       this.setState({
-        confirmOpen: true,
+        acceptOpen: false,
+        errorOpen: false,
       }, () => {
         document.getElementById("dialog-media-player-title").focus();
       })
+    }
   }
 
   handleClose = () => {
     this.setState({
-      confirmOpen: false,
       acceptOpen: false,
       errorOpen: false,
     })
@@ -362,7 +370,7 @@ export default class MediaPlayer extends React.Component {
   }
 
   onEnter = () => {
-    if (this.state.media.type === 'image')
+    if (this.state.media.type === 'image' || this.props.allowSeizures[this.props.index] === true)
     document.getElementById("dialog-media-player-title").focus();
   }
 
@@ -387,7 +395,7 @@ export default class MediaPlayer extends React.Component {
         <Dialog
           open={this.props.openMedia}
           onClose={this.handleClose}
-          fullScreen={this.state.media.type === 'video' && this.state.confirmOpen === false ? false : true}
+          fullScreen={this.state.media.type === 'video' && this.props.allowSeizures[this.props.index] === false ? false : true}
           role="dialog"
           aria-modal="true"
           aria-labelledby="course-dialog-title"
@@ -399,7 +407,7 @@ export default class MediaPlayer extends React.Component {
           onEnter={this.onEnter}
         >
           {
-            this.state.media.type === 'video' && this.state.confirmOpen === false ?
+            this.state.media.type === 'video' && this.props.allowSeizures[this.props.index] === false ?
               <React.Fragment>
                 <DialogTitle className="success-dialog-title" id="course-dialog-title">{this.props.language.openMedia}</DialogTitle>
                 <DialogContent className="success-dialog-content">
@@ -542,6 +550,7 @@ export default class MediaPlayer extends React.Component {
                               color="secondary"
                               onChange={(event, newValue) => this.handleSeekChange(event, newValue)}
                               className="media-player-slider"
+                              aria-valuetext={this.state.valuetext}
                               aria-label={this.props.language.timePosition}
                             />
                             <IconButton
