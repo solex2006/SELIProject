@@ -49,6 +49,7 @@ export default class MediaPlayer extends React.Component {
       playedSeconds: 0,
       volume: 0.8,
       timeLabel: "00:00",
+      valuetext: "",
       captions: [],
       hasA11y: false,
       isA11y: true,
@@ -208,7 +209,13 @@ export default class MediaPlayer extends React.Component {
 
     let timeLabel = minutes.toString().padStart(2, '0') + ':' +
     seconds.toString().padStart(2, '0');
+    let timeSplit = timeLabel.split(":");
+    timeSplit = `${
+      timeSplit[0].replace(/^0+/, '') === "" ? "0" : timeSplit[0].replace(/^0+/, '')
+      } ${this.props.language.minutes}, ${timeSplit[1].replace(/^0+/, '') === "" ? "0" : timeSplit[1].replace(/^0+/, '')
+      } ${this.props.language.seconds}`;
     this.setState({
+      valuetext: timeSplit,
       timeLabel: timeLabel,
     });
   }
@@ -543,6 +550,7 @@ export default class MediaPlayer extends React.Component {
                               color="secondary"
                               onChange={(event, newValue) => this.handleSeekChange(event, newValue)}
                               className="media-player-slider"
+                              aria-valuetext={this.state.valuetext}
                               aria-label={this.props.language.timePosition}
                             />
                             <IconButton

@@ -1576,6 +1576,8 @@ var TURKISH = {
   infoSeizureRisk: "The video you selected could provoke photosensitive seizures, are you sure you want to open the fullwidth preview?",
   checkSeizureRisk: "Yes, I am aware of the risk.",
   acceptSeizureRisk: "Check the box if you are agree about the warning.",
+  minutes: "minutes",
+  seconds: "seconds",
 }
 export default TURKISH;
 
