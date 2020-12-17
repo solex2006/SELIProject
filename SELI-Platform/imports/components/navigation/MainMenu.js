@@ -55,11 +55,16 @@ export default class MainMenu extends React.Component {
 
   showComponent(component){
     this.closeMenu();
-    if(component === 'STUDENT_DASHBOARD_SITE_URL')
+    if(component === 'STUDENT_DASHBOARD_SITE_URL'){
       this.redirect(Meteor.settings.public.STUDENT_DASHBOARD_SITE_URL);
-    else
+    }else if(component === 'documentation'){
+      this.redirect("/manual/home.html");
+    }
+    else{
       this.props.showComponent(component);
-  }
+    }
+      
+    }
 
   componentDidMount(){
     if (this.props.user.profile.type === 'tutor') {

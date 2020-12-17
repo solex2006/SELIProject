@@ -154,11 +154,6 @@ export default class User extends React.Component {
   }
 
   showComponent = (component) => {
-
-    //console.log('showComponent---------------------------------------------------', component, this.state)
-   
-    
-
     if (!(component === "create" && this.state.component === "create")){
       //console.log("paso 2")
       if (this.state.component === "create" && !this.state.savedCourse){
