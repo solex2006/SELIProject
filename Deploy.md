@@ -3,7 +3,7 @@
 
 ## Before Deployment
 
-Install in your machine NODE JS (version upper than 12.x) and METEOR (version 1.8.1).
+Install in your machine NODE JS (version upper than 12.16.1) and METEOR (version 1.12).
 
 run: 
 
@@ -59,4 +59,12 @@ One step before deployment is to create the directory /opt/Seli/UploadFiles in t
 ```
 mup setup
 mup deploy
+```
+
+## Development
+
+If you desire to keep developing the platform (it is not mandatory to create mup.js or ssl, it only needs to create settings.json and not even modify it), do not deploy and run the following line in "SELIProject/SELI-Platform/" folder:
+
+```
+meteor --settings .deploy/settings.json
 ```

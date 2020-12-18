@@ -131,8 +131,3 @@ Add the following lines:
 Visit https://www.sslforfree.com/ for free certificate.
 ### Using Free Let’s Encrypt SSL/TLS Certificates with NGINX
 https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/
-
-<<<<<<< HEAD
-=======
-
->>>>>>> d7b420c8c760e54ccd7e7af9225b7e000ff5df4f
