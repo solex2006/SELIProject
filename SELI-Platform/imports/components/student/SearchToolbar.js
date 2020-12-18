@@ -10,11 +10,9 @@ import {
 	Radio,
 	RadioGroup,
 	Switch,
-	TextField,
 	Checkbox,
 	Divider,
 	FormControl,
-	InputBase,
 	MenuItem
 } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
@@ -38,20 +36,16 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import SearchIcon from '@material-ui/icons/Search';
 import SortIcon from '@material-ui/icons/Sort';
-import { Rating, ToggleButton } from '@material-ui/lab';
+import { ToggleButton } from '@material-ui/lab';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import SimpleDialog from './shared/dialog';
 import FullDialog from './shared/dialog_fullwidth';
-import DurationSlider from './shared/duration-slider';
-import DurationSlider2 from './shared/durationSliderv2';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { Courses } from '../../../lib/CourseCollection';
-import { TramOutlined } from '@material-ui/icons';
 const useStyles = makeStyles(theme => ({
-   searchDetailed:{
-      marginTop: '30px'
-   },
+  searchDetailed:{
+    marginTop: '30px'
+  },
 	formControl: {
 		margin: theme.spacing(1),
 		display: 'block'
@@ -69,13 +63,6 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		alignItems: 'center',
 		top: 0
-	},
-	banner: {
-		background: "url('https://seli.uazuay.edu.ec/courses.jpg')",
-		backgroundRepeat: 'no-repeat',
-		backgroundPosition: '100%',
-		backgroundSize: '35%',
-		height: '200px'
 	},
 	card: {
 		maxWidth: 345,

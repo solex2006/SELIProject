@@ -58,13 +58,6 @@ const useStyles = makeStyles(theme => ({
 		alignItems: 'center',
 		top: 0
 	},
-	banner: {
-		background: "url('https://seli.uazuay.edu.ec/courses.jpg')",
-		backgroundRepeat: 'no-repeat',
-		backgroundPosition: '100%',
-		backgroundSize: '35%',
-		height: '200px'
-	},
 	card: {
 		maxWidth: 345,
 		//  maxHeight: 450,
