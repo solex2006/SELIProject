@@ -16,7 +16,7 @@ export default class BadgeCollection extends React.Component {
       language: Session.get("language") ? Session.get("language") : english,
     };
     console.log(this.props);
-    console.log(this.state.language);
+    console.log(this.state);
   }
 
   componentDidMount(){
@@ -64,6 +64,7 @@ export default class BadgeCollection extends React.Component {
                       name={b.badge.name}
                       description={b.badge.description}
                       image={b.image}
+                      key = {b._id}
                     />
                   ) : undefined
                 )}

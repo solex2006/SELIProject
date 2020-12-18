@@ -394,6 +394,17 @@ if (Meteor.isServer) {
   });
 }
 
+Meteor.methods({
+  getUser: function(idStudent){ 
+
+    let foundStudent= Meteor.users.findOne(
+      {_id : idStudent }
+    );
+    return foundStudent;
+
+  }
+});
+
 
 
 // meteor --settings settings.json

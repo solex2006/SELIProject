@@ -162,3 +162,10 @@
     margin-right: 1px;
   }
 } 
+
+
+.student-profile-information-text-comment-button-option{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

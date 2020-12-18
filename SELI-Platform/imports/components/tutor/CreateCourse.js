@@ -530,6 +530,7 @@ export default class CreateCourse extends React.Component {
         data: [],
         type: 'forum',
         public: false,
+        badge: ''
       }
       let activityId;
       if (item.id && courseId) {

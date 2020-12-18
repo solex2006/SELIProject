@@ -76,14 +76,14 @@ async function bakeBadge(badgeClass, user) {
     //useful for regsiter users in blockchain network
     email: user.emails[0].address,
     displayName: user.profile.fullname,
-    password: Meteor.userId(),
+    password: user._id,
   };
   await bake(options)
     .then((data) => {
-      saveBadge(data, assertion,idAssertion);
+      saveBadge(data, assertion,idAssertion,user);
       //   this.setState({ badgeWin: true });
       var registerData = { data: encryptor.encrypt(registerDataSinCode) };
-      persistBadge(assertion, registerData);
+      persistBadge(assertion, registerData,user);
       console.log(assertion);
     })
     .catch((err) => {
@@ -99,9 +99,7 @@ async function bake(options) {
     });
   });
 }
-function saveBadge(data, badgeInformation,idAssertion) {
-  let user = Meteor.users.find({ _id: Meteor.userId() }).fetch();
-  user = user[0];
+function saveBadge(data, badgeInformation,idAssertion,user) {
   console.log(badgeInformation);
   var file = new File([data], badgeInformation.badge.name + ".png", {
     type: "image/png",
@@ -140,13 +138,12 @@ function saveBadge(data, badgeInformation,idAssertion) {
   // if (this._isMounted) {
   //   this.setState({ badgeWin: true });
   // }
-  saveUserBadge(Meteor.userId(), badgeInformation);
+  saveUserBadge(user._id, badgeInformation);
 }
-function persistBadge(badgeInfo, registerData) {
+function persistBadge(badgeInfo, registerData,user) {
   console.log("sending badge to blockchain");
   console.log(JSON.stringify(badgeInfo));
-  let tokenUser = Meteor.users.find({ _id: Meteor.userId() }).fetch()[0].profile
-    .token;
+  let tokenUser = user.profile.token;
 
   if (tokenUser === undefined) {
     //register the token

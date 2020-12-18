@@ -59,6 +59,7 @@ export default class ActivityForm extends React.Component {
   selectType(value){
     let attributes = this.state.attributes;
     attributes.type = value;
+    attributes.badgeClass = '' // add an attribute to forum
     this.setState({
       attributes: attributes,
     });
