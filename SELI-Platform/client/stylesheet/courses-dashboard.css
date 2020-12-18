@@ -22,16 +22,16 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding-top: 20px;
+  padding: 3vh 0px;
   background-color: #eeeeee;
-  padding-bottom: 3vh !important;
 }
 
 .course-card {
-  max-width: 345px !important;
+  width: 320px !important;
   margin: 2vh 0.5vw !important;
   transition: 0.15s !important;
-	display: "tabel-cell";
+  display: "tabel-cell";
+  box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;
 }
 
 .course-card:hover {
@@ -45,7 +45,6 @@
 .course-card-media {
   padding-top: 56.25%; /* 16:9 */
   height: 140;
-  width: ;: 140
 }
 
 .course-card-avatar {
@@ -60,10 +59,10 @@
 }
 
 .course-card-header {
-  max-width: 345px !important;
+
 }
+
 .course-card-header-1{
-  max-width: 345px !important;
   display: inline-block;
 }
 .card-header-1{
@@ -131,15 +130,25 @@
   font-size: 0.85em !important;
 }
 
+.dashboard-header-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: var(--app-bar-color);
+  opacity: 0.8;
+  color: white;
+}
+
 .headersearch{
-  margin: 20px 20px 20px 20px;
+  padding: 10px 10px;
 }
 
 .subheader{
-  margin: 20px 20px 20px 20px;
+  padding: 10px 10px;
 }
+
 .buttonsearch{
-  margin: 0px 50px 50px 50px;
+  padding: 50px;
   justify-content: center;
   align-items: center;
   padding-bottom: 35px;
@@ -151,5 +160,15 @@
   align-items: center;
   width: 100%;
   background-color: #eeeeee;
- 
 }
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1080px) {
+  .subheader{
+    padding-top: 0px;
+  }
+  .course-card {
+    width: calc(100% - 3vw) !important;
+    margin: 1vh 6vw !important;
+  }
+} 

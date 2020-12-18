@@ -162,7 +162,6 @@ const StyledToggleButtonGroup = withStyles(theme => ({
 }))(ToggleButtonGroup);
 
 export default function SearchToolBar(props) {
-	console.log("propiedades SearchToolBar", props)
 	const [query, setQuery] = React.useState('');
 	const [openFilter, setOpenFilter] = React.useState(false);
 	const [openSorter, setOpenSorter] = React.useState(false);
@@ -1175,7 +1174,6 @@ export default function SearchToolBar(props) {
 	
 
 	function SortCourse(props) {
-		console.log("SortCourse------",props)
 		const options = [
 			props.language.Alphabetic,
 			props.language.MostRecent,

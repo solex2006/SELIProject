@@ -1,28 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import { Meteor } from 'meteor/meteor';
 
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
 import SchoolIcon from '@material-ui/icons/School';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Fade from 'react-reveal/Fade';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import CommentIcon from '@material-ui/icons/Comment';
 
@@ -157,15 +145,21 @@ class CourseCard extends React.Component {
     return (yiq >= 128) ? '#212121' : '#FFFFFF';
   }
 
-  componentWillReceiveProps() {
-    this.checkSubscriptions();
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.userCourses.length !== this.props.userCourses.length) {
+      this.checkSubscriptions();
+    }
   }
 
   checkSubscriptions = () => {
     let subscribed = this.props.userCourses.findIndex(course => course.courseId === this.props.course._id);
-    if (subscribed > -1){
+    if (subscribed > -1) {
       this.setState({
         subscribed: true,
+      });
+    } else {
+      this.setState({
+        subscribed: false,
       });
     }
   }
@@ -213,81 +207,75 @@ class CourseCard extends React.Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <Card className="course-card">
-          <div >
-            <CardHeader
-              avatar={
-                <Avatar
-                  style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
-                  aria-label="avatar"
-                  className="course-card-avatar"
-                >
-                  <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
-                </Avatar>
-              }
-              className="course-card-header"
-              title={
-                <h2  tabindex="0" className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{this.props.course.title}</h2>
-              }
-              subheader={
-                <h3  tabindex="0" className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
-              }
-            /> 
-            <CardMedia
-              className={classes.media}
-              image={this.props.course.image.link}
-              title={this.state.label}
-            />
-            <CardContent >
-              <Typography  tabindex="0" variant="body2" color="textSecondary" component="p">
-                {this.props.course.description}
-              </Typography>
-              <Typography  tabindex="0" className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
-                {`${this.props.language.author}: ${this.props.course.createdBy}`}
-              </Typography>
-            </CardContent>
-            <CardActions  disableSpacing>
-             
-                <Link
-                  tabindex="0" 
-                  className="button-link  MuiButton-root MuiButton-outlined course-card-button" 
-                  target="_blank"
-                  to={{
-                    pathname: "/coursePreview",
-                    hash: this.props.course._id,
-                    state: { fromDashboard: true },
+        <div className="course-card">
+          <CardHeader
+            avatar={
+              <Avatar
+                style={{backgroundColor: this.state.mainColor, color: this.state.mainContrastColor}}
+                aria-label="avatar"
+                className="course-card-avatar"
+              >
+                <h2>{this.props.course.title.charAt(0).toUpperCase()}</h2>
+              </Avatar>
+            }
+            className="course-card-header"
+            title={
+              <h2  tabindex="0" className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock">{this.props.course.title}</h2>
+            }
+            subheader={
+              <h3  tabindex="0" className="MuiTypography-root MuiCardHeader-subheader MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock">{this.props.course.subtitle}</h3>
+            }
+          /> 
+          <CardMedia
+            className={classes.media}
+            image={this.props.course.image.link}
+            title={this.state.label}
+          />
+          <CardContent >
+            <Typography  tabindex="0" variant="body2" color="textSecondary" component="p">
+              {this.props.course.description}
+            </Typography>
+            <Typography  tabindex="0" className="course-card-extra-information" variant="overline" color="textSecondary" component="p">
+              {`${this.props.language.author}: ${this.props.course.createdBy}`}
+            </Typography>
+          </CardContent>
+          <CardActions  disableSpacing>
+            
+              <Link
+                tabindex="0" 
+                className="button-link  MuiButton-root MuiButton-outlined course-card-button" 
+                target="_blank"
+                to={{
+                  pathname: "/coursePreview",
+                  hash: this.props.course._id,
+                  state: { fromDashboard: true },
+                }}
+                onClick={() => 
+                  {
+                    StudentLog.insert({ "UserId": Meteor.userId(), "CourseId" : this.props.course._id, 
+                    "Datetime": new Date(), "Action": "Course Preview" });
                   }}
-                  onClick={() => 
-                    {
-                      StudentLog.insert({ "UserId": Meteor.userId(), "CourseId" : this.props.course._id, 
-                      "Datetime": new Date(), "Action": "Course Preview" });
-                    }}
-                >
-                  {this.props.language.coursePreview}
-                </Link>
-       
-              
-              {
-                !this.state.subscribed ?
-                  <Tooltip title={this.props.language.subscribeJoin}>
-                    <IconButton
-                      disabled={this.props.disabled}
-                      onClick={() => this.props.subscribe(this.props.course._id)}
-                      className="course-card-icon-button"
-                      aria-label="join course"
-                    >
-                      <SchoolIcon className="course-card-icon"/>
-                    </IconButton>
-                  </Tooltip>
-                :
+              >
+                {this.props.language.coursePreview}
+              </Link>
+            {
+              !this.state.subscribed ?
+                <Tooltip title={this.props.language.subscribeJoin}>
+                  <IconButton
+                    disabled={this.props.disabled}
+                    onClick={() => this.props.subscribe(this.props.course._id)}
+                    className="course-card-icon-button"
+                    aria-label="join course"
+                  >
+                    <SchoolIcon className="course-card-icon"/>
+                  </IconButton>
+                </Tooltip>
+              :
                 <Tooltip title={this.props.language.unsubscribeToolti}>
                   <IconButton
                     className="course-card-icon-button"
                     disabled={this.props.disabled}
                     onClick={() =>{
-                      console.log("99999999999999999999999999999999999999999999999999999999",this.state.subscribed )
-                     
-                     
                       this.props.unsubscribe(this.props.course._id)}
                     }
                     aria-label="Unsubscribe (Leave course classroom)"
@@ -295,19 +283,18 @@ class CourseCard extends React.Component {
                     <UnsubscribeIcon className="course-card-icon"/>
                   </IconButton>
                 </Tooltip>
-              }
-              <Tooltip title={this.props.language.courseCommentsTooltip}>
-                <IconButton
-                  className="course-card-icon-button"
-                  onClick={() => this.showComments()}
-                  aria-label="Course Comments"
-                >
-                  <CommentIcon className="course-card-icon"/>
-                </IconButton>
-              </Tooltip>
-            </CardActions>
-          </div>
-        </Card>
+            }
+            <Tooltip title={this.props.language.courseCommentsTooltip}>
+              <IconButton
+                className="course-card-icon-button"
+                onClick={() => this.showComments()}
+                aria-label="Course Comments"
+              >
+                <CommentIcon className="course-card-icon"/>
+              </IconButton>
+            </Tooltip>
+          </CardActions>
+        </div>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

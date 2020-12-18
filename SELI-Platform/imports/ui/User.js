@@ -238,12 +238,15 @@ export default class User extends React.Component {
   }
 
   subscribe = (courseId, fromPreview) => {
-    this.setState({
-      showLoadingMessage: true,
-      loadingMessage: this.state.language.joiningClassWait,
-    });
-    let course = Courses.find({_id: courseId}).fetch();
-    this.handleSubscription(course[0], fromPreview);
+    let subscribed = this.state.user.profile.courses.findIndex(course => course.courseId === courseId);
+    if (subscribed === -1) {
+      this.setState({
+        showLoadingMessage: true,
+        loadingMessage: this.state.language.joiningClassWait,
+      });
+      let course = Courses.find({_id: courseId}).fetch();
+      this.handleSubscription(course[0], fromPreview);
+    }
   }
 
   unsubscribeFromCourse = (courseId, id) => {
@@ -606,6 +609,7 @@ export default class User extends React.Component {
                       language={this.state.language}
                       setLanguage={this.setLanguage.bind(this)}
                       user={this.state.user}
+                      component={this.state.component}
                       logOut={this.logOut.bind(this)}
                       showComponent={this.showComponent.bind(this)}
                       searchValue={this.searchValue}

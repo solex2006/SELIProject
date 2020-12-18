@@ -1,28 +1,17 @@
 import React, { Component } from 'react';
-import Divider from '@material-ui/core/Divider';
-import Loading from '../../components/tools/Loading';
 import { Courses } from '../../../lib/CourseCollection';
 import CourseCard from '../../components/course/CourseCard';
-import InfoIcon from '@material-ui/icons/Info';
 
 import {
-	Avatar,
-	Grid,
 	Paper,
 	Button,
 	Typography,
-	Card,
-	CardHeader,
-	CardMedia,
 	CardContent,
-	CardActions
 } from "@material-ui/core";
 import CourseSearch from './courseSearch'
-import { IoLogoClosedCaptioning } from 'react-icons/io';
 
 export default class CoursesDashboard extends React.Component {
   constructor(props) {
-    console.log("CoursesDashboard", props)
     super(props);
     this.state = {
       fullyCognitive:[], 
@@ -88,11 +77,9 @@ export default class CoursesDashboard extends React.Component {
     })
     this.searchMyCourses()
     this.searchSELICourses()
-    console.log("conpnet will mount", this.state.publishedCourses)
   }
 
   componentDidUpdate(prevProps, prevState){
-    console.log("componentDidUpdate",prevState, this.state, prevProps)
     if (prevProps.searchText !== this.props.searchText ){
       if(this.props.searchText){
         this.setState({
@@ -102,20 +89,16 @@ export default class CoursesDashboard extends React.Component {
       }
     }
     if (prevProps.texttoSearch !== this.props.texttoSearch ){
-      this.searchMyCourses()
-      this.searchSELICourses()
+      this.searchMyCourses();
+      this.searchSELICourses();
     } 
-
     if((prevState.flagCourses!=this.state.flagCourses) ||(prevState.generalDetailedFlag!=this.state.generalDetailedFlag)){
-      console.log("cabio estado")
-      this.searchMyCourses()
-      this.searchSELICourses()
+      this.searchMyCourses();
+      this.searchSELICourses();
     }
-    if(prevState.flagMostRecent!=this.state.flagMostRecent){
-      console.log("busqueda por most recent Compnent did Update")
-    }
-    if(prevState.flagAlphabetic!=this.state.flagAlphabetic){
-      console.log("busqueda por Alphabetic Compnent did Update")
+    if (prevProps.user.profile.courses.length !== this.props.user.profile.courses.length) {
+      this.searchMyCourses();
+      this.searchSELICourses();
     }
   }
 
@@ -131,7 +114,6 @@ export default class CoursesDashboard extends React.Component {
     this.state.mysuscribdedCourses=titleMyCourses
 
     if(this.props.texttoSearch!=undefined){
-      console.log("this.props.texttoSearch", this.props.texttoSearch)
       let myFiltersuscribdedCourses=this.state.mysuscribdedCourses.filter(course => course.title.search(this.props.texttoSearch.toLowerCase()) !=-1);
       let myFiltersuscribdedCoursesSub=this.state.mysuscribdedCourses.filter(course => course.subtitle.search(this.props.texttoSearch.toLowerCase()) !=-1);
       this.state.myFiltersuscribdedCourses=myFiltersuscribdedCourses.concat(myFiltersuscribdedCoursesSub)
@@ -163,7 +145,6 @@ export default class CoursesDashboard extends React.Component {
   }
 
   searchSELICourses=()=>{
-    console.log("searchSELICourses", this.state, this.props )
     if(this.props.texttoSearch!=undefined){
       let myFilterSeliCourses=this.state.publishedCourses.filter(course => course.title.search(this.props.texttoSearch.toLowerCase()) !=-1);
     this.state.myFilterSeliCourses=myFilterSeliCourses
@@ -185,8 +166,6 @@ export default class CoursesDashboard extends React.Component {
   }
 
   paperSearchMyCourses=(title, arrayCourses)=>{
-    console.log("papersearchMycourses")
-
     if(arrayCourses.length >3  && this.state.myflagCourses===true){
       this.state.myFilterThree=arrayCourses
     } 
@@ -197,10 +176,12 @@ export default class CoursesDashboard extends React.Component {
     }
       return(
         <Paper component="article" elevation={0}>
-          <header className='headersearch'>
-            <h2 tabIndex='0'>{title}</h2>
-          </header>
-          <div tabIndex='0' className='subheader'>{this.props.language.Showing} {this.state.myFilterThree.length} {this.props.language.of} {arrayCourses.length} {this.props.language.subscribedtoyoursearch}</div>
+          <div className="dashboard-header-container">
+            <header className='headersearch'>
+              <h2 tabIndex='0'>{title}</h2>
+            </header>
+            <div tabIndex='0' className='subheader'>{this.props.language.Showing} {this.state.myFilterThree.length} {this.props.language.of} {arrayCourses.length} {this.props.language.subscribedtoyoursearch}</div>
+          </div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
             {
@@ -236,9 +217,6 @@ export default class CoursesDashboard extends React.Component {
   }
 
   paperSearchSeli=(title, arrayCourses)=>{
-    console.log("Antes de Mostrar******", arrayCourses, this.state );
-    console.log("Banderas ******", this.state.flagCourses, arrayCourses.length );
-   // console.log(".........................................", this.sortByMostRecent(1));
 
     if(arrayCourses.length >3  && this.state.flagCourses===true && this.state.flagAlphabetic==true){
       let arratosearch=this.state.myFilterSeliCourses;
@@ -273,15 +251,16 @@ export default class CoursesDashboard extends React.Component {
 
       return(
         <Paper component="article" elevation={0}>
-          <header className='headersearch'>
-            <h2 tabIndex='0'>{title}</h2>
-          </header>
-          <div className='subheader' tabIndex='0'>{this.props.language.Showing} {this.state.myFilterThreeSeli.length} {this.props.language.of}  {arrayCourses.length} {this.props.language.subscribedtoyoursearch} </div>
+          <div className="dashboard-header-container">
+            <header className='headersearch'>
+              <h2 tabIndex='0'>{title}</h2>
+            </header>
+            <div className='subheader' tabIndex='0'>{this.props.language.Showing} {this.state.myFilterThreeSeli.length} {this.props.language.of}  {arrayCourses.length} {this.props.language.subscribedtoyoursearch} </div>
+          </div>
           <div  className="courses-dashboard">
             <div className="courses-dashboard-result">
               {
                 this.state.myFilterThreeSeli.map((course, index) => {
-                  console.log("los datos requeridos: arrayCourses: course: userCourses:--->",this.state.myFilterThreeSeli,course, this.props.user.profile.courses )
                   return(
                     <CourseCard
                       course={course}
@@ -384,10 +363,6 @@ export default class CoursesDashboard extends React.Component {
         fullyVisual:fullyVisual,
         partialVisual:partialVisual
       })
-
-      //console.log("Muestra los full cognitive, parciale e ianccesibles: ",fullyCognitive, partialCognitive, inaccessibleCognitive)
-      //console.log("Muestra los full hearing, parciale e ianccesibles: ",fullyHearing, partialHearing, inaccessibleHearing)
-      //console.log("Muestra los full visual, parciale e ianccesibles: ",fullyVisual, partialVisual, inaccessibleVisual)
       
     }) 
 
@@ -395,7 +370,6 @@ export default class CoursesDashboard extends React.Component {
 
   
   getParamsLanguage=(language)=>{
-    console.log("getParamsLangauge, myflagCourses---->",language, this.state.publishedCourses)
     let coursesbyEnglish=[]
     let coursesbySpanish=[]
     let coursesbyPortuguese=[]
@@ -431,7 +405,6 @@ export default class CoursesDashboard extends React.Component {
   }
 
   getParamsDuration=(duration, flag)=>{
-    console.log("getParamsDuration, myflagCourses---->",duration, flag)
    // let horas=
     //let minutes=
     this.setState({
@@ -444,7 +417,6 @@ export default class CoursesDashboard extends React.Component {
         let durationNumber=''
         if(Number.isInteger(course.duration)===false){
           durationNumber=parseInt(course.duration.split(':')[0])
-          console.log("ddddddd",course.duration, durationNumber)
           if(durationNumber>duration[0] && durationNumber<duration[1]){
             coursesbyDuration.push(course)
           }
@@ -458,8 +430,6 @@ export default class CoursesDashboard extends React.Component {
   }
 
   getParamsAudiences=(audiences)=>{
-    console.log("getParamsAudiences, myflagCourses---->",audiences, this.state.publishedCourses)
-    
     let coursesbyAudiences=[]
     this.state.publishedCourses.map((course,indexCourse)=>{
       if(course.support.length===2){
@@ -507,11 +477,8 @@ export default class CoursesDashboard extends React.Component {
     this.setState({
       coursesbyAudiences:coursesbyAudiences
     })
-
-    console.log("resultados getParamsAudiences---->",coursesbyAudiences)
-
-
   }
+
   getParamsTutors=(tutors)=>{
        
     let coursesbyTutors=[]
@@ -552,11 +519,9 @@ export default class CoursesDashboard extends React.Component {
       generalDetailedFlag:true,
       onlineCourses:onlineCourses
     })
-    console.log("getOnlineresults", onlineCourses)
   }
 
   getOnlineFlag=(flag)=>{
-    console.log("Bandera Online", flag )
     this.state.online=flag
     this.state.accessibilitie.a11yVis=null
     this.state.accessibilitie.a11yHear=null
@@ -577,7 +542,6 @@ export default class CoursesDashboard extends React.Component {
   }
 
   getAccessibleFlag=(flag)=>{
-    console.log("Bandera Accesibilidad", flag )
     if(flag===true){
       this.state.generalDetailedFlag=true
       this.state.onlineTag=false
@@ -595,7 +559,6 @@ export default class CoursesDashboard extends React.Component {
   }
 
   getGeneralSearch=(text)=>{
-    console.log("General Search:", text)
     this.state.texttoSearch=text
     this.state.generalDetailedFlag=false
     this.setState(this.state)
@@ -636,8 +599,6 @@ export default class CoursesDashboard extends React.Component {
   }
 
   searchSELICoursesDetailed=()=>{
-    console.log("searchSELICoursesDetailed", this.state, this.props )
-    console.log("text to search", this.state.texttoSearch )
     
     let myFilterSeliCoursesTitle=this.state.publishedCourses.filter(course => course.title.search(this.state.texttoSearch.toLowerCase()) !=-1);
     let myFilterSeliCoursesSubTitle=this.state.publishedCourses.filter(course => course.subtitle.search(this.state.texttoSearch.toLowerCase()) !=-1);
@@ -658,11 +619,9 @@ export default class CoursesDashboard extends React.Component {
       return 0;
     });
     this.setState(this.state)
-    console.log("Seli Courses y Filtrados Detailed: ",this.state.publishedCourses,  this.state.myFilterSeliCourses )
   }
 
   sortByMostRecent=(selected)=>{
-    console.log("Sort by most recent********",selected)
     let arratosearch=this.state.myFilterSeliCourses;
     arratosearch.sort(function (a, b) {
       return new Date(b.creationDate) - new Date(a.creationDate);
@@ -682,16 +641,13 @@ export default class CoursesDashboard extends React.Component {
   }
   
   sortByMostRelevant=(selected)=>{
-    console.log("Sort by most relevant",this.state.myFilterSeliCourses)
     this.state.selected=selected
     this.setState(this.state)
 
   }
   sortByAlphabetic=(selected)=>{
-    console.log("Sort by most Alphabetic",this.state.myFilterSeliCourses)
-     let arratosearch=this.state.myFilterSeliCourses;
+    let arratosearch=this.state.myFilterSeliCourses;
     arratosearch.sort((a, b) =>(a.title>b.title)? 1: -1 ); 
-    console.log("Sort by most recent ordenado",arratosearch)
     let sortmyFiltersuscribdedCourses=this.state.myFiltersuscribdedCourses;
     sortmyFiltersuscribdedCourses.sort((a, b) =>(a.title>b.title)? 1: -1 );
     this.state.flagMostRecent=false
@@ -706,9 +662,6 @@ export default class CoursesDashboard extends React.Component {
 
   //it is the new functinality for OR search
   OrSearch=(params,languages, audiences, instructors)=>{
-    console.log("todos los parametros de busqueda", params,languages, this.state.duration ,audiences, instructors, this.state.online)
-    //this.getParamsofSearch()
-    //console.log("1. First Search params of serach and published courses", this.state.publishedCourses)
     let full=[]
     let fullempty=[]
     let searchAL=[]
@@ -947,7 +900,6 @@ export default class CoursesDashboard extends React.Component {
       searchALDI.map(course=>{
         if(course.modality!=undefined){
             if(course.modality==='online'){
-              //console.log("modality*****",course.modality)
               searchALDIO.push(course)
             }
        }
@@ -999,20 +951,8 @@ export default class CoursesDashboard extends React.Component {
       })
     if(searchALDIOT.length===0){searchALDIOT=searchALDIO} //descmetar para or busqueda
 
-       
-    /* this.setState({
-      coursesbyAudiences:coursesbyAudiences
-    }) */
-
-
-
-    
-   // console.log("empty",fullempty)
-
-    //delete duplicates
     searchALDIOT=this.getUnique(searchALDIOT,'_id')
     
-    console.log("full,searchAL,searchALD,searchALDI,searchALDIO,searchALDIOT", full, searchAL,searchALD,searchALDI,searchALDIO,searchALDIOT)
     this.state.accessibilitie.a11yVis=null
     this.state.accessibilitie.a11yHear=null
     this.state.accessibilitie.a11yCog=null
@@ -1039,7 +979,6 @@ export default class CoursesDashboard extends React.Component {
   render() {
     return(
       <div className="courses-dashboard-container">
-        {console.log("recarga", this.state)}
         <CourseSearch
           language={this.props.language}
           getParamsofSearch={this.getParamsofSearch}

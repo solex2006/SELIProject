@@ -6,40 +6,20 @@ import {
 	CardContent,
 	CardHeader,
 	CardMedia,
-	FormControlLabel,
-	FormGroup,
-	FormHelperText,
-	FormLabel,
 	Grid,
-	IconButton,
 	Paper,
-	Radio,
-	RadioGroup,
-	Switch,
-	TextField,
 	Typography,
-	Accordion,
-	AccordionDetails,
-	AccordionSummary,
 	Checkbox,
-	Divider,
-	FormControl,
-	InputBase,
 	List,
 	ListItem,
 	ListItemIcon,
 	ListItemText,
-	MenuItem
 } from '@material-ui/core';
-import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { Rating, ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import SearchToolBar from './SearchToolbar'
 
 const useStyles = makeStyles(theme => ({
-   searchDetailed:{
-      marginTop: '30px'
-   },
 	formControl: {
 		margin: theme.spacing(1),
 		display: 'block'
@@ -202,10 +182,8 @@ function CheckboxList({ items, subheader }) {
 }
 
 export default function CourseSearch(props) {
-   console.log("propiedades CourseSearch: ", props)
-   const classes = useStyles();
-
-   return (
+  const classes = useStyles();
+  return (
 		<React.Fragment>
 			<Paper className={classes.searchDetailed} component="article" elevation={0}>
 				<SearchToolBar

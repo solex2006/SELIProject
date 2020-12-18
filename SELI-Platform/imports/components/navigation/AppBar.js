@@ -153,14 +153,12 @@ export default class AppBar extends React.Component {
           </div>
           <div className="bar-button-container" >
             {
-              this.props.user !== undefined ?
-                <div >
-                  <Button onClick={() => this.toggleSearchBar()} className="no-text-button">
-                    <SearchIcon className="app-bar-search-icon"/>
-                  </Button>
-                </div>
-              :
-              undefined
+              this.props.user && (!this.props.component || (this.props.component && this.props.component !== "courses")) &&
+              <div >
+                <Button onClick={() => this.toggleSearchBar()} className="no-text-button">
+                  <SearchIcon className="app-bar-search-icon"/>
+                </Button>
+              </div>
             }
             {
               this.props.fromAnotherSource ? undefined :
@@ -187,7 +185,7 @@ export default class AppBar extends React.Component {
             />
           </div>
         </div>
-        <Slide   direction="down" in={this.state.showSearchBar} mountOnEnter unmountOnExit>
+        <Slide direction="down" in={this.state.showSearchBar} mountOnEnter unmountOnExit>
           <div   className="app-bar-search-container">
             <Paper tabIndex="-1" elevation={15} className="app-bar-search-paper">
               <Divider tabIndex="-1" className="app-bar-search-divider" orientation="vertical" />
