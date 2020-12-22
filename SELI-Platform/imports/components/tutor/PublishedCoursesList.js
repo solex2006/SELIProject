@@ -719,7 +719,7 @@ export default class PublishedCoursesList extends React.Component {
                                   )
                                 })}
                               </div>
-                              <Button onClick={() =>this.showCertificates()} color="primary" autoFocus>
+                              <Button style={{display:'none'}} onClick={() =>this.showCertificates()} color="primary" autoFocus>
                                   Check Certificates
                               </Button>
                             </div>
