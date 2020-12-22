@@ -168,7 +168,6 @@ export default class QuizItem extends React.Component {
         <div className="quiz-content-item">
           <div className="quiz-container">
                 <ExpansionPanel
-                  aria-label="quiz"
                   defaultExpanded
                   expanded={this.props.item.attributes.expanded}
                   onChange={this.handleChange('activity-panel')}
@@ -178,31 +177,30 @@ export default class QuizItem extends React.Component {
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1c-content"
                   id={this.props.item.id}
+                  aria-labelledby={`quiz-summary-${this.props.item.id} quiz-instructions-${this.props.item.id}`}
                   className="item-quiz-expansion-summary"
                 >
-                  <div className="item-quiz-expansion-summary-text-container">
-                    <h2 className="quiz-panel-title MuiTypography-root quiz-panel-title MuiTypography-body1">
-                      <Button className="quiz-panel-subtitle " aria-expanded="true" aria-controls="sect1" id="acc1id"  size="large" >
-                      {this.props.language.quiz}
+                  <div id={`quiz-summary-${this.props.item.id}`} className="item-quiz-expansion-summary-text-container">
+                    <h2 className="quiz-panel-title  MuiTypography-root activity-panel-title MuiTypography-body1">{this.props.language.quiz}</h2>
+                    <h3 className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">
+                      <Button tabIndex="-1" className="quiz-panel-subtitle " aria-expanded="true" aria-controls="sect1" id="acc1id"  size="large" >
+                        {this.props.item.attributes.quizTitle}
                       </Button>
-                    </h2>
-                    <h3 tabIndex='-1' className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">{this.props.item.attributes.title}</h3>
+                    </h3>
                   </div>
                 </ExpansionPanelSummary>
-
-
                 <ExpansionPanelDetails className="item-quiz-detail">
-                  <div className="item-quiz-detail-container">
-                    <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                  <div id={`quiz-instructions-${this.props.item.id}`} className="item-quiz-detail-container">
+                    <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                       {this.props.language.timeLimit + ": " + this.props.item.attributes.timeLimit }
                     </Typography>
                     {/* <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                       {this.props.language.creditResources + ": " + this.props.item.attributes.creditResources}
                     </Typography> */}
-                    <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                    <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                       {this.props.language.numberQuestions + ": " + this.props.item.attributes.questions.length}
                     </Typography>
-                    <Typography tabIndex="0" className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
+                    <Typography className="item-quiz-text-detail" variant="overline" display="block" gutterBottom>
                       {this.props.item.attributes.awardPoints ? this.props.language.awardPoints : this.props.language.noAwardPoints}
                     </Typography>
                     <div className="quiz-item-tick-container">

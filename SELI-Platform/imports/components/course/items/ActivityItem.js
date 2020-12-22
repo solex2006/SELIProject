@@ -360,7 +360,7 @@ export default class ActivityItem extends React.Component {
                       >
                         <div id={`activity-summary-${this.props.item.id}`} className="item-quiz-expansion-summary-text-container">
                           <h2 className="activity-panel-title  MuiTypography-root activity-panel-title MuiTypography-body1">{this.props.language.activity}</h2>
-                          <h3 className="quiz-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">
+                          <h3 className="activity-panel-subtitle MuiTypography-root quiz-panel-subtitle MuiTypography-body1">
                             <Button tabIndex="-1" className="quiz-panel-subtitle " aria-expanded="true" aria-controls="sect1" id="acc1id"  size="large" >
                               { this.props.item.attributes.type === 'storyboard' ? this.props.language.storyboardActivity : undefined }
                               { this.props.item.attributes.type === 'upload' ? this.props.language.uploaddActivity : undefined }
