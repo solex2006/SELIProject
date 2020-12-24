@@ -9,8 +9,12 @@ import ItemFeedback from '../../accessibility/ItemFeedback';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Divider from '@material-ui/core/Divider';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -64,6 +68,7 @@ export default class PdfItem extends React.Component {
     this.setState({ openReadDialog: false });
   };
   handleReadWithExpression = () =>{ 
+      this.setState({ openReadDialog: false });
       this.setState({ iframeFeOpen: true });
   };
 
@@ -122,6 +127,7 @@ export default class PdfItem extends React.Component {
   }
 
   read = () => {
+    this.setState({ openReadDialog: false });
     this.setState({ open: true });
   }
 
@@ -187,7 +193,9 @@ export default class PdfItem extends React.Component {
           </DialogContent>
         </Dialog>
 
-        <Dialog
+        
+
+  <Dialog
         open={this.state.openReadDialog}
         TransitionComponent={Transition}
         keepMounted
@@ -195,7 +203,7 @@ export default class PdfItem extends React.Component {
         aria-labelledby="alert-dialog-read-title"
         aria-describedby="alert-dialog-slide-description"
         className="read-dialog-container"
-        disableBackdropClick={true}
+        disableBackdropClick={false}
       >
       <DialogTitle id="alert-dialog-read-title" className="success-dialog-title" >Read With Expression</DialogTitle>
         <Divider/>
@@ -215,9 +223,12 @@ export default class PdfItem extends React.Component {
         </DialogContent>
         <Divider light={true}/>
       </Dialog>
+ 
 
 
-      <Dialog
+
+
+<Dialog
           open={this.state.iframeFeOpen}
           onClose={this.handleIframeFeClose}
           TransitionComponent={Transition}
@@ -227,7 +238,7 @@ export default class PdfItem extends React.Component {
           disableBackdropClick={true}
           className="media-dialog"
         >
-          <AppBar2 position="static" className="course-dialog-app-bar">
+          <AppBar position="static" className="course-dialog-app-bar">
             <Toolbar style={{position: 'relative'}}>
               <IconButton edge="start" color="inherit" onClick={this.handleIframeFeClose} aria-label="close">
                 <CloseIcon />
@@ -237,7 +248,7 @@ export default class PdfItem extends React.Component {
               </Typography>
               <p className="app-tooltip">{this.props.language.pressEscCourse}</p>
             </Toolbar>
-          </AppBar2>
+          </AppBar>
           <DialogContent className="media-dialog-content">
             <div className="pdf-dialog-content">
 
@@ -249,6 +260,10 @@ export default class PdfItem extends React.Component {
           </DialogContent>
         </Dialog>
 
+
+
+
+     
 
 
       </div>
