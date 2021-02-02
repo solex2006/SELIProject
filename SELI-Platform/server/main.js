@@ -19,6 +19,7 @@ import '../lib/badgeMethods/saveBadge';
 import '../lib/BadgesCollection';
 import '../lib/StudentEventCollection';
 import Files from '../lib/FilesCourses';
+import '../lib/AssertionsCollection';
 
 import { WebApp } from 'meteor/webapp';
 import multer  from 'multer';
