@@ -228,8 +228,9 @@ export default class CommentItem extends React.Component {
                 <IconButton
                   onClick={this.openBadgeEditor.bind(this)}
                   style={{ padding: "0px" }}
+                  size="small"
                 >
-                  <MoreHorizRoundedIcon />
+                  {this.props.language.addBadge}
                 </IconButton>
                 ) : undefined}
               </div>
