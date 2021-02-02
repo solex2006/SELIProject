@@ -181,6 +181,7 @@ export default class BadgeInformation extends React.Component {
               type="image"
               unPickFile={this.unPickFile.bind(this)}
               changeFile={this.changeFile.bind(this)}
+              language={this.props.language}
             />
           ) : (
             <Button
