@@ -14,7 +14,7 @@
     "fs": "0.0.1-security",
     "googleapis": "^45.0.0",
     "install": "^0.13.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
